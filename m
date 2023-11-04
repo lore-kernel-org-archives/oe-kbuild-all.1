@@ -1,109 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A95211C9F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 11:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103A5156E8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 11:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SA7uyX3O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699096337; x=1730632337;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=37iR+q4rFUtdWkl1r9jTLauEbNqeLqTA/K8vFTBhKJ0=;
-  b=SA7uyX3O7zaJafuYyY3I235vhdXOXKYoSYaJNluaTsVop+YDuKWxrK98
-   jNV13dyD5kxNjXwfuK+/ijJlAWnGSfHtP4CBGLL8q8c6i9noMxOYL6/ZL
-   MNTtmguILJEka67JxUOj9rSPOf38MrGlwrpjHc5dpjXnJY7I4HOInWvzs
-   OcQmrOodV9afgsknh7Vqmn8GdlfgECB/0ppzSa4gUbKBbjYD/+T0AsthK
-   y3rgFZmHrP5J//ozpuuvMx/s/qqrMZ65fWQQxDbLkAC/W9fGZVhFBGcgD
-   B3zHTxux+RbF7BPIZH4TM2vnhgmdgyUZ4JabkFrRmHyuYTZA23oG2aAs6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="420194818"
-X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="420194818"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 04:12:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="738352993"
-X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="738352993"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 Nov 2023 04:12:13 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qzEZX-0003x9-15;
-	Sat, 04 Nov 2023 11:12:11 +0000
-Date: Sat, 4 Nov 2023 19:10:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhang Xiaoxu <zhangxiaoxu@huaweicloud.com>, zhangxiaoxu5@huawei.com,
-	weiyongjun1@huawei.com, broonie@kernel.org, rostedt@goodmis.org,
-	mingo@redhat.com, frowand.list@gmail.com, linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 -next 2/5] spi: mockup: Add writeable tracepoint for
- spi transfer
-Message-ID: <202311041825.n8iCJiNe-lkp@intel.com>
-References: <20231104064650.972687-3-zhangxiaoxu@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MChX6MU6"
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-7ac7b2b1e99so107064339f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Nov 2023 04:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699097631; x=1699702431; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u1unSOhmm2Wdrkotg5oMVcVzXjBgM2cS465ES0k4jZY=;
+        b=MChX6MU6x99000C2cAtkW/FHr6zVNkT10/L4QRY3kwJPGStju7krDrwkxZ47wRJ9ox
+         qVxcsan0an+ftqLJi1eVkC0aKqGVcneJLkfpVhMn0Ws1DyPX7Hv9m86e4bTcQLLs258h
+         NlUTrRCVxwj82mCwtSrTYjTZvi1YmbadgJfgM9MrwRYAf/VuGAn3zDaLJlb/0cMZHgwP
+         OnrQpJMghgZVS2LD9AnZCrAGA5ahPJNmLjoxLRoF1htSB/IvVlByGQCYB3sb9rmvR4do
+         idTdHiZFXBNvbDxxfagFo7rg2eo6UWNuLg8RIeczp4fdOzIeO05M6nnigKQnED8EBMsn
+         01Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699097631; x=1699702431;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u1unSOhmm2Wdrkotg5oMVcVzXjBgM2cS465ES0k4jZY=;
+        b=eBafxNyNk0jWm8SZXRERCkbzgJwrxaYbHdA9HW8xoTPtM7J7RaMHLtUQVfvH4ewLxa
+         9oIHT3QTCiw6sPpcXTghHwnpmcvadZ00eHhr5FsroFjXNQkuaHN565v9e6m17lDvg+ww
+         HXMe9n1LfMCa2l8wfUFzUR9PxV0ciSem2lw/83YrtqWdhuhDT61rcIslTioKdExa5dO0
+         BUCMu9CnRbfbmI8UcwyFarJgxyQTfNAPUmzQuetmC8VXOARevJG/vp1qFn6eHGIfpTTO
+         1l24CiAoXdQtYG9LLsR9/L9ZP7qSNiN+OUHXJ4ydFbeFkZuSBB1nz7znGhPOLuIi6Al+
+         srNw==
+X-Gm-Message-State: AOJu0YyCoHitTGqhVlHMIgEORKVFUcBr/q3gTATWksZk2eGtuj0OM8tk
+	fBXOxADs6nth0anjwB9fbsE=
+X-Google-Smtp-Source: AGHT+IHfkBqDHcaXI13I92jFq4qe3R1jf5ec6iYP0G/J/Ox9Y1sauYyZzUUWFb+D/sypQGu+WI6viA==
+X-Received: by 2002:a05:6602:2acf:b0:787:ff98:c38c with SMTP id m15-20020a0566022acf00b00787ff98c38cmr32189338iov.10.1699097631080;
+        Sat, 04 Nov 2023 04:33:51 -0700 (PDT)
+Received: from localhost.localdomain ([182.225.11.211])
+        by smtp.gmail.com with ESMTPSA id v10-20020a62c30a000000b00692cb1224casm2921823pfg.183.2023.11.04.04.33.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Nov 2023 04:33:50 -0700 (PDT)
+From: Dongmin Lee <ldmldm05@gmail.com>
+To: akpm@linux-foundation.org,
+	lkp@intel.com
+Cc: ldmldm05@gmail.com,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: [PATCH v2] kernel/reboot: Explicitly notify if halt occurred instead of power off
+Date: Sat,  4 Nov 2023 20:33:20 +0900
+Message-Id: <20231104113320.72440-1-ldmldm05@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-145)
+In-Reply-To: <202311040832.yiyrijgk-lkp@intel.com>
+References: <202311040832.yiyrijgk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231104064650.972687-3-zhangxiaoxu@huaweicloud.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Zhang,
+When kernel_can_power_off() returns false, and reboot has called with
+LINUX_REBOOT_CMD_POWER_OFF, kernel_halt() will be initiated instead of
+actual power off function.
 
-kernel test robot noticed the following build warnings:
+However, in this situation, Kernel never explicitly notifies user that
+system halted instead of requested power off.
 
-[auto build test WARNING on next-20231103]
+Since halt and power off perform different behavior, and user initiated
+reboot call with power off command, not halt, This could be unintended
+behavior to user, like this:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Xiaoxu/spi-mockup-Add-SPI-controller-testing-driver/20231104-144859
-base:   next-20231103
-patch link:    https://lore.kernel.org/r/20231104064650.972687-3-zhangxiaoxu%40huaweicloud.com
-patch subject: [PATCH v3 -next 2/5] spi: mockup: Add writeable tracepoint for spi transfer
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311041825.n8iCJiNe-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041825.n8iCJiNe-lkp@intel.com/reproduce)
+~ # poweroff -f
+[    3.581482] reboot: System halted
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311041825.n8iCJiNe-lkp@intel.com/
+Therefore, this explicitly notifies user that poweroff is not available,
+and halting has been occured as an alternative behavior instead:
 
-All warnings (new ones prefixed by >>):
+~ # poweroff -f
+[    4.123668] reboot: Power off not available: System halted instead
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/events/spi_mockup.h:31,
-                    from drivers/spi/spi-mockup.c:17:
->> include/trace/stages/init.h:2:23: warning: 'str__spi_mockup__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
+Signed-off-by: Dongmin Lee <ldmldm05@gmail.com>
+---
+v1->v2:
+ - changed new variable poweroff_fallback_to_halt to static bool as per
+   kernel test robot's sparse warning notification.
+ - fixed minor coding style issue
 
+ kernel/reboot.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-vim +/str__spi_mockup__trace_system_name +2 include/trace/stages/init.h
+diff --git a/kernel/reboot.c b/kernel/reboot.c
+index 395a0ea3c7a8..34ea519e3d94 100644
+--- a/kernel/reboot.c
++++ b/kernel/reboot.c
+@@ -58,6 +58,13 @@ struct sys_off_handler {
+ 	struct device *dev;
+ };
+ 
++/*
++ * This variable is used to indicate if a halt initiated instead when
++ * reboot call is invoked with LINUX_REBOOT_CMD_POWER_OFF, but system
++ * cannot be powered off. This allowes kernel_halt() to notify that.
++ */
++static bool poweroff_fallback_to_halt;
++
+ /*
+  * Temporary stub that prevents linkage failure while we're in process
+  * of removing all uses of legacy pm_power_off() around the kernel.
+@@ -297,7 +304,10 @@ void kernel_halt(void)
+ 	kernel_shutdown_prepare(SYSTEM_HALT);
+ 	migrate_to_reboot_cpu();
+ 	syscore_shutdown();
+-	pr_emerg("System halted\n");
++	if (poweroff_fallback_to_halt)
++		pr_emerg("Power off not available: System halted instead\n");
++	else
++		pr_emerg("System halted\n");
+ 	kmsg_dump(KMSG_DUMP_SHUTDOWN);
+ 	machine_halt();
+ }
+@@ -732,8 +742,10 @@ SYSCALL_DEFINE4(reboot, int, magic1, int, magic2, unsigned int, cmd,
+ 	/* Instead of trying to make the power_off code look like
+ 	 * halt when pm_power_off is not set do it the easy way.
+ 	 */
+-	if ((cmd == LINUX_REBOOT_CMD_POWER_OFF) && !kernel_can_power_off())
++	if ((cmd == LINUX_REBOOT_CMD_POWER_OFF) && !kernel_can_power_off()) {
++		poweroff_fallback_to_halt = true;
+ 		cmd = LINUX_REBOOT_CMD_HALT;
++	}
+ 
+ 	mutex_lock(&system_transition_mutex);
+ 	switch (cmd) {
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
+base-commit: bc3012f4e3a9765de81f454cb8f9bb16aafc6ff5
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.3 (Apple Git-145)
+
