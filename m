@@ -1,46 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2FF11C9F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 11:12:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A95211C9F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 11:12:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JJ1cB094"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SA7uyX3O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699096333; x=1730632333;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q4ovWm5khkEZ8Q2Gsdjomm/t3+0IYX7rXUQcWXdLdKM=;
-  b=JJ1cB094NIgtkc6wzyKMv3REqx8xLgfK9DLs8JpmvUfNiDnoBS/uA4l+
-   oNFWp7BLHWMvuqDyxSWUmZCRc0kmV/uoTGtWobZCW4Lgq8yhVV8kfo89q
-   rtnkaK0L6e+4C1gd5893tuCslBeXlkeqxs1YEYpQpzTnnkS4LpzDLCepS
-   UCC1KtFksmSE3xBrAWT/0kOpHon0XTH6nbnTxN/k5xzHDhdV/zqGtgXhJ
-   YXl37DzL87Qs3NZlmf1Jd04pVMOSNvwXfuwHp8vjnb6DxVOggGrs1QvEN
-   ItW5kbEY8VCy2LmimVxBxrwptrVIDBl6S/9z6th/VdgK6ErJyYR/sb6kS
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="391946969"
+  t=1699096337; x=1730632337;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=37iR+q4rFUtdWkl1r9jTLauEbNqeLqTA/K8vFTBhKJ0=;
+  b=SA7uyX3O7zaJafuYyY3I235vhdXOXKYoSYaJNluaTsVop+YDuKWxrK98
+   jNV13dyD5kxNjXwfuK+/ijJlAWnGSfHtP4CBGLL8q8c6i9noMxOYL6/ZL
+   MNTtmguILJEka67JxUOj9rSPOf38MrGlwrpjHc5dpjXnJY7I4HOInWvzs
+   OcQmrOodV9afgsknh7Vqmn8GdlfgECB/0ppzSa4gUbKBbjYD/+T0AsthK
+   y3rgFZmHrP5J//ozpuuvMx/s/qqrMZ65fWQQxDbLkAC/W9fGZVhFBGcgD
+   B3zHTxux+RbF7BPIZH4TM2vnhgmdgyUZ4JabkFrRmHyuYTZA23oG2aAs6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="420194818"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="391946969"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 04:12:12 -0700
+   d="scan'208";a="420194818"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 04:12:16 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="738352993"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="3171606"
+   d="scan'208";a="738352993"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Nov 2023 04:12:11 -0700
+  by orsmga006.jf.intel.com with ESMTP; 04 Nov 2023 04:12:13 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzEZU-0003wu-2k;
-	Sat, 04 Nov 2023 11:12:08 +0000
-Date: Sat, 4 Nov 2023 19:11:35 +0800
+	id 1qzEZX-0003x9-15;
+	Sat, 04 Nov 2023 11:12:11 +0000
+Date: Sat, 4 Nov 2023 19:10:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
+To: Zhang Xiaoxu <zhangxiaoxu@huaweicloud.com>, zhangxiaoxu5@huawei.com,
+	weiyongjun1@huawei.com, broonie@kernel.org, rostedt@goodmis.org,
+	mingo@redhat.com, frowand.list@gmail.com, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_fwspec 11/19] drivers/acpi/viot.c:373: warning:
- Function parameter or member 'fwspec' not described in
- 'viot_iommu_configure'
-Message-ID: <202311041905.QIDiMpkm-lkp@intel.com>
+Subject: Re: [PATCH v3 -next 2/5] spi: mockup: Add writeable tracepoint for
+ spi transfer
+Message-ID: <202311041825.n8iCJiNe-lkp@intel.com>
+References: <20231104064650.972687-3-zhangxiaoxu@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,41 +54,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231104064650.972687-3-zhangxiaoxu@huaweicloud.com>
 
-tree:   https://github.com/jgunthorpe/linux iommu_fwspec
-head:   a387bf414bfa3cc4e39cc07d1cfb257a13081c8e
-commit: 82d63e7b3a55983a4ff9d4633c4f1f233f3e8853 [11/19] acpi: Do not use dev->iommu within acpi_iommu_configure()
-config: i386-buildonly-randconfig-001-20231104 (https://download.01.org/0day-ci/archive/20231104/202311041905.QIDiMpkm-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041905.QIDiMpkm-lkp@intel.com/reproduce)
+Hi Zhang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20231103]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Xiaoxu/spi-mockup-Add-SPI-controller-testing-driver/20231104-144859
+base:   next-20231103
+patch link:    https://lore.kernel.org/r/20231104064650.972687-3-zhangxiaoxu%40huaweicloud.com
+patch subject: [PATCH v3 -next 2/5] spi: mockup: Add writeable tracepoint for spi transfer
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311041825.n8iCJiNe-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041825.n8iCJiNe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311041905.QIDiMpkm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311041825.n8iCJiNe-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/acpi/viot.c:373: warning: Function parameter or member 'fwspec' not described in 'viot_iommu_configure'
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/events/spi_mockup.h:31,
+                    from drivers/spi/spi-mockup.c:17:
+>> include/trace/stages/init.h:2:23: warning: 'str__spi_mockup__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +373 drivers/acpi/viot.c
+vim +/str__spi_mockup__trace_system_name +2 include/trace/stages/init.h
 
-3cf485540e7b85 Jean-Philippe Brucker 2021-06-18  365  
-3cf485540e7b85 Jean-Philippe Brucker 2021-06-18  366  /**
-3cf485540e7b85 Jean-Philippe Brucker 2021-06-18  367   * viot_iommu_configure - Setup IOMMU ops for an endpoint described by VIOT
-3cf485540e7b85 Jean-Philippe Brucker 2021-06-18  368   * @dev: the endpoint
-3cf485540e7b85 Jean-Philippe Brucker 2021-06-18  369   *
-3cf485540e7b85 Jean-Philippe Brucker 2021-06-18  370   * Return: 0 on success, <0 on failure
-3cf485540e7b85 Jean-Philippe Brucker 2021-06-18  371   */
-82d63e7b3a5598 Jason Gunthorpe       2023-11-03  372  int viot_iommu_configure(struct iommu_fwspec *fwspec, struct device *dev)
-3cf485540e7b85 Jean-Philippe Brucker 2021-06-18 @373  {
-
-:::::: The code at line 373 was first introduced by commit
-:::::: 3cf485540e7b8550936ce3602edf2f58e4007304 ACPI: Add driver for the VIOT table
-
-:::::: TO: Jean-Philippe Brucker <jean-philippe@linaro.org>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
 
 -- 
 0-DAY CI Kernel Test Service
