@@ -1,47 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDCDF9E8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 10:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CB212B69
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 10:21:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iN0eYwis"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ldOJDvBw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699093312; x=1730629312;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+56/4DpNf5YSWISqXdWXhWRBwF7TTXSMefKSiWvaKFQ=;
-  b=iN0eYwisb6BH3FGPMuVoJatwV5RBCeI1KOe6CP22v14A1NeW1ZLhqj5Q
-   2xz2KDEa+SymFShqUoiSf33Oql8PRfbIBrUnQlUUSv1iruu1c+PazZ6AA
-   ryYKdZbOZnTZiLGw7t/Cr+Xs9cC1Wlg++5jglrTCNtIrPzKsSuoQqYNVs
-   87AywdPJ6ivml83LUkVPSCnMstXfEjFqPyF4KH+N+Ccl3qK1wVXd1/OMh
-   KUv0MgCbEnlEvTFHfAwSuLS/xbUkdZkv2yrFJUD9nUPckYFbhHEEtBVxA
-   Y5YO3JVl3wUsNmTFblgaTD1O9f7iqFOlF1TMhelHhotOTCvdtV955pymU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="387964046"
+  t=1699093317; x=1730629317;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=emg2xa7Wz0DXz6//3gwEvIkyuahnQ3WpkSUAQpBFaek=;
+  b=ldOJDvBwjWMVfmivCZ04iP7kUPyTG5kWxQk/kXGwrTUFU8ncgAN5067a
+   78Dz0C4bt0nHPkNJksmhilghh5kpx4LDCMC9D2Y0Oh1ygukkObUC14CXa
+   9SjX+BfyjPcizyWRuOynx/gDZLwD8nrJflrcZOEkjcCYmlkfjrsVbU96t
+   xwO2Wo/jw2zT862zCRqe5vfwqElCUphit/TANpDGAXHzUOibsIpK04xbG
+   GnKJOLVtY1SYMOLlrtLCo1DhgmIwKPQz4HuMNq8ILvlf9amvJUIYHW/Ac
+   BwRfQwk80jkgkkCPGEe4uAXBl2+sXZhfi2jcU27gRN59v5G8oe9FZbI3m
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="386250276"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="387964046"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 03:21:51 -0700
+   d="scan'208";a="386250276"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 03:21:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="738346892"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="711759849"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="738346892"
+   d="scan'208";a="711759849"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 Nov 2023 03:21:50 -0700
+  by orsmga003.jf.intel.com with ESMTP; 04 Nov 2023 03:21:50 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzDml-0003m5-3B;
+	id 1qzDml-0003lw-2R;
 	Sat, 04 Nov 2023 10:21:47 +0000
-Date: Sat, 4 Nov 2023 18:21:18 +0800
+Date: Sat, 4 Nov 2023 18:21:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 4768/30000]
- drivers/base/core.c:1542:5: warning: no previous prototype for
- 'fw_devlink_relax_cycle'
-Message-ID: <202311041845.cxgksTaI-lkp@intel.com>
+To: Henry Shi <henryshi2018@gmail.com>, hbshi69@hotmail.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	hdegoede@redhat.com, markgross@kernel.org, jdelvare@suse.com,
+	linux@roeck-us.net, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hb_shi2003@yahoo.com,
+	henrys@silicom-usa.com, wenw@silicom-usa.com
+Subject: Re: [PATCH v10] platform/x86: Add Silicom Platform Driver
+Message-ID: <202311041804.4fQDRw0E-lkp@intel.com>
+References: <20231027203836.25936-1-henryshi2018@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,80 +56,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231027203836.25936-1-henryshi2018@gmail.com>
 
-Hi Saravana,
+Hi Henry,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   2fea3eca9608d8c14fb6963bfe830dfa5985d7de
-commit: 1df699c140a778ed678d7d4b2fa8ffb2c62573e1 [4768/30000] UPSTREAM: driver core: Handle cycles in device links created by fw_devlink
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231104/202311041845.cxgksTaI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041845.cxgksTaI-lkp@intel.com/reproduce)
+[auto build test WARNING on tip/master]
+[also build test WARNING on linus/master tip/auto-latest v6.6 next-20231103]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Henry-Shi/platform-x86-Add-Silicom-Platform-Driver/20231028-043932
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20231027203836.25936-1-henryshi2018%40gmail.com
+patch subject: [PATCH v10] platform/x86: Add Silicom Platform Driver
+reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041804.4fQDRw0E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311041845.cxgksTaI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311041804.4fQDRw0E-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/base/core.c:1542:5: warning: no previous prototype for 'fw_devlink_relax_cycle' [-Wmissing-prototypes]
-    1542 | int fw_devlink_relax_cycle(struct device *con, void *sup)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/fw_devlink_relax_cycle +1542 drivers/base/core.c
-
-  1527	
-  1528	/**
-  1529	 * fw_devlink_relax_cycle - Convert cyclic links to SYNC_STATE_ONLY links
-  1530	 * @con: Device to check dependencies for.
-  1531	 * @sup: Device to check against.
-  1532	 *
-  1533	 * Check if @sup depends on @con or any device dependent on it (its child or
-  1534	 * its consumer etc).  When such a cyclic dependency is found, convert all
-  1535	 * device links created solely by fw_devlink into SYNC_STATE_ONLY device links.
-  1536	 * This is the equivalent of doing fw_devlink=permissive just between the
-  1537	 * devices in the cycle. We need to do this because, at this point, fw_devlink
-  1538	 * can't tell which of these dependencies is not a real dependency.
-  1539	 *
-  1540	 * Return 1 if a cycle is found. Otherwise, return 0.
-  1541	 */
-> 1542	int fw_devlink_relax_cycle(struct device *con, void *sup)
-  1543	{
-  1544		struct device_link *link;
-  1545		int ret;
-  1546	
-  1547		if (con == sup)
-  1548			return 1;
-  1549	
-  1550		ret = device_for_each_child(con, sup, fw_devlink_relax_cycle);
-  1551		if (ret)
-  1552			return ret;
-  1553	
-  1554		list_for_each_entry(link, &con->links.consumers, s_node) {
-  1555			if ((link->flags & ~DL_FLAG_INFERRED) ==
-  1556			    (DL_FLAG_SYNC_STATE_ONLY | DL_FLAG_MANAGED))
-  1557				continue;
-  1558	
-  1559			if (!fw_devlink_relax_cycle(link->consumer, sup))
-  1560				continue;
-  1561	
-  1562			ret = 1;
-  1563	
-  1564			if (!(link->flags & DL_FLAG_INFERRED))
-  1565				continue;
-  1566	
-  1567			pm_runtime_drop_link(link);
-  1568			link->flags = DL_FLAG_MANAGED | FW_DEVLINK_FLAGS_PERMISSIVE;
-  1569			dev_dbg(link->consumer, "Relaxing link with %s\n",
-  1570				dev_name(link->supplier));
-  1571		}
-  1572		return ret;
-  1573	}
-  1574	
+>> Warning: file ./Documentation/ABI/testing/sysfs-platform-silicom#18:
+>> Warning: /sys/devices/platform/silicom-platform/hwmon/hwmon1/ is defined 4 times:  ./Documentation/ABI/testing/sysfs-platform-silicom:28  ./Documentation/ABI/testing/sysfs-platform-silicom:37  ./Documentation/ABI/testing/sysfs-platform-silicom:46  ./Documentation/ABI/testing/sysfs-platform-silicom:55
 
 -- 
 0-DAY CI Kernel Test Service
