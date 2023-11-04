@@ -1,148 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11ADC17D5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 12:25:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39AD11725
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 12:37:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WR6iTnGv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V2FBwgH6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699100729; x=1730636729;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2I6h8yzH3ybwjOwUSpe0Zz9XEhNi9RbFVcyIGA1wC1Q=;
-  b=WR6iTnGvOowu5PLFybwfGXYi4rH1Ucv8PzkDIxhKNAhrtcWqYJwZawGs
-   x//BytkcsessKy2KlX98/nrw0ycYGJ3ojYg75zEvMAADK605soo/is8oW
-   kY+WDBWZa302pUDIMEo1O36Af4yR2MG5rtDSW4Dqdg9cwPMTdRza1wgOJ
-   XGsAhHHTIpc4x6PqT0C4Zj5w3BYuil3+Y2xKsKT9kE/iABuwYCwyZSXv9
-   VrjritsbTgmuS76cubD7sFyYJp7H+qp7gN3kfntk+jfRWqaSRHvjHFUEP
-   ian6AUgOXRhcuWSt3ng7i20SXspgSPMvvYCPoPUnf6ourvTk1HZqqL33n
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="475315667"
+  t=1699101451; x=1730637451;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lSj4GjvEGhaJR3nV2o4ceDc88BpWtY/TBDNJmHGXDsk=;
+  b=V2FBwgH6nXeFooOEBuFrbS5eKcS0OJeXYmef2nAmLgP/EdaZsWEausZC
+   7Ryef3s4NsbVhQg53QwFnpLAREUgXoSTg12gYXooCPDAP/u6kQ9y79vfa
+   /TgMmyUuH60Z4ApwtNmRVHViTXQtbuulqEbumXEaQL6kensMiIrm5G5V3
+   gsP518qKV8SSCHozMpcmv5GJJOqhdiVmDWZUYOTQz9uALjeB5rQvD+t5k
+   TI9HI8kknwVVe+kFJgdgLieGQkWvBdA/ibJ8b+1DIUE7EwUW+tmnxZvyG
+   3r2Nxvckpgwf0fGiOfY2Av1pvZx6W0fG9RgjdYb/N8SBuV95aKeJ+pSSi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="379474304"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="475315667"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 05:25:28 -0700
+   d="scan'208";a="379474304"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 05:37:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="1009074356"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="761869413"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="1009074356"
+   d="scan'208";a="761869413"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 04 Nov 2023 05:25:26 -0700
+  by orsmga002.jf.intel.com with ESMTP; 04 Nov 2023 05:37:29 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzFiO-0004O8-2y;
-	Sat, 04 Nov 2023 12:25:24 +0000
-Date: Sat, 4 Nov 2023 20:24:36 +0800
+	id 1qzFu2-0004Om-2E;
+	Sat, 04 Nov 2023 12:37:26 +0000
+Date: Sat, 4 Nov 2023 20:36:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-defer 19/19] fs/xfs/libxfs/xfs_rmap.c:2718:58: error:
- use of undeclared identifier 'bno'
-Message-ID: <202311042017.vjrBewU2-lkp@intel.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Steve French <stfrench@microsoft.com>
+Subject: fs/smb/server/vfs.c:1207: warning: Function parameter or member
+ 'parent_path' not described in 'ksmbd_vfs_kern_path_locked'
+Message-ID: <202311042024.12w45Xsm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-defer
-head:   c702ad904b529ee1c6c5d0640dc545c5feaffd6a
-commit: c702ad904b529ee1c6c5d0640dc545c5feaffd6a [19/19] xfs: split out RT rmap operations
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231104/202311042017.vjrBewU2-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311042017.vjrBewU2-lkp@intel.com/reproduce)
+Hi Namjae,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   90b0c2b2edd1adff742c621e246562fbefa11b70
+commit: 2b57a4322b1b14348940744fdc02f9a86cbbdbeb ksmbd: check if a mount point is crossed during path lookup
+date:   3 months ago
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311042024.12w45Xsm-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311042024.12w45Xsm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311042017.vjrBewU2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311042024.12w45Xsm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/xfs/libxfs/xfs_rmap.c:2718:58: error: use of undeclared identifier 'bno'
-           xfs_rmap_update_hook(tp, ri->ri_pag, NULL, ri->ri_type, bno,
-                                                                   ^
-   fs/xfs/libxfs/xfs_rmap.c:2763:58: error: use of undeclared identifier 'bno'
-           xfs_rmap_update_hook(tp, NULL, ri->ri_rtg, ri->ri_type, bno,
-                                                                   ^
-   2 errors generated.
+   fs/smb/server/vfs.c:54: warning: Function parameter or member 'parent' not described in 'ksmbd_vfs_lock_parent'
+   fs/smb/server/vfs.c:54: warning: Function parameter or member 'child' not described in 'ksmbd_vfs_lock_parent'
+   fs/smb/server/vfs.c:375: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_read'
+   fs/smb/server/vfs.c:375: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_read'
+   fs/smb/server/vfs.c:492: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_write'
+   fs/smb/server/vfs.c:492: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_write'
+   fs/smb/server/vfs.c:555: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:555: warning: Function parameter or member 'stat' not described in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:555: warning: Excess function parameter 'work' description in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:555: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:555: warning: Excess function parameter 'attrs' description in 'ksmbd_vfs_getattr'
+   fs/smb/server/vfs.c:572: warning: Function parameter or member 'p_id' not described in 'ksmbd_vfs_fsync'
+   fs/smb/server/vfs.c:595: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_remove_file'
+   fs/smb/server/vfs.c:595: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_remove_file'
+   fs/smb/server/vfs.c:595: warning: Excess function parameter 'name' description in 'ksmbd_vfs_remove_file'
+   fs/smb/server/vfs.c:638: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_link'
+   fs/smb/server/vfs.c:815: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_truncate'
+   fs/smb/server/vfs.c:815: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_truncate'
+   fs/smb/server/vfs.c:856: warning: Excess function parameter 'size' description in 'ksmbd_vfs_listxattr'
+   fs/smb/server/vfs.c:933: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_setxattr'
+   fs/smb/server/vfs.c:933: warning: Excess function parameter 'dentry' description in 'ksmbd_vfs_setxattr'
+   fs/smb/server/vfs.c:958: warning: Function parameter or member 'option' not described in 'ksmbd_vfs_set_fadvise'
+   fs/smb/server/vfs.c:958: warning: Excess function parameter 'options' description in 'ksmbd_vfs_set_fadvise'
+   fs/smb/server/vfs.c:1172: warning: Function parameter or member 'um' not described in 'ksmbd_vfs_lookup_in_dir'
+   fs/smb/server/vfs.c:1207: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_kern_path_locked'
+>> fs/smb/server/vfs.c:1207: warning: Function parameter or member 'parent_path' not described in 'ksmbd_vfs_kern_path_locked'
 
 
-vim +/bno +2718 fs/xfs/libxfs/xfs_rmap.c
+vim +1207 fs/smb/server/vfs.c
 
-  2656	
-  2657	/*
-  2658	 * Process one of the deferred rmap operations.  We pass back the
-  2659	 * btree cursor to maintain our lock on the rmapbt between calls.
-  2660	 * This saves time and eliminates a buffer deadlock between the
-  2661	 * superblock and the AGF because we'll always grab them in the same
-  2662	 * order.
-  2663	 */
-  2664	int
-  2665	xfs_rmap_finish_one(
-  2666		struct xfs_trans		*tp,
-  2667		struct xfs_rmap_intent		*ri,
-  2668		struct xfs_btree_cur		**pcur)
-  2669	{
-  2670		struct xfs_owner_info		oinfo;
-  2671		struct xfs_mount		*mp = tp->t_mountp;
-  2672		struct xfs_btree_cur		*rcur = *pcur;
-  2673		struct xfs_buf			*agbp = NULL;
-  2674		int				error = 0;
-  2675	
-  2676		trace_xfs_rmap_deferred(mp, ri);
-  2677	
-  2678		if (XFS_TEST_ERROR(false, mp, XFS_ERRTAG_RMAP_FINISH_ONE))
-  2679			return -EIO;
-  2680	
-  2681		/*
-  2682		 * If we haven't gotten a cursor or the cursor AG doesn't match
-  2683		 * the startblock, get one now.
-  2684		 */
-  2685		if (rcur != NULL && rcur->bc_ag.pag != ri->ri_pag) {
-  2686			xfs_btree_del_cursor(rcur, 0);
-  2687			rcur = NULL;
-  2688		}
-  2689		if (!rcur) {
-  2690			/*
-  2691			 * Refresh the freelist before we start changing the rmapbt,
-  2692			 * because a shape change could cause us to allocate blocks.
-  2693			 */
-  2694			error = xfs_free_extent_fix_freelist(tp, ri->ri_pag, &agbp);
-  2695			if (error) {
-  2696				xfs_ag_mark_sick(ri->ri_pag, XFS_SICK_AG_AGFL);
-  2697				return error;
-  2698			}
-  2699	
-  2700			if (XFS_IS_CORRUPT(tp->t_mountp, !agbp)) {
-  2701				xfs_ag_mark_sick(ri->ri_pag, XFS_SICK_AG_AGFL);
-  2702				return -EFSCORRUPTED;
-  2703			}
-  2704	
-  2705			rcur = *pcur = xfs_rmapbt_init_cursor(mp, tp, agbp, ri->ri_pag);
-  2706		}
-  2707	
-  2708		xfs_rmap_ino_owner(&oinfo, ri->ri_owner, ri->ri_whichfork,
-  2709				ri->ri_bmap.br_startoff);
-  2710	
-  2711		error = __xfs_rmap_finish_intent(rcur, ri->ri_type,
-  2712				XFS_FSB_TO_AGBNO(mp, ri->ri_bmap.br_startblock),
-  2713				ri->ri_bmap.br_blockcount, &oinfo,
-  2714				ri->ri_bmap.br_state == XFS_EXT_UNWRITTEN);
-  2715		if (error)
-  2716			return error;
-  2717	
-> 2718		xfs_rmap_update_hook(tp, ri->ri_pag, NULL, ri->ri_type, bno,
-  2719				ri->ri_bmap.br_blockcount,
-  2720				ri->ri_bmap.br_state == XFS_EXT_UNWRITTEN, &oinfo);
-  2721		return 0;
-  2722	}
-  2723	
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1194  
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1195  /**
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1196   * ksmbd_vfs_kern_path_locked() - lookup a file and get path info
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1197   * @name:	file path that is relative to share
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1198   * @flags:	lookup flags
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1199   * @path:	if lookup succeed, return path info
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1200   * @caseless:	caseless filename lookup
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1201   *
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1202   * Return:	0 on success, otherwise error
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1203   */
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1204  int ksmbd_vfs_kern_path_locked(struct ksmbd_work *work, char *name,
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1205  			       unsigned int flags, struct path *parent_path,
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1206  			       struct path *path, bool caseless)
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16 @1207  {
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1208  	struct ksmbd_share_config *share_conf = work->tcon->share_conf;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1209  	int err;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1210  
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1211  	err = ksmbd_vfs_path_lookup_locked(share_conf, name, flags, parent_path,
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1212  					   path);
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1213  	if (!err)
+cf5e7f734f4455 fs/smb/server/vfs.c Namjae Jeon   2023-05-30  1214  		return 0;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1215  
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1216  	if (caseless) {
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1217  		char *filepath;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1218  		size_t path_len, remain_len;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1219  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1220  		filepath = kstrdup(name, GFP_KERNEL);
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1221  		if (!filepath)
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1222  			return -ENOMEM;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1223  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1224  		path_len = strlen(filepath);
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1225  		remain_len = path_len;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1226  
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1227  		*parent_path = share_conf->vfs_path;
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1228  		path_get(parent_path);
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1229  
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1230  		while (d_can_lookup(parent_path->dentry)) {
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1231  			char *filename = filepath + path_len - remain_len;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1232  			char *next = strchrnul(filename, '/');
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1233  			size_t filename_len = next - filename;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1234  			bool is_last = !next[0];
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1235  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1236  			if (filename_len == 0)
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1237  				break;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1238  
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1239  			err = ksmbd_vfs_lookup_in_dir(parent_path, filename,
+dbab80e2071ad8 fs/ksmbd/vfs.c      Atte Heikkilä 2022-09-28  1240  						      filename_len,
+dbab80e2071ad8 fs/ksmbd/vfs.c      Atte Heikkilä 2022-09-28  1241  						      work->conn->um);
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1242  			if (err)
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1243  				goto out2;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1244  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1245  			next[0] = '\0';
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1246  
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1247  			err = vfs_path_lookup(share_conf->vfs_path.dentry,
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1248  					      share_conf->vfs_path.mnt,
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1249  					      filepath,
+265fd1991c1db8 fs/ksmbd/vfs.c      Hyunchul Lee  2021-09-25  1250  					      flags,
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1251  					      path);
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1252  			if (err)
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1253  				goto out2;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1254  			else if (is_last)
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1255  				goto out1;
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1256  			path_put(parent_path);
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1257  			*parent_path = *path;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1258  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1259  			next[0] = '/';
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1260  			remain_len -= filename_len + 1;
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1261  		}
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1262  
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1263  		err = -EINVAL;
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1264  out2:
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1265  		path_put(parent_path);
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1266  out1:
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1267  		kfree(filepath);
+3c20378325c710 fs/cifsd/vfs.c      Hyunchul Lee  2021-04-13  1268  	}
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1269  
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1270  	if (!err) {
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1271  		err = ksmbd_vfs_lock_parent(parent_path->dentry, path->dentry);
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1272  		if (err) {
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1273  			path_put(path);
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1274  			path_put(parent_path);
+2b57a4322b1b14 fs/smb/server/vfs.c Namjae Jeon   2023-07-17  1275  		}
+74d7970febf7e9 fs/ksmbd/vfs.c      Namjae Jeon   2023-04-21  1276  	}
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1277  	return err;
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1278  }
+f44158485826c0 fs/cifsd/vfs.c      Namjae Jeon   2021-03-16  1279  
+
+:::::: The code at line 1207 was first introduced by commit
+:::::: f44158485826c076335d6860d35872271a83791d cifsd: add file operations
+
+:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
