@@ -1,64 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613DE1A5A6
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 15:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E44618644;
+	Sat,  4 Nov 2023 15:30:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DWbWJamr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eQ475Ml+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699111184; x=1730647184;
+  t=1699111839; x=1730647839;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=E4nONcAXaviUdfS4mzCeKC117uG33wBRWuTHxe4gC1U=;
-  b=DWbWJamr2tHreBunGGl7x7cVJIqaKDgXue6IYFjMJ71JmYMaG5StVaLA
-   yp3Gegd5zwSvLQHLS/B7tmwIAo06WfK8KcOi/Vf2zq0xbOER4F5o1epOn
-   jDBw5jDTpTEayCuPPrNWO2mzM0yJacu8tbx8LiNKt0F2++DxUGA0IXOuk
-   KMp+DO38Y7fmVpTjodamFBXq7KeKYBfw6ZbsoI+j8RHQoZgBe6XM3Mt4B
-   DNZOJeAIRX9z+9stDlCkmLlBJVupLkxSTb7Pq3Hw5AkMpa0e4i1rJdlFX
-   UukH+HwJd1HhqTb36fGMgtR1KD5Oi3dKuTFNEMvC48OpPopJIHkhm3vTo
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="10628314"
+  bh=NWJpfRizHfLZNHX5VvGvvq9eA1w3votDvF33jxdOllo=;
+  b=eQ475Ml+de8eJHvGmvGS3Six4dOjgCDYrNYMJWgUH2/224ftMGcVet9s
+   qCRm2MHw18aKjJKccnVpT6j78R9mcRQGKPTPH+GeoYI9sAJ7ZBNKcpUPH
+   oYiBboCf06VFFCUD1tVMAo32z7R2BR4aEvw/XWFFh7dbFjPo2HA6EJzUk
+   ba2JrrZhBi4iw33oXjXCtzppTb8cc/q9Y+OUsTFyyED+JFDEpgHI4vhI/
+   RsDhn7NLvE94nD39FMzEAfs3QeScxQRSKKDzffiUEYBlJ0AlKQ4XoznHF
+   4TKiIeGntlSB8QNJUrwPidCG+6BAiOBT3NH5elMF4L7Tf2itHbfhzCYTl
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="7725941"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="10628314"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 08:19:43 -0700
+   d="scan'208";a="7725941"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 08:30:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="905639119"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="905639119"
+   d="scan'208";a="3024829"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Nov 2023 08:19:38 -0700
+  by orviesa002.jf.intel.com with ESMTP; 04 Nov 2023 08:30:35 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzIQy-0004Va-2f;
-	Sat, 04 Nov 2023 15:19:36 +0000
-Date: Sat, 4 Nov 2023 23:18:39 +0800
+	id 1qzIbY-0004W0-18;
+	Sat, 04 Nov 2023 15:30:32 +0000
+Date: Sat, 4 Nov 2023 23:29:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Bristot de Oliveira <bristot@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	Luca Abeni <luca.abeni@santannapisa.it>,
-	Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Vineeth Pillai <vineeth@bitbyteword.org>,
-	Shuah Khan <skhan@linuxfoundation.org>, bristot@kernel.org,
-	Phil Auld <pauld@redhat.com>
-Subject: Re: [PATCH v5 7/7] sched/fair: Fair server interface
-Message-ID: <202311042329.PB1gTIL4-lkp@intel.com>
-References: <26adad2378c8b15533e4f6216c2863341e587f57.1699095159.git.bristot@kernel.org>
+To: Bibek Kumar Patro <quic_bibekkum@quicinc.com>, will@kernel.org,
+	robin.murphy@arm.com, joro@8bytes.org, dmitry.baryshkov@linaro.org,
+	a39.skl@gmail.com, konrad.dybcio@linaro.org,
+	quic_saipraka@quicinc.com, quic_pkondeti@quicinc.com,
+	quic_molvera@quicinc.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	qipl.kernel.upstream@quicinc.com,
+	Bibek Kumar Patro <quic_bibekkum@quicinc.com>
+Subject: Re: [PATCH 2/3] iommu/arm-smmu: add ACTLR data and support for SM8550
+Message-ID: <202311042304.pVLm1ZYk-lkp@intel.com>
+References: <20231103215124.1095-3-quic_bibekkum@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,46 +56,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <26adad2378c8b15533e4f6216c2863341e587f57.1699095159.git.bristot@kernel.org>
+In-Reply-To: <20231103215124.1095-3-quic_bibekkum@quicinc.com>
 
-Hi Daniel,
+Hi Bibek,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on tip/master linus/master next-20231103]
-[cannot apply to tip/auto-latest v6.6]
+[auto build test WARNING on v6.6]
+[also build test WARNING on linus/master next-20231103]
+[cannot apply to joro-iommu/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/sched-Unify-runtime-accounting-across-classes/20231104-201952
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/26adad2378c8b15533e4f6216c2863341e587f57.1699095159.git.bristot%40kernel.org
-patch subject: [PATCH v5 7/7] sched/fair: Fair server interface
-config: i386-buildonly-randconfig-001-20231104 (https://download.01.org/0day-ci/archive/20231104/202311042329.PB1gTIL4-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311042329.PB1gTIL4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bibek-Kumar-Patro/iommu-arm-smmu-introduction-of-ACTLR-for-custom-prefetcher-settings/20231104-055625
+base:   v6.6
+patch link:    https://lore.kernel.org/r/20231103215124.1095-3-quic_bibekkum%40quicinc.com
+patch subject: [PATCH 2/3] iommu/arm-smmu: add ACTLR data and support for SM8550
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311042304.pVLm1ZYk-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311042304.pVLm1ZYk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311042329.PB1gTIL4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311042304.pVLm1ZYk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:72:
->> kernel/sched/debug.c:342:57: warning: integer overflow in expression of type 'long int' results in '-100663296' [-Woverflow]
-     342 | static unsigned long fair_server_period_max = (1 << 22) * NSEC_PER_USEC; /* ~4 seconds */
-         |                                                         ^
+>> drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c:614:42: warning: 'sm8550_smmu_500_impl0_data' defined but not used [-Wunused-const-variable=]
+     614 | static const struct qcom_smmu_match_data sm8550_smmu_500_impl0_data = {
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +342 kernel/sched/debug.c
+vim +/sm8550_smmu_500_impl0_data +614 drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
 
-   341	
- > 342	static unsigned long fair_server_period_max = (1 << 22) * NSEC_PER_USEC; /* ~4 seconds */
-   343	static unsigned long fair_server_period_min = (100) * NSEC_PER_USEC;     /* 100 us */
-   344	
+   612	
+   613	
+ > 614	static const struct qcom_smmu_match_data sm8550_smmu_500_impl0_data = {
+   615		.impl = &sm8550_smmu_500_impl,
+   616		.adreno_impl = &qcom_adreno_smmu_500_impl,
+   617		.cfg = &qcom_smmu_impl0_cfg,
+   618		.actlrcfg = &sm8550_actlrcfg,
+   619	};
+   620	
 
 -- 
 0-DAY CI Kernel Test Service
