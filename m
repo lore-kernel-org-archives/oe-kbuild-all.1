@@ -1,47 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD483D82
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 03:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1957B3D8A;
+	Sat,  4 Nov 2023 03:57:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsKS1MP7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mx1so7Aa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699069456; x=1730605456;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qHGfTpzVJu5gEGybckTvVqRdk6b8e0Pm4EH3TTazn34=;
-  b=nsKS1MP7A51NE0BQdAN7bF9bXSy5UfPbj13ccTfcZlYrOHmx/mGY3rUf
-   D7gyo/dOSuc4cdcKQhLZ/B1jsqpv157vArOzNPMGsgRSzgapIZEssKILQ
-   YChXdbpJqhvAIrP/gXkRYgoLgvTSJJDbiJu/di5meiHNZMbjXbONh0bhi
-   Ytsshd1SEOrpf8jHh8+Ws/zCBNBhKef7+CV+JvHEyUCSbs/IaPxUySw0C
-   voO0/spNB5D4mSSLoAhQiOo+TQlegQWqmip0drjOUw7U19Qf7if4tZP69
-   KlwuZijhjZgqSiRWNii/izcv5SUdzVh9rk90bhn05J/ZFS+2lCnJVptqj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="475293244"
+  t=1699070253; x=1730606253;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sImoohTti9bqWZR9pDcgmaHIuPqQ30e+PDTsfXTV8gs=;
+  b=mx1so7Aa+CUpSrhgVgJuvTzSoKGqewGdKi0NcQJchwI/Gk6q+amBCP8D
+   RhpCauLhmvFdt6/XF9dXNocGg1xS7OMv9Gr5twLqpfBvhgLTRP4FEZY+U
+   UBbQI5v9pxOhaPICa0klV56r/gVbd0ESajtlIPINNS4YlPg3kSj9cErbq
+   tWs1R21gYvNL7hPpOOWwoowfh8FfTed4mNQntr9WS8zqdPTsxTxWE3DZF
+   9i0MGHDmQ/RtyHej1droBwoBQit5BccGToaGS+G9wmiJ3brU6QvLEj9Hh
+   f4BtRMQZXUHMQvihmGSa8pYT0YDlwiS7WIdChHKnGmZ1JsA0eKqZr41Gp
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="420174469"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="475293244"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 20:44:13 -0700
+   d="scan'208";a="420174469"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 20:57:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="1093263361"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="1093263361"
+   d="scan'208";a="9573726"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Nov 2023 20:44:12 -0700
+  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2023 20:57:27 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qz7Zy-0003Mn-0n;
-	Sat, 04 Nov 2023 03:44:10 +0000
-Date: Sat, 4 Nov 2023 11:43:23 +0800
+	id 1qz7mn-0003Nx-20;
+	Sat, 04 Nov 2023 03:57:25 +0000
+Date: Sat, 4 Nov 2023 11:57:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: vmlinux.o: warning: objtool: enter_s2idle_proper+0xd5: call to
- lockdep_hardirqs_on_prepare() leaves .noinstr.text section
-Message-ID: <202311041100.vPZ8sSuW-lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+	tzimmermann@suse.de, airlied@redhat.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	daniel@ffwll.ch, javierm@redhat.com, bluescreen_avenger@verizon.net,
+	noralf@tronnes.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gpiccoli@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v5 5/6] drm/ast: Add drm_panic support
+Message-ID: <202311041116.Madu45VI-lkp@intel.com>
+References: <20231103145526.628138-6-jfalempe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,108 +54,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231103145526.628138-6-jfalempe@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e392ea4d4d00880bf94550151b1ace4f88a4b17a
-commit: 17cc2b5525856d7374f09b28ba1faf1fa61b2352 cpuidle: Ensure ct_cpuidle_enter() is always called from noinstr/__cpuidle
-date:   10 months ago
-config: x86_64-buildonly-randconfig-001-20231104 (https://download.01.org/0day-ci/archive/20231104/202311041100.vPZ8sSuW-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041100.vPZ8sSuW-lkp@intel.com/reproduce)
+Hi Jocelyn,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ffc253263a1375a65fa6c9f62a893e9767fbebfa]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-format-helper-Add-drm_fb_blit_from_r1-and-drm_fb_fill/20231103-225824
+base:   ffc253263a1375a65fa6c9f62a893e9767fbebfa
+patch link:    https://lore.kernel.org/r/20231103145526.628138-6-jfalempe%40redhat.com
+patch subject: [PATCH v5 5/6] drm/ast: Add drm_panic support
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231104/202311041116.Madu45VI-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041116.Madu45VI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311041100.vPZ8sSuW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311041116.Madu45VI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: enter_s2idle_proper+0xd5: call to lockdep_hardirqs_on_prepare() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: cpuidle_enter_state+0x317: call to lockdep_hardirqs_on_prepare() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter_bm+0x40: call to lockdep_hardirqs_on_prepare() leaves .noinstr.text section
+   In file included from drivers/gpu/drm/ast/ast_i2c.c:27:
+>> drivers/gpu/drm/ast/ast_drv.h:508:14: warning: declaration of 'struct drm_scanout_buffer' will not be visible outside of this function [-Wvisibility]
+                              struct drm_scanout_buffer *sb);
+                                     ^
+   1 warning generated.
 
 
-objdump-func vmlinux.o enter_s2idle_proper:
-0000 00000000000022f0 <enter_s2idle_proper>:
-0000     22f0:	41 56                	push   %r14
-0002     22f2:	41 55                	push   %r13
-0004     22f4:	41 54                	push   %r12
-0006     22f6:	49 89 fc             	mov    %rdi,%r12
-0009     22f9:	55                   	push   %rbp
-000a     22fa:	48 89 f5             	mov    %rsi,%rbp
-000d     22fd:	53                   	push   %rbx
-000e     22fe:	48 63 da             	movslq %edx,%rbx
-0011     2301:	49 89 dd             	mov    %rbx,%r13
-0014     2304:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	2305: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-0019     2309:	90                   	nop
-001a     230a:	e8 00 00 00 00       	call   230f <enter_s2idle_proper+0x1f>	230b: R_X86_64_PC32	.text+0x120b43c
-001f     230f:	48 89 c7             	mov    %rax,%rdi
-0022     2312:	e8 00 00 00 00       	call   2317 <enter_s2idle_proper+0x27>	2313: R_X86_64_PC32	.text+0x120b2cc
-0027     2317:	49 89 c6             	mov    %rax,%r14
-002a     231a:	e8 00 00 00 00       	call   231f <enter_s2idle_proper+0x2f>	231b: R_X86_64_PLT32	tick_freeze-0x4
-002f     231f:	48 8d 04 5b          	lea    (%rbx,%rbx,2),%rax
-0033     2323:	48 8d 04 83          	lea    (%rbx,%rax,4),%rax
-0037     2327:	41 f6 44 c4 58 40    	testb  $0x40,0x58(%r12,%rax,8)
-003d     232d:	0f 84 87 00 00 00    	je     23ba <enter_s2idle_proper+0xca>
-0043     2333:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	2334: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-0048     2338:	48 8d 04 5b          	lea    (%rbx,%rbx,2),%rax
-004c     233c:	44 89 ea             	mov    %r13d,%edx
-004f     233f:	4c 89 e6             	mov    %r12,%rsi
-0052     2342:	48 8d 04 83          	lea    (%rbx,%rax,4),%rax
-0056     2346:	48 89 ef             	mov    %rbp,%rdi
-0059     2349:	41 ff 54 c4 78       	call   *0x78(%r12,%rax,8)
-005e     234e:	9c                   	pushf
-005f     234f:	58                   	pop    %rax
-0060     2350:	f6 c4 02             	test   $0x2,%ah
-0063     2353:	0f 85 8f 00 00 00    	jne    23e8 <enter_s2idle_proper+0xf8>
-0069     2359:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	235a: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-006e     235e:	48 8d 04 5b          	lea    (%rbx,%rbx,2),%rax
-0072     2362:	48 8d 04 83          	lea    (%rbx,%rax,4),%rax
-0076     2366:	41 f6 44 c4 58 40    	testb  $0x40,0x58(%r12,%rax,8)
-007c     236c:	74 67                	je     23d5 <enter_s2idle_proper+0xe5>
-007e     236e:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	236f: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-0083     2373:	48 c1 e3 06          	shl    $0x6,%rbx
-0087     2377:	e8 00 00 00 00       	call   237c <enter_s2idle_proper+0x8c>	2378: R_X86_64_PLT32	tick_unfreeze-0x4
-008c     237c:	e8 00 00 00 00       	call   2381 <enter_s2idle_proper+0x91>	237d: R_X86_64_PC32	.text+0x120b43c
-0091     2381:	48 89 c7             	mov    %rax,%rdi
-0094     2384:	e8 00 00 00 00       	call   2389 <enter_s2idle_proper+0x99>	2385: R_X86_64_PC32	.text+0x120b2cc
-0099     2389:	4c 89 f6             	mov    %r14,%rsi
-009c     238c:	48 89 c7             	mov    %rax,%rdi
-009f     238f:	e8 00 00 00 00       	call   2394 <enter_s2idle_proper+0xa4>	2390: R_X86_64_PC32	.text+0x120b27c
-00a4     2394:	49 89 c0             	mov    %rax,%r8
-00a7     2397:	48 8d 44 1d 00       	lea    0x0(%rbp,%rbx,1),%rax
-00ac     239c:	4c 01 40 68          	add    %r8,0x68(%rax)
-00b0     23a0:	48 83 40 60 01       	addq   $0x1,0x60(%rax)
-00b5     23a5:	90                   	nop
-00b6     23a6:	5b                   	pop    %rbx
-00b7     23a7:	5d                   	pop    %rbp
-00b8     23a8:	41 5c                	pop    %r12
-00ba     23aa:	41 5d                	pop    %r13
-00bc     23ac:	41 5e                	pop    %r14
-00be     23ae:	31 c0                	xor    %eax,%eax
-00c0     23b0:	31 d2                	xor    %edx,%edx
-00c2     23b2:	31 f6                	xor    %esi,%esi
-00c4     23b4:	31 ff                	xor    %edi,%edi
-00c6     23b6:	45 31 c0             	xor    %r8d,%r8d
-00c9     23b9:	c3                   	ret
-00ca     23ba:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	23bb: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-00cf     23bf:	e8 00 00 00 00       	call   23c4 <enter_s2idle_proper+0xd4>	23c0: R_X86_64_PC32	.text+0x120b25c
-00d4     23c4:	90                   	nop
-00d5     23c5:	e8 00 00 00 00       	call   23ca <enter_s2idle_proper+0xda>	23c6: R_X86_64_PC32	.text+0x120b25c
-00da     23ca:	e8 00 00 00 00       	call   23cf <enter_s2idle_proper+0xdf>	23cb: R_X86_64_PC32	.text+0x120b65c
-00df     23cf:	90                   	nop
-00e0     23d0:	e9 5e ff ff ff       	jmp    2333 <enter_s2idle_proper+0x43>
-00e5     23d5:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	23d6: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-00ea     23da:	90                   	nop
-00eb     23db:	e8 00 00 00 00       	call   23e0 <enter_s2idle_proper+0xf0>	23dc: R_X86_64_PC32	.text+0x120b65c
-00f0     23e0:	e8 00 00 00 00       	call   23e5 <enter_s2idle_proper+0xf5>	23e1: R_X86_64_PC32	.text+0x120b25c
-00f5     23e5:	90                   	nop
-00f6     23e6:	eb 86                	jmp    236e <enter_s2idle_proper+0x7e>
-00f8     23e8:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	23e9: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
-00fd     23ed:	fa                   	cli
-00fe     23ee:	e9 66 ff ff ff       	jmp    2359 <enter_s2idle_proper+0x69>
-0103     23f3:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-010e     23fe:	66 90                	xchg   %ax,%ax
+vim +508 drivers/gpu/drm/ast/ast_drv.h
+
+   506	
+   507	int ast_get_scanout_buffer(struct drm_device *dev,
+ > 508				   struct drm_scanout_buffer *sb);
+   509	
 
 -- 
 0-DAY CI Kernel Test Service
