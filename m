@@ -1,55 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE37D30B
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 09:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166E8D2F5
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 09:36:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfxve1yI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IUdO1RcL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1699090564; x=1730626564;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TKtrzNgMqDAKf1z08TGFrJnDze24jCCX69YqZL3GLDY=;
-  b=hfxve1yIbPOji2BKfbBY4+b3yZ4H0yhU34Fs2SUNAhLt9x0hom6QLGw2
-   sGbpE1G0N2k4kLxYcAgBnrpTw3p3T1jMdqd/gPkGoGaR8cVX/6cs+CLPf
-   NgLonv/WiGtD/E9bvgZLR6ZBuanL7pR6C1q7LB/RJqkWx/feBlWyFyDZf
-   5iDq+I1RzPgncHhtyiMY+eNnQzsPHoiarI5jnALiC2mYrBVqHaakfrPWy
-   jYOAW1Ay3ZqF2QNkO/J+9rliFs0OtGuQIdtDxocX6tdR5ZGuj6jh9byTt
-   J7IaBCPfVCNPxmhaBwtonSSvJzacPhqtAyeWsXSxUWEKWjVFeK89GxTM4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="392964678"
+  bh=p/vZ9aQJJ8vbDAzRwB2cAWFoPhpzbeHXMAy/cAJcjkw=;
+  b=IUdO1RcLLcRkDbf/pu5wiQJka9WjCtBEMdlEqw6dmfdPFF0s8DxMsJyg
+   H1YqaxENC+3di2FHj6gEibjN8Xh/CLPqjwQXv3rgCnKrOCA7isTMwVfF/
+   Q02JhLRijOcfcXrC9dbwUEFPM3PML0DGkTEskLLngciYds1YVaKeIAMZ7
+   5TWHMBuzjy58r0bdY0af7hov+98Uuax2+CkKHvlQXTIj0ZIIiTgawcWdL
+   csVIxIxzqnjJ8f8aVbtSSF74fh2znIteti7w4K2B5ncWkrdWK16lIknTE
+   Sfs5bwDqhDSpWnHTwe6XzFV+SSQoeSnN2UFaHch07cl2deIkLEZaB0V6u
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="475307851"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="392964678"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 02:36:02 -0700
+   d="scan'208";a="475307851"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 02:36:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="832256857"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="832256857"
+   d="scan'208";a="3159059"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 04 Nov 2023 02:35:58 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Nov 2023 02:35:58 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzD4O-0003jx-06;
-	Sat, 04 Nov 2023 09:35:56 +0000
-Date: Sat, 4 Nov 2023 17:34:52 +0800
+	id 1qzD4N-0003jr-1d;
+	Sat, 04 Nov 2023 09:35:55 +0000
+Date: Sat, 4 Nov 2023 17:35:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zheng Wang <zyytlz.wz@163.com>, aspriel@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, franky.lin@broadcom.com,
-	hante.meuleman@broadcom.com, kvalo@kernel.org,
-	johannes.berg@intel.com, marcan@marcan.st, linus.walleij@linaro.org,
-	jisoo.jang@yonsei.ac.kr, linuxlovemin@yonsei.ac.kr,
-	wataru.gohda@cypress.com, linux-wireless@vger.kernel.org,
-	brcm80211-dev-list.pdl@broadcom.com,
-	SHA-cyfmac-dev-list@infineon.com, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Zheng Wang <zyytlz.wz@163.com>
-Subject: Re: [PATCH] wifi: cfg80211: Fix use-after-free bug in
- brcmf_cfg80211_detach
-Message-ID: <202311041735.pCIzwiLF-lkp@intel.com>
-References: <20231104054709.716585-1-zyytlz.wz@163.com>
+To: ankita@nvidia.com, jgg@nvidia.com, alex.williamson@redhat.com,
+	yishaih@nvidia.com, shameerali.kolothum.thodi@huawei.com,
+	kevin.tian@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, aniketa@nvidia.com, cjia@nvidia.com,
+	kwankhede@nvidia.com, targupta@nvidia.com, vsethi@nvidia.com,
+	acurrid@nvidia.com, apopple@nvidia.com, jhubbard@nvidia.com,
+	danw@nvidia.com, anuaggarwal@nvidia.com, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v12 1/1] vfio/nvgpu: Add vfio pci variant module for
+ grace hopper
+Message-ID: <202311041743.tL7StQAH-lkp@intel.com>
+References: <20231015163047.20391-1-ankita@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,68 +56,163 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231104054709.716585-1-zyytlz.wz@163.com>
+In-Reply-To: <20231015163047.20391-1-ankita@nvidia.com>
 
-Hi Zheng,
+Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v6.6 next-20231103]
+[auto build test WARNING on awilliam-vfio/for-linus]
+[also build test WARNING on linus/master v6.6 next-20231103]
+[cannot apply to awilliam-vfio/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zheng-Wang/wifi-cfg80211-Fix-use-after-free-bug-in-brcmf_cfg80211_detach/20231104-135107
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20231104054709.716585-1-zyytlz.wz%40163.com
-patch subject: [PATCH] wifi: cfg80211: Fix use-after-free bug in brcmf_cfg80211_detach
-config: arc-randconfig-002-20231104 (https://download.01.org/0day-ci/archive/20231104/202311041735.pCIzwiLF-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041735.pCIzwiLF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/ankita-nvidia-com/vfio-nvgpu-Add-vfio-pci-variant-module-for-grace-hopper/20231017-131546
+base:   https://github.com/awilliam/linux-vfio.git for-linus
+patch link:    https://lore.kernel.org/r/20231015163047.20391-1-ankita%40nvidia.com
+patch subject: [PATCH v12 1/1] vfio/nvgpu: Add vfio pci variant module for grace hopper
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231104/202311041743.tL7StQAH-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041743.tL7StQAH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311041735.pCIzwiLF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311041743.tL7StQAH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c: In function 'brcmf_cfg80211_detach':
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:8436:34: error: passing argument 1 of 'cancel_delayed_work_sync' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    8436 |         cancel_delayed_work_sync(&cfg->escan_timeout_work);
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                  |
-         |                                  struct work_struct *
-   In file included from include/linux/mm_types.h:19,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:15,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/skbuff.h:17,
-                    from include/linux/if_ether.h:19,
-                    from include/linux/etherdevice.h:20,
-                    from drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:9:
-   include/linux/workqueue.h:511:59: note: expected 'struct delayed_work *' but argument is of type 'struct work_struct *'
-     511 | extern bool cancel_delayed_work_sync(struct delayed_work *dwork);
-         |                                      ~~~~~~~~~~~~~~~~~~~~~^~~~~
-   cc1: some warnings being treated as errors
+>> drivers/vfio/pci/nvgrace-gpu/main.c:226:9: warning: no previous prototype for 'nvgrace_gpu_read_mem' [-Wmissing-prototypes]
+     226 | ssize_t nvgrace_gpu_read_mem(void __user *buf, size_t count, loff_t *ppos,
+         |         ^~~~~~~~~~~~~~~~~~~~
+>> drivers/vfio/pci/nvgrace-gpu/main.c:298:9: warning: no previous prototype for 'nvgrace_gpu_write_mem' [-Wmissing-prototypes]
+     298 | ssize_t nvgrace_gpu_write_mem(size_t count, loff_t *ppos, const void __user *buf,
+         |         ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/cancel_delayed_work_sync +8436 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+vim +/nvgrace_gpu_read_mem +226 drivers/vfio/pci/nvgrace-gpu/main.c
 
-  8428	
-  8429	void brcmf_cfg80211_detach(struct brcmf_cfg80211_info *cfg)
-  8430	{
-  8431		if (!cfg)
-  8432			return;
-  8433	
-  8434		if (timer_pending(&cfg->escan_timeout))
-  8435			del_timer_sync(&cfg->escan_timeout);
-> 8436		cancel_delayed_work_sync(&cfg->escan_timeout_work);
+   214	
+   215	/*
+   216	 * Read count bytes from the device memory at an offset. The actual device
+   217	 * memory size (available) may not be a power-of-2. So the driver fakes
+   218	 * the size to a power-of-2 (reported) when exposing to a user space driver.
+   219	 *
+   220	 * Read request beyond the actual device size is filled with ~0, while
+   221	 * those beyond the actual reported size is skipped.
+   222	 *
+   223	 * A read from a negative or an offset greater than reported size, a negative
+   224	 * count are considered error conditions and returned with an -EINVAL.
+   225	 */
+ > 226	ssize_t nvgrace_gpu_read_mem(void __user *buf, size_t count, loff_t *ppos,
+   227				      struct nvgrace_gpu_vfio_pci_core_device *nvdev)
+   228	{
+   229		u64 offset = *ppos & VFIO_PCI_OFFSET_MASK;
+   230		size_t mem_count, i, bar_size = roundup_pow_of_two(nvdev->memlength);
+   231		u8 val = 0xFF;
+   232	
+   233		if (offset >= bar_size)
+   234			return -EINVAL;
+   235	
+   236		/* Clip short the read request beyond reported BAR size */
+   237		count = min(count, bar_size - (size_t)offset);
+   238	
+   239		/*
+   240		 * Determine how many bytes to be actually read from the device memory.
+   241		 * Read request beyond the actual device memory size is filled with ~0,
+   242		 * while those beyond the actual reported size is skipped.
+   243		 */
+   244		if (offset >= nvdev->memlength)
+   245			mem_count = 0;
+   246		else
+   247			mem_count = min(count, nvdev->memlength - (size_t)offset);
+   248	
+   249		/*
+   250		 * Handle read on the BAR2 region. Map to the target device memory
+   251		 * physical address and copy to the request read buffer.
+   252		 */
+   253		if (copy_to_user(buf, (u8 *)nvdev->memmap + offset, mem_count))
+   254			return -EFAULT;
+   255	
+   256		/*
+   257		 * Only the device memory present on the hardware is mapped, which may
+   258		 * not be power-of-2 aligned. A read to an offset beyond the device memory
+   259		 * size is filled with ~0.
+   260		 */
+   261		for (i = mem_count; i < count; i++)
+   262			put_user(val, (unsigned char __user *)(buf + i));
+   263	
+   264		*ppos += count;
+   265		return count;
+   266	}
+   267	
+   268	static ssize_t nvgrace_gpu_vfio_pci_read(struct vfio_device *core_vdev,
+   269						  char __user *buf, size_t count, loff_t *ppos)
+   270	{
+   271		unsigned int index = VFIO_PCI_OFFSET_TO_INDEX(*ppos);
+   272		struct nvgrace_gpu_vfio_pci_core_device *nvdev = container_of(
+   273			core_vdev, struct nvgrace_gpu_vfio_pci_core_device, core_device.vdev);
+   274		int ret;
+   275	
+   276		if (index == VFIO_PCI_BAR2_REGION_INDEX) {
+   277			ret = nvgrace_gpu_memmap(nvdev);
+   278			if (ret)
+   279				return ret;
+   280	
+   281			return nvgrace_gpu_read_mem(buf, count, ppos, nvdev);
+   282		}
+   283	
+   284		return vfio_pci_core_read(core_vdev, buf, count, ppos);
+   285	}
+   286	
+   287	/*
+   288	 * Write count bytes to the device memory at a given offset. The actual device
+   289	 * memory size (available) may not be a power-of-2. So the driver fakes the
+   290	 * size to a power-of-2 (reported) when exposing to a user space driver.
+   291	 *
+   292	 * Write request beyond the actual device size are dropped, while those
+   293	 * beyond the actual reported size are skipped entirely.
+   294	 *
+   295	 * A write to a negative or an offset greater than the reported size, a
+   296	 * negative count are considered error conditions and returned with an -EINVAL.
+   297	 */
+ > 298	ssize_t nvgrace_gpu_write_mem(size_t count, loff_t *ppos, const void __user *buf,
+   299				       struct nvgrace_gpu_vfio_pci_core_device *nvdev)
+   300	{
+   301		u64 offset = *ppos & VFIO_PCI_OFFSET_MASK;
+   302		size_t mem_count, bar_size = roundup_pow_of_two(nvdev->memlength);
+   303	
+   304		if (offset >= bar_size)
+   305			return -EINVAL;
+   306	
+   307		/* Clip short the write request beyond reported BAR size */
+   308		count = min(count, bar_size - (size_t)offset);
+   309	
+   310		/*
+   311		 * Determine how many bytes to be actually written to the device memory.
+   312		 * Do not write to the offset beyond available size.
+   313		 */
+   314		if (offset >= nvdev->memlength)
+   315			goto exitfn;
+   316	
+   317		mem_count = min(count, nvdev->memlength - (size_t)offset);
+   318	
+   319		/*
+   320		 * Only the device memory present on the hardware is mapped, which may
+   321		 * not be power-of-2 aligned. A write to the BAR2 region implies an
+   322		 * access outside the available device memory on the hardware. Drop
+   323		 * those write requests.
+   324		 */
+   325		if (copy_from_user((u8 *)nvdev->memmap + offset, buf, mem_count))
+   326			return -EFAULT;
+   327	
+   328	exitfn:
+   329		*ppos += count;
+   330		return count;
+   331	}
+   332	
 
 -- 
 0-DAY CI Kernel Test Service
