@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419F77472
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 08:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104F4C8E1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 09:35:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elriksPv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9o3Br38"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699086575; x=1730622575;
+  t=1699090560; x=1730626560;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iqzMjYTfNO/7da1AF7iwQ8RszAn8WkP5i+dBqn153yI=;
-  b=elriksPv4vVQDqRIfP+G2cR3NzQrNAqzdOwTu/FTBA81kf9B9USG2cvl
-   VoBdBXWL424bJ0kxuw+XEwkPn/UXcJx4Vxh+2yJ1XbzdQVekPZngFDa01
-   r8+HRQdBLZKNXPiCaz+fURivYM9ScEw/9aPPoS9h5nSGn3MMdQYd0e9OK
-   MnTEq0dvtFl0C+AQcPTU4XKmM5Q8QX6ubJ1AwuC0ZqwNZOLVadPyfXrb4
-   LRv0N9V5ZksZNmU6WHpDQqlno1qoJ0CVomGMtct8IHGzvk5d+g6+aKTVc
-   EH3JT2SN6beAUAqE/lacceQE8+/R3nnOmJf4FPEgo7DA2Knr9aJk3MNQS
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="379462723"
+  bh=5uyF9+HgS39a11AZWj9SwW9/OVuzZ/sByUPDsPJIKVw=;
+  b=f9o3Br38NKU/CFf1cvpgz2RlHQLTabg0pLQI+3y2/En2xQ6/Hx4zfSd8
+   4q86zxWO/O7tBxNU7l9IcGFU5QLDrjm70d53EDm7UgZk6hqagalBqUMr/
+   k9FwRk4Ls4zKatABi9VJouD0my4Rbrkw+R/ERq8TCW7YYU9f95WOOAN1W
+   s2YcVU1ttX1E4dFAn40IpwXZdK2+csAoG8SZvv1wAH0ulwKL+RLiM3yAV
+   WKmB6syX6paEvCNcNhBAs+GSNds4CKnC1Xq/txU59wPvs55okQk/SdRCH
+   D483mKdjkvlN8q18pgLWcIgXRhwU1pFRYfbAKhsQWLhapTOUnsPbzdo9t
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="475307847"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="379462723"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 01:29:34 -0700
+   d="scan'208";a="475307847"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 02:35:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="755383645"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="755383645"
+   d="scan'208";a="3159053"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 04 Nov 2023 01:29:32 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Nov 2023 02:35:58 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzC26-0003g8-23;
-	Sat, 04 Nov 2023 08:29:30 +0000
-Date: Sat, 4 Nov 2023 16:28:55 +0800
+	id 1qzD4N-0003jt-1n;
+	Sat, 04 Nov 2023 09:35:55 +0000
+Date: Sat, 4 Nov 2023 17:34:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [drm-xe:drm-xe-next 1015/1905]
- include/trace/../../drivers/gpu/drm/xe/xe_trace.h:35:42: warning: cast from
- pointer to integer of different size
-Message-ID: <202311041602.YYfF0B6U-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: arch/x86/kernel/apic/apic.c:2135: warning: Excess function parameter
+ 'regs' description in 'DEFINE_IDTENTRY_IRQ'
+Message-ID: <202311041727.4OfKWbk6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,154 +50,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   bfa43da8e1f181fe2f8b84b39cb8a86e54f43731
-commit: ea1dfd1fe8933f85ee3a2b3d6ad6b378d5b1a468 [1015/1905] drm/xe: Introduce a new DRM driver for Intel GPUs
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311041602.YYfF0B6U-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041602.YYfF0B6U-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   90b0c2b2edd1adff742c621e246562fbefa11b70
+commit: fa5e5c409213265da8a188b4a5e4e641b1382eb4 x86/entry: Use idtentry for interrupts
+date:   3 years, 5 months ago
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231104/202311041727.4OfKWbk6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041727.4OfKWbk6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311041602.YYfF0B6U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311041727.4OfKWbk6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/xe/xe_mmio.c:6:
-   drivers/gpu/drm/xe/xe_mmio.h: In function 'xe_mmio_write64':
-   drivers/gpu/drm/xe/xe_mmio.h:69:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
-      69 |         writeq(val, gt->mmio.regs + reg);
-         |         ^~~~~~
-         |         writel
-   drivers/gpu/drm/xe/xe_mmio.h: In function 'xe_mmio_read64':
-   drivers/gpu/drm/xe/xe_mmio.h:77:16: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
-      77 |         return readq(gt->mmio.regs + reg);
-         |                ^~~~~
-         |                readl
-   In file included from include/linux/device.h:15,
-                    from include/drm/drm_print.h:32,
-                    from include/drm/drm_mm.h:51,
-                    from include/drm/drm_suballoc.h:9,
-                    from drivers/gpu/drm/xe/xe_sa_types.h:8,
-                    from drivers/gpu/drm/xe/xe_gt_types.h:13,
-                    from drivers/gpu/drm/xe/xe_mmio.h:11:
-   drivers/gpu/drm/xe/xe_mmio.c: In function 'xe_mmio_probe_vram':
->> include/drm/drm_print.h:456:39: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     456 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-         |                                       ^~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
-     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   include/drm/drm_print.h:456:9: note: in expansion of macro 'dev_warn'
-     456 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-         |         ^~~~
-   include/drm/drm_print.h:466:9: note: in expansion of macro '__drm_printk'
-     466 |         __drm_printk((drm), warn,, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_mmio.c:226:17: note: in expansion of macro 'drm_warn'
-     226 |                 drm_warn(&xe->drm, "Restricting VRAM size to PCI resource size (0x%llx->0x%llx)\n",
-         |                 ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/trace/define_trace.h:102,
-                    from drivers/gpu/drm/xe/xe_trace.h:512,
-                    from drivers/gpu/drm/xe/xe_trace.c:8:
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_raw_output_xe_bo':
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:38:31: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-      38 |                     TP_printk("size=%ld, flags=0x%02x, vm=0x%016llx",
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:38:21: note: in expansion of macro 'TP_printk'
-      38 |                     TP_printk("size=%ld, flags=0x%02x, vm=0x%016llx",
-         |                     ^~~~~~~~~
-   In file included from include/trace/trace_events.h:237:
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:38:39: note: format string is defined here
-      38 |                     TP_printk("size=%ld, flags=0x%02x, vm=0x%016llx",
-         |                                     ~~^
-         |                                       |
-         |                                       long int
-         |                                     %d
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_bo':
->> include/trace/../../drivers/gpu/drm/xe/xe_trace.h:35:42: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-      35 |                            __entry->vm = (u64)bo->vm;
-         |                                          ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:32:21: note: in expansion of macro 'TP_fast_assign'
-      32 |                     TP_fast_assign(
-         |                     ^~~~~~~~~~~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_sched_job':
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:188:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     188 |                            __entry->fence = (u64)job->fence;
-         |                                             ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:181:21: note: in expansion of macro 'TP_fast_assign'
-     181 |                     TP_fast_assign(
-         |                     ^~~~~~~~~~~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_hw_fence':
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:275:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     275 |                            __entry->fence = (u64)fence;
-         |                                             ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:272:21: note: in expansion of macro 'TP_fast_assign'
-     272 |                     TP_fast_assign(
-         |                     ^~~~~~~~~~~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_vma':
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:315:43: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     315 |                            __entry->vma = (u64)vma;
-         |                                           ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:314:21: note: in expansion of macro 'TP_fast_assign'
-     314 |                     TP_fast_assign(
-         |                     ^~~~~~~~~~~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h: In function 'trace_event_raw_event_xe_vm':
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:412:42: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     412 |                            __entry->vm = (u64)vm;
-         |                                          ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/../../drivers/gpu/drm/xe/xe_trace.h:411:21: note: in expansion of macro 'TP_fast_assign'
-     411 |                     TP_fast_assign(
-         |                     ^~~~~~~~~~~~~~
+   arch/x86/kernel/apic/apic.c:2135: warning: Function parameter or member 'spurious_interrupt' not described in 'DEFINE_IDTENTRY_IRQ'
+>> arch/x86/kernel/apic/apic.c:2135: warning: Excess function parameter 'regs' description in 'DEFINE_IDTENTRY_IRQ'
+>> arch/x86/kernel/apic/apic.c:2135: warning: Excess function parameter 'vector' description in 'DEFINE_IDTENTRY_IRQ'
 
 
-vim +35 include/trace/../../drivers/gpu/drm/xe/xe_trace.h
+vim +2135 arch/x86/kernel/apic/apic.c
 
-    21	
-    22	DECLARE_EVENT_CLASS(xe_bo,
-    23			    TP_PROTO(struct xe_bo *bo),
-    24			    TP_ARGS(bo),
-    25	
-    26			    TP_STRUCT__entry(
-    27				     __field(size_t, size)
-    28				     __field(u32, flags)
-    29				     __field(u64, vm)
-    30				     ),
-    31	
-    32			    TP_fast_assign(
-    33				   __entry->size = bo->size;
-    34				   __entry->flags = bo->flags;
-  > 35				   __entry->vm = (u64)bo->vm;
-    36				   ),
-    37	
-    38			    TP_printk("size=%ld, flags=0x%02x, vm=0x%016llx",
-    39				      __entry->size, __entry->flags, __entry->vm)
-    40	);
-    41	
+c0104d38a740b2 arch/x86/kernel/apic/apic.c Yinghai Lu      2010-12-07  2118  
+^1da177e4c3f41 arch/x86_64/kernel/apic.c   Linus Torvalds  2005-04-16  2119  /*
+0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2120   * Local APIC interrupts
+^1da177e4c3f41 arch/x86_64/kernel/apic.c   Linus Torvalds  2005-04-16  2121   */
+^1da177e4c3f41 arch/x86_64/kernel/apic.c   Linus Torvalds  2005-04-16  2122  
+633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2123  /**
+fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2124   * spurious_interrupt - Catch all for interrupts raised on unused vectors
+633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2125   * @regs:	Pointer to pt_regs on stack
+fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2126   * @vector:	The vector number
+633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2127   *
+633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2128   * This is invoked from ASM entry code to catch all interrupts which
+633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2129   * trigger on an entry which is routed to the common_spurious idtentry
+633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2130   * point.
+633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2131   *
+633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2132   * Also called from smp_spurious_apic_interrupt().
+0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2133   */
+fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2134  DEFINE_IDTENTRY_IRQ(spurious_interrupt)
+^1da177e4c3f41 arch/x86_64/kernel/apic.c   Linus Torvalds  2005-04-16 @2135  {
+dc1528dd864a0b arch/x86/kernel/apic_64.c   Yinghai Lu      2008-08-24  2136  	u32 v;
+dc1528dd864a0b arch/x86/kernel/apic_64.c   Yinghai Lu      2008-08-24  2137  
+61069de7a3252b arch/x86/kernel/apic/apic.c Thomas Gleixner 2017-08-28  2138  	trace_spurious_apic_entry(vector);
+61069de7a3252b arch/x86/kernel/apic/apic.c Thomas Gleixner 2017-08-28  2139  
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2140  	inc_irq_stat(irq_spurious_count);
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2141  
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2142  	/*
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2143  	 * If this is a spurious interrupt then do not acknowledge
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2144  	 */
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2145  	if (vector == SPURIOUS_APIC_VECTOR) {
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2146  		/* See SDM vol 3 */
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2147  		pr_info("Spurious APIC interrupt (vector 0xFF) on CPU#%d, should never happen.\n",
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2148  			smp_processor_id());
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2149  		goto out;
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2150  	}
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2151  
+0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2152  	/*
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2153  	 * If it is a vectored one, verify it's set in the ISR. If set,
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2154  	 * acknowledge it.
+0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2155  	 */
+2414e021ac8d58 arch/x86/kernel/apic/apic.c Jan Beulich     2014-11-03  2156  	v = apic_read(APIC_ISR + ((vector & ~0x1f) >> 1));
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2157  	if (v & (1 << (vector & 0x1f))) {
+fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2158  		pr_info("Spurious interrupt (vector 0x%02x) on CPU#%d. Acked\n",
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2159  			vector, smp_processor_id());
+0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2160  		ack_APIC_irq();
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2161  	} else {
+fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2162  		pr_info("Spurious interrupt (vector 0x%02x) on CPU#%d. Not pending!\n",
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2163  			vector, smp_processor_id());
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2164  	}
+f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2165  out:
+2414e021ac8d58 arch/x86/kernel/apic/apic.c Jan Beulich     2014-11-03  2166  	trace_spurious_apic_exit(vector);
+0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2167  }
+c4d58cbd158dc9 arch/x86/kernel/apic_64.c   Thomas Gleixner 2007-10-12  2168  
+
+:::::: The code at line 2135 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
