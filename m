@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01AB15A3
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 02:35:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0729915B1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 03:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVOx5sa5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mavtRSEJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699065318; x=1730601318;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ANXimmF6XJCXmVchNXXU7UgX0wtbOl7piBWJQ5k+CJQ=;
-  b=AVOx5sa59cW0HkZBkq9kuxOSBG6zIw3u33HKdKJOu2pV5gQWDfH6fViQ
-   tx6842yxFU7dIc4/wrlF8QJveFOP0DyyehErwYQ//yilS2Eud17nIoifv
-   6owtMPDoDvg8H2AyJ8ueN6I2wsapESv9mlBwoyJyoZKm/W46vQntoZtwY
-   K4M74kwWOv10az/16ZvXvXKTtS6VWH1k/4olyB9k+k2QxwJLSkItiO1Cf
-   fw/VPGwirbpJmD2Si8z9rQxHmZol2K4zg7ccAg+OzCJEnr4AYjtA/AP/7
-   RvbJyy6Wp/RmWb9onnXzo/vZDapcXKg0c+iBQcsKy7e/6cNqDh4W0o1iR
+  t=1699067232; x=1730603232;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kp6xfIIrdFjYmJUFFDousyFuo5wgnc88TOBTl72/bik=;
+  b=mavtRSEJPpb5BU38bpZ/at+t4A3ExDA5yAouJoV+z6dKFAGflNOTN7aB
+   nN3rwawJwk946L31VthD8YSOGsQGkyI8Nu0eKXB56QQ1dns78Wt7O/Icz
+   pMcJRu+AGIwdwT8mltdKJ50T5apznY6ZM3kJoRRFgMkhr0bn5lzKbvRMN
+   xossByLm34KlKmo1U4W1w2+GnNUufl11YeKldDMpA/PILt0dinaHGRSgH
+   GWTFu12iLB4EamqR03HSUxsH6m9Mjp/WdPJZRCQHRPSw2j6JV17WgnAOa
+   x5uzhttsQMW+lPwswkBmW2V7+Y+4wBugujnZ8SwKbtOLSGcapx3Ixuw+c
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="455544661"
-X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="455544661"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 19:35:17 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="2011904"
+X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
+   d="scan'208";a="2011904"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 20:07:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="711695794"
-X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="711695794"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="878837030"
+X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
+   d="scan'208";a="878837030"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 03 Nov 2023 19:35:15 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 03 Nov 2023 20:07:09 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qz6VF-0003Gx-29;
-	Sat, 04 Nov 2023 02:35:13 +0000
-Date: Sat, 4 Nov 2023 10:34:19 +0800
+	id 1qz707-0003Jp-01;
+	Sat, 04 Nov 2023 03:07:07 +0000
+Date: Sat, 4 Nov 2023 11:06:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cindy Lu <lulu@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v1 2/8] Kconfig: Add the new file vhost/iommufd
-Message-ID: <202311041046.4d77udwY-lkp@intel.com>
-References: <20231103171641.1703146-3-lulu@redhat.com>
+To: Abhishek Naik <abhishek.naik@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Johannes Berg <johannes.berg@intel.com>,
+	Gregory Greenman <gregory.greenman@intel.com>
+Subject: drivers/net/wireless/intel/iwlwifi/mvm/debugfs.c:819:16: warning:
+ '%s' directive argument is null
+Message-ID: <202311041011.fAlcTFz5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,276 +51,221 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231103171641.1703146-3-lulu@redhat.com>
 
-Hi Cindy,
+Hi Abhishek,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.6 next-20231103]
-[cannot apply to mst-vhost/linux-next joro-iommu/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cindy-Lu/vhost-iommufd-Add-the-functions-support-iommufd/20231104-011948
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231103171641.1703146-3-lulu%40redhat.com
-patch subject: [RFC v1 2/8] Kconfig: Add the new file vhost/iommufd
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311041046.4d77udwY-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041046.4d77udwY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2c40c1c6adab90ee4660caf03722b3a3ec67767b
+commit: 9457077df49e2a637a1f1c3be42c14af604fa920 wifi: iwlwifi: mvm: Add debugfs to get TAS status
+date:   8 months ago
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311041011.fAlcTFz5-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041011.fAlcTFz5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311041046.4d77udwY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311041011.fAlcTFz5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_bind':
-   drivers/vhost/iommufd.c:19:26: error: 'const struct vdpa_config_ops' has no member named 'bind_iommufd'
-      19 |         if (!vdpa->config->bind_iommufd)
-         |                          ^~
-   drivers/vhost/iommufd.c:21:27: error: 'const struct vdpa_config_ops' has no member named 'bind_iommufd'
-      21 |         ret = vdpa->config->bind_iommufd(vdpa, ictx, device_id);
-         |                           ^~
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_unbind':
-   drivers/vhost/iommufd.c:32:27: error: 'const struct vdpa_config_ops' has no member named 'unbind_iommufd'; did you mean 'unbind_mm'?
-      32 |         if (vdpa->config->unbind_iommufd)
-         |                           ^~~~~~~~~~~~~~
-         |                           unbind_mm
-   drivers/vhost/iommufd.c:33:31: error: 'const struct vdpa_config_ops' has no member named 'unbind_iommufd'; did you mean 'unbind_mm'?
-      33 |                 vdpa->config->unbind_iommufd(vdpa);
-         |                               ^~~~~~~~~~~~~~
-         |                               unbind_mm
-   drivers/vhost/iommufd.c: At top level:
-   drivers/vhost/iommufd.c:36:5: warning: no previous prototype for 'vdpa_iommufd_physical_bind' [-Wmissing-prototypes]
-      36 | int vdpa_iommufd_physical_bind(struct vdpa_device *vdpa,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_physical_bind':
-   drivers/vhost/iommufd.c:45:13: error: 'struct vdpa_device' has no member named 'iommufd_device'
-      45 |         vdpa->iommufd_device = idev;
-         |             ^~
-   drivers/vhost/iommufd.c: At top level:
-   drivers/vhost/iommufd.c:50:6: warning: no previous prototype for 'vdpa_iommufd_physical_unbind' [-Wmissing-prototypes]
-      50 | void vdpa_iommufd_physical_unbind(struct vdpa_device *vdpa)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_physical_unbind':
-   drivers/vhost/iommufd.c:54:17: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-      54 |         if (vdpa->iommufd_attached) {
-         |                 ^~
-   drivers/vhost/iommufd.c:55:43: error: 'struct vdpa_device' has no member named 'iommufd_device'
-      55 |                 iommufd_device_detach(vdpa->iommufd_device);
-         |                                           ^~
-   drivers/vhost/iommufd.c:56:21: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-      56 |                 vdpa->iommufd_attached = false;
-         |                     ^~
-   drivers/vhost/iommufd.c:58:35: error: 'struct vdpa_device' has no member named 'iommufd_device'
-      58 |         iommufd_device_unbind(vdpa->iommufd_device);
-         |                                   ^~
-   drivers/vhost/iommufd.c:59:13: error: 'struct vdpa_device' has no member named 'iommufd_device'
-      59 |         vdpa->iommufd_device = NULL;
-         |             ^~
-   drivers/vhost/iommufd.c: At top level:
-   drivers/vhost/iommufd.c:63:5: warning: no previous prototype for 'vdpa_iommufd_physical_attach_ioas' [-Wmissing-prototypes]
-      63 | int vdpa_iommufd_physical_attach_ioas(struct vdpa_device *vdpa,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/alpha/include/asm/bug.h:23,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/alpha/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/vdpa.h:6,
-                    from drivers/vhost/iommufd.c:1:
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_physical_attach_ioas':
-   drivers/vhost/iommufd.c:70:26: error: 'struct vdpa_device' has no member named 'iommufd_device'
-      70 |         if (WARN_ON(!vdpa->iommufd_device))
-         |                          ^~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/vhost/iommufd.c:73:17: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-      73 |         if (vdpa->iommufd_attached)
-         |                 ^~
-   drivers/vhost/iommufd.c:74:49: error: 'struct vdpa_device' has no member named 'iommufd_device'
-      74 |                 rc = iommufd_device_replace(vdpa->iommufd_device,
-         |                                                 ^~
-   drivers/vhost/iommufd.c:77:48: error: 'struct vdpa_device' has no member named 'iommufd_device'
-      77 |                 rc = iommufd_device_attach(vdpa->iommufd_device,
-         |                                                ^~
-   drivers/vhost/iommufd.c:81:13: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-      81 |         vdpa->iommufd_attached = true;
-         |             ^~
-   drivers/vhost/iommufd.c: At top level:
-   drivers/vhost/iommufd.c:87:5: warning: no previous prototype for 'vdpa_iommufd_physical_detach_ioas' [-Wmissing-prototypes]
-      87 | int vdpa_iommufd_physical_detach_ioas(struct vdpa_device *vdpa)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_physical_detach_ioas':
-   drivers/vhost/iommufd.c:91:26: error: 'struct vdpa_device' has no member named 'iommufd_device'
-      91 |         if (WARN_ON(!vdpa->iommufd_device) || !vdpa->iommufd_attached)
-         |                          ^~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/vhost/iommufd.c:91:52: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-      91 |         if (WARN_ON(!vdpa->iommufd_device) || !vdpa->iommufd_attached)
-         |                                                    ^~
-   drivers/vhost/iommufd.c:94:35: error: 'struct vdpa_device' has no member named 'iommufd_device'
-      94 |         iommufd_device_detach(vdpa->iommufd_device);
-         |                                   ^~
-   drivers/vhost/iommufd.c:95:13: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-      95 |         vdpa->iommufd_attached = false;
-         |             ^~
-   drivers/vhost/iommufd.c: In function 'vdpa_emulated_unmap':
->> drivers/vhost/iommufd.c:103:29: warning: unused variable 'vdpa' [-Wunused-variable]
-     103 |         struct vdpa_device *vdpa = data;
-         |                             ^~~~
-   drivers/vhost/iommufd.c: At top level:
-   drivers/vhost/iommufd.c:114:5: warning: no previous prototype for 'vdpa_iommufd_emulated_bind' [-Wmissing-prototypes]
-     114 | int vdpa_iommufd_emulated_bind(struct vdpa_device *vdpa,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_emulated_bind':
-   drivers/vhost/iommufd.c:124:13: error: 'struct vdpa_device' has no member named 'iommufd_access'
-     124 |         vdpa->iommufd_access = user;
-         |             ^~
-   drivers/vhost/iommufd.c: At top level:
-   drivers/vhost/iommufd.c:129:6: warning: no previous prototype for 'vdpa_iommufd_emulated_unbind' [-Wmissing-prototypes]
-     129 | void vdpa_iommufd_emulated_unbind(struct vdpa_device *vdpa)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_emulated_unbind':
-   drivers/vhost/iommufd.c:133:17: error: 'struct vdpa_device' has no member named 'iommufd_access'
-     133 |         if (vdpa->iommufd_access) {
-         |                 ^~
-   drivers/vhost/iommufd.c:134:44: error: 'struct vdpa_device' has no member named 'iommufd_access'
-     134 |                 iommufd_access_destroy(vdpa->iommufd_access);
-         |                                            ^~
-   drivers/vhost/iommufd.c:135:21: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-     135 |                 vdpa->iommufd_attached = false;
-         |                     ^~
-   drivers/vhost/iommufd.c:136:21: error: 'struct vdpa_device' has no member named 'iommufd_access'
-     136 |                 vdpa->iommufd_access = NULL;
-         |                     ^~
-   drivers/vhost/iommufd.c: At top level:
-   drivers/vhost/iommufd.c:141:5: warning: no previous prototype for 'vdpa_iommufd_emulated_attach_ioas' [-Wmissing-prototypes]
-     141 | int vdpa_iommufd_emulated_attach_ioas(struct vdpa_device *vdpa,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_emulated_attach_ioas':
-   drivers/vhost/iommufd.c:150:17: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-     150 |         if (vdpa->iommufd_attached) {
-         |                 ^~
-   drivers/vhost/iommufd.c:151:49: error: 'struct vdpa_device' has no member named 'iommufd_access'
-     151 |                 rc = iommufd_access_replace(vdpa->iommufd_access,
-         |                                                 ^~
-   drivers/vhost/iommufd.c:154:48: error: 'struct vdpa_device' has no member named 'iommufd_access'
-     154 |                 rc = iommufd_access_attach(vdpa->iommufd_access,
-         |                                                ^~
-   drivers/vhost/iommufd.c:157:20: error: 'struct vdpa_device' has no member named 'iommufd_access'
-     157 |         user = vdpa->iommufd_access;
-         |                    ^~
-   drivers/vhost/iommufd.c:161:13: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-     161 |         vdpa->iommufd_attached = true;
-         |             ^~
->> drivers/vhost/iommufd.c:146:32: warning: variable 'user' set but not used [-Wunused-but-set-variable]
-     146 |         struct iommufd_access *user;
-         |                                ^~~~
-   drivers/vhost/iommufd.c: At top level:
-   drivers/vhost/iommufd.c:166:5: warning: no previous prototype for 'vdpa_iommufd_emulated_detach_ioas' [-Wmissing-prototypes]
-     166 | int vdpa_iommufd_emulated_detach_ioas(struct vdpa_device *vdpa)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/iommufd.c: In function 'vdpa_iommufd_emulated_detach_ioas':
-   drivers/vhost/iommufd.c:170:26: error: 'struct vdpa_device' has no member named 'iommufd_access'
-     170 |         if (WARN_ON(!vdpa->iommufd_access) || !vdpa->iommufd_attached)
-         |                          ^~
-   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
-     123 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   drivers/vhost/iommufd.c:170:52: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-     170 |         if (WARN_ON(!vdpa->iommufd_access) || !vdpa->iommufd_attached)
-         |                                                    ^~
-   drivers/vhost/iommufd.c:173:35: error: 'struct vdpa_device' has no member named 'iommufd_access'
-     173 |         iommufd_access_detach(vdpa->iommufd_access);
-         |                                   ^~
-   drivers/vhost/iommufd.c:174:13: error: 'struct vdpa_device' has no member named 'iommufd_attached'
-     174 |         vdpa->iommufd_attached = false;
-         |             ^~
+   drivers/net/wireless/intel/iwlwifi/mvm/debugfs.c: In function 'iwl_dbgfs_tas_get_status_read':
+>> drivers/net/wireless/intel/iwlwifi/mvm/debugfs.c:819:16: warning: '%s' directive argument is null [-Wformat-overflow=]
+     819 |         pos += scnprintf(pos, endpos - pos, "\nOEM name: %s\n",
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     820 |                          dmi_get_system_info(DMI_SYS_VENDOR));
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/vdpa +103 drivers/vhost/iommufd.c
+vim +819 drivers/net/wireless/intel/iwlwifi/mvm/debugfs.c
 
-5da69b20d552cc Cindy Lu 2023-11-04   99  
-5da69b20d552cc Cindy Lu 2023-11-04  100  static void vdpa_emulated_unmap(void *data, unsigned long iova,
-5da69b20d552cc Cindy Lu 2023-11-04  101  				unsigned long length)
-5da69b20d552cc Cindy Lu 2023-11-04  102  {
-5da69b20d552cc Cindy Lu 2023-11-04 @103  	struct vdpa_device *vdpa = data;
-5da69b20d552cc Cindy Lu 2023-11-04  104  	/* todo: need to unmap the iova-lenth in all ASID*/
-5da69b20d552cc Cindy Lu 2023-11-04  105  
-5da69b20d552cc Cindy Lu 2023-11-04  106  	//	vdpa->config->dma_unmap(vdpa, 0, iova, length);
-5da69b20d552cc Cindy Lu 2023-11-04  107  }
-5da69b20d552cc Cindy Lu 2023-11-04  108  
-5da69b20d552cc Cindy Lu 2023-11-04  109  static const struct iommufd_access_ops vdpa_user_ops = {
-5da69b20d552cc Cindy Lu 2023-11-04  110  	.needs_pin_pages = 1,
-5da69b20d552cc Cindy Lu 2023-11-04  111  	.unmap = vdpa_emulated_unmap,
-5da69b20d552cc Cindy Lu 2023-11-04  112  };
-5da69b20d552cc Cindy Lu 2023-11-04  113  
-5da69b20d552cc Cindy Lu 2023-11-04  114  int vdpa_iommufd_emulated_bind(struct vdpa_device *vdpa,
-5da69b20d552cc Cindy Lu 2023-11-04  115  			       struct iommufd_ctx *ictx, u32 *out_device_id)
-5da69b20d552cc Cindy Lu 2023-11-04  116  {
-5da69b20d552cc Cindy Lu 2023-11-04  117  	vhost_vdpa_lockdep_assert_held(vdpa);
-5da69b20d552cc Cindy Lu 2023-11-04  118  
-5da69b20d552cc Cindy Lu 2023-11-04  119  	struct iommufd_access *user;
-5da69b20d552cc Cindy Lu 2023-11-04  120  
-5da69b20d552cc Cindy Lu 2023-11-04  121  	user = iommufd_access_create(ictx, &vdpa_user_ops, vdpa, out_device_id);
-5da69b20d552cc Cindy Lu 2023-11-04  122  	if (IS_ERR(user))
-5da69b20d552cc Cindy Lu 2023-11-04  123  		return PTR_ERR(user);
-5da69b20d552cc Cindy Lu 2023-11-04  124  	vdpa->iommufd_access = user;
-5da69b20d552cc Cindy Lu 2023-11-04  125  	return 0;
-5da69b20d552cc Cindy Lu 2023-11-04  126  }
-5da69b20d552cc Cindy Lu 2023-11-04  127  EXPORT_SYMBOL_GPL(vdpa_iommufd_emulated_bind);
-5da69b20d552cc Cindy Lu 2023-11-04  128  
-5da69b20d552cc Cindy Lu 2023-11-04  129  void vdpa_iommufd_emulated_unbind(struct vdpa_device *vdpa)
-5da69b20d552cc Cindy Lu 2023-11-04  130  {
-5da69b20d552cc Cindy Lu 2023-11-04  131  	vhost_vdpa_lockdep_assert_held(vdpa);
-5da69b20d552cc Cindy Lu 2023-11-04  132  
-5da69b20d552cc Cindy Lu 2023-11-04  133  	if (vdpa->iommufd_access) {
-5da69b20d552cc Cindy Lu 2023-11-04  134  		iommufd_access_destroy(vdpa->iommufd_access);
-5da69b20d552cc Cindy Lu 2023-11-04  135  		vdpa->iommufd_attached = false;
-5da69b20d552cc Cindy Lu 2023-11-04  136  		vdpa->iommufd_access = NULL;
-5da69b20d552cc Cindy Lu 2023-11-04  137  	}
-5da69b20d552cc Cindy Lu 2023-11-04  138  }
-5da69b20d552cc Cindy Lu 2023-11-04  139  EXPORT_SYMBOL_GPL(vdpa_iommufd_emulated_unbind);
-5da69b20d552cc Cindy Lu 2023-11-04  140  
-5da69b20d552cc Cindy Lu 2023-11-04  141  int vdpa_iommufd_emulated_attach_ioas(struct vdpa_device *vdpa,
-5da69b20d552cc Cindy Lu 2023-11-04  142  				      u32 *iommufd_ioasid)
-5da69b20d552cc Cindy Lu 2023-11-04  143  {
-5da69b20d552cc Cindy Lu 2023-11-04  144  	int rc;
-5da69b20d552cc Cindy Lu 2023-11-04  145  
-5da69b20d552cc Cindy Lu 2023-11-04 @146  	struct iommufd_access *user;
-5da69b20d552cc Cindy Lu 2023-11-04  147  
-5da69b20d552cc Cindy Lu 2023-11-04  148  	vhost_vdpa_lockdep_assert_held(vdpa);
-5da69b20d552cc Cindy Lu 2023-11-04  149  
-5da69b20d552cc Cindy Lu 2023-11-04  150  	if (vdpa->iommufd_attached) {
-5da69b20d552cc Cindy Lu 2023-11-04  151  		rc = iommufd_access_replace(vdpa->iommufd_access,
-5da69b20d552cc Cindy Lu 2023-11-04  152  					    *iommufd_ioasid);
-5da69b20d552cc Cindy Lu 2023-11-04  153  	} else {
-5da69b20d552cc Cindy Lu 2023-11-04  154  		rc = iommufd_access_attach(vdpa->iommufd_access,
-5da69b20d552cc Cindy Lu 2023-11-04  155  					   *iommufd_ioasid);
-5da69b20d552cc Cindy Lu 2023-11-04  156  	}
-5da69b20d552cc Cindy Lu 2023-11-04  157  	user = vdpa->iommufd_access;
-5da69b20d552cc Cindy Lu 2023-11-04  158  
-5da69b20d552cc Cindy Lu 2023-11-04  159  	if (rc)
-5da69b20d552cc Cindy Lu 2023-11-04  160  		return rc;
-5da69b20d552cc Cindy Lu 2023-11-04  161  	vdpa->iommufd_attached = true;
-5da69b20d552cc Cindy Lu 2023-11-04  162  	return 0;
-5da69b20d552cc Cindy Lu 2023-11-04  163  }
-5da69b20d552cc Cindy Lu 2023-11-04  164  EXPORT_SYMBOL_GPL(vdpa_iommufd_emulated_attach_ioas);
-5da69b20d552cc Cindy Lu 2023-11-04  165  
+   718	
+   719	static ssize_t iwl_dbgfs_tas_get_status_read(struct file *file,
+   720						     char __user *user_buf,
+   721						     size_t count, loff_t *ppos)
+   722	{
+   723		struct iwl_mvm *mvm = file->private_data;
+   724		struct iwl_mvm_tas_status_resp tas_rsp;
+   725		struct iwl_mvm_tas_status_resp *rsp = &tas_rsp;
+   726		static const size_t bufsz = 1024;
+   727		char *buff, *pos, *endpos;
+   728		const char * const tas_dis_reason[TAS_DISABLED_REASON_MAX] = {
+   729			[TAS_DISABLED_DUE_TO_BIOS] =
+   730				"Due To BIOS",
+   731			[TAS_DISABLED_DUE_TO_SAR_6DBM] =
+   732				"Due To SAR Limit Less Than 6 dBm",
+   733			[TAS_DISABLED_REASON_INVALID] =
+   734				"N/A",
+   735		};
+   736		const char * const tas_current_status[TAS_DYNA_STATUS_MAX] = {
+   737			[TAS_DYNA_INACTIVE] = "INACTIVE",
+   738			[TAS_DYNA_INACTIVE_MVM_MODE] =
+   739				"inactive due to mvm mode",
+   740			[TAS_DYNA_INACTIVE_TRIGGER_MODE] =
+   741				"inactive due to trigger mode",
+   742			[TAS_DYNA_INACTIVE_BLOCK_LISTED] =
+   743				"inactive due to block listed",
+   744			[TAS_DYNA_INACTIVE_UHB_NON_US] =
+   745				"inactive due to uhb non US",
+   746			[TAS_DYNA_ACTIVE] = "ACTIVE",
+   747		};
+   748		struct iwl_host_cmd hcmd = {
+   749			.id = WIDE_ID(DEBUG_GROUP, GET_TAS_STATUS),
+   750			.flags = CMD_WANT_SKB,
+   751			.len = { 0, },
+   752			.data = { NULL, },
+   753		};
+   754		int ret, i, tmp;
+   755		bool tas_enabled = false;
+   756		unsigned long dyn_status;
+   757	
+   758		if (!iwl_mvm_firmware_running(mvm))
+   759			return -ENODEV;
+   760	
+   761		mutex_lock(&mvm->mutex);
+   762		ret = iwl_mvm_send_cmd(mvm, &hcmd);
+   763		mutex_unlock(&mvm->mutex);
+   764		if (ret < 0)
+   765			return ret;
+   766	
+   767		buff = kzalloc(bufsz, GFP_KERNEL);
+   768		if (!buff)
+   769			return -ENOMEM;
+   770		pos = buff;
+   771		endpos = pos + bufsz;
+   772	
+   773		rsp = (void *)hcmd.resp_pkt->data;
+   774	
+   775		pos += scnprintf(pos, endpos - pos, "TAS Conclusion:\n");
+   776		for (i = 0; i < rsp->in_dual_radio + 1; i++) {
+   777			if (rsp->tas_status_mac[i].band != TAS_LMAC_BAND_INVALID &&
+   778			    rsp->tas_status_mac[i].dynamic_status & BIT(TAS_DYNA_ACTIVE)) {
+   779				pos += scnprintf(pos, endpos - pos, "\tON for ");
+   780				switch (rsp->tas_status_mac[i].band) {
+   781				case TAS_LMAC_BAND_HB:
+   782					pos += scnprintf(pos, endpos - pos, "HB\n");
+   783					break;
+   784				case TAS_LMAC_BAND_LB:
+   785					pos += scnprintf(pos, endpos - pos, "LB\n");
+   786					break;
+   787				case TAS_LMAC_BAND_UHB:
+   788					pos += scnprintf(pos, endpos - pos, "UHB\n");
+   789					break;
+   790				case TAS_LMAC_BAND_INVALID:
+   791					pos += scnprintf(pos, endpos - pos,
+   792							 "INVALID BAND\n");
+   793					break;
+   794				default:
+   795					pos += scnprintf(pos, endpos - pos,
+   796							 "Unsupported band (%d)\n",
+   797							 rsp->tas_status_mac[i].band);
+   798					goto out;
+   799				}
+   800				tas_enabled = true;
+   801			}
+   802		}
+   803		if (!tas_enabled)
+   804			pos += scnprintf(pos, endpos - pos, "\tOFF\n");
+   805	
+   806		pos += scnprintf(pos, endpos - pos, "TAS Report\n");
+   807		pos += scnprintf(pos, endpos - pos, "TAS FW version: %d\n",
+   808				 rsp->tas_fw_version);
+   809		pos += scnprintf(pos, endpos - pos, "Is UHB enabled for USA?: %s\n",
+   810				 rsp->is_uhb_for_usa_enable ? "True" : "False");
+   811		pos += scnprintf(pos, endpos - pos, "Current MCC: 0x%x\n",
+   812				 le16_to_cpu(rsp->curr_mcc));
+   813	
+   814		pos += scnprintf(pos, endpos - pos, "Block list entries:");
+   815		for (i = 0; i < APCI_WTAS_BLACK_LIST_MAX; i++)
+   816			pos += scnprintf(pos, endpos - pos, " 0x%x",
+   817					 le16_to_cpu(rsp->block_list[i]));
+   818	
+ > 819		pos += scnprintf(pos, endpos - pos, "\nOEM name: %s\n",
+   820				 dmi_get_system_info(DMI_SYS_VENDOR));
+   821		pos += scnprintf(pos, endpos - pos, "\tVendor In Approved List: %s\n",
+   822				 iwl_mvm_is_vendor_in_approved_list() ? "YES" : "NO");
+   823		pos += scnprintf(pos, endpos - pos,
+   824				 "\tDo TAS Support Dual Radio?: %s\n",
+   825				 rsp->in_dual_radio ? "TRUE" : "FALSE");
+   826	
+   827		for (i = 0; i < rsp->in_dual_radio + 1; i++) {
+   828			if (rsp->tas_status_mac[i].static_status == 0) {
+   829				pos += scnprintf(pos, endpos - pos,
+   830						 "Static status: disabled\n");
+   831				pos += scnprintf(pos, endpos - pos,
+   832						 "Static disabled reason: %s (0)\n",
+   833						 tas_dis_reason[0]);
+   834				goto out;
+   835			}
+   836	
+   837			pos += scnprintf(pos, endpos - pos, "TAS status for ");
+   838			switch (rsp->tas_status_mac[i].band) {
+   839			case TAS_LMAC_BAND_HB:
+   840				pos += scnprintf(pos, endpos - pos, "High band\n");
+   841				break;
+   842			case TAS_LMAC_BAND_LB:
+   843				pos += scnprintf(pos, endpos - pos, "Low band\n");
+   844				break;
+   845			case TAS_LMAC_BAND_UHB:
+   846				pos += scnprintf(pos, endpos - pos,
+   847						 "Ultra high band\n");
+   848				break;
+   849			case TAS_LMAC_BAND_INVALID:
+   850				pos += scnprintf(pos, endpos - pos,
+   851						 "INVALID band\n");
+   852				break;
+   853			default:
+   854				pos += scnprintf(pos, endpos - pos,
+   855						 "Unsupported band (%d)\n",
+   856						 rsp->tas_status_mac[i].band);
+   857				goto out;
+   858			}
+   859			pos += scnprintf(pos, endpos - pos, "Static status: %sabled\n",
+   860					 rsp->tas_status_mac[i].static_status ?
+   861					 "En" : "Dis");
+   862			pos += scnprintf(pos, endpos - pos,
+   863					 "\tStatic Disabled Reason: ");
+   864			if (rsp->tas_status_mac[i].static_dis_reason < TAS_DISABLED_REASON_MAX)
+   865				pos += scnprintf(pos, endpos - pos, "%s (%d)\n",
+   866						 tas_dis_reason[rsp->tas_status_mac[i].static_dis_reason],
+   867						 rsp->tas_status_mac[i].static_dis_reason);
+   868			else
+   869				pos += scnprintf(pos, endpos - pos,
+   870						 "unsupported value (%d)\n",
+   871						 rsp->tas_status_mac[i].static_dis_reason);
+   872	
+   873			pos += scnprintf(pos, endpos - pos, "Dynamic status:\n");
+   874			dyn_status = (rsp->tas_status_mac[i].dynamic_status);
+   875			for_each_set_bit(tmp, &dyn_status, sizeof(dyn_status)) {
+   876				if (tmp >= 0 && tmp < TAS_DYNA_STATUS_MAX)
+   877					pos += scnprintf(pos, endpos - pos,
+   878							 "\t%s (%d)\n",
+   879							 tas_current_status[tmp], tmp);
+   880			}
+   881	
+   882			pos += scnprintf(pos, endpos - pos,
+   883					 "Is near disconnection?: %s\n",
+   884					 rsp->tas_status_mac[i].near_disconnection ?
+   885					 "True" : "False");
+   886			tmp = le16_to_cpu(rsp->tas_status_mac[i].max_reg_pwr_limit);
+   887			pos += scnprintf(pos, endpos - pos,
+   888					 "Max. regulatory pwr limit (dBm): %d.%03d\n",
+   889					 tmp / 8, 125 * (tmp % 8));
+   890			tmp = le16_to_cpu(rsp->tas_status_mac[i].sar_limit);
+   891			pos += scnprintf(pos, endpos - pos,
+   892					 "SAR limit (dBm): %d.%03d\n",
+   893					 tmp / 8, 125 * (tmp % 8));
+   894		}
+   895	
+   896	out:
+   897		ret = simple_read_from_buffer(user_buf, count, ppos, buff, pos - buff);
+   898		kfree(buff);
+   899		iwl_free_resp(&hcmd);
+   900		return ret;
+   901	}
+   902	
 
 -- 
 0-DAY CI Kernel Test Service
