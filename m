@@ -1,141 +1,102 @@
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103A5156E8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 11:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6669B8C11
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 11:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MChX6MU6"
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-7ac7b2b1e99so107064339f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Nov 2023 04:33:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699097631; x=1699702431; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u1unSOhmm2Wdrkotg5oMVcVzXjBgM2cS465ES0k4jZY=;
-        b=MChX6MU6x99000C2cAtkW/FHr6zVNkT10/L4QRY3kwJPGStju7krDrwkxZ47wRJ9ox
-         qVxcsan0an+ftqLJi1eVkC0aKqGVcneJLkfpVhMn0Ws1DyPX7Hv9m86e4bTcQLLs258h
-         NlUTrRCVxwj82mCwtSrTYjTZvi1YmbadgJfgM9MrwRYAf/VuGAn3zDaLJlb/0cMZHgwP
-         OnrQpJMghgZVS2LD9AnZCrAGA5ahPJNmLjoxLRoF1htSB/IvVlByGQCYB3sb9rmvR4do
-         idTdHiZFXBNvbDxxfagFo7rg2eo6UWNuLg8RIeczp4fdOzIeO05M6nnigKQnED8EBMsn
-         01Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699097631; x=1699702431;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u1unSOhmm2Wdrkotg5oMVcVzXjBgM2cS465ES0k4jZY=;
-        b=eBafxNyNk0jWm8SZXRERCkbzgJwrxaYbHdA9HW8xoTPtM7J7RaMHLtUQVfvH4ewLxa
-         9oIHT3QTCiw6sPpcXTghHwnpmcvadZ00eHhr5FsroFjXNQkuaHN565v9e6m17lDvg+ww
-         HXMe9n1LfMCa2l8wfUFzUR9PxV0ciSem2lw/83YrtqWdhuhDT61rcIslTioKdExa5dO0
-         BUCMu9CnRbfbmI8UcwyFarJgxyQTfNAPUmzQuetmC8VXOARevJG/vp1qFn6eHGIfpTTO
-         1l24CiAoXdQtYG9LLsR9/L9ZP7qSNiN+OUHXJ4ydFbeFkZuSBB1nz7znGhPOLuIi6Al+
-         srNw==
-X-Gm-Message-State: AOJu0YyCoHitTGqhVlHMIgEORKVFUcBr/q3gTATWksZk2eGtuj0OM8tk
-	fBXOxADs6nth0anjwB9fbsE=
-X-Google-Smtp-Source: AGHT+IHfkBqDHcaXI13I92jFq4qe3R1jf5ec6iYP0G/J/Ox9Y1sauYyZzUUWFb+D/sypQGu+WI6viA==
-X-Received: by 2002:a05:6602:2acf:b0:787:ff98:c38c with SMTP id m15-20020a0566022acf00b00787ff98c38cmr32189338iov.10.1699097631080;
-        Sat, 04 Nov 2023 04:33:51 -0700 (PDT)
-Received: from localhost.localdomain ([182.225.11.211])
-        by smtp.gmail.com with ESMTPSA id v10-20020a62c30a000000b00692cb1224casm2921823pfg.183.2023.11.04.04.33.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Nov 2023 04:33:50 -0700 (PDT)
-From: Dongmin Lee <ldmldm05@gmail.com>
-To: akpm@linux-foundation.org,
-	lkp@intel.com
-Cc: ldmldm05@gmail.com,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: [PATCH v2] kernel/reboot: Explicitly notify if halt occurred instead of power off
-Date: Sat,  4 Nov 2023 20:33:20 +0900
-Message-Id: <20231104113320.72440-1-ldmldm05@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-145)
-In-Reply-To: <202311040832.yiyrijgk-lkp@intel.com>
-References: <202311040832.yiyrijgk-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dKSXAmRz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699097812; x=1730633812;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hgNmG6QoRL9gNamXdWgGb/TBVbekOwyvAbGOW8xPsQ0=;
+  b=dKSXAmRzWnwFT2LLNZET6bkj2dgzutDSlRgiUR4iYTO5JG+wRd8Fdg9g
+   iM9cmKf4y93sq6n9FjZdiTHI+IagvlqBZw1PC60SiAzUTdSQBOTBeRs6a
+   tpP09j7Zk1nQWafO4Yda1iTXnUAsYSDe7idleU6mphua4+RGSX0pfcKjj
+   voa57Vtn5JQk10s9Mmc4AwLLFMPDDOXNz8eo8xpsCid6XFvpxnAGdDbmX
+   HmEV99OKOfyv1zP++0Aaq0LHYPhkSdZMl1H+W43+j4Nnt4gXDcRAq0FFV
+   +9QlNiAag4HxjDy41IKhvMYZ0HVTGeHu0Dda8sStZhNtLznJazKQ5MX4B
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="391948532"
+X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
+   d="scan'208";a="391948532"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 04:36:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="905608007"
+X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
+   d="scan'208";a="905608007"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Nov 2023 04:36:50 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qzExM-0004AW-1L;
+	Sat, 04 Nov 2023 11:36:48 +0000
+Date: Sat, 4 Nov 2023 19:36:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:rmap_id 8/18]
+ include/linux/atomic_seqcount.h:64:2: error: #error "raw_atomic_seqcount_t
+ does not support such large CONFIG_NR_CPUS"
+Message-ID: <202311041902.6fGFeH3R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When kernel_can_power_off() returns false, and reboot has called with
-LINUX_REBOOT_CMD_POWER_OFF, kernel_halt() will be initiated instead of
-actual power off function.
+tree:   https://github.com/davidhildenbrand/linux rmap_id
+head:   d9a3c96499542e9a98d83a44b896e1431f5c928e
+commit: e7155be62b1ddc92a917939acc17579d8be155cb [8/18] mm/rmap_id: track MMs that map a partially-mappable folio using rmap IDs
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20231104/202311041902.6fGFeH3R-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041902.6fGFeH3R-lkp@intel.com/reproduce)
 
-However, in this situation, Kernel never explicitly notifies user that
-system halted instead of requested power off.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311041902.6fGFeH3R-lkp@intel.com/
 
-Since halt and power off perform different behavior, and user initiated
-reboot call with power off command, not halt, This could be unintended
-behavior to user, like this:
+All errors (new ones prefixed by >>):
 
-~ # poweroff -f
-[    3.581482] reboot: System halted
+   In file included from include/linux/mm_types.h:21,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from arch/riscv/kernel/asm-offsets.c:10:
+>> include/linux/atomic_seqcount.h:64:2: error: #error "raw_atomic_seqcount_t does not support such large CONFIG_NR_CPUS"
+      64 | #error "raw_atomic_seqcount_t does not support such large CONFIG_NR_CPUS"
+         |  ^~~~~
+   make[3]: *** [scripts/Makefile.build:116: arch/riscv/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1202: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-Therefore, this explicitly notifies user that poweroff is not available,
-and halting has been occured as an alternative behavior instead:
 
-~ # poweroff -f
-[    4.123668] reboot: Power off not available: System halted instead
+vim +64 include/linux/atomic_seqcount.h
 
-Signed-off-by: Dongmin Lee <ldmldm05@gmail.com>
----
-v1->v2:
- - changed new variable poweroff_fallback_to_halt to static bool as per
-   kernel test robot's sparse warning notification.
- - fixed minor coding style issue
+8dce88b90ad3c5 David Hildenbrand 2023-10-24  62  
+8dce88b90ad3c5 David Hildenbrand 2023-10-24  63  #if CONFIG_NR_CPUS >= ATOMIC_SEQCOUNT_SHARED_WRITERS_OVERFLOW
+8dce88b90ad3c5 David Hildenbrand 2023-10-24 @64  #error "raw_atomic_seqcount_t does not support such large CONFIG_NR_CPUS"
+8dce88b90ad3c5 David Hildenbrand 2023-10-24  65  #endif
+8dce88b90ad3c5 David Hildenbrand 2023-10-24  66  
 
- kernel/reboot.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+:::::: The code at line 64 was first introduced by commit
+:::::: 8dce88b90ad3c5d041e1c3a99c03c2676c9ba490 atomic_seqcount: new atomic seqcount to support concurrent writers
 
-diff --git a/kernel/reboot.c b/kernel/reboot.c
-index 395a0ea3c7a8..34ea519e3d94 100644
---- a/kernel/reboot.c
-+++ b/kernel/reboot.c
-@@ -58,6 +58,13 @@ struct sys_off_handler {
- 	struct device *dev;
- };
- 
-+/*
-+ * This variable is used to indicate if a halt initiated instead when
-+ * reboot call is invoked with LINUX_REBOOT_CMD_POWER_OFF, but system
-+ * cannot be powered off. This allowes kernel_halt() to notify that.
-+ */
-+static bool poweroff_fallback_to_halt;
-+
- /*
-  * Temporary stub that prevents linkage failure while we're in process
-  * of removing all uses of legacy pm_power_off() around the kernel.
-@@ -297,7 +304,10 @@ void kernel_halt(void)
- 	kernel_shutdown_prepare(SYSTEM_HALT);
- 	migrate_to_reboot_cpu();
- 	syscore_shutdown();
--	pr_emerg("System halted\n");
-+	if (poweroff_fallback_to_halt)
-+		pr_emerg("Power off not available: System halted instead\n");
-+	else
-+		pr_emerg("System halted\n");
- 	kmsg_dump(KMSG_DUMP_SHUTDOWN);
- 	machine_halt();
- }
-@@ -732,8 +742,10 @@ SYSCALL_DEFINE4(reboot, int, magic1, int, magic2, unsigned int, cmd,
- 	/* Instead of trying to make the power_off code look like
- 	 * halt when pm_power_off is not set do it the easy way.
- 	 */
--	if ((cmd == LINUX_REBOOT_CMD_POWER_OFF) && !kernel_can_power_off())
-+	if ((cmd == LINUX_REBOOT_CMD_POWER_OFF) && !kernel_can_power_off()) {
-+		poweroff_fallback_to_halt = true;
- 		cmd = LINUX_REBOOT_CMD_HALT;
-+	}
- 
- 	mutex_lock(&system_transition_mutex);
- 	switch (cmd) {
+:::::: TO: David Hildenbrand <david@redhat.com>
+:::::: CC: David Hildenbrand <david@redhat.com>
 
-base-commit: bc3012f4e3a9765de81f454cb8f9bb16aafc6ff5
 -- 
-2.39.3 (Apple Git-145)
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
