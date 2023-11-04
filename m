@@ -1,47 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3253F9FB
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 15:18:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722B2F9FB
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 15:19:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qm4fWljQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jk3fi7P9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699111120; x=1730647120;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4c8uMfCaHE7w4zWqd32BrAtsoXypgSMmnLO6JTE2VFQ=;
-  b=Qm4fWljQiSCvq0m5vA3m53WK/wqOhHpHaw0PfVzwYyJQjdl+BHf505Qw
-   cEQJmDqJoixiOLBE7Tmu5PwMEm0dW7Fx7p6BWixP4AQjYVpljx1MEdtO4
-   6tWZ2v+WLWEyt/rU16W8OeHZ07Y23lkv0VE8O6C6kt4ugJNWTOOKdz2p1
-   NQD2i9uH4VCtP5qzOQv9r17yvj3BZosVsc2OlsX1dI2XuF1dkG4vXCKWY
-   WttEVMHdAOVTdTLS1IbHm1mg4EHyAZh+7cHKdv7hKFxS/4I9LU5bdvT4Z
-   vomaGGx7MgIIhjvY4SiAz0GQ1k17SsbX55gncsm4OMKASJ9OPyvHhUEG3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="420208353"
+  t=1699111183; x=1730647183;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9kTJouWlfB3X4L8wqzWu8FVlY2ZnZtX7+kHFsCc/oSY=;
+  b=Jk3fi7P9L1Ibkdjl9IBzOdp6vRhFv46pqayP6suRNR/muxtu+CdmPGqw
+   SqjPXOotUtNmrB79JzMxZ80JuLZSsT8SjokTDnzjmFL7xpGCof9mvwCMD
+   kKYj0r77gJ0f09a+r04+sSTBQce7u1HoGpp274GR8w0/l//pvdTCmY//e
+   LW7uvABnzX/Of0FfEaoAoeWVs9m4flnOhmp0xj33OF8atvf6mre6RQplo
+   glup4lQ+7HdlF4nk04U75gkMMIwlfvalh/E3PxpdvByQzbkPY+znPS01Q
+   bWXHWgP1CD+e0I53TeYrDPPZKQop6I01OguBYDFss955A5ef7pN2/TXuD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="453391108"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="420208353"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 08:18:39 -0700
+   d="scan'208";a="453391108"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 08:19:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="885484108"
 X-IronPort-AV: E=Sophos;i="6.03,277,1694761200"; 
-   d="scan'208";a="885484108"
+   d="scan'208";a="9668703"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Nov 2023 08:18:38 -0700
+  by orviesa001.jf.intel.com with ESMTP; 04 Nov 2023 08:19:39 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzIQ0-0004VU-0r;
-	Sat, 04 Nov 2023 15:18:36 +0000
-Date: Sat, 4 Nov 2023 23:17:57 +0800
+	id 1qzIQy-0004VY-2H;
+	Sat, 04 Nov 2023 15:19:36 +0000
+Date: Sat, 4 Nov 2023 23:18:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kevin Hilman <khilman@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [khilman:wip/ti-genpd-grouping 1/1]
- drivers/genpd/ti/ti_sci_pm_domains.c:34: warning: Function parameter or
- member 'genpd' not described in 'ti_sci_genpd_provider'
-Message-ID: <202311042319.KskRAIU0-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+	Vladimir Oltean <olteanv@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH net 4/4] net: ethernet: cortina: Handle large frames
+Message-ID: <202311042310.Kl043sv2-lkp@intel.com>
+References: <20231104-gemini-largeframe-fix-v1-4-9c5513f22f33@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,50 +57,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231104-gemini-largeframe-fix-v1-4-9c5513f22f33@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/khilman/linux.git wip/ti-genpd-grouping
-head:   352a1b98d79884d2279ed03643bc1ada9d1cb361
-commit: 352a1b98d79884d2279ed03643bc1ada9d1cb361 [1/1] WIP: TI SCI: use subdomains for MAIN, MCU, WKUP
-config: arm-randconfig-001-20231104 (https://download.01.org/0day-ci/archive/20231104/202311042319.KskRAIU0-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311042319.KskRAIU0-lkp@intel.com/reproduce)
+Hi Linus,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 90b0c2b2edd1adff742c621e246562fbefa11b70]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/net-ethernet-cortina-Fix-MTU-max-setting/20231104-204432
+base:   90b0c2b2edd1adff742c621e246562fbefa11b70
+patch link:    https://lore.kernel.org/r/20231104-gemini-largeframe-fix-v1-4-9c5513f22f33%40linaro.org
+patch subject: [PATCH net 4/4] net: ethernet: cortina: Handle large frames
+config: arc-randconfig-001-20231104 (https://download.01.org/0day-ci/archive/20231104/202311042310.Kl043sv2-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311042310.Kl043sv2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311042319.KskRAIU0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311042310.Kl043sv2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/genpd/ti/ti_sci_pm_domains.c:34: warning: Function parameter or member 'genpd' not described in 'ti_sci_genpd_provider'
+   drivers/net/ethernet/cortina/gemini.c: In function 'gmac_map_tx_bufs':
+>> drivers/net/ethernet/cortina/gemini.c:1148:13: warning: unused variable 'ret' [-Wunused-variable]
+    1148 |         int ret;
+         |             ^~~
 
 
-vim +34 drivers/genpd/ti/ti_sci_pm_domains.c
+vim +/ret +1148 drivers/net/ethernet/cortina/gemini.c
 
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c   Dave Gerlach 2017-04-04  18  
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c   Dave Gerlach 2017-04-04  19  /**
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  20   * struct ti_sci_genpd_provider: holds common TI SCI genpd provider data
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  21   * @ti_sci: handle to TI SCI protocol driver that provides ops to
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  22   *	    communicate with system control processor.
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  23   * @dev: pointer to dev for the driver for devm allocs
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  24   * @pd_list: list of all the power domains on the device
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  25   * @data: onecell data for genpd core
-352a1b98d79884 drivers/genpd/ti/ti_sci_pm_domains.c Kevin Hilman 2023-10-02  26   * @pd: generic_pm_domain for use with the genpd framework
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c   Dave Gerlach 2017-04-04  27   */
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  28  struct ti_sci_genpd_provider {
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  29  	const struct ti_sci_handle *ti_sci;
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  30  	struct device *dev;
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  31  	struct list_head pd_list;
-efa5c01cd7ee20 drivers/soc/ti/ti_sci_pm_domains.c   Tero Kristo  2020-09-11  32  	struct genpd_onecell_data data;
-352a1b98d79884 drivers/genpd/ti/ti_sci_pm_domains.c Kevin Hilman 2023-10-02  33  	struct generic_pm_domain genpd;
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c   Dave Gerlach 2017-04-04 @34  };
-52835d59fc6cc7 drivers/soc/ti/ti_sci_pm_domains.c   Dave Gerlach 2017-04-04  35  
-
-:::::: The code at line 34 was first introduced by commit
-:::::: 52835d59fc6cc7f3c3cfdb4a194ddc9ebd6c0c31 soc: ti: Add ti_sci_pm_domains driver
-
-:::::: TO: Dave Gerlach <d-gerlach@ti.com>
-:::::: CC: Santosh Shilimkar <ssantosh@kernel.org>
+  1132	
+  1133	static int gmac_map_tx_bufs(struct net_device *netdev, struct sk_buff *skb,
+  1134				    struct gmac_txq *txq, unsigned short *desc)
+  1135	{
+  1136		struct gemini_ethernet_port *port = netdev_priv(netdev);
+  1137		struct skb_shared_info *skb_si =  skb_shinfo(skb);
+  1138		unsigned short m = (1 << port->txq_order) - 1;
+  1139		short frag, last_frag = skb_si->nr_frags - 1;
+  1140		struct gemini_ethernet *geth = port->geth;
+  1141		unsigned int word1, word3, buflen;
+  1142		unsigned short w = *desc;
+  1143		struct gmac_txdesc *txd;
+  1144		skb_frag_t *skb_frag;
+  1145		dma_addr_t mapping;
+  1146		unsigned short mtu;
+  1147		void *buffer;
+> 1148		int ret;
+  1149	
+  1150		mtu  = ETH_HLEN;
+  1151		mtu += netdev->mtu;
+  1152		if (skb->protocol == htons(ETH_P_8021Q))
+  1153			mtu += VLAN_HLEN;
+  1154	
+  1155		if (mtu > MTU_SIZE_BIT_MASK) {
+  1156			netdev_err(netdev, "%s: MTU too big, max size 2047 bytes, capped\n", __func__);
+  1157			mtu = MTU_SIZE_BIT_MASK;
+  1158		}
+  1159	
+  1160		if (skb->len > 65535) {
+  1161			/* The field for length is only 16 bits */
+  1162			netdev_err(netdev, "%s: frame too big, max size 65535 bytes\n", __func__);
+  1163			return -EINVAL;
+  1164		}
+  1165	
+  1166		word1 = skb->len;
+  1167		word3 = SOF_BIT;
+  1168	
+  1169		if (word1 > mtu) {
+  1170			word1 |= TSS_MTU_ENABLE_BIT;
+  1171			word3 |= mtu;
+  1172		}
+  1173	
+  1174		if (skb->len >= ETH_FRAME_LEN) {
+  1175			/* Hardware offloaded checksumming isn't working on frames
+  1176			 * bigger than 1514 bytes. Perhaps the buffer is only 1518
+  1177			 * bytes fitting mach a normal frame and a checksum?
+  1178			 * Just bypass on bigger frames.
+  1179			 */
+  1180			word1 |= TSS_BYPASS_BIT;
+  1181		} else if (skb->ip_summed != CHECKSUM_NONE) {
+  1182			int tcp = 0;
+  1183	
+  1184			if (skb->protocol == htons(ETH_P_IP)) {
+  1185				word1 |= TSS_IP_CHKSUM_BIT;
+  1186				tcp = ip_hdr(skb)->protocol == IPPROTO_TCP;
+  1187			} else { /* IPv6 */
+  1188				word1 |= TSS_IPV6_ENABLE_BIT;
+  1189				tcp = ipv6_hdr(skb)->nexthdr == IPPROTO_TCP;
+  1190			}
+  1191	
+  1192			word1 |= tcp ? TSS_TCP_CHKSUM_BIT : TSS_UDP_CHKSUM_BIT;
+  1193		}
+  1194	
+  1195		frag = -1;
+  1196		while (frag <= last_frag) {
+  1197			if (frag == -1) {
+  1198				buffer = skb->data;
+  1199				buflen = skb_headlen(skb);
+  1200			} else {
+  1201				skb_frag = skb_si->frags + frag;
+  1202				buffer = skb_frag_address(skb_frag);
+  1203				buflen = skb_frag_size(skb_frag);
+  1204			}
+  1205	
+  1206			if (frag == last_frag) {
+  1207				word3 |= EOF_BIT;
+  1208				txq->skb[w] = skb;
+  1209			}
+  1210	
+  1211			mapping = dma_map_single(geth->dev, buffer, buflen,
+  1212						 DMA_TO_DEVICE);
+  1213			if (dma_mapping_error(geth->dev, mapping))
+  1214				goto map_error;
+  1215	
+  1216			txd = txq->ring + w;
+  1217			txd->word0.bits32 = buflen;
+  1218			txd->word1.bits32 = word1;
+  1219			txd->word2.buf_adr = mapping;
+  1220			txd->word3.bits32 = word3;
+  1221	
+  1222			word3 &= MTU_SIZE_BIT_MASK;
+  1223			w++;
+  1224			w &= m;
+  1225			frag++;
+  1226		}
+  1227	
+  1228		*desc = w;
+  1229		return 0;
+  1230	
+  1231	map_error:
+  1232		while (w != *desc) {
+  1233			w--;
+  1234			w &= m;
+  1235	
+  1236			dma_unmap_page(geth->dev, txq->ring[w].word2.buf_adr,
+  1237				       txq->ring[w].word0.bits.buffer_size,
+  1238				       DMA_TO_DEVICE);
+  1239		}
+  1240		return -ENOMEM;
+  1241	}
+  1242	
 
 -- 
 0-DAY CI Kernel Test Service
