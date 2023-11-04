@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE4215A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 04:34:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF6317CB
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  4 Nov 2023 04:34:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g2dQjhoM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZTlWMwC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699072484; x=1730608484;
+  t=1699072487; x=1730608487;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j/PT25HqOhXtdYpKuTdx9t8NNnxRKyP4hWytxbZ/pw8=;
-  b=g2dQjhoMjWO6dOajKNlWiVebe2SLP/e3RR7lBhEwg2F94avf6iIUUvkS
-   0Wtl8kB4lpr98TDH/2kR+VwYMgwzP94Jg6aW/a35aHgE0d8pQqOuK8lks
-   yfgHAsxQzbqsMNLZkSI7RHsoQxHBu0cEHRi9+iC21uwy4SoNvJPBWxJ4p
-   aQM6R4lPbtev3+aVkDx2Zt3fXb87V7f/iFD9EfJxDnrCDyp7JTw91+z9H
-   VkFpZnmSnVitl//prixeHIM2P+UZEk65nmbRD4jn/Q8xAycPeqjeE7Fe7
-   eRk45Znz1YPA4sInHqIEf7QfBnMwCM12PsSdwz7g2zkuH/oy4CzyEgLus
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="368396536"
+  bh=YCz6Xb22aeEUbw45EHxCqKmUELb0q5RX++0NPiPL2kU=;
+  b=BZTlWMwCC9g6tod/6E/Pp0NZfyXT8p7obSuse7luOKgGimNBhidQlDc5
+   9KIaf+ADgChu3Tt7VJhMXcyp+UMOZOqC9yfJKu0YzL2lK7R49ezT4GceO
+   /e9mkOaeIn77NGh1QoCFbws+VxG0fb1a90HDveyhJ1JC1SFbLw13INHsn
+   LudmSiIeVC1sgHCyj8yIcWOr6lrJTg77GAek8G4Ui3BTA+J+3xjZb6hNO
+   uvSBk4wlOsIsiop2zV6Hpua8mdJLEJdaFMjW5+G/ULK091MVd2uEA1EdH
+   4UP8bTc7dtzBtdN0+0EqZdUSMbqFhe8YMWppJqzaPCGXkTYTXXT0MpwkM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="368396538"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="368396536"
+   d="scan'208";a="368396538"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 21:34:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="885396372"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="885396373"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="885396372"
+   d="scan'208";a="885396373"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
   by orsmga004.jf.intel.com with ESMTP; 03 Nov 2023 21:34:42 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qz8Mp-0003Q4-1l;
+	id 1qz8Mp-0003Q7-3B;
 	Sat, 04 Nov 2023 04:34:39 +0000
-Date: Sat, 4 Nov 2023 12:33:21 +0800
+Date: Sat, 4 Nov 2023 12:33:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:sframe 3/3] mm/init-mm.c:50:33: error: expected expression
- before ',' token
-Message-ID: <202311041211.YR3mym5s-lkp@intel.com>
+Subject: [jpoimboe:sframe 3/3] kernel/events/core.c:6804:1: warning: the
+ frame size of 1312 bytes is larger than 1024 bytes
+Message-ID: <202311041245.zgf1EK9r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,86 +53,80 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
 head:   32e88f45d843ad800e1ff01230eccd93849d2dda
 commit: 32e88f45d843ad800e1ff01230eccd93849d2dda [3/3] todo
-config: loongarch-randconfig-001-20231104 (https://download.01.org/0day-ci/archive/20231104/202311041211.YR3mym5s-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041211.YR3mym5s-lkp@intel.com/reproduce)
+config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20231104/202311041245.zgf1EK9r-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311041245.zgf1EK9r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311041211.YR3mym5s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311041245.zgf1EK9r-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/init-mm.c:50:33: error: expected expression before ',' token
-      50 |         INIT_MM_CONTEXT(init_mm),
-         |                                 ^
->> mm/init-mm.c:50:33: warning: excess elements in struct initializer
-   mm/init-mm.c:50:33: note: (near initialization for 'init_mm')
---
-   In file included from arch/loongarch/include/asm/thread_info.h:15,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/loongarch/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from kernel/unwind/user.c:4:
-   kernel/unwind/user.c: In function 'user_unwind_start':
->> arch/loongarch/include/asm/processor.h:202:47: error: invalid application of 'sizeof' to incomplete type 'struct pt_regs'
-     202 |                          THREAD_SIZE - sizeof(struct pt_regs))
-         |                                               ^~~~~~
-   arch/loongarch/include/asm/processor.h:203:46: note: in expansion of macro '__KSTK_TOS'
-     203 | #define task_pt_regs(tsk) ((struct pt_regs *)__KSTK_TOS(tsk))
-         |                                              ^~~~~~~~~~
-   kernel/unwind/user.c:70:32: note: in expansion of macro 'task_pt_regs'
-      70 |         struct pt_regs *regs = task_pt_regs(current);
-         |                                ^~~~~~~~~~~~
->> kernel/unwind/user.c:90:21: error: implicit declaration of function 'user_stack_pointer' [-Werror=implicit-function-declaration]
-      90 |         state->sp = user_stack_pointer(regs);
-         |                     ^~~~~~~~~~~~~~~~~~
->> kernel/unwind/user.c:91:21: error: implicit declaration of function 'instruction_pointer' [-Werror=implicit-function-declaration]
-      91 |         state->ip = instruction_pointer(regs);
-         |                     ^~~~~~~~~~~~~~~~~~~
->> kernel/unwind/user.c:92:21: error: implicit declaration of function 'frame_pointer' [-Werror=implicit-function-declaration]
-      92 |         state->fp = frame_pointer(regs);
-         |                     ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   kernel/events/core.c: In function 'perf_pending_task_unwind':
+>> kernel/events/core.c:6804:1: warning: the frame size of 1312 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    6804 | }
+         | ^
 
 
-vim +50 mm/init-mm.c
+vim +6804 kernel/events/core.c
 
-    21	
-    22	/*
-    23	 * For dynamically allocated mm_structs, there is a dynamically sized cpumask
-    24	 * at the end of the structure, the size of which depends on the maximum CPU
-    25	 * number the system can see. That way we allocate only as much memory for
-    26	 * mm_cpumask() as needed for the hundreds, or thousands of processes that
-    27	 * a system typically runs.
-    28	 *
-    29	 * Since there is only one init_mm in the entire system, keep it simple
-    30	 * and size this cpu_bitmask to NR_CPUS.
-    31	 */
-    32	struct mm_struct init_mm = {
-    33		.mm_mt		= MTREE_INIT_EXT(mm_mt, MM_MT_FLAGS, init_mm.mmap_lock),
-    34		.pgd		= swapper_pg_dir,
-    35		.mm_users	= ATOMIC_INIT(2),
-    36		.mm_count	= ATOMIC_INIT(1),
-    37		.write_protect_seq = SEQCNT_ZERO(init_mm.write_protect_seq),
-    38		MMAP_LOCK_INITIALIZER(init_mm)
-    39		.page_table_lock =  __SPIN_LOCK_UNLOCKED(init_mm.page_table_lock),
-    40		.arg_lock	=  __SPIN_LOCK_UNLOCKED(init_mm.arg_lock),
-    41		.mmlist		= LIST_HEAD_INIT(init_mm.mmlist),
-    42	#ifdef CONFIG_PER_VMA_LOCK
-    43		.mm_lock_seq	= 0,
-    44	#endif
-    45		.user_ns	= &init_user_ns,
-    46		.cpu_bitmap	= CPU_BITS_NONE,
-    47	#ifdef CONFIG_IOMMU_SVA
-    48		.pasid		= IOMMU_PASID_INVALID,
-    49	#endif
-  > 50		INIT_MM_CONTEXT(init_mm),
-    51		.sframe_mt	= MTREE_INIT(sframe_mt, 0),
-    52	};
-    53	
+  6751	
+  6752	// TODO move to callchain.c
+  6753	static void perf_pending_task_unwind(struct perf_event *event)
+  6754	{
+  6755		struct pt_regs *regs = task_pt_regs(current);
+  6756		struct perf_output_handle handle;
+  6757		struct perf_event_header header;
+  6758		struct perf_sample_data data;
+  6759		//TODO macro for 128
+  6760		u64 buf[128];
+  6761		struct perf_callchain_entry *callchain;
+  6762	
+  6763		might_sleep();
+  6764	
+  6765		if (!event->pending_unwind)
+  6766			return;
+  6767	
+  6768		perf_sample_data_init(&data, 0, event->hw.last_period);
+  6769	
+  6770		callchain = (struct perf_callchain_entry *)buf;
+  6771		callchain->nr = 0;
+  6772		data.deferred = true;
+  6773		data.callchain = callchain;
+  6774	
+  6775		perf_prepare_sample(&data, event, regs, event->attr.sample_type);
+  6776	
+  6777		perf_prepare_header(&header, &data, event, regs);
+  6778	
+  6779		if (perf_output_begin(&handle, &data, event, header.size))
+  6780			goto done;
+  6781	
+  6782		perf_output_sample(&handle, &header, &data, event);
+  6783	
+  6784		perf_output_end(&handle);
+  6785	
+  6786	#if 0
+  6787		// TODO if in_nmi() and nmi handler doesn't have exit work,
+  6788		// add_task_work should do IPI.  or new function add_immediate_task_work?()?
+  6789	
+  6790		// TODO understand perf_event_alloc() lifetime and what it means
+  6791		// for any pending irq/task work.  see irq_work_sync().  splitting the
+  6792		// irq/task works into two separate works is bad like that.  maybe make
+  6793		// it an (irq-aware) task work.
+  6794	
+  6795		// FIXME: have perf_callchain() check event->attr.sample_type (or
+  6796		// data->sample_flags?) to decide whether to use data->deferred_stack
+  6797	
+  6798		/* srcu_read_unlock() or whatever */
+  6799	
+  6800	#endif
+  6801	done:
+  6802		event->pending_unwind = 0;
+  6803		return;
+> 6804	}
+  6805	
 
 -- 
 0-DAY CI Kernel Test Service
