@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CA38BEB;
-	Sun,  5 Nov 2023 09:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C49D8C01
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 09:17:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6fE4wFv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpmgHm94"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699174910; x=1730710910;
+  t=1699175826; x=1730711826;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bWD2ogEt6FZdT+MXKYtz57KplUYtedko+Wid2xsKznk=;
-  b=m6fE4wFv0AAmArlEJpQ94VXsZninjEcXia5PR8zMqhMahvWrAHG/P+9K
-   9d3vc/7V0RELzU3iAX4mTeMLu3KbSdoqasELjEAc/Q/iBfZ/Sf26QStsk
-   fbxaihEjWK7bfVQT57j+BnfE2Rwoj3/+VHXkdTnZpW25ZjV+J/3wyDJNY
-   ePIIuVTp3I2lKQ71iuJX+4GbDMjYRi5jJvXaxMnCkR/vqt5Fe6UygzqWt
-   dHSw4NfJgtMa9wazSbc6yLLKs3OEizQCf1uY3mnMOZKP4xy3HfLYI8Mrg
-   ldVsx3R3fEPzG3SKNrldMq1JUhU9HoKsXTjQfgZcQG/FWI9lFN39t9sOX
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="392001315"
+  bh=GnVLGlAIQ0AGEtdlEYrMgrMwU/XnEKpLQ24V/4TYvQM=;
+  b=DpmgHm945c3+SX5vc8fk6ymaC5MVP3NsaXL1Cr3ohpRkWRVdasoit3EW
+   TsZ6FVZwIkrm3iTK3eBJzMsPIAjh+ojpMZXj1TtxLiUCg2agEz1baLtQZ
+   NNaFNyTJpXI+Lv4v/aXwNsWL1eZsmJvqFHXNs1VubuCTA0OnR+O+64Ebn
+   3KbvgibTdkROWN03vGccJxGkz1ttOZE+Y8PD6w6K2VuS5lKaL/gL/MBW3
+   s8WFm3PLb27FXb3i86yIAqYzoke04DmwNA9XfDB+TPzzmfM3bvo5H3i9Y
+   50r7vOv4kAHYjO0TGuv+Ip+rJZqgaddE3NFcFUdWFhfPa0bx9KtFeijXf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="10671906"
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="392001315"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 01:01:47 -0800
+   d="scan'208";a="10671906"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 01:17:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="755575703"
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="738521878"
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="755575703"
+   d="scan'208";a="738521878"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 05 Nov 2023 01:01:45 -0800
+  by orsmga006.jf.intel.com with ESMTP; 05 Nov 2023 01:17:03 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzZ0o-0005EO-2t;
-	Sun, 05 Nov 2023 09:01:42 +0000
-Date: Sun, 5 Nov 2023 17:01:02 +0800
+	id 1qzZFd-0005FY-0S;
+	Sun, 05 Nov 2023 09:17:01 +0000
+Date: Sun, 5 Nov 2023 17:15:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:957:12: warning: stack frame
- size (2064) exceeds limit (2048) in 'vcn_v4_0_5_start'
-Message-ID: <202311051650.4hyYNRSK-lkp@intel.com>
+To: Petlozu Pravareshwar <petlozup@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thierry Reding <treding@nvidia.com>,
+	Stefan Kristiansson <stefank@nvidia.com>
+Subject: drivers/soc/tegra/pmc.c:467: warning: Function parameter or member
+ 'syscore' not described in 'tegra_pmc'
+Message-ID: <202311051701.YGGF8fhn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,215 +52,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Saleemkhan,
+Hi Petlozu,
 
 FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   aea6bf908d730b01bd264a8821159db9463c111c
-commit: 547aad32edac17a3ec4989d8aad2426d0cbeb590 drm/amdgpu: add VCN4 ip block support
-date:   9 weeks ago
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20231105/202311051650.4hyYNRSK-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051650.4hyYNRSK-lkp@intel.com/reproduce)
+commit: 1ddb8f6d44ff482c9953a06f800453bc372cfead soc/tegra: pmc: Fix dual edge triggered wakes
+date:   12 months ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231105/202311051701.YGGF8fhn-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051701.YGGF8fhn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311051650.4hyYNRSK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311051701.YGGF8fhn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:957:12: warning: stack frame size (2064) exceeds limit (2048) in 'vcn_v4_0_5_start' [-Wframe-larger-than]
-     957 | static int vcn_v4_0_5_start(struct amdgpu_device *adev)
-         |            ^
-   1 warning generated.
+>> drivers/soc/tegra/pmc.c:467: warning: Function parameter or member 'syscore' not described in 'tegra_pmc'
 
 
-vim +/vcn_v4_0_5_start +957 drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
+vim +467 drivers/soc/tegra/pmc.c
 
-   948	
-   949	
-   950	/**
-   951	 * vcn_v4_0_5_start - VCN start
-   952	 *
-   953	 * @adev: amdgpu_device pointer
-   954	 *
-   955	 * Start VCN block
-   956	 */
- > 957	static int vcn_v4_0_5_start(struct amdgpu_device *adev)
-   958	{
-   959		volatile struct amdgpu_vcn4_fw_shared *fw_shared;
-   960		struct amdgpu_ring *ring;
-   961		uint32_t tmp;
-   962		int i, j, k, r;
-   963	
-   964		if (adev->pm.dpm_enabled)
-   965			amdgpu_dpm_enable_uvd(adev, true);
-   966	
-   967		for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
-   968			fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
-   969	
-   970			if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
-   971				r = vcn_v4_0_5_start_dpg_mode(adev, i, adev->vcn.indirect_sram);
-   972				continue;
-   973			}
-   974	
-   975			/* disable VCN power gating */
-   976			vcn_v4_0_5_disable_static_power_gating(adev, i);
-   977	
-   978			/* set VCN status busy */
-   979			tmp = RREG32_SOC15(VCN, i, regUVD_STATUS) | UVD_STATUS__UVD_BUSY;
-   980			WREG32_SOC15(VCN, i, regUVD_STATUS, tmp);
-   981	
-   982			/*SW clock gating */
-   983			vcn_v4_0_5_disable_clock_gating(adev, i);
-   984	
-   985			/* enable VCPU clock */
-   986			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_VCPU_CNTL),
-   987					UVD_VCPU_CNTL__CLK_EN_MASK, ~UVD_VCPU_CNTL__CLK_EN_MASK);
-   988	
-   989			/* disable master interrupt */
-   990			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_MASTINT_EN), 0,
-   991					~UVD_MASTINT_EN__VCPU_EN_MASK);
-   992	
-   993			/* enable LMI MC and UMC channels */
-   994			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_LMI_CTRL2), 0,
-   995					~UVD_LMI_CTRL2__STALL_ARB_UMC_MASK);
-   996	
-   997			tmp = RREG32_SOC15(VCN, i, regUVD_SOFT_RESET);
-   998			tmp &= ~UVD_SOFT_RESET__LMI_SOFT_RESET_MASK;
-   999			tmp &= ~UVD_SOFT_RESET__LMI_UMC_SOFT_RESET_MASK;
-  1000			WREG32_SOC15(VCN, i, regUVD_SOFT_RESET, tmp);
-  1001	
-  1002			/* setup regUVD_LMI_CTRL */
-  1003			tmp = RREG32_SOC15(VCN, i, regUVD_LMI_CTRL);
-  1004			WREG32_SOC15(VCN, i, regUVD_LMI_CTRL, tmp |
-  1005					UVD_LMI_CTRL__WRITE_CLEAN_TIMER_EN_MASK |
-  1006					UVD_LMI_CTRL__MASK_MC_URGENT_MASK |
-  1007					UVD_LMI_CTRL__DATA_COHERENCY_EN_MASK |
-  1008					UVD_LMI_CTRL__VCPU_DATA_COHERENCY_EN_MASK);
-  1009	
-  1010			/* setup regUVD_MPC_CNTL */
-  1011			tmp = RREG32_SOC15(VCN, i, regUVD_MPC_CNTL);
-  1012			tmp &= ~UVD_MPC_CNTL__REPLACEMENT_MODE_MASK;
-  1013			tmp |= 0x2 << UVD_MPC_CNTL__REPLACEMENT_MODE__SHIFT;
-  1014			WREG32_SOC15(VCN, i, regUVD_MPC_CNTL, tmp);
-  1015	
-  1016			/* setup UVD_MPC_SET_MUXA0 */
-  1017			WREG32_SOC15(VCN, i, regUVD_MPC_SET_MUXA0,
-  1018					((0x1 << UVD_MPC_SET_MUXA0__VARA_1__SHIFT) |
-  1019					 (0x2 << UVD_MPC_SET_MUXA0__VARA_2__SHIFT) |
-  1020					 (0x3 << UVD_MPC_SET_MUXA0__VARA_3__SHIFT) |
-  1021					 (0x4 << UVD_MPC_SET_MUXA0__VARA_4__SHIFT)));
-  1022	
-  1023			/* setup UVD_MPC_SET_MUXB0 */
-  1024			WREG32_SOC15(VCN, i, regUVD_MPC_SET_MUXB0,
-  1025					((0x1 << UVD_MPC_SET_MUXB0__VARB_1__SHIFT) |
-  1026					 (0x2 << UVD_MPC_SET_MUXB0__VARB_2__SHIFT) |
-  1027					 (0x3 << UVD_MPC_SET_MUXB0__VARB_3__SHIFT) |
-  1028					 (0x4 << UVD_MPC_SET_MUXB0__VARB_4__SHIFT)));
-  1029	
-  1030			/* setup UVD_MPC_SET_MUX */
-  1031			WREG32_SOC15(VCN, i, regUVD_MPC_SET_MUX,
-  1032					((0x0 << UVD_MPC_SET_MUX__SET_0__SHIFT) |
-  1033					 (0x1 << UVD_MPC_SET_MUX__SET_1__SHIFT) |
-  1034					 (0x2 << UVD_MPC_SET_MUX__SET_2__SHIFT)));
-  1035	
-  1036			vcn_v4_0_5_mc_resume(adev, i);
-  1037	
-  1038			/* VCN global tiling registers */
-  1039			WREG32_SOC15(VCN, i, regUVD_GFX10_ADDR_CONFIG,
-  1040					adev->gfx.config.gb_addr_config);
-  1041	
-  1042			/* unblock VCPU register access */
-  1043			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_RB_ARB_CTRL), 0,
-  1044					~UVD_RB_ARB_CTRL__VCPU_DIS_MASK);
-  1045	
-  1046			/* release VCPU reset to boot */
-  1047			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_VCPU_CNTL), 0,
-  1048					~UVD_VCPU_CNTL__BLK_RST_MASK);
-  1049	
-  1050			for (j = 0; j < 10; ++j) {
-  1051				uint32_t status;
-  1052	
-  1053				for (k = 0; k < 100; ++k) {
-  1054					status = RREG32_SOC15(VCN, i, regUVD_STATUS);
-  1055					if (status & 2)
-  1056						break;
-  1057					mdelay(10);
-  1058					if (amdgpu_emu_mode == 1)
-  1059						msleep(1);
-  1060				}
-  1061	
-  1062				if (amdgpu_emu_mode == 1) {
-  1063					r = -1;
-  1064					if (status & 2) {
-  1065						r = 0;
-  1066						break;
-  1067					}
-  1068				} else {
-  1069					r = 0;
-  1070					if (status & 2)
-  1071						break;
-  1072	
-  1073					dev_err(adev->dev,
-  1074						"VCN[%d] is not responding, trying to reset VCPU!!!\n", i);
-  1075					WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_VCPU_CNTL),
-  1076								UVD_VCPU_CNTL__BLK_RST_MASK,
-  1077								~UVD_VCPU_CNTL__BLK_RST_MASK);
-  1078					mdelay(10);
-  1079					WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_VCPU_CNTL), 0,
-  1080							~UVD_VCPU_CNTL__BLK_RST_MASK);
-  1081	
-  1082					mdelay(10);
-  1083					r = -1;
-  1084				}
-  1085			}
-  1086	
-  1087			if (r) {
-  1088				dev_err(adev->dev, "VCN[%d] is not responding, giving up!!!\n", i);
-  1089				return r;
-  1090			}
-  1091	
-  1092			/* enable master interrupt */
-  1093			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_MASTINT_EN),
-  1094					UVD_MASTINT_EN__VCPU_EN_MASK,
-  1095					~UVD_MASTINT_EN__VCPU_EN_MASK);
-  1096	
-  1097			/* clear the busy bit of VCN_STATUS */
-  1098			WREG32_P(SOC15_REG_OFFSET(VCN, i, regUVD_STATUS), 0,
-  1099					~(2 << UVD_STATUS__VCPU_REPORT__SHIFT));
-  1100	
-  1101			ring = &adev->vcn.inst[i].ring_enc[0];
-  1102			WREG32_SOC15(VCN, i, regVCN_RB1_DB_CTRL,
-  1103					ring->doorbell_index << VCN_RB1_DB_CTRL__OFFSET__SHIFT |
-  1104					VCN_RB1_DB_CTRL__EN_MASK);
-  1105	
-  1106			WREG32_SOC15(VCN, i, regUVD_RB_BASE_LO, ring->gpu_addr);
-  1107			WREG32_SOC15(VCN, i, regUVD_RB_BASE_HI, upper_32_bits(ring->gpu_addr));
-  1108			WREG32_SOC15(VCN, i, regUVD_RB_SIZE, ring->ring_size / 4);
-  1109	
-  1110			tmp = RREG32_SOC15(VCN, i, regVCN_RB_ENABLE);
-  1111			tmp &= ~(VCN_RB_ENABLE__RB1_EN_MASK);
-  1112			WREG32_SOC15(VCN, i, regVCN_RB_ENABLE, tmp);
-  1113			fw_shared->sq.queue_mode |= FW_QUEUE_RING_RESET;
-  1114			WREG32_SOC15(VCN, i, regUVD_RB_RPTR, 0);
-  1115			WREG32_SOC15(VCN, i, regUVD_RB_WPTR, 0);
-  1116	
-  1117			tmp = RREG32_SOC15(VCN, i, regUVD_RB_RPTR);
-  1118			WREG32_SOC15(VCN, i, regUVD_RB_WPTR, tmp);
-  1119			ring->wptr = RREG32_SOC15(VCN, i, regUVD_RB_WPTR);
-  1120	
-  1121			tmp = RREG32_SOC15(VCN, i, regVCN_RB_ENABLE);
-  1122			tmp |= VCN_RB_ENABLE__RB1_EN_MASK;
-  1123			WREG32_SOC15(VCN, i, regVCN_RB_ENABLE, tmp);
-  1124			fw_shared->sq.queue_mode &= ~(FW_QUEUE_RING_RESET | FW_QUEUE_DPG_HOLD_OFF);
-  1125		}
-  1126	
-  1127		return 0;
-  1128	}
-  1129	
+5f84bb1a4099e2 Sandipan Patra       2018-10-24  383  
+7232398abc6a71 Thierry Reding       2014-07-11  384  /**
+7232398abc6a71 Thierry Reding       2014-07-11  385   * struct tegra_pmc - NVIDIA Tegra PMC
+35b67291b4a85d Jon Hunter           2015-12-04  386   * @dev: pointer to PMC device structure
+7232398abc6a71 Thierry Reding       2014-07-11  387   * @base: pointer to I/O remapped register region
+bbe5af60041cae Thierry Reding       2019-01-25  388   * @wake: pointer to I/O remapped region for WAKE registers
+bbe5af60041cae Thierry Reding       2019-01-25  389   * @aotag: pointer to I/O remapped region for AOTAG registers
+bbe5af60041cae Thierry Reding       2019-01-25  390   * @scratch: pointer to I/O remapped region for scratch registers
+7232398abc6a71 Thierry Reding       2014-07-11  391   * @clk: pointer to pclk clock
+35b67291b4a85d Jon Hunter           2015-12-04  392   * @soc: pointer to SoC data structure
+e247deae1a5508 Mikko Perttunen      2019-01-25  393   * @tz_only: flag specifying if the PMC can only be accessed via TrustZone
+3195ac6d9cbeef Jon Hunter           2015-12-04  394   * @debugfs: pointer to debugfs entry
+7232398abc6a71 Thierry Reding       2014-07-11  395   * @rate: currently configured rate of pclk
+7232398abc6a71 Thierry Reding       2014-07-11  396   * @suspend_mode: lowest suspend mode available
+7232398abc6a71 Thierry Reding       2014-07-11  397   * @cpu_good_time: CPU power good time (in microseconds)
+7232398abc6a71 Thierry Reding       2014-07-11  398   * @cpu_off_time: CPU power off time (in microsecends)
+7232398abc6a71 Thierry Reding       2014-07-11  399   * @core_osc_time: core power good OSC time (in microseconds)
+7232398abc6a71 Thierry Reding       2014-07-11  400   * @core_pmu_time: core power good PMU time (in microseconds)
+7232398abc6a71 Thierry Reding       2014-07-11  401   * @core_off_time: core power off time (in microseconds)
+7232398abc6a71 Thierry Reding       2014-07-11  402   * @corereq_high: core power request is active-high
+7232398abc6a71 Thierry Reding       2014-07-11  403   * @sysclkreq_high: system clock request is active-high
+7232398abc6a71 Thierry Reding       2014-07-11  404   * @combined_req: combined power request for CPU & core
+7232398abc6a71 Thierry Reding       2014-07-11  405   * @cpu_pwr_good_en: CPU power good signal is enabled
+7232398abc6a71 Thierry Reding       2014-07-11  406   * @lp0_vec_phys: physical base address of the LP0 warm boot code
+7232398abc6a71 Thierry Reding       2014-07-11  407   * @lp0_vec_size: size of the LP0 warm boot code
+a38045121bf421 Jon Hunter           2016-03-30  408   * @powergates_available: Bitmap of available power gates
+7232398abc6a71 Thierry Reding       2014-07-11  409   * @powergates_lock: mutex for power gate register access
+bbe5af60041cae Thierry Reding       2019-01-25  410   * @pctl_dev: pin controller exposed by the PMC
+bbe5af60041cae Thierry Reding       2019-01-25  411   * @domain: IRQ domain provided by the PMC
+bbe5af60041cae Thierry Reding       2019-01-25  412   * @irq: chip implementation for the IRQ domain
+e57a243f5d896f Dmitry Osipenko      2019-09-26  413   * @clk_nb: pclk clock changes handler
+d3a20dcbca4880 Thierry Reding       2022-05-06  414   * @core_domain_state_synced: flag marking the core domain's state as synced
+d3a20dcbca4880 Thierry Reding       2022-05-06  415   * @core_domain_registered: flag marking the core domain as registered
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  416   * @wake_type_level_map: Bitmap indicating level type for non-dual edge wakes
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  417   * @wake_type_dual_edge_map: Bitmap indicating if a wake is dual-edge or not
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  418   * @wake_sw_status_map: Bitmap to hold raw status of wakes without mask
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  419   * @wake_cntrl_level_map: Bitmap to hold wake levels to be programmed in
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  420   *     cntrl register associated with each wake during system suspend.
+7232398abc6a71 Thierry Reding       2014-07-11  421   */
+7232398abc6a71 Thierry Reding       2014-07-11  422  struct tegra_pmc {
+3568df3d31d62b Mikko Perttunen      2015-01-06  423  	struct device *dev;
+7232398abc6a71 Thierry Reding       2014-07-11  424  	void __iomem *base;
+c641ec6eab8587 Thierry Reding       2017-08-30  425  	void __iomem *wake;
+c641ec6eab8587 Thierry Reding       2017-08-30  426  	void __iomem *aotag;
+5be2255676bf2b Thierry Reding       2017-08-30  427  	void __iomem *scratch;
+7232398abc6a71 Thierry Reding       2014-07-11  428  	struct clk *clk;
+3195ac6d9cbeef Jon Hunter           2015-12-04  429  	struct dentry *debugfs;
+7232398abc6a71 Thierry Reding       2014-07-11  430  
+7232398abc6a71 Thierry Reding       2014-07-11  431  	const struct tegra_pmc_soc *soc;
+e247deae1a5508 Mikko Perttunen      2019-01-25  432  	bool tz_only;
+7232398abc6a71 Thierry Reding       2014-07-11  433  
+7232398abc6a71 Thierry Reding       2014-07-11  434  	unsigned long rate;
+7232398abc6a71 Thierry Reding       2014-07-11  435  
+7232398abc6a71 Thierry Reding       2014-07-11  436  	enum tegra_suspend_mode suspend_mode;
+7232398abc6a71 Thierry Reding       2014-07-11  437  	u32 cpu_good_time;
+7232398abc6a71 Thierry Reding       2014-07-11  438  	u32 cpu_off_time;
+7232398abc6a71 Thierry Reding       2014-07-11  439  	u32 core_osc_time;
+7232398abc6a71 Thierry Reding       2014-07-11  440  	u32 core_pmu_time;
+7232398abc6a71 Thierry Reding       2014-07-11  441  	u32 core_off_time;
+7232398abc6a71 Thierry Reding       2014-07-11  442  	bool corereq_high;
+7232398abc6a71 Thierry Reding       2014-07-11  443  	bool sysclkreq_high;
+7232398abc6a71 Thierry Reding       2014-07-11  444  	bool combined_req;
+7232398abc6a71 Thierry Reding       2014-07-11  445  	bool cpu_pwr_good_en;
+7232398abc6a71 Thierry Reding       2014-07-11  446  	u32 lp0_vec_phys;
+7232398abc6a71 Thierry Reding       2014-07-11  447  	u32 lp0_vec_size;
+a38045121bf421 Jon Hunter           2016-03-30  448  	DECLARE_BITMAP(powergates_available, TEGRA_POWERGATE_MAX);
+7232398abc6a71 Thierry Reding       2014-07-11  449  
+7232398abc6a71 Thierry Reding       2014-07-11  450  	struct mutex powergates_lock;
+4a37f11c8f57ff Aapo Vienamo         2018-08-10  451  
+4a37f11c8f57ff Aapo Vienamo         2018-08-10  452  	struct pinctrl_dev *pctl_dev;
+19906e6b166721 Thierry Reding       2018-09-17  453  
+19906e6b166721 Thierry Reding       2018-09-17  454  	struct irq_domain *domain;
+19906e6b166721 Thierry Reding       2018-09-17  455  	struct irq_chip irq;
+e57a243f5d896f Dmitry Osipenko      2019-09-26  456  
+e57a243f5d896f Dmitry Osipenko      2019-09-26  457  	struct notifier_block clk_nb;
+41bafa698ddd07 Dmitry Osipenko      2021-06-01  458  
+41bafa698ddd07 Dmitry Osipenko      2021-06-01  459  	bool core_domain_state_synced;
+41bafa698ddd07 Dmitry Osipenko      2021-06-01  460  	bool core_domain_registered;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  461  
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  462  	unsigned long *wake_type_level_map;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  463  	unsigned long *wake_type_dual_edge_map;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  464  	unsigned long *wake_sw_status_map;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  465  	unsigned long *wake_cntrl_level_map;
+1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  466  	struct syscore_ops syscore;
+7232398abc6a71 Thierry Reding       2014-07-11 @467  };
+7232398abc6a71 Thierry Reding       2014-07-11  468  
+
+:::::: The code at line 467 was first introduced by commit
+:::::: 7232398abc6a7186e315425638c367d50c674718 ARM: tegra: Convert PMC to a driver
+
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
