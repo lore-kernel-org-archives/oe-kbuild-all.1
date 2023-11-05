@@ -1,141 +1,262 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3F8A50
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 06:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE83EA50
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 06:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MIoAth6Q"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-41eb4210383so4006491cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 04 Nov 2023 23:22:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699165370; x=1699770170; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=05LHD2svU7RVutSA6R3k1PwtdBSTugRDACEJuPt/PNw=;
-        b=MIoAth6Q3zrpVvISeCtZ2ombFT6PdNiUGoAm62/LzAHBULFIm3lZIWjWOlSyaw4OQY
-         CzEQ1OYhw5mt3F3iBukMsueYKdUdWrhPrX1H4qzHaxTbnzdSylpkTuW46/baV+tGDJ03
-         x6gYgQNvBPUf776nmVRErfcHP0yJZBkLMf9RplMw580K36915FKADK7igwQgdaGyblOL
-         RadiI4ApvV0EpH9iM9W8SLFSzeHKhgyrrrBK8nGN42GoTC3hM8ZJJN3ZsORNU5cee0f2
-         Xz4tyzC20lvuZOwKtomAI4u67SgT7+ZYxCMzo4YFC8qBHyYDOG7Vt4grN13h4/AC2YdM
-         OqHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699165370; x=1699770170;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=05LHD2svU7RVutSA6R3k1PwtdBSTugRDACEJuPt/PNw=;
-        b=nEinK/CC+4m/r6axf3d7u9dPYvifdpklq/881wpvq4899RyuIYkIjYGI84F56XqFEE
-         tRkNWnYLkWVqK/aXuFx5trE9YMfqLRhoMkW3NaLPrhyNzrsfHt8gtibAIk0V/cNs4C8W
-         B7d1C0df3lccLBKN/lw6XptX4ZKqQQ8obNxW24aaitd/vGTPlRdM76NGyMB+GPe1nQyF
-         S0Lgb9QiiWgTxBk07O72mlgSiJlVPTP133GIhPM7Z+U+IteH7psBfCUBd3gOVk5iTQZH
-         78hFJgAdBEz1Rjs+jchXsLbj/a+zaEsi+aIP8bHdXoTKzGXsbb5CtNNFJGzkJ/rpSY9H
-         Sq+A==
-X-Gm-Message-State: AOJu0YycrrWEeBZTtEIYhGoHoILWgjyonjGLO4cb4IAs1vaOwykyHurx
-	d7ASJegTUEW9K2cpjn8hjLY=
-X-Google-Smtp-Source: AGHT+IEb+mQl9K4ytOXTBeeQ7FXm4+5TRkMuigqPP/f0AkFp2GoT1+qCLAvzVR4FSeqcu8X+V/X9uA==
-X-Received: by 2002:ac8:5bc6:0:b0:40f:f9c8:1b98 with SMTP id b6-20020ac85bc6000000b0040ff9c81b98mr30677451qtb.10.1699165370430;
-        Sat, 04 Nov 2023 23:22:50 -0700 (PDT)
-Received: from vultr.guest ([2001:19f0:ac00:4737:5400:4ff:fea2:f4b4])
-        by smtp.gmail.com with ESMTPSA id g20-20020ac84694000000b00419ab6ffedasm2248098qto.29.2023.11.04.23.22.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Nov 2023 23:22:50 -0700 (PDT)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: lkp@intel.com
-Cc: andrii@kernel.org,
-	ast@kernel.org,
-	bpf@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	daniel@iogearbox.net,
-	hannes@cmpxchg.org,
-	haoluo@google.com,
-	john.fastabend@gmail.com,
-	jolsa@kernel.org,
-	kpsingh@kernel.org,
-	laoar.shao@gmail.com,
-	lizefan.x@bytedance.com,
-	longman@redhat.com,
-	martin.lau@linux.dev,
-	mkoutny@suse.com,
-	oe-kbuild-all@lists.linux.dev,
-	oliver.sang@intel.com,
-	sdf@google.com,
-	sinquersw@gmail.com,
-	song@kernel.org,
-	tj@kernel.org,
-	yonghong.song@linux.dev,
-	yosryahmed@google.com,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH bpf-next] compiler-gcc: Ignore -Wmissing-prototypes warning for older GCC
-Date: Sun,  5 Nov 2023 06:22:27 +0000
-Message-Id: <20231105062227.4190-1-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <202311031651.A7crZEur-lkp@intel.com>
-References: <202311031651.A7crZEur-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGRvnfQW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699165725; x=1730701725;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+LKQEk9O+MkTV2zkumezb88iLn+YR01iYjFlFf/BcI8=;
+  b=dGRvnfQWowdRQ98j6uUrZmiwGGJxvTxx9gchuVg2eexJdKYywAgU0C9v
+   p+VWH16NdqH/8M0BZyHt4RHDtDtsiuefi02XNpARTkxcvurIDIPCNu8Pm
+   7aoSqGGHudo8Yq7uLmVW6kj2ROCzlYsFcrGpMpM/n59re0fYvstFrqhqY
+   ZoopeV+N82EJYbUEMJvlw1cLixg/MQ/ND1xwgFCFpkgHx1Ow+Vwaw8C5p
+   PkPoUnKXc6rl1qQkjxAUQ9j8n3NbMSOZXZCMHmKl4LJCoypNIluiSMdPg
+   OTOwweRLA95U/6GyLsGc0gqYfYpI55InFiR0Lbx6DJN3nf6bPSvZv7AMb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="2101678"
+X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
+   d="scan'208";a="2101678"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 23:28:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
+   d="scan'208";a="3138620"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 04 Nov 2023 23:28:43 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qzWci-00057r-0r;
+	Sun, 05 Nov 2023 06:28:40 +0000
+Date: Sun, 5 Nov 2023 14:28:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: drivers/message/fusion/mptlan.c:1234:52: sparse: sparse: incorrect
+ type in assignment (different base types)
+Message-ID: <202311051436.9rXlJjUh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The kernel supports a minimum GCC version of 5.1.0 for building. However,
-the "__diag_ignore_all" directive only suppresses the
-"-Wmissing-prototypes" warning for GCC versions >= 8.0.0. As a result, when
-building the kernel with older GCC versions, warnings may be triggered. The
-example below illustrates the warnings reported by the kernel test robot
-using GCC 7.5.0:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aea6bf908d730b01bd264a8821159db9463c111c
+commit: 4e2e619f3c9e3c49859f085995554a53e9fc0e02 scsi: message: mptlan: Replace one-element array with flexible-array member
+date:   2 years, 7 months ago
+config: x86_64-randconfig-121-20231101 (https://download.01.org/0day-ci/archive/20231105/202311051436.9rXlJjUh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051436.9rXlJjUh-lkp@intel.com/reproduce)
 
-  compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-  All warnings (new ones prefixed by >>):
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311051436.9rXlJjUh-lkp@intel.com/
 
-   kernel/bpf/helpers.c:1893:19: warning: no previous prototype for 'bpf_obj_new_impl' [-Wmissing-prototypes]
-    __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
-                      ^~~~~~~~~~~~~~~~
-   kernel/bpf/helpers.c:1907:19: warning: no previous prototype for 'bpf_percpu_obj_new_impl' [-Wmissing-prototypes]
-    __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
-   [...]
+sparse warnings: (new ones prefixed by >>)
+   drivers/message/fusion/mptlan.c:1172:21: sparse: sparse: cast to restricted __le16
+>> drivers/message/fusion/mptlan.c:1234:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] TransactionContext @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1234:52: sparse:     expected unsigned int [usertype] TransactionContext
+   drivers/message/fusion/mptlan.c:1234:52: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:1238:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] FlagsLength @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1238:46: sparse:     expected unsigned int [usertype] FlagsLength
+   drivers/message/fusion/mptlan.c:1238:46: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:1242:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] Low @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1242:46: sparse:     expected unsigned int [usertype] Low
+   drivers/message/fusion/mptlan.c:1242:46: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:1244:55: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] High @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1244:55: sparse:     expected unsigned int [usertype] High
+   drivers/message/fusion/mptlan.c:1244:55: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:1258:38: sparse: sparse: invalid assignment: |=
+   drivers/message/fusion/mptlan.c:1258:38: sparse:    left side has type unsigned int
+   drivers/message/fusion/mptlan.c:1258:38: sparse:    right side has type restricted __le32
+   drivers/message/fusion/mptlan.c:1260:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] BucketCount @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:1260:39: sparse:     expected unsigned int [usertype] BucketCount
+   drivers/message/fusion/mptlan.c:1260:39: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:964:25: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:969:9: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:972:14: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:976:15: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:982:53: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:986:18: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:990:18: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:1020:31: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:612:9: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:617:17: sparse: sparse: cast to restricted __le16
+   drivers/message/fusion/mptlan.c:641:23: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:346:17: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:1492:27: sparse: sparse: restricted __be16 degrades to integer
+   drivers/message/fusion/mptlan.c:1529:29: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned short @@     got restricted __be16 [usertype] ethertype @@
+   drivers/message/fusion/mptlan.c:1529:29: sparse:     expected unsigned short
+   drivers/message/fusion/mptlan.c:1529:29: sparse:     got restricted __be16 [usertype] ethertype
+   drivers/message/fusion/mptlan.c:1532:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned short @@     got restricted __be16 [usertype] @@
+   drivers/message/fusion/mptlan.c:1532:16: sparse:     expected unsigned short
+   drivers/message/fusion/mptlan.c:1532:16: sparse:     got restricted __be16 [usertype]
+   drivers/message/fusion/mptlan.c:745:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] TransactionContext @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:745:36: sparse:     expected unsigned int [usertype] TransactionContext
+   drivers/message/fusion/mptlan.c:745:36: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:753:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:753:39: sparse:     expected unsigned int
+   drivers/message/fusion/mptlan.c:753:39: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:756:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:756:39: sparse:     expected unsigned int
+   drivers/message/fusion/mptlan.c:756:39: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:766:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] FlagsLength @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:766:30: sparse:     expected unsigned int [usertype] FlagsLength
+   drivers/message/fusion/mptlan.c:766:30: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:775:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] Low @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:775:30: sparse:     expected unsigned int [usertype] Low
+   drivers/message/fusion/mptlan.c:775:30: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:777:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] High @@     got restricted __le32 [usertype] @@
+   drivers/message/fusion/mptlan.c:777:39: sparse:     expected unsigned int [usertype] High
+   drivers/message/fusion/mptlan.c:777:39: sparse:     got restricted __le32 [usertype]
+   drivers/message/fusion/mptlan.c:784:9: sparse: sparse: cast to restricted __le32
+   drivers/message/fusion/mptlan.c:819:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] protocol @@     got unsigned short @@
+   drivers/message/fusion/mptlan.c:819:23: sparse:     expected restricted __be16 [usertype] protocol
+   drivers/message/fusion/mptlan.c:819:23: sparse:     got unsigned short
+   drivers/message/fusion/mptlan.c:919:23: sparse: sparse: cast to restricted __le32
 
-To address this, we should also suppress the "-Wmissing-prototypes" warning
-for older GCC versions. Since "#pragma GCC diagnostic push" is supported as
-of GCC 4.6, it is acceptable to ignore these warnings for GCC >= 5.1.0.
+vim +1234 drivers/message/fusion/mptlan.c
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202311031651.A7crZEur-lkp@intel.com/
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
----
- include/linux/compiler-gcc.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+  1134	
+  1135	static void
+  1136	mpt_lan_post_receive_buckets(struct mpt_lan_priv *priv)
+  1137	{
+  1138		struct net_device *dev = priv->dev;
+  1139		MPT_ADAPTER *mpt_dev = priv->mpt_dev;
+  1140		MPT_FRAME_HDR *mf;
+  1141		LANReceivePostRequest_t *pRecvReq;
+  1142		SGETransaction32_t *pTrans;
+  1143		SGESimple64_t *pSimple;
+  1144		struct sk_buff *skb;
+  1145		dma_addr_t dma;
+  1146		u32 curr, buckets, count, max;
+  1147		u32 len = (dev->mtu + dev->hard_header_len + 4);
+  1148		unsigned long flags;
+  1149		int i;
+  1150	
+  1151		curr = atomic_read(&priv->buckets_out);
+  1152		buckets = (priv->max_buckets_out - curr);
+  1153	
+  1154		dioprintk((KERN_INFO MYNAM ": %s/%s: @%s, Start_buckets = %u, buckets_out = %u\n",
+  1155				IOC_AND_NETDEV_NAMES_s_s(dev),
+  1156				__func__, buckets, curr));
+  1157	
+  1158		max = (mpt_dev->req_sz - MPT_LAN_RECEIVE_POST_REQUEST_SIZE) /
+  1159				(sizeof(SGETransaction32_t) + sizeof(SGESimple64_t));
+  1160	
+  1161		while (buckets) {
+  1162			mf = mpt_get_msg_frame(LanCtx, mpt_dev);
+  1163			if (mf == NULL) {
+  1164				printk (KERN_ERR "%s: Unable to alloc request frame\n",
+  1165					__func__);
+  1166				dioprintk((KERN_ERR "%s: %u buckets remaining\n",
+  1167					 __func__, buckets));
+  1168				goto out;
+  1169			}
+  1170			pRecvReq = (LANReceivePostRequest_t *) mf;
+  1171	
+  1172			i = le16_to_cpu(mf->u.frame.hwhdr.msgctxu.fld.req_idx);
+  1173			mpt_dev->RequestNB[i] = 0;
+  1174			count = buckets;
+  1175			if (count > max)
+  1176				count = max;
+  1177	
+  1178			pRecvReq->Function    = MPI_FUNCTION_LAN_RECEIVE;
+  1179			pRecvReq->ChainOffset = 0;
+  1180			pRecvReq->MsgFlags    = 0;
+  1181			pRecvReq->PortNumber  = priv->pnum;
+  1182	
+  1183			pTrans = (SGETransaction32_t *) pRecvReq->SG_List;
+  1184			pSimple = NULL;
+  1185	
+  1186			for (i = 0; i < count; i++) {
+  1187				int ctx;
+  1188	
+  1189				spin_lock_irqsave(&priv->rxfidx_lock, flags);
+  1190				if (priv->mpt_rxfidx_tail < 0) {
+  1191					printk (KERN_ERR "%s: Can't alloc context\n",
+  1192						__func__);
+  1193					spin_unlock_irqrestore(&priv->rxfidx_lock,
+  1194							       flags);
+  1195					break;
+  1196				}
+  1197	
+  1198				ctx = priv->mpt_rxfidx[priv->mpt_rxfidx_tail--];
+  1199	
+  1200				skb = priv->RcvCtl[ctx].skb;
+  1201				if (skb && (priv->RcvCtl[ctx].len != len)) {
+  1202					pci_unmap_single(mpt_dev->pcidev,
+  1203							 priv->RcvCtl[ctx].dma,
+  1204							 priv->RcvCtl[ctx].len,
+  1205							 PCI_DMA_FROMDEVICE);
+  1206					dev_kfree_skb(priv->RcvCtl[ctx].skb);
+  1207					skb = priv->RcvCtl[ctx].skb = NULL;
+  1208				}
+  1209	
+  1210				if (skb == NULL) {
+  1211					skb = dev_alloc_skb(len);
+  1212					if (skb == NULL) {
+  1213						printk (KERN_WARNING
+  1214							MYNAM "/%s: Can't alloc skb\n",
+  1215							__func__);
+  1216						priv->mpt_rxfidx[++priv->mpt_rxfidx_tail] = ctx;
+  1217						spin_unlock_irqrestore(&priv->rxfidx_lock, flags);
+  1218						break;
+  1219					}
+  1220	
+  1221					dma = pci_map_single(mpt_dev->pcidev, skb->data,
+  1222							     len, PCI_DMA_FROMDEVICE);
+  1223	
+  1224					priv->RcvCtl[ctx].skb = skb;
+  1225					priv->RcvCtl[ctx].dma = dma;
+  1226					priv->RcvCtl[ctx].len = len;
+  1227				}
+  1228	
+  1229				spin_unlock_irqrestore(&priv->rxfidx_lock, flags);
+  1230	
+  1231				pTrans->ContextSize   = sizeof(u32);
+  1232				pTrans->DetailsLength = 0;
+  1233				pTrans->Flags         = 0;
+> 1234				pTrans->TransactionContext = cpu_to_le32(ctx);
+  1235	
+  1236				pSimple = (SGESimple64_t *) pTrans->TransactionDetails;
+  1237	
+  1238				pSimple->FlagsLength = cpu_to_le32(
+  1239					((MPI_SGE_FLAGS_END_OF_BUFFER |
+  1240					  MPI_SGE_FLAGS_SIMPLE_ELEMENT |
+  1241					  MPI_SGE_FLAGS_64_BIT_ADDRESSING) << MPI_SGE_FLAGS_SHIFT) | len);
+  1242				pSimple->Address.Low = cpu_to_le32((u32) priv->RcvCtl[ctx].dma);
+  1243				if (sizeof(dma_addr_t) > sizeof(u32))
+  1244					pSimple->Address.High = cpu_to_le32((u32) ((u64) priv->RcvCtl[ctx].dma >> 32));
+  1245				else
+  1246					pSimple->Address.High = 0;
+  1247	
+  1248				pTrans = (SGETransaction32_t *) (pSimple + 1);
+  1249			}
+  1250	
+  1251			if (pSimple == NULL) {
+  1252	/**/			printk (KERN_WARNING MYNAM "/%s: No buckets posted\n",
+  1253	/**/				__func__);
+  1254				mpt_free_msg_frame(mpt_dev, mf);
+  1255				goto out;
+  1256			}
+  1257	
+  1258			pSimple->FlagsLength |= cpu_to_le32(MPI_SGE_FLAGS_END_OF_LIST << MPI_SGE_FLAGS_SHIFT);
+  1259	
+  1260			pRecvReq->BucketCount = cpu_to_le32(i);
+  1261	
 
-diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
-index 7af9e34..a5cfcad 100644
---- a/include/linux/compiler-gcc.h
-+++ b/include/linux/compiler-gcc.h
-@@ -131,14 +131,14 @@
- #define __diag_str(s)		__diag_str1(s)
- #define __diag(s)		_Pragma(__diag_str(GCC diagnostic s))
- 
--#if GCC_VERSION >= 80000
--#define __diag_GCC_8(s)		__diag(s)
-+#if GCC_VERSION >= 50100
-+#define __diag_GCC_5(s)		__diag(s)
- #else
--#define __diag_GCC_8(s)
-+#define __diag_GCC_5(s)
- #endif
- 
- #define __diag_ignore_all(option, comment) \
--	__diag_GCC(8, ignore, option)
-+	__diag_GCC(5, ignore, option)
- 
- /*
-  * Prior to 9.1, -Wno-alloc-size-larger-than (and therefore the "alloc_size"
 -- 
-1.8.3.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
