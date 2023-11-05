@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE03FBE9;
-	Sun,  5 Nov 2023 19:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0553212
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 19:59:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oq6TSOXo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ddmkWMao"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699213243; x=1730749243;
+  t=1699214364; x=1730750364;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h/8YLp6rRqnMhu8CRet7KADB1QUGmWdc4qXUJ6HPPxo=;
-  b=Oq6TSOXoemiAnHvDiBf0yzXOCQ6k2AIfpy064G7794pmcOr64P147w4E
-   5xHseqWMp/yRnszI0i9p7jlZ1UrMm5fhu678EL//kI6GZUfLBWOjI2ww5
-   XYSBAAPTFLRjcGAd7OuGgwcqw6uiAKdFj2Sxt2/m0DzknlUvY76KnyMnE
-   5zxW5dZOwB74d9gAlqUPuwmxz2PvcVol4M8VejKeWj8umbDjp4z5DH3o/
-   NvENJkwthsjt8Z51qlVXrA/DPydgyCH7R5KmWlYKgWd8DwEpAenkXxXn+
-   IUk7JlnxysFXhFSeTtChDq6INYbmwz1pEyahuhy8JI5NB6oyh5oT4XKzo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455655749"
+  bh=1E6owWMgcxki45LkgtMrEYNLMSfheD92EYWBXFh9qJI=;
+  b=ddmkWMaodgCs6mhWzzHuljkLx/a1mqLjm63nXFuV4RcuoTP2CPLp1uWg
+   LPhkIo7j2zW1Jq2cHZ7WlshZytS8nrGIK9O0ua2x7Z2BeGLKJNqZZJ40M
+   uiV76e7GrMdArNKlc6HwHl4pS7y9RlmC8PbVMz7OPkUiG5YONAw4Ov2Vh
+   8V2VleWmyuiJ41Ou3yNdE5pipcYIIJFL9ZOTb/c0rP0EoeGsW1u8Bu8Mb
+   qEgGsZ4R+M7VEYpzAn/4pjICDuLnFED6taVNz+ssnVUaQWL4U7PDSvyEv
+   zjCFfi4it/z7mjfYjJwPR8qBEA1SwkWAJ1wMyZs+y6ZwWSXbktU3UZ0f4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="379562650"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="455655749"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 11:40:41 -0800
+   d="scan'208";a="379562650"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 11:59:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="905858774"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="905858774"
+   d="scan'208";a="9889589"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Nov 2023 11:40:32 -0800
+  by orviesa001.jf.intel.com with ESMTP; 05 Nov 2023 11:59:22 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qziz0-0005k8-00;
-	Sun, 05 Nov 2023 19:40:30 +0000
-Date: Mon, 6 Nov 2023 03:40:17 +0800
+	id 1qzjH9-0005ke-10;
+	Sun, 05 Nov 2023 19:59:20 +0000
+Date: Mon, 6 Nov 2023 03:58:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:v2_20231004_robh_asoc_dt_matching_and_header_cleanups
- 90/90] sound/soc/tegra/tegra210_amx.c:553:10: warning: variable 'soc_data'
- is uninitialized when used here
-Message-ID: <202311060343.4TQWWtdK-lkp@intel.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/nilfs2/ioctl.c:120: warning: Function parameter or member 'fa'
+ not described in 'nilfs_fileattr_get'
+Message-ID: <202311060311.sOn64IEs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,90 +49,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v2_20231004_robh_asoc_dt_matching_and_header_cleanups
-head:   2e52f94da275deea7cf5f16b3d8fe9c43529a41d
-commit: 2e52f94da275deea7cf5f16b3d8fe9c43529a41d [90/90] ASoC: Use device_get_match_data()
-config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20231106/202311060343.4TQWWtdK-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060343.4TQWWtdK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1c41041124bd14dd6610da256a3da4e5b74ce6b1
+commit: 7c7c436e14b863ce56d9983477d35e05e54a220b nilfs2: convert to fileattr
+date:   2 years, 7 months ago
+config: x86_64-randconfig-012-20231101 (https://download.01.org/0day-ci/archive/20231106/202311060311.sOn64IEs-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060311.sOn64IEs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311060343.4TQWWtdK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311060311.sOn64IEs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/soc/tegra/tegra210_amx.c:553:10: warning: variable 'soc_data' is uninitialized when used here [-Wuninitialized]
-     553 |                                             soc_data->regmap_conf);
-         |                                             ^~~~~~~~
-   include/linux/regmap.h:1104:45: note: expanded from macro 'devm_regmap_init_mmio'
-    1104 |         devm_regmap_init_mmio_clk(dev, NULL, regs, config)
-         |                                                    ^~~~~~
-   include/linux/regmap.h:1090:24: note: expanded from macro 'devm_regmap_init_mmio_clk'
-    1090 |                                 dev, clk_id, regs, config)
-         |                                                    ^~~~~~
-   include/linux/regmap.h:735:6: note: expanded from macro '__regmap_lockdep_wrapper'
-     735 |                 fn(__VA_ARGS__, &_key,                                  \
-         |                    ^~~~~~~~~~~
-   sound/soc/tegra/tegra210_amx.c:538:40: note: initialize the variable 'soc_data' to silence this warning
-     538 |         struct tegra210_amx_soc_data *soc_data;
-         |                                               ^
-         |                                                = NULL
-   1 warning generated.
+   fs/nilfs2/ioctl.c:120: warning: Function parameter or member 'dentry' not described in 'nilfs_fileattr_get'
+>> fs/nilfs2/ioctl.c:120: warning: Function parameter or member 'fa' not described in 'nilfs_fileattr_get'
+   fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'mnt_userns' not described in 'nilfs_fileattr_set'
+>> fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'dentry' not described in 'nilfs_fileattr_set'
+>> fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'fa' not described in 'nilfs_fileattr_set'
+   fs/nilfs2/ioctl.c:164: warning: Function parameter or member 'inode' not described in 'nilfs_ioctl_getversion'
+   fs/nilfs2/ioctl.c:164: warning: Function parameter or member 'argp' not described in 'nilfs_ioctl_getversion'
 
 
-vim +/soc_data +553 sound/soc/tegra/tegra210_amx.c
+vim +120 fs/nilfs2/ioctl.c
 
-77f7df346c4533 Sameer Pujar 2021-09-13  531  
-77f7df346c4533 Sameer Pujar 2021-09-13  532  static int tegra210_amx_platform_probe(struct platform_device *pdev)
-77f7df346c4533 Sameer Pujar 2021-09-13  533  {
-77f7df346c4533 Sameer Pujar 2021-09-13  534  	struct device *dev = &pdev->dev;
-77f7df346c4533 Sameer Pujar 2021-09-13  535  	struct tegra210_amx *amx;
-77f7df346c4533 Sameer Pujar 2021-09-13  536  	void __iomem *regs;
-77f7df346c4533 Sameer Pujar 2021-09-13  537  	int err;
-77f7df346c4533 Sameer Pujar 2021-09-13  538  	struct tegra210_amx_soc_data *soc_data;
-77f7df346c4533 Sameer Pujar 2021-09-13  539  
-77f7df346c4533 Sameer Pujar 2021-09-13  540  	amx = devm_kzalloc(dev, sizeof(*amx), GFP_KERNEL);
-77f7df346c4533 Sameer Pujar 2021-09-13  541  	if (!amx)
-77f7df346c4533 Sameer Pujar 2021-09-13  542  		return -ENOMEM;
-77f7df346c4533 Sameer Pujar 2021-09-13  543  
-2e52f94da275de Rob Herring  2023-10-04  544  	amx->soc_data = device_get_match_data(dev);
-77f7df346c4533 Sameer Pujar 2021-09-13  545  
-77f7df346c4533 Sameer Pujar 2021-09-13  546  	dev_set_drvdata(dev, amx);
-77f7df346c4533 Sameer Pujar 2021-09-13  547  
-77f7df346c4533 Sameer Pujar 2021-09-13  548  	regs = devm_platform_ioremap_resource(pdev, 0);
-77f7df346c4533 Sameer Pujar 2021-09-13  549  	if (IS_ERR(regs))
-77f7df346c4533 Sameer Pujar 2021-09-13  550  		return PTR_ERR(regs);
-77f7df346c4533 Sameer Pujar 2021-09-13  551  
-77f7df346c4533 Sameer Pujar 2021-09-13  552  	amx->regmap = devm_regmap_init_mmio(dev, regs,
-77f7df346c4533 Sameer Pujar 2021-09-13 @553  					    soc_data->regmap_conf);
-77f7df346c4533 Sameer Pujar 2021-09-13  554  	if (IS_ERR(amx->regmap)) {
-77f7df346c4533 Sameer Pujar 2021-09-13  555  		dev_err(dev, "regmap init failed\n");
-77f7df346c4533 Sameer Pujar 2021-09-13  556  		return PTR_ERR(amx->regmap);
-77f7df346c4533 Sameer Pujar 2021-09-13  557  	}
-77f7df346c4533 Sameer Pujar 2021-09-13  558  
-77f7df346c4533 Sameer Pujar 2021-09-13  559  	regcache_cache_only(amx->regmap, true);
-77f7df346c4533 Sameer Pujar 2021-09-13  560  
-77f7df346c4533 Sameer Pujar 2021-09-13  561  	err = devm_snd_soc_register_component(dev, &tegra210_amx_cmpnt,
-77f7df346c4533 Sameer Pujar 2021-09-13  562  					      tegra210_amx_dais,
-77f7df346c4533 Sameer Pujar 2021-09-13  563  					      ARRAY_SIZE(tegra210_amx_dais));
-77f7df346c4533 Sameer Pujar 2021-09-13  564  	if (err) {
-77f7df346c4533 Sameer Pujar 2021-09-13  565  		dev_err(dev, "can't register AMX component, err: %d\n", err);
-77f7df346c4533 Sameer Pujar 2021-09-13  566  		return err;
-77f7df346c4533 Sameer Pujar 2021-09-13  567  	}
-77f7df346c4533 Sameer Pujar 2021-09-13  568  
-77f7df346c4533 Sameer Pujar 2021-09-13  569  	pm_runtime_enable(dev);
-77f7df346c4533 Sameer Pujar 2021-09-13  570  
-77f7df346c4533 Sameer Pujar 2021-09-13  571  	return 0;
-77f7df346c4533 Sameer Pujar 2021-09-13  572  }
-77f7df346c4533 Sameer Pujar 2021-09-13  573  
+7942b919f7321f Koji Sato          2009-04-06  115  
+d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  116  /**
+7c7c436e14b863 Miklos Szeredi     2021-04-07  117   * nilfs_fileattr_get - ioctl to support lsattr
+d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  118   */
+7c7c436e14b863 Miklos Szeredi     2021-04-07  119  int nilfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
+cde98f0f84ccff Ryusuke Konishi    2011-01-20 @120  {
+7c7c436e14b863 Miklos Szeredi     2021-04-07  121  	struct inode *inode = d_inode(dentry);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  122  
+7c7c436e14b863 Miklos Szeredi     2021-04-07  123  	fileattr_fill_flags(fa, NILFS_I(inode)->i_flags & FS_FL_USER_VISIBLE);
+7c7c436e14b863 Miklos Szeredi     2021-04-07  124  
+7c7c436e14b863 Miklos Szeredi     2021-04-07  125  	return 0;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  126  }
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  127  
+d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  128  /**
+7c7c436e14b863 Miklos Szeredi     2021-04-07  129   * nilfs_fileattr_set - ioctl to support chattr
+d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  130   */
+7c7c436e14b863 Miklos Szeredi     2021-04-07  131  int nilfs_fileattr_set(struct user_namespace *mnt_userns,
+7c7c436e14b863 Miklos Szeredi     2021-04-07  132  		       struct dentry *dentry, struct fileattr *fa)
+cde98f0f84ccff Ryusuke Konishi    2011-01-20 @133  {
+7c7c436e14b863 Miklos Szeredi     2021-04-07  134  	struct inode *inode = d_inode(dentry);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  135  	struct nilfs_transaction_info ti;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  136  	unsigned int flags, oldflags;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  137  	int ret;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  138  
+7c7c436e14b863 Miklos Szeredi     2021-04-07  139  	if (fileattr_has_fsx(fa))
+7c7c436e14b863 Miklos Szeredi     2021-04-07  140  		return -EOPNOTSUPP;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  141  
+7c7c436e14b863 Miklos Szeredi     2021-04-07  142  	flags = nilfs_mask_flags(inode->i_mode, fa->flags);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  143  
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  144  	ret = nilfs_transaction_begin(inode->i_sb, &ti, 0);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  145  	if (ret)
+7c7c436e14b863 Miklos Szeredi     2021-04-07  146  		return ret;
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  147  
+7c7c436e14b863 Miklos Szeredi     2021-04-07  148  	oldflags = NILFS_I(inode)->i_flags & ~FS_FL_USER_MODIFIABLE;
+7c7c436e14b863 Miklos Szeredi     2021-04-07  149  	NILFS_I(inode)->i_flags = oldflags | (flags & FS_FL_USER_MODIFIABLE);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  150  
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  151  	nilfs_set_inode_flags(inode);
+078cd8279e6599 Deepa Dinamani     2016-09-14  152  	inode->i_ctime = current_time(inode);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  153  	if (IS_SYNC(inode))
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  154  		nilfs_set_transaction_flag(NILFS_TI_SYNC);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  155  
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  156  	nilfs_mark_inode_dirty(inode);
+7c7c436e14b863 Miklos Szeredi     2021-04-07  157  	return nilfs_transaction_commit(inode->i_sb);
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  158  }
+cde98f0f84ccff Ryusuke Konishi    2011-01-20  159  
 
-:::::: The code at line 553 was first introduced by commit
-:::::: 77f7df346c4533b91d0dcc2b549eb7c98abd198b ASoC: tegra: Add Tegra210 based AMX driver
+:::::: The code at line 120 was first introduced by commit
+:::::: cde98f0f84ccff78e87235cb7b551747d6ad00de nilfs2: implement FS_IOC_GETFLAGS/SETFLAGS/GETVERSION
 
-:::::: TO: Sameer Pujar <spujar@nvidia.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
+:::::: CC: Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
 
 -- 
 0-DAY CI Kernel Test Service
