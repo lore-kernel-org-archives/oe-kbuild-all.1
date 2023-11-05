@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF19A2D61C;
-	Sun,  5 Nov 2023 17:03:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A973BE4A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 17:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJ0OrGeM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebGm+tgr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699203824; x=1730739824;
+  t=1699205299; x=1730741299;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8WrFVxaLHbY7bOXSRqVPJZ3QK1kaEC5icXCBaYVKMbY=;
-  b=UJ0OrGeMEYgzUwW9DdIldniGWMnoZOrQHPOnlhjx68+R+8yHz9lxe/fh
-   XfwtqGOT+AXADA/0l/e2CWWb12Q38FrLwbINJcxBNRL1oJTRKFC/oIP2K
-   yZ65cQz77tsek4P7wc9tx1Mosg1F/1QSuuvG7DrtNuKa7w3moPCQau5eZ
-   FvYOtiC/pqV6dVvLjtVOokG1T0sYBk2x7s6QdamQVuytnD9FnZKouKHfg
-   EAFm3vID/c8W9/ZkaBWcjJVrZeFvxTwxDxFoTseIb1XBLaMus9+BDZzmk
-   vREqy3NSsR671glelJcA3XHBDNMvhKx/73yGF5jSJhDhTKFqc1Cg0GZWL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="386333759"
+  bh=wDCwqlVch+ojaiAx1S4djZX43XFw12GnoquKjf81qbY=;
+  b=ebGm+tgr+lreLe2ne6fQ4zKMXtxelPnVhT9k/s5xm2OOYmfnDhRnj8wJ
+   QhmMkZoPxOCU5IssEEGYJvh1FMDCWGyYZ+0KcOh8wfUpqyTz0XbOKfRVr
+   cL/tv33KwD42LFFCoyrPmcKsCT2C6PKoDHz2kVSXZHpLEEbTAhpU2nJKh
+   i0xleGvt9plj8dn/hFejeszmTxeYklhD7QtU7VYYGCGdlw6x07xC55t2X
+   U1sqml66TE0OcUPv86bevhYvuw0M+MiZgDfo6sPupmjf5l9n9IaRqgEbC
+   lcNR/nhp/JzWiKVt/xkRmsSsTT5AAHtm6bvlYBZBrdxl9tiXHr2FmMrrN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="392029085"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="386333759"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 09:03:43 -0800
+   d="scan'208";a="392029085"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 09:28:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="885694529"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="738591940"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="885694529"
+   d="scan'208";a="738591940"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 Nov 2023 09:03:42 -0800
+  by orsmga006.jf.intel.com with ESMTP; 05 Nov 2023 09:28:16 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzgXE-0005do-0v;
-	Sun, 05 Nov 2023 17:03:40 +0000
-Date: Mon, 6 Nov 2023 01:02:46 +0800
+	id 1qzgv0-0005fA-0q;
+	Sun, 05 Nov 2023 17:28:14 +0000
+Date: Mon, 6 Nov 2023 01:27:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:iov-kunit 1/10] lib/kunit_iov_iter.c:551:47: warning:
- performing pointer arithmetic on a null pointer has undefined behavior
-Message-ID: <202311060012.RojaVmD7-lkp@intel.com>
+To: Amelie Delaunay <amelie.delaunay@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>
+Subject: include/linux/compiler_types.h:354:38: error: call to
+ '__compiletime_assert_282' declared with attribute error: FIELD_PREP: value
+ too large for the field
+Message-ID: <202311060135.Q9eMnpCL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,115 +52,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-kunit
-head:   895a7ddefa3e00a497187cac3d4fb5e57d3059fe
-commit: 5af0b69fca117e1436df04951f0a0d917f614e15 [1/10] iov_iter: Fix some checkpatch complaints in kunit tests
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231106/202311060012.RojaVmD7-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060012.RojaVmD7-lkp@intel.com/reproduce)
+Hi Amelie,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1c41041124bd14dd6610da256a3da4e5b74ce6b1
+commit: 1c32d6c37cc2a037e447e73f919d57e89ef4b571 dmaengine: stm32-dma: use bitfield helpers
+date:   1 year, 2 months ago
+config: i386-buildonly-randconfig-004-20231010 (https://download.01.org/0day-ci/archive/20231106/202311060135.Q9eMnpCL-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060135.Q9eMnpCL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311060012.RojaVmD7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311060135.Q9eMnpCL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> lib/kunit_iov_iter.c:551:47: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                           pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
-                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   lib/kunit_iov_iter.c:629:47: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                           pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
-                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   lib/kunit_iov_iter.c:712:48: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-                                   pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
-                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   3 warnings generated.
+   In file included from <command-line>:0:0:
+   drivers/dma/stm32-dma.c: In function 'stm32_dma_prep_dma_memcpy':
+>> include/linux/compiler_types.h:354:38: error: call to '__compiletime_assert_282' declared with attribute error: FIELD_PREP: value too large for the field
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+                                         ^
+   include/linux/compiler_types.h:335:4: note: in definition of macro '__compiletime_assert'
+       prefix ## suffix();    \
+       ^~~~~~
+   include/linux/compiler_types.h:354:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:68:3: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?  \
+      ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:3: note: in expansion of macro '__BF_FIELD_CHECK'
+      __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: "); \
+      ^~~~~~~~~~~~~~~~
+   drivers/dma/stm32-dma.c:1237:4: note: in expansion of macro 'FIELD_PREP'
+       FIELD_PREP(STM32_DMA_SCR_PBURST_MASK, dma_burst) |
+       ^~~~~~~~~~
 
 
-vim +551 lib/kunit_iov_iter.c
+vim +/__compiletime_assert_282 +354 include/linux/compiler_types.h
 
-   521	
-   522	/*
-   523	 * Test the extraction of ITER_KVEC-type iterators.
-   524	 */
-   525	static void __init iov_kunit_extract_pages_kvec(struct kunit *test)
-   526	{
-   527		const struct kvec_test_range *pr;
-   528		struct iov_iter iter;
-   529		struct page **bpages, *pagelist[8], **pages = pagelist;
-   530		struct kvec kvec[8];
-   531		u8 *buffer;
-   532		ssize_t len;
-   533		size_t bufsize, size = 0, npages;
-   534		int i, from;
-   535	
-   536		bufsize = 0x100000;
-   537		npages = bufsize / PAGE_SIZE;
-   538	
-   539		buffer = iov_kunit_create_buffer(test, &bpages, npages);
-   540	
-   541		iov_kunit_load_kvec(test, &iter, READ, kvec, ARRAY_SIZE(kvec),
-   542				    buffer, bufsize, kvec_test_ranges);
-   543		size = iter.count;
-   544	
-   545		pr = kvec_test_ranges;
-   546		from = pr->from;
-   547		do {
-   548			size_t offset0 = LONG_MAX;
-   549	
-   550			for (i = 0; i < ARRAY_SIZE(pagelist); i++)
- > 551				pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
-   552	
-   553			len = iov_iter_extract_pages(&iter, &pages, 100 * 1024,
-   554						     ARRAY_SIZE(pagelist), 0, &offset0);
-   555			KUNIT_EXPECT_GE(test, len, 0);
-   556			if (len < 0)
-   557				break;
-   558			KUNIT_EXPECT_GE(test, (ssize_t)offset0, 0);
-   559			KUNIT_EXPECT_LT(test, offset0, PAGE_SIZE);
-   560			KUNIT_EXPECT_LE(test, len, size);
-   561			KUNIT_EXPECT_EQ(test, iter.count, size - len);
-   562			size -= len;
-   563	
-   564			if (len == 0)
-   565				break;
-   566	
-   567			for (i = 0; i < ARRAY_SIZE(pagelist); i++) {
-   568				struct page *p;
-   569				ssize_t part = min_t(ssize_t, len, PAGE_SIZE - offset0);
-   570				int ix;
-   571	
-   572				KUNIT_ASSERT_GE(test, part, 0);
-   573				while (from == pr->to) {
-   574					pr++;
-   575					from = pr->from;
-   576					if (from < 0)
-   577						goto stop;
-   578				}
-   579				ix = from / PAGE_SIZE;
-   580				KUNIT_ASSERT_LT(test, ix, npages);
-   581				p = bpages[ix];
-   582				KUNIT_EXPECT_PTR_EQ(test, pagelist[i], p);
-   583				KUNIT_EXPECT_EQ(test, offset0, from % PAGE_SIZE);
-   584				from += part;
-   585				len -= part;
-   586				KUNIT_ASSERT_GE(test, len, 0);
-   587				if (len == 0)
-   588					break;
-   589				offset0 = 0;
-   590			}
-   591	
-   592			if (test->status == KUNIT_FAILURE)
-   593				break;
-   594		} while (iov_iter_count(&iter) > 0);
-   595	
-   596	stop:
-   597		KUNIT_EXPECT_EQ(test, size, 0);
-   598		KUNIT_EXPECT_EQ(test, iter.count, 0);
-   599		KUNIT_SUCCEED();
-   600	}
-   601	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  340  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  341  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  342  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  343  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  345   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  346   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  347   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  348   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  353  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @354  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  355  
+
+:::::: The code at line 354 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
