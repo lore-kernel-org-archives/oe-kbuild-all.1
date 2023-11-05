@@ -1,140 +1,164 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E93AD55
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 11:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633E3BA27;
+	Sun,  5 Nov 2023 12:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PwY054mm"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-66d12b3b479so22659366d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 05 Nov 2023 03:55:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699185314; x=1699790114; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C9FgC82VB9DuohSkiRg/tKOnJgJe/c9z30+wZ2VpWJA=;
-        b=PwY054mmp+e+4ExARaI3JJgR1gsulgrU1mcCP/nVOibmtBJXIFj5yiEolwAOVJyMLs
-         G5aJggRjNGTy8S57UZck/543IsDjYMUCFNwEQABcvf0mYLo3xmgRt8+GbYPsYLTsCcP+
-         ARjAjTjmhaOUgUzf0xRPcYtOd3EH2cvOhgknWmqT4XiyEBdvTrwjofjDDzzoDjAoLFdh
-         e5PQ7h07rXumBf2rgCPBIahyvniZg3uXRXP9rbJ+6VwwhX/BnreSArDnL4IV8FFrNbSM
-         QncAWxq8Di/RvQq1n2lUg1aUYnFSLqcTapc4fH0r25fn73gAsQxz+03Lx0LwwnMpiPmJ
-         jhag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699185314; x=1699790114;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C9FgC82VB9DuohSkiRg/tKOnJgJe/c9z30+wZ2VpWJA=;
-        b=BZiNqqFWh7T7Ni1Lbd4/AQEJkF0ZEdT1sYqwgIwFdDb7pVrbHP743224c8owEVza/A
-         1kmsiZZ1vxjD76p2f5MHSFsjmRdINKiv82Swkb9l6+TY7HSVAiOnpb/OErSTZJQCxjJW
-         CQ22vVxKqlnJm1ZpprgUKpxTETT7n1imhhz0ShUMkbp5tmf31snj1oNf3gSzV/BZZeKH
-         SnkmNfflrWNVuSjFNYEDyOyS5f0GY0/fk9VA6IRXAM2MoX+dxrHAOi/NMSpJODMACG5x
-         gWtN8I9rmFtHHxuhxKvRdxToztdwD/s/P170YX0nnwpvWymCM8zPIkHamBZPag4fRyzj
-         ZX9g==
-X-Gm-Message-State: AOJu0YyylsJZUkO3Eg0H/R/ahgcpa5YdsqGjb45jGRQe5ctxD4efjXXV
-	5l6BrWmKhjNelwPi+PhBDRSw4iQiFKFFag0uiwo=
-X-Google-Smtp-Source: AGHT+IGd1lnDxRpp/KbVcQtLGmzSqHZ68PFrwbXEnpEbYEqxmKxJQ1ZDaypxQDXXvE7RVZqLQgHlIpwzuKSxSJ3URBQ=
-X-Received: by 2002:ad4:5bc4:0:b0:671:567d:b134 with SMTP id
- t4-20020ad45bc4000000b00671567db134mr24775335qvt.56.1699185314493; Sun, 05
- Nov 2023 03:55:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eyAtos5A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699185767; x=1730721767;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J4JwgJa5GNdZjFKBIAPG8n7Mh06Yyk1yBkXjMYRLJd4=;
+  b=eyAtos5AEpCO2z6UKBrwixb+mmPmk6NFVSXpAUHWtSiRIfAqVx8mM8eA
+   qshhHRXHA2P73WBEwBdOFy2L7YfD7y+j/ZfuK1ODXfQo8Sld6/sCe5b+u
+   IDmrVIOLjWNJ2QbPXlU38ZsZe73TWsKONLmam64WOB9THhNmKp7PDSrPi
+   Egk8vOBTVSaLExMVKvTKEL8+jM72YZ8C08lJXfZe18D23NXb1x885kF2m
+   LLjWNb0Ms/aQj6qZsfZ+snPz2wbIQ5v5Q8LrkwogVQ1wwA/wVFJtMhLHe
+   NLWr2uYh16eS3lFCh3KMj/NfvQlFOd3+Kq+OO+4tiszEWPm2eMrC7zXOO
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="420260461"
+X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
+   d="scan'208";a="420260461"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 04:02:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
+   d="scan'208";a="9831066"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 05 Nov 2023 04:02:44 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qzbpx-0005Od-33;
+	Sun, 05 Nov 2023 12:02:41 +0000
+Date: Sun, 5 Nov 2023 20:02:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Robin Murphy <robin.murphy@arm.com>, Hannes Reinecke <hare@suse.de>
+Subject: drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (2544)
+ exceeds limit (2048) in 'FlashPoint_HandleInterrupt'
+Message-ID: <202311051924.sPxeVYCL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202311031651.A7crZEur-lkp@intel.com> <20231105062227.4190-1-laoar.shao@gmail.com>
- <4f5a8c67-74be-41a1-8a0c-acac40da8902@app.fastmail.com>
-In-Reply-To: <4f5a8c67-74be-41a1-8a0c-acac40da8902@app.fastmail.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Sun, 5 Nov 2023 19:54:38 +0800
-Message-ID: <CALOAHbCt4-kDGoW=4R0EarPNV2yNcwy3exkVrn6Tz5Ng8M8gvg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next] compiler-gcc: Ignore -Wmissing-prototypes
- warning for older GCC
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, Andrii Nakryiko <andrii@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, bpf@vger.kernel.org, cgroups@vger.kernel.org, 
-	Daniel Borkmann <daniel@iogearbox.net>, Johannes Weiner <hannes@cmpxchg.org>, Hao Luo <haoluo@google.com>, 
-	John Fastabend <john.fastabend@gmail.com>, Jiri Olsa <jolsa@kernel.org>, 
-	KP Singh <kpsingh@kernel.org>, lizefan.x@bytedance.com, 
-	Waiman Long <longman@redhat.com>, Martin KaFai Lau <martin.lau@linux.dev>, mkoutny@suse.com, 
-	oe-kbuild-all@lists.linux.dev, kernel test robot <oliver.sang@intel.com>, 
-	Stanislav Fomichev <sdf@google.com>, sinquersw@gmail.com, Song Liu <song@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, yosryahmed@google.com, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Nov 5, 2023 at 4:24=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Sun, Nov 5, 2023, at 07:22, Yafang Shao wrote:
-> > The kernel supports a minimum GCC version of 5.1.0 for building. Howeve=
-r,
-> > the "__diag_ignore_all" directive only suppresses the
-> > "-Wmissing-prototypes" warning for GCC versions >=3D 8.0.0. As a result=
-, when
-> > building the kernel with older GCC versions, warnings may be triggered.=
- The
-> > example below illustrates the warnings reported by the kernel test robo=
-t
-> > using GCC 7.5.0:
-> >
-> >   compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> >   All warnings (new ones prefixed by >>):
-> >
-> >    kernel/bpf/helpers.c:1893:19: warning: no previous prototype for
-> > 'bpf_obj_new_impl' [-Wmissing-prototypes]
-> >     __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void
-> > *meta__ign)
-> >                       ^~~~~~~~~~~~~~~~
-> >    kernel/bpf/helpers.c:1907:19: warning: no previous prototype for
-> > 'bpf_percpu_obj_new_impl' [-Wmissing-prototypes]
-> >     __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k,
-> > void *meta__ign)
-> >    [...]
-> >
-> > To address this, we should also suppress the "-Wmissing-prototypes" war=
-ning
-> > for older GCC versions. Since "#pragma GCC diagnostic push" is supporte=
-d as
-> > of GCC 4.6, it is acceptable to ignore these warnings for GCC >=3D 5.1.=
-0.
->
-> Not sure why these need to be suppressed like this at all,
-> can't you just add the prototype somewhere?
+Hi Arnd,
 
-BPF kfuncs are intended for use within BPF programs, and they should
-not be called from other parts of the kernel. Consequently, it is not
-appropriate to include their prototypes in a kernel header file.
+First bad commit (maybe != root cause):
 
->
-> > @@ -131,14 +131,14 @@
-> >  #define __diag_str(s)                __diag_str1(s)
-> >  #define __diag(s)            _Pragma(__diag_str(GCC diagnostic s))
-> >
-> > -#if GCC_VERSION >=3D 80000
-> > -#define __diag_GCC_8(s)              __diag(s)
-> > +#if GCC_VERSION >=3D 50100
-> > +#define __diag_GCC_5(s)              __diag(s)
-> >  #else
-> > -#define __diag_GCC_8(s)
-> > +#define __diag_GCC_5(s)
-> >  #endif
-> >
->
-> This breaks all uses of __diag_ignore that specify
-> version 8 directly. Just add the macros for each version
-> from 5 to 14 here.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1c41041124bd14dd6610da256a3da4e5b74ce6b1
+commit: 9f7c2232e131b1de2ee4abadfce5d8f010e223c6 scsi: BusLogic: Remove bus_to_virt()
+date:   1 year, 4 months ago
+config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20231105/202311051924.sPxeVYCL-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051924.sPxeVYCL-lkp@intel.com/reproduce)
 
-It seems that __diag_GCC_8() or __diag_GCC() are not directly used
-anywhere in the kernel, right?
-Therefore it won't break anything if we just replace __diag_GCC_8()
-with __diag_GCC_5().
-It may be cumbersome to add the macrocs for every GCC version if they
-aren't actively used.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311051924.sPxeVYCL-lkp@intel.com/
 
---
-Regards
-Yafang
+All warnings (new ones prefixed by >>):
+
+   drivers/scsi/BusLogic.c:2201:6: warning: variable 'adapter_count' set but not used [-Wunused-but-set-variable]
+    2201 |         int adapter_count = 0, drvr_optindex = 0, probeindex;
+         |             ^
+   In file included from drivers/scsi/BusLogic.c:51:
+>> drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (2544) exceeds limit (2048) in 'FlashPoint_HandleInterrupt' [-Wframe-larger-than]
+    1712 | static int FlashPoint_HandleInterrupt(void *pcard)
+         |            ^
+   2 warnings generated.
+
+
+vim +/FlashPoint_HandleInterrupt +1712 drivers/scsi/FlashPoint.c
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1702  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1703  /*---------------------------------------------------------------------
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1704   *
+d8b6b8bd8a99ee Alexey Dobriyan 2006-03-08  1705   * Function: FlashPoint_HandleInterrupt
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1706   *
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1707   * Description: This is our entry point when an interrupt is generated
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1708   *              by the card and the upper level driver passes it on to
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1709   *              us.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1710   *
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1711   *---------------------------------------------------------------------*/
+391e2f25601e34 Khalid Aziz     2013-05-16 @1712  static int FlashPoint_HandleInterrupt(void *pcard)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1713  {
+69eb2ea4779336 Alexey Dobriyan 2006-03-08  1714  	struct sccb *currSCCB;
+db038cf86fc63d Alexey Dobriyan 2006-03-08  1715  	unsigned char thisCard, result, bm_status, bm_int_st;
+c823feeb33161c Alexey Dobriyan 2006-03-08  1716  	unsigned short hp_int;
+db038cf86fc63d Alexey Dobriyan 2006-03-08  1717  	unsigned char i, target;
+391e2f25601e34 Khalid Aziz     2013-05-16  1718  	struct sccb_card *pCurrCard = pcard;
+391e2f25601e34 Khalid Aziz     2013-05-16  1719  	u32 ioport;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1720  
+391e2f25601e34 Khalid Aziz     2013-05-16  1721  	thisCard = pCurrCard->cardIndex;
+391e2f25601e34 Khalid Aziz     2013-05-16  1722  	ioport = pCurrCard->ioPort;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1723  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1724  	MDISABLE_INT(ioport);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1725  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1726  	if ((bm_int_st = RD_HARPOON(ioport + hp_int_status)) & EXT_STATUS_ON)
+391e2f25601e34 Khalid Aziz     2013-05-16  1727  		bm_status = RD_HARPOON(ioport + hp_ext_status) &
+391e2f25601e34 Khalid Aziz     2013-05-16  1728  					(unsigned char)BAD_EXT_STATUS;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1729  	else
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1730  		bm_status = 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1731  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1732  	WR_HARPOON(ioport + hp_int_mask, (INT_CMD_COMPL | SCSI_INTERRUPT));
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1733  
+391e2f25601e34 Khalid Aziz     2013-05-16  1734  	while ((hp_int = RDW_HARPOON((ioport + hp_intstat)) &
+391e2f25601e34 Khalid Aziz     2013-05-16  1735  				FPT_default_intena) | bm_status) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1736  
+391e2f25601e34 Khalid Aziz     2013-05-16  1737  		currSCCB = pCurrCard->currentSCCB;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1738  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1739  		if (hp_int & (FIFO | TIMEOUT | RESET | SCAM_SEL) || bm_status) {
+5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1740  			result =
+391e2f25601e34 Khalid Aziz     2013-05-16  1741  			    FPT_SccbMgr_bad_isr(ioport, thisCard, pCurrCard,
+5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1742  						hp_int);
+5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1743  			WRW_HARPOON((ioport + hp_intstat),
+5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1744  				    (FIFO | TIMEOUT | RESET | SCAM_SEL));
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1745  			bm_status = 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1746  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1747  			if (result) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1748  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1749  				MENABLE_INT(ioport);
+5c1b85e209af41 Alexey Dobriyan 2006-03-08  1750  				return result;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1751  			}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1752  		}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1753  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1754  		else if (hp_int & ICMD_COMP) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1755  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1756  			if (!(hp_int & BUS_FREE)) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1757  				/* Wait for the BusFree before starting a new command.  We
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1758  				   must also check for being reselected since the BusFree
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1759  				   may not show up if another device reselects us in 1.5us or
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1760  				   less.  SRR Wednesday, 3/8/1995.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1761  				 */
+5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1762  				while (!
+5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1763  				       (RDW_HARPOON((ioport + hp_intstat)) &
+5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1764  					(BUS_FREE | RSEL))) ;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1765  			}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1766  
+391e2f25601e34 Khalid Aziz     2013-05-16  1767  			if (pCurrCard->globalFlags & F_HOST_XFER_ACT)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1768  
+47b5d69c4aa753 James Bottomley 2005-04-24  1769  				FPT_phaseChkFifo(ioport, thisCard);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1770  
+
+:::::: The code at line 1712 was first introduced by commit
+:::::: 391e2f25601e34a7d7e5dc155e487bc58dffd8c6 [SCSI] BusLogic: Port driver to 64-bit.
+
+:::::: TO: Khalid Aziz <khalid.aziz@oracle.com>
+:::::: CC: James Bottomley <JBottomley@Parallels.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
