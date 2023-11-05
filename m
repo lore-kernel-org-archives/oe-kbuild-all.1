@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458BF20FE
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 08:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B540B20FE;
+	Sun,  5 Nov 2023 09:01:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mamM/WdG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sp2fTHyy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699173343; x=1730709343;
+  t=1699174907; x=1730710907;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IL6YhhEai/dBby2vuRq88F712WxFFmhiMl3DEpL4Z9Y=;
-  b=mamM/WdG0meENZwhuSLrWqCgPA1aQZxMBzgsTEAbCyzf0yJyoXMsbY81
-   CU2Y3yTmTO5yjkjtviLMG1ULpJ6wRFqx37oftLgeYDvKZNGD2WjCKwuEf
-   poHFcPAlsflOYBl9bq3qWp8Us6Zzk1VIS8K/MIFEcV8yC9KR9dCcVE7Us
-   2PqiF1Qg5MLHmhCxOLNfm1GrUJjCgK8e/ymY3tg5FTHC4zE6GvZpw9MN4
-   8KPD8JrR0fTpYx7YUH+2JOPLUlMVjwkbhOMlzc2envkWLU6xmOMpZwfbc
-   ZkvjiXDtiLC9flUI6UALSXPHxN80cW7j8IU78wondF2SbUvMB4gxSaM/3
+  bh=4kuPnkOWqIaHsGNQLfGMR1SzyRM7sFtC+ycon3pMk7M=;
+  b=Sp2fTHyyPXrD0R5kVM42a99kOYyDbKENBFyOeYBCIkwPW2DySQ13zC8l
+   uZsRK3+O1NeymlN9TbiUj1DVu2mA2Wpk9h59gOenHQ3lNX6nsdF9LHz8f
+   zwtwL26Ln8nb7vIQs0RRMAvElqJ15TR97qLp5l6eXuc55t/GWGrw23RGp
+   JSWKStKC0dVD5tWjHcUkoJPoStCbiG+OFbnt1ErTyPpTiBxzfO5KIpYku
+   rvkheR5Ef5z2ZkmjNE0lODAQDZDG+CpYOTMAdjd/RSi5jzSzcyNckk8xV
+   urwcmZvcYs2CDyuNusNhWnsNyergByVLsfpTPMSy0//3RK+nbybXyll1w
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="379525510"
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="392001313"
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="379525510"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 01:35:40 -0700
+   d="scan'208";a="392001313"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 01:01:47 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="755575702"
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="3346407"
+   d="scan'208";a="755575702"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2023 01:35:39 -0700
+  by orsmga007.jf.intel.com with ESMTP; 05 Nov 2023 01:01:45 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzYbY-0005Cq-1s;
-	Sun, 05 Nov 2023 08:35:36 +0000
-Date: Sun, 5 Nov 2023 16:35:20 +0800
+	id 1qzZ0o-0005EQ-3B;
+	Sun, 05 Nov 2023 09:01:42 +0000
+Date: Sun, 5 Nov 2023 17:01:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>
-Subject: fs/ubifs/replay.c:359: warning: Function parameter or member 'hash'
- not described in 'insert_node'
-Message-ID: <202311051618.D7YUE1Rr-lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dm-devel@lists.linux.dev
+Subject: [device-mapper-dm:dm-vdo-wip 74/90] aarch64-linux-ld:
+ dm-vdo-target.c:undefined reference to `uds_free'
+Message-ID: <202311051642.f2ECCH3V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,152 +50,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Sascha,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aea6bf908d730b01bd264a8821159db9463c111c
-commit: 16a26b20d2afd0cf063816725b45b12e78d5bb31 ubifs: authentication: Add hashes to index nodes
-date:   5 years ago
-config: x86_64-randconfig-012-20231101 (https://download.01.org/0day-ci/archive/20231105/202311051618.D7YUE1Rr-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051618.D7YUE1Rr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git dm-vdo-wip
+head:   295f5e2cde5fe5db8cfcf2eef7674a7b5e85c279
+commit: e8b8b9da5b385af7d01e88b230a22ac402b27b9f [74/90] dm vdo memory-alloc: rename uds_free_memory to uds_free
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231105/202311051642.f2ECCH3V-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051642.f2ECCH3V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311051618.D7YUE1Rr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311051642.f2ECCH3V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/ubifs/replay.c:71: warning: Function parameter or member 'hash' not described in 'replay_entry'
->> fs/ubifs/replay.c:359: warning: Function parameter or member 'hash' not described in 'insert_node'
->> fs/ubifs/replay.c:408: warning: Function parameter or member 'hash' not described in 'insert_dent'
-   fs/ubifs/replay.c:792: warning: Excess function parameter 'ref_lnum' description in 'validate_ref'
-   fs/ubifs/replay.c:792: warning: Excess function parameter 'ref_offs' description in 'validate_ref'
-   fs/ubifs/replay.o: warning: objtool: ubifs_validate_entry()+0x257: sibling call from callable instruction with modified stack frame
-   fs/ubifs/replay.o: warning: objtool: replay_bud()+0x547: sibling call from callable instruction with modified stack frame
-
-
-vim +359 fs/ubifs/replay.c
-
-debf12d54182b3 Artem Bityutskiy   2011-05-15  334  
-debf12d54182b3 Artem Bityutskiy   2011-05-15  335  /**
-debf12d54182b3 Artem Bityutskiy   2011-05-15  336   * insert_node - insert a node to the replay list
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  337   * @c: UBIFS file-system description object
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  338   * @lnum: node logical eraseblock number
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  339   * @offs: node offset
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  340   * @len: node length
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  341   * @key: node key
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  342   * @sqnum: sequence number
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  343   * @deletion: non-zero if this is a deletion
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  344   * @used: number of bytes in use in a LEB
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  345   * @old_size: truncation old size
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  346   * @new_size: truncation new size
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  347   *
-debf12d54182b3 Artem Bityutskiy   2011-05-15  348   * This function inserts a scanned non-direntry node to the replay list. The
-debf12d54182b3 Artem Bityutskiy   2011-05-15  349   * replay list contains @struct replay_entry elements, and we sort this list in
-debf12d54182b3 Artem Bityutskiy   2011-05-15  350   * sequence number order before applying it. The replay list is applied at the
-debf12d54182b3 Artem Bityutskiy   2011-05-15  351   * very end of the replay process. Since the list is sorted in sequence number
-debf12d54182b3 Artem Bityutskiy   2011-05-15  352   * order, the older modifications are applied first. This function returns zero
-debf12d54182b3 Artem Bityutskiy   2011-05-15  353   * in case of success and a negative error code in case of failure.
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  354   */
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  355  static int insert_node(struct ubifs_info *c, int lnum, int offs, int len,
-16a26b20d2afd0 Sascha Hauer       2018-09-07  356  		       const u8 *hash, union ubifs_key *key,
-16a26b20d2afd0 Sascha Hauer       2018-09-07  357  		       unsigned long long sqnum, int deletion, int *used,
-16a26b20d2afd0 Sascha Hauer       2018-09-07  358  		       loff_t old_size, loff_t new_size)
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14 @359  {
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  360  	struct replay_entry *r;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  361  
-515315a123af64 Artem Bityutskiy   2012-01-13  362  	dbg_mntk(key, "add LEB %d:%d, key ", lnum, offs);
-debf12d54182b3 Artem Bityutskiy   2011-05-15  363  
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  364  	if (key_inum(c, key) >= c->highest_inum)
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  365  		c->highest_inum = key_inum(c, key);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  366  
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  367  	r = kzalloc(sizeof(struct replay_entry), GFP_KERNEL);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  368  	if (!r)
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  369  		return -ENOMEM;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  370  
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  371  	if (!deletion)
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  372  		*used += ALIGN(len, 8);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  373  	r->lnum = lnum;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  374  	r->offs = offs;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  375  	r->len = len;
-16a26b20d2afd0 Sascha Hauer       2018-09-07  376  	ubifs_copy_hash(c, hash, r->hash);
-074bcb9b5ce698 Artem Bityutskiy   2011-05-15  377  	r->deletion = !!deletion;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  378  	r->sqnum = sqnum;
-074bcb9b5ce698 Artem Bityutskiy   2011-05-15  379  	key_copy(c, key, &r->key);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  380  	r->old_size = old_size;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  381  	r->new_size = new_size;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  382  
-debf12d54182b3 Artem Bityutskiy   2011-05-15  383  	list_add_tail(&r->list, &c->replay_list);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  384  	return 0;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  385  }
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  386  
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  387  /**
-debf12d54182b3 Artem Bityutskiy   2011-05-15  388   * insert_dent - insert a directory entry node into the replay list.
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  389   * @c: UBIFS file-system description object
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  390   * @lnum: node logical eraseblock number
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  391   * @offs: node offset
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  392   * @len: node length
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  393   * @key: node key
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  394   * @name: directory entry name
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  395   * @nlen: directory entry name length
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  396   * @sqnum: sequence number
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  397   * @deletion: non-zero if this is a deletion
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  398   * @used: number of bytes in use in a LEB
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  399   *
-debf12d54182b3 Artem Bityutskiy   2011-05-15  400   * This function inserts a scanned directory entry node or an extended
-debf12d54182b3 Artem Bityutskiy   2011-05-15  401   * attribute entry to the replay list. Returns zero in case of success and a
-debf12d54182b3 Artem Bityutskiy   2011-05-15  402   * negative error code in case of failure.
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  403   */
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  404  static int insert_dent(struct ubifs_info *c, int lnum, int offs, int len,
-16a26b20d2afd0 Sascha Hauer       2018-09-07  405  		       const u8 *hash, union ubifs_key *key,
-16a26b20d2afd0 Sascha Hauer       2018-09-07  406  		       const char *name, int nlen, unsigned long long sqnum,
-16a26b20d2afd0 Sascha Hauer       2018-09-07  407  		       int deletion, int *used)
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14 @408  {
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  409  	struct replay_entry *r;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  410  	char *nbuf;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  411  
-515315a123af64 Artem Bityutskiy   2012-01-13  412  	dbg_mntk(key, "add LEB %d:%d, key ", lnum, offs);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  413  	if (key_inum(c, key) >= c->highest_inum)
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  414  		c->highest_inum = key_inum(c, key);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  415  
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  416  	r = kzalloc(sizeof(struct replay_entry), GFP_KERNEL);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  417  	if (!r)
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  418  		return -ENOMEM;
-debf12d54182b3 Artem Bityutskiy   2011-05-15  419  
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  420  	nbuf = kmalloc(nlen + 1, GFP_KERNEL);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  421  	if (!nbuf) {
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  422  		kfree(r);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  423  		return -ENOMEM;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  424  	}
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  425  
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  426  	if (!deletion)
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  427  		*used += ALIGN(len, 8);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  428  	r->lnum = lnum;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  429  	r->offs = offs;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  430  	r->len = len;
-16a26b20d2afd0 Sascha Hauer       2018-09-07  431  	ubifs_copy_hash(c, hash, r->hash);
-074bcb9b5ce698 Artem Bityutskiy   2011-05-15  432  	r->deletion = !!deletion;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  433  	r->sqnum = sqnum;
-074bcb9b5ce698 Artem Bityutskiy   2011-05-15  434  	key_copy(c, key, &r->key);
-f4f61d2cc6d878 Richard Weinberger 2016-11-11  435  	fname_len(&r->nm) = nlen;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  436  	memcpy(nbuf, name, nlen);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  437  	nbuf[nlen] = '\0';
-f4f61d2cc6d878 Richard Weinberger 2016-11-11  438  	fname_name(&r->nm) = nbuf;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  439  
-debf12d54182b3 Artem Bityutskiy   2011-05-15  440  	list_add_tail(&r->list, &c->replay_list);
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  441  	return 0;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  442  }
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  443  
-
-:::::: The code at line 359 was first introduced by commit
-:::::: 1e51764a3c2ac05a23a22b2a95ddee4d9bffb16d UBIFS: add new flash file system
-
-:::::: TO: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
-:::::: CC: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_uses_device':
+   dm-vdo-target.c:(.text+0x280): undefined reference to `vdo_get_backing_device'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_resume':
+   dm-vdo-target.c:(.text+0x368): undefined reference to `uds_register_thread_device_id'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x370): undefined reference to `vdo_get_device_name'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x38c): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x390): undefined reference to `uds_unregister_thread_device_id'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `finish_operation_callback':
+   dm-vdo-target.c:(.text+0x454): undefined reference to `vdo_finish_operation'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `release_instance':
+   dm-vdo-target.c:(.text+0x560): undefined reference to `uds_assertion_failed'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x5d4): undefined reference to `uds_assertion_failed'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_presuspend':
+   dm-vdo-target.c:(.text+0x6d4): undefined reference to `VDO_ADMIN_STATE_SUSPENDING'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `VDO_ADMIN_STATE_SUSPENDING' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   dm-vdo-target.c:(.text+0x6d4): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x6dc): undefined reference to `VDO_ADMIN_STATE_SUSPENDING'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x6e4): undefined reference to `VDO_ADMIN_STATE_SUSPENDING'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x6ec): undefined reference to `VDO_ADMIN_STATE_SAVING'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `VDO_ADMIN_STATE_SAVING' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   dm-vdo-target.c:(.text+0x6ec): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x6f4): undefined reference to `VDO_ADMIN_STATE_SAVING'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x6fc): undefined reference to `VDO_ADMIN_STATE_SAVING'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_is_named':
+   dm-vdo-target.c:(.text+0x7d4): undefined reference to `vdo_get_device_name'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `process_one_thread_config_spec':
+   dm-vdo-target.c:(.text+0x8d4): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x910): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x98c): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0xa0c): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0xa64): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o:dm-vdo-target.c:(.text+0xb00): more undefined references to `__uds_log_message' follow
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `allocate_instance':
+   dm-vdo-target.c:(.text+0xd1c): undefined reference to `uds_reallocate_memory'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0xe08): undefined reference to `uds_assertion_failed'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `free_device_config':
+   dm-vdo-target.c:(.text+0xf84): undefined reference to `uds_free'
+>> aarch64-linux-ld: dm-vdo-target.c:(.text+0xf94): undefined reference to `uds_free'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0xfac): undefined reference to `uds_free'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_module_destroy':
+   dm-vdo-target.c:(.text+0x1058): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1108): undefined reference to `uds_assertion_failed'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x111c): undefined reference to `uds_free'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1140): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_status':
+   dm-vdo-target.c:(.text+0x122c): undefined reference to `vdo_fetch_statistics'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1254): undefined reference to `vdo_get_backing_device'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x12d4): undefined reference to `vdo_get_dedupe_index_state_name'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x12e0): undefined reference to `vdo_get_compressing'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_map_bio':
+   dm-vdo-target.c:(.text+0x1524): undefined reference to `uds_assertion_failed'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1534): undefined reference to `vdo_count_bios'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1568): undefined reference to `vdo_launch_flush'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x158c): undefined reference to `vdo_get_current_work_queue'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x15a0): undefined reference to `vdo_get_work_queue_owner'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x15e4): undefined reference to `vdo_launch_bio'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_dtr':
+   dm-vdo-target.c:(.text+0x1774): undefined reference to `uds_register_thread_device_id'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1780): undefined reference to `uds_register_allocating_thread'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x178c): undefined reference to `vdo_get_device_name'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x17a8): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1810): undefined reference to `vdo_dump_all'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x181c): undefined reference to `vdo_destroy'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1834): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1838): undefined reference to `uds_unregister_thread_device_id'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x183c): undefined reference to `uds_unregister_allocating_thread'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `decode_vdo.constprop.0':
+   dm-vdo-target.c:(.text+0x1968): undefined reference to `vdo_decode_component_states'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x19a4): undefined reference to `vdo_set_state'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1a10): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1a68): undefined reference to `vdo_validate_component_states'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1b04): undefined reference to `vdo_get_recovery_journal_length'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1b3c): undefined reference to `vdo_destroy_component_states'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1b68): undefined reference to `__uds_log_strerror'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1bb0): undefined reference to `__uds_log_strerror'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1bcc): undefined reference to `vdo_enable_read_only_entry'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1bf4): undefined reference to `vdo_get_known_partition'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1c4c): undefined reference to `vdo_decode_recovery_journal'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1c70): undefined reference to `vdo_get_known_partition'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1cb4): undefined reference to `vdo_decode_slab_depot'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1d38): undefined reference to `vdo_decode_block_map'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1d5c): undefined reference to `vdo_make_physical_zones'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1d80): undefined reference to `vdo_make_logical_zones'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1da4): undefined reference to `vdo_make_hash_zones'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `join_strings.constprop.0':
+   dm-vdo-target.c:(.text+0x1f08): undefined reference to `uds_allocate_memory'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x1f64): undefined reference to `uds_append_to_buffer'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `process_vdo_message':
+   dm-vdo-target.c:(.text+0x2110): undefined reference to `vdo_dump'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2224): undefined reference to `vdo_message_dedupe_index'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2334): undefined reference to `vdo_set_compressing'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2370): undefined reference to `vdo_set_compressing'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2394): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x23b8): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_message':
+   dm-vdo-target.c:(.text+0x24cc): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x24f8): undefined reference to `uds_register_allocating_thread'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2504): undefined reference to `uds_register_thread_device_id'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x255c): undefined reference to `vdo_write_stats'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2578): undefined reference to `vdo_map_to_system_error'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2584): undefined reference to `uds_unregister_thread_device_id'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2588): undefined reference to `uds_unregister_allocating_thread'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `copy_partition':
+   dm-vdo-target.c:(.text+0x29ac): undefined reference to `vdo_get_known_partition'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x29bc): undefined reference to `vdo_get_known_partition'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x29e8): undefined reference to `vdo_get_backing_device'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2a4c): undefined reference to `vdo_get_backing_device'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `parse_key_value_pairs':
+   dm-vdo-target.c:(.text+0x2d6c): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2dd8): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2e24): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `copy_callback':
+   dm-vdo-target.c:(.text+0x2fbc): undefined reference to `vdo_set_completion_result'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x2fc8): undefined reference to `vdo_launch_completion_with_priority'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `perform_admin_operation':
+   dm-vdo-target.c:(.text+0x30e8): undefined reference to `__uds_log_strerror'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x31bc): undefined reference to `vdo_launch_completion_with_priority'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `apply_new_vdo_configuration':
+   dm-vdo-target.c:(.text+0x330c): undefined reference to `vdo_abandon_block_map_growth'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x3334): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x33bc): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x33dc): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x3440): undefined reference to `vdo_uninitialize_layout'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x3450): undefined reference to `vdo_abandon_new_slabs'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x3468): undefined reference to `vdo_get_known_partition'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x351c): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x3548): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `vdo_postsuspend':
+   dm-vdo-target.c:(.text+0x3634): undefined reference to `uds_register_thread_device_id'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x3650): undefined reference to `vdo_get_device_name'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x366c): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x36bc): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x36fc): undefined reference to `vdo_get_admin_state'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x371c): undefined reference to `__uds_log_message'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x3740): undefined reference to `__uds_log_strerror'
+   aarch64-linux-ld: dm-vdo-target.c:(.text+0x3748): undefined reference to `uds_unregister_thread_device_id'
+   aarch64-linux-ld: drivers/md/dm-vdo-target.o: in function `prepare_to_grow_physical':
+   dm-vdo-target.c:(.text+0x382c): undefined reference to `__uds_log_message'
 
 -- 
 0-DAY CI Kernel Test Service
