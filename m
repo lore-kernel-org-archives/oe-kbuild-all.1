@@ -1,76 +1,123 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559D517EF
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 05:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845CB8BE7
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 05:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yk5obik6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=nqh/E/M7gaUfXW6TpmObDF77CKyqneRgS6memCYVkpY=; b=yk5obik6qlfGXstH9wHc+DzxAQ
-	NbY2FvItiTpCZLZFBBcZ4lwEFffC1hN8W1Zfg4vK2eCSjrB6Wsi1KO5FTGFypjYsZqxpNDzORv+L7
-	8xjsojHmUHDByQ3f+aeiiI0AfvISbCe+T+xYV72L+vn2lxj4lBWHulYleZnR4amdpy0kjMU2SxcEg
-	sxBfe49toPvcjS1OBUX+G/EeBTWE5ybvejGSPpxfLMkSkxpA7U/o/wPNxXC1pE0h63QUDTx3cuhH2
-	KkydlAK2zS+Y/7O5P6LIJGL8sMBwymUFRbK7KJvYbEG0Al4QnMIPW4hj+Bcfw9Ad76ivnIG9UtrHc
-	bYkwD9iA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1qzVJg-00EQkl-1u;
-	Sun, 05 Nov 2023 05:04:56 +0000
-Message-ID: <f2863503-ee88-4e00-841f-0d4b428069ee@infradead.org>
-Date: Sat, 4 Nov 2023 22:04:55 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9nOmANY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699161395; x=1730697395;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QH266okKJWb309c2VT71zlCNS1DZsylF0IqchazjelU=;
+  b=X9nOmANYV4V9FSEM+++uAX9gMQSZZKfF8eeGtSNwm+4g5R7f4iXDxf00
+   uN28MNuaKzgKl0LB+RN0VA3nT4pLLeqVX082JSKJrAUhFh4sK6whgCKvk
+   9RHBNRwVv+aMifSWArjfVwHEWwB3+jtUJ5WNxW6eeu6NzwuUcNagiG3I4
+   jbp+rYnZreNSMpqzidytfYzdG+vrvD1Nd8yNIVyn4xwIdkTlGGm6ROwiB
+   EkfEi0ezPXSZ0WMyuqw+Fwuz4CvddIk96MFuMHxdpH0KYBkiXWGSLIee4
+   61warIEryijuFV7rDwuDs+H+vOqmjB0WTjAA2DY8vcl+dE0Gm8htdqmiq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="379517606"
+X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
+   d="scan'208";a="379517606"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 22:16:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="832413278"
+X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
+   d="scan'208";a="832413278"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 04 Nov 2023 22:16:30 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qzVUr-00053o-2q;
+	Sun, 05 Nov 2023 05:16:29 +0000
+Date: Sun, 5 Nov 2023 13:16:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: thinker.li@gmail.com, bpf@vger.kernel.org, ast@kernel.org,
+	martin.lau@linux.dev, song@kernel.org, kernel-team@meta.com,
+	andrii@kernel.org, drosen@google.com
+Cc: oe-kbuild-all@lists.linux.dev, sinquersw@gmail.com, kuifeng@meta.com,
+	Kui-Feng Lee <thinker.li@gmail.com>, netdev@vger.kernel.org
+Subject: Re: [PATCH bpf-next v10 10/13] bpf, net: switch to dynamic
+ registration
+Message-ID: <202311051202.DeubcWTl-lkp@intel.com>
+References: <20231103232202.3664407-11-thinker.li@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: ERROR: start_text address is c000000000000900, should be
- c000000000000200
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>
-References: <202310070419.BcA2fDgk-lkp@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202310070419.BcA2fDgk-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231103232202.3664407-11-thinker.li@gmail.com>
 
-Hi robot,
+Hi,
 
-On 10/6/23 13:41, kernel test robot wrote:
-> Hi Randy,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   af95dc6fdc25e616051d0234aad638e15c02ec8f
-> commit: 47c258d71ebfc832a760a1dc6540cf3c33968023 powerpc/head_check: use stdout for error messages
-> date:   2 years, 2 months ago
-> config: powerpc64-buildonly-randconfig-r003-20211118 (https://download.01.org/0day-ci/archive/20231007/202310070419.BcA2fDgk-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231007/202310070419.BcA2fDgk-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202310070419.BcA2fDgk-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> ERROR: start_text address is c000000000000900, should be c000000000000200
->    ERROR: try to enable LD_HEAD_STUB_CATCH config option
->    ERROR: see comments in arch/powerpc/tools/head_check.sh
+kernel test robot noticed the following build errors:
 
-This build error also happens when the referenced commit is reverted.
-I.e., that patch has nothing to do with this build problem -- only where
-it is reported.
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/thinker-li-gmail-com/bpf-refactory-struct_ops-type-initialization-to-a-function/20231104-072528
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231103232202.3664407-11-thinker.li%40gmail.com
+patch subject: [PATCH bpf-next v10 10/13] bpf, net: switch to dynamic registration
+config: riscv-randconfig-002-20231105 (https://download.01.org/0day-ci/archive/20231105/202311051202.DeubcWTl-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051202.DeubcWTl-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311051202.DeubcWTl-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   riscv64-linux-ld: kernel/bpf/btf.o: in function `btf_array_show':
+>> kernel/bpf/btf.c:3044:(.text+0x6c38): undefined reference to `bpf_struct_ops_desc_init'
+
+
+vim +3044 kernel/bpf/btf.c
+
+31d0bc81637d8d Alan Maguire     2020-09-28  3032  
+31d0bc81637d8d Alan Maguire     2020-09-28  3033  static void btf_array_show(const struct btf *btf, const struct btf_type *t,
+31d0bc81637d8d Alan Maguire     2020-09-28  3034  			   u32 type_id, void *data, u8 bits_offset,
+31d0bc81637d8d Alan Maguire     2020-09-28  3035  			   struct btf_show *show)
+31d0bc81637d8d Alan Maguire     2020-09-28  3036  {
+31d0bc81637d8d Alan Maguire     2020-09-28  3037  	const struct btf_member *m = show->state.member;
+31d0bc81637d8d Alan Maguire     2020-09-28  3038  
+31d0bc81637d8d Alan Maguire     2020-09-28  3039  	/*
+31d0bc81637d8d Alan Maguire     2020-09-28  3040  	 * First check if any members would be shown (are non-zero).
+31d0bc81637d8d Alan Maguire     2020-09-28  3041  	 * See comments above "struct btf_show" definition for more
+31d0bc81637d8d Alan Maguire     2020-09-28  3042  	 * details on how this works at a high-level.
+31d0bc81637d8d Alan Maguire     2020-09-28  3043  	 */
+31d0bc81637d8d Alan Maguire     2020-09-28 @3044  	if (show->state.depth > 0 && !(show->flags & BTF_SHOW_ZERO)) {
+31d0bc81637d8d Alan Maguire     2020-09-28  3045  		if (!show->state.depth_check) {
+31d0bc81637d8d Alan Maguire     2020-09-28  3046  			show->state.depth_check = show->state.depth + 1;
+31d0bc81637d8d Alan Maguire     2020-09-28  3047  			show->state.depth_to_show = 0;
+31d0bc81637d8d Alan Maguire     2020-09-28  3048  		}
+31d0bc81637d8d Alan Maguire     2020-09-28  3049  		__btf_array_show(btf, t, type_id, data, bits_offset, show);
+31d0bc81637d8d Alan Maguire     2020-09-28  3050  		show->state.member = m;
+31d0bc81637d8d Alan Maguire     2020-09-28  3051  
+31d0bc81637d8d Alan Maguire     2020-09-28  3052  		if (show->state.depth_check != show->state.depth + 1)
+31d0bc81637d8d Alan Maguire     2020-09-28  3053  			return;
+31d0bc81637d8d Alan Maguire     2020-09-28  3054  		show->state.depth_check = 0;
+31d0bc81637d8d Alan Maguire     2020-09-28  3055  
+31d0bc81637d8d Alan Maguire     2020-09-28  3056  		if (show->state.depth_to_show <= show->state.depth)
+31d0bc81637d8d Alan Maguire     2020-09-28  3057  			return;
+31d0bc81637d8d Alan Maguire     2020-09-28  3058  		/*
+31d0bc81637d8d Alan Maguire     2020-09-28  3059  		 * Reaching here indicates we have recursed and found
+31d0bc81637d8d Alan Maguire     2020-09-28  3060  		 * non-zero array member(s).
+31d0bc81637d8d Alan Maguire     2020-09-28  3061  		 */
+31d0bc81637d8d Alan Maguire     2020-09-28  3062  	}
+31d0bc81637d8d Alan Maguire     2020-09-28  3063  	__btf_array_show(btf, t, type_id, data, bits_offset, show);
+b00b8daec828dd Martin KaFai Lau 2018-04-18  3064  }
+b00b8daec828dd Martin KaFai Lau 2018-04-18  3065  
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
