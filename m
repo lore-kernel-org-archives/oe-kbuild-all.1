@@ -1,48 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A973BE4A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 17:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFBA15AE5
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 17:28:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebGm+tgr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mh9o/LUC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699205299; x=1730741299;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wDCwqlVch+ojaiAx1S4djZX43XFw12GnoquKjf81qbY=;
-  b=ebGm+tgr+lreLe2ne6fQ4zKMXtxelPnVhT9k/s5xm2OOYmfnDhRnj8wJ
-   QhmMkZoPxOCU5IssEEGYJvh1FMDCWGyYZ+0KcOh8wfUpqyTz0XbOKfRVr
-   cL/tv33KwD42LFFCoyrPmcKsCT2C6PKoDHz2kVSXZHpLEEbTAhpU2nJKh
-   i0xleGvt9plj8dn/hFejeszmTxeYklhD7QtU7VYYGCGdlw6x07xC55t2X
-   U1sqml66TE0OcUPv86bevhYvuw0M+MiZgDfo6sPupmjf5l9n9IaRqgEbC
-   lcNR/nhp/JzWiKVt/xkRmsSsTT5AAHtm6bvlYBZBrdxl9tiXHr2FmMrrN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="392029085"
+  t=1699205301; x=1730741301;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IH0s2EKBm011pg6eWlimN9vEcHNbrh2FszlkPly8vwg=;
+  b=mh9o/LUCrK6EpyJBOR8b5TOmF9Cx1zXINODA8Kv8cxs79j6OoWkvb/xV
+   lZH41nsHSToSU5u2o9OZfD/u+mBUd4UWjoIT0TdUU7VaQveDBqOSTPius
+   eDUAolvXQmEEErdxczNzeTk5Ckf49LoN7Y+LMdycwfWmmOcITFl77uY7C
+   3zDqUvYphezbImWz0sW3uTDkSVk77cLwOSr88ytESIco1JJydwNW4EKHg
+   KrPyKwH74yIM7fvC89jV7tab2a6dq1o9JjJR9V/NJSBeHVr3hVzs0rUM7
+   lj9C+qqaOwGOFBC89M1dmyuoWzAR3c9+3SUd59iQ3q1MIzN3QJXvGmVw8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="386335178"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="392029085"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 09:28:18 -0800
+   d="scan'208";a="386335178"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 09:28:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="738591940"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="885697483"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="738591940"
+   d="scan'208";a="885697483"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 05 Nov 2023 09:28:16 -0800
+  by orsmga004.jf.intel.com with ESMTP; 05 Nov 2023 09:28:18 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzgv0-0005fA-0q;
-	Sun, 05 Nov 2023 17:28:14 +0000
-Date: Mon, 6 Nov 2023 01:27:57 +0800
+	id 1qzgv2-0005fD-0n;
+	Sun, 05 Nov 2023 17:28:16 +0000
+Date: Mon, 6 Nov 2023 01:27:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amelie Delaunay <amelie.delaunay@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>
-Subject: include/linux/compiler_types.h:354:38: error: call to
- '__compiletime_assert_282' declared with attribute error: FIELD_PREP: value
- too large for the field
-Message-ID: <202311060135.Q9eMnpCL-lkp@intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/8] drm/loongson: Allow attach drm bridge driver by
+ calling lsdc_output_init()
+Message-ID: <202311060159.WME8x93V-lkp@intel.com>
+References: <20231029194607.379459-4-suijingfeng@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,75 +54,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231029194607.379459-4-suijingfeng@loongson.cn>
 
-Hi Amelie,
+Hi Sui,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1c41041124bd14dd6610da256a3da4e5b74ce6b1
-commit: 1c32d6c37cc2a037e447e73f919d57e89ef4b571 dmaengine: stm32-dma: use bitfield helpers
-date:   1 year, 2 months ago
-config: i386-buildonly-randconfig-004-20231010 (https://download.01.org/0day-ci/archive/20231106/202311060135.Q9eMnpCL-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060135.Q9eMnpCL-lkp@intel.com/reproduce)
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.6 next-20231103]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-loongson-Introduce-a-minimal-support-for-Loongson-VBIOS/20231030-034730
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231029194607.379459-4-suijingfeng%40loongson.cn
+patch subject: [PATCH 3/8] drm/loongson: Allow attach drm bridge driver by calling lsdc_output_init()
+config: x86_64-randconfig-122-20231102 (https://download.01.org/0day-ci/archive/20231106/202311060159.WME8x93V-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060159.WME8x93V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311060135.Q9eMnpCL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311060159.WME8x93V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/loongson/lsdc_output.c:555:5: sparse: sparse: symbol 'lsdc_encoder_init' was not declared. Should it be static?
+>> drivers/gpu/drm/loongson/lsdc_output.c:578:5: sparse: sparse: symbol 'lsdc_connector_init' was not declared. Should it be static?
 
-   In file included from <command-line>:0:0:
-   drivers/dma/stm32-dma.c: In function 'stm32_dma_prep_dma_memcpy':
->> include/linux/compiler_types.h:354:38: error: call to '__compiletime_assert_282' declared with attribute error: FIELD_PREP: value too large for the field
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:335:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:354:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:68:3: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?  \
-      ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:114:3: note: in expansion of macro '__BF_FIELD_CHECK'
-      __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: "); \
-      ^~~~~~~~~~~~~~~~
-   drivers/dma/stm32-dma.c:1237:4: note: in expansion of macro 'FIELD_PREP'
-       FIELD_PREP(STM32_DMA_SCR_PBURST_MASK, dma_burst) |
-       ^~~~~~~~~~
+vim +/lsdc_encoder_init +555 drivers/gpu/drm/loongson/lsdc_output.c
 
-
-vim +/__compiletime_assert_282 +354 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  340  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  341  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  342  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  343  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  345   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  346   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  347   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  348   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  353  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @354  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  355  
-
-:::::: The code at line 354 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   554	
+ > 555	int lsdc_encoder_init(struct drm_device *ddev,
+   556			      struct lsdc_output *output,
+   557			      unsigned int pipe)
+   558	{
+   559		const struct lsdc_output_desc *descp = output->descp;
+   560		struct drm_encoder *encoder = &output->encoder;
+   561		int ret;
+   562	
+   563		ret = drm_encoder_init(ddev,
+   564				       encoder,
+   565				       descp->encoder_funcs,
+   566				       descp->encoder_type,
+   567				       descp->name);
+   568		if (ret)
+   569			return ret;
+   570	
+   571		encoder->possible_crtcs = BIT(pipe);
+   572	
+   573		drm_encoder_helper_add(encoder, descp->encoder_helper_funcs);
+   574	
+   575		return 0;
+   576	}
+   577	
+ > 578	int lsdc_connector_init(struct drm_device *ddev,
+   579				struct lsdc_output *output,
+   580				struct i2c_adapter *ddc,
+   581				unsigned int pipe)
+   582	{
+   583		const struct lsdc_output_desc *descp = output->descp;
+   584		struct drm_connector *connector = &output->connector;
+   585		int ret;
+   586	
+   587		ret = drm_connector_init_with_ddc(ddev,
+   588						  connector,
+   589						  descp->connector_funcs,
+   590						  descp->connector_type,
+   591						  ddc);
+   592		if (ret)
+   593			return ret;
+   594	
+   595		drm_connector_helper_add(connector, descp->connector_helper_funcs);
+   596	
+   597		drm_connector_attach_encoder(connector, &output->encoder);
+   598	
+   599		connector->polled = DRM_CONNECTOR_POLL_CONNECT |
+   600				    DRM_CONNECTOR_POLL_DISCONNECT;
+   601	
+   602		connector->interlace_allowed = 0;
+   603		connector->doublescan_allowed = 0;
+   604	
+   605		drm_info(ddev, "DisplayPipe-%u has %s\n", pipe, descp->name);
+   606	
+   607		return 0;
+   608	}
+   609	
 
 -- 
 0-DAY CI Kernel Test Service
