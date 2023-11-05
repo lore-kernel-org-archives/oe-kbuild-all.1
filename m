@@ -1,116 +1,154 @@
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABF0BE6D
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 20:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B1D28F5;
+	Sun,  5 Nov 2023 20:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="LmpeRzV7"
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 39A762C019A;
-	Mon,  6 Nov 2023 09:08:41 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-	s=mail181024; t=1699214921;
-	bh=g6RXCo04frUesFvf/QIvpgpd8aabW7MEvFEC8JNSWKU=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=LmpeRzV740tcUNijBXiYgYT3QqkGxa5VWMp7A3GNHLnzUBzNJG49BLn0xaM1rRNDC
-	 7rb+IdGv2G1d2LBhj62sRiIncR711VDVnvPfOaVvDYng/xzDKQMxicGlR9SBTX/Imr
-	 3AJNuiA6nWzp3nTWWyAFw48DLLEUQw8J0klAUGsXPD8hs26KTWhlinR4FxlQrHxyRI
-	 +oeDz17XZVzh0XNhp84hRUWpDGA6t+n83pRZpPHQ+U8qjkZqS/ZdgmUUDO9n88yvYM
-	 gTNB5/JvDNrTEZcLQatA+b8eoasA1IeQTrbdPI4rgJRbo0aMDduDWFMyHRHQTidkyK
-	 AUGY5HTa5NoJw==
-Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-	id <B6547f6490000>; Mon, 06 Nov 2023 09:08:41 +1300
-Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8:f753:6de:11c0:a008) by
- svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8:f753:6de:11c0:a008) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Mon, 6 Nov 2023 09:08:40 +1300
-Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
- svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
- 15.02.1118.039; Mon, 6 Nov 2023 09:08:40 +1300
-From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
-To: kernel test robot <lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Mark Brown
-	<broonie@kernel.org>, Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: drivers/mux/adg792a.c:134:34: warning: 'adg792a_of_match' defined
- but not used
-Thread-Topic: drivers/mux/adg792a.c:134:34: warning: 'adg792a_of_match'
- defined but not used
-Thread-Index: AQHaD6V1uBpGUb6bDkuY7FNjKTV7n7BrToMA
-Date: Sun, 5 Nov 2023 20:08:40 +0000
-Message-ID: <726dbd21-15b7-4afc-9c6e-7121d5ee5589@alliedtelesis.co.nz>
-References: <202311051347.7J6bthD7-lkp@intel.com>
-In-Reply-To: <202311051347.7J6bthD7-lkp@intel.com>
-Accept-Language: en-NZ, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [10.33.22.30]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AEED9D15F3936D43AF2B46EF6EBA4E17@atlnz.lc>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ITiPhGLZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699217103; x=1730753103;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DFEnBoAZfjHsPxHG7Pn6/C8BILMOVrXxGrVVO4Ir0M0=;
+  b=ITiPhGLZmbNg3lGfHSqTRDse7rsF/PQ/phU4OYA1V7yuphhkd2bAsA/h
+   kuKkynBymi5i2Pks3kYS4KZWpnjWmwiB5TWsegaYvL2gt8JPq5fBgFSx8
+   zkMxiN6k+G/ubBVwahHwk2eCqAjm3+YnmMAxOmHvkzfTbBMQ3HSf3ehnA
+   4+qC9q5PZwB9krE3aYjXJJlwMY+wkAH2QfKjZCHc6g7Io5Yb6vwf0+f/L
+   IuMw45a/mGu7TPVVYoJY7nkVY0htkBvWEmzPi+TQRMQXpPUmR/tG/DJuW
+   vEAaFmn7MZv6c6ZUWXfNOm6C7weoUibt+p8EduA0AXCSdAcZmYE53SRT4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="388991514"
+X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
+   d="scan'208";a="388991514"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 12:45:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="762133802"
+X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
+   d="scan'208";a="762133802"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 05 Nov 2023 12:44:58 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qzjzL-0005mC-32;
+	Sun, 05 Nov 2023 20:44:55 +0000
+Date: Mon, 6 Nov 2023 04:44:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz, tiwai@suse.com,
+	corbet@lwn.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ivan Orlov <ivan.orlov0322@gmail.com>, alsa-devel@alsa-project.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org
+Subject: Re: [PATCH v2 2/2] ALSA: Add new driver for Marian M2 sound card
+Message-ID: <202311060403.591giMV8-lkp@intel.com>
+References: <20230918181044.7257-2-ivan.orlov0322@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=L6ZjvNb8 c=1 sm=1 tr=0 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=BNY50KLci1gA:10 a=62ntRvTiAAAA:8 a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=ag1SF4gXAAAA:8 a=W2WdRe_UxMzz2S3kzvEA:9 a=QEXdDO2ut3YA:10 a=pToNdpNmrtiFLRE6bQ9Z:22 a=AjGcO6oz07-iQ99wixmX:22 a=mmqRlSCDY2ywfjPLJ4af:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-SEG-SpamProfiler-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230918181044.7257-2-ivan.orlov0322@gmail.com>
 
-DQpPbiA1LzExLzIzIDE4OjAyLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90ZToNCj4gSGkgQ2hyaXMs
-DQo+DQo+IEZpcnN0IGJhZCBjb21taXQgKG1heWJlICE9IHJvb3QgY2F1c2UpOg0KPg0KPiB0cmVl
-OiAgIGh0dHBzOi8vc2Nhbm1haWwudHJ1c3R3YXZlLmNvbS8/Yz0yMDk4OCZkPXM2TEg1WTdIaUNK
-MWI2LTRvUC0tRk1QX05Jb0tva01EM2lPbmE4d3RNdyZ1PWh0dHBzJTNhJTJmJTJmZ2l0JTJla2Vy
-bmVsJTJlb3JnJTJmcHViJTJmc2NtJTJmbGludXglMmZrZXJuZWwlMmZnaXQlMmZ0b3J2YWxkcyUy
-ZmxpbnV4JTJlZ2l0IG1hc3Rlcg0KPiBoZWFkOiAgIGFlYTZiZjkwOGQ3MzBiMDFiZDI2NGE4ODIx
-MTU5ZGI5NDYzYzExMWMNCj4gY29tbWl0OiBlOWU0MDU0M2FkNWIzOGI4NDg4Nzk3NjgzNTlmZDEz
-NjUwNTI5OTYxIHNwaTogQWRkIGdlbmVyaWMgU1BJIG11bHRpcGxleGVyDQo+IGRhdGU6ICAgMyB5
-ZWFycywgOSBtb250aHMgYWdvDQo+IGNvbmZpZzogaTM4Ni1yYW5kY29uZmlnLTAwNC0yMDIzMTEw
-MSAoaHR0cHM6Ly9zY2FubWFpbC50cnVzdHdhdmUuY29tLz9jPTIwOTg4JmQ9czZMSDVZN0hpQ0ox
-YjYtNG9QLS1GTVBfTklvS29rTUQzbk9qYTV3dE5nJnU9aHR0cHMlM2ElMmYlMmZkb3dubG9hZCUy
-ZTAxJTJlb3JnJTJmMGRheS1jaSUyZmFyY2hpdmUlMmYyMDIzMTEwNSUyZjIwMjMxMTA1MTM0NyUy
-ZTdKNmJ0aEQ3LWxrcCU0MGludGVsJTJlY29tJTJmY29uZmlnKQ0KPiBjb21waWxlcjogZ2NjLTEy
-IChEZWJpYW4gMTIuMi4wLTE0KSAxMi4yLjANCj4gcmVwcm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1
-aWxkKTogKGh0dHBzOi8vc2Nhbm1haWwudHJ1c3R3YXZlLmNvbS8/Yz0yMDk4OCZkPXM2TEg1WTdI
-aUNKMWI2LTRvUC0tRk1QX05Jb0tva01EM25HbGJaa3VZQSZ1PWh0dHBzJTNhJTJmJTJmZG93bmxv
-YWQlMmUwMSUyZW9yZyUyZjBkYXktY2klMmZhcmNoaXZlJTJmMjAyMzExMDUlMmYyMDIzMTEwNTEz
-NDclMmU3SjZidGhENy1sa3AlNDBpbnRlbCUyZWNvbSUyZnJlcHJvZHVjZSkNCj4NCj4gSWYgeW91
-IGZpeCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBwYXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3Qg
-YSBuZXcgdmVyc2lvbiBvZg0KPiB0aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZv
-bGxvd2luZyB0YWdzDQo+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50
-ZWwuY29tPg0KPiB8IENsb3NlczogaHR0cHM6Ly9zY2FubWFpbC50cnVzdHdhdmUuY29tLz9jPTIw
-OTg4JmQ9czZMSDVZN0hpQ0oxYjYtNG9QLS1GTVBfTklvS29rTUQzaW1rWjhzc1pRJnU9aHR0cHMl
-M2ElMmYlMmZsb3JlJTJla2VybmVsJTJlb3JnJTJmb2Uta2J1aWxkLWFsbCUyZjIwMjMxMTA1MTM0
-NyUyZTdKNmJ0aEQ3LWxrcCU0MGludGVsJTJlY29tJTJmDQo+DQo+IEFsbCB3YXJuaW5ncyAobmV3
-IG9uZXMgcHJlZml4ZWQgYnkgPj4pOg0KPg0KPj4+IGRyaXZlcnMvbXV4L2FkZzc5MmEuYzoxMzQ6
-MzQ6IHdhcm5pbmc6ICdhZGc3OTJhX29mX21hdGNoJyBkZWZpbmVkIGJ1dCBub3QgdXNlZCBbLVd1
-bnVzZWQtY29uc3QtdmFyaWFibGU9XQ0KPiAgICAgICAxMzQgfCBzdGF0aWMgY29uc3Qgc3RydWN0
-IG9mX2RldmljZV9pZCBhZGc3OTJhX29mX21hdGNoW10gPSB7DQo+ICAgICAgICAgICB8ICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn4NCj4NCj4NCj4gdmlt
-ICsvYWRnNzkyYV9vZl9tYXRjaCArMTM0IGRyaXZlcnMvbXV4L2FkZzc5MmEuYw0KPg0KPiBhZmRh
-MDhjNGNhYTk0OCBkcml2ZXJzL211eC9tdXgtYWRnNzkyYS5jIFBldGVyIFJvc2luIDIwMTctMDUt
-MTQgIDEzMw0KPiBhZmRhMDhjNGNhYTk0OCBkcml2ZXJzL211eC9tdXgtYWRnNzkyYS5jIFBldGVy
-IFJvc2luIDIwMTctMDUtMTQgQDEzNCAgc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQg
-YWRnNzkyYV9vZl9tYXRjaFtdID0gew0KPiBhZmRhMDhjNGNhYTk0OCBkcml2ZXJzL211eC9tdXgt
-YWRnNzkyYS5jIFBldGVyIFJvc2luIDIwMTctMDUtMTQgIDEzNSAgCXsgLmNvbXBhdGlibGUgPSAi
-YWRpLGFkZzc5MmEiLCB9LA0KPiBhZmRhMDhjNGNhYTk0OCBkcml2ZXJzL211eC9tdXgtYWRnNzky
-YS5jIFBldGVyIFJvc2luIDIwMTctMDUtMTQgIDEzNiAgCXsgLmNvbXBhdGlibGUgPSAiYWRpLGFk
-Zzc5MmciLCB9LA0KPiBhZmRhMDhjNGNhYTk0OCBkcml2ZXJzL211eC9tdXgtYWRnNzkyYS5jIFBl
-dGVyIFJvc2luIDIwMTctMDUtMTQgIDEzNyAgCXsgfQ0KPiBhZmRhMDhjNGNhYTk0OCBkcml2ZXJz
-L211eC9tdXgtYWRnNzkyYS5jIFBldGVyIFJvc2luIDIwMTctMDUtMTQgIDEzOCAgfTsNCj4gYWZk
-YTA4YzRjYWE5NDggZHJpdmVycy9tdXgvbXV4LWFkZzc5MmEuYyBQZXRlciBSb3NpbiAyMDE3LTA1
-LTE0ICAxMzkgIE1PRFVMRV9ERVZJQ0VfVEFCTEUob2YsIGFkZzc5MmFfb2ZfbWF0Y2gpOw0KPiBh
-ZmRhMDhjNGNhYTk0OCBkcml2ZXJzL211eC9tdXgtYWRnNzkyYS5jIFBldGVyIFJvc2luIDIwMTct
-MDUtMTQgIDE0MA0KPg0KPiA6Ojo6OjogVGhlIGNvZGUgYXQgbGluZSAxMzQgd2FzIGZpcnN0IGlu
-dHJvZHVjZWQgYnkgY29tbWl0DQo+IDo6Ojo6OiBhZmRhMDhjNGNhYTk0ODk1MTE1NTdkZWY1MWUz
-MjJhNWYyMTQyYTJmIG11eDogYWRnNzkyYTogYWRkIG11eCBjb250cm9sbGVyIGRyaXZlciBmb3Ig
-QURHNzkyQS9HDQo+DQo+IDo6Ojo6OiBUTzogUGV0ZXIgUm9zaW4gPHBlZGFAYXhlbnRpYS5zZT4N
-Cj4gOjo6Ojo6IENDOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24u
-b3JnPg0KDQpJJ20gZ29ubmEgZ28gYWhlYWQgYW5kIHBsZWFkIGlubm9jZW50IG9uIHRoaXMgb25l
-Lg0KDQo+
+Hi Ivan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.6 next-20231103]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Orlov/ALSA-Add-new-driver-for-Marian-M2-sound-card/20230919-021236
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230918181044.7257-2-ivan.orlov0322%40gmail.com
+patch subject: [PATCH v2 2/2] ALSA: Add new driver for Marian M2 sound card
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231106/202311060403.591giMV8-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060403.591giMV8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311060403.591giMV8-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   sound/pci/marianm2.c:466:6: warning: variable 'buffer_frames' set but not used [-Wunused-but-set-variable]
+           int buffer_frames;
+               ^
+>> sound/pci/marianm2.c:472:11: warning: variable 'speedmode' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           else if (params_rate(params) < RATE_FAST)
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/marianm2.c:475:6: note: uninitialized use occurs here
+           if (speedmode > marian->desc->speedmode_max) {
+               ^~~~~~~~~
+   sound/pci/marianm2.c:472:7: note: remove the 'if' if its condition is always true
+           else if (params_rate(params) < RATE_FAST)
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/marianm2.c:465:24: note: initialize the variable 'speedmode' to silence this warning
+           unsigned int speedmode;
+                                 ^
+                                  = 0
+   2 warnings generated.
+
+
+vim +472 sound/pci/marianm2.c
+
+   460	
+   461	static int snd_marian_hw_params(struct snd_pcm_substream *substream,
+   462					struct snd_pcm_hw_params *params)
+   463	{
+   464		struct marian_card *marian = snd_pcm_substream_chip(substream);
+   465		unsigned int speedmode;
+ > 466		int buffer_frames;
+   467	
+   468		buffer_frames = SUBSTREAM_BUF_SIZE / M2_FRAME_SIZE;
+   469	
+   470		if (params_rate(params) < RATE_SLOW)
+   471			speedmode = SPEEDMODE_SLOW;
+ > 472		else if (params_rate(params) < RATE_FAST)
+   473			speedmode = SPEEDMODE_FAST;
+   474	
+   475		if (speedmode > marian->desc->speedmode_max) {
+   476			dev_err(marian->card->dev,
+   477				"Requested rate (%u Hz) higher than card's maximum\n",
+   478				params_rate(params));
+   479			_snd_pcm_hw_param_setempty(params, SNDRV_PCM_HW_PARAM_RATE);
+   480			return -EBUSY;
+   481		}
+   482	
+   483		spin_lock(&marian->reglock);
+   484		if (marian->desc->set_speedmode)
+   485			marian->desc->set_speedmode(marian, speedmode);
+   486		else
+   487			marian_generic_set_speedmode(marian, speedmode);
+   488	
+   489		marian->detune = 0;
+   490	
+   491		marian_generic_set_dco(marian, params_rate(params), 0);
+   492		spin_unlock(&marian->reglock);
+   493	
+   494		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+   495			snd_pcm_set_runtime_buffer(substream, &marian->playback_buf);
+   496		else
+   497			snd_pcm_set_runtime_buffer(substream, &marian->capture_buf);
+   498	
+   499		// apply optional card specific hw constraints
+   500		if (marian->desc->hw_constraints_func)
+   501			marian->desc->hw_constraints_func(marian, substream, params);
+   502	
+   503		return 0;
+   504	}
+   505	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
