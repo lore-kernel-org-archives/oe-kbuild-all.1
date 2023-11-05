@@ -1,156 +1,100 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA391382
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 13:51:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA0717E9
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 13:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cwTrkJVU"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-672096e0e89so23586496d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 05 Nov 2023 05:51:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699192265; x=1699797065; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n6/SlWm7axAxg9ZQNzBZyojMAHL0SVLzNpVyeJWY+qE=;
-        b=cwTrkJVUJtMdgvfc7ENwNn689BSgtqGX2h0xaYkS6d5PKfFgJcGQDUO1L9YAeOdQim
-         NxmUGricG8NLqTxaNE+vzb0YFSVa/Qq6CaFPKPa/iy581KRbkRkW+K4K453/HSVPDg0g
-         KIsDrpOzFE65YjCJ8k6I2+9vfEXiEhLQk83o5oDlltuG5eTQE6Gkw0+/YKw7f3BLkv1M
-         3mlWUMJYMbGkS17+wtU3cto1nJo3nJ5rdB4FqdyizbYPy2/33MgEmeMPHeeIU462+LXk
-         ++OO/6MvFuPvETszzZ5BdEMorBzfyj0t2Aa+B6zGTN+Q1gjUwTy5k2jqnyiqFT7DdoVL
-         iN5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699192265; x=1699797065;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n6/SlWm7axAxg9ZQNzBZyojMAHL0SVLzNpVyeJWY+qE=;
-        b=GmO/5GtECKMQ2qM8EgjdPw28k+kVYOaoMlK21/ogJ8jJjfhb6y7qKs3ysdUi24hdIt
-         FAD24T4J/DsQNlWtczpK7x/vFCcWoxgOJvXL0SANsuvaeYiUQlv2kq+yodnvKiJFvwuN
-         y/27neWlCqMJojC73owhiLFQO/BDOL5F535hXRu3tJPeoxRIlCpWOcQ+5DN//vtvhK9A
-         ZVho52dKgahDjwuKffsA3M9antO+mtR20w9RMolyQVtpNJNPxGNxoBCq05yTHPssFeWp
-         e+BSM+1eNPP+ZjQCrlATLTEjrbND6RlRRYmEtx4mXfKWhgrYRhHqM+FRY0dtYTjaUuTZ
-         dHQw==
-X-Gm-Message-State: AOJu0YyorS24Yxa0G3ZuO+vyjBnkaR6JduFCqE1/V96F+Q/lr+GdPIuH
-	4+acF8AUgCrg20S5/th+glDEVOxh1o+70xFkZMY=
-X-Google-Smtp-Source: AGHT+IGNTz8xTtuXar5imrbM03au8p+fNcpA6jZPPcfNF8nKvBDi2FzQE8h3JhjoNWdYA54OLAo5n2bgxxVxFdil8tY=
-X-Received: by 2002:ad4:5ca9:0:b0:658:23a5:e062 with SMTP id
- q9-20020ad45ca9000000b0065823a5e062mr36024400qvh.31.1699192265578; Sun, 05
- Nov 2023 05:51:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbPNYHLT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699192383; x=1730728383;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8uQSKG1UfcxNoaOYwIEc4gXgEsj27aowOZb8iAMvg34=;
+  b=HbPNYHLT9a1ypLGQoXZRwbUEr0G6Wh87/il1To7FGQuRVSAT4azGtf1E
+   OqrOSsZClik9Qu2k7+IKN2NJJ0HxHf4KmCTnzaeviu+aKETDxr5y486TA
+   WJe3E9H2wKdWAQKoKYy/HTGZxv+5heOlpthq0q1A9HCIBYnMHFX3fZgwh
+   Q8v19XVTotLoBtRZzlZlTurIXXjXojpWfOkvmG0Q0MJMYqSPWKP3hIn1n
+   y4wmYU0rsxX0Eeb+hsABqOcbe99Pwla4hRHnRpwt1x1yJ+teg3vdTXuYc
+   7RJKPXlpvjnvjWL8UPV7zYG0GLnHlFx8a2alNMxI732hqym2voVHrHAta
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="10688663"
+X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
+   d="scan'208";a="10688663"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 05:53:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="852732308"
+X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
+   d="scan'208";a="852732308"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Nov 2023 05:53:00 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qzdYg-0005V5-2a;
+	Sun, 05 Nov 2023 13:52:58 +0000
+Date: Sun, 5 Nov 2023 21:52:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1.x+fslc 4/12]
+ drivers/misc/uboot_bootcount.c:70:50: error: incompatible function pointer
+ types initializing 'ssize_t (*)(struct device *, struct device_attribute *,
+ char *)' (aka 'long (*)(struct device *, struct device_attribute *, char
+ *)') with an expression of type...
+Message-ID: <202311052139.6xkr1qRZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202311031651.A7crZEur-lkp@intel.com> <20231105062227.4190-1-laoar.shao@gmail.com>
- <4f5a8c67-74be-41a1-8a0c-acac40da8902@app.fastmail.com> <CALOAHbCt4-kDGoW=4R0EarPNV2yNcwy3exkVrn6Tz5Ng8M8gvg@mail.gmail.com>
- <d178b5b5-4171-4e76-a486-c20d5f081448@app.fastmail.com>
-In-Reply-To: <d178b5b5-4171-4e76-a486-c20d5f081448@app.fastmail.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Sun, 5 Nov 2023 21:50:29 +0800
-Message-ID: <CALOAHbDHBbcgg-p4cN7czcLsAx7-aB4pAX6jGUo6TmetH+RhcA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next] compiler-gcc: Ignore -Wmissing-prototypes
- warning for older GCC
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, Andrii Nakryiko <andrii@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, bpf@vger.kernel.org, cgroups@vger.kernel.org, 
-	Daniel Borkmann <daniel@iogearbox.net>, Johannes Weiner <hannes@cmpxchg.org>, Hao Luo <haoluo@google.com>, 
-	John Fastabend <john.fastabend@gmail.com>, Jiri Olsa <jolsa@kernel.org>, 
-	KP Singh <kpsingh@kernel.org>, lizefan.x@bytedance.com, 
-	Waiman Long <longman@redhat.com>, Martin KaFai Lau <martin.lau@linux.dev>, mkoutny@suse.com, 
-	oe-kbuild-all@lists.linux.dev, kernel test robot <oliver.sang@intel.com>, 
-	Stanislav Fomichev <sdf@google.com>, sinquersw@gmail.com, Song Liu <song@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, yosryahmed@google.com, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Nov 5, 2023 at 9:01=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Sun, Nov 5, 2023, at 12:54, Yafang Shao wrote:
-> > On Sun, Nov 5, 2023 at 4:24=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wr=
-ote:
-> >> On Sun, Nov 5, 2023, at 07:22, Yafang Shao wrote:
-> >> > To address this, we should also suppress the "-Wmissing-prototypes" =
-warning
-> >> > for older GCC versions. Since "#pragma GCC diagnostic push" is suppo=
-rted as
-> >> > of GCC 4.6, it is acceptable to ignore these warnings for GCC >=3D 5=
-.1.0.
-> >>
-> >> Not sure why these need to be suppressed like this at all,
-> >> can't you just add the prototype somewhere?
-> >
-> > BPF kfuncs are intended for use within BPF programs, and they should
-> > not be called from other parts of the kernel. Consequently, it is not
-> > appropriate to include their prototypes in a kernel header file.
->
-> How does the caller in the BPF program get the prototype?
+tree:   https://github.com/Freescale/linux-fslc 6.1.x+fslc
+head:   31f80d4a6ba84fe19f7f7c7561798958505fd459
+commit: 72237a237e1ae7772ebcef9d5878959a2583e6d7 [4/12] drivers, misc: add U-Boot bootcount driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231105/202311052139.6xkr1qRZ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311052139.6xkr1qRZ-lkp@intel.com/reproduce)
 
-BPF programs will get the prototype directly from BTF, for example,
-see also the prototypes declared using "__ksym"  in
-tools/testing/selftests/bpf/progs/ for examples.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311052139.6xkr1qRZ-lkp@intel.com/
 
->
-> >> > @@ -131,14 +131,14 @@
-> >> >  #define __diag_str(s)                __diag_str1(s)
-> >> >  #define __diag(s)            _Pragma(__diag_str(GCC diagnostic s))
-> >> >
-> >> > -#if GCC_VERSION >=3D 80000
-> >> > -#define __diag_GCC_8(s)              __diag(s)
-> >> > +#if GCC_VERSION >=3D 50100
-> >> > +#define __diag_GCC_5(s)              __diag(s)
-> >> >  #else
-> >> > -#define __diag_GCC_8(s)
-> >> > +#define __diag_GCC_5(s)
-> >> >  #endif
-> >> >
-> >>
-> >> This breaks all uses of __diag_ignore that specify
-> >> version 8 directly. Just add the macros for each version
-> >> from 5 to 14 here.
-> >
-> > It seems that __diag_GCC_8() or __diag_GCC() are not directly used
-> > anywhere in the kernel, right?
->
-> I see three instances:
->
-> drivers/net/ethernet/renesas/sh_eth.c:__diag_ignore(GCC, 8, "-Woverride-i=
-nit",
-> include/linux/compat.h:     __diag_ignore(GCC, 8, "-Wattribute-alias",   =
-                           include/linux/syscalls.h:   __diag_ignore(GCC, 8=
-, "-Wattribute-alias",
+All errors (new ones prefixed by >>):
 
-Thanks for pointing them out.
+>> drivers/misc/uboot_bootcount.c:70:50: error: incompatible function pointer types initializing 'ssize_t (*)(struct device *, struct device_attribute *, char *)' (aka 'long (*)(struct device *, struct device_attribute *, char *)') with an expression of type 'int (struct device *, struct device_attribute *, char *)' [-Wincompatible-function-pointer-types]
+   static DEVICE_ATTR(bootcount, S_IWUSR | S_IRUGO, show_str_bootcount,
+                                                    ^~~~~~~~~~~~~~~~~~
+   include/linux/device.h:127:66: note: expanded from macro 'DEVICE_ATTR'
+           struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+                                                                           ^~~~~
+   include/linux/sysfs.h:104:10: note: expanded from macro '__ATTR'
+           .show   = _show,                                                \
+                     ^~~~~
+>> drivers/misc/uboot_bootcount.c:71:3: error: incompatible function pointer types initializing 'ssize_t (*)(struct device *, struct device_attribute *, const char *, size_t)' (aka 'long (*)(struct device *, struct device_attribute *, const char *, unsigned long)') with an expression of type 'int (struct device *, struct device_attribute *, const char *, size_t)' (aka 'int (struct device *, struct device_attribute *, const char *, unsigned long)') [-Wincompatible-function-pointer-types]
+                   store_str_bootcount);
+                   ^~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:127:73: note: expanded from macro 'DEVICE_ATTR'
+           struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+                                                                                  ^~~~~~
+   include/linux/sysfs.h:105:11: note: expanded from macro '__ATTR'
+           .store  = _store,                                               \
+                     ^~~~~~
+   2 errors generated.
 
->
-> The override-init one should probably use version 5 as well,
-> but I think the -Wattribute-alias ones require GCC 8 and otherwise
-> cause a warning about an unknown warning option.
 
-Right. -Wattribute-alias requires GCC 8.
+vim +70 drivers/misc/uboot_bootcount.c
 
->
-> __diag_ignore_all() would also be wrong for the override-init
-> because the option has a different name in clang
-> (-Winitializer-overrides).
->
-> > Therefore it won't break anything if we just replace __diag_GCC_8()
-> > with __diag_GCC_5().
-> > It may be cumbersome to add the macrocs for every GCC version if they
-> > aren't actively used.
->
-> For the _all variant, I would prefer to completely remove
-> the version logic and just use __diag() directly. I think the
-> entire point of this is that it is used on all supported
-> versions.
+    69	
+  > 70	static DEVICE_ATTR(bootcount, S_IWUSR | S_IRUGO, show_str_bootcount,
+  > 71			store_str_bootcount);
+    72	
 
-Good suggestion.
-will do it.
-
---=20
-Regards
-Yafang
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
