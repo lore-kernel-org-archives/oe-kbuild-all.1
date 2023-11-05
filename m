@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C49D8C01
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 09:17:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31C62CA7
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 09:44:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpmgHm94"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bi3Z6znB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699175826; x=1730711826;
+  t=1699177481; x=1730713481;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GnVLGlAIQ0AGEtdlEYrMgrMwU/XnEKpLQ24V/4TYvQM=;
-  b=DpmgHm945c3+SX5vc8fk6ymaC5MVP3NsaXL1Cr3ohpRkWRVdasoit3EW
-   TsZ6FVZwIkrm3iTK3eBJzMsPIAjh+ojpMZXj1TtxLiUCg2agEz1baLtQZ
-   NNaFNyTJpXI+Lv4v/aXwNsWL1eZsmJvqFHXNs1VubuCTA0OnR+O+64Ebn
-   3KbvgibTdkROWN03vGccJxGkz1ttOZE+Y8PD6w6K2VuS5lKaL/gL/MBW3
-   s8WFm3PLb27FXb3i86yIAqYzoke04DmwNA9XfDB+TPzzmfM3bvo5H3i9Y
-   50r7vOv4kAHYjO0TGuv+Ip+rJZqgaddE3NFcFUdWFhfPa0bx9KtFeijXf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="10671906"
-X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="10671906"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 01:17:05 -0800
+  bh=z/qUIO17jD0+G6JtmXWmjTM8u4xLjBvwoqw18kMAaO8=;
+  b=bi3Z6znBpextPFc8lkn1d2H48YAPBcgspcXLieUknoiq2w6x8Qr88ZwE
+   aEANGooflwxneee4qvD3k1I/7tA+GcN8PQRRi3t7/RGertlI21DEiP+Ji
+   OSiG7jULfWLZtTLk4ORAprjkzSoysCMSuH5c0U/YSBEpVkEl0E2pFfsgQ
+   +fk08iyWzYsE7TIx+fxHq/KqeLpiqfxbFTnnwkAwFhKr2rVMTNlJjRiLE
+   RYabiskZxIyVuheMxy6t/NMY4AsH/EOH4qhIavgI9Sgu+E21vpl6kFKLu
+   GL2WMJxOEBV5nlef6d0k+KYuEax0FmJ08P75fQoOa+iL8cehOJBQ/5EmT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="392003158"
+X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
+   d="scan'208";a="392003158"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 01:44:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="738521878"
-X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="738521878"
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="827930582"
+X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
+   d="scan'208";a="827930582"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 05 Nov 2023 01:17:03 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 05 Nov 2023 01:44:39 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzZFd-0005FY-0S;
-	Sun, 05 Nov 2023 09:17:01 +0000
-Date: Sun, 5 Nov 2023 17:15:25 +0800
+	id 1qzZgL-0005I0-2Z;
+	Sun, 05 Nov 2023 09:44:37 +0000
+Date: Sun, 5 Nov 2023 17:43:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petlozu Pravareshwar <petlozup@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thierry Reding <treding@nvidia.com>,
-	Stefan Kristiansson <stefank@nvidia.com>
-Subject: drivers/soc/tegra/pmc.c:467: warning: Function parameter or member
- 'syscore' not described in 'tegra_pmc'
-Message-ID: <202311051701.YGGF8fhn-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-lts 3/6] mm/vmscan.c:905:15: warning:
+ no previous prototype for function 'shrink_slab'
+Message-ID: <202311051730.FFMImIkj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,122 +50,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Petlozu,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aea6bf908d730b01bd264a8821159db9463c111c
-commit: 1ddb8f6d44ff482c9953a06f800453bc372cfead soc/tegra: pmc: Fix dual edge triggered wakes
-date:   12 months ago
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231105/202311051701.YGGF8fhn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051701.YGGF8fhn-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15-lts
+head:   61cfd264993d07540f60a5c53d77a14c818e54a9
+commit: 606b947630cb44c739336184df9ffd7d2cda34f3 [3/6] ANDROID: vendor_hooks: export shrink_slab
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231105/202311051730.FFMImIkj-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051730.FFMImIkj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311051701.YGGF8fhn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311051730.FFMImIkj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/soc/tegra/pmc.c:467: warning: Function parameter or member 'syscore' not described in 'tegra_pmc'
+>> mm/vmscan.c:905:15: warning: no previous prototype for function 'shrink_slab' [-Wmissing-prototypes]
+   unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+                 ^
+   mm/vmscan.c:905:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+   ^
+   static 
+   mm/vmscan.c:1357:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+           int err;
+               ^
+   2 warnings generated.
 
 
-vim +467 drivers/soc/tegra/pmc.c
+vim +/shrink_slab +905 mm/vmscan.c
 
-5f84bb1a4099e2 Sandipan Patra       2018-10-24  383  
-7232398abc6a71 Thierry Reding       2014-07-11  384  /**
-7232398abc6a71 Thierry Reding       2014-07-11  385   * struct tegra_pmc - NVIDIA Tegra PMC
-35b67291b4a85d Jon Hunter           2015-12-04  386   * @dev: pointer to PMC device structure
-7232398abc6a71 Thierry Reding       2014-07-11  387   * @base: pointer to I/O remapped register region
-bbe5af60041cae Thierry Reding       2019-01-25  388   * @wake: pointer to I/O remapped region for WAKE registers
-bbe5af60041cae Thierry Reding       2019-01-25  389   * @aotag: pointer to I/O remapped region for AOTAG registers
-bbe5af60041cae Thierry Reding       2019-01-25  390   * @scratch: pointer to I/O remapped region for scratch registers
-7232398abc6a71 Thierry Reding       2014-07-11  391   * @clk: pointer to pclk clock
-35b67291b4a85d Jon Hunter           2015-12-04  392   * @soc: pointer to SoC data structure
-e247deae1a5508 Mikko Perttunen      2019-01-25  393   * @tz_only: flag specifying if the PMC can only be accessed via TrustZone
-3195ac6d9cbeef Jon Hunter           2015-12-04  394   * @debugfs: pointer to debugfs entry
-7232398abc6a71 Thierry Reding       2014-07-11  395   * @rate: currently configured rate of pclk
-7232398abc6a71 Thierry Reding       2014-07-11  396   * @suspend_mode: lowest suspend mode available
-7232398abc6a71 Thierry Reding       2014-07-11  397   * @cpu_good_time: CPU power good time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  398   * @cpu_off_time: CPU power off time (in microsecends)
-7232398abc6a71 Thierry Reding       2014-07-11  399   * @core_osc_time: core power good OSC time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  400   * @core_pmu_time: core power good PMU time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  401   * @core_off_time: core power off time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  402   * @corereq_high: core power request is active-high
-7232398abc6a71 Thierry Reding       2014-07-11  403   * @sysclkreq_high: system clock request is active-high
-7232398abc6a71 Thierry Reding       2014-07-11  404   * @combined_req: combined power request for CPU & core
-7232398abc6a71 Thierry Reding       2014-07-11  405   * @cpu_pwr_good_en: CPU power good signal is enabled
-7232398abc6a71 Thierry Reding       2014-07-11  406   * @lp0_vec_phys: physical base address of the LP0 warm boot code
-7232398abc6a71 Thierry Reding       2014-07-11  407   * @lp0_vec_size: size of the LP0 warm boot code
-a38045121bf421 Jon Hunter           2016-03-30  408   * @powergates_available: Bitmap of available power gates
-7232398abc6a71 Thierry Reding       2014-07-11  409   * @powergates_lock: mutex for power gate register access
-bbe5af60041cae Thierry Reding       2019-01-25  410   * @pctl_dev: pin controller exposed by the PMC
-bbe5af60041cae Thierry Reding       2019-01-25  411   * @domain: IRQ domain provided by the PMC
-bbe5af60041cae Thierry Reding       2019-01-25  412   * @irq: chip implementation for the IRQ domain
-e57a243f5d896f Dmitry Osipenko      2019-09-26  413   * @clk_nb: pclk clock changes handler
-d3a20dcbca4880 Thierry Reding       2022-05-06  414   * @core_domain_state_synced: flag marking the core domain's state as synced
-d3a20dcbca4880 Thierry Reding       2022-05-06  415   * @core_domain_registered: flag marking the core domain as registered
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  416   * @wake_type_level_map: Bitmap indicating level type for non-dual edge wakes
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  417   * @wake_type_dual_edge_map: Bitmap indicating if a wake is dual-edge or not
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  418   * @wake_sw_status_map: Bitmap to hold raw status of wakes without mask
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  419   * @wake_cntrl_level_map: Bitmap to hold wake levels to be programmed in
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  420   *     cntrl register associated with each wake during system suspend.
-7232398abc6a71 Thierry Reding       2014-07-11  421   */
-7232398abc6a71 Thierry Reding       2014-07-11  422  struct tegra_pmc {
-3568df3d31d62b Mikko Perttunen      2015-01-06  423  	struct device *dev;
-7232398abc6a71 Thierry Reding       2014-07-11  424  	void __iomem *base;
-c641ec6eab8587 Thierry Reding       2017-08-30  425  	void __iomem *wake;
-c641ec6eab8587 Thierry Reding       2017-08-30  426  	void __iomem *aotag;
-5be2255676bf2b Thierry Reding       2017-08-30  427  	void __iomem *scratch;
-7232398abc6a71 Thierry Reding       2014-07-11  428  	struct clk *clk;
-3195ac6d9cbeef Jon Hunter           2015-12-04  429  	struct dentry *debugfs;
-7232398abc6a71 Thierry Reding       2014-07-11  430  
-7232398abc6a71 Thierry Reding       2014-07-11  431  	const struct tegra_pmc_soc *soc;
-e247deae1a5508 Mikko Perttunen      2019-01-25  432  	bool tz_only;
-7232398abc6a71 Thierry Reding       2014-07-11  433  
-7232398abc6a71 Thierry Reding       2014-07-11  434  	unsigned long rate;
-7232398abc6a71 Thierry Reding       2014-07-11  435  
-7232398abc6a71 Thierry Reding       2014-07-11  436  	enum tegra_suspend_mode suspend_mode;
-7232398abc6a71 Thierry Reding       2014-07-11  437  	u32 cpu_good_time;
-7232398abc6a71 Thierry Reding       2014-07-11  438  	u32 cpu_off_time;
-7232398abc6a71 Thierry Reding       2014-07-11  439  	u32 core_osc_time;
-7232398abc6a71 Thierry Reding       2014-07-11  440  	u32 core_pmu_time;
-7232398abc6a71 Thierry Reding       2014-07-11  441  	u32 core_off_time;
-7232398abc6a71 Thierry Reding       2014-07-11  442  	bool corereq_high;
-7232398abc6a71 Thierry Reding       2014-07-11  443  	bool sysclkreq_high;
-7232398abc6a71 Thierry Reding       2014-07-11  444  	bool combined_req;
-7232398abc6a71 Thierry Reding       2014-07-11  445  	bool cpu_pwr_good_en;
-7232398abc6a71 Thierry Reding       2014-07-11  446  	u32 lp0_vec_phys;
-7232398abc6a71 Thierry Reding       2014-07-11  447  	u32 lp0_vec_size;
-a38045121bf421 Jon Hunter           2016-03-30  448  	DECLARE_BITMAP(powergates_available, TEGRA_POWERGATE_MAX);
-7232398abc6a71 Thierry Reding       2014-07-11  449  
-7232398abc6a71 Thierry Reding       2014-07-11  450  	struct mutex powergates_lock;
-4a37f11c8f57ff Aapo Vienamo         2018-08-10  451  
-4a37f11c8f57ff Aapo Vienamo         2018-08-10  452  	struct pinctrl_dev *pctl_dev;
-19906e6b166721 Thierry Reding       2018-09-17  453  
-19906e6b166721 Thierry Reding       2018-09-17  454  	struct irq_domain *domain;
-19906e6b166721 Thierry Reding       2018-09-17  455  	struct irq_chip irq;
-e57a243f5d896f Dmitry Osipenko      2019-09-26  456  
-e57a243f5d896f Dmitry Osipenko      2019-09-26  457  	struct notifier_block clk_nb;
-41bafa698ddd07 Dmitry Osipenko      2021-06-01  458  
-41bafa698ddd07 Dmitry Osipenko      2021-06-01  459  	bool core_domain_state_synced;
-41bafa698ddd07 Dmitry Osipenko      2021-06-01  460  	bool core_domain_registered;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  461  
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  462  	unsigned long *wake_type_level_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  463  	unsigned long *wake_type_dual_edge_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  464  	unsigned long *wake_sw_status_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  465  	unsigned long *wake_cntrl_level_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  466  	struct syscore_ops syscore;
-7232398abc6a71 Thierry Reding       2014-07-11 @467  };
-7232398abc6a71 Thierry Reding       2014-07-11  468  
-
-:::::: The code at line 467 was first introduced by commit
-:::::: 7232398abc6a7186e315425638c367d50c674718 ARM: tegra: Convert PMC to a driver
-
-:::::: TO: Thierry Reding <treding@nvidia.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
+   884	
+   885	/**
+   886	 * shrink_slab - shrink slab caches
+   887	 * @gfp_mask: allocation context
+   888	 * @nid: node whose slab caches to target
+   889	 * @memcg: memory cgroup whose slab caches to target
+   890	 * @priority: the reclaim priority
+   891	 *
+   892	 * Call the shrink functions to age shrinkable caches.
+   893	 *
+   894	 * @nid is passed along to shrinkers with SHRINKER_NUMA_AWARE set,
+   895	 * unaware shrinkers will receive a node id of 0 instead.
+   896	 *
+   897	 * @memcg specifies the memory cgroup to target. Unaware shrinkers
+   898	 * are called only if it is the root cgroup.
+   899	 *
+   900	 * @priority is sc->priority, we take the number of objects and >> by priority
+   901	 * in order to get the scan target.
+   902	 *
+   903	 * Returns the number of reclaimed slab objects.
+   904	 */
+ > 905	unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+   906					 struct mem_cgroup *memcg,
+   907					 int priority)
+   908	{
+   909		unsigned long ret, freed = 0;
+   910		struct shrinker *shrinker;
+   911	
+   912		/*
+   913		 * The root memcg might be allocated even though memcg is disabled
+   914		 * via "cgroup_disable=memory" boot parameter.  This could make
+   915		 * mem_cgroup_is_root() return false, then just run memcg slab
+   916		 * shrink, but skip global shrink.  This may result in premature
+   917		 * oom.
+   918		 */
+   919		if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
+   920			return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
+   921	
+   922		if (!down_read_trylock(&shrinker_rwsem))
+   923			goto out;
+   924	
+   925		list_for_each_entry(shrinker, &shrinker_list, list) {
+   926			struct shrink_control sc = {
+   927				.gfp_mask = gfp_mask,
+   928				.nid = nid,
+   929				.memcg = memcg,
+   930			};
+   931	
+   932			ret = do_shrink_slab(&sc, shrinker, priority);
+   933			if (ret == SHRINK_EMPTY)
+   934				ret = 0;
+   935			freed += ret;
+   936			/*
+   937			 * Bail out if someone want to register a new shrinker to
+   938			 * prevent the registration from being stalled for long periods
+   939			 * by parallel ongoing shrinking.
+   940			 */
+   941			if (rwsem_is_contended(&shrinker_rwsem)) {
+   942				freed = freed ? : 1;
+   943				break;
+   944			}
+   945		}
+   946	
+   947		up_read(&shrinker_rwsem);
+   948	out:
+   949		cond_resched();
+   950		return freed;
+   951	}
+   952	EXPORT_SYMBOL_GPL(shrink_slab);
+   953	
 
 -- 
 0-DAY CI Kernel Test Service
