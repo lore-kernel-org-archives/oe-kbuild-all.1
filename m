@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70591642B
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 20:01:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1564B1642B
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 20:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XXQRlOvZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="icMB1U7M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699214472; x=1730750472;
+  t=1699214494; x=1730750494;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dUAxU/W70h0Zdo+dlrDLtSAsb/0oF3ERjFhDPDq+Mqs=;
-  b=XXQRlOvZcK+pEpEaDj2t78GHnu1Sue8jsWBVdePO+Tf6uJbet5hiMHI3
-   sx0mgL7s8d5vIIW782drQKEpmQEIHeeXAGBe3sr8+2nBIoo2vtY0lkaDY
-   ZFTCn3rCOxe8uAmwR2/XraarCKqCj/cba7A26qUmSd0aVU1YbcedxZLiq
-   TSiF2lH6wAu3afobvUZL1oP5c2QcK82S3cbxp30G8xqYUNXg4/I9Lt+h6
-   1BgaJPGLEMQJoh3fZSsUzU1EFER+ZAq69ctYiYHyaeF+MVkyO/e9sGDF6
-   ABNLZi7tgxtLg5oyw0JO+o6NWAb//elUObPEqQrBHc2dC90Bremz79Dqm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="7803270"
+  bh=mI5IteH+boj4bkfZ8oz/2buAKwPVJjrId7wMVB+xXTw=;
+  b=icMB1U7MjgP5uBjTd1BC6nfW8Kbr/Bn9ZldCd3FYCtm3KxTgFBxEBaj4
+   ElxYH6btJass8ziDkkXo0f2eJkYyiqZdeufVQRqwLXPjG1ArQQrQvwEoq
+   aoqdF+Tm3H7tChb5X6a1ipod/uwS4Kc7eSoXAdNa8frsFJZ5ARfEnDtoo
+   +TgBu5uoAKKzsYh1yWDPOsTht/Nx1P/3cUuTN7TVL4Jioxv+HUWsPYnwA
+   TPdK/18U4S+clKGC8FNomoywYPhHmsGBx7IqNFM2MyJN+M7zA4NyXx7cE
+   M2uxeaYQtLc85iD1bgxRPR3lRq1oAFxo5J0Dmi/wUNBXoJEL0sXS4OV31
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="2080475"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="7803270"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 12:01:11 -0800
+   d="scan'208";a="2080475"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 12:01:34 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="738613660"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="3248103"
+   d="scan'208";a="738613660"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 Nov 2023 12:01:09 -0800
+  by orsmga006.jf.intel.com with ESMTP; 05 Nov 2023 12:01:31 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzjIx-0005km-0m;
-	Sun, 05 Nov 2023 20:01:07 +0000
-Date: Mon, 6 Nov 2023 03:59:20 +0800
+	id 1qzjJJ-0005ku-19;
+	Sun, 05 Nov 2023 20:01:29 +0000
+Date: Mon, 6 Nov 2023 03:59:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_fwspec 11/19] include/linux/acpi_iort.h:63:
- multiple definition of `iort_iommu_configure_id';
- drivers/acpi/glue.o:include/linux/acpi_iort.h:63: first defined here
-Message-ID: <202311060316.knvFe9f9-lkp@intel.com>
+To: Intiyaz Basha <intiyaz.basha@cavium.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Felix Manlunas <felix.manlunas@cavium.com>
+Subject: drivers/net/ethernet/cavium/liquidio/cn23xx_pf_device.c:1251:13:
+ warning: variable 'max_rings' set but not used
+Message-ID: <202311060348.7DFUAcjC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,76 +51,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux iommu_fwspec
-head:   14d4f49c12fef0083b01bdfdd02bd9017fe5addc
-commit: 1d3c60066ee346b6c2433d57bd048a3a424b16a2 [11/19] acpi: Do not use dev->iommu within acpi_iommu_configure()
-config: x86_64-randconfig-001-20231105 (https://download.01.org/0day-ci/archive/20231106/202311060316.knvFe9f9-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1c41041124bd14dd6610da256a3da4e5b74ce6b1
+commit: c33c997346c34ea7b89aec99524ad9632a2f1e0c liquidio: enhanced ethtool --set-channels feature
+date:   6 years ago
+config: x86_64-buildonly-randconfig-002-20231101 (https://download.01.org/0day-ci/archive/20231106/202311060348.7DFUAcjC-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060316.knvFe9f9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060348.7DFUAcjC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311060316.knvFe9f9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311060348.7DFUAcjC-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iommu/dma-iommu.c:11:
->> include/linux/acpi_iort.h:61:5: warning: no previous prototype for 'iort_iommu_configure_id' [-Wmissing-prototypes]
-      61 | int iort_iommu_configure_id(struct iommu_fwspec *fwspec, struct device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
---
-   ld: drivers/acpi/scan.o: in function `iort_iommu_configure_id':
->> include/linux/acpi_iort.h:63: multiple definition of `iort_iommu_configure_id'; drivers/acpi/glue.o:include/linux/acpi_iort.h:63: first defined here
-   ld: drivers/iommu/dma-iommu.o: in function `iort_iommu_configure_id':
->> include/linux/acpi_iort.h:63: multiple definition of `iort_iommu_configure_id'; drivers/acpi/glue.o:include/linux/acpi_iort.h:63: first defined here
+   drivers/net/ethernet/cavium/liquidio/cn23xx_pf_device.c: In function 'cn23xx_sriov_config':
+   drivers/net/ethernet/cavium/liquidio/cn23xx_pf_device.c:1253:13: warning: variable 'max_possible_vfs' set but not used [-Wunused-but-set-variable]
+    1253 |         u32 max_possible_vfs;
+         |             ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/cavium/liquidio/cn23xx_pf_device.c:1251:13: warning: variable 'max_rings' set but not used [-Wunused-but-set-variable]
+    1251 |         u32 max_rings, total_rings, max_vfs, rings_per_vf;
+         |             ^~~~~~~~~
+   drivers/net/ethernet/cavium/liquidio/cn23xx_pf_device.c: At top level:
+   drivers/net/ethernet/cavium/liquidio/cn23xx_pf_device.c:1417:6: warning: no previous prototype for 'cn23xx_dump_iq_regs' [-Wmissing-prototypes]
+    1417 | void cn23xx_dump_iq_regs(struct octeon_device *oct)
+         |      ^~~~~~~~~~~~~~~~~~~
 
 
-vim +63 include/linux/acpi_iort.h
+vim +/max_rings +1251 drivers/net/ethernet/cavium/liquidio/cn23xx_pf_device.c
 
-415e84294798d1 Arnd Bergmann         2023-05-16  31  
-88ef16d888a094 Tomasz Nowicki        2016-09-12  32  #ifdef CONFIG_ACPI_IORT
-39c3cf566ceafa Lorenzo Pieralisi     2020-06-19  33  u32 iort_msi_map_id(struct device *dev, u32 id);
-d1718a1b7a8674 Lorenzo Pieralisi     2020-06-19  34  struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
-d1718a1b7a8674 Lorenzo Pieralisi     2020-06-19  35  					  enum irq_domain_bus_token bus_token);
-d4f54a186667ff Hanjun Guo            2017-03-07  36  void acpi_configure_pmsi_domain(struct device *dev);
-e302eea8f49717 Shameer Kolothum      2022-06-15  37  void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode,
-e302eea8f49717 Shameer Kolothum      2022-06-15  38  		       struct list_head *head);
-e302eea8f49717 Shameer Kolothum      2022-06-15  39  void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode,
-e302eea8f49717 Shameer Kolothum      2022-06-15  40  		       struct list_head *head);
-643b8e4d86f8b1 Lorenzo Pieralisi     2016-11-21  41  /* IOMMU interface */
-db59e1b6e49201 Jean-Philippe Brucker 2021-06-18  42  int iort_dma_get_ranges(struct device *dev, u64 *size);
-1d3c60066ee346 Jason Gunthorpe       2023-11-03  43  int iort_iommu_configure_id(struct iommu_fwspec *fwspec, struct device *dev,
-1d3c60066ee346 Jason Gunthorpe       2023-11-03  44  			    const u32 *id_in);
-55be25b8b5e4e2 Shameer Kolothum      2022-06-15  45  void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head);
-2b8652936f0ca9 Ard Biesheuvel        2020-11-19  46  phys_addr_t acpi_iort_dma_get_max_cpu_address(void);
-88ef16d888a094 Tomasz Nowicki        2016-09-12  47  #else
-39c3cf566ceafa Lorenzo Pieralisi     2020-06-19  48  static inline u32 iort_msi_map_id(struct device *dev, u32 id)
-39c3cf566ceafa Lorenzo Pieralisi     2020-06-19  49  { return id; }
-d1718a1b7a8674 Lorenzo Pieralisi     2020-06-19  50  static inline struct irq_domain *iort_get_device_domain(
-d1718a1b7a8674 Lorenzo Pieralisi     2020-06-19  51  	struct device *dev, u32 id, enum irq_domain_bus_token bus_token)
-4bf2efd26d7624 Tomasz Nowicki        2016-09-12  52  { return NULL; }
-d4f54a186667ff Hanjun Guo            2017-03-07  53  static inline void acpi_configure_pmsi_domain(struct device *dev) { }
-e302eea8f49717 Shameer Kolothum      2022-06-15  54  static inline
-e302eea8f49717 Shameer Kolothum      2022-06-15  55  void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
-e302eea8f49717 Shameer Kolothum      2022-06-15  56  static inline
-e302eea8f49717 Shameer Kolothum      2022-06-15  57  void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
-643b8e4d86f8b1 Lorenzo Pieralisi     2016-11-21  58  /* IOMMU interface */
-db59e1b6e49201 Jean-Philippe Brucker 2021-06-18  59  static inline int iort_dma_get_ranges(struct device *dev, u64 *size)
-db59e1b6e49201 Jean-Philippe Brucker 2021-06-18  60  { return -ENODEV; }
-1d3c60066ee346 Jason Gunthorpe       2023-11-03 @61  int iort_iommu_configure_id(struct iommu_fwspec *fwspec, struct device *dev,
-1d3c60066ee346 Jason Gunthorpe       2023-11-03  62  			    const u32 *id_in)
-11a8c5e3a94b12 Jean-Philippe Brucker 2021-06-18 @63  { return -ENODEV; }
-8b4282e6b8e239 Shameer Kolothum      2018-02-13  64  static inline
-55be25b8b5e4e2 Shameer Kolothum      2022-06-15  65  void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head)
-8778b1d4811705 Shameer Kolothum      2022-06-15  66  { }
-2b8652936f0ca9 Ard Biesheuvel        2020-11-19  67  
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1247  
+c33c997346c34e Intiyaz Basha   2018-04-27  1248  int cn23xx_sriov_config(struct octeon_device *oct)
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1249  {
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1250  	struct octeon_cn23xx_pf *cn23xx = (struct octeon_cn23xx_pf *)oct->chip;
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14 @1251  	u32 max_rings, total_rings, max_vfs, rings_per_vf;
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1252  	u32 pf_srn, num_pf_rings;
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14  1253  	u32 max_possible_vfs;
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1254  
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1255  	cn23xx->conf =
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1256  		(struct octeon_config *)oct_get_config_info(oct, LIO_23XX);
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1257  	switch (oct->rev_id) {
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1258  	case OCTEON_CN23XX_REV_1_0:
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14  1259  		max_rings = CN23XX_MAX_RINGS_PER_PF_PASS_1_0;
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14  1260  		max_possible_vfs = CN23XX_MAX_VFS_PER_PF_PASS_1_0;
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1261  		break;
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1262  	case OCTEON_CN23XX_REV_1_1:
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14  1263  		max_rings = CN23XX_MAX_RINGS_PER_PF_PASS_1_1;
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14  1264  		max_possible_vfs = CN23XX_MAX_VFS_PER_PF_PASS_1_1;
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1265  		break;
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1266  	default:
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14  1267  		max_rings = CN23XX_MAX_RINGS_PER_PF;
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14  1268  		max_possible_vfs = CN23XX_MAX_VFS_PER_PF;
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1269  		break;
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1270  	}
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14  1271  
+c33c997346c34e Intiyaz Basha   2018-04-27  1272  	if (oct->sriov_info.num_pf_rings)
+c33c997346c34e Intiyaz Basha   2018-04-27  1273  		num_pf_rings = oct->sriov_info.num_pf_rings;
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1274  	else
+d13520c7ca7761 Raghu Vatsavayi 2016-11-14  1275  		num_pf_rings = num_present_cpus();
+72c0091293c008 Raghu Vatsavayi 2016-08-31  1276  
 
-:::::: The code at line 63 was first introduced by commit
-:::::: 11a8c5e3a94b12848f24d9c63b5c175ce0b80729 ACPI: Move IOMMU setup code out of IORT
+:::::: The code at line 1251 was first introduced by commit
+:::::: d13520c7ca7761346d2787fff1b3b112f87da77a liquidio CN23XX: HW config for VF support
 
-:::::: TO: Jean-Philippe Brucker <jean-philippe@linaro.org>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+:::::: TO: Raghu Vatsavayi <rvatsavayi@caviumnetworks.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
