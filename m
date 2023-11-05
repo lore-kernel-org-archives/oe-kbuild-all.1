@@ -1,45 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0553212
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 19:59:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70591642B
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 20:01:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ddmkWMao"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XXQRlOvZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699214364; x=1730750364;
+  t=1699214472; x=1730750472;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1E6owWMgcxki45LkgtMrEYNLMSfheD92EYWBXFh9qJI=;
-  b=ddmkWMaodgCs6mhWzzHuljkLx/a1mqLjm63nXFuV4RcuoTP2CPLp1uWg
-   LPhkIo7j2zW1Jq2cHZ7WlshZytS8nrGIK9O0ua2x7Z2BeGLKJNqZZJ40M
-   uiV76e7GrMdArNKlc6HwHl4pS7y9RlmC8PbVMz7OPkUiG5YONAw4Ov2Vh
-   8V2VleWmyuiJ41Ou3yNdE5pipcYIIJFL9ZOTb/c0rP0EoeGsW1u8Bu8Mb
-   qEgGsZ4R+M7VEYpzAn/4pjICDuLnFED6taVNz+ssnVUaQWL4U7PDSvyEv
-   zjCFfi4it/z7mjfYjJwPR8qBEA1SwkWAJ1wMyZs+y6ZwWSXbktU3UZ0f4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="379562650"
+  bh=dUAxU/W70h0Zdo+dlrDLtSAsb/0oF3ERjFhDPDq+Mqs=;
+  b=XXQRlOvZcK+pEpEaDj2t78GHnu1Sue8jsWBVdePO+Tf6uJbet5hiMHI3
+   sx0mgL7s8d5vIIW782drQKEpmQEIHeeXAGBe3sr8+2nBIoo2vtY0lkaDY
+   ZFTCn3rCOxe8uAmwR2/XraarCKqCj/cba7A26qUmSd0aVU1YbcedxZLiq
+   TSiF2lH6wAu3afobvUZL1oP5c2QcK82S3cbxp30G8xqYUNXg4/I9Lt+h6
+   1BgaJPGLEMQJoh3fZSsUzU1EFER+ZAq69ctYiYHyaeF+MVkyO/e9sGDF6
+   ABNLZi7tgxtLg5oyw0JO+o6NWAb//elUObPEqQrBHc2dC90Bremz79Dqm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="7803270"
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="379562650"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 11:59:23 -0800
+   d="scan'208";a="7803270"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 12:01:11 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="9889589"
+   d="scan'208";a="3248103"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Nov 2023 11:59:22 -0800
+  by orviesa002.jf.intel.com with ESMTP; 05 Nov 2023 12:01:09 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzjH9-0005ke-10;
-	Sun, 05 Nov 2023 19:59:20 +0000
-Date: Mon, 6 Nov 2023 03:58:47 +0800
+	id 1qzjIx-0005km-0m;
+	Sun, 05 Nov 2023 20:01:07 +0000
+Date: Mon, 6 Nov 2023 03:59:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/nilfs2/ioctl.c:120: warning: Function parameter or member 'fa'
- not described in 'nilfs_fileattr_get'
-Message-ID: <202311060311.sOn64IEs-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_fwspec 11/19] include/linux/acpi_iort.h:63:
+ multiple definition of `iort_iommu_configure_id';
+ drivers/acpi/glue.o:include/linux/acpi_iort.h:63: first defined here
+Message-ID: <202311060316.knvFe9f9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,83 +50,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1c41041124bd14dd6610da256a3da4e5b74ce6b1
-commit: 7c7c436e14b863ce56d9983477d35e05e54a220b nilfs2: convert to fileattr
-date:   2 years, 7 months ago
-config: x86_64-randconfig-012-20231101 (https://download.01.org/0day-ci/archive/20231106/202311060311.sOn64IEs-lkp@intel.com/config)
+tree:   https://github.com/jgunthorpe/linux iommu_fwspec
+head:   14d4f49c12fef0083b01bdfdd02bd9017fe5addc
+commit: 1d3c60066ee346b6c2433d57bd048a3a424b16a2 [11/19] acpi: Do not use dev->iommu within acpi_iommu_configure()
+config: x86_64-randconfig-001-20231105 (https://download.01.org/0day-ci/archive/20231106/202311060316.knvFe9f9-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060311.sOn64IEs-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060316.knvFe9f9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311060311.sOn64IEs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311060316.knvFe9f9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   fs/nilfs2/ioctl.c:120: warning: Function parameter or member 'dentry' not described in 'nilfs_fileattr_get'
->> fs/nilfs2/ioctl.c:120: warning: Function parameter or member 'fa' not described in 'nilfs_fileattr_get'
-   fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'mnt_userns' not described in 'nilfs_fileattr_set'
->> fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'dentry' not described in 'nilfs_fileattr_set'
->> fs/nilfs2/ioctl.c:133: warning: Function parameter or member 'fa' not described in 'nilfs_fileattr_set'
-   fs/nilfs2/ioctl.c:164: warning: Function parameter or member 'inode' not described in 'nilfs_ioctl_getversion'
-   fs/nilfs2/ioctl.c:164: warning: Function parameter or member 'argp' not described in 'nilfs_ioctl_getversion'
+   In file included from drivers/iommu/dma-iommu.c:11:
+>> include/linux/acpi_iort.h:61:5: warning: no previous prototype for 'iort_iommu_configure_id' [-Wmissing-prototypes]
+      61 | int iort_iommu_configure_id(struct iommu_fwspec *fwspec, struct device *dev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   ld: drivers/acpi/scan.o: in function `iort_iommu_configure_id':
+>> include/linux/acpi_iort.h:63: multiple definition of `iort_iommu_configure_id'; drivers/acpi/glue.o:include/linux/acpi_iort.h:63: first defined here
+   ld: drivers/iommu/dma-iommu.o: in function `iort_iommu_configure_id':
+>> include/linux/acpi_iort.h:63: multiple definition of `iort_iommu_configure_id'; drivers/acpi/glue.o:include/linux/acpi_iort.h:63: first defined here
 
 
-vim +120 fs/nilfs2/ioctl.c
+vim +63 include/linux/acpi_iort.h
 
-7942b919f7321f Koji Sato          2009-04-06  115  
-d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  116  /**
-7c7c436e14b863 Miklos Szeredi     2021-04-07  117   * nilfs_fileattr_get - ioctl to support lsattr
-d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  118   */
-7c7c436e14b863 Miklos Szeredi     2021-04-07  119  int nilfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
-cde98f0f84ccff Ryusuke Konishi    2011-01-20 @120  {
-7c7c436e14b863 Miklos Szeredi     2021-04-07  121  	struct inode *inode = d_inode(dentry);
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  122  
-7c7c436e14b863 Miklos Szeredi     2021-04-07  123  	fileattr_fill_flags(fa, NILFS_I(inode)->i_flags & FS_FL_USER_VISIBLE);
-7c7c436e14b863 Miklos Szeredi     2021-04-07  124  
-7c7c436e14b863 Miklos Szeredi     2021-04-07  125  	return 0;
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  126  }
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  127  
-d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  128  /**
-7c7c436e14b863 Miklos Szeredi     2021-04-07  129   * nilfs_fileattr_set - ioctl to support chattr
-d623a9420c9ae2 Vyacheslav Dubeyko 2014-01-23  130   */
-7c7c436e14b863 Miklos Szeredi     2021-04-07  131  int nilfs_fileattr_set(struct user_namespace *mnt_userns,
-7c7c436e14b863 Miklos Szeredi     2021-04-07  132  		       struct dentry *dentry, struct fileattr *fa)
-cde98f0f84ccff Ryusuke Konishi    2011-01-20 @133  {
-7c7c436e14b863 Miklos Szeredi     2021-04-07  134  	struct inode *inode = d_inode(dentry);
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  135  	struct nilfs_transaction_info ti;
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  136  	unsigned int flags, oldflags;
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  137  	int ret;
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  138  
-7c7c436e14b863 Miklos Szeredi     2021-04-07  139  	if (fileattr_has_fsx(fa))
-7c7c436e14b863 Miklos Szeredi     2021-04-07  140  		return -EOPNOTSUPP;
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  141  
-7c7c436e14b863 Miklos Szeredi     2021-04-07  142  	flags = nilfs_mask_flags(inode->i_mode, fa->flags);
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  143  
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  144  	ret = nilfs_transaction_begin(inode->i_sb, &ti, 0);
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  145  	if (ret)
-7c7c436e14b863 Miklos Szeredi     2021-04-07  146  		return ret;
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  147  
-7c7c436e14b863 Miklos Szeredi     2021-04-07  148  	oldflags = NILFS_I(inode)->i_flags & ~FS_FL_USER_MODIFIABLE;
-7c7c436e14b863 Miklos Szeredi     2021-04-07  149  	NILFS_I(inode)->i_flags = oldflags | (flags & FS_FL_USER_MODIFIABLE);
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  150  
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  151  	nilfs_set_inode_flags(inode);
-078cd8279e6599 Deepa Dinamani     2016-09-14  152  	inode->i_ctime = current_time(inode);
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  153  	if (IS_SYNC(inode))
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  154  		nilfs_set_transaction_flag(NILFS_TI_SYNC);
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  155  
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  156  	nilfs_mark_inode_dirty(inode);
-7c7c436e14b863 Miklos Szeredi     2021-04-07  157  	return nilfs_transaction_commit(inode->i_sb);
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  158  }
-cde98f0f84ccff Ryusuke Konishi    2011-01-20  159  
+415e84294798d1 Arnd Bergmann         2023-05-16  31  
+88ef16d888a094 Tomasz Nowicki        2016-09-12  32  #ifdef CONFIG_ACPI_IORT
+39c3cf566ceafa Lorenzo Pieralisi     2020-06-19  33  u32 iort_msi_map_id(struct device *dev, u32 id);
+d1718a1b7a8674 Lorenzo Pieralisi     2020-06-19  34  struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
+d1718a1b7a8674 Lorenzo Pieralisi     2020-06-19  35  					  enum irq_domain_bus_token bus_token);
+d4f54a186667ff Hanjun Guo            2017-03-07  36  void acpi_configure_pmsi_domain(struct device *dev);
+e302eea8f49717 Shameer Kolothum      2022-06-15  37  void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode,
+e302eea8f49717 Shameer Kolothum      2022-06-15  38  		       struct list_head *head);
+e302eea8f49717 Shameer Kolothum      2022-06-15  39  void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode,
+e302eea8f49717 Shameer Kolothum      2022-06-15  40  		       struct list_head *head);
+643b8e4d86f8b1 Lorenzo Pieralisi     2016-11-21  41  /* IOMMU interface */
+db59e1b6e49201 Jean-Philippe Brucker 2021-06-18  42  int iort_dma_get_ranges(struct device *dev, u64 *size);
+1d3c60066ee346 Jason Gunthorpe       2023-11-03  43  int iort_iommu_configure_id(struct iommu_fwspec *fwspec, struct device *dev,
+1d3c60066ee346 Jason Gunthorpe       2023-11-03  44  			    const u32 *id_in);
+55be25b8b5e4e2 Shameer Kolothum      2022-06-15  45  void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head);
+2b8652936f0ca9 Ard Biesheuvel        2020-11-19  46  phys_addr_t acpi_iort_dma_get_max_cpu_address(void);
+88ef16d888a094 Tomasz Nowicki        2016-09-12  47  #else
+39c3cf566ceafa Lorenzo Pieralisi     2020-06-19  48  static inline u32 iort_msi_map_id(struct device *dev, u32 id)
+39c3cf566ceafa Lorenzo Pieralisi     2020-06-19  49  { return id; }
+d1718a1b7a8674 Lorenzo Pieralisi     2020-06-19  50  static inline struct irq_domain *iort_get_device_domain(
+d1718a1b7a8674 Lorenzo Pieralisi     2020-06-19  51  	struct device *dev, u32 id, enum irq_domain_bus_token bus_token)
+4bf2efd26d7624 Tomasz Nowicki        2016-09-12  52  { return NULL; }
+d4f54a186667ff Hanjun Guo            2017-03-07  53  static inline void acpi_configure_pmsi_domain(struct device *dev) { }
+e302eea8f49717 Shameer Kolothum      2022-06-15  54  static inline
+e302eea8f49717 Shameer Kolothum      2022-06-15  55  void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
+e302eea8f49717 Shameer Kolothum      2022-06-15  56  static inline
+e302eea8f49717 Shameer Kolothum      2022-06-15  57  void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
+643b8e4d86f8b1 Lorenzo Pieralisi     2016-11-21  58  /* IOMMU interface */
+db59e1b6e49201 Jean-Philippe Brucker 2021-06-18  59  static inline int iort_dma_get_ranges(struct device *dev, u64 *size)
+db59e1b6e49201 Jean-Philippe Brucker 2021-06-18  60  { return -ENODEV; }
+1d3c60066ee346 Jason Gunthorpe       2023-11-03 @61  int iort_iommu_configure_id(struct iommu_fwspec *fwspec, struct device *dev,
+1d3c60066ee346 Jason Gunthorpe       2023-11-03  62  			    const u32 *id_in)
+11a8c5e3a94b12 Jean-Philippe Brucker 2021-06-18 @63  { return -ENODEV; }
+8b4282e6b8e239 Shameer Kolothum      2018-02-13  64  static inline
+55be25b8b5e4e2 Shameer Kolothum      2022-06-15  65  void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head)
+8778b1d4811705 Shameer Kolothum      2022-06-15  66  { }
+2b8652936f0ca9 Ard Biesheuvel        2020-11-19  67  
 
-:::::: The code at line 120 was first introduced by commit
-:::::: cde98f0f84ccff78e87235cb7b551747d6ad00de nilfs2: implement FS_IOC_GETFLAGS/SETFLAGS/GETVERSION
+:::::: The code at line 63 was first introduced by commit
+:::::: 11a8c5e3a94b12848f24d9c63b5c175ce0b80729 ACPI: Move IOMMU setup code out of IORT
 
-:::::: TO: Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
-:::::: CC: Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
+:::::: TO: Jean-Philippe Brucker <jean-philippe@linaro.org>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
