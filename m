@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C956410F7
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 03:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E0410F7
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  5 Nov 2023 03:17:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="blgjZQDh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQWvneBf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699153506; x=1730689506;
+  t=1699154228; x=1730690228;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c84yJGMjJQgchBFqgTKGXbObfXTTOhHS+RAWR1SjbJA=;
-  b=blgjZQDhiSgIjmlM89FEkHpSVQ7yqs2CC/y8cdRdUMdaJ4hpxc7AKQyh
-   h4jjitKEXrm0ro8ak/MaSTiJYhAkajTCEMf8aAIAcK6Rm1Ojg6DVPsweC
-   kUMBOYYlsNB6aryORtoGtvmljXyvh1oONntTMEFP7xIzlwH8ZsOjrbupo
-   vzMC374gdrKI36EcpZOTb4drhC/yOn1kQ5AxBo5TMQktsDKTpoNoDHZXB
-   LMd2VuJaedfCOmp438ii7s4C4VvhrqwXiMkCFVp4YDqHmw/iY9H8qxwIc
-   0xZ5T1xTDt+HdOTvBC5W9zdqyVii6acy50CmDMVh27SWbdPwCQ/Nd31BU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="386297471"
+  bh=Vx5d/7C+H0Op64eDsFChBe8LHoUe1Pt5ZCDFhHsw+ts=;
+  b=HQWvneBfi7TVWSrllry1SRL2KmGnjYYOpxPKD6ojyRuIZrG1XcwmPsIm
+   HN03FseXhf1Vo9mwxMpc6Vg4J3O3g+w22wGk7QeiE6kQpfFZBmaHN/lNN
+   vkj7nHfzaKlBWJhGaU+za851f0GdmVtPy0zBscqfEQAjBxHlPzCIdLlLL
+   tvKKDj6TXx5nhnGyib6gzZHaemqNmSJ42QxGA64OrTyx0UPsn51aAsofN
+   gIj4OX4e6cWK+2yw15Xj+9h9whZjIihPpwj1+mJxLaZNlJVFN/T7+F3zk
+   nQCy0Cdlk7ciozObCW7sX5qYt2s7zODgd3i6qxBbP8FgZUKMulR9ohZ8r
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="374155271"
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="386297471"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 20:05:03 -0700
+   d="scan'208";a="374155271"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 20:17:08 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10884"; a="711890761"
 X-IronPort-AV: E=Sophos;i="6.03,278,1694761200"; 
-   d="scan'208";a="3118236"
+   d="scan'208";a="711890761"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Nov 2023 20:05:02 -0700
+  by orsmga003.jf.intel.com with ESMTP; 04 Nov 2023 20:17:06 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzTRc-0004xE-0q;
-	Sun, 05 Nov 2023 03:05:00 +0000
-Date: Sun, 5 Nov 2023 11:04:38 +0800
+	id 1qzTdI-0004xk-0Q;
+	Sun, 05 Nov 2023 03:17:04 +0000
+Date: Sun, 5 Nov 2023 11:16:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:locking/cleanup 2/2] kernel/ptrace.c:391:30: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202311051145.dFVy3o6V-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: sound/ac97/bus.c:192: warning: Function parameter or member 'drv'
+ not described in 'snd_ac97_codec_driver_register'
+Message-ID: <202311051152.W491nQsq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,138 +51,238 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/cleanup
-head:   3a67a41fc0d5b43e0e3ea44aa929e9046def73ef
-commit: 3a67a41fc0d5b43e0e3ea44aa929e9046def73ef [2/2] ptrace: Convert ptrace_attach() to use lock guards
-config: x86_64-randconfig-121-20231103 (https://download.01.org/0day-ci/archive/20231105/202311051145.dFVy3o6V-lkp@intel.com/config)
+Hi Arnd,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aea6bf908d730b01bd264a8821159db9463c111c
+commit: 5eab9265759e2fb042aa452931c3d06ab7ab8dae ASoC: PXA: make SND_PXA2XX_SOC_AC97 user-selectable
+date:   10 months ago
+config: x86_64-buildonly-randconfig-003-20231102 (https://download.01.org/0day-ci/archive/20231105/202311051152.W491nQsq-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051145.dFVy3o6V-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311051152.W491nQsq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311051145.dFVy3o6V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311051152.W491nQsq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/ptrace.c:55:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/ptrace.c:55:22: sparse:    struct task_struct *
-   kernel/ptrace.c:55:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/ptrace.c:74:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *parent @@     got struct task_struct *new_parent @@
-   kernel/ptrace.c:74:23: sparse:     expected struct task_struct [noderef] __rcu *parent
-   kernel/ptrace.c:74:23: sparse:     got struct task_struct *new_parent
-   kernel/ptrace.c:75:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cred const [noderef] __rcu *ptracer_cred @@     got struct cred const * @@
-   kernel/ptrace.c:75:29: sparse:     expected struct cred const [noderef] __rcu *ptracer_cred
-   kernel/ptrace.c:75:29: sparse:     got struct cred const *
-   kernel/ptrace.c:129:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cred const *old_cred @@     got struct cred const [noderef] __rcu *ptracer_cred @@
-   kernel/ptrace.c:129:18: sparse:     expected struct cred const *old_cred
-   kernel/ptrace.c:129:18: sparse:     got struct cred const [noderef] __rcu *ptracer_cred
-   kernel/ptrace.c:133:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:133:25: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:133:25: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:171:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:171:27: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:171:27: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:203:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:203:28: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:203:28: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:209:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:209:30: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:209:30: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:262:44: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/ptrace.c:262:44: sparse:    struct task_struct [noderef] __rcu *
-   kernel/ptrace.c:262:44: sparse:    struct task_struct *
-   kernel/ptrace.c:508:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *parent @@
-   kernel/ptrace.c:508:54: sparse:     expected struct task_struct *parent
-   kernel/ptrace.c:508:54: sparse:     got struct task_struct [noderef] __rcu *parent
-   kernel/ptrace.c:516:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *new_parent @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/ptrace.c:516:53: sparse:     expected struct task_struct *new_parent
-   kernel/ptrace.c:516:53: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/ptrace.c:564:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/ptrace.c:564:41: sparse:     expected struct task_struct *p1
-   kernel/ptrace.c:564:41: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/ptrace.c:566:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sighand_struct *sigh @@     got struct sighand_struct [noderef] __rcu *sighand @@
-   kernel/ptrace.c:566:50: sparse:     expected struct sighand_struct *sigh
-   kernel/ptrace.c:566:50: sparse:     got struct sighand_struct [noderef] __rcu *sighand
-   kernel/ptrace.c:757:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:757:37: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:757:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:765:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:765:39: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:765:39: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:876:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:876:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:876:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:880:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:880:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:880:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:1110:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:1110:37: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:1110:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:1112:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:1112:39: sparse:     expected struct spinlock [usertype] *lock
-   kernel/ptrace.c:1112:39: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
-   include/linux/sched/signal.h:750:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:750:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:750:37: sparse:     got struct spinlock [noderef] __rcu *
->> kernel/ptrace.c:391:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *l @@     got struct spinlock [noderef] __rcu * @@
-   kernel/ptrace.c:391:30: sparse:     expected struct spinlock [usertype] *l
-   kernel/ptrace.c:391:30: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:464:17: sparse: sparse: context imbalance in 'ptrace_attach' - different lock contexts for basic block
-   kernel/ptrace.c:514:38: sparse: sparse: dereference of noderef expression
-   include/linux/sched/signal.h:750:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:750:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:750:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:704:9: sparse: sparse: context imbalance in 'ptrace_getsiginfo' - different lock contexts for basic block
-   include/linux/sched/signal.h:750:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:750:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:750:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c:720:9: sparse: sparse: context imbalance in 'ptrace_setsiginfo' - different lock contexts for basic block
-   kernel/ptrace.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h):
-   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-   kernel/ptrace.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
-   include/linux/sched/signal.h:750:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:750:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:750:37: sparse:     got struct spinlock [noderef] __rcu *
-   include/linux/sched/signal.h:750:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:750:37: sparse:     expected struct spinlock [usertype] *lock
-   include/linux/sched/signal.h:750:37: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/ptrace.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h):
-   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
-   kernel/ptrace.c:1269:9: sparse: sparse: context imbalance in 'ptrace_request' - different lock contexts for basic block
-   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
+All warnings (new ones prefixed by >>):
 
-vim +391 kernel/ptrace.c
+>> sound/ac97/bus.c:192: warning: Function parameter or member 'drv' not described in 'snd_ac97_codec_driver_register'
+>> sound/ac97/bus.c:192: warning: Excess function parameter 'dev' description in 'snd_ac97_codec_driver_register'
+>> sound/ac97/bus.c:205: warning: Function parameter or member 'drv' not described in 'snd_ac97_codec_driver_unregister'
+>> sound/ac97/bus.c:205: warning: Excess function parameter 'dev' description in 'snd_ac97_codec_driver_unregister'
+>> sound/ac97/bus.c:351: warning: Function parameter or member 'codecs_pdata' not described in 'snd_ac97_controller_register'
 
-   388	
-   389	static inline void ptrace_set_stopped(struct task_struct *task)
-   390	{
- > 391		guard(spinlock)(&task->sighand->siglock);
-   392	
-   393		/*
-   394		 * If the task is already STOPPED, set JOBCTL_TRAP_STOP and
-   395		 * TRAPPING, and kick it so that it transits to TRACED.  TRAPPING
-   396		 * will be cleared if the child completes the transition or any
-   397		 * event which clears the group stop states happens.  We'll wait
-   398		 * for the transition to complete before returning from this
-   399		 * function.
-   400		 *
-   401		 * This hides STOPPED -> RUNNING -> TRACED transition from the
-   402		 * attaching thread but a different thread in the same group can
-   403		 * still observe the transient RUNNING state.  IOW, if another
-   404		 * thread's WNOHANG wait(2) on the stopped tracee races against
-   405		 * ATTACH, the wait(2) may fail due to the transient RUNNING.
-   406		 *
-   407		 * The following task_is_stopped() test is safe as both transitions
-   408		 * in and out of STOPPED are protected by siglock.
-   409		 */
-   410		if (task_is_stopped(task) &&
-   411		    task_set_jobctl_pending(task, JOBCTL_TRAP_STOP | JOBCTL_TRAPPING)) {
-   412			task->jobctl &= ~JOBCTL_STOPPED;
-   413			signal_wake_up_state(task, __TASK_STOPPED);
-   414		}
-   415	}
-   416	
+
+vim +192 sound/ac97/bus.c
+
+74426fbff66eea Robert Jarzmik   2017-09-02  181  
+74426fbff66eea Robert Jarzmik   2017-09-02  182  /**
+74426fbff66eea Robert Jarzmik   2017-09-02  183   * snd_ac97_codec_driver_register - register an AC97 codec driver
+74426fbff66eea Robert Jarzmik   2017-09-02  184   * @dev: AC97 driver codec to register
+74426fbff66eea Robert Jarzmik   2017-09-02  185   *
+74426fbff66eea Robert Jarzmik   2017-09-02  186   * Register an AC97 codec driver to the ac97 bus driver, aka. the AC97 digital
+74426fbff66eea Robert Jarzmik   2017-09-02  187   * controller.
+74426fbff66eea Robert Jarzmik   2017-09-02  188   *
+74426fbff66eea Robert Jarzmik   2017-09-02  189   * Returns 0 on success or error code
+74426fbff66eea Robert Jarzmik   2017-09-02  190   */
+74426fbff66eea Robert Jarzmik   2017-09-02  191  int snd_ac97_codec_driver_register(struct ac97_codec_driver *drv)
+74426fbff66eea Robert Jarzmik   2017-09-02 @192  {
+74426fbff66eea Robert Jarzmik   2017-09-02  193  	drv->driver.bus = &ac97_bus_type;
+74426fbff66eea Robert Jarzmik   2017-09-02  194  	return driver_register(&drv->driver);
+74426fbff66eea Robert Jarzmik   2017-09-02  195  }
+74426fbff66eea Robert Jarzmik   2017-09-02  196  EXPORT_SYMBOL_GPL(snd_ac97_codec_driver_register);
+74426fbff66eea Robert Jarzmik   2017-09-02  197  
+74426fbff66eea Robert Jarzmik   2017-09-02  198  /**
+74426fbff66eea Robert Jarzmik   2017-09-02  199   * snd_ac97_codec_driver_unregister - unregister an AC97 codec driver
+74426fbff66eea Robert Jarzmik   2017-09-02  200   * @dev: AC97 codec driver to unregister
+74426fbff66eea Robert Jarzmik   2017-09-02  201   *
+74426fbff66eea Robert Jarzmik   2017-09-02  202   * Unregister a previously registered ac97 codec driver.
+74426fbff66eea Robert Jarzmik   2017-09-02  203   */
+74426fbff66eea Robert Jarzmik   2017-09-02  204  void snd_ac97_codec_driver_unregister(struct ac97_codec_driver *drv)
+74426fbff66eea Robert Jarzmik   2017-09-02 @205  {
+74426fbff66eea Robert Jarzmik   2017-09-02  206  	driver_unregister(&drv->driver);
+74426fbff66eea Robert Jarzmik   2017-09-02  207  }
+74426fbff66eea Robert Jarzmik   2017-09-02  208  EXPORT_SYMBOL_GPL(snd_ac97_codec_driver_unregister);
+74426fbff66eea Robert Jarzmik   2017-09-02  209  
+74426fbff66eea Robert Jarzmik   2017-09-02  210  /**
+74426fbff66eea Robert Jarzmik   2017-09-02  211   * snd_ac97_codec_get_platdata - get platform_data
+74426fbff66eea Robert Jarzmik   2017-09-02  212   * @adev: the ac97 codec device
+74426fbff66eea Robert Jarzmik   2017-09-02  213   *
+74426fbff66eea Robert Jarzmik   2017-09-02  214   * For legacy platforms, in order to have platform_data in codec drivers
+74426fbff66eea Robert Jarzmik   2017-09-02  215   * available, while ac97 device are auto-created upon probe, this retrieves the
+74426fbff66eea Robert Jarzmik   2017-09-02  216   * platdata which was setup on ac97 controller registration.
+74426fbff66eea Robert Jarzmik   2017-09-02  217   *
+74426fbff66eea Robert Jarzmik   2017-09-02  218   * Returns the platform data pointer
+74426fbff66eea Robert Jarzmik   2017-09-02  219   */
+74426fbff66eea Robert Jarzmik   2017-09-02  220  void *snd_ac97_codec_get_platdata(const struct ac97_codec_device *adev)
+74426fbff66eea Robert Jarzmik   2017-09-02  221  {
+74426fbff66eea Robert Jarzmik   2017-09-02  222  	struct ac97_controller *ac97_ctrl = adev->ac97_ctrl;
+74426fbff66eea Robert Jarzmik   2017-09-02  223  
+74426fbff66eea Robert Jarzmik   2017-09-02  224  	return ac97_ctrl->codecs_pdata[adev->num];
+74426fbff66eea Robert Jarzmik   2017-09-02  225  }
+74426fbff66eea Robert Jarzmik   2017-09-02  226  EXPORT_SYMBOL_GPL(snd_ac97_codec_get_platdata);
+74426fbff66eea Robert Jarzmik   2017-09-02  227  
+74426fbff66eea Robert Jarzmik   2017-09-02  228  static void ac97_ctrl_codecs_unregister(struct ac97_controller *ac97_ctrl)
+74426fbff66eea Robert Jarzmik   2017-09-02  229  {
+74426fbff66eea Robert Jarzmik   2017-09-02  230  	int i;
+74426fbff66eea Robert Jarzmik   2017-09-02  231  
+74426fbff66eea Robert Jarzmik   2017-09-02  232  	for (i = 0; i < AC97_BUS_MAX_CODECS; i++)
+74426fbff66eea Robert Jarzmik   2017-09-02  233  		if (ac97_ctrl->codecs[i]) {
+74426fbff66eea Robert Jarzmik   2017-09-02  234  			ac97_ctrl->codecs[i]->ac97_ctrl = &ac97_unbound_ctrl;
+74426fbff66eea Robert Jarzmik   2017-09-02  235  			device_unregister(&ac97_ctrl->codecs[i]->dev);
+74426fbff66eea Robert Jarzmik   2017-09-02  236  		}
+74426fbff66eea Robert Jarzmik   2017-09-02  237  }
+74426fbff66eea Robert Jarzmik   2017-09-02  238  
+74426fbff66eea Robert Jarzmik   2017-09-02  239  static ssize_t cold_reset_store(struct device *dev,
+74426fbff66eea Robert Jarzmik   2017-09-02  240  				struct device_attribute *attr, const char *buf,
+74426fbff66eea Robert Jarzmik   2017-09-02  241  				size_t len)
+74426fbff66eea Robert Jarzmik   2017-09-02  242  {
+74426fbff66eea Robert Jarzmik   2017-09-02  243  	struct ac97_controller *ac97_ctrl;
+74426fbff66eea Robert Jarzmik   2017-09-02  244  
+74426fbff66eea Robert Jarzmik   2017-09-02  245  	mutex_lock(&ac97_controllers_mutex);
+74426fbff66eea Robert Jarzmik   2017-09-02  246  	ac97_ctrl = to_ac97_controller(dev);
+74426fbff66eea Robert Jarzmik   2017-09-02  247  	ac97_ctrl->ops->reset(ac97_ctrl);
+74426fbff66eea Robert Jarzmik   2017-09-02  248  	mutex_unlock(&ac97_controllers_mutex);
+74426fbff66eea Robert Jarzmik   2017-09-02  249  	return len;
+74426fbff66eea Robert Jarzmik   2017-09-02  250  }
+74426fbff66eea Robert Jarzmik   2017-09-02  251  static DEVICE_ATTR_WO(cold_reset);
+74426fbff66eea Robert Jarzmik   2017-09-02  252  
+74426fbff66eea Robert Jarzmik   2017-09-02  253  static ssize_t warm_reset_store(struct device *dev,
+74426fbff66eea Robert Jarzmik   2017-09-02  254  				struct device_attribute *attr, const char *buf,
+74426fbff66eea Robert Jarzmik   2017-09-02  255  				size_t len)
+74426fbff66eea Robert Jarzmik   2017-09-02  256  {
+74426fbff66eea Robert Jarzmik   2017-09-02  257  	struct ac97_controller *ac97_ctrl;
+74426fbff66eea Robert Jarzmik   2017-09-02  258  
+74426fbff66eea Robert Jarzmik   2017-09-02  259  	if (!dev)
+74426fbff66eea Robert Jarzmik   2017-09-02  260  		return -ENODEV;
+74426fbff66eea Robert Jarzmik   2017-09-02  261  
+74426fbff66eea Robert Jarzmik   2017-09-02  262  	mutex_lock(&ac97_controllers_mutex);
+74426fbff66eea Robert Jarzmik   2017-09-02  263  	ac97_ctrl = to_ac97_controller(dev);
+74426fbff66eea Robert Jarzmik   2017-09-02  264  	ac97_ctrl->ops->warm_reset(ac97_ctrl);
+74426fbff66eea Robert Jarzmik   2017-09-02  265  	mutex_unlock(&ac97_controllers_mutex);
+74426fbff66eea Robert Jarzmik   2017-09-02  266  	return len;
+74426fbff66eea Robert Jarzmik   2017-09-02  267  }
+74426fbff66eea Robert Jarzmik   2017-09-02  268  static DEVICE_ATTR_WO(warm_reset);
+74426fbff66eea Robert Jarzmik   2017-09-02  269  
+74426fbff66eea Robert Jarzmik   2017-09-02  270  static struct attribute *ac97_controller_device_attrs[] = {
+74426fbff66eea Robert Jarzmik   2017-09-02  271  	&dev_attr_cold_reset.attr,
+74426fbff66eea Robert Jarzmik   2017-09-02  272  	&dev_attr_warm_reset.attr,
+74426fbff66eea Robert Jarzmik   2017-09-02  273  	NULL
+74426fbff66eea Robert Jarzmik   2017-09-02  274  };
+74426fbff66eea Robert Jarzmik   2017-09-02  275  
+fa2e5a647ed2ed Rikard Falkeborn 2021-01-31  276  static const struct attribute_group ac97_adapter_attr_group = {
+74426fbff66eea Robert Jarzmik   2017-09-02  277  	.name	= "ac97_operations",
+74426fbff66eea Robert Jarzmik   2017-09-02  278  	.attrs	= ac97_controller_device_attrs,
+74426fbff66eea Robert Jarzmik   2017-09-02  279  };
+74426fbff66eea Robert Jarzmik   2017-09-02  280  
+74426fbff66eea Robert Jarzmik   2017-09-02  281  static const struct attribute_group *ac97_adapter_groups[] = {
+74426fbff66eea Robert Jarzmik   2017-09-02  282  	&ac97_adapter_attr_group,
+74426fbff66eea Robert Jarzmik   2017-09-02  283  	NULL,
+74426fbff66eea Robert Jarzmik   2017-09-02  284  };
+74426fbff66eea Robert Jarzmik   2017-09-02  285  
+74426fbff66eea Robert Jarzmik   2017-09-02  286  static void ac97_del_adapter(struct ac97_controller *ac97_ctrl)
+74426fbff66eea Robert Jarzmik   2017-09-02  287  {
+74426fbff66eea Robert Jarzmik   2017-09-02  288  	mutex_lock(&ac97_controllers_mutex);
+74426fbff66eea Robert Jarzmik   2017-09-02  289  	ac97_ctrl_codecs_unregister(ac97_ctrl);
+74426fbff66eea Robert Jarzmik   2017-09-02  290  	list_del(&ac97_ctrl->controllers);
+74426fbff66eea Robert Jarzmik   2017-09-02  291  	mutex_unlock(&ac97_controllers_mutex);
+74426fbff66eea Robert Jarzmik   2017-09-02  292  
+74426fbff66eea Robert Jarzmik   2017-09-02  293  	device_unregister(&ac97_ctrl->adap);
+74426fbff66eea Robert Jarzmik   2017-09-02  294  }
+74426fbff66eea Robert Jarzmik   2017-09-02  295  
+74426fbff66eea Robert Jarzmik   2017-09-02  296  static void ac97_adapter_release(struct device *dev)
+74426fbff66eea Robert Jarzmik   2017-09-02  297  {
+74426fbff66eea Robert Jarzmik   2017-09-02  298  	struct ac97_controller *ac97_ctrl;
+74426fbff66eea Robert Jarzmik   2017-09-02  299  
+74426fbff66eea Robert Jarzmik   2017-09-02  300  	ac97_ctrl = to_ac97_controller(dev);
+74426fbff66eea Robert Jarzmik   2017-09-02  301  	idr_remove(&ac97_adapter_idr, ac97_ctrl->nr);
+74426fbff66eea Robert Jarzmik   2017-09-02  302  	dev_dbg(&ac97_ctrl->adap, "adapter unregistered by %s\n",
+74426fbff66eea Robert Jarzmik   2017-09-02  303  		dev_name(ac97_ctrl->parent));
+74426fbff66eea Robert Jarzmik   2017-09-02  304  }
+74426fbff66eea Robert Jarzmik   2017-09-02  305  
+74426fbff66eea Robert Jarzmik   2017-09-02  306  static const struct device_type ac97_adapter_type = {
+74426fbff66eea Robert Jarzmik   2017-09-02  307  	.groups		= ac97_adapter_groups,
+74426fbff66eea Robert Jarzmik   2017-09-02  308  	.release	= ac97_adapter_release,
+74426fbff66eea Robert Jarzmik   2017-09-02  309  };
+74426fbff66eea Robert Jarzmik   2017-09-02  310  
+74426fbff66eea Robert Jarzmik   2017-09-02  311  static int ac97_add_adapter(struct ac97_controller *ac97_ctrl)
+74426fbff66eea Robert Jarzmik   2017-09-02  312  {
+74426fbff66eea Robert Jarzmik   2017-09-02  313  	int ret;
+74426fbff66eea Robert Jarzmik   2017-09-02  314  
+74426fbff66eea Robert Jarzmik   2017-09-02  315  	mutex_lock(&ac97_controllers_mutex);
+74426fbff66eea Robert Jarzmik   2017-09-02  316  	ret = idr_alloc(&ac97_adapter_idr, ac97_ctrl, 0, 0, GFP_KERNEL);
+74426fbff66eea Robert Jarzmik   2017-09-02  317  	ac97_ctrl->nr = ret;
+74426fbff66eea Robert Jarzmik   2017-09-02  318  	if (ret >= 0) {
+74426fbff66eea Robert Jarzmik   2017-09-02  319  		dev_set_name(&ac97_ctrl->adap, "ac97-%d", ret);
+74426fbff66eea Robert Jarzmik   2017-09-02  320  		ac97_ctrl->adap.type = &ac97_adapter_type;
+74426fbff66eea Robert Jarzmik   2017-09-02  321  		ac97_ctrl->adap.parent = ac97_ctrl->parent;
+74426fbff66eea Robert Jarzmik   2017-09-02  322  		ret = device_register(&ac97_ctrl->adap);
+74426fbff66eea Robert Jarzmik   2017-09-02  323  		if (ret)
+74426fbff66eea Robert Jarzmik   2017-09-02  324  			put_device(&ac97_ctrl->adap);
+74426fbff66eea Robert Jarzmik   2017-09-02  325  	}
+74426fbff66eea Robert Jarzmik   2017-09-02  326  	if (!ret)
+74426fbff66eea Robert Jarzmik   2017-09-02  327  		list_add(&ac97_ctrl->controllers, &ac97_controllers);
+74426fbff66eea Robert Jarzmik   2017-09-02  328  	mutex_unlock(&ac97_controllers_mutex);
+74426fbff66eea Robert Jarzmik   2017-09-02  329  
+74426fbff66eea Robert Jarzmik   2017-09-02  330  	if (!ret)
+74426fbff66eea Robert Jarzmik   2017-09-02  331  		dev_dbg(&ac97_ctrl->adap, "adapter registered by %s\n",
+74426fbff66eea Robert Jarzmik   2017-09-02  332  			dev_name(ac97_ctrl->parent));
+74426fbff66eea Robert Jarzmik   2017-09-02  333  	return ret;
+74426fbff66eea Robert Jarzmik   2017-09-02  334  }
+74426fbff66eea Robert Jarzmik   2017-09-02  335  
+74426fbff66eea Robert Jarzmik   2017-09-02  336  /**
+74426fbff66eea Robert Jarzmik   2017-09-02  337   * snd_ac97_controller_register - register an ac97 controller
+74426fbff66eea Robert Jarzmik   2017-09-02  338   * @ops: the ac97 bus operations
+74426fbff66eea Robert Jarzmik   2017-09-02  339   * @dev: the device providing the ac97 DC function
+74426fbff66eea Robert Jarzmik   2017-09-02  340   * @slots_available: mask of the ac97 codecs that can be scanned and probed
+74426fbff66eea Robert Jarzmik   2017-09-02  341   *                   bit0 => codec 0, bit1 => codec 1 ... bit 3 => codec 3
+74426fbff66eea Robert Jarzmik   2017-09-02  342   *
+74426fbff66eea Robert Jarzmik   2017-09-02  343   * Register a digital controller which can control up to 4 ac97 codecs. This is
+74426fbff66eea Robert Jarzmik   2017-09-02  344   * the controller side of the AC97 AC-link, while the slave side are the codecs.
+74426fbff66eea Robert Jarzmik   2017-09-02  345   *
+74426fbff66eea Robert Jarzmik   2017-09-02  346   * Returns a valid controller upon success, negative pointer value upon error
+74426fbff66eea Robert Jarzmik   2017-09-02  347   */
+74426fbff66eea Robert Jarzmik   2017-09-02  348  struct ac97_controller *snd_ac97_controller_register(
+74426fbff66eea Robert Jarzmik   2017-09-02  349  	const struct ac97_controller_ops *ops, struct device *dev,
+74426fbff66eea Robert Jarzmik   2017-09-02  350  	unsigned short slots_available, void **codecs_pdata)
+74426fbff66eea Robert Jarzmik   2017-09-02 @351  {
+74426fbff66eea Robert Jarzmik   2017-09-02  352  	struct ac97_controller *ac97_ctrl;
+74426fbff66eea Robert Jarzmik   2017-09-02  353  	int ret, i;
+74426fbff66eea Robert Jarzmik   2017-09-02  354  
+74426fbff66eea Robert Jarzmik   2017-09-02  355  	ac97_ctrl = kzalloc(sizeof(*ac97_ctrl), GFP_KERNEL);
+74426fbff66eea Robert Jarzmik   2017-09-02  356  	if (!ac97_ctrl)
+74426fbff66eea Robert Jarzmik   2017-09-02  357  		return ERR_PTR(-ENOMEM);
+74426fbff66eea Robert Jarzmik   2017-09-02  358  
+74426fbff66eea Robert Jarzmik   2017-09-02  359  	for (i = 0; i < AC97_BUS_MAX_CODECS && codecs_pdata; i++)
+74426fbff66eea Robert Jarzmik   2017-09-02  360  		ac97_ctrl->codecs_pdata[i] = codecs_pdata[i];
+74426fbff66eea Robert Jarzmik   2017-09-02  361  
+74426fbff66eea Robert Jarzmik   2017-09-02  362  	ac97_ctrl->ops = ops;
+74426fbff66eea Robert Jarzmik   2017-09-02  363  	ac97_ctrl->slots_available = slots_available;
+74426fbff66eea Robert Jarzmik   2017-09-02  364  	ac97_ctrl->parent = dev;
+74426fbff66eea Robert Jarzmik   2017-09-02  365  	ret = ac97_add_adapter(ac97_ctrl);
+74426fbff66eea Robert Jarzmik   2017-09-02  366  
+74426fbff66eea Robert Jarzmik   2017-09-02  367  	if (ret)
+74426fbff66eea Robert Jarzmik   2017-09-02  368  		goto err;
+74426fbff66eea Robert Jarzmik   2017-09-02  369  	ac97_bus_reset(ac97_ctrl);
+74426fbff66eea Robert Jarzmik   2017-09-02  370  	ac97_bus_scan(ac97_ctrl);
+74426fbff66eea Robert Jarzmik   2017-09-02  371  
+74426fbff66eea Robert Jarzmik   2017-09-02  372  	return ac97_ctrl;
+74426fbff66eea Robert Jarzmik   2017-09-02  373  err:
+74426fbff66eea Robert Jarzmik   2017-09-02  374  	kfree(ac97_ctrl);
+74426fbff66eea Robert Jarzmik   2017-09-02  375  	return ERR_PTR(ret);
+74426fbff66eea Robert Jarzmik   2017-09-02  376  }
+74426fbff66eea Robert Jarzmik   2017-09-02  377  EXPORT_SYMBOL_GPL(snd_ac97_controller_register);
+74426fbff66eea Robert Jarzmik   2017-09-02  378  
+
+:::::: The code at line 192 was first introduced by commit
+:::::: 74426fbff66eea8e8d1f42c8238c268d1e63a832 ALSA: ac97: add an ac97 bus
+
+:::::: TO: Robert Jarzmik <robert.jarzmik@free.fr>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
