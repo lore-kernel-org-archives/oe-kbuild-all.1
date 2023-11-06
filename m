@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594962D035
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 21:01:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AF52D035
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 21:02:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4CaJwL/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IcucilEQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699304494; x=1730840494;
+  t=1699304569; x=1730840569;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hKvqrJWUs5UqeVs5cMG7WpvhP4b/hmTdOIKccNJOjCs=;
-  b=F4CaJwL/3iFAqmLxdSSeokLR6jrnHgwReJ3vJ/1fij8FiEmZN9lsuxtP
-   J5AtFy9hyuMlFVaH9GbawGPGBmdnYVUBe4G+GxWYzfJb7QgIGIQvApRbn
-   BujCPYydvJ2dLYSLNvotby1uC9Nz8o91t9SC+IWeHoyKCm6StzKwlgqMo
-   j+a3fjA0BmLdc+ACVMa+skOLvklspnemeusreGSjNEa0qCiwM6f+RkC+x
-   /Gf5DqLTc9AyqWmaK/IPsEow2tWaTxhBSFexxZnqqCjcGeFfCCDcNAsWO
-   FQPXt5PDwCSisLJRIYihCwIynk9DFQw4NSrelOcGTJAo2J8sq75jASUTW
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="386542624"
+  bh=Y+pp7UqgqKzUq4MEege0vFksJlEzj2ir/nbeT8B2DEk=;
+  b=IcucilEQJAnK6R7Ki3lObPi+e9Jy7A7gvzdn4gK1o1YdNlt6Huu6yWO6
+   IRNSW/9vXzCPEaBtN+YbVDa+LdeqOvmUbhnSWCq2XRzrkPXiRLSLknELi
+   7UiiRHJ8qn2DOpWPWYhSSNPSx+063x9+PpZZpxSPFgg7OEwPcEyZbb2hq
+   vSJOQadxRzKtuzWeD8/JQM6HfctbP8DAN4GzN5nf680RDeimWZAJ3jCEL
+   DUbDvBjcl89div3PLPKA0WG1mzYWEBibr52Se+YMPGHf0WFXhG1ztor8U
+   Oj9JOAFQIJcfecI+enU3/fHhrS97hEVxuy90eSsGd/6caS3xeQBrOnDGF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="453677065"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="386542624"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 13:01:33 -0800
+   d="scan'208";a="453677065"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 13:02:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="755958432"
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="879569494"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="755958432"
+   d="scan'208";a="879569494"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 06 Nov 2023 13:01:31 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 06 Nov 2023 13:02:46 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r06iu-0006jE-36;
-	Mon, 06 Nov 2023 21:01:28 +0000
-Date: Tue, 7 Nov 2023 04:59:41 +0800
+	id 1r06k8-0006jI-1s;
+	Mon, 06 Nov 2023 21:02:44 +0000
+Date: Tue, 7 Nov 2023 05:00:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-vfs:vfs.misc.backing_file 10/12] fs/file.c:879:21: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202311070414.RSFA4I0d-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted
+ __le32
+Message-ID: <202311070440.5VIJWvGt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,100 +50,163 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.misc.backing_file
-head:   6c9453d302c574bab05b2fd62ebe48bf7567eef5
-commit: d089d9d056c048303aedd40a7f3f26593ebd040c [10/12] file: convert to SLAB_TYPESAFE_BY_RCU
-config: x86_64-randconfig-122-20231008 (https://download.01.org/0day-ci/archive/20231107/202311070414.RSFA4I0d-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070414.RSFA4I0d-lkp@intel.com/reproduce)
+Hi Thomas,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d2f51b3516dade79269ff45eae2a7668ae711b25
+commit: 7470849745e6cd746ae773a6e59b309867310181 video: Move HP PARISC STI core code to shared location
+date:   7 months ago
+config: parisc-randconfig-r131-20231106 (https://download.01.org/0day-ci/archive/20231107/202311070440.5VIJWvGt-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231107/202311070440.5VIJWvGt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311070414.RSFA4I0d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311070440.5VIJWvGt-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   fs/file.c:379:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] __rcu **fd @@
-   fs/file.c:379:17: sparse:     expected struct file **old_fds
-   fs/file.c:379:17: sparse:     got struct file [noderef] __rcu **fd
-   fs/file.c:380:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] __rcu **fd @@
-   fs/file.c:380:17: sparse:     expected struct file **new_fds
-   fs/file.c:380:17: sparse:     got struct file [noderef] __rcu **fd
-   fs/file.c:395:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/file.c:395:17: sparse:    struct file [noderef] __rcu *
-   fs/file.c:395:17: sparse:    struct file *
-   fs/file.c:430:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu *[assigned] __ret @@
-   fs/file.c:470:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] __rcu *fdt @@     got struct fdtable * @@
-   fs/file.c:646:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
-   fs/file.c:841:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
-   fs/file.c:875:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
->> fs/file.c:879:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct atomic64_t [usertype] *v @@     got struct atomic64_t [noderef] __rcu * @@
-   fs/file.c:882:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file_reloaded @@     got struct file * @@
-   fs/file.c:907:32: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file_reloaded @@
-   fs/file.c:909:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
-   fs/file.c:1203:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] __rcu * @@
+>> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
+>> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
+>> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
+>> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
+>> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
+>> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
+>> drivers/video/sticore.c:902:17: sparse: sparse: cast to restricted __le16
+>> drivers/video/sticore.c:902:17: sparse: sparse: cast to restricted __le16
+>> drivers/video/sticore.c:902:17: sparse: sparse: cast to restricted __le16
+>> drivers/video/sticore.c:902:17: sparse: sparse: cast to restricted __le16
+   drivers/video/sticore.c:904:29: sparse: sparse: cast to restricted __le16
+   drivers/video/sticore.c:904:29: sparse: sparse: cast to restricted __le16
+   drivers/video/sticore.c:904:29: sparse: sparse: cast to restricted __le16
+   drivers/video/sticore.c:904:29: sparse: sparse: cast to restricted __le16
+   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
+   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
+   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
+   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
+   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
+   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
 
-vim +879 fs/file.c
+vim +888 drivers/video/sticore.c
 
-   855	
-   856	/**
-   857	 * get_file_rcu - try go get a reference to a file under rcu
-   858	 * @f: the file to get a reference on
-   859	 *
-   860	 * This function tries to get a reference on @f carefully verifying that
-   861	 * @f hasn't been reused.
-   862	 *
-   863	 * This function should rarely have to be used and only by users who
-   864	 * understand the implications of SLAB_TYPESAFE_BY_RCU. Try to avoid it.
-   865	 *
-   866	 * Return: Returns @f with the reference count increased or NULL.
-   867	 */
-   868	struct file *get_file_rcu(struct file __rcu **f)
-   869	{
-   870		for (;;) {
-   871			struct file __rcu *file;
-   872			struct file __rcu *file_reloaded;
-   873			struct file __rcu *file_reloaded_cmp;
-   874	
-   875			file = rcu_dereference_raw(*f);
-   876			if (!file)
-   877				return NULL;
-   878	
- > 879			if (unlikely(!atomic_long_inc_not_zero(&file->f_count)))
-   880				continue;
-   881	
-   882			file_reloaded = rcu_dereference_raw(*f);
-   883	
-   884			/*
-   885			 * Ensure that all accesses have a dependency on the
-   886			 * load from rcu_dereference_raw() above so we get
-   887			 * correct ordering between reuse/allocation and the
-   888			 * pointer check below.
-   889			 */
-   890			file_reloaded_cmp = file_reloaded;
-   891			OPTIMIZER_HIDE_VAR(file_reloaded_cmp);
-   892	
-   893			/*
-   894			 * atomic_long_inc_not_zero() above provided a full
-   895			 * memory barrier when we acquired a reference.
-   896			 *
-   897			 * This is paired with the write barrier from assigning
-   898			 * to the __rcu protected file pointer so that if that
-   899			 * pointer still matches the current file, we know we
-   900			 * have successfully acquired a reference to the right
-   901			 * file.
-   902			 *
-   903			 * If the pointers don't match the file has been
-   904			 * reallocated by SLAB_TYPESAFE_BY_RCU.
-   905			 */
-   906			if (file == file_reloaded_cmp)
-   907				return file_reloaded;
-   908	
-   909			fput(file);
-   910		}
-   911	}
-   912	EXPORT_SYMBOL_GPL(get_file_rcu);
-   913	
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  859  
+48c68c4f1b5424 drivers/video/console/sticore.c Greg Kroah-Hartman 2012-12-21  860  static struct sti_struct *sti_try_rom_generic(unsigned long address,
+48c68c4f1b5424 drivers/video/console/sticore.c Greg Kroah-Hartman 2012-12-21  861  					      unsigned long hpa,
+48c68c4f1b5424 drivers/video/console/sticore.c Greg Kroah-Hartman 2012-12-21  862  					      struct pci_dev *pd)
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  863  {
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  864  	struct sti_struct *sti;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  865  	int ok;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  866  	u32 sig;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  867  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  868  	if (num_sti_roms >= MAX_STI_ROMS) {
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  869  		pr_warn("maximum number of STI ROMS reached !\n");
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  870  		return NULL;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  871  	}
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  872  
+cb6fc18e9ca615 drivers/video/console/sticore.c Helge Deller       2006-01-17  873  	sti = kzalloc(sizeof(*sti), GFP_KERNEL);
+3af04d5c459485 drivers/video/console/sticore.c Markus Elfring     2018-03-28  874  	if (!sti)
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  875  		return NULL;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  876  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  877  	spin_lock_init(&sti->lock);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  878  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  879  test_rom:
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  880  	/* if we can't read the ROM, bail out early.  Not being able
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  881  	 * to read the hpa is okay, for romless sti */
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  882  	if (pdc_add_valid(address))
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  883  		goto out_err;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  884  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  885  	sig = gsc_readl(address);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  886  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  887  	/* check for a PCI ROM structure */
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16 @888  	if ((le32_to_cpu(sig)==0xaa55)) {
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  889  		unsigned int i, rm_offset;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  890  		u32 *rm;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  891  		i = gsc_readl(address+0x04);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  892  		if (i != 1) {
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  893  			/* The ROM could have multiple architecture
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  894  			 * dependent images (e.g. i386, parisc,...) */
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  895  			pr_warn("PCI ROM is not a STI ROM type image (0x%8x)\n", i);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  896  			goto out_err;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  897  		}
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  898  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  899  		sti->pd = pd;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  900  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  901  		i = gsc_readl(address+0x0c);
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12 @902  		pr_debug("PCI ROM size (from header) = %d kB\n",
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  903  			le16_to_cpu(i>>16)*512/1024);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  904  		rm_offset = le16_to_cpu(i & 0xffff);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  905  		if (rm_offset) {
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  906  			/* read 16 bytes from the pci region mapper array */
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  907  			rm = (u32*) &sti->rm_entry;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  908  			*rm++ = gsc_readl(address+rm_offset+0x00);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  909  			*rm++ = gsc_readl(address+rm_offset+0x04);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  910  			*rm++ = gsc_readl(address+rm_offset+0x08);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  911  			*rm++ = gsc_readl(address+rm_offset+0x0c);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  912  		}
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  913  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  914  		address += le32_to_cpu(gsc_readl(address+8));
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  915  		pr_debug("sig %04x, PCI STI ROM at %08lx\n", sig, address);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  916  		goto test_rom;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  917  	}
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  918  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  919  	ok = 0;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  920  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  921  	if ((sig & 0xff) == 0x01) {
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  922  		pr_debug("    byte mode ROM at %08lx, hpa at %08lx\n",
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  923  		       address, hpa);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  924  		ok = sti_read_rom(0, sti, address);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  925  	}
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  926  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  927  	if ((sig & 0xffff) == 0x0303) {
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  928  		pr_debug("    word mode ROM at %08lx, hpa at %08lx\n",
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  929  		       address, hpa);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  930  		ok = sti_read_rom(1, sti, address);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  931  	}
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  932  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  933  	if (!ok)
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  934  		goto out_err;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  935  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  936  	if (sti_init_glob_cfg(sti, address, hpa))
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  937  		goto out_err; /* not enough memory */
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  938  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  939  	/* disable STI PCI ROM. ROM and card RAM overlap and
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  940  	 * leaving it enabled would force HPMCs
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  941  	 */
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  942  	if (sti->pd) {
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  943  		unsigned long rom_base;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  944  		rom_base = pci_resource_start(sti->pd, PCI_ROM_RESOURCE);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  945  		pci_write_config_dword(sti->pd, PCI_ROM_ADDRESS, rom_base & ~PCI_ROM_ADDRESS_ENABLE);
+7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  946  		pr_debug("STI PCI ROM disabled\n");
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  947  	}
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  948  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  949  	if (sti_init_graph(sti))
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  950  		goto out_err;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  951  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  952  	sti_inq_conf(sti);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  953  	sti_dump_globcfg(sti->glob_cfg, sti->sti_mem_request);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  954  	sti_dump_outptr(sti);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  955  
+0219132fe7c265 drivers/video/console/sticore.c Helge Deller       2013-11-06  956  	pr_info("    graphics card name: %s\n",
+0219132fe7c265 drivers/video/console/sticore.c Helge Deller       2013-11-06  957  		sti->sti_data->inq_outptr.dev_name);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  958  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  959  	sti_roms[num_sti_roms] = sti;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  960  	num_sti_roms++;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  961  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  962  	return sti;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  963  
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  964  out_err:
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  965  	kfree(sti);
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  966  	return NULL;
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  967  }
+^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  968  
+
+:::::: The code at line 888 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
