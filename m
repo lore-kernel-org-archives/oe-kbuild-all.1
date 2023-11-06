@@ -1,189 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from DM4PR02CU002.outbound.protection.outlook.com (mail-centralusazon11013011.outbound.protection.outlook.com [52.101.64.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD1918035
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 10:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C391EB3D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 11:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vmware.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vmware.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UdRgYcie"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699268260; x=1730804260;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Foq+7WJ10t+oBnLIyNfiYRw5UvY4R9rEHtiXYhZTNOk=;
-  b=UdRgYcie6e8p2disXjDI+tq7BWiJRF3FcJYHbixq83nYdnUAX25449Ad
-   KN5mNHlSGPT3sHqYvQDyjkd05QJCjG7B6qpqdwhuyKTjHu8kDq9tUWd9Z
-   ghl+VMgCNdNFMh8J7HotZNSkHKofpBn0bYWFSqoDvjqvZxtbDMWAMPWnQ
-   Z5qX0nu/P7j78Mbggl3C0Edt86Uwb1eqW09aAx5YP++hHkbtrghEkFUz0
-   HaljncYPyxVe1D0q+P2gByWbA0wqkRPaHPCwtGBVDwwgRltNo0y5a69H5
-   STGmZ3Rne3ZQDi1DB30LKhxC49Sl+sEw68Ry2IVa6M9lndiKOF/jkdY40
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="2240993"
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="2240993"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 02:57:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="852950892"
-X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="852950892"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Nov 2023 02:57:38 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qzxIW-0006Lz-0j;
-	Mon, 06 Nov 2023 10:57:36 +0000
-Date: Mon, 6 Nov 2023 18:56:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 10909/30000]
- include/trace/trace_events.h:27:23: warning: 'str__ipv4__trace_system_name'
- defined but not used
-Message-ID: <202311061850.SVO7oW3K-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=vmware.com header.i=@vmware.com header.b="IRxawNDO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z03yvUZTSB905v0xgsbHmpY5TTn4vh4d/PqvHRMFLB8GVuGnLQSC70gz4KhXUKlxxyKVAF4/qXdQLbpfEYy47lnW3DIv5mrXcC5E0KnDJWgfnIT42ObmE53aiBQJYZlcBbq9tBsGbCMxA7Ei/WpATqCr981a04BhYm8CN2LZGfH5nnWJ7D4Lant+f5SE6r4/3n35vUt4AqX31cBev31hWbKG2DaifEA7j3SFFyoRvkFoSFQmDOz8Vb9PB6dX21V43ECfNZfD2jGYt9PWo33tG3+E39iVFGeSpfHkurDrrPGG5v/HrHHdwNEjHAD1jTZanSA9UBljOM15BB/rD9J4uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bNxoCmApGqmhZOeiHCfObfgP8N5ysT5AbqCAJfLFAbo=;
+ b=Xw2TlvMdbd4yPsfDI7vrPcTCMP6b7/c56CSIIAxi48RvUshtc9WFBZRhZ2dWn5n+UtEt3zf2Sn5K3q5+oXyBLSYLhqkaHZxVuE/ViHNJl5TAfFQMr0WrymimUaFzjXw+mgf5P30HtiZMMU7KeGfVu0/Y9FB82BTLbyvW5SIkWNnEHqwTAhcBORgMZfBUyT1GZqg6+brxq2KlGn5CkueXs+njufGEW0qguHBuZuVpDoIy2DbAc8X4moqCMuNC2Vq+inzH82eS1pEmzrWAAvBCrVMvkLh/eEJLJL5gpWRyEZRW5an4gn4j75z735Lz4qvFoxsU2fOQlabQ9tPfk+Me6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bNxoCmApGqmhZOeiHCfObfgP8N5ysT5AbqCAJfLFAbo=;
+ b=IRxawNDOgE2FDrYbrisNHKHOMXkoJIYkQr0koDHZBIjI/3sNKaeBSUC0QbQXKZDrmlKGdXvtFVlCaBsJrOQzrQjVClfvMFgLJ6imuTr82pdtfOFlRR7s2+qKkcpaN7kw0PZuEMzrGYLqY/ti8bvZPIy3S8UufNSZ85+eGi5uvO0=
+Received: from BY3PR05MB8531.namprd05.prod.outlook.com (2603:10b6:a03:3ce::6)
+ by SA1PR05MB8078.namprd05.prod.outlook.com (2603:10b6:806:1a8::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Mon, 6 Nov
+ 2023 11:10:03 +0000
+Received: from BY3PR05MB8531.namprd05.prod.outlook.com
+ ([fe80::e6fc:9264:2535:6ce2]) by BY3PR05MB8531.namprd05.prod.outlook.com
+ ([fe80::e6fc:9264:2535:6ce2%6]) with mapi id 15.20.6954.028; Mon, 6 Nov 2023
+ 11:10:03 +0000
+From: Nadav Amit <namit@vmware.com>
+To: kernel test robot <yujie.liu@intel.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: drivers/misc/vmw_balloon.c:200: warning: Function parameter or
+ member '5' not described in 'vmballoon_batch_entry'
+Thread-Topic: drivers/misc/vmw_balloon.c:200: warning: Function parameter or
+ member '5' not described in 'vmballoon_batch_entry'
+Thread-Index: AQHaEHm0RUkmP/DKsUCC4Vno3JLs/rBtIpQA
+Date: Mon, 6 Nov 2023 11:10:03 +0000
+Message-ID: <E58106B6-95BC-4FCB-AD93-773E198ED3BD@vmware.com>
+References: <202311061016.YX1N3JbG-lkp@intel.com>
+In-Reply-To: <202311061016.YX1N3JbG-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-mailer: Apple Mail (2.3731.700.6)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY3PR05MB8531:EE_|SA1PR05MB8078:EE_
+x-ms-office365-filtering-correlation-id: 698e5b95-db69-4d01-4d7a-08dbdeb8ed3d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ eE7Zf6Xczk0mTojtCTp7DMIXWHxzEioyqbKxbFGswy0GeewFNWpG5Rvt7t1PDExIBe+iOQvJ18YhY27z7KYjigBLzifWh42oM155SDgvqavzdr0hAkbDMnK53Fpg/YlqC7oXmStnXn7LD8/iA1lN0/N/3MglEWtKT7uCWd0v/EOl4aA+7wBY0IRcH6MGlUnPOy4J4fFBXaiqT88flZoNN490YAoErhYouQCr2F4hV6IBDf95ACL5KWXz40O72YdAup9pKm3FVIK3EW61etqINyho5z7VAu/VNNVcsNOxK3ju8V07s4M2ktL45JAwwy2ardJXACc04t9I4JJSuxYRdeMyaw677HDrVKrwNYCEYldoO1DexGSMDcrmYdm3Tl/ple+2FYmiGsZ1yFuvkAr0le5EZY7PC+SmyvU86tltVkigOB2OIyoB4w/vIkGzM+YrWLoYvJkHblGOoU5yh3vhoCW8In0Z5BASpfeEtDTVt5uIiofqNAP1pPYg5GHDd2b0LtGxXkWizvsh+9669TbmI6vkdvaM+rKO6tmff4bkYRTJElfPdyaXiP8hYwtTSTCDMjHbt/HWgz4Wzk3T2xvnfxNKjRV2QRAeiMexiH0cGrR3bMl5/XZ1CS8z67znUmfbrr9lIZiL7bZT/+eS+KyGUZr4mhj8wELl1t9IsawY4kLIBxqluP/3IKIOq0s4LvnSWztLdrb4xLnPjGtQAFAG59eBP6ltJesruerCcGU6D8O7K6KhWVSSKIHWOSS0wKECxKPuQw5NO76D74t8OSOUHg==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY3PR05MB8531.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(376002)(136003)(366004)(396003)(230922051799003)(230173577357003)(230273577357003)(451199024)(1800799009)(64100799003)(186009)(53546011)(6506007)(2616005)(6512007)(966005)(6486002)(478600001)(71200400001)(45080400002)(83380400001)(26005)(41300700001)(2906002)(5660300002)(66446008)(66476007)(66556008)(64756008)(66946007)(54906003)(76116006)(316002)(6916009)(91956017)(38070700009)(4326008)(8936002)(8676002)(38100700002)(36756003)(33656002)(86362001)(122000001)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Z0t4WDlTN29IcGl6UTZOYWVwL0NzZkdRdGdjc2g5dmRrYkVQMzVkS0xFbXVm?=
+ =?utf-8?B?QnI1WTdRcVA3SE0vdzdDZkhlYUlLV0hQUmN5MklVTUVnN1Y0RHFUT3QxTkxM?=
+ =?utf-8?B?c1pkUW5Cdk84T3Q0N2EzazJSZW8yNkZWMkxrekpuS1BGSkpSaDlRakVTTUFx?=
+ =?utf-8?B?VjRFeWVWOHVLRnE2RjJ1MnN6OUtiMXVBekZabFp2bXJUQktzNmNoak9SMmtR?=
+ =?utf-8?B?ZENCVEw2MzRCUjlXRnFRdGVTVk9ZZDhGT2xkMDFSUjBtajdhOVUzdTVNSzlm?=
+ =?utf-8?B?RXFMWmIzVEFjQ2ZrOGJvcmxsSmhiV1ZmTlJhektpWGVCQU5WcWphcEc0dzEz?=
+ =?utf-8?B?ZHJQSTZhRnk1OXVNaWtmcnVHK2ZadE9lZVN6bGN4cTJOekhhU3ppcHVKRnJV?=
+ =?utf-8?B?ZjFVdElQZEN6dm1KZXBuL0wreWhBYksvbjFic2hUUFB2SHZjREhKMnh3OFVH?=
+ =?utf-8?B?L2ZIY1ZqVTdrNmNQY3BDV3NqRjJnMWJJOExCVmtxdXdYWU5xOXZwbWh2Tllk?=
+ =?utf-8?B?MVVxa210S3ZsMlFiZXdKa05RSVNadXFnSGNzUFlGeUFmVmZGTW1aR3gxaERp?=
+ =?utf-8?B?Z1o5QVY4T2NXcE5HeTRoZHV6cGNZK2w5WHhHMEdJNWlzQ2YvaWVnMURkeG1I?=
+ =?utf-8?B?c0cvZ2FObzkxZE5pRTBXczRYUExpdkxFeCtkL2hSWStsaWtRU1dkcUVUcHlP?=
+ =?utf-8?B?a1hIc2swUTdVUitDNW9pRnV2QnNyY3p1Y0M3aXA0anpQTXhob1czL1o3MWV5?=
+ =?utf-8?B?Q1lYblM0d1pLckRzakgybVkyaERzQXJlNVNwYTd0SmF2dnFBTVN4VjJrSEZT?=
+ =?utf-8?B?QVV2eXBNZW8zT2NPZmIybzc4N1duTUN4eTQvRk1SRkxiNUlxNTdHeXdGZEE5?=
+ =?utf-8?B?RlJ6SWZ6Nm1GSEFlbjVnS3FLSnBQSnRzM0dkTkNPNHJIYmZQNjBTWGdhVFp3?=
+ =?utf-8?B?emV2M051S2ZsQXJ0bythVjZzS1c2S1FFUnBnNkFhRmVwMENEc2VjeHpaRkhr?=
+ =?utf-8?B?bW5lTTNCNWdLOUI3bFZjN0VZNzlwYlNOakxUNXpLWjdqNXQ0VzlNcXlnYlMr?=
+ =?utf-8?B?TEJiNnh1WG5GSjNsY1YvV0Jjb3VValRFRVY5S2xNZTkzYzlvUnorSkdwT3lX?=
+ =?utf-8?B?L2xjT2RWZFpMU1JmeUpHaHRZOHJKeldhMzBuc3ZZVkcwNVliVURpbW40RFZG?=
+ =?utf-8?B?c1JGNWUvNEVLc1dNTWNRQ0wrYmFwSVF6V1VkcXZEM2hPSkk3N0toNHF4ZzAr?=
+ =?utf-8?B?dWtPdElYZlRaZXN6QjNKeFh0VTg0KzdQQ3dtNkhlT1dVbUkvM0c4K25rUzlm?=
+ =?utf-8?B?dEFFWnRQYVBzUjNJcElFQkx1Q3FUeDlzWUJsUm1Ud25xSVhuZDEzQUcvalNB?=
+ =?utf-8?B?WXdOZlRFeDNHMjM5NE9tU2FXTlI2aWF2Q21YZXpqdEJzaTVhdHp0ZXlnbzJS?=
+ =?utf-8?B?OWlMK2pMVUx6Sis1Ty9OOW4yRG1sWlpXL3BBcXA1YUlrZS9UcHVOU3BwUEVz?=
+ =?utf-8?B?Z2JBc2lETDl4YlRrbVFpQUUwOHF3V2pjYUtDVllWc0lPV1F6enlvdTNDYlhy?=
+ =?utf-8?B?T2xZZ2FJblVnS3BLUHVDRnJPUyt3Z3JER010NHBhYVFrK1JheFJxcnV0VVpR?=
+ =?utf-8?B?bk5nRWR0bXBMNnVtSVBvaG9sVU0weFpBVkpGRENnZUpqZ3JKclhYc2Q5OFRu?=
+ =?utf-8?B?QWV1T2FjVTNYTDEyQXl5SmtoRnVMaUVKRGlQekI0WjNzaDhiNEVFZmNzTndX?=
+ =?utf-8?B?WUV5aE4vZVpMRXBGcU40TGNqOVNDWWJmMVppOGRlSzJKam1jeVNWTkZDUTBz?=
+ =?utf-8?B?OXBwdmI3YVZROGZPRTB0S0dIWlhqcmdENExzZWx1TFpocCtnMkphRnhNbGZS?=
+ =?utf-8?B?NVJLMTRsNnp0SVY0L1VERWVkamQzcUtyWDFuU05JTS9POENIbUlTUFhOUk1X?=
+ =?utf-8?B?ZTRzeUI1NHBwbTlvbDZxZnJ6bjFxTSszZHNBa1lIVVkzMTBHRDJqeWJJWFd5?=
+ =?utf-8?B?eHh6Ukk4ZkY1S2h5azJNSGcrOXZLOFp1WWk4WkU5TmJRdmsva0t2emVqTjFx?=
+ =?utf-8?B?eUxzMGlkK3Q1UGNFdHRtd2pLK0tlNldPK3ZrUmlrZFd0VExsV0ZHQmFKVy94?=
+ =?utf-8?Q?KuJWDMlnLDn7L0AzYtTPyg4Jg?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F8CA2497B30A6049B4120A60A6F358F4@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY3PR05MB8531.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 698e5b95-db69-4d01-4d7a-08dbdeb8ed3d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2023 11:10:03.8251
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OlGX6fg3T38iW3QAb8Roruz5NHmU/mKqtByj/piTorsGxshXSAX1SLVbjTvYrDvxd7qfE6cG8cssyatKaTRK0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR05MB8078
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   d34f9e22c31d2a971ef00c69116c0eef46834278
-commit: 81c8161bed77ae0da88c78ff822220ba1a2a7a8a [10909/30000] ANDROID: vendor_hooks: Add hooks to tcp/udp send/recv msg functions.
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231106/202311061850.SVO7oW3K-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061850.SVO7oW3K-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311061850.SVO7oW3K-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ipv4.h:34,
-                    from drivers/android/vendor_hooks.c:75:
->> include/trace/trace_events.h:27:23: warning: 'str__ipv4__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/snd_compr.h:24,
-                    from drivers/android/vendor_hooks.c:74:
-   include/trace/trace_events.h:27:23: warning: 'str__snd_compr__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sound.h:20,
-                    from drivers/android/vendor_hooks.c:73:
-   include/trace/trace_events.h:27:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ipv6.h:22,
-                    from drivers/android/vendor_hooks.c:72:
-   include/trace/trace_events.h:27:23: warning: 'str__ipv6__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/usb.h:26,
-                    from drivers/android/vendor_hooks.c:71:
-   include/trace/trace_events.h:27:23: warning: 'str__usb__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/syscall_check.h:31,
-                    from drivers/android/vendor_hooks.c:70:
-   include/trace/trace_events.h:27:23: warning: 'str__syscall_check__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-
-
-vim +/str__ipv4__trace_system_name +27 include/trace/trace_events.h
-
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+WyAtWGF2aWVyIF0NCg0KPiBPbiBOb3YgNiwgMjAyMywgYXQgODoxOCBBTSwga2VybmVsIHRlc3Qg
+cm9ib3QgPHl1amllLmxpdUBpbnRlbC5jb20+IHdyb3RlOg0KPg0KPiAhISBFeHRlcm5hbCBFbWFp
+bA0KPg0KPiB0cmVlOiAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJu
+ZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdCBtYXN0ZXINCj4gaGVhZDogICA3N2ZhMmZiZTg3ZmM2
+MDVjNGJmYTg3ZGZmODdiZTliZmRlZDBlOWEzDQo+IGNvbW1pdDogNmM5NDg3NTc5OWVhZjk5YmZk
+YmIwZWZjZTIxZDc1ZTFjNTZlOTZkNSB2bXdfYmFsbG9vbjogc2ltcGxpZnlpbmcgYmF0Y2ggYWNj
+ZXNzDQo+IGRhdGU6ICAgNSB5ZWFycyBhZ28NCg0KSXNu4oCZdCBpcyBzbGlnaHRseSBzdHJhbmdl
+IGZvciB0aGUgYm90IHRvIGNoZWNrIDUgeWVhciBvbGQgcGF0Y2hlcz8NCg0KPiBBbGwgd2Fybmlu
+Z3MgKG5ldyBvbmVzIHByZWZpeGVkIGJ5ID4+KToNCj4NCj4gICBJbiBmaWxlIGluY2x1ZGVkIGZy
+b20gZHJpdmVycy9taXNjL3Ztd19iYWxsb29uLmM6Mjg6DQo+ICAgaW5jbHVkZS9saW51eC92bXdf
+dm1jaV9kZWZzLmg6MTU5OjMzOiB3YXJuaW5nOiAnVk1DSV9BTk9OX1NSQ19IQU5ETEUnIGRlZmlu
+ZWQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1jb25zdC12YXJpYWJsZT1dDQo+ICAgICAxNTkgfCBz
+dGF0aWMgY29uc3Qgc3RydWN0IHZtY2lfaGFuZGxlIFZNQ0lfQU5PTl9TUkNfSEFORExFID0gew0K
+PiAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+
+fn5+fn5+fg0KPj4+IGRyaXZlcnMvbWlzYy92bXdfYmFsbG9vbi5jOjIwMDogd2FybmluZzogRnVu
+Y3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnNScgbm90IGRlc2NyaWJlZCBpbiAndm1iYWxsb29u
+X2JhdGNoX2VudHJ5Jw0KPiAgIGRyaXZlcnMvbWlzYy92bXdfYmFsbG9vbi5vOiB3YXJuaW5nOiBv
+Ymp0b29sOiB2bWJhbGxvb25fZGVmbGF0ZSgpKzB4MWNhOiBzaWJsaW5nIGNhbGwgZnJvbSBjYWxs
+YWJsZSBpbnN0cnVjdGlvbiB3aXRoIG1vZGlmaWVkIHN0YWNrIGZyYW1lDQo+ICAgZHJpdmVycy9t
+aXNjL3Ztd19iYWxsb29uLm86IHdhcm5pbmc6IG9ianRvb2w6IHZtYmFsbG9vbl9kZWJ1Z19zaG93
+KCkrMHg3Mzogc2libGluZyBjYWxsIGZyb20gY2FsbGFibGUgaW5zdHJ1Y3Rpb24gd2l0aCBtb2Rp
+ZmllZCBzdGFjayBmcmFtZQ0KPiAgIGRyaXZlcnMvbWlzYy92bXdfYmFsbG9vbi5vOiB3YXJuaW5n
+OiBvYmp0b29sOiB2bWJhbGxvb25faW5mbGF0ZSgpKzB4YTE6IHNpYmxpbmcgY2FsbCBmcm9tIGNh
+bGxhYmxlIGluc3RydWN0aW9uIHdpdGggbW9kaWZpZWQgc3RhY2sgZnJhbWUNCj4gICBkcml2ZXJz
+L21pc2Mvdm13X2JhbGxvb24ubzogd2FybmluZzogb2JqdG9vbDogdm1iYWxsb29uX3dvcmsoKSsw
+eDg0OiBzaWJsaW5nIGNhbGwgZnJvbSBjYWxsYWJsZSBpbnN0cnVjdGlvbiB3aXRoIG1vZGlmaWVk
+IHN0YWNrIGZyYW1lDQo+DQo+DQo+IHZpbSArMjAwIGRyaXZlcnMvbWlzYy92bXdfYmFsbG9vbi5j
+DQo+DQo+IDM2NWJkN2VmN2VjOGViIFBoaWxpcCBQLiBNb2x0bWFubiAyMDE1LTA4LTA2ICAxODgN
+Cj4gNmM5NDg3NTc5OWVhZjkgTmFkYXYgQW1pdCAgICAgICAgIDIwMTgtMDktMjAgIDE4OSAgLyoq
+DQo+IDZjOTQ4NzU3OTllYWY5IE5hZGF2IEFtaXQgICAgICAgICAyMDE4LTA5LTIwICAxOTAgICAq
+IHN0cnVjdCB2bWJhbGxvb25fYmF0Y2hfZW50cnkgLSBhIGJhdGNoIGVudHJ5IGZvciBsb2NrIG9y
+IHVubG9jay4NCj4gNmM5NDg3NTc5OWVhZjkgTmFkYXYgQW1pdCAgICAgICAgIDIwMTgtMDktMjAg
+IDE5MSAgICoNCj4gNmM5NDg3NTc5OWVhZjkgTmFkYXYgQW1pdCAgICAgICAgIDIwMTgtMDktMjAg
+IDE5MiAgICogQHN0YXR1czogdGhlIHN0YXR1cyBvZiB0aGUgb3BlcmF0aW9uLCB3aGljaCBpcyB3
+cml0dGVuIGJ5IHRoZSBoeXBlcnZpc29yLg0KPiA2Yzk0ODc1Nzk5ZWFmOSBOYWRhdiBBbWl0ICAg
+ICAgICAgMjAxOC0wOS0yMCAgMTkzICAgKiBAcmVzZXJ2ZWQ6IHJlc2VydmVkIGZvciBmdXR1cmUg
+dXNlLiBNdXN0IGJlIHNldCB0byB6ZXJvLg0KPiA2Yzk0ODc1Nzk5ZWFmOSBOYWRhdiBBbWl0ICAg
+ICAgICAgMjAxOC0wOS0yMCAgMTk0ICAgKiBAcGZuOiB0aGUgcGh5c2ljYWwgZnJhbWUgbnVtYmVy
+IG9mIHRoZSBwYWdlIHRvIGJlIGxvY2tlZCBvciB1bmxvY2tlZC4NCj4gNmM5NDg3NTc5OWVhZjkg
+TmFkYXYgQW1pdCAgICAgICAgIDIwMTgtMDktMjAgIDE5NSAgICovDQo+IDZjOTQ4NzU3OTllYWY5
+IE5hZGF2IEFtaXQgICAgICAgICAyMDE4LTA5LTIwICAxOTYgIHN0cnVjdCB2bWJhbGxvb25fYmF0
+Y2hfZW50cnkgew0KPiA2Yzk0ODc1Nzk5ZWFmOSBOYWRhdiBBbWl0ICAgICAgICAgMjAxOC0wOS0y
+MCAgMTk3ICAgICAgIHU2NCBzdGF0dXMgOiA1Ow0KPiA2Yzk0ODc1Nzk5ZWFmOSBOYWRhdiBBbWl0
+ICAgICAgICAgMjAxOC0wOS0yMCAgMTk4ICAgICAgIHU2NCByZXNlcnZlZCA6IFBBR0VfU0hJRlQg
+LSA1Ow0KPiA2Yzk0ODc1Nzk5ZWFmOSBOYWRhdiBBbWl0ICAgICAgICAgMjAxOC0wOS0yMCAgMTk5
+ICAgICAgIHU2NCBwZm4gOiA1MjsNCj4gNmM5NDg3NTc5OWVhZjkgTmFkYXYgQW1pdCAgICAgICAg
+IDIwMTgtMDktMjAgQDIwMCAgfSBfX3BhY2tlZDsNCg0KQW5kIHRoZSBlcnJvciBzZWVtcyBub24t
+c2Vuc2ljYWwgdG8gbWU6IGl0IGFwcGVhcnMgdGhlIG51bWJlciBvZiBiaXRzIHdhcyBtaXN0YWtl
+bmx5DQpjb25zaWRlcmVkIGFzIHRoZSBuYW1lIG9mIHRoZSBmaWVsZCBieSB0aGUgdGVzdC4NCg0K
