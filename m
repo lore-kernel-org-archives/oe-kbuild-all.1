@@ -1,180 +1,271 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D877B661
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 06:23:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963D24422
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 06:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XydL7Snm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eom9jx6k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699251780; x=1730787780;
+  t=1699253987; x=1730789987;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=weEuC/9VSBHLkvm9pZJCghf4D0pZvsqjgAEUcoBxppg=;
-  b=XydL7SnmWum5Ih+YDBs52FcE1FoE6euyoyEpHXzwjAh7BKRzCEkwGgjh
-   nhjuhtqq/IKf/TmwOE3ElP0twyI8vq9FkW2hNymJRWxnBu5sL4QvDaEex
-   AqY8GgRveFXlZaCeWcKC1+ZPL+Yn9sb29JiZMGvp5epDQYa07I9mwnV0G
-   bSZVOUlznwmbs74ThFeazzOycVEL1tsIRserVsMtsV4JVmpoC00XJxg4v
-   cAGQFfKjJpM5qyV61n6ewdovNpzjaAA1+HPJMorp23PLqWmRQanJKV2Uc
-   w+qs97NMp9Nh/1IeJFVxmaFHYSOagAk7quRw6PLI6bEWz2lsicHZooMII
+  bh=z2a+ZQYduABVO1PtsBIirBhxo9V59QgrSOz1BS2hYls=;
+  b=Eom9jx6kP8A3yyuljL50eVzM/GbEmCFtQkFQDi1086EkFSlZwjGT3Der
+   DwmMFTd4NJpVqczPhdsDDbd2Kk7Cnpb+zYkeOnaVm+qqiJphc2xmsCiE4
+   qqrhl2S2S6edjLVpmuAIfECOd7hP7ddcooexzZhYSFTPwh8FJ3F4YcoM3
+   gj6GaMvsaPQ6yOPC5iHUXTohWHJDUr1ZPWF5y5WY4sv6TC0EO2hHWQNEb
+   Qvaox54brPhjWoLXJlD/wHwQQFr574LYl6/QmCO9UJSjEJYGN3BmW57jf
+   qjvWSuhiIoYmZjT4Pldjfn2So4tEpYgYa7WOIiGK96LZPW8xEQSiH/NRT
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="388097435"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="386393949"
 X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="388097435"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 22:22:59 -0800
+   d="scan'208";a="386393949"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 22:59:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="832626590"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="755765104"
 X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="832626590"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmsmga004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Nov 2023 22:23:00 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Sun, 5 Nov 2023 22:22:59 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Sun, 5 Nov 2023 22:22:59 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Sun, 5 Nov 2023 22:22:59 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BvfTzZCUy3qhwp4n3GGVVSThs+w0kV2l83GeRAKJKS7L1ww4MIsjX/eG9aY+ST03Zy5a8u/DVvs817LLbfb2tP2xIjaNpSoloNqT138eX17S8cwZFYw5UQ1SfwQI8m7xPN/Zs9IfX7bGYnJU3h4QybMOgsIY1WZ0sxX5CWe/bmYhx3PqIOMra2hcWI0gzvUPzCr6UV4sZGdc4FngPX9awYKATdd/zU3yS1XdvY52gInl5f8lcqWjjYKu5EiM2RovyZX3iZouBOkhAvotmy04SxnnDT3OWRR1r8z1UQxXunoUhJRstkgOq3mvA3BSMDEPS3edk45zDhd8aBF/e+dtWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DqZKNmYVYvAAbnIvpBAC4AfZkFoCjnEodClKroEdzHE=;
- b=HIrf/fI5i5T3JjXNkZ6iW6pQiEnMHXSPr7duuocVRSz95NXEE6CA7LFLHH3pESY0SZJ/qlE71jyVNb6a5XzcEP4LVYdEeEyC3pGW93JUY2qUBHryk8OF4vlPJGA3KnKad0Y8slNNsmUEEqvZDGJ7F5/CWRBtTnEvHoey8L91kvdGZPGSr5LFvduPwcz7fYsRRtbP2f0ai61Qt0WY6av7kqBTxEQrFZ5woFyJvCWY8NrIovDY1qReHIyWqt1IvjpYqQbNSe7TGjwK4Bd5QRrV+82EYR7Np3apf9ZLuAIuIaG8i0Me67IYr1rPXIXO8QuuzSgpT8HA0YftSfbcYFZk7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by BL1PR11MB5382.namprd11.prod.outlook.com (2603:10b6:208:31c::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
- 2023 06:22:54 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.6933.028; Mon, 6 Nov 2023
- 06:22:54 +0000
-Date: Mon, 6 Nov 2023 14:18:11 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Nadav Amit <namit@vmware.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Xavier
- Deguillard" <xdeguillard@vmware.com>
-Subject: drivers/misc/vmw_balloon.c:200: warning: Function parameter or
- member '5' not described in 'vmballoon_batch_entry'
-Message-ID: <202311061016.YX1N3JbG-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR01CA0159.apcprd01.prod.exchangelabs.com
- (2603:1096:4:28::15) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="755765104"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 05 Nov 2023 22:59:44 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qztaI-0006D2-1j;
+	Mon, 06 Nov 2023 06:59:42 +0000
+Date: Mon, 6 Nov 2023 14:59:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Chan <mchan@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/broadcom/bnxt/bnxt.c:4092:38: warning: '%s'
+ directive output may be truncated writing 4 bytes into a region of size
+ between 2 and 17
+Message-ID: <202311061443.bktIDwRt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|BL1PR11MB5382:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9bcf14ee-9589-49c3-8176-08dbde90cf94
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2+eJRTsBnF0Z49v6ahOHTn41FeoW747R+u3/KLuOx52DfvySIItgroRVMgA2QjzTIwlnQPd0bJd57CIHnJxzIfu+LrPI9at0ABoPdwoHuH/RRXC0XqMg7lS/Tx2pkM3Ez6Uj7qa9c2popnxRC1VyvhsvGakEftn54C7P+v68iAtqo4UxCz7WghEA3P0cMvHQeH3CJizPYTrDxGxIBQbNowBbPIPPUbN4jGmbqS396y2FprSczXw7k48yFh5h2eaC8Id5OSLc0vsdMrujWTy6eO0qJE/asfZp4eoGMD5eHAlqgRmUiZHngIhmtu38EhVn7t8zvVQjjvrI1XghuY9rIPqrdemt5BeKUJ3kRwbzI36JIH7OFuT9EFZBqIhECI/2m8ojap+5U76oYbPLSJtLQU/3dSKoQkiFsoPgKzJO/qGHItvl7HjIgQGnAf8gCPvNxs08c3Xc/WSX/4uWB3Jy6Dpe86HvlSiMDMCvL8uLP0U9AVqPQT+S3MBNwR9OgAv/qfugC/B6mbNODdgNbyfsqoT1QpADpYSh1uHxNC85OH+vU/z3Lp69jLcvXYnVrMWYvDyCSYv9CouvAN7hLZRivxu1zOFjHcHFTGHq26sdkwWH83/ulUfqvh9d1aEepRaxphjm+4lzoh+IfUAuBG5K1A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(136003)(39860400002)(376002)(230922051799003)(230273577357003)(230173577357003)(64100799003)(186009)(1800799009)(451199024)(2616005)(83380400001)(6666004)(6506007)(6512007)(82960400001)(26005)(1076003)(6486002)(478600001)(966005)(38100700002)(66476007)(8936002)(8676002)(316002)(66946007)(66556008)(6916009)(4326008)(5660300002)(86362001)(2906002)(41300700001)(36756003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hJwDV2y12Fk+Ur+PkF/UzyMSQUQdIC/UFGedGkisghf7VeYEKFKjSYMsIckF?=
- =?us-ascii?Q?M0KKHL7fyVW1dWvui5BGE+SJQcnrVy/jmjfe+hdgkeNZFDZbLOvdZfuKRIyW?=
- =?us-ascii?Q?RVB/cdZ8E6JaOpUnEQNkAGQ035gmQmta9dauYzrURtWO1zvMylm9c/+w703q?=
- =?us-ascii?Q?55WpZpYSNNU4QTWt4RI5j//Mq06Sti0IVmQULS1uXgTi3zg2HN2Jd/SFBdEW?=
- =?us-ascii?Q?qCd7FxXTaXy+sDWC+GQfBuJQZEypOiyCwAboL+JFsIvj8N/SIgPHpbD8GXaV?=
- =?us-ascii?Q?HX7gCGfeNRbROb5FKwcyEbk39ZFNsUtxk06mOtp1RqOmdm+UoWtzG6Ymf2Cr?=
- =?us-ascii?Q?PtnJ82S2m9pWhSo9JAdt/4V2/680pxEpz8zcDy1YParsSuz+fVhPHTzpRMMs?=
- =?us-ascii?Q?6/f3uT9P23ML4ExUyYiImk8GhQXi1gtCDgdE38UY8RQyoNiYjSpje1VypSRP?=
- =?us-ascii?Q?cm9unQuNXBKmELrdqqBbGyyR0t5PF8U0Yo8pmW34pFDYPlgg8Bo7nA/Q7V5z?=
- =?us-ascii?Q?zwrazGZdsCjwhg7WdORAQDLQVtOa0iadWfY0V1/RntExDVtDQHF5EUJYV/eg?=
- =?us-ascii?Q?I6oCcMV1kJvnZ92LBNQz04QkIkwJQgm3HzLANGfoTJd3l5kwzSimAuNp6BRS?=
- =?us-ascii?Q?mhPv3YMiBeo2gCT+ZqmphEO6sY66TNdqNV9LyKf0FGCh5/qj6aabztAmhefi?=
- =?us-ascii?Q?NIZBIpaEiyuY1gqwhaioEdq3Q7CyBN8C2BZ5s3CHCFVT6DO/kJIOeQAWEByr?=
- =?us-ascii?Q?pqyOTIhEfb3sT+4GXdBnSuQOe3Q6OQb6DIzTDWTzAar9tmYomkjM9m5INmOm?=
- =?us-ascii?Q?2ndWznB8QztYsOfjKEKWbg/2J5jOG/KztpiNs6UBHBDNiOzq6iy9/tgh0TzO?=
- =?us-ascii?Q?mLB2b33JAFr67fquyvvoK4Yrqyb5YwVAbIW9SXwCSqCWbcB1HxMiI79+RE79?=
- =?us-ascii?Q?HhCgaQimmgen3ilC/86PPjJCVjcxhcF436b3I+ITSzWfSoYtixJn7aYsnh/a?=
- =?us-ascii?Q?WRno+nAcYFZFScm4e+k0yQgRDJNzmiUBKIG7MZ/LVwUJRt7cS+YCnYF8u6rM?=
- =?us-ascii?Q?9ls8LjsaILabQjEK1D1fjscAEP2Z06uC/82IG1qtUNgGhWGS6/00AfYTmOTa?=
- =?us-ascii?Q?SF14FleSGAuCZW0Msdnk8grg9XdlNCR4nqHBo/qD/DIyQg2CHJP5i/Cj3NRt?=
- =?us-ascii?Q?/PeDS0taocAZK+F4b6cm4cuUmjCVBr7Cd4CKlbtUFBvaDOuQauCGxeFgQnJ8?=
- =?us-ascii?Q?a8Tzna6UihHJ4vCyblmeU8qWnpqy2bri2CTFcMz/bXEYfOwj6HqCXEP9Tlnc?=
- =?us-ascii?Q?eENZkMOVchD75vTeOL05mfJJmOi3HCy1V3wzHGQ9UqcPX6oCqkiTpzVQ474l?=
- =?us-ascii?Q?EnT3rlONNEw1+OI6SRJhHyduHqnARtQOZOkDrpcG4/RJHumLKfRKQlGKETqQ?=
- =?us-ascii?Q?MUCq4yBxKvjjPR1dKuNSnC9w2lqpIFNa6c4JQ8Rew294GaJdYsbtq4fJ6J/V?=
- =?us-ascii?Q?9t1dsYkKnQrKWBWu31qDn8zoDLGH80T0pbELPtTJHcwwN+ibvyyrjbjzIK6U?=
- =?us-ascii?Q?QaNaqUWyvmxkJKI/wwFHOFHZVaaOLCc0FnMgpe6t?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bcf14ee-9589-49c3-8176-08dbde90cf94
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 06:22:54.3409
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5jytfxoJUoM7Z2Xz9fUVZmBzMe09zGmkgE7Ktl+gVqH/BsmkSAkjLInyEH2j5iWUNnbweO5F7N+lHF7Fyw/KWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5382
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   77fa2fbe87fc605c4bfa87dff87be9bfded0e9a3
-commit: 6c94875799eaf99bfdbb0efce21d75e1c56e96d5 vmw_balloon: simplifying batch access
-date:   5 years ago
-config: x86_64-randconfig-103-20230827 (https://download.01.org/0day-ci/archive/20231106/202311061016.YX1N3JbG-lkp@intel.com/config)
+head:   d2f51b3516dade79269ff45eae2a7668ae711b25
+commit: 379a80a1d048dcacfc2011d5d32e16d5c804b9f4 bnxt_en: Fix compile errors when CONFIG_BNXT_SRIOV is not set.
+date:   8 years ago
+config: x86_64-buildonly-randconfig-006-20230911 (https://download.01.org/0day-ci/archive/20231106/202311061443.bktIDwRt-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061016.YX1N3JbG-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061443.bktIDwRt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202311061016.YX1N3JbG-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311061443.bktIDwRt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/misc/vmw_balloon.c:28:
-   include/linux/vmw_vmci_defs.h:159:33: warning: 'VMCI_ANON_SRC_HANDLE' defined but not used [-Wunused-const-variable=]
-     159 | static const struct vmci_handle VMCI_ANON_SRC_HANDLE = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~
->> drivers/misc/vmw_balloon.c:200: warning: Function parameter or member '5' not described in 'vmballoon_batch_entry'
-   drivers/misc/vmw_balloon.o: warning: objtool: vmballoon_deflate()+0x1ca: sibling call from callable instruction with modified stack frame
-   drivers/misc/vmw_balloon.o: warning: objtool: vmballoon_debug_show()+0x73: sibling call from callable instruction with modified stack frame
-   drivers/misc/vmw_balloon.o: warning: objtool: vmballoon_inflate()+0xa1: sibling call from callable instruction with modified stack frame
-   drivers/misc/vmw_balloon.o: warning: objtool: vmballoon_work()+0x84: sibling call from callable instruction with modified stack frame
+   In file included from include/linux/kobject.h:21,
+                    from include/linux/module.h:17,
+                    from drivers/net/ethernet/broadcom/bnxt/bnxt.c:10:
+   include/linux/sysfs.h: In function 'sysfs_get_dirent':
+   include/linux/sysfs.h:496:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
+     496 |         return kernfs_find_and_get(parent, name);
+         |                                            ^~~~
+         |                                            |
+         |                                            const unsigned char *
+   In file included from include/linux/sysfs.h:15:
+   include/linux/kernfs.h:428:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
+     428 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
+         |                                             ~~~~~~~~~~~~^~~~
+   In file included from include/net/inet_sock.h:27,
+                    from include/net/ip.h:30,
+                    from drivers/net/ethernet/broadcom/bnxt/bnxt.c:35:
+   include/net/sock.h: In function 'skb_add_data_nocache':
+   include/net/sock.h:1820:55: warning: pointer targets in passing argument 4 of 'skb_do_copy_data_nocache' differ in signedness [-Wpointer-sign]
+    1820 |         err = skb_do_copy_data_nocache(sk, skb, from, skb_put(skb, copy),
+         |                                                       ^~~~~~~~~~~~~~~~~~
+         |                                                       |
+         |                                                       unsigned char *
+   include/net/sock.h:1798:73: note: expected 'char *' but argument is of type 'unsigned char *'
+    1798 |                                            struct iov_iter *from, char *to,
+         |                                                                   ~~~~~~^~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_tx_enable':
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:4291:30: warning: variable 'txq' set but not used [-Wunused-but-set-variable]
+    4291 |         struct netdev_queue *txq;
+         |                              ^~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_change_mac_addr':
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5203:38: warning: pointer targets in passing argument 1 of 'is_valid_ether_addr' differ in signedness [-Wpointer-sign]
+    5203 |         if (!is_valid_ether_addr(addr->sa_data))
+         |                                  ~~~~^~~~~~~~~
+         |                                      |
+         |                                      char *
+   In file included from drivers/net/ethernet/broadcom/bnxt/bnxt.c:22:
+   include/linux/etherdevice.h:186:50: note: expected 'const u8 *' {aka 'const unsigned char *'} but argument is of type 'char *'
+     186 | static inline bool is_valid_ether_addr(const u8 *addr)
+         |                                        ~~~~~~~~~~^~~~
+   arch/x86/include/asm/bitops.h: Assembler messages:
+   arch/x86/include/asm/bitops.h:206: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+   arch/x86/include/asm/bitops.h:206: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+   arch/x86/include/asm/bitops.h:252: Warning: no instruction mnemonic suffix given and no register operands; using default for `btr'
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function '__bnxt_open_nic':
+>> drivers/net/ethernet/broadcom/bnxt/bnxt.c:4092:38: warning: '%s' directive output may be truncated writing 4 bytes into a region of size between 2 and 17 [-Wformat-truncation=]
+    4092 |                                  "%s-%s-%d", dev->name, "TxRx", i);
+         |                                      ^~                 ~~~~~~
+   In function 'bnxt_setup_msix',
+       inlined from 'bnxt_setup_int_mode' at drivers/net/ethernet/broadcom/bnxt/bnxt.c:4143:8,
+       inlined from '__bnxt_open_nic' at drivers/net/ethernet/broadcom/bnxt/bnxt.c:4536:8:
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:4092:34: note: directive argument in the range [0, 2147483646]
+    4092 |                                  "%s-%s-%d", dev->name, "TxRx", i);
+         |                                  ^~~~~~~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:4091:25: note: 'snprintf' output between 8 and 32 bytes into a destination of size 18
+    4091 |                         snprintf(bp->irq_tbl[i].name, len,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    4092 |                                  "%s-%s-%d", dev->name, "TxRx", i);
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function '__bnxt_open_nic':
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:4132:22: warning: '%s' directive output may be truncated writing 4 bytes into a region of size between 2 and 17 [-Wformat-truncation=]
+    4132 |                  "%s-%s-%d", bp->dev->name, "TxRx", 0);
+         |                      ^~                     ~~~~~~
+   In function 'bnxt_setup_inta',
+       inlined from 'bnxt_setup_int_mode' at drivers/net/ethernet/broadcom/bnxt/bnxt.c:4147:8,
+       inlined from '__bnxt_open_nic' at drivers/net/ethernet/broadcom/bnxt/bnxt.c:4536:8:
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:4131:9: note: 'snprintf' output between 8 and 23 bytes into a destination of size 18
+    4131 |         snprintf(bp->irq_tbl[0].name, len,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    4132 |                  "%s-%s-%d", bp->dev->name, "TxRx", 0);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/bitops.h:252: Warning: no instruction mnemonic suffix given and no register operands; using default for `btr'
+   arch/x86/include/asm/bitops.h:252: Warning: no instruction mnemonic suffix given and no register operands; using default for `btr'
+   arch/x86/include/asm/bitops.h:252: Warning: no instruction mnemonic suffix given and no register operands; using default for `btr'
+   arch/x86/include/asm/bitops.h:252: Warning: no instruction mnemonic suffix given and no register operands; using default for `btr'
+   arch/x86/include/asm/bitops.h:252: Warning: no instruction mnemonic suffix given and no register operands; using default for `btr'
+   arch/x86/include/asm/bitops.h:252: Warning: no instruction mnemonic suffix given and no register operands; using default for `btr'
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_init_one':
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:3745:69: warning: '.' directive output may be truncated writing 1 byte into a region of size between 0 and 8 [-Wformat-truncation=]
+    3745 |         snprintf(bp->fw_ver_str, BC_HWRM_STR_LEN, "bc %d.%d.%d rm %d.%d.%d",
+         |                                                                     ^
+   In function 'bnxt_hwrm_ver_get',
+       inlined from 'bnxt_init_one' at drivers/net/ethernet/broadcom/bnxt/bnxt.c:5649:2:
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:3745:51: note: directive argument in the range [0, 255]
+    3745 |         snprintf(bp->fw_ver_str, BC_HWRM_STR_LEN, "bc %d.%d.%d rm %d.%d.%d",
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:3745:51: note: directive argument in the range [0, 255]
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:3745:9: note: 'snprintf' output between 18 and 30 bytes into a destination of size 21
+    3745 |         snprintf(bp->fw_ver_str, BC_HWRM_STR_LEN, "bc %d.%d.%d rm %d.%d.%d",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3746 |                  resp->hwrm_fw_maj, resp->hwrm_fw_min, resp->hwrm_fw_bld,
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3747 |                  resp->hwrm_intf_maj, resp->hwrm_intf_min, resp->hwrm_intf_upd);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_init_one':
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5541:54: warning: '.' directive output may be truncated writing 1 byte into a region of size between 0 and 4 [-Wformat-truncation=]
+    5541 |         snprintf(phy_ver, PHY_VER_STR_LEN, " ph %d.%d.%d",
+         |                                                      ^
+   In function 'bnxt_probe_phy',
+       inlined from 'bnxt_init_one' at drivers/net/ethernet/broadcom/bnxt/bnxt.c:5694:7:
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5541:44: note: directive argument in the range [0, 255]
+    5541 |         snprintf(phy_ver, PHY_VER_STR_LEN, " ph %d.%d.%d",
+         |                                            ^~~~~~~~~~~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c:5541:9: note: 'snprintf' output between 10 and 16 bytes into a destination of size 11
+    5541 |         snprintf(phy_ver, PHY_VER_STR_LEN, " ph %d.%d.%d",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    5542 |                  link_info->phy_ver[0],
+         |                  ~~~~~~~~~~~~~~~~~~~~~~
+    5543 |                  link_info->phy_ver[1],
+         |                  ~~~~~~~~~~~~~~~~~~~~~~
+    5544 |                  link_info->phy_ver[2]);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/bitops.h:96: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
 
 
-vim +200 drivers/misc/vmw_balloon.c
+vim +4092 drivers/net/ethernet/broadcom/bnxt/bnxt.c
 
-365bd7ef7ec8eb Philip P. Moltmann 2015-08-06  188  
-6c94875799eaf9 Nadav Amit         2018-09-20  189  /**
-6c94875799eaf9 Nadav Amit         2018-09-20  190   * struct vmballoon_batch_entry - a batch entry for lock or unlock.
-6c94875799eaf9 Nadav Amit         2018-09-20  191   *
-6c94875799eaf9 Nadav Amit         2018-09-20  192   * @status: the status of the operation, which is written by the hypervisor.
-6c94875799eaf9 Nadav Amit         2018-09-20  193   * @reserved: reserved for future use. Must be set to zero.
-6c94875799eaf9 Nadav Amit         2018-09-20  194   * @pfn: the physical frame number of the page to be locked or unlocked.
-6c94875799eaf9 Nadav Amit         2018-09-20  195   */
-6c94875799eaf9 Nadav Amit         2018-09-20  196  struct vmballoon_batch_entry {
-6c94875799eaf9 Nadav Amit         2018-09-20  197  	u64 status : 5;
-6c94875799eaf9 Nadav Amit         2018-09-20  198  	u64 reserved : PAGE_SHIFT - 5;
-6c94875799eaf9 Nadav Amit         2018-09-20  199  	u64 pfn : 52;
-6c94875799eaf9 Nadav Amit         2018-09-20 @200  } __packed;
-6c94875799eaf9 Nadav Amit         2018-09-20  201  
+c0c050c58d8409 Michael Chan 2015-10-22  4036  
+c0c050c58d8409 Michael Chan 2015-10-22  4037  static int bnxt_setup_msix(struct bnxt *bp)
+c0c050c58d8409 Michael Chan 2015-10-22  4038  {
+c0c050c58d8409 Michael Chan 2015-10-22  4039  	struct msix_entry *msix_ent;
+c0c050c58d8409 Michael Chan 2015-10-22  4040  	struct net_device *dev = bp->dev;
+c0c050c58d8409 Michael Chan 2015-10-22  4041  	int i, total_vecs, rc = 0;
+c0c050c58d8409 Michael Chan 2015-10-22  4042  	const int len = sizeof(bp->irq_tbl[0].name);
+c0c050c58d8409 Michael Chan 2015-10-22  4043  
+c0c050c58d8409 Michael Chan 2015-10-22  4044  	bp->flags &= ~BNXT_FLAG_USING_MSIX;
+c0c050c58d8409 Michael Chan 2015-10-22  4045  	total_vecs = bp->cp_nr_rings;
+c0c050c58d8409 Michael Chan 2015-10-22  4046  
+c0c050c58d8409 Michael Chan 2015-10-22  4047  	msix_ent = kcalloc(total_vecs, sizeof(struct msix_entry), GFP_KERNEL);
+c0c050c58d8409 Michael Chan 2015-10-22  4048  	if (!msix_ent)
+c0c050c58d8409 Michael Chan 2015-10-22  4049  		return -ENOMEM;
+c0c050c58d8409 Michael Chan 2015-10-22  4050  
+c0c050c58d8409 Michael Chan 2015-10-22  4051  	for (i = 0; i < total_vecs; i++) {
+c0c050c58d8409 Michael Chan 2015-10-22  4052  		msix_ent[i].entry = i;
+c0c050c58d8409 Michael Chan 2015-10-22  4053  		msix_ent[i].vector = 0;
+c0c050c58d8409 Michael Chan 2015-10-22  4054  	}
+c0c050c58d8409 Michael Chan 2015-10-22  4055  
+c0c050c58d8409 Michael Chan 2015-10-22  4056  	total_vecs = pci_enable_msix_range(bp->pdev, msix_ent, 1, total_vecs);
+c0c050c58d8409 Michael Chan 2015-10-22  4057  	if (total_vecs < 0) {
+c0c050c58d8409 Michael Chan 2015-10-22  4058  		rc = -ENODEV;
+c0c050c58d8409 Michael Chan 2015-10-22  4059  		goto msix_setup_exit;
+c0c050c58d8409 Michael Chan 2015-10-22  4060  	}
+c0c050c58d8409 Michael Chan 2015-10-22  4061  
+c0c050c58d8409 Michael Chan 2015-10-22  4062  	bp->irq_tbl = kcalloc(total_vecs, sizeof(struct bnxt_irq), GFP_KERNEL);
+c0c050c58d8409 Michael Chan 2015-10-22  4063  	if (bp->irq_tbl) {
+c0c050c58d8409 Michael Chan 2015-10-22  4064  		int tcs;
+c0c050c58d8409 Michael Chan 2015-10-22  4065  
+c0c050c58d8409 Michael Chan 2015-10-22  4066  		/* Trim rings based upon num of vectors allocated */
+c0c050c58d8409 Michael Chan 2015-10-22  4067  		bp->rx_nr_rings = min_t(int, total_vecs, bp->rx_nr_rings);
+c0c050c58d8409 Michael Chan 2015-10-22  4068  		bp->tx_nr_rings = min_t(int, total_vecs, bp->tx_nr_rings);
+c0c050c58d8409 Michael Chan 2015-10-22  4069  		bp->tx_nr_rings_per_tc = bp->tx_nr_rings;
+c0c050c58d8409 Michael Chan 2015-10-22  4070  		tcs = netdev_get_num_tc(dev);
+c0c050c58d8409 Michael Chan 2015-10-22  4071  		if (tcs > 1) {
+c0c050c58d8409 Michael Chan 2015-10-22  4072  			bp->tx_nr_rings_per_tc = bp->tx_nr_rings / tcs;
+c0c050c58d8409 Michael Chan 2015-10-22  4073  			if (bp->tx_nr_rings_per_tc == 0) {
+c0c050c58d8409 Michael Chan 2015-10-22  4074  				netdev_reset_tc(dev);
+c0c050c58d8409 Michael Chan 2015-10-22  4075  				bp->tx_nr_rings_per_tc = bp->tx_nr_rings;
+c0c050c58d8409 Michael Chan 2015-10-22  4076  			} else {
+c0c050c58d8409 Michael Chan 2015-10-22  4077  				int i, off, count;
+c0c050c58d8409 Michael Chan 2015-10-22  4078  
+c0c050c58d8409 Michael Chan 2015-10-22  4079  				bp->tx_nr_rings = bp->tx_nr_rings_per_tc * tcs;
+c0c050c58d8409 Michael Chan 2015-10-22  4080  				for (i = 0; i < tcs; i++) {
+c0c050c58d8409 Michael Chan 2015-10-22  4081  					count = bp->tx_nr_rings_per_tc;
+c0c050c58d8409 Michael Chan 2015-10-22  4082  					off = i * count;
+c0c050c58d8409 Michael Chan 2015-10-22  4083  					netdev_set_tc_queue(dev, i, count, off);
+c0c050c58d8409 Michael Chan 2015-10-22  4084  				}
+c0c050c58d8409 Michael Chan 2015-10-22  4085  			}
+c0c050c58d8409 Michael Chan 2015-10-22  4086  		}
+c0c050c58d8409 Michael Chan 2015-10-22  4087  		bp->cp_nr_rings = max_t(int, bp->rx_nr_rings, bp->tx_nr_rings);
+c0c050c58d8409 Michael Chan 2015-10-22  4088  
+c0c050c58d8409 Michael Chan 2015-10-22  4089  		for (i = 0; i < bp->cp_nr_rings; i++) {
+c0c050c58d8409 Michael Chan 2015-10-22  4090  			bp->irq_tbl[i].vector = msix_ent[i].vector;
+c0c050c58d8409 Michael Chan 2015-10-22  4091  			snprintf(bp->irq_tbl[i].name, len,
+c0c050c58d8409 Michael Chan 2015-10-22 @4092  				 "%s-%s-%d", dev->name, "TxRx", i);
+c0c050c58d8409 Michael Chan 2015-10-22  4093  			bp->irq_tbl[i].handler = bnxt_msix;
+c0c050c58d8409 Michael Chan 2015-10-22  4094  		}
+c0c050c58d8409 Michael Chan 2015-10-22  4095  		rc = bnxt_set_real_num_queues(bp);
+c0c050c58d8409 Michael Chan 2015-10-22  4096  		if (rc)
+c0c050c58d8409 Michael Chan 2015-10-22  4097  			goto msix_setup_exit;
+c0c050c58d8409 Michael Chan 2015-10-22  4098  	} else {
+c0c050c58d8409 Michael Chan 2015-10-22  4099  		rc = -ENOMEM;
+c0c050c58d8409 Michael Chan 2015-10-22  4100  		goto msix_setup_exit;
+c0c050c58d8409 Michael Chan 2015-10-22  4101  	}
+c0c050c58d8409 Michael Chan 2015-10-22  4102  	bp->flags |= BNXT_FLAG_USING_MSIX;
+c0c050c58d8409 Michael Chan 2015-10-22  4103  	kfree(msix_ent);
+c0c050c58d8409 Michael Chan 2015-10-22  4104  	return 0;
+c0c050c58d8409 Michael Chan 2015-10-22  4105  
+c0c050c58d8409 Michael Chan 2015-10-22  4106  msix_setup_exit:
+c0c050c58d8409 Michael Chan 2015-10-22  4107  	netdev_err(bp->dev, "bnxt_setup_msix err: %x\n", rc);
+c0c050c58d8409 Michael Chan 2015-10-22  4108  	pci_disable_msix(bp->pdev);
+c0c050c58d8409 Michael Chan 2015-10-22  4109  	kfree(msix_ent);
+c0c050c58d8409 Michael Chan 2015-10-22  4110  	return rc;
+c0c050c58d8409 Michael Chan 2015-10-22  4111  }
+c0c050c58d8409 Michael Chan 2015-10-22  4112  
+
+:::::: The code at line 4092 was first introduced by commit
+:::::: c0c050c58d840994ba842ad1c338a98e7c12b764 bnxt_en: New Broadcom ethernet driver.
+
+:::::: TO: Michael Chan <mchan@broadcom.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
