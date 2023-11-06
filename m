@@ -1,134 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8526BECA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 03:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87523A55
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 03:18:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZB8aV+Xf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699240451; x=1730776451;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xPC1+rlO6qDL5Sw2iWQnA2FPIEEWntOXjBeWdWSw7RE=;
-  b=ZB8aV+XfPLfct6B3WZNebRvw+EEMo3SQX+DSPqFnU1mrBfn3+iAhQ5R9
-   IjZyOhTQPy1ReBFnQogFQ0btM9Fadi+ykiaKllIuJMhhWxv2dvygv7b5h
-   zdgLPO8uEVGwM1eDQxwvahWLgUvPujElOe58yVexAZ1qsqRUpN3j8M4Yf
-   fi4G81ji41flMl5ceCGOnUsres6nopnxtxoEgcP+2EVdsTT+8Wc9Yj8Fb
-   6H1cJBPHyKI3k4Cyp1Q7S3k0XHOMwZUaxw2Yxxs1ZuyL65lH+KO92Ftq9
-   FwzK1y2L2fF42hOFyfo1jJnxInGKFkUhwYH1npQo+bnWUqpHzAs+aiKk4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="393097128"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="393097128"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 19:14:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="3314519"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 Nov 2023 19:14:10 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qzq3z-00063i-1h;
-	Mon, 06 Nov 2023 03:14:07 +0000
-Date: Mon, 6 Nov 2023 11:13:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:rmap_id 9/19] include/linux/build_bug.h:78:41:
- error: static assertion failed: "offsetof(struct folio, _flags_4) ==
- offsetof(struct page, flags) + 4 * sizeof(struct page)"
-Message-ID: <202311061023.jLdPBgDV-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f4084Ipa"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5bd0631f630so2925488a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 05 Nov 2023 19:18:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699240690; x=1699845490; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rrlgew2gk8PDDg6nKa3/Skvn3+IsqivqOV1shk2EdlI=;
+        b=f4084IpaCsQ2XsMjvWkhJbienDTtFVwepEWhfV/UN0nLjoKBu7eSJI/wbCKn1iNpH8
+         TfUmqsKRHhoS5JSxvYfOBYTIbdoSgTCmgihlJadN8HytOpPKDRXEsDQV7/S90VX6KxDx
+         gYK1aZAxyLlxoKWM2G6wfGGy9c1hQ+T9kVW+r8ppxIOeZj6PmKzYE3zunGTJqpPev30D
+         XtF17ueTcHz4xn9cicY3Txa49TCW1Aab9lKA2FCRjN13G/DUaFt0/FmPxKYjMGMLJVQO
+         SnCrsdSsWYz6wpbfBP3uMCNa+D2mKX1EO2DDSVo5sJNJjzTKPvr5CmG50y1KHxmkdlZK
+         2lPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699240690; x=1699845490;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Rrlgew2gk8PDDg6nKa3/Skvn3+IsqivqOV1shk2EdlI=;
+        b=WFXwBX58wdB4d5IWvChhVN8QxM4bi1Li57mPchis+13OvNlDJ6OhDIoR+hPFVZmTvp
+         zGif2g7+SOb4Ryp+j2Mf4/260B/ElfYpISCy4gEWQJKD+JT2GN9yDmqaoM72Fmsi3yOS
+         +t88WNOc+ttM1WawDnnYbPuWxoiVFffjs/s8pkBGNdog2ags9UwKSw7YYZW1SBCSUIFM
+         DgMicme2mjLzxsRdHrRjikZQ3hfx2d9kz8EAuWhE0dEio5zNWNIVEAKLrMO+XUf8iuCd
+         Sczn2BVCG7sf+D0xsS88a6qZuJpuWneBnRw3E2ZLM1iFcGzGSHxi+9Y4cb6Q6FU4nSh2
+         k4Qw==
+X-Gm-Message-State: AOJu0Yy4+mef4lRovdu5tTDxOnO1vtyl/nJzCCs92C/n/YAz07ed41MB
+	RFBZ84BmGiFmViuzmkWK7gY=
+X-Google-Smtp-Source: AGHT+IE05Xu249woaU1bL4qVqak8SD6uvJifofA4I503pNRx8WM4s8Wg4W12izbH6kRNArk83b4WLQ==
+X-Received: by 2002:a05:6a20:6a20:b0:17a:eff5:fbbe with SMTP id p32-20020a056a206a2000b0017aeff5fbbemr12943122pzk.8.1699240689600;
+        Sun, 05 Nov 2023 19:18:09 -0800 (PST)
+Received: from vultr.guest ([2001:19f0:ac00:4238:5400:4ff:fea3:2cd4])
+        by smtp.gmail.com with ESMTPSA id ei4-20020a056a0080c400b006c31b4d5e57sm4625624pfb.184.2023.11.05.19.18.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Nov 2023 19:18:09 -0800 (PST)
+From: Yafang Shao <laoar.shao@gmail.com>
+To: lkp@intel.com
+Cc: andrii@kernel.org,
+	ast@kernel.org,
+	bpf@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	daniel@iogearbox.net,
+	hannes@cmpxchg.org,
+	haoluo@google.com,
+	john.fastabend@gmail.com,
+	jolsa@kernel.org,
+	kpsingh@kernel.org,
+	laoar.shao@gmail.com,
+	lizefan.x@bytedance.com,
+	longman@redhat.com,
+	martin.lau@linux.dev,
+	mkoutny@suse.com,
+	oe-kbuild-all@lists.linux.dev,
+	oliver.sang@intel.com,
+	sdf@google.com,
+	sinquersw@gmail.com,
+	song@kernel.org,
+	tj@kernel.org,
+	yonghong.song@linux.dev,
+	yosryahmed@google.com,
+	Arnd Bergmann <arnd@arndb.de>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Subject: [PATCH v2 bpf-next] compiler-gcc: Suppress -Wmissing-prototypes warning for all supported GCC
+Date: Mon,  6 Nov 2023 03:18:02 +0000
+Message-Id: <20231106031802.4188-1-laoar.shao@gmail.com>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <202311031651.A7crZEur-lkp@intel.com>
+References: <202311031651.A7crZEur-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/davidhildenbrand/linux rmap_id
-head:   b13b5da47e6cc2abf6253b7e6436fdc2b363103f
-commit: 901bb76320b7528db5ded8e9d007eab34a4affb6 [9/19] mm/rmap_id: track MMs that map a partially-mappable folio using rmap IDs
-config: x86_64-randconfig-013-20231106 (https://download.01.org/0day-ci/archive/20231106/202311061023.jLdPBgDV-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061023.jLdPBgDV-lkp@intel.com/reproduce)
+The kernel supports a minimum GCC version of 5.1.0 for building. However,
+the "__diag_ignore_all" directive only suppresses the
+"-Wmissing-prototypes" warning for GCC versions >= 8.0.0. As a result, when
+building the kernel with older GCC versions, warnings may be triggered. The
+example below illustrates the warnings reported by the kernel test robot
+using GCC 7.5.0:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311061023.jLdPBgDV-lkp@intel.com/
+  compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+  All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   kernel/bpf/helpers.c:1893:19: warning: no previous prototype for 'bpf_obj_new_impl' [-Wmissing-prototypes]
+    __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+                      ^~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c:1907:19: warning: no previous prototype for 'bpf_percpu_obj_new_impl' [-Wmissing-prototypes]
+    __bpf_kfunc void *bpf_percpu_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+   [...]
 
-   In file included from include/linux/bits.h:21:0,
-                    from include/linux/bitops.h:6,
-                    from include/linux/log2.h:12,
-                    from arch/x86/include/asm/div64.h:8,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from arch/x86/entry/vdso/vdso32/../vclock_gettime.c:11,
-                    from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct folio, _flags_4) == offsetof(struct page, flags) + 4 * sizeof(struct page)"
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                            ^
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-    #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-                                     ^~~~~~~~~~~~~~~
-   include/linux/mm_types.h:448:2: note: in expansion of macro 'static_assert'
-     static_assert(offsetof(struct folio, fl) ==   \
-     ^~~~~~~~~~~~~
-   include/linux/mm_types.h:450:1: note: in expansion of macro 'FOLIO_MATCH'
-    FOLIO_MATCH(flags, _flags_4);
-    ^~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "offsetof(struct folio, _head_4) == offsetof(struct page, compound_head) + 4 * sizeof(struct page)"
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                            ^
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-    #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-                                     ^~~~~~~~~~~~~~~
-   include/linux/mm_types.h:448:2: note: in expansion of macro 'static_assert'
-     static_assert(offsetof(struct folio, fl) ==   \
-     ^~~~~~~~~~~~~
-   include/linux/mm_types.h:451:1: note: in expansion of macro 'FOLIO_MATCH'
-    FOLIO_MATCH(compound_head, _head_4);
-    ^~~~~~~~~~~
+To address this, we should also suppress the "-Wmissing-prototypes" warning
+for older GCC versions. "#pragma GCC diagnostic push" is supported as
+of GCC 4.6, and both "-Wmissing-prototypes" and "-Wmissing-declarations"
+are supported for all the GCC versions that we currently support.
+Therefore, it is reasonable to suppress these warnings for all supported
+GCC versions.
 
+With this adjustment, it's important to note that after implementing
+"__diag_ignore_all", it will effectively suppress warnings for all the
+supported GCC versions.
 
-vim +78 include/linux/build_bug.h
+In the future, if you wish to suppress warnings that are only supported on
+higher GCC versions, it is advisable to explicitly use "__diag_ignore" to
+specify the GCC version you are targeting.
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202311031651.A7crZEur-lkp@intel.com/
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+---
+ include/linux/compiler-gcc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
+diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gcc.h
+index 7af9e34..80918bd 100644
+--- a/include/linux/compiler-gcc.h
++++ b/include/linux/compiler-gcc.h
+@@ -138,7 +138,7 @@
+ #endif
+ 
+ #define __diag_ignore_all(option, comment) \
+-	__diag_GCC(8, ignore, option)
++	__diag(__diag_GCC_ignore option)
+ 
+ /*
+  * Prior to 9.1, -Wno-alloc-size-larger-than (and therefore the "alloc_size"
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+1.8.3.1
+
