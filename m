@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AF52D035
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 21:02:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2322633CF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 21:11:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IcucilEQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BAPV0slj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699304569; x=1730840569;
+  t=1699305115; x=1730841115;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y+pp7UqgqKzUq4MEege0vFksJlEzj2ir/nbeT8B2DEk=;
-  b=IcucilEQJAnK6R7Ki3lObPi+e9Jy7A7gvzdn4gK1o1YdNlt6Huu6yWO6
-   IRNSW/9vXzCPEaBtN+YbVDa+LdeqOvmUbhnSWCq2XRzrkPXiRLSLknELi
-   7UiiRHJ8qn2DOpWPWYhSSNPSx+063x9+PpZZpxSPFgg7OEwPcEyZbb2hq
-   vSJOQadxRzKtuzWeD8/JQM6HfctbP8DAN4GzN5nf680RDeimWZAJ3jCEL
-   DUbDvBjcl89div3PLPKA0WG1mzYWEBibr52Se+YMPGHf0WFXhG1ztor8U
-   Oj9JOAFQIJcfecI+enU3/fHhrS97hEVxuy90eSsGd/6caS3xeQBrOnDGF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="453677065"
+  bh=+v4h0EGg7IN2yGGp372Mu1pzdXZWIEAmCR3vWjshjkU=;
+  b=BAPV0sljG12ZjtUWKHWo5OHnJ8g/t4jQNeMlE0CPlVu3nhFWyFy31MJ3
+   bfTg/YBQ7KNGOyBuuNFyoTq/XQcjK2pEJXJn1dH4povmSfGclarAZlAQs
+   4ZyEd5y1er5rWGcS7liIkaM72zZpwGKNcz97o7gt3pki2MuFl7Lf34UrE
+   e3ER/dpvn69TBWpSNmAMOE+aRXETBFeLwR5uTZGLVHAzs8aaisueYS+kx
+   AbkLYL+EaKPc3Flkfn2D2Ou3MaueMq1TDnJlvmMsK5zB1C55bt8w0Fa33
+   gUUtRoEGYn2fuB5NeUw36Z94U14d/69XjxXEXi2396cBjN973Ews+MzYq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="10910148"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="453677065"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 13:02:48 -0800
+   d="scan'208";a="10910148"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 13:11:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="879569494"
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="766078561"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="879569494"
+   d="scan'208";a="766078561"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Nov 2023 13:02:46 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 06 Nov 2023 13:11:53 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r06k8-0006jI-1s;
-	Mon, 06 Nov 2023 21:02:44 +0000
-Date: Tue, 7 Nov 2023 05:00:15 +0800
+	id 1r06su-0006jQ-34;
+	Mon, 06 Nov 2023 21:11:51 +0000
+Date: Tue, 7 Nov 2023 05:11:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted
- __le32
-Message-ID: <202311070440.5VIJWvGt-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 1227/24075]
+ include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name'
+ defined but not used
+Message-ID: <202311070551.Ux08urmv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,163 +51,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thomas,
+Hi Yun,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2f51b3516dade79269ff45eae2a7668ae711b25
-commit: 7470849745e6cd746ae773a6e59b309867310181 video: Move HP PARISC STI core code to shared location
-date:   7 months ago
-config: parisc-randconfig-r131-20231106 (https://download.01.org/0day-ci/archive/20231107/202311070440.5VIJWvGt-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231107/202311070440.5VIJWvGt-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   46b8053e2a3aafda4abe72004d9cf09b8fca0368
+commit: a1fc1fba460be48dff2484b438888ede557930d4 [1227/24075] ANDROID: sched: add restrict vendor hook to modify task placement policy in EAS
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231107/202311070551.Ux08urmv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070551.Ux08urmv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311070440.5VIJWvGt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311070551.Ux08urmv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
->> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
->> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
->> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
->> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
->> drivers/video/sticore.c:888:14: sparse: sparse: cast to restricted __le32
->> drivers/video/sticore.c:902:17: sparse: sparse: cast to restricted __le16
->> drivers/video/sticore.c:902:17: sparse: sparse: cast to restricted __le16
->> drivers/video/sticore.c:902:17: sparse: sparse: cast to restricted __le16
->> drivers/video/sticore.c:902:17: sparse: sparse: cast to restricted __le16
-   drivers/video/sticore.c:904:29: sparse: sparse: cast to restricted __le16
-   drivers/video/sticore.c:904:29: sparse: sparse: cast to restricted __le16
-   drivers/video/sticore.c:904:29: sparse: sparse: cast to restricted __le16
-   drivers/video/sticore.c:904:29: sparse: sparse: cast to restricted __le16
-   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
-   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
-   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
-   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
-   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
-   drivers/video/sticore.c:914:28: sparse: sparse: cast to restricted __le32
+All warnings (new ones prefixed by >>):
 
-vim +888 drivers/video/sticore.c
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sched.h:23,
+                    from drivers/android/vendor_hooks.c:11:
+>> include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
 
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  859  
-48c68c4f1b5424 drivers/video/console/sticore.c Greg Kroah-Hartman 2012-12-21  860  static struct sti_struct *sti_try_rom_generic(unsigned long address,
-48c68c4f1b5424 drivers/video/console/sticore.c Greg Kroah-Hartman 2012-12-21  861  					      unsigned long hpa,
-48c68c4f1b5424 drivers/video/console/sticore.c Greg Kroah-Hartman 2012-12-21  862  					      struct pci_dev *pd)
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  863  {
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  864  	struct sti_struct *sti;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  865  	int ok;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  866  	u32 sig;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  867  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  868  	if (num_sti_roms >= MAX_STI_ROMS) {
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  869  		pr_warn("maximum number of STI ROMS reached !\n");
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  870  		return NULL;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  871  	}
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  872  
-cb6fc18e9ca615 drivers/video/console/sticore.c Helge Deller       2006-01-17  873  	sti = kzalloc(sizeof(*sti), GFP_KERNEL);
-3af04d5c459485 drivers/video/console/sticore.c Markus Elfring     2018-03-28  874  	if (!sti)
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  875  		return NULL;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  876  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  877  	spin_lock_init(&sti->lock);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  878  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  879  test_rom:
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  880  	/* if we can't read the ROM, bail out early.  Not being able
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  881  	 * to read the hpa is okay, for romless sti */
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  882  	if (pdc_add_valid(address))
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  883  		goto out_err;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  884  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  885  	sig = gsc_readl(address);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  886  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  887  	/* check for a PCI ROM structure */
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16 @888  	if ((le32_to_cpu(sig)==0xaa55)) {
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  889  		unsigned int i, rm_offset;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  890  		u32 *rm;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  891  		i = gsc_readl(address+0x04);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  892  		if (i != 1) {
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  893  			/* The ROM could have multiple architecture
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  894  			 * dependent images (e.g. i386, parisc,...) */
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  895  			pr_warn("PCI ROM is not a STI ROM type image (0x%8x)\n", i);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  896  			goto out_err;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  897  		}
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  898  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  899  		sti->pd = pd;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  900  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  901  		i = gsc_readl(address+0x0c);
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12 @902  		pr_debug("PCI ROM size (from header) = %d kB\n",
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  903  			le16_to_cpu(i>>16)*512/1024);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  904  		rm_offset = le16_to_cpu(i & 0xffff);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  905  		if (rm_offset) {
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  906  			/* read 16 bytes from the pci region mapper array */
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  907  			rm = (u32*) &sti->rm_entry;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  908  			*rm++ = gsc_readl(address+rm_offset+0x00);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  909  			*rm++ = gsc_readl(address+rm_offset+0x04);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  910  			*rm++ = gsc_readl(address+rm_offset+0x08);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  911  			*rm++ = gsc_readl(address+rm_offset+0x0c);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  912  		}
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  913  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  914  		address += le32_to_cpu(gsc_readl(address+8));
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  915  		pr_debug("sig %04x, PCI STI ROM at %08lx\n", sig, address);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  916  		goto test_rom;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  917  	}
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  918  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  919  	ok = 0;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  920  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  921  	if ((sig & 0xff) == 0x01) {
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  922  		pr_debug("    byte mode ROM at %08lx, hpa at %08lx\n",
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  923  		       address, hpa);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  924  		ok = sti_read_rom(0, sti, address);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  925  	}
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  926  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  927  	if ((sig & 0xffff) == 0x0303) {
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  928  		pr_debug("    word mode ROM at %08lx, hpa at %08lx\n",
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  929  		       address, hpa);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  930  		ok = sti_read_rom(1, sti, address);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  931  	}
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  932  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  933  	if (!ok)
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  934  		goto out_err;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  935  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  936  	if (sti_init_glob_cfg(sti, address, hpa))
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  937  		goto out_err; /* not enough memory */
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  938  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  939  	/* disable STI PCI ROM. ROM and card RAM overlap and
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  940  	 * leaving it enabled would force HPMCs
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  941  	 */
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  942  	if (sti->pd) {
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  943  		unsigned long rom_base;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  944  		rom_base = pci_resource_start(sti->pd, PCI_ROM_RESOURCE);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  945  		pci_write_config_dword(sti->pd, PCI_ROM_ADDRESS, rom_base & ~PCI_ROM_ADDRESS_ENABLE);
-7ff3f14ddc355b drivers/video/console/sticore.c Helge Deller       2020-10-12  946  		pr_debug("STI PCI ROM disabled\n");
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  947  	}
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  948  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  949  	if (sti_init_graph(sti))
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  950  		goto out_err;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  951  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  952  	sti_inq_conf(sti);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  953  	sti_dump_globcfg(sti->glob_cfg, sti->sti_mem_request);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  954  	sti_dump_outptr(sti);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  955  
-0219132fe7c265 drivers/video/console/sticore.c Helge Deller       2013-11-06  956  	pr_info("    graphics card name: %s\n",
-0219132fe7c265 drivers/video/console/sticore.c Helge Deller       2013-11-06  957  		sti->sti_data->inq_outptr.dev_name);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  958  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  959  	sti_roms[num_sti_roms] = sti;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  960  	num_sti_roms++;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  961  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  962  	return sti;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  963  
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  964  out_err:
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  965  	kfree(sti);
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  966  	return NULL;
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  967  }
-^1da177e4c3f41 drivers/video/console/sticore.c Linus Torvalds     2005-04-16  968  
 
-:::::: The code at line 888 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+vim +/str__sched__trace_system_name +27 include/trace/trace_events.h
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
