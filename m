@@ -1,50 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E1B5676
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 04:27:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62598F61;
+	Mon,  6 Nov 2023 05:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJxfkxCr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UlaL33PH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699244822; x=1730780822;
+  t=1699247703; x=1730783703;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PD252Qejs/t2mZJYzo9LfdUnJhYwQm5BMpOa1cbYOGk=;
-  b=jJxfkxCrcP2Oh/ghRfG3Ozg9uMmmwfSB/Ibw5Mh7CsAfE8+cFoQ5pOnK
-   yqjV4eP0jGsph+80+itoH88PeM9At2H/zcFxIYOJkeUzsLOYNbnC+9ANk
-   aY5WrKH5nmBOIpH9xur59V9zy+8DDpYNBlFYCdUBr/m/CD+3lDftg0t8X
-   0ceSo8w7/Vg9Jyu7lRNMfnnifsKWUKlgo8GbPxUBrcfRkOsJBtb851deb
-   3ztPnFTjHcOZyruMQlbZaACrWNHCKRBO6F76Ld9BrB6NF+oYF5937nHVl
-   G2bpBiMHl1jHwb9ZdQpugHZHILdjPNJDJaCy4KvRZkSRsBSdKacwSKtYA
+  bh=OSXRo6ixbXt6IHHGTAYjmoYFLLZ5Lxvu/gV2Hvx4MYo=;
+  b=UlaL33PHM/SPdudMUFUMFpY5HTQsFSV7EItWPn59J5rekPqUyvNPGUFL
+   F6st01Gy8+Hg7yNUT53tdLhNC0OhGZtbsia8a3uZSCD1Xv5XRxl1CKa8a
+   AkN5vU3oifM2qoA+TRAiUQoM0fh/zR1tCg8Uerlovly8u02ruv5lHRffB
+   sjKToMUG2zySzyJc6UZXUJHgDkIB9q5V+/j1UyAZ81RxRpUdgzJUps1St
+   wnuLoZvCTCG/S4dWUkSzZ2tWepTI1dY6HhHPUz7TnWkmxJimNUF462Fk5
+   uZIeKJ86VYDqOdIcv1/KEXvu2luJmbxB0kh2bnFOp4/deq3ZHObab+CrC
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="389020986"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="379600190"
 X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="389020986"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 20:27:01 -0800
+   d="scan'208";a="379600190"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 21:15:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="755729239"
 X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="755729239"
+   d="scan'208";a="3508949"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 05 Nov 2023 20:26:59 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2023 21:14:58 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzrCT-00066S-0q;
-	Mon, 06 Nov 2023 04:26:57 +0000
-Date: Mon, 6 Nov 2023 12:26:42 +0800
+	id 1qzrwt-000688-2T;
+	Mon, 06 Nov 2023 05:14:55 +0000
+Date: Mon, 6 Nov 2023 13:13:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Tai <james.tai@realtek.com>, linux-kernel@vger.kernel.org,
-	linux-realtek-soc@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH 3/6] irqchip: Introduce RTD1319 support using the Realtek
- Common Interrupt Controller Driver
-Message-ID: <202311061208.hJmxGqym-lkp@intel.com>
-References: <20231102142731.2087245-4-james.tai@realtek.com>
+To: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
+	virtualization@lists.linux-foundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Simon Horman <horms@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	"Liu, Yujie" <yujie.liu@intel.com>
+Subject: Re: [PATCH net-next v2 4/5] virtio-net: support rx netdim
+Message-ID: <202311061237.I4bMaa06-lkp@intel.com>
+References: <12c77098b73313eea8fdc88a3d1d20611444827d.1698929590.git.hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,42 +58,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231102142731.2087245-4-james.tai@realtek.com>
+In-Reply-To: <12c77098b73313eea8fdc88a3d1d20611444827d.1698929590.git.hengqi@linux.alibaba.com>
 
-Hi James,
+Hi Heng,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on linus/master v6.6 next-20231106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Tai/dt-bindings-interrupt-controller-Add-support-for-Realtek-DHC-SoCs/20231103-074117
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20231102142731.2087245-4-james.tai%40realtek.com
-patch subject: [PATCH 3/6] irqchip: Introduce RTD1319 support using the Realtek Common Interrupt Controller Driver
-config: i386-randconfig-062-20231106 (https://download.01.org/0day-ci/archive/20231106/202311061208.hJmxGqym-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061208.hJmxGqym-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-returns-whether-napi-is-complete/20231103-040818
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/12c77098b73313eea8fdc88a3d1d20611444827d.1698929590.git.hengqi%40linux.alibaba.com
+patch subject: [PATCH net-next v2 4/5] virtio-net: support rx netdim
+config: arm-vexpress_defconfig (https://download.01.org/0day-ci/archive/20231106/202311061237.I4bMaa06-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061237.I4bMaa06-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311061208.hJmxGqym-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311061237.I4bMaa06-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/irqchip/irq-realtek-rtd1319.c:165:25: sparse: sparse: symbol 'realtek_intc_rtd1319_pm_ops' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/realtek_intc_rtd1319_pm_ops +165 drivers/irqchip/irq-realtek-rtd1319.c
-
-   164	
- > 165	const struct dev_pm_ops realtek_intc_rtd1319_pm_ops = {
-   166		.suspend_noirq = realtek_intc_rtd1319_suspend,
-   167		.resume_noirq = realtek_intc_rtd1319_resume,
-   168	};
-   169	
+>> ld.lld: error: undefined symbol: net_dim_get_rx_moderation
+   >>> referenced by virtio_net.c:3529 (drivers/net/virtio_net.c:3529)
+   >>>               drivers/net/virtio_net.o:(virtnet_rx_dim_work) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: net_dim
+   >>> referenced by virtio_net.c:2176 (drivers/net/virtio_net.c:2176)
+   >>>               drivers/net/virtio_net.o:(virtnet_poll) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
