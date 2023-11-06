@@ -1,64 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFC933CF;
-	Mon,  6 Nov 2023 21:13:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C812E638
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 22:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J9LQuial"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E6+C+b4G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699305228; x=1730841228;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tbKByqfuyURCHPp+0iRLoLExVfyExuPe8MltNNHCMcM=;
-  b=J9LQuialDNAbHlh7EZHijuXmdiycygxnxCXUs00bYCE6tNWMGSJWwvYA
-   wavO4KWr49lQiuT6t9s2Vb/i271TkGWGeVWnh3c3Uq0p1YmSal4JkPDFB
-   rCtPBS8kJJfQ4O76efyIDxecRWRYMvJ5sDomlpyr1STb57wRFCpZNe+eT
-   9W7b4ui9q+A5a85K/KTnH2GpL+uQKX9DZPeSVj/NbwTa8nBlqTg5426aH
-   zxte/U9voYhUosX5cNnd1AE2/IagR+bfZR4TC741vBAu9DLBFa761+jTw
-   K8nsan69vNATKy7koVUN4stFvyQ+XD5AWDcrSQDh9RhZ8VQ18OwfIYX06
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="379763327"
+  t=1699308258; x=1730844258;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9Y+P2XsbMV7efUJXTNffqjAmc6DOk0xRIg/LSV1fkbM=;
+  b=E6+C+b4Gq83fM+tMUOH5+G06i/1qxqSn8PaxfqfyUEzNqxfJAWdVOudB
+   eguyFDAWMCGUX9+Nzfn/BWwsgZJVuKBgQugWwpqkUAWuy2OMQFG3V4RQt
+   Y0EBP+ZwaayxaDSSLz7+8u9Qc80llIlWVBR2kyT2+Y2/pe9eIkcK/knYs
+   YJv2qDyhQBuEDKhNujMS1m/o+oEizomrJQtdJQajD/sPRhIJpTRpuK31M
+   aREetMfcei5bQICYE+PhWCsN3gJjDru+074vtJ0NAxkHvMgMJQ6ze49oW
+   YTpXO61DR0u67bUgWNYWeS9zpbR8MCi3OntkTlHkZjzSlXgKhhK8lRto/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="379770929"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="379763327"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 13:13:23 -0800
+   d="scan'208";a="379770929"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 14:04:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="712327288"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="712327288"
+   d="scan'208";a="3760795"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 06 Nov 2023 13:13:16 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 06 Nov 2023 14:04:16 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r06uH-0006jY-2v;
-	Mon, 06 Nov 2023 21:13:13 +0000
-Date: Tue, 7 Nov 2023 05:11:39 +0800
+	id 1r07he-0006lD-2V;
+	Mon, 06 Nov 2023 22:04:14 +0000
+Date: Tue, 7 Nov 2023 06:03:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>, dm-devel@lists.linux.dev,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
-	nitheshshetty@gmail.com, anuj1072538@gmail.com,
-	gost.dev@samsung.com, mcgrof@kernel.org,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Anuj Gupta <anuj20.g@samsung.com>,
-	Vincent Fu <vincent.fu@samsung.com>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v17 12/12] null_blk: add support for copy offload
-Message-ID: <202311070508.mIPbaEHa-lkp@intel.com>
-References: <20231019110147.31672-13-nj.shetty@samsung.com>
+To: Jagath Jog J <jagathjog1996@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [linux-next:master 10351/16504]
+ drivers/iio/imu/bmi323/bmi323_i2c.c:69:28: sparse: sparse: symbol
+ 'bmi323_i2c_regmap_config' was not declared. Should it be static?
+Message-ID: <202311070530.qKhLTz1Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,82 +51,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231019110147.31672-13-nj.shetty@samsung.com>
 
-Hi Nitesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 213f891525c222e8ed145ce1ce7ae1f47921cb9c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-and-sysfs-for-copy-offload-support/20231019-200658
-base:   213f891525c222e8ed145ce1ce7ae1f47921cb9c
-patch link:    https://lore.kernel.org/r/20231019110147.31672-13-nj.shetty%40samsung.com
-patch subject: [PATCH v17 12/12] null_blk: add support for copy offload
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231107/202311070508.mIPbaEHa-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070508.mIPbaEHa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3ff7a5781ceee3befb9224d29cef6e6a4766c5fe
+commit: b512c767e7bcef308ee5b038405debf9baa9c579 [10351/16504] iio: imu: Add driver for BMI323 IMU
+config: sh-randconfig-r111-20231106 (https://download.01.org/0day-ci/archive/20231107/202311070530.qKhLTz1Y-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231107/202311070530.qKhLTz1Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311070508.mIPbaEHa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311070530.qKhLTz1Y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/imu/bmi323/bmi323_i2c.c:69:28: sparse: sparse: symbol 'bmi323_i2c_regmap_config' was not declared. Should it be static?
 
-   In file included from drivers/block/null_blk/main.c:15:
-   In file included from drivers/block/null_blk/trace.h:104:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:237:
->> drivers/block/null_blk/trace.h:94:34: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-                             __entry->dst, __entry->src, __entry->len)
-                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-   include/trace/stages/stage3_trace_output.h:6:17: note: expanded from macro '__entry'
-   #define __entry field
-                   ^
-   include/trace/stages/stage3_trace_output.h:9:43: note: expanded from macro 'TP_printk'
-   #define TP_printk(fmt, args...) fmt "\n", args
-                                   ~~~       ^
-   include/trace/trace_events.h:45:16: note: expanded from macro 'TRACE_EVENT'
-                                PARAMS(print));                   \
-                                ~~~~~~~^~~~~~~
-   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
-   #define PARAMS(args...) args
-                           ^~~~
-   include/trace/trace_events.h:203:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
-           trace_event_printf(iter, print);                                \
-                                    ^~~~~
-   1 warning generated.
+vim +/bmi323_i2c_regmap_config +69 drivers/iio/imu/bmi323/bmi323_i2c.c
 
-
-vim +94 drivers/block/null_blk/trace.h
-
-    72	
-    73	TRACE_EVENT(nullb_copy_op,
-    74			TP_PROTO(struct request *req,
-    75				 sector_t dst, sector_t src, size_t len),
-    76			TP_ARGS(req, dst, src, len),
-    77			TP_STRUCT__entry(
-    78					 __array(char, disk, DISK_NAME_LEN)
-    79					 __field(enum req_op, op)
-    80					 __field(sector_t, dst)
-    81					 __field(sector_t, src)
-    82					 __field(size_t, len)
-    83			),
-    84			TP_fast_assign(
-    85				       __entry->op = req_op(req);
-    86				       __assign_disk_name(__entry->disk, req->q->disk);
-    87				       __entry->dst = dst;
-    88				       __entry->src = src;
-    89				       __entry->len = len;
-    90			),
-    91			TP_printk("%s req=%-15s: dst=%llu, src=%llu, len=%lu",
-    92				  __print_disk_name(__entry->disk),
-    93				  blk_op_str(__entry->op),
-  > 94				  __entry->dst, __entry->src, __entry->len)
-    95	);
-    96	#endif /* _TRACE_NULLB_H */
-    97	
+    68	
+  > 69	const struct regmap_config bmi323_i2c_regmap_config = {
+    70		.reg_bits = 8,
+    71		.val_bits = 16,
+    72		.max_register = BMI323_CFG_RES_REG,
+    73		.val_format_endian = REGMAP_ENDIAN_LITTLE,
+    74	};
+    75	
 
 -- 
 0-DAY CI Kernel Test Service
