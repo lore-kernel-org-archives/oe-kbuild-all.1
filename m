@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BC2395
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 01:24:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F011F630
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 02:27:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCS1Wls0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQZnyCO9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699233897; x=1730769897;
+  t=1699237652; x=1730773652;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=emwDhGFwAcR/TkYDjsqb3lDZBQMFnV5WPFX6PaRArd0=;
-  b=QCS1Wls0igOrERpFzzvk9XR7FIiCm7wyg2IbT0PemhYj2xYWRp7QyAkl
-   xw5JuwlqbRIHCO76Clwha1udVHGhkx25CCQynij0EHvPl1d4deL1uoYf+
-   siWRbFP5j1NEARE7QKDAS0vBo+wq4jxJtR1iO+4WIWeGV04btB0MEqyeN
-   XD8u27PI/TWTar9MI7hAubZ3mAekCXBfa9T5lEwPNpefqmdLqo2LJDu8/
-   DFtFW7yK2LpSw+uFo/jlf18xD/uvKZWfjwRNzGQHLYgyZr1YurZokNQDh
-   vaLMWRJg356m8hpNeG7sayc4izthqIMOJSJsJeP1Ma4veWa7KelS4ci9o
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="7822689"
-X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="7822689"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 17:24:56 -0800
+  bh=fbJgaBkrydLPBMtXr8iNPUh0OCESdL5lpZ4PhRCLRVo=;
+  b=XQZnyCO92HwDqp2UFE79p+Qo5SYMWlZgLEwwfV3LAkdVa6qd5GNDYX2A
+   zIP5TF06nzE0N/FAkkqQ8FLj/L+ziRYeamONBZjjTU0G/Y7GLP7KyfpLv
+   Sr9dXzwAPr/sPC2WYSRMKNqXq7+OhYSHBFSCzzHQ6+PPbpMqAYO1JlS25
+   7vMwSHHmHpkcM7GyX1hpTDu0YBzcSBvrQtO7hwZNAJ0iPWNhfMaF3C7Sf
+   8Hgpe/e1tiYf4jPNHKjWQUQ3qyYDqLUeOlzwMdD5ufyDDy2LjpDx+/LUN
+   yllN+RbhK1V1zhItirxNQi69OtYbULdyCzgREqCjG612i30gbIpICvrjn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="420310405"
+X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
+   d="scan'208";a="420310405"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 18:27:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="712056932"
-X-IronPort-AV: E=Sophos;i="6.03,279,1694761200"; 
-   d="scan'208";a="712056932"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="885760714"
+X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
+   d="scan'208";a="885760714"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 05 Nov 2023 17:24:54 -0800
+  by orsmga004.jf.intel.com with ESMTP; 05 Nov 2023 18:27:28 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qzoMG-0005xW-1u;
-	Mon, 06 Nov 2023 01:24:52 +0000
-Date: Mon, 6 Nov 2023 09:23:35 +0800
+	id 1qzpKo-00060x-0V;
+	Mon, 06 Nov 2023 02:27:26 +0000
+Date: Mon, 6 Nov 2023 10:26:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: drivers/pmdomain/apple/pmgr-pwrstate.c:180:32: sparse: sparse:
- symbol 'apple_pmgr_reset_ops' was not declared. Should it be static?
-Message-ID: <202311060916.WwbD4jNN-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 7098/30000]
+ drivers/gpu/drm/drm_file.c:789:6: warning: no previous prototype for
+ 'drm_send_event_helper'
+Message-ID: <202311061015.GpMw0ifS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,42 +51,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ulf,
+Hi Veera,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   77fa2fbe87fc605c4bfa87dff87be9bfded0e9a3
-commit: e2ad626f8f409899baf1bf192d0533a851128b19 pmdomain: Rename the genpd subsystem to pmdomain
-date:   8 weeks ago
-config: arm64-randconfig-r122-20231102 (https://download.01.org/0day-ci/archive/20231106/202311060916.WwbD4jNN-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231106/202311060916.WwbD4jNN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   2fea3eca9608d8c14fb6963bfe830dfa5985d7de
+commit: a9b76c451978471f4e750bbb87f8c9459caeb97c [7098/30000] UPSTREAM: drm/drm_vblank: set the dma-fence timestamp during send_vblank_event
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231106/202311061015.GpMw0ifS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061015.GpMw0ifS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311060916.WwbD4jNN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311061015.GpMw0ifS-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pmdomain/apple/pmgr-pwrstate.c:180:32: sparse: sparse: symbol 'apple_pmgr_reset_ops' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/apple_pmgr_reset_ops +180 drivers/pmdomain/apple/pmgr-pwrstate.c
+>> drivers/gpu/drm/drm_file.c:789:6: warning: no previous prototype for 'drm_send_event_helper' [-Wmissing-prototypes]
+     789 | void drm_send_event_helper(struct drm_device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~
 
-6df9d38f9146e8 drivers/soc/apple/apple-pmgr-pwrstate.c Hector Martin 2021-11-24  179  
-6df9d38f9146e8 drivers/soc/apple/apple-pmgr-pwrstate.c Hector Martin 2021-11-24 @180  const struct reset_control_ops apple_pmgr_reset_ops = {
-6df9d38f9146e8 drivers/soc/apple/apple-pmgr-pwrstate.c Hector Martin 2021-11-24  181  	.assert		= apple_pmgr_reset_assert,
-6df9d38f9146e8 drivers/soc/apple/apple-pmgr-pwrstate.c Hector Martin 2021-11-24  182  	.deassert	= apple_pmgr_reset_deassert,
-6df9d38f9146e8 drivers/soc/apple/apple-pmgr-pwrstate.c Hector Martin 2021-11-24  183  	.reset		= apple_pmgr_reset_reset,
-6df9d38f9146e8 drivers/soc/apple/apple-pmgr-pwrstate.c Hector Martin 2021-11-24  184  	.status		= apple_pmgr_reset_status,
-6df9d38f9146e8 drivers/soc/apple/apple-pmgr-pwrstate.c Hector Martin 2021-11-24  185  };
-6df9d38f9146e8 drivers/soc/apple/apple-pmgr-pwrstate.c Hector Martin 2021-11-24  186  
 
-:::::: The code at line 180 was first introduced by commit
-:::::: 6df9d38f9146e83b473f0c9e57fb5fdf3fcc93e2 soc: apple: Add driver for Apple PMGR power state controls
+vim +/drm_send_event_helper +789 drivers/gpu/drm/drm_file.c
 
-:::::: TO: Hector Martin <marcan@marcan.st>
-:::::: CC: Hector Martin <marcan@marcan.st>
+   776	
+   777	/**
+   778	 * drm_send_event_helper - send DRM event to file descriptor
+   779	 * @dev: DRM device
+   780	 * @e: DRM event to deliver
+   781	 * @timestamp: timestamp to set for the fence event in kernel's CLOCK_MONOTONIC
+   782	 * time domain
+   783	 *
+   784	 * This helper function sends the event @e, initialized with
+   785	 * drm_event_reserve_init(), to its associated userspace DRM file.
+   786	 * The timestamp variant of dma_fence_signal is used when the caller
+   787	 * sends a valid timestamp.
+   788	 */
+ > 789	void drm_send_event_helper(struct drm_device *dev,
+   790				   struct drm_pending_event *e, ktime_t timestamp)
+   791	{
+   792		assert_spin_locked(&dev->event_lock);
+   793	
+   794		if (e->completion) {
+   795			complete_all(e->completion);
+   796			e->completion_release(e->completion);
+   797			e->completion = NULL;
+   798		}
+   799	
+   800		if (e->fence) {
+   801			if (timestamp)
+   802				dma_fence_signal_timestamp(e->fence, timestamp);
+   803			else
+   804				dma_fence_signal(e->fence);
+   805			dma_fence_put(e->fence);
+   806		}
+   807	
+   808		if (!e->file_priv) {
+   809			kfree(e);
+   810			return;
+   811		}
+   812	
+   813		list_del(&e->pending_link);
+   814		list_add_tail(&e->link,
+   815			      &e->file_priv->event_list);
+   816		wake_up_interruptible_poll(&e->file_priv->event_wait,
+   817			EPOLLIN | EPOLLRDNORM);
+   818	}
+   819	
 
 -- 
 0-DAY CI Kernel Test Service
