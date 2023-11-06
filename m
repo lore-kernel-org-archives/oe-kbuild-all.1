@@ -1,188 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66FE2C854
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 17:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F27156E1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 18:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QYyYK3Fu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699293259; x=1730829259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7ipL5fy7bavw+WYSZz+BejNaUZblF0l8DHL1jDIe9aM=;
-  b=QYyYK3FuqUOGNmo0xr/pqJtG6u6MQFfDvU9UQ+otN/nFiFy3Y92uK/Qp
-   wC1JZTiNl3dOM/auiGRiAveDbBwbV7LqvIEKv/EhkWhIgAne859d/6iWT
-   mVvmrFFNwAc/5pL7ahDuqJ+n9nIns3GZuRpuWgFO9bxcqBdZN9hRz2iGB
-   0gU2agLs99W0MygtlC82wKPVOTgu4YuD+xoAUHwcczBjGYpExBKOGzb/d
-   t0RwOEaqoRqzWKrKR+y3pw7xmkpunMLIi3ryq6esnpl0DfhAU1po8G0sW
-   lv9bUTE2aKCC9esg4VgSwWax7xUPp8vtgsBopDbPRapoMf4PmVfoJ+t9I
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="2250589"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="2250589"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 09:54:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="762386562"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="762386562"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 06 Nov 2023 09:54:16 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r03ni-0006cq-0G;
-	Mon, 06 Nov 2023 17:54:14 +0000
-Date: Tue, 7 Nov 2023 01:52:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Florian Westphal <fw@strlen.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH ipsec-next v2 1/3] xfrm: pass struct net to
- xfrm_decode_session wrappers
-Message-ID: <202311070120.Yp0Afvln-lkp@intel.com>
-References: <20230929125848.5445-2-fw@strlen.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nXFZFgEr"
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3b2e73a17a0so3100702b6e.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Nov 2023 10:15:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699294504; x=1699899304; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tafTCuaDIZv8Kn/Yy+yywU6nsPqrGi5A1KlK8AgjacI=;
+        b=nXFZFgErjH4kJY3sTLnx0l9qI12whnpZRocJKRpPlNaNN8aGkm7rxa7vYcL81mOha2
+         ufR2DcChpQB/FMY9AFgbV+7ScaEcoG2E+jmzjHI1zFMzcnvna6IpAqRiQKKevjDLo0rp
+         6UkqnnbbrEnpFqc2MYdACscmAZKG5g0czRukkvD21hmXDMfv8Qq8ZLymSPdO3uSFnsLr
+         JGvTDX7CDZkK/BrHyxScXfq5hzEMiuPB52wFjDZLky9biwyXtUjIrUQZDD8xZqetMYHH
+         hzsZ6/4VzebvfsUolfsGKUXpfwXOLkEtIrUfSF+A2G0wQ9SvZeN0U02bIOmMwAZR8XX5
+         zy7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699294504; x=1699899304;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tafTCuaDIZv8Kn/Yy+yywU6nsPqrGi5A1KlK8AgjacI=;
+        b=hBeFtDFy07PYJNEzkW0igBxcYx9K6pH941OBuaNikDNFmTf6lEk7BYRuPoikQkX/3z
+         oV+Z6vEw5i6XjV5ZmbMh2m0bXtfLzmphc77Q9jmZr2uc43Wb5J670gjHyHPRs45DHEex
+         FNCsc1qvfQqljE2RMkmV59WvXqYYRhW2FIdygkZsoj+KuS1PG340WXaRE38cljEvWtRN
+         FBID/dx4JGitkGMeCGZFXs/npeIHfkwWOnT5i3UysYccqTIp3MHfcpGSMj7gq7DRe3oU
+         N0CqcDzxmV9VuEgpLlbQsv/8X+IjfK3UB2oxGqdnEJOtIWo40EbUIDEG6XWgSWiGJsIQ
+         wTzA==
+X-Gm-Message-State: AOJu0YyjR2+IGT1DofP0ySxXayNv5nhar4TE2d0hIy9t8j1XCMZ0l8Eo
+	0q8Bz8YZsCeFJjWc5x3NSvs6n9cw7hQr2u7teEheW3I6mmYskQ==
+X-Google-Smtp-Source: AGHT+IEbNL69KgmGLe/DKKMcPk0NOJhXvqcrI8V+qSWT3aWG/7c42QsolIs3ozPRa9afveQtwIigOFd+7uk9hS8zhog=
+X-Received: by 2002:a05:6830:1e87:b0:6c1:7927:6550 with SMTP id
+ n7-20020a0568301e8700b006c179276550mr31678236otr.2.1699294057308; Mon, 06 Nov
+ 2023 10:07:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230929125848.5445-2-fw@strlen.de>
+References: <202311051347.7J6bthD7-lkp@intel.com>
+In-Reply-To: <202311051347.7J6bthD7-lkp@intel.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 6 Nov 2023 20:07:00 +0200
+Message-ID: <CAHp75VcKj_zFNZTkipdJokzZWoWUk5M2RyWO-=49VbmUmt6-Pw@mail.gmail.com>
+Subject: Re: drivers/mux/adg792a.c:134:34: warning: 'adg792a_of_match' defined
+ but not used
+To: kernel test robot <lkp@intel.com>, Peter Rosin <peda@axentia.se>
+Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Florian,
+(Resend to all)
 
-kernel test robot noticed the following build errors:
+On Sun, Nov 5, 2023 at 7:03=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Chris,
+>
+> First bad commit (maybe !=3D root cause):
 
-[auto build test ERROR on klassert-ipsec-next/master]
-[also build test ERROR on klassert-ipsec/master v6.6]
-[cannot apply to netfilter-nf/main linus/master next-20231106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Indeed.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/xfrm-pass-struct-net-to-xfrm_decode_session-wrappers/20230929-210047
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-patch link:    https://lore.kernel.org/r/20230929125848.5445-2-fw%40strlen.de
-patch subject: [PATCH ipsec-next v2 1/3] xfrm: pass struct net to xfrm_decode_session wrappers
-config: x86_64-randconfig-002-20230930 (https://download.01.org/0day-ci/archive/20231107/202311070120.Yp0Afvln-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070120.Yp0Afvln-lkp@intel.com/reproduce)
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   aea6bf908d730b01bd264a8821159db9463c111c
+> commit: e9e40543ad5b38b848879768359fd13650529961 spi: Add generic SPI mul=
+tiplexer
+> date:   3 years, 9 months ago
+> config: i386-randconfig-004-20231101 (https://download.01.org/0day-ci/arc=
+hive/20231105/202311051347.7J6bthD7-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20231105/202311051347.7J6bthD7-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311051347.7J6bthD7-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> drivers/mux/adg792a.c:134:34: warning: 'adg792a_of_match' defined but =
+not used [-Wunused-const-variable=3D]
+>      134 | static const struct of_device_id adg792a_of_match[] =3D {
+>          |                                  ^~~~~~~~~~~~~~~~
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311070120.Yp0Afvln-lkp@intel.com/
+I dunno why it's pointing out to that commit and some (random?) people
+in Cc list, but the real problem there from day 1, i.e. (ab)using
+of_match_ptr(). The of_match_ptr() should not ever be used. It appears
+more harmful than useful.
 
-All errors (new ones prefixed by >>):
-
-   net/ipv6/icmp.c: In function 'icmpv6_route_lookup':
->> net/ipv6/icmp.c:388:43: error: passing argument 1 of 'xfrm_decode_session_reverse' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     388 |         err = xfrm_decode_session_reverse(net, skb, flowi6_to_flowi(&fl2), AF_INET6);
-         |                                           ^~~
-         |                                           |
-         |                                           struct net *
-   In file included from net/ipv6/icmp.c:65:
-   include/net/xfrm.h:1299:63: note: expected 'struct sk_buff *' but argument is of type 'struct net *'
-    1299 | static inline int xfrm_decode_session_reverse(struct sk_buff *skb,
-         |                                               ~~~~~~~~~~~~~~~~^~~
-   net/ipv6/icmp.c:388:48: error: passing argument 2 of 'xfrm_decode_session_reverse' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     388 |         err = xfrm_decode_session_reverse(net, skb, flowi6_to_flowi(&fl2), AF_INET6);
-         |                                                ^~~
-         |                                                |
-         |                                                struct sk_buff *
-   include/net/xfrm.h:1300:61: note: expected 'struct flowi *' but argument is of type 'struct sk_buff *'
-    1300 |                                               struct flowi *fl,
-         |                                               ~~~~~~~~~~~~~~^~
-   net/ipv6/icmp.c:388:53: warning: passing argument 3 of 'xfrm_decode_session_reverse' makes integer from pointer without a cast [-Wint-conversion]
-     388 |         err = xfrm_decode_session_reverse(net, skb, flowi6_to_flowi(&fl2), AF_INET6);
-         |                                                     ^~~~~~~~~~~~~~~~~~~~~
-         |                                                     |
-         |                                                     struct flowi *
-   include/net/xfrm.h:1301:60: note: expected 'unsigned int' but argument is of type 'struct flowi *'
-    1301 |                                               unsigned int family)
-         |                                               ~~~~~~~~~~~~~^~~~~~
->> net/ipv6/icmp.c:388:15: error: too many arguments to function 'xfrm_decode_session_reverse'
-     388 |         err = xfrm_decode_session_reverse(net, skb, flowi6_to_flowi(&fl2), AF_INET6);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/xfrm.h:1299:19: note: declared here
-    1299 | static inline int xfrm_decode_session_reverse(struct sk_buff *skb,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+Hence the proper fix is to drop of_match_ptr() in this file.
 
 
-vim +/xfrm_decode_session_reverse +388 net/ipv6/icmp.c
+> vim +/adg792a_of_match +134 drivers/mux/adg792a.c
 
-   349	
-   350	static struct dst_entry *icmpv6_route_lookup(struct net *net,
-   351						     struct sk_buff *skb,
-   352						     struct sock *sk,
-   353						     struct flowi6 *fl6)
-   354	{
-   355		struct dst_entry *dst, *dst2;
-   356		struct flowi6 fl2;
-   357		int err;
-   358	
-   359		err = ip6_dst_lookup(net, sk, &dst, fl6);
-   360		if (err)
-   361			return ERR_PTR(err);
-   362	
-   363		/*
-   364		 * We won't send icmp if the destination is known
-   365		 * anycast unless we need to treat anycast as unicast.
-   366		 */
-   367		if (!READ_ONCE(net->ipv6.sysctl.icmpv6_error_anycast_as_unicast) &&
-   368		    ipv6_anycast_destination(dst, &fl6->daddr)) {
-   369			net_dbg_ratelimited("icmp6_send: acast source\n");
-   370			dst_release(dst);
-   371			return ERR_PTR(-EINVAL);
-   372		}
-   373	
-   374		/* No need to clone since we're just using its address. */
-   375		dst2 = dst;
-   376	
-   377		dst = xfrm_lookup(net, dst, flowi6_to_flowi(fl6), sk, 0);
-   378		if (!IS_ERR(dst)) {
-   379			if (dst != dst2)
-   380				return dst;
-   381		} else {
-   382			if (PTR_ERR(dst) == -EPERM)
-   383				dst = NULL;
-   384			else
-   385				return dst;
-   386		}
-   387	
- > 388		err = xfrm_decode_session_reverse(net, skb, flowi6_to_flowi(&fl2), AF_INET6);
-   389		if (err)
-   390			goto relookup_failed;
-   391	
-   392		err = ip6_dst_lookup(net, sk, &dst2, &fl2);
-   393		if (err)
-   394			goto relookup_failed;
-   395	
-   396		dst2 = xfrm_lookup(net, dst2, flowi6_to_flowi(&fl2), sk, XFRM_LOOKUP_ICMP);
-   397		if (!IS_ERR(dst2)) {
-   398			dst_release(dst);
-   399			dst = dst2;
-   400		} else {
-   401			err = PTR_ERR(dst2);
-   402			if (err == -EPERM) {
-   403				dst_release(dst);
-   404				return dst2;
-   405			} else
-   406				goto relookup_failed;
-   407		}
-   408	
-   409	relookup_failed:
-   410		if (dst)
-   411			return dst;
-   412		return ERR_PTR(err);
-   413	}
-   414	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+With Best Regards,
+Andy Shevchenko
