@@ -1,104 +1,170 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53B910A08
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 08:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF3ED314
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 08:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lra2GlM9"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9c603e2354fso834689466b.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Nov 2023 00:50:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699260607; x=1699865407; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KsCANmYwXRnDmiAjkr58/AtcQu8TsUqslllZf46Wsxw=;
-        b=lra2GlM9Nd/g02AYh9HWI7PEWqiAOaekY5s2yhANsSXqeHqbWfkAoKIfqQMnN2Rl9C
-         Hb8j4y+6RVIqpgky6HugjXQjGrLHuhIQU0WgOU3OfQcUph8HfSOaNhF1kmmDMH8szXdn
-         ZAJeMUVHDvK9lA0UyZum2XFFyVxqaiwz+VTqKFfPwAqrYzyxo74zyvjFaYUZkZBVwiix
-         4uUiUoxJ520CsExSFa3QAVj57OUDw8WwAwRk2IVmxj12kL7xTyF4DONPReeOL00banUV
-         RyCby9JseoJWPrKfjBAHT/Zxyd+LzG2JzL9rUn2GDfJEYmKG4EmIzU4mUm2eQGNvFnCr
-         BGlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699260607; x=1699865407;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KsCANmYwXRnDmiAjkr58/AtcQu8TsUqslllZf46Wsxw=;
-        b=uQAgCciyY8td1iYCosqt/AQTbxUSBIjGw77LIqNKD9OTyqD84X9H8KyDNUcguCbB97
-         ynnOq6M7kmSUZ/AX4i/kCCHa49KZR5lZlhceYPQv18FzGxlUNBENc02ayx9hWry1BPKU
-         Ec3BfPn/vGKExVNizEjyEXiH7+PaZnE9BMuGVbyPHPRf0HuE5lR2lDiRrYzdB+TkQ/SF
-         eikmQuKlOqJ5b7QjjYLJs4T80cwqtuPvASsziuEBZgKa2f4PrEVxcS4TbPPoNxcWqCUb
-         bVxiyNoBGfPRQQujDoyz9G0ORD5pnvif9krmiRqYoXJKM9jfVzswQ+K2I8AzIQYuk5fl
-         78/Q==
-X-Gm-Message-State: AOJu0Yz0zKLBalvHi8AnrVUwh6+cJLjClsGyIc7olBvGEzDVv3OGTp/A
-	pzkWcBf4p8cypLZ/ODuM1Bmj/w==
-X-Google-Smtp-Source: AGHT+IGqyaj7aBrtiaX/Xyz9ylIOat9r5LKS0SxYceKAy6Bcncptk2m+e4S7ZdYkY0O94IOLq9Da8w==
-X-Received: by 2002:a17:907:785:b0:9a9:f042:deb9 with SMTP id xd5-20020a170907078500b009a9f042deb9mr8692907ejb.19.1699260606885;
-        Mon, 06 Nov 2023 00:50:06 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g19-20020a170906349300b009c3828fec06sm3859301ejb.81.2023.11.06.00.50.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 00:50:06 -0800 (PST)
-Date: Mon, 6 Nov 2023 11:50:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Subject: [alobakin:pfcp 5/20] drivers/iio/imu/adis16475.c:363
- adis16475_set_freq() warn: set_bit() takes a bit number
-Message-ID: <ff4ef031-774e-4e4d-a009-31f242bf6aee@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mf7JU9ta"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699260845; x=1730796845;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WzuG577I4HU51mgEMy0/21unAyOq+c0zQNxydszhXGs=;
+  b=Mf7JU9ta8VKn7cHutzbZTWU2I661IP3dJcUOn4dq2xzU2ymmTPSxJD+V
+   0nJciYq3fXjK9mIIuzOEH8Uw/TVSEOoUuorUOzI0akP9HwytucEw0Kw09
+   nVdpmEU3jvJp30NCGWqLfZLBgjJ4xA9O+6pqT21khJ0hCHEHW8xZMdbtN
+   OLg0fx7AkhiMHzpMfgzSeI653qspzy22oxQ07vLZBJ0xUKZW807LL3XfF
+   lbri/vTqN4+c10y8x2i93GvyweK4dkm9ZGQYP3yyQbAdaJX/6v3oduk34
+   YCXwHK06vNxl9PalZ83M3bX6bIAy6ujPYOIMhAC+FNR/ZsqNzNFlg9Nh9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="386407699"
+X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
+   d="scan'208";a="386407699"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 00:54:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="797244248"
+X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
+   d="scan'208";a="797244248"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Nov 2023 00:54:04 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 6 Nov 2023 00:54:03 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Mon, 6 Nov 2023 00:54:03 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.40) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Mon, 6 Nov 2023 00:54:03 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NeOvprQSMZQJGoPEDVKz30obdlHWm0Z4cpl2wwDyKQggHMcSM5ExeMuuGq+er+vGwHfqCIZ+BfI4hz+byTtD2eEtunilbdmPOg9lwN7gcl/ECEjoQmtFeEL0wmwkBu9+XaiEL+8uUDadojc6A9F3Mds/NR4w2ptqm09eZDuc0p+B/8xOMOhXvQM/e0va8avApFu4IdEXr3AOOUed5WFl76NG9BgvrGYM7Ju3dylyjR2hwuF0duiOaWYbw90vgP6DV3qYOpaQ+f32s/iKM0NjT54R0qr9easxeQ0Wx8ns2KNeANQtJHgwJi239c1D4DtkbmMWdfMN9J6aHf2rcO5w8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kPakz5swqdJ7QirGEo43qBf7IA69kPm3W7oOdrZ5LN8=;
+ b=gZ0/8i0UNRFnLSrZ8LDZ8FpQUWo9oIX7dooDcr7ZwF72E55gjHRs3o4pAN5ssq200i/kmvHwWKxvEUr/uwxTDWkwfR6qTkfQkyWKUVt3L4DUdzs4VaqveUnk8oe1f3Foc125lZiPxg4Bb1ta6erii2ne+eDbQQL41xG+OybzFAX2eOAZOhOyC2nB7iEmWTpsMQDTE4PjWP2h9xD7Q/P6ckKzWuA8Z4QNnppSyDlwsX2cehIGvLwpaIwPwZ2KgK2jE9TYM0L32gF1Zc70zk+guDDspJwnqBYep4x3nXP9L1UO7W7HomNVCeseHX4N2tBrXXIkO5dQg2jMO156uodz4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by SA2PR11MB4985.namprd11.prod.outlook.com (2603:10b6:806:111::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
+ 2023 08:54:00 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.6933.028; Mon, 6 Nov 2023
+ 08:54:00 +0000
+Date: Mon, 6 Nov 2023 16:49:17 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: drivers/comedi/drivers/tests/../ni_stc.h:1140:35: warning:
+ 'range_ni_E_ao_ext' defined but not used
+Message-ID: <202311060001.aEuf1q9y-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SI2PR02CA0054.apcprd02.prod.outlook.com
+ (2603:1096:4:196::13) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SA2PR11MB4985:EE_
+X-MS-Office365-Filtering-Correlation-Id: 41f9dc28-2f73-4d43-d729-08dbdea5eb60
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +zpWsNn7XYtJW7jsI10rO3z1AjPvi4+u9W8yyV1cz9A5KX3KH4QdK6zAxszTTKdfeB30R8YcuwgwlXdcURkpqgYJR1PAOe4IsXlxOL9SLK6LTeQZM67ZEIZnfXjGIi8NsWDGTF3GES4BswkQTtOpceUsvCkt15NFEU3EA1/HL1jk6RahHWHoz+A64X2m4bhwi9I0TK94gIVcfvC8c3mi2hfiADMJgSLsqfE1IxZ295QWiPW8nqaYNRTHR75rmkgbM/wiu4ZBXQl6Qz78iM0coFB3O9KQiXnl5Qb5+3vfDaWFHx9/HnpwTKsnYBhQxvI4S2GMzdr+XrRoV0vnjMr/OGlhgDBxcKa10K0ND6cTZhUao+gJo2BuSMpSZS13o4G8eUX5jNvSI7CaoJ7tvGykbqu3TFHDH3BZAYido66qadtUbjjiBX1E/DK9+ubqYOtkOYw7wBPdE/lKoKDixuInM8IU9ipe2d3OTCahviRa7TVyDlUkTWGBXExffxbvtHAzEjhCuEufLUmCWv/N+vEbwp7eyHlfaptpy3aiPlfNLJXKM/tpOiq4dZVqIZX/CIuURhs5YE4ed3Dc5Z1xSVe7R9ELOI9Q1Q7h330woMDQfsdTpcUC7l9aqlxTohjz8BGlPkgnXy/i+pPu5zUfX00RkQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(376002)(136003)(346002)(39860400002)(230273577357003)(230173577357003)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(83380400001)(36756003)(4326008)(8936002)(41300700001)(86362001)(2906002)(8676002)(478600001)(6666004)(6486002)(966005)(6506007)(38100700002)(316002)(6916009)(82960400001)(5660300002)(66556008)(66476007)(2616005)(1076003)(6512007)(26005)(66946007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iyhpHSUY7XaZr2t3korVHCqjsEr6evKOq/sPr3HVnRgGXjmsmhd3Lze8EDZY?=
+ =?us-ascii?Q?jf6WTpfk0P6AOkjaw70ERwA+FJoqEaV25sZTwysnPSDPCndV8Bbfbz76Lrco?=
+ =?us-ascii?Q?x873CRNEPPYb+KuLBd511ckuoV95UMKnGx4ai7HlF+PUMYY36azdUuEyfrbf?=
+ =?us-ascii?Q?5T5u7xIf7dGdCMkuDUP3NRe3qfaKQ2eYKFrwwzH1oqEXyZ1nJWL/b0keUnZM?=
+ =?us-ascii?Q?Hbo85igWsc7bWI852G5VL9IBqHvLszJ8ar5odkSUNe3E1N+GMRNxVjKXDVzb?=
+ =?us-ascii?Q?9UawLmV8KqzApc6UPzIT+43+oIMfywmNB7tUv6MrSWt1dL3ojFz9rkPflJsA?=
+ =?us-ascii?Q?zGi0JnDa1rtbcNeeQjVg4myO9rwUI0TapEI4URp0ob4IYwIt3zuOpkWaa6zi?=
+ =?us-ascii?Q?gzvFURj7RWE7aIAcokNSwDQ1sNMe7+yUXd8dkV/Qd0nek9cxY+rwpjh3UJNB?=
+ =?us-ascii?Q?5Im7oxmtEMsZnMx7RSeQ97kCL4QKN/jMkC2sXpsH3i3qONiH4zcVFSTkKIgD?=
+ =?us-ascii?Q?caW5LG4aIRWZMy1rSb3puLFrsQ2nYToY/XxlQdGsTny/Gc1N5G7GSfETUWfp?=
+ =?us-ascii?Q?Hp+DkGDfRjZJgdPuqWXkhcxGz7aNB8IJJG59IiUDyxOWtQKEXyYh2kjHcMQP?=
+ =?us-ascii?Q?aXCY6V0VtBVukPT6sQTAzYlrsI4r6pHp+yJ4YLmDTh5AbZt2jxkOOJW2xfkA?=
+ =?us-ascii?Q?t7RMesi6BKdoM4px+1+6eVPk/5GAiNkt//khSzIBDxySNjwCqxPEZ+Pl5Gw5?=
+ =?us-ascii?Q?Irig6qmOXdsYWYxdvNCmT+wVE2xyWXmbh/WT/n1HlJxVEgWXhlProNPsTjm9?=
+ =?us-ascii?Q?OvwnMOdh6z+RbzTPusn+BPZrEwyrYD7i7AikDcwqnZcljBcRQp1+8sztWIq/?=
+ =?us-ascii?Q?ZZY4OaO3oKsy1KWqzH3F1Dy11Yrx/AMSEKGa/NHPCpLuJ3m/zjxGNRGy6T8C?=
+ =?us-ascii?Q?8teM0YjJOomQa2eaPQHcvSTeq9Jat4M7a5HiruJWVF1FlceCXODGew4znPzD?=
+ =?us-ascii?Q?uNjf9efJIFzls37hRLnFfj4Pg2YvvUDGhmxr6zM1v58ACPJ/QD7nC1slC1Aw?=
+ =?us-ascii?Q?M6ADCNmzoNI0LgDDpltTRkin9brV1uwbn2RrCg9SXWJP/Uss7oRNl6Y8hW+k?=
+ =?us-ascii?Q?wQ6BqG43AbDtrK8zk4Qq9qhknR9UzBX+ynQdsejePmTGDWHi1KiZBFj5ffeD?=
+ =?us-ascii?Q?IJ4JTiqGT4kgIweGLmeb7LvPSw2vzg87pu2E5MI72iyfanz3eOhM1twgj/LC?=
+ =?us-ascii?Q?zg3YNtYyZ2qTO36Xx9DZnAfEC68NB2cDM/EyBTttYuCwdsR+8eGP5pF1PH+E?=
+ =?us-ascii?Q?QVezuJvaaTA/P6I/kixRlhXH9bIfDPjdDMGJxVyHK/M/TMOcdcbe5siYBmHF?=
+ =?us-ascii?Q?pgauD7HhIfefJKlT4IgWmrE5ohX8PM7gEwuUhUMyZZE8eZcN1ixjo2BkBd5G?=
+ =?us-ascii?Q?jw1Utbbe3XF4u/pAfGeLC9lwVVQ+/O929n9DdKa69nrdMTvLByk8tFoBuh0a?=
+ =?us-ascii?Q?jNZ50mvETKgkjiA13OfvGPoDdosNAW6IKWSe5FlW+NbhIMFrcFnj2PbcOO9B?=
+ =?us-ascii?Q?TJHJMRNvor1/VANcaTsUhEUHrGZefIUONneaddEm?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41f9dc28-2f73-4d43-d729-08dbdea5eb60
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 08:54:00.3976
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oHX2njkQ29PDkoQcUL3lDOZSZlStoU9kB3yNWeH+ybaGRmQqwag6DYaJNM1BJNEdJcUoUAO871KcQKUGlLDxDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4985
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/alobakin/linux pfcp
-head:   89565e300e3d4033b8bb568774804fdc09d4f3cc
-commit: 945a0d6e86d97bf60f2fae88ee557ed3eae18b94 [5/20] bitops: let the compiler optimize {__,}assign_bit()
-config: i386-randconfig-141-20231105 (https://download.01.org/0day-ci/archive/20231106/202311060647.i9XyO4ej-lkp@intel.com/config)
+Hi Greg,
+
+kernel test robot noticed the following build warnings:
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1c41041124bd14dd6610da256a3da4e5b74ce6b1
+commit: 8ffdff6a8cfbdc174a3a390b6f825a277b5bb895 staging: comedi: move out of staging directory
+date:   2 years, 7 months ago
+config: i386-randconfig-013-20231101 (https://download.01.org/0day-ci/archive/20231106/202311060001.aEuf1q9y-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231106/202311060647.i9XyO4ej-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311060001.aEuf1q9y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202311060647.i9XyO4ej-lkp@intel.com/
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202311060001.aEuf1q9y-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/imu/adis16475.c:363 adis16475_set_freq() warn: set_bit() takes a bit number
-drivers/iio/imu/adis16475.c:363 adis16475_set_freq() warn: clear_bit() takes a bit number
-drivers/iio/imu/adis16475.c:416 adis16475_set_filter() warn: set_bit() takes a bit number
-drivers/iio/imu/adis16475.c:416 adis16475_set_filter() warn: clear_bit() takes a bit number
+All warnings (new ones prefixed by >>):
 
-vim +363 drivers/iio/imu/adis16475.c
-
-fff7352bf7a3ce Nuno Sá 2020-04-13  357  
-9da1b86865ab43 Nuno Sá 2021-09-20  358  	adis_dev_unlock(&st->adis);
-fff7352bf7a3ce Nuno Sá 2020-04-13  359  	/*
-fff7352bf7a3ce Nuno Sá 2020-04-13  360  	 * If decimation is used, then gyro and accel data will have meaningful
-fff7352bf7a3ce Nuno Sá 2020-04-13  361  	 * bits on the LSB registers. This info is used on the trigger handler.
-fff7352bf7a3ce Nuno Sá 2020-04-13  362  	 */
-fff7352bf7a3ce Nuno Sá 2020-04-13 @363  	assign_bit(ADIS16475_LSB_DEC_MASK, &st->lsb_flag, dec);
-
-assign_bit() takes a bit number like 0.  But this is passing BIT(0) so
-it's like BIT(BIT(0)).  Which is fine until you get to 5.
+   In file included from drivers/comedi/drivers/tests/ni_routes_test.c:23:
+>> drivers/comedi/drivers/tests/../ni_stc.h:1140:35: warning: 'range_ni_E_ao_ext' defined but not used [-Wunused-const-variable=]
+    1140 | static const struct comedi_lrange range_ni_E_ao_ext;
+         |                                   ^~~~~~~~~~~~~~~~~
 
 
-fff7352bf7a3ce Nuno Sá 2020-04-13  364  
-fff7352bf7a3ce Nuno Sá 2020-04-13  365  	return 0;
-39c024b51b5607 Nuno Sa 2021-02-18  366  error:
-15aacc980dcb32 Nuno Sa 2021-02-18  367  	adis_dev_unlock(&st->adis);
-39c024b51b5607 Nuno Sa 2021-02-18  368  	return ret;
+vim +/range_ni_E_ao_ext +1140 drivers/comedi/drivers/tests/../ni_stc.h
+
+a8b774308dd803 drivers/staging/comedi/drivers/ni_stc.h David Schleef     2009-02-12  1139  
+35bb871663ddb0 drivers/staging/comedi/drivers/ni_stc.h H Hartley Sweeten 2015-05-01 @1140  static const struct comedi_lrange range_ni_E_ao_ext;
+35bb871663ddb0 drivers/staging/comedi/drivers/ni_stc.h H Hartley Sweeten 2015-05-01  1141  
+
+:::::: The code at line 1140 was first introduced by commit
+:::::: 35bb871663ddb06df9d601b32deac5f4f06b65b4 staging: comedi: ni_stc.h: final cleanup
+
+:::::: TO: H Hartley Sweeten <hsweeten@visionengravers.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
