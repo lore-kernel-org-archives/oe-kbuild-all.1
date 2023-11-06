@@ -1,46 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6681F5248
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 08:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B97FBF7
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 08:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ma+cKwvP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699258574; x=1730794574;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=URos9e1Z8GEI4lXzQdZVf+pJrAzOwQTKNOMM8ylQ4dQ=;
-  b=Ma+cKwvP1fGNF8ntKJHAGbvlhPOQJYZUO757KvX9eCvzVIV4I7xJmUbS
-   o8gkSnzfTuWj+DvZPKFaNpY/Wx3SbQ6Yoq8tlbpQPCAXw6AilcTArVav+
-   tE0Lkym9SARLplsl9Itfuvkg9j5iPrjyoBAsBNay2MHk5rwx6m7FNIpqU
-   8+bvg0FTKWk45D1HmNL84zvlNEfBiVY0deD8NT2Sls4zQp+lZ4ZpvQHQn
-   t5hQPzYNNa+gvJwLnz4OSiLjXjHptT84M8U/56LTqayaXjIrxj6RFfbBy
-   ilGjqzcP3pEgqhOHhiouH9DPW7/2zM4Ao+Q9pkdpAf0OSk02fuM4Ab/mV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455712226"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="455712226"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 00:16:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="3555519"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Nov 2023 00:16:12 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qzumI-0006Fn-1F;
-	Mon, 06 Nov 2023 08:16:10 +0000
-Date: Mon, 6 Nov 2023 16:14:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [riteshharjani:ext2_dir_buffer_cache_rfc_wip1 15/15]
- fs/ext2/dir.c:440:25: sparse: sparse: symbol 'ext2_find_entry_old' was not
- declared. Should it be static?
-Message-ID: <202311061636.4UaAEQOg-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qZ49E9jm"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9dd6dc9c00cso345149666b.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Nov 2023 00:22:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699258932; x=1699863732; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YVp503bE1ru4IFxCLeuc6godEKHcqzF2XGlSQXQ8Upo=;
+        b=qZ49E9jm9J64jDDlpsb4FqZhPB8Eo+WEvDr6GIyqIOOFCmRYqjbvgPwCRA68lUGqT5
+         HJ6eo55nAvBDTxNlsVSLpzQsIPoQvGP1eGYRSsZQhWGWKpy6uq2ioqA+4UomoeXZHgBM
+         +qjcluQ5v/y1FKDi/SXIgO5VkzHG+m5DPZ+VKFmg4NkZNvjMMUl3TXznMoLaSlcIBKpV
+         YsjnRmhHqc6++QMTyNVWftzPAzADIViPV9fj+weGtXyAnRkMc/1eaL9W4mCnXiDo+lUI
+         lOdsEy/IlW1R9hImKOO2GDhW3Hk24jE3ZdgAzc1wIFRR7ZvOz8SC3+AkO2KFAHpqyrzf
+         Y5Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699258932; x=1699863732;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YVp503bE1ru4IFxCLeuc6godEKHcqzF2XGlSQXQ8Upo=;
+        b=V4gAh/IRmsvNrtnWpxRQaI2kIPz8CnZSsZ1kgMF//0+fU2KYBiyJZUdQztI5cVEcK0
+         3xIN1Na41G39BMd/XvC0Frcfe5LcaPr4IY9aAQu1aR1kHThKTYU0V3+H+VDBgHfgJrRp
+         yWRgR2sQw2ER0D1gprDlXQ8rfTZwlCUSpU+g050S3rTWwd65OeJsqA1YRkr7V4EkuidW
+         C5PYFxHws927MBrx48pZH3B5dZ1Fj8JzENjg6XNDoyho03GATm9C8hGw4DkokHVt3YH9
+         xIqvN/o/1uHKWfSVvVUSYzWTY2aGN0gfGCjeB0jCOpwf2rZyEBlAHq5KRxcM3G3T2BlT
+         ksrw==
+X-Gm-Message-State: AOJu0YzmepEDZAed35UGfL+gn6wdTNhNo8GNLFryykNxrQOzCurM97Za
+	zN/BCamZcpKOBp3qSoMp3L1AWg==
+X-Google-Smtp-Source: AGHT+IHYFBWYigEohSXMoPCbFpHMyX9vKMbrZF15MfZxETJjjg08YOa343fiHuknpDiWHy7Znuw1Gg==
+X-Received: by 2002:a17:907:318e:b0:9dd:7536:2b0 with SMTP id xe14-20020a170907318e00b009dd753602b0mr6406091ejb.50.1699258931783;
+        Mon, 06 Nov 2023 00:22:11 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s19-20020a170906455300b009a1b857e3a5sm3883824ejq.54.2023.11.06.00.22.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 00:22:11 -0800 (PST)
+Date: Mon, 6 Nov 2023 11:22:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 33/84] drivers/ufs/core/ufshcd.c:2294
+ ufshcd_hba_capabilities() warn: missing error code? 'err'
+Message-ID: <d37eb167-926f-41e5-b52d-0e05c3c82518@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,103 +56,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/riteshharjani/linux ext2_dir_buffer_cache_rfc_wip1
-head:   3b878bc4805dd97f67ee17c6450059a4a7f2b261
-commit: 3b878bc4805dd97f67ee17c6450059a4a7f2b261 [15/15] ext2: everything else to make it work
-config: i386-randconfig-061-20230929 (https://download.01.org/0day-ci/archive/20231106/202311061636.4UaAEQOg-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   7bec8a8180669a95c44a767fa76f2a3dd3c46220
+commit: 996bbaea824f317c30977c4967f84b10feb3cf40 [33/84] FROMGIT: scsi: ufs: core: Introduce multi-circular queue capability
+config: i386-randconfig-141-20231104 (https://download.01.org/0day-ci/archive/20231104/202311041439.bhMvaFNy-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061636.4UaAEQOg-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231104/202311041439.bhMvaFNy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311061636.4UaAEQOg-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202311041439.bhMvaFNy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/ext2/dir.c:440:25: sparse: sparse: symbol 'ext2_find_entry_old' was not declared. Should it be static?
+New smatch warnings:
+drivers/ufs/core/ufshcd.c:2294 ufshcd_hba_capabilities() warn: missing error code? 'err'
 
-vim +/ext2_find_entry_old +440 fs/ext2/dir.c
+Old smatch warnings:
+drivers/ufs/core/ufshcd.c:5356 ufshcd_uic_cmd_compl() error: we previously assumed 'hba->active_uic_cmd' could be null (see line 5344)
+drivers/ufs/core/ufshcd.c:8783 ufshcd_setup_clocks() warn: 'clki->clk' from clk_prepare_enable() not released on lines: 8763.
 
-   423	
-   424	/*
-   425	 *	ext2_find_entry()
-   426	 *
-   427	 * finds an entry in the specified directory with the wanted name. It
-   428	 * returns the page in which the entry was found (as a parameter - res_page),
-   429	 * and the entry itself. Page is returned mapped and unlocked.
-   430	 * Entry is guaranteed to be valid.
-   431	 *
-   432	 * On Success ext2_put_page() should be called on *res_page.
-   433	 *
-   434	 * NOTE: Calls to ext2_get_page()/ext2_put_page() must be nested according to
-   435	 * the rules documented in kmap_local_page()/kunmap_local().
-   436	 *
-   437	 * ext2_find_entry() and ext2_dotdot() act as a call to ext2_get_page() and
-   438	 * should be treated as a call to ext2_get_page() for nesting purposes.
-   439	 */
- > 440	struct ext2_dir_entry_2 *ext2_find_entry_old (struct inode *dir,
-   441				const struct qstr *child, struct page **res_page)
-   442	{
-   443		const char *name = child->name;
-   444		int namelen = child->len;
-   445		unsigned reclen = EXT2_DIR_REC_LEN(namelen);
-   446		unsigned long start, n;
-   447		unsigned long npages = dir_pages(dir);
-   448		struct page *page = NULL;
-   449		struct ext2_inode_info *ei = EXT2_I(dir);
-   450		ext2_dirent * de;
-   451	
-   452		if (npages == 0)
-   453			goto out;
-   454	
-   455		/* OFFSET_CACHE */
-   456		*res_page = NULL;
-   457	
-   458		start = ei->i_dir_start_lookup;
-   459		if (start >= npages)
-   460			start = 0;
-   461		n = start;
-   462		do {
-   463			char *kaddr = ext2_get_page(dir, n, 0, &page);
-   464			if (IS_ERR(kaddr))
-   465				return ERR_CAST(kaddr);
-   466	
-   467			de = (ext2_dirent *) kaddr;
-   468			kaddr += ext2_last_byte(dir, n) - reclen;
-   469			while ((char *) de <= kaddr) {
-   470				if (de->rec_len == 0) {
-   471					ext2_error(dir->i_sb, __func__,
-   472						"zero-length directory entry");
-   473					ext2_put_page(page, de);
-   474					goto out;
-   475				}
-   476				if (ext2_match(namelen, name, de))
-   477					goto found;
-   478				de = ext2_next_entry(de);
-   479			}
-   480			ext2_put_page(page, kaddr);
-   481	
-   482			if (++n >= npages)
-   483				n = 0;
-   484			/* next page is past the blocks we've got */
-   485			if (unlikely(n > (dir->i_blocks >> (PAGE_SHIFT - 9)))) {
-   486				ext2_error(dir->i_sb, __func__,
-   487					"dir %lu size %lld exceeds block count %llu",
-   488					dir->i_ino, dir->i_size,
-   489					(unsigned long long)dir->i_blocks);
-   490				goto out;
-   491			}
-   492		} while (n != start);
-   493	out:
-   494		return ERR_PTR(-ENOENT);
-   495	
-   496	found:
-   497		*res_page = page;
-   498		ei->i_dir_start_lookup = n;
-   499		return de;
-   500	}
-   501	
+vim +/err +2294 drivers/ufs/core/ufshcd.c
+
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2273  static inline int ufshcd_hba_capabilities(struct ufs_hba *hba)
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2274  {
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2275  	int err;
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2276  
+b873a27538dff5 drivers/scsi/ufs/ufshcd.c Seungwon Jeon      2013-06-26  2277  	hba->capabilities = ufshcd_readl(hba, REG_CONTROLLER_CAPABILITIES);
+6554400d6f66b9 drivers/ufs/core/ufshcd.c Yoshihiro Shimoda  2022-06-03  2278  	if (hba->quirks & UFSHCD_QUIRK_BROKEN_64BIT_ADDRESS)
+6554400d6f66b9 drivers/ufs/core/ufshcd.c Yoshihiro Shimoda  2022-06-03  2279  		hba->capabilities &= ~MASK_64_ADDRESSING_SUPPORT;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2280  
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2281  	/* nutrs and nutmrs are 0 based values */
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2282  	hba->nutrs = (hba->capabilities & MASK_TRANSFER_REQUESTS_SLOTS) + 1;
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2283  	hba->nutmrs =
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2284  	((hba->capabilities & MASK_TASK_MANAGEMENT_REQUEST_SLOTS) >> 16) + 1;
+945c3cca05d783 drivers/scsi/ufs/ufshcd.c Bart Van Assche    2021-12-03  2285  	hba->reserved_slot = hba->nutrs - 1;
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2286  
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2287  	/* Read crypto capabilities */
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2288  	err = ufshcd_hba_init_crypto_capabilities(hba);
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2289  	if (err)
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2290  		dev_err(hba->dev, "crypto setup failed\n");
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2291  
+996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2292  	hba->mcq_sup = FIELD_GET(MASK_MCQ_SUPPORT, hba->capabilities);
+996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2293  	if (!hba->mcq_sup)
+996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13 @2294  		return err;
+
+"err" is zero here.  Presumably it should have been an error code.
+
+996bbaea824f31 drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2295  
+2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2296  	hba->mcq_capabilities = ufshcd_readl(hba, REG_MCQCAP);
+2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2297  	hba->ext_iid_sup = FIELD_GET(MASK_EXT_IID_SUPPORT,
+2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2298  				     hba->mcq_capabilities);
+2be21deeeb950c drivers/ufs/core/ufshcd.c Asutosh Das        2023-01-13  2299  
+27b2ed4395fee2 drivers/scsi/ufs/ufshcd.c Eric Biggers       2020-07-14  2300  	return err;
+
+"err" is zero here as well.  Better to return 0;  More readable.
+
+7a3e97b0dc4bba drivers/scsi/ufs/ufshcd.c Santosh Yaraganavi 2012-02-29  2301  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
