@@ -1,146 +1,235 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2077.outbound.protection.outlook.com [40.107.21.77])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CCB7465
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 16:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F78328DB7
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 16:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="GBumYzC3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EXB7EOVUjm1lAzOGiJAKeTZnzw7i+q+BOJv1dOlnrHKcJfBZA5zccWNYg9OwjvKvbSEqrwlT9ugAeoowhgUr0ylSml+TTUcJFfPz2tZl4ToeBta0xONfyIpE8CuoWDrfIkjswLJh9/10o3Zvt3TmdK30vI2m/VbA/WwWp32A5HZGvq5L8+o73fyTjvtktsbBIsmkY3crkRXyShIdSKSTdot0L3zRjGynFtkVQmanBPzXYKO+tVKzFFZaVIuidj25qeayuDC0q8I3LOygno857idQQhgmnR9NXDUV6SrlLWv8JFyVWNcGwjQKla+ilQhtVBRggtUXT5d9QtOWvDBp6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cDgwUeBqwwKhmZdjN+bEofx5j1gxSJezZ4jPaMrzevM=;
- b=J5hxtnSS5+GZN7LvOyapOI6nwbG5vM/2bJdB5KlEfErNFOu8TbRfNflf+qjhcoqYc3EnxQazG9R1CQhV+eL1gPqFJXbZy1rO3aKvimMy/dbj8RivwBqcc9JnirwNWp1BvcuL5RHjptYOySK6bGzS2MHThRaxRqWXtTbnQ5ronx9CHbravqeomQjGslcSbVSUPXPUjEr+niBfcqAMXg3bgGxtpg6ecd9yxuhuxzoDcC/bPYCM2LbZQE5wOB8j4uQZs6HR/y/PoNKcJg8MD9U0SodZqxtAaw7brfHTu0TXh3VheeqYRqHvKjlYHDoM5iabpGNf7YHRdrWhwzddfZ+itg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cDgwUeBqwwKhmZdjN+bEofx5j1gxSJezZ4jPaMrzevM=;
- b=GBumYzC3B5dfxaBF582Wul/RimkX8psWpgH6gW/cibmcUOE8bwNiswelrdaB5UKnNiwPMPX5eY3deuOW8S8X02weQnZ9VcZ+oQUNIHPVgoAW47HAa3WjNlCwTCy8cx9hsdDoD7gXYdUWmLzNpsljXRurFSfP8hhwE1ogfN3GY4I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com (2603:10a6:208:16d::21)
- by VI1PR04MB9762.eurprd04.prod.outlook.com (2603:10a6:800:1d3::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.13; Mon, 6 Nov
- 2023 16:03:25 +0000
-Received: from AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::dd33:f07:7cfd:afa4]) by AM0PR04MB6452.eurprd04.prod.outlook.com
- ([fe80::dd33:f07:7cfd:afa4%6]) with mapi id 15.20.6977.013; Mon, 6 Nov 2023
- 16:03:25 +0000
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: netdev@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Simon Horman <simon.horman@corigine.com>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH net] net: enetc: shorten enetc_setup_xdp_prog() error message to fit NETLINK_MAX_FMTMSG_LEN
-Date: Mon,  6 Nov 2023 18:03:11 +0200
-Message-Id: <20231106160311.616118-1-vladimir.oltean@nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR01CA0107.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::48) To AM0PR04MB6452.eurprd04.prod.outlook.com
- (2603:10a6:208:16d::21)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Esyg9Q8v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699287987; x=1730823987;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Lel3MUIIaLO9C/EGPavWBrq/wC9BnnrQLxOaqP0CaEE=;
+  b=Esyg9Q8vlPg3OjkIaBlRr8AzILvGUKgPH7Yq1K+qpn2p0H4WsS48oi7U
+   rc/JDaLWeGnBGW1koTpWJF1Q8celkI9wzDMpmKL4IkPJaJ2RXqJ4gDQoQ
+   POmKPJasABFYD/e3R0HVZxWWteXkAJl+AJK2w3qqEsu+cHXRNCs3K79h/
+   Vc15k1Zkm/ed6S/BH8xMcoNxUiZII3PVNFIcjA4wCPVoOseyk/W42LOI8
+   fcSMG3AeT4YMQeGEGITAIjceVGaa1dlA7IPt193kdFeaZTtfgcqh3AfUw
+   z8wTXa/skKCNYMgO5Dkah8QBBq8YIW6278P1c64IK4XqXv3aAZ+quto9G
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="2229544"
+X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
+   d="scan'208";a="2229544"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 08:26:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="791501035"
+X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
+   d="scan'208";a="791501035"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 06 Nov 2023 08:26:24 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r02Qg-0006Y4-1l;
+	Mon, 06 Nov 2023 16:26:22 +0000
+Date: Tue, 7 Nov 2023 00:25:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 955/24072]
+ drivers/hid/hid-nintendo.c:89:17: warning: 'JC_USB_CMD_EN_TIMEOUT' defined
+ but not used
+Message-ID: <202311070015.NQbjYHtH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6452:EE_|VI1PR04MB9762:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1acec5ef-60c0-43d3-8928-08dbdee1e855
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	+qGsMGmmyBlR41ChUSRUggqPlNH6D/Z/p+iBBW4Y18lsCeWeDWMI+F/nj1UAGrRK3St7tCEKOIL5GDOsBSwUDn+zx49ZUtkiwLSQC57VZbO2uXXEISyegFtQ11PaZyGs1rdda64wjIkgA+yVJwzS/kfbE975gkV14V/259tzmG0GtAi5OK7avjinmqI4cANfLy1kiMGRN/emKYSmCDTO/Ni09eqxnMMJeuVPO+wSabNM9WqtUQ/sVNTpifIoHyKgmKqIGKe8mbGDTlNFYQ7k6WPjgZ/cZnzYFV1ntmrg57RT+FeUV55TX6ZbbwNaNkD4D5iBfCa1v6Bkrl5/d07NSIKni3mYhqx2JHuhMpQPwM9Hp70g/Xu/xjCm0cWEgBl5/7/Nk7XqpRPweUnOOa4HjWB1Eh5VqEpDeBrVoYwCIoINmwxGgKmUw9Odq71HLMAKC97Kpw0Oy53rBzre6rbazrEmk4HoiuyMyddQkXQyQTvfiwnQecaLSPcKk5uI4uWKomM6e26kHzcocqCT0nuAUJj8VITaXgaV+IBjN/oeeytvaaX3lrMdTXGUyJr7sfIuaNdcCMxxT4NrAsSYuRQSL8f12GxuYIMVO9cMRGhrsaU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6452.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(346002)(396003)(39860400002)(136003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(26005)(1076003)(6506007)(52116002)(2616005)(6666004)(8676002)(6512007)(83380400001)(8936002)(966005)(4326008)(5660300002)(6486002)(41300700001)(2906002)(44832011)(478600001)(316002)(6916009)(66946007)(66476007)(54906003)(66556008)(36756003)(86362001)(38100700002)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OqEx/Ed4N3WEcJ0eRuAZ8n6biEQJ9ygNtRJ+2GwK1ONiiRIIze1fpQWOdH1L?=
- =?us-ascii?Q?HQLJj8yZsOAGK9xrPxtAg6Sk9SG8G0X8d/zz65EVf5E3S0FRqGZi9Ca5MU7/?=
- =?us-ascii?Q?sPeJl+XKii8ioyv+vRuNkRwkGOUBdNGidxbjN+bXFIBqN7Zv8ejOU8oGRfhK?=
- =?us-ascii?Q?8vgdysrfMXqr8ciuX/tEfeSSTwGJl0RMiwwWdGbKcnEo9/yteD0QeBDPFEO0?=
- =?us-ascii?Q?Icrj6oBj+HkzlNw9cYjqMAcjl2aKjfK2GpQb5EPFa2sBl6fehk7rr8TuZSnn?=
- =?us-ascii?Q?t5sVlu/9Nvo6Y1DvMfvqXTACxQzIP3mIsl5GdoB33oaZZ8u99xULUB4B3+BK?=
- =?us-ascii?Q?Oogh9EipfXndtusm+dia36MZkFuugPxHa3udXDnEoldU9NTYCM7rKLExO8DN?=
- =?us-ascii?Q?LgmzPmMSgtsxA2BpW844wRrhNtf0YpYMnj6D8ATeTEgYXoWgh2X+78d9rzJD?=
- =?us-ascii?Q?Zm3KUbKFR64LjqgSC3WnS1bSwgmKm2XX2bhh/PqSurR7mTYeL50zZqf3HF/K?=
- =?us-ascii?Q?i7DbiBmEafKn1U5urQ7knDB9eRpx88XhO1VZY2bKXb+Kfny7cLZxGe/cv1ZB?=
- =?us-ascii?Q?/CztIU6L7yhQq/ehTTEOmAKvYdK7W7OtjOhnk1D8CGLzit0uT3yU/kD8ZA02?=
- =?us-ascii?Q?RlQ4SyHm0ml+HICp6hPSCDibw3SqLiEOb+5hJqnmD36P+pmdXP/NJ4R+PzXF?=
- =?us-ascii?Q?2fuu4n7jszjj3sy2SHgrR/P1blYEn4Z5u5HL+RawXYGCUspMa1ZLoKtiOnJD?=
- =?us-ascii?Q?CHtAMjvGXHi57V1dTFphu095lngsztfSE6VDJUv03xZ5dT/rtoEtvn3pM01b?=
- =?us-ascii?Q?oNQilkL+LW9eiSFXWvnqfvYoKEr0t1HXSMsRKp+IF5+vC8+xvFKJylIFv1DZ?=
- =?us-ascii?Q?sU3nbEvjjVT56yIAH1aI9arpDYSHJ5qC5IyjuAuvkIIkr5yBUC1XxGExqjoH?=
- =?us-ascii?Q?u7wIhZp288VioK2PkuzciDnQdCFYUNlQimIdQW8u+HL3xCQms5QMTKTBUpvT?=
- =?us-ascii?Q?ABFlX7z9jT5aPb7WwgqxAPc4Jfkn/yWDraegfBTWSG4QlgXVJTbTOTBKZU+N?=
- =?us-ascii?Q?JvsLPHq1Mp9BKAn9uyUhFJHwSBhA5y+beskkaWGTcJ5/qQ80CJWXe19i48tn?=
- =?us-ascii?Q?S1ydHwX55gPQbYkRuRWmahhiQ65yOE8ihVHXgwc02dtDeKizpp/WXjtxmsLE?=
- =?us-ascii?Q?mOdqv4YDmIaxhhSsrt6vA7Ucs9pK85es2IIIeIJE8tqIHoi6+AAz2/+GHw5+?=
- =?us-ascii?Q?TgydnQ84x4mGcJnq8RKqhZF6NV5NxVvzgzvsxYR4pgjTjHB6zXtAZ4IMAHfv?=
- =?us-ascii?Q?F6am25+aWAUgVgeAar8nrpRVBJlPZrFyGP9wpfO/bqgYTGfoZAItHMBywo41?=
- =?us-ascii?Q?+MP2dNqBuIfUwwAhQjLA73VD1PDYmPB8DggOVfv4xjc9T95L5M4qlnhKwYWf?=
- =?us-ascii?Q?GRlWaYx0smMlesS/1IiwQdmyoWp599lhhhlb2g799TeXIwbfCK6qLltyKIDJ?=
- =?us-ascii?Q?2010R+XeCzMkegKQ22eXznhPxXX0+zPCiJhUx4b8kpeJYtUXLXvMOk7dva6o?=
- =?us-ascii?Q?QovYDrNEq40E2TTgiGvDz7MKuRiAgoAMx9pRRAFCvOIl5EWTRoK7OGcC6z7Y?=
- =?us-ascii?Q?Nw=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1acec5ef-60c0-43d3-8928-08dbdee1e855
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6452.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 16:03:25.1727
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 37xWTL9nRVyK+VzFCn5ui8bG9H4nnhT4HVV0AeJsSjqcW18Bd4ei+6FRyoi3xQqWwfR45zRHeDKx1cBo784C5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB9762
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-NETLINK_MAX_FMTMSG_LEN is currently hardcoded to 80, and we provide an
-error printf-formatted string having 96 characters including the
-terminating \0. Assuming each %d (representing a queue) gets replaced by
-a number having at most 2 digits (a reasonable assumption), the final
-string is also 96 characters wide, which is too much.
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   46b8053e2a3aafda4abe72004d9cf09b8fca0368
+commit: 0e93c0746ae205990bb9cfdc432484cad4a7d02c [955/24072] FROMLIST: HID: nintendo: add nintendo switch controller driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231107/202311070015.NQbjYHtH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070015.NQbjYHtH-lkp@intel.com/reproduce)
 
-Reduce the verbiage a bit by removing some (partially) redundant words,
-which makes the new printf-formatted string be 73 characters wide with
-the trailing newline.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311070015.NQbjYHtH-lkp@intel.com/
 
-Fixes: 800db2d125c2 ("net: enetc: ensure we always have a minimum number of TXQs for stack")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/lkml/202311061336.4dsWMT1h-lkp@intel.com/
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
----
- drivers/net/ethernet/freescale/enetc/enetc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/drivers/net/ethernet/freescale/enetc/enetc.c b/drivers/net/ethernet/freescale/enetc/enetc.c
-index 30bec47bc665..cffbf27c4656 100644
---- a/drivers/net/ethernet/freescale/enetc/enetc.c
-+++ b/drivers/net/ethernet/freescale/enetc/enetc.c
-@@ -2769,7 +2769,7 @@ static int enetc_setup_xdp_prog(struct net_device *ndev, struct bpf_prog *prog,
- 	if (priv->min_num_stack_tx_queues + num_xdp_tx_queues >
- 	    priv->num_tx_rings) {
- 		NL_SET_ERR_MSG_FMT_MOD(extack,
--				       "Reserving %d XDP TXQs does not leave a minimum of %d TXQs for network stack (total %d available)",
-+				       "Reserving %d XDP TXQs does not leave a minimum of %d for stack (total %d)",
- 				       num_xdp_tx_queues,
- 				       priv->min_num_stack_tx_queues,
- 				       priv->num_tx_rings);
+   drivers/hid/hid-nintendo.c:92:17: warning: 'JC_USB_SEND_UART' defined but not used [-Wunused-const-variable=]
+      92 | static const u8 JC_USB_SEND_UART                = 0x92;
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:91:17: warning: 'JC_USB_PRE_HANDSHAKE' defined but not used [-Wunused-const-variable=]
+      91 | static const u8 JC_USB_PRE_HANDSHAKE            = 0x91;
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:90:17: warning: 'JC_USB_RESET' defined but not used [-Wunused-const-variable=]
+      90 | static const u8 JC_USB_RESET                    = 0x06;
+         |                 ^~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:89:17: warning: 'JC_USB_CMD_EN_TIMEOUT' defined but not used [-Wunused-const-variable=]
+      89 | static const u8 JC_USB_CMD_EN_TIMEOUT           = 0x05;
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:85:17: warning: 'JC_USB_CMD_CONN_STATUS' defined but not used [-Wunused-const-variable=]
+      85 | static const u8 JC_USB_CMD_CONN_STATUS          = 0x01;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:82:17: warning: 'JC_FEATURE_LAUNCH' defined but not used [-Wunused-const-variable=]
+      82 | static const u8 JC_FEATURE_LAUNCH               = 0x75;
+         |                 ^~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:81:17: warning: 'JC_FEATURE_MEM_WRITE' defined but not used [-Wunused-const-variable=]
+      81 | static const u8 JC_FEATURE_MEM_WRITE            = 0x74;
+         |                 ^~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:80:17: warning: 'JC_FEATURE_ERASE_MEM_SECTOR' defined but not used [-Wunused-const-variable=]
+      80 | static const u8 JC_FEATURE_ERASE_MEM_SECTOR     = 0x73;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:79:17: warning: 'JC_FEATURE_MEM_READ' defined but not used [-Wunused-const-variable=]
+      79 | static const u8 JC_FEATURE_MEM_READ             = 0x72;
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:78:17: warning: 'JC_FEATURE_SETUP_MEM_READ' defined but not used [-Wunused-const-variable=]
+      78 | static const u8 JC_FEATURE_SETUP_MEM_READ       = 0x71;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:77:17: warning: 'JC_FEATURE_OTA_FW_UPGRADE' defined but not used [-Wunused-const-variable=]
+      77 | static const u8 JC_FEATURE_OTA_FW_UPGRADE       = 0x70;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:76:17: warning: 'JC_FEATURE_LAST_SUBCMD' defined but not used [-Wunused-const-variable=]
+      76 | static const u8 JC_FEATURE_LAST_SUBCMD          = 0x02;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:69:17: warning: 'JC_INPUT_BUTTON_EVENT' defined but not used [-Wunused-const-variable=]
+      69 | static const u8 JC_INPUT_BUTTON_EVENT           = 0x3F;
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:66:17: warning: 'JC_SUBCMD_GET_REGULATED_VOLTAGE' defined but not used [-Wunused-const-variable=]
+      66 | static const u8 JC_SUBCMD_GET_REGULATED_VOLTAGE = 0x50;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:65:17: warning: 'JC_SUBCMD_ENABLE_VIBRATION' defined but not used [-Wunused-const-variable=]
+      65 | static const u8 JC_SUBCMD_ENABLE_VIBRATION      = 0x48;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:64:17: warning: 'JC_SUBCMD_READ_IMU_REG' defined but not used [-Wunused-const-variable=]
+      64 | static const u8 JC_SUBCMD_READ_IMU_REG          = 0x43;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:63:17: warning: 'JC_SUBCMD_WRITE_IMU_REG' defined but not used [-Wunused-const-variable=]
+      63 | static const u8 JC_SUBCMD_WRITE_IMU_REG         = 0x42;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:62:17: warning: 'JC_SUBCMD_SET_IMU_SENSITIVITY' defined but not used [-Wunused-const-variable=]
+      62 | static const u8 JC_SUBCMD_SET_IMU_SENSITIVITY   = 0x41;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:61:17: warning: 'JC_SUBCMD_ENABLE_IMU' defined but not used [-Wunused-const-variable=]
+      61 | static const u8 JC_SUBCMD_ENABLE_IMU            = 0x40;
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:60:17: warning: 'JC_SUBCMD_SET_HOME_LIGHT' defined but not used [-Wunused-const-variable=]
+      60 | static const u8 JC_SUBCMD_SET_HOME_LIGHT        = 0x38;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:59:17: warning: 'JC_SUBCMD_GET_PLAYER_LIGHTS' defined but not used [-Wunused-const-variable=]
+      59 | static const u8 JC_SUBCMD_GET_PLAYER_LIGHTS     = 0x31;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:57:17: warning: 'JC_SUBCMD_SET_MCU_STATE' defined but not used [-Wunused-const-variable=]
+      57 | static const u8 JC_SUBCMD_SET_MCU_STATE         = 0x22;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:56:17: warning: 'JC_SUBCMD_SET_MCU_CONFIG' defined but not used [-Wunused-const-variable=]
+      56 | static const u8 JC_SUBCMD_SET_MCU_CONFIG        = 0x21;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:55:17: warning: 'JC_SUBCMD_RESET_MCU' defined but not used [-Wunused-const-variable=]
+      55 | static const u8 JC_SUBCMD_RESET_MCU             = 0x20;
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:54:17: warning: 'JC_SUBCMD_SPI_FLASH_WRITE' defined but not used [-Wunused-const-variable=]
+      54 | static const u8 JC_SUBCMD_SPI_FLASH_WRITE       = 0x11;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:52:17: warning: 'JC_SUBCMD_LOW_POWER_MODE' defined but not used [-Wunused-const-variable=]
+      52 | static const u8 JC_SUBCMD_LOW_POWER_MODE        = 0x08;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:51:17: warning: 'JC_SUBCMD_RESET_PAIRING_INFO' defined but not used [-Wunused-const-variable=]
+      51 | static const u8 JC_SUBCMD_RESET_PAIRING_INFO    = 0x07;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:50:17: warning: 'JC_SUBCMD_SET_HCI_STATE' defined but not used [-Wunused-const-variable=]
+      50 | static const u8 JC_SUBCMD_SET_HCI_STATE         = 0x06;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:49:17: warning: 'JC_SUBCMD_GET_PAGE_LIST_STATE' defined but not used [-Wunused-const-variable=]
+      49 | static const u8 JC_SUBCMD_GET_PAGE_LIST_STATE   = 0x05;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:48:17: warning: 'JC_SUBCMD_TRIGGERS_ELAPSED' defined but not used [-Wunused-const-variable=]
+      48 | static const u8 JC_SUBCMD_TRIGGERS_ELAPSED      = 0x04;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:46:17: warning: 'JC_SUBCMD_REQ_DEV_INFO' defined but not used [-Wunused-const-variable=]
+      46 | static const u8 JC_SUBCMD_REQ_DEV_INFO          = 0x02;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-nintendo.c:45:17: warning: 'JC_SUBCMD_MANUAL_BT_PAIRING' defined but not used [-Wunused-const-variable=]
+      45 | static const u8 JC_SUBCMD_MANUAL_BT_PAIRING     = 0x01;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:44:17: warning: 'JC_SUBCMD_STATE' defined but not used [-Wunused-const-variable=]
+      44 | static const u8 JC_SUBCMD_STATE                 /*= 0x00*/;
+         |                 ^~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:40:17: warning: 'JC_OUTPUT_MCU_DATA' defined but not used [-Wunused-const-variable=]
+      40 | static const u8 JC_OUTPUT_MCU_DATA              = 0x11;
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:39:17: warning: 'JC_OUTPUT_RUMBLE_ONLY' defined but not used [-Wunused-const-variable=]
+      39 | static const u8 JC_OUTPUT_RUMBLE_ONLY           = 0x10;
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-nintendo.c:38:17: warning: 'JC_OUTPUT_FW_UPDATE_PKT' defined but not used [-Wunused-const-variable=]
+      38 | static const u8 JC_OUTPUT_FW_UPDATE_PKT         = 0x03;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/JC_USB_CMD_EN_TIMEOUT +89 drivers/hid/hid-nintendo.c
+
+    42	
+    43	/* Subcommand IDs */
+    44	static const u8 JC_SUBCMD_STATE			/*= 0x00*/;
+  > 45	static const u8 JC_SUBCMD_MANUAL_BT_PAIRING	= 0x01;
+  > 46	static const u8 JC_SUBCMD_REQ_DEV_INFO		= 0x02;
+    47	static const u8 JC_SUBCMD_SET_REPORT_MODE	= 0x03;
+  > 48	static const u8 JC_SUBCMD_TRIGGERS_ELAPSED	= 0x04;
+    49	static const u8 JC_SUBCMD_GET_PAGE_LIST_STATE	= 0x05;
+    50	static const u8 JC_SUBCMD_SET_HCI_STATE		= 0x06;
+    51	static const u8 JC_SUBCMD_RESET_PAIRING_INFO	= 0x07;
+    52	static const u8 JC_SUBCMD_LOW_POWER_MODE	= 0x08;
+    53	static const u8 JC_SUBCMD_SPI_FLASH_READ	= 0x10;
+    54	static const u8 JC_SUBCMD_SPI_FLASH_WRITE	= 0x11;
+    55	static const u8 JC_SUBCMD_RESET_MCU		= 0x20;
+  > 56	static const u8 JC_SUBCMD_SET_MCU_CONFIG	= 0x21;
+  > 57	static const u8 JC_SUBCMD_SET_MCU_STATE		= 0x22;
+    58	static const u8 JC_SUBCMD_SET_PLAYER_LIGHTS	= 0x30;
+  > 59	static const u8 JC_SUBCMD_GET_PLAYER_LIGHTS	= 0x31;
+    60	static const u8 JC_SUBCMD_SET_HOME_LIGHT	= 0x38;
+  > 61	static const u8 JC_SUBCMD_ENABLE_IMU		= 0x40;
+    62	static const u8 JC_SUBCMD_SET_IMU_SENSITIVITY	= 0x41;
+    63	static const u8 JC_SUBCMD_WRITE_IMU_REG		= 0x42;
+    64	static const u8 JC_SUBCMD_READ_IMU_REG		= 0x43;
+  > 65	static const u8 JC_SUBCMD_ENABLE_VIBRATION	= 0x48;
+    66	static const u8 JC_SUBCMD_GET_REGULATED_VOLTAGE	= 0x50;
+    67	
+    68	/* Input Reports */
+    69	static const u8 JC_INPUT_BUTTON_EVENT		= 0x3F;
+    70	static const u8 JC_INPUT_SUBCMD_REPLY		= 0x21;
+    71	static const u8 JC_INPUT_IMU_DATA		= 0x30;
+    72	static const u8 JC_INPUT_MCU_DATA		= 0x31;
+    73	static const u8 JC_INPUT_USB_RESPONSE		= 0x81;
+    74	
+    75	/* Feature Reports */
+    76	static const u8 JC_FEATURE_LAST_SUBCMD		= 0x02;
+    77	static const u8 JC_FEATURE_OTA_FW_UPGRADE	= 0x70;
+    78	static const u8 JC_FEATURE_SETUP_MEM_READ	= 0x71;
+    79	static const u8 JC_FEATURE_MEM_READ		= 0x72;
+  > 80	static const u8 JC_FEATURE_ERASE_MEM_SECTOR	= 0x73;
+    81	static const u8 JC_FEATURE_MEM_WRITE		= 0x74;
+  > 82	static const u8 JC_FEATURE_LAUNCH		= 0x75;
+    83	
+    84	/* USB Commands */
+  > 85	static const u8 JC_USB_CMD_CONN_STATUS		= 0x01;
+    86	static const u8 JC_USB_CMD_HANDSHAKE		= 0x02;
+    87	static const u8 JC_USB_CMD_BAUDRATE_3M		= 0x03;
+    88	static const u8 JC_USB_CMD_NO_TIMEOUT		= 0x04;
+  > 89	static const u8 JC_USB_CMD_EN_TIMEOUT		= 0x05;
+    90	static const u8 JC_USB_RESET			= 0x06;
+    91	static const u8 JC_USB_PRE_HANDSHAKE		= 0x91;
+    92	static const u8 JC_USB_SEND_UART		= 0x92;
+    93	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
