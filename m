@@ -1,47 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F676FD2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 19:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D876D1A591
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 20:23:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKoS1+rW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9gfOsGj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699297527; x=1730833527;
+  t=1699302184; x=1730838184;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cT9aHMN4+6UysGWjGZ57CujKqwE3wlCHm0h+LEp1nF8=;
-  b=TKoS1+rWx4CuLY/uKHFr4yffhx64sMLjyMlCmel3DN3uoGL8Zao2101T
-   Lns+yXj6QnoXztRmjbdBHSck1hM9IeXnHT7UmfIrLdpQO2osiqkweyx6c
-   cpli3bEAFDFfJmnoYWHfeTnwLxTr9kg6w625PTBdW3Uh03oHv92VQpJgd
-   GNP6UO04N24tx9Jih1hEJ/O9h2nEbomqKw4hfBU96f3z8JP8SdKQQH8Lr
-   JM2bqHZP1GX/roCe43d8XIGjJ6bPqLhIm705gLlYFLkcRStpv5sU1fCkq
-   E/ZwqTAeVTpGzTH2GmrbAtJqrAHfrsckU1KSY4/2b1S1x813c1McCxDDb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="475587432"
+  bh=cHgE/nUX2vSvflUUfpPPn5BjUjh72rhn+OkK/XKDA8w=;
+  b=H9gfOsGjp5gJE6ampLHVObkO571aUHsoZtvXE3D67QtLn9eY8DkEi1vC
+   nw0MmhmWeX659FiKV3EWSNBgT5M0VSr49U62qSSv5rnEhtZWsVsHNbQ8M
+   cYmL5/RPDHJjkON/R9nKZFHS861YHOge6Ds9C4LV5YMk9vmLb6caxJLFQ
+   cczh7EM8HPl0mJB2oGPNNu1tDilZ7SwcDL7ESz7wdwQQmLXrfGtUOrltR
+   JojAR2GkTPSX/Bp1u0RJGUXWjI1WTNIxPjk/+XUHmwUkw/yNxffaRWFp4
+   3+zqYIuta1sLgcSNksRcai0Q/aNlMtihBedPpRwk92XQGj4ZqFn6EUPP4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="475601358"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="475587432"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 11:05:26 -0800
+   d="scan'208";a="475601358"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 12:23:03 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="853125317"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="3548280"
+   d="scan'208";a="853125317"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Nov 2023 11:05:25 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Nov 2023 12:23:00 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r04uY-0006fY-2D;
-	Mon, 06 Nov 2023 19:05:22 +0000
-Date: Tue, 7 Nov 2023 03:04:37 +0800
+	id 1r067g-0006i0-0g;
+	Mon, 06 Nov 2023 20:23:00 +0000
+Date: Tue, 7 Nov 2023 04:22:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Felipe Balbi <balbi@ti.com>
-Subject: drivers/usb/gadget/udc/renesas_usb3.c:1797:73: warning: '%d'
- directive output may be truncated writing between 1 and 10 bytes into a
- region of size 6
-Message-ID: <202311070258.WXmAZXKE-lkp@intel.com>
+To: Paul Burton <paul.burton@mips.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: {standard input}:123: Error: found '(', expected: ')'
+Message-ID: <202311070356.BvkVnvMw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,162 +51,232 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d2f51b3516dade79269ff45eae2a7668ae711b25
-commit: 746bfe63bba37ad55956b7377c9af494e7e28929 usb: gadget: renesas_usb3: add support for Renesas USB3.0 peripheral controller
-date:   8 years ago
-config: x86_64-buildonly-randconfig-006-20230830 (https://download.01.org/0day-ci/archive/20231107/202311070258.WXmAZXKE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070258.WXmAZXKE-lkp@intel.com/reproduce)
+commit: 21e3134b3ec09e722cbcda69788f206adc8db1f4 MIPS: barrier: Clean up rmb() & wmb() definitions
+date:   4 years, 1 month ago
+config: mips-randconfig-r011-20220330 (https://download.01.org/0day-ci/archive/20231107/202311070356.BvkVnvMw-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070356.BvkVnvMw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311070258.WXmAZXKE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311070356.BvkVnvMw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kobject.h:21,
-                    from include/linux/module.h:17,
-                    from drivers/usb/gadget/udc/renesas_usb3.c:15:
-   include/linux/sysfs.h: In function 'sysfs_get_dirent':
-   include/linux/sysfs.h:517:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
-     517 |         return kernfs_find_and_get(parent, name);
-         |                                            ^~~~
-         |                                            |
-         |                                            const unsigned char *
-   In file included from include/linux/sysfs.h:15:
-   include/linux/kernfs.h:428:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
-     428 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
-         |                                             ~~~~~~~~~~~~^~~~
-   drivers/usb/gadget/udc/renesas_usb3.c: In function 'usb3_get_setup_data':
-   drivers/usb/gadget/udc/renesas_usb3.c:718:9: warning: converting a packed 'struct usb_ctrlrequest' pointer (alignment 1) to a 'u32' {aka 'unsigned int'} pointer (alignment 4) may result in an unaligned pointer value [-Waddress-of-packed-member]
-     718 |         u32 *data = (u32 *)ctrl;
-         |         ^~~
-   In file included from include/linux/usb/ch9.h:36,
-                    from drivers/usb/gadget/udc/renesas_usb3.c:21:
-   include/uapi/linux/usb/ch9.h:185:8: note: defined here
-     185 | struct usb_ctrlrequest {
-         |        ^~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c: At top level:
-   include/linux/module.h:136:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'renesas_usb3_driver_exit': 'cold' [-Wmissing-attributes]
-     136 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
-         |              ^~~~~~~~~~~~~~
-   include/linux/device.h:1334:1: note: in expansion of macro 'module_exit'
-    1334 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/platform_device.h:222:9: note: in expansion of macro 'module_driver'
-     222 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^~~~~~~~~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c:1970:1: note: in expansion of macro 'module_platform_driver'
-    1970 | module_platform_driver(renesas_usb3_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/node.h:17,
-                    from include/linux/cpu.h:16,
-                    from include/linux/of_device.h:4,
-                    from drivers/usb/gadget/udc/renesas_usb3.c:16:
-   drivers/usb/gadget/udc/renesas_usb3.c:1970:24: note: 'cleanup_module' target declared here
-    1970 | module_platform_driver(renesas_usb3_driver);
-         |                        ^~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:1330:20: note: in definition of macro 'module_driver'
-    1330 | static void __exit __driver##_exit(void) \
-         |                    ^~~~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c:1970:1: note: in expansion of macro 'module_platform_driver'
-    1970 | module_platform_driver(renesas_usb3_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/module.h:130:13: warning: 'init_module' specifies less restrictive attribute than its target 'renesas_usb3_driver_init': 'cold' [-Wmissing-attributes]
-     130 |         int init_module(void) __attribute__((alias(#initfn)));
-         |             ^~~~~~~~~~~
-   include/linux/device.h:1329:1: note: in expansion of macro 'module_init'
-    1329 | module_init(__driver##_init); \
-         | ^~~~~~~~~~~
-   include/linux/platform_device.h:222:9: note: in expansion of macro 'module_driver'
-     222 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^~~~~~~~~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c:1970:1: note: in expansion of macro 'module_platform_driver'
-    1970 | module_platform_driver(renesas_usb3_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c:1970:24: note: 'init_module' target declared here
-    1970 | module_platform_driver(renesas_usb3_driver);
-         |                        ^~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:1325:19: note: in definition of macro 'module_driver'
-    1325 | static int __init __driver##_init(void) \
-         |                   ^~~~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c:1970:1: note: in expansion of macro 'module_platform_driver'
-    1970 | module_platform_driver(renesas_usb3_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c: In function 'renesas_usb3_probe':
->> drivers/usb/gadget/udc/renesas_usb3.c:1797:73: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
-    1797 |                 snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep%d", i);
-         |                                                                         ^~
-   In function 'renesas_usb3_init_ep',
-       inlined from 'renesas_usb3_probe' at drivers/usb/gadget/udc/renesas_usb3.c:1928:8:
-   drivers/usb/gadget/udc/renesas_usb3.c:1797:70: note: directive argument in the range [0, 2147483646]
-    1797 |                 snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep%d", i);
-         |                                                                      ^~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c:1797:17: note: 'snprintf' output between 4 and 13 bytes into a destination of size 8
-    1797 |                 snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep%d", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1797 drivers/usb/gadget/udc/renesas_usb3.c
-
-  1771	
-  1772	static int renesas_usb3_init_ep(struct renesas_usb3 *usb3, struct device *dev,
-  1773					const struct renesas_usb3_priv *priv)
-  1774	{
-  1775		struct renesas_usb3_ep *usb3_ep;
-  1776		int i;
-  1777	
-  1778		/* calculate num_usb3_eps from renesas_usb3_priv */
-  1779		usb3->num_usb3_eps = priv->ramsize_per_ramif * priv->num_ramif * 2 /
-  1780				     priv->ramsize_per_pipe + 1;
-  1781	
-  1782		if (usb3->num_usb3_eps > USB3_MAX_NUM_PIPES)
-  1783			usb3->num_usb3_eps = USB3_MAX_NUM_PIPES;
-  1784	
-  1785		usb3->usb3_ep = devm_kzalloc(dev, sizeof(*usb3_ep) * usb3->num_usb3_eps,
-  1786					     GFP_KERNEL);
-  1787		if (!usb3->usb3_ep)
-  1788			return -ENOMEM;
-  1789	
-  1790		dev_dbg(dev, "%s: num_usb3_eps = %d\n", __func__, usb3->num_usb3_eps);
-  1791		/*
-  1792		 * This driver prepares pipes as the followings:
-  1793		 *  - odd pipes = IN pipe
-  1794		 *  - even pipes = OUT pipe (except pipe 0)
-  1795		 */
-  1796		usb3_for_each_ep(usb3_ep, usb3, i) {
-> 1797			snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep%d", i);
-  1798			usb3_ep->usb3 = usb3;
-  1799			usb3_ep->num = i;
-  1800			usb3_ep->ep.name = usb3_ep->ep_name;
-  1801			usb3_ep->ep.ops = &renesas_usb3_ep_ops;
-  1802			INIT_LIST_HEAD(&usb3_ep->queue);
-  1803			INIT_LIST_HEAD(&usb3_ep->ep.ep_list);
-  1804			if (!i) {
-  1805				/* for control pipe */
-  1806				usb3->gadget.ep0 = &usb3_ep->ep;
-  1807				usb_ep_set_maxpacket_limit(&usb3_ep->ep,
-  1808							USB3_EP0_HSFS_MAX_PACKET_SIZE);
-  1809				usb3_ep->ep.caps.type_control = true;
-  1810				usb3_ep->ep.caps.dir_in = true;
-  1811				usb3_ep->ep.caps.dir_out = true;
-  1812				continue;
-  1813			}
-  1814	
-  1815			/* for bulk or interrupt pipe */
-  1816			usb_ep_set_maxpacket_limit(&usb3_ep->ep, ~0);
-  1817			list_add_tail(&usb3_ep->ep.ep_list, &usb3->gadget.ep_list);
-  1818			usb3_ep->ep.caps.type_bulk = true;
-  1819			usb3_ep->ep.caps.type_int = true;
-  1820			if (i & 1)
-  1821				usb3_ep->ep.caps.dir_in = true;
-  1822			else
-  1823				usb3_ep->ep.caps.dir_out = true;
-  1824		}
-  1825	
-  1826		return 0;
-  1827	}
-  1828	
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+--
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+   {standard input}:140: Error: found '(', expected: ')'
+   {standard input}:140: Error: found '(', expected: ')'
+   {standard input}:140: Error: non-constant expression in ".if" statement
+   {standard input}:140: Error: junk at end of line, first unrecognized character is `('
+--
+   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c: In function 'amdgpu_device_fini':
+   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:2935:13: warning: variable 'r' set but not used [-Wunused-but-set-variable]
+    2935 |         int r;
+         |             ^
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:53,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:40:
+   At top level:
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
+      76 | static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
+         |                                ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
+      75 | static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
+         |                                ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
+      74 | static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
+         |                                ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
+      73 | static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
+         |                                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
+      72 | static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
+         |                                ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:67:32: warning: 'dc_fixpt_zero' defined but not used [-Wunused-const-variable=]
+      67 | static const struct fixed31_32 dc_fixpt_zero = { 0 };
+         |                                ^~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+--
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:683:5: warning: no previous prototype for 'amdgpu_ras_error_cure' [-Wmissing-prototypes]
+     683 | int amdgpu_ras_error_cure(struct amdgpu_device *adev,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
+                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:53,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:29:
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
+      76 | static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
+         |                                ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
+      75 | static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
+         |                                ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
+      74 | static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
+         |                                ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
+      73 | static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
+         |                                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
+      72 | static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
+         |                                ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:67:32: warning: 'dc_fixpt_zero' defined but not used [-Wunused-const-variable=]
+      67 | static const struct fixed31_32 dc_fixpt_zero = { 0 };
+         |                                ^~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+   {standard input}:1184: Error: found '(', expected: ')'
+   {standard input}:1184: Error: found '(', expected: ')'
+   {standard input}:1184: Error: non-constant expression in ".if" statement
+   {standard input}:1184: Error: junk at end of line, first unrecognized character is `('
+--
+   arch/mips/kernel/mips-cm.c:157:13: warning: no previous prototype for '__mips_cm_l2sync_phys_base' [-Wmissing-prototypes]
+     157 | phys_addr_t __mips_cm_l2sync_phys_base(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+--
+   cc1: warning: drivers/gpu/drm/amd/include: No such file or directory [-Wmissing-include-dirs]
+   drivers/gpu/drm/radeon/radeon_combios.c: In function 'radeon_combios_get_power_modes':
+   drivers/gpu/drm/radeon/radeon_combios.c:2641:17: warning: variable 'blocks' set but not used [-Wunused-but-set-variable]
+    2641 |         u8 rev, blocks, tmp;
+         |                 ^~~~~~
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+--
+   cc1: warning: drivers/gpu/drm/amd/include: No such file or directory [-Wmissing-include-dirs]
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+--
+   cc1: warning: drivers/gpu/drm/amd/include: No such file or directory [-Wmissing-include-dirs]
+   drivers/gpu/drm/radeon/r600.c: In function 'r600_pcie_gart_tlb_flush':
+   drivers/gpu/drm/radeon/r600.c:1083:21: warning: variable 'tmp' set but not used [-Wunused-but-set-variable]
+    1083 |                 u32 tmp;
+         |                     ^~~
+   drivers/gpu/drm/radeon/r600.c: At top level:
+   drivers/gpu/drm/radeon/r600.c:1616:5: warning: no previous prototype for 'r600_gpu_check_soft_reset' [-Wmissing-prototypes]
+    1616 | u32 r600_gpu_check_soft_reset(struct radeon_device *rdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/r600.c:3481:5: warning: no previous prototype for 'r600_ih_ring_alloc' [-Wmissing-prototypes]
+    3481 | int r600_ih_ring_alloc(struct radeon_device *rdev)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/r600.c:3517:6: warning: no previous prototype for 'r600_ih_ring_fini' [-Wmissing-prototypes]
+    3517 | void r600_ih_ring_fini(struct radeon_device *rdev)
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/r600.c: In function 'r600_mmio_hdp_flush':
+   drivers/gpu/drm/radeon/r600.c:4393:21: warning: variable 'tmp' set but not used [-Wunused-but-set-variable]
+    4393 |                 u32 tmp;
+         |                     ^~~
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+--
+   cc1: warning: drivers/gpu/drm/amd/include: No such file or directory [-Wmissing-include-dirs]
+   drivers/gpu/drm/radeon/rv770.c:1138:6: warning: no previous prototype for 'rv770_set_clk_bypass_mode' [-Wmissing-prototypes]
+    1138 | void rv770_set_clk_bypass_mode(struct radeon_device *rdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+--
+   cc1: warning: drivers/gpu/drm/amd/include: No such file or directory [-Wmissing-include-dirs]
+   drivers/gpu/drm/radeon/radeon_legacy_tv.c: In function 'radeon_legacy_tv_mode_set':
+   drivers/gpu/drm/radeon/radeon_legacy_tv.c:540:31: warning: variable 'tv_pll_cntl1' set but not used [-Wunused-but-set-variable]
+     540 |         uint32_t tv_pll_cntl, tv_pll_cntl1, tv_ftotal;
+         |                               ^~~~~~~~~~~~
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+--
+   cc1: warning: drivers/gpu/drm/amd/include: No such file or directory [-Wmissing-include-dirs]
+   drivers/gpu/drm/radeon/evergreen.c:1281:6: warning: no previous prototype for 'evergreen_fix_pci_max_read_req_size' [-Wmissing-prototypes]
+    1281 | void evergreen_fix_pci_max_read_req_size(struct radeon_device *rdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:1914:5: warning: no previous prototype for 'evergreen_get_number_of_dram_channels' [-Wmissing-prototypes]
+    1914 | u32 evergreen_get_number_of_dram_channels(struct radeon_device *rdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:2664:6: warning: no previous prototype for 'evergreen_mc_stop' [-Wmissing-prototypes]
+    2664 | void evergreen_mc_stop(struct radeon_device *rdev, struct evergreen_mc_save *save)
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:2762:6: warning: no previous prototype for 'evergreen_mc_resume' [-Wmissing-prototypes]
+    2762 | void evergreen_mc_resume(struct radeon_device *rdev, struct evergreen_mc_save *save)
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:2850:6: warning: no previous prototype for 'evergreen_mc_program' [-Wmissing-prototypes]
+    2850 | void evergreen_mc_program(struct radeon_device *rdev)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c: In function 'evergreen_gpu_init':
+   drivers/gpu/drm/radeon/evergreen.c:3136:13: warning: variable 'mc_shared_chmap' set but not used [-Wunused-but-set-variable]
+    3136 |         u32 mc_shared_chmap, mc_arb_ramcfg;
+         |             ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c: At top level:
+   drivers/gpu/drm/radeon/evergreen.c:3710:5: warning: no previous prototype for 'evergreen_mc_init' [-Wmissing-prototypes]
+    3710 | int evergreen_mc_init(struct radeon_device *rdev)
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:3769:6: warning: no previous prototype for 'evergreen_print_gpu_status_regs' [-Wmissing-prototypes]
+    3769 | void evergreen_print_gpu_status_regs(struct radeon_device *rdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:3797:6: warning: no previous prototype for 'evergreen_is_display_hung' [-Wmissing-prototypes]
+    3797 | bool evergreen_is_display_hung(struct radeon_device *rdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:3826:5: warning: no previous prototype for 'evergreen_gpu_check_soft_reset' [-Wmissing-prototypes]
+    3826 | u32 evergreen_gpu_check_soft_reset(struct radeon_device *rdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:4009:6: warning: no previous prototype for 'evergreen_gpu_pci_config_reset' [-Wmissing-prototypes]
+    4009 | void evergreen_gpu_pci_config_reset(struct radeon_device *rdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:4110:6: warning: no previous prototype for 'sumo_rlc_fini' [-Wmissing-prototypes]
+    4110 | void sumo_rlc_fini(struct radeon_device *rdev)
+         |      ^~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:4153:5: warning: no previous prototype for 'sumo_rlc_init' [-Wmissing-prototypes]
+    4153 | int sumo_rlc_init(struct radeon_device *rdev)
+         |     ^~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:4381:5: warning: no previous prototype for 'evergreen_rlc_resume' [-Wmissing-prototypes]
+    4381 | int evergreen_rlc_resume(struct radeon_device *rdev)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/evergreen.c:4670:6: warning: no previous prototype for 'evergreen_irq_suspend' [-Wmissing-prototypes]
+    4670 | void evergreen_irq_suspend(struct radeon_device *rdev)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   {standard input}: Assembler messages:
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: found '(', expected: ')'
+>> {standard input}:123: Error: non-constant expression in ".if" statement
+>> {standard input}:123: Error: junk at end of line, first unrecognized character is `('
+..
 
 -- 
 0-DAY CI Kernel Test Service
