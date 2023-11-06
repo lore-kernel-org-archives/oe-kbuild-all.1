@@ -1,53 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34AC2E3EB;
-	Mon,  6 Nov 2023 20:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B8429CF6;
+	Mon,  6 Nov 2023 20:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXk2ebsK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9AKyJuo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699302250; x=1730838250;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HUQJarH/crV1JopZJb9YSb1wHfMu7JhiXQvXe0faobI=;
-  b=dXk2ebsKvvNWPDE301Pv9Ge5nX9Umy4WaHt6++1CVS6ZC9K4i1TgdqzC
-   cix6COZk0k8mbcqcCpgtSlJCnxbAW1gTreLIy5S3w9mjU8wipWNHL41IU
-   QmHMQDdfPSUCen56wzLXX/GzG3PaGTE1Y5vRWTlLXlhxfsT0QT591SSex
-   SUb+3QiHlxyDB7b/oJOfWvclUfSa8dbSPRZbLT3lw/7yhE/BtDvRdfwad
-   +rt6nIZSSkAewZOcisYewFh9OmyOe4VWY9t7WCnbvTTpjfyDYSSROE6Dz
-   qlWaFtWPYiZ80SnoWELdZOy8BFs6lUWHbTNAkdoqASyWn/lAeeYPEeGcy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="453670645"
+  t=1699303721; x=1730839721;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2A3DxbgwDIeKtTHs+XIhBI+I56ziuucumFGPKJ8wOPc=;
+  b=L9AKyJuoP6fz0137jKo1QnGeRVwraO+0F1bMtYeCEvlqhLOZr5NlSsNZ
+   VzHQSqwWgrZ54gNrFTfF3/6XdIYppSFjpwAurCyzigkCM54/siIlX/qvq
+   1NpvlnDxJbQ/lsMIRVNGGUmldOiS9pZwanZIhHoJ+8UX69PmP7pfNjAdH
+   k2iXSRRPgsnG1vPiZ2jIuktMcw/5TuWw6I3lwvqCMGxrVbcpNqvgojX5u
+   g0kAQ5qfTIHqyvzI8dAE6jFEZozsaEXC/gOULsT5d/+ZcJr9youHHrH/u
+   tI83nb0z7Q81k2CDat+dYpx1DCzo8mStPZ6MFzmxnn+9cZ8+jD5Oq/PvZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="455845984"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="453670645"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 12:24:09 -0800
+   d="scan'208";a="455845984"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 12:48:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="797421965"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="797421965"
+   d="scan'208";a="10577613"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 06 Nov 2023 12:24:06 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 06 Nov 2023 12:48:39 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r068i-0006i4-0B;
-	Mon, 06 Nov 2023 20:24:04 +0000
-Date: Tue, 7 Nov 2023 04:22:44 +0800
+	id 1r06WS-0006im-2W;
+	Mon, 06 Nov 2023 20:48:36 +0000
+Date: Tue, 7 Nov 2023 04:48:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:TTY LAYER AND SERIAL DRIVERS" <linux-serial@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, alexandre.belloni@bootlin.com,
-	conor.culhane@silvaco.com, imx@lists.linux.dev, joe@perches.com,
-	linux-i3c@lists.infradead.org, miquel.raynal@bootlin.com
-Subject: Re: [PATCH 1/1] tty: i3c: add tty over i3c master support
-Message-ID: <202311070330.5mylauLR-lkp@intel.com>
-References: <20231018211111.3437929-1-Frank.Li@nxp.com>
+To: Rohan McLure <rmclure@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>
+Subject: drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c:578:5:
+ warning: stack frame size (2144) exceeds limit (2048) in
+ 'hantro_g2_hevc_dec_run'
+Message-ID: <202311070412.oRu9ZBhc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,98 +50,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231018211111.3437929-1-Frank.Li@nxp.com>
 
-Hi Frank,
+Hi Rohan,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus linus/master v6.6 next-20231106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/tty-i3c-add-tty-over-i3c-master-support/20231019-051407
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20231018211111.3437929-1-Frank.Li%40nxp.com
-patch subject: [PATCH 1/1] tty: i3c: add tty over i3c master support
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20231107/202311070330.5mylauLR-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070330.5mylauLR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d2f51b3516dade79269ff45eae2a7668ae711b25
+commit: 6f0926c00565a91f3bd7ca1aa05db307daed5e0f powerpc/kcsan: Add KCSAN Support
+date:   9 months ago
+config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20231107/202311070412.oRu9ZBhc-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070412.oRu9ZBhc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311070330.5mylauLR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311070412.oRu9ZBhc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/tty/i3c_tty.c: In function 'tty_i3c_rxwork':
->> drivers/tty/i3c_tty.c:265:26: error: 'struct i3c_priv_xfer' has no member named 'actual_len'
-     265 |                 if (xfers.actual_len) {
-         |                          ^
-   drivers/tty/i3c_tty.c:266:82: error: 'struct i3c_priv_xfer' has no member named 'actual_len'
-     266 |                         tty_insert_flip_string(&sport->port, sport->buffer, xfers.actual_len);
-         |                                                                                  ^
->> drivers/tty/i3c_tty.c:271:25: error: implicit declaration of function 'i3c_device_getstatus_format1' [-Werror=implicit-function-declaration]
-     271 |                         i3c_device_getstatus_format1(sport->i3cdev, &status);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/i3c_tty.c: At top level:
-   drivers/tty/i3c_tty.c:400:6: warning: no previous prototype for 'i3c_remove' [-Wmissing-prototypes]
-     400 | void i3c_remove(struct i3c_device *dev)
-         |      ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c:578:5: warning: stack frame size (2144) exceeds limit (2048) in 'hantro_g2_hevc_dec_run' [-Wframe-larger-than]
+     578 | int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+         |     ^
+   1 warning generated.
+--
+>> drivers/input/touchscreen/cyttsp4_core.c:1682:12: warning: stack frame size (2112) exceeds limit (2048) in 'cyttsp4_startup' [-Wframe-larger-than]
+    1682 | static int cyttsp4_startup(struct cyttsp4 *cd)
+         |            ^
+   1 warning generated.
+--
+   drivers/net/ethernet/ibm/ibmvnic.c:194:6: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+     194 |         int rc, i;
+         |             ^
+>> drivers/net/ethernet/ibm/ibmvnic.c:5970:13: warning: stack frame size (2320) exceeds limit (2048) in 'ibmvnic_tasklet' [-Wframe-larger-than]
+    5970 | static void ibmvnic_tasklet(struct tasklet_struct *t)
+         |             ^
+   2 warnings generated.
+--
+>> drivers/net/ethernet/qlogic/qed/qed_mng_tlv.c:1244:5: warning: stack frame size (2368) exceeds limit (2048) in 'qed_mfw_process_tlv_req' [-Wframe-larger-than]
+    1244 | int qed_mfw_process_tlv_req(struct qed_hwfn *p_hwfn, struct qed_ptt *p_ptt)
+         |     ^
+   1 warning generated.
 
 
-vim +265 drivers/tty/i3c_tty.c
+vim +/hantro_g2_hevc_dec_run +578 drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
 
-   246	
-   247	static void tty_i3c_rxwork(struct work_struct *work)
-   248	{
-   249		struct ttyi3c_port *sport = container_of(work, struct ttyi3c_port, rxwork);
-   250		struct i3c_priv_xfer xfers;
-   251		int retry = I3C_TTY_RETRY;
-   252		u16 status = BIT(0);
-   253	
-   254		do {
-   255			memset(&xfers, 0, sizeof(xfers));
-   256			xfers.data.in = sport->buffer;
-   257			xfers.len = I3C_TTY_TRANS_SIZE;
-   258			xfers.rnw = 1;
-   259	
-   260			if (I3C_TTY_RX_STOP & atomic_read(&sport->status))
-   261				break;
-   262	
-   263			i3c_device_do_priv_xfers(sport->i3cdev, &xfers, 1);
-   264	
- > 265			if (xfers.actual_len) {
-   266				tty_insert_flip_string(&sport->port, sport->buffer, xfers.actual_len);
-   267				retry = 20;
-   268				continue;
-   269			} else {
-   270				status = BIT(0);
- > 271				i3c_device_getstatus_format1(sport->i3cdev, &status);
-   272				/*
-   273				 * Target side need some time to fill data into fifo. Target side may not
-   274				 * have hardware update status in real time. Software update status always
-   275				 * need some delays.
-   276				 *
-   277				 * Generally, target side have cicular buffer in memory, it will be moved
-   278				 * into FIFO by CPU or DMA. 'status' just show if cicular buffer empty. But
-   279				 * there are gap, espcially CPU have not response irq to fill FIFO in time.
-   280				 * So xfers.actual will be zero, wait for little time to avoid flood
-   281				 * transfer in i3c bus.
-   282				 */
-   283				usleep_range(I3C_TTY_YIELD_US, 10 * I3C_TTY_YIELD_US);
-   284				retry--;
-   285			}
-   286	
-   287		} while (retry && (status & BIT(0)));
-   288	
-   289		tty_flip_buffer_push(&sport->port);
-   290	}
-   291	
+5523dc7b851849 drivers/staging/media/hantro/hantro_g2_hevc_dec.c Benjamin Gaignard 2021-07-15  577  
+cb5dd5a0fa518d drivers/staging/media/hantro/hantro_g2_hevc_dec.c Benjamin Gaignard 2021-06-03 @578  int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+
+:::::: The code at line 578 was first introduced by commit
+:::::: cb5dd5a0fa518dff14ff2b90837c3c8f98f4dd5c media: hantro: Introduce G2/HEVC decoder
+
+:::::: TO: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
