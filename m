@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B8429CF6;
-	Mon,  6 Nov 2023 20:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594962D035
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 21:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9AKyJuo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4CaJwL/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699303721; x=1730839721;
+  t=1699304494; x=1730840494;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2A3DxbgwDIeKtTHs+XIhBI+I56ziuucumFGPKJ8wOPc=;
-  b=L9AKyJuoP6fz0137jKo1QnGeRVwraO+0F1bMtYeCEvlqhLOZr5NlSsNZ
-   VzHQSqwWgrZ54gNrFTfF3/6XdIYppSFjpwAurCyzigkCM54/siIlX/qvq
-   1NpvlnDxJbQ/lsMIRVNGGUmldOiS9pZwanZIhHoJ+8UX69PmP7pfNjAdH
-   k2iXSRRPgsnG1vPiZ2jIuktMcw/5TuWw6I3lwvqCMGxrVbcpNqvgojX5u
-   g0kAQ5qfTIHqyvzI8dAE6jFEZozsaEXC/gOULsT5d/+ZcJr9youHHrH/u
-   tI83nb0z7Q81k2CDat+dYpx1DCzo8mStPZ6MFzmxnn+9cZ8+jD5Oq/PvZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="455845984"
+  bh=hKvqrJWUs5UqeVs5cMG7WpvhP4b/hmTdOIKccNJOjCs=;
+  b=F4CaJwL/3iFAqmLxdSSeokLR6jrnHgwReJ3vJ/1fij8FiEmZN9lsuxtP
+   J5AtFy9hyuMlFVaH9GbawGPGBmdnYVUBe4G+GxWYzfJb7QgIGIQvApRbn
+   BujCPYydvJ2dLYSLNvotby1uC9Nz8o91t9SC+IWeHoyKCm6StzKwlgqMo
+   j+a3fjA0BmLdc+ACVMa+skOLvklspnemeusreGSjNEa0qCiwM6f+RkC+x
+   /Gf5DqLTc9AyqWmaK/IPsEow2tWaTxhBSFexxZnqqCjcGeFfCCDcNAsWO
+   FQPXt5PDwCSisLJRIYihCwIynk9DFQw4NSrelOcGTJAo2J8sq75jASUTW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="386542624"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="455845984"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 12:48:40 -0800
+   d="scan'208";a="386542624"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 13:01:33 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="755958432"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="10577613"
+   d="scan'208";a="755958432"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Nov 2023 12:48:39 -0800
+  by orsmga007.jf.intel.com with ESMTP; 06 Nov 2023 13:01:31 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r06WS-0006im-2W;
-	Mon, 06 Nov 2023 20:48:36 +0000
-Date: Tue, 7 Nov 2023 04:48:12 +0800
+	id 1r06iu-0006jE-36;
+	Mon, 06 Nov 2023 21:01:28 +0000
+Date: Tue, 7 Nov 2023 04:59:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rohan McLure <rmclure@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>
-Subject: drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c:578:5:
- warning: stack frame size (2144) exceeds limit (2048) in
- 'hantro_g2_hevc_dec_run'
-Message-ID: <202311070412.oRu9ZBhc-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-vfs:vfs.misc.backing_file 10/12] fs/file.c:879:21: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202311070414.RSFA4I0d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,59 +51,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Rohan,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d2f51b3516dade79269ff45eae2a7668ae711b25
-commit: 6f0926c00565a91f3bd7ca1aa05db307daed5e0f powerpc/kcsan: Add KCSAN Support
-date:   9 months ago
-config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20231107/202311070412.oRu9ZBhc-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070412.oRu9ZBhc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.misc.backing_file
+head:   6c9453d302c574bab05b2fd62ebe48bf7567eef5
+commit: d089d9d056c048303aedd40a7f3f26593ebd040c [10/12] file: convert to SLAB_TYPESAFE_BY_RCU
+config: x86_64-randconfig-122-20231008 (https://download.01.org/0day-ci/archive/20231107/202311070414.RSFA4I0d-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070414.RSFA4I0d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311070412.oRu9ZBhc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311070414.RSFA4I0d-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/file.c:379:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:379:17: sparse:     expected struct file **old_fds
+   fs/file.c:379:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:380:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] __rcu **fd @@
+   fs/file.c:380:17: sparse:     expected struct file **new_fds
+   fs/file.c:380:17: sparse:     got struct file [noderef] __rcu **fd
+   fs/file.c:395:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/file.c:395:17: sparse:    struct file [noderef] __rcu *
+   fs/file.c:395:17: sparse:    struct file *
+   fs/file.c:430:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu *[assigned] __ret @@
+   fs/file.c:470:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] __rcu *fdt @@     got struct fdtable * @@
+   fs/file.c:646:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+   fs/file.c:841:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] __rcu * @@
+   fs/file.c:875:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file @@     got struct file * @@
+>> fs/file.c:879:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct atomic64_t [usertype] *v @@     got struct atomic64_t [noderef] __rcu * @@
+   fs/file.c:882:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file [noderef] __rcu *file_reloaded @@     got struct file * @@
+   fs/file.c:907:32: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file_reloaded @@
+   fs/file.c:909:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file * @@     got struct file [noderef] __rcu *file @@
+   fs/file.c:1203:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] __rcu * @@
 
->> drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c:578:5: warning: stack frame size (2144) exceeds limit (2048) in 'hantro_g2_hevc_dec_run' [-Wframe-larger-than]
-     578 | int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
-         |     ^
-   1 warning generated.
---
->> drivers/input/touchscreen/cyttsp4_core.c:1682:12: warning: stack frame size (2112) exceeds limit (2048) in 'cyttsp4_startup' [-Wframe-larger-than]
-    1682 | static int cyttsp4_startup(struct cyttsp4 *cd)
-         |            ^
-   1 warning generated.
---
-   drivers/net/ethernet/ibm/ibmvnic.c:194:6: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
-     194 |         int rc, i;
-         |             ^
->> drivers/net/ethernet/ibm/ibmvnic.c:5970:13: warning: stack frame size (2320) exceeds limit (2048) in 'ibmvnic_tasklet' [-Wframe-larger-than]
-    5970 | static void ibmvnic_tasklet(struct tasklet_struct *t)
-         |             ^
-   2 warnings generated.
---
->> drivers/net/ethernet/qlogic/qed/qed_mng_tlv.c:1244:5: warning: stack frame size (2368) exceeds limit (2048) in 'qed_mfw_process_tlv_req' [-Wframe-larger-than]
-    1244 | int qed_mfw_process_tlv_req(struct qed_hwfn *p_hwfn, struct qed_ptt *p_ptt)
-         |     ^
-   1 warning generated.
+vim +879 fs/file.c
 
-
-vim +/hantro_g2_hevc_dec_run +578 drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
-
-5523dc7b851849 drivers/staging/media/hantro/hantro_g2_hevc_dec.c Benjamin Gaignard 2021-07-15  577  
-cb5dd5a0fa518d drivers/staging/media/hantro/hantro_g2_hevc_dec.c Benjamin Gaignard 2021-06-03 @578  int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
-
-:::::: The code at line 578 was first introduced by commit
-:::::: cb5dd5a0fa518dff14ff2b90837c3c8f98f4dd5c media: hantro: Introduce G2/HEVC decoder
-
-:::::: TO: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+   855	
+   856	/**
+   857	 * get_file_rcu - try go get a reference to a file under rcu
+   858	 * @f: the file to get a reference on
+   859	 *
+   860	 * This function tries to get a reference on @f carefully verifying that
+   861	 * @f hasn't been reused.
+   862	 *
+   863	 * This function should rarely have to be used and only by users who
+   864	 * understand the implications of SLAB_TYPESAFE_BY_RCU. Try to avoid it.
+   865	 *
+   866	 * Return: Returns @f with the reference count increased or NULL.
+   867	 */
+   868	struct file *get_file_rcu(struct file __rcu **f)
+   869	{
+   870		for (;;) {
+   871			struct file __rcu *file;
+   872			struct file __rcu *file_reloaded;
+   873			struct file __rcu *file_reloaded_cmp;
+   874	
+   875			file = rcu_dereference_raw(*f);
+   876			if (!file)
+   877				return NULL;
+   878	
+ > 879			if (unlikely(!atomic_long_inc_not_zero(&file->f_count)))
+   880				continue;
+   881	
+   882			file_reloaded = rcu_dereference_raw(*f);
+   883	
+   884			/*
+   885			 * Ensure that all accesses have a dependency on the
+   886			 * load from rcu_dereference_raw() above so we get
+   887			 * correct ordering between reuse/allocation and the
+   888			 * pointer check below.
+   889			 */
+   890			file_reloaded_cmp = file_reloaded;
+   891			OPTIMIZER_HIDE_VAR(file_reloaded_cmp);
+   892	
+   893			/*
+   894			 * atomic_long_inc_not_zero() above provided a full
+   895			 * memory barrier when we acquired a reference.
+   896			 *
+   897			 * This is paired with the write barrier from assigning
+   898			 * to the __rcu protected file pointer so that if that
+   899			 * pointer still matches the current file, we know we
+   900			 * have successfully acquired a reference to the right
+   901			 * file.
+   902			 *
+   903			 * If the pointers don't match the file has been
+   904			 * reallocated by SLAB_TYPESAFE_BY_RCU.
+   905			 */
+   906			if (file == file_reloaded_cmp)
+   907				return file_reloaded;
+   908	
+   909			fput(file);
+   910		}
+   911	}
+   912	EXPORT_SYMBOL_GPL(get_file_rcu);
+   913	
 
 -- 
 0-DAY CI Kernel Test Service
