@@ -1,172 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB16156CA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 08:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53B910A08
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 08:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S1m+6Vwi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699259621; x=1730795621;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UMBi1pRhFRy1yHTd3DnU7X0y7EIi2n9evQP9hgRgYGY=;
-  b=S1m+6VwiKVgc9Z7znrjo5nuNHMIVB4319YpgMYZV9d1SpcDd8M46lmoU
-   Yy9IPiTwxJ/xb4Jpp/Hs3afxrMMXpJHPeCC42rIPmgPLrp6M1km2n0Qri
-   E2HWc8CpLLrFIo3T1ksQa6a6zxJ5VpKVMukEFqnL8VuSu5CylpbMNj7yS
-   A8PxBRc/9xdOLCNTdMTQGysyXmYRi3MrYa7Umm9j4xchQGxm0wydKELgP
-   EN3Jve5a+waYWti43B8ScZnJxDL9cYYOw1dXLjkUuJ1zMRuj4CzYKzM+h
-   nbrYzLaEQzwcyILi0ZdVckyuG5fiBme1fixcY0T2Kv/ODoZERgJzy3wD7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="10768246"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="10768246"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 00:33:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="738744400"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="738744400"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Nov 2023 00:33:39 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 6 Nov 2023 00:33:39 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 6 Nov 2023 00:33:38 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Mon, 6 Nov 2023 00:33:38 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Mon, 6 Nov 2023 00:33:38 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=krvl0uKCi9ZfMVxjk69Sm/A6U9D0b20N78EgEXeFpBfvfKAg4Va/qGx5cEIq7FMXIXtMCHAuRdVCjHHtZTroewZ+B7VeE/309IqcyDzvfcubTAza8ZUG68BFWUN9HbAbE+qb8DaQD3Rj+IUQgZwVp1XbIK2AC9n5Fw3ebN/5fyd798+lUcQZxy5WG8E7vqZdQ9uWCXXB3WDJSYC8UpLvHskG1QDLN4X3951TXM9zWKJ6oe5KoZMLqpb9kUhxOI1lGxB4eZvSAVMttru0h4uDpfFwFW+pyu5Ewphm2IWW1ckBf5oigWk0J9+zZUJrFak0PTX422LWmU49FxFq+jE2bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cinz0bqexJ+kErZ8SEyNMx7u0+cCdgH9w3582GpyWus=;
- b=azoddYAUBYsCryWCnxnrehpOog5i9RWeBsvxIofZeH6aQ7eSVVW9bDNa2+NveTVtPxw2oQh87YCBqqjSC68rE4OjJrL+Kb4bvHkASrkY1gRUgj3Jj+7lUkKp2CWL1EqHq1o+dm6lnYmkK/TurV3giDILhD5750IbIxqc2B2W+uFfHG3woDpxB+z1yBzOCpMcKWT6hnZvXs/BXp7ym5Ztud1uigpOL53atoLa4eKFnLihkLbSS4XRyL+gukB4SDONmwPdD9UNPDTrCz/wWRaugO5IPRAcRlAOprb/fUdHMZ4MdkYNysr88xF2iASg/eRyqiPGqy5Hdc2CDEFrq9VV+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by SA1PR11MB6846.namprd11.prod.outlook.com (2603:10b6:806:2b0::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
- 2023 08:33:36 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.6933.028; Mon, 6 Nov 2023
- 08:33:36 +0000
-Date: Mon, 6 Nov 2023 16:28:53 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Nava kishore Manne <nava.manne@xilinx.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Moritz
- Fischer" <mdf@kernel.org>, Appana Durga Kedareswara rao
-	<appana.durga.rao@xilinx.com>
-Subject: drivers/fpga/versal-fpga.c:78:34: warning: 'versal_fpga_of_match'
- defined but not used
-Message-ID: <202311052137.qkYX2xHU-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG3P274CA0002.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::14)
- To CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lra2GlM9"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9c603e2354fso834689466b.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 06 Nov 2023 00:50:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699260607; x=1699865407; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KsCANmYwXRnDmiAjkr58/AtcQu8TsUqslllZf46Wsxw=;
+        b=lra2GlM9Nd/g02AYh9HWI7PEWqiAOaekY5s2yhANsSXqeHqbWfkAoKIfqQMnN2Rl9C
+         Hb8j4y+6RVIqpgky6HugjXQjGrLHuhIQU0WgOU3OfQcUph8HfSOaNhF1kmmDMH8szXdn
+         ZAJeMUVHDvK9lA0UyZum2XFFyVxqaiwz+VTqKFfPwAqrYzyxo74zyvjFaYUZkZBVwiix
+         4uUiUoxJ520CsExSFa3QAVj57OUDw8WwAwRk2IVmxj12kL7xTyF4DONPReeOL00banUV
+         RyCby9JseoJWPrKfjBAHT/Zxyd+LzG2JzL9rUn2GDfJEYmKG4EmIzU4mUm2eQGNvFnCr
+         BGlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699260607; x=1699865407;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KsCANmYwXRnDmiAjkr58/AtcQu8TsUqslllZf46Wsxw=;
+        b=uQAgCciyY8td1iYCosqt/AQTbxUSBIjGw77LIqNKD9OTyqD84X9H8KyDNUcguCbB97
+         ynnOq6M7kmSUZ/AX4i/kCCHa49KZR5lZlhceYPQv18FzGxlUNBENc02ayx9hWry1BPKU
+         Ec3BfPn/vGKExVNizEjyEXiH7+PaZnE9BMuGVbyPHPRf0HuE5lR2lDiRrYzdB+TkQ/SF
+         eikmQuKlOqJ5b7QjjYLJs4T80cwqtuPvASsziuEBZgKa2f4PrEVxcS4TbPPoNxcWqCUb
+         bVxiyNoBGfPRQQujDoyz9G0ORD5pnvif9krmiRqYoXJKM9jfVzswQ+K2I8AzIQYuk5fl
+         78/Q==
+X-Gm-Message-State: AOJu0Yz0zKLBalvHi8AnrVUwh6+cJLjClsGyIc7olBvGEzDVv3OGTp/A
+	pzkWcBf4p8cypLZ/ODuM1Bmj/w==
+X-Google-Smtp-Source: AGHT+IGqyaj7aBrtiaX/Xyz9ylIOat9r5LKS0SxYceKAy6Bcncptk2m+e4S7ZdYkY0O94IOLq9Da8w==
+X-Received: by 2002:a17:907:785:b0:9a9:f042:deb9 with SMTP id xd5-20020a170907078500b009a9f042deb9mr8692907ejb.19.1699260606885;
+        Mon, 06 Nov 2023 00:50:06 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id g19-20020a170906349300b009c3828fec06sm3859301ejb.81.2023.11.06.00.50.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 00:50:06 -0800 (PST)
+Date: Mon, 6 Nov 2023 11:50:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Subject: [alobakin:pfcp 5/20] drivers/iio/imu/adis16475.c:363
+ adis16475_set_freq() warn: set_bit() takes a bit number
+Message-ID: <ff4ef031-774e-4e4d-a009-31f242bf6aee@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SA1PR11MB6846:EE_
-X-MS-Office365-Filtering-Correlation-Id: 959d003a-42a5-452c-ca70-08dbdea311ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xdvDAOQhTbaPVOmbAR1nWvjiE+P8MkNVRGEPejKU2ohH02s8ReopWrtg/ILNLi4ukUhk74ERjmv93hZeKw3HxM4Y0m31n0wM6ZuWtb+dWMmfOrtf6CkvTqXTCeF7ytRqZ1Rsz/xfIuiuCba9PKQS/Yq2EcdjIh2VQkS+PMhuqmwDm23ftZH9G5Ltusq3eu92JOHF3jMpnlgk4tc7/3jhfeME+obJk32qbRg267GfNMA23jzLPbIvueuVHTBK6ZXvYETJyXE3tc7YpRYygpTK9WpAgl/HAZJGMbYdm7mvUKqnKyWPaOUMdyD6FqwUP/V+UA4DyJ++0/TuGr/Y1XylNHLJ77pBfX9469XlvW/VQERDxHWRwM5tydO7ssJvxI3YJdoZY1r/3Qi6XCgbnGNonnY8sWBmk/WNjZY/mMdL/BkukYrACV8OIkvB0GGtb2A+n6m/23WyATF6KQv5FwW7Pk0i43hLujOgH/PET2gjpa9D4cnu2QkG5vKBqn+ofbiDrsYXTsYz9ytzqWi0VQrszJISu+Nebv6OOLuwMEPkQSFdaoYKCqeR8vuvCeZk3HI90XtDhCJt5teUKflSYr9MgKJ7jZNxWwWLbYhSEOjyZCLdMCRUMRfwDKOQ5dJQJfPUoKnlBs8njv1I7xWV5ZxLSg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(366004)(396003)(376002)(346002)(230173577357003)(230273577357003)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(2906002)(26005)(83380400001)(38100700002)(86362001)(36756003)(82960400001)(6506007)(8936002)(4326008)(8676002)(6666004)(41300700001)(6512007)(6486002)(966005)(478600001)(66556008)(66476007)(54906003)(66946007)(316002)(6916009)(5660300002)(2616005)(1076003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dzfv4fNMlqWywE0q0zyfIUk1srBPI7CI8TFYNcvQ1aDblqYtEnfi00r3gKUa?=
- =?us-ascii?Q?kRiHPF3bqsYlyXylCDjfPn4dop48vtku8E2qmpVRjsWDYjh17tAqZ0UVlgfA?=
- =?us-ascii?Q?W3HYN9h7FrEUF9iLLNerC/rTOY0LxRHTvSzN1PnUJjBFBuQQXf4u2aHWszXA?=
- =?us-ascii?Q?lcozxB2DmDMv9gGFWbqTmJHdTCfNkryARF5M2dTx6PnZUXeDfBWRYlHDpYy6?=
- =?us-ascii?Q?ZK8e7AnU8V0QKidNZkxyeu8HToK0tF9EfIgqQvzlHQgRCdmu52ntfBNFuAlZ?=
- =?us-ascii?Q?n+getmjL+W3bSnaD+Adbbel2QpUBYexjol+F6A8YxyeD/2U2I2m7YA3ty4Dh?=
- =?us-ascii?Q?+wKgfWvTuWks/jAdwZ/WBNQX+s43dGhuof0xWL6CLXkRmL/oP6TmOtQSAdjh?=
- =?us-ascii?Q?rX6k10ZDshkzAA3s71bKq2sGzQ77myMOA277j5hFgrtBskU31vnUnUrlDDsb?=
- =?us-ascii?Q?RZ0o+TYKwVI1bONs3PhAW/SsCmYOXuXrWN3qCxlOB+MKTzGYae3cfAMa887w?=
- =?us-ascii?Q?+Wd2zO0CH7PBE2nxPvkFy6LBvdmFbBpLT7twhuTQ/I9H/OtqgiZoXKoXgHxd?=
- =?us-ascii?Q?8jhZXUf58j/MLF4f/nJBtr+QXzol5ETqsh0QZ4wgZHtpl0zuuqPl6/CXbFMf?=
- =?us-ascii?Q?wSANrGCNW4Q/NjecqyMyDPeLo6bC9OSGb4B16yuATu2rpRNXD4fo6M9ExsRU?=
- =?us-ascii?Q?GDTOzcBeQADvSEbbYiZebH9kXKmxMskqElWARa3KXBs5yQxQijc5qn7v9FYl?=
- =?us-ascii?Q?Nzbxbs9nxXlTlHuUuqZkIKcU58UicTgE4Iid/IfiHX6zcmT0ZxHW0f/au0+A?=
- =?us-ascii?Q?+DSi0SoHLoMz4JEuphYcERafg/7lIC2WOPS51ymp2nNA75n0dxKArftxXO24?=
- =?us-ascii?Q?ixn9fbNBhqq8FHgjJ1F1/Ud3i0pVvZM9rHA0NbmnnyBhu69a8ssFB21D/GQT?=
- =?us-ascii?Q?8ichzeor/yFReqKaXmfKRTSlSFDBwquQFQIO9CQbErYeWw3dxkrTsnmfi6dL?=
- =?us-ascii?Q?1v4F9WNm7prL8+tE8eRQSIy7FlFSkPvQ9854uCQuH2YyjYgYEEdMdEQQGBrq?=
- =?us-ascii?Q?AsCtRPnTmosJTuSLMTgtwSsyJukBD3R3ZQ31ma0T82wga5dlnHJzsfVoz3we?=
- =?us-ascii?Q?j8waKCHvx9s3k7PqboYABo+nyZoyLUukp1869iNwB9+ErbW5TwAvUOvckFjH?=
- =?us-ascii?Q?R+UBnmVd1InPrD02EU5xhtGeGCn2yhvCd1T+K8JH3RU2p0tQZ/bA826L2PXg?=
- =?us-ascii?Q?/t1d13C8O/c6L4D3xIIw41VGhqSY+Md+2BhGeOR+YSCxl+TlXSod7Upmx2JS?=
- =?us-ascii?Q?aSG12tXnrF6tYVpq1F0CEm2tSOO+wd3WjRYQvO9ztAW6Qn06ArSAo8pJl+5O?=
- =?us-ascii?Q?gdyR8lBScfJKeQx3mv0Oujhxwle/L3N7LjzN5RelnBNKEgUfhe/OBJBhQzv9?=
- =?us-ascii?Q?dK8MUFZwM3Il2PEoX8A2whnXxLsFGerxq2nAHCnMY+EUaKdJugMPMCNGJbhF?=
- =?us-ascii?Q?5sY/CcqrktESD4Rvi+vNf5IUVlM3cY1RiodoHz1QhrfgYbskRH/alGl23HWJ?=
- =?us-ascii?Q?WUXoORjwHoSUwsIlLzoWY4vSlCkP4llqNyPe1/Vu?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 959d003a-42a5-452c-ca70-08dbdea311ad
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 08:33:36.1769
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 50CRO/5ebWJInAkx7Aqs8nze1LvRb+pGE6xyEO2UKU3ssY+uuIksppYL/i3Aa3OdopViCJqe50unCowmTmLzhw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6846
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Nava,
-
-kernel test robot noticed a build warning:
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1c41041124bd14dd6610da256a3da4e5b74ce6b1
-commit: 01c54e628932c655e4cd2c6ed0cc688ec6e6f96b fpga: versal-fpga: Add versal fpga manager driver
-date:   2 years, 4 months ago
-config: i386-buildonly-randconfig-005-20231101 (https://download.01.org/0day-ci/archive/20231105/202311052137.qkYX2xHU-lkp@intel.com/config)
+tree:   https://github.com/alobakin/linux pfcp
+head:   89565e300e3d4033b8bb568774804fdc09d4f3cc
+commit: 945a0d6e86d97bf60f2fae88ee557ed3eae18b94 [5/20] bitops: let the compiler optimize {__,}assign_bit()
+config: i386-randconfig-141-20231105 (https://download.01.org/0day-ci/archive/20231106/202311060647.i9XyO4ej-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231105/202311052137.qkYX2xHU-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231106/202311060647.i9XyO4ej-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202311052137.qkYX2xHU-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202311060647.i9XyO4ej-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/iio/imu/adis16475.c:363 adis16475_set_freq() warn: set_bit() takes a bit number
+drivers/iio/imu/adis16475.c:363 adis16475_set_freq() warn: clear_bit() takes a bit number
+drivers/iio/imu/adis16475.c:416 adis16475_set_filter() warn: set_bit() takes a bit number
+drivers/iio/imu/adis16475.c:416 adis16475_set_filter() warn: clear_bit() takes a bit number
 
->> drivers/fpga/versal-fpga.c:78:34: warning: 'versal_fpga_of_match' defined but not used [-Wunused-const-variable=]
-      78 | static const struct of_device_id versal_fpga_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~
+vim +363 drivers/iio/imu/adis16475.c
+
+fff7352bf7a3ce Nuno Sá 2020-04-13  357  
+9da1b86865ab43 Nuno Sá 2021-09-20  358  	adis_dev_unlock(&st->adis);
+fff7352bf7a3ce Nuno Sá 2020-04-13  359  	/*
+fff7352bf7a3ce Nuno Sá 2020-04-13  360  	 * If decimation is used, then gyro and accel data will have meaningful
+fff7352bf7a3ce Nuno Sá 2020-04-13  361  	 * bits on the LSB registers. This info is used on the trigger handler.
+fff7352bf7a3ce Nuno Sá 2020-04-13  362  	 */
+fff7352bf7a3ce Nuno Sá 2020-04-13 @363  	assign_bit(ADIS16475_LSB_DEC_MASK, &st->lsb_flag, dec);
+
+assign_bit() takes a bit number like 0.  But this is passing BIT(0) so
+it's like BIT(BIT(0)).  Which is fine until you get to 5.
 
 
-vim +/versal_fpga_of_match +78 drivers/fpga/versal-fpga.c
-
-01c54e628932c6 Nava kishore Manne 2021-06-26  77  
-01c54e628932c6 Nava kishore Manne 2021-06-26 @78  static const struct of_device_id versal_fpga_of_match[] = {
-01c54e628932c6 Nava kishore Manne 2021-06-26  79  	{ .compatible = "xlnx,versal-fpga", },
-01c54e628932c6 Nava kishore Manne 2021-06-26  80  	{},
-01c54e628932c6 Nava kishore Manne 2021-06-26  81  };
-01c54e628932c6 Nava kishore Manne 2021-06-26  82  MODULE_DEVICE_TABLE(of, versal_fpga_of_match);
-01c54e628932c6 Nava kishore Manne 2021-06-26  83  
+fff7352bf7a3ce Nuno Sá 2020-04-13  364  
+fff7352bf7a3ce Nuno Sá 2020-04-13  365  	return 0;
+39c024b51b5607 Nuno Sa 2021-02-18  366  error:
+15aacc980dcb32 Nuno Sa 2021-02-18  367  	adis_dev_unlock(&st->adis);
+39c024b51b5607 Nuno Sa 2021-02-18  368  	return ret;
 
 -- 
 0-DAY CI Kernel Test Service
