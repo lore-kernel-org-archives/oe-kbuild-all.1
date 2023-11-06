@@ -1,151 +1,140 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F6EF9C8;
-	Mon,  6 Nov 2023 10:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05ECDF9C8;
+	Mon,  6 Nov 2023 10:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IjMbgVSr"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-32d81864e3fso2464189f8f.2;
-        Mon, 06 Nov 2023 02:07:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699265238; x=1699870038; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=yXaH60OXLA944yqNjhnmnFs2o9Uym/cHZ9fIZjVIilg=;
-        b=IjMbgVSr3GeYnJkaFDvngs23qIPmBamPOxwL6pXo3Qv1qnUTc8KS+mZMrli/n3RxT9
-         yNwaD8OQnSUQZpn133bXE8qF6yzKeF4EELvA+DGKk3ZWSZKosZcfD8xqNAKg+/uP6g6F
-         p9/ol477s96NF+wKHEdY4LGj3W8yw3WAoyVl3PBp6f+pSalqWIJ4OK6FNZlzES+iFNJR
-         gMvCmpYjOHdVP5jDxVSu1kGr5cgJks1Mun9v3eQHn4zxq1NTZ0lb365ZGtxpmelytF9B
-         jqfWC9NqFlJ9lOFl6sLHdMM2ut5YX3fVQUYU85qE5xzD74BSCE8Rr51Wuvuc42iy00No
-         iXgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699265238; x=1699870038;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yXaH60OXLA944yqNjhnmnFs2o9Uym/cHZ9fIZjVIilg=;
-        b=it5RYKnzyK/afZFh20o5jJJnyOpNMzAp3eW645biL413F/LEEXK2bkYbwkhIWG4uSM
-         DZiU6x434uPWFNTaLA6JDHXHiNyEIU96xscXmDC1QYMEPYA72VOWuhBgpwbmgCXKvcIz
-         P347qBggfdcwwYBfoNMsoLkATfUn7b+03QnTCqY20KYLKh+Nqh9kg7ft/4gvv0IytG/l
-         T2MqIsN7w8IxVLbpFkoQ+KuSQVBCQM84JaDq2saPyMlZHEQ0idJvutEg4j55Ej/Q4y6M
-         BK6iMndFavHwUV1EB1aIZq9WFVDDkj9W79opN3hsV8ACs13xZrBnPVlK9UL3HyCNnA8l
-         bvyg==
-X-Gm-Message-State: AOJu0YwgaeJf4qlBu2/qSKNRIn/KAfgmd+us8cKSqA9BiBygcbBTYW84
-	1JHjoFgUSXPxafh2o99yC+o=
-X-Google-Smtp-Source: AGHT+IFJeY3VYgc4qugk09KMU8myylq6CYIxrFpb9Lz5TnPJnxxG3RL3CSmXBkxz8lIfciDav5gB1A==
-X-Received: by 2002:a05:6000:1f07:b0:319:68ce:2c53 with SMTP id bv7-20020a0560001f0700b0031968ce2c53mr25520550wrb.25.1699265237765;
-        Mon, 06 Nov 2023 02:07:17 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id j5-20020adfe505000000b0031fd849e797sm8606006wrm.105.2023.11.06.02.07.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 02:07:17 -0800 (PST)
-Message-ID: <f040255ef1b3be87050b8255c947b4b375e75a02.camel@gmail.com>
-Subject: Re: [alobakin:pfcp 5/20] drivers/iio/imu/adis16475.c:363
- adis16475_set_freq() warn: set_bit() takes a bit number
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>, Nuno Sa
-	 <nuno.sa@analog.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev, 
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev, Przemek Kitszel
-	 <przemyslaw.kitszel@intel.com>, linux-iio@vger.kernel.org, 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQB9+tCY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699265255; x=1730801255;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XJEcXmB6TalkxyxKKmu2KMtpz3YCZ01vFQnK5Fy50Hk=;
+  b=XQB9+tCYgDUP8mAlBcBOKu4kaUVutdSzWW7QfWmIOhFxRQvefaR3bVEu
+   b28GOCmggXDlQIzo9lLYyW3o+tNyICpweNjt2H/XhywNHdg6wn108saR4
+   Q6LKnSMm1JthYdOm0lMpEVfvPWN2NU+nZnSfrStw8kLNzJ3bwsC3egQgW
+   zMqCAyzhUy7VsR7KO7msvB0oXuhAGmsu7PkgTBcUKRfro7gEg05/RQ0eC
+   VjWYV7awDh3MhFzGxNhXqabEMTcVDWj5mbjcNus0CG1iNgkMzVHqwRNBc
+   RB6o7WEaU1wP4kkeQX8j0EDKWFk/hb02dM3mTOlVq38nnKrsk3Jv4kWL6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="392113614"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="392113614"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 02:07:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="832680493"
+X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
+   d="scan'208";a="832680493"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 02:07:29 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1qzwVy-0000000Bku0-1d3n;
+	Mon, 06 Nov 2023 12:07:26 +0200
+Date: Mon, 6 Nov 2023 12:07:26 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Paul Gazzillo <paul@pgazz.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Matt Ranostay <matt@ranostay.sg>,
+	Stefan Windfeldt-Prytz <stefan.windfeldt-prytz@axis.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Date: Mon, 06 Nov 2023 11:07:16 +0100
-In-Reply-To: <5b0f8705-71cb-4c4c-a70c-d9d3a15886cb@intel.com>
-References: <ff4ef031-774e-4e4d-a009-31f242bf6aee@kadam.mountain>
-	 <5b0f8705-71cb-4c4c-a70c-d9d3a15886cb@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Subject: Re: [PATCH v2 2/2] iio: light: Add support for APDS9306 Light Sensor
+Message-ID: <ZUi63hP2ifKTBHL8@smile.fi.intel.com>
+References: <20231027074545.6055-3-subhajit.ghosh@tweaklogic.com>
+ <202311052102.1GrBH0gk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202311052102.1GrBH0gk-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Olek,
+On Sun, Nov 05, 2023 at 10:22:07PM +0800, kernel test robot wrote:
 
-On Mon, 2023-11-06 at 10:31 +0100, Alexander Lobakin wrote:
-> From: Dan Carpenter <dan.carpenter@linaro.org>
-> Date: Mon, 6 Nov 2023 11:50:03 +0300
->=20
-> Hi,
->=20
-> > tree:=C2=A0=C2=A0 https://github.com/alobakin/linux=C2=A0pfcp
-> > head:=C2=A0=C2=A0 89565e300e3d4033b8bb568774804fdc09d4f3cc
-> > commit: 945a0d6e86d97bf60f2fae88ee557ed3eae18b94 [5/20] bitops: let the=
- compiler
-> > optimize {__,}assign_bit()
-> > config: i386-randconfig-141-20231105
-> > (https://download.01.org/0day-ci/archive/20231106/202311060647.i9XyO4ej=
--lkp@intel
-> > .com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce:
-> > (https://download.01.org/0day-ci/archive/20231106/202311060647.i9XyO4ej=
--lkp@intel
-> > .com/reproduce)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > Closes: https://lore.kernel.org/r/202311060647.i9XyO4ej-lkp@intel.com=
-/
-> >=20
-> > smatch warnings:
-> > drivers/iio/imu/adis16475.c:363 adis16475_set_freq() warn: set_bit() ta=
-kes a bit
-> > number
-> > drivers/iio/imu/adis16475.c:363 adis16475_set_freq() warn: clear_bit() =
-takes a
-> > bit number
-> > drivers/iio/imu/adis16475.c:416 adis16475_set_filter() warn: set_bit() =
-takes a
-> > bit number
-> > drivers/iio/imu/adis16475.c:416 adis16475_set_filter() warn: clear_bit(=
-) takes a
-> > bit number
-> >=20
-> > vim +363 drivers/iio/imu/adis16475.c
-> >=20
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 357=C2=A0=20
-> > 9da1b86865ab43 Nuno S=C3=A1 2021-09-20=C2=A0 358=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0adis_dev_unlock(&st->adis);
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 359=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 360=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * If decimation is used, then
-> > gyro and accel data will have meaningful
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 361=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * bits on the LSB registers.
-> > This info is used on the trigger handler.
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13=C2=A0 362=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > fff7352bf7a3ce Nuno S=C3=A1 2020-04-13
-> > @363=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0assign_=
-bit(ADIS16475_LSB_DEC_MASK, &st->lsb_flag, dec);
-> >=20
-> > assign_bit() takes a bit number like 0.=C2=A0 But this is passing BIT(0=
-) so
-> > it's like BIT(BIT(0)).=C2=A0 Which is fine until you get to 5.
->=20
-> Is this intended? There are 2 places where you pass
-> %ADIS16475_LSB_DEC_MASK and %ADIS16475_LSB_FIR_MASK, which is `BIT(0)`
-> and `BIT(1)` respectively, to assign_bit(), which takes 0, 1 etc.
->=20
+> >> drivers/iio/light/apds9306.c:598:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+>      598 |                 return ret;
+>          |                        ^~~
+>    drivers/iio/light/apds9306.c:593:9: note: initialize the variable 'ret' to silence this warning
+>      593 |         int ret, intg_old, gain_old, gain_new, gain_new_closest;
+>          |                ^
+>          |                 = 0
+>    1 warning generated.
 
-Sorry, I'm missing the point in here... This should be a simple mask as=C2=
-=A0
-GENMASK(1, 0) setting/clearing the bits when appropriate. Obviously,=20
-ADIS16475_LSB_DEC_MASK and ADIS16475_LSB_FIR_MASK are not properly defined
-:sweat_smile:
+Bad advice, just use correct error code instead of ret.
 
-- Nuno S=C3=A1
->=20
-> >=20
+>    590	static int apds9306_intg_time_set(struct apds9306_data *data, int val2)
+>    591	{
+>    592		struct device *dev = data->dev;
+>    593		int ret, intg_old, gain_old, gain_new, gain_new_closest;
+>    594		bool ok;
+>    595	
+>    596		if (!iio_gts_valid_time(&data->gts, val2)) {
+>    597			dev_err(dev, "Unsupported integration time %u\n", val2);
+>  > 598			return ret;
+>    599		}
+>    600	
+>    601		intg_old = iio_gts_find_int_time_by_sel(&data->gts,
+>    602							data->intg_time_idx);
+>    603		if (ret < 0)
+>    604			return ret;
+>    605	
+>    606		if (intg_old == val2)
+>    607			return 0;
+>    608	
+>    609		gain_old = iio_gts_find_gain_by_sel(&data->gts, data->gain_idx);
+>    610		if (gain_old < 0)
+>    611			return gain_old;
+>    612	
+>    613		ret = iio_gts_find_new_gain_by_old_gain_time(&data->gts, gain_old,
+>    614							     intg_old, val2, &gain_new);
+>    615		if (gain_new < 0) {
+>    616			dev_err(dev, "Unsupported gain with time\n");
+>    617			return gain_new;
+>    618		}
+>    619	
+>    620		gain_new_closest = iio_find_closest_gain_low(&data->gts, gain_new, &ok);
+>    621		if (gain_new_closest < 0) {
+>    622			gain_new_closest = iio_gts_get_min_gain(&data->gts);
+>    623			if (gain_new_closest < 0)
+>    624				return gain_new_closest < 0;
+>    625		}
+>    626		if (!ok)
+>    627			dev_dbg(dev, "Unable to find optimum gain, setting minimum");
+>    628	
+>    629		ret = iio_gts_find_sel_by_int_time(&data->gts, val2);
+>    630		if (ret < 0)
+>    631			return ret;
+>    632	
+>    633		ret = apds9306_intg_time_set_hw(data, ret);
+>    634		if (ret)
+>    635			return ret;
+>    636	
+>    637		ret = iio_gts_find_sel_by_gain(&data->gts, gain_new_closest);
+>    638		if (ret < 0)
+>    639			return ret;
+>    640	
+>    641		return apds9306_gain_set_hw(data, ret);
+>    642	}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
