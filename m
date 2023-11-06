@@ -1,194 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AF715AFD
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  6 Nov 2023 09:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67479156CA;
+	Mon,  6 Nov 2023 09:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PFq0hiRW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJ19kdNm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699263386; x=1730799386;
+  t=1699264045; x=1730800045;
   h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=F6ZHCmjNX6sdsO6FHcYrp4g8EncREEVKoo2zonRusW0=;
-  b=PFq0hiRWfDo2IjhK3OtFlq5aLU6MK7VUmjslBUfaoOVYYfhTvBfGaVV3
-   YWv5ZAT+LuRJdI+qyOUke/OeuWHVuf7cyOaPKM5BNl3ky9jGpsTAnUOAb
-   /DqPkXiQEzgcBqZlLK/OHYJbI4Atwtz1Y68edVl5RYO4PdfERAzunHe+T
-   1gkqz9EysiFjFgd3qJpOcOH2IUTv9Z8/F1Ga+Akk+DXhSVUieiLi/w6Mj
-   YSJp2ubcpJdeilXgwY6Y8uVrvdr2Ty0qSXgMmo3EK3qJaqeJLJtmvtA3p
-   dvjKAaVNW3veE6Yl+eNwpk0wqfTY0nLfEVg1b9FUVeuFSzSrFKleGox4Q
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="2228820"
+   mime-version:in-reply-to;
+  bh=T6rFshZG1CW8KfWnm5omhJa4XbvWrABFG0f01qNAl9s=;
+  b=aJ19kdNmvrh3Va6Ug3MlzAFaywVzaMx5BQ5DEGgUrGcyWRLUBhtH1Tps
+   3RsDO9Jug0zqwG2Jye8Em8iEq9hWzNRHpZT8+dgIyagesxiFvxfgDS9mk
+   5cPGv+B/jhGXHWYvN/PkPv62+kQoiUQnxwE9834q8D0HCtZAWKm6ZJVfS
+   +0cxw++DwwaeNiXbVKeG5bLhooe+5MRFzM6W28n4EjLnlBCN4ZwE1stwU
+   tz9Bw3ZCPSu5DyMKT71Qxd6fWE4d2rfH1cWp+u1V2h5iPmHbEp2tpV+wP
+   /jhZ8p41kzQfoXj7dkqDs5c8nprqw981akIdLBf/XeULcNg7FCiZ5W4II
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="420355795"
 X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="2228820"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 01:36:14 -0800
+   d="scan'208";a="420355795"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 01:47:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="905997607"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="738756979"
 X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="905997607"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Nov 2023 01:36:13 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 6 Nov 2023 01:36:13 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 6 Nov 2023 01:36:12 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Mon, 6 Nov 2023 01:36:12 -0800
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Mon, 6 Nov 2023 01:36:11 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GVD9yeawvA32ZO8oTW7yY633ozG0jvA6P/MPwNVFSgXgU/3ClnClXldHvfD52anFaRQyzLqQ5Dc9kKLK2Ef4fkvSV2gPiI0URubTp3z2726frTjg7YgrTBjvUEHf+tkUcERlcqHmg4PyXNh6EVgHPFPV/zERigkpIqcmgh11cBpDNF86xR0GXQe9A1y/6grzluPDP7P6Jl+SEjl+Kk1w0sDQtQ6hrFCdBG/0gvb0EXjq5o8iq930fYXOfyINmyA6w6y0vgCxc3Cw7/LocyaQJB6hluxK2x1B3cd0QRoijEsuFNLRFwMxm4YvKGCtxvmosCYOkBCuSFtsEih7hly9og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uwpjUqMAxJU2UxvSKtVJUOvZyKCSBdWRr7ObU0ILYo8=;
- b=X8Oa9vJ+ZZKydMIkEbnm/TuGA14SKGobBcpXGerj3wp8eLIObhobmyYewTu5b1I5HpCZBrXDhOWBGZriuseo2QhlXoHtulULhW0GscsJCeLtEJxGX/JQdIfApTKYp8DJJn+5Hrg/pOsZNcK5/tCPRuyTePTbQpUtVWB+FPamE9AHWvNmzOIxQZYZqmxxFLS9Lv2Afe0ny1ZLhzJxFEDophBkvjl9JYxtiyIdcbkK1mz9M2uAnietaw8vnXI9taThziarLYufHbkYyVW5g+ttuG25JxsiGaGJxKIMDkxMT8jXOUN7n4dpbWkmWgSE70o/6ATbcZTY0BEYd3tmBWH5Fw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DM4PR11MB6068.namprd11.prod.outlook.com (2603:10b6:8:64::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6954.27; Mon, 6 Nov 2023 09:36:10 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.6933.028; Mon, 6 Nov 2023
- 09:36:10 +0000
-Date: Mon, 6 Nov 2023 17:31:26 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: drivers/comedi/drivers/tests/../ni_stc.h:1140:35: warning:
- 'range_ni_E_ao_ext' defined but not used
-Message-ID: <ZUiybtcMJGI5ZCF5@yujie-X299>
-References: <202311060001.aEuf1q9y-lkp@intel.com>
- <2023110641-profusely-factor-b3c5@gregkh>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2023110641-profusely-factor-b3c5@gregkh>
-X-ClientProxiedBy: SI1PR02CA0031.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::11) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="738756979"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 06 Nov 2023 01:47:19 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qzwCT-0006JE-1D;
+	Mon, 06 Nov 2023 09:47:17 +0000
+Date: Mon, 6 Nov 2023 17:46:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Artur Weber <aweber.kernel@gmail.com>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Stanislav Jakubek <stano.jakubek@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Artur Weber <aweber.kernel@gmail.com>
+Subject: Re: [PATCH 4/6] mfd: bcm590xx: Add compatible for BCM59054
+Message-ID: <202311061654.4074XhbV-lkp@intel.com>
+References: <20231030-bcm59054-v1-4-3517f980c1e3@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DM4PR11MB6068:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f3d438f-abbf-47d7-552b-08dbdeabce7d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9CkdkBAkWwKwSJqyFnGO2LMsmTySXmbGwpToT3dmGt8RVzRO8cxlVCIc/eqNjSDiaEbpg47EPhWdtj1wZYi7GeQdjlb0eWcq8Jts7b0w5s8vrsXkRuLxlM4x/4tKBOo/urAWo5loQYKV9vdujgHNpIojxQGCcDVq7KmEHzqaLFO6teiC7qjmyCWYuga8m6V27dRtXzL+PEht8e2n23ImgYbJWOcz1DYWa/AaY9obiYK+Ci126hhU7alkArlwyp/qxxZc2FudhSdD/K1YLMLvho9mPfVCLFnIF9a+xPOsTvbKRhp8mLai0nswazyQCLxP78qb9CnLn+nZ7fEnJNt4MtWPInAiZvLkFZ6X6uYMdzz/vHqw6xyGdk6hDfD7Q44/muyVy6hXZSwII6aIb81AREGwxkgp3k9/+LL3opV76e60uUqR4dK0IOEr4Zrr4V+2vdGcxHoYZ+akktE3f/yC7iuKk09Asr/0z9yvzAAcXBPWmjkVjGntSfXsTuNwckQQc8M2iaQ6vWlSF9UqFaeKMvsvR9pYnu0fMmzdPAhQC4hHxvvFhgpWmRJC3jeth0ld0C7mMMtLLKWAKjJeFKvbPYWuom/52Ax7CyObqhPwUOSbGMr6N2iqJcUJS+cKrqdQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(39860400002)(136003)(366004)(396003)(346002)(230273577357003)(230922051799003)(230173577357003)(451199024)(64100799003)(1800799009)(186009)(6506007)(6512007)(9686003)(26005)(41300700001)(6666004)(38100700002)(33716001)(82960400001)(86362001)(2906002)(6486002)(966005)(5660300002)(44832011)(83380400001)(8676002)(4326008)(8936002)(66476007)(66556008)(316002)(66946007)(478600001)(6916009);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NHBZUlR0ci9aVXNBa1Z5VVNzblRldE1nMDRtSlVNbitYQ1ZUcnlmdXN6SE1x?=
- =?utf-8?B?bXE1eTFIaE9yVXRrc3dyeXJLbWtBRGdZbkwwY2pVVEpoTE5jc1VhMGlRakJJ?=
- =?utf-8?B?a1gwZjc1cHBYTGpUUHVFQ2FWSmZyaGszODdvdmVYTzZQSkhkZnU4V0RJaFlM?=
- =?utf-8?B?cnNxR2VCVmRWWlJJNDZsNTRzSnRuaVd2dlV0UStRZU56OE4vcGU3RUJoTEhs?=
- =?utf-8?B?ekdFcVMvbXRkamcxRktqTnR3YVVQS04raTZkRFJZMEJieTJNdk10Y1FNNFhk?=
- =?utf-8?B?ZzQxb0JXZlM1YlhvN21GM3BIM3hmMXFXL3hwNlZXK2tlaWFUb2QxYXdsbERT?=
- =?utf-8?B?emp5STYyMjZWVjl5RUpOck8yUWFCN1N4UHpvbDErY2RNTEpSOVpiZWxtaEdP?=
- =?utf-8?B?U2oyK0ZsRUxxN1pMSlBpQjV2dVdVVjFob05IWWl1NEVlTTVNOVVxTTh1U2tu?=
- =?utf-8?B?d0pHWDM1cmplWlN2TmNOWjk1aVBibDBCVVNhYXVXdkNaU1dURFFIMnJBMUZj?=
- =?utf-8?B?SmlYQ2YyVU45enVramo5QlF0TEk5OEg2bjhhTzBhcVRLK3czcUNMMFpESVFO?=
- =?utf-8?B?elNCSTViN1JaUWVGWmN4MXJzTVVoZVZoN0RkY09BUmhIRGx3WkJ2dzg0Sk1t?=
- =?utf-8?B?MTZHdElnRHF4ZGJmTjlXajQ4UXhYeFBYbldiNXdxRVRkeHl1R09FbDl2ODAr?=
- =?utf-8?B?K01WSWdtVWt6SlJZWW41RGdNL01OTXNMR2NqYXBKaVE0TU02dVNHbUVPcXpU?=
- =?utf-8?B?YzlLNUE0RXNvMzZIOXhadmFiZnZoWWUrTkxKTnFWZG9pNjJWbmhLRWI1Smox?=
- =?utf-8?B?UHpDSWFLMlp3WHFZVklLcEFwZktYOEUyRjVFa1hlRU8rM3AwV0k3RStXS3hL?=
- =?utf-8?B?RHE5SnBKWExuRlByYkl3SzFpUExPNHdtbEovdU81SWt3VUFaaHR5MWJkU3Yx?=
- =?utf-8?B?UisrbmkveTZYaHRsTlZTdzA4T2pWejZXV25ybWxxN1czUXNhQ1V1UDgxMGNr?=
- =?utf-8?B?OG03aCt5aVBjcGNuUHhjMWQ3R3hnSFFCZWpyUHR0U3JCamZROFRIa3Bobkxr?=
- =?utf-8?B?NnlRSjZrOWRsT1NkZDZueXc4OGU3Y2pEamRqRnN4WEFxcHFNZEdDZlFDenRx?=
- =?utf-8?B?R2p5cGtaQmM2OG9wMDh5bGorVUEyTTdwWHd5d29GcFJST2Zzak5HdW5wKzlt?=
- =?utf-8?B?WTIyazJnUFVud2FhUzJLbkRJMFVmREZHTGRrU0Q2WEx6R3lZSHpEejZsOXJX?=
- =?utf-8?B?UWNRZ0dtVm9iN2RwaXBwcnFEUCt3c1JudHB3cFA3cENaNy9QOC9xcnZNNXRQ?=
- =?utf-8?B?SU9XUnVRaVdmb0ttYWJTZVFSNjZPcVo2aCtLWXU1YjlRUFNxaEpBem91RGVX?=
- =?utf-8?B?OGhieWpRWFdUMFJjS0tvOXpMMUNGczRLUkJHNHZPbjNOSzFNSXdUbVUvWk5a?=
- =?utf-8?B?eDNPdTNSNmpLaU5WMmUwTnNkdVFqM3RyQXpDWEJOS09XSDM5ZzJZcStZbTlu?=
- =?utf-8?B?eXpYQmVXbGY2ejd0T3hVa0xzeElZU0F5MU5zV2dNWmEvRm1Zc0gyZzVEemxN?=
- =?utf-8?B?TzFibkVEZktiRjhxUVdIT2lCam1kUk9ncW9oNXN4Q0V1OXZGVElxdWY4bHhB?=
- =?utf-8?B?SUZBMmtGOXRzVWlDcTFzbjJxMHRicEdmNEI2aWUxb3VOcU1jb0FWNmh5V3lh?=
- =?utf-8?B?ZnVieUdTWlZvTzZESTd3VTMyWXIyZGpuOXRISnJIL3FPT1AzT2JvL1R4c0l0?=
- =?utf-8?B?WU5uRTJZd1crME1ZS0FaZ2hUYzhmenpZRGRLU0Z4ZmIzM3JDS2pNcEwrb25P?=
- =?utf-8?B?bFRETDR4WGU3UXNjMTlNZUZvYzFPTUpXZTNiQ0p5a1hGRU51QmlwYnNzdFRy?=
- =?utf-8?B?aldBMEtpb3hCUlVSOFh0UTZ1WCswZ2JnR2x1S3ZicE1pQ3I0RmhKTnlTUjVa?=
- =?utf-8?B?ak50TDYvQ05MaUtwNEZFVitIbnMxUEdGWVE3ZnpJeUhNL25LV0hLMlhEeGI1?=
- =?utf-8?B?czRpeCtVQ3pVWndMTzArVVo2Q1lNZ0VBZFZjdmRvdXNLZFZXcG5rc3pvU2t1?=
- =?utf-8?B?UkpwcFV4YXB1V2JKSTE3WVZvb1BNODNUNDZsWWxrUG9jU0d3QlgxZU9HWnUv?=
- =?utf-8?Q?UVuPcliuJxSNHzscmNwcAlyRO?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f3d438f-abbf-47d7-552b-08dbdeabce7d
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 09:36:08.9090
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uH68vokXaV59BF04iaqJX2k+5VmTnQU7DqzABlipwEq6u+ND0Vn1nz9heC0ggI/+u4/Ln4eNikWdnaNeZPR3RQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6068
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231030-bcm59054-v1-4-3517f980c1e3@gmail.com>
 
-Hi Greg,
+Hi Artur,
 
-On Mon, Nov 06, 2023 at 10:00:14AM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Nov 06, 2023 at 04:49:17PM +0800, kernel test robot wrote:
-> > Hi Greg,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   1c41041124bd14dd6610da256a3da4e5b74ce6b1
-> > commit: 8ffdff6a8cfbdc174a3a390b6f825a277b5bb895 staging: comedi: move out of staging directory
-> > date:   2 years, 7 months ago
-> 
-> Have you tested a newer kernel?  Testing a 2 1/2 year old commit feels
-> odd to me, was this intentional?
+kernel test robot noticed the following build warnings:
 
-We did test new kernels with W=1, and the issue was captured by the
-bot, then bisected to this 2 years 7 months ago commit that was likely
-to introduce this issue initially. We have no intention of directly
-testing a very old commit, and we're sorry that the date info may
-cause some misunderstanding.
+[auto build test WARNING on 05d3ef8bba77c1b5f98d941d8b2d4aeab8118ef1]
 
-This can be reproduced by allyesconfig build on v6.6 with W=1:
+url:    https://github.com/intel-lab-lkp/linux/commits/Artur-Weber/dt-bindings-mfd-brcm-bcm59056-Convert-to-YAML/20231031-040046
+base:   05d3ef8bba77c1b5f98d941d8b2d4aeab8118ef1
+patch link:    https://lore.kernel.org/r/20231030-bcm59054-v1-4-3517f980c1e3%40gmail.com
+patch subject: [PATCH 4/6] mfd: bcm590xx: Add compatible for BCM59054
+config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20231106/202311061654.4074XhbV-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061654.4074XhbV-lkp@intel.com/reproduce)
 
-$ git checkout v6.6
-HEAD is now at ffc253263a13 Linux 6.6
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311061654.4074XhbV-lkp@intel.com/
 
-$ make ARCH=x86_64 allyesconfig
+All warnings (new ones prefixed by >>):
 
-$ make W=1 ARCH=x86_64 drivers/comedi/drivers/tests/ni_routes_test.o
-...
-  CC      drivers/comedi/drivers/tests/ni_routes_test.o
-In file included from drivers/comedi/drivers/tests/ni_routes_test.c:22:
-drivers/comedi/drivers/tests/../ni_stc.h:1140:35: error: ‘range_ni_E_ao_ext’ defined but not used [-Werror=unused-const-variable=]
- 1140 | static const struct comedi_lrange range_ni_E_ao_ext;
-      |                                   ^~~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
-make[6]: *** [scripts/Makefile.build:243: drivers/comedi/drivers/tests/ni_routes_test.o] Error 1
-make[5]: *** [scripts/Makefile.build:480: drivers/comedi/drivers/tests] Error 2
-make[4]: *** [scripts/Makefile.build:480: drivers/comedi/drivers] Error 2
-make[3]: *** [scripts/Makefile.build:480: drivers/comedi] Error 2
-make[2]: *** [scripts/Makefile.build:480: drivers] Error 2
+>> drivers/mfd/bcm590xx.c:53:26: warning: cast to smaller integer type 'unsigned int' from 'const void *' [-Wvoid-pointer-to-int-cast]
+      53 |         bcm590xx->device_type = (unsigned int)of_device_get_match_data(bcm590xx->dev);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-Best Regards,
-Yujie
+vim +53 drivers/mfd/bcm590xx.c
+
+    39	
+    40	static int bcm590xx_i2c_probe(struct i2c_client *i2c_pri)
+    41	{
+    42		struct bcm590xx *bcm590xx;
+    43		int ret;
+    44	
+    45		bcm590xx = devm_kzalloc(&i2c_pri->dev, sizeof(*bcm590xx), GFP_KERNEL);
+    46		if (!bcm590xx)
+    47			return -ENOMEM;
+    48	
+    49		i2c_set_clientdata(i2c_pri, bcm590xx);
+    50		bcm590xx->dev = &i2c_pri->dev;
+    51		bcm590xx->i2c_pri = i2c_pri;
+    52	
+  > 53		bcm590xx->device_type = (unsigned int)of_device_get_match_data(bcm590xx->dev);
+    54	
+    55		bcm590xx->regmap_pri = devm_regmap_init_i2c(i2c_pri,
+    56							 &bcm590xx_regmap_config_pri);
+    57		if (IS_ERR(bcm590xx->regmap_pri)) {
+    58			ret = PTR_ERR(bcm590xx->regmap_pri);
+    59			dev_err(&i2c_pri->dev, "primary regmap init failed: %d\n", ret);
+    60			return ret;
+    61		}
+    62	
+    63		/* Secondary I2C slave address is the base address with A(2) asserted */
+    64		bcm590xx->i2c_sec = i2c_new_dummy_device(i2c_pri->adapter,
+    65						  i2c_pri->addr | BIT(2));
+    66		if (IS_ERR(bcm590xx->i2c_sec)) {
+    67			dev_err(&i2c_pri->dev, "failed to add secondary I2C device\n");
+    68			return PTR_ERR(bcm590xx->i2c_sec);
+    69		}
+    70		i2c_set_clientdata(bcm590xx->i2c_sec, bcm590xx);
+    71	
+    72		bcm590xx->regmap_sec = devm_regmap_init_i2c(bcm590xx->i2c_sec,
+    73							&bcm590xx_regmap_config_sec);
+    74		if (IS_ERR(bcm590xx->regmap_sec)) {
+    75			ret = PTR_ERR(bcm590xx->regmap_sec);
+    76			dev_err(&bcm590xx->i2c_sec->dev,
+    77				"secondary regmap init failed: %d\n", ret);
+    78			goto err;
+    79		}
+    80	
+    81		ret = devm_mfd_add_devices(&i2c_pri->dev, -1, bcm590xx_devs,
+    82					   ARRAY_SIZE(bcm590xx_devs), NULL, 0, NULL);
+    83		if (ret < 0) {
+    84			dev_err(&i2c_pri->dev, "failed to add sub-devices: %d\n", ret);
+    85			goto err;
+    86		}
+    87	
+    88		return 0;
+    89	
+    90	err:
+    91		i2c_unregister_device(bcm590xx->i2c_sec);
+    92		return ret;
+    93	}
+    94	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
