@@ -1,126 +1,108 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABE330D1E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 16:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA432D033
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 16:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YTSGytBM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=SA6l50GOPQJbx5V/XeBq9jkSVdxSGlflJzkPFxFjI7A=; b=YTSGytBMomxcyRDFZr4nmNOHLx
-	OLnFA2B4lz+dqLV8/kJbAgDUlIeTsf++VIeulJixDlkJZeO4/7xqzhG/wJczjUl6oXsVr9uSyJBHR
-	Xl7Roe1I3r16fox5fXXL0zZmPHoDTeqWI6Vd2R/TQ2uLab4RquBJzA4qIPer4GoPx9FCpZoMaCrWc
-	tOyyeGUhpC5nBmVzrvl3dJhvV+jzLCul3I0LFKKFjXCFig+ZL07adx/6MZwhFPtclbVX+iXV18eBr
-	YMqnFRq1UG4PcfkiJAIIVMgzU54S4ZkOG6B1eaSaDylnnJtsdRlmMSornNr8rV3yrn/WQ8MEtXzTh
-	VMcgCyDQ==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1r0OVG-001wrP-16;
-	Tue, 07 Nov 2023 16:00:37 +0000
-Message-ID: <756c9659-5c7d-4e29-b5d1-76b26dd3e0c8@infradead.org>
-Date: Tue, 7 Nov 2023 08:00:33 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKsAZhL/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699374039; x=1730910039;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zkMo+HpQGCbO0MtOJkujMZfNqlJvSgM/gWD3DT2ip3Q=;
+  b=fKsAZhL/EHRfKf9zp1iuN51LrroX3hBKeqMIY2nqqU0l54XrjXI4KtCA
+   5iBxwK0vYKKmRbZ3+LtNOwejIAuVjchTdFHmmrwRFa/lMpnukW+O3WY6H
+   KyJjmHQIVOV5g10Z0PRnaF7nme1mOW1dOX0N5SUyQM9H5jfKYNDMlMBZM
+   m6p7B3N99k/tWwRS6OYM7WfksfQXIFLEDRddOtrkDVG4OrwPif/6K0Q+Z
+   9b2+LAlhd3fw42q954S5C3JykkpR84zIH3fdxT7th13Wyo+yY8QQmlkGA
+   mJE4jWmXYw5f4unH08BwQdYjD1gF9IDsm942Z+ZmfIH1x+Rn6ZgpI2mh8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="368882822"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
+   d="scan'208";a="368882822"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 08:20:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="906472038"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
+   d="scan'208";a="906472038"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Nov 2023 08:20:37 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r0Ooc-0007Cu-2J;
+	Tue, 07 Nov 2023 16:20:34 +0000
+Date: Wed, 8 Nov 2023 00:19:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Marchevsky <davemarchevsky@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: arch/powerpc/include/asm/cmpxchg.h:626:47: sparse: sparse: cast
+ truncates bits from constant value (5deadbeef000eb9f becomes f000eb9f)
+Message-ID: <202311072357.a2ejf6Jb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: kismet: WARNING: unmet direct dependencies detected for
- SM_GCC_8550 when selected by SM_CAMCC_8550
-Content-Language: en-US
-To: Philip Li <philip.li@intel.com>, Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: kernel test robot <lkp@intel.com>, Jagadeesh Kona
- <quic_jkona@quicinc.com>, Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <202311062309.XugQH7AH-lkp@intel.com>
- <CAMuHMdUPR2tZmE9AKxa0QWrJJd=tju8=2bPBWQgcPs6_d0sOag@mail.gmail.com>
- <ZUoxYETfECoiqooN@rli9-mobl>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ZUoxYETfECoiqooN@rli9-mobl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Philip,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
+commit: c3c510ce431cd99fa10dcd50d995c8e89330ee5b bpf: Add 'owner' field to bpf_{list,rb}_node
+date:   4 months ago
+config: powerpc64-randconfig-r113-20231107 (https://download.01.org/0day-ci/archive/20231107/202311072357.a2ejf6Jb-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231107/202311072357.a2ejf6Jb-lkp@intel.com/reproduce)
 
-On 11/7/23 04:45, Philip Li wrote:
-> On Tue, Nov 07, 2023 at 11:11:54AM +0100, Geert Uytterhoeven wrote:
->> Hi Robot,
->>
->> On Mon, Nov 6, 2023 at 4:06 PM kernel test robot <lkp@intel.com> wrote:
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->>> head:   d2f51b3516dade79269ff45eae2a7668ae711b25
->>> commit: ccc4e6a061a21d75b96d82fc4b084a8d96df6eb4 clk: qcom: camcc-sm8550: Add camera clock controller driver for SM8550
->>> date:   7 weeks ago
->>> config: arm-kismet-CONFIG_SM_GCC_8550-CONFIG_SM_CAMCC_8550-0-0 (https://download.01.org/0day-ci/archive/20231106/202311062309.XugQH7AH-lkp@intel.com/config)
->>> reproduce: (https://download.01.org/0day-ci/archive/20231106/202311062309.XugQH7AH-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202311062309.XugQH7AH-lkp@intel.com/
->>>
->>> kismet warnings: (new ones prefixed by >>)
->>>>> kismet: WARNING: unmet direct dependencies detected for SM_GCC_8550 when selected by SM_CAMCC_8550
->>>    .config:7280:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
->>                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
->> Where is this coming from? I have seen this warning in several build
->> reports (earliest 2023-01-31), but cannot reproduce it with the provided
->> commit and config.
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311072357.a2ejf6Jb-lkp@intel.com/
 
-I'm pretty sure that what Geert is asking about here is the warning (".config:7280:...") with
-the truncated kconfig symbol 'ONFIG_ARCH_MMAP_RND_BITS_MI'.  I have also seen several of these.
-Is this a bug in kismet or a bug in the robot or something else?
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/helpers.c: note: in included file (through arch/powerpc/include/asm/pgtable-be-types.h, arch/powerpc/include/asm/page.h, arch/powerpc/include/asm/mmu.h, ...):
+>> arch/powerpc/include/asm/cmpxchg.h:626:47: sparse: sparse: cast truncates bits from constant value (5deadbeef000eb9f becomes f000eb9f)
+   arch/powerpc/include/asm/cmpxchg.h:628:48: sparse: sparse: cast truncates bits from constant value (5deadbeef000eb9f becomes f000eb9f)
+>> arch/powerpc/include/asm/cmpxchg.h:626:47: sparse: sparse: cast truncates bits from constant value (5deadbeef000eb9f becomes f000eb9f)
+   arch/powerpc/include/asm/cmpxchg.h:628:48: sparse: sparse: cast truncates bits from constant value (5deadbeef000eb9f becomes f000eb9f)
+   kernel/bpf/helpers.c:2419:18: sparse: sparse: context imbalance in 'bpf_rcu_read_lock' - wrong count at exit
+   kernel/bpf/helpers.c:2424:18: sparse: sparse: context imbalance in 'bpf_rcu_read_unlock' - unexpected unlock
 
-thanks.
+vim +626 arch/powerpc/include/asm/cmpxchg.h
 
-> Hi Geert, this was detected by kismet tool developed by Paul Gazzillo and Necip Fazil Yildiran.
-> It can be obtained at [1]
-> 
-> And the issue detected by it can be reproduced by make olddefconfig as well,
-> the detail can refer to the reproduce instruction [2]
-> 
-> I give a try as below inside mainline repo
-> 
-> $ git checkout ccc4e6a061a21d75b96d82fc4b084a8d96df6eb4
-> $ wget https://download.01.org/0day-ci/archive/20231106/202311062309.XugQH7AH-lkp@intel.com/config -O .config
-> $ $ make ARCH=arm olddefconfig
->   HOSTCC  scripts/basic/fixdep
->   HOSTCC  scripts/kconfig/conf.o
->   HOSTCC  scripts/kconfig/confdata.o
->   HOSTCC  scripts/kconfig/expr.o
->   LEX     scripts/kconfig/lexer.lex.c
->   YACC    scripts/kconfig/parser.tab.[ch]
->   HOSTCC  scripts/kconfig/lexer.lex.o
->   HOSTCC  scripts/kconfig/menu.o
->   HOSTCC  scripts/kconfig/parser.tab.o
->   HOSTCC  scripts/kconfig/preprocess.o
->   HOSTCC  scripts/kconfig/symbol.o
->   HOSTCC  scripts/kconfig/util.o
->   HOSTLD  scripts/kconfig/conf
-> 
-> WARNING: unmet direct dependencies detected for SM_GCC_8550
->   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
->   Selected by [y]:
->   - SM_CAMCC_8550 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
-> 
-> [1] https://github.com/paulgazz/kmax#using-kismet
-> [2] https://download.01.org/0day-ci/archive/20231106/202311062309.XugQH7AH-lkp@intel.com/reproduce
-> 
->>
->> Gr{oetje,eeting}s,
->>
->>                         Geert
+ae3a197e3d0bfe3 David Howells    2012-03-28  619  
+ae3a197e3d0bfe3 David Howells    2012-03-28  620  static __always_inline unsigned long
+da58b23cb976ab8 Michael Ellerman 2016-11-24  621  __cmpxchg(volatile void *ptr, unsigned long old, unsigned long new,
+ae3a197e3d0bfe3 David Howells    2012-03-28  622  	  unsigned int size)
+ae3a197e3d0bfe3 David Howells    2012-03-28  623  {
+ae3a197e3d0bfe3 David Howells    2012-03-28  624  	switch (size) {
+d0563a1297e234e Pan Xinhui       2016-04-27  625  	case 1:
+d0563a1297e234e Pan Xinhui       2016-04-27 @626  		return __cmpxchg_u8(ptr, old, new);
+d0563a1297e234e Pan Xinhui       2016-04-27  627  	case 2:
+d0563a1297e234e Pan Xinhui       2016-04-27  628  		return __cmpxchg_u16(ptr, old, new);
+ae3a197e3d0bfe3 David Howells    2012-03-28  629  	case 4:
+ae3a197e3d0bfe3 David Howells    2012-03-28  630  		return __cmpxchg_u32(ptr, old, new);
+ae3a197e3d0bfe3 David Howells    2012-03-28  631  #ifdef CONFIG_PPC64
+ae3a197e3d0bfe3 David Howells    2012-03-28  632  	case 8:
+ae3a197e3d0bfe3 David Howells    2012-03-28  633  		return __cmpxchg_u64(ptr, old, new);
+ae3a197e3d0bfe3 David Howells    2012-03-28  634  #endif
+ae3a197e3d0bfe3 David Howells    2012-03-28  635  	}
+10d8b1480e6966b pan xinhui       2016-02-23  636  	BUILD_BUG_ON_MSG(1, "Unsupported size for __cmpxchg");
+ae3a197e3d0bfe3 David Howells    2012-03-28  637  	return old;
+ae3a197e3d0bfe3 David Howells    2012-03-28  638  }
+ae3a197e3d0bfe3 David Howells    2012-03-28  639  
 
+:::::: The code at line 626 was first introduced by commit
+:::::: d0563a1297e234ed37f6b51c2e9321accebd1839 powerpc: Implement {cmp}xchg for u8 and u16
+
+:::::: TO: Pan Xinhui <xinhui.pan@linux.vnet.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
