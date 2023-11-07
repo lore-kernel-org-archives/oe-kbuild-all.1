@@ -1,56 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D742E654
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 12:13:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D615730CF0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 12:37:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a4Q0PaNR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gllLcn0S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699359229; x=1730895229;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BR1cjSBdfMopOWm50Dq+jOEum45GoCeXwev/zLPfHW0=;
-  b=a4Q0PaNR9dzfbg3b0AbLXjBi6OqcFhuVF2dZ9YRzZqGTGJqiQo9BPd6K
-   h6ajMJ/ni2AogyNS1C2kmh1TYdlbge5jxAaWt6ZBXxnuPDgfB29FRlkIq
-   zMvexxMKawYypGzz3tcVPwlroHYUg3bO5Tm8muRcPOrx32CJCH1THpeJy
-   pHQ/ToxHAA+VdOGmT4hfoxQh7gNQKOspCNlR6H4DRSz4m933RDPebntDR
-   veikFtAsCqP9lmn0+UjZIe6Cb/rj7r92G7rcGdOeS0XxnHqT29YvESrnV
-   VBF4t0jPUvAeDCDJ9jKVwlDicaF7PmxAxSraSVyCpc7BIwYx1KQQYdkk4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="475736858"
+  t=1699360620; x=1730896620;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Cxa1gM0mSw6ba3PDaBM8x+FrtnAjAsqdocqTmiZ4ay0=;
+  b=gllLcn0SKhUxZh4+liAkiwqULTb+SASDp2LaTQC+xQAUQXt0PPEovpyI
+   DoJsLkH2LmlNqwTPO5YgFONgVoudfRIegGy9aPZneQqasU87biV6n1cC/
+   Nn5St1Nrvu61FZZlchU1fiPIVTFDDUYzogoBB//yJg1eYGWbB76yUBRni
+   mFM+Ud8e4MnUg5leOBAPTasGGlOmW2pR6X/xUdJyxS5xH7Uhy5dRY6BUP
+   HAy6ljxUAc7h6R8MSiX5UQCCtthTx92BlcAbG3t2ZU94OfLqWZcd0Fw+S
+   wqQ/alQ8m2iQg25kx7pXxbUyyZXbDL0PpIgk8uq6B+HxZzIOU5OG/I9wi
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="388370364"
 X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
-   d="scan'208";a="475736858"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 04:13:41 -0800
+   d="scan'208";a="388370364"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 04:37:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="936136351"
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="756177363"
 X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
-   d="scan'208";a="936136351"
+   d="scan'208";a="756177363"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 Nov 2023 04:13:37 -0800
+  by orsmga007.jf.intel.com with ESMTP; 07 Nov 2023 04:36:58 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0Kxb-00075A-1e;
-	Tue, 07 Nov 2023 12:13:35 +0000
-Date: Tue, 7 Nov 2023 20:12:42 +0800
+	id 1r0LKC-000760-0Y;
+	Tue, 07 Nov 2023 12:36:56 +0000
+Date: Tue, 7 Nov 2023 20:36:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 2/2] rtc: max31335: add driver support
-Message-ID: <202311071920.P1lDlqTA-lkp@intel.com>
-References: <20231104112752.3217-2-antoniu.miclaus@analog.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202311072011.DZIBU3k2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,70 +49,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231104112752.3217-2-antoniu.miclaus@analog.com>
 
-Hi Antoniu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on abelloni/rtc-next]
-[also build test ERROR on linus/master v6.6 next-20231107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/rtc-max31335-add-driver-support/20231104-202238
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20231104112752.3217-2-antoniu.miclaus%40analog.com
-patch subject: [PATCH v6 2/2] rtc: max31335: add driver support
-config: x86_64-randconfig-121-20231107 (https://download.01.org/0day-ci/archive/20231107/202311071920.P1lDlqTA-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311071920.P1lDlqTA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
+commit: f39db26c54281da6a785259498ca74b5e470476f drm: Add kms driver for loongson display controller
+date:   4 months ago
+config: powerpc-randconfig-r113-20231106 (https://download.01.org/0day-ci/archive/20231107/202311072011.DZIBU3k2-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231107/202311072011.DZIBU3k2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311071920.P1lDlqTA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311072011.DZIBU3k2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *d @@     got void *kptr @@
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     expected void volatile [noderef] __iomem *d
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     got void *kptr
+>> drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *s @@     got void *kptr @@
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     expected void const volatile [noderef] __iomem *s
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     got void *kptr
 
-   ld: vmlinux.o: in function `max31335_clkout_register':
->> drivers/rtc/rtc-max31335.c:595: undefined reference to `devm_clk_hw_register'
->> ld: drivers/rtc/rtc-max31335.c:599: undefined reference to `of_clk_hw_simple_get'
->> ld: drivers/rtc/rtc-max31335.c:599: undefined reference to `devm_of_clk_add_hw_provider'
+vim +27 drivers/gpu/drm/loongson/lsdc_benchmark.c
 
-
-vim +595 drivers/rtc/rtc-max31335.c
-
-   583	
-   584	static int max31335_clkout_register(struct device *dev)
-   585	{
-   586		struct max31335_data *max31335 = dev_get_drvdata(dev);
-   587		int ret;
-   588	
-   589		if (!device_property_present(dev, "#clock-cells"))
-   590			return regmap_clear_bits(max31335->regmap, MAX31335_RTC_CONFIG2,
-   591						 MAX31335_RTC_CONFIG2_ENCLKO);
-   592	
-   593		max31335->clkout.init = &max31335_clk_init;
-   594	
- > 595		ret = devm_clk_hw_register(dev, &max31335->clkout);
-   596		if (ret)
-   597			return dev_err_probe(dev, ret, "cannot register clock\n");
-   598	
- > 599		ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get,
-   600						  &max31335->clkout);
-   601		if (ret)
-   602			return dev_err_probe(dev, ret, "cannot add hw provider\n");
-   603	
-   604		max31335->clkout.clk = devm_clk_get_enabled(dev, NULL);
-   605		if (IS_ERR(max31335->clkout.clk))
-   606			return dev_err_probe(dev, PTR_ERR(max31335->clkout.clk),
-   607					     "cannot enable clkout\n");
-   608	
-   609		return 0;
-   610	}
-   611	
+    12	
+    13	typedef void (*lsdc_copy_proc_t)(struct lsdc_bo *src_bo,
+    14					 struct lsdc_bo *dst_bo,
+    15					 unsigned int size,
+    16					 int n);
+    17	
+    18	static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
+    19					      struct lsdc_bo *dst_bo,
+    20					      unsigned int size,
+    21					      int n)
+    22	{
+    23		lsdc_bo_kmap(src_bo);
+    24		lsdc_bo_kmap(dst_bo);
+    25	
+    26		while (n--)
+  > 27			memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
+    28	
+    29		lsdc_bo_kunmap(src_bo);
+    30		lsdc_bo_kunmap(dst_bo);
+    31	}
+    32	
+    33	static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
+    34					      struct lsdc_bo *dst_bo,
+    35					      unsigned int size,
+    36					      int n)
+    37	{
+    38		lsdc_bo_kmap(src_bo);
+    39		lsdc_bo_kmap(dst_bo);
+    40	
+    41		while (n--)
+  > 42			memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
+    43	
+    44		lsdc_bo_kunmap(src_bo);
+    45		lsdc_bo_kunmap(dst_bo);
+    46	}
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
