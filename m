@@ -1,85 +1,129 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E6C651
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 12:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D742E654
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 12:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="VWngGHjO"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E96D940E0191;
-	Tue,  7 Nov 2023 12:02:29 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id lE1Uhn93tP6E; Tue,  7 Nov 2023 12:02:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1699358547; bh=lxN1TuhcCJQeqTAeGqqpjQdztFGsAxuhyyTGBRhcVEg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VWngGHjOYgMTx4sASyd1/D4oZhFMjPizYdc01Siqc8pcBxFiVQOw+prM2T7Eu47eU
-	 HlsyrIc/1ammlhA+6Uf9PcDq3jf06akyB2rnbRMAwbYOHq7ryjtZGCn1ejATF6nQBn
-	 4lEQ2NUKcnt0cNcmelHEx1nTn9xqjd4LKqILd0UBPtSdf0FptaepDVbKKxEFBmst1U
-	 LaItEo8ryqD+0k2vlDmC7H3yDXjHOn2KDYPZBAHoyAc/u+/u4fCQrjWclXM60W6g8K
-	 cUs3Gbi6h4kQst5nf0dq/n6dIRJCDxzof0a16QGgxXHcyxgJzQLgVYjaRN8+/HSyvN
-	 MlM5qsZCDIoeiQE1f6OTJ9+hOhwBGpq/C55Nz3ScHC4mchSd172jnBEyDBOS6fC00D
-	 tkeofrmpnBIky04Vw0LS9//VDRymUTZeYHMC+AkgmjFwb5U8rGiOHNFGyHaR4UVLoR
-	 0ycu1xjRoOQhPKvRtC+GOgtkQQLcIjRh4lkURb7lD2eJmSb+7ZQ10kZrpMZTWd/fp+
-	 y2RLwTQgcZM8iUoIP+JQQkgDYndFUTputGY7jjZnoI8QqzHQPaP2N2PEi0Rdz2lG82
-	 2KTN6+TNPXIZTM6BFRfhbo3qUbY957M/WjP4CfXB33vLZqB7VKLdDMiANGShERuWXj
-	 BgpYTeJvq4ypNYekJxOFMNVU=
-Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A5CCC40E0176;
-	Tue,  7 Nov 2023 12:02:18 +0000 (UTC)
-Date: Tue, 7 Nov 2023 13:02:12 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Yazen Ghannam <yazen.ghannam@amd.com>
-Cc: kernel test robot <lkp@intel.com>, linux-edac@vger.kernel.org,
-	tony.luck@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, avadhut.naik@amd.com,
-	john.allen@amd.com, william.roche@oracle.com
-Subject: Re: [PATCH v2 1/2] RAS: Introduce AMD Address Translation Library
-Message-ID: <20231107120212.GAZUonREyEeClfT5Tf@fat_crate.local>
-References: <20231005173526.42831-2-yazen.ghannam@amd.com>
- <202310162015.fuitGuiJ-lkp@intel.com>
- <935d6e08-3754-4c06-ab25-69bda3fd8ea1@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a4Q0PaNR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699359229; x=1730895229;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BR1cjSBdfMopOWm50Dq+jOEum45GoCeXwev/zLPfHW0=;
+  b=a4Q0PaNR9dzfbg3b0AbLXjBi6OqcFhuVF2dZ9YRzZqGTGJqiQo9BPd6K
+   h6ajMJ/ni2AogyNS1C2kmh1TYdlbge5jxAaWt6ZBXxnuPDgfB29FRlkIq
+   zMvexxMKawYypGzz3tcVPwlroHYUg3bO5Tm8muRcPOrx32CJCH1THpeJy
+   pHQ/ToxHAA+VdOGmT4hfoxQh7gNQKOspCNlR6H4DRSz4m933RDPebntDR
+   veikFtAsCqP9lmn0+UjZIe6Cb/rj7r92G7rcGdOeS0XxnHqT29YvESrnV
+   VBF4t0jPUvAeDCDJ9jKVwlDicaF7PmxAxSraSVyCpc7BIwYx1KQQYdkk4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="475736858"
+X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
+   d="scan'208";a="475736858"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 04:13:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="936136351"
+X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
+   d="scan'208";a="936136351"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 07 Nov 2023 04:13:37 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r0Kxb-00075A-1e;
+	Tue, 07 Nov 2023 12:13:35 +0000
+Date: Tue, 7 Nov 2023 20:12:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6 2/2] rtc: max31335: add driver support
+Message-ID: <202311071920.P1lDlqTA-lkp@intel.com>
+References: <20231104112752.3217-2-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <935d6e08-3754-4c06-ab25-69bda3fd8ea1@amd.com>
+In-Reply-To: <20231104112752.3217-2-antoniu.miclaus@analog.com>
 
-On Tue, Oct 24, 2023 at 11:30:01AM -0400, Yazen Ghannam wrote:
-> Any thoughts?
+Hi Antoniu,
 
-Yes, no one cares about 32-bit:
+kernel test robot noticed the following build errors:
 
----
-diff --git a/drivers/ras/amd/atl/Kconfig b/drivers/ras/amd/atl/Kconfig
-index 88324c1978d8..6ddb9ac7ea30 100644
---- a/drivers/ras/amd/atl/Kconfig
-+++ b/drivers/ras/amd/atl/Kconfig
-@@ -9,7 +9,7 @@
- 
- config AMD_ATL
- 	tristate "AMD Address Translation Library"
--	depends on AMD_NB
-+	depends on AMD_NB && X86_64
- 	help
- 	  This library includes support for implementation-specific
- 	  address translation procedures needed for various error
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on linus/master v6.6 next-20231107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/rtc-max31335-add-driver-support/20231104-202238
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20231104112752.3217-2-antoniu.miclaus%40analog.com
+patch subject: [PATCH v6 2/2] rtc: max31335: add driver support
+config: x86_64-randconfig-121-20231107 (https://download.01.org/0day-ci/archive/20231107/202311071920.P1lDlqTA-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311071920.P1lDlqTA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311071920.P1lDlqTA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `max31335_clkout_register':
+>> drivers/rtc/rtc-max31335.c:595: undefined reference to `devm_clk_hw_register'
+>> ld: drivers/rtc/rtc-max31335.c:599: undefined reference to `of_clk_hw_simple_get'
+>> ld: drivers/rtc/rtc-max31335.c:599: undefined reference to `devm_of_clk_add_hw_provider'
+
+
+vim +595 drivers/rtc/rtc-max31335.c
+
+   583	
+   584	static int max31335_clkout_register(struct device *dev)
+   585	{
+   586		struct max31335_data *max31335 = dev_get_drvdata(dev);
+   587		int ret;
+   588	
+   589		if (!device_property_present(dev, "#clock-cells"))
+   590			return regmap_clear_bits(max31335->regmap, MAX31335_RTC_CONFIG2,
+   591						 MAX31335_RTC_CONFIG2_ENCLKO);
+   592	
+   593		max31335->clkout.init = &max31335_clk_init;
+   594	
+ > 595		ret = devm_clk_hw_register(dev, &max31335->clkout);
+   596		if (ret)
+   597			return dev_err_probe(dev, ret, "cannot register clock\n");
+   598	
+ > 599		ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get,
+   600						  &max31335->clkout);
+   601		if (ret)
+   602			return dev_err_probe(dev, ret, "cannot add hw provider\n");
+   603	
+   604		max31335->clkout.clk = devm_clk_get_enabled(dev, NULL);
+   605		if (IS_ERR(max31335->clkout.clk))
+   606			return dev_err_probe(dev, PTR_ERR(max31335->clkout.clk),
+   607					     "cannot enable clkout\n");
+   608	
+   609		return 0;
+   610	}
+   611	
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
