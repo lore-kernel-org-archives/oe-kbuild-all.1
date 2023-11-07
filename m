@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88B23158C;
-	Tue,  7 Nov 2023 19:19:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4742C358BF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 19:21:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfxNt4Pd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uhqqez5T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699384785; x=1730920785;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ey6mMZSS50+XcIbiBxZUVaica+lG7Ql2zmbRMzN42mo=;
-  b=DfxNt4Pd8EIjnW7QJ66m4vLyc72aDwS9eVhCWV0o38C0XCwY27os/cJy
-   W2i7uTFOjdR3l6LA7m5HGdI+1ZODHnTYRDlh8ZyixZscjiWDqtaLGDEO7
-   bxgx0Y4rH2Xc5RUVme4mP9YDozQ2ftv0hNOzOOjKIFlmb3hn9wOFEfVTf
-   YP7jsJDmvhAEzqMsaC4yGuJ3mSsBvwC0MpeBbv3ixbGCBSb0zfQK/j1bL
-   b07+xoIgbgpeSs2a6tp2yqRi+e7NMSCcSzqhtxrI9FqNUAYMTE7Y52OS4
-   qgeIgNYA9eW3t1Y4eFmWyJRMLEe0yzZpsVn8511nZXX3bPNcJta75WVjE
+  t=1699384865; x=1730920865;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yoVeFIlTCmxMkP56vAaZKvF5E0tHnjym9cdnab/yi4c=;
+  b=Uhqqez5TNPHQd9hzdeH9c30JCfW2cg4j2JiE2VSuEVkn0puwFemAlIRy
+   33jcFKnqDaju3sJg6BljLwXFxN7bM5l3Pf55Gnw5XBti02EC9Utybl5Cs
+   AmpHl7EoG1rHtCm2n59hYogpKi8cKX63Iz52HK10vRtjJXvqKXp8nmdg5
+   qv9lK7u+tBeKDVQQnxMaI3DxeX97/GN1TtqD/j7WSQW38yEXPA9bRU2ge
+   gYcvG7naC9iw4+advAPC7mLY8iGJ5W2sPE/V86RSP8Hm6GTQzwRi3cWqv
+   PE0hNEjs2DxgGjqAUG8YmPm/XtHJMYEx6AM0JNa9M0Xe03KoYCNmcYHhR
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="392469678"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="2535167"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="392469678"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 11:19:44 -0800
+   d="scan'208";a="2535167"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 11:21:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="906519722"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="762798829"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="906519722"
+   d="scan'208";a="762798829"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Nov 2023 11:19:42 -0800
+  by orsmga002.jf.intel.com with ESMTP; 07 Nov 2023 11:21:02 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0Rbw-0007LU-1v;
-	Tue, 07 Nov 2023 19:19:40 +0000
-Date: Wed, 8 Nov 2023 03:18:36 +0800
+	id 1r0RdD-0007LY-1w;
+	Tue, 07 Nov 2023 19:20:59 +0000
+Date: Wed, 8 Nov 2023 03:19:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: dslab@lzu.edu.cn, jaegeuk@kernel.org, chao@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org, Yang Hubin <yanghb2019@lzu.edu.cn>
-Subject: Re: [PATCH] f2fs: the name of a struct is wrong in a comment.
-Message-ID: <202311080247.0hkA0mLH-lkp@intel.com>
-References: <20231106121418.3675-1-dslab@lzu.edu.cn>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:guest-attest-wip 11/13] arch/x86/coco/tdx/tdx.c:62:
+ warning: Function parameter or member 'hdr' not described in
+ 'service_query_req'
+Message-ID: <202311080323.sb6i2r2J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,54 +50,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231106121418.3675-1-dslab@lzu.edu.cn>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jaegeuk-f2fs/dev-test]
-[also build test ERROR on jaegeuk-f2fs/dev linus/master v6.6 next-20231107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/dslab-lzu-edu-cn/f2fs-the-name-of-a-struct-is-wrong-in-a-comment/20231106-201822
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-patch link:    https://lore.kernel.org/r/20231106121418.3675-1-dslab%40lzu.edu.cn
-patch subject: [PATCH] f2fs: the name of a struct is wrong in a comment.
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231108/202311080247.0hkA0mLH-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311080247.0hkA0mLH-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git guest-attest-wip
+head:   4ed58356a95af36f4112fa8808ca91bdd81e65d0
+commit: c2dde52f0d63212db400986731ee8240aac7e410 [11/13] x86/tdx: Add tdx_hcall_query_service() API
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231108/202311080323.sb6i2r2J-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311080323.sb6i2r2J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311080247.0hkA0mLH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311080323.sb6i2r2J-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/f2fs/dir.c:10:
->> include/linux/f2fs_fs.h:501:16: error: expected ']'
-           __u8 reserved[NAT_JOURNAL_RESERVED];
-                         ^
-   include/linux/f2fs_fs.h:474:38: note: expanded from macro 'NAT_JOURNAL_RESERVED'
-                                   sizeof(struct nat_journal_entry))SIT_JOURNA
-                                                                    ^
-   include/linux/f2fs_fs.h:501:15: note: to match this '['
-           __u8 reserved[NAT_JOURNAL_RESERVED];
-                        ^
-   1 error generated.
+>> arch/x86/coco/tdx/tdx.c:62: warning: Function parameter or member 'hdr' not described in 'service_query_req'
 
 
-vim +501 include/linux/f2fs_fs.h
+vim +62 arch/x86/coco/tdx/tdx.c
 
-dd31866b0d55c9 Jaegeuk Kim 2012-11-02  498  
-dd31866b0d55c9 Jaegeuk Kim 2012-11-02  499  struct nat_journal {
-dd31866b0d55c9 Jaegeuk Kim 2012-11-02  500  	struct nat_journal_entry entries[NAT_JOURNAL_ENTRIES];
-dd31866b0d55c9 Jaegeuk Kim 2012-11-02 @501  	__u8 reserved[NAT_JOURNAL_RESERVED];
-dd31866b0d55c9 Jaegeuk Kim 2012-11-02  502  } __packed;
-dd31866b0d55c9 Jaegeuk Kim 2012-11-02  503  
+    43	
+    44	/**
+    45	 * struct service_query_req - Service query command buffer
+    46	 * hdr: Command buffer header.
+    47	 * @version: Command version (default is 0).
+    48	 * @cmd: Command ID (0 for query command).
+    49	 * @rsvd: Reserved for future use.
+    50	 * @guid: Service GUID to query.
+    51	 */
+    52	struct service_query_req
+    53	{
+    54		/* Command buffer header */
+    55		struct tdx_service_req_hdr hdr;
+    56	
+    57		/* Command data */
+    58		u8 version;
+    59		u8 cmd;
+    60		u8 rsvd;
+    61		u8 guid[16];
+  > 62	};
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
