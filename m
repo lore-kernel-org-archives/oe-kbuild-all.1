@@ -1,233 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0755820E7
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 01:42:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782FA441F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 02:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="joBj4Mfp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f4mjB0GJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699321339; x=1730857339;
+  t=1699325064; x=1730861064;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sYYjdaVHi0L9b2Ip+acuxrsdNL32P6zG8D4UEm12HC8=;
-  b=joBj4Mfp4eGpdbNNYg02gdN74STri+WCqRkZr3ABr3yir8KiGxNNp4Jv
-   pofZD42oAav7VHsDUooSZIVAzLM/FLvu37+nunvAMzRDUHNwbnxHiPYD7
-   hQnuhsHyNX4bFsWodItrbsQZL474s/OJ4vTeP2fpZvQ9c1CZzfIQIIJVw
-   tXVe83KwPegD0623SWcRDNtbskEE/29pLKq21lMJze7v1QF88LhFWQcBx
-   GkXzf+SSJNvof26fSOfcs+57rSot+z7yH7l1Vc0JGvhp6Wguxn1HnppmD
-   PvQWzMhl+xur4+ZORVAPQs9HI+O0Ofnj60qPE78wuAbPxACueoP3rWjxi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="369605137"
+  bh=UG3cj5hpwSW3pObm01RNu3aktE6jz9cCBhg2dfDHAMA=;
+  b=f4mjB0GJZseo9b6hGzSYVxSdYHiXk7MZl/Tzn9s0ZKncOVvDXM0JJ8LZ
+   7QZremyGLeXWwKfKNy3mMEteINvzabspt+Gt9Qck+nEfq3Im/UunZadhc
+   kZx7wgZvV16g/cqWPuv8GqiOGEavlt05wa7ZB+6jaLw08WhQUAopJF5sJ
+   KbJZef6UwnU9U1BXg6PI8y9lmLQDhD6D+CwH1EK9gz7DQXwMDbsPB2piR
+   qsEN7qcB6jIAamMOOHEj8wlTNvhrwjY9w+RZ92CWXL+sCjQuHPBI1TE2o
+   qUsxwxbmZoIwp9K2dAkk9Gn2/6L/QAYhs6bx90LX3AP/04xYpdfN1iNjX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="2339301"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="369605137"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 17:42:17 -0800
+   d="scan'208";a="2339301"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 18:44:24 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="791661827"
 X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="3810080"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Nov 2023 17:42:16 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0B6c-0006tP-0j;
-	Tue, 07 Nov 2023 01:42:14 +0000
-Date: Tue, 7 Nov 2023 09:41:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhimin Gu <kookoo.gu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Chen Yu <yu.c.chen@intel.com>
-Subject: arch/x86/power/hibernate.c:46: warning: Function parameter or member
- 'pfn' not described in 'pfn_is_nosave'
-Message-ID: <202311070957.GrEjtFym-lkp@intel.com>
+   d="scan'208";a="791661827"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Nov 2023 18:44:22 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 6 Nov 2023 18:44:22 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Mon, 6 Nov 2023 18:44:22 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.41) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Mon, 6 Nov 2023 18:44:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Kfj8kro4hkp5dbCOWfMcQ/Zvsp2phzkfLo9umPOsTkisdMpjDcddhCHiHbyKbateWeM6SeTVQQS3Bk1oHHixZPs2fZ3kBcJAYPxB2ckSpe1CQ7vZ1IWqlSd5YZKxtbgVyVvnwAWd9/rOxOZjq3s9t8qcjr9CtDGGrv01T90weOXECp55yFOwV6ACoobiGkBEwXEs8uYrtLz+jE+ENv87hmBNNEUSI6trP/gXO/V6jOrP/Yzq9S93pmHqDQBjknaWOsacjxGy/HueQ3H0vWaHWPJebuM1CS4zLG+FeOF6lmNZ1p+fc7jY1jg2xM169BHp5CqMxv0CFoMXoyR70TbKXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ToqDZbgFAqn62FvdM+2Vwq+LZjkFId83xHM5gGYB6jA=;
+ b=gpPP41VeJu3YgHL6I/2onzvrFiG5Uly4T0hAgUd6yTQC2CIOyokABbk3Eu3GwAyN1dlzNwHKCPCUW2exZd0pt3X5cz9kINUHlQhGh0m/X8F+Cldm+MIN1t+inmcrAArcqs+WS0R57Tx5HJh+Ii5wqg3YV9ddMuK7x2eTG7pXrvup0qb8pH5rFU+oY1UWB19gu2s97x2wU9XdZ7OiAdHwXYYejTWqCOcnIWqWTF+zfLTH3i1fphWtijDgcbZvWQ/jaRji3dAsz13c1jrH6OdZoF3/4u4tKMfGLYQJEtIMrKQ4rw0lidDE7H4+I7XX15yx5kCZFE7fS645oP20Nuc+Uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by BN9PR11MB5291.namprd11.prod.outlook.com (2603:10b6:408:118::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Tue, 7 Nov
+ 2023 02:44:19 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.6933.028; Tue, 7 Nov 2023
+ 02:44:19 +0000
+Date: Tue, 7 Nov 2023 10:39:36 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <intel-xe@lists.freedesktop.org>,
+	"Rodrigo Vivi" <rodrigo.vivi@intel.com>
+Subject: [drm-xe:oak/drm-evictable-lru 2911/3055]
+ drivers/gpu/drm/i915/display/intel_display_power.h: linux/mutex.h is
+ included more than once.
+Message-ID: <202311070416.8nPv4n6G-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SI1PR02CA0047.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::15) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|BN9PR11MB5291:EE_
+X-MS-Office365-Filtering-Correlation-Id: fb6889bd-1c47-4361-d052-08dbdf3b70a2
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GivOK7B3V231eA9mvIaPqpmlGBwejKTGAAz3v58cx7TQ1BX5/RIWRSaleoetToUW1IOzUIcgvcbMSf119BlJiSLtuplou8uNDay3XYHC7wHFzqrJhANqdToLc1Jlv7RDdj0Bi3Vp2l/l8RWhcqaVp/EUy/mfslNl20FSO4imbzby14P3riQgM9t0CyzOjfaY3HH+fT150Dnb0AFRT5kYT5wHQQrt79mhtKGOt/qVaoQX2feWT/XZeMXJ+8eJMhBAhMt6UQWFmfXi+TeoeuAs32blM4JRlCc/EV0wFG6Xgv/37nVnJvZRaLwcoCNSCp4LMfUFvO+xgrQQ6jlro8HPN7a2XZnOC4auJwgWm2l3elX7GBUpPDWQfVzvfZcNhsP08Ggz/szFsm212vb8E9O49rraFC1gL4cOQTZXsT7balgnHyU7yLM0N62s9peEeKy129T/uc33JtAOHYj64fULHhbL+V495LGkND3ZD+QrSNCMqYIc+dv8alF3Z4hYRdCHIAE77c/XNUl8n4Zit1iatcJVeSJKlLHGFQzmJxMOqMe4KXz0D1OlA4yREYJ+4/I6sTsVEEvmQacWdjgNzIVU1DfTvnMRlcRdgqrLtRT3NhD4e1AbDhe0I8R4C7ymobF7SiSK2K92Pu5ZdWwNXBWSig==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(366004)(346002)(396003)(376002)(230173577357003)(230922051799003)(230273577357003)(1800799009)(186009)(64100799003)(451199024)(36756003)(8936002)(83380400001)(316002)(6862004)(4326008)(8676002)(26005)(66476007)(1076003)(66946007)(6636002)(66556008)(37006003)(5660300002)(478600001)(41300700001)(107886003)(6486002)(6512007)(966005)(6666004)(6506007)(2616005)(2906002)(82960400001)(86362001)(38100700002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?noAHy7vcGSXCcdANPTjEa7AXHCRO6fpdXDgXVJ7A7++FbgRi8OdqYjP0vtBw?=
+ =?us-ascii?Q?BstuxpFzh6VoWrhRRPngARknop/iPurdISUFSa8Nz0B2OH34CpQ1GJ3t32KT?=
+ =?us-ascii?Q?gHQVViNhmMVoHXh5jpj7HsOEGEqf8sDBEizwGYYoKvs62hsT78IAVsbJ3wqa?=
+ =?us-ascii?Q?GntS5zP+AFcJihC6rwxI7+6qOQF9KhhuSLxJfEEP0/WzNbW9x6/Bk9wPKtIq?=
+ =?us-ascii?Q?toGOgrbDCUvCcl8NmUJcNjb0479lkpFFoptreRmg7rsEYPpGNtCHV9VbPK6D?=
+ =?us-ascii?Q?X2Q1C0jwdrrnOPjF6N71ugRht2nIixAN+MEl0GBDwKu7BthE5PzSfirCmiEy?=
+ =?us-ascii?Q?p5F45zJF7YAjau7jUyPa1eRGb9/ALfQBXUbfB3CXCsoW/3+I6DbnX3BoLVC+?=
+ =?us-ascii?Q?nklJH3BxkrjcUa2VR0+f5LEI02Pn1HcUvEnJ4toP2dIJu/7wiqJmTlCToccE?=
+ =?us-ascii?Q?hvTyCahdDksSvwoyFioFPP177Gl9yxKtHp0e3watdo5cjtoH+IJ9tZWrcvSn?=
+ =?us-ascii?Q?zD7mnLbW2BRcEPlDhCfTe+ev284h0se+SvJb0hLN1O7E2s3jMTUsavN00DlO?=
+ =?us-ascii?Q?SCdVPu4v1pp1d6shPA86EJhkkOGUBU9femkjaFqqELmfhsCr81DmORAu+7Mr?=
+ =?us-ascii?Q?F9eILmlJKDp5k/PR4N4Z4jd70qu9AK59UDpn4S6jO5aO9lOJOYiTDrlaZvu4?=
+ =?us-ascii?Q?/6mFrpwm9VAHFaArTCOi94gN4JUt8Zz61jzx3xocFLsMWdJuJVtV+Fpo5vkm?=
+ =?us-ascii?Q?wuO7kw0zZL6rkkEj/H1PrrNTQqEKoBw0NdbWMR8FLyEpe+VFfmiFo2UMB2Tv?=
+ =?us-ascii?Q?ngyeUcQFRdahH88ANUJTm6o3lfonZnbXhBa24hp/1uN5gWoQ/9jGItEIKlGS?=
+ =?us-ascii?Q?uF81M0Ln5NQ+Lv1Eo6Hb+1P9ExRNHN87lbFtp0DBjMArtLNMvwUykaT4n+CM?=
+ =?us-ascii?Q?MANaJYCD84fkz7SBGsdjaX9y55MNVGq5eSBawQwIdULba/RsmE6Ur1o6qnd3?=
+ =?us-ascii?Q?4zLuJu/ld/7euua80cqrR8+C7iN711CW+qZBNasprbhl4FNnWfYWqAvqoe28?=
+ =?us-ascii?Q?CQ99+4CftcEcTD8F09I2XLiwZPIu6Kn6M50Y+lWaDhQPkVQbMUbdUMePXIX8?=
+ =?us-ascii?Q?KH+kKAoV18okCHOqOGPLwUu1y2cqRAj+gWIa/FCJIKUjk8C7eVDe+UzeJApS?=
+ =?us-ascii?Q?Hvf7+JdIV/Sn0fiWJlO9Ofd1FZ1YxZCf7pjPL0PLHQoFHc7AYyDOPSXgxEIJ?=
+ =?us-ascii?Q?Ip+C5ADnkEk0pbsxigRwQ7mCFSLW+MC6EnvI7OeC/qt+P4gtk9ALWvJYjT8E?=
+ =?us-ascii?Q?prC3ahc5rKIAovhTaknwwTU3/bWgsBUoZ4yDWq4MJTQcmtvebvKbFQ9+oA9Z?=
+ =?us-ascii?Q?QUPe2JKOB2J0DqlkG4ezG0UBu6N71s3AttCNKN/HEHhZi0pr5ArtBE8Fnh+m?=
+ =?us-ascii?Q?DHV83uHxoKSSDhdLecRPs/gvWGwrKTzZYeYyDlczZci1kmtwQ/Tmyl2COeCc?=
+ =?us-ascii?Q?fGF0cQe5mqhzI2ETb/jiNe/4G8Nmg5doIdklLXZX59MOX8J53TDLiyXY7G4R?=
+ =?us-ascii?Q?xE/R+5PPZ+cV5YqB0zpSRoy0aibxZn8O7qqeuDE5?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb6889bd-1c47-4361-d052-08dbdf3b70a2
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 02:44:18.9967
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1butHlGJUoKv/W+V8pPeMqfC3r0MxdFRPEt8TUMSuV0id8IBJf9TY9sZBAiEZF6E2tCejmkl3GtvZ/tIj+d20w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5291
+X-OriginatorOrg: intel.com
 
-Hi Zhimin,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
-commit: 25862a049e6f04cc982f4bed25ed3e6f0a0a5a61 x86, hibernate: Extract the common code of 64/32 bit system
-date:   5 years ago
-config: x86_64-randconfig-r011-20230712 (https://download.01.org/0day-ci/archive/20231107/202311070957.GrEjtFym-lkp@intel.com/config)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git oak/drm-evictable-lru
+head:   d1f59526925ae851c6abf77af8ae6f8c3cffeebd
+commit: 304baa8c20cfad330a6c7cad47d86043e968642c [2911/3055] FIXME: drm/i915: add a lot of includes in intel_display_power.h
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311070957.GrEjtFym-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311070957.GrEjtFym-lkp@intel.com/
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202311070416.8nPv4n6G-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_display_power.h: linux/mutex.h is included more than once.
+>> drivers/gpu/drm/i915/display/intel_display_power.h: linux/workqueue.h is included more than once.
 
-   arch/x86/power/hibernate.c:45:5: warning: no previous prototype for 'pfn_is_nosave' [-Wmissing-prototypes]
-      45 | int pfn_is_nosave(unsigned long pfn)
-         |     ^~~~~~~~~~~~~
-   arch/x86/power/hibernate.c:150:5: warning: no previous prototype for 'arch_hibernation_header_save' [-Wmissing-prototypes]
-     150 | int arch_hibernation_header_save(void *addr, unsigned int max_size)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/power/hibernate.c:187:5: warning: no previous prototype for 'arch_hibernation_header_restore' [-Wmissing-prototypes]
-     187 | int arch_hibernation_header_restore(void *addr)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/power/hibernate.c:46: warning: Function parameter or member 'pfn' not described in 'pfn_is_nosave'
->> arch/x86/power/hibernate.c:151: warning: Function parameter or member 'max_size' not described in 'arch_hibernation_header_save'
-   arch/x86/power/hibernate.o: warning: objtool: arch_hibernation_header_restore()+0x31: sibling call from callable instruction with modified stack frame
+vim +9 drivers/gpu/drm/i915/display/intel_display_power.h
 
-
-vim +46 arch/x86/power/hibernate.c
-
-    41	
-    42	/**
-    43	 *	pfn_is_nosave - check if given pfn is in the 'nosave' section
-    44	 */
-    45	int pfn_is_nosave(unsigned long pfn)
-  > 46	{
-    47		unsigned long nosave_begin_pfn;
-    48		unsigned long nosave_end_pfn;
-    49	
-    50		nosave_begin_pfn = __pa_symbol(&__nosave_begin) >> PAGE_SHIFT;
-    51		nosave_end_pfn = PAGE_ALIGN(__pa_symbol(&__nosave_end)) >> PAGE_SHIFT;
-    52	
-    53		return pfn >= nosave_begin_pfn && pfn < nosave_end_pfn;
-    54	}
-    55	
-    56	#ifdef CONFIG_X86_64
-    57	
-    58	#define MD5_DIGEST_SIZE 16
-    59	
-    60	struct restore_data_record {
-    61		unsigned long jump_address;
-    62		unsigned long jump_address_phys;
-    63		unsigned long cr3;
-    64		unsigned long magic;
-    65		u8 e820_digest[MD5_DIGEST_SIZE];
-    66	};
-    67	
-    68	#if IS_BUILTIN(CONFIG_CRYPTO_MD5)
-    69	/**
-    70	 * get_e820_md5 - calculate md5 according to given e820 table
-    71	 *
-    72	 * @table: the e820 table to be calculated
-    73	 * @buf: the md5 result to be stored to
-    74	 */
-    75	static int get_e820_md5(struct e820_table *table, void *buf)
-    76	{
-    77		struct crypto_shash *tfm;
-    78		struct shash_desc *desc;
-    79		int size;
-    80		int ret = 0;
-    81	
-    82		tfm = crypto_alloc_shash("md5", 0, 0);
-    83		if (IS_ERR(tfm))
-    84			return -ENOMEM;
-    85	
-    86		desc = kmalloc(sizeof(struct shash_desc) + crypto_shash_descsize(tfm),
-    87			       GFP_KERNEL);
-    88		if (!desc) {
-    89			ret = -ENOMEM;
-    90			goto free_tfm;
-    91		}
-    92	
-    93		desc->tfm = tfm;
-    94		desc->flags = 0;
-    95	
-    96		size = offsetof(struct e820_table, entries) +
-    97			sizeof(struct e820_entry) * table->nr_entries;
-    98	
-    99		if (crypto_shash_digest(desc, (u8 *)table, size, buf))
-   100			ret = -EINVAL;
-   101	
-   102		kzfree(desc);
-   103	
-   104	free_tfm:
-   105		crypto_free_shash(tfm);
-   106		return ret;
-   107	}
-   108	
-   109	static int hibernation_e820_save(void *buf)
-   110	{
-   111		return get_e820_md5(e820_table_firmware, buf);
-   112	}
-   113	
-   114	static bool hibernation_e820_mismatch(void *buf)
-   115	{
-   116		int ret;
-   117		u8 result[MD5_DIGEST_SIZE];
-   118	
-   119		memset(result, 0, MD5_DIGEST_SIZE);
-   120		/* If there is no digest in suspend kernel, let it go. */
-   121		if (!memcmp(result, buf, MD5_DIGEST_SIZE))
-   122			return false;
-   123	
-   124		ret = get_e820_md5(e820_table_firmware, result);
-   125		if (ret)
-   126			return true;
-   127	
-   128		return memcmp(result, buf, MD5_DIGEST_SIZE) ? true : false;
-   129	}
-   130	#else
-   131	static int hibernation_e820_save(void *buf)
-   132	{
-   133		return 0;
-   134	}
-   135	
-   136	static bool hibernation_e820_mismatch(void *buf)
-   137	{
-   138		/* If md5 is not builtin for restore kernel, let it go. */
-   139		return false;
-   140	}
-   141	#endif
-   142	
-   143	#define RESTORE_MAGIC	0x23456789ABCDEF01UL
-   144	
-   145	/**
-   146	 *	arch_hibernation_header_save - populate the architecture specific part
-   147	 *		of a hibernation image header
-   148	 *	@addr: address to save the data at
-   149	 */
-   150	int arch_hibernation_header_save(void *addr, unsigned int max_size)
- > 151	{
-   152		struct restore_data_record *rdr = addr;
-   153	
-   154		if (max_size < sizeof(struct restore_data_record))
-   155			return -EOVERFLOW;
-   156		rdr->magic = RESTORE_MAGIC;
-   157		rdr->jump_address = (unsigned long)restore_registers;
-   158		rdr->jump_address_phys = __pa_symbol(restore_registers);
-   159	
-   160		/*
-   161		 * The restore code fixes up CR3 and CR4 in the following sequence:
-   162		 *
-   163		 * [in hibernation asm]
-   164		 * 1. CR3 <= temporary page tables
-   165		 * 2. CR4 <= mmu_cr4_features (from the kernel that restores us)
-   166		 * 3. CR3 <= rdr->cr3
-   167		 * 4. CR4 <= mmu_cr4_features (from us, i.e. the image kernel)
-   168		 * [in restore_processor_state()]
-   169		 * 5. CR4 <= saved CR4
-   170		 * 6. CR3 <= saved CR3
-   171		 *
-   172		 * Our mmu_cr4_features has CR4.PCIDE=0, and toggling
-   173		 * CR4.PCIDE while CR3's PCID bits are nonzero is illegal, so
-   174		 * rdr->cr3 needs to point to valid page tables but must not
-   175		 * have any of the PCID bits set.
-   176		 */
-   177		rdr->cr3 = restore_cr3 & ~CR3_PCID_MASK;
-   178	
-   179		return hibernation_e820_save(rdr->e820_digest);
-   180	}
-   181	
+     8	
+   > 9	#include <linux/mutex.h>
+    10	#include <linux/workqueue.h>
+    11	
+    12	#include "intel_wakeref.h"
+    13	#include <linux/types.h>
+    14	#include <linux/bitops.h>
+  > 15	#include <linux/mutex.h>
+    16	#include <linux/workqueue.h>
+    17	#include "intel_runtime_pm.h"
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
