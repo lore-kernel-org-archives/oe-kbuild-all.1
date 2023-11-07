@@ -1,120 +1,91 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A1DC13B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 07:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B2E28F7
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 08:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OozKsmbb"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3A75UfiN015263;
-	Tue, 7 Nov 2023 07:03:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=GV/Oe85BcIMzkreNOl0ezQRHZUFGM+msj8ZWPKvkOWA=;
- b=OozKsmbbsMtw6LRsYjQy1RUwLXExsUzbirDfLr1Pke0YkoAYXpAgkwg+1CqQ1saq8P01
- oQr0MKz4NAGnuREDWjzvphJE0jow0O+wahWa+0YE3o8IQb5l0LRVclVtJh9cwHys/PCS
- 7wo+++zrfeZe1IpyGuDb+G4VQwkVwvPpXG6wT8IdW6M23d0kVtrzfUrQmqb4yqD0a2oD
- PdflpoGGpIJpa9qzsHOruSdeBvN/+uLw/Fh3IjsOCNXua0xiAav8bv2cKIe6aTATZZtZ
- 14O5dTdfcBscxlwIBLjPP8QeYZIRwcEI2xSaI2iofnASCCRRiTYh6RUSAzi2JZWmLGA6 Sw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u6xduam65-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Nov 2023 07:02:59 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A772w2U010865
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 7 Nov 2023 07:02:58 GMT
-Received: from [10.217.216.47] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 6 Nov
- 2023 23:02:55 -0800
-Message-ID: <b18b6f8e-7b2f-4a27-ec71-6bf9ee599c42@quicinc.com>
-Date: Tue, 7 Nov 2023 12:32:34 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IRt27N2H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699346529; x=1730882529;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=qWDJlrKSkS1LmhNbcF2BMb1BMmUjiFG5QJPm/B+n5FE=;
+  b=IRt27N2HsN446gMCf9FMJ7ShFjWW/nE5CKWtTixezkqwGueykAOUp0Qq
+   HbydLVuAyuUU8MIO0FuDIn3DY90jRJBykC1wz4yBLX4vzC+j804Sz4kII
+   zaCLLlxKSsadeOwLhbdq43hCQH0Es3OdMSZwE5btjRl1cL9sPS8JYMl+q
+   OSL4ts4AYOHea2VPbmFWIEl+wOvnUjvRieXD1a+Ti8Ul3mhxCeHK74WHf
+   1tG32bKkMJd6erDdtSHTF25rjC9zxLPSI/0xLFTznCWdwDFqMBTnhOVsB
+   ycfwRHlWXG9xg9SId65gXmcH3Q6Afv5/IhM2CE/TVLuTQMq914GAlof9t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="8109869"
+X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
+   d="scan'208";a="8109869"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 00:42:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
+   d="scan'208";a="3741126"
+Received: from ezorina-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.52.183])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 00:41:55 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: kernel test robot <yujie.liu@intel.com>, Oak Zeng <oak.zeng@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [drm-xe:oak/drm-evictable-lru 2911/3055]
+ drivers/gpu/drm/i915/display/intel_display_power.h: linux/mutex.h is
+ included more than once.
+In-Reply-To: <202311070416.8nPv4n6G-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <202311070416.8nPv4n6G-lkp@intel.com>
+Date: Tue, 07 Nov 2023 10:41:51 +0200
+Message-ID: <87a5rqymy8.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: kismet: WARNING: unmet direct dependencies detected for
- SM_GCC_8550 when selected by SM_CAMCC_8550
-To: Randy Dunlap <rdunlap@infradead.org>, kernel test robot <lkp@intel.com>
-CC: Paul Gazzillo <paul@pgazz.com>,
-        Necip Fazil Yildiran
-	<fazilyildiran@gmail.com>,
-        <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Taniya Das <quic_tdas@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Imran Shaik
-	<quic_imrashai@quicinc.com>,
-        Ajit Pandey <quic_ajipan@quicinc.com>
-References: <202311062309.XugQH7AH-lkp@intel.com>
- <69db6062-4e6c-40da-994d-1f74abd828de@infradead.org>
-Content-Language: en-US
-From: Jagadeesh Kona <quic_jkona@quicinc.com>
-In-Reply-To: <69db6062-4e6c-40da-994d-1f74abd828de@infradead.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: kVnRgojZTgTN_YASeuaeNzB17qD4281q
-X-Proofpoint-ORIG-GUID: kVnRgojZTgTN_YASeuaeNzB17qD4281q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-06_15,2023-11-02_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 mlxlogscore=877 priorityscore=1501
- spamscore=0 impostorscore=0 mlxscore=0 malwarescore=0 clxscore=1011
- bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310240000 definitions=main-2311070056
+Content-Type: text/plain
+
+On Tue, 07 Nov 2023, kernel test robot <yujie.liu@intel.com> wrote:
+> tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git oak/drm-evictable-lru
+
+Why do we have this stale branch? I don't think developers should push
+their branches to xe/kernel.git but their own repos instead.
+
+BR,
+Jani.
 
 
+> head:   d1f59526925ae851c6abf77af8ae6f8c3cffeebd
+> commit: 304baa8c20cfad330a6c7cad47d86043e968642c [2911/3055] FIXME: drm/i915: add a lot of includes in intel_display_power.h
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <yujie.liu@intel.com>
+> | Closes: https://lore.kernel.org/r/202311070416.8nPv4n6G-lkp@intel.com/
+>
+> includecheck warnings: (new ones prefixed by >>)
+>>> drivers/gpu/drm/i915/display/intel_display_power.h: linux/mutex.h is included more than once.
+>>> drivers/gpu/drm/i915/display/intel_display_power.h: linux/workqueue.h is included more than once.
+>
+> vim +9 drivers/gpu/drm/i915/display/intel_display_power.h
+>
+>      8	
+>    > 9	#include <linux/mutex.h>
+>     10	#include <linux/workqueue.h>
+>     11	
+>     12	#include "intel_wakeref.h"
+>     13	#include <linux/types.h>
+>     14	#include <linux/bitops.h>
+>   > 15	#include <linux/mutex.h>
+>     16	#include <linux/workqueue.h>
+>     17	#include "intel_runtime_pm.h"
+>     18	
 
-On 11/7/2023 6:17 AM, Randy Dunlap wrote:
-> Hi Jagadeesh,
-> 
-> On 11/6/23 07:05, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->> head:   d2f51b3516dade79269ff45eae2a7668ae711b25
->> commit: ccc4e6a061a21d75b96d82fc4b084a8d96df6eb4 clk: qcom: camcc-sm8550: Add camera clock controller driver for SM8550
->> date:   7 weeks ago
->> config: arm-kismet-CONFIG_SM_GCC_8550-CONFIG_SM_CAMCC_8550-0-0 (https://download.01.org/0day-ci/archive/20231106/202311062309.XugQH7AH-lkp@intel.com/config)
->> reproduce: (https://download.01.org/0day-ci/archive/20231106/202311062309.XugQH7AH-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202311062309.XugQH7AH-lkp@intel.com/
->>
->> kismet warnings: (new ones prefixed by >>)
->>>> kismet: WARNING: unmet direct dependencies detected for SM_GCC_8550 when selected by SM_CAMCC_8550
->>     .config:7280:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
->>     
->>     WARNING: unmet direct dependencies detected for SM_GCC_8550
->>       Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
->>       Selected by [y]:
->>       - SM_CAMCC_8550 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
->>
-> 
-> Should SM_CAMCC_8550 depend on "ARM64 || COMPILE_TEST" like SM_GCC_8550 does?
-> It's not safe to "select" SM_GCC_8550 when neither of ARM64 or COMPILE_TEST is set.
-> 
-
-Hi Randy, I have corrected the dependencies now with below change. Thanks!
-
-https://lore.kernel.org/linux-clk/20231107064545.13120-1-quic_jkona@quicinc.com/T/#u
-
-Regards,
-Jagadeesh
-
-> thanks.
+-- 
+Jani Nikula, Intel
