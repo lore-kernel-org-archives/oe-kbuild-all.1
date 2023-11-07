@@ -1,48 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EA63158C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 19:19:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE373158C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 19:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWEmFnGG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BLxKW63v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699384759; x=1730920759;
+  t=1699384779; x=1730920779;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IaDGfIa0O5RTktcmcd6R9szGmG8LN48GzrFZLN4uhGk=;
-  b=RWEmFnGGtgzyHSv02NWfoiIGeohR1YVAaheuBDq5JG22hUu9rrwbewQ+
-   8bcaeJOpzYmb2zbjifVq4UmkqOndaCDT0DP/t4kXr0W9ybxgmLUTAOCc2
-   NzzZYLyQUxioprK23v0JEvtzwKJp3DRVKeoFrCGLZWA1GXfUYjk3VoZHG
-   5FjIqHbC7qcaDA5vgrkYQ7SSLznA61JzaWooj9iP1c9ijdCUkK4TE/aPu
-   8rYCVjSKQzJ5WeuDBW8GmzJQGBZq9FVOt5gtOuJkT96SpV4YkMafWmlQo
-   DtQf/U4gr6DfZHlx3YaTbZO3IHEl5zz+54vy/sHyrhccDNQv8kKGaSLj8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="2534651"
+  bh=JaNeliEt2AqY/2cfH8cujaaWomO/quuyZNntHGbuo0I=;
+  b=BLxKW63vP92a6DYgMTBKenc0wm1VELYZ64Lxryo02VWMTb+VeCPzLO4t
+   3JCXvqCfDtXA59Cd3czZjqwmZtgov+nXFTds4YIkYPgZONueNz5ur6/QY
+   breAoLZ3a9H38REKWRc9QJi5Cl2SP2Kfc0lbG1zR7hn3RopEmvOn9nNa8
+   mdNgG1ijsfICLp8wGy1XP8vSBT267yceNYZ5ufpJtYJHKH+9YZDboKnka
+   O1fzP3bQpjX1LWR85UkWOXf8XLdcz5MFUUceIhx9rDE/1LLi51NUSMo+W
+   82LzMlU5TH8YOSEOCO5XqVKk6/Mz0vDzR8/GxUHDODxfXV0oV9CrzA7DD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="2534782"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="2534651"
+   d="scan'208";a="2534782"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 11:19:18 -0800
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 11:19:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="833213809"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="833213817"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="833213809"
+   d="scan'208";a="833213817"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Nov 2023 11:19:16 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 07 Nov 2023 11:19:36 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0RbV-0007LM-31;
-	Tue, 07 Nov 2023 19:19:13 +0000
-Date: Wed, 8 Nov 2023 03:18:33 +0800
+	id 1r0Rbq-0007LQ-0i;
+	Tue, 07 Nov 2023 19:19:34 +0000
+Date: Wed, 8 Nov 2023 03:18:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>
+To: Daniel Wagner <daniel.wagner@bmw-carit.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: drivers/video/fbdev/fsl-diu-fb.c:880:49: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202311080231.4z5kSiw6-lkp@intel.com>
+	Michal Marek <mmarek@suse.com>
+Subject: arch/powerpc/platforms/embedded6xx/mvme5100.c:140:65: error: passing
+ argument 5 of 'early_read_config_dword' from incompatible pointer type
+Message-ID: <202311080209.eVnG4LWq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,232 +53,200 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
-commit: b28d1ccf921a4333be14017d82066386d419e638 powerpc/io: Expect immutable pointer in virt_to_phys() prototype
-date:   3 weeks ago
-config: powerpc-randconfig-r113-20231106 (https://download.01.org/0day-ci/archive/20231108/202311080231.4z5kSiw6-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080231.4z5kSiw6-lkp@intel.com/reproduce)
+commit: ea8daa7b97842aab8507b5b5b1e3226cf2d514a6 kbuild: Add option to turn incompatible pointer check into error
+date:   8 years ago
+config: powerpc-randconfig-c003-20220718 (https://download.01.org/0day-ci/archive/20231108/202311080209.eVnG4LWq-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311080209.eVnG4LWq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311080231.4z5kSiw6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311080209.eVnG4LWq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/fsl-diu-fb.c:497:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got unsigned int [usertype] *reg @@
-   drivers/video/fbdev/fsl-diu-fb.c:497:26: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:497:26: sparse:     got unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:496:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got unsigned int [usertype] *reg @@
-   drivers/video/fbdev/fsl-diu-fb.c:496:26: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:496:26: sparse:     got unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:493:6: sparse: sparse: symbol 'wr_reg_wa' was not declared. Should it be static?
-   drivers/video/fbdev/fsl-diu-fb.c:509:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:509:36: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:509:36: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:513:29: sparse: sparse: restricted __be32 degrades to integer
-   drivers/video/fbdev/fsl-diu-fb.c:519:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:519:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:519:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:524:29: sparse: sparse: restricted __be32 degrades to integer
-   drivers/video/fbdev/fsl-diu-fb.c:530:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:530:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:530:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:536:29: sparse: sparse: restricted __be32 degrades to integer
-   drivers/video/fbdev/fsl-diu-fb.c:537:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:537:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:537:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:544:29: sparse: sparse: restricted __be32 degrades to integer
-   drivers/video/fbdev/fsl-diu-fb.c:545:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:545:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:545:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:561:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:561:36: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:561:36: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:566:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:566:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:566:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:569:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:569:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:569:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:575:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:575:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:575:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:578:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:578:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:578:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:583:29: sparse: sparse: restricted __be32 degrades to integer
-   drivers/video/fbdev/fsl-diu-fb.c:589:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:589:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:589:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:594:29: sparse: sparse: restricted __be32 degrades to integer
-   drivers/video/fbdev/fsl-diu-fb.c:600:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] *reg @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:600:44: sparse:     expected unsigned int [usertype] *reg
-   drivers/video/fbdev/fsl-diu-fb.c:600:44: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:612:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:612:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:612:19: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:621:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:621:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:621:19: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:829:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:829:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:829:19: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:831:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:831:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:831:19: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:832:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:832:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:832:19: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:839:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:839:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:839:19: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:845:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:845:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:845:19: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:861:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:861:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:861:19: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:879:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void *[assigned] p @@
-   drivers/video/fbdev/fsl-diu-fb.c:879:27: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/fsl-diu-fb.c:879:27: sparse:     got void *[assigned] p
->> drivers/video/fbdev/fsl-diu-fb.c:880:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *address @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/fsl-diu-fb.c:880:49: sparse:     expected void const volatile *address
-   drivers/video/fbdev/fsl-diu-fb.c:880:49: sparse:     got char [noderef] __iomem *screen_base
-   drivers/video/fbdev/fsl-diu-fb.c:890:23: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *p @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/fsl-diu-fb.c:890:23: sparse:     expected void *p
-   drivers/video/fbdev/fsl-diu-fb.c:890:23: sparse:     got char [noderef] __iomem *screen_base
-   drivers/video/fbdev/fsl-diu-fb.c:959:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] @@
-   drivers/video/fbdev/fsl-diu-fb.c:959:24: sparse:     expected unsigned int
-   drivers/video/fbdev/fsl-diu-fb.c:959:24: sparse:     got restricted __le32 [usertype]
-   drivers/video/fbdev/fsl-diu-fb.c:962:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] @@
-   drivers/video/fbdev/fsl-diu-fb.c:962:24: sparse:     expected unsigned int
-   drivers/video/fbdev/fsl-diu-fb.c:962:24: sparse:     got restricted __le32 [usertype]
-   drivers/video/fbdev/fsl-diu-fb.c:965:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned int @@     got restricted __le32 [usertype] @@
-   drivers/video/fbdev/fsl-diu-fb.c:965:24: sparse:     expected unsigned int
-   drivers/video/fbdev/fsl-diu-fb.c:965:24: sparse:     got restricted __le32 [usertype]
-   drivers/video/fbdev/fsl-diu-fb.c:1051:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1051:27: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1051:27: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1112:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1112:27: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1112:27: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1114:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1114:27: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1114:27: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1154:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] pix_fmt @@     got unsigned int @@
-   drivers/video/fbdev/fsl-diu-fb.c:1154:29: sparse:     expected restricted __be32 [usertype] pix_fmt
-   drivers/video/fbdev/fsl-diu-fb.c:1154:29: sparse:     got unsigned int
-   drivers/video/fbdev/fsl-diu-fb.c:1157:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] pix_fmt @@     got unsigned int @@
-   drivers/video/fbdev/fsl-diu-fb.c:1157:29: sparse:     expected restricted __be32 [usertype] pix_fmt
-   drivers/video/fbdev/fsl-diu-fb.c:1157:29: sparse:     got unsigned int
-   drivers/video/fbdev/fsl-diu-fb.c:1160:32: sparse: sparse: restricted __le32 degrades to integer
-   drivers/video/fbdev/fsl-diu-fb.c:1160:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] src_size_g_alpha @@     got unsigned int @@
-   drivers/video/fbdev/fsl-diu-fb.c:1160:30: sparse:     expected restricted __le32 [usertype] src_size_g_alpha
-   drivers/video/fbdev/fsl-diu-fb.c:1160:30: sparse:     got unsigned int
-   drivers/video/fbdev/fsl-diu-fb.c:1294:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] pix_fmt @@     got unsigned int [addressable] [usertype] pix_fmt @@
-   drivers/video/fbdev/fsl-diu-fb.c:1294:29: sparse:     expected restricted __be32 [usertype] pix_fmt
-   drivers/video/fbdev/fsl-diu-fb.c:1294:29: sparse:     got unsigned int [addressable] [usertype] pix_fmt
-   drivers/video/fbdev/fsl-diu-fb.c:1302:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [usertype] pix_fmt @@     got restricted __be32 [usertype] pix_fmt @@
-   drivers/video/fbdev/fsl-diu-fb.c:1302:25: sparse:     expected unsigned int [addressable] [usertype] pix_fmt
-   drivers/video/fbdev/fsl-diu-fb.c:1302:25: sparse:     got restricted __be32 [usertype] pix_fmt
-   drivers/video/fbdev/fsl-diu-fb.c:1329:43: sparse: sparse: restricted __le32 degrades to integer
-   drivers/video/fbdev/fsl-diu-fb.c:1329:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] src_size_g_alpha @@     got unsigned int @@
-   drivers/video/fbdev/fsl-diu-fb.c:1329:38: sparse:     expected restricted __le32 [usertype] src_size_g_alpha
-   drivers/video/fbdev/fsl-diu-fb.c:1329:38: sparse:     got unsigned int
-   drivers/video/fbdev/fsl-diu-fb.c:1444:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1444:39: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1444:39: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1579:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct diu [noderef] __iomem *hw @@     got void *dev_id @@
-   drivers/video/fbdev/fsl-diu-fb.c:1579:34: sparse:     expected struct diu [noderef] __iomem *hw
-   drivers/video/fbdev/fsl-diu-fb.c:1579:34: sparse:     got void *dev_id
-   drivers/video/fbdev/fsl-diu-fb.c:1580:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1580:36: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1580:36: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1585:35: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1585:35: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1585:35: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1587:35: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1587:35: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1587:35: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1760:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] pix_fmt @@     got unsigned int @@
-   drivers/video/fbdev/fsl-diu-fb.c:1760:32: sparse:     expected restricted __be32 [usertype] pix_fmt
-   drivers/video/fbdev/fsl-diu-fb.c:1760:32: sparse:     got unsigned int
-   drivers/video/fbdev/fsl-diu-fb.c:1772:26: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1772:26: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1772:26: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1773:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1773:46: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1773:46: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1775:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1775:38: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1775:38: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1776:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1776:38: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1776:38: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1782:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1782:23: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1782:23: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1783:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   drivers/video/fbdev/fsl-diu-fb.c:1783:22: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
-   drivers/video/fbdev/fsl-diu-fb.c:1783:22: sparse:     got restricted __be32 [noderef] __iomem *
-   drivers/video/fbdev/fsl-diu-fb.c:1786:31: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected void *dev @@     got struct diu [noderef] __iomem *diu_reg @@
-   drivers/video/fbdev/fsl-diu-fb.c:1786:31: sparse:     expected void *dev
-   drivers/video/fbdev/fsl-diu-fb.c:1786:31: sparse:     got struct diu [noderef] __iomem *diu_reg
-   drivers/video/fbdev/fsl-diu-fb.c:1796:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void * @@     got struct diu [noderef] __iomem *diu_reg @@
-   drivers/video/fbdev/fsl-diu-fb.c:1796:49: sparse:     expected void *
-   drivers/video/fbdev/fsl-diu-fb.c:1796:49: sparse:     got struct diu [noderef] __iomem *diu_reg
-   drivers/video/fbdev/fsl-diu-fb.c:1832:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void * @@     got struct diu [noderef] __iomem *diu_reg @@
-   drivers/video/fbdev/fsl-diu-fb.c:1832:33: sparse:     expected void *
-   drivers/video/fbdev/fsl-diu-fb.c:1832:33: sparse:     got struct diu [noderef] __iomem *diu_reg
-   drivers/video/fbdev/fsl-diu-fb.c:1937:44: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *p @@     got unsigned int const [usertype] *[assigned] prop @@
-   drivers/video/fbdev/fsl-diu-fb.c:1937:44: sparse:     expected restricted __be32 const [usertype] *p
-   drivers/video/fbdev/fsl-diu-fb.c:1937:44: sparse:     got unsigned int const [usertype] *[assigned] prop
-   drivers/video/fbdev/fsl-diu-fb.c:1950:42: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *p @@     got unsigned int const [usertype] *[assigned] prop @@
-   drivers/video/fbdev/fsl-diu-fb.c:1950:42: sparse:     expected restricted __be32 const [usertype] *p
-   drivers/video/fbdev/fsl-diu-fb.c:1950:42: sparse:     got unsigned int const [usertype] *[assigned] prop
-   drivers/video/fbdev/fsl-diu-fb.c:513:29: sparse: sparse: dereference of noderef expression
-   drivers/video/fbdev/fsl-diu-fb.c:524:29: sparse: sparse: dereference of noderef expression
-   drivers/video/fbdev/fsl-diu-fb.c:536:29: sparse: sparse: dereference of noderef expression
-   drivers/video/fbdev/fsl-diu-fb.c:544:29: sparse: sparse: dereference of noderef expression
-   drivers/video/fbdev/fsl-diu-fb.c:583:29: sparse: sparse: dereference of noderef expression
-   drivers/video/fbdev/fsl-diu-fb.c:594:29: sparse: sparse: dereference of noderef expression
---
->> drivers/pci/controller/pcie-mediatek.c:400:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *address @@     got void [noderef] __iomem * @@
-   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     expected void const volatile *address
-   drivers/pci/controller/pcie-mediatek.c:400:40: sparse:     got void [noderef] __iomem *
-   drivers/pci/controller/pcie-mediatek.c:523:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *address @@     got void [noderef] __iomem * @@
-   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     expected void const volatile *address
-   drivers/pci/controller/pcie-mediatek.c:523:44: sparse:     got void [noderef] __iomem *
+All errors (new ones prefixed by >>):
 
-vim +880 drivers/video/fbdev/fsl-diu-fb.c
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_unmap_page':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:207:9: note: in expansion of macro 'BUG_ON'
+     207 |         BUG_ON(!valid_dma_direction(dir));
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_sync_single_for_cpu':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:219:9: note: in expansion of macro 'BUG_ON'
+     219 |         BUG_ON(!valid_dma_direction(dir));
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_sync_single_for_device':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:231:9: note: in expansion of macro 'BUG_ON'
+     231 |         BUG_ON(!valid_dma_direction(dir));
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_sync_single_range_for_cpu':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:245:9: note: in expansion of macro 'BUG_ON'
+     245 |         BUG_ON(!valid_dma_direction(dir));
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_sync_single_range_for_device':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:259:9: note: in expansion of macro 'BUG_ON'
+     259 |         BUG_ON(!valid_dma_direction(dir));
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_sync_sg_for_cpu':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:271:9: note: in expansion of macro 'BUG_ON'
+     271 |         BUG_ON(!valid_dma_direction(dir));
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_sync_sg_for_device':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:283:9: note: in expansion of macro 'BUG_ON'
+     283 |         BUG_ON(!valid_dma_direction(dir));
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_mmap_attrs':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:325:9: note: in expansion of macro 'BUG_ON'
+     325 |         BUG_ON(!ops);
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_get_sgtable_attrs':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:342:9: note: in expansion of macro 'BUG_ON'
+     342 |         BUG_ON(!ops);
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_alloc_attrs':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:362:9: note: in expansion of macro 'BUG_ON'
+     362 |         BUG_ON(!ops);
+         |         ^~~~~~
+   include/linux/dma-mapping.h: In function 'dma_free_attrs':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/dma-mapping.h:383:9: note: in expansion of macro 'BUG_ON'
+     383 |         BUG_ON(!ops);
+         |         ^~~~~~
+   include/linux/seq_file.h: In function 'seq_get_buf':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/seq_file.h:70:9: note: in expansion of macro 'BUG_ON'
+      70 |         BUG_ON(m->count > m->size);
+         |         ^~~~~~
+   include/linux/seq_file.h: In function 'seq_commit':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/linux/seq_file.h:93:17: note: in expansion of macro 'BUG_ON'
+      93 |                 BUG_ON(m->count + num > m->size);
+         |                 ^~~~~~
+   arch/powerpc/platforms/embedded6xx/mvme5100.c: In function 'mvme5100_pic_init':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   arch/powerpc/platforms/embedded6xx/mvme5100.c:73:9: note: in expansion of macro 'BUG_ON'
+      73 |         BUG_ON(mpic == NULL);
+         |         ^~~~~~
+   arch/powerpc/platforms/embedded6xx/mvme5100.c: In function 'mvme5100_add_bridge':
+>> arch/powerpc/platforms/embedded6xx/mvme5100.c:140:65: error: passing argument 5 of 'early_read_config_dword' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     140 |         early_read_config_dword(hose, 0, 0, PCI_BASE_ADDRESS_1, &pci_membase);
+         |                                                                 ^~~~~~~~~~~~
+         |                                                                 |
+         |                                                                 phys_addr_t * {aka long long unsigned int *}
+   In file included from arch/powerpc/platforms/embedded6xx/mvme5100.c:23:
+   arch/powerpc/include/asm/pci-bridge.h:139:53: note: expected 'u32 *' {aka 'unsigned int *'} but argument is of type 'phys_addr_t *' {aka 'long long unsigned int *'}
+     139 |                         int dev_fn, int where, u32 *val);
+         |                                                ~~~~~^~~
+   In file included from include/linux/printk.h:6,
+                    from include/linux/kernel.h:13,
+                    from include/linux/list.h:8,
+                    from include/linux/kobject.h:20,
+                    from include/linux/device.h:17,
+                    from include/linux/of_platform.h:14,
+                    from arch/powerpc/platforms/embedded6xx/mvme5100.c:20:
+   include/linux/kern_levels.h:4:25: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'phys_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+       4 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:13:25: note: in expansion of macro 'KERN_SOH'
+      13 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:259:16: note: in expansion of macro 'KERN_INFO'
+     259 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   arch/powerpc/platforms/embedded6xx/mvme5100.c:147:9: note: in expansion of macro 'pr_info'
+     147 |         pr_info("mvme5100_pic_init: pci_membase: %x\n", pci_membase);
+         |         ^~~~~~~
+   cc1: some warnings being treated as errors
 
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  867  
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  868  static int map_video_memory(struct fb_info *info)
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  869  {
-537a1bf059fa31 drivers/video/fsl-diu-fb.c       Krzysztof Helt    2009-06-30  870  	u32 smem_len = info->fix.line_length * info->var.yres_virtual;
-05342c0bdfd519 drivers/video/fsl-diu-fb.c       Timur Tabi        2011-12-19  871  	void *p;
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  872  
-05342c0bdfd519 drivers/video/fsl-diu-fb.c       Timur Tabi        2011-12-19  873  	p = alloc_pages_exact(smem_len, GFP_DMA | __GFP_ZERO);
-05342c0bdfd519 drivers/video/fsl-diu-fb.c       Timur Tabi        2011-12-19  874  	if (!p) {
-550949324ce77f drivers/video/fbdev/fsl-diu-fb.c Thomas Zimmermann 2023-06-13  875  		fb_err(info, "unable to allocate fb memory\n");
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  876  		return -ENOMEM;
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  877  	}
-537a1bf059fa31 drivers/video/fsl-diu-fb.c       Krzysztof Helt    2009-06-30  878  	mutex_lock(&info->mm_lock);
-05342c0bdfd519 drivers/video/fsl-diu-fb.c       Timur Tabi        2011-12-19  879  	info->screen_base = p;
-05342c0bdfd519 drivers/video/fsl-diu-fb.c       Timur Tabi        2011-12-19 @880  	info->fix.smem_start = virt_to_phys(info->screen_base);
-537a1bf059fa31 drivers/video/fsl-diu-fb.c       Krzysztof Helt    2009-06-30  881  	info->fix.smem_len = smem_len;
-537a1bf059fa31 drivers/video/fsl-diu-fb.c       Krzysztof Helt    2009-06-30  882  	mutex_unlock(&info->mm_lock);
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  883  	info->screen_size = info->fix.smem_len;
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  884  
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  885  	return 0;
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  886  }
-9b53a9e28a34ed drivers/video/fsl-diu-fb.c       York Sun          2008-04-28  887  
 
-:::::: The code at line 880 was first introduced by commit
-:::::: 05342c0bdfd519873462e04ad81be07c9cd3c1e1 drivers/video: fsl-diu-fb: merge fsl_diu_alloc() into map_video_memory()
+vim +/early_read_config_dword +140 arch/powerpc/platforms/embedded6xx/mvme5100.c
 
-:::::: TO: Timur Tabi <timur@freescale.com>
-:::::: CC: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
+be2019816e4dcd Stephen Chivers 2014-01-09  110  
+be2019816e4dcd Stephen Chivers 2014-01-09  111  static int __init mvme5100_add_bridge(struct device_node *dev)
+be2019816e4dcd Stephen Chivers 2014-01-09  112  {
+be2019816e4dcd Stephen Chivers 2014-01-09  113  	const int		*bus_range;
+be2019816e4dcd Stephen Chivers 2014-01-09  114  	int			len;
+be2019816e4dcd Stephen Chivers 2014-01-09  115  	struct pci_controller	*hose;
+be2019816e4dcd Stephen Chivers 2014-01-09  116  	unsigned short		devid;
+be2019816e4dcd Stephen Chivers 2014-01-09  117  
+be2019816e4dcd Stephen Chivers 2014-01-09  118  	pr_info("Adding PCI host bridge %s\n", dev->full_name);
+be2019816e4dcd Stephen Chivers 2014-01-09  119  
+be2019816e4dcd Stephen Chivers 2014-01-09  120  	bus_range = of_get_property(dev, "bus-range", &len);
+be2019816e4dcd Stephen Chivers 2014-01-09  121  
+be2019816e4dcd Stephen Chivers 2014-01-09  122  	hose = pcibios_alloc_controller(dev);
+be2019816e4dcd Stephen Chivers 2014-01-09  123  	if (hose == NULL)
+be2019816e4dcd Stephen Chivers 2014-01-09  124  		return -ENOMEM;
+be2019816e4dcd Stephen Chivers 2014-01-09  125  
+be2019816e4dcd Stephen Chivers 2014-01-09  126  	hose->first_busno = bus_range ? bus_range[0] : 0;
+be2019816e4dcd Stephen Chivers 2014-01-09  127  	hose->last_busno = bus_range ? bus_range[1] : 0xff;
+be2019816e4dcd Stephen Chivers 2014-01-09  128  
+be2019816e4dcd Stephen Chivers 2014-01-09  129  	setup_indirect_pci(hose, 0xfe000cf8, 0xfe000cfc, 0);
+be2019816e4dcd Stephen Chivers 2014-01-09  130  
+be2019816e4dcd Stephen Chivers 2014-01-09  131  	pci_process_bridge_OF_ranges(hose, dev, 1);
+be2019816e4dcd Stephen Chivers 2014-01-09  132  
+be2019816e4dcd Stephen Chivers 2014-01-09  133  	early_read_config_word(hose, 0, 0, PCI_DEVICE_ID, &devid);
+be2019816e4dcd Stephen Chivers 2014-01-09  134  
+be2019816e4dcd Stephen Chivers 2014-01-09  135  	if (devid != PCI_DEVICE_ID_MOTOROLA_HAWK) {
+be2019816e4dcd Stephen Chivers 2014-01-09  136  		pr_err("HAWK PHB not present?\n");
+be2019816e4dcd Stephen Chivers 2014-01-09  137  		return 0;
+be2019816e4dcd Stephen Chivers 2014-01-09  138  	}
+be2019816e4dcd Stephen Chivers 2014-01-09  139  
+be2019816e4dcd Stephen Chivers 2014-01-09 @140  	early_read_config_dword(hose, 0, 0, PCI_BASE_ADDRESS_1, &pci_membase);
+be2019816e4dcd Stephen Chivers 2014-01-09  141  
+be2019816e4dcd Stephen Chivers 2014-01-09  142  	if (pci_membase == 0) {
+be2019816e4dcd Stephen Chivers 2014-01-09  143  		pr_err("HAWK PHB mibar not correctly set?\n");
+be2019816e4dcd Stephen Chivers 2014-01-09  144  		return 0;
+be2019816e4dcd Stephen Chivers 2014-01-09  145  	}
+be2019816e4dcd Stephen Chivers 2014-01-09  146  
+be2019816e4dcd Stephen Chivers 2014-01-09  147  	pr_info("mvme5100_pic_init: pci_membase: %x\n", pci_membase);
+be2019816e4dcd Stephen Chivers 2014-01-09  148  
+be2019816e4dcd Stephen Chivers 2014-01-09  149  	return 0;
+be2019816e4dcd Stephen Chivers 2014-01-09  150  }
+be2019816e4dcd Stephen Chivers 2014-01-09  151  
+
+:::::: The code at line 140 was first introduced by commit
+:::::: be2019816e4dcdb02493da332b65a8b68b70106c powerpc/embedded6xx: Add support for Motorola/Emerson MVME5100
+
+:::::: TO: Stephen Chivers <schivers@mandarin.aust.csc.com>
+:::::: CC: Scott Wood <scottwood@freescale.com>
 
 -- 
 0-DAY CI Kernel Test Service
