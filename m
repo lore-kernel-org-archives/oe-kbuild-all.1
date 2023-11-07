@@ -1,146 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF86A31
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 05:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07F71C15;
+	Tue,  7 Nov 2023 06:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KI9kI5zt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699334361; x=1730870361;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oADdWft+c+fJAacTcqaU/BhGI3DMHOCU/vGv3xW4hlQ=;
-  b=KI9kI5ztNl4ZZFotugXoWSo1OclmpEfw2o4EnRda5eIQmTEJyeBOgUGX
-   +/ifmm6h9bYjFUYU1TymFXdBcyLQ8+y407tlT9CiTggT09PmjsRS/RkLL
-   Kvsal5BeeOkJ2+YEmbFKcASX3/TsY63ZlS+qxDSRTVC3zsUGEemzKbpVS
-   mO3a7bNmtHEVWVeQFeNHJ62X5HYVhoBxRC6y4iPX0fpk+8dUaNToeW5dQ
-   QhxHdG1SbkCHzWhFCd5rsV2ktf0kSxQT+IEcVRFNvNfz166y3w6B/qg+U
-   JuqxJOCutGiZA1VaBbPjycmhAFQ7sbAd1rDenbsRapqQX0GGvzJ0zkDam
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="2356415"
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="2356415"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 21:19:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,282,1694761200"; 
-   d="scan'208";a="3691354"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Nov 2023 21:19:18 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0EUd-0006wW-1l;
-	Tue, 07 Nov 2023 05:19:15 +0000
-Date: Tue, 7 Nov 2023 13:18:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: pasting
- "LOCHNAGAR1_" and "(" does not give a valid preprocessing token
-Message-ID: <202311071303.JJMAOjy4-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nu2Sxv+T";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g+Wc2avw"
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EB22F206E5;
+	Tue,  7 Nov 2023 06:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1699338893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WcQhuTNvhk6n4P8PBBtNtmdgRCUryDqiWrT6/OvGzQ4=;
+	b=nu2Sxv+TTiTeTgTWKVX5ZmNif53TRFe12XQnrlSGWUPx5O6+Ujdz57aXPr/aT3wraCn9FW
+	n5WAgDa2iOe+ktY2VOu0Fr4By3PwitSOCoufFfZV8peV48o9idk72Dqrdiy8nZ6zXQvT4P
+	be3fKuNeKauSr2PqVWuGs7DUS9hqvWY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1699338893;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WcQhuTNvhk6n4P8PBBtNtmdgRCUryDqiWrT6/OvGzQ4=;
+	b=g+Wc2avwP5C4iRRjRbbEmwUSh28T44CnXELC97jeCfi7y1yzHziBk8S86tEedRWykbhbA+
+	Z37hVlFM4wSlfgCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CCAA2132FD;
+	Tue,  7 Nov 2023 06:34:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id QKoxIovaSWUIHgAAMHmgww
+	(envelope-from <colyli@suse.de>); Tue, 07 Nov 2023 06:34:51 +0000
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
-commit: 0548448b719ac78fa18fdbcd03856952ba6cc7dc pinctrl: lochnagar: Add support for the Cirrus Logic Lochnagar
-date:   4 years, 7 months ago
-config: mips-buildonly-randconfig-r006-20220821 (https://download.01.org/0day-ci/archive/20231107/202311071303.JJMAOjy4-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311071303.JJMAOjy4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311071303.JJMAOjy4-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: pasting "LOCHNAGAR1_" and "(" does not give a valid preprocessing token
-      52 |         .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-         |                                                     ^~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:9: note: in expansion of macro 'LN_PIN_GPIO'
-      67 |         LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-         |         ^~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:200:1: note: in expansion of macro 'LN1_PIN_GPIO'
-     200 | LN1_PIN_GPIO(CDC_RESET,    "codec-reset",    RST,      CDC_RESET,    1);
-         | ^~~~~~~~~~~~
->> drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: implicit declaration of function 'LOCHNAGAR1_'; did you mean 'LOCHNAGAR1_RST'? [-Werror=implicit-function-declaration]
-      52 |         .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-         |                                                     ^~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:9: note: in expansion of macro 'LN_PIN_GPIO'
-      67 |         LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-         |         ^~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:200:1: note: in expansion of macro 'LN1_PIN_GPIO'
-     200 | LN1_PIN_GPIO(CDC_RESET,    "codec-reset",    RST,      CDC_RESET,    1);
-         | ^~~~~~~~~~~~
->> drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: initializer element is not constant
-      52 |         .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-         |                                                     ^~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:9: note: in expansion of macro 'LN_PIN_GPIO'
-      67 |         LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-         |         ^~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:200:1: note: in expansion of macro 'LN1_PIN_GPIO'
-     200 | LN1_PIN_GPIO(CDC_RESET,    "codec-reset",    RST,      CDC_RESET,    1);
-         | ^~~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: note: (near initialization for 'lochnagar1_CDC_RESET_pin.reg')
-      52 |         .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-         |                                                     ^~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:9: note: in expansion of macro 'LN_PIN_GPIO'
-      67 |         LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-         |         ^~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:200:1: note: in expansion of macro 'LN1_PIN_GPIO'
-     200 | LN1_PIN_GPIO(CDC_RESET,    "codec-reset",    RST,      CDC_RESET,    1);
-         | ^~~~~~~~~~~~
->> drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: pasting "LOCHNAGAR1_" and "(" does not give a valid preprocessing token
-      52 |         .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-         |                                                     ^~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:9: note: in expansion of macro 'LN_PIN_GPIO'
-      67 |         LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-         |         ^~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:201:1: note: in expansion of macro 'LN1_PIN_GPIO'
-     201 | LN1_PIN_GPIO(DSP_RESET,    "dsp-reset",      RST,      DSP_RESET,    1);
-         | ^~~~~~~~~~~~
->> drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: initializer element is not constant
-      52 |         .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-         |                                                     ^~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:9: note: in expansion of macro 'LN_PIN_GPIO'
-      67 |         LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-         |         ^~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:201:1: note: in expansion of macro 'LN1_PIN_GPIO'
-     201 | LN1_PIN_GPIO(DSP_RESET,    "dsp-reset",      RST,      DSP_RESET,    1);
-         | ^~~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: note: (near initialization for 'lochnagar1_DSP_RESET_pin.reg')
-      52 |         .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-         |                                                     ^~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:9: note: in expansion of macro 'LN_PIN_GPIO'
-      67 |         LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
-         |         ^~~~~~~~~~~
-   drivers/pinctrl/cirrus/pinctrl-lochnagar.c:201:1: note: in expansion of macro 'LN1_PIN_GPIO'
-     201 | LN1_PIN_GPIO(DSP_RESET,    "dsp-reset",      RST,      DSP_RESET,    1);
-         | ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
+Subject: Re: drivers/md/bcache/btree.c:1511 btree_gc_rewrite_node() error: 'n'
+ dereferencing possible ERR_PTR()
+From: Coly Li <colyli@suse.de>
+In-Reply-To: <a754f8a3-cbfb-42bb-b776-94ecac062daf@kadam.mountain>
+Date: Tue, 7 Nov 2023 14:34:38 +0800
+Cc: oe-kbuild@lists.linux.dev,
+ Zheng Wang <zyytlz.wz@163.com>,
+ lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <6AAB7139-DE98-49BC-9DF9-F1819A39795E@suse.de>
+References: <a754f8a3-cbfb-42bb-b776-94ecac062daf@kadam.mountain>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+X-Mailer: Apple Mail (2.3774.200.91.1.1)
 
 
-vim +52 drivers/pinctrl/cirrus/pinctrl-lochnagar.c
 
-    49	
-    50	#define LN_PIN_GPIO(REV, ID, NAME, REG, SHIFT, INVERT) \
-    51	static const struct lochnagar_pin lochnagar##REV##_##ID##_pin = { \
-  > 52		.name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
-    53		.shift = LOCHNAGAR##REV##_##SHIFT##_SHIFT, .invert = INVERT, \
-    54	}
-    55	
+> 2023=E5=B9=B411=E6=9C=886=E6=97=A5 17:11=EF=BC=8CDan Carpenter =
+<dan.carpenter@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Hi Zheng,
+>=20
+> FYI, the error/warning was bisected to this commit, please ignore it =
+if it's irrelevant.
+>=20
+> tree:   =
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+> head:   77fa2fbe87fc605c4bfa87dff87be9bfded0e9a3
+> commit: 028ddcac477b691dd9205c92f991cc15259d033e bcache: Remove =
+unnecessary NULL point check in node allocations
+> config: x86_64-randconfig-161-20231102 =
+(https://download.01.org/0day-ci/archive/20231106/202311060857.2jHVe0uk-lk=
+p@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce: =
+(https://download.01.org/0day-ci/archive/20231106/202311060857.2jHVe0uk-lk=
+p@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: =
+https://lore.kernel.org/r/202311060857.2jHVe0uk-lkp@intel.com/
+>=20
+> New smatch warnings:
+> drivers/md/bcache/btree.c:1511 btree_gc_rewrite_node() error: 'n' =
+dereferencing possible ERR_PTR()
+>=20
+> Old smatch warnings:
+> drivers/md/bcache/btree.c:1527 btree_gc_rewrite_node() error: 'n' =
+dereferencing possible ERR_PTR()
+>=20
+> vim +/n +1511 drivers/md/bcache/btree.c
+>=20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1497  static int =
+btree_gc_rewrite_node(struct btree *b, struct btree_op *op,
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1498   struct btree =
+*replace)
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1499  {
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1500   struct keylist keys;
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1501   struct btree *n;
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1502 =20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1503   if =
+(btree_check_reserve(b, NULL))
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1504   return 0;
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1505 =20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1506   n =3D =
+btree_node_alloc_replacement(replace, NULL);
+>=20
+> Needs some error handling.  I don't know why the zero day bot is
+> sending repeat warnings today but this one is still worth fixing.
+> I guess the zero day bot sent the previous warning to the wrong people
+> last time.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yes this is a valid report. I feel checking n after =
+btree_node_alloc_replacement() is necessary, and recent change from =
+Zheng exported this potential issue to static code checking tool.
+
+Since Zheng doesn=E2=80=99t respond yet, I will post a patch to fix the =
+potential issue.
+
+Thanks.
+
+
+Coly Li
+
+
+>=20
+> =
+https://lore.kernel.org/all/bab6966d-3f96-44a0-b666-ddf976179eab@kadam.mou=
+ntain/
+>=20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1507 =20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1508   /* recheck reserve =
+after allocating replacement node */
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1509   if =
+(btree_check_reserve(b, NULL)) {
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1510   btree_node_free(n);
+> 0a63b66db566cf Kent Overstreet 2014-03-17 @1511   rw_unlock(true, n);
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1512   return 0;
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1513   }
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1514 =20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1515   =
+bch_btree_node_write_sync(n);
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1516 =20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1517   =
+bch_keylist_init(&keys);
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1518   =
+bch_keylist_add(&keys, &n->key);
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1519 =20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1520   =
+make_btree_freeing_key(replace, keys.top);
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1521   =
+bch_keylist_push(&keys);
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1522 =20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1523   =
+bch_btree_insert_node(b, op, &keys, NULL, NULL);
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1524   =
+BUG_ON(!bch_keylist_empty(&keys));
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1525 =20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1526   =
+btree_node_free(replace);
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1527   rw_unlock(true, n);
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1528 =20
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1529   /* Invalidated our =
+iterator */
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1530   return -EINTR;
+> 0a63b66db566cf Kent Overstreet 2014-03-17  1531  }
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>=20
+
