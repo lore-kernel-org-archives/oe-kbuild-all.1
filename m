@@ -1,159 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F93910942
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 09:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YYT7Ood6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699348665; x=1730884665;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=P71XwON/JZ6FXbku3xz98s//Jj44TIH+098MqA3/xKw=;
-  b=YYT7Ood6sdUD7207tGGliFUnVBwdflwOCpFQAoWxLVvGeb6t/GlFfF5p
-   0vDZlVDYvcWupUOn3YNn33krVkxtyAbcYjT8GlJBTelnFIfmaaXzXXYkS
-   5hN9tCZ1kG3aq+ig6yeCHqwWWi0VMynN9QUy07IgKpiOlqxxsoHDjHPFH
-   MrD3CM7DbBaaLu/N6qbAUHpivF8s2IedtuDZNi+32mCZGvfPbg09ahdlV
-   ikUlmhS0gFhy7LSJA7O5IBa5dsReadv4zzdJ/ei21Go6InfFDPsy7affR
-   uZ3ENY7sGuX4MzTVkLIfG59BJZfAbRkDmvtfNy6py7TjQ0qxU6ZRl1JDF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="369662258"
-X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
-   d="scan'208";a="369662258"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 01:17:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10886"; a="906357335"
-X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
-   d="scan'208";a="906357335"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Nov 2023 01:17:42 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0IDL-00070S-2U;
-	Tue, 07 Nov 2023 09:17:39 +0000
-Date: Tue, 7 Nov 2023 17:16:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ashish Mhetre <amhetre@nvidia.com>, krzysztof.kozlowski@linaro.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	dmitry.osipenko@collabora.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Ashish Mhetre <amhetre@nvidia.com>
-Subject: Re: [PATCH 1/2] memory: tegra: Add SID override programming for MC
- clients
-Message-ID: <202311071607.IzbwSn2f-lkp@intel.com>
-References: <20231107052824.29418-1-amhetre@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB754814
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 10:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d9abc069c8bso4780792276.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Nov 2023 02:12:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699351928; x=1699956728;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m3doRBvs6M5ROo+hysSTR74MqETRZ8K/t4qsZqgMtVs=;
+        b=tE+a86hV07UFbFOlsev93UubCqg4nCPq+7QrOvAffxI7B8bZ8GD/7d4lPk9+REP9iW
+         aOdsVRppHt9LxBoNQFu1or6UcDuoguxkswG0vK4yNB/9/aPKLXAgWeiF4ejWjDyKTR4K
+         VMP2Ok7P5y1cwuR3m+FY+4yml3E4hwixqna4oqHgk51ykkqoaqP+vbKqS53o7vXdIaGu
+         kix2TmOn1sk6aYRBUru2Qo6mApJdjNM6DQ3ymGejzLu1jwziOFINy6Ary3CfT4FSwpsl
+         k/6mzcQ4MjsxBQnyKeqweqouaqHi+cOKoVBLT+eMTsGN2rWY5eGmt6xaz/1fvdPx5ecd
+         0+IQ==
+X-Gm-Message-State: AOJu0YzHNgUt0sD7ESp2QuBUfva7TE2/hQRoIrpRrmX9txX01g7aYAx7
+	AVTD/2K6YL/XPrdjg2/lsN/+V/QMfb6Swg==
+X-Google-Smtp-Source: AGHT+IFRRGFWMC8foACfQ3TEKoVD0Byj7X4XzTSQ6ozFpFHrAmVF0TsGqclHVZzDJ8ABDcBqChbm2A==
+X-Received: by 2002:a25:2545:0:b0:d9a:dfe8:55c0 with SMTP id l66-20020a252545000000b00d9adfe855c0mr22817197ybl.36.1699351928330;
+        Tue, 07 Nov 2023 02:12:08 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id c80-20020a25c053000000b00d9ca7c2c8e2sm5011585ybf.11.2023.11.07.02.12.07
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Nov 2023 02:12:08 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5afa5dbc378so59945017b3.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Nov 2023 02:12:07 -0800 (PST)
+X-Received: by 2002:a25:ad11:0:b0:d9b:81a2:b83e with SMTP id
+ y17-20020a25ad11000000b00d9b81a2b83emr23604994ybi.46.1699351927036; Tue, 07
+ Nov 2023 02:12:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231107052824.29418-1-amhetre@nvidia.com>
+References: <202311062309.XugQH7AH-lkp@intel.com>
+In-Reply-To: <202311062309.XugQH7AH-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 7 Nov 2023 11:11:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUPR2tZmE9AKxa0QWrJJd=tju8=2bPBWQgcPs6_d0sOag@mail.gmail.com>
+Message-ID: <CAMuHMdUPR2tZmE9AKxa0QWrJJd=tju8=2bPBWQgcPs6_d0sOag@mail.gmail.com>
+Subject: Re: kismet: WARNING: unmet direct dependencies detected for
+ SM_GCC_8550 when selected by SM_CAMCC_8550
+To: kernel test robot <lkp@intel.com>
+Cc: Jagadeesh Kona <quic_jkona@quicinc.com>, Paul Gazzillo <paul@pgazz.com>, 
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, 
+	Taniya Das <quic_tdas@quicinc.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ashish,
+Hi Robot,
 
-kernel test robot noticed the following build warnings:
+On Mon, Nov 6, 2023 at 4:06=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
+ote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   d2f51b3516dade79269ff45eae2a7668ae711b25
+> commit: ccc4e6a061a21d75b96d82fc4b084a8d96df6eb4 clk: qcom: camcc-sm8550:=
+ Add camera clock controller driver for SM8550
+> date:   7 weeks ago
+> config: arm-kismet-CONFIG_SM_GCC_8550-CONFIG_SM_CAMCC_8550-0-0 (https://d=
+ownload.01.org/0day-ci/archive/20231106/202311062309.XugQH7AH-lkp@intel.com=
+/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20231106/202311062309=
+.XugQH7AH-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311062309.XugQH7AH-lkp=
+@intel.com/
+>
+> kismet warnings: (new ones prefixed by >>)
+> >> kismet: WARNING: unmet direct dependencies detected for SM_GCC_8550 wh=
+en selected by SM_CAMCC_8550
+>    .config:7280:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' inval=
+id for ARCH_MMAP_RND_BITS
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Where is this coming from? I have seen this warning in several build
+reports (earliest 2023-01-31), but cannot reproduce it with the provided
+commit and config.
 
-[auto build test WARNING on tegra/for-next]
-[also build test WARNING on linus/master v6.6 next-20231107]
-[cannot apply to tegra-drm/drm/tegra/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Gr{oetje,eeting}s,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ashish-Mhetre/memory-tegra-Skip-SID-programming-if-SID-registers-aren-t-set/20231107-133149
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231107052824.29418-1-amhetre%40nvidia.com
-patch subject: [PATCH 1/2] memory: tegra: Add SID override programming for MC clients
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231107/202311071607.IzbwSn2f-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311071607.IzbwSn2f-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311071607.IzbwSn2f-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/memory/tegra/tegra186.c: In function 'tegra186_mc_resume':
-   drivers/memory/tegra/tegra186.c:78:17: error: implicit declaration of function 'tegra186_mc_client_sid_override' [-Werror=implicit-function-declaration]
-      78 |                 tegra186_mc_client_sid_override(mc, client, client->sid);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra186.c: At top level:
->> drivers/memory/tegra/tegra186.c:85:13: warning: conflicting types for 'tegra186_mc_client_sid_override'; have 'void(struct tegra_mc *, const struct tegra_mc_client *, unsigned int)'
-      85 | static void tegra186_mc_client_sid_override(struct tegra_mc *mc,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra186.c:85:13: error: static declaration of 'tegra186_mc_client_sid_override' follows non-static declaration
-   drivers/memory/tegra/tegra186.c:78:17: note: previous implicit declaration of 'tegra186_mc_client_sid_override' with type 'void(struct tegra_mc *, const struct tegra_mc_client *, unsigned int)'
-      78 |                 tegra186_mc_client_sid_override(mc, client, client->sid);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+                        Geert
 
 
-vim +85 drivers/memory/tegra/tegra186.c
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-7355c7b9ae0d45 Thierry Reding 2021-06-02   70  
-142620fbbbbba0 Ashish Mhetre  2023-11-07   71  static int tegra186_mc_resume(struct tegra_mc *mc)
-142620fbbbbba0 Ashish Mhetre  2023-11-07   72  {
-142620fbbbbba0 Ashish Mhetre  2023-11-07   73  	unsigned int i;
-142620fbbbbba0 Ashish Mhetre  2023-11-07   74  
-142620fbbbbba0 Ashish Mhetre  2023-11-07   75  	for (i = 0; i < mc->soc->num_clients; i++) {
-142620fbbbbba0 Ashish Mhetre  2023-11-07   76  		const struct tegra_mc_client *client = &mc->soc->clients[i];
-142620fbbbbba0 Ashish Mhetre  2023-11-07   77  
-142620fbbbbba0 Ashish Mhetre  2023-11-07  @78  		tegra186_mc_client_sid_override(mc, client, client->sid);
-142620fbbbbba0 Ashish Mhetre  2023-11-07   79  	}
-142620fbbbbba0 Ashish Mhetre  2023-11-07   80  
-142620fbbbbba0 Ashish Mhetre  2023-11-07   81  	return 0;
-142620fbbbbba0 Ashish Mhetre  2023-11-07   82  }
-142620fbbbbba0 Ashish Mhetre  2023-11-07   83  
-eaf89f1cd38cf7 Arnd Bergmann  2021-07-22   84  #if IS_ENABLED(CONFIG_IOMMU_API)
-393d66fd2cacba Thierry Reding 2021-06-03  @85  static void tegra186_mc_client_sid_override(struct tegra_mc *mc,
-393d66fd2cacba Thierry Reding 2021-06-03   86  					    const struct tegra_mc_client *client,
-393d66fd2cacba Thierry Reding 2021-06-03   87  					    unsigned int sid)
-393d66fd2cacba Thierry Reding 2021-06-03   88  {
-393d66fd2cacba Thierry Reding 2021-06-03   89  	u32 value, old;
-393d66fd2cacba Thierry Reding 2021-06-03   90  
-393d66fd2cacba Thierry Reding 2021-06-03   91  	value = readl(mc->regs + client->regs.sid.security);
-393d66fd2cacba Thierry Reding 2021-06-03   92  	if ((value & MC_SID_STREAMID_SECURITY_OVERRIDE) == 0) {
-393d66fd2cacba Thierry Reding 2021-06-03   93  		/*
-393d66fd2cacba Thierry Reding 2021-06-03   94  		 * If the secure firmware has locked this down the override
-393d66fd2cacba Thierry Reding 2021-06-03   95  		 * for this memory client, there's nothing we can do here.
-393d66fd2cacba Thierry Reding 2021-06-03   96  		 */
-393d66fd2cacba Thierry Reding 2021-06-03   97  		if (value & MC_SID_STREAMID_SECURITY_WRITE_ACCESS_DISABLED)
-393d66fd2cacba Thierry Reding 2021-06-03   98  			return;
-393d66fd2cacba Thierry Reding 2021-06-03   99  
-393d66fd2cacba Thierry Reding 2021-06-03  100  		/*
-393d66fd2cacba Thierry Reding 2021-06-03  101  		 * Otherwise, try to set the override itself. Typically the
-393d66fd2cacba Thierry Reding 2021-06-03  102  		 * secure firmware will never have set this configuration.
-393d66fd2cacba Thierry Reding 2021-06-03  103  		 * Instead, it will either have disabled write access to
-393d66fd2cacba Thierry Reding 2021-06-03  104  		 * this field, or it will already have set an explicit
-393d66fd2cacba Thierry Reding 2021-06-03  105  		 * override itself.
-393d66fd2cacba Thierry Reding 2021-06-03  106  		 */
-393d66fd2cacba Thierry Reding 2021-06-03  107  		WARN_ON((value & MC_SID_STREAMID_SECURITY_OVERRIDE) == 0);
-393d66fd2cacba Thierry Reding 2021-06-03  108  
-393d66fd2cacba Thierry Reding 2021-06-03  109  		value |= MC_SID_STREAMID_SECURITY_OVERRIDE;
-393d66fd2cacba Thierry Reding 2021-06-03  110  		writel(value, mc->regs + client->regs.sid.security);
-393d66fd2cacba Thierry Reding 2021-06-03  111  	}
-393d66fd2cacba Thierry Reding 2021-06-03  112  
-393d66fd2cacba Thierry Reding 2021-06-03  113  	value = readl(mc->regs + client->regs.sid.override);
-393d66fd2cacba Thierry Reding 2021-06-03  114  	old = value & MC_SID_STREAMID_OVERRIDE_MASK;
-393d66fd2cacba Thierry Reding 2021-06-03  115  
-393d66fd2cacba Thierry Reding 2021-06-03  116  	if (old != sid) {
-393d66fd2cacba Thierry Reding 2021-06-03  117  		dev_dbg(mc->dev, "overriding SID %x for %s with %x\n", old,
-393d66fd2cacba Thierry Reding 2021-06-03  118  			client->name, sid);
-393d66fd2cacba Thierry Reding 2021-06-03  119  		writel(sid, mc->regs + client->regs.sid.override);
-393d66fd2cacba Thierry Reding 2021-06-03  120  	}
-393d66fd2cacba Thierry Reding 2021-06-03  121  }
-eaf89f1cd38cf7 Arnd Bergmann  2021-07-22  122  #endif
-393d66fd2cacba Thierry Reding 2021-06-03  123  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
