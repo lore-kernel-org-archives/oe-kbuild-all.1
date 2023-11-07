@@ -1,54 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E908F328D0
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 16:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FD5328DA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 16:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrrLsbd/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bw3bGEmZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699374629; x=1730910629;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m86TUzlYcXzvF7S9EMlG9uQF20EDoypndfxnW2VR2pM=;
-  b=SrrLsbd/A+8T0pYdnFZdp/5T+/K34KgnF5d5Rhd8Ezu0nYxoXFPLAhZ7
-   TNrI1Zn4wWLcTFsFWOuFLM6WXu8L6TeeiyoFvqtRpa4KN3SYyl85uPHew
-   PbQ7jz6af1LCa/B2LoCL9sqUFTN0pKcQx9yCwlfqcyz+TZqCdaGN1Yl5A
-   xrsHft5XmtJPIpdLhtjY1WTQ77uiRgN4uioIZ34qqzy92x5i/QWpdzYU/
-   SFYlE+dtZANviCR7dn8zoY5TGVIXsEnaHhikKntQAbbKgcf9RObBbmB3A
-   dFlV6IVS/DXAnB9Dt8eJv7oK6UwveqFgozN5Q7ksbIPL44cxI1O6Z4v/L
+  t=1699374630; x=1730910630;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/LDXkJILMnSOo5v6Me3FVFf3joS6KXoA2ShYlBnuf1Q=;
+  b=bw3bGEmZ+slPTeXm4An6dBWNM00LWx3pSA+L10RTX+iabawAo7Fxr5iB
+   d1pIANP+PtKIhH2QDsbfTrgblBoLaXMqzTfN47jnkk17QbAXeV31F6nJ2
+   AlC2gH1BHsTuIioYiqb8Gr72Of4TVxxKbeqfv7s1MjRkUUquxRzFCncOp
+   eZhcTWcq6rrFWHFXPtfIrsjYDgA+zY7pByK5hRSvHebC1K3kjvCv73Dkk
+   w0G56y8NvpSIt3PgPrrbH7DcJMo15zBLCUFdAD6Tp1Pnurk1alkRvRY1o
+   UmPXg+OLPBlZxPw3CNzb9PWHEEQvx01Rvtl8LPw/pKSBBVm9lKs9hNPKl
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="420657301"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="379942848"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="420657301"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 08:30:28 -0800
+   d="scan'208";a="379942848"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 08:30:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="879870032"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="886346693"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="879870032"
+   d="scan'208";a="886346693"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Nov 2023 08:30:25 -0800
+  by orsmga004.jf.intel.com with ESMTP; 07 Nov 2023 08:30:27 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0Oy7-0007Dd-0A;
-	Tue, 07 Nov 2023 16:30:23 +0000
-Date: Wed, 8 Nov 2023 00:29:35 +0800
+	id 1r0Oy9-0007Dq-1H;
+	Tue, 07 Nov 2023 16:30:25 +0000
+Date: Wed, 8 Nov 2023 00:29:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: LeoLiu-oc <LeoLiu-oc@zhaoxin.com>, olivia@selenic.com,
-	herbert@gondor.apana.org.au, martin@kaiser.cx,
-	jiajie.ho@starfivetech.com, jenny.zhang@starfivetech.com,
-	mmyangfl@gmail.com, robh@kernel.org, linux-kernel@vger.kernel.org,
-	linux-crypto@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, CobeChen@zhaoxin.com,
-	TonyWWang@zhaoxin.com, YunShen@zhaoxin.com,
-	LeoLiuoc <LeoLiu-oc@zhaoxin.com>
-Subject: Re: [PATCH] hwrng: add Zhaoxin rng driver base on rep_xstore
- instruction
-Message-ID: <202311072324.klxSzojj-lkp@intel.com>
-References: <20231107070900.496827-1-LeoLiu-oc@zhaoxin.com>
+To: Joel Granados <j.granados@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [joelgranados:jag/sysctl-testing-for-0day 2/15] arc-elf-ld:
+ fs/verity/init.o:undefined reference to `fsverity_require_signatures'
+Message-ID: <202311072305.uS2gEAnt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,56 +49,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231107070900.496827-1-LeoLiu-oc@zhaoxin.com>
 
-Hi LeoLiu-oc,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus herbert-cryptodev-2.6/master linus/master v6.6 next-20231107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/LeoLiu-oc/hwrng-add-Zhaoxin-rng-driver-base-on-rep_xstore-instruction/20231107-152659
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20231107070900.496827-1-LeoLiu-oc%40zhaoxin.com
-patch subject: [PATCH] hwrng: add Zhaoxin rng driver base on rep_xstore instruction
-config: i386-randconfig-003-20231107 (https://download.01.org/0day-ci/archive/20231107/202311072324.klxSzojj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311072324.klxSzojj-lkp@intel.com/reproduce)
+tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
+head:   107fa261565f93b888f89afa60d3c75914955461
+commit: 85625dae2927fcd9cff9620b68fb09c6367587d0 [2/15] aio: rm sentinel element from ctl_table array
+config: arc-randconfig-001-20231107 (https://download.01.org/0day-ci/archive/20231107/202311072305.uS2gEAnt-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231107/202311072305.uS2gEAnt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311072324.klxSzojj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311072305.uS2gEAnt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/char/hw_random/zhaoxin-rng.c: Assembler messages:
->> drivers/char/hw_random/zhaoxin-rng.c:42: Error: bad register name `%rcx'
->> drivers/char/hw_random/zhaoxin-rng.c:43: Error: bad register name `%rdx'
->> drivers/char/hw_random/zhaoxin-rng.c:44: Error: bad register name `%rdi'
-
-
-vim +42 drivers/char/hw_random/zhaoxin-rng.c
-
-    39	
-    40	static inline int rep_xstore(size_t size, size_t factor, void *result)
-    41	{
-  > 42		__asm__ __volatile__ (
-  > 43		"movq %0, %%rcx\n"
-  > 44		"movq %1, %%rdx\n"
-    45		"movq %2, %%rdi\n"
-    46		".byte 0xf3, 0x0f, 0xa7, 0xc0"
-    47		:
-    48		: "r"(size), "r"(factor), "r"(result)
-    49		: "%rcx", "%rdx", "%rdi", "memory");
-    50	
-    51		return 0;
-    52	}
-    53	
+>> arc-elf-ld: fs/verity/init.o:(.data+0x4): undefined reference to `fsverity_require_signatures'
+>> arc-elf-ld: fs/verity/init.o:(.data+0x4): undefined reference to `fsverity_require_signatures'
 
 -- 
 0-DAY CI Kernel Test Service
