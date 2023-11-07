@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E929B31584
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 16:47:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C682168BC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 16:58:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PLA8mVOR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAiHsRGL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699375662; x=1730911662;
+  t=1699376320; x=1730912320;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y/8qEkpQvZPeiZrw6R3iuLcQpIT0gWFsI76rDQeN5Wo=;
-  b=PLA8mVORpuvaDOvuIpU5JLLXuBXL5IDgFUKqyoxnsmHlgAyIAQL/rys6
-   OSMDLj4KJQE6gKzWSijyVUlsjWpvUVtGFyvJADeGb5AWJg4S/VsIodAQd
-   z1anJmMiG5j9j0zBmEPZrWN3PCnzDyXFKEI6Gjj0KQLWtVEdGb33e7vN0
-   dxJUDASVIEg6XsdLbTb6isqOJ+4cTSNDSMTWaDsNsQcQgfJkqbEWZBW6f
-   sErPCcuWe57nnv8dwKB0hsjbvAXy7OPLXIieI3afCUpHwWJWSE+5OjAFg
-   3Y8JB1AjZDFuB6cdQwlMV221ZzqwUxUP1VsqatNRmd8p24gd8MUEaDLjM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="374586150"
+  bh=88aQzXP3D0IAQZ/WFA4CjozxHNibdPYVgfCMXdrwJLU=;
+  b=YAiHsRGLtANsAy0vyTU6RsoocyxWPvXrcJq+UKUCqM45aJ1O3wpjzWT+
+   cRB2m3ph0K+4t16bqU7A3eDtYBRBAoCI3JF71+MnPGo20ynhRmNiOJnaw
+   Fx6g6kAQxQVFMamJHvPZHBYd1qwAs82Tu3oJfbqCQaZWM18ZMW1HsKZR4
+   MbXx5uJHC6w7tgVASGALUQpbryMFSQq0VPWD4tD0erTahvsdTeOlxH9gB
+   3aaR4d90EQGNbYHg+Q1DjkKw54G4ILZAusOxCN3aSWscfk9oXqadNvL7G
+   MRwExagYLFeMZIZseWq8x9XweVm12M241n5SYMv8Nzx8XVsutF2ErCQfr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="389359548"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="374586150"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 08:47:42 -0800
+   d="scan'208";a="389359548"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 08:58:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="906478299"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="762764648"
 X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="906478299"
+   d="scan'208";a="762764648"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Nov 2023 08:47:40 -0800
+  by orsmga002.jf.intel.com with ESMTP; 07 Nov 2023 08:58:37 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0PEo-0007Ec-2K;
-	Tue, 07 Nov 2023 16:47:38 +0000
-Date: Wed, 8 Nov 2023 00:47:24 +0800
+	id 1r0PPP-0007F9-1U;
+	Tue, 07 Nov 2023 16:58:35 +0000
+Date: Wed, 8 Nov 2023 00:57:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type
- in argument 1 (different address spaces)
-Message-ID: <202311080048.OcRCiInz-lkp@intel.com>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: drivers/scsi/mpt3sas/mpt3sas_base.c:4323:9: sparse: sparse: cast
+ from restricted __le32
+Message-ID: <202311080059.uscQqMAV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,83 +53,60 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
-commit: f3c0eba287049237b23d1300376768293eb89e69 perf: Add a few assertions
-date:   1 year, 2 months ago
-config: loongarch-randconfig-r123-20231107 (https://download.01.org/0day-ci/archive/20231108/202311080048.OcRCiInz-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080048.OcRCiInz-lkp@intel.com/reproduce)
+commit: d82e68483b81768c8d19bc7529635dad741607ce scsi: mpt3sas: Revert "scsi: mpt3sas: Fix ioc->base_readl() use"
+date:   1 year, 1 month ago
+config: riscv-randconfig-r121-20231107 (https://download.01.org/0day-ci/archive/20231108/202311080059.uscQqMAV-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080059.uscQqMAV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311080048.OcRCiInz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311080059.uscQqMAV-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got int [noderef] __percpu *
->> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got int [noderef] __percpu *
->> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got int [noderef] __percpu *
->> drivers/perf/thunderx2_pmu.c:556:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     expected void *ptr
-   drivers/perf/thunderx2_pmu.c:556:9: sparse:     got int [noderef] __percpu *
+   WARNING: invalid argument to '-march': '_zicbom_zihintpause'
+>> drivers/scsi/mpt3sas/mpt3sas_base.c:4323:9: sparse: sparse: cast from restricted __le32
+   drivers/scsi/mpt3sas/mpt3sas_base.c:4345:9: sparse: sparse: cast from restricted __le32
+   drivers/scsi/mpt3sas/mpt3sas_base.c:4368:9: sparse: sparse: cast from restricted __le32
+   drivers/scsi/mpt3sas/mpt3sas_base.c:4389:9: sparse: sparse: cast from restricted __le32
+   drivers/scsi/mpt3sas/mpt3sas_base.c:7066:17: sparse: sparse: cast from restricted __le32
+   drivers/scsi/mpt3sas/mpt3sas_base.c:7085:20: sparse: sparse: cast to restricted __le16
+   drivers/scsi/mpt3sas/mpt3sas_base.c:7093:20: sparse: sparse: cast to restricted __le16
+   drivers/scsi/mpt3sas/mpt3sas_base.c:7106:36: sparse: sparse: cast to restricted __le16
 
-vim +556 drivers/perf/thunderx2_pmu.c
+vim +4323 drivers/scsi/mpt3sas/mpt3sas_base.c
 
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  539  
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  540  /*
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  541   * Make sure the group of events can be scheduled at once
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  542   * on the PMU.
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  543   */
-5e2c27e833bb92 Ganapatrao Prabhakerrao Kulkarni 2019-10-16  544  static bool tx2_uncore_validate_event_group(struct perf_event *event,
-5e2c27e833bb92 Ganapatrao Prabhakerrao Kulkarni 2019-10-16  545  		int max_counters)
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  546  {
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  547  	struct perf_event *sibling, *leader = event->group_leader;
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  548  	int counters = 0;
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  549  
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  550  	if (event->group_leader == event)
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  551  		return true;
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  552  
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  553  	if (!tx2_uncore_validate_event(event->pmu, leader, &counters))
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  554  		return false;
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  555  
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06 @556  	for_each_sibling_event(sibling, leader) {
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  557  		if (!tx2_uncore_validate_event(event->pmu, sibling, &counters))
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  558  			return false;
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  559  	}
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  560  
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  561  	if (!tx2_uncore_validate_event(event->pmu, event, &counters))
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  562  		return false;
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  563  
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  564  	/*
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  565  	 * If the group requires more counters than the HW has,
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  566  	 * it cannot ever be scheduled.
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  567  	 */
-5e2c27e833bb92 Ganapatrao Prabhakerrao Kulkarni 2019-10-16  568  	return counters <= max_counters;
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  569  }
-69c32972d59388 Kulkarni, Ganapatrao             2018-12-06  570  
+f92363d1235949 Sreekanth Reddy  2012-11-30  4302  
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4303  /**
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4304   * _base_put_smid_scsi_io_atomic - send SCSI_IO request to firmware using
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4305   *   Atomic Request Descriptor
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4306   * @ioc: per adapter object
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4307   * @smid: system request message index
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4308   * @handle: device handle, unused in this function, for function type match
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4309   *
+2910a4a9e90a58 Randy Dunlap     2021-04-18  4310   * Return: nothing.
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4311   */
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4312  static void
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4313  _base_put_smid_scsi_io_atomic(struct MPT3SAS_ADAPTER *ioc, u16 smid,
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4314  	u16 handle)
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4315  {
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4316  	Mpi26AtomicRequestDescriptor_t descriptor;
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4317  	u32 *request = (u32 *)&descriptor;
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4318  
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4319  	descriptor.RequestFlags = MPI2_REQ_DESCRIPT_FLAGS_SCSI_IO;
+998c3001d31a27 Suganath Prabu S 2019-05-31  4320  	descriptor.MSIxIndex = _base_set_and_get_msix_index(ioc, smid);
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4321  	descriptor.SMID = cpu_to_le16(smid);
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4322  
+f920642e406cfa Damien Le Moal   2022-09-16 @4323  	writel(cpu_to_le32(*request), &ioc->chip->AtomicRequestDescriptorPost);
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4324  }
+79c74d03d527f8 Suganath Prabu S 2019-05-31  4325  
 
-:::::: The code at line 556 was first introduced by commit
-:::::: 69c32972d59388c041268e8206e8eb1acff29b9a drivers/perf: Add Cavium ThunderX2 SoC UNCORE PMU driver
+:::::: The code at line 4323 was first introduced by commit
+:::::: f920642e406cfa17ebecf03d5b83a02273ec718e scsi: mpt3sas: Revert "scsi: mpt3sas: Fix writel() use"
 
-:::::: TO: Kulkarni, Ganapatrao <Ganapatrao.Kulkarni@cavium.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+:::::: TO: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
