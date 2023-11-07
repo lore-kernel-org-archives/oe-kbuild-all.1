@@ -1,92 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86BF36AE3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 19:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8E836AEA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 19:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iErz9KSL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699384924; x=1730920924;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bq0CBJNm7x6CyH3CjMrhzf+CxNC1+YToHhVahC03PxU=;
-  b=iErz9KSLHkEbAIuhg8tYkl5b7h6w6c28RbxYbzkxz37Iu4TAN05KQVHR
-   exO65WtJxIMLkVDQVBP4SWsx5wij1xXiBE/PAlG5OHjMTuFUUfRoK/Mvv
-   SaUbOKb02vZ5Gh2swRiUJRZFNFdbBNjC9blffeEV41XFNAIfvySd8HB3x
-   kLinDW8T9hw+aSfN3TROvNwHslN8Ri63axmdo3/RF5+G/MuIkG9xshjU5
-   0Lz4tvhnAd7HNUS3PXy6sJmS81Nr29SKLI7rtcNBHJzlJQkZgEmS8tJDc
-   OcB3pXy/buaOiGON9RBeoiqp/riFMeMJlFJkQBQ0tqz/N9aSxiYwdVb/Z
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="475831153"
-X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="475831153"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 11:22:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="3902614"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 07 Nov 2023 11:22:03 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0ReB-0007Ls-2p;
-	Tue, 07 Nov 2023 19:21:59 +0000
-Date: Wed, 8 Nov 2023 03:18:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bob Pearson <rpearsonhpe@gmail.com>, jgg@nvidia.com,
-	yanjun.zhu@linux.dev, linux-rdma@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Bob Pearson <rpearsonhpe@gmail.com>
-Subject: Re: [PATCH for-next v2 3/6] RDMA/rxe: Register IP mcast address
-Message-ID: <202311080240.accUSSHq-lkp@intel.com>
-References: <20231106152928.47869-4-rpearsonhpe@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UiwLG/Xp"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5b856d73a12so4491317a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Nov 2023 11:24:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699385092; x=1699989892; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Oj9MZK4wUctOna3bEFza6Z8b7j977JaPhxo3SsWBCcs=;
+        b=UiwLG/XpP6peHnZQNfRrSIAaIwron6a2f8K7GdDw2FD0K/5beAnp6MYcVIo2cT2VwX
+         MiAn+r276xrQ2/u5oa1GKAQcNYzbB9iyp4MCQAUI45UWlL2pIBMGCBfUWsYN3EvwQZ//
+         Ne3h4uj136Y5owaywyltDdVX03dsyz2BRqqM0ygl3NCKzNarulDIO+kcdK6SHfHPXRB6
+         NlOOZ5z24H4PvnP13HNMnWZQXAzsTC1s1mXcmhdRrt23mwDG4Eq3ZjOPkt0/5HNFLdF4
+         fZkHlkcpi8RwjYWT1d4nOPZlif77WSwXn38oK0O6Z2i4Egpc7+ETpCmjPbuW7s8HZE3M
+         rLkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699385092; x=1699989892;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Oj9MZK4wUctOna3bEFza6Z8b7j977JaPhxo3SsWBCcs=;
+        b=urgC9+x3ZCSpfa/vJ5/p62y984bWHpfR9N45tok3RSNJSmkh2be8NTal6ALK70etlp
+         wKb9O+rQhrKI1pFSv5UvXfXKiY9PI8fJ2oXwTDbEkHJN5cQgCRHiAWxiwQXfcBQQhkXF
+         kg+xy4WjHrNhoIdzaXe5MBMDq/D0jXnrenMo5W4avTvtkH2FdMOddxgUK93R4ZA/k8H3
+         CiV6DqDZm1njunh/6k65oijgFqEpdJ7HN86LivpGgsKPrt+2jWTcxfXX55NsxKz9t9ig
+         bwHBBFNYwpxry7tegLHa/VuO7b+VIeW6ftQcMLCRcIme8686vBdO/0HXEiULWFFinJDz
+         Bkog==
+X-Gm-Message-State: AOJu0Yy4t5BKOcxGe6WS06QfGUqdnTKSsf8cmmm5wtHCmiUNVfxmSQ3k
+	ugtVAupV14Pny+Py4mVGGMk=
+X-Google-Smtp-Source: AGHT+IGS33QtOaJIzJHkuOlPXXHZVu17ZHfO5B5Wi3fl8+b8Sh2g+W26KPqZgEFwcz7/OXBcrsHtQw==
+X-Received: by 2002:a05:6a20:2590:b0:16b:977d:f7cf with SMTP id k16-20020a056a20259000b0016b977df7cfmr39259363pzd.36.1699385092348;
+        Tue, 07 Nov 2023 11:24:52 -0800 (PST)
+Received: from localhost ([216.228.127.128])
+        by smtp.gmail.com with ESMTPSA id kx14-20020a170902f94e00b001bc6e6069a6sm172531plb.122.2023.11.07.11.24.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Nov 2023 11:24:51 -0800 (PST)
+Date: Tue, 7 Nov 2023 11:24:49 -0800
+From: Yury Norov <yury.norov@gmail.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: Alexander Potapenko <glider@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Syed Nayyar Waris <syednwaris@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-hardening@vger.kernel.org,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [alobakin:pfcp 11/19] include/linux/bitmap.h:642:17: warning:
+ array subscript [1, 1024] is outside array bounds of 'long unsigned int[1]'
+Message-ID: <ZUqPAZC4sS455xtx@yury-ThinkPad>
+References: <202310170708.fJzLlgDM-lkp@intel.com>
+ <bd7fe929-c6fc-42be-9d2f-3f53ec21fd10@intel.com>
+ <ZUkvOCxyiin_77qd@smile.fi.intel.com>
+ <0a29df6b-bc27-43e9-a97d-57ecabb29a9e@intel.com>
+ <CAG_fn=VtA6e3oGm4WVnxmy9yMBab780-U_4VoHSqm4tcd2UTzQ@mail.gmail.com>
+ <ca0ad357-727b-4f41-a3d6-2c48a9dd5836@intel.com>
+ <e3b4b1a6-5383-4bfb-ba83-ab27d58dae29@intel.com>
+ <ZUqCpmDgKFbscRgW@yury-ThinkPad>
+ <457b9cbb-9a5f-47ef-9eac-3e4f135d6a96@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231106152928.47869-4-rpearsonhpe@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <457b9cbb-9a5f-47ef-9eac-3e4f135d6a96@intel.com>
 
-Hi Bob,
+On Tue, Nov 07, 2023 at 07:52:19PM +0100, Alexander Lobakin wrote:
+> From: Yury Norov <yury.norov@gmail.com>
+> Date: Tue, 7 Nov 2023 10:32:06 -0800
+> 
+> > On Tue, Nov 07, 2023 at 06:24:04PM +0100, Alexander Lobakin wrote:
+> >> From: Alexander Lobakin <aleksander.lobakin@intel.com>
+> >> Date: Tue, 7 Nov 2023 17:44:00 +0100
+> >>
+> >>> From: Alexander Potapenko <glider@google.com>
+> >>> Date: Tue, 7 Nov 2023 17:33:56 +0100
+> >>>
+> >>>> On Tue, Nov 7, 2023 at 2:23 PM Alexander Lobakin
+> >>>> <aleksander.lobakin@intel.com> wrote:
+> >>
+> >> [...]
+> >>
+> >>> I tested it on GCC 9 using modified make.cross from lkp and it triggers
+> >>> on one more file:
+> >>>
+> >>> drivers/thermal/intel/intel_soc_dts_iosf.c: In function 'sys_get_curr_temp':
+> >>> ./include/linux/bitmap.h:601:18: error: array subscript [1,
+> >>> 288230376151711744] is outside array bounds of 'long unsigned int[1]'
+> >>> [-Werror=array-bounds]
+> >>>
+> >>>> to give the compiler some hints about the range of values passed to
+> >>>> bitmap_write() rather than suppressing the optimizations.
+> >>>
+> >>> OPTIMIZER_HIDE_VAR() doesn't disable optimizations if I get it
+> >>> correctly, rather shuts up the compiler in cases like this one.
+> >>>
+> >>> I've been thinking of using __member_size() from fortify-string.h, we
+> >>> could probably optimize the object code even a bit more while silencing
+> >>> this warning.
+> >>> Adding Kees, maybe he'd like to participate in sorting this out as well.
+> >>
+> >> This one seems to work. At least previously mad GCC 9.3.0 now sits
+> >> quietly, as if I added OPTIMIZER_HIDE_VAR() as Yury suggested.
+> >  
+> > What's wrong with OPTIMIZER_HIDE_VAR()? The problem is clearly on GCC
+> > side, namely - it doesn't realize that the map[index+1] fetch is
+> > conditional.
+> 
+> It's totally fine for me to use it, this one is just an alternative
+> (well, a bit broken as per below).
 
-kernel test robot noticed the following build errors:
+OK, guys, that's even worse. The 12 and 13 don't fire the warning
+because Warray-bounds is explicitly disabled for gcc-11+. Check
+0da6e5fd6c372 ("gcc: disable '-Warray-bounds' for gcc-13 too"). I'll
+test how gcc-10 builds it, and if it's broken too, it's worth to shift
+the threshold in init/Kconfig.
 
-[auto build test ERROR on rdma/for-next]
-[also build test ERROR on linus/master v6.6 next-20231107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Let me check it later today.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bob-Pearson/RDMA-rxe-Cleanup-rxe_ah-av_chk_attr/20231107-005913
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20231106152928.47869-4-rpearsonhpe%40gmail.com
-patch subject: [PATCH for-next v2 3/6] RDMA/rxe: Register IP mcast address
-config: csky-randconfig-002-20231107 (https://download.01.org/0day-ci/archive/20231108/202311080240.accUSSHq-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311080240.accUSSHq-lkp@intel.com/reproduce)
+[...]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311080240.accUSSHq-lkp@intel.com/
+> Oh you're right, I didn't think about this. Your approach seems optimal
+> unless hardening folks have anything else.
+>
+> I don't see bitmap_{read,write}() mini-series applied anywhere in your
 
-All errors (new ones prefixed by >>):
+I'll not take the code unless there are real kernel users for it. Your
+compressor is still under development AFAIK, so I'm going to pull
+bitmap_read/write with ip_tunnel series, if it comes first. 
 
-   csky-linux-ld: drivers/infiniband/sw/rxe/rxe_mcast.o: in function `rxe_mcast_add':
->> rxe_mcast.c:(.text+0x42): undefined reference to `ipv6_sock_mc_join'
->> csky-linux-ld: rxe_mcast.c:(.text+0xa6): undefined reference to `ipv6_sock_mc_drop'
-   csky-linux-ld: drivers/infiniband/sw/rxe/rxe_mcast.o: in function `__rxe_init_mca':
-   rxe_mcast.c:(.text+0x1a8): undefined reference to `ipv6_sock_mc_join'
-   csky-linux-ld: rxe_mcast.c:(.text+0x1b4): undefined reference to `ipv6_sock_mc_drop'
-   csky-linux-ld: drivers/infiniband/sw/rxe/rxe_mcast.o: in function `rxe_attach_mcast':
->> rxe_mcast.c:(.text+0x5d6): undefined reference to `ipv6_sock_mc_drop'
-   csky-linux-ld: rxe_mcast.c:(.text+0x60c): undefined reference to `ipv6_sock_mc_drop'
+> tree, maybe Alex could incorporate your patch into it and resubmit?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yes, that's what I asked him to do. But let's put it on hold while I'm
+testing different compilers.
+
+Thanks,
+Yury
