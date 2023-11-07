@@ -1,234 +1,242 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F60328C2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 17:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5197F347A0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 17:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Cfdm23s/"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9e28724ac88so129287366b.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Nov 2023 09:08:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699376890; x=1699981690; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jn/WYP8Ihax6W09QbYQPddro7SKKCKI80Jm0LmD5tLU=;
-        b=Cfdm23s/RMq+EGZGvXTdaJFVCR+HYF7Je0kbM92cibghmsAxsNLTaPn9XUUfYzJDDC
-         xrfaUk1eVRkXyQ4ayiacgXZYXhmL9ugdPrJ+YKgQqoMzOWRzGX3mWfZAy9IF0K0FLU7L
-         KqBxml+5CXKdq88qW1qF0UQv3qqJKWOTPIHcJwSNWYUouqQhwqqVbggKNft4CGVeDZan
-         zv+SiVa/7HxsAo2C9QFgZhQHGFoCL8iHB34IPN/PCt/RTzmcHZ6i5/DbH3uNcddp6dbm
-         QJbVg9mxfev27ybMfgKEHcswM3wcOX6Ujw+bDD1P/A1syKKk0I39g+IIlh1PgzazPfto
-         RQ+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699376890; x=1699981690;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jn/WYP8Ihax6W09QbYQPddro7SKKCKI80Jm0LmD5tLU=;
-        b=GXb+PmgVWuQPkkNTz0AqhzVgP6MkCILVDqYmnXWj251T0ypv3myOM+5iGiYzt8YAeO
-         pUjylW+Fydmhm0FSrTfBxJ7Ihf+GwMK0pfTiwmxKqPlEOzXMzZKMjichwnvH8ZjezkzC
-         eHU330LaL8diUDJfr7C11Q9J6u1k3i8TtSaHPJka+obe2TMqUMhJigSdNTyOnIrt3cGV
-         L0TqnXogsbRQd/Jh1BNUzsP8KKxL02l/GFW1jq9CDsW7O2aR5GYNgXVKZ6D8UJJKd0N8
-         kcYA7jxniwhyK6mimAznr8C1C8dtMb5FahaqxcYXtdx6aDtawjcx++NCOE1vgK43FkX8
-         lblw==
-X-Gm-Message-State: AOJu0Yw41p/zlBb/sUbhz165mCnmhxiqlxlISlij9aamvYigXPpfzdyj
-	+EC1OWFvnC1WpjHsMXt057wa5A==
-X-Google-Smtp-Source: AGHT+IGQ9UTulfYlRN2xx3Xd+4otU+n8+LqQAWeLNFHwoPjDuvJs8E/4TDZWCht4bidpKQkCKKmzxw==
-X-Received: by 2002:a17:906:c14b:b0:9ad:a59f:331a with SMTP id dp11-20020a170906c14b00b009ada59f331amr16476020ejc.57.1699376890280;
-        Tue, 07 Nov 2023 09:08:10 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id jt10-20020a170906ca0a00b0099bcf9c2ec6sm1262055ejb.75.2023.11.07.09.08.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 09:08:09 -0800 (PST)
-Date: Tue, 7 Nov 2023 20:08:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/btree_update_interior.c:1582 btree_split() warn:
- variable dereferenced before check 'path1' (see line 1483)
-Message-ID: <137a7e1f-3d8d-4317-bc9a-707b05818e95@kadam.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JcoWV1XM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699377857; x=1730913857;
+  h=message-id:date:subject:from:to:cc:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=uUk8rqUH4aD9I44Kegkd3dW+HgyDghKN2aBKObM4/W4=;
+  b=JcoWV1XMCIX6AE30RTkr4vPWd7jA0+yiHaZP3QuWcHCbeVMRwGJYmUfC
+   6hKYzisZ31r4zR90cRgzExdLMeVhip4ZeY6e1tzQdHqjVpILaW6222ICe
+   7EfkyTn7C/fa6/sHH7BUyua9e8XXPi9bE2R52rgMcuWJHt1zbC35mm21t
+   oAkm98L6lAMjBoO5UPKJ97H/d64xlAvDK8yAD5trVN98fmJw8L16v/0Vi
+   Ldu2+gCW0m5CuF45Z9+0utuOpT1Y7CkZmrRBf77WUeBCRh7InZTcVtXWM
+   DR3jNrLoDeULpel26LPWJHX7vlKw2Kr7hlyNbVu2nt6w0mQJs5YGyoBn7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="369754126"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
+   d="scan'208";a="369754126"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 09:24:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="833172877"
+X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
+   d="scan'208";a="833172877"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmsmga004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 07 Nov 2023 09:24:12 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 7 Nov 2023 09:24:12 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 7 Nov 2023 09:24:11 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Tue, 7 Nov 2023 09:24:11 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Tue, 7 Nov 2023 09:24:11 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YUaqtaLaTjd1dQO71N79W4p1LKtQENq4SGCPjHLK5gBwaOjro40EK+hZEevFmmH1SWTN3+vblWhMWvsAiM4EsX30eNdRGK5BwBA/SBYK50FDVYq/Glslu9ok6RkecGRHt7befR4GFKgu0DK+6dAiTKZ9M8/nSQ+4OteWZLp57VTTahu8xUikrMGp1/7m+zVvOqhH3/xbbGx04QiPaGspXybJDAC4jO2fLDpBxNGz8hFI12V5zthcpE+OUMfoVD1DV8UOjcVXmy3IE9sAoE0eZsJGpSKQuGu9auStEtw9ldJ12WnNuedal5EMc2biSG51Hae5Joe9yRmyaCTRHJquFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yib1vAu6W0oBfBkRvakDCCZVsTrSwcpYqQ0eUk7aI7s=;
+ b=WWxD37zRfYUg15RyH+V6i7rmPP70QVUZJrT5uLUxo4EjgOfmrD2mibuHHSHbV/mlBdptIHSQ01rzQXEQo6+vC3iDVAzSA2Ox28wZ8qCTHgX8VgOnS/W9f7DHb9Hhk9ZHkQV4WbJi1OoozPAlGwpDrQp/966HtbKnMbADISYhYcdFtRrFcuqwp0lywZvWSXQmkRCPDzJOoSBSgNzltkionyg6n5z/Su4Ne23LMLEniZWEXabSRGOmKnOW8cUGtuA65k9TzWb1RbGGNOGnjWsLk6Jlyz6FzI0/fjiOv/3ILG4bE42Q3Bp5CsYpy7FPrIeRlgyNvVlp+u68WyA/maf7wQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
+ by CO1PR11MB5027.namprd11.prod.outlook.com (2603:10b6:303:9d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Tue, 7 Nov
+ 2023 17:24:09 +0000
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::36be:aaee:c5fe:2b80]) by DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::36be:aaee:c5fe:2b80%7]) with mapi id 15.20.6954.029; Tue, 7 Nov 2023
+ 17:24:09 +0000
+Message-ID: <e3b4b1a6-5383-4bfb-ba83-ab27d58dae29@intel.com>
+Date: Tue, 7 Nov 2023 18:24:04 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [alobakin:pfcp 11/19] include/linux/bitmap.h:642:17: warning:
+ array subscript [1, 1024] is outside array bounds of 'long unsigned int[1]'
+Content-Language: en-US
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+To: Alexander Potapenko <glider@google.com>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Yury Norov
+	<yury.norov@gmail.com>, Syed Nayyar Waris <syednwaris@gmail.com>, Kees Cook
+	<keescook@chromium.org>, kernel test robot <lkp@intel.com>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-hardening@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <202310170708.fJzLlgDM-lkp@intel.com>
+ <bd7fe929-c6fc-42be-9d2f-3f53ec21fd10@intel.com>
+ <ZUkvOCxyiin_77qd@smile.fi.intel.com>
+ <0a29df6b-bc27-43e9-a97d-57ecabb29a9e@intel.com>
+ <CAG_fn=VtA6e3oGm4WVnxmy9yMBab780-U_4VoHSqm4tcd2UTzQ@mail.gmail.com>
+ <ca0ad357-727b-4f41-a3d6-2c48a9dd5836@intel.com>
+In-Reply-To: <ca0ad357-727b-4f41-a3d6-2c48a9dd5836@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: WA1P291CA0023.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:19::7) To DM6PR11MB3625.namprd11.prod.outlook.com
+ (2603:10b6:5:13a::21)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|CO1PR11MB5027:EE_
+X-MS-Office365-Filtering-Correlation-Id: a20448a9-06e9-4989-7574-08dbdfb65a0f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RsznJrANkPM1HtCxy/l0TWXAFfe1iK1xcC6P6NidjCnkx2KQgJNLCNXsC2uz3ph8MzcgsPwuPTtr37S5XNC7A8VwnqIkW2GfXRydFOj4/6qxTVNKtC4gp9GkedvIHgJp1zYaUqkvQaMejusLK5352IeJ8Lpmn3v61R+V0tdrl6bY933eAuw73O3PYU8moS4hHV6WlvZtfCXg/sH6JtJ+BfS/j9G9BGpT4dkK8cMa7zuZHNk4+V/F73KeJh0pWb9rvINdZE0omSbyXil+yC1ijhJi5EdG56+sTEDZtoaXAESyu2TgZlKJOXTYa0Kx9jXvrh88hMpwZQ2PGHZdcrx0OcfNwp0yzkYhrHHiIBWktWOYT+qQH2A21YH9qiu5Nw9QRxRIvoB5ppUA+zLNhzgDvxm0u/7DCEYR8F0GFJennmNjGCg6RwSUZmBMy5ioElLiznHNeX5xGWVeYTL4UZa/04btEa6LcBYzqn2uMmBO1lBwTcuLpcZKzmYpAuBdAPdItngFu2jwYXQKyw9b+NHh3DDQrnHKVgeP1Qp+vJQsj6f0MkdSSXY3YnDlTAgVWB4G4oTZbvg+K6r3d9zW+S04M41doaT7j/gq/ToytlHpb3/sqC5shSu9HI/Dgt4xcHzVlCt8nkbfXi98X2LVA37Kj00AJdVfhz/ul+JFwmzfl1DMFBdf+MCJ17XW4BhbdtUG
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(346002)(39860400002)(396003)(366004)(230273577357003)(230173577357003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(66899024)(2616005)(83380400001)(26005)(66556008)(54906003)(66476007)(66946007)(6916009)(316002)(6506007)(53546011)(2906002)(5660300002)(6512007)(31696002)(478600001)(6486002)(86362001)(38100700002)(6666004)(82960400001)(31686004)(36756003)(4326008)(8936002)(8676002)(41300700001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmlqSGlOTFhhcytVRzBmRWk3OUR2WGhmKzZGYjhDOVJzTzQ2WEVPTFVjQ3Rn?=
+ =?utf-8?B?cWprZ2lJU3R4eEEzSjBiQUFsRmFKZ2NxOFhKWThWOWp2Y25QMkd3QTJzemZp?=
+ =?utf-8?B?Nm9ieUtLK2NyZC85akg2eWhiZzJFYWFFdVgxMXY0enVsQVY2bGtNbU9HMUJJ?=
+ =?utf-8?B?NWNRNzJrMHZUL29tZ3RGSDNzaEhBd0JyQzk1Z3dXNWdIa1Z3U2pUSXk1WVRr?=
+ =?utf-8?B?WlNmQVF0MFAvUEJwMUtSTVBuMWpwdEl4VWFKa1k3RmN4L2xES0dGOWdWbktp?=
+ =?utf-8?B?bFNHcFBLN3I0UzJsT0NFWDhuRldPZ1hNejQ2VGR0SkRBbmEvOGxZaE5GbGpi?=
+ =?utf-8?B?TkRzbVlDeFF3SUsrMk9aOXFzbnJHYzZFRTJCVUFKc0ovNm9tbFoyZFhCVG9k?=
+ =?utf-8?B?aHFvTEVGSmFXTDg3ODMzV2hDL1ROU2NERHR5ZklYdGVQNWEzb2ZBWmlLdGxs?=
+ =?utf-8?B?Mk1SR2hhbCtUMXF0MXozNDQxYitvTWJJNXJJQjZCbC9ndXhKWC9tZEkxQXVi?=
+ =?utf-8?B?UHJ1dStRTnVwTjJ3aFFOSzAybjVWZU5mZGNlTmVYS3VBV2x4RHd5Tlk1Rmt4?=
+ =?utf-8?B?S2dmK2JKbk1UNmF6ek8zUjg1NElBekJ0eS9wdCtxY1ppRExCZlQwdEExYmlZ?=
+ =?utf-8?B?Qk1OYTU5dWc0RVhHcy9yNUt5Tm9YV0pwaG9KeldRSUVsMit4U0ZRWGlKUmRj?=
+ =?utf-8?B?a1Q1bm5OSENob1RwR0NuQVovdmlzTDhnRk9lbi96Q0QxOHBYSmE1WEg4d0x6?=
+ =?utf-8?B?TFFPVmJsNzJlaWFRVjdDMCtPOUtheVVIUVpZRTN4OExQVFAzNkFiVDhlNkpv?=
+ =?utf-8?B?clkxOEVRYWFRL29uc1VpRnZWc2RmMVh4SHhvSmIxL2x6RzI5anZlMGVXK1FR?=
+ =?utf-8?B?VHNueVlYUlVWMVM3S1pTWHBqS2plWnB6NlVqbVlQalNxdmV1WGVKdFZiVlE4?=
+ =?utf-8?B?dG5XeHlvYlFiZzBHVW53K2tTczlxcXRjS2ozMHRJVEE5L3BNRW9hSFZ0L3Jp?=
+ =?utf-8?B?L1V6VkJiU29jN1hyRXdHRVUzSjJJUEpwVUNXNWV3Smo4ZVZSNHJaTmppQ2R0?=
+ =?utf-8?B?N1c4c0hWcFd6UUk2ZTlHcE82Rm44dkVJYWtBVG1rN2hJNFl2OGdDUUtQSDhr?=
+ =?utf-8?B?VDNOVEFySWdxRSs2dEdHYTFBTDZ1b2xKREthZy9wc2xhNVo2WHMrNU9JS0R5?=
+ =?utf-8?B?SHAzZlBITVpCVFVCNHgrYjl2U3dsQzVBelVldzZ6b2xVQkpaVzdobC9BbTlh?=
+ =?utf-8?B?NzNzcWVKaDVXenFpMkVsNGc2aFU5NEUrT25LZzJ6a1ZFMlk5WE5KYi9PTnNa?=
+ =?utf-8?B?S201OHo0dHIyaGIrdXlybUF4MjZyQWlrTGZmak80S2ZZSWRBdSt5cExXakNM?=
+ =?utf-8?B?dDRBSTQvem82cE4wdUFUNnpHYmU2L3JrRHBDU0NrNllqSVhSb1Y0cC9xSDRk?=
+ =?utf-8?B?dG5jbTczenJVV1BYRGVubjFLTis4SnVXTkUyUlVGbG1NYVNGNnVrNDRHbkYx?=
+ =?utf-8?B?U2Jlb2JaU2ZlRXdQdlhTVzcxVnppeTdpWHo5Y3NROFlwVVVURWJCTHM3dWZK?=
+ =?utf-8?B?N3J2U3lwTll3REo2ZEZIcWoxanZaRVhoVmVuNVVyTHp4VUhrSkpSTExsa09Y?=
+ =?utf-8?B?aHZnU0FydjhpSStoMGlNaVNqWUdma1JvVUJtSlNxNnhQdVRjdnpEQjNTdHlO?=
+ =?utf-8?B?MVdldTVSUTJ2SGx6bnJ2VVV3WDhnQTdvcVVKekw1WTRqQ2FYR0FrN0ErUWl0?=
+ =?utf-8?B?Zjh2WEpNbCtSa2RodkZLNVFsL0hmSmFYRzliNW5DTXFPOGczYnBkcWs1cUlv?=
+ =?utf-8?B?c1NaSUh4YVpXY2tyMzlpZWtUOFRpd3ZZeWN0MCs4d0FvcW5SSUdDaXh6UTB1?=
+ =?utf-8?B?OHUwa0pXMmdXOXorQVVMbUh6SElyUXpTbHlwdGVDMGQyc0NYeGRYVTg0VVJv?=
+ =?utf-8?B?bnYvVEs3SDJGSmU5YkJDNGFPT2ZaT2MvM1RzS3NaU1hjYmxMeTg4RVM4dkEr?=
+ =?utf-8?B?WWlLa1V2SlhNODIzTStuN1BIMkRnVi9EYXpzNmJZSVFGUk5LbTNwaEpaRW1X?=
+ =?utf-8?B?MmRkZ2dnMTgza3VnUXU0cCtqUGx6OTk3YkFUSzBJb2FKOEcvcm1QdTFzanla?=
+ =?utf-8?B?VEszelovM01uRUNaYXBRNi85dHRpTDhKbzVNMDR5WGF5TmdpZVNEZ3p4WWYx?=
+ =?utf-8?B?a2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a20448a9-06e9-4989-7574-08dbdfb65a0f
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 17:24:09.3608
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8Zuk5YhvsN9vck4nDaPxt/be2KUrvEDXVHztffRVPJl1Jb93XFC/33+3TBtFQGU9/0PKfZi1u47kX0VkgWc8SZw7UidFitrv/q5vqJ0dh28=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5027
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
-commit: e4215d0fec777e6516306f5f1b69a45a4205dce0 bcachefs: All held locks must be in a btree path
-config: x86_64-randconfig-161-20231107 (https://download.01.org/0day-ci/archive/20231107/202311072233.KsJQSI13-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231107/202311072233.KsJQSI13-lkp@intel.com/reproduce)
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
+Date: Tue, 7 Nov 2023 17:44:00 +0100
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202311072233.KsJQSI13-lkp@intel.com/
+> From: Alexander Potapenko <glider@google.com>
+> Date: Tue, 7 Nov 2023 17:33:56 +0100
+> 
+>> On Tue, Nov 7, 2023 at 2:23 PM Alexander Lobakin
+>> <aleksander.lobakin@intel.com> wrote:
 
-smatch warnings:
-fs/bcachefs/btree_update_interior.c:1582 btree_split() warn: variable dereferenced before check 'path1' (see line 1483)
+[...]
 
-vim +/path1 +1582 fs/bcachefs/btree_update_interior.c
+> I tested it on GCC 9 using modified make.cross from lkp and it triggers
+> on one more file:
+> 
+> drivers/thermal/intel/intel_soc_dts_iosf.c: In function 'sys_get_curr_temp':
+> ./include/linux/bitmap.h:601:18: error: array subscript [1,
+> 288230376151711744] is outside array bounds of 'long unsigned int[1]'
+> [-Werror=array-bounds]
+> 
+>> to give the compiler some hints about the range of values passed to
+>> bitmap_write() rather than suppressing the optimizations.
+> 
+> OPTIMIZER_HIDE_VAR() doesn't disable optimizations if I get it
+> correctly, rather shuts up the compiler in cases like this one.
+> 
+> I've been thinking of using __member_size() from fortify-string.h, we
+> could probably optimize the object code even a bit more while silencing
+> this warning.
+> Adding Kees, maybe he'd like to participate in sorting this out as well.
 
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1451  static void btree_split(struct btree_update *as, struct btree_trans *trans,
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1452  			struct btree_path *path, struct btree *b,
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1453  			struct keylist *keys, unsigned flags)
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1454  {
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1455  	struct bch_fs *c = as->c;
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1456  	struct btree *parent = btree_node_parent(path, b);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1457  	struct btree *n1, *n2 = NULL, *n3 = NULL;
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1458  	struct btree_path *path1 = NULL, *path2 = NULL;
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1459  	u64 start_time = local_clock();
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1460  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1461  	BUG_ON(!parent && (b != btree_node_root(c, b)));
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1462  	BUG_ON(!btree_node_intent_locked(path, btree_node_root(c, b)->c.level));
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1463  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1464  	bch2_btree_interior_update_will_free_node(as, b);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1465  
-ca7d8fcabf29fae Kent Overstreet 2022-08-21  1466  	n1 = bch2_btree_node_alloc_replacement(as, trans, b);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1467  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1468  	if (keys)
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1469  		btree_split_insert_keys(as, trans, path, n1, keys);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1470  
-5525f632dc123ed Kent Overstreet 2020-01-15  1471  	if (bset_u64s(&n1->set[0]) > BTREE_SPLIT_THRESHOLD(c)) {
-674cfc26240b780 Kent Overstreet 2022-08-27  1472  		trace_and_count(c, btree_node_split, c, b);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1473  
-ca7d8fcabf29fae Kent Overstreet 2022-08-21  1474  		n2 = __btree_split_node(as, trans, n1);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1475  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1476  		bch2_btree_build_aux_trees(n2);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1477  		bch2_btree_build_aux_trees(n1);
-c43a6ef9a0747ef Kent Overstreet 2020-06-06  1478  		six_unlock_write(&n2->c.lock);
-c43a6ef9a0747ef Kent Overstreet 2020-06-06  1479  		six_unlock_write(&n1->c.lock);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1480  
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1481  		path1 = get_unlocked_mut_path(trans, path->btree_id, n1->c.level, n1->key.k.p);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1482  		six_lock_increment(&n1->c.lock, SIX_LOCK_intent);
-e4215d0fec777e6 Kent Overstreet 2022-09-16 @1483  		mark_btree_node_locked(trans, path1, n1->c.level, SIX_LOCK_intent);
+This one seems to work. At least previously mad GCC 9.3.0 now sits
+quietly, as if I added OPTIMIZER_HIDE_VAR() as Yury suggested.
 
-path1 dereferenced without checking.
+Note that ideally @map should be marked as `POS` in both cases to help
+Clang, but `POS` gets undefined at the end of fortify-string.h, so I
+decided to not do that within this draft.
 
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1484  		bch2_btree_path_level_init(trans, path1, n1);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1485  
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1486  		path2 = get_unlocked_mut_path(trans, path->btree_id, n2->c.level, n2->key.k.p);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1487  		six_lock_increment(&n2->c.lock, SIX_LOCK_intent);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1488  		mark_btree_node_locked(trans, path2, n2->c.level, SIX_LOCK_intent);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1489  		bch2_btree_path_level_init(trans, path2, n2);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1490  
-7419646b254a599 Kent Overstreet 2022-04-14  1491  		bch2_btree_update_add_new_node(as, n1);
-7419646b254a599 Kent Overstreet 2022-04-14  1492  
-82732ef510b8455 Kent Overstreet 2022-02-26  1493  		bch2_btree_node_write(c, n1, SIX_LOCK_intent, 0);
-82732ef510b8455 Kent Overstreet 2022-02-26  1494  		bch2_btree_node_write(c, n2, SIX_LOCK_intent, 0);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1495  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1496  		/*
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1497  		 * Note that on recursive parent_keys == keys, so we
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1498  		 * can't start adding new keys to parent_keys before emptying it
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1499  		 * out (which we did with btree_split_insert_keys() above)
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1500  		 */
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1501  		bch2_keylist_add(&as->parent_keys, &n1->key);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1502  		bch2_keylist_add(&as->parent_keys, &n2->key);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1503  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1504  		if (!parent) {
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1505  			/* Depth increases, make a new root */
-ca7d8fcabf29fae Kent Overstreet 2022-08-21  1506  			n3 = __btree_root_alloc(as, trans, b->c.level + 1);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1507  
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1508  			path2->locks_want++;
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1509  			BUG_ON(btree_node_locked(path2, n3->c.level));
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1510  			six_lock_increment(&n3->c.lock, SIX_LOCK_intent);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1511  			mark_btree_node_locked(trans, path2, n3->c.level, SIX_LOCK_intent);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1512  			bch2_btree_path_level_init(trans, path2, n3);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1513  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1514  			n3->sib_u64s[0] = U16_MAX;
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1515  			n3->sib_u64s[1] = U16_MAX;
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1516  
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1517  			btree_split_insert_keys(as, trans, path, n3, &as->parent_keys);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1518  
-82732ef510b8455 Kent Overstreet 2022-02-26  1519  			bch2_btree_node_write(c, n3, SIX_LOCK_intent, 0);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1520  		}
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1521  	} else {
-674cfc26240b780 Kent Overstreet 2022-08-27  1522  		trace_and_count(c, btree_node_compact, c, b);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1523  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1524  		bch2_btree_build_aux_trees(n1);
-c43a6ef9a0747ef Kent Overstreet 2020-06-06  1525  		six_unlock_write(&n1->c.lock);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1526  
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1527  		path1 = get_unlocked_mut_path(trans, path->btree_id, n1->c.level, n1->key.k.p);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1528  		six_lock_increment(&n1->c.lock, SIX_LOCK_intent);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1529  		mark_btree_node_locked(trans, path1, n1->c.level, SIX_LOCK_intent);
+Thanks,
+Olek
+---
+diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
+index e8031a157db5..efa0a0287d7c 100644
+--- a/include/linux/bitmap.h
++++ b/include/linux/bitmap.h
+@@ -589,12 +589,14 @@ static inline unsigned long bitmap_read(const
+unsigned long *map,
+ 	size_t index = BIT_WORD(start);
+ 	unsigned long offset = start % BITS_PER_LONG;
+ 	unsigned long space = BITS_PER_LONG - offset;
++	const size_t map_size = __member_size(map);
+ 	unsigned long value_low, value_high;
 
-path1 dereferenced here.
+ 	if (unlikely(!nbits || nbits > BITS_PER_LONG))
+ 		return 0;
 
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1530  		bch2_btree_path_level_init(trans, path1, n1);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1531  
-7419646b254a599 Kent Overstreet 2022-04-14  1532  		bch2_btree_update_add_new_node(as, n1);
-7419646b254a599 Kent Overstreet 2022-04-14  1533  
-82732ef510b8455 Kent Overstreet 2022-02-26  1534  		bch2_btree_node_write(c, n1, SIX_LOCK_intent, 0);
-9f1833cadda7bb4 Kent Overstreet 2021-07-10  1535  
-6357d6071fccb5c Kent Overstreet 2020-02-08  1536  		if (parent)
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1537  			bch2_keylist_add(&as->parent_keys, &n1->key);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1538  	}
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1539  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1540  	/* New nodes all written, now make them visible: */
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1541  
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1542  	if (parent) {
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1543  		/* Split a non root node */
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1544  		bch2_btree_insert_node(as, trans, path, parent, &as->parent_keys, flags);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1545  	} else if (n3) {
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1546  		bch2_btree_set_root(as, trans, path, n3);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1547  	} else {
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1548  		/* Root filled up but didn't need to be split */
-67e0dd8f0d8b4bf Kent Overstreet 2021-08-30  1549  		bch2_btree_set_root(as, trans, path, n1);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1550  	}
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1551  
-00b8ccf7074fddb Kent Overstreet 2020-05-25  1552  	bch2_btree_update_get_open_buckets(as, n1);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1553  	if (n2)
-00b8ccf7074fddb Kent Overstreet 2020-05-25  1554  		bch2_btree_update_get_open_buckets(as, n2);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1555  	if (n3)
-00b8ccf7074fddb Kent Overstreet 2020-05-25  1556  		bch2_btree_update_get_open_buckets(as, n3);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1557  
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1558  	/*
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1559  	 * The old node must be freed (in memory) _before_ unlocking the new
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1560  	 * nodes - else another thread could re-acquire a read lock on the old
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1561  	 * node after another thread has locked and updated the new node, thus
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1562  	 * seeing stale data:
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1563  	 */
-38474c264252475 Kent Overstreet 2022-09-02  1564  	bch2_btree_node_free_inmem(trans, path, b);
-38474c264252475 Kent Overstreet 2022-09-02  1565  
-38474c264252475 Kent Overstreet 2022-09-02  1566  	if (n3)
-38474c264252475 Kent Overstreet 2022-09-02  1567  		bch2_trans_node_add(trans, n3);
-38474c264252475 Kent Overstreet 2022-09-02  1568  	if (n2)
-38474c264252475 Kent Overstreet 2022-09-02  1569  		bch2_trans_node_add(trans, n2);
-38474c264252475 Kent Overstreet 2022-09-02  1570  	bch2_trans_node_add(trans, n1);
-ad7ae8d63fa82e5 Kent Overstreet 2018-11-23  1571  
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1572  	if (n3)
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1573  		six_unlock_intent(&n3->c.lock);
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1574  	if (n2)
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1575  		six_unlock_intent(&n2->c.lock);
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1576  	six_unlock_intent(&n1->c.lock);
-ea3532cbf7fdbb9 Kent Overstreet 2019-10-11  1577  
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1578  	if (path2) {
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1579  		__bch2_btree_path_unlock(trans, path2);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1580  		bch2_path_put(trans, path2, true);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1581  	}
-e4215d0fec777e6 Kent Overstreet 2022-09-16 @1582  	if (path1) {
+-	if (space >= nbits)
++	if ((__builtin_constant_p(map_size) && map_size != SIZE_MAX &&
++	     index + 1 >= map_size / sizeof(long)) || space >= nbits)
+ 		return (map[index] >> offset) & BITMAP_LAST_WORD_MASK(nbits);
 
-path1 was already dereferenced.
+ 	value_low = map[index] & BITMAP_FIRST_WORD_MASK(start);
+@@ -620,6 +622,7 @@ static inline unsigned long bitmap_read(const
+unsigned long *map,
+ static inline void bitmap_write(unsigned long *map, unsigned long value,
+ 				unsigned long start, unsigned long nbits)
+ {
++	const size_t map_size = __member_size(map);
+ 	size_t index;
+ 	unsigned long offset;
+ 	unsigned long space;
+@@ -638,7 +641,9 @@ static inline void bitmap_write(unsigned long *map,
+unsigned long value,
 
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1583  		__bch2_btree_path_unlock(trans, path1);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1584  		bch2_path_put(trans, path1, true);
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1585  	}
-e4215d0fec777e6 Kent Overstreet 2022-09-16  1586  
-a0a568794d09a20 Kent Overstreet 2021-08-30  1587  	bch2_trans_verify_locks(trans);
-ad7ae8d63fa82e5 Kent Overstreet 2018-11-23  1588  
-991ba0211290884 Kent Overstreet 2021-12-10  1589  	bch2_time_stats_update(&c->times[n2
-991ba0211290884 Kent Overstreet 2021-12-10  1590  			       ? BCH_TIME_btree_node_split
-991ba0211290884 Kent Overstreet 2021-12-10  1591  			       : BCH_TIME_btree_node_compact],
-dc3b63dc33e1b65 Kent Overstreet 2019-03-21  1592  			       start_time);
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  1593  }
+ 	map[index] &= (fit ? (~(mask << offset)) :
+~BITMAP_FIRST_WORD_MASK(start));
+ 	map[index] |= value << offset;
+-	if (fit)
++
++	if ((__builtin_constant_p(map_size) && map_size != SIZE_MAX &&
++	     index + 1 >= map_size / sizeof(long)) || fit)
+ 		return;
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+ 	map[index + 1] &= BITMAP_FIRST_WORD_MASK(start + nbits);
