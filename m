@@ -1,116 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2129.outbound.protection.outlook.com [40.107.104.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C0E1D53E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 20:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7260436B1
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  7 Nov 2023 21:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axentia.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axentia.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IpfiKYmy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699390649; x=1730926649;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JAMQPvX5io5oJOVwb0xlwoalGVppo1qOIWZSoKgVJpc=;
-  b=IpfiKYmyaWEqCa/Efz48v3GZtgxvnseszR54cEe5pD8RDwZW/Rev1e97
-   /A3a2t+k8fhBARb5eYjm6Id0LFcwc4vgqW48jkTvgjQkyo75PRd8afucl
-   6+exMFaICDev8B7KWzevH6neD/sjJTGDWJA71TEV5XizIrQXSjVjCj1rJ
-   ROjuLrN+ADzNFRWItp99d466ncQFzuQbMURfN/HT6Mpa/rlYvxR/6fAk5
-   LkZ4bBENUUdowYQjkPpSN3mu0KA+td0cc/ltBDWCNYPwrqwhVGsPPryqV
-   SMcpu4XnybSgWhCIUM0q1UWDJAIWUAfQ/p7wm4uXtHJBwsfNHdmtyFZPg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="389432098"
-X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="389432098"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 12:57:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="4131783"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Nov 2023 12:57:27 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0T8X-0007O0-0k;
-	Tue, 07 Nov 2023 20:57:25 +0000
-Date: Wed, 8 Nov 2023 04:56:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: drivers/pci/hotplug/../pci.h:325:17: sparse: sparse: cast from
- restricted pci_channel_state_t
-Message-ID: <202311080353.HZynWnCm-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=axentia.se header.i=@axentia.se header.b="l7jx0+sU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EtEoeXgCEzHuYMBfsY7LLmia/LUSPXuTSs96CggwtXnBKuoFjJ0JUHSyUqKHWhkgQtJU0MH6tRVLe0/+uIoZmkkdCZTXiBbVYnfrEDOKDLQL5UPicTvHwv3X9qxWWPcaz10PQbu8yLZ/+hIEO7D3tttZfuYBhikcQQxFhEoMT/v8XK2deUbGcDfOfQEIOJjSIuwqauifeopbJw1mWxKZ/PU63YIuWKgd2JDkdoLjq12VjdEatN/O4K0VVGxIa5/qIwrsPiYLWGj6z5t7DviW0gI5d3i35CbyYDXpZSdlsQIN3DzHYvkp0y/JLNLF9DXsJTpiOEOnlibON1KxgU1JoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fybiYHz5/7NLiNNaL0FgnqkzSQVuge5wpUSzdwyn6+A=;
+ b=PmGPl5J5wt5UJyJtROi2eIKC8QYt9jOgUdWRahKPyvaAJZqheE5G9co2nWNsrQkOepZzQhmhj4S7qy0wYacSpPYzLxqzUcUAb8Q//zKyRANEeYCP7UxmQLmJE5PY5PkLd88ed0Pdtgt5zPf/PWnEJ4TB3Vcfairwu+e/AfG5vtnTUc5PrGs8wNpBSqF20J7o+e/Z7s2mWxC2mJGFEap/IYK8PEU+OuK1TJVWY36T6dnYYd4DSxev46oAXOsOoUW8k0O1Mr1uRaVltaHA7OQavQhnpLqEuRLGMDxRX53NihG/PHDbbxzVpk0A0RqdMRu6/YjHp9DWFYeBWvzbsAT7ug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
+ dkim=pass header.d=axentia.se; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fybiYHz5/7NLiNNaL0FgnqkzSQVuge5wpUSzdwyn6+A=;
+ b=l7jx0+sUAVTXUotoVDxB1guNCsrc3Q/2/7vmziKeI2Qg5nhdMyTUAtO4iVG3LGH5n0vxFCKZs2E1wbB5aMfD9JvYQtLQQVIEHydjYe1JQu9lBV+jvUKpL4zR0dHIsUVmhMHQn8sANkVXBZW0tatijvakAqjpkfK1BxmfHilvCqI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axentia.se;
+Received: from AM0PR02MB4436.eurprd02.prod.outlook.com (2603:10a6:208:ed::15)
+ by DB9PR02MB7257.eurprd02.prod.outlook.com (2603:10a6:10:25d::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.27; Tue, 7 Nov
+ 2023 21:39:33 +0000
+Received: from AM0PR02MB4436.eurprd02.prod.outlook.com
+ ([fe80::de22:5b04:df31:2d87]) by AM0PR02MB4436.eurprd02.prod.outlook.com
+ ([fe80::de22:5b04:df31:2d87%7]) with mapi id 15.20.6954.029; Tue, 7 Nov 2023
+ 21:39:33 +0000
+Message-ID: <c67a4871-a158-b7d0-42c5-cd8f31584ab4@axentia.se>
+Date: Tue, 7 Nov 2023 22:39:32 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: drivers/mux/adg792a.c:134:34: warning: 'adg792a_of_match' defined
+ but not used
+Content-Language: sv-SE
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>,
+ Chris Packham <chris.packham@alliedtelesis.co.nz>,
+ oe-kbuild-all@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>
+References: <202311051347.7J6bthD7-lkp@intel.com>
+ <CAHp75VfmUXgx3nkFR=dZqffOu-LSnU_9u9GRYy0bTPLcdYhHbg@mail.gmail.com>
+ <ZUdFtJeXBtx/httL@rli9-mobl>
+ <abdb00c4-c2f1-96e6-9731-5a1773099336@axentia.se>
+ <CAHp75VeBgdSYE6=2q6kc+N6JDg_fy1Mc5DUJdJBmyZ8nnX8ywQ@mail.gmail.com>
+From: Peter Rosin <peda@axentia.se>
+In-Reply-To: <CAHp75VeBgdSYE6=2q6kc+N6JDg_fy1Mc5DUJdJBmyZ8nnX8ywQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MM0P280CA0035.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:b::23) To AM0PR02MB4436.eurprd02.prod.outlook.com
+ (2603:10a6:208:ed::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR02MB4436:EE_|DB9PR02MB7257:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f4434bb-d024-4e56-8eb8-08dbdfda07fc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	hqHu9+JoqEG9nNW5RGRU7TwDOmQ2F9QY6t9dS89R7c5vd928ex/zTUsaGTZOeOI1RWnURdZBffsXmjCGbDFWaEq/CGFKEhOnrjfrIgLSSednR/AR6bwhhpsz/FLnPR8Q4DVjRp9zgu8TsLUJWjrZzX6WdJYYsO4MtRX2OGn3TX0fwb4eg+H0ft+SH9qK8WfumQx3QRzOqyQTflJgA+antGCZW9kaVu5+XnYaG2QdkX4k703aAC0b8pY+4bi3NlTC+jQceI3q5E8s5TQAY0HPU59iv8lCcDqx/icX1Mflaa3cdREZVxUfLco1ivwQPMZbhrPOsfkVYZridaq2l7pBc2W85OPdiuDScy/KssUuxxYbbceX9RtnSXHlQFRaag7t471KoPemI9qpOzHbRVxOBVf20AWzzVCwd4NcQO2vw6mcypfDEFraLq3qfUgn2IQWMglS4bODu0TMVwG1U5193ASCBHd4VGQnHl3FAEGSvSMW/EZIRr2f/ClBrFUQ74xYb9TjguZHtLakY9Xg92Q97zKflLbWB4FKA3iDnYV6rAmNcwmMMiFOj+ohKCoWpiImv8TaqNCAvB3ao7hEb1f3M77mWeM52mGm9BFo5ei16S9yb78/U63rqZf2cvEdGQQPDzWrbvrEg6XBk8huZUIvCg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR02MB4436.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(346002)(376002)(39840400004)(396003)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(2616005)(36756003)(41300700001)(6512007)(4326008)(26005)(8676002)(478600001)(6486002)(31696002)(5660300002)(86362001)(66556008)(54906003)(66946007)(316002)(6916009)(8936002)(66476007)(2906002)(6506007)(53546011)(38100700002)(83380400001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?S2pja204N04yb2VrWjZEc3h6MEdCSWZOWXBOUVBZVmZHREV2MHVDSFp4bTNv?=
+ =?utf-8?B?QnR2blg5Y2pZVjJtaDNSamF6eENaVEhOM0R1UllweEUrSnkwWDMxdFVwcTQw?=
+ =?utf-8?B?MitBeVJHVjVTRTdadVJZZ2dLU2lZbW5YUWR5dlJYbS8ya2dBT0lWam12NkZ1?=
+ =?utf-8?B?cHNBRFBrQlErSjBCTDZrV0w2a1ZFUUlGY1NLWjF2azQ1bzRqa3lQdmlHci8w?=
+ =?utf-8?B?YXE2Tjh4SkQ5NEZLVmIyTG40N3FxYWxRT281SjJoVnFjeUN4VTQ4UmYwT0l3?=
+ =?utf-8?B?QU5GYk9kbVU1VXBydmJZc0dBUWFUVVNnM3VuU2NWSW5WZWZYNytTYkVKQ1d3?=
+ =?utf-8?B?TUtlNk45OXpYd3FnYi95UTJya08zUWgzWWp4alQ4ZU9MNHd0WTFwcnZrV3Jl?=
+ =?utf-8?B?WXRKUGY3YUM3aUZnZDdxNHdoK3dScmp5UnBwekNtNDVFVmlvd3pXZFZDOGNU?=
+ =?utf-8?B?YXpoT1hXRXZFdXpKaGZHTEFnUXk1YjBwZHMwb2JlM0g0Rjg5b3pVNWczd2N0?=
+ =?utf-8?B?VlNNMXBrTk96MjZ4T3ZKdElPMlJpSGJiMUt4dXNzeTJ5V3ZpZE12UGR3MGJ0?=
+ =?utf-8?B?YmRsOEpLNUx0ZzllNHRYZkZLenBkRE9sNVV1Y2VxMUhkOU1hUXMzS0taWE14?=
+ =?utf-8?B?Uy9PazJmV20zazZEL0FEd1NQTUxpQjZ0dkx0d001aWNFMmljcWc0aEpiMlpR?=
+ =?utf-8?B?VEg1L3pWRDQ0eDRLMTBlcHg0bWdWK2lHZ2l6eklqc3ZSVWRvKzRtZHpxNjg5?=
+ =?utf-8?B?b2FWZnhOclc4LzZPWDJtT2Y0cWZZT29QY3Fia09rU056byswVkt5VE9WcVps?=
+ =?utf-8?B?RXNvakp3ckoxUk9ZcForK0JyR0JDcEZiZEw3YVR6c1NIMU92Qm9QcmVob0t3?=
+ =?utf-8?B?SE9takFacUlwT0FoWW5mdzBzWjRwRnBsQ2J0bFhmTnV5YUtMSG12OFVnTUV5?=
+ =?utf-8?B?dWJyOUFjODVuc2psM3RoZERSL2RvcVcraSsvOVEvNDVtUGUveWRFa2s3WG1P?=
+ =?utf-8?B?eWhXSzVMN0FjelZTSlZpQS9PZTEvbnBwS05NbXF2alVaSTdGdjRaaCtGWHFY?=
+ =?utf-8?B?Z1FaQWdpOGdONWNwZWVIZ2FUK3JUbm5CKzJzdm9RSlNJQXZPRGhpR05XalEw?=
+ =?utf-8?B?dVRhZ1hEazB4MnN1eXV1UkJDOWRkWjJSTGthRnN6NWduK01zcmdaTHBRRGFj?=
+ =?utf-8?B?S3hpRG1EZENKWTNXYXRWTzgrb1puVkNqZUZvaU03RHMzYTcveGJJdnZRMENY?=
+ =?utf-8?B?V3ZIdE5Rd3hCbGREQVVaTm4yU3lsY21xTzZkUVY5ZVQzYjJuaGFhM09paGtB?=
+ =?utf-8?B?RnVBYjdUOTBLYTFMS3Awd2Z0Um12Z1NtSzhWeUJVQjhqYllJUjE5NjJQOWtl?=
+ =?utf-8?B?V3VtMHJqTUwxUVdGaStpRTNCSW10K1lhTFN2WGxNdVJvU3ZHNGxsSEhTeHRD?=
+ =?utf-8?B?TlR5V1NiYklGU01aWGRJSFBuVXgwT0xSbmlXS1BoWGt2Z0tEVmE0WUNiT0M4?=
+ =?utf-8?B?cE5nbzBvQS9DZjBUNk8rTFpvVFA3dEZoYm1aOXI4ZVFjYlVmQ0lOWXU0UTkw?=
+ =?utf-8?B?cExWMExKSXg2cm52Qnk2aGg5RGlDK3ZhTlZWY3Y4NThydzhDR3JGa005UFMy?=
+ =?utf-8?B?ekk4YUFGbWNqVERrS0hmWUFvUGdZbUN3TU0vWUE3a2hqbmNTRkFyTURQUUpa?=
+ =?utf-8?B?Y3pwa3JNU2tDZTh2WFE2dkdIRldhNDNuUDh0QkNZVnMzakVPdnNQbmpWMXZy?=
+ =?utf-8?B?UHY4bDI3KzJaSm1ZbUJnZ1plaHpaa1hPa1lPTitiTlhsb2JmZGlEWTlpTEM2?=
+ =?utf-8?B?RmNuTVNLSkIxWkdPWHFRSVhZZ2hCNTZ0WW9SZUFMbkNqSEpiUy9mWUJRdng3?=
+ =?utf-8?B?TnZDVm9UMzVLWVlhTUthcW9ock94ZGdGSTFYQWxCRTBJTG8vSkt4bkkwQS9B?=
+ =?utf-8?B?L21ZVHlISDllWmR6VHZmcDlSS1Vod2VDZ0VoVUlqK3dHdFRRVFBiV0JiTGMr?=
+ =?utf-8?B?OUZEV2ZLK0xaM05RWVBweHo2QTRmRGswQlZFckM1TG5PTGYzMlNhcFdKTElP?=
+ =?utf-8?B?SnpNQWJuMFhtc0t6T21QMlBPZHlOd0JsU2d6bnpxNksyK2pEK2s3YUFpQVBS?=
+ =?utf-8?Q?o3X6p/TkJlPUraFtpJALpSsl6?=
+X-OriginatorOrg: axentia.se
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f4434bb-d024-4e56-8eb8-08dbdfda07fc
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR02MB4436.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 21:39:33.5027
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ylD/Qp7b2h8nZJlDqIIxCfIzFiI9PC0eeemsn3TqmqOglcGVkedQLV1/rlGgZKbt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7257
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   be3ca57cfb777ad820c6659d52e60bbdd36bf5ff
-commit: 74ff8864cc842be994853095dba6db48e716400a PCI: hotplug: Allow marking devices as disconnected during bind/unbind
-date:   9 months ago
-config: s390-randconfig-r121-20231106 (https://download.01.org/0day-ci/archive/20231108/202311080353.HZynWnCm-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080353.HZynWnCm-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311080353.HZynWnCm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/hotplug/pciehp_pci.c: note: in included file:
->> drivers/pci/hotplug/../pci.h:325:17: sparse: sparse: cast from restricted pci_channel_state_t
->> drivers/pci/hotplug/../pci.h:325:17: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/hotplug/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/hotplug/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/hotplug/../pci.h:328:23: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/hotplug/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/hotplug/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/hotplug/../pci.h:332:23: sparse: sparse: cast to restricted pci_channel_state_t
+2023-11-07 at 20:59, Andy Shevchenko wrote:
+> On Mon, Nov 6, 2023 at 11:31 PM Peter Rosin <peda@axentia.se> wrote:
+>> 2023-11-05 at 08:35, Philip Li wrote:
+>>> On Sun, Nov 05, 2023 at 09:09:00AM +0200, Andy Shevchenko wrote:
+>>>> On Sun, Nov 5, 2023 at 7:03 AM kernel test robot <lkp@intel.com> wrote:
+>>>>> commit: e9e40543ad5b38b848879768359fd13650529961 spi: Add generic SPI multiplexer
+> 
+> ...
+> 
+>>>> I dunno why it's pointing out to that commit and some (random?) people
+>>>
+>>> Sorry for the incorrect bad commit, Andy. We will investigate this why
+>>> it locates to this commit in the bisection process, and try to avoid
+>>> similar wrong report if possible.
+>>
+>> In this case I think the reason is that you have CONFIG_SPI_MUX, which
+>> seletcs CONFIG_MULTIPLEXER, which in turn makes CONFIG_MUX_ADG792A
+>> "visible". I.e. before the fingered commit, it is likely that nothing
+>> selects CONFIG_MULTIPLEXER with the given configuration.
+> 
+> The use of the of_match_ptr() is quite doubtful, no?
 
-vim +325 drivers/pci/hotplug/../pci.h
+I was trying to answer why the spi-mux addition was (wrongly) fingered as
+the first bad commit. I should have been clearer...
 
-   306	
-   307	/**
-   308	 * pci_dev_set_io_state - Set the new error state if possible.
-   309	 *
-   310	 * @dev: PCI device to set new error_state
-   311	 * @new: the state we want dev to be in
-   312	 *
-   313	 * If the device is experiencing perm_failure, it has to remain in that state.
-   314	 * Any other transition is allowed.
-   315	 *
-   316	 * Returns true if state has been changed to the requested state.
-   317	 */
-   318	static inline bool pci_dev_set_io_state(struct pci_dev *dev,
-   319						pci_channel_state_t new)
-   320	{
-   321		pci_channel_state_t old;
-   322	
-   323		switch (new) {
-   324		case pci_channel_io_perm_failure:
- > 325			xchg(&dev->error_state, pci_channel_io_perm_failure);
-   326			return true;
-   327		case pci_channel_io_frozen:
-   328			old = cmpxchg(&dev->error_state, pci_channel_io_normal,
-   329				      pci_channel_io_frozen);
-   330			return old != pci_channel_io_perm_failure;
-   331		case pci_channel_io_normal:
-   332			old = cmpxchg(&dev->error_state, pci_channel_io_frozen,
-   333				      pci_channel_io_normal);
-   334			return old != pci_channel_io_perm_failure;
-   335		default:
-   336			return false;
-   337		}
-   338	}
-   339	
+I don't see what's wrong with using of_match_ptr() in this driver as
+CONFIG_OF is not required here. Why isn't the correct fix to instead
+put the definition of adg792a_of_match in an #ifdef CONFIG_OF block?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Peter
