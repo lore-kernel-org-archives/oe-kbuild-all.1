@@ -1,47 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF73132C65
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 20:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356B537140
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 21:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iS+zvRsD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqmKSTtA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699477072; x=1731013072;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sFuQhkRTFxzouI9towUa5BcbqRgdZsPFNsdzzLsLf4s=;
-  b=iS+zvRsDIjn7DIconDqzPDC5dLUj0wZdLtJzaeksrD1JVgYFypWSd+JO
-   wFMngBu1fSpaZpsGlbUQZ32ysNWJ3kXZMKnWTQSQEGOK6TjIrsHQcMbG0
-   +DezMaO5wQFu5QmTgGZFJxyNSiXmB4soenaXd8uXwxAorfvMN4F+Vsy1y
-   2RAZup0mEzTvQZAlnkNhpAp/6uv94mRdBNr+JYMsXrhvIk1qu8qMc9RuD
-   rmUAmwx+nEvfeJ1rNMxNbhNlW6IhNrpKASyzPfHUceDdi+MG0g62mDztv
-   TaZzX2ZfCC4eRqPpnvjv0t5F4JZ5A7T4pXgJeCS23WFtKllsRuMA53cLq
+  t=1699477671; x=1731013671;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b6UoMOuB9Vc+Ox/xONoBAd6Z0ZkA6LvZweCBIByPU6I=;
+  b=nqmKSTtAyx8uO4rUfxYFejL31VoPgsoctzN6L8G7dviVAm3EnfNRwIVT
+   KYcdiRX5Ykm+SlF5RhC1z7EAI5Q01JE0DPS8jvEqgcHMPc2GQkr3Ub+An
+   MHoHi43vI+SbWqls0FLHhX7Y5EeRXa0qT1FkJeboe9GryiS8AUyscxnSN
+   2ViWTYUifmMuIqSYL5E9ldOX1BzyENYLFPFbjQ3wBQ4rBxVdh2TCuC0MQ
+   jqibnyHcbnwAdrNElXMgTgte0kOVY5vbHzGiFFWsz5c3zMAJTxJAjfctt
+   NZBwzSjXhyxT3cIwgwIXrpd3qvuIVE+I9L769d14HmkuphLBwSyZrI62D
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="11413039"
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="392735135"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="11413039"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 12:57:51 -0800
+   d="scan'208";a="392735135"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 13:07:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="1010402383"
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="756665102"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="1010402383"
+   d="scan'208";a="756665102"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Nov 2023 12:57:50 -0800
+  by orsmga007.jf.intel.com with ESMTP; 08 Nov 2023 13:07:44 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0pcR-0008BU-2v;
-	Wed, 08 Nov 2023 20:57:47 +0000
-Date: Thu, 9 Nov 2023 04:56:21 +0800
+	id 1r0pm1-0008Bo-21;
+	Wed, 08 Nov 2023 21:07:41 +0000
+Date: Thu, 9 Nov 2023 05:06:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:sframe 3/3] arch/x86/events/core.c:2880:13: error:
- implicit declaration of function 'perf_callchain_user32'; did you mean
- 'perf_callchain_store'?
-Message-ID: <202311090431.3MPzdWqW-lkp@intel.com>
+To: Huan Yang <link@vivo.com>, Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Huang Ying <ying.huang@intel.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+	Yosry Ahmed <yosryahmed@google.com>,
+	Liu Shixin <liushixin2@huawei.com>, Peter Xu <peterx@redhat.com>,
+	Hugh Dickins <hughd@google.com>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	opensource.kernel@vivo.com, Huan Yang <link@vivo.com>
+Subject: Re: [PATCH 4/4] mm: memcg: apply proactive reclaim into cgroupv1
+Message-ID: <202311090446.NKFRnuGv-lkp@intel.com>
+References: <20231108065818.19932-5-link@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,79 +68,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231108065818.19932-5-link@vivo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
-head:   31b014690f119ab819b20786a567f66715bce1a4
-commit: 31b014690f119ab819b20786a567f66715bce1a4 [3/3] todo
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231109/202311090431.3MPzdWqW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311090431.3MPzdWqW-lkp@intel.com/reproduce)
+Hi Huan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on tj-cgroup/for-next linus/master v6.6 next-20231108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/mm-vmscan-LRU-unbalance-cgroup-reclaim/20231108-151757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231108065818.19932-5-link%40vivo.com
+patch subject: [PATCH 4/4] mm: memcg: apply proactive reclaim into cgroupv1
+reproduce: (https://download.01.org/0day-ci/archive/20231109/202311090446.NKFRnuGv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311090431.3MPzdWqW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311090446.NKFRnuGv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/events/core.c:2854:6: warning: no previous prototype for '__perf_callchain_user' [-Wmissing-prototypes]
-    2854 | void __perf_callchain_user(struct perf_callchain_entry_ctx *ctx,
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/x86/events/core.c: In function '__perf_callchain_user':
->> arch/x86/events/core.c:2880:13: error: implicit declaration of function 'perf_callchain_user32'; did you mean 'perf_callchain_store'? [-Werror=implicit-function-declaration]
-    2880 |             perf_callchain_user32(regs, ctx);
-         |             ^~~~~~~~~~~~~~~~~~~~~
-         |             perf_callchain_store
-   arch/x86/events/core.c: At top level:
-   arch/x86/events/core.c:2896:1: warning: no previous prototype for 'perf_callchain_user' [-Wmissing-prototypes]
-    2896 | perf_callchain_user(struct perf_callchain_entry_ctx *ctx, struct pt_regs *regs)
-         | ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> Documentation/admin-guide/cgroup-v1/memory.rst:93: WARNING: Malformed table.
+>> Documentation/admin-guide/cgroup-v1/memory.rst:977: WARNING: Title underline too short.
 
+vim +93 Documentation/admin-guide/cgroup-v1/memory.rst
 
-vim +2880 arch/x86/events/core.c
-
-  2853	
-  2854	void __perf_callchain_user(struct perf_callchain_entry_ctx *ctx,
-  2855				   struct pt_regs *regs, bool atomic)
-  2856	{
-  2857		struct user_unwind_state state;
-  2858	
-  2859		if (perf_guest_state()) {
-  2860			/* TODO: We don't support guest os callchain now */
-  2861			return;
-  2862		}
-  2863	
-  2864		/*
-  2865		 * We don't know what to do with VM86 stacks.. ignore them for now.
-  2866		 */
-  2867		if (regs->flags & (X86_VM_MASK | PERF_EFLAGS_VM))
-  2868			return;
-  2869	
-  2870		perf_callchain_store_context(ctx, PERF_CONTEXT_USER);
-  2871		perf_callchain_store(ctx, regs->ip);
-  2872	
-  2873		if (atomic && !nmi_uaccess_okay())
-  2874			return;
-  2875	
-  2876		if (atomic)
-  2877			pagefault_disable();
-  2878	
-  2879		if (!user_64bit_mode(regs)) {
-> 2880		    perf_callchain_user32(regs, ctx);
-  2881		    goto done;
-  2882		}
-  2883	
-  2884		for_each_user_frame(state, USER_UNWIND_TYPE_AUTO) {
-  2885			if (perf_callchain_store(ctx, state.ip)) {
-  2886				goto done;
-  2887			}
-  2888		}
-  2889	done:
-  2890		if (atomic)
-  2891			pagefault_enable();
-  2892	}
-  2893	
+    62	
+    63	==================================== ==========================================
+    64	 tasks				     attach a task(thread) and show list of
+    65					     threads
+    66	 cgroup.procs			     show list of processes
+    67	 cgroup.event_control		     an interface for event_fd()
+    68					     This knob is not available on CONFIG_PREEMPT_RT systems.
+    69	 memory.usage_in_bytes		     show current usage for memory
+    70					     (See 5.5 for details)
+    71	 memory.memsw.usage_in_bytes	     show current usage for memory+Swap
+    72					     (See 5.5 for details)
+    73	 memory.limit_in_bytes		     set/show limit of memory usage
+    74	 memory.memsw.limit_in_bytes	     set/show limit of memory+Swap usage
+    75	 memory.failcnt			     show the number of memory usage hits limits
+    76	 memory.memsw.failcnt		     show the number of memory+Swap hits limits
+    77	 memory.max_usage_in_bytes	     show max memory usage recorded
+    78	 memory.memsw.max_usage_in_bytes     show max memory+Swap usage recorded
+    79	 memory.soft_limit_in_bytes	     set/show soft limit of memory usage
+    80					     This knob is not available on CONFIG_PREEMPT_RT systems.
+    81	 memory.stat			     show various statistics
+    82	 memory.use_hierarchy		     set/show hierarchical account enabled
+    83	                                     This knob is deprecated and shouldn't be
+    84	                                     used.
+    85	 memory.force_empty		     trigger forced page reclaim
+    86	 memory.pressure_level		     set memory pressure notifications
+    87	 memory.swappiness		     set/show swappiness parameter of vmscan
+    88					     (See sysctl's vm.swappiness)
+    89	 memory.move_charge_at_immigrate     set/show controls of moving charges
+    90	                                     This knob is deprecated and shouldn't be
+    91	                                     used.
+    92	 memory.oom_control		     set/show oom controls.
+  > 93	 memory.memory		     proactive reclaim.
+    94	 memory.numa_stat		     show the number of memory usage per numa
+    95					     node
+    96	 memory.kmem.limit_in_bytes          Deprecated knob to set and read the kernel
+    97	                                     memory hard limit. Kernel hard limit is not
+    98	                                     supported since 5.16. Writing any value to
+    99	                                     do file will not have any effect same as if
+   100	                                     nokmem kernel parameter was specified.
+   101	                                     Kernel memory is still charged and reported
+   102	                                     by memory.kmem.usage_in_bytes.
+   103	 memory.kmem.usage_in_bytes          show current kernel memory allocation
+   104	 memory.kmem.failcnt                 show the number of kernel memory usage
+   105					     hits limits
+   106	 memory.kmem.max_usage_in_bytes      show max kernel memory usage recorded
+   107	
+   108	 memory.kmem.tcp.limit_in_bytes      set/show hard limit for tcp buf memory
+   109	 memory.kmem.tcp.usage_in_bytes      show current tcp buf memory allocation
+   110	 memory.kmem.tcp.failcnt             show the number of tcp buf memory usage
+   111					     hits limits
+   112	 memory.kmem.tcp.max_usage_in_bytes  show max tcp buf memory usage recorded
+   113	==================================== ==========================================
+   114	
 
 -- 
 0-DAY CI Kernel Test Service
