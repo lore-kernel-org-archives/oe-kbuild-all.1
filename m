@@ -1,47 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16AB641
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 01:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A0CEBC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 02:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKCHRngP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0QR1UNT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699406161; x=1730942161;
+  t=1699409254; x=1730945254;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wapPhd6Ko0l/YoFFX0fI42A4TIZ1EmCTfNa+qdMe8Z0=;
-  b=gKCHRngP4hIqMTcgsckErbfNF5NP8JLasGjoSW1pcq76/VtxXrvBnnwl
-   mWh3zsE43xk8iHTsV1NfixaonInqOr0s/Oz6oBZRr1yZMI2lQXd7xDJaQ
-   cY2oeZly06RRB6Q3s+iP4+/GMFkCYJ6LsCDWmjKwd05ytFNxrOy+QRMIt
-   43ZGsQgkbxddEl7CVg65K+lHWEFZftZl8zX5KY0447JUIZxphbntH8OOp
-   ewml6e3cmKhe/RkQW0W0OsjcXjlQUt++Jkr9APy64rSzNcSvqp4qBoywy
-   q+P6t4GG8Js/xgCs3d060JxeknL1gtuRwtVIGblsJJ8ioyfCi9Zg9qA5k
+  bh=S5MBVMdeNVRpt3+iIf2IqFHnCK1RG/LMemeM36AvPL4=;
+  b=G0QR1UNT2uK0KLzbBtfusUQpgXdTjzsEazbVqB4JoWI25ThEm94oUGmp
+   WMC5gr9+b/8svxhT7AylicPx2YQdtchMMhLsuxrAAUCs2AfCko+j6km3Z
+   EyP967S4c5yI+17074aixlBNuPwD9J639xgGO41L8bAGE35vUtmHSissn
+   ouRPfDsZ3YgTqEidg90BwkTjQaDPfi8VID/oGSIKjyFBocyeA+x2pWVtB
+   tbGQyylRXZm90PFF9gVwElpX4LGWXH44T3ePeXYrOgFznZ5W89ifzlwEa
+   XN5IqpbGh7/Q4s+ouLT5aSPY/sj4p9JjWeSpVwCFN1bbU1ic3zx6bcdjJ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="8315748"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="8322140"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="8315748"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 17:16:00 -0800
+   d="scan'208";a="8322140"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 18:07:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="936343347"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="906622718"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="936343347"
+   d="scan'208";a="906622718"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 Nov 2023 17:15:57 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 07 Nov 2023 18:07:30 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0XAg-0007Xn-2b;
-	Wed, 08 Nov 2023 01:15:54 +0000
-Date: Wed, 8 Nov 2023 09:14:59 +0800
+	id 1r0Xya-0007Yy-0T;
+	Wed, 08 Nov 2023 02:07:28 +0000
+Date: Wed, 8 Nov 2023 10:06:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jun Yi <yijun@loongson.cn>
-Subject: drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202311080956.7eqtp3L7-lkp@intel.com>
+To: Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:sched/core 16/19] kernel/sched/debug.c:532:61:
+ warning: cast to pointer from integer of different size
+Message-ID: <202311080903.vM0R7bj0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,72 +50,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   13d88ac54ddd1011b6e94443958e798aa06eb835
-commit: a275a82dcd4024c75337db15d59ed039c31e21da LoongArch: Use alternative to optimize libraries
-date:   11 months ago
-config: loongarch-randconfig-r133-20231107 (https://download.01.org/0day-ci/archive/20231108/202311080956.7eqtp3L7-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080956.7eqtp3L7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+head:   4a97a4d025f6984a0ae7bb2c21ab09a52d4c1c6a
+commit: 727da1ee003381aa8f9a21ba534a86e40c0e9b7e [16/19] sched/fair: Fair server interface
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20231108/202311080903.vM0R7bj0-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311080903.vM0R7bj0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311080956.7eqtp3L7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311080903.vM0R7bj0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void * @@
-   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:     got void *
->> drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *__s @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:     expected void *__s
-   drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:     got char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     expected void *cpu_addr
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     got char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     expected void *cpu_addr
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     got char [noderef] __iomem *screen_base
+All warnings (new ones prefixed by >>):
 
-vim +362 drivers/video/fbdev/atmel_lcdfb.c
+   In file included from kernel/sched/build_utility.c:72:
+   kernel/sched/debug.c: In function 'debugfs_fair_server_init':
+   kernel/sched/debug.c:529:50: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'unsigned int' [-Wformat=]
+     529 |                 snprintf(buf, sizeof(buf), "cpu%ld", cpu);
+         |                                                ~~^   ~~~
+         |                                                  |   |
+         |                                                  |   unsigned int
+         |                                                  long int
+         |                                                %d
+>> kernel/sched/debug.c:532:61: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     532 |                 debugfs_create_file("runtime", 0644, d_cpu, (void *) cpu, &fair_server_runtime_fops);
+         |                                                             ^
+   kernel/sched/debug.c:533:60: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     533 |                 debugfs_create_file("period", 0644, d_cpu, (void *) cpu, &fair_server_period_fops);
+         |                                                            ^
+   kernel/sched/debug.c:534:59: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     534 |                 debugfs_create_file("defer", 0644, d_cpu, (void *) cpu, &fair_server_defer_fops);
+         |                                                           ^
 
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  336  
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  337  /**
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  338   *	atmel_lcdfb_alloc_video_memory - Allocate framebuffer memory
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  339   *	@sinfo: the frame buffer to allocate memory for
-1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  340   * 	
-1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  341   * 	This function is called only from the atmel_lcdfb_probe()
-1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  342   * 	so no locking by fb_info->mm_lock around smem_len setting is needed.
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  343   */
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  344  static int atmel_lcdfb_alloc_video_memory(struct atmel_lcdfb_info *sinfo)
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  345  {
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  346  	struct fb_info *info = sinfo->info;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  347  	struct fb_var_screeninfo *var = &info->var;
-ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  348  	unsigned int smem_len;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  349  
-ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  350  	smem_len = (var->xres_virtual * var->yres_virtual
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  351  		    * ((var->bits_per_pixel + 7) / 8));
-ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  352  	info->fix.smem_len = max(smem_len, sinfo->smem_len);
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  353  
-f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  354  	info->screen_base = dma_alloc_wc(info->device, info->fix.smem_len,
-f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  355  					 (dma_addr_t *)&info->fix.smem_start,
-f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  356  					 GFP_KERNEL);
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  357  
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  358  	if (!info->screen_base) {
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  359  		return -ENOMEM;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  360  	}
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  361  
-01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28 @362  	memset(info->screen_base, 0, info->fix.smem_len);
-01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28  363  
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  364  	return 0;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  365  }
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  366  
 
-:::::: The code at line 362 was first introduced by commit
-:::::: 01d3a5e7fab7732cfc5d5d4533e9378ea435295a atmel_lcdfb: don't initialize a pre-allocated framebuffer
+vim +532 kernel/sched/debug.c
 
-:::::: TO: Haavard Skinnemoen <hskinnemoen@atmel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   515	
+   516	static void debugfs_fair_server_init(void)
+   517	{
+   518		struct dentry *d_fair;
+   519		unsigned int cpu;
+   520	
+   521		d_fair = debugfs_create_dir("fair_server", debugfs_sched);
+   522		if (!d_fair)
+   523			return;
+   524	
+   525		for_each_possible_cpu(cpu) {
+   526			struct dentry *d_cpu;
+   527			char buf[32];
+   528	
+   529			snprintf(buf, sizeof(buf), "cpu%ld", cpu);
+   530			d_cpu = debugfs_create_dir(buf, d_fair);
+   531	
+ > 532			debugfs_create_file("runtime", 0644, d_cpu, (void *) cpu, &fair_server_runtime_fops);
+   533			debugfs_create_file("period", 0644, d_cpu, (void *) cpu, &fair_server_period_fops);
+   534			debugfs_create_file("defer", 0644, d_cpu, (void *) cpu, &fair_server_defer_fops);
+   535		}
+   536	}
+   537	
 
 -- 
 0-DAY CI Kernel Test Service
