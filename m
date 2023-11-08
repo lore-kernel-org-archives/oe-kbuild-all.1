@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86F3C8D2
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 05:42:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4F9CA4C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 05:56:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aWjnrWn/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YmyGm52F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699422138; x=1730958138;
+  t=1699422995; x=1730958995;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cjYwAsT+jwfLKm32Z6zK9YEznBaDLdquSpEKzuu+QGI=;
-  b=aWjnrWn/Zx41wbpL39dTM82LRRHG+K/sLtTtwTqoDpcuQPQUu3+IVex8
-   nkPIv8jnzGIsPTJ4i9IOmdxO3cx40Uy/FQ8jlJkbQN3/LnzyAg4vI2QA6
-   VHTs8IQXaTFrszYHJzEKer1c01qRPpQXJT2NFiAOZKFVv/vxi+MyrbEYx
-   PhYdxN4g0OG0NlUwFHfrC9cFO+abVt2ZS9kupnTtJZgrX1wkSGkR22oyl
-   kOsWC24EZx9pr9s7PrC4f9zYS6hRT6VjYeGooeVKfYA33nmQjazzWGWr4
-   A6zGvArbn0WuBS9OHYXEPx8uZNG3eZ2ciVRotPKxhivG51iMRq7zp6A/y
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="2709874"
+  bh=z6aiQsy3iYbWRx5kU1awLvpr92Vfgum+QI6Ey77wc+4=;
+  b=YmyGm52FkEjFtxoGU0AwY5wEV1akpL8FZOZ/Zw0X0dp6GuVmuLWXNasS
+   tON1PmZIsvlFUYrVjmG5c0BN6+pd89oTUMi0NlEstNPRGuAJ1l/fRueGu
+   ov/hlrF20f7cu5exzoLnf27d5bNfhBS8bKBIFr21K3+KxcXRpnI2M8anA
+   AiewS7osH9Jf4ubQf78oGeLmHkQOONwXIMdr5ouAo8c7YTmYsfHHAyxuh
+   3pwg+ZqkcewUUxvSJOqbOir7er1IeGqYHJ4b5/pcq9KYwbSajEcetmgD7
+   mWxD+VX4l21aeh6eFYl+v8WgEBLcjdZD+8trXCj2mIBou3qGO1IRw06sD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="8348739"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="2709874"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 21:42:17 -0800
+   d="scan'208";a="8348739"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 21:56:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="797906852"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="880095785"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="797906852"
+   d="scan'208";a="880095785"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 07 Nov 2023 21:42:15 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 07 Nov 2023 21:56:30 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0bKP-0007hr-2X;
-	Wed, 08 Nov 2023 05:42:13 +0000
-Date: Wed, 8 Nov 2023 13:40:21 +0800
+	id 1r0bYB-0007ie-2e;
+	Wed, 08 Nov 2023 05:56:27 +0000
+Date: Wed, 8 Nov 2023 13:55:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/core 17/19] kernel/sched/debug.c:922:63: error:
- 'struct rt_rq' has no member named 'rt_throttled'
-Message-ID: <202311081204.OMVM5oxp-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Isaku Yamahata <isaku.yamahata@intel.com>,
+	Fuad Tabba <tabba@google.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [intel-tdx:kvm-upstream-next 7/321] arch/loongarch/kvm/mmu.c:422:1:
+ warning: control reaches end of non-void function
+Message-ID: <202311081318.kWHCGaJJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,226 +52,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
-head:   4a97a4d025f6984a0ae7bb2c21ab09a52d4c1c6a
-commit: 9a351a777960a04abb61fbaf95213ce67693b024 [17/19] sched/rt: Remove default bandwidth control
-config: powerpc64-randconfig-001-20231108 (https://download.01.org/0day-ci/archive/20231108/202311081204.OMVM5oxp-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311081204.OMVM5oxp-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git kvm-upstream-next
+head:   b6ce7ab288890b0d531d7be9e01dad957ae6857d
+commit: e63c8433fb7c60f1f7ac2d80a06e69b68e88d6d4 [7/321] KVM: Convert KVM_ARCH_WANT_MMU_NOTIFIER to CONFIG_KVM_GENERIC_MMU_NOTIFIER
+config: loongarch-randconfig-002-20231108 (https://download.01.org/0day-ci/archive/20231108/202311081318.kWHCGaJJ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311081318.kWHCGaJJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311081204.OMVM5oxp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311081318.kWHCGaJJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:72:
-   kernel/sched/debug.c: In function 'debugfs_fair_server_init':
-   kernel/sched/debug.c:529:50: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'unsigned int' [-Wformat=]
-     529 |                 snprintf(buf, sizeof(buf), "cpu%ld", cpu);
-         |                                                ~~^   ~~~
-         |                                                  |   |
-         |                                                  |   unsigned int
-         |                                                  long int
-         |                                                %d
-   kernel/sched/debug.c:532:61: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     532 |                 debugfs_create_file("runtime", 0644, d_cpu, (void *) cpu, &fair_server_runtime_fops);
-         |                                                             ^
-   kernel/sched/debug.c:533:60: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     533 |                 debugfs_create_file("period", 0644, d_cpu, (void *) cpu, &fair_server_period_fops);
-         |                                                            ^
-   kernel/sched/debug.c:534:59: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     534 |                 debugfs_create_file("defer", 0644, d_cpu, (void *) cpu, &fair_server_defer_fops);
-         |                                                           ^
-   kernel/sched/debug.c: In function 'print_rt_rq':
->> kernel/sched/debug.c:922:63: error: 'struct rt_rq' has no member named 'rt_throttled'
-     922 |         SEQ_printf(m, "  .%-30s: %Ld\n", #x, (long long)(rt_rq->x))
-         |                                                               ^~
-   kernel/sched/debug.c:17:31: note: in definition of macro 'SEQ_printf'
-      17 |                 seq_printf(m, x);               \
-         |                               ^
-   kernel/sched/debug.c:929:9: note: in expansion of macro 'P'
-     929 |         P(rt_throttled);
-         |         ^
-   In file included from include/linux/kernel.h:30,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/sched/clock.h:5,
-                    from kernel/sched/build_utility.c:12:
->> kernel/sched/debug.c:922:63: error: 'struct rt_rq' has no member named 'rt_throttled'
-     922 |         SEQ_printf(m, "  .%-30s: %Ld\n", #x, (long long)(rt_rq->x))
-         |                                                               ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/debug.c:19:17: note: in expansion of macro 'pr_cont'
-      19 |                 pr_cont(x);                     \
-         |                 ^~~~~~~
-   kernel/sched/debug.c:922:9: note: in expansion of macro 'SEQ_printf'
-     922 |         SEQ_printf(m, "  .%-30s: %Ld\n", #x, (long long)(rt_rq->x))
-         |         ^~~~~~~~~~
-   kernel/sched/debug.c:929:9: note: in expansion of macro 'P'
-     929 |         P(rt_throttled);
-         |         ^
->> kernel/sched/debug.c:926:66: error: 'struct rt_rq' has no member named 'rt_time'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                                  ^~
-   kernel/sched/debug.c:17:31: note: in definition of macro 'SEQ_printf'
-      17 |                 seq_printf(m, x);               \
-         |                               ^
-   kernel/sched/debug.c:926:52: note: in expansion of macro 'SPLIT_NS'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                    ^~~~~~~~
-   kernel/sched/debug.c:930:9: note: in expansion of macro 'PN'
-     930 |         PN(rt_time);
-         |         ^~
->> kernel/sched/debug.c:926:66: error: 'struct rt_rq' has no member named 'rt_time'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                                  ^~
-   kernel/sched/debug.c:17:31: note: in definition of macro 'SEQ_printf'
-      17 |                 seq_printf(m, x);               \
-         |                               ^
-   kernel/sched/debug.c:926:52: note: in expansion of macro 'SPLIT_NS'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                    ^~~~~~~~
-   kernel/sched/debug.c:930:9: note: in expansion of macro 'PN'
-     930 |         PN(rt_time);
-         |         ^~
->> kernel/sched/debug.c:926:66: error: 'struct rt_rq' has no member named 'rt_time'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                                  ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/debug.c:19:17: note: in expansion of macro 'pr_cont'
-      19 |                 pr_cont(x);                     \
-         |                 ^~~~~~~
-   kernel/sched/debug.c:926:9: note: in expansion of macro 'SEQ_printf'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |         ^~~~~~~~~~
-   kernel/sched/debug.c:926:52: note: in expansion of macro 'SPLIT_NS'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                    ^~~~~~~~
-   kernel/sched/debug.c:930:9: note: in expansion of macro 'PN'
-     930 |         PN(rt_time);
-         |         ^~
->> kernel/sched/debug.c:926:66: error: 'struct rt_rq' has no member named 'rt_time'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                                  ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/debug.c:19:17: note: in expansion of macro 'pr_cont'
-      19 |                 pr_cont(x);                     \
-         |                 ^~~~~~~
-   kernel/sched/debug.c:926:9: note: in expansion of macro 'SEQ_printf'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |         ^~~~~~~~~~
-   kernel/sched/debug.c:926:52: note: in expansion of macro 'SPLIT_NS'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                    ^~~~~~~~
-   kernel/sched/debug.c:930:9: note: in expansion of macro 'PN'
-     930 |         PN(rt_time);
-         |         ^~
->> kernel/sched/debug.c:926:66: error: 'struct rt_rq' has no member named 'rt_runtime'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                                  ^~
-   kernel/sched/debug.c:17:31: note: in definition of macro 'SEQ_printf'
-      17 |                 seq_printf(m, x);               \
-         |                               ^
-   kernel/sched/debug.c:926:52: note: in expansion of macro 'SPLIT_NS'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                    ^~~~~~~~
-   kernel/sched/debug.c:931:9: note: in expansion of macro 'PN'
-     931 |         PN(rt_runtime);
-         |         ^~
->> kernel/sched/debug.c:926:66: error: 'struct rt_rq' has no member named 'rt_runtime'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                                  ^~
-   kernel/sched/debug.c:17:31: note: in definition of macro 'SEQ_printf'
-      17 |                 seq_printf(m, x);               \
-         |                               ^
-   kernel/sched/debug.c:926:52: note: in expansion of macro 'SPLIT_NS'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                    ^~~~~~~~
-   kernel/sched/debug.c:931:9: note: in expansion of macro 'PN'
-     931 |         PN(rt_runtime);
-         |         ^~
->> kernel/sched/debug.c:926:66: error: 'struct rt_rq' has no member named 'rt_runtime'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                                  ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/debug.c:19:17: note: in expansion of macro 'pr_cont'
-      19 |                 pr_cont(x);                     \
-         |                 ^~~~~~~
-   kernel/sched/debug.c:926:9: note: in expansion of macro 'SEQ_printf'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |         ^~~~~~~~~~
-   kernel/sched/debug.c:926:52: note: in expansion of macro 'SPLIT_NS'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                    ^~~~~~~~
-   kernel/sched/debug.c:931:9: note: in expansion of macro 'PN'
-     931 |         PN(rt_runtime);
-         |         ^~
->> kernel/sched/debug.c:926:66: error: 'struct rt_rq' has no member named 'rt_runtime'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                                  ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/debug.c:19:17: note: in expansion of macro 'pr_cont'
-      19 |                 pr_cont(x);                     \
-         |                 ^~~~~~~
-   kernel/sched/debug.c:926:9: note: in expansion of macro 'SEQ_printf'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |         ^~~~~~~~~~
-   kernel/sched/debug.c:926:52: note: in expansion of macro 'SPLIT_NS'
-     926 |         SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-         |                                                    ^~~~~~~~
-   kernel/sched/debug.c:931:9: note: in expansion of macro 'PN'
-     931 |         PN(rt_runtime);
-         |         ^~
+   arch/loongarch/kvm/mmu.c:411:6: warning: no previous prototype for 'kvm_unmap_gfn_range' [-Wmissing-prototypes]
+     411 | bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kvm/mmu.c: In function 'kvm_unmap_gfn_range':
+   arch/loongarch/kvm/mmu.c:420:48: error: invalid use of undefined type 'struct kvm_gfn_range'
+     420 |         return kvm_ptw_top(kvm->arch.pgd, range->start << PAGE_SHIFT,
+         |                                                ^~
+   arch/loongarch/kvm/mmu.c:421:30: error: invalid use of undefined type 'struct kvm_gfn_range'
+     421 |                         range->end << PAGE_SHIFT, &ctx);
+         |                              ^~
+   arch/loongarch/kvm/mmu.c: At top level:
+   arch/loongarch/kvm/mmu.c:424:6: warning: no previous prototype for 'kvm_set_spte_gfn' [-Wmissing-prototypes]
+     424 | bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+         |      ^~~~~~~~~~~~~~~~
+   In file included from arch/loongarch/include/asm/uaccess.h:17,
+                    from include/linux/uaccess.h:11,
+                    from include/linux/sched/task.h:11,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/percpu-rwsem.h:7,
+                    from include/linux/fs.h:33,
+                    from include/linux/highmem.h:5,
+                    from arch/loongarch/kvm/mmu.c:6:
+   arch/loongarch/kvm/mmu.c: In function 'kvm_set_spte_gfn':
+   arch/loongarch/kvm/mmu.c:428:38: error: invalid use of undefined type 'struct kvm_gfn_range'
+     428 |         kvm_pfn_t pfn = pte_pfn(range->arg.pte);
+         |                                      ^~
+   arch/loongarch/include/asm/pgtable.h:253:52: note: in definition of macro 'pte_pfn'
+     253 | #define pte_pfn(x)              ((unsigned long)(((x).pte & _PFN_MASK) >> PFN_PTE_SHIFT))
+         |                                                    ^
+   arch/loongarch/kvm/mmu.c:429:26: error: invalid use of undefined type 'struct kvm_gfn_range'
+     429 |         gpa_t gpa = range->start << PAGE_SHIFT;
+         |                          ^~
+   In file included from include/linux/mm_types_task.h:16,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13:
+   arch/loongarch/kvm/mmu.c:443:49: error: invalid use of undefined type 'struct kvm_gfn_range'
+     443 |         prot_bits |= _CACHE_MASK & pte_val(range->arg.pte);
+         |                                                 ^~
+   arch/loongarch/include/asm/page.h:59:27: note: in definition of macro 'pte_val'
+      59 | #define pte_val(x)      ((x).pte)
+         |                           ^
+   arch/loongarch/kvm/mmu.c:450:57: error: invalid use of undefined type 'struct kvm_gfn_range'
+     450 |         prot_bits |= __WRITEABLE & *ptep & pte_val(range->arg.pte);
+         |                                                         ^~
+   arch/loongarch/include/asm/page.h:59:27: note: in definition of macro 'pte_val'
+      59 | #define pte_val(x)      ((x).pte)
+         |                           ^
+   arch/loongarch/kvm/mmu.c: At top level:
+   arch/loongarch/kvm/mmu.c:456:6: warning: no previous prototype for 'kvm_age_gfn' [-Wmissing-prototypes]
+     456 | bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+         |      ^~~~~~~~~~~
+   arch/loongarch/kvm/mmu.c: In function 'kvm_age_gfn':
+   arch/loongarch/kvm/mmu.c:464:48: error: invalid use of undefined type 'struct kvm_gfn_range'
+     464 |         return kvm_ptw_top(kvm->arch.pgd, range->start << PAGE_SHIFT,
+         |                                                ^~
+   arch/loongarch/kvm/mmu.c:465:38: error: invalid use of undefined type 'struct kvm_gfn_range'
+     465 |                                 range->end << PAGE_SHIFT, &ctx);
+         |                                      ^~
+   arch/loongarch/kvm/mmu.c: At top level:
+   arch/loongarch/kvm/mmu.c:468:6: warning: no previous prototype for 'kvm_test_age_gfn' [-Wmissing-prototypes]
+     468 | bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+         |      ^~~~~~~~~~~~~~~~
+   arch/loongarch/kvm/mmu.c: In function 'kvm_test_age_gfn':
+   arch/loongarch/kvm/mmu.c:470:26: error: invalid use of undefined type 'struct kvm_gfn_range'
+     470 |         gpa_t gpa = range->start << PAGE_SHIFT;
+         |                          ^~
+   arch/loongarch/kvm/mmu.c: In function 'kvm_map_page':
+   arch/loongarch/kvm/mmu.c:787:24: error: 'struct kvm' has no member named 'mmu_invalidate_seq'; did you mean 'mn_invalidate_lock'?
+     787 |         mmu_seq = kvm->mmu_invalidate_seq;
+         |                        ^~~~~~~~~~~~~~~~~~
+         |                        mn_invalidate_lock
+   arch/loongarch/kvm/mmu.c:810:13: error: implicit declaration of function 'mmu_invalidate_retry_hva' [-Werror=implicit-function-declaration]
+     810 |         if (mmu_invalidate_retry_hva(kvm, mmu_seq, hva)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kvm/mmu.c: In function 'kvm_unmap_gfn_range':
+>> arch/loongarch/kvm/mmu.c:422:1: warning: control reaches end of non-void function [-Wreturn-type]
+     422 | }
+         | ^
+   arch/loongarch/kvm/mmu.c: In function 'kvm_age_gfn':
+   arch/loongarch/kvm/mmu.c:466:1: warning: control reaches end of non-void function [-Wreturn-type]
+     466 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +922 kernel/sched/debug.c
+vim +422 arch/loongarch/kvm/mmu.c
 
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19  920  
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19  921  #define P(x) \
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19 @922  	SEQ_printf(m, "  .%-30s: %Ld\n", #x, (long long)(rt_rq->x))
-48365b38849fdb1 kernel/sched/debug.c Daniel Bristot de Oliveira 2017-06-26  923  #define PU(x) \
-48365b38849fdb1 kernel/sched/debug.c Daniel Bristot de Oliveira 2017-06-26  924  	SEQ_printf(m, "  .%-30s: %lu\n", #x, (unsigned long)(rt_rq->x))
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19  925  #define PN(x) \
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19 @926  	SEQ_printf(m, "  .%-30s: %Ld.%06ld\n", #x, SPLIT_NS(rt_rq->x))
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19  927  
-48365b38849fdb1 kernel/sched/debug.c Daniel Bristot de Oliveira 2017-06-26  928  	PU(rt_nr_running);
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19  929  	P(rt_throttled);
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19  930  	PN(rt_time);
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19  931  	PN(rt_runtime);
-ada18de2eb76961 kernel/sched_debug.c Peter Zijlstra             2008-06-19  932  
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  410  
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  411  bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  412  {
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  413  	kvm_ptw_ctx ctx;
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  414  
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  415  	ctx.flag = 0;
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  416  	ctx.ops = kvm_flush_pte;
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  417  	kvm_ptw_prepare(kvm, &ctx);
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  418  	INIT_LIST_HEAD(&ctx.list);
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  419  
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  420  	return kvm_ptw_top(kvm->arch.pgd, range->start << PAGE_SHIFT,
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  421  			range->end << PAGE_SHIFT, &ctx);
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02 @422  }
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  423  
 
-:::::: The code at line 922 was first introduced by commit
-:::::: ada18de2eb76961a4d4847f63291744c9e7beec4 sched: debug: add some rt debug output
+:::::: The code at line 422 was first introduced by commit
+:::::: 752e2cd7b4fb412f3e008493e0195e357bab9773 LoongArch: KVM: Implement kvm mmu operations
 
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+:::::: TO: Tianrui Zhao <zhaotianrui@loongson.cn>
+:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
 
 -- 
 0-DAY CI Kernel Test Service
