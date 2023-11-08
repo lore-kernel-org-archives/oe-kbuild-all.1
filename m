@@ -1,45 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD9737155
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 23:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8281B374E9
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 23:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPxnWjRa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699485356; x=1731021356;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wUmqP+oDtGBrV+UjvWyuDtlzdyzFwj1xFBVs9StwJgo=;
-  b=RPxnWjRaFLJmp5Z4iW/TidXKlPc08G9oQ81i+MxahyMHbZvEhuQG6ZIj
-   fCvxOipJrxpFlSc9+g2+AelS9jvm69aBDHAHbDSZIP/WiLJtwNbiTW6Rx
-   aSzvpjymr3vk8sgHH3xIrm98bsT4Wv68Weo7/QS2fvI9Fs26gBot0G/Mg
-   HZ4PzeKekqJ2G1HB/XdAyvgAJlELz9fPCnjK319NfjvyGcOxdB7aqVpw4
-   wQT+gN4dWJVV+sUWccmXgsH8dxenCsh4CxKBGld9w6Pubb3m+DAjxGwHO
-   ru2MRo3BGZ1DGoLc8iCU3uc9smYW/yuidjDO8WtBwFu9idYE/OjjuyrZ5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="2904057"
-X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="2904057"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 15:15:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="4347406"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Nov 2023 15:15:53 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0rm3-0008HZ-12;
-	Wed, 08 Nov 2023 23:15:51 +0000
-Date: Thu, 9 Nov 2023 07:14:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <202311090723.YcSXRd1T-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="mt0WQxYm"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3b2ec5ee2e4so136592b6e.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Nov 2023 15:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1699485824; x=1700090624; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XMP1dSc2B6fVK8rculgAcWd9QSXnR3AnywG7adHAIn0=;
+        b=mt0WQxYmn4qaOz3GPcVOqf7m7gA9MPXT9/m9mhhTDWi8Vn06DGHzKJ9f1gWwhfDkqT
+         QIj+r5KzbbD7c64hUpMmzAuuqqbT+NagDJwEPbmIDdwD7U15d+xpR6H/Rw8SDEOeBbtg
+         bV7fa+Oh1eeAofmvNnxycBfO1giPM4mKU7lMObfz8e8WGrdDj4KGxvvO4DWsl2aTjIM3
+         ju/ZlXG72E/gVC3jOcyrbprCz12LtABGfHb4GE91UkZTr0WYgBWBsjHr+C3vEsIwFAc0
+         0dyRV6Xj4VoyfZq7ijzmMY2kHGPpsio/ucasa36yytzBDcwE2cK+TO+912vc0xeQjAEp
+         xd9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699485824; x=1700090624;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XMP1dSc2B6fVK8rculgAcWd9QSXnR3AnywG7adHAIn0=;
+        b=mmjh+qMs5Iw51ZfiiMY2UPYAUMI07DRrTe7Czqbv9PpQnPAYBuQSTZK+E29ZI8wWez
+         KyoL9oUMovWlcSMbXJImOvPduXHlZ9lMm5UOWTmwR6HUYy7ZC17WMcIP51jFk/zBNzro
+         dkJSPoC7XGFAOE74ITBcqw/sRYU61YYONkPzME9vNHi6nG3cKsAcpOg+cNm1sAdQ5Eiy
+         wPCiiIcVXhJsWy9TKEisyoqajxPaXFdCAjqX4YxTqDjqg/T7DPrd0xQlRBucWRdr1VWe
+         9kOApPBeecXwLI5O0kOQVu2W9+BN+NWgOG2rTQZVmLH1N586ddBW95wEnuWEPZ86EMR4
+         u2YA==
+X-Gm-Message-State: AOJu0YzjmYq7oNDXrhOuX5/OBXI+mgA8brmXAlNQHqumFuCFIYmHTkUY
+	WX1vv9Eg0dJQ97j+UBLISvyYXQ==
+X-Google-Smtp-Source: AGHT+IFVyjWrMDuUEDjsPPi+KtcqEncel0P8jifN3Cd7eWqdIQZN9rGxu18qBPddDAMBNdA4V50nuA==
+X-Received: by 2002:aca:2105:0:b0:3b5:7044:37f with SMTP id 5-20020aca2105000000b003b57044037fmr23236oiz.17.1699485824551;
+        Wed, 08 Nov 2023 15:23:44 -0800 (PST)
+Received: from sunil-laptop ([106.51.188.78])
+        by smtp.gmail.com with ESMTPSA id x6-20020a056a000bc600b006862b2a6b0dsm9813414pfu.15.2023.11.08.15.23.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 15:23:44 -0800 (PST)
+Date: Thu, 9 Nov 2023 04:53:38 +0530
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: drivers/net/wireless/intel/iwlwifi/fw/acpi.c:1190:25: warning:
+ '%s' directive argument is null
+Message-ID: <ZUwYejD6z1Kxa8ky@sunil-laptop>
+References: <202311040602.sCjU3UXr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,67 +60,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202311040602.sCjU3UXr-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   90450a06162e6c71ab813ea22a83196fe7cff4bc
-commit: f39db26c54281da6a785259498ca74b5e470476f drm: Add kms driver for loongson display controller
-date:   4 months ago
-config: powerpc-randconfig-r113-20231106 (https://download.01.org/0day-ci/archive/20231109/202311090723.YcSXRd1T-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231109/202311090723.YcSXRd1T-lkp@intel.com/reproduce)
+On Sat, Nov 04, 2023 at 06:24:22AM +0800, kernel test robot wrote:
+> Hi Sunil,
+> 
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   e392ea4d4d00880bf94550151b1ace4f88a4b17a
+> commit: a91a9ffbd3a55a0ae1bb75e2b6e85b2a03f64e8f RISC-V: Add support to build the ACPI core
+> date:   5 months ago
+> config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20231104/202311040602.sCjU3UXr-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231104/202311040602.sCjU3UXr-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311040602.sCjU3UXr-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from drivers/net/wireless/intel/iwlwifi/fw/acpi.c:9:
+>    drivers/net/wireless/intel/iwlwifi/fw/acpi.c: In function 'iwl_acpi_is_ppag_approved':
+> >> drivers/net/wireless/intel/iwlwifi/fw/acpi.c:1190:25: warning: '%s' directive argument is null [-Wformat-overflow=]
+>     1190 |                         "System vendor '%s' is not in the approved list, disabling PPAG.\n",
+>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/net/wireless/intel/iwlwifi/iwl-debug.h:91:56: note: in definition of macro '__IWL_DEBUG_DEV'
+>       91 |                 __iwl_dbg(dev, level, limit, __func__, fmt, ##args);    \
+>          |                                                        ^~~
+>    drivers/net/wireless/intel/iwlwifi/iwl-debug.h:209:41: note: in expansion of macro 'IWL_DEBUG'
+>      209 | #define IWL_DEBUG_RADIO(p, f, a...)     IWL_DEBUG(p, IWL_DL_RADIO, f, ## a)
+>          |                                         ^~~~~~~~~
+>    drivers/net/wireless/intel/iwlwifi/fw/acpi.c:1189:17: note: in expansion of macro 'IWL_DEBUG_RADIO'
+>     1189 |                 IWL_DEBUG_RADIO(fwrt,
+>          |                 ^~~~~~~~~~~~~~~
+>    drivers/net/wireless/intel/iwlwifi/fw/acpi.c:1190:41: note: format string is defined here
+>     1190 |                         "System vendor '%s' is not in the approved list, disabling PPAG.\n",
+>          |                                         ^~
+> 
+> 
+> vim +1190 drivers/net/wireless/intel/iwlwifi/fw/acpi.c
+> 
+> e8e10a37c51c08 Matt Chen 2022-03-04  1187  
+> e8e10a37c51c08 Matt Chen 2022-03-04  1188  	if (!dmi_check_system(dmi_ppag_approved_list)) {
+> e8e10a37c51c08 Matt Chen 2022-03-04  1189  		IWL_DEBUG_RADIO(fwrt,
+> e8e10a37c51c08 Matt Chen 2022-03-04 @1190  			"System vendor '%s' is not in the approved list, disabling PPAG.\n",
+> 
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311090723.YcSXRd1T-lkp@intel.com/
+This should be fixed once SMBIOS is enabled in RISC-V. So, can this
+warning be ignored until SMBIOS support is merged for RISC-V?
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *d @@     got void *kptr @@
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     expected void volatile [noderef] __iomem *d
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     got void *kptr
->> drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *s @@     got void *kptr @@
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     expected void const volatile [noderef] __iomem *s
-   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     got void *kptr
-
-vim +27 drivers/gpu/drm/loongson/lsdc_benchmark.c
-
-    12	
-    13	typedef void (*lsdc_copy_proc_t)(struct lsdc_bo *src_bo,
-    14					 struct lsdc_bo *dst_bo,
-    15					 unsigned int size,
-    16					 int n);
-    17	
-    18	static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
-    19					      struct lsdc_bo *dst_bo,
-    20					      unsigned int size,
-    21					      int n)
-    22	{
-    23		lsdc_bo_kmap(src_bo);
-    24		lsdc_bo_kmap(dst_bo);
-    25	
-    26		while (n--)
-  > 27			memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
-    28	
-    29		lsdc_bo_kunmap(src_bo);
-    30		lsdc_bo_kunmap(dst_bo);
-    31	}
-    32	
-    33	static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
-    34					      struct lsdc_bo *dst_bo,
-    35					      unsigned int size,
-    36					      int n)
-    37	{
-    38		lsdc_bo_kmap(src_bo);
-    39		lsdc_bo_kmap(dst_bo);
-    40	
-    41		while (n--)
-  > 42			memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
-    43	
-    44		lsdc_bo_kunmap(src_bo);
-    45		lsdc_bo_kunmap(dst_bo);
-    46	}
-    47	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Sunil
+> :::::: The code at line 1190 was first introduced by commit
+> :::::: e8e10a37c51c08b99d272b2e1b3ef70fcd38f9e8 iwlwifi: acpi: move ppag code from mvm to fw/acpi
+> 
+> :::::: TO: Matt Chen <matt.chen@intel.com>
+> :::::: CC: Luca Coelho <luciano.coelho@intel.com>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
