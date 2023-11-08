@@ -1,65 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7245D11196
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 12:35:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101E618C24
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 13:08:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cGQX42UJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKXGzCFp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699446936; x=1730982936;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Oh/p14wVpiK4vO4Z0TdtqDDkwu7eO/RsM3cVxkN0aNU=;
-  b=cGQX42UJRWKFbEUbVOHWsPizh0gZali3DnRpynpmpPdMmMC/7hU+Lm35
-   IKpbmrtipPSCkuZ88Xu/x+k4Um74kY1oFXZmpCVt6MfGz2pNxUtYkS6Pk
-   huVP5z7bg8w3xsA2lv8bRlNm0XvSnjNJgnW9XauKxbYdBwEgQ0WtQ1PcW
-   a38nsfBWE5HDgMu40kpnR14u64z0dEeEddM+qDic367SEOuHojoLI2JQg
-   OQztBk8NCO6n7hxemQ3kAgkYYubC2QcG0OViYv5F4ROLC3WnZBvIhBdWG
-   Qk7iT/fTU8GpbowBVgHfWlr499LMD9i9LJQ2xhM9p5xsABsyqrY5mqI7o
+  t=1699448881; x=1730984881;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NGAIoT+opaTuqeFoZuU0l4Ke+CZalbjIQJNDFxqzQK4=;
+  b=IKXGzCFpv1p55A8JR29FGlWM3fqdfEsKgQAB7twFQCqy1RqNOkJiRQQl
+   qYVH/iA0H0OZB9dN0/QD2VTWpg/Kyu+Mg0/CNgFm/ijSddKOiZzNFUt13
+   /DKkV3Mvym2mAtA4iu5i2sX504SJLWaQsizSRYvqaTtqCCogoS42Q3IC7
+   XHhErHf3CpfLGpvvG2oJHwndaDyEiEKX2kIq/URmsJb4U3UzH8G3wvfD5
+   5cnizrTCHvnieP29lulYM/U9dJLWgCDijWU9GQxOqo+MODsXfVrk51xz4
+   mmzSo6MorQ6taJyuo+47LW59eUPPOepRzvnJ5zThb8snPwADy3kLEoAuh
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="392622810"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="380153905"
 X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
-   d="scan'208";a="392622810"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 04:35:35 -0800
+   d="scan'208";a="380153905"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 05:08:00 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="756550448"
 X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
-   d="scan'208";a="4174110"
+   d="scan'208";a="756550448"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Nov 2023 04:35:30 -0800
+  by orsmga007.jf.intel.com with ESMTP; 08 Nov 2023 05:07:57 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0hmH-0007vc-2R;
-	Wed, 08 Nov 2023 12:35:25 +0000
-Date: Wed, 8 Nov 2023 20:34:38 +0800
+	id 1r0iHh-0007wq-0p;
+	Wed, 08 Nov 2023 13:07:53 +0000
+Date: Wed, 8 Nov 2023 21:07:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huan Yang <link@vivo.com>, Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeelb@google.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Huang Ying <ying.huang@intel.com>,
-	Yosry Ahmed <yosryahmed@google.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Peter Xu <peterx@redhat.com>,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Liu Shixin <liushixin2@huawei.com>, Yue Zhao <findns94@gmail.com>,
-	Hugh Dickins <hughd@google.com>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	opensource.kernel@vivo.com, Huan Yang <link@vivo.com>
-Subject: Re: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
-Message-ID: <202311082048.zacOzITP-lkp@intel.com>
-References: <20231108065818.19932-3-link@vivo.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:work.dcache2 2/22] fs/coda/cache.c:98:53: error: passing
+ argument 1 of 'd_inode_rcu' from incompatible pointer type
+Message-ID: <202311082157.0gY3N2wh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,94 +49,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231108065818.19932-3-link@vivo.com>
 
-Hi Huan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tj-cgroup/for-next linus/master v6.6 next-20231108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/mm-vmscan-LRU-unbalance-cgroup-reclaim/20231108-151757
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231108065818.19932-3-link%40vivo.com
-patch subject: [PATCH 2/4] mm: multi-gen LRU: MGLRU unbalance reclaim
-config: x86_64-randconfig-011-20231108 (https://download.01.org/0day-ci/archive/20231108/202311082048.zacOzITP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311082048.zacOzITP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.dcache2
+head:   d6e9e3fbf9baed56f046760296fffe6f9dea1bcb
+commit: 17ac2dcad930b2f53cb01177421ec1b3a7521082 [2/22] coda_flag_children(): cope with dentries turning negative
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231108/202311082157.0gY3N2wh-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311082157.0gY3N2wh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311082048.zacOzITP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311082157.0gY3N2wh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/vmscan.c: In function 'isolate_folios':
->> mm/vmscan.c:4518:29: warning: 'unbalance' is used uninitialized [-Wuninitialized]
-    4518 |                 if (scanned || unbalance)
-         |                     ~~~~~~~~^~~~~~~~~~~~
-   mm/vmscan.c:4488:14: note: 'unbalance' was declared here
-    4488 |         bool unbalance;
-         |              ^~~~~~~~~
+   fs/coda/cache.c: In function 'coda_flag_children':
+>> fs/coda/cache.c:98:53: error: passing argument 1 of 'd_inode_rcu' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      98 |                 struct inode *inode = d_inode_rcu(de->d_inode);
+         |                                                   ~~^~~~~~~~~
+         |                                                     |
+         |                                                     struct inode *
+   In file included from include/linux/fs.h:8,
+                    from fs/coda/cache.c:14:
+   include/linux/dcache.h:526:62: note: expected 'const struct dentry *' but argument is of type 'struct inode *'
+     526 | static inline struct inode *d_inode_rcu(const struct dentry *dentry)
+         |                                         ~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/unbalance +4518 mm/vmscan.c
+vim +/d_inode_rcu +98 fs/coda/cache.c
 
-  4480	
-  4481	static int isolate_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness,
-  4482				  int *type_scanned, struct list_head *list)
-  4483	{
-  4484		int i;
-  4485		int type;
-  4486		int scanned;
-  4487		int tier = -1;
-  4488		bool unbalance;
-  4489		DEFINE_MIN_SEQ(lruvec);
-  4490	
-  4491		/*
-  4492		 * Try to make the obvious choice first. When anon and file are both
-  4493		 * available from the same generation, interpret swappiness 1 as file
-  4494		 * first and 200 as anon first.
-  4495		 */
-  4496		if (unlikely(unbalance_file_reclaim(sc, swappiness))) {
-  4497			unbalance = true;
-  4498			type = LRU_GEN_FILE;
-  4499		} else if (unlikely(unbalance_anon_reclaim(sc, swappiness))) {
-  4500			unbalance = true;
-  4501			type = LRU_GEN_ANON;
-  4502		} else if (!swappiness)
-  4503			type = LRU_GEN_FILE;
-  4504		else if (min_seq[LRU_GEN_ANON] < min_seq[LRU_GEN_FILE])
-  4505			type = LRU_GEN_ANON;
-  4506		else if (swappiness == 1)
-  4507			type = LRU_GEN_FILE;
-  4508		else if (swappiness == 200)
-  4509			type = LRU_GEN_ANON;
-  4510		else
-  4511			type = get_type_to_scan(lruvec, swappiness, &tier);
-  4512	
-  4513		for (i = !swappiness; i < ANON_AND_FILE; i++) {
-  4514			if (tier < 0)
-  4515				tier = get_tier_idx(lruvec, type);
-  4516	
-  4517			scanned = scan_folios(lruvec, sc, type, tier, list);
-> 4518			if (scanned || unbalance)
-  4519				break;
-  4520	
-  4521			type = !type;
-  4522			tier = -1;
-  4523		}
-  4524	
-  4525		*type_scanned = type;
-  4526	
-  4527		return scanned;
-  4528	}
-  4529	
+    89	
+    90	/* this won't do any harm: just flag all children */
+    91	static void coda_flag_children(struct dentry *parent, int flag)
+    92	{
+    93		struct dentry *de;
+    94	
+    95		rcu_read_lock();
+    96		spin_lock(&parent->d_lock);
+    97		list_for_each_entry(de, &parent->d_subdirs, d_child) {
+  > 98			struct inode *inode = d_inode_rcu(de->d_inode);
+    99			/* don't know what to do with negative dentries */
+   100			if (inode)
+   101				coda_flag_inode(inode, flag);
+   102		}
+   103		spin_unlock(&parent->d_lock);
+   104		rcu_read_unlock();
+   105		return; 
+   106	}
+   107	
 
 -- 
 0-DAY CI Kernel Test Service
