@@ -1,102 +1,86 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0866D1C36
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 03:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34F26117
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 04:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MuWvOz1I"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-27ff83feb29so6006929a91.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Nov 2023 19:58:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699415917; x=1700020717; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oW6+TAcsgkVX2L728YvNO81hwlzTKV4x5733S3mNdBs=;
-        b=MuWvOz1IfgCbzHoQTUJb45mw3h6LQr5WWhk5jKIhyiSMMfNxp/zr+vCQc0tMUPVF1b
-         UroNqtLizMUkNU9VDn7U5Pml66yF+CXCgytfkOPlJIk5kXenO88VYgFlR2utMLRyvGhf
-         22dObH9ia6uWGnoAWws1frfbYB9ernpEaXQosJKrt+86HkXHXk8lqY+vamYvv3ZOYoaA
-         5167Nfxq71gBso2mUhBUhNb2mD4IQX7TE+325dhux8J69IKoMvVPh+kcDeqOR9HBkc/f
-         Ze5D2xHvYgQm8UHdL1kRIB7LUpbZsQtUKzd7n4dRnIn3QuqEq1QSlWULGe1bXyWGGVlr
-         /tvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699415917; x=1700020717;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oW6+TAcsgkVX2L728YvNO81hwlzTKV4x5733S3mNdBs=;
-        b=lzwY92JCqqpudZPyuzBzWZHDI4LlbkOo4fcN+PsHicS0CV5a0NI4krnx5Nqgtlog+b
-         IF4JXYoCFxm6JCyc+WEnqbuhTouCT8d2ABC6d7DgaN4ebCP+pOY0qXxJ6CipVLvZEGdr
-         wUuvGUQZICfP1ZIggmV9SaI4mHoSzGH2Malj/VxG0j+k+8Ldrb95rP9ZYLsQkQlCUHu3
-         XwI1Gz1Tm9KTcfsu6ZL4A860VN5hpEBk2TOJSDyxN9cS6BVGqaMiURZu8hiX/AxM1c0h
-         /pVxVx3qVHFIAfDpgVfEL5mK7L1M1cyNbq/M0ZFsUEAJ7fLsTER0bfIoDPIKG/kTxm1D
-         OzIA==
-X-Gm-Message-State: AOJu0YzvIxL9hLnoXtnP02tfpCvhkBe977TKnz7+BRgaqn9aToLw+ucp
-	AIRaJeNYYJiDbxXbmOEZ9fTAA8bOhaA=
-X-Google-Smtp-Source: AGHT+IGxy8UqGEjSjO7aF6ymfbOkLNMyr0HazzEN6S/9GhcKtZvRfqbDP14jdiEY+DyyheZBAIs3sw==
-X-Received: by 2002:a17:90b:2250:b0:27d:b811:2fe4 with SMTP id hk16-20020a17090b225000b0027db8112fe4mr794680pjb.26.1699415917046;
-        Tue, 07 Nov 2023 19:58:37 -0800 (PST)
-Received: from localhost.localdomain ([115.99.190.148])
-        by smtp.gmail.com with ESMTPSA id 9-20020a17090a018900b002635db431a0sm628102pjc.45.2023.11.07.19.58.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 19:58:36 -0800 (PST)
-From: Jagath Jog J <jagathjog1996@gmail.com>
-To: jic23@kernel.org,
-	andriy.shevchenko@linux.intel.com
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TijXsVwg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699416749; x=1730952749;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sbBfCbkg85ekH6pDhSYK5D7uW7lEDf32gmGwVObYpyE=;
+  b=TijXsVwgTykyuvkwH8QOSHTKHiP4CYCJ1ukKIKiOKFqp/Snn/hvvEIeZ
+   7KTCUz0FgksUi9nllLObc2PJ9PP94MrhD59sPYP3scnY3bqWJmoZnlX55
+   VmpABCndZYq5lCrO5xfVsi8DZ1oMEYipaR7JNgAWvv0mHj/hmyUZar0lc
+   yg6zOoP3pKxZlEHW3lL5izZ7EA7L7m3EN4uRleS+KgFhelQDVWV6AL2yE
+   70DyGMKl+RUaJpocDBSM5KM26LNqj1g+pKLRke473BQ5zYVURgRafkaLm
+   2Wck4fzurc9mhaFRT29xmTpn5WBsj20a1TSdtA9vS3+QANcot2L5a/FjL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="392554910"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="392554910"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 20:12:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="906650506"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="906650506"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Nov 2023 20:12:26 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r0ZvU-0007ds-2o;
+	Wed, 08 Nov 2023 04:12:24 +0000
+Date: Wed, 8 Nov 2023 12:10:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	lkp@intel.com,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] iio: imu: bmi323: Make the local structures static
-Date: Wed,  8 Nov 2023 09:28:31 +0530
-Message-Id: <20231108035831.5889-1-jagathjog1996@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Christian Brauner <christianvanbrauner@gmail.com>,
+	Christian Brauner <brauner@kernel.org>, Ian Kent <raven@themaw.net>
+Subject: [brauner-vfs:vfs.mount 6/6] error:
+ arch/alpha/kernel/syscalls/syscall.tbl: syscall table is not sorted or
+ duplicates the same syscall number
+Message-ID: <202311081148.4Zu44ahP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Make the local structures static within their respective driver files.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.mount
+head:   dde6ce5647dc453f590401bd6290d26f49e83d3d
+commit: dde6ce5647dc453f590401bd6290d26f49e83d3d [6/6] wire up syscalls for statmount/listmount
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231108/202311081148.4Zu44ahP-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311081148.4Zu44ahP-lkp@intel.com/reproduce)
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202311070530.qKhLTz1Y-lkp@intel.com/
-Fixes: b512c767e7bc ("iio: imu: Add driver for BMI323 IMU")
-Signed-off-by: Jagath Jog J <jagathjog1996@gmail.com>
----
- drivers/iio/imu/bmi323/bmi323_i2c.c | 2 +-
- drivers/iio/imu/bmi323/bmi323_spi.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311081148.4Zu44ahP-lkp@intel.com/
 
-diff --git a/drivers/iio/imu/bmi323/bmi323_i2c.c b/drivers/iio/imu/bmi323/bmi323_i2c.c
-index 0008e186367d..20a8001b9956 100644
---- a/drivers/iio/imu/bmi323/bmi323_i2c.c
-+++ b/drivers/iio/imu/bmi323/bmi323_i2c.c
-@@ -66,7 +66,7 @@ static struct regmap_bus bmi323_regmap_bus = {
- 	.write = bmi323_regmap_i2c_write,
- };
- 
--const struct regmap_config bmi323_i2c_regmap_config = {
-+static const struct regmap_config bmi323_i2c_regmap_config = {
- 	.reg_bits = 8,
- 	.val_bits = 16,
- 	.max_register = BMI323_CFG_RES_REG,
-diff --git a/drivers/iio/imu/bmi323/bmi323_spi.c b/drivers/iio/imu/bmi323/bmi323_spi.c
-index 6dc3352dd714..7b1e8127d0dd 100644
---- a/drivers/iio/imu/bmi323/bmi323_spi.c
-+++ b/drivers/iio/imu/bmi323/bmi323_spi.c
-@@ -41,7 +41,7 @@ static struct regmap_bus bmi323_regmap_bus = {
- 	.write = bmi323_regmap_spi_write,
- };
- 
--const struct regmap_config bmi323_spi_regmap_config = {
-+static const struct regmap_config bmi323_spi_regmap_config = {
- 	.reg_bits = 8,
- 	.val_bits = 16,
- 	.pad_bits = 8,
+All errors (new ones prefixed by >>):
+
+>> error: arch/alpha/kernel/syscalls/syscall.tbl: syscall table is not sorted or duplicates the same syscall number
+   make[3]: *** [arch/alpha/kernel/syscalls/Makefile:21: arch/alpha/include/generated/asm/syscall_table.h] Error 1
+   make[3]: *** Deleting file 'arch/alpha/include/generated/asm/syscall_table.h'
+   make[3]: Target 'all' not remade because of errors.
+   make[2]: *** [arch/alpha/Makefile:57: archheaders] Error 2
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
 -- 
-2.20.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
