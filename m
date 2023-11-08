@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42E814F96
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 16:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81254D52A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 17:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gxkBrT9b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SerssISH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699462220; x=1730998220;
+  t=1699463783; x=1730999783;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w4UecrG/xe8Gp2x6WkT7Z6cLoxSuMPKXewORdOV6Lk4=;
-  b=gxkBrT9bTiwyoCBYd95w/WCXoWJEPt+BL/d4oh6F9Z/PXuX4ua0N+kMm
-   eVFeH6x3P89bTL+mt6CbZjO2+11wgU0SMhCzj+YdN7I+Koz++eSKVaBRZ
-   XcdE/cGR1OIXOu1nyv5PL4awnH3GiYRxYRTL6+RR9fxjmrjdk2uXTQluQ
-   I53c1o6opKFtb4cDjOssJfUETSS8aevxjFtwqzV3ArlcyqZno0aFUiZYO
-   FuIkjCRsxig3JZW1J9dfvPYEchLqcO7nXXrF4vDJyEqXz75dh+d+Rvk/7
-   dNPTpLKApXfKwKClXd+2pgLtITLIT29LK5LyeA8VKm1OU5+b01RysTKsn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="380199976"
+  bh=AUUK/3PUlG6n7WWWzOXKzOLmMpV6JEHnwzhFHFmK7lo=;
+  b=SerssISH0D7uE0pime87pRIkl61BCQ7Ap9Y1KV/Z+1zdtGyJ9u4RkEFQ
+   ttcBRN6oTMnQkN/VMY1Vt2b2Lh462Qjkcs13aD7IqNLe7bhVrsgUwAgyO
+   gDGPz5Dq3cuPhTuVY6sL/qacOWOpIa08+HXL7mzNy0xtIqNXaKo7aKxVY
+   2kq6emmj0vHKw3FMVBZSldGzh10mwcpJmXmlFV1BR3+vGZLkAspl1nRQY
+   5CNrwXjKUV32rzF/b4KdwM2kjlpLin/87asM7EGw8jFe4kGDPGc9IXjP9
+   LyBVWgW70VZ+0gLg+QEjairK8Li5ct1INIZT8cZuTuss1iLKjAOQkVSgD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="2843753"
 X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
-   d="scan'208";a="380199976"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 08:50:18 -0800
+   d="scan'208";a="2843753"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 09:16:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="833536645"
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="739565593"
 X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
-   d="scan'208";a="833536645"
+   d="scan'208";a="739565593"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 08 Nov 2023 08:50:16 -0800
+  by orsmga006.jf.intel.com with ESMTP; 08 Nov 2023 09:16:17 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0lkt-000838-0s;
-	Wed, 08 Nov 2023 16:50:15 +0000
-Date: Thu, 9 Nov 2023 00:49:57 +0800
+	id 1r0m9z-00085A-2e;
+	Wed, 08 Nov 2023 17:16:11 +0000
+Date: Thu, 9 Nov 2023 01:15:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jun Yi <yijun@loongson.cn>
-Subject: drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202311090011.Vf8aIXTo-lkp@intel.com>
+	Felipe Balbi <felipe.balbi@linux.intel.com>
+Subject: drivers/usb/gadget/function/f_fs.c:2857:32: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202311090106.NEDanM90-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,70 +53,128 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   305230142ae0637213bf6e04f6d9f10bbcb74af8
-commit: a275a82dcd4024c75337db15d59ed039c31e21da LoongArch: Use alternative to optimize libraries
-date:   11 months ago
-config: loongarch-randconfig-r133-20231107 (https://download.01.org/0day-ci/archive/20231109/202311090011.Vf8aIXTo-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231109/202311090011.Vf8aIXTo-lkp@intel.com/reproduce)
+commit: bdcc03cef0fd8abc6eaeec6ac47e54ae8f8c625f usb: gadget: f_fs: preserve wMaxPacketSize across usb_ep_autoconfig() call
+date:   4 years, 9 months ago
+config: i386-randconfig-062-20230912 (https://download.01.org/0day-ci/archive/20231109/202311090106.NEDanM90-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311090106.NEDanM90-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311090011.Vf8aIXTo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311090106.NEDanM90-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void * @@
-   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:     got void *
->> drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *__s @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:     expected void *__s
-   drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:     got char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     expected void *cpu_addr
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     got char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     expected void *cpu_addr
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     got char [noderef] __iomem *screen_base
+>> drivers/usb/gadget/function/f_fs.c:2857:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] wMaxPacketSize @@     got restricted __le16 [usertype] wMaxPacketSize @@
+   drivers/usb/gadget/function/f_fs.c:2857:32: sparse:     expected unsigned short [usertype] wMaxPacketSize
+   drivers/usb/gadget/function/f_fs.c:2857:32: sparse:     got restricted __le16 [usertype] wMaxPacketSize
+>> drivers/usb/gadget/function/f_fs.c:2882:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] wMaxPacketSize @@     got unsigned short [usertype] wMaxPacketSize @@
+   drivers/usb/gadget/function/f_fs.c:2882:36: sparse:     expected restricted __le16 [usertype] wMaxPacketSize
+   drivers/usb/gadget/function/f_fs.c:2882:36: sparse:     got unsigned short [usertype] wMaxPacketSize
 
-vim +362 drivers/video/fbdev/atmel_lcdfb.c
+vim +2857 drivers/usb/gadget/function/f_fs.c
 
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  336  
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  337  /**
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  338   *	atmel_lcdfb_alloc_video_memory - Allocate framebuffer memory
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  339   *	@sinfo: the frame buffer to allocate memory for
-1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  340   * 	
-1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  341   * 	This function is called only from the atmel_lcdfb_probe()
-1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  342   * 	so no locking by fb_info->mm_lock around smem_len setting is needed.
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  343   */
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  344  static int atmel_lcdfb_alloc_video_memory(struct atmel_lcdfb_info *sinfo)
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  345  {
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  346  	struct fb_info *info = sinfo->info;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  347  	struct fb_var_screeninfo *var = &info->var;
-ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  348  	unsigned int smem_len;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  349  
-ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  350  	smem_len = (var->xres_virtual * var->yres_virtual
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  351  		    * ((var->bits_per_pixel + 7) / 8));
-ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  352  	info->fix.smem_len = max(smem_len, sinfo->smem_len);
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  353  
-f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  354  	info->screen_base = dma_alloc_wc(info->device, info->fix.smem_len,
-f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  355  					 (dma_addr_t *)&info->fix.smem_start,
-f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  356  					 GFP_KERNEL);
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  357  
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  358  	if (!info->screen_base) {
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  359  		return -ENOMEM;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  360  	}
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  361  
-01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28 @362  	memset(info->screen_base, 0, info->fix.smem_len);
-01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28  363  
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  364  	return 0;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  365  }
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  366  
-
-:::::: The code at line 362 was first introduced by commit
-:::::: 01d3a5e7fab7732cfc5d5d4533e9378ea435295a atmel_lcdfb: don't initialize a pre-allocated framebuffer
-
-:::::: TO: Haavard Skinnemoen <hskinnemoen@atmel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  2788	
+  2789	static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
+  2790					    struct usb_descriptor_header *desc,
+  2791					    void *priv)
+  2792	{
+  2793		struct usb_endpoint_descriptor *ds = (void *)desc;
+  2794		struct ffs_function *func = priv;
+  2795		struct ffs_ep *ffs_ep;
+  2796		unsigned ep_desc_id;
+  2797		int idx;
+  2798		static const char *speed_names[] = { "full", "high", "super" };
+  2799	
+  2800		if (type != FFS_DESCRIPTOR)
+  2801			return 0;
+  2802	
+  2803		/*
+  2804		 * If ss_descriptors is not NULL, we are reading super speed
+  2805		 * descriptors; if hs_descriptors is not NULL, we are reading high
+  2806		 * speed descriptors; otherwise, we are reading full speed
+  2807		 * descriptors.
+  2808		 */
+  2809		if (func->function.ss_descriptors) {
+  2810			ep_desc_id = 2;
+  2811			func->function.ss_descriptors[(long)valuep] = desc;
+  2812		} else if (func->function.hs_descriptors) {
+  2813			ep_desc_id = 1;
+  2814			func->function.hs_descriptors[(long)valuep] = desc;
+  2815		} else {
+  2816			ep_desc_id = 0;
+  2817			func->function.fs_descriptors[(long)valuep]    = desc;
+  2818		}
+  2819	
+  2820		if (!desc || desc->bDescriptorType != USB_DT_ENDPOINT)
+  2821			return 0;
+  2822	
+  2823		idx = ffs_ep_addr2idx(func->ffs, ds->bEndpointAddress) - 1;
+  2824		if (idx < 0)
+  2825			return idx;
+  2826	
+  2827		ffs_ep = func->eps + idx;
+  2828	
+  2829		if (unlikely(ffs_ep->descs[ep_desc_id])) {
+  2830			pr_err("two %sspeed descriptors for EP %d\n",
+  2831				  speed_names[ep_desc_id],
+  2832				  ds->bEndpointAddress & USB_ENDPOINT_NUMBER_MASK);
+  2833			return -EINVAL;
+  2834		}
+  2835		ffs_ep->descs[ep_desc_id] = ds;
+  2836	
+  2837		ffs_dump_mem(": Original  ep desc", ds, ds->bLength);
+  2838		if (ffs_ep->ep) {
+  2839			ds->bEndpointAddress = ffs_ep->descs[0]->bEndpointAddress;
+  2840			if (!ds->wMaxPacketSize)
+  2841				ds->wMaxPacketSize = ffs_ep->descs[0]->wMaxPacketSize;
+  2842		} else {
+  2843			struct usb_request *req;
+  2844			struct usb_ep *ep;
+  2845			u8 bEndpointAddress;
+  2846			u16 wMaxPacketSize;
+  2847	
+  2848			/*
+  2849			 * We back up bEndpointAddress because autoconfig overwrites
+  2850			 * it with physical endpoint address.
+  2851			 */
+  2852			bEndpointAddress = ds->bEndpointAddress;
+  2853			/*
+  2854			 * We back up wMaxPacketSize because autoconfig treats
+  2855			 * endpoint descriptors as if they were full speed.
+  2856			 */
+> 2857			wMaxPacketSize = ds->wMaxPacketSize;
+  2858			pr_vdebug("autoconfig\n");
+  2859			ep = usb_ep_autoconfig(func->gadget, ds);
+  2860			if (unlikely(!ep))
+  2861				return -ENOTSUPP;
+  2862			ep->driver_data = func->eps + idx;
+  2863	
+  2864			req = usb_ep_alloc_request(ep, GFP_KERNEL);
+  2865			if (unlikely(!req))
+  2866				return -ENOMEM;
+  2867	
+  2868			ffs_ep->ep  = ep;
+  2869			ffs_ep->req = req;
+  2870			func->eps_revmap[ds->bEndpointAddress &
+  2871					 USB_ENDPOINT_NUMBER_MASK] = idx + 1;
+  2872			/*
+  2873			 * If we use virtual address mapping, we restore
+  2874			 * original bEndpointAddress value.
+  2875			 */
+  2876			if (func->ffs->user_flags & FUNCTIONFS_VIRTUAL_ADDR)
+  2877				ds->bEndpointAddress = bEndpointAddress;
+  2878			/*
+  2879			 * Restore wMaxPacketSize which was potentially
+  2880			 * overwritten by autoconfig.
+  2881			 */
+> 2882			ds->wMaxPacketSize = wMaxPacketSize;
+  2883		}
+  2884		ffs_dump_mem(": Rewritten ep desc", ds, ds->bLength);
+  2885	
+  2886		return 0;
+  2887	}
+  2888	
 
 -- 
 0-DAY CI Kernel Test Service
