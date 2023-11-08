@@ -1,138 +1,198 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2C61095C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 10:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B57716402;
+	Wed,  8 Nov 2023 11:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g00NaeXA"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7788ebea620so428752185a.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 08 Nov 2023 02:08:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699438105; x=1700042905; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4wGGir6AVBqgYA9x3Zbac4F5sWP9OwD7U2p91KydZfY=;
-        b=g00NaeXAu0tUigqulS9Rgr13Qnt46pGiHaSi4b6qf6spBHu/U7HnmDGgKqDWzVMWGj
-         zECJS2fCa17LD7STs3fk69ZR1YsfmPrH9VQjr9vrsq+P6Injor3HqRjxFjslU7iFlc1f
-         A0w6vRcmuLtqjw6lE0Lo90hN5lOK1PRRW2N+2RH1Plplob8p/iNi2pa2H2H4SftjM+q+
-         11mqJOgJpr++WUWSSmgBu+RM158RhFsh+rXYrTbZGJjep6kiNg+01EMshbBcEKmZXRa4
-         /qG2aYEjrXeqzkI9Xn3OjlOPcYf61kDUKMSXIm8DR4YlysZDxP14WqfjvThxlGiDJ4Dq
-         jKGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699438105; x=1700042905;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4wGGir6AVBqgYA9x3Zbac4F5sWP9OwD7U2p91KydZfY=;
-        b=o9X4yYsI+sD2GPBvuYZ5RxzoD306N/MJcAQezlYKFCoPvaLTPic7VVMca9LybAm0JJ
-         OrsL2uEQKlocSWy3NfG4S67WW3tcxtgAzRxnX+fAhXN+F8G0azGcFz1kat9GOutNZlH9
-         P2Fs11cLCSuj4i0DXj3aqaUO4SPrFYBKYV+pZRC4W6ZaTkVbFAOBIuvnoVFqY7puIiaf
-         giX2Z0BKd0HNXUAqU6QOugQnThkOUFeRfTUILUeTHutIbct37WOAJzZSD7KdnwZSAz+A
-         +UwvA7WuP+DUa7hFpE9RK6e7LyKB29F7rvlV4fOxkqIWYa2KwujDu22G5edvmmHgkDTx
-         /jNA==
-X-Gm-Message-State: AOJu0YxaYteYRN5za/wCuaAD0u15EKtSQRhpe79KpGTP1D48yfpJU0B7
-	+k4TB7NSI61CUhY/oeWqsf0ydT516LmyYggtcSDxiw==
-X-Google-Smtp-Source: AGHT+IFhHW/0DOROPJfJKVsS+cLUcq4hLMWxKYvyzkWCZDfN04ji8RSuzBLB7GHnSU4rjlNqYKcfdwKdxSRQ2WUJvwg=
-X-Received: by 2002:a05:6214:e87:b0:673:72a4:b0bc with SMTP id
- hf7-20020a0562140e8700b0067372a4b0bcmr1711949qvb.38.1699438104938; Wed, 08
- Nov 2023 02:08:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jscnRSAQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699443688; x=1730979688;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bz6kljiS5+mzvnS55yi7mG/V617ZdV23vLurIU4Sodw=;
+  b=jscnRSAQvNMg39SrkoaTBDOL0pQaFEyMTEdgTa2kLwrFDupJQobRMWxe
+   jnEzxkyNgwTN7tswSMk9EGiN/xeIMgr7DWnMXJqjmd7zsbM90Qrtn6BDZ
+   iHrF/aHI9aDNOdFezGTEU+C2DYG9GTRVkNf1C6WlMaealSVxoGh5MICYd
+   lmDY9FDjBab7WO7Zxj1a1A0Pf8xQ85L7qCS+TjVVSvTM/uIsy9xUsewUT
+   yKqVmbYbxU+iWI1XV+Afl4jns6ndZMzmzItGCIe7W+d5pcm2POebyrwVu
+   0LD5z38li2poMrjaBkuH0z3jjqx2g/rfbtIDV5Gr6QQoEIs13VTBOcXfe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="380140830"
+X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
+   d="scan'208";a="380140830"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 03:41:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="853716481"
+X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
+   d="scan'208";a="853716481"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Nov 2023 03:41:24 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r0gvz-0007uK-2L;
+	Wed, 08 Nov 2023 11:41:23 +0000
+Date: Wed, 8 Nov 2023 19:40:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Abel Wu <wuyun.abel@bytedance.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:sched/core 18/19] kernel/sched/fair.c:3696:4: error:
+ implicit declaration of function 'min_deadline_cb_propagate' is invalid in
+ C99
+Message-ID: <202311081959.j0nL4UpU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202310170708.fJzLlgDM-lkp@intel.com> <bd7fe929-c6fc-42be-9d2f-3f53ec21fd10@intel.com>
- <ZUkvOCxyiin_77qd@smile.fi.intel.com> <0a29df6b-bc27-43e9-a97d-57ecabb29a9e@intel.com>
- <CAG_fn=VtA6e3oGm4WVnxmy9yMBab780-U_4VoHSqm4tcd2UTzQ@mail.gmail.com>
- <ca0ad357-727b-4f41-a3d6-2c48a9dd5836@intel.com> <e3b4b1a6-5383-4bfb-ba83-ab27d58dae29@intel.com>
- <ZUqCpmDgKFbscRgW@yury-ThinkPad> <457b9cbb-9a5f-47ef-9eac-3e4f135d6a96@intel.com>
- <ZUqPAZC4sS455xtx@yury-ThinkPad>
-In-Reply-To: <ZUqPAZC4sS455xtx@yury-ThinkPad>
-From: Alexander Potapenko <glider@google.com>
-Date: Wed, 8 Nov 2023 11:07:44 +0100
-Message-ID: <CAG_fn=WPNROrC4ndAa_JOoOiWYSh3gQat1fqiv+3jdvFXcpw=A@mail.gmail.com>
-Subject: Re: [alobakin:pfcp 11/19] include/linux/bitmap.h:642:17: warning:
- array subscript [1, 1024] is outside array bounds of 'long unsigned int[1]'
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Alexander Lobakin <aleksander.lobakin@intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Syed Nayyar Waris <syednwaris@gmail.com>, Kees Cook <keescook@chromium.org>, 
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Nov 7, 2023 at 8:24=E2=80=AFPM Yury Norov <yury.norov@gmail.com> wr=
-ote:
->
-> On Tue, Nov 07, 2023 at 07:52:19PM +0100, Alexander Lobakin wrote:
-> > From: Yury Norov <yury.norov@gmail.com>
-> > Date: Tue, 7 Nov 2023 10:32:06 -0800
-> >
-> > > On Tue, Nov 07, 2023 at 06:24:04PM +0100, Alexander Lobakin wrote:
-> > >> From: Alexander Lobakin <aleksander.lobakin@intel.com>
-> > >> Date: Tue, 7 Nov 2023 17:44:00 +0100
-> > >>
-> > >>> From: Alexander Potapenko <glider@google.com>
-> > >>> Date: Tue, 7 Nov 2023 17:33:56 +0100
-> > >>>
-> > >>>> On Tue, Nov 7, 2023 at 2:23=E2=80=AFPM Alexander Lobakin
-> > >>>> <aleksander.lobakin@intel.com> wrote:
-> > >>
-> > >> [...]
-> > >>
-> > >>> I tested it on GCC 9 using modified make.cross from lkp and it trig=
-gers
-> > >>> on one more file:
-> > >>>
-> > >>> drivers/thermal/intel/intel_soc_dts_iosf.c: In function 'sys_get_cu=
-rr_temp':
-> > >>> ./include/linux/bitmap.h:601:18: error: array subscript [1,
-> > >>> 288230376151711744] is outside array bounds of 'long unsigned int[1=
-]'
-> > >>> [-Werror=3Darray-bounds]
-> > >>>
-> > >>>> to give the compiler some hints about the range of values passed t=
-o
-> > >>>> bitmap_write() rather than suppressing the optimizations.
-> > >>>
-> > >>> OPTIMIZER_HIDE_VAR() doesn't disable optimizations if I get it
-> > >>> correctly, rather shuts up the compiler in cases like this one.
-> > >>>
-> > >>> I've been thinking of using __member_size() from fortify-string.h, =
-we
-> > >>> could probably optimize the object code even a bit more while silen=
-cing
-> > >>> this warning.
-> > >>> Adding Kees, maybe he'd like to participate in sorting this out as =
-well.
-> > >>
-> > >> This one seems to work. At least previously mad GCC 9.3.0 now sits
-> > >> quietly, as if I added OPTIMIZER_HIDE_VAR() as Yury suggested.
-> > >
-> > > What's wrong with OPTIMIZER_HIDE_VAR()? The problem is clearly on GCC
-> > > side, namely - it doesn't realize that the map[index+1] fetch is
-> > > conditional.
-> >
-> > It's totally fine for me to use it, this one is just an alternative
-> > (well, a bit broken as per below).
->
-> OK, guys, that's even worse. The 12 and 13 don't fire the warning
-> because Warray-bounds is explicitly disabled for gcc-11+. Check
-> 0da6e5fd6c372 ("gcc: disable '-Warray-bounds' for gcc-13 too"). I'll
-> test how gcc-10 builds it, and if it's broken too, it's worth to shift
-> the threshold in init/Kconfig.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
+head:   4a97a4d025f6984a0ae7bb2c21ab09a52d4c1c6a
+commit: c9647eb51bfc7ada985c2798ce87067c557e2a07 [18/19] sched/eevdf: Sort the rbtree by virtual deadline
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20231108/202311081959.j0nL4UpU-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311081959.j0nL4UpU-lkp@intel.com/reproduce)
 
-Yes, that's my point.
-According to Godbolt, GCC versions 9.1 to 13.2 (trunk included) are
-reporting the same false positive on the code I posted above.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311081959.j0nL4UpU-lkp@intel.com/
 
-In 5a41237ad1d4b62008f93163af1d9b1da90729d8 ("gcc: disable
--Warray-bounds for gcc-11 too") Linus says that "Older gcc versions
-end up being increasingly less relevant", so I think there won't be
-objections against extending this rule to GCC 9 and 10.
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/sched/fair.c:28:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> kernel/sched/fair.c:3696:4: error: implicit declaration of function 'min_deadline_cb_propagate' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           min_deadline_cb_propagate(&se->run_node, NULL);
+                           ^
+   kernel/sched/fair.c:3696:4: note: did you mean 'min_vruntime_cb_propagate'?
+   kernel/sched/fair.c:807:1: note: 'min_vruntime_cb_propagate' declared here
+   RB_DECLARE_CALLBACKS(static, min_vruntime_cb, struct sched_entity,
+   ^
+   include/linux/rbtree_augmented.h:102:26: note: expanded from macro 'RB_DECLARE_CALLBACKS'
+   static inline void                                                      \
+                                                                           ^
+   <scratch space>:107:1: note: expanded from here
+   min_vruntime_cb_propagate
+   ^
+   12 warnings and 1 error generated.
+
+
+vim +/min_deadline_cb_propagate +3696 kernel/sched/fair.c
+
+8d5b9025f9b450 Peter Zijlstra  2017-08-24  3663  
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3664  static void reweight_entity(struct cfs_rq *cfs_rq, struct sched_entity *se,
+0dacee1bfa70e1 Vincent Guittot 2020-02-24  3665  			    unsigned long weight)
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3666  {
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3667  	unsigned long old_weight = se->load.weight;
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3668  
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3669  	if (se->on_rq) {
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3670  		/* commit outstanding execution time */
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3671  		if (cfs_rq->curr == se)
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3672  			update_curr(cfs_rq);
+af4cf40470c22e Peter Zijlstra  2023-05-31  3673  		else
+af4cf40470c22e Peter Zijlstra  2023-05-31  3674  			avg_vruntime_sub(cfs_rq, se);
+1724b95b92979a Jiang Biao      2020-08-11  3675  		update_load_sub(&cfs_rq->load, se->load.weight);
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3676  	}
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3677  	dequeue_load_avg(cfs_rq, se);
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3678  
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3679  	update_load_set(&se->load, weight);
+9059393e4ec1c8 Vincent Guittot 2017-05-17  3680  
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3681  	if (!se->on_rq) {
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3682  		/*
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3683  		 * Because we keep se->vlag = V - v_i, while: lag_i = w_i*(V - v_i),
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3684  		 * we need to scale se->vlag when w_i changes.
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3685  		 */
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3686  		se->vlag = div_s64(se->vlag * old_weight, weight);
+147f3efaa24182 Peter Zijlstra  2023-05-31  3687  	} else {
+147f3efaa24182 Peter Zijlstra  2023-05-31  3688  		s64 deadline = se->deadline - se->vruntime;
+147f3efaa24182 Peter Zijlstra  2023-05-31  3689  		/*
+147f3efaa24182 Peter Zijlstra  2023-05-31  3690  		 * When the weight changes, the virtual time slope changes and
+147f3efaa24182 Peter Zijlstra  2023-05-31  3691  		 * we should adjust the relative virtual deadline accordingly.
+147f3efaa24182 Peter Zijlstra  2023-05-31  3692  		 */
+147f3efaa24182 Peter Zijlstra  2023-05-31  3693  		deadline = div_s64(deadline * old_weight, weight);
+147f3efaa24182 Peter Zijlstra  2023-05-31  3694  		se->deadline = se->vruntime + deadline;
+d2929762cc3f85 Peter Zijlstra  2023-10-17  3695  		if (se != cfs_rq->curr)
+8dafa9d0eb1a15 Peter Zijlstra  2023-10-06 @3696  			min_deadline_cb_propagate(&se->run_node, NULL);
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3697  	}
+86bfbb7ce4f67a Peter Zijlstra  2023-05-31  3698  
+
+:::::: The code at line 3696 was first introduced by commit
+:::::: 8dafa9d0eb1a1550a0f4d462db9354161bc51e0c sched/eevdf: Fix min_deadline heap integrity
+
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
