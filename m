@@ -1,189 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0C119474
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 13:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgjhsghS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699450900; x=1730986900;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AT8hjiGPauw9kcojSFEvtJncen66YJM6TycBQYs0wVE=;
-  b=KgjhsghSvxszpgBmZKQQrGKbDfvTj02P2Adqy8gm9gXzJzVnJsN5wFrG
-   laVkxtlfmedRtZXMgIxWggL30s1/eDzmfAzLBBhS9p1iojtnJo+5pfg/y
-   OUGuC6qEdn3O+v+8hwDiWITSvWYXyuOA850N8PNjYD0mdu4SpauaP+oB8
-   dFmoZupc0/7jiwrvQ9Oxw3nZA9NLgGs2e2NOCVHKTxRwZ8TUdgXi3nulT
-   8yOP/S03FkLUwV71PSybBBEAWkrPN8D2Pw1F7M75YzZKMeMfqUznbutbH
-   fzjar7JBxaHB7D79Z0xM45yXE3fBthfLy/q3JsyY1WAp1nbNd4SBG5RgO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="2710099"
-X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
-   d="scan'208";a="2710099"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 05:41:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="936511306"
-X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
-   d="scan'208";a="936511306"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 Nov 2023 05:41:31 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0ioC-0007xM-2D;
-	Wed, 08 Nov 2023 13:41:28 +0000
-Date: Wed, 8 Nov 2023 21:41:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [rafael-pm:acpi-mipi-disco-img 5/7]
- drivers/acpi/mipi-disco-img.c:536:42: warning: format '%lu' expects argument
- of type 'long unsigned int', but argument 4 has type 'unsigned int'
-Message-ID: <202311082134.Yy1Faou5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A783C2F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 14:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FD32C433C8;
+	Wed,  8 Nov 2023 14:48:44 +0000 (UTC)
+Date: Wed, 8 Nov 2023 09:48:47 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Waiman Long <longman@redhat.com>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <20231108094847.236d04b2@gandalf.local.home>
+In-Reply-To: <202311081340.3k72KKdg-lkp@intel.com>
+References: <202311081340.3k72KKdg-lkp@intel.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git acpi-mipi-disco-img
-head:   c095a2289931c9f939547ee380f1cedb1a6eec7c
-commit: 1fc74bb24045e4ef5edbba60956b98df5c9e5f0d [5/7] ACPI: scan: Extract MIPI DisCo for Imaging data into swnodes
-config: i386-randconfig-002-20231108 (https://download.01.org/0day-ci/archive/20231108/202311082134.Yy1Faou5-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311082134.Yy1Faou5-lkp@intel.com/reproduce)
+On Wed, 8 Nov 2023 13:55:21 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311082134.Yy1Faou5-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   305230142ae0637213bf6e04f6d9f10bbcb74af8
+> commit: c0a581d7126c0bbc96163276f585fd7b4e4d8d0e tracing: Disable interrupt or preemption before acquiring arch_spinlock_t
+> date:   1 year, 1 month ago
+> config: loongarch-randconfig-r123-20231107 (https://download.01.org/0day-ci/archive/20231108/202311081340.3k72KKdg-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231108/202311081340.3k72KKdg-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311081340.3k72KKdg-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+>    kernel/trace/trace.c:406:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct trace_export **list @@     got struct trace_export [noderef] __rcu ** @@
+>    kernel/trace/trace.c:406:28: sparse:     expected struct trace_export **list
+>    kernel/trace/trace.c:406:28: sparse:     got struct trace_export [noderef] __rcu **
+>    kernel/trace/trace.c:420:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct trace_export **list @@     got struct trace_export [noderef] __rcu ** @@
+>    kernel/trace/trace.c:420:33: sparse:     expected struct trace_export **list
+>    kernel/trace/trace.c:420:33: sparse:     got struct trace_export [noderef] __rcu **
+> >> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@  
+>    kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
+>    kernel/trace/trace.c:2430:9: sparse:     got unsigned int [noderef] __percpu *
+> >> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@  
+>    kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
+>    kernel/trace/trace.c:2430:9: sparse:     got unsigned int [noderef] __percpu *
+> >> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@  
+>    kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
+>    kernel/trace/trace.c:2430:9: sparse:     got unsigned int [noderef] __percpu *
+> >> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@  
+>    kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
+>    kernel/trace/trace.c:2430:9: sparse:     got unsigned int [noderef] __percpu *
+> >> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@  
+>    kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
+>    kernel/trace/trace.c:2430:9: sparse:     got int [noderef] __percpu *
+> >> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@  
+>    kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
+>    kernel/trace/trace.c:2430:9: sparse:     got int [noderef] __percpu *
+> >> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@  
+>    kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
+>    kernel/trace/trace.c:2430:9: sparse:     got int [noderef] __percpu *
+> >> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@  
 
-All warnings (new ones prefixed by >>):
 
-   In file included from drivers/acpi/mipi-disco-img.c:21:
-   drivers/acpi/mipi-disco-img.c: In function 'init_csi2_port':
->> drivers/acpi/mipi-disco-img.c:536:42: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'unsigned int' [-Wformat=]
-     536 |                 acpi_handle_info(handle, "Too few lane polarity bytes (%lu vs. %d)\n",
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/acpi.h:1216:47: note: in definition of macro 'acpi_handle_info'
-    1216 |         acpi_handle_printk(KERN_INFO, handle, fmt, ##__VA_ARGS__)
-         |                                               ^~~
-   drivers/acpi/mipi-disco-img.c:536:74: note: format string is defined here
-     536 |                 acpi_handle_info(handle, "Too few lane polarity bytes (%lu vs. %d)\n",
-         |                                                                        ~~^
-         |                                                                          |
-         |                                                                          long unsigned int
-         |                                                                        %u
+> 
+> vim +2430 kernel/trace/trace.c
+> 
+>   2410	
+>   2411	static int trace_save_cmdline(struct task_struct *tsk)
+>   2412	{
+>   2413		unsigned tpid, idx;
+>   2414	
+>   2415		/* treat recording of idle task as a success */
+>   2416		if (!tsk->pid)
+>   2417			return 1;
+>   2418	
+>   2419		tpid = tsk->pid & (PID_MAX_DEFAULT - 1);
+>   2420	
+>   2421		/*
+>   2422		 * It's not the end of the world if we don't get
+>   2423		 * the lock, but we also don't want to spin
+>   2424		 * nor do we want to disable interrupts,
+>   2425		 * so if we miss here, then better luck next time.
+>   2426		 *
+>   2427		 * This is called within the scheduler and wake up, so interrupts
+>   2428		 * had better been disabled and run queue lock been held.
+>   2429		 */
+> > 2430		lockdep_assert_preemption_disabled();  
+
+The above is a generic lockdep utility. Sounds to me that this is a bug in
+the loongarch code that doesn't handle this properly.
+
+-- Steve
 
 
-vim +536 drivers/acpi/mipi-disco-img.c
+>   2431		if (!arch_spin_trylock(&trace_cmdline_lock))
+>   2432			return 0;
+>   2433	
+>   2434		idx = savedcmd->map_pid_to_cmdline[tpid];
+>   2435		if (idx == NO_CMDLINE_MAP) {
+>   2436			idx = (savedcmd->cmdline_idx + 1) % savedcmd->cmdline_num;
+>   2437	
+>   2438			savedcmd->map_pid_to_cmdline[tpid] = idx;
+>   2439			savedcmd->cmdline_idx = idx;
+>   2440		}
+>   2441	
+>   2442		savedcmd->map_cmdline_to_pid[idx] = tsk->pid;
+>   2443		set_cmdline(idx, tsk->comm);
+>   2444	
+>   2445		arch_spin_unlock(&trace_cmdline_lock);
+>   2446	
+>   2447		return 1;
+>   2448	}
+>   2449	
+> 
 
-   481	
-   482	static void init_csi2_port(struct acpi_device *adev,
-   483				   struct acpi_device_software_nodes *swnodes,
-   484				   struct acpi_device_software_node_port *port,
-   485				   struct fwnode_handle *port_fwnode,
-   486				   unsigned int port_index)
-   487	{
-   488		unsigned int ep_prop_index = ACPI_DEVICE_SWNODE_EP_CLOCK_LANES;
-   489		acpi_handle handle = acpi_device_handle(adev);
-   490		u8 val[ACPI_DEVICE_CSI2_DATA_LANES];
-   491		int num_lanes = 0;
-   492		int ret;
-   493	
-   494		if (GRAPH_PORT_NAME(port->port_name, port->port_nr))
-   495			return;
-   496	
-   497		swnodes->nodes[ACPI_DEVICE_SWNODE_PORT(port_index)] =
-   498				SOFTWARE_NODE(port->port_name, port->port_props,
-   499					      &swnodes->nodes[ACPI_DEVICE_SWNODE_ROOT]);
-   500	
-   501		ret = fwnode_property_read_u8(port_fwnode, "mipi-img-clock-lane", val);
-   502		if (!ret)
-   503			port->ep_props[NEXT_PROPERTY(ep_prop_index, EP_CLOCK_LANES)] =
-   504				PROPERTY_ENTRY_U32("clock-lanes", val[0]);
-   505	
-   506		ret = fwnode_property_count_u8(port_fwnode, "mipi-img-data-lanes");
-   507		if (ret > 0) {
-   508			num_lanes = ret;
-   509	
-   510			if (num_lanes > ACPI_DEVICE_CSI2_DATA_LANES) {
-   511				acpi_handle_info(handle, "Too many data lanes: %u\n",
-   512						 num_lanes);
-   513				num_lanes = ACPI_DEVICE_CSI2_DATA_LANES;
-   514			}
-   515	
-   516			ret = fwnode_property_read_u8_array(port_fwnode,
-   517							    "mipi-img-data-lanes",
-   518							    val, num_lanes);
-   519			if (!ret) {
-   520				unsigned int i;
-   521	
-   522				for (i = 0; i < num_lanes; i++)
-   523					port->data_lanes[i] = val[i];
-   524	
-   525				port->ep_props[NEXT_PROPERTY(ep_prop_index, EP_DATA_LANES)] =
-   526					PROPERTY_ENTRY_U32_ARRAY_LEN("data-lanes",
-   527								     port->data_lanes,
-   528								     num_lanes);
-   529			}
-   530		}
-   531	
-   532		ret = fwnode_property_count_u8(port_fwnode, "mipi-img-lane-polarities");
-   533		if (ret < 0) {
-   534			acpi_handle_debug(handle, "Lane polarity bytes missing\n");
-   535		} else if (ret * BITS_PER_TYPE(u8) < num_lanes + 1) {
- > 536			acpi_handle_info(handle, "Too few lane polarity bytes (%lu vs. %d)\n",
-   537					 ret * BITS_PER_TYPE(u8), num_lanes + 1);
-   538		} else {
-   539			unsigned long mask = 0;
-   540			int byte_count = ret;
-   541			unsigned int i;
-   542	
-   543			/*
-   544			 * The total number of lanes is ACPI_DEVICE_CSI2_DATA_LANES + 1
-   545			 * (data lanes + clock lane).  It is not expected to ever be
-   546			 * greater than the number of bits in an unsigned long
-   547			 * variable, but ensure that this is the case.
-   548			 */
-   549			BUILD_BUG_ON(BITS_PER_TYPE(unsigned long) <= ACPI_DEVICE_CSI2_DATA_LANES);
-   550	
-   551			if (byte_count > sizeof(mask)) {
-   552				acpi_handle_info(handle, "Too many lane polarities: %d\n",
-   553						 byte_count);
-   554				byte_count = sizeof(mask);
-   555			}
-   556			fwnode_property_read_u8_array(port_fwnode, "mipi-img-lane-polarities",
-   557						      val, byte_count);
-   558	
-   559			for (i = 0; i < byte_count; i++)
-   560				mask |= (unsigned long)val[i] << BITS_PER_TYPE(u8) * i;
-   561	
-   562			for (i = 0; i <= num_lanes; i++)
-   563				port->lane_polarities[i] = test_bit(i, &mask);
-   564	
-   565			port->ep_props[NEXT_PROPERTY(ep_prop_index, EP_LANE_POLARITIES)] =
-   566					PROPERTY_ENTRY_U32_ARRAY_LEN("lane-polarities",
-   567								     port->lane_polarities,
-   568								     num_lanes + 1);
-   569		}
-   570	
-   571		swnodes->nodes[ACPI_DEVICE_SWNODE_EP(port_index)] =
-   572			SOFTWARE_NODE("endpoint@0", swnodes->ports[port_index].ep_props,
-   573				      &swnodes->nodes[ACPI_DEVICE_SWNODE_PORT(port_index)]);
-   574	
-   575		if (port->crs_csi2_local)
-   576			init_csi2_port_local(adev, port, port_fwnode, ep_prop_index);
-   577	}
-   578	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
