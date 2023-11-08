@@ -1,54 +1,46 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB6ECA67
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 06:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A53DCA78;
+	Wed,  8 Nov 2023 06:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ICL1awKq"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6b709048d8eso5585408b3a.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 07 Nov 2023 22:13:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699423992; x=1700028792; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UqET+/tUbFu2Jp9wRy1DEiP4GTn/JAUINR9zHqa/AlU=;
-        b=ICL1awKqGWUdyhna9a4XaQPF5lfx9RT6fqpV/W1uh7AM5T4syFJCQrXFXTJG2Ang/g
-         dtZdMsmsei0LipX68sADQh9YQvGj0YN5YJnDM/bz0RZYASrSh8HF9befLM4wt5pFzobQ
-         Ad+HG7t1IJTJhd9hZQULCjYDQf2PAPRQp/sKiGYsaIbjmQvV4qWNQcMjhrh1DBFkedWa
-         1rKC53BQTFqyJuY3ejD8RMiCmc80trAQTPpwHCFCCHtbh2aweSV3yB8rBPEvmIkAII8c
-         O4I9584b/2I9AabWLDCU/jZPCC8A3U3n21D2Y0zdB0llzksc0IkNAVTq9sG36k0LZiIh
-         JCbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699423992; x=1700028792;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UqET+/tUbFu2Jp9wRy1DEiP4GTn/JAUINR9zHqa/AlU=;
-        b=uBdghEIoP8/QhNQSqHhlHtyoD0gdCWPuvELXqym5ZltZwVG5YLuFCIQIplX7cABP8g
-         cgryFHkpiilmXW7HJU8fzKtKVFq0h48APUdBvI3lghFM7ETjk6eZNoMTVJ1gb30wvedG
-         6BfmnFhXs0/MbdAWaY9VJjQNgh/g+YwPIE4bqawDHyhCPpPLGOyuZ0Ht75aC4d4KSdKD
-         dE+QYgx798+IfdNr5EcxUHNkIGgpg374fJzEDIbVv+PAkMrTyPBxTursgaGJPnSwuyim
-         PKVkhZ9SE4kDbTsTmVth4549v5AuJYB3WFB4FfFhTPXPGWNl8AxbgXCALHQIf1nw1gxM
-         JG2Q==
-X-Gm-Message-State: AOJu0YwrDlLnN8mRqgxnDeYRfsUvPT8cc80Nlw7zyMLbMY9xAjUnCuev
-	h7SB5nVh/sNU8ttiYn/LxxSBUg==
-X-Google-Smtp-Source: AGHT+IHpdE+SHUhlg41LDgR83N6jNh0Bs3AiiFpPYiktqU9+a3AFWX5KM2j0MLP9vhd632/I6QaBjA==
-X-Received: by 2002:a05:6a20:1608:b0:161:ffbf:d949 with SMTP id l8-20020a056a20160800b00161ffbfd949mr1253550pzj.3.1699423992235;
-        Tue, 07 Nov 2023 22:13:12 -0800 (PST)
-Received: from localhost ([122.172.82.6])
-        by smtp.gmail.com with ESMTPSA id rr5-20020a17090b2b4500b002804af3afb7sm792350pjb.49.2023.11.07.22.13.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 22:13:11 -0800 (PST)
-Date: Wed, 8 Nov 2023 11:43:08 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/opp/debugfs.c:48:54: warning: '%d' directive output may
- be truncated writing between 1 and 11 bytes into a region of size 8
-Message-ID: <20231108061308.jcoj4bjzv4m5pilx@vireshk-i7>
-References: <202311061847.BOtfUmbQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1+0IcwR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699424484; x=1730960484;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bLCJxXwyRPz4Lr5cLa/jjlq50UQUMbSbXnLnR/TwEEs=;
+  b=i1+0IcwRoleyZu4YobJjC5HNTxEYqm3DwqADnnTs9QFc4/YrsUAUB2GL
+   WmtbjvrLoDFYwopL12NP0v1ZLFMhXH08QZNP0ZlNYNosfbB7rnGqcmxZV
+   iybMRhS6JRayTKzTEGFjqE7oC8r5zH8OrCqIsWWixF18S/D2+OxRCKmkz
+   wq3wCxLmIczS0WamgUGUKEc/NV+EW73YomWyn/nFpwkY/qeV56rK2HYIp
+   6y4q+RGNNSTrnm58+S5bi7pdLBSsvhjcH08jZLI6eRe9Ok0svYPT01BRl
+   nKav5RkEcVEtHDnVc0f8fShqTn2uPLRZdlPZiKQGCbKwjLdQedHejnpzQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="393617503"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="393617503"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 22:21:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="880104111"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="880104111"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 07 Nov 2023 22:21:21 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r0bwE-0007jP-2d;
+	Wed, 08 Nov 2023 06:21:18 +0000
+Date: Wed, 8 Nov 2023 14:21:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andreas Gruenbacher <agruenba@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, gfs2@lists.linux.dev
+Subject: [gfs2:alloc 57/77] fs/gfs2/bmap.c:1176:23: error: too many arguments
+ to function 'gfs2_iomap_write_alloc'
+Message-ID: <202311081452.oh0jMQkN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,45 +49,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202311061847.BOtfUmbQ-lkp@intel.com>
 
-On 06-11-23, 18:41, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   d2f51b3516dade79269ff45eae2a7668ae711b25
-> commit: 46f48aca2e5aef3f430e95d1a5fb68227ec8ec85 OPP: Fix missing debugfs supply directory for OPPs
-> date:   4 years, 11 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git alloc
+head:   04e5d5785cde5d9320a6352e7cc01cfdb394d042
+commit: 2e721b03a8a2877ac116affe082d0f9a18964e99 [57/77] gfs2: Add gfs2_iomap_write_alloc helper
+config: microblaze-randconfig-r122-20231107 (https://download.01.org/0day-ci/archive/20231108/202311081452.oh0jMQkN-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231108/202311081452.oh0jMQkN-lkp@intel.com/reproduce)
 
-This is a really old commit, are we running the test over it ? Or it is what git
-bisect reported ?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311081452.oh0jMQkN-lkp@intel.com/
 
-> config: x86_64-randconfig-r025-20230725 (https://download.01.org/0day-ci/archive/20231106/202311061847.BOtfUmbQ-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061847.BOtfUmbQ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311061847.BOtfUmbQ-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/opp/debugfs.c: In function 'opp_debug_create_one':
-> >> drivers/opp/debugfs.c:48:54: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 8 [-Wformat-truncation=]
->       48 |                 snprintf(name, sizeof(name), "supply-%d", i);
->          |                                                      ^~
->    In function 'opp_debug_create_supplies',
->        inlined from 'opp_debug_create_one' at drivers/opp/debugfs.c:119:7:
->    drivers/opp/debugfs.c:48:46: note: directive argument in the range [-2147483644, 2147483646]
->       48 |                 snprintf(name, sizeof(name), "supply-%d", i);
->          |                                              ^~~~~~~~~~~
->    drivers/opp/debugfs.c:48:17: note: 'snprintf' output between 9 and 19 bytes into a destination of size 15
->       48 |                 snprintf(name, sizeof(name), "supply-%d", i);
->          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+All error/warnings (new ones prefixed by >>):
 
-I tried to reproduce it for ARM and don't see the warning locally. I saw a
-similar one earlier (reported by the bot), which is already fixed:
+   fs/gfs2/bmap.c: In function 'gfs2_iomap_begin':
+>> fs/gfs2/bmap.c:1176:58: warning: passing argument 3 of 'gfs2_iomap_write_alloc' makes pointer from integer without a cast [-Wint-conversion]
+    1176 |                 ret = gfs2_iomap_write_alloc(inode, pos, length,
+         |                                                          ^~~~~~
+         |                                                          |
+         |                                                          loff_t {aka long long int}
+   fs/gfs2/bmap.c:1011:54: note: expected 'struct iomap *' but argument is of type 'loff_t' {aka 'long long int'}
+    1011 |                        unsigned flags, struct iomap *iomap,
+         |                                        ~~~~~~~~~~~~~~^~~~~
+   fs/gfs2/bmap.c:1177:46: warning: passing argument 4 of 'gfs2_iomap_write_alloc' makes pointer from integer without a cast [-Wint-conversion]
+    1177 |                                              flags, iomap, &mp);
+         |                                              ^~~~~
+         |                                              |
+         |                                              unsigned int
+   fs/gfs2/bmap.c:1012:41: note: expected 'struct metapath *' but argument is of type 'unsigned int'
+    1012 |                        struct metapath *mp)
+         |                        ~~~~~~~~~~~~~~~~~^~
+>> fs/gfs2/bmap.c:1176:23: error: too many arguments to function 'gfs2_iomap_write_alloc'
+    1176 |                 ret = gfs2_iomap_write_alloc(inode, pos, length,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   fs/gfs2/bmap.c:1010:1: note: declared here
+    1010 | gfs2_iomap_write_alloc(struct inode *inode,
+         | ^~~~~~~~~~~~~~~~~~~~~~
 
-make ARCH=arm64 O=../barm64/ -j8 CROSS_COMPILE=aarch64-linux-gnu- W=1 CONFIG_DEBUG_SECTION_MISMATCH=y
+
+vim +/gfs2_iomap_write_alloc +1176 fs/gfs2/bmap.c
+
+  1133	
+  1134	static int gfs2_iomap_begin(struct inode *inode, loff_t pos, loff_t length,
+  1135				    unsigned flags, struct iomap *iomap,
+  1136				    struct iomap *srcmap)
+  1137	{
+  1138		struct gfs2_inode *ip = GFS2_I(inode);
+  1139		struct metapath mp;
+  1140		int ret;
+  1141	
+  1142		if (gfs2_is_jdata(ip))
+  1143			iomap->flags |= IOMAP_F_BUFFER_HEAD;
+  1144	
+  1145		trace_gfs2_iomap_start(ip, pos, length, flags);
+  1146		ret = init_metapath(&mp, inode);
+  1147		if (ret)
+  1148			goto out_unlock;
+  1149		ret = __gfs2_iomap_get(inode, pos, length, flags, iomap, &mp);
+  1150		if (ret)
+  1151			goto out_unlock;
+  1152	
+  1153		switch(flags & (IOMAP_WRITE | IOMAP_ZERO)) {
+  1154		case IOMAP_WRITE:
+  1155			if (flags & IOMAP_DIRECT) {
+  1156				/*
+  1157				 * Silently fall back to buffered I/O for stuffed files
+  1158				 * or if we've got a hole (see gfs2_file_direct_write).
+  1159				 */
+  1160				if (iomap->type != IOMAP_MAPPED)
+  1161					ret = -ENOTBLK;
+  1162				goto out_unlock;
+  1163			}
+  1164			break;
+  1165		case IOMAP_ZERO:
+  1166			if (iomap->type == IOMAP_HOLE)
+  1167				goto out_unlock;
+  1168			break;
+  1169		default:
+  1170			goto out_unlock;
+  1171		}
+  1172	
+  1173		if ((gfs2_is_stuffed(ip) &&
+  1174		     pos + length > gfs2_max_stuffed_size(ip)) ||
+  1175		    iomap->type == IOMAP_HOLE) {
+> 1176			ret = gfs2_iomap_write_alloc(inode, pos, length,
+  1177						     flags, iomap, &mp);
+  1178			if (ret)
+  1179				goto out_unlock;
+  1180		}
+  1181	
+  1182		if (gfs2_is_stuffed(ip) || gfs2_is_jdata(ip))
+  1183			iomap->folio_ops = &gfs2_iomap_folio_ops;
+  1184	
+  1185	out_unlock:
+  1186		release_metapath(&mp);
+  1187		trace_gfs2_iomap_end(ip, iomap, ret);
+  1188		return ret;
+  1189	}
+  1190	
 
 -- 
-viresh
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
