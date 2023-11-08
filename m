@@ -1,50 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764D6645
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 01:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E20641
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 01:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GT95YRN+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WKw9kqGN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699405333; x=1730941333;
+  t=1699405615; x=1730941615;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oL1xz9jPtcvrSsMtXPH0SCS7LV8IMHnULjDJtXlfWyM=;
-  b=GT95YRN+yVRITf6g8f6iyW9M1+EkqYwVj7zb1eC39309KOVT3wJXgRA6
-   D6Wnq/HgYxsmuB/pfywfA1g6GmJNvGWwEmn8UCPgRvRJT0Zuv1DsfDUK8
-   /DKNNKo3+WgzGQywKpiLFQp/Y5nzwSvAk7TP2DjNefX8KfZCXMn8B67ZD
-   zsdwKk1YPOOATKZrb4NmcRHaoKCKCD8Xc3yID8/T3jEOqCU3H/7gGhhpq
-   MXUDg/gJHHxg5zCpCWyZjcCUPaOudx+SW7TvM5j8ewgway5AJNlV84gAj
-   tNJGD+XlG+uW3gSSp3OuUtE9ywLpg08OaYw00f4xjWTawhGlXwIHqQgZD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="393579782"
+  bh=l9ydbeBAy7drnypWXhZgnImPqEjdmm0V8LFc0n8Po1c=;
+  b=WKw9kqGN7AVg1uQ0olZyRkWG5eB8sLF/pLlmZ5loeU6wTW/N+DR5vmgc
+   8FhiM1Mm1fCVYBvwWfMcLHJ2DPHAZHeRVirQxzP8fOVIA8zsxVPFhYGt2
+   t2Lksn5hkbAnW1xV07wPm886uI50HCLYnIuf0n95Zl8nv2gu74YtdjwFr
+   Lfy/otSSu8wA3isTLEMX8fshyF5UlPEcyLuuOlcMnGk1JNeZUEQSElYq5
+   4RCKZYOlunRNV4pr7L2eKAx9ALo8gLQoLKwPHqi0PH465pfl3YxZ+ZZf3
+   UisasQi+i1tCJkCYRzKdPGBNc1mAhyg7GlbX7+oqdG08O8YUSmc7ftmiZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="374703620"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="393579782"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 17:02:12 -0800
+   d="scan'208";a="374703620"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 17:06:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="797847803"
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="792023868"
 X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="797847803"
+   d="scan'208";a="792023868"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 07 Nov 2023 17:02:10 -0800
+  by orsmga008.jf.intel.com with ESMTP; 07 Nov 2023 17:06:53 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0WxM-0007XA-19;
-	Wed, 08 Nov 2023 01:02:08 +0000
-Date: Wed, 8 Nov 2023 08:59:20 +0800
+	id 1r0X1u-0007XE-1v;
+	Wed, 08 Nov 2023 01:06:50 +0000
+Date: Wed, 8 Nov 2023 09:04:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonas Karlman <jonas@kwiboo.se>
-Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
-	Alex Bee <knaerzche@gmail.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-Subject: [hverkuil-media-tree:for-v6.8c 199/204]
- drivers/staging/media/rkvdec/rkvdec-hevc.c:429:83: warning: variable
- 'new_value' set but not used
-Message-ID: <202311080826.DOL8PLZS-lkp@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: lib/flex_proportions.c:73:9: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202311080840.Vc2kXhfp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,61 +51,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git for-v6.8c
-head:   9c2abee4a6b8ceaf853c15f135d5fa28ae60d0a7
-commit: 8c17b9a51c9d965ea28067f61fb321f2618dd5ed [199/204] media: rkvdec: Add HEVC backend
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231108/202311080826.DOL8PLZS-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311080826.DOL8PLZS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   13d88ac54ddd1011b6e94443958e798aa06eb835
+commit: 9458e0a78c45bc6537ce11eb9f03489eab92f9c2 flex_proportions: Disable preemption entering the write section.
+date:   1 year, 2 months ago
+config: loongarch-randconfig-r123-20231107 (https://download.01.org/0day-ci/archive/20231108/202311080840.Vc2kXhfp-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231108/202311080840.Vc2kXhfp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311080826.DOL8PLZS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311080840.Vc2kXhfp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/flex_proportions.c:73:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   lib/flex_proportions.c:73:9: sparse:     expected void *ptr
+   lib/flex_proportions.c:73:9: sparse:     got unsigned int [noderef] __percpu *
+>> lib/flex_proportions.c:73:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   lib/flex_proportions.c:73:9: sparse:     expected void *ptr
+   lib/flex_proportions.c:73:9: sparse:     got unsigned int [noderef] __percpu *
+>> lib/flex_proportions.c:73:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   lib/flex_proportions.c:73:9: sparse:     expected void *ptr
+   lib/flex_proportions.c:73:9: sparse:     got unsigned int [noderef] __percpu *
+>> lib/flex_proportions.c:73:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   lib/flex_proportions.c:73:9: sparse:     expected void *ptr
+   lib/flex_proportions.c:73:9: sparse:     got unsigned int [noderef] __percpu *
+>> lib/flex_proportions.c:73:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   lib/flex_proportions.c:73:9: sparse:     expected void *ptr
+   lib/flex_proportions.c:73:9: sparse:     got int [noderef] __percpu *
+>> lib/flex_proportions.c:73:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   lib/flex_proportions.c:73:9: sparse:     expected void *ptr
+   lib/flex_proportions.c:73:9: sparse:     got int [noderef] __percpu *
+>> lib/flex_proportions.c:73:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   lib/flex_proportions.c:73:9: sparse:     expected void *ptr
+   lib/flex_proportions.c:73:9: sparse:     got int [noderef] __percpu *
+>> lib/flex_proportions.c:73:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   lib/flex_proportions.c:73:9: sparse:     expected void *ptr
+   lib/flex_proportions.c:73:9: sparse:     got int [noderef] __percpu *
+   lib/flex_proportions.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/percpu_counter.h, ...):
+   include/linux/seqlock.h:269:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   include/linux/seqlock.h:269:9: sparse:     expected void *ptr
+   include/linux/seqlock.h:269:9: sparse:     got unsigned int [noderef] __percpu *
+   include/linux/seqlock.h:269:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   include/linux/seqlock.h:269:9: sparse:     expected void *ptr
+   include/linux/seqlock.h:269:9: sparse:     got unsigned int [noderef] __percpu *
+   include/linux/seqlock.h:269:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   include/linux/seqlock.h:269:9: sparse:     expected void *ptr
+   include/linux/seqlock.h:269:9: sparse:     got unsigned int [noderef] __percpu *
+   include/linux/seqlock.h:269:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   include/linux/seqlock.h:269:9: sparse:     expected void *ptr
+   include/linux/seqlock.h:269:9: sparse:     got unsigned int [noderef] __percpu *
+   include/linux/seqlock.h:269:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   include/linux/seqlock.h:269:9: sparse:     expected void *ptr
+   include/linux/seqlock.h:269:9: sparse:     got int [noderef] __percpu *
+   include/linux/seqlock.h:269:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   include/linux/seqlock.h:269:9: sparse:     expected void *ptr
+   include/linux/seqlock.h:269:9: sparse:     got int [noderef] __percpu *
+   include/linux/seqlock.h:269:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   include/linux/seqlock.h:269:9: sparse:     expected void *ptr
+   include/linux/seqlock.h:269:9: sparse:     got int [noderef] __percpu *
+   include/linux/seqlock.h:269:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   include/linux/seqlock.h:269:9: sparse:     expected void *ptr
+   include/linux/seqlock.h:269:9: sparse:     got int [noderef] __percpu *
 
-   drivers/staging/media/rkvdec/rkvdec-hevc.c: In function 'transpose_and_flatten_matrices':
->> drivers/staging/media/rkvdec/rkvdec-hevc.c:429:83: warning: variable 'new_value' set but not used [-Wunused-but-set-variable]
-     429 |         int i, j, row, x_offset, matrix_offset, rot_index, y_offset, matrix_size, new_value;
-         |                                                                                   ^~~~~~~~~
+vim +73 lib/flex_proportions.c
 
-
-vim +/new_value +429 drivers/staging/media/rkvdec/rkvdec-hevc.c
-
-   416	
-   417	/*
-   418	 * Flip one or more matrices along their main diagonal and flatten them
-   419	 * before writing it to the memory.
-   420	 * Convert:
-   421	 * ABCD         AEIM
-   422	 * EFGH     =>  BFJN     =>     AEIMBFJNCGKODHLP
-   423	 * IJKL         CGKO
-   424	 * MNOP         DHLP
-   425	 */
-   426	static void transpose_and_flatten_matrices(u8 *output, const u8 *input,
-   427						   int matrices, int row_length)
-   428	{
- > 429		int i, j, row, x_offset, matrix_offset, rot_index, y_offset, matrix_size, new_value;
-   430	
-   431		matrix_size = row_length * row_length;
-   432		for (i = 0; i < matrices; i++) {
-   433			row = 0;
-   434			x_offset = 0;
-   435			matrix_offset = i * matrix_size;
-   436			for (j = 0; j < matrix_size; j++) {
-   437				y_offset = j - (row * row_length);
-   438				rot_index = y_offset * row_length + x_offset;
-   439				new_value = *(input + i * matrix_size + j);
-   440				output[matrix_offset + rot_index] = *(input + i * matrix_size + j);
-   441				if ((j + 1) % row_length == 0) {
-   442					row += 1;
-   443					x_offset += 1;
-   444				}
-   445			}
-   446		}
-   447	}
-   448	
+    55	
+    56	/*
+    57	 * Declare @periods new periods. It is upto the caller to make sure period
+    58	 * transitions cannot happen in parallel.
+    59	 *
+    60	 * The function returns true if the proportions are still defined and false
+    61	 * if aging zeroed out all events. This can be used to detect whether declaring
+    62	 * further periods has any effect.
+    63	 */
+    64	bool fprop_new_period(struct fprop_global *p, int periods)
+    65	{
+    66		s64 events = percpu_counter_sum(&p->events);
+    67	
+    68		/*
+    69		 * Don't do anything if there are no events.
+    70		 */
+    71		if (events <= 1)
+    72			return false;
+  > 73		preempt_disable_nested();
+    74		write_seqcount_begin(&p->sequence);
+    75		if (periods < 64)
+    76			events -= events >> periods;
+    77		/* Use addition to avoid losing events happening between sum and set */
+    78		percpu_counter_add(&p->events, -events);
+    79		p->period += periods;
+    80		write_seqcount_end(&p->sequence);
+    81		preempt_enable_nested();
+    82	
+    83		return true;
+    84	}
+    85	
 
 -- 
 0-DAY CI Kernel Test Service
