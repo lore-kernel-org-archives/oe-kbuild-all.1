@@ -1,50 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCD136AFC;
-	Thu,  9 Nov 2023 19:31:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6319D374C2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 20:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxA4MdhV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nBxHxxe3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699558287; x=1731094287;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hH9nlVUGJLwdmbsNU0RXFWcoFRP5ACZ+JtBNhRW+Xjk=;
-  b=UxA4MdhVUZaBDnr4Nx/n6yxuwqwbfccIB44SIDaaHaptYttv9JedyVZk
-   JBsVmZnFKMF/XzhXPvFhIMUDzDaimzaTXnl5LzGTf4PgdZjkTocaESDVg
-   0h8vC4jA6z3xgZSNKbYFbEovDbZpz/oPn9z/dk5Qw8yVSl45roPLHVV5g
-   47VI11qT1B8cyRTLMapQSjUgWddoMvCkSFcBKYjZhCgZnCx/UCoif+Y3M
-   8F0SdK9oDxhRzDa4aV/bOen04YEeLOhAiCKfjki4TfzoTsU5Uw9sdqjAE
-   z8Gblbo9CmZ/m4Lb+iEu9PcN9Ugr1UCpHwjvZdxolFQ0Zz/BN2rhxsGLK
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="392935569"
+  t=1699560631; x=1731096631;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8dCLp2+y+Vp81Snocx4WjEi+kHxZnTxlXpSehl2oVrs=;
+  b=nBxHxxe3NARkHQRsRfH34LI3GqdIyA80aD3G53amMHfB6KNRHdmV5mu4
+   Wac0JNd9mp7TlWV/EOHgv26jerNpJe6kbMPYNUnvOTKasNJXxYYFZon2r
+   0cpf2rTnIKpjyNP2Eb5S5ol09WNuh292xZdH/3ZW45/wt5wXdtaBIZ0Pe
+   EOVxxkwaAPXbVHTCAcoxYQdzdLPeyNYCycwwtgGGGZknrQyEXGcAczOyQ
+   jGYr9VXoFB2/LxdbC/TQXXHyzkjtQ1PM4i0oJGnMiRSFYSoRKzxRJf80Y
+   sVlyxOerHwtNtBpP852+eYQ7zwBhyFbqgRPogBdIQMK3JYu01o9EyAEaL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="388924678"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="392935569"
+   d="scan'208";a="388924678"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 11:31:24 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 12:10:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="887122267"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="887135184"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="887122267"
+   d="scan'208";a="887135184"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 09 Nov 2023 11:31:21 -0800
+  by orsmga004.jf.intel.com with ESMTP; 09 Nov 2023 12:10:28 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1AkJ-00095S-0k;
-	Thu, 09 Nov 2023 19:31:19 +0000
-Date: Fri, 10 Nov 2023 03:30:38 +0800
+	id 1r1BMA-00096W-1o;
+	Thu, 09 Nov 2023 20:10:26 +0000
+Date: Fri, 10 Nov 2023 04:10:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	Ed Tsai <ed.tsai@mediatek.com>, Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH V2 2/2] block: try to make aligned bio in case of big
- chunk IO
-Message-ID: <202311100354.HYfqOQ7o-lkp@intel.com>
-References: <20231109082827.2276696-3-ming.lei@redhat.com>
+To: Xiubo Li <xiubli@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
+Subject: [ceph-client:testing 5/17] include/linux/kern_levels.h:5:25:
+ warning: format '%s' expects argument of type 'char *', but argument 5 has
+ type 'u32' {aka 'unsigned int'}
+Message-ID: <202311100323.X2ldielo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,103 +50,183 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231109082827.2276696-3-ming.lei@redhat.com>
 
-Hi Ming,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.6 next-20231109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/block-don-t-call-into-iov_iter_revert-if-nothing-is-left/20231109-190100
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20231109082827.2276696-3-ming.lei%40redhat.com
-patch subject: [PATCH V2 2/2] block: try to make aligned bio in case of big chunk IO
-config: arm-davinci_all_defconfig (https://download.01.org/0day-ci/archive/20231110/202311100354.HYfqOQ7o-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100354.HYfqOQ7o-lkp@intel.com/reproduce)
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   df68d14f678dc8f70ab1dc9cb4f1257af7b7d91b
+commit: c67942de8d2ccb3f1a8d1b87908f679be5a9d6a3 [5/17] [DO NOT MERGE] ceph: BUG if MDS changed truncate_seq with client caps still outstanding
+config: i386-randconfig-006-20231110 (https://download.01.org/0day-ci/archive/20231110/202311100323.X2ldielo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100323.X2ldielo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311100354.HYfqOQ7o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311100323.X2ldielo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> block/bio.c:1228:21: warning: variable 'size' is uninitialized when used here [-Wuninitialized]
-    1228 |                 return UINT_MAX - size;
-         |                                   ^~~~
-   block/bio.c:1221:19: note: initialize the variable 'size' to silence this warning
-    1221 |         unsigned int size, predicted_space, max_bytes;
-         |                          ^
-         |                           = 0
-   1 warning generated.
+         |         ^~~~~~
+   fs/ceph/inode.c:789:33: note: in expansion of macro 'pr_err_client'
+     789 |                                 pr_err_client(" truncate_seq %u -> %u\n",
+         |                                 ^~~~~~~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%llu' expects a matching 'long long unsigned int' argument [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
+      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
+         |         ^~~~~~
+   fs/ceph/inode.c:789:33: note: in expansion of macro 'pr_err_client'
+     789 |                                 pr_err_client(" truncate_seq %u -> %u\n",
+         |                                 ^~~~~~~~~~~~~
+   fs/ceph/inode.c:791:72: error: expected ')' before 'isize'
+     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
+         |                                                                        ^~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/printk.h:498:25: note: in expansion of macro 'pr_fmt'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                         ^~~~~~
+   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
+      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
+         |         ^~~~~~
+   fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
+     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
+         |                                 ^~~~~~~~~~~~~
+   include/linux/printk.h:427:24: note: to match this '('
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                        ^
+   include/linux/printk.h:455:26: note: in expansion of macro 'printk_index_wrap'
+     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                          ^~~~~~~~~~~~~~~~~
+   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
+      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
+         |         ^~~~~~
+   fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
+     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
+         |                                 ^~~~~~~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%p' expects a matching 'void *' argument [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
+      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
+         |         ^~~~~~
+   fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
+     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
+         |                                 ^~~~~~~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%llu' expects a matching 'long long unsigned int' argument [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
+      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
+         |         ^~~~~~
+   fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
+     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
+         |                                 ^~~~~~~~~~~~~
+>> include/linux/kern_levels.h:5:25: warning: format '%s' expects argument of type 'char *', but argument 5 has type 'u32' {aka 'unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/linux/printk.h:585:9: note: in expansion of macro 'no_printk'
+     585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/linux/printk.h:585:19: note: in expansion of macro 'KERN_DEBUG'
+     585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |                   ^~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:50:9: note: in expansion of macro 'pr_debug'
+      50 |         pr_debug(" [%pU %llu] %s: " fmt, &client->fsid,                 \
+         |         ^~~~~~~~
+   fs/ceph/inode.c:794:25: note: in expansion of macro 'doutc'
+     794 |                         doutc(cl, "%s truncate_seq %u -> %u\n",
+         |                         ^~~~~
+>> include/linux/kern_levels.h:5:25: warning: format '%u' expects a matching 'unsigned int' argument [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/linux/printk.h:585:9: note: in expansion of macro 'no_printk'
+     585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/linux/printk.h:585:19: note: in expansion of macro 'KERN_DEBUG'
+     585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |                   ^~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:50:9: note: in expansion of macro 'pr_debug'
+      50 |         pr_debug(" [%pU %llu] %s: " fmt, &client->fsid,                 \
+         |         ^~~~~~~~
+   fs/ceph/inode.c:794:25: note: in expansion of macro 'doutc'
+     794 |                         doutc(cl, "%s truncate_seq %u -> %u\n",
+         |                         ^~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PINCTRL_SINGLE
-   Depends on [n]: PINCTRL [=n] && OF [=y] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - ARCH_DAVINCI [=y] && ARCH_MULTI_V5 [=y] && CPU_LITTLE_ENDIAN [=y]
 
+vim +5 include/linux/kern_levels.h
 
-vim +/size +1228 block/bio.c
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
-  1212	
-  1213	/*
-  1214	 * Figure out max_size hint of iov_iter_extract_pages() for minimizing
-  1215	 * bio & iov iter revert so that bio can be aligned with max io size.
-  1216	 */
-  1217	static unsigned int bio_get_buffer_size_hint(const struct bio *bio,
-  1218			unsigned int left)
-  1219	{
-  1220		unsigned int nr_bvecs = bio->bi_max_vecs - bio->bi_vcnt;
-  1221		unsigned int size, predicted_space, max_bytes;
-  1222		unsigned int space = nr_bvecs << PAGE_SHIFT;
-  1223		unsigned int align_deviation;
-  1224	
-  1225		/* If we have enough space really, just try to get all pages */
-  1226		if (!bio->bi_bdev || nr_bvecs >= (bio->bi_max_vecs / 4) ||
-  1227				!bio->bi_vcnt || left <= space)
-> 1228			return UINT_MAX - size;
-  1229	
-  1230		max_bytes = bdev_max_io_bytes(bio->bi_bdev);
-  1231		size = bio->bi_iter.bi_size;
-  1232	
-  1233		/*
-  1234		 * One bvec can hold physically continuous page frames with
-  1235		 * multipage bvec and bytes in these pages can be pretty big, so
-  1236		 * predict the available space by averaging bytes on all bvecs
-  1237		 */
-  1238		predicted_space = size * nr_bvecs / bio->bi_vcnt;
-  1239		/*
-  1240		 * If predicted space is bigger than max io bytes and at least two
-  1241		 * vectors left, ask for all pages
-  1242		 */
-  1243		if (predicted_space > max_bytes && nr_bvecs > 2)
-  1244			return UINT_MAX - size;
-  1245	
-  1246		/*
-  1247		 * This bio is close to be full, and stop to add pages if it is
-  1248		 * basically aligned, otherwise just get & add pages if the bio
-  1249		 * can be kept as aligned, so that we can minimize bio & iov iter
-  1250		 * revert
-  1251		 */
-  1252		align_deviation = max_t(unsigned int, 16U * 1024, max_bytes / 16);
-  1253		if ((size & (max_bytes - 1)) > align_deviation) {
-  1254			unsigned aligned_bytes = max_bytes - (size & (max_bytes - 1));
-  1255	
-  1256			/* try to keep bio aligned if we have enough data and space */
-  1257			if (aligned_bytes <= left && aligned_bytes <= predicted_space)
-  1258				return aligned_bytes;
-  1259		}
-  1260	
-  1261		return 0;
-  1262	}
-  1263	
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
