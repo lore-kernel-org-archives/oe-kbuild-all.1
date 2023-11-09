@@ -1,46 +1,73 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B30512B79
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 09:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681A513AC2;
+	Thu,  9 Nov 2023 09:46:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jccDtaqY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZT9JNwsO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699522575; x=1731058575;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Lj9MMzqpQTvTTZzqBJc36VT7RGs28b/2PZ/HuDRkf+U=;
-  b=jccDtaqYMcbNmemhN1ovYgHbYYbiiHYVLwo3xC3OJPhvhLJdJtLruA/Y
-   RGloTrwCnLNhLXYChky/x93j6e11or80/C2WrBnmclXUn2YzS/p6W2Vwk
-   IpJVBqawpJHEo/slcUEGjkdOnG1AkGql2zONjfVpw8tQ0QUYsxEKnwjQ3
-   YWUPD3jujguDMVatZo72MVEkJIKMCIb9EKAHCzi840ckU9WCpMFeoAqIT
-   sxKr6Z9cFK3FvpSAKAWFkrQLCgTb8owvu9KgaUkFdKfAD4JlTq5dvL6aA
-   c3xKvJBzXVmEXyevKBmdkzfhUUl+vf+6Ihm+f3UY/D/IhNmXkksE7/5Dm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="11502704"
+  t=1699523213; x=1731059213;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ip+CQU2PiDpNSq4YwNpQlS7L41kfKCfH4bP+hTrn7Po=;
+  b=ZT9JNwsO25UT32vAqXaB6mmumDOJWuX+ctI3oL+1a51KnRl+um6nHP5q
+   0CV9s8TWJf35D7S3FvfLR8QHkBPaiVd4GFagFXw5xCJecO/Xft58DvJse
+   T5QYkWTsTiLk/eY4P6GHI9rmTFEOheqAoQyUBfemiUsVMAKJntPwGWLe6
+   XLsFoKMJ1gLVxOch0Xs8b/htlPaaOmmWCw+L9ho5Flbw160TULVaoNGGz
+   f8O9mV0XMYSHool7X2T5pNCtuYstDpwldVjVySqGkRRVfta5HQpvQrCaT
+   Sduw6p+wYDpoUbTPUgGNSR215WtyrQLj/PhJE6ZWCXoZapiA/uy/5/jhP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="11503994"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="11502704"
+   d="scan'208";a="11503994"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 01:36:14 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 01:46:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="798280879"
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="798282364"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="798280879"
+   d="scan'208";a="798282364"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 Nov 2023 01:36:12 -0800
+  by orsmga001.jf.intel.com with ESMTP; 09 Nov 2023 01:46:43 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r11SM-0008cm-22;
-	Thu, 09 Nov 2023 09:36:10 +0000
-Date: Thu, 9 Nov 2023 17:35:48 +0800
+	id 1r11cW-0008d1-3D;
+	Thu, 09 Nov 2023 09:46:41 +0000
+Date: Thu, 9 Nov 2023 17:46:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream-next 133/321] arch/x86/kvm/vmx/tdx.c:480:25:
- error: too many arguments to function 'tdx_unpin'
-Message-ID: <202311091744.8wju4cYf-lkp@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Geoff Levand <geoff@infradead.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH 15/22] arch: vdso: consolidate gettime prototypes
+Message-ID: <202311091740.g315K93o-lkp@intel.com>
+References: <20231108125843.3806765-16-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,74 +76,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231108125843.3806765-16-arnd@kernel.org>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-next
-head:   b6ce7ab288890b0d531d7be9e01dad957ae6857d
-commit: 6a477bd89cd9237134793387c68ccbfc86720fc6 [133/321] KVM: TDX: TDP MMU TDX support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231109/202311091744.8wju4cYf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311091744.8wju4cYf-lkp@intel.com/reproduce)
+Hi Arnd,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[cannot apply to v6.6 next-20231109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/ida-make-ida_dump-static/20231109-005742
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231108125843.3806765-16-arnd%40kernel.org
+patch subject: [PATCH 15/22] arch: vdso: consolidate gettime prototypes
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231109/202311091740.g315K93o-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311091740.g315K93o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311091744.8wju4cYf-lkp@intel.com/
-
-Note: the intel-tdx/kvm-upstream-next HEAD b6ce7ab288890b0d531d7be9e01dad957ae6857d builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311091740.g315K93o-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/vmx/tdx.c: In function 'tdx_sept_page_aug':
->> arch/x86/kvm/vmx/tdx.c:480:25: error: too many arguments to function 'tdx_unpin'
-     480 |                         tdx_unpin(kvm, gfn, pfn, level);
-         |                         ^~~~~~~~~
-   arch/x86/kvm/vmx/tdx.c:450:13: note: declared here
-     450 | static void tdx_unpin(struct kvm *kvm, kvm_pfn_t pfn)
-         |             ^~~~~~~~~
+>> arch/x86/um/vdso/um_vdso.c:17:5: error: conflicting types for '__vdso_clock_gettime'
+      17 | int __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
+         |     ^
+   include/vdso/gettime.h:16:5: note: previous declaration is here
+      16 | int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
+         |     ^
+   arch/x86/um/vdso/um_vdso.c:58:1: warning: no previous prototype for function '__vdso_getcpu' [-Wmissing-prototypes]
+      58 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
+         | ^
+   arch/x86/um/vdso/um_vdso.c:57:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      57 | long
+         | ^
+         | static 
+   1 warning and 1 error generated.
 
 
-vim +/tdx_unpin +480 arch/x86/kvm/vmx/tdx.c
+vim +/__vdso_clock_gettime +17 arch/x86/um/vdso/um_vdso.c
 
-   456	
-   457	static int tdx_sept_page_aug(struct kvm *kvm, gfn_t gfn,
-   458				     enum pg_level level, kvm_pfn_t pfn)
-   459	{
-   460		int tdx_level = pg_level_to_tdx_sept_level(level);
-   461		struct kvm_tdx *kvm_tdx = to_kvm_tdx(kvm);
-   462		union tdx_sept_level_state level_state;
-   463		hpa_t hpa = pfn_to_hpa(pfn);
-   464		gpa_t gpa = gfn_to_gpa(gfn);
-   465		struct tdx_module_args out;
-   466		union tdx_sept_entry entry;
-   467		u64 err;
-   468	
-   469		err = tdh_mem_page_aug(kvm_tdx->tdr_pa, gpa, hpa, &out);
-   470		if (unlikely(err == TDX_ERROR_SEPT_BUSY)) {
-   471			tdx_unpin(kvm, pfn);
-   472			return -EAGAIN;
-   473		}
-   474		if (unlikely(err == (TDX_EPT_ENTRY_STATE_INCORRECT | TDX_OPERAND_ID_RCX))) {
-   475			entry.raw = out.rcx;
-   476			level_state.raw = out.rdx;
-   477			if (level_state.level == tdx_level &&
-   478			    level_state.state == TDX_SEPT_PENDING &&
-   479			    entry.leaf && entry.pfn == pfn && entry.sve) {
- > 480				tdx_unpin(kvm, gfn, pfn, level);
-   481				WARN_ON_ONCE(!(to_kvm_tdx(kvm)->attributes &
-   482					       TDX_TD_ATTR_SEPT_VE_DISABLE));
-   483				return -EAGAIN;
-   484			}
-   485		}
-   486		if (KVM_BUG_ON(err, kvm)) {
-   487			pr_tdx_error(TDH_MEM_PAGE_AUG, err, &out);
-   488			tdx_unpin(kvm, pfn);
-   489			return -EIO;
-   490		}
-   491	
-   492		return 0;
-   493	}
-   494	
+f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  16  
+82210fc778982d arch/x86/um/vdso/um_vdso.c        Arnd Bergmann      2019-10-27 @17  int __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
+f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  18  {
+f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  19  	long ret;
+f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  20  
+5541992e512de8 arch/x86/um/vdso/um_vdso.c        Ammar Faizi        2022-12-24  21  	asm("syscall"
+5541992e512de8 arch/x86/um/vdso/um_vdso.c        Ammar Faizi        2022-12-24  22  		: "=a" (ret)
+5541992e512de8 arch/x86/um/vdso/um_vdso.c        Ammar Faizi        2022-12-24  23  		: "0" (__NR_clock_gettime), "D" (clock), "S" (ts)
+5541992e512de8 arch/x86/um/vdso/um_vdso.c        Ammar Faizi        2022-12-24  24  		: "rcx", "r11", "memory");
+f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  25  
+f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  26  	return ret;
+f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  27  }
+82210fc778982d arch/x86/um/vdso/um_vdso.c        Arnd Bergmann      2019-10-27  28  int clock_gettime(clockid_t, struct __kernel_old_timespec *)
+f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  29  	__attribute__((weak, alias("__vdso_clock_gettime")));
+f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  30  
 
 -- 
 0-DAY CI Kernel Test Service
