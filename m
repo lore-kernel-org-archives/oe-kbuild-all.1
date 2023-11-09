@@ -1,50 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF0410A33;
-	Thu,  9 Nov 2023 09:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109B210A39
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 09:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FREdehzE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZtq17bv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699521246; x=1731057246;
+  t=1699521311; x=1731057311;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GS8dbLhC+m1/CpSugFOf9ABa4muzjNydMqJPnmvrbiE=;
-  b=FREdehzEdLmizhvtP29rvdfDOOPr5kBxJWFD/egrCq/JZmpHbG+AxSiS
-   0TfvWUBJ/JvKc8VcXLhPqGH8CfCokLrsfmBgf6ICAM92gjY4uoyOqO842
-   iDM8Oueb+aNMpcZPth1vyi5mAU1sqOLqADO055fDx9ywndcmtwMnNnkGg
-   vp9LWwCVi7tOo0V+IvfdHSeTmsdgfRhE6e5Nkk1bvwved10Lg6t+AQefP
-   bPZc5z4ROED+KETQZ/ibXcdk6EkqX8UkQiT1Nw2kYpjboWiW3Cr/eoo32
-   W233xMuzXQsbBZCsr49BlzQctKZzSwN/Fcm+aa1wN9bG7El1LgbbR452f
+  bh=V1ojQW6k/1fa+fti5BlrP+QFdrh5F3WbbV5rrS9WT1o=;
+  b=WZtq17bvt/xeoL45rJH2Rc8k+rBNQUdX9vK2YfnGVJ44VQJuTVrsyw/V
+   Hre/ApcBnBT7cwQh/iPte1me1ZEQcYk9/+/A0Mmb2a+OGn6HyYCL3bifP
+   JYImAqCmTlbfuJqpgRUy7gacy1k8+0z7Y32IyK4rVTcvhsSNdKFcidRaJ
+   Qa0xKqb6PoQSXuSM0YX0kaBaV/RfGDx00486HudQY6rPZkHYzlX1PPRvo
+   gmV+8qxNDZaiesMiJ0N7b/9HHpClaD3NEy2WlauhO42er2H83w62ucwlC
+   xT0JohEmi9sGJzTzlm2qiII7YCMWDMP342dRwh3Qsk4sAUWlsCt0b7MrD
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="454251092"
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="369281862"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="454251092"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 01:14:05 -0800
+   d="scan'208";a="369281862"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 01:15:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="880535126"
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="739791557"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="880535126"
+   d="scan'208";a="739791557"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Nov 2023 01:14:03 -0800
+  by orsmga006.jf.intel.com with ESMTP; 09 Nov 2023 01:15:05 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r116v-0008br-1I;
-	Thu, 09 Nov 2023 09:14:01 +0000
-Date: Thu, 9 Nov 2023 17:13:48 +0800
+	id 1r117t-0008bw-35;
+	Thu, 09 Nov 2023 09:15:01 +0000
+Date: Thu, 9 Nov 2023 17:14:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, devel@acpica.org,
-	linux-pm@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [rafael-pm:acpi-mipi-disco-img 5/7]
- drivers/acpi/mipi-disco-img.c:537:6: warning: format specifies type 'int'
- but the argument has type 'unsigned long'
-Message-ID: <202311091629.3jyzqiV7-lkp@intel.com>
+To: Meng Wei <wei.meng@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Chang Ying <ying.chang@intel.com>
+Subject: [intel-lts:4.19/android_t 3113/30000]
+ drivers/media/media-device.c:928:57: sparse: sparse: incorrect type in
+ initializer (different base types)
+Message-ID: <202311091754.SCurS4uo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,129 +52,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git acpi-mipi-disco-img
-head:   54d87fab9fb060ff0489886ca0fdb101f6a3c03f
-commit: a5dbdbb2bfb28643b71d23f75205845cb23af965 [5/7] ACPI: scan: Extract MIPI DisCo for Imaging data into swnodes
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231109/202311091629.3jyzqiV7-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311091629.3jyzqiV7-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: cbe0196f2e61288e2916821cbeb3190f1c09da7e [3113/30000] media: Add request API
+config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20231109/202311091754.SCurS4uo-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311091754.SCurS4uo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311091629.3jyzqiV7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311091754.SCurS4uo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/media-device.c:928:57: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int poll_events @@     got restricted __poll_t @@
+   drivers/media/media-device.c:928:57: sparse:     expected unsigned int poll_events
+   drivers/media/media-device.c:928:57: sparse:     got restricted __poll_t
+>> drivers/media/media-device.c:1010:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t ( *poll )( ... ) @@     got unsigned int ( * )( ... ) @@
+   drivers/media/media-device.c:1010:17: sparse:     expected restricted __poll_t ( *poll )( ... )
+   drivers/media/media-device.c:1010:17: sparse:     got unsigned int ( * )( ... )
+   drivers/media/media-device.c:848:23: warning: cast between incompatible function types from 'long int (*)(struct media_device *, void *)' to 'long int (*)(struct media_device *, struct file *, void *)' [-Wcast-function-type]
+     848 |                 .fn = (long (*)(struct media_device *,                  9-      |                       ^
+   drivers/media/media-device.c:856:9: note: in expansion of macro 'MEDIA_IOC_ARG'
+     856 |         MEDIA_IOC_ARG(__cmd, func, fl, copy_arg_from_user, copy_arg_to_user)
+         |         ^~~~~~~~~~~~~
+   drivers/media/media-device.c:872:9: note: in expansion of macro 'MEDIA_IOC'
+     872 |         MEDIA_IOC(G_TOPOLOGY, media_device_get_topology, MEDIA_IOC_FL_GRAPH_MUTEX),
+         |         ^~~~~~~~~
+   drivers/media/media-device.c:848:23: warning: cast between incompatible function types from 'int (*)(struct media_device *, struct file *, struct media_event *)' to 'long int (*)(struct media_device *, struct file *, void *)' [-Wcast-function-type]
+     848 |                 .fn = (long (*)(struct media_device *,                  18-      |                       ^
+   drivers/media/media-device.c:856:9: note: in expansion of macro 'MEDIA_IOC_ARG'
+     856 |         MEDIA_IOC_ARG(__cmd, func, fl, copy_arg_from_user, copy_arg_to_user)
+         |         ^~~~~~~~~~~~~
+   drivers/media/media-device.c:874:9: note: in expansion of macro 'MEDIA_IOC'
+     874 |         MEDIA_IOC(DQEVENT, media_device_dqevent, 0),
+         |         ^~~~~~~~~
 
->> drivers/acpi/mipi-disco-img.c:537:6: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
-                                    ret * BITS_PER_TYPE(u8), num_lanes + 1);
-                                    ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/acpi.h:1216:47: note: expanded from macro 'acpi_handle_info'
-           acpi_handle_printk(KERN_INFO, handle, fmt, ##__VA_ARGS__)
-                                                 ~~~    ^~~~~~~~~~~
-   1 warning generated.
+vim +928 drivers/media/media-device.c
 
-
-vim +537 drivers/acpi/mipi-disco-img.c
-
-   481	
-   482	static void init_csi2_port(struct acpi_device *adev,
-   483				   struct acpi_device_software_nodes *swnodes,
-   484				   struct acpi_device_software_node_port *port,
-   485				   struct fwnode_handle *port_fwnode,
-   486				   unsigned int port_index)
-   487	{
-   488		unsigned int ep_prop_index = ACPI_DEVICE_SWNODE_EP_CLOCK_LANES;
-   489		acpi_handle handle = acpi_device_handle(adev);
-   490		u8 val[ACPI_DEVICE_CSI2_DATA_LANES];
-   491		int num_lanes = 0;
-   492		int ret;
-   493	
-   494		if (GRAPH_PORT_NAME(port->port_name, port->port_nr))
-   495			return;
-   496	
-   497		swnodes->nodes[ACPI_DEVICE_SWNODE_PORT(port_index)] =
-   498				SOFTWARE_NODE(port->port_name, port->port_props,
-   499					      &swnodes->nodes[ACPI_DEVICE_SWNODE_ROOT]);
-   500	
-   501		ret = fwnode_property_read_u8(port_fwnode, "mipi-img-clock-lane", val);
-   502		if (!ret)
-   503			port->ep_props[NEXT_PROPERTY(ep_prop_index, EP_CLOCK_LANES)] =
-   504				PROPERTY_ENTRY_U32("clock-lanes", val[0]);
-   505	
-   506		ret = fwnode_property_count_u8(port_fwnode, "mipi-img-data-lanes");
-   507		if (ret > 0) {
-   508			num_lanes = ret;
-   509	
-   510			if (num_lanes > ACPI_DEVICE_CSI2_DATA_LANES) {
-   511				acpi_handle_info(handle, "Too many data lanes: %u\n",
-   512						 num_lanes);
-   513				num_lanes = ACPI_DEVICE_CSI2_DATA_LANES;
-   514			}
-   515	
-   516			ret = fwnode_property_read_u8_array(port_fwnode,
-   517							    "mipi-img-data-lanes",
-   518							    val, num_lanes);
-   519			if (!ret) {
-   520				unsigned int i;
-   521	
-   522				for (i = 0; i < num_lanes; i++)
-   523					port->data_lanes[i] = val[i];
-   524	
-   525				port->ep_props[NEXT_PROPERTY(ep_prop_index, EP_DATA_LANES)] =
-   526					PROPERTY_ENTRY_U32_ARRAY_LEN("data-lanes",
-   527								     port->data_lanes,
-   528								     num_lanes);
-   529			}
-   530		}
-   531	
-   532		ret = fwnode_property_count_u8(port_fwnode, "mipi-img-lane-polarities");
-   533		if (ret < 0) {
-   534			acpi_handle_debug(handle, "Lane polarity bytes missing\n");
-   535		} else if (ret * BITS_PER_TYPE(u8) < num_lanes + 1) {
-   536			acpi_handle_info(handle, "Too few lane polarity bytes (%d vs. %d)\n",
- > 537					 ret * BITS_PER_TYPE(u8), num_lanes + 1);
-   538		} else {
-   539			unsigned long mask = 0;
-   540			int byte_count = ret;
-   541			unsigned int i;
-   542	
-   543			/*
-   544			 * The total number of lanes is ACPI_DEVICE_CSI2_DATA_LANES + 1
-   545			 * (data lanes + clock lane).  It is not expected to ever be
-   546			 * greater than the number of bits in an unsigned long
-   547			 * variable, but ensure that this is the case.
-   548			 */
-   549			BUILD_BUG_ON(BITS_PER_TYPE(unsigned long) <= ACPI_DEVICE_CSI2_DATA_LANES);
-   550	
-   551			if (byte_count > sizeof(mask)) {
-   552				acpi_handle_info(handle, "Too many lane polarities: %d\n",
-   553						 byte_count);
-   554				byte_count = sizeof(mask);
-   555			}
-   556			fwnode_property_read_u8_array(port_fwnode, "mipi-img-lane-polarities",
-   557						      val, byte_count);
-   558	
-   559			for (i = 0; i < byte_count; i++)
-   560				mask |= (unsigned long)val[i] << BITS_PER_TYPE(u8) * i;
-   561	
-   562			for (i = 0; i <= num_lanes; i++)
-   563				port->lane_polarities[i] = test_bit(i, &mask);
-   564	
-   565			port->ep_props[NEXT_PROPERTY(ep_prop_index, EP_LANE_POLARITIES)] =
-   566					PROPERTY_ENTRY_U32_ARRAY_LEN("lane-polarities",
-   567								     port->lane_polarities,
-   568								     num_lanes + 1);
-   569		}
-   570	
-   571		swnodes->nodes[ACPI_DEVICE_SWNODE_EP(port_index)] =
-   572			SOFTWARE_NODE("endpoint@0", swnodes->ports[port_index].ep_props,
-   573				      &swnodes->nodes[ACPI_DEVICE_SWNODE_PORT(port_index)]);
-   574	
-   575		if (port->crs_csi2_local)
-   576			init_csi2_port_local(adev, port, port_fwnode, ep_prop_index);
-   577	}
-   578	
+   922	
+   923	static unsigned int media_device_poll(struct file *filp,
+   924					      struct poll_table_struct *wait)
+   925	{
+   926		struct media_device_fh *fh = media_device_fh(filp);
+   927		struct media_device *mdev = fh->fh.devnode->media_dev;
+ > 928		unsigned int poll_events = poll_requested_events(wait);
+   929		int ret = 0;
+   930	
+   931		if (poll_events & (POLLIN | POLLOUT))
+   932			return POLLERR;
+   933	
+   934		if (poll_events & POLLPRI) {
+   935			unsigned long flags;
+   936			bool empty;
+   937	
+   938			spin_lock_irqsave(&mdev->req_lock, flags);
+   939			empty = list_empty(&fh->kevents.head);
+   940			spin_unlock_irqrestore(&mdev->req_lock, flags);
+   941	
+   942			if (empty)
+   943				poll_wait(filp, &fh->kevents.wait, wait);
+   944			else
+   945				ret |= POLLPRI;
+   946		}
+   947	
+   948		return ret;
+   949	}
+   950	
+   951	#ifdef CONFIG_COMPAT
+   952	
+   953	struct media_links_enum32 {
+   954		__u32 entity;
+   955		compat_uptr_t pads; /* struct media_pad_desc * */
+   956		compat_uptr_t links; /* struct media_link_desc * */
+   957		__u32 reserved[4];
+   958	};
+   959	
+   960	static long media_device_enum_links32(struct media_device *mdev,
+   961							struct file *filp,
+   962							struct media_links_enum32 __user *ulinks)
+   963	{
+   964		struct media_links_enum links;
+   965		compat_uptr_t pads_ptr, links_ptr;
+   966	
+   967		memset(&links, 0, sizeof(links));
+   968	
+   969		if (get_user(links.entity, &ulinks->entity)
+   970		    || get_user(pads_ptr, &ulinks->pads)
+   971		    || get_user(links_ptr, &ulinks->links))
+   972			return -EFAULT;
+   973	
+   974		links.pads = compat_ptr(pads_ptr);
+   975		links.links = compat_ptr(links_ptr);
+   976	
+   977		return media_device_enum_links(mdev, filp, &links);
+   978	}
+   979	
+   980	#define MEDIA_IOC_ENUM_LINKS32		_IOWR('|', 0x02, struct media_links_enum32)
+   981	
+   982	static long media_device_compat_ioctl(struct file *filp, unsigned int cmd,
+   983					      unsigned long arg)
+   984	{
+   985		struct media_devnode *devnode = media_devnode_data(filp);
+   986		struct media_device *dev = devnode->media_dev;
+   987		long ret;
+   988	
+   989		switch (cmd) {
+   990		case MEDIA_IOC_ENUM_LINKS32:
+   991			mutex_lock(&dev->graph_mutex);
+   992			ret = media_device_enum_links32(dev,
+   993					filp,
+   994					(struct media_links_enum32 __user *)arg);
+   995			mutex_unlock(&dev->graph_mutex);
+   996			break;
+   997	
+   998		default:
+   999			return media_device_ioctl(filp, cmd, arg);
+  1000		}
+  1001	
+  1002		return ret;
+  1003	}
+  1004	#endif /* CONFIG_COMPAT */
+  1005	
+  1006	static const struct media_file_operations media_device_fops = {
+  1007		.owner = THIS_MODULE,
+  1008		.open = media_device_open,
+  1009		.ioctl = media_device_ioctl,
+> 1010		.poll = media_device_poll,
+  1011	#ifdef CONFIG_COMPAT
+  1012		.compat_ioctl = media_device_compat_ioctl,
+  1013	#endif /* CONFIG_COMPAT */
+  1014		.release = media_device_close,
+  1015	};
+  1016	
 
 -- 
 0-DAY CI Kernel Test Service
