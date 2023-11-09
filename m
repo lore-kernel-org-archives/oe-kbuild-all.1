@@ -1,54 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D8A22327
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 17:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710E8225D1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 17:31:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CB+dt2+K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="joJBRxly"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699550516; x=1731086516;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FHsL8SSnSX+/DWgFHktsVeo5j35WA0f9yadd8H+uEow=;
-  b=CB+dt2+KsqrqTOV9BLaw8K40DIQdtS8KBb1azRnsF/j8cMkg/U1i3bp+
-   FrrmDkfsx7ympxe0nUI2OvbFDqAtbg9MKjfrt6+TEf331eWIKLIKtb6O5
-   wB9qNn07vJHqFQlh48xYY1YFO6XGYX3Ln+ZmnqORMkSSjt/DS2rZ65lqI
-   LMslGRS5o1AhHMfHXlx7gnRBeGUSsQaJmxfPUxZfypfaJRNxTVQctD2ZN
-   D55lQSDqZqXJepmLZD55IP+Tne+eJo7Uii+r2qz1plYluNJsl9VKLVSXB
-   kvBITXbHf4lTHWU/sB80Ex6woxVS8WW8k6Y6P5K15nvnVLJBc+Mz5SIjE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="370238005"
+  t=1699551078; x=1731087078;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=F1RC2ZPPBamfhRKOImDvw7dUoUXAFW4Utg50yIgoPJg=;
+  b=joJBRxlyWra8SjaVDuGaJQDws7C2Tbf31XIgeSu/PREcNP5XZjmUbkIO
+   MR144Qu6BZ6IOvnJ1cdphC8O5EeK3U5IHwnBlWjWjMfPu736/VO9VJjdn
+   GNTsQK8aW/sf1SxiJWNclMRkhKGrPx3jXFeRQZHFa7dAags0PuIMUZ6G8
+   bFoW7MH1I8ivTzI+FXn1z4zCM7nCEAs6bk0UySySEqnMee3Zu3ShkL8HJ
+   PrQ4mXb1ay0FJrAKXUN8/8Lq7vmUm5hqC9zGtaw4XVmnPs6AFEITs1yIK
+   hzCH3rAg+3Ug3xLpEgjRNzIo4uUzFg4sh0GLbyVmDBCGYhHIvLYHwldq/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="454336985"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="370238005"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 09:21:55 -0800
+   d="scan'208";a="454336985"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 09:31:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="1010689801"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="1010689801"
+   d="scan'208";a="4786760"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Nov 2023 09:21:50 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 09 Nov 2023 09:31:16 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r18iy-0008xW-0t;
-	Thu, 09 Nov 2023 17:21:48 +0000
-Date: Fri, 10 Nov 2023 01:09:29 +0800
+	id 1r18s6-0008yo-0V;
+	Thu, 09 Nov 2023 17:31:14 +0000
+Date: Fri, 10 Nov 2023 01:27:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel_team@skhynix.com,
-	akpm@linux-foundation.org, ying.huang@intel.com, namit@vmware.com,
-	xhao@linux.alibaba.com, mgorman@techsingularity.net,
-	hughd@google.com, willy@infradead.org, david@redhat.com,
-	peterz@infradead.org, luto@kernel.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Subject: Re: [v4 2/3] mm: Defer TLB flush by keeping both src and dst folios
- at migration
-Message-ID: <202311092356.XzY1aBHX-lkp@intel.com>
-References: <20231109045908.54996-3-byungchul@sk.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 2449/24078]
+ kernel/tracepoint.c:662:27: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202311100031.kcoO9slq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,74 +49,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231109045908.54996-3-byungchul@sk.com>
 
-Hi Byungchul,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on tip/x86/core tip/x86/mm v6.6]
-[cannot apply to akpm-mm/mm-everything linus/master next-20231109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/mm-rmap-Recognize-read-only-TLB-entries-during-batched-TLB-flush/20231109-163706
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20231109045908.54996-3-byungchul%40sk.com
-patch subject: [v4 2/3] mm: Defer TLB flush by keeping both src and dst folios at migration
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231109/202311092356.XzY1aBHX-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311092356.XzY1aBHX-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   6dcfedcb7cf5ac7ddd3c71ee1500d0e33384a489
+commit: e0cfc5fd8c9358c2d85fa65167794c2657f7656e [2449/24078] ANDROID: vendor_hooks: Allow multiple attachments to restricted hooks
+config: i386-randconfig-061-20230915 (https://download.01.org/0day-ci/archive/20231110/202311100031.kcoO9slq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100031.kcoO9slq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311092356.XzY1aBHX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311100031.kcoO9slq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/tracepoint.c:662:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func [noderef] __rcu *funcs @@     got void * @@
+   kernel/tracepoint.c:662:27: sparse:     expected struct tracepoint_func [noderef] __rcu *funcs
+   kernel/tracepoint.c:662:27: sparse:     got void *
+>> kernel/tracepoint.c:671:25: sparse: sparse: cast removes address space '__rcu' of expression
+>> kernel/tracepoint.c:693:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct tracepoint_func *tp_funcs @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   kernel/tracepoint.c:693:38: sparse:     expected struct tracepoint_func *tp_funcs
+   kernel/tracepoint.c:693:38: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+>> kernel/tracepoint.c:668:31: sparse: sparse: dereference of noderef expression
+   kernel/tracepoint.c:670:42: sparse: sparse: dereference of noderef expression
 
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/topology.h:33,
-                    from include/linux/irq.h:19,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:9,
-                    from arch/m68k/kernel/asm-offsets.c:16:
->> include/linux/mm_types.h:1416:42: error: field 'arch' has incomplete type
-    1416 |         struct arch_tlbflush_unmap_batch arch;
-         |                                          ^~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/m68k/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1202: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +662 kernel/tracepoint.c
 
-
-vim +/arch +1416 include/linux/mm_types.h
-
-  1401	
-  1402	struct migrc_req {
-  1403		/*
-  1404		 * folios pending for TLB flush
-  1405		 */
-  1406		struct list_head folios;
-  1407	
-  1408		/*
-  1409		 * for hanging to the associated numa node
-  1410		 */
-  1411		struct llist_node llnode;
-  1412	
-  1413		/*
-  1414		 * architecture specific data for batched TLB flush
-  1415		 */
-> 1416		struct arch_tlbflush_unmap_batch arch;
+   654	
+   655	#define ANDROID_RVH_NR_PROBES_MAX	2
+   656	static int rvh_func_add(struct tracepoint *tp, struct tracepoint_func *func)
+   657	{
+   658		int i;
+   659	
+   660		if (!static_key_enabled(&tp->key)) {
+   661			/* '+ 1' for the last NULL element */
+ > 662			tp->funcs = rvh_zalloc_funcs(ANDROID_RVH_NR_PROBES_MAX + 1);
+   663			if (!tp->funcs)
+   664				return ENOMEM;
+   665		}
+   666	
+   667		for (i = 0; i < ANDROID_RVH_NR_PROBES_MAX; i++) {
+ > 668			if (!tp->funcs[i].func) {
+   669				if (!static_key_enabled(&tp->key))
+   670					tp->funcs[i].data = func->data;
+ > 671				WRITE_ONCE(tp->funcs[i].func, func->func);
+   672	
+   673				return 0;
+   674			}
+   675		}
+   676	
+   677		return -EBUSY;
+   678	}
+   679	
+   680	static int android_rvh_add_func(struct tracepoint *tp, struct tracepoint_func *func)
+   681	{
+   682		int ret;
+   683	
+   684		if (tp->regfunc && !static_key_enabled(&tp->key)) {
+   685			ret = tp->regfunc();
+   686			if (ret < 0)
+   687				return ret;
+   688		}
+   689	
+   690		ret = rvh_func_add(tp, func);
+   691		if (ret)
+   692			return ret;
+ > 693		tracepoint_update_call(tp, tp->funcs, false);
+   694		static_key_enable(&tp->key);
+   695	
+   696		return 0;
+   697	}
+   698	
 
 -- 
 0-DAY CI Kernel Test Service
