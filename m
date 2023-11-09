@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6319D374C2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 20:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050C8374C2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 20:27:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nBxHxxe3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKy/4OvU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699560631; x=1731096631;
+  t=1699561633; x=1731097633;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8dCLp2+y+Vp81Snocx4WjEi+kHxZnTxlXpSehl2oVrs=;
-  b=nBxHxxe3NARkHQRsRfH34LI3GqdIyA80aD3G53amMHfB6KNRHdmV5mu4
-   Wac0JNd9mp7TlWV/EOHgv26jerNpJe6kbMPYNUnvOTKasNJXxYYFZon2r
-   0cpf2rTnIKpjyNP2Eb5S5ol09WNuh292xZdH/3ZW45/wt5wXdtaBIZ0Pe
-   EOVxxkwaAPXbVHTCAcoxYQdzdLPeyNYCycwwtgGGGZknrQyEXGcAczOyQ
-   jGYr9VXoFB2/LxdbC/TQXXHyzkjtQ1PM4i0oJGnMiRSFYSoRKzxRJf80Y
-   sVlyxOerHwtNtBpP852+eYQ7zwBhyFbqgRPogBdIQMK3JYu01o9EyAEaL
+  bh=vTAI6rYl9kQuT2JXhKkf1IfFGW3obMvyYcLjjI+Yw4Y=;
+  b=hKy/4OvUUjD5bSeG/UXMO9BXt6EEmkvDoF6HzidP2Xy9VUb/X/9beDRL
+   lTJpH0pNI7q6N/U/d1AWfCwZJmDHbUiCSNrNAlCYwERJ1TfyqxOzzNtYt
+   i442YdhtmR+cdHDLppqMTjfMXOSlKU+WJEZNhJSiNJfSYQBZE0/OYjuEm
+   NUtFd/ds2HBQ+CEJ0M7eZH3jjrEomI3Rfq8uFPV777TQjLitQsXrav/7t
+   vzEk/3Ve7Ke5OYRVtUJyIJZf17p1sknRkEp1DIZdmeBm0LKOgbT7IeJsr
+   rTAGI0BGCPjzLVopMxZCPvXJ/MFmJsMu1ds5urEiaPjZO4EacrFmRi/T2
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="388924678"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="389873953"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="388924678"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 12:10:30 -0800
+   d="scan'208";a="389873953"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 12:27:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="887135184"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="880724899"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="887135184"
+   d="scan'208";a="880724899"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 09 Nov 2023 12:10:28 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 09 Nov 2023 12:27:10 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1BMA-00096W-1o;
-	Thu, 09 Nov 2023 20:10:26 +0000
-Date: Fri, 10 Nov 2023 04:10:08 +0800
+	id 1r1BcK-00097C-2N;
+	Thu, 09 Nov 2023 20:27:08 +0000
+Date: Fri, 10 Nov 2023 04:24:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiubo Li <xiubli@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:testing 5/17] include/linux/kern_levels.h:5:25:
- warning: format '%s' expects argument of type 'char *', but argument 5 has
- type 'u32' {aka 'unsigned int'}
-Message-ID: <202311100323.X2ldielo-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 5/6]
+ include/trace/hooks/cgroup.h:21:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202311100417.PENGGeMv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,182 +51,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ceph/ceph-client.git testing
-head:   df68d14f678dc8f70ab1dc9cb4f1257af7b7d91b
-commit: c67942de8d2ccb3f1a8d1b87908f679be5a9d6a3 [5/17] [DO NOT MERGE] ceph: BUG if MDS changed truncate_seq with client caps still outstanding
-config: i386-randconfig-006-20231110 (https://download.01.org/0day-ci/archive/20231110/202311100323.X2ldielo-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   d0dd647190e20389d3554d76653d0e06e35b9918
+commit: d4f032e36b84cba331ff9b5e16aa4d447c44391a [5/6] ANDROID: cgroup: Add android_rvh_cgroup_force_kthread_migration
+config: i386-randconfig-061-20230915 (https://download.01.org/0day-ci/archive/20231110/202311100417.PENGGeMv-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100323.X2ldielo-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100417.PENGGeMv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311100323.X2ldielo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311100417.PENGGeMv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   include/trace/hooks/sched.h:147:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:147:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:147:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:151:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:151:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:151:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:155:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:155:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:155:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:159:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:159:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:159:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:163:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:163:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:163:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:167:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:167:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:167:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:171:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:171:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:171:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:176:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:176:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:176:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:180:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:180:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:180:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:184:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:184:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:184:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:188:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:188:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:188:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:193:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:193:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:193:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:197:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:197:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:197:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:202:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:202:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:202:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:206:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:206:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:206:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:210:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:210:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:210:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:214:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:214:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:214:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:218:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:218:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:218:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:237:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:237:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:237:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:240:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:240:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:240:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:243:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:243:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:243:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:247:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:247:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:247:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:252:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:252:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:252:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:257:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:257:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:257:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cpufreq.h):
+   include/trace/hooks/cpufreq.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cpufreq.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cpufreq.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/mm.h):
+   include/trace/hooks/mm.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/mm.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/mm.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/preemptirq.h):
+   include/trace/hooks/preemptirq.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cgroup.h):
+>> include/trace/hooks/cgroup.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+--
+   kernel/cgroup/cgroup.c:6281:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/cgroup/cgroup.c:6281:41: sparse:     expected struct spinlock [usertype] *lock
+   kernel/cgroup/cgroup.c:6281:41: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/cgroup/cgroup.c:6284:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/cgroup/cgroup.c:6284:43: sparse:     expected struct spinlock [usertype] *lock
+   kernel/cgroup/cgroup.c:6284:43: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/cgroup/cgroup.c: note: in included file:
+>> include/trace/hooks/cgroup.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   kernel/cgroup/cgroup.c:2795:20: sparse: sparse: context imbalance in 'cgroup_procs_write_start' - wrong count at exit
+   kernel/cgroup/cgroup.c:2875:9: sparse: sparse: context imbalance in 'cgroup_procs_write_finish' - wrong count at exit
+   kernel/cgroup/cgroup.c:2986:9: sparse: sparse: context imbalance in 'cgroup_lock_and_drain_offline' - wrong count at exit
+   kernel/cgroup/cgroup.c:4877:16: sparse: sparse: context imbalance in '__cgroup_procs_write' - wrong count at exit
+   kernel/cgroup/cgroup.c:6064:12: sparse: sparse: context imbalance in 'cgroup_css_set_fork' - wrong count at exit
+   kernel/cgroup/cgroup.c:6157:9: sparse: sparse: context imbalance in 'cgroup_css_set_put_fork' - wrong count at exit
+   kernel/cgroup/cgroup.c:6185:5: sparse: sparse: context imbalance in 'cgroup_can_fork' - wrong count at exit
+   kernel/cgroup/cgroup.c:6234:9: sparse: sparse: context imbalance in 'cgroup_cancel_fork' - unexpected unlock
 
-         |         ^~~~~~
-   fs/ceph/inode.c:789:33: note: in expansion of macro 'pr_err_client'
-     789 |                                 pr_err_client(" truncate_seq %u -> %u\n",
-         |                                 ^~~~~~~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%llu' expects a matching 'long long unsigned int' argument [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
-      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
-         |         ^~~~~~
-   fs/ceph/inode.c:789:33: note: in expansion of macro 'pr_err_client'
-     789 |                                 pr_err_client(" truncate_seq %u -> %u\n",
-         |                                 ^~~~~~~~~~~~~
-   fs/ceph/inode.c:791:72: error: expected ')' before 'isize'
-     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
-         |                                                                        ^~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/printk.h:498:25: note: in expansion of macro 'pr_fmt'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                         ^~~~~~
-   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
-      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
-         |         ^~~~~~
-   fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
-     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
-         |                                 ^~~~~~~~~~~~~
-   include/linux/printk.h:427:24: note: to match this '('
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                        ^
-   include/linux/printk.h:455:26: note: in expansion of macro 'printk_index_wrap'
-     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                          ^~~~~~~~~~~~~~~~~
-   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
-      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
-         |         ^~~~~~
-   fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
-     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
-         |                                 ^~~~~~~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%p' expects a matching 'void *' argument [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
-      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
-         |         ^~~~~~
-   fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
-     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
-         |                                 ^~~~~~~~~~~~~
-   include/linux/kern_levels.h:5:25: warning: format '%llu' expects a matching 'long long unsigned int' argument [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
-      68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
-         |         ^~~~~~
-   fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
-     791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
-         |                                 ^~~~~~~~~~~~~
->> include/linux/kern_levels.h:5:25: warning: format '%s' expects argument of type 'char *', but argument 5 has type 'u32' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/printk.h:585:9: note: in expansion of macro 'no_printk'
-     585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:585:19: note: in expansion of macro 'KERN_DEBUG'
-     585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   include/linux/ceph/ceph_debug.h:50:9: note: in expansion of macro 'pr_debug'
-      50 |         pr_debug(" [%pU %llu] %s: " fmt, &client->fsid,                 \
-         |         ^~~~~~~~
-   fs/ceph/inode.c:794:25: note: in expansion of macro 'doutc'
-     794 |                         doutc(cl, "%s truncate_seq %u -> %u\n",
-         |                         ^~~~~
->> include/linux/kern_levels.h:5:25: warning: format '%u' expects a matching 'unsigned int' argument [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/linux/printk.h:585:9: note: in expansion of macro 'no_printk'
-     585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~
-   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
-      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-         |                         ^~~~~~~~
-   include/linux/printk.h:585:19: note: in expansion of macro 'KERN_DEBUG'
-     585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                   ^~~~~~~~~~
-   include/linux/ceph/ceph_debug.h:50:9: note: in expansion of macro 'pr_debug'
-      50 |         pr_debug(" [%pU %llu] %s: " fmt, &client->fsid,                 \
-         |         ^~~~~~~~
-   fs/ceph/inode.c:794:25: note: in expansion of macro 'doutc'
-     794 |                         doutc(cl, "%s truncate_seq %u -> %u\n",
-         |                         ^~~~~
+vim +21 include/trace/hooks/cgroup.h
 
-
-vim +5 include/linux/kern_levels.h
-
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    10	
+    11	struct task_struct;
+    12	DECLARE_HOOK(android_vh_cgroup_set_task,
+    13		TP_PROTO(int ret, struct task_struct *task),
+    14		TP_ARGS(ret, task));
+    15	
+    16	struct cgroup_subsys;
+    17	struct cgroup_taskset;
+    18	DECLARE_HOOK(android_vh_cgroup_attach,
+    19		TP_PROTO(struct cgroup_subsys *ss, struct cgroup_taskset *tset),
+    20		TP_ARGS(ss, tset))
+  > 21	DECLARE_RESTRICTED_HOOK(android_rvh_cgroup_force_kthread_migration,
+    22		TP_PROTO(struct task_struct *tsk, struct cgroup *dst_cgrp, bool *force_migration),
+    23		TP_ARGS(tsk, dst_cgrp, force_migration), 1);
+    24	#endif
+    25	
 
 -- 
 0-DAY CI Kernel Test Service
