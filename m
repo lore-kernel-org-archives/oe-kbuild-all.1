@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA0C225D1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 17:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CA9225D8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 17:39:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JVDWGV7j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hbF7IyRm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699551137; x=1731087137;
+  t=1699551547; x=1731087547;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gGfR3sUOo1gIupn2nv65Y1dIiE0I+Pdrfsas611C9Do=;
-  b=JVDWGV7jEtCKvmzIrNm7u1S6prRHI4mzHLTWLcozkMv/O7SD/N0VuOOY
-   m3MSFvbIiZ8f70Yfpqw3AYZZhX+nYLKE0TjXctQosW3yLhvcJ2SQX/Y65
-   L0nw9egOQoZzb3jkHolrZnkQvwAJrE4PhQiXTsI7+2AQ2c2RmQbKLenzH
-   MfZmTGifOgo1bfGS7juS/WfL3zevxwvmw/u/gxKR6EqvdGVf35CpRzdiY
-   avzXS6TZNn21JKqvLhtQXpMn5ioex92OgplzXbK/yqHKM8JWcH2hFfQh5
-   73D//3lQ1w1BooFt/8iABYM0QIFugPZUmllzNtwjzTE4f+9emL63reWvr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="392905742"
+  bh=oNOe5l4fdRB0ajuwjXG6C+asgvasqM5b+SFJVSaFlaE=;
+  b=hbF7IyRmj39Oc2IBrMykzXnX4nx8Rs40GefpbJbgPEFtY8+VQHRi80GJ
+   /Hm2jI6XnSS9DPb7OU6U/gK/gkd4bfm6gxIXVETPCKN6/t0N46l1Jc3Uu
+   VrpZSdArZ6AARC0zh/a5Y2ySy7wJiTvDwISv6LW5oF7vpn/SUWap5MkM2
+   lslt6uev3biIlOpgcLzDh4pxywBJ7GhSkyRGiuMswi4TerqC6Falghkif
+   MsEhti0y89JYsilMzXQbrd658od69+A5ExMHpwdTIQDXOnrmpwih2z6/T
+   QrX2FFXc2byFySKTvIB5pgw6d7cr5gDqaTP7RSu2CBTf7dlrGzuENXWyq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="375074318"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="392905742"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 09:32:16 -0800
+   d="scan'208";a="375074318"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 09:39:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="767072593"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="907206195"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="767072593"
+   d="scan'208";a="907206195"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 09 Nov 2023 09:32:15 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2023 09:39:05 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r18t3-0008zC-1F;
-	Thu, 09 Nov 2023 17:32:13 +0000
-Date: Fri, 10 Nov 2023 01:27:19 +0800
+	id 1r18zf-0008zd-2s;
+	Thu, 09 Nov 2023 17:39:03 +0000
+Date: Fri, 10 Nov 2023 01:27:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/ipvlan/ipvlan_core.c:57:36: sparse: sparse: incorrect
- type in argument 1 (different base types)
-Message-ID: <202311100006.TllMAnvM-lkp@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:iommufd-v5.19-rc5 93/104]
+ drivers/iommu/intel/nested.c:288:22: warning: no previous prototype for
+ 'intel_nested_domain_alloc'
+Message-ID: <202311100046.JykPZiGi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,41 +51,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6bc986ab839c844e78a2333a02e55f02c9e57935
-commit: c675e06a98a474f7ad0af32ce467613da818da52 ipvlan: decouple l3s mode dependencies from other modes
-date:   4 years, 9 months ago
-config: i386-randconfig-062-20230914 (https://download.01.org/0day-ci/archive/20231110/202311100006.TllMAnvM-lkp@intel.com/config)
+tree:   https://github.com/yiliu1765/iommufd.git iommufd-v5.19-rc5
+head:   f200d9a1de755f3bb98e21535e22b9adf6ba83f7
+commit: 3d58f63f746cd38647d80d943335de4e5972bbf0 [93/104] iommu/vt-d: Add support for nested mode translation
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231110/202311100046.JykPZiGi-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100006.TllMAnvM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100046.JykPZiGi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311100006.TllMAnvM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311100046.JykPZiGi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ipvlan/ipvlan_core.c:57:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] a @@     got restricted __be32 const [usertype] s_addr @@
-   drivers/net/ipvlan/ipvlan_core.c:57:36: sparse:     expected unsigned int [usertype] a
-   drivers/net/ipvlan/ipvlan_core.c:57:36: sparse:     got restricted __be32 const [usertype] s_addr
+All warnings (new ones prefixed by >>):
 
-vim +57 drivers/net/ipvlan/ipvlan_core.c
+>> drivers/iommu/intel/nested.c:288:22: warning: no previous prototype for 'intel_nested_domain_alloc' [-Wmissing-prototypes]
+     288 | struct iommu_domain *intel_nested_domain_alloc(struct iommu_domain *s2_domain,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  52  
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  53  static u8 ipvlan_get_v4_hash(const void *iaddr)
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  54  {
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  55  	const struct in_addr *ip4_addr = iaddr;
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  56  
-2ad7bf3638411c Mahesh Bandewar 2014-11-23 @57  	return jhash_1word(ip4_addr->s_addr, ipvlan_jhash_secret) &
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  58  	       IPVLAN_HASH_MASK;
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  59  }
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  60  
 
-:::::: The code at line 57 was first introduced by commit
-:::::: 2ad7bf3638411cb547f2823df08166c13ab04269 ipvlan: Initial check-in of the IPVLAN driver.
+vim +/intel_nested_domain_alloc +288 drivers/iommu/intel/nested.c
 
-:::::: TO: Mahesh Bandewar <maheshb@google.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   287	
+ > 288	struct iommu_domain *intel_nested_domain_alloc(struct iommu_domain *s2_domain,
 
 -- 
 0-DAY CI Kernel Test Service
