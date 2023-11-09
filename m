@@ -1,48 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A517F1DFD2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 22:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE2A38DC3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 23:22:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+7BZZKZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oATfWdtR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699570185; x=1731106185;
+  t=1699572172; x=1731108172;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IuY/yThSbLC9rBCoSzHrfMhJyO7for95xikYDFq6HkM=;
-  b=k+7BZZKZeW/RXFg6pOwe3ZhZoH8frZN96wSkUUJLVWn2+vE/uGCSQoxw
-   SS61357v9fI00Z4MdScBWEY6bgVkxwdq5eijFqjHhl7Sae0zRl9Bmev9G
-   WWTwEXPDr1CwgqVFxAlRz9lg+onHQ8d8RARXoafjQ10pdTZAt54pg0wLo
-   XICDofte9CAIpFQAgFJfmMX/Siciyu3rSLQuMBY1TPKUbaoCstnKUwVYu
-   vZDzZJ8rX+OgMaFpKLZfYeZm1CRFSEJRSvPPG8ifPT4upemaIW2B4IiXw
-   VZNgTRM+8vVfH8IshdZHPC9mZ4E2+ZwT2lmEcFlnik4AflK2GNm8/hzQj
+  bh=/z8DLZ4THYqNLsDzY2svkXfTrch4DGCZmT3regrvxgw=;
+  b=oATfWdtRcVtJR1EdvMXorTtbm9oeRsF6uAlFYz9NEAxUBjh9DlBXQVtV
+   PtaASL9q41UO6E/5pJhrT85aZ6djYrctO5fqYQdf+FpiL/9wPxFJLS79J
+   6OOW9At1tCnytYi480MK+28zUn6CQZRUAuiICIV9JBLI/dnEl1CHq06Pe
+   AUVZgY8+cQnGYitcfrd+6092etXs/Acc/MzHsSKYS+ygMvihbCSlfR2o0
+   UK2O1PciFpXBIZpWN1xD48MLv13oiV/4C7Bup3IctUowao0vnpoG8dmQ2
+   CspOIk9qcgJyiaVkleX/eJZLnMqu5xLLwoFxP/anoENUz8FOJoNZQu4Cx
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="454391164"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="454396645"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="454391164"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 14:49:44 -0800
+   d="scan'208";a="454396645"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 15:22:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="1010769082"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="798454498"
 X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="1010769082"
+   d="scan'208";a="798454498"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Nov 2023 14:49:43 -0800
+  by orsmga001.jf.intel.com with ESMTP; 09 Nov 2023 15:22:50 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1DqH-0009EU-04;
-	Thu, 09 Nov 2023 22:49:41 +0000
-Date: Fri, 10 Nov 2023 06:48:57 +0800
+	id 1r1EMK-0009Fe-1k;
+	Thu, 09 Nov 2023 23:22:48 +0000
+Date: Fri, 10 Nov 2023 07:22:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 77/79]
- sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c:1124:28: warning:
- 'mt8186_mt6366_rt5650_soc_card' defined but not used
-Message-ID: <202311100655.vjF5sizU-lkp@intel.com>
+Subject: [yiliu1765-iommufd:iommufd-v5.19-rc5 25/104]
+ drivers/iommu/iommufd/device.c:58: warning: Function parameter or member
+ 'dev' not described in 'iommufd_bind_device'
+Message-ID: <202311100722.1jgTOjmO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,49 +51,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   c95b3fff2238809f2d97a13002b013538e40fd25
-commit: abe14b7bd799ded2ea52619ed42a9a9e79b02eb0 [77/79] FROMGIT: ASoC: mediatek: mt8186_mt6366_rt1019_rt5682s: add rt5650 support
-config: x86_64-buildonly-randconfig-005-20231110 (https://download.01.org/0day-ci/archive/20231110/202311100655.vjF5sizU-lkp@intel.com/config)
+tree:   https://github.com/yiliu1765/iommufd.git iommufd-v5.19-rc5
+head:   f200d9a1de755f3bb98e21535e22b9adf6ba83f7
+commit: 6f915f4df4ae494e0d6d26991ddc8ebb672f9101 [25/104] iommufd: Add kAPI toward external drivers
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231110/202311100722.1jgTOjmO-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100655.vjF5sizU-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100722.1jgTOjmO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311100655.vjF5sizU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311100722.1jgTOjmO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c:1124:28: warning: 'mt8186_mt6366_rt5650_soc_card' defined but not used [-Wunused-variable]
-    1124 | static struct snd_soc_card mt8186_mt6366_rt5650_soc_card = {
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c:1109:28: warning: 'mt8186_mt6366_rt5682s_max98360_soc_card' defined but not used [-Wunused-variable]
-    1109 | static struct snd_soc_card mt8186_mt6366_rt5682s_max98360_soc_card = {
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c:1094:28: warning: 'mt8186_mt6366_rt1019_rt5682s_soc_card' defined but not used [-Wunused-variable]
-    1094 | static struct snd_soc_card mt8186_mt6366_rt1019_rt5682s_soc_card = {
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/iommufd/device.c:58: warning: Function parameter or member 'dev' not described in 'iommufd_bind_device'
+>> drivers/iommu/iommufd/device.c:58: warning: Excess function parameter 'pdev' description in 'iommufd_bind_device'
 
 
-vim +/mt8186_mt6366_rt5650_soc_card +1124 sound/soc/mediatek/mt8186/mt8186-mt6366-rt1019-rt5682s.c
+vim +58 drivers/iommu/iommufd/device.c
 
-  1123	
-> 1124	static struct snd_soc_card mt8186_mt6366_rt5650_soc_card = {
-  1125		.name = "mt8186_rt5650",
-  1126		.owner = THIS_MODULE,
-  1127		.dai_link = mt8186_mt6366_rt1019_rt5682s_dai_links,
-  1128		.num_links = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_dai_links),
-  1129		.controls = mt8186_mt6366_rt1019_rt5682s_controls,
-  1130		.num_controls = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_controls),
-  1131		.dapm_widgets = mt8186_mt6366_rt1019_rt5682s_widgets,
-  1132		.num_dapm_widgets = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_widgets),
-  1133		.dapm_routes = mt8186_mt6366_rt5650_routes,
-  1134		.num_dapm_routes = ARRAY_SIZE(mt8186_mt6366_rt5650_routes),
-  1135		.codec_conf = mt8186_mt6366_rt1019_rt5682s_codec_conf,
-  1136		.num_configs = ARRAY_SIZE(mt8186_mt6366_rt1019_rt5682s_codec_conf),
-  1137	};
-  1138	
+    40	
+    41	/**
+    42	 * iommufd_bind_device - Bind a physical device to an iommu fd
+    43	 * @fd: iommufd file descriptor.
+    44	 * @pdev: Pointer to a physical PCI device struct
+    45	 * @id: Output ID number to return to userspace for this device
+    46	 *
+    47	 * A successful bind establishes an ownership over the device and returns
+    48	 * struct iommufd_device pointer, otherwise returns error pointer.
+    49	 *
+    50	 * A driver using this API must set driver_managed_dma and must not touch
+    51	 * the device until this routine succeeds and establishes ownership.
+    52	 *
+    53	 * Binding a PCI device places the entire RID under iommufd control.
+    54	 *
+    55	 * The caller must undo this with iommufd_unbind_device()
+    56	 */
+    57	struct iommufd_device *iommufd_bind_device(int fd, struct device *dev, u32 *id)
+  > 58	{
+    59		struct iommufd_device *idev;
+    60		struct iommufd_ctx *ictx;
+    61		struct iommu_group *group;
+    62		int rc;
+    63	
+    64	       /*
+    65	        * iommufd always sets IOMMU_CACHE because we offer no way for userspace
+    66	        * to restore cache coherency.
+    67	        */
+    68	       if (!iommu_capable(dev->bus, IOMMU_CAP_CACHE_COHERENCY))
+    69			return ERR_PTR(-EINVAL);
+    70	
+    71		ictx = iommufd_fget(fd);
+    72		if (!ictx)
+    73			return ERR_PTR(-EINVAL);
+    74	
+    75		group = iommu_group_get(dev);
+    76		if (!group) {
+    77			rc = -ENODEV;
+    78			goto out_file_put;
+    79		}
+    80	
+    81		/*
+    82		 * FIXME: Use a device-centric iommu api and this won't work with
+    83		 * multi-device groups
+    84		 */
+    85		rc = iommu_group_claim_dma_owner(group, ictx->filp);
+    86		if (rc)
+    87			goto out_group_put;
+    88	
+    89		idev = iommufd_object_alloc(ictx, idev, IOMMUFD_OBJ_DEVICE);
+    90		if (IS_ERR(idev)) {
+    91			rc = PTR_ERR(idev);
+    92			goto out_release_owner;
+    93		}
+    94		idev->ictx = ictx;
+    95		idev->dev = dev;
+    96		/* The calling driver is a user until iommufd_unbind_device() */
+    97		refcount_inc(&idev->obj.users);
+    98		/* group refcount moves into iommufd_device */
+    99		idev->group = group;
+   100	
+   101		/*
+   102		 * If the caller fails after this success it must call
+   103		 * iommufd_unbind_device() which is safe since we hold this refcount.
+   104		 * This also means the device is a leaf in the graph and no other object
+   105		 * can take a reference on it.
+   106		 */
+   107		iommufd_object_finalize(ictx, &idev->obj);
+   108		*id = idev->obj.id;
+   109		return idev;
+   110	
+   111	out_release_owner:
+   112		iommu_group_release_dma_owner(group);
+   113	out_group_put:
+   114		iommu_group_put(group);
+   115	out_file_put:
+   116		fput(ictx->filp);
+   117		return ERR_PTR(rc);
+   118	}
+   119	EXPORT_SYMBOL_GPL(iommufd_bind_device);
+   120	
 
 -- 
 0-DAY CI Kernel Test Service
