@@ -1,263 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic304-27.consmr.mail.ne1.yahoo.com (sonic304-27.consmr.mail.ne1.yahoo.com [66.163.191.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DCE22316
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 17:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA587225CD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 17:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4vz6pVG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699550374; x=1731086374;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aSIpJnrLC5nvszml9GBGiRTP4h1SzuQFN8Xd1BHpRcs=;
-  b=Z4vz6pVGAijuMK0dglvnP8v2iRKQgslgg7OoK9yvd3+CMbw1JSBMBF/Z
-   h2sZUX2nIyVxVEJC5Xil6s7kxHU+nRMtA+TSQmqJbYdpwxyrsiF+nVXm+
-   mFzsxLrDlOB+RBw2tEC6gxPi+UU4WEk7KYwmsyqln6izefx5z6Ydw3UiL
-   xhjim+Nnp5BUTtlDPWZAYD9ymmQkVt0454R9tQ6L19s7JaTqMJ49depW1
-   Mw53UpBYItKwBJ96/lZ0TlPzzUryX7MlrJLQXgVWaeGMCErR4fjckOUJv
-   fjx1dpKzaVw4A6/paLqVwACaRpcnTRa6iwxnoNf2TszTkPzktUoQp2Cu3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="392902170"
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="392902170"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 09:19:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="767068448"
-X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="767068448"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 09 Nov 2023 09:19:31 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r18gj-0008xK-31;
-	Thu, 09 Nov 2023 17:19:29 +0000
-Date: Fri, 10 Nov 2023 00:46:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Brijesh Singh <brijesh.singh@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm-ppc@vger.kernel.org,
-	cloud-init created default user <ec2-user@ip-172-31-5-41.eu-west-1.compute.internal>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Michael Roth <michael.roth@amd.com>
-Subject: [agraf-2.6:snp-host-v10 68/108] arch/x86/virt/svm/sev.c:375:5:
- warning: no previous prototype for 'psmash'
-Message-ID: <202311092313.6740yf0y-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="BuQwAfyd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1699550443; bh=2loIJ9Mc1k5x3QeZK+Bf8y+wWRsgkP6BMVROUhRo5Q0=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=BuQwAfydM8gbfAa8l3DCVy+Lx7ek32lUTPsonmED4zg3RTj0OkfgTC0Te7uPhRGuqT+Bcd9URFOkQ2UNIP32xO6+fmJ+z0sfVrcHylAJRJaHZD7hNc0orh3g1+4rqNu7fLRHhPokfQNDePuAvG7i6w2U7VKB+poUk/0E8o6UIqtjRJ+AssK44CrDSo8kIs3bB2Ki9m9yRXWHT5QYwY+blPiwFdXA35b6x6k/3OYL7o9Lc3TpsTGpP0L54fdvOnqEsjHrib5X5lhK2EsQnrJTdduLC0OSTBZtd7TOIwQC413C31933Bgv8Cw77BxlO9kF7ZqdC/R0MkVmsjRO4H5oOg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1699550443; bh=HV2S1Ub1btykE1zDk5uqZwcd4spcVpEqC7pMJSEZZ1W=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=S7MjUEkwbmQjnF2yZ8rhUkjGGwJ3/sJdFdHYcUZN3Cj2eypIGY1jDKKS37he5yJV3oa1AegBq3j29Qn0efJ9mdfFK1RP/w4BiYq6duWZ3X201iRywZznsYR26XZucE4Ct0RE/i1kFGNhtiJUzMjlz4u13/RtO6WbWse6rCU3EOqE3Jp6c66y6VmkGrMhppH0QxgVx5VLKSz8yqFu/USY8ichzEu/k2aPxnIvD2B1v7C+yGyi1zMzxjfw87sYBESPW4eRXrSQKEKfjTniooeuzXB9b55MQCHZ4mXFqTH9uexItAaPRiKLd0RfNLjH9pSOcLt70Py1ttZOovlYxRwRmQ==
+X-YMail-OSG: 1_QuhdMVM1l0BxaoK2_8WzFRYUZWzJyAbRknT2OpBjtKybCESpv8naGz1s.WzHk
+ KXg95Xjup3irI1py.69FEuI5KS0kqZnMNPtPMyJBAWdjve9OmMhRR.hORBYcikI9XIAJJeYAyFEx
+ X5OxggQ1HgRGuRQeDTyjJ4wd4NKcSebq4yjGHC8K4wycnvrwFokw48jLYjggcTm2ETYL7tDLnzcC
+ 3iXbEt2Pg8DHGtpukfBXHnfB.9ScZZctPC8zCqWTOpaBPsWzNBuMV4i0GMZ2rfhRCMEw2yWEMZhY
+ Z_IsjHG1KtPFGqKSOjBs1520d7MPDyJMBzPpgbkiDeLRq83LJh_Q5vhKJYdeGciTeiXB8bXtvwQA
+ m.9bx8eKra6bqk_KnjGhmy8QFUXM0Euvb9QwmHI_N1VsoLAJV8JqqoTtN4LSEjKJ_zhSkiT7ZC_B
+ FuXh0UBghYgkLgIEK3llhOj3kLGAF.axUCh1I6M6fYSxiWtbtRbEjZiAMIDX0XxqTqXNlwxjS4QM
+ TbN4drwAyS2gIRfWZqOQ4T.5MSOFy_Vfv3IxjeWn5TcIcWbcs2FCejQZszyCj3Kh4CQ6AVZb_DFU
+ FwZdzmVG29NaXv9orOZgoALhXbXWTZcudaLm6J_wjbpTDwX4woizIpw_nUEYjn2xL1Vu_xM7j7jQ
+ HTQtF71p6NhGO1jfvJG9X1baQWjB_VtEUVt4bmzBHCtda7TgQOMfLQKcYRiIYHsdn.e.AhUSPYO1
+ ChyRYfKbdpKivGr6FutiegD1dX39XVADCFxqhkN5ozTqdofTOgWE4x_fumrwfSbfj3D9BeEpCQqU
+ vfb3GNkG9DCgA7MZnFWPJ0gumauqu5508Zr3JHuLEFt8cLlYwX1cu9UEYu8ppr8jiYbxCmqm9TJK
+ TwqRnE09cta30pYkGHoUpf64PX8rP0PiJnF5H7QU4KSo05UibKn8ywKSIZgLhyC7AKpZeD7ce3NQ
+ 9ilAnn9aFp47ftu.g8hktNizLdBMoL8NwhaqBBVDCYoCwB.sehrDbtfx_mJHUkelIurYq6NJISRu
+ cCl8yr659KdrZHMQIwCqcNYQyTgADgkz1KjLuiU5ZhBqPnB1XleCbcQ.PAvCEvR7._k7PCv1UlrI
+ sXoqk3FNVJdF1GaTHf61U0VrTY2Nm7l3kOkEYC7_NFCJQJKziIAGW8z_XXgGqOYRVlnCdPdI2kOc
+ .6vKzevw8Dj41YB4ci9q3FHSu2AduMu_rXiOw6LPnJc0RmGfAHPQcQdBfzAZcVzmVk7q2cTGBenm
+ Q.0tQxojGRUPsQMzkVwPme_Ogxps1clYSMwjPbuzkTyUuh8C8ZpD5QHB1B2vqRNeCq.MI5zoXOjq
+ NxDUFGrh9HzRfZnTF7PFJeaHvvpqkPab9EXDJTzk1Nm8T25ueJCm0sv9mqpDXQeK82eTIOLPPTlW
+ sNB4214lCX1k42_Hyen.hakJPFjkw626eVGrGb5gqqQAut69cg6PG1U3hccGy3hUEDwhcB6kNVpq
+ idASO4cDu.Hja8lfTgWwR63yzmDQy8E5XBTlzLJs.rD90uInMUwQkBbLlTk9TSyqsL0im6aqfiJy
+ z8ggSTw4CjK7TFX3Z7x2.UjLxpgQAQBio9VmQu0pL0cFGKkhm2AokfGxyLxrDdqJippHNRLnNnQZ
+ dsqbAurBErfM_Ej3OoaLUr7o5wJOwC_yKruJmiAmEMql_7eWYegYJatFlQpbhIl3lOIqzv1FtLw1
+ iuJ44ec6mVfDa_LR.LEfRaMk.b4ophmHSq8FHR_.Eiq3nbkUDs6EsMsXpk9BTiLEtzWMuNG58WFl
+ 4drD5xNBjVvqtS7Vv9.jtJ6ebBY5elQq2YBP3Ue2eHBMG.gV.psokAw7p40sys5xMj_zIUoJjNBT
+ CO1HeD95Ql.JwPi44EI_kZ9ucoZYdWc0OouTFZUdBOTIDWE8lsRtkSsosF6YnXja7EjfZy8bBDV9
+ bgldrsaekAFb032OCMXh3_Ae9gNLTFIMO1qVi9mJvXPwlzTP68FqB2xU7gXXTl4wV42O2HevSvGz
+ rCVyhcqju4EUhsGyO7eE5we3eT_zty6B.udd5oYgs.kB47sSJLB3Ym8aYHOu2gJhXwsluiCNke_Q
+ SkhtFmTC95EMBJSgCdyLHQIM_d7aO5UC4jSQGx7MYiUqDJlG_j0o5H3i_IZ6qHB3SIxFsC20GazM
+ YUNQ5b_jXepWMwCkLBoYVqpY1348gogMWhPytyyhZ0NV0lJWZbXzZXdEdp3_R1yJ_Ph.JYKSJZAV
+ ScMaCw511XHOJ7r9X.yRSFtTKuwagIyDwR9OQP8LrBeGLO50p50ipZAIu6Wdml.zB1OzvXJ0aJk4
+ 6wuOJ
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: 4b3f7eeb-9786-46cb-8fe0-6e6f97721557
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.ne1.yahoo.com with HTTP; Thu, 9 Nov 2023 17:20:43 +0000
+Received: by hermes--production-bf1-5b945b6d47-b72k6 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 72267c429239bb8b108ba2161c10cfb0;
+          Thu, 09 Nov 2023 17:20:38 +0000 (UTC)
+Message-ID: <7129128d-d20e-4752-8cfd-e81758c913a7@schaufler-ca.com>
+Date: Thu, 9 Nov 2023 09:20:35 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [pcmoore-lsm:dev-staging 1/16] security/tomoyo/tomoyo.c:546:21:
+ sparse: sparse: symbol 'tomoyo_lsmid' was not declared. Should it be static?
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paul Moore <paul@paul-moore.com>,
+ Kees Cook <keescook@chromium.org>, Serge Hallyn <serge@hallyn.com>,
+ Mickael Salaun <mic@digikod.net>, John Johansen
+ <john.johansen@canonical.com>, Casey Schaufler <casey@schaufler-ca.com>
+References: <202311030352.rlmE6sKL-lkp@intel.com>
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <202311030352.rlmE6sKL-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.21896 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-tree:   https://github.com/agraf/linux-2.6.git snp-host-v10
-head:   689d7ab69df8f6bff29bd1dbefe7c07bba52a9ac
-commit: e57dbd72a4490baee2e82f45835580ac5c2d44bf [68/108] x86/sev: Add helper functions for RMPUPDATE and PSMASH instruction
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231109/202311092313.6740yf0y-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311092313.6740yf0y-lkp@intel.com/reproduce)
+On 11/2/2023 12:47 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git dev-staging
+> head:   bb92b5b887051b8448e0a06d39b9c89d42e347f8
+> commit: 08a8af0d456ecddadee1071cb614f3b7873e808e [1/16] LSM: Identify modules by more than name
+> config: x86_64-randconfig-123-20231102 (https://download.01.org/0day-ci/archive/20231103/202311030352.rlmE6sKL-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231103/202311030352.rlmE6sKL-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311030352.rlmE6sKL-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> security/tomoyo/tomoyo.c:546:21: sparse: sparse: symbol 'tomoyo_lsmid' was not declared. Should it be static?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311092313.6740yf0y-lkp@intel.com/
+I pulled the "static" from the lsm_id declarations because they are also "const".
+It looks as if that was a mistake, and the "static" should come back.
 
-All warnings (new ones prefixed by >>):
+It's a simple patch. I can provide it in a day or two ( slow internet :( ) or
+someone else can snap a "static" in front of the "struct lsm_id" use in each
+of the LSM definitions. All LSMs need it except for landlock.
 
-   arch/x86/virt/svm/sev.c:280:5: warning: no previous prototype for 'snp_lookup_rmpentry' [-Wmissing-prototypes]
-     280 | int snp_lookup_rmpentry(u64 pfn, bool *assigned, int *level)
-         |     ^~~~~~~~~~~~~~~~~~~
-   arch/x86/virt/svm/sev.c:352:6: warning: no previous prototype for 'sev_dump_hva_rmpentry' [-Wmissing-prototypes]
-     352 | void sev_dump_hva_rmpentry(unsigned long hva)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> arch/x86/virt/svm/sev.c:375:5: warning: no previous prototype for 'psmash' [-Wmissing-prototypes]
-     375 | int psmash(u64 pfn)
-         |     ^~~~~~
->> arch/x86/virt/svm/sev.c:431:5: warning: no previous prototype for 'rmp_make_private' [-Wmissing-prototypes]
-     431 | int rmp_make_private(u64 pfn, u64 gpa, enum pg_level level, int asid, bool immutable)
-         |     ^~~~~~~~~~~~~~~~
->> arch/x86/virt/svm/sev.c:449:5: warning: no previous prototype for 'rmp_make_shared' [-Wmissing-prototypes]
-     449 | int rmp_make_shared(u64 pfn, enum pg_level level)
-         |     ^~~~~~~~~~~~~~~
-
-
-vim +/psmash +375 arch/x86/virt/svm/sev.c
-
-   279	
- > 280	int snp_lookup_rmpentry(u64 pfn, bool *assigned, int *level)
-   281	{
-   282		struct rmpentry e;
-   283		int ret;
-   284	
-   285		ret = __snp_lookup_rmpentry(pfn, &e, level);
-   286		if (ret)
-   287			return ret;
-   288	
-   289		*assigned = !!e.assigned;
-   290		return 0;
-   291	}
-   292	EXPORT_SYMBOL_GPL(snp_lookup_rmpentry);
-   293	
-   294	/*
-   295	 * Dump the raw RMP entry for a particular PFN. These bits are documented in the
-   296	 * PPR for a particular CPU model and provide useful information about how a
-   297	 * particular PFN is being utilized by the kernel/firmware at the time certain
-   298	 * unexpected events occur, such as RMP faults.
-   299	 */
-   300	static void sev_dump_rmpentry(u64 dumped_pfn)
-   301	{
-   302		struct rmpentry e;
-   303		u64 pfn, pfn_end;
-   304		int level, ret;
-   305		u64 *e_data;
-   306	
-   307		ret = __snp_lookup_rmpentry(dumped_pfn, &e, &level);
-   308		if (ret) {
-   309			pr_info("Failed to read RMP entry for PFN 0x%llx, error %d\n",
-   310				dumped_pfn, ret);
-   311			return;
-   312		}
-   313	
-   314		e_data = (u64 *)&e;
-   315		if (e.assigned) {
-   316			pr_info("RMP entry for PFN 0x%llx: [high=0x%016llx low=0x%016llx]\n",
-   317				dumped_pfn, e_data[1], e_data[0]);
-   318			return;
-   319		}
-   320	
-   321		/*
-   322		 * If the RMP entry for a particular PFN is not in an assigned state,
-   323		 * then it is sometimes useful to get an idea of whether or not any RMP
-   324		 * entries for other PFNs within the same 2MB region are assigned, since
-   325		 * those too can affect the ability to access a particular PFN in
-   326		 * certain situations, such as when the PFN is being accessed via a 2MB
-   327		 * mapping in the host page table.
-   328		 */
-   329		pfn = ALIGN(dumped_pfn, PTRS_PER_PMD);
-   330		pfn_end = pfn + PTRS_PER_PMD;
-   331	
-   332		while (pfn < pfn_end) {
-   333			ret = __snp_lookup_rmpentry(pfn, &e, &level);
-   334			if (ret) {
-   335				pr_info_ratelimited("Failed to read RMP entry for PFN 0x%llx\n", pfn);
-   336				pfn++;
-   337				continue;
-   338			}
-   339	
-   340			if (e_data[0] || e_data[1]) {
-   341				pr_info("No assigned RMP entry for PFN 0x%llx, but the 2MB region contains populated RMP entries, e.g.: PFN 0x%llx: [high=0x%016llx low=0x%016llx]\n",
-   342					dumped_pfn, pfn, e_data[1], e_data[0]);
-   343				return;
-   344			}
-   345			pfn++;
-   346		}
-   347	
-   348		pr_info("No populated RMP entries in the 2MB region containing PFN 0x%llx\n",
-   349			dumped_pfn);
-   350	}
-   351	
- > 352	void sev_dump_hva_rmpentry(unsigned long hva)
-   353	{
-   354		unsigned int level;
-   355		pgd_t *pgd;
-   356		pte_t *pte;
-   357	
-   358		pgd = __va(read_cr3_pa());
-   359		pgd += pgd_index(hva);
-   360		pte = lookup_address_in_pgd(pgd, hva, &level);
-   361	
-   362		if (pte) {
-   363			pr_info("Can't dump RMP entry for HVA %lx: no PTE/PFN found\n", hva);
-   364			return;
-   365		}
-   366	
-   367		sev_dump_rmpentry(pte_pfn(*pte));
-   368	}
-   369	EXPORT_SYMBOL_GPL(sev_dump_hva_rmpentry);
-   370	
-   371	/*
-   372	 * PSMASH a 2MB aligned page into 4K pages in the RMP table while preserving the
-   373	 * Validated bit.
-   374	 */
- > 375	int psmash(u64 pfn)
-   376	{
-   377		unsigned long paddr = pfn << PAGE_SHIFT;
-   378		int ret;
-   379	
-   380		pr_debug("%s: PFN: 0x%llx\n", __func__, pfn);
-   381	
-   382		if (!pfn_valid(pfn))
-   383			return -EINVAL;
-   384	
-   385		if (!cpu_feature_enabled(X86_FEATURE_SEV_SNP))
-   386			return -ENXIO;
-   387	
-   388		/* Binutils version 2.36 supports the PSMASH mnemonic. */
-   389		asm volatile(".byte 0xF3, 0x0F, 0x01, 0xFF"
-   390			      : "=a"(ret)
-   391			      : "a"(paddr)
-   392			      : "memory", "cc");
-   393	
-   394		return ret;
-   395	}
-   396	EXPORT_SYMBOL_GPL(psmash);
-   397	
-   398	static int rmpupdate(u64 pfn, struct rmp_state *val)
-   399	{
-   400		unsigned long paddr = pfn << PAGE_SHIFT;
-   401		int ret, level, npages;
-   402		int attempts = 0;
-   403	
-   404		if (!cpu_feature_enabled(X86_FEATURE_SEV_SNP))
-   405			return -ENXIO;
-   406	
-   407		do {
-   408			/* Binutils version 2.36 supports the RMPUPDATE mnemonic. */
-   409			asm volatile(".byte 0xF2, 0x0F, 0x01, 0xFE"
-   410				     : "=a"(ret)
-   411				     : "a"(paddr), "c"((unsigned long)val)
-   412				     : "memory", "cc");
-   413	
-   414			attempts++;
-   415		} while (ret == RMPUPDATE_FAIL_OVERLAP);
-   416	
-   417		if (ret) {
-   418			pr_err("RMPUPDATE failed after %d attempts, ret: %d, pfn: %llx, npages: %d, level: %d\n",
-   419			       attempts, ret, pfn, npages, level);
-   420			sev_dump_rmpentry(pfn);
-   421			dump_stack();
-   422			return -EFAULT;
-   423		}
-   424	
-   425		return 0;
-   426	}
-   427	
-   428	/*
-   429	 * Assign a page to guest using the RMPUPDATE instruction.
-   430	 */
- > 431	int rmp_make_private(u64 pfn, u64 gpa, enum pg_level level, int asid, bool immutable)
-   432	{
-   433		struct rmp_state val;
-   434	
-   435		memset(&val, 0, sizeof(val));
-   436		val.assigned = 1;
-   437		val.asid = asid;
-   438		val.immutable = immutable;
-   439		val.gpa = gpa;
-   440		val.pagesize = X86_TO_RMP_PG_LEVEL(level);
-   441	
-   442		return rmpupdate(pfn, &val);
-   443	}
-   444	EXPORT_SYMBOL_GPL(rmp_make_private);
-   445	
-   446	/*
-   447	 * Transition a page to hypervisor/shared state using the RMPUPDATE instruction.
-   448	 */
- > 449	int rmp_make_shared(u64 pfn, enum pg_level level)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
