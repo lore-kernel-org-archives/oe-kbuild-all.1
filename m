@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B53732C73
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  8 Nov 2023 23:30:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAE35668
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 00:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eBfxswuv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LpB9qPme"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699486250; x=1731022250;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sDGggQs47CObbC8qeaZj1TVKzgCjiVj9GqYw2S8QnGk=;
-  b=eBfxswuvYgvPHLEs7iHVW+0kTxxMhtDvKeAJvrx5mvNOEQij0albpEUc
-   W5fQ/XXgrvmx9A9aOZl+XGNQhCB5Oo/hDJHU1ZBmhBavbQpf0vk+ysSbc
-   OE9gn3yJR+xYlDOiGtsodQo+7D5VtH0LDPnz1G2Dnrg+Nb9qZFyZsj684
-   T73VU8pyn2ofe5WBkiPdCjewo7Yc4KK41xUCA+Bnlw3TnCnggel/UjPU7
-   ITvI5hWU8BHXgUMI1qaUbADxyX/iEiYcJS+t/LyWaL9i5GXqtQmMxcMNg
-   gNDy/3EL03ZVUYotiYGL3G62wgFmR6edizU0Yc52zx6B/T3JRi0wF+S1V
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="11434838"
+  t=1699488215; x=1731024215;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tCGjF5WaSzWqBubPlQn+hU1MMyX449YX6wP83ZieMJ0=;
+  b=LpB9qPmea2DqtL4To+FsyDTWbB8Yk5ghEwyVBCL7xfDQZxe+roHyYy/N
+   Qr8fe63Qkk+JltF2WObPTT61tZoDn1d7k8MU0IrE2ACwdVEO75qQ4PXyb
+   hqhk5x2xA9kOd1ppAKRzK9tka1SF37iR8OUXxMjDZK3c167Iyp1Z+LiZQ
+   i+MElRXDl8H3HJ+DbzupXWMbpuhedjaWEerLtZxZgvEdUqFGTNxO7Qzwk
+   L6vk/0RSb+L5kUprJpySIG2CXtFYCEgWzUmi9OWi0Nho+GQx1hHOOBYsq
+   l6W709jeb+kYYjdUQ1uYZaqGzQzGbySu7u+Kpy20ocE6HemkoDgngnq5F
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="393794147"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="11434838"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 15:30:49 -0800
+   d="scan'208";a="393794147"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 16:03:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="739665046"
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="886822471"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="739665046"
+   d="scan'208";a="886822471"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 08 Nov 2023 15:30:47 -0800
+  by orsmga004.jf.intel.com with ESMTP; 08 Nov 2023 16:03:33 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r0s0R-0008Ia-2f;
-	Wed, 08 Nov 2023 23:30:43 +0000
-Date: Thu, 9 Nov 2023 07:28:46 +0800
+	id 1r0sWB-0008K4-2R;
+	Thu, 09 Nov 2023 00:03:31 +0000
+Date: Thu, 9 Nov 2023 08:02:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [rafael-pm:acpi-mipi-disco-img 5/7]
- drivers/acpi/mipi-disco-img.c:536:42: warning: format '%d' expects argument
- of type 'int', but argument 4 has type 'long unsigned int'
-Message-ID: <202311090735.0tfXwPGn-lkp@intel.com>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] wifi: cfg80211: fix CQM for non-range use
+Message-ID: <202311090752.hWcJWAHL-lkp@intel.com>
+References: <20231106231715.3a506ac2dadb.Ie774b85b9d4ff934a1236e77096cb9c6c9fe6561@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,137 +50,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231106231715.3a506ac2dadb.Ie774b85b9d4ff934a1236e77096cb9c6c9fe6561@changeid>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git acpi-mipi-disco-img
-head:   54d87fab9fb060ff0489886ca0fdb101f6a3c03f
-commit: a5dbdbb2bfb28643b71d23f75205845cb23af965 [5/7] ACPI: scan: Extract MIPI DisCo for Imaging data into swnodes
-config: loongarch-randconfig-002-20231109 (https://download.01.org/0day-ci/archive/20231109/202311090735.0tfXwPGn-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311090735.0tfXwPGn-lkp@intel.com/reproduce)
+Hi Johannes,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master next-20231108]
+[cannot apply to v6.6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-cfg80211-fix-CQM-for-non-range-use/20231107-071337
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20231106231715.3a506ac2dadb.Ie774b85b9d4ff934a1236e77096cb9c6c9fe6561%40changeid
+patch subject: [RFC PATCH] wifi: cfg80211: fix CQM for non-range use
+config: x86_64-buildonly-randconfig-006-20231108 (https://download.01.org/0day-ci/archive/20231109/202311090752.hWcJWAHL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311090752.hWcJWAHL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311090735.0tfXwPGn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311090752.hWcJWAHL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/acpi/mipi-disco-img.c:21:
-   drivers/acpi/mipi-disco-img.c: In function 'init_csi2_port':
->> drivers/acpi/mipi-disco-img.c:536:42: warning: format '%d' expects argument of type 'int', but argument 4 has type 'long unsigned int' [-Wformat=]
-     536 |                 acpi_handle_info(handle, "Too few lane polarity bytes (%d vs. %d)\n",
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/acpi.h:1216:47: note: in definition of macro 'acpi_handle_info'
-    1216 |         acpi_handle_printk(KERN_INFO, handle, fmt, ##__VA_ARGS__)
-         |                                               ^~~
-   drivers/acpi/mipi-disco-img.c:536:73: note: format string is defined here
-     536 |                 acpi_handle_info(handle, "Too few lane polarity bytes (%d vs. %d)\n",
-         |                                                                        ~^
-         |                                                                         |
-         |                                                                         int
-         |                                                                        %ld
+   net/wireless/nl80211.c: In function 'nl80211_set_cqm_rssi.isra':
+>> net/wireless/nl80211.c:12892:17: warning: 'memcpy' specified bound 18446744073709551615 exceeds maximum object size 9223372036854775807 [-Wstringop-overflow=]
+   12892 |                 memcpy(cqm_config->rssi_thresholds, thresholds,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12893 |                        flex_array_size(cqm_config, rssi_thresholds,
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12894 |                                        n_thresholds));
+         |                                        ~~~~~~~~~~~~~~
 
 
-vim +536 drivers/acpi/mipi-disco-img.c
+vim +/memcpy +12892 net/wireless/nl80211.c
 
-   481	
-   482	static void init_csi2_port(struct acpi_device *adev,
-   483				   struct acpi_device_software_nodes *swnodes,
-   484				   struct acpi_device_software_node_port *port,
-   485				   struct fwnode_handle *port_fwnode,
-   486				   unsigned int port_index)
-   487	{
-   488		unsigned int ep_prop_index = ACPI_DEVICE_SWNODE_EP_CLOCK_LANES;
-   489		acpi_handle handle = acpi_device_handle(adev);
-   490		u8 val[ACPI_DEVICE_CSI2_DATA_LANES];
-   491		int num_lanes = 0;
-   492		int ret;
-   493	
-   494		if (GRAPH_PORT_NAME(port->port_name, port->port_nr))
-   495			return;
-   496	
-   497		swnodes->nodes[ACPI_DEVICE_SWNODE_PORT(port_index)] =
-   498				SOFTWARE_NODE(port->port_name, port->port_props,
-   499					      &swnodes->nodes[ACPI_DEVICE_SWNODE_ROOT]);
-   500	
-   501		ret = fwnode_property_read_u8(port_fwnode, "mipi-img-clock-lane", val);
-   502		if (!ret)
-   503			port->ep_props[NEXT_PROPERTY(ep_prop_index, EP_CLOCK_LANES)] =
-   504				PROPERTY_ENTRY_U32("clock-lanes", val[0]);
-   505	
-   506		ret = fwnode_property_count_u8(port_fwnode, "mipi-img-data-lanes");
-   507		if (ret > 0) {
-   508			num_lanes = ret;
-   509	
-   510			if (num_lanes > ACPI_DEVICE_CSI2_DATA_LANES) {
-   511				acpi_handle_info(handle, "Too many data lanes: %u\n",
-   512						 num_lanes);
-   513				num_lanes = ACPI_DEVICE_CSI2_DATA_LANES;
-   514			}
-   515	
-   516			ret = fwnode_property_read_u8_array(port_fwnode,
-   517							    "mipi-img-data-lanes",
-   518							    val, num_lanes);
-   519			if (!ret) {
-   520				unsigned int i;
-   521	
-   522				for (i = 0; i < num_lanes; i++)
-   523					port->data_lanes[i] = val[i];
-   524	
-   525				port->ep_props[NEXT_PROPERTY(ep_prop_index, EP_DATA_LANES)] =
-   526					PROPERTY_ENTRY_U32_ARRAY_LEN("data-lanes",
-   527								     port->data_lanes,
-   528								     num_lanes);
-   529			}
-   530		}
-   531	
-   532		ret = fwnode_property_count_u8(port_fwnode, "mipi-img-lane-polarities");
-   533		if (ret < 0) {
-   534			acpi_handle_debug(handle, "Lane polarity bytes missing\n");
-   535		} else if (ret * BITS_PER_TYPE(u8) < num_lanes + 1) {
- > 536			acpi_handle_info(handle, "Too few lane polarity bytes (%d vs. %d)\n",
-   537					 ret * BITS_PER_TYPE(u8), num_lanes + 1);
-   538		} else {
-   539			unsigned long mask = 0;
-   540			int byte_count = ret;
-   541			unsigned int i;
-   542	
-   543			/*
-   544			 * The total number of lanes is ACPI_DEVICE_CSI2_DATA_LANES + 1
-   545			 * (data lanes + clock lane).  It is not expected to ever be
-   546			 * greater than the number of bits in an unsigned long
-   547			 * variable, but ensure that this is the case.
-   548			 */
-   549			BUILD_BUG_ON(BITS_PER_TYPE(unsigned long) <= ACPI_DEVICE_CSI2_DATA_LANES);
-   550	
-   551			if (byte_count > sizeof(mask)) {
-   552				acpi_handle_info(handle, "Too many lane polarities: %d\n",
-   553						 byte_count);
-   554				byte_count = sizeof(mask);
-   555			}
-   556			fwnode_property_read_u8_array(port_fwnode, "mipi-img-lane-polarities",
-   557						      val, byte_count);
-   558	
-   559			for (i = 0; i < byte_count; i++)
-   560				mask |= (unsigned long)val[i] << BITS_PER_TYPE(u8) * i;
-   561	
-   562			for (i = 0; i <= num_lanes; i++)
-   563				port->lane_polarities[i] = test_bit(i, &mask);
-   564	
-   565			port->ep_props[NEXT_PROPERTY(ep_prop_index, EP_LANE_POLARITIES)] =
-   566					PROPERTY_ENTRY_U32_ARRAY_LEN("lane-polarities",
-   567								     port->lane_polarities,
-   568								     num_lanes + 1);
-   569		}
-   570	
-   571		swnodes->nodes[ACPI_DEVICE_SWNODE_EP(port_index)] =
-   572			SOFTWARE_NODE("endpoint@0", swnodes->ports[port_index].ep_props,
-   573				      &swnodes->nodes[ACPI_DEVICE_SWNODE_PORT(port_index)]);
-   574	
-   575		if (port->crs_csi2_local)
-   576			init_csi2_port_local(adev, port, port_fwnode, ep_prop_index);
-   577	}
-   578	
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12840  
+d6dc1a38635897 Juuso Oikarinen   2010-03-23  12841  static int nl80211_set_cqm_rssi(struct genl_info *info,
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12842  				const s32 *thresholds, int n_thresholds,
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12843  				u32 hysteresis)
+d6dc1a38635897 Juuso Oikarinen   2010-03-23  12844  {
+4c476991062a0a Johannes Berg     2010-10-04  12845  	struct cfg80211_registered_device *rdev = info->user_ptr[0];
+37c20b2effe987 Johannes Berg     2023-08-16  12846  	struct cfg80211_cqm_config *cqm_config = NULL, *old;
+4c476991062a0a Johannes Berg     2010-10-04  12847  	struct net_device *dev = info->user_ptr[1];
+1da5fcc86d7104 Johannes Berg     2013-08-06  12848  	struct wireless_dev *wdev = dev->ieee80211_ptr;
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12849  	s32 prev = S32_MIN;
+7d6904bf26b96e Johannes Berg     2023-10-05  12850  	int i, err;
+d6dc1a38635897 Juuso Oikarinen   2010-03-23  12851  
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12852  	/* Check all values negative and sorted */
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12853  	for (i = 0; i < n_thresholds; i++) {
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12854  		if (thresholds[i] > 0 || thresholds[i] <= prev)
+d6dc1a38635897 Juuso Oikarinen   2010-03-23  12855  			return -EINVAL;
+d6dc1a38635897 Juuso Oikarinen   2010-03-23  12856  
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12857  		prev = thresholds[i];
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12858  	}
+d6dc1a38635897 Juuso Oikarinen   2010-03-23  12859  
+074ac8df9f93f2 Johannes Berg     2010-09-16  12860  	if (wdev->iftype != NL80211_IFTYPE_STATION &&
+4c476991062a0a Johannes Berg     2010-10-04  12861  	    wdev->iftype != NL80211_IFTYPE_P2P_CLIENT)
+4c476991062a0a Johannes Berg     2010-10-04  12862  		return -EOPNOTSUPP;
+d6dc1a38635897 Juuso Oikarinen   2010-03-23  12863  
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12864  	if (n_thresholds == 1 && thresholds[0] == 0) /* Disabling */
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12865  		n_thresholds = 0;
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12866  
+7d6904bf26b96e Johannes Berg     2023-10-05  12867  	old = wiphy_dereference(wdev->wiphy, wdev->cqm_config);
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12868  
+54e1e1c490f4db Johannes Berg     2023-11-06  12869  	/* if already disabled just succeed */
+54e1e1c490f4db Johannes Berg     2023-11-06  12870  	if (!n_thresholds && !old)
+54e1e1c490f4db Johannes Berg     2023-11-06  12871  		return 0;
+54e1e1c490f4db Johannes Berg     2023-11-06  12872  
+54e1e1c490f4db Johannes Berg     2023-11-06  12873  	if (n_thresholds > 1) {
+54e1e1c490f4db Johannes Berg     2023-11-06  12874  		if (!wiphy_ext_feature_isset(&rdev->wiphy,
+54e1e1c490f4db Johannes Berg     2023-11-06  12875  					     NL80211_EXT_FEATURE_CQM_RSSI_LIST) ||
+54e1e1c490f4db Johannes Berg     2023-11-06  12876  		    !rdev->ops->set_cqm_rssi_range_config)
+54e1e1c490f4db Johannes Berg     2023-11-06  12877  			return -EOPNOTSUPP;
+54e1e1c490f4db Johannes Berg     2023-11-06  12878  	} else {
+54e1e1c490f4db Johannes Berg     2023-11-06  12879  		if (!rdev->ops->set_cqm_rssi_config)
+54e1e1c490f4db Johannes Berg     2023-11-06  12880  			return -EOPNOTSUPP;
+54e1e1c490f4db Johannes Berg     2023-11-06  12881  	}
+54e1e1c490f4db Johannes Berg     2023-11-06  12882  
+37c20b2effe987 Johannes Berg     2023-08-16  12883  	if (n_thresholds) {
+40f231e75a1d98 Len Baker         2021-09-19  12884  		cqm_config = kzalloc(struct_size(cqm_config, rssi_thresholds,
+40f231e75a1d98 Len Baker         2021-09-19  12885  						 n_thresholds),
+40f231e75a1d98 Len Baker         2021-09-19  12886  				     GFP_KERNEL);
+076fc8775dafe9 Johannes Berg     2023-08-29  12887  		if (!cqm_config)
+076fc8775dafe9 Johannes Berg     2023-08-29  12888  			return -ENOMEM;
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12889  
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12890  		cqm_config->rssi_hyst = hysteresis;
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12891  		cqm_config->n_rssi_thresholds = n_thresholds;
+4a4b8169501b18 Andrew Zaborowski 2017-02-10 @12892  		memcpy(cqm_config->rssi_thresholds, thresholds,
+40f231e75a1d98 Len Baker         2021-09-19  12893  		       flex_array_size(cqm_config, rssi_thresholds,
+40f231e75a1d98 Len Baker         2021-09-19  12894  				       n_thresholds));
+54e1e1c490f4db Johannes Berg     2023-11-06  12895  		cqm_config->use_range_api = n_thresholds > 1 ||
+54e1e1c490f4db Johannes Berg     2023-11-06  12896  					    !rdev->ops->set_cqm_rssi_config;
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12897  
+37c20b2effe987 Johannes Berg     2023-08-16  12898  		rcu_assign_pointer(wdev->cqm_config, cqm_config);
+54e1e1c490f4db Johannes Berg     2023-11-06  12899  
+54e1e1c490f4db Johannes Berg     2023-11-06  12900  		if (cqm_config->use_range_api)
+54e1e1c490f4db Johannes Berg     2023-11-06  12901  			err = cfg80211_cqm_rssi_update(rdev, dev, cqm_config);
+54e1e1c490f4db Johannes Berg     2023-11-06  12902  		else
+54e1e1c490f4db Johannes Berg     2023-11-06  12903  			err = rdev_set_cqm_rssi_config(rdev, dev,
+54e1e1c490f4db Johannes Berg     2023-11-06  12904  						       thresholds[0],
+54e1e1c490f4db Johannes Berg     2023-11-06  12905  						       hysteresis);
+37c20b2effe987 Johannes Berg     2023-08-16  12906  	} else {
+37c20b2effe987 Johannes Berg     2023-08-16  12907  		RCU_INIT_POINTER(wdev->cqm_config, NULL);
+54e1e1c490f4db Johannes Berg     2023-11-06  12908  		/* if enabled as range also disable via range */
+54e1e1c490f4db Johannes Berg     2023-11-06  12909  		if (old->use_range_api)
+54e1e1c490f4db Johannes Berg     2023-11-06  12910  			err = rdev_set_cqm_rssi_range_config(rdev, dev, 0, 0);
+54e1e1c490f4db Johannes Berg     2023-11-06  12911  		else
+54e1e1c490f4db Johannes Berg     2023-11-06  12912  			err = rdev_set_cqm_rssi_config(rdev, dev, 0, 0);
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12913  	}
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12914  
+37c20b2effe987 Johannes Berg     2023-08-16  12915  	if (err) {
+37c20b2effe987 Johannes Berg     2023-08-16  12916  		rcu_assign_pointer(wdev->cqm_config, old);
+37c20b2effe987 Johannes Berg     2023-08-16  12917  		kfree_rcu(cqm_config, rcu_head);
+37c20b2effe987 Johannes Berg     2023-08-16  12918  	} else {
+37c20b2effe987 Johannes Berg     2023-08-16  12919  		kfree_rcu(old, rcu_head);
+37c20b2effe987 Johannes Berg     2023-08-16  12920  	}
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12921  
+4a4b8169501b18 Andrew Zaborowski 2017-02-10  12922  	return err;
+d6dc1a38635897 Juuso Oikarinen   2010-03-23  12923  }
+d6dc1a38635897 Juuso Oikarinen   2010-03-23  12924  
 
 -- 
 0-DAY CI Kernel Test Service
