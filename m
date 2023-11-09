@@ -1,50 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2442B101C1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 07:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F850101C3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 08:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rkb8NQVV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699516798; x=1731052798;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zT7KEdtC37s2+Fs2E6lNUOOoGgqjI4o609lJeidkuQg=;
-  b=Rkb8NQVVk4MYqSvatvdkmRC77Y+S29KWiQnghF+KltkNE6dQl5ndsCas
-   s5yrbjuRDAtDnH++3zA/38oFgQnI/rnU1S60zPomAKCLH/3tiuymD+2SX
-   SpKPdbKizQxhDeGwLflupaDvO2x+6JFtXI3n9ER/KOTkHlg01+K4O50OE
-   7sAYFHko4ArKFC1APqeM3QK8hKYmPQjVbE72SB3WhfIuJSGsWegEKmQ/+
-   /KzHhj1hk6BIZ153H3OoL5spXHeWAiAowZ/Tgqaq3aTxXExZowoBNuruJ
-   cBmTxuGpocVKvgPGpd7llCiFLmOIbhj4kIogKyumk4IA6RyuhCx8bFB96
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="374977183"
-X-IronPort-AV: E=Sophos;i="6.03,288,1694761200"; 
-   d="scan'208";a="374977183"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 23:59:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="907052515"
-X-IronPort-AV: E=Sophos;i="6.03,288,1694761200"; 
-   d="scan'208";a="907052515"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Nov 2023 23:59:55 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0zxB-0008ZQ-16;
-	Thu, 09 Nov 2023 07:59:53 +0000
-Date: Thu, 9 Nov 2023 15:57:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/ttm: replace busy placement with flags v2
-Message-ID: <202311091529.KIl0H6z5-lkp@intel.com>
-References: <20231109023843.32326-1-Amaranath.Somalapuram@amd.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kT//iRyW"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-32da4ffd7e5so317868f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Nov 2023 00:02:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699516935; x=1700121735; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BFIkC1FD/Uwtc6W91szrKWUfuMQSfWOdpdRrkGpPlWo=;
+        b=kT//iRyWZAmmBm2EGz7EYymR5Ie7D8ofvnZlExvbPhEPTaLigmGsv8E3gYrwWZq3Cy
+         hdhkd+hRDgb7Z44wIC6ixKvD9tHdKvTwjGGwEndYguKPnxThBcQX1v5cH6Zhgqo3h1at
+         suEi+S472BEB+C3fLURSw3h9jDlKIRbe2kQeUf2Y9t5LuhVkXopWzv0aXhr8VYhAiMfk
+         JurVIs4QGGmi3SNMbK9mxHO0XvBni91kgF6RewVSbMxOFP3sEJw0KkUMcHb26TjKTBBX
+         1Jdw8pU7zNUY+IAB5qja/Gd47GGWH3oOj0yOfjHUmACVPzoa0CpfNe7JSNgDlFQte0F2
+         Lt9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699516935; x=1700121735;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BFIkC1FD/Uwtc6W91szrKWUfuMQSfWOdpdRrkGpPlWo=;
+        b=bh/MdD7m4UMD0h8OD7fT/y57HLTw+lT561k+KTrS9vr5DRwxh2XbdY4PqF2h7bZjkK
+         shsAkrC8+EYLb5F2Ds5KAmKiJ6yPNmUKKS9MQopkLE4ADjvfG4a63/EydkTIDeEybPy0
+         50mCu78bhbnd70g1fqRnOiNoLH1nIsnCbfyRfrfC5FCeffWjTG4+TDzOIqFirvnANrwG
+         /m48qCpAtNg3Xf9MW5iUtk2ywNQVVSM4UcnLESetStrSCWmTbO+Nok769As6wgU52vbI
+         +sSSya2ogmjH5vAtcXL+Axkh9xAFyDogMU6oPmxCLNx+LL2MvQiLvkfBQYm/8ms3IBiU
+         MF5Q==
+X-Gm-Message-State: AOJu0Yyb+EBlDdqXOvnDBa82+qpVkUieluZfHoxxvQ85q+keCpX0zlTZ
+	q0R556HaskVqVqy36mFLEfEnYA==
+X-Google-Smtp-Source: AGHT+IGPq2vMTt96ad/AZA6B76G5T/W9HPy/vLX/E2Tps70yhgvZu+0T0LFKA9SFn0wgyqBEQQ+EyQ==
+X-Received: by 2002:a5d:5986:0:b0:32f:b47c:f1f6 with SMTP id n6-20020a5d5986000000b0032fb47cf1f6mr4764971wri.32.1699516935529;
+        Thu, 09 Nov 2023 00:02:15 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n17-20020a5d67d1000000b003232380ffd7sm6758579wrw.102.2023.11.09.00.02.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Nov 2023 00:02:15 -0800 (PST)
+Date: Thu, 9 Nov 2023 11:02:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Tuo Li <islituo@gmail.com>,
+	mchehab@kernel.org, yongsuyoo0215@gmail.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	baijiaju1990@outlook.com, Tuo Li <islituo@gmail.com>,
+	BassCheck <bass@buaa.edu.cn>
+Subject: Re: [PATCH] media: dvb-core: Fix a possible null-pointer dereference
+ due to data race in dvbdmx_write()
+Message-ID: <16d72edf-78de-4995-8821-e95973d5c474@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,85 +60,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231109023843.32326-1-Amaranath.Somalapuram@amd.com>
+In-Reply-To: <20231108091300.3124649-1-islituo@gmail.com>
 
-Hi Somalapuram,
+Hi Tuo,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-tip/drm-tip]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Somalapuram-Amaranath/drm-ttm-replace-busy-placement-with-flags-v2/20231109-104055
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20231109023843.32326-1-Amaranath.Somalapuram%40amd.com
-patch subject: [Intel-gfx] [PATCH] drm/ttm: replace busy placement with flags v2
-config: arc-randconfig-001-20231109 (https://download.01.org/0day-ci/archive/20231109/202311091529.KIl0H6z5-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311091529.KIl0H6z5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tuo-Li/media-dvb-core-Fix-a-possible-null-pointer-dereference-due-to-data-race-in-dvbdmx_write/20231108-200849
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20231108091300.3124649-1-islituo%40gmail.com
+patch subject: [PATCH] media: dvb-core: Fix a possible null-pointer dereference due to data race in dvbdmx_write()
+config: x86_64-randconfig-161-20231108 (https://download.01.org/0day-ci/archive/20231109/202311090845.BlIvG8kE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231109/202311090845.BlIvG8kE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311091529.KIl0H6z5-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202311090845.BlIvG8kE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/media/dvb-core/dvb_demux.c:1163 dvbdmx_write() warn: inconsistent returns '&dvbdemux->mutex'.
 
-   drivers/gpu/drm/loongson/lsdc_ttm.c: In function 'lsdc_bo_set_placement':
->> drivers/gpu/drm/loongson/lsdc_ttm.c:57:24: error: 'struct ttm_placement' has no member named 'busy_placement'; did you mean 'num_placement'?
-      57 |         lbo->placement.busy_placement = lbo->placements;
-         |                        ^~~~~~~~~~~~~~
-         |                        num_placement
->> drivers/gpu/drm/loongson/lsdc_ttm.c:80:24: error: 'struct ttm_placement' has no member named 'num_busy_placement'; did you mean 'num_placement'?
-      80 |         lbo->placement.num_busy_placement = c;
-         |                        ^~~~~~~~~~~~~~~~~~
-         |                        num_placement
+vim +1163 drivers/media/dvb-core/dvb_demux.c
 
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1139  static int dvbdmx_write(struct dmx_demux *demux, const char __user *buf, size_t count)
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1140  {
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1141  	struct dvb_demux *dvbdemux = (struct dvb_demux *)demux;
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1142  	void *p;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1143  
+eebefd4eafaa5d drivers/media/dvb-core/dvb_demux.c     Tuo Li         2023-11-08  1144  	mutex_lock(&dvbdemux->mutex);
+eebefd4eafaa5d drivers/media/dvb-core/dvb_demux.c     Tuo Li         2023-11-08  1145  	if ((!demux->frontend) || (demux->frontend->source != DMX_MEMORY_FE)) {
+eebefd4eafaa5d drivers/media/dvb-core/dvb_demux.c     Tuo Li         2023-11-08  1146  		mutex_unlock(&dvbdemux->mutex);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1147  		return -EINVAL;
+eebefd4eafaa5d drivers/media/dvb-core/dvb_demux.c     Tuo Li         2023-11-08  1148  	}
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1149  
+c6cfe05532cf6e drivers/media/dvb/dvb-core/dvb_demux.c Julia Lawall   2010-05-22  1150  	p = memdup_user(buf, count);
+c6cfe05532cf6e drivers/media/dvb/dvb-core/dvb_demux.c Julia Lawall   2010-05-22  1151  	if (IS_ERR(p))
+c6cfe05532cf6e drivers/media/dvb/dvb-core/dvb_demux.c Julia Lawall   2010-05-22  1152  		return PTR_ERR(p);
 
-vim +57 drivers/gpu/drm/loongson/lsdc_ttm.c
+Need to drop the lock before returning.
 
-f39db26c54281d Sui Jingfeng 2023-06-15  46  
-f39db26c54281d Sui Jingfeng 2023-06-15  47  static void lsdc_bo_set_placement(struct lsdc_bo *lbo, u32 domain)
-f39db26c54281d Sui Jingfeng 2023-06-15  48  {
-f39db26c54281d Sui Jingfeng 2023-06-15  49  	u32 c = 0;
-f39db26c54281d Sui Jingfeng 2023-06-15  50  	u32 pflags = 0;
-f39db26c54281d Sui Jingfeng 2023-06-15  51  	u32 i;
-f39db26c54281d Sui Jingfeng 2023-06-15  52  
-f39db26c54281d Sui Jingfeng 2023-06-15  53  	if (lbo->tbo.base.size <= PAGE_SIZE)
-f39db26c54281d Sui Jingfeng 2023-06-15  54  		pflags |= TTM_PL_FLAG_TOPDOWN;
-f39db26c54281d Sui Jingfeng 2023-06-15  55  
-f39db26c54281d Sui Jingfeng 2023-06-15  56  	lbo->placement.placement = lbo->placements;
-f39db26c54281d Sui Jingfeng 2023-06-15 @57  	lbo->placement.busy_placement = lbo->placements;
-f39db26c54281d Sui Jingfeng 2023-06-15  58  
-f39db26c54281d Sui Jingfeng 2023-06-15  59  	if (domain & LSDC_GEM_DOMAIN_VRAM) {
-f39db26c54281d Sui Jingfeng 2023-06-15  60  		lbo->placements[c].mem_type = TTM_PL_VRAM;
-f39db26c54281d Sui Jingfeng 2023-06-15  61  		lbo->placements[c++].flags = pflags;
-f39db26c54281d Sui Jingfeng 2023-06-15  62  	}
-f39db26c54281d Sui Jingfeng 2023-06-15  63  
-f39db26c54281d Sui Jingfeng 2023-06-15  64  	if (domain & LSDC_GEM_DOMAIN_GTT) {
-f39db26c54281d Sui Jingfeng 2023-06-15  65  		lbo->placements[c].mem_type = TTM_PL_TT;
-f39db26c54281d Sui Jingfeng 2023-06-15  66  		lbo->placements[c++].flags = pflags;
-f39db26c54281d Sui Jingfeng 2023-06-15  67  	}
-f39db26c54281d Sui Jingfeng 2023-06-15  68  
-f39db26c54281d Sui Jingfeng 2023-06-15  69  	if (domain & LSDC_GEM_DOMAIN_SYSTEM) {
-f39db26c54281d Sui Jingfeng 2023-06-15  70  		lbo->placements[c].mem_type = TTM_PL_SYSTEM;
-f39db26c54281d Sui Jingfeng 2023-06-15  71  		lbo->placements[c++].flags = 0;
-f39db26c54281d Sui Jingfeng 2023-06-15  72  	}
-f39db26c54281d Sui Jingfeng 2023-06-15  73  
-f39db26c54281d Sui Jingfeng 2023-06-15  74  	if (!c) {
-f39db26c54281d Sui Jingfeng 2023-06-15  75  		lbo->placements[c].mem_type = TTM_PL_SYSTEM;
-f39db26c54281d Sui Jingfeng 2023-06-15  76  		lbo->placements[c++].flags = 0;
-f39db26c54281d Sui Jingfeng 2023-06-15  77  	}
-f39db26c54281d Sui Jingfeng 2023-06-15  78  
-f39db26c54281d Sui Jingfeng 2023-06-15  79  	lbo->placement.num_placement = c;
-f39db26c54281d Sui Jingfeng 2023-06-15 @80  	lbo->placement.num_busy_placement = c;
-f39db26c54281d Sui Jingfeng 2023-06-15  81  
-f39db26c54281d Sui Jingfeng 2023-06-15  82  	for (i = 0; i < c; ++i) {
-f39db26c54281d Sui Jingfeng 2023-06-15  83  		lbo->placements[i].fpfn = 0;
-f39db26c54281d Sui Jingfeng 2023-06-15  84  		lbo->placements[i].lpfn = 0;
-f39db26c54281d Sui Jingfeng 2023-06-15  85  	}
-f39db26c54281d Sui Jingfeng 2023-06-15  86  }
-f39db26c54281d Sui Jingfeng 2023-06-15  87  
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1153  	if (mutex_lock_interruptible(&dvbdemux->mutex)) {
+
+Wait, what?  Why are we taking the lock a second time?  This won't work.
+
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1154  		kfree(p);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1155  		return -ERESTARTSYS;
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1156  	}
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1157  	dvb_dmx_swfilter(dvbdemux, p, count);
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1158  	kfree(p);
+3593cab5d62c4c drivers/media/dvb/dvb-core/dvb_demux.c Ingo Molnar    2006-02-07  1159  	mutex_unlock(&dvbdemux->mutex);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1160  
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1161  	if (signal_pending(current))
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1162  		return -EINTR;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16 @1163  	return count;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1164  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
