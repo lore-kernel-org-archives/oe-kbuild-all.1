@@ -1,112 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFCF38F9D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 22:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C0F1DFD8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 22:42:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WM1ssEPp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699569527; x=1731105527;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xUc3cOfVR8OgRqywfzWs66ac3FySUq37Xd+hFx2TDKA=;
-  b=WM1ssEPpf8JZDfUjITBZMVM+wmIA1phFC515Cv2IkHVhZyMOEk4oSeXe
-   GLWxSSE7I03I01T/sBLINlyNbUtT355yvd+7nU6jg/VJNFN/YrSHM+jAA
-   8BEr21d3TRHYaU8Q8j636XZ+tdhTLgRR2E6MQ3dI7kHqspFGjSCQv5eQO
-   MOqLXl3+v/atj5fqcRIqDjJyzmF8lDkr2xgV12ufw4O/uQDPZkDlkqPgs
-   lXdP/5ZKKTn72aIHs4lVciIfTkKzsYGJLie0TjB9i8W87B/mtBaGdhbJS
-   ODcyJgqwMUB4sqMRh0UInV6DB73SNeOWvhePBRQ6FWzpHoPdGz25FCx64
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="3068536"
-X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="3068536"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 14:38:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
-   d="scan'208";a="4678255"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 09 Nov 2023 14:38:42 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r1Dfc-0009DW-0V;
-	Thu, 09 Nov 2023 22:38:40 +0000
-Date: Fri, 10 Nov 2023 06:38:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>, Andi Shyti <andi.shyti@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2 11/12] i2c: designware: Remove ->disable() callback
-Message-ID: <202311100640.B5B7MhDJ-lkp@intel.com>
-References: <20231109182823.3531846-12-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="XVTmXM8c"
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-d9fe0a598d8so1484977276.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Nov 2023 14:42:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1699569764; x=1700174564; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6JkputGUKKf40Psyk5IYCMRphnGpz+FBuGNbnt3Wnn4=;
+        b=XVTmXM8cx4UKcv/sWsE9UvlsqMbHJSsck08uwgDxbdac+n5nsuwCiIRejHjL2vMDZV
+         EOiFGsY906Dsj3gvUIZEHZG/w60K2gEkr/udcBS54tMUf0zp3ZIO9VE+3q1L9JmPkMJj
+         i7RLrnJ/X1rZwHfrUzmba2Y0u2TD8nh4egWuG4eNHhO9zeqndI+HS7qw02AsfT+7KU5f
+         R5UEJq+M7ZnBontBYzWMJItatXqzQXXAsD2bRzykCbet7qBXkvrvNP6IVgxrs2h3P89T
+         KDBht3486Yh28MdDP5+dprdlaa1/0WETlOZtg0Mi0cqv3WeJSos6l0c1M+2BhugIzPVu
+         NSog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699569764; x=1700174564;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6JkputGUKKf40Psyk5IYCMRphnGpz+FBuGNbnt3Wnn4=;
+        b=Is3x3kOHjS726fnTqgFkgQvtoPCTjhNKVh5pUHVDdFYrLAq6XN1uy/umgYZCJcVcDR
+         P8oON79GnKcnkWzfp3kOlTOTvpH7DmqKMi0LXfQPkB+7anQPwzhDKfcwNTBvbW0Wvzhm
+         iVxV/m3UL3+MSpRiry8F4+M3WbrSlbVYj9WkF6+ES8niXveJNbfwYMarUpzc7CFNFvc/
+         hEZymcIYF7CfeS0YsZozbHcVsHlGjjDyFP4UwbVz0QnJkgnCmPFkx8xdglN02FRro2p/
+         PBzZuAInT4wSObxJbvxM0BFbNZv/04oe4kit53sBNHw5cBgFuIILmyNVNcx/MZuZk920
+         koQw==
+X-Gm-Message-State: AOJu0Ywrupak1VVdJkdDntBOinbB52qgNPCM3iB7bSucqUwmHBPkpdmv
+	lgLL7nW8WNBRKMe1zazh7y9qhUEOeoGJXWTyBBe5
+X-Google-Smtp-Source: AGHT+IGjN8YZ7dZLUULqIFtdfGAn4gkVHOcOdG4S2QXYTTfMZg3nMncbPUAc9wJW1DV//XJomjYbszbF7uJtLOM2rrA=
+X-Received: by 2002:a25:2547:0:b0:d9a:64ca:8fbc with SMTP id
+ l68-20020a252547000000b00d9a64ca8fbcmr6210001ybl.46.1699569764504; Thu, 09
+ Nov 2023 14:42:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231109182823.3531846-12-andriy.shevchenko@linux.intel.com>
+References: <202311030352.rlmE6sKL-lkp@intel.com> <7129128d-d20e-4752-8cfd-e81758c913a7@schaufler-ca.com>
+In-Reply-To: <7129128d-d20e-4752-8cfd-e81758c913a7@schaufler-ca.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Thu, 9 Nov 2023 17:42:33 -0500
+Message-ID: <CAHC9VhQLHr4s08H2BNcD6Mf6EXFCV2thLRtRjKLENBqNyZp9Eg@mail.gmail.com>
+Subject: Re: [pcmoore-lsm:dev-staging 1/16] security/tomoyo/tomoyo.c:546:21:
+ sparse: sparse: symbol 'tomoyo_lsmid' was not declared. Should it be static?
+To: Casey Schaufler <casey@schaufler-ca.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Kees Cook <keescook@chromium.org>, Serge Hallyn <serge@hallyn.com>, 
+	Mickael Salaun <mic@digikod.net>, John Johansen <john.johansen@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andy,
+On Thu, Nov 9, 2023 at 12:20=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
+.com> wrote:
+> On 11/2/2023 12:47 PM, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git=
+ dev-staging
+> > head:   bb92b5b887051b8448e0a06d39b9c89d42e347f8
+> > commit: 08a8af0d456ecddadee1071cb614f3b7873e808e [1/16] LSM: Identify m=
+odules by more than name
+> > config: x86_64-randconfig-123-20231102 (https://download.01.org/0day-ci=
+/archive/20231103/202311030352.rlmE6sKL-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20231103/202311030352.rlmE6sKL-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202311030352.rlmE6sKL-l=
+kp@intel.com/
+> >
+> > sparse warnings: (new ones prefixed by >>)
+> >>> security/tomoyo/tomoyo.c:546:21: sparse: sparse: symbol 'tomoyo_lsmid=
+' was not declared. Should it be static?
+>
+> I pulled the "static" from the lsm_id declarations because they are also =
+"const".
+> It looks as if that was a mistake, and the "static" should come back.
+>
+> It's a simple patch. I can provide it in a day or two ( slow internet :( =
+) or
+> someone else can snap a "static" in front of the "struct lsm_id" use in e=
+ach
+> of the LSM definitions. All LSMs need it except for landlock.
 
-kernel test robot noticed the following build errors:
+Thanks for looking into this Casey.  I have a few other small patches
+to put together this week so I can go ahead and take care of this
+while I'm at it; I add you as a 'Suggested-by'.
 
-[auto build test ERROR on wsa/i2c/for-next]
-[also build test ERROR on linus/master v6.6 next-20231109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-designware-Replace-MODULE_ALIAS-with-MODULE_DEVICE_TABLE/20231110-040556
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
-patch link:    https://lore.kernel.org/r/20231109182823.3531846-12-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v2 11/12] i2c: designware: Remove ->disable() callback
-config: arc-randconfig-002-20231110 (https://download.01.org/0day-ci/archive/20231110/202311100640.B5B7MhDJ-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100640.B5B7MhDJ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311100640.B5B7MhDJ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/i2c/busses/i2c-designware-slave.c: In function 'i2c_dw_unreg_slave':
->> drivers/i2c/busses/i2c-designware-slave.c:95:12: error: 'struct dw_i2c_dev' has no member named 'disable'
-      95 |         dev->disable(dev);
-         |            ^~
-
-
-vim +95 drivers/i2c/busses/i2c-designware-slave.c
-
-9f3e065c54b05b Luis Oliveira 2017-06-22   89  
-9f3e065c54b05b Luis Oliveira 2017-06-22   90  static int i2c_dw_unreg_slave(struct i2c_client *slave)
-9f3e065c54b05b Luis Oliveira 2017-06-22   91  {
-9f3e065c54b05b Luis Oliveira 2017-06-22   92  	struct dw_i2c_dev *dev = i2c_get_adapdata(slave->adapter);
-9f3e065c54b05b Luis Oliveira 2017-06-22   93  
-fee61247b7f67a Jarkko Nikula 2022-11-07   94  	regmap_write(dev->map, DW_IC_INTR_MASK, 0);
-9f3e065c54b05b Luis Oliveira 2017-06-22  @95  	dev->disable(dev);
-c486dcd2f1bbdd Jarkko Nikula 2019-08-15   96  	synchronize_irq(dev->irq);
-9f3e065c54b05b Luis Oliveira 2017-06-22   97  	dev->slave = NULL;
-2a86cdd2e7d3c7 Jarkko Nikula 2017-08-15   98  	pm_runtime_put(dev->dev);
-9f3e065c54b05b Luis Oliveira 2017-06-22   99  
-9f3e065c54b05b Luis Oliveira 2017-06-22  100  	return 0;
-9f3e065c54b05b Luis Oliveira 2017-06-22  101  }
-9f3e065c54b05b Luis Oliveira 2017-06-22  102  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+paul-moore.com
