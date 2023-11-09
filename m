@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275B9200A0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 14:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A24200A4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  9 Nov 2023 14:14:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iy7Sotqq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWEf2Tlr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699539263; x=1731075263;
+  t=1699539264; x=1731075264;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gP1H/kxpXsYMuoc9uz4ajilI9Za6TJegzGvCyi2VHAA=;
-  b=Iy7Sotqq5Oz0Lp+T6IX28hsNNI0PyBKQl2hZn1YlJYaWhKwbdzSd5e6J
-   /Wm3RZe11OPTiX0RDQsC7H3rnPzBg7lASS0hyDlv1rVwvVs4I3SoRfe8m
-   0G+HUXtdr4ARkGbejf+8FBujKEszlbTyQ2fmYld2pFb2TpOzqiwRDLiVD
-   BgsL1BlX3z6r1SBwcpyBR3AJrCyN5rWf94+C7sxHPPVUZqvuUUn4MEVZV
-   lCtT1BCbR/xR+2fLm8UXbh1A5DX65b/U/B9iehj/dgX44WlJHJ+fPG10I
-   gTTtHMKw5y3RIuIt4c2dDTViePc5/ZbKYgabmxTU1DQxh/3N3zOOEXsV4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="11538883"
+  bh=CsKO0PVa1TCnRBy/VSilAKj4lQHBGw9d06Y3shR2C1o=;
+  b=BWEf2TlrHRlhjI5nAByYyqOcwFIJDc/yYy92j8HD6U3whyfKh9ATlylu
+   f4D10Ax1tA/GJiJNoGFtMs76OD3cvhCthudOAcnf1SfVo53sEEdlKn/Sz
+   X8OdwSIkaUd6Klm25teYEsqi/xSaGZz2w8JgGfzS9XOrHo3VWckUoqLk1
+   aHc9LUNpiKw259nNjcryKlkEcl5/vmWTNRkhKfYQyZkzOE3TKM32lGdoV
+   YrLkTfzjVHSYStgGf6kOK2Pa8z6IysbaFhVLWbnOZM/hw5+F9u+B1bxL8
+   +hjtJz7d+BHKENecWSl/JtE1bfPOnIEkS5tgRczeaCUp49+pMNsFMm9LE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="369324455"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="11538883"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 06:14:22 -0800
+   d="scan'208";a="369324455"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 06:14:23 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="739856784"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="4549413"
+   d="scan'208";a="739856784"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 09 Nov 2023 06:14:21 -0800
+  by orsmga006.jf.intel.com with ESMTP; 09 Nov 2023 06:14:20 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r15nW-0008mA-1O;
+	id 1r15nW-0008m8-1D;
 	Thu, 09 Nov 2023 14:14:18 +0000
-Date: Thu, 9 Nov 2023 22:13:39 +0800
+Date: Thu, 9 Nov 2023 22:13:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 5610/27787]
- kernel/power/wakeup_reason.c:199:6: sparse: sparse: symbol
- '__log_abort_or_abnormal_wake' was not declared. Should it be static?
-Message-ID: <202311092248.ZVoHljIw-lkp@intel.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Lunn <andrew@lunn.ch>,
+	Vivien Didelot <vivien.didelot@gmail.com>
+Subject: drivers/net/dsa/qca/ar9331.c:502:29: error: implicit declaration of
+ function 'irq_find_mapping'
+Message-ID: <202311092236.uvirbjcm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,44 +52,198 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   d43ac48de222318c621dccb5b140e46676779736
-commit: 189ced91cd7b0e440b0be876406fd36313a11c3f [5610/27787] ANDROID: power: wakeup_reason: wake reason enhancements
-config: i386-randconfig-062-20231022 (https://download.01.org/0day-ci/archive/20231109/202311092248.ZVoHljIw-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6bc986ab839c844e78a2333a02e55f02c9e57935
+commit: ec6698c272debe16c8825c88a5b3c3f68a12ef4a net: dsa: add support for Atheros AR9331 built-in switch
+date:   3 years, 11 months ago
+config: um-randconfig-001-20231109 (https://download.01.org/0day-ci/archive/20231109/202311092236.uvirbjcm-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311092248.ZVoHljIw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311092236.uvirbjcm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311092248.ZVoHljIw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311092236.uvirbjcm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/power/wakeup_reason.c:199:6: sparse: sparse: symbol '__log_abort_or_abnormal_wake' was not declared. Should it be static?
-   kernel/power/wakeup_reason.c:378:12: sparse: sparse: symbol 'wakeup_reason_init' was not declared. Should it be static?
+All error/warnings (new ones prefixed by >>):
 
-vim +/__log_abort_or_abnormal_wake +199 kernel/power/wakeup_reason.c
+   cc1: warning: arch/um/include/uapi: No such file or directory [-Wmissing-include-dirs]
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/bitfield.h:10,
+                    from drivers/net/dsa/qca/ar9331.c:42:
+   include/asm-generic/fixmap.h: In function 'fix_to_virt':
+   include/asm-generic/fixmap.h:32:26: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+      32 |         BUILD_BUG_ON(idx >= __end_of_fixed_addresses);
+         |                          ^~
+   include/linux/compiler.h:330:23: note: in definition of macro '__compiletime_assert'
+     330 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler.h:350:9: note: in expansion of macro '_compiletime_assert'
+     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __LINE__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/asm-generic/fixmap.h:32:9: note: in expansion of macro 'BUILD_BUG_ON'
+      32 |         BUILD_BUG_ON(idx >= __end_of_fixed_addresses);
+         |         ^~~~~~~~~~~~
+   drivers/net/dsa/qca/ar9331.c: In function 'ar9331_sw_irq':
+>> drivers/net/dsa/qca/ar9331.c:502:29: error: implicit declaration of function 'irq_find_mapping' [-Werror=implicit-function-declaration]
+     502 |                 child_irq = irq_find_mapping(priv->irqdomain, 0);
+         |                             ^~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/ar9331.c: At top level:
+>> drivers/net/dsa/qca/ar9331.c:567:18: error: 'irq_domain_xlate_onecell' undeclared here (not in a function)
+     567 |         .xlate = irq_domain_xlate_onecell,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/ar9331.c: In function 'ar9331_sw_irq_init':
+>> drivers/net/dsa/qca/ar9331.c:589:27: error: implicit declaration of function 'irq_domain_add_linear' [-Werror=implicit-function-declaration]
+     589 |         priv->irqdomain = irq_domain_add_linear(np, 1, &ar9331_sw_irqdomain_ops,
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/dsa/qca/ar9331.c:589:25: warning: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     589 |         priv->irqdomain = irq_domain_add_linear(np, 1, &ar9331_sw_irqdomain_ops,
+         |                         ^
+>> drivers/net/dsa/qca/ar9331.c:596:24: error: implicit declaration of function 'irq_create_mapping'; did you mean 'irq_create_of_mapping'? [-Werror=implicit-function-declaration]
+     596 |         irq_set_parent(irq_create_mapping(priv->irqdomain, 0), irq);
+         |                        ^~~~~~~~~~~~~~~~~~
+         |                        irq_create_of_mapping
+   drivers/net/dsa/qca/ar9331.c: In function 'ar9331_sw_probe':
+>> drivers/net/dsa/qca/ar9331.c:821:9: error: implicit declaration of function 'irq_domain_remove' [-Werror=implicit-function-declaration]
+     821 |         irq_domain_remove(priv->irqdomain);
+         |         ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   198	
- > 199	void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-   200	{
-   201		unsigned long flags;
-   202	
-   203		spin_lock_irqsave(&wakeup_reason_lock, flags);
-   204	
-   205		/* Suspend abort or abnormal wake reason has already been logged. */
-   206		if (suspend_abort || abnormal_wake) {
-   207			spin_unlock_irqrestore(&wakeup_reason_lock, flags);
-   208			return;
-   209		}
-   210	
-   211		suspend_abort = abort;
-   212		abnormal_wake = !abort;
-   213		vsnprintf(non_irq_wake_reason, MAX_SUSPEND_ABORT_LEN, fmt, args);
-   214	
-   215		spin_unlock_irqrestore(&wakeup_reason_lock, flags);
-   216	}
-   217	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for LOCKDEP
+   Depends on [n]: DEBUG_KERNEL [=y] && LOCK_DEBUGGING_SUPPORT [=y] && (FRAME_POINTER [=n] || MIPS || PPC || S390 || MICROBLAZE || ARM || ARC || X86)
+   Selected by [y]:
+   - PROVE_LOCKING [=y] && DEBUG_KERNEL [=y] && LOCK_DEBUGGING_SUPPORT [=y]
+   - DEBUG_LOCK_ALLOC [=y] && DEBUG_KERNEL [=y] && LOCK_DEBUGGING_SUPPORT [=y]
+
+
+vim +/irq_find_mapping +502 drivers/net/dsa/qca/ar9331.c
+
+   482	
+   483	static irqreturn_t ar9331_sw_irq(int irq, void *data)
+   484	{
+   485		struct ar9331_sw_priv *priv = data;
+   486		struct regmap *regmap = priv->regmap;
+   487		u32 stat;
+   488		int ret;
+   489	
+   490		ret = regmap_read(regmap, AR9331_SW_REG_GINT, &stat);
+   491		if (ret) {
+   492			dev_err(priv->dev, "can't read interrupt status\n");
+   493			return IRQ_NONE;
+   494		}
+   495	
+   496		if (!stat)
+   497			return IRQ_NONE;
+   498	
+   499		if (stat & AR9331_SW_GINT_PHY_INT) {
+   500			int child_irq;
+   501	
+ > 502			child_irq = irq_find_mapping(priv->irqdomain, 0);
+   503			handle_nested_irq(child_irq);
+   504		}
+   505	
+   506		ret = regmap_write(regmap, AR9331_SW_REG_GINT, stat);
+   507		if (ret) {
+   508			dev_err(priv->dev, "can't write interrupt status\n");
+   509			return IRQ_NONE;
+   510		}
+   511	
+   512		return IRQ_HANDLED;
+   513	}
+   514	
+   515	static void ar9331_sw_mask_irq(struct irq_data *d)
+   516	{
+   517		struct ar9331_sw_priv *priv = irq_data_get_irq_chip_data(d);
+   518		struct regmap *regmap = priv->regmap;
+   519		int ret;
+   520	
+   521		ret = regmap_update_bits(regmap, AR9331_SW_REG_GINT_MASK,
+   522					 AR9331_SW_GINT_PHY_INT, 0);
+   523		if (ret)
+   524			dev_err(priv->dev, "could not mask IRQ\n");
+   525	}
+   526	
+   527	static void ar9331_sw_unmask_irq(struct irq_data *d)
+   528	{
+   529		struct ar9331_sw_priv *priv = irq_data_get_irq_chip_data(d);
+   530		struct regmap *regmap = priv->regmap;
+   531		int ret;
+   532	
+   533		ret = regmap_update_bits(regmap, AR9331_SW_REG_GINT_MASK,
+   534					 AR9331_SW_GINT_PHY_INT,
+   535					 AR9331_SW_GINT_PHY_INT);
+   536		if (ret)
+   537			dev_err(priv->dev, "could not unmask IRQ\n");
+   538	}
+   539	
+   540	static struct irq_chip ar9331_sw_irq_chip = {
+   541		.name = AR9331_SW_NAME,
+   542		.irq_mask = ar9331_sw_mask_irq,
+   543		.irq_unmask = ar9331_sw_unmask_irq,
+   544	};
+   545	
+   546	static int ar9331_sw_irq_map(struct irq_domain *domain, unsigned int irq,
+   547				     irq_hw_number_t hwirq)
+   548	{
+   549		irq_set_chip_data(irq, domain->host_data);
+   550		irq_set_chip_and_handler(irq, &ar9331_sw_irq_chip, handle_simple_irq);
+   551		irq_set_nested_thread(irq, 1);
+   552		irq_set_noprobe(irq);
+   553	
+   554		return 0;
+   555	}
+   556	
+   557	static void ar9331_sw_irq_unmap(struct irq_domain *d, unsigned int irq)
+   558	{
+   559		irq_set_nested_thread(irq, 0);
+   560		irq_set_chip_and_handler(irq, NULL, NULL);
+   561		irq_set_chip_data(irq, NULL);
+   562	}
+   563	
+   564	static const struct irq_domain_ops ar9331_sw_irqdomain_ops = {
+   565		.map = ar9331_sw_irq_map,
+   566		.unmap = ar9331_sw_irq_unmap,
+ > 567		.xlate = irq_domain_xlate_onecell,
+   568	};
+   569	
+   570	static int ar9331_sw_irq_init(struct ar9331_sw_priv *priv)
+   571	{
+   572		struct device_node *np = priv->dev->of_node;
+   573		struct device *dev = priv->dev;
+   574		int ret, irq;
+   575	
+   576		irq = of_irq_get(np, 0);
+   577		if (irq <= 0) {
+   578			dev_err(dev, "failed to get parent IRQ\n");
+   579			return irq ? irq : -EINVAL;
+   580		}
+   581	
+   582		ret = devm_request_threaded_irq(dev, irq, NULL, ar9331_sw_irq,
+   583						IRQF_ONESHOT, AR9331_SW_NAME, priv);
+   584		if (ret) {
+   585			dev_err(dev, "unable to request irq: %d\n", ret);
+   586			return ret;
+   587		}
+   588	
+ > 589		priv->irqdomain = irq_domain_add_linear(np, 1, &ar9331_sw_irqdomain_ops,
+   590							priv);
+   591		if (!priv->irqdomain) {
+   592			dev_err(dev, "failed to create IRQ domain\n");
+   593			return -EINVAL;
+   594		}
+   595	
+ > 596		irq_set_parent(irq_create_mapping(priv->irqdomain, 0), irq);
+   597	
+   598		return 0;
+   599	}
+   600	
 
 -- 
 0-DAY CI Kernel Test Service
