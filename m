@@ -1,50 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFFB1C28E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 18:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322751429C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 18:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bojEpu4z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bg98JHkv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699641433; x=1731177433;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ma8woTlLXt37OgJ3lG1H9hM4J+sMKQ6o3z6BV4rfNfw=;
-  b=bojEpu4zAeJdXECh/g+1554JLyJdb94OeDZU8bGGYFuOgPsbcq9vZakJ
-   88cU9eSIt1yk2wwMtc1f3+/8UjKkRtMS8SVFdwcmTCcnu6c648/ypXlLb
-   AIjkkbtOTc26maqC4VnPFbpYheRFAWM3A1hCIKhj8r77gjDDtrtmAIGlh
-   +VMupg96wre3//eoNSdV20oSinPq6XVIMh87NZgyt1qV0zUb3dkMMAGUX
-   r3vnn8nU55X0c76Cb95+9NcK0lNykUoyFgLQG8zdqJWMGCQ90/fP2c6r2
-   e9hvF7h6Zo/4nS1Duhha6i47AXlLnfonCzjK9050x/Znc8Rjj+665Jtfa
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="3205537"
+  t=1699641497; x=1731177497;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YtjMRMAKS0LIeCc6ySjwSMu1rAuphAd1Jii7OFSLQVA=;
+  b=Bg98JHkvYu9O7BxmrHrdklNMYGUkR19FT78csXjLXWZA4OMqbO3ISoaM
+   cfQrBJECdUWzf09NjpTInusCJVkANqTj9kKFMAecFsWsSbcR4ApN7NMw7
+   0370X0hLjDZycucTY42gFN98Flilt0YvKm7Gjcy1on+2cypTt1iD+qAA3
+   X5Ur7B+/FMGsBqUPXCh5P0eQQrSmF6utzoEr8kQ633h/BYXTiP3kBnEko
+   GMLGEqXBbseE0259HDoQNCUKHhdWDvGlisTyalS/9bP78D+sOOgkSGZ5B
+   JqahgkD5B9w6H/rLc3du3mo7UKiIibjUdUuTdKO+J1HInt7seJ/cpt2FC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="454522333"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="3205537"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 10:37:12 -0800
+   d="scan'208";a="454522333"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 10:38:16 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="881030614"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="11548609"
+   d="scan'208";a="881030614"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Nov 2023 10:37:10 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2023 10:38:15 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1WNO-0009p0-1a;
-	Fri, 10 Nov 2023 18:37:06 +0000
+	id 1r1WOS-0009p4-2k;
+	Fri, 10 Nov 2023 18:38:12 +0000
 Date: Sat, 11 Nov 2023 02:37:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dipam Turkar <dipamt1729@gmail.com>, jani.nikula@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, Dipam Turkar <dipamt1729@gmail.com>,
-	intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
-	rodrigo.vivi@intel.com, airlied@gmail.com
-Subject: Re: [Intel-gfx] [PATCH] Remove custom dumb_map_offset
- implementations in i915 driver
-Message-ID: <202311110226.CsxS1u1i-lkp@intel.com>
-References: <20231110105811.380646-1-dipamt1729@gmail.com>
+To: Boris Brezillon <bbrezillon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>,
+	Steven Price <steven.price@arm.com>
+Subject: [mmind-rockchip:dev/panthor 36/41]
+ drivers/gpu/drm/panthor/panthor_device.c:120:13: warning:
+ 'panthor_device_is_initialized' defined but not used
+Message-ID: <202311110227.OabsvFN5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,84 +51,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231110105811.380646-1-dipamt1729@gmail.com>
 
-Hi Dipam,
+Hi Boris,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dipam-Turkar/Remove-custom-dumb_map_offset-implementations-in-i915-driver/20231110-185942
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20231110105811.380646-1-dipamt1729%40gmail.com
-patch subject: [Intel-gfx] [PATCH] Remove custom dumb_map_offset implementations in i915 driver
-config: x86_64-randconfig-001-20231110 (https://download.01.org/0day-ci/archive/20231111/202311110226.CsxS1u1i-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110226.CsxS1u1i-lkp@intel.com/reproduce)
+tree:   https://github.com/mmind/linux-rockchip dev/panthor
+head:   ef8d76d568fba69012333ce6e9d7cce4aebbb2da
+commit: 86d43fb902f5db2a81e432041864dd7523314c70 [36/41] drm/panthor: Allow driver compilation
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231111/202311110227.OabsvFN5-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110227.OabsvFN5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311110226.CsxS1u1i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110227.OabsvFN5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/gem/i915_gem_mman.c: In function 'i915_gem_mmap_offset_ioctl':
-   drivers/gpu/drm/i915/gem/i915_gem_mman.c:673:9: error: implicit declaration of function '__assign_mmap_offset_handle'; did you mean 'i915_gem_mmap_offset_ioctl'? [-Werror=implicit-function-declaration]
-     return __assign_mmap_offset_handle(file, args->handle, type, &args->offset);
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-            i915_gem_mmap_offset_ioctl
-   drivers/gpu/drm/i915/gem/i915_gem_mman.c: In function 'i915_gem_fb_mmap':
-   drivers/gpu/drm/i915/gem/i915_gem_mman.c:896:9: error: implicit declaration of function 'mmap_offset_attach'; did you mean 'dma_free_attrs'? [-Werror=implicit-function-declaration]
-      mmo = mmap_offset_attach(obj, mmap_type, NULL);
-            ^~~~~~~~~~~~~~~~~~
-            dma_free_attrs
->> drivers/gpu/drm/i915/gem/i915_gem_mman.c:896:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
-      mmo = mmap_offset_attach(obj, mmap_type, NULL);
-          ^
+   drivers/gpu/drm/panthor/panthor_device.c: In function 'panthor_mmio_vm_fault':
+   drivers/gpu/drm/panthor/panthor_device.c:307:31: error: implicit declaration of function 'virt_to_pfn'; did you mean 'virt_to_phys'? [-Werror=implicit-function-declaration]
+     307 |                         pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
+         |                               ^~~~~~~~~~~
+         |                               virt_to_phys
+   drivers/gpu/drm/panthor/panthor_device.c: At top level:
+>> drivers/gpu/drm/panthor/panthor_device.c:120:13: warning: 'panthor_device_is_initialized' defined but not used [-Wunused-function]
+     120 | static bool panthor_device_is_initialized(struct panthor_device *ptdev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +896 drivers/gpu/drm/i915/gem/i915_gem_mman.c
+vim +/panthor_device_is_initialized +120 drivers/gpu/drm/panthor/panthor_device.c
 
-eaee1c085863951 Nirmoy Das    2023-04-04  874  
-eaee1c085863951 Nirmoy Das    2023-04-04  875  int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma)
-eaee1c085863951 Nirmoy Das    2023-04-04  876  {
-eaee1c085863951 Nirmoy Das    2023-04-04  877  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-eaee1c085863951 Nirmoy Das    2023-04-04  878  	struct drm_device *dev = &i915->drm;
-eaee1c085863951 Nirmoy Das    2023-04-04  879  	struct i915_mmap_offset *mmo = NULL;
-eaee1c085863951 Nirmoy Das    2023-04-04  880  	enum i915_mmap_type mmap_type;
-eaee1c085863951 Nirmoy Das    2023-04-04  881  	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
-eaee1c085863951 Nirmoy Das    2023-04-04  882  
-eaee1c085863951 Nirmoy Das    2023-04-04  883  	if (drm_dev_is_unplugged(dev))
-eaee1c085863951 Nirmoy Das    2023-04-04  884  		return -ENODEV;
-eaee1c085863951 Nirmoy Das    2023-04-04  885  
-eaee1c085863951 Nirmoy Das    2023-04-04  886  	/* handle ttm object */
-eaee1c085863951 Nirmoy Das    2023-04-04  887  	if (obj->ops->mmap_ops) {
-eaee1c085863951 Nirmoy Das    2023-04-04  888  		/*
-eaee1c085863951 Nirmoy Das    2023-04-04  889  		 * ttm fault handler, ttm_bo_vm_fault_reserved() uses fake offset
-eaee1c085863951 Nirmoy Das    2023-04-04  890  		 * to calculate page offset so set that up.
-eaee1c085863951 Nirmoy Das    2023-04-04  891  		 */
-eaee1c085863951 Nirmoy Das    2023-04-04  892  		vma->vm_pgoff += drm_vma_node_start(&obj->base.vma_node);
-eaee1c085863951 Nirmoy Das    2023-04-04  893  	} else {
-eaee1c085863951 Nirmoy Das    2023-04-04  894  		/* handle stolen and smem objects */
-eaee1c085863951 Nirmoy Das    2023-04-04  895  		mmap_type = i915_ggtt_has_aperture(ggtt) ? I915_MMAP_TYPE_GTT : I915_MMAP_TYPE_WC;
-eaee1c085863951 Nirmoy Das    2023-04-04 @896  		mmo = mmap_offset_attach(obj, mmap_type, NULL);
-274d4b96b12f78c Dan Carpenter 2023-06-06  897  		if (IS_ERR(mmo))
-274d4b96b12f78c Dan Carpenter 2023-06-06  898  			return PTR_ERR(mmo);
-eaee1c085863951 Nirmoy Das    2023-04-04  899  	}
-eaee1c085863951 Nirmoy Das    2023-04-04  900  
-eaee1c085863951 Nirmoy Das    2023-04-04  901  	/*
-eaee1c085863951 Nirmoy Das    2023-04-04  902  	 * When we install vm_ops for mmap we are too late for
-eaee1c085863951 Nirmoy Das    2023-04-04  903  	 * the vm_ops->open() which increases the ref_count of
-eaee1c085863951 Nirmoy Das    2023-04-04  904  	 * this obj and then it gets decreased by the vm_ops->close().
-eaee1c085863951 Nirmoy Das    2023-04-04  905  	 * To balance this increase the obj ref_count here.
-eaee1c085863951 Nirmoy Das    2023-04-04  906  	 */
-eaee1c085863951 Nirmoy Das    2023-04-04  907  	obj = i915_gem_object_get(obj);
-eaee1c085863951 Nirmoy Das    2023-04-04  908  	return i915_gem_object_mmap(obj, mmo, vma);
-eaee1c085863951 Nirmoy Das    2023-04-04  909  }
-eaee1c085863951 Nirmoy Das    2023-04-04  910  
+0397be1efb94b5 Boris Brezillon 2023-08-09  119  
+0397be1efb94b5 Boris Brezillon 2023-08-09 @120  static bool panthor_device_is_initialized(struct panthor_device *ptdev)
+0397be1efb94b5 Boris Brezillon 2023-08-09  121  {
+0397be1efb94b5 Boris Brezillon 2023-08-09  122  	return !!ptdev->scheduler;
+0397be1efb94b5 Boris Brezillon 2023-08-09  123  }
+0397be1efb94b5 Boris Brezillon 2023-08-09  124  
+
+:::::: The code at line 120 was first introduced by commit
+:::::: 0397be1efb94b59f907d905466bcef6aad6508d9 drm/panthor: Add the device logical block
+
+:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
+:::::: CC: Heiko Stuebner <heiko@sntech.de>
 
 -- 
 0-DAY CI Kernel Test Service
