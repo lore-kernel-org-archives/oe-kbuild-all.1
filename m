@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3784663B4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 17:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89EE20323
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 17:16:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uiz56JwN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CIXmGZfn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699635881; x=1731171881;
+  t=1699636587; x=1731172587;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jdDaHfWRy+lie2L50bhdEJCnG9c/Sd/JXhNZxGOF6Sk=;
-  b=Uiz56JwN/qZg3GKgIai2+Z7RSuNrycCWXzBpICY2i3PavNeggGmEyLI1
-   vtehmsVJqX6Wk+pzfUylj13fQMv3aoOgrTIi026wg4VsoZ6mb2z4YjDmB
-   G2kvWv88dix5rZdftInQt/XVZj+ifcCqhu1gbiMvzx+QeXQ8fs9SNeMCe
-   jLnq/bHUekrTSphIO6sa1lr68/wmDI+SYPrtPB+QIyp+xmKKGBMIsXHI8
-   DaNY3Q9lIthPaAZI/1GKcXVvrPaCdk9BnZGpvpJhk3cTq4W7ow9+bXwKp
-   JQcEc+DEsriJESRANxYT9ElDD36JisRyWzJbPbin54nYWlZNJC8Jc5muF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="370412191"
+  bh=iHlPkhGQepRa2b05cK7LcbIRx4+0xg6F6OrAUzIsw7w=;
+  b=CIXmGZfnt6ElaxAwJD0WC0qcLfBxAvvzhHSU17EZokTIl43rdRg2A0tV
+   un+aAXCaCfnxXl+IqRBtuls5Wh8xdsFUuAzxcbpi1eGyjrTei1IXenTDA
+   aALt+4zLgAYPViizGI2LG8Y+1/J7B7T7JjF/r8WKWUOj8cCouXIyMFR/w
+   ntqGwtj5W9GRelAzuZXGDmM1WNjypaZHz/yeGAxQOOowIqBKVsOcVhSuy
+   0Sx0CB5HfwYDGk4CiBo7l2NVe01BPa5sdvYvnPQdJvZ69nBDYmE3yCe1j
+   BYhUXSS3f+6M3lxbcNjpDT8cE3T0l41zwkg26upSqyTipHNcCg2xkJCdi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="3195484"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="370412191"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 09:04:40 -0800
+   d="scan'208";a="3195484"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 09:15:08 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="713684026"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="4890353"
+   d="scan'208";a="713684026"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2023 09:04:38 -0800
+  by orsmga003.jf.intel.com with ESMTP; 10 Nov 2023 09:15:05 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1Uvr-0009lK-18;
-	Fri, 10 Nov 2023 17:04:35 +0000
-Date: Sat, 11 Nov 2023 01:04:14 +0800
+	id 1r1V5z-0009ls-1Q;
+	Fri, 10 Nov 2023 17:15:03 +0000
+Date: Sat, 11 Nov 2023 01:14:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boris Brezillon <bbrezillon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>,
-	Steven Price <steven.price@arm.com>
-Subject: [mmind-rockchip:dev/panthor 36/41]
- drivers/gpu/drm/panthor/panthor_drv.c:1326:6: warning: no previous prototype
- for 'panthor_debugfs_init'
-Message-ID: <202311110058.uP4Vh1gN-lkp@intel.com>
+To: Zhipeng Gong <zhipeng.gong@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	"He, Min" <min.he@intel.com>, Zhao Yakui <yakui.zhao@intel.com>
+Subject: [intel-lts:4.19/android_t 3688/30000]
+ drivers/gpu/drm/i915/i915_gem_gtt.c:1022:39: sparse: sparse: incorrect type
+ in argument 2 (different address spaces)
+Message-ID: <202311110130.RA4NPMiH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,205 +52,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Boris,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/mmind/linux-rockchip dev/panthor
-head:   ef8d76d568fba69012333ce6e9d7cce4aebbb2da
-commit: 86d43fb902f5db2a81e432041864dd7523314c70 [36/41] drm/panthor: Allow driver compilation
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231111/202311110058.uP4Vh1gN-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110058.uP4Vh1gN-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: f1964915364c169131ec07afef206ecaa773843b [3688/30000] drm/i915/gvt: notify ppgtt update through g2v
+config: x86_64-randconfig-121-20230910 (https://download.01.org/0day-ci/archive/20231111/202311110130.RA4NPMiH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110130.RA4NPMiH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311110058.uP4Vh1gN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110130.RA4NPMiH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/i915_gem_gtt.c:1022:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1022:39: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1022:39: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1023:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1023:37: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1023:37: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1024:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1024:38: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1024:38: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1271:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1271:55: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1271:55: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1272:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1272:50: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1272:50: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1273:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1273:49: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1273:49: sparse:     got unsigned long long *
+>> drivers/gpu/drm/i915/i915_gem_gtt.c:1274:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned int * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1274:46: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1274:46: sparse:     got unsigned int *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1549:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1549:39: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1549:39: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1550:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1550:37: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1550:37: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1551:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got unsigned long long * @@
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1551:38: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/gpu/drm/i915/i915_gem_gtt.c:1551:38: sparse:     got unsigned long long *
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: cleanup_scratch_page()+0x3e: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: bdw_private_pat_update_hw()+0xb9: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: pot_hole()+0xf9: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: __shrink_hole()+0x8d: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: drunk_hole()+0x15c: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: igt_ggtt_page()+0x690: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: lowlevel_hole()+0x194: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: pd_vma_unbind()+0xa9: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_insert_huge_entries()+0x773: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_insert_4lvl()+0x638: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: vm_alloc_page.constprop.0()+0x412: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_alloc_pdp()+0x301: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_clear_4lvl()+0x220: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_alloc_4lvl()+0x289: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_cleanup()+0x72: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: gen8_ppgtt_create()+0x1ba: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: igt_gtt_reserve()+0x9f6: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: intel_sanitize_enable_ppgtt()+0xf0: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: i915_ppgtt_create()+0xd0: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: i915_ppgtt_release()+0x9f: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: igt_ppgtt_alloc()+0x2ce: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: i915_gem_gtt_finish_pages()+0xa0: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: i915_gem_init_ggtt()+0xcf: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/i915/i915_gem_gtt.o: warning: objtool: igt_gtt_insert()+0x737: sibling call from callable instruction with modified stack frame
 
->> drivers/gpu/drm/panthor/panthor_drv.c:1326:6: warning: no previous prototype for 'panthor_debugfs_init' [-Wmissing-prototypes]
-    1326 | void panthor_debugfs_init(struct drm_minor *minor)
-         |      ^~~~~~~~~~~~~~~~~~~~
---
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'cs_slot_process_fatal_event_locked':
->> drivers/gpu/drm/panthor/panthor_sched.c:1233:37: warning: variable 'csg_iface' set but not used [-Wunused-but-set-variable]
-    1233 |         struct panthor_fw_cs_iface *csg_iface;
-         |                                     ^~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'cs_slot_process_tiler_oom_event_locked':
->> drivers/gpu/drm/panthor/panthor_sched.c:1321:13: warning: variable 'info' set but not used [-Wunused-but-set-variable]
-    1321 |         u64 info, heap_address, new_chunk_va;
-         |             ^~~~
->> drivers/gpu/drm/panthor/panthor_sched.c:1319:13: warning: variable 'fault' set but not used [-Wunused-but-set-variable]
-    1319 |         u32 fault, vt_start, vt_end, frag_end;
-         |             ^~~~~
->> drivers/gpu/drm/panthor/panthor_sched.c:1318:31: warning: variable 'queue' set but not used [-Wunused-but-set-variable]
-    1318 |         struct panthor_queue *queue;
-         |                               ^~~~~
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'tick_ctx_apply':
-   drivers/gpu/drm/panthor/panthor_sched.c:1983:54: warning: variable 'csg_iface' set but not used [-Wunused-but-set-variable]
-    1983 |                         struct panthor_fw_csg_iface *csg_iface;
-         |                                                      ^~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'panthor_sched_suspend':
->> drivers/gpu/drm/panthor/panthor_sched.c:2481:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    2481 |         int ret;
-         |             ^~~
-   drivers/gpu/drm/panthor/panthor_sched.c: In function 'group_create_queue':
-   drivers/gpu/drm/panthor/panthor_sched.c:2927:53: error: 'DRM_SCHED_POLICY_SINGLE_ENTITY' undeclared (first use in this function)
-    2927 |                              NULL, "panthor-queue", DRM_SCHED_POLICY_SINGLE_ENTITY,
-         |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panthor/panthor_sched.c:2927:53: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/gpu/drm/panthor/panthor_sched.c:2926:49: warning: passing argument 7 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
-    2926 |                              group->ptdev->reset.wq,
-         |                              ~~~~~~~~~~~~~~~~~~~^~~
-         |                                                 |
-         |                                                 struct workqueue_struct *
-   In file included from drivers/gpu/drm/panthor/panthor_sched.c:9:
-   include/drm/gpu_scheduler.h:533:25: note: expected 'long int' but argument is of type 'struct workqueue_struct *'
-     533 |                    long timeout, struct workqueue_struct *timeout_wq,
-         |                    ~~~~~^~~~~~~
-   drivers/gpu/drm/panthor/panthor_sched.c:2927:36: error: passing argument 9 of 'drm_sched_init' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2927 |                              NULL, "panthor-queue", DRM_SCHED_POLICY_SINGLE_ENTITY,
-         |                                    ^~~~~~~~~~~~~~~
-         |                                    |
-         |                                    char *
-   include/drm/gpu_scheduler.h:534:30: note: expected 'atomic_t *' but argument is of type 'char *'
-     534 |                    atomic_t *score, const char *name, struct device *dev);
-         |                    ~~~~~~~~~~^~~~~
-   cc1: some warnings being treated as errors
---
->> drivers/gpu/drm/panthor/panthor_devfreq.c:43: warning: Function parameter or member 'lock' not described in 'panthor_devfreq'
---
->> drivers/gpu/drm/panthor/panthor_gem.c:167: warning: Function parameter or member 'ddev' not described in 'panthor_gem_create_object'
->> drivers/gpu/drm/panthor/panthor_gem.c:167: warning: Excess function parameter 'dev' description in 'panthor_gem_create_object'
---
->> drivers/gpu/drm/panthor/panthor_heap.c:339: warning: Function parameter or member 'new_chunk_gpu_va' not described in 'panthor_heap_grow'
---
->> drivers/gpu/drm/panthor/panthor_gpu.c:52: warning: Function parameter or member 'product_major' not described in 'panthor_model'
->> drivers/gpu/drm/panthor/panthor_gpu.c:64: warning: Function parameter or member '_name' not described in 'GPU_MODEL'
->> drivers/gpu/drm/panthor/panthor_gpu.c:64: warning: Function parameter or member '_arch_major' not described in 'GPU_MODEL'
->> drivers/gpu/drm/panthor/panthor_gpu.c:64: warning: Function parameter or member '_product_major' not described in 'GPU_MODEL'
->> drivers/gpu/drm/panthor/panthor_gpu.c:168: warning: Function parameter or member 'ptdev' not described in 'panthor_gpu_unplug'
->> drivers/gpu/drm/panthor/panthor_gpu.c:234: warning: Function parameter or member 'timeout_us' not described in 'panthor_gpu_block_power_off'
->> drivers/gpu/drm/panthor/panthor_gpu.c:234: warning: Excess function parameter 'timeout_ms' description in 'panthor_gpu_block_power_off'
->> drivers/gpu/drm/panthor/panthor_gpu.c:294: warning: Function parameter or member 'rdy_reg' not described in 'panthor_gpu_block_power_on'
->> drivers/gpu/drm/panthor/panthor_gpu.c:294: warning: Function parameter or member 'timeout_us' not described in 'panthor_gpu_block_power_on'
->> drivers/gpu/drm/panthor/panthor_gpu.c:294: warning: Excess function parameter 'timeout_ms' description in 'panthor_gpu_block_power_on'
->> drivers/gpu/drm/panthor/panthor_gpu.c:472: warning: Function parameter or member 'ptdev' not described in 'panthor_gpu_resume'
---
->> drivers/gpu/drm/panthor/panthor_drv.c:84: warning: Function parameter or member 'obj_size' not described in 'panthor_get_uobj_array'
->> drivers/gpu/drm/panthor/panthor_drv.c:84: warning: Excess function parameter 'obj_kernel' description in 'panthor_get_uobj_array'
->> drivers/gpu/drm/panthor/panthor_drv.c:268: warning: Function parameter or member 'syncops' not described in 'panthor_job_ctx'
->> drivers/gpu/drm/panthor/panthor_drv.c:732: warning: Function parameter or member 'job_put' not described in 'panthor_submit_ctx_cleanup'
->> drivers/gpu/drm/panthor/panthor_drv.c:1406: warning: Cannot understand  * @cleanup_wq: Workqueue used to cleanup stuff.
-    on line 1406 - I thought it was a doc line
---
->> drivers/gpu/drm/panthor/panthor_fw.c:293: warning: expecting prototype for panthor_fw_get_glb_iface(). Prototype was for panthor_fw_get_csg_iface() instead
->> drivers/gpu/drm/panthor/panthor_fw.c:310: warning: expecting prototype for panthor_fw_get_glb_iface(). Prototype was for panthor_fw_get_cs_iface() instead
->> drivers/gpu/drm/panthor/panthor_fw.c:438: warning: Function parameter or member 'input_fw_va' not described in 'panthor_fw_alloc_queue_iface_mem'
->> drivers/gpu/drm/panthor/panthor_fw.c:438: warning: Function parameter or member 'output_fw_va' not described in 'panthor_fw_alloc_queue_iface_mem'
->> drivers/gpu/drm/panthor/panthor_fw.c:1190: warning: Function parameter or member 'csg_slot' not described in 'panthor_fw_csg_wait_acks'
->> drivers/gpu/drm/panthor/panthor_fw.c:1190: warning: expecting prototype for panthor_fw_glb_wait_acks(). Prototype was for panthor_fw_csg_wait_acks() instead
+vim +1022 drivers/gpu/drm/i915/i915_gem_gtt.c
 
-
-vim +/panthor_debugfs_init +1326 drivers/gpu/drm/panthor/panthor_drv.c
-
-560b6916e77920 Boris Brezillon 2023-08-09  1324  
-560b6916e77920 Boris Brezillon 2023-08-09  1325  #ifdef CONFIG_DEBUG_FS
-560b6916e77920 Boris Brezillon 2023-08-09 @1326  void panthor_debugfs_init(struct drm_minor *minor)
-560b6916e77920 Boris Brezillon 2023-08-09  1327  {
-560b6916e77920 Boris Brezillon 2023-08-09  1328  	panthor_mmu_debugfs_init(minor);
-560b6916e77920 Boris Brezillon 2023-08-09  1329  }
-560b6916e77920 Boris Brezillon 2023-08-09  1330  #endif
-560b6916e77920 Boris Brezillon 2023-08-09  1331  
-560b6916e77920 Boris Brezillon 2023-08-09  1332  /*
-560b6916e77920 Boris Brezillon 2023-08-09  1333   * PanCSF driver version:
-560b6916e77920 Boris Brezillon 2023-08-09  1334   * - 1.0 - initial interface
-560b6916e77920 Boris Brezillon 2023-08-09  1335   */
-560b6916e77920 Boris Brezillon 2023-08-09  1336  static const struct drm_driver panthor_drm_driver = {
-560b6916e77920 Boris Brezillon 2023-08-09  1337  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-560b6916e77920 Boris Brezillon 2023-08-09  1338  			   DRIVER_SYNCOBJ_TIMELINE | DRIVER_GEM_GPUVA,
-560b6916e77920 Boris Brezillon 2023-08-09  1339  	.open = panthor_open,
-560b6916e77920 Boris Brezillon 2023-08-09  1340  	.postclose = panthor_postclose,
-560b6916e77920 Boris Brezillon 2023-08-09  1341  	.ioctls = panthor_drm_driver_ioctls,
-560b6916e77920 Boris Brezillon 2023-08-09  1342  	.num_ioctls = ARRAY_SIZE(panthor_drm_driver_ioctls),
-560b6916e77920 Boris Brezillon 2023-08-09  1343  	.fops = &panthor_drm_driver_fops,
-560b6916e77920 Boris Brezillon 2023-08-09  1344  	.name = "panthor",
-560b6916e77920 Boris Brezillon 2023-08-09  1345  	.desc = "Panthor DRM driver",
-560b6916e77920 Boris Brezillon 2023-08-09  1346  	.date = "20230801",
-560b6916e77920 Boris Brezillon 2023-08-09  1347  	.major = 1,
-560b6916e77920 Boris Brezillon 2023-08-09  1348  	.minor = 0,
-560b6916e77920 Boris Brezillon 2023-08-09  1349  
-560b6916e77920 Boris Brezillon 2023-08-09  1350  	.gem_create_object = panthor_gem_create_object,
-560b6916e77920 Boris Brezillon 2023-08-09  1351  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-560b6916e77920 Boris Brezillon 2023-08-09  1352  #ifdef CONFIG_DEBUG_FS
-560b6916e77920 Boris Brezillon 2023-08-09  1353  	.debugfs_init = panthor_debugfs_init,
-560b6916e77920 Boris Brezillon 2023-08-09  1354  #endif
-560b6916e77920 Boris Brezillon 2023-08-09  1355  };
-560b6916e77920 Boris Brezillon 2023-08-09  1356  
-560b6916e77920 Boris Brezillon 2023-08-09  1357  static int panthor_probe(struct platform_device *pdev)
-560b6916e77920 Boris Brezillon 2023-08-09  1358  {
-560b6916e77920 Boris Brezillon 2023-08-09  1359  	struct panthor_device *ptdev;
-560b6916e77920 Boris Brezillon 2023-08-09  1360  	int ret;
-560b6916e77920 Boris Brezillon 2023-08-09  1361  
-560b6916e77920 Boris Brezillon 2023-08-09  1362  	ptdev = devm_drm_dev_alloc(&pdev->dev, &panthor_drm_driver,
-560b6916e77920 Boris Brezillon 2023-08-09  1363  				   struct panthor_device, base);
-560b6916e77920 Boris Brezillon 2023-08-09  1364  	if (!ptdev)
-560b6916e77920 Boris Brezillon 2023-08-09  1365  		return -ENOMEM;
-560b6916e77920 Boris Brezillon 2023-08-09  1366  
-560b6916e77920 Boris Brezillon 2023-08-09  1367  	platform_set_drvdata(pdev, ptdev);
-560b6916e77920 Boris Brezillon 2023-08-09  1368  
-560b6916e77920 Boris Brezillon 2023-08-09  1369  	ret = panthor_device_init(ptdev);
-560b6916e77920 Boris Brezillon 2023-08-09  1370  	if (ret)
-560b6916e77920 Boris Brezillon 2023-08-09  1371  		return ret;
-560b6916e77920 Boris Brezillon 2023-08-09  1372  
-560b6916e77920 Boris Brezillon 2023-08-09  1373  	return drm_dev_register(&ptdev->base, 0);
-560b6916e77920 Boris Brezillon 2023-08-09  1374  }
-560b6916e77920 Boris Brezillon 2023-08-09  1375  
-560b6916e77920 Boris Brezillon 2023-08-09  1376  static void panthor_remove(struct platform_device *pdev)
-560b6916e77920 Boris Brezillon 2023-08-09  1377  {
-560b6916e77920 Boris Brezillon 2023-08-09  1378  	struct panthor_device *ptdev = platform_get_drvdata(pdev);
-560b6916e77920 Boris Brezillon 2023-08-09  1379  
-560b6916e77920 Boris Brezillon 2023-08-09  1380  	panthor_device_unplug(ptdev);
-560b6916e77920 Boris Brezillon 2023-08-09  1381  }
-560b6916e77920 Boris Brezillon 2023-08-09  1382  
-560b6916e77920 Boris Brezillon 2023-08-09  1383  static const struct of_device_id dt_match[] = {
-560b6916e77920 Boris Brezillon 2023-08-09  1384  	{ .compatible = "rockchip,rk3588-mali" },
-560b6916e77920 Boris Brezillon 2023-08-09  1385  	{ .compatible = "arm,mali-valhall-csf" },
-560b6916e77920 Boris Brezillon 2023-08-09  1386  	{}
-560b6916e77920 Boris Brezillon 2023-08-09  1387  };
-560b6916e77920 Boris Brezillon 2023-08-09  1388  MODULE_DEVICE_TABLE(of, dt_match);
-560b6916e77920 Boris Brezillon 2023-08-09  1389  
-560b6916e77920 Boris Brezillon 2023-08-09  1390  static DEFINE_RUNTIME_DEV_PM_OPS(panthor_pm_ops,
-560b6916e77920 Boris Brezillon 2023-08-09  1391  				 panthor_device_suspend,
-560b6916e77920 Boris Brezillon 2023-08-09  1392  				 panthor_device_resume,
-560b6916e77920 Boris Brezillon 2023-08-09  1393  				 NULL);
-560b6916e77920 Boris Brezillon 2023-08-09  1394  
-560b6916e77920 Boris Brezillon 2023-08-09  1395  static struct platform_driver panthor_driver = {
-560b6916e77920 Boris Brezillon 2023-08-09  1396  	.probe = panthor_probe,
-560b6916e77920 Boris Brezillon 2023-08-09  1397  	.remove_new = panthor_remove,
-560b6916e77920 Boris Brezillon 2023-08-09  1398  	.driver = {
-560b6916e77920 Boris Brezillon 2023-08-09  1399  		.name = "panthor",
-560b6916e77920 Boris Brezillon 2023-08-09  1400  		.pm = &panthor_pm_ops,
-560b6916e77920 Boris Brezillon 2023-08-09  1401  		.of_match_table = dt_match,
-560b6916e77920 Boris Brezillon 2023-08-09  1402  	},
-560b6916e77920 Boris Brezillon 2023-08-09  1403  };
-560b6916e77920 Boris Brezillon 2023-08-09  1404  
-560b6916e77920 Boris Brezillon 2023-08-09  1405  /**
-560b6916e77920 Boris Brezillon 2023-08-09 @1406   * @cleanup_wq: Workqueue used to cleanup stuff.
-560b6916e77920 Boris Brezillon 2023-08-09  1407   *
-560b6916e77920 Boris Brezillon 2023-08-09  1408   * We create a dedicated workqueue so we can drain on unplug and
-560b6916e77920 Boris Brezillon 2023-08-09  1409   * make sure all resources are freed before the module is unloaded.
-560b6916e77920 Boris Brezillon 2023-08-09  1410   */
-560b6916e77920 Boris Brezillon 2023-08-09  1411  struct workqueue_struct *panthor_cleanup_wq;
-560b6916e77920 Boris Brezillon 2023-08-09  1412  
-
-:::::: The code at line 1326 was first introduced by commit
-:::::: 560b6916e779201356a8db10cec8dc5183d9fe5f drm/panthor: Add the driver frontend block
-
-:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
-:::::: CC: Heiko Stuebner <heiko@sntech.de>
+   989	
+   990	/* Removes entries from a single pml4.
+   991	 * This is the top-level structure in 4-level page tables used on gen8+.
+   992	 * Empty entries are always scratch pml4e.
+   993	 */
+   994	static void gen8_ppgtt_clear_4lvl(struct i915_address_space *vm,
+   995					  u64 start, u64 length)
+   996	{
+   997		struct i915_hw_ppgtt *ppgtt = i915_vm_to_ppgtt(vm);
+   998		struct i915_pml4 *pml4 = &ppgtt->pml4;
+   999		struct i915_page_directory_pointer *pdp;
+  1000		unsigned int pml4e;
+  1001		u64 orig_start = start;
+  1002		u64 orig_length = length;
+  1003	
+  1004		GEM_BUG_ON(!use_4lvl(vm));
+  1005	
+  1006		gen8_for_each_pml4e(pdp, pml4, start, length, pml4e) {
+  1007			GEM_BUG_ON(pdp == vm->scratch_pdp);
+  1008	
+  1009			if (!gen8_ppgtt_clear_pdp(vm, pdp, start, length))
+  1010				continue;
+  1011	
+  1012			gen8_ppgtt_set_pml4e(pml4, vm->scratch_pdp, pml4e);
+  1013	
+  1014			free_pdp(vm, pdp);
+  1015		}
+  1016	
+  1017		if (PVMMIO_LEVEL(vm->i915, PVMMIO_PPGTT_UPDATE)) {
+  1018			struct drm_i915_private *dev_priv = vm->i915;
+  1019			struct pv_ppgtt_update *pv_ppgtt =
+  1020						&dev_priv->shared_page->pv_ppgtt;
+  1021	
+> 1022			writeq(px_dma(pml4), &pv_ppgtt->pdp);
+  1023			writeq(orig_start, &pv_ppgtt->start);
+  1024			writeq(orig_length, &pv_ppgtt->length);
+  1025			I915_WRITE(vgtif_reg(g2v_notify), VGT_G2V_PPGTT_L4_CLEAR);
+  1026		}
+  1027	}
+  1028	
 
 -- 
 0-DAY CI Kernel Test Service
