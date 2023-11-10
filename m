@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF334ED3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 22:49:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1584ED3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 22:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcGJHARd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGB2VWEP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699656564; x=1731192564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=98G/EYC0Ltuxon/nzAj/8ahT57j8VJkvjXb/PMLsyIw=;
-  b=gcGJHARdXAovsF10eO3N5Qm/ttfw3c+ZBgzw6i3TfwPGq9CO5DiB2gI7
-   W6GBOZnIK2bwiOpbHz917pF/xLAouRkXAnu/RTktiV+Hw1MXBVOOjAzaw
-   +YYOxdi4OABAutUBBzuCMkvWeU3CweZaAZJLIJe1UB6dnrZj0ij56K9+F
-   5PYhKRzhb9yhwZKxfKDTLSWuzpjCKl7OYmLWyGz1sxQY+0ywVLQ3mSkIY
-   RvmgTDig6BeOHLAXjfbHRlt6ATQzdM9n1BwI8QvEm5DvvlF8aHi8fPuas
-   p3YSi7PO9b0AU2fMldaN2cCU8QTAL7wy8h8LE+kCPLLd7CUF1T7QorWYL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="8889026"
+  t=1699656571; x=1731192571;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+H/+pwkQqLIcSesUO7CYd7e/IWnf4l7r3MASOt/xY60=;
+  b=aGB2VWEPS+Ks5Bsgs7xZv9NqLMcubC82b6XgwsDJFX5+FJpdqkhHWNO/
+   q3YJtCTyLJt12WFjM5a6IVHv1qEtGg+PiO3UR+ot3SB1MMt1XBAIVak83
+   N2ThstUyPH4GGJ7BkX6mkHAA10H5fsJXCZ79U6pqUeMst7OHNkXldzuJb
+   qVZwTa0fgU0BlRNvsXc5rxJsOKjIjLUI2NLfUNdRHO2acnkZYrPHVjWlO
+   qmghmbuEd1n7lN9MQqVzWhW0mbM89hBd2Yvc81EfmHZWW48aI2oRJlBqB
+   ICBJFB+DpzV3dwTRx3E1QOgKkTu3UToihcO7nUwHmw96z2LuVAo/bLszU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="369571814"
 X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
-   d="scan'208";a="8889026"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 14:49:23 -0800
+   d="scan'208";a="369571814"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 14:49:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="757306920"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="763845449"
 X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
-   d="scan'208";a="757306920"
+   d="scan'208";a="763845449"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 10 Nov 2023 14:49:21 -0800
+  by orsmga002.jf.intel.com with ESMTP; 10 Nov 2023 14:49:29 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1aJS-0009zV-30;
-	Fri, 10 Nov 2023 22:49:18 +0000
-Date: Sat, 11 Nov 2023 06:48:29 +0800
+	id 1r1aJb-0009za-1P;
+	Fri, 10 Nov 2023 22:49:27 +0000
+Date: Sat, 11 Nov 2023 06:48:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/arc/include/asm/checksum.h:27:26: sparse: sparse: restricted
- __wsum degrades to integer
-Message-ID: <202311110638.YiWEivqX-lkp@intel.com>
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 6/8] net: pcs: add driver for MediaTek USXGMII PCS
+Message-ID: <202311110611.RMxLQYxV-lkp@intel.com>
+References: <b9f787f3e4aa36e148d7595495af60db53f74417.1699565880.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,81 +50,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b9f787f3e4aa36e148d7595495af60db53f74417.1699565880.git.daniel@makrotopia.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac347a0655dbc7d885e217c89dddd16e2800bd58
-commit: b38460bc463c54e0c15ff3b37e81f7e2059bb9bb kunit: Fix checksum tests on big endian CPUs
-date:   3 months ago
-config: arc-randconfig-r121-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110638.YiWEivqX-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110638.YiWEivqX-lkp@intel.com/reproduce)
+Hi Daniel,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on net-next/main net/main linus/master v6.6 next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/dt-bindings-phy-mediatek-xfi-pextp-add-new-bindings/20231110-055440
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/b9f787f3e4aa36e148d7595495af60db53f74417.1699565880.git.daniel%40makrotopia.org
+patch subject: [RFC PATCH 6/8] net: pcs: add driver for MediaTek USXGMII PCS
+config: x86_64-buildonly-randconfig-003-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110611.RMxLQYxV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110611.RMxLQYxV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311110638.YiWEivqX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110611.RMxLQYxV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/checksum_kunit.c: note: in included file:
->> arch/arc/include/asm/checksum.h:27:26: sparse: sparse: restricted __wsum degrades to integer
-   arch/arc/include/asm/checksum.h:27:36: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:29:11: sparse: sparse: bad assignment (-=) to restricted __wsum
-   arch/arc/include/asm/checksum.h:30:16: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:30:18: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __sum16 @@     got unsigned int @@
-   arch/arc/include/asm/checksum.h:30:18: sparse:     expected restricted __sum16
-   arch/arc/include/asm/checksum.h:30:18: sparse:     got unsigned int
->> arch/arc/include/asm/checksum.h:27:26: sparse: sparse: restricted __wsum degrades to integer
-   arch/arc/include/asm/checksum.h:27:36: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:29:11: sparse: sparse: bad assignment (-=) to restricted __wsum
-   arch/arc/include/asm/checksum.h:30:16: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:30:18: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __sum16 @@     got unsigned int @@
-   arch/arc/include/asm/checksum.h:30:18: sparse:     expected restricted __sum16
-   arch/arc/include/asm/checksum.h:30:18: sparse:     got unsigned int
->> arch/arc/include/asm/checksum.h:27:26: sparse: sparse: restricted __wsum degrades to integer
-   arch/arc/include/asm/checksum.h:27:36: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:29:11: sparse: sparse: bad assignment (-=) to restricted __wsum
-   arch/arc/include/asm/checksum.h:30:16: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:30:18: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __sum16 @@     got unsigned int @@
-   arch/arc/include/asm/checksum.h:30:18: sparse:     expected restricted __sum16
-   arch/arc/include/asm/checksum.h:30:18: sparse:     got unsigned int
->> arch/arc/include/asm/checksum.h:27:26: sparse: sparse: restricted __wsum degrades to integer
-   arch/arc/include/asm/checksum.h:27:36: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:29:11: sparse: sparse: bad assignment (-=) to restricted __wsum
-   arch/arc/include/asm/checksum.h:30:16: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:30:18: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __sum16 @@     got unsigned int @@
-   arch/arc/include/asm/checksum.h:30:18: sparse:     expected restricted __sum16
-   arch/arc/include/asm/checksum.h:30:18: sparse:     got unsigned int
->> arch/arc/include/asm/checksum.h:27:26: sparse: sparse: restricted __wsum degrades to integer
-   arch/arc/include/asm/checksum.h:27:36: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:29:11: sparse: sparse: bad assignment (-=) to restricted __wsum
-   arch/arc/include/asm/checksum.h:30:16: sparse: sparse: restricted __wsum degrades to integer
->> arch/arc/include/asm/checksum.h:30:18: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __sum16 @@     got unsigned int @@
-   arch/arc/include/asm/checksum.h:30:18: sparse:     expected restricted __sum16
-   arch/arc/include/asm/checksum.h:30:18: sparse:     got unsigned int
+All errors (new ones prefixed by >>):
 
-vim +27 arch/arc/include/asm/checksum.h
+   ld: vmlinux.o: in function `mtk_pcs_lynxi_get_state':
+>> pcs-mtk-lynxi.c:(.text+0x13acb97): undefined reference to `phylink_mii_c22_pcs_decode_state'
+   ld: vmlinux.o: in function `mtk_pcs_lynxi_config':
+>> pcs-mtk-lynxi.c:(.text+0x13acf7b): undefined reference to `phylink_mii_c22_pcs_encode_advertisement'
+   ld: vmlinux.o: in function `mtk_usxgmii_pcs_get_state':
+>> pcs-mtk-usxgmii.c:(.text+0x13ada3d): undefined reference to `phylink_decode_usxgmii_word'
 
-ca15c8ecd588dd Vineet Gupta 2013-01-18  18  
-ca15c8ecd588dd Vineet Gupta 2013-01-18  19  /*
-ca15c8ecd588dd Vineet Gupta 2013-01-18  20   *	Fold a partial checksum
-ca15c8ecd588dd Vineet Gupta 2013-01-18  21   *
-ca15c8ecd588dd Vineet Gupta 2013-01-18  22   *  The 2 swords comprising the 32bit sum are added, any carry to 16th bit
-ca15c8ecd588dd Vineet Gupta 2013-01-18  23   *  added back and final sword result inverted.
-ca15c8ecd588dd Vineet Gupta 2013-01-18  24   */
-ca15c8ecd588dd Vineet Gupta 2013-01-18  25  static inline __sum16 csum_fold(__wsum s)
-ca15c8ecd588dd Vineet Gupta 2013-01-18  26  {
-d4067395519b40 Jinchao Wang 2021-06-26 @27  	unsigned int r = s << 16 | s >> 16;	/* ror */
-ca15c8ecd588dd Vineet Gupta 2013-01-18  28  	s = ~s;
-ca15c8ecd588dd Vineet Gupta 2013-01-18 @29  	s -= r;
-ca15c8ecd588dd Vineet Gupta 2013-01-18 @30  	return s >> 16;
-ca15c8ecd588dd Vineet Gupta 2013-01-18  31  }
-ca15c8ecd588dd Vineet Gupta 2013-01-18  32  
-
-:::::: The code at line 27 was first introduced by commit
-:::::: d4067395519b40d4ee9b7c26347233e4ae59f900 arc: Prefer unsigned int to bare use of unsigned
-
-:::::: TO: Jinchao Wang <wjc@cdjrlc.com>
-:::::: CC: Vineet Gupta <vgupta@synopsys.com>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHY_MTK_PEXTP
+   Depends on [n]: (ARCH_MEDIATEK || COMPILE_TEST [=y]) && OF [=n] && OF_ADDRESS [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - PCS_MTK_USXGMII [=y] && NETDEVICES [=y]
 
 -- 
 0-DAY CI Kernel Test Service
