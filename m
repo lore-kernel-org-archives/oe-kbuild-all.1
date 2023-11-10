@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C603AC12
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 19:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E1F3B2B7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 20:04:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DoWO01hq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BuE4a82y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699645583; x=1731181583;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E2BXrJhJVAKmTx6Nbif/W3eYFk1q69NJWHXJsQVFIYE=;
-  b=DoWO01hqDmYjyTK64PmLSfehd50PrjLEhVNS2Z9FoccQ2F3Pm3wZ4um5
-   S/JDU3BtjriUVujgDyFyRM1XUhQiAwLfyUWu0Y++17dd+ynjzTvFZkggu
-   HrO0Ce224ljsTxfqiRNOrX2bWcPIzpMSgGGw6JfLuEtjKlu133piJVgib
-   xy8el6OC4lX8g3Di9hWP4SwhJvmywD4gEhJ0D/6u3NpctweW4k78QUCh0
-   o7sgTpbF5OLddYUtJYye5LF9ANAnEJTHhzPkL0rc+GsS+dHprcDkMjIq5
-   E2oXkyIjfqjgYVsElhzZCdc0OSmwEAaSfENhMoJr8gQT5tYjaDEAg9u/H
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="369558888"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="369558888"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 11:46:20 -0800
+  t=1699646683; x=1731182683;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=YIp/upjfXyi0jqbSmJEq6uzQL9DAtAaFANenu+r8rsc=;
+  b=BuE4a82yYW/ttjtJLS2UJnt/Lq7NmNEeOfY/Hc6HBLNSPEou/cTRQ3Xr
+   g5txg1+DbaPTYlzhZy0hwAUMXk/VHxGb9UldXyK5yTOF3st+OU+row+FX
+   lwXTLxm+cfnSUzkEJtoThpD8uzmZDveKK2W/J5yPcdfaZwtYU6xa2KAuy
+   OF4XADPxoKp6Ajf9x68hwJBerQpOK8L5HxhYJ5d4Wc2Z0+1ilTsTAcjB8
+   Ntu4G2aeRtLSYn7awMCAlrIk0pljfmQDfnxzU4cUuAFiVH92LqVGUuoUz
+   Zj6iMJfQSNIf7n3+H4j1OqfTfBwxvtlTSOeVoB+lirg5/kJzk07IhKaW1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="394133174"
+X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
+   d="scan'208";a="394133174"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 12:04:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="1095254802"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="1095254802"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="757282897"
+X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
+   d="scan'208";a="757282897"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Nov 2023 11:46:18 -0800
+  by orsmga007.jf.intel.com with ESMTP; 10 Nov 2023 12:04:41 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1XSK-0009rJ-1K;
-	Fri, 10 Nov 2023 19:46:16 +0000
-Date: Sat, 11 Nov 2023 03:45:21 +0800
+	id 1r1Xk7-0009ro-0k;
+	Fri, 10 Nov 2023 20:04:39 +0000
+Date: Sat, 11 Nov 2023 04:03:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fei Jiang <fei.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Min He <min.he@intel.com>, Zhao Yakui <yakui.zhao@intel.com>
-Subject: [intel-lts:4.19/android_t 3691/30000]
- drivers/gpu/drm/i915/intel_pm.c:5035:37: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202311110314.uQC8GlTo-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_t 3164/30000] security/security.c:427:5:
+ sparse: sparse: symbol 'lsm_ipc_alloc' was not declared. Should it be
+ static?
+Message-ID: <202311110351.qQiI1dcK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,163 +52,188 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
 head:   247bc655e03e4ac3632b21081ca56b813a644dcf
-commit: 1ddd999cba51a41b5cf58a2166f51888f82e0059 [3691/30000] drm/i915/gvt: pvmmio optimization for plane wm register update
-config: x86_64-randconfig-121-20230910 (https://download.01.org/0day-ci/archive/20231111/202311110314.uQC8GlTo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110314.uQC8GlTo-lkp@intel.com/reproduce)
+commit: e92c67fcf33bb79af9bb6e9887452ab8d5d832c2 [3164/30000] LSM: Infrastructure management of the ipc security blob
+config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20231111/202311110351.qQiI1dcK-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110351.qQiI1dcK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311110314.uQC8GlTo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110351.qQiI1dcK-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/intel_pm.c:5035:37: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] <asn:2> *pv_plane_wm @@     got unsigned int [usertype] * @@
-   drivers/gpu/drm/i915/intel_pm.c:5035:37: sparse:     expected unsigned int [noderef] [usertype] <asn:2> *pv_plane_wm
-   drivers/gpu/drm/i915/intel_pm.c:5035:37: sparse:     got unsigned int [usertype] *
-   drivers/gpu/drm/i915/intel_pm.c: In function 'snb_wm_lp3_irq_quirk':
-   drivers/gpu/drm/i915/intel_pm.c:3037:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3037 |         intel_print_wm_latency(dev_priv, "Primary", dev_priv->wm.pri_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3037:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3038:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3038 |         intel_print_wm_latency(dev_priv, "Sprite", dev_priv->wm.spr_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3038:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3039:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3039 |         intel_print_wm_latency(dev_priv, "Cursor", dev_priv->wm.cur_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3039:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c: In function 'snb_wm_latency_quirk':
-   drivers/gpu/drm/i915/intel_pm.c:3009:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3009 |         intel_print_wm_latency(dev_priv, "Primary", dev_priv->wm.pri_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3009:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3010:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3010 |         intel_print_wm_latency(dev_priv, "Sprite", dev_priv->wm.spr_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3010:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3011:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3011 |         intel_print_wm_latency(dev_priv, "Cursor", dev_priv->wm.cur_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3011:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c: In function 'ilk_setup_wm_latency':
-   drivers/gpu/drm/i915/intel_pm.c:3044:9: warning: 'intel_read_wm_latency' accessing 16 bytes in a region of size 10 [-Wstringop-overflow=]
-    3044 |         intel_read_wm_latency(dev_priv, dev_priv->wm.pri_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3044:9: note: referencing argument 2 of type 'uint16_t[8]' {aka 'short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2812:13: note: in a call to function 'intel_read_wm_latency'
-    2812 | static void intel_read_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3054:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3054 |         intel_print_wm_latency(dev_priv, "Primary", dev_priv->wm.pri_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3054:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3055:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3055 |         intel_print_wm_latency(dev_priv, "Sprite", dev_priv->wm.spr_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3055:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3056:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3056 |         intel_print_wm_latency(dev_priv, "Cursor", dev_priv->wm.cur_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3056:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3044:9: warning: 'intel_read_wm_latency' accessing 16 bytes in a region of size 10 [-Wstringop-overflow=]
-    3044 |         intel_read_wm_latency(dev_priv, dev_priv->wm.pri_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3044:9: note: referencing argument 2 of type 'uint16_t[8]' {aka 'short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2812:13: note: in a call to function 'intel_read_wm_latency'
-    2812 | static void intel_read_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3054:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3054 |         intel_print_wm_latency(dev_priv, "Primary", dev_priv->wm.pri_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3054:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3055:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3055 |         intel_print_wm_latency(dev_priv, "Sprite", dev_priv->wm.spr_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3055:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
-   drivers/gpu/drm/i915/intel_pm.c:2948:13: note: in a call to function 'intel_print_wm_latency'
-    2948 | static void intel_print_wm_latency(struct drm_i915_private *dev_priv,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3056:9: warning: 'intel_print_wm_latency' reading 16 bytes from a region of size 10 [-Wstringop-overread]
-    3056 |         intel_print_wm_latency(dev_priv, "Cursor", dev_priv->wm.cur_latency);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_pm.c:3056:9: note: referencing argument 3 of type 'const uint16_t[8]' {aka 'const short unsigned int[8]'}
+   security/security.c:326:5: sparse: sparse: symbol 'lsm_file_alloc' was not declared. Should it be static?
+   security/security.c:347:5: sparse: sparse: symbol 'lsm_task_alloc' was not declared. Should it be static?
+>> security/security.c:427:5: sparse: sparse: symbol 'lsm_ipc_alloc' was not declared. Should it be static?
+>> security/security.c:448:5: sparse: sparse: symbol 'lsm_msg_msg_alloc' was not declared. Should it be static?
+   security/security.c:470:5: sparse: sparse: symbol 'lsm_sock_alloc' was not declared. Should it be static?
+   security/security.c:491:5: sparse: sparse: symbol 'lsm_superblock_alloc' was not declared. Should it be static?
+   security/security.c:326:5: warning: no previous prototype for 'lsm_file_alloc' [-Wmissing-prototypes]
+     326 | int lsm_file_alloc(struct file *file)
+         |     ^~~~~~~~~~~~~~
+   security/security.c:347:5: warning: no previous prototype for 'lsm_task_alloc' [-Wmissing-prototypes]
+     347 | int lsm_task_alloc(struct task_struct *task)
+         |     ^~~~~~~~~~~~~~
+   security/security.c:427:5: warning: no previous prototype for 'lsm_ipc_alloc' [-Wmissing-prototypes]
+     427 | int lsm_ipc_alloc(struct kern_ipc_perm *kip)
+         |     ^~~~~~~~~~~~~
+   security/security.c:448:5: warning: no previous prototype for 'lsm_msg_msg_alloc' [-Wmissing-prototypes]
+     448 | int lsm_msg_msg_alloc(struct msg_msg *mp)
+         |     ^~~~~~~~~~~~~~~~~
+   security/security.c:470:5: warning: no previous prototype for 'lsm_sock_alloc' [-Wmissing-prototypes]
+     470 | int lsm_sock_alloc(struct sock *sock, gfp_t priority)
+         |     ^~~~~~~~~~~~~~
+   security/security.c:491:5: warning: no previous prototype for 'lsm_superblock_alloc' [-Wmissing-prototypes]
+     491 | int lsm_superblock_alloc(struct super_block *sb)
+         |     ^~~~~~~~~~~~~~~~~~~~
 
-vim +5035 drivers/gpu/drm/i915/intel_pm.c
+vim +/lsm_ipc_alloc +427 security/security.c
 
-  5025	
-  5026	static void skl_pv_write_plane_wm(struct intel_crtc *intel_crtc,
-  5027					const struct skl_plane_wm *wm,
-  5028					const struct skl_ddb_allocation *ddb,
-  5029					enum plane_id plane_id)
-  5030	{
-  5031		int i, level;
-  5032		struct pv_plane_wm_update tmp_plane_wm;
-  5033		struct drm_i915_private *dev_priv = to_i915(intel_crtc->base.dev);
-  5034		int max_level = ilk_wm_max_level(dev_priv);
-> 5035		u32 __iomem *pv_plane_wm = (u32 *)&(dev_priv->shared_page->pv_plane_wm);
-  5036		enum pipe pipe = intel_crtc->pipe;
-  5037	
-  5038		memset(&tmp_plane_wm, 0, sizeof(struct pv_plane_wm_update));
-  5039		tmp_plane_wm.max_wm_level = max_level;
-  5040		for (level = 0; level <= max_level; level++) {
-  5041			skl_pv_write_wm_level(&tmp_plane_wm.plane_wm_level[level],
-  5042					      &wm->wm[level]);
-  5043		}
-  5044		skl_pv_write_wm_level(&tmp_plane_wm.plane_trans_wm_level,
-  5045				      &wm->trans_wm);
-  5046	
-  5047		if (wm->is_planar) {
-  5048			skl_pv_ddb_entry_write(&tmp_plane_wm.plane_buf_cfg,
-  5049					       &ddb->uv_plane[pipe][plane_id]);
-  5050		} else {
-  5051			skl_pv_ddb_entry_write(&tmp_plane_wm.plane_buf_cfg,
-  5052					       &ddb->plane[pipe][plane_id]);
-  5053		}
-  5054	
-  5055		spin_lock(&dev_priv->shared_page_lock);
-  5056		for (i = 0; i < sizeof(struct pv_plane_wm_update) / 4; i++)
-  5057			writel(*((u32 *)(&tmp_plane_wm) + i), pv_plane_wm + i);
-  5058		if (wm->is_planar)
-  5059			skl_ddb_entry_write(dev_priv,
-  5060					    PLANE_NV12_BUF_CFG(pipe, plane_id),
-  5061					    &ddb->plane[pipe][plane_id]);
-  5062		else
-  5063			I915_WRITE(PLANE_NV12_BUF_CFG(pipe, plane_id), 0x0);
-  5064		spin_unlock(&dev_priv->shared_page_lock);
-  5065	}
-  5066	
+   317	
+   318	/**
+   319	 * lsm_file_alloc - allocate a composite file blob
+   320	 * @file: the file that needs a blob
+   321	 *
+   322	 * Allocate the file blob for all the modules
+   323	 *
+   324	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   325	 */
+ > 326	int lsm_file_alloc(struct file *file)
+   327	{
+   328		if (!lsm_file_cache) {
+   329			file->f_security = NULL;
+   330			return 0;
+   331		}
+   332	
+   333		file->f_security = kmem_cache_zalloc(lsm_file_cache, GFP_KERNEL);
+   334		if (file->f_security == NULL)
+   335			return -ENOMEM;
+   336		return 0;
+   337	}
+   338	
+   339	/**
+   340	 * lsm_task_alloc - allocate a composite task blob
+   341	 * @task: the task that needs a blob
+   342	 *
+   343	 * Allocate the task blob for all the modules
+   344	 *
+   345	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   346	 */
+   347	int lsm_task_alloc(struct task_struct *task)
+   348	{
+   349		if (blob_sizes.lbs_task == 0) {
+   350			task->security = NULL;
+   351			return 0;
+   352		}
+   353	
+   354		task->security = kzalloc(blob_sizes.lbs_task, GFP_KERNEL);
+   355		if (task->security == NULL)
+   356			return -ENOMEM;
+   357		return 0;
+   358	}
+   359	
+   360	/**
+   361	 * lsm_early_task - during initialization allocate a composite task blob
+   362	 * @task: the task that needs a blob
+   363	 *
+   364	 * Allocate the task blob for all the modules if it's not already there
+   365	 */
+   366	void lsm_early_task(struct task_struct *task)
+   367	{
+   368		int rc;
+   369	
+   370		if (task == NULL)
+   371			panic("%s: task cred.\n", __func__);
+   372		if (task->security != NULL)
+   373			return;
+   374		rc = lsm_task_alloc(task);
+   375		if (rc)
+   376			panic("%s: Early task alloc failed.\n", __func__);
+   377	}
+   378	
+   379	/**
+   380	 * lsm_inode_alloc - allocate a composite inode blob
+   381	 * @inode: the inode that needs a blob
+   382	 *
+   383	 * Allocate the inode blob for all the modules
+   384	 *
+   385	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   386	 */
+   387	int lsm_inode_alloc(struct inode *inode)
+   388	{
+   389		if (!lsm_inode_cache) {
+   390			inode->i_security = NULL;
+   391			return 0;
+   392		}
+   393	
+   394		inode->i_security = kmem_cache_zalloc(lsm_inode_cache, GFP_NOFS);
+   395		if (inode->i_security == NULL)
+   396			return -ENOMEM;
+   397		return 0;
+   398	}
+   399	
+   400	/**
+   401	 * lsm_early_inode - during initialization allocate a composite inode blob
+   402	 * @inode: the inode that needs a blob
+   403	 *
+   404	 * Allocate the inode blob for all the modules if it's not already there
+   405	 */
+   406	void lsm_early_inode(struct inode *inode)
+   407	{
+   408		int rc;
+   409	
+   410		if (inode == NULL)
+   411			panic("%s: NULL inode.\n", __func__);
+   412		if (inode->i_security != NULL)
+   413			return;
+   414		rc = lsm_inode_alloc(inode);
+   415		if (rc)
+   416			panic("%s: Early inode alloc failed.\n", __func__);
+   417	}
+   418	
+   419	/**
+   420	 * lsm_ipc_alloc - allocate a composite ipc blob
+   421	 * @kip: the ipc that needs a blob
+   422	 *
+   423	 * Allocate the ipc blob for all the modules
+   424	 *
+   425	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   426	 */
+ > 427	int lsm_ipc_alloc(struct kern_ipc_perm *kip)
+   428	{
+   429		if (blob_sizes.lbs_ipc == 0) {
+   430			kip->security = NULL;
+   431			return 0;
+   432		}
+   433	
+   434		kip->security = kzalloc(blob_sizes.lbs_ipc, GFP_KERNEL);
+   435		if (kip->security == NULL)
+   436			return -ENOMEM;
+   437		return 0;
+   438	}
+   439	
+   440	/**
+   441	 * lsm_msg_msg_alloc - allocate a composite msg_msg blob
+   442	 * @mp: the msg_msg that needs a blob
+   443	 *
+   444	 * Allocate the ipc blob for all the modules
+   445	 *
+   446	 * Returns 0, or -ENOMEM if memory can't be allocated.
+   447	 */
+ > 448	int lsm_msg_msg_alloc(struct msg_msg *mp)
+   449	{
+   450		if (blob_sizes.lbs_msg_msg == 0) {
+   451			mp->security = NULL;
+   452			return 0;
+   453		}
+   454	
+   455		mp->security = kzalloc(blob_sizes.lbs_msg_msg, GFP_KERNEL);
+   456		if (mp->security == NULL)
+   457			return -ENOMEM;
+   458		return 0;
+   459	}
+   460	
 
 -- 
 0-DAY CI Kernel Test Service
