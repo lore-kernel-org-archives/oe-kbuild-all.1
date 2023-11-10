@@ -1,255 +1,150 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C3C1E522
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 17:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from i53875a73.versanet.de ([83.135.90.115] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1r1VBq-0000Hj-9U; Fri, 10 Nov 2023 18:21:06 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Boris Brezillon <bbrezillon@kernel.org>, oe-kbuild-all@lists.linux.dev,
- Steven Price <steven.price@arm.com>
-Subject:
- Re: [mmind-rockchip:dev/panthor 36/41]
- drivers/gpu/drm/panthor/panthor_drv.c:1326:6: warning: no previous prototype
- for 'panthor_debugfs_init'
-Date: Fri, 10 Nov 2023 18:21:05 +0100
-Message-ID: <3931875.atdPhlSkOF@diego>
-In-Reply-To: <202311110058.uP4Vh1gN-lkp@intel.com>
-References: <202311110058.uP4Vh1gN-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE1E219FE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 17:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hcSTU1ly"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699637512; x=1731173512;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=i/L2ms5YrBXC1hZm7bHadQxyo6pkz27RkYKosyie5yo=;
+  b=hcSTU1lyPZi2tqvDs3Onaey73jxd5sv4RM6Js4R4xqs5ws2EuJRdjVuj
+   HZMcNMIIHs9Ckf17O+RZsyxZArrLwntQYnhwaoWv/6MMMgAsDv5dY9w+S
+   xLkf+lbwz43e0Y6+v+1dkn6Dc+92Sp6KxgvZ582tr0X4fW9PrNaP7/eBJ
+   tqX65nU9RNJg3f4rKMCd6AKZgfvIF7gRSlBEmjmbqu5K94xAdQ/0QQd/L
+   0IbhFJ0k7nOvFhv9pc5tL5YvrIk4UAVQTZS7hJv4SO0HiFegpGdb5ZJaK
+   ACGKo5tjFukXE0pchwRWhdQwHbEPsmk+NWE90L7KWeaiQHt0QOwNV1TFk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="369545052"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="369545052"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 09:31:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="854441955"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="854441955"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2023 09:31:50 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1VMC-0009mI-0x;
+	Fri, 10 Nov 2023 17:31:48 +0000
+Date: Sat, 11 Nov 2023 01:31:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Hopps <chopps@chopps.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC ipsec-next 8/8] iptfs: impl: add new iptfs xfrm mode impl
+Message-ID: <202311110139.kmpx4546-lkp@intel.com>
+References: <20231110113719.3055788-9-chopps@chopps.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231110113719.3055788-9-chopps@chopps.org>
 
-Hi kernel-test-robot,
+Hi Christian,
 
-please don't build-test my github kernel repository.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-I've never enabled anything for this, so I don't even know how it made it
-in some build-test-list.
+[auto build test WARNING on klassert-ipsec-next/master]
+[also build test WARNING on klassert-ipsec/master netfilter-nf/main linus/master v6.6 next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This is really only my dumping ground for work-in-progress or test code.
-Case in point, I just wanted to play around with the panthor patches, not
-cause email messages for Boris.
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hopps/iptfs-uapi-ip-add-ip_tfs_-_hdr-packet-formats/20231110-203822
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
+patch link:    https://lore.kernel.org/r/20231110113719.3055788-9-chopps%40chopps.org
+patch subject: [RFC ipsec-next 8/8] iptfs: impl: add new iptfs xfrm mode impl
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231111/202311110139.kmpx4546-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110139.kmpx4546-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110139.kmpx4546-lkp@intel.com/
 
-Thanks a lot
-Heiko
+All warnings (new ones prefixed by >>):
 
-Am Freitag, 10. November 2023, 18:04:14 CET schrieb kernel test robot:
-> Hi Boris,
-> 
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://github.com/mmind/linux-rockchip dev/panthor
-> head:   ef8d76d568fba69012333ce6e9d7cce4aebbb2da
-> commit: 86d43fb902f5db2a81e432041864dd7523314c70 [36/41] drm/panthor: Allow driver compilation
-> config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231111/202311110058.uP4Vh1gN-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110058.uP4Vh1gN-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311110058.uP4Vh1gN-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/gpu/drm/panthor/panthor_drv.c:1326:6: warning: no previous prototype for 'panthor_debugfs_init' [-Wmissing-prototypes]
->     1326 | void panthor_debugfs_init(struct drm_minor *minor)
->          |      ^~~~~~~~~~~~~~~~~~~~
-> --
->    drivers/gpu/drm/panthor/panthor_sched.c: In function 'cs_slot_process_fatal_event_locked':
-> >> drivers/gpu/drm/panthor/panthor_sched.c:1233:37: warning: variable 'csg_iface' set but not used [-Wunused-but-set-variable]
->     1233 |         struct panthor_fw_cs_iface *csg_iface;
->          |                                     ^~~~~~~~~
->    drivers/gpu/drm/panthor/panthor_sched.c: In function 'cs_slot_process_tiler_oom_event_locked':
-> >> drivers/gpu/drm/panthor/panthor_sched.c:1321:13: warning: variable 'info' set but not used [-Wunused-but-set-variable]
->     1321 |         u64 info, heap_address, new_chunk_va;
->          |             ^~~~
-> >> drivers/gpu/drm/panthor/panthor_sched.c:1319:13: warning: variable 'fault' set but not used [-Wunused-but-set-variable]
->     1319 |         u32 fault, vt_start, vt_end, frag_end;
->          |             ^~~~~
-> >> drivers/gpu/drm/panthor/panthor_sched.c:1318:31: warning: variable 'queue' set but not used [-Wunused-but-set-variable]
->     1318 |         struct panthor_queue *queue;
->          |                               ^~~~~
->    drivers/gpu/drm/panthor/panthor_sched.c: In function 'tick_ctx_apply':
->    drivers/gpu/drm/panthor/panthor_sched.c:1983:54: warning: variable 'csg_iface' set but not used [-Wunused-but-set-variable]
->     1983 |                         struct panthor_fw_csg_iface *csg_iface;
->          |                                                      ^~~~~~~~~
->    drivers/gpu/drm/panthor/panthor_sched.c: In function 'panthor_sched_suspend':
-> >> drivers/gpu/drm/panthor/panthor_sched.c:2481:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
->     2481 |         int ret;
->          |             ^~~
->    drivers/gpu/drm/panthor/panthor_sched.c: In function 'group_create_queue':
->    drivers/gpu/drm/panthor/panthor_sched.c:2927:53: error: 'DRM_SCHED_POLICY_SINGLE_ENTITY' undeclared (first use in this function)
->     2927 |                              NULL, "panthor-queue", DRM_SCHED_POLICY_SINGLE_ENTITY,
->          |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/gpu/drm/panthor/panthor_sched.c:2927:53: note: each undeclared identifier is reported only once for each function it appears in
->    drivers/gpu/drm/panthor/panthor_sched.c:2926:49: warning: passing argument 7 of 'drm_sched_init' makes integer from pointer without a cast [-Wint-conversion]
->     2926 |                              group->ptdev->reset.wq,
->          |                              ~~~~~~~~~~~~~~~~~~~^~~
->          |                                                 |
->          |                                                 struct workqueue_struct *
->    In file included from drivers/gpu/drm/panthor/panthor_sched.c:9:
->    include/drm/gpu_scheduler.h:533:25: note: expected 'long int' but argument is of type 'struct workqueue_struct *'
->      533 |                    long timeout, struct workqueue_struct *timeout_wq,
->          |                    ~~~~~^~~~~~~
->    drivers/gpu/drm/panthor/panthor_sched.c:2927:36: error: passing argument 9 of 'drm_sched_init' from incompatible pointer type [-Werror=incompatible-pointer-types]
->     2927 |                              NULL, "panthor-queue", DRM_SCHED_POLICY_SINGLE_ENTITY,
->          |                                    ^~~~~~~~~~~~~~~
->          |                                    |
->          |                                    char *
->    include/drm/gpu_scheduler.h:534:30: note: expected 'atomic_t *' but argument is of type 'char *'
->      534 |                    atomic_t *score, const char *name, struct device *dev);
->          |                    ~~~~~~~~~~^~~~~
->    cc1: some warnings being treated as errors
-> --
-> >> drivers/gpu/drm/panthor/panthor_devfreq.c:43: warning: Function parameter or member 'lock' not described in 'panthor_devfreq'
-> --
-> >> drivers/gpu/drm/panthor/panthor_gem.c:167: warning: Function parameter or member 'ddev' not described in 'panthor_gem_create_object'
-> >> drivers/gpu/drm/panthor/panthor_gem.c:167: warning: Excess function parameter 'dev' description in 'panthor_gem_create_object'
-> --
-> >> drivers/gpu/drm/panthor/panthor_heap.c:339: warning: Function parameter or member 'new_chunk_gpu_va' not described in 'panthor_heap_grow'
-> --
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:52: warning: Function parameter or member 'product_major' not described in 'panthor_model'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:64: warning: Function parameter or member '_name' not described in 'GPU_MODEL'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:64: warning: Function parameter or member '_arch_major' not described in 'GPU_MODEL'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:64: warning: Function parameter or member '_product_major' not described in 'GPU_MODEL'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:168: warning: Function parameter or member 'ptdev' not described in 'panthor_gpu_unplug'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:234: warning: Function parameter or member 'timeout_us' not described in 'panthor_gpu_block_power_off'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:234: warning: Excess function parameter 'timeout_ms' description in 'panthor_gpu_block_power_off'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:294: warning: Function parameter or member 'rdy_reg' not described in 'panthor_gpu_block_power_on'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:294: warning: Function parameter or member 'timeout_us' not described in 'panthor_gpu_block_power_on'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:294: warning: Excess function parameter 'timeout_ms' description in 'panthor_gpu_block_power_on'
-> >> drivers/gpu/drm/panthor/panthor_gpu.c:472: warning: Function parameter or member 'ptdev' not described in 'panthor_gpu_resume'
-> --
-> >> drivers/gpu/drm/panthor/panthor_drv.c:84: warning: Function parameter or member 'obj_size' not described in 'panthor_get_uobj_array'
-> >> drivers/gpu/drm/panthor/panthor_drv.c:84: warning: Excess function parameter 'obj_kernel' description in 'panthor_get_uobj_array'
-> >> drivers/gpu/drm/panthor/panthor_drv.c:268: warning: Function parameter or member 'syncops' not described in 'panthor_job_ctx'
-> >> drivers/gpu/drm/panthor/panthor_drv.c:732: warning: Function parameter or member 'job_put' not described in 'panthor_submit_ctx_cleanup'
-> >> drivers/gpu/drm/panthor/panthor_drv.c:1406: warning: Cannot understand  * @cleanup_wq: Workqueue used to cleanup stuff.
->     on line 1406 - I thought it was a doc line
-> --
-> >> drivers/gpu/drm/panthor/panthor_fw.c:293: warning: expecting prototype for panthor_fw_get_glb_iface(). Prototype was for panthor_fw_get_csg_iface() instead
-> >> drivers/gpu/drm/panthor/panthor_fw.c:310: warning: expecting prototype for panthor_fw_get_glb_iface(). Prototype was for panthor_fw_get_cs_iface() instead
-> >> drivers/gpu/drm/panthor/panthor_fw.c:438: warning: Function parameter or member 'input_fw_va' not described in 'panthor_fw_alloc_queue_iface_mem'
-> >> drivers/gpu/drm/panthor/panthor_fw.c:438: warning: Function parameter or member 'output_fw_va' not described in 'panthor_fw_alloc_queue_iface_mem'
-> >> drivers/gpu/drm/panthor/panthor_fw.c:1190: warning: Function parameter or member 'csg_slot' not described in 'panthor_fw_csg_wait_acks'
-> >> drivers/gpu/drm/panthor/panthor_fw.c:1190: warning: expecting prototype for panthor_fw_glb_wait_acks(). Prototype was for panthor_fw_csg_wait_acks() instead
-> 
-> 
-> vim +/panthor_debugfs_init +1326 drivers/gpu/drm/panthor/panthor_drv.c
-> 
-> 560b6916e77920 Boris Brezillon 2023-08-09  1324  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1325  #ifdef CONFIG_DEBUG_FS
-> 560b6916e77920 Boris Brezillon 2023-08-09 @1326  void panthor_debugfs_init(struct drm_minor *minor)
-> 560b6916e77920 Boris Brezillon 2023-08-09  1327  {
-> 560b6916e77920 Boris Brezillon 2023-08-09  1328  	panthor_mmu_debugfs_init(minor);
-> 560b6916e77920 Boris Brezillon 2023-08-09  1329  }
-> 560b6916e77920 Boris Brezillon 2023-08-09  1330  #endif
-> 560b6916e77920 Boris Brezillon 2023-08-09  1331  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1332  /*
-> 560b6916e77920 Boris Brezillon 2023-08-09  1333   * PanCSF driver version:
-> 560b6916e77920 Boris Brezillon 2023-08-09  1334   * - 1.0 - initial interface
-> 560b6916e77920 Boris Brezillon 2023-08-09  1335   */
-> 560b6916e77920 Boris Brezillon 2023-08-09  1336  static const struct drm_driver panthor_drm_driver = {
-> 560b6916e77920 Boris Brezillon 2023-08-09  1337  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-> 560b6916e77920 Boris Brezillon 2023-08-09  1338  			   DRIVER_SYNCOBJ_TIMELINE | DRIVER_GEM_GPUVA,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1339  	.open = panthor_open,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1340  	.postclose = panthor_postclose,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1341  	.ioctls = panthor_drm_driver_ioctls,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1342  	.num_ioctls = ARRAY_SIZE(panthor_drm_driver_ioctls),
-> 560b6916e77920 Boris Brezillon 2023-08-09  1343  	.fops = &panthor_drm_driver_fops,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1344  	.name = "panthor",
-> 560b6916e77920 Boris Brezillon 2023-08-09  1345  	.desc = "Panthor DRM driver",
-> 560b6916e77920 Boris Brezillon 2023-08-09  1346  	.date = "20230801",
-> 560b6916e77920 Boris Brezillon 2023-08-09  1347  	.major = 1,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1348  	.minor = 0,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1349  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1350  	.gem_create_object = panthor_gem_create_object,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1351  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1352  #ifdef CONFIG_DEBUG_FS
-> 560b6916e77920 Boris Brezillon 2023-08-09  1353  	.debugfs_init = panthor_debugfs_init,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1354  #endif
-> 560b6916e77920 Boris Brezillon 2023-08-09  1355  };
-> 560b6916e77920 Boris Brezillon 2023-08-09  1356  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1357  static int panthor_probe(struct platform_device *pdev)
-> 560b6916e77920 Boris Brezillon 2023-08-09  1358  {
-> 560b6916e77920 Boris Brezillon 2023-08-09  1359  	struct panthor_device *ptdev;
-> 560b6916e77920 Boris Brezillon 2023-08-09  1360  	int ret;
-> 560b6916e77920 Boris Brezillon 2023-08-09  1361  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1362  	ptdev = devm_drm_dev_alloc(&pdev->dev, &panthor_drm_driver,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1363  				   struct panthor_device, base);
-> 560b6916e77920 Boris Brezillon 2023-08-09  1364  	if (!ptdev)
-> 560b6916e77920 Boris Brezillon 2023-08-09  1365  		return -ENOMEM;
-> 560b6916e77920 Boris Brezillon 2023-08-09  1366  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1367  	platform_set_drvdata(pdev, ptdev);
-> 560b6916e77920 Boris Brezillon 2023-08-09  1368  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1369  	ret = panthor_device_init(ptdev);
-> 560b6916e77920 Boris Brezillon 2023-08-09  1370  	if (ret)
-> 560b6916e77920 Boris Brezillon 2023-08-09  1371  		return ret;
-> 560b6916e77920 Boris Brezillon 2023-08-09  1372  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1373  	return drm_dev_register(&ptdev->base, 0);
-> 560b6916e77920 Boris Brezillon 2023-08-09  1374  }
-> 560b6916e77920 Boris Brezillon 2023-08-09  1375  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1376  static void panthor_remove(struct platform_device *pdev)
-> 560b6916e77920 Boris Brezillon 2023-08-09  1377  {
-> 560b6916e77920 Boris Brezillon 2023-08-09  1378  	struct panthor_device *ptdev = platform_get_drvdata(pdev);
-> 560b6916e77920 Boris Brezillon 2023-08-09  1379  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1380  	panthor_device_unplug(ptdev);
-> 560b6916e77920 Boris Brezillon 2023-08-09  1381  }
-> 560b6916e77920 Boris Brezillon 2023-08-09  1382  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1383  static const struct of_device_id dt_match[] = {
-> 560b6916e77920 Boris Brezillon 2023-08-09  1384  	{ .compatible = "rockchip,rk3588-mali" },
-> 560b6916e77920 Boris Brezillon 2023-08-09  1385  	{ .compatible = "arm,mali-valhall-csf" },
-> 560b6916e77920 Boris Brezillon 2023-08-09  1386  	{}
-> 560b6916e77920 Boris Brezillon 2023-08-09  1387  };
-> 560b6916e77920 Boris Brezillon 2023-08-09  1388  MODULE_DEVICE_TABLE(of, dt_match);
-> 560b6916e77920 Boris Brezillon 2023-08-09  1389  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1390  static DEFINE_RUNTIME_DEV_PM_OPS(panthor_pm_ops,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1391  				 panthor_device_suspend,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1392  				 panthor_device_resume,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1393  				 NULL);
-> 560b6916e77920 Boris Brezillon 2023-08-09  1394  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1395  static struct platform_driver panthor_driver = {
-> 560b6916e77920 Boris Brezillon 2023-08-09  1396  	.probe = panthor_probe,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1397  	.remove_new = panthor_remove,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1398  	.driver = {
-> 560b6916e77920 Boris Brezillon 2023-08-09  1399  		.name = "panthor",
-> 560b6916e77920 Boris Brezillon 2023-08-09  1400  		.pm = &panthor_pm_ops,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1401  		.of_match_table = dt_match,
-> 560b6916e77920 Boris Brezillon 2023-08-09  1402  	},
-> 560b6916e77920 Boris Brezillon 2023-08-09  1403  };
-> 560b6916e77920 Boris Brezillon 2023-08-09  1404  
-> 560b6916e77920 Boris Brezillon 2023-08-09  1405  /**
-> 560b6916e77920 Boris Brezillon 2023-08-09 @1406   * @cleanup_wq: Workqueue used to cleanup stuff.
-> 560b6916e77920 Boris Brezillon 2023-08-09  1407   *
-> 560b6916e77920 Boris Brezillon 2023-08-09  1408   * We create a dedicated workqueue so we can drain on unplug and
-> 560b6916e77920 Boris Brezillon 2023-08-09  1409   * make sure all resources are freed before the module is unloaded.
-> 560b6916e77920 Boris Brezillon 2023-08-09  1410   */
-> 560b6916e77920 Boris Brezillon 2023-08-09  1411  struct workqueue_struct *panthor_cleanup_wq;
-> 560b6916e77920 Boris Brezillon 2023-08-09  1412  
-> 
-> :::::: The code at line 1326 was first introduced by commit
-> :::::: 560b6916e779201356a8db10cec8dc5183d9fe5f drm/panthor: Add the driver frontend block
-> 
-> :::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
-> :::::: CC: Heiko Stuebner <heiko@sntech.de>
-> 
-> 
+   net/xfrm/xfrm_iptfs.c:468:17: warning: no previous prototype for 'iptfs_pskb_add_frags' [-Wmissing-prototypes]
+     468 | struct sk_buff *iptfs_pskb_add_frags(struct sk_buff *tpl,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   net/xfrm/xfrm_iptfs.c: In function '__iptfs_reassem_done':
+   net/xfrm/xfrm_iptfs.c:629:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     629 |         int ret;
+         |             ^~~
+   net/xfrm/xfrm_iptfs.c: In function '__reorder_drop':
+   net/xfrm/xfrm_iptfs.c:1262:13: warning: variable 'wantseq' set but not used [-Wunused-but-set-variable]
+    1262 |         u64 wantseq = xtfs->w_wantseq;
+         |             ^~~~~~~
+   net/xfrm/xfrm_iptfs.c: In function '__reorder_this':
+   net/xfrm/xfrm_iptfs.c:1311:13: warning: variable 'wantseq' set but not used [-Wunused-but-set-variable]
+    1311 |         u64 wantseq = xtfs->w_wantseq;
+         |             ^~~~~~~
+   net/xfrm/xfrm_iptfs.c: In function '__reorder_future_shifts':
+   net/xfrm/xfrm_iptfs.c:1433:13: warning: variable 'last_drop_seq' set but not used [-Wunused-but-set-variable]
+    1433 |         u64 last_drop_seq = xtfs->w_wantseq;
+         |             ^~~~~~~~~~~~~
+   net/xfrm/xfrm_iptfs.c: In function 'iptfs_drop_timer':
+   net/xfrm/xfrm_iptfs.c:1653:20: warning: variable 'fcount' set but not used [-Wunused-but-set-variable]
+    1653 |         u32 count, fcount;
+         |                    ^~~~~~
+   net/xfrm/xfrm_iptfs.c: In function 'iptfs_delay_timer':
+   net/xfrm/xfrm_iptfs.c:2396:16: warning: variable 'osize' set but not used [-Wunused-but-set-variable]
+    2396 |         size_t osize;
+         |                ^~~~~
+   net/xfrm/xfrm_iptfs.c: In function 'iptfs_encap_add_ipv4':
+   net/xfrm/xfrm_iptfs.c:2444:13: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
+    2444 |         int flags;
+         |             ^~~~~
+   net/xfrm/xfrm_iptfs.c: At top level:
+>> net/xfrm/xfrm_iptfs.c:100:12: warning: '__trace_ip_proto_seq' defined but not used [-Wunused-function]
+     100 | static u32 __trace_ip_proto_seq(struct iphdr *iph)
+         |            ^~~~~~~~~~~~~~~~~~~~
 
 
+vim +/__trace_ip_proto_seq +100 net/xfrm/xfrm_iptfs.c
 
+    99	
+ > 100	static u32 __trace_ip_proto_seq(struct iphdr *iph)
+   101	{
+   102		void *nexthdr;
+   103		u32 protocol = 0;
+   104	
+   105		if (iph->version == 4) {
+   106			nexthdr = (void *)(iph + 1);
+   107			protocol = iph->protocol;
+   108		} else if (iph->version == 6) {
+   109			nexthdr = (void *)(((struct ipv6hdr *)(iph)) + 1);
+   110			protocol = ((struct ipv6hdr *)(iph))->nexthdr;
+   111		}
+   112		switch (protocol) {
+   113		case IPPROTO_ICMP:
+   114			return ntohs(((struct icmphdr *)nexthdr)->un.echo.sequence);
+   115		case IPPROTO_ICMPV6:
+   116			return ntohs(((struct icmp6hdr *)nexthdr)->icmp6_sequence);
+   117		case IPPROTO_TCP:
+   118			return ntohl(((struct tcphdr *)nexthdr)->seq);
+   119		case IPPROTO_UDP:
+   120			return ntohs(((struct udphdr *)nexthdr)->source);
+   121		default:
+   122			return 0;
+   123		}
+   124	}
+   125	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
