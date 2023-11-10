@@ -1,102 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322751429C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 18:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bg98JHkv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699641497; x=1731177497;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YtjMRMAKS0LIeCc6ySjwSMu1rAuphAd1Jii7OFSLQVA=;
-  b=Bg98JHkvYu9O7BxmrHrdklNMYGUkR19FT78csXjLXWZA4OMqbO3ISoaM
-   cfQrBJECdUWzf09NjpTInusCJVkANqTj9kKFMAecFsWsSbcR4ApN7NMw7
-   0370X0hLjDZycucTY42gFN98Flilt0YvKm7Gjcy1on+2cypTt1iD+qAA3
-   X5Ur7B+/FMGsBqUPXCh5P0eQQrSmF6utzoEr8kQ633h/BYXTiP3kBnEko
-   GMLGEqXBbseE0259HDoQNCUKHhdWDvGlisTyalS/9bP78D+sOOgkSGZ5B
-   JqahgkD5B9w6H/rLc3du3mo7UKiIibjUdUuTdKO+J1HInt7seJ/cpt2FC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="454522333"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="454522333"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 10:38:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="881030614"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="881030614"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2023 10:38:15 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r1WOS-0009p4-2k;
-	Fri, 10 Nov 2023 18:38:12 +0000
-Date: Sat, 11 Nov 2023 02:37:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Boris Brezillon <bbrezillon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>,
-	Steven Price <steven.price@arm.com>
-Subject: [mmind-rockchip:dev/panthor 36/41]
- drivers/gpu/drm/panthor/panthor_device.c:120:13: warning:
- 'panthor_device_is_initialized' defined but not used
-Message-ID: <202311110227.OabsvFN5-lkp@intel.com>
+Received: from smtp.chopps.org (smtp.chopps.org [54.88.81.56])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6246A38DC8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 19:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chopps.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=chopps.org
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from dhcp-9b29.meeting.ietf.org.chopps.org (dhcp-9b29.meeting.ietf.org [31.133.155.41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by smtp.chopps.org (Postfix) with ESMTPSA id 447F17D06C;
+	Fri, 10 Nov 2023 19:00:19 +0000 (UTC)
+References: <20231110113719.3055788-6-chopps@chopps.org>
+ <202311110118.MvEGQstw-lkp@intel.com>
+ <m27cmpxy5v.fsf@dhcp-9b29.meeting.ietf.org>
+User-agent: mu4e 1.8.14; emacs 28.2
+From: Christian Hopps <chopps@chopps.org>
+To: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Christian Hopps <chopps@chopps.org>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC ipsec-next 5/8] iptfs: netlink: add config (netlink) options
+Date: Fri, 10 Nov 2023 19:58:47 +0100
+In-reply-to: <m27cmpxy5v.fsf@dhcp-9b29.meeting.ietf.org>
+Message-ID: <m234xdxwla.fsf@dhcp-9b29.meeting.ietf.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Boris,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/mmind/linux-rockchip dev/panthor
-head:   ef8d76d568fba69012333ce6e9d7cce4aebbb2da
-commit: 86d43fb902f5db2a81e432041864dd7523314c70 [36/41] drm/panthor: Allow driver compilation
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231111/202311110227.OabsvFN5-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110227.OabsvFN5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311110227.OabsvFN5-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/panthor/panthor_device.c: In function 'panthor_mmio_vm_fault':
-   drivers/gpu/drm/panthor/panthor_device.c:307:31: error: implicit declaration of function 'virt_to_pfn'; did you mean 'virt_to_phys'? [-Werror=implicit-function-declaration]
-     307 |                         pfn = virt_to_pfn(ptdev->pm.dummy_latest_flush);
-         |                               ^~~~~~~~~~~
-         |                               virt_to_phys
-   drivers/gpu/drm/panthor/panthor_device.c: At top level:
->> drivers/gpu/drm/panthor/panthor_device.c:120:13: warning: 'panthor_device_is_initialized' defined but not used [-Wunused-function]
-     120 | static bool panthor_device_is_initialized(struct panthor_device *ptdev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+Content-Type: text/plain; format=flowed
 
 
-vim +/panthor_device_is_initialized +120 drivers/gpu/drm/panthor/panthor_device.c
+Actually I need to add the new attributes to the switch statement too. They are u16 u32 and flag so no special compat conversion needed I think.
 
-0397be1efb94b5 Boris Brezillon 2023-08-09  119  
-0397be1efb94b5 Boris Brezillon 2023-08-09 @120  static bool panthor_device_is_initialized(struct panthor_device *ptdev)
-0397be1efb94b5 Boris Brezillon 2023-08-09  121  {
-0397be1efb94b5 Boris Brezillon 2023-08-09  122  	return !!ptdev->scheduler;
-0397be1efb94b5 Boris Brezillon 2023-08-09  123  }
-0397be1efb94b5 Boris Brezillon 2023-08-09  124  
+Thanks,
+Chris.
 
-:::::: The code at line 120 was first introduced by commit
-:::::: 0397be1efb94b59f907d905466bcef6aad6508d9 drm/panthor: Add the device logical block
+Christian Hopps <chopps@chopps.org> writes:
 
-:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
-:::::: CC: Heiko Stuebner <heiko@sntech.de>
+> This seems like a rebase issue that I didn't catch.. For me though things
+> compiled and my tests passed. The fix is obvious (pick the correct max value for
+> the build bug on).. unless you indicate otherwise i'll fix this locally but not
+> issue new RFC patches yet.
+>
+> Thanks,
+> Chris.
+>
+> kernel test robot <lkp@intel.com> writes:
+>
+>> Hi Christian,
+>>
+>> [This is a private test report for your RFC patch.]
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on klassert-ipsec-next/master]
+>> [also build test ERROR on klassert-ipsec/master netfilter-nf/main linus/master v6.6 next-20231110]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:
+>> https://github.com/intel-lab-lkp/linux/commits/Christian-Hopps/iptfs-uapi-ip-add-ip_tfs_-_hdr-packet-formats/20231110-203822
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
+>> patch link:    https://lore.kernel.org/r/20231110113719.3055788-6-chopps%40chopps.org
+>> patch subject: [RFC ipsec-next 5/8] iptfs: netlink: add config (netlink) options
+>> config: x86_64-buildonly-randconfig-004-20231110
+>> (https://download.01.org/0day-ci/archive/20231111/202311110118.MvEGQstw-lkp@intel.com/config)
+>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>> reproduce (this is a W=1 build):
+>> (https://download.01.org/0day-ci/archive/20231111/202311110118.MvEGQstw-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202311110118.MvEGQstw-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>    In file included from <command-line>:
+>>    In function 'xfrm_xlate32_attr',
+>>        inlined from 'xfrm_xlate32' at net/xfrm/xfrm_compat.c:575:9:
+>>>> include/linux/compiler_types.h:425:45: error: call to
+>>> '__compiletime_assert_709' declared with attribute error: BUILD_BUG_ON failed:
+>>> XFRMA_MAX != XFRMA_MTIMER_THRESH
+>>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>>          |                                             ^
+>>    include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+>>      406 |                         prefix ## suffix();                             \
+>>          |                         ^~~~~~
+>>    include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+>>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>>          |         ^~~~~~~~~~~~~~~~~~~
+>>    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+>>       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+>>          |                                     ^~~~~~~~~~~~~~~~~~
+>>    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+>>       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+>>          |         ^~~~~~~~~~~~~~~~
+>>    net/xfrm/xfrm_compat.c:437:17: note: in expansion of macro 'BUILD_BUG_ON'
+>>      437 |                 BUILD_BUG_ON(XFRMA_MAX != XFRMA_MTIMER_THRESH);
+>>          |                 ^~~~~~~~~~~~
+>>    net/xfrm/xfrm_compat.c: In function 'xfrm_xlate64_attr':
+>>    include/linux/compiler_types.h:425:45: error: call to
+>> '__compiletime_assert_708' declared with attribute error: BUILD_BUG_ON failed:
+>> XFRMA_MAX != XFRMA_MTIMER_THRESH
+>>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>>          |                                             ^
+>>    include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+>>      406 |                         prefix ## suffix();                             \
+>>          |                         ^~~~~~
+>>    include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+>>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>>          |         ^~~~~~~~~~~~~~~~~~~
+>>    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+>>       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+>>          |                                     ^~~~~~~~~~~~~~~~~~
+>>    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+>>       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+>>          |         ^~~~~~~~~~~~~~~~
+>>    net/xfrm/xfrm_compat.c:282:17: note: in expansion of macro 'BUILD_BUG_ON'
+>>      282 |                 BUILD_BUG_ON(XFRMA_MAX != XFRMA_MTIMER_THRESH);
+>>          |                 ^~~~~~~~~~~~
+>>
+>>
+>> vim +/__compiletime_assert_709 +425 include/linux/compiler_types.h
+>>
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  411
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  412  #define _compiletime_assert(condition, msg, prefix, suffix) \
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  413  	__compiletime_assert(condition, msg, prefix, suffix)
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  414
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  415  /**
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  416   * compiletime_assert - break build and emit msg if condition is false
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  417   * @condition: a compile-time constant condition to check
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  418   * @msg:       a message to emit if condition is false
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  419   *
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  420   * In tradition of POSIX assert, this macro will break the build if the
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  421   * supplied condition is *false*, emitting the supplied error message if the
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  422   * compiler has support to do so.
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  423   */
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  #define compiletime_assert(condition, msg) \
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21 @425  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>> eb5c2d4b45e3d2 Will Deacon 2020-07-21  426
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
