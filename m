@@ -1,132 +1,137 @@
-Received: from smtp.chopps.org (smtp.chopps.org [54.88.81.56])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD44618E03
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 18:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chopps.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=chopps.org
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from dhcp-9b29.meeting.ietf.org.chopps.org (dhcp-9b29.meeting.ietf.org [31.133.155.41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by smtp.chopps.org (Postfix) with ESMTPSA id 8314E7D06C;
-	Fri, 10 Nov 2023 18:26:22 +0000 (UTC)
-References: <20231110113719.3055788-6-chopps@chopps.org>
- <202311110118.MvEGQstw-lkp@intel.com>
-User-agent: mu4e 1.8.14; emacs 28.2
-From: Christian Hopps <chopps@chopps.org>
-To: Steffen Klassert <steffen.klassert@secunet.com>
-Cc: Christian Hopps <chopps@chopps.org>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC ipsec-next 5/8] iptfs: netlink: add config (netlink) options
-Date: Fri, 10 Nov 2023 19:22:06 +0100
-In-reply-to: <202311110118.MvEGQstw-lkp@intel.com>
-Message-ID: <m27cmpxy5v.fsf@dhcp-9b29.meeting.ietf.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFFB1C28E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 18:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bojEpu4z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699641433; x=1731177433;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ma8woTlLXt37OgJ3lG1H9hM4J+sMKQ6o3z6BV4rfNfw=;
+  b=bojEpu4zAeJdXECh/g+1554JLyJdb94OeDZU8bGGYFuOgPsbcq9vZakJ
+   88cU9eSIt1yk2wwMtc1f3+/8UjKkRtMS8SVFdwcmTCcnu6c648/ypXlLb
+   AIjkkbtOTc26maqC4VnPFbpYheRFAWM3A1hCIKhj8r77gjDDtrtmAIGlh
+   +VMupg96wre3//eoNSdV20oSinPq6XVIMh87NZgyt1qV0zUb3dkMMAGUX
+   r3vnn8nU55X0c76Cb95+9NcK0lNykUoyFgLQG8zdqJWMGCQ90/fP2c6r2
+   e9hvF7h6Zo/4nS1Duhha6i47AXlLnfonCzjK9050x/Znc8Rjj+665Jtfa
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="3205537"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="3205537"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 10:37:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="11548609"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 10 Nov 2023 10:37:10 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1WNO-0009p0-1a;
+	Fri, 10 Nov 2023 18:37:06 +0000
+Date: Sat, 11 Nov 2023 02:37:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dipam Turkar <dipamt1729@gmail.com>, jani.nikula@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, Dipam Turkar <dipamt1729@gmail.com>,
+	intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+	rodrigo.vivi@intel.com, airlied@gmail.com
+Subject: Re: [Intel-gfx] [PATCH] Remove custom dumb_map_offset
+ implementations in i915 driver
+Message-ID: <202311110226.CsxS1u1i-lkp@intel.com>
+References: <20231110105811.380646-1-dipamt1729@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231110105811.380646-1-dipamt1729@gmail.com>
+
+Hi Dipam,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dipam-Turkar/Remove-custom-dumb_map_offset-implementations-in-i915-driver/20231110-185942
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20231110105811.380646-1-dipamt1729%40gmail.com
+patch subject: [Intel-gfx] [PATCH] Remove custom dumb_map_offset implementations in i915 driver
+config: x86_64-randconfig-001-20231110 (https://download.01.org/0day-ci/archive/20231111/202311110226.CsxS1u1i-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110226.CsxS1u1i-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110226.CsxS1u1i-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/i915/gem/i915_gem_mman.c: In function 'i915_gem_mmap_offset_ioctl':
+   drivers/gpu/drm/i915/gem/i915_gem_mman.c:673:9: error: implicit declaration of function '__assign_mmap_offset_handle'; did you mean 'i915_gem_mmap_offset_ioctl'? [-Werror=implicit-function-declaration]
+     return __assign_mmap_offset_handle(file, args->handle, type, &args->offset);
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+            i915_gem_mmap_offset_ioctl
+   drivers/gpu/drm/i915/gem/i915_gem_mman.c: In function 'i915_gem_fb_mmap':
+   drivers/gpu/drm/i915/gem/i915_gem_mman.c:896:9: error: implicit declaration of function 'mmap_offset_attach'; did you mean 'dma_free_attrs'? [-Werror=implicit-function-declaration]
+      mmo = mmap_offset_attach(obj, mmap_type, NULL);
+            ^~~~~~~~~~~~~~~~~~
+            dma_free_attrs
+>> drivers/gpu/drm/i915/gem/i915_gem_mman.c:896:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+      mmo = mmap_offset_attach(obj, mmap_type, NULL);
+          ^
+   cc1: some warnings being treated as errors
 
 
-This seems like a rebase issue that I didn't catch.. For me though things compiled and my tests passed. The fix is obvious (pick the correct max value for the build bug on).. unless you indicate otherwise i'll fix this locally but not issue new RFC patches yet.
+vim +896 drivers/gpu/drm/i915/gem/i915_gem_mman.c
 
-Thanks,
-Chris.
+eaee1c085863951 Nirmoy Das    2023-04-04  874  
+eaee1c085863951 Nirmoy Das    2023-04-04  875  int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma)
+eaee1c085863951 Nirmoy Das    2023-04-04  876  {
+eaee1c085863951 Nirmoy Das    2023-04-04  877  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+eaee1c085863951 Nirmoy Das    2023-04-04  878  	struct drm_device *dev = &i915->drm;
+eaee1c085863951 Nirmoy Das    2023-04-04  879  	struct i915_mmap_offset *mmo = NULL;
+eaee1c085863951 Nirmoy Das    2023-04-04  880  	enum i915_mmap_type mmap_type;
+eaee1c085863951 Nirmoy Das    2023-04-04  881  	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+eaee1c085863951 Nirmoy Das    2023-04-04  882  
+eaee1c085863951 Nirmoy Das    2023-04-04  883  	if (drm_dev_is_unplugged(dev))
+eaee1c085863951 Nirmoy Das    2023-04-04  884  		return -ENODEV;
+eaee1c085863951 Nirmoy Das    2023-04-04  885  
+eaee1c085863951 Nirmoy Das    2023-04-04  886  	/* handle ttm object */
+eaee1c085863951 Nirmoy Das    2023-04-04  887  	if (obj->ops->mmap_ops) {
+eaee1c085863951 Nirmoy Das    2023-04-04  888  		/*
+eaee1c085863951 Nirmoy Das    2023-04-04  889  		 * ttm fault handler, ttm_bo_vm_fault_reserved() uses fake offset
+eaee1c085863951 Nirmoy Das    2023-04-04  890  		 * to calculate page offset so set that up.
+eaee1c085863951 Nirmoy Das    2023-04-04  891  		 */
+eaee1c085863951 Nirmoy Das    2023-04-04  892  		vma->vm_pgoff += drm_vma_node_start(&obj->base.vma_node);
+eaee1c085863951 Nirmoy Das    2023-04-04  893  	} else {
+eaee1c085863951 Nirmoy Das    2023-04-04  894  		/* handle stolen and smem objects */
+eaee1c085863951 Nirmoy Das    2023-04-04  895  		mmap_type = i915_ggtt_has_aperture(ggtt) ? I915_MMAP_TYPE_GTT : I915_MMAP_TYPE_WC;
+eaee1c085863951 Nirmoy Das    2023-04-04 @896  		mmo = mmap_offset_attach(obj, mmap_type, NULL);
+274d4b96b12f78c Dan Carpenter 2023-06-06  897  		if (IS_ERR(mmo))
+274d4b96b12f78c Dan Carpenter 2023-06-06  898  			return PTR_ERR(mmo);
+eaee1c085863951 Nirmoy Das    2023-04-04  899  	}
+eaee1c085863951 Nirmoy Das    2023-04-04  900  
+eaee1c085863951 Nirmoy Das    2023-04-04  901  	/*
+eaee1c085863951 Nirmoy Das    2023-04-04  902  	 * When we install vm_ops for mmap we are too late for
+eaee1c085863951 Nirmoy Das    2023-04-04  903  	 * the vm_ops->open() which increases the ref_count of
+eaee1c085863951 Nirmoy Das    2023-04-04  904  	 * this obj and then it gets decreased by the vm_ops->close().
+eaee1c085863951 Nirmoy Das    2023-04-04  905  	 * To balance this increase the obj ref_count here.
+eaee1c085863951 Nirmoy Das    2023-04-04  906  	 */
+eaee1c085863951 Nirmoy Das    2023-04-04  907  	obj = i915_gem_object_get(obj);
+eaee1c085863951 Nirmoy Das    2023-04-04  908  	return i915_gem_object_mmap(obj, mmo, vma);
+eaee1c085863951 Nirmoy Das    2023-04-04  909  }
+eaee1c085863951 Nirmoy Das    2023-04-04  910  
 
-kernel test robot <lkp@intel.com> writes:
-
-> Hi Christian,
->
-> [This is a private test report for your RFC patch.]
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on klassert-ipsec-next/master]
-> [also build test ERROR on klassert-ipsec/master netfilter-nf/main linus/master v6.6 next-20231110]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:
-> https://github.com/intel-lab-lkp/linux/commits/Christian-Hopps/iptfs-uapi-ip-add-ip_tfs_-_hdr-packet-formats/20231110-203822
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-> patch link:    https://lore.kernel.org/r/20231110113719.3055788-6-chopps%40chopps.org
-> patch subject: [RFC ipsec-next 5/8] iptfs: netlink: add config (netlink) options
-> config: x86_64-buildonly-randconfig-004-20231110
-> (https://download.01.org/0day-ci/archive/20231111/202311110118.MvEGQstw-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build):
-> (https://download.01.org/0day-ci/archive/20231111/202311110118.MvEGQstw-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311110118.MvEGQstw-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from <command-line>:
->    In function 'xfrm_xlate32_attr',
->        inlined from 'xfrm_xlate32' at net/xfrm/xfrm_compat.c:575:9:
->>> include/linux/compiler_types.h:425:45: error: call to
->> '__compiletime_assert_709' declared with attribute error: BUILD_BUG_ON failed:
->> XFRMA_MAX != XFRMA_MTIMER_THRESH
->      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |                                             ^
->    include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
->      406 |                         prefix ## suffix();                             \
->          |                         ^~~~~~
->    include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
->      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |         ^~~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
->       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->          |                                     ^~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
->          |         ^~~~~~~~~~~~~~~~
->    net/xfrm/xfrm_compat.c:437:17: note: in expansion of macro 'BUILD_BUG_ON'
->      437 |                 BUILD_BUG_ON(XFRMA_MAX != XFRMA_MTIMER_THRESH);
->          |                 ^~~~~~~~~~~~
->    net/xfrm/xfrm_compat.c: In function 'xfrm_xlate64_attr':
->    include/linux/compiler_types.h:425:45: error: call to
-> '__compiletime_assert_708' declared with attribute error: BUILD_BUG_ON failed:
-> XFRMA_MAX != XFRMA_MTIMER_THRESH
->      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |                                             ^
->    include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
->      406 |                         prefix ## suffix();                             \
->          |                         ^~~~~~
->    include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
->      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |         ^~~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
->       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->          |                                     ^~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
->          |         ^~~~~~~~~~~~~~~~
->    net/xfrm/xfrm_compat.c:282:17: note: in expansion of macro 'BUILD_BUG_ON'
->      282 |                 BUILD_BUG_ON(XFRMA_MAX != XFRMA_MTIMER_THRESH);
->          |                 ^~~~~~~~~~~~
->
->
-> vim +/__compiletime_assert_709 +425 include/linux/compiler_types.h
->
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  411
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  412  #define _compiletime_assert(condition, msg, prefix, suffix) \
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  413  	__compiletime_assert(condition, msg, prefix, suffix)
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  414
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  415  /**
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  416   * compiletime_assert - break build and emit msg if condition is false
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  417   * @condition: a compile-time constant condition to check
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  418   * @msg:       a message to emit if condition is false
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  419   *
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  420   * In tradition of POSIX assert, this macro will break the build if the
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  421   * supplied condition is *false*, emitting the supplied error message if the
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  422   * compiler has support to do so.
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  423   */
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  #define compiletime_assert(condition, msg) \
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21 @425  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-> eb5c2d4b45e3d2 Will Deacon 2020-07-21  426
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
