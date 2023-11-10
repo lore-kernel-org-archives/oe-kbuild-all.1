@@ -1,204 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAC33C05;
-	Fri, 10 Nov 2023 06:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BxzzIdKT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699596649; x=1731132649;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0D10HDBdpY06w2/KzO9i+d/R1xJNUCiyx7k9stHDv5g=;
-  b=BxzzIdKTN+7BKeB0z2ziXuHbKkCQLLb3x147gnx7viTInjNP/K8h5C69
-   552tTTtHISFeMFocn7yIj7GOJSzCD1m1irry91c8yUI6dJi8N02qGoxRV
-   b7Jo7Ikti2q/3BqPJqvzexOdDGBS+nTOtwkZlIH9BdpsIkiKtNwsMA8a/
-   7KVSoKDokSj6TEKBTH82DlYAU2cuD+/rP3/pn79e5P3wiAm0cKnif2BN8
-   bRtQN/nk8yGYLDN9wAostzhn5FX86dbmSQaFmogJDJ6Pn6o0cMcdRIU08
-   EJ6CYCRytUw7YczSJNSZN1jDgkcQbao42QNH0LPMnX2F8dD1GqSx5Sy+x
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="393012196"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="393012196"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 22:10:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="907383921"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="907383921"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2023 22:10:44 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r1Kj3-0009SM-2G;
-	Fri, 10 Nov 2023 06:10:41 +0000
-Date: Fri, 10 Nov 2023 14:09:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, imx@lists.linux.dev, joy.zou@nxp.com,
-	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
-	peng.fan@nxp.com, robh+dt@kernel.org, shenwei.wang@nxp.com,
-	vkoul@kernel.org
-Subject: Re: [PATCH 4/4] dmaengine: fsl-edma: integrate TCD64 support for
- i.MX95
-Message-ID: <202311101344.SOhr8axo-lkp@intel.com>
-References: <20231109212059.1894646-5-Frank.Li@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0CB63A8;
+	Fri, 10 Nov 2023 06:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4SRTKn1lQVzfb9S;
+	Fri, 10 Nov 2023 14:23:41 +0800 (CST)
+Received: from [10.174.176.88] (10.174.176.88) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Fri, 10 Nov 2023 14:23:51 +0800
+Message-ID: <95e79046-f148-4ac2-8fd6-1379a78e744b@huawei.com>
+Date: Fri, 10 Nov 2023 14:23:51 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231109212059.1894646-5-Frank.Li@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next V2] proc: support file->f_pos checking in mem_lseek
+To: kernel test robot <lkp@intel.com>, <viro@zeniv.linux.org.uk>,
+	<brauner@kernel.org>, <akpm@linux-foundation.org>, <oleg@redhat.com>,
+	<jlayton@kernel.org>, <dchinner@redhat.com>, <cyphar@cyphar.com>,
+	<shr@devkernel.io>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<yangerkun@huawei.com>
+References: <20231109102658.2075547-1-wozizhi@huawei.com>
+ <202311101239.ihy4cKpf-lkp@intel.com>
+From: Zizhi Wo <wozizhi@huawei.com>
+In-Reply-To: <202311101239.ihy4cKpf-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.176.88]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500020.china.huawei.com (7.185.36.49)
+X-CFilter-Loop: Reflected
 
-Hi Frank,
+I have missed fallthrough, and will fix it in V3.
 
-kernel test robot noticed the following build warnings:
+Thanks,
+Zizhi Wo
 
-[auto build test WARNING on next-20231109]
-[also build test WARNING on linus/master v6.6]
-[cannot apply to vkoul-dmaengine/next v6.6 v6.6-rc7 v6.6-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dmaengine-fsl-edma-involve-help-macro-fsl_edma_set-get-_tcd/20231110-053023
-base:   next-20231109
-patch link:    https://lore.kernel.org/r/20231109212059.1894646-5-Frank.Li%40nxp.com
-patch subject: [PATCH 4/4] dmaengine: fsl-edma: integrate TCD64 support for i.MX95
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231110/202311101344.SOhr8axo-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101344.SOhr8axo-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311101344.SOhr8axo-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/dma/mcf-edma-main.c: In function 'mcf_edma_probe':
->> drivers/dma/mcf-edma-main.c:205:46: warning: dereferencing 'void *' pointer
-     205 |                 iowrite32(0x0, &mcf_chan->tcd->csr);
-         |                                              ^~
-   drivers/dma/mcf-edma-main.c:205:46: error: request for member 'csr' in something not a structure or union
-
-
-vim +205 drivers/dma/mcf-edma-main.c
-
-af802728e4ab07 drivers/dma/mcf-edma.c      Robin Gong         2019-06-25  152  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  153  static int mcf_edma_probe(struct platform_device *pdev)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  154  {
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  155  	struct mcf_edma_platform_data *pdata;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  156  	struct fsl_edma_engine *mcf_edma;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  157  	struct edma_regs *regs;
-923b138388928a drivers/dma/mcf-edma.c      Christophe JAILLET 2023-05-06  158  	int ret, i, chans;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  159  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  160  	pdata = dev_get_platdata(&pdev->dev);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  161  	if (!pdata) {
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  162  		dev_err(&pdev->dev, "no platform data supplied\n");
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  163  		return -EINVAL;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  164  	}
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  165  
-0a46781c89dece drivers/dma/mcf-edma.c      Christophe JAILLET 2023-07-12  166  	if (!pdata->dma_channels) {
-0a46781c89dece drivers/dma/mcf-edma.c      Christophe JAILLET 2023-07-12  167  		dev_info(&pdev->dev, "setting default channel number to 64");
-0a46781c89dece drivers/dma/mcf-edma.c      Christophe JAILLET 2023-07-12  168  		chans = 64;
-0a46781c89dece drivers/dma/mcf-edma.c      Christophe JAILLET 2023-07-12  169  	} else {
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  170  		chans = pdata->dma_channels;
-0a46781c89dece drivers/dma/mcf-edma.c      Christophe JAILLET 2023-07-12  171  	}
-0a46781c89dece drivers/dma/mcf-edma.c      Christophe JAILLET 2023-07-12  172  
-923b138388928a drivers/dma/mcf-edma.c      Christophe JAILLET 2023-05-06  173  	mcf_edma = devm_kzalloc(&pdev->dev, struct_size(mcf_edma, chans, chans),
-923b138388928a drivers/dma/mcf-edma.c      Christophe JAILLET 2023-05-06  174  				GFP_KERNEL);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  175  	if (!mcf_edma)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  176  		return -ENOMEM;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  177  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  178  	mcf_edma->n_chans = chans;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  179  
-af802728e4ab07 drivers/dma/mcf-edma.c      Robin Gong         2019-06-25  180  	/* Set up drvdata for ColdFire edma */
-af802728e4ab07 drivers/dma/mcf-edma.c      Robin Gong         2019-06-25  181  	mcf_edma->drvdata = &mcf_data;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  182  	mcf_edma->big_endian = 1;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  183  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  184  	mutex_init(&mcf_edma->fsl_edma_mutex);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  185  
-4b23603a251d24 drivers/dma/mcf-edma.c      Tudor Ambarus      2022-11-10  186  	mcf_edma->membase = devm_platform_ioremap_resource(pdev, 0);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  187  	if (IS_ERR(mcf_edma->membase))
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  188  		return PTR_ERR(mcf_edma->membase);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  189  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  190  	fsl_edma_setup_regs(mcf_edma);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  191  	regs = &mcf_edma->regs;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  192  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  193  	INIT_LIST_HEAD(&mcf_edma->dma_dev.channels);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  194  	for (i = 0; i < mcf_edma->n_chans; i++) {
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  195  		struct fsl_edma_chan *mcf_chan = &mcf_edma->chans[i];
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  196  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  197  		mcf_chan->edma = mcf_edma;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  198  		mcf_chan->slave_id = i;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  199  		mcf_chan->idle = true;
-0fa89f972da607 drivers/dma/mcf-edma.c      Laurentiu Tudor    2019-01-18  200  		mcf_chan->dma_dir = DMA_NONE;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  201  		mcf_chan->vchan.desc_free = fsl_edma_free_desc;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  202  		vchan_init(&mcf_chan->vchan, &mcf_edma->dma_dev);
-7536f8b371adcc drivers/dma/mcf-edma-main.c Frank Li           2023-08-21  203  		mcf_chan->tcd = mcf_edma->membase + EDMA_TCD
-7536f8b371adcc drivers/dma/mcf-edma-main.c Frank Li           2023-08-21  204  				+ i * sizeof(struct fsl_edma_hw_tcd);
-7536f8b371adcc drivers/dma/mcf-edma-main.c Frank Li           2023-08-21 @205  		iowrite32(0x0, &mcf_chan->tcd->csr);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  206  	}
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  207  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  208  	iowrite32(~0, regs->inth);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  209  	iowrite32(~0, regs->intl);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  210  
-af802728e4ab07 drivers/dma/mcf-edma.c      Robin Gong         2019-06-25  211  	ret = mcf_edma->drvdata->setup_irq(pdev, mcf_edma);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  212  	if (ret)
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  213  		return ret;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  214  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  215  	dma_cap_set(DMA_PRIVATE, mcf_edma->dma_dev.cap_mask);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  216  	dma_cap_set(DMA_SLAVE, mcf_edma->dma_dev.cap_mask);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  217  	dma_cap_set(DMA_CYCLIC, mcf_edma->dma_dev.cap_mask);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  218  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  219  	mcf_edma->dma_dev.dev = &pdev->dev;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  220  	mcf_edma->dma_dev.device_alloc_chan_resources =
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  221  			fsl_edma_alloc_chan_resources;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  222  	mcf_edma->dma_dev.device_free_chan_resources =
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  223  			fsl_edma_free_chan_resources;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  224  	mcf_edma->dma_dev.device_config = fsl_edma_slave_config;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  225  	mcf_edma->dma_dev.device_prep_dma_cyclic =
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  226  			fsl_edma_prep_dma_cyclic;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  227  	mcf_edma->dma_dev.device_prep_slave_sg = fsl_edma_prep_slave_sg;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  228  	mcf_edma->dma_dev.device_tx_status = fsl_edma_tx_status;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  229  	mcf_edma->dma_dev.device_pause = fsl_edma_pause;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  230  	mcf_edma->dma_dev.device_resume = fsl_edma_resume;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  231  	mcf_edma->dma_dev.device_terminate_all = fsl_edma_terminate_all;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  232  	mcf_edma->dma_dev.device_issue_pending = fsl_edma_issue_pending;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  233  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  234  	mcf_edma->dma_dev.src_addr_widths = FSL_EDMA_BUSWIDTHS;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  235  	mcf_edma->dma_dev.dst_addr_widths = FSL_EDMA_BUSWIDTHS;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  236  	mcf_edma->dma_dev.directions =
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  237  			BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  238  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  239  	mcf_edma->dma_dev.filter.fn = mcf_edma_filter_fn;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  240  	mcf_edma->dma_dev.filter.map = pdata->slave_map;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  241  	mcf_edma->dma_dev.filter.mapcnt = pdata->slavecnt;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  242  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  243  	platform_set_drvdata(pdev, mcf_edma);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  244  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  245  	ret = dma_async_device_register(&mcf_edma->dma_dev);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  246  	if (ret) {
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  247  		dev_err(&pdev->dev,
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  248  			"Can't register Freescale eDMA engine. (%d)\n", ret);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  249  		return ret;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  250  	}
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  251  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  252  	/* Enable round robin arbitration */
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  253  	iowrite32(EDMA_CR_ERGA | EDMA_CR_ERCA, regs->cr);
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  254  
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  255  	return 0;
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  256  }
-e7a3ff92eaf19e drivers/dma/mcf-edma.c      Angelo Dureghello  2018-08-19  257  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+在 2023/11/10 12:34, kernel test robot 写道:
+> Hi WoZ1zh1,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on next-20231108]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/WoZ1zh1/proc-support-file-f_pos-checking-in-mem_lseek/20231109-103353
+> base:   next-20231108
+> patch link:    https://lore.kernel.org/r/20231109102658.2075547-1-wozizhi%40huawei.com
+> patch subject: [PATCH -next V2] proc: support file->f_pos checking in mem_lseek
+> config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231110/202311101239.ihy4cKpf-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101239.ihy4cKpf-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311101239.ihy4cKpf-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>     In file included from fs/proc/base.c:68:
+>     In file included from include/linux/swap.h:9:
+>     In file included from include/linux/memcontrol.h:13:
+>     In file included from include/linux/cgroup.h:26:
+>     In file included from include/linux/kernel_stat.h:9:
+>     In file included from include/linux/interrupt.h:11:
+>     In file included from include/linux/hardirq.h:11:
+>     In file included from arch/um/include/asm/hardirq.h:5:
+>     In file included from include/asm-generic/hardirq.h:17:
+>     In file included from include/linux/irq.h:20:
+>     In file included from include/linux/io.h:13:
+>     In file included from arch/um/include/asm/io.h:24:
+>     include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       547 |         val = __raw_readb(PCI_IOBASE + addr);
+>           |                           ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+>           |                                                         ~~~~~~~~~~ ^
+>     include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+>        37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+>           |                                                   ^
+>     In file included from fs/proc/base.c:68:
+>     In file included from include/linux/swap.h:9:
+>     In file included from include/linux/memcontrol.h:13:
+>     In file included from include/linux/cgroup.h:26:
+>     In file included from include/linux/kernel_stat.h:9:
+>     In file included from include/linux/interrupt.h:11:
+>     In file included from include/linux/hardirq.h:11:
+>     In file included from arch/um/include/asm/hardirq.h:5:
+>     In file included from include/asm-generic/hardirq.h:17:
+>     In file included from include/linux/irq.h:20:
+>     In file included from include/linux/io.h:13:
+>     In file included from arch/um/include/asm/io.h:24:
+>     include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+>           |                                                         ~~~~~~~~~~ ^
+>     include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+>        35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+>           |                                                   ^
+>     In file included from fs/proc/base.c:68:
+>     In file included from include/linux/swap.h:9:
+>     In file included from include/linux/memcontrol.h:13:
+>     In file included from include/linux/cgroup.h:26:
+>     In file included from include/linux/kernel_stat.h:9:
+>     In file included from include/linux/interrupt.h:11:
+>     In file included from include/linux/hardirq.h:11:
+>     In file included from arch/um/include/asm/hardirq.h:5:
+>     In file included from include/asm-generic/hardirq.h:17:
+>     In file included from include/linux/irq.h:20:
+>     In file included from include/linux/io.h:13:
+>     In file included from arch/um/include/asm/io.h:24:
+>     include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       584 |         __raw_writeb(value, PCI_IOBASE + addr);
+>           |                             ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+>           |                                                       ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+>           |                                                       ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       692 |         readsb(PCI_IOBASE + addr, buffer, count);
+>           |                ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       700 |         readsw(PCI_IOBASE + addr, buffer, count);
+>           |                ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       708 |         readsl(PCI_IOBASE + addr, buffer, count);
+>           |                ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       717 |         writesb(PCI_IOBASE + addr, buffer, count);
+>           |                 ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       726 |         writesw(PCI_IOBASE + addr, buffer, count);
+>           |                 ~~~~~~~~~~ ^
+>     include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>       735 |         writesl(PCI_IOBASE + addr, buffer, count);
+>           |                 ~~~~~~~~~~ ^
+>>> fs/proc/base.c:912:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+>       912 |         case SEEK_SET:
+>           |         ^
+>     fs/proc/base.c:912:2: note: insert '__attribute__((fallthrough));' to silence this warning
+>       912 |         case SEEK_SET:
+>           |         ^
+>           |         __attribute__((fallthrough));
+>     fs/proc/base.c:912:2: note: insert 'break;' to avoid fall-through
+>       912 |         case SEEK_SET:
+>           |         ^
+>           |         break;
+>     13 warnings generated.
+> 
+> 
+> vim +912 fs/proc/base.c
+> 
+>     903	
+>     904	loff_t mem_lseek(struct file *file, loff_t offset, int orig)
+>     905	{
+>     906		loff_t ret = 0;
+>     907	
+>     908		spin_lock(&file->f_lock);
+>     909		switch (orig) {
+>     910		case SEEK_CUR:
+>     911			offset += file->f_pos;
+>   > 912		case SEEK_SET:
+>     913			/* to avoid userland mistaking f_pos=-9 as -EBADF=-9 */
+>     914			if ((unsigned long long)offset >= -MAX_ERRNO)
+>     915				ret = -EOVERFLOW;
+>     916			break;
+>     917		default:
+>     918			ret = -EINVAL;
+>     919		}
+>     920		if (!ret) {
+>     921			if (offset < 0 && !(unsigned_offsets(file))) {
+>     922				ret = -EINVAL;
+>     923			} else {
+>     924				file->f_pos = offset;
+>     925				ret = file->f_pos;
+>     926				force_successful_syscall_return();
+>     927			}
+>     928		}
+>     929	
+>     930		spin_unlock(&file->f_lock);
+>     931		return ret;
+>     932	}
+>     933	
+> 
