@@ -1,143 +1,89 @@
-Received: from smtp.chopps.org (smtp.chopps.org [54.88.81.56])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6246A38DC8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 19:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chopps.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=chopps.org
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from dhcp-9b29.meeting.ietf.org.chopps.org (dhcp-9b29.meeting.ietf.org [31.133.155.41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by smtp.chopps.org (Postfix) with ESMTPSA id 447F17D06C;
-	Fri, 10 Nov 2023 19:00:19 +0000 (UTC)
-References: <20231110113719.3055788-6-chopps@chopps.org>
- <202311110118.MvEGQstw-lkp@intel.com>
- <m27cmpxy5v.fsf@dhcp-9b29.meeting.ietf.org>
-User-agent: mu4e 1.8.14; emacs 28.2
-From: Christian Hopps <chopps@chopps.org>
-To: Steffen Klassert <steffen.klassert@secunet.com>
-Cc: Christian Hopps <chopps@chopps.org>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC ipsec-next 5/8] iptfs: netlink: add config (netlink) options
-Date: Fri, 10 Nov 2023 19:58:47 +0100
-In-reply-to: <m27cmpxy5v.fsf@dhcp-9b29.meeting.ietf.org>
-Message-ID: <m234xdxwla.fsf@dhcp-9b29.meeting.ietf.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F2A38DD6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 19:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hUMN3vEN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699643806; x=1731179806;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=myYJkjJglpdQ79ldx0ce9qdatGoner9BgOpSWsFYIiI=;
+  b=hUMN3vENxC0UzdKpCrcLXsQv+3NV/SQJjwyXG2Vk659CI8KSm4cmcDWn
+   a/WLDSH5lT7mjqqMpnfyU5jwj8GsLDW+B1ZDCDf4n/+mQYQxS8QQTgTDV
+   hlJWN/vMBzDjiMzGqFlu/kveT88diBOkf3mxPwxNNDCiGJF8FFEXlmRdZ
+   8K9bSNtDZPLTyG84/Ys7RkkPMZ/CDIZRAkDbj3FkIuHJDxCxOCB/Ly7pG
+   6ER69KzzhgxvCcI3zijg1vwDTvv7eEmCChwZbWb1HyeRCbstNrTb/yBsW
+   rv1N09Bi18z68/XfYKmtYR1JCRCA92ijXxCYhzH5+Ia+YzjcTnSAaAK8A
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="369556317"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="369556317"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 11:16:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="881038973"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="881038973"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2023 11:16:42 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1Wzg-0009qU-1U;
+	Fri, 10 Nov 2023 19:16:40 +0000
+Date: Sat, 11 Nov 2023 03:15:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Dae R. Jeong" <threeearcat@gmail.com>, borisp@nvidia.com,
+	john.fastabend@gmail.com, kuba@kernel.org, davem@davemloft.net,
+	edumazet@google.com, pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ywchoi@casys.kaist.ac.kr
+Subject: Re: [PATCH] tls: fix missing memory barrier in tls_init
+Message-ID: <202311110243.1Rkt9wSg-lkp@intel.com>
+References: <ZU4Mk_RfzvRpwkmX@dragonet>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZU4Mk_RfzvRpwkmX@dragonet>
 
+Hi Dae,
 
-Actually I need to add the new attributes to the switch statement too. They are u16 u32 and flag so no special compat conversion needed I think.
+kernel test robot noticed the following build errors:
 
-Thanks,
-Chris.
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.6 next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Christian Hopps <chopps@chopps.org> writes:
+url:    https://github.com/intel-lab-lkp/linux/commits/Dae-R-Jeong/tls-fix-missing-memory-barrier-in-tls_init/20231110-190047
+base:   linus/master
+patch link:    https://lore.kernel.org/r/ZU4Mk_RfzvRpwkmX%40dragonet
+patch subject: [PATCH] tls: fix missing memory barrier in tls_init
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231111/202311110243.1Rkt9wSg-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110243.1Rkt9wSg-lkp@intel.com/reproduce)
 
-> This seems like a rebase issue that I didn't catch.. For me though things
-> compiled and my tests passed. The fix is obvious (pick the correct max value for
-> the build bug on).. unless you indicate otherwise i'll fix this locally but not
-> issue new RFC patches yet.
->
-> Thanks,
-> Chris.
->
-> kernel test robot <lkp@intel.com> writes:
->
->> Hi Christian,
->>
->> [This is a private test report for your RFC patch.]
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on klassert-ipsec-next/master]
->> [also build test ERROR on klassert-ipsec/master netfilter-nf/main linus/master v6.6 next-20231110]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:
->> https://github.com/intel-lab-lkp/linux/commits/Christian-Hopps/iptfs-uapi-ip-add-ip_tfs_-_hdr-packet-formats/20231110-203822
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
->> patch link:    https://lore.kernel.org/r/20231110113719.3055788-6-chopps%40chopps.org
->> patch subject: [RFC ipsec-next 5/8] iptfs: netlink: add config (netlink) options
->> config: x86_64-buildonly-randconfig-004-20231110
->> (https://download.01.org/0day-ci/archive/20231111/202311110118.MvEGQstw-lkp@intel.com/config)
->> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->> reproduce (this is a W=1 build):
->> (https://download.01.org/0day-ci/archive/20231111/202311110118.MvEGQstw-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202311110118.MvEGQstw-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>    In file included from <command-line>:
->>    In function 'xfrm_xlate32_attr',
->>        inlined from 'xfrm_xlate32' at net/xfrm/xfrm_compat.c:575:9:
->>>> include/linux/compiler_types.h:425:45: error: call to
->>> '__compiletime_assert_709' declared with attribute error: BUILD_BUG_ON failed:
->>> XFRMA_MAX != XFRMA_MTIMER_THRESH
->>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->>          |                                             ^
->>    include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
->>      406 |                         prefix ## suffix();                             \
->>          |                         ^~~~~~
->>    include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
->>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->>          |         ^~~~~~~~~~~~~~~~~~~
->>    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
->>       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->>          |                                     ^~~~~~~~~~~~~~~~~~
->>    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->>       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
->>          |         ^~~~~~~~~~~~~~~~
->>    net/xfrm/xfrm_compat.c:437:17: note: in expansion of macro 'BUILD_BUG_ON'
->>      437 |                 BUILD_BUG_ON(XFRMA_MAX != XFRMA_MTIMER_THRESH);
->>          |                 ^~~~~~~~~~~~
->>    net/xfrm/xfrm_compat.c: In function 'xfrm_xlate64_attr':
->>    include/linux/compiler_types.h:425:45: error: call to
->> '__compiletime_assert_708' declared with attribute error: BUILD_BUG_ON failed:
->> XFRMA_MAX != XFRMA_MTIMER_THRESH
->>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->>          |                                             ^
->>    include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
->>      406 |                         prefix ## suffix();                             \
->>          |                         ^~~~~~
->>    include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
->>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->>          |         ^~~~~~~~~~~~~~~~~~~
->>    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
->>       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->>          |                                     ^~~~~~~~~~~~~~~~~~
->>    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->>       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
->>          |         ^~~~~~~~~~~~~~~~
->>    net/xfrm/xfrm_compat.c:282:17: note: in expansion of macro 'BUILD_BUG_ON'
->>      282 |                 BUILD_BUG_ON(XFRMA_MAX != XFRMA_MTIMER_THRESH);
->>          |                 ^~~~~~~~~~~~
->>
->>
->> vim +/__compiletime_assert_709 +425 include/linux/compiler_types.h
->>
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  411
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  412  #define _compiletime_assert(condition, msg, prefix, suffix) \
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  413  	__compiletime_assert(condition, msg, prefix, suffix)
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  414
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  415  /**
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  416   * compiletime_assert - break build and emit msg if condition is false
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  417   * @condition: a compile-time constant condition to check
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  418   * @msg:       a message to emit if condition is false
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  419   *
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  420   * In tradition of POSIX assert, this macro will break the build if the
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  421   * supplied condition is *false*, emitting the supplied error message if the
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  422   * compiler has support to do so.
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  423   */
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  #define compiletime_assert(condition, msg) \
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21 @425  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->> eb5c2d4b45e3d2 Will Deacon 2020-07-21  426
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110243.1Rkt9wSg-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   alpha-linux-ld: net/tls/tls_toe.o: in function `tls_toe_bypass':
+>> (.text+0x280): undefined reference to `tls_ctx_create'
+>> alpha-linux-ld: (.text+0x288): undefined reference to `tls_ctx_create'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
