@@ -1,196 +1,113 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0CB63A8;
-	Fri, 10 Nov 2023 06:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4SRTKn1lQVzfb9S;
-	Fri, 10 Nov 2023 14:23:41 +0800 (CST)
-Received: from [10.174.176.88] (10.174.176.88) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Fri, 10 Nov 2023 14:23:51 +0800
-Message-ID: <95e79046-f148-4ac2-8fd6-1379a78e744b@huawei.com>
-Date: Fri, 10 Nov 2023 14:23:51 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C936125A4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 06:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="AY+Eyy9+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FL4aOef4"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 3B8D83200AE3;
+	Fri, 10 Nov 2023 01:30:43 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 10 Nov 2023 01:30:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1699597842; x=1699684242; bh=hX
+	qqY4BWR14neNf2OWhT/hoES7tg7nkHkI39Wk4fnR4=; b=AY+Eyy9+TUI2gFefVm
+	OQ2F+8oM4FfGiO6xnl65YXS3uHvP9rtPE8qRzIHpPJbPl8CF7V9cR7SnjJDuGx0W
+	I0BfJQKvddhepAG9h6Lpg99YGKa7/DaTH11t4n/nDaryAY08+jc71UiNKbgxl3EJ
+	JoSpwiluGAgxn9TuseqhcaMdHR3tMMx8OqZ96zVHGM+zQ1nuAtGE/fEU6DaQf5SL
+	sfie5yeHfkWU6ozEjZL/0haGXFXv6FG9mzo2Pkhafqj88hr1XQLGaBRmmgqk1fbM
+	n75g+U6f4zMEBhIV930lAbRqYUv2BD+AfgdqXscMvnQnE+JhGHJxdnQ7/vmh6mN+
+	e23Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1699597842; x=1699684242; bh=hXqqY4BWR14ne
+	Nf2OWhT/hoES7tg7nkHkI39Wk4fnR4=; b=FL4aOef4wrn+mcyjJq2E/ZO3fCQVo
+	M/MT7NCE29j0g7qW2Q8h1puyq1dWOLY1JM2CmmpEJ0tKBw8cOYi4zRmGB9T6JneP
+	CLG62qgARHN4F2r5y+wBgiZCHuOwhyQ3pm6kKNoDN7o3SeCFncHv10C2bphgFVqy
+	KgthlZWeFLYsGw5JM/DctoVueEumEgRcleNfu0KBGrq0nyG5h10gAHwvAS8I7XPi
+	QEEgNzaocUjV0EicCwV0Vxywfu+QY6khpk0mUVUZz1pOcCdWf5q+jTXQfHVsFFdC
+	MFHSWbukx561a0ms34MO7juCuoNGzZ5D5UDbhf5msu/yHki82fsLSkUpA==
+X-ME-Sender: <xms:EM5NZd0ZO5Keau_3lae8xWi_VQl_vF0AtX3RJT3glfwO6bSWgp94RA>
+    <xme:EM5NZUGtGCJoujiCpk1rmVeeK9S3-E7Vd_uootXFoAbYL9340BuifPLl_GbRpYdMp
+    hXLrAGzHqgPROMraxE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedruddvvddgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:Ec5NZd6Cdr1B5-_seQjypiAD77jU0p_usS1DQ9sE_NVRr_anxaKgcA>
+    <xmx:Ec5NZa2YlJLASmHePpYoiFhGCJgcvHB9qT9WXegouv0MidmFx2vG2Q>
+    <xmx:Ec5NZQE0MOxHxwSJwsqIUEkDZEyqoeh3hoGlJ7LlWxJoL8foGy_bXA>
+    <xmx:Es5NZeMOC-xWrCco4yoZufFoPvP4nkYgbIxaKBSTkxqIdWzy6E_bqg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id DA3AEB60089; Fri, 10 Nov 2023 01:30:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1108-g3a29173c6d-fm-20231031.005-g3a29173c
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -next V2] proc: support file->f_pos checking in mem_lseek
-To: kernel test robot <lkp@intel.com>, <viro@zeniv.linux.org.uk>,
-	<brauner@kernel.org>, <akpm@linux-foundation.org>, <oleg@redhat.com>,
-	<jlayton@kernel.org>, <dchinner@redhat.com>, <cyphar@cyphar.com>,
-	<shr@devkernel.io>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<yangerkun@huawei.com>
-References: <20231109102658.2075547-1-wozizhi@huawei.com>
- <202311101239.ihy4cKpf-lkp@intel.com>
-From: Zizhi Wo <wozizhi@huawei.com>
-In-Reply-To: <202311101239.ihy4cKpf-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.176.88]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500020.china.huawei.com (7.185.36.49)
-X-CFilter-Loop: Reflected
+Message-Id: <5e0966cd-7fa6-4217-a92e-d4a73b6b8bd6@app.fastmail.com>
+In-Reply-To: <87h6lu8ed8.fsf@mail.lhotse>
+References: <20231108125843.3806765-18-arnd@kernel.org>
+ <202311090843.b8ISrsV1-lkp@intel.com> <87h6lu8ed8.fsf@mail.lhotse>
+Date: Fri, 10 Nov 2023 07:30:20 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Michael Ellerman" <mpe@ellerman.id.au>,
+ "kernel test robot" <lkp@intel.com>, "Arnd Bergmann" <arnd@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ "Masahiro Yamada" <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Linux Memory Management List" <linux-mm@kvack.org>,
+ "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Will Deacon" <will@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>, guoren <guoren@kernel.org>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Ard Biesheuvel" <ardb@kernel.org>,
+ "Huacai Chen" <chenhuacai@kernel.org>,
+ "Greg Ungerer" <gerg@linux-m68k.org>, "Michal Simek" <monstr@monstr.eu>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Dinh Nguyen" <dinguyen@kernel.org>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Geoff Levand" <geoff@infradead.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Heiko Carstens" <hca@linux.ibm.com>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Andy Lutomirski" <luto@kernel.org>
+Subject: Re: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
+Content-Type: text/plain
 
-I have missed fallthrough, and will fix it in V3.
+On Fri, Nov 10, 2023, at 04:40, Michael Ellerman wrote:
 
-Thanks,
-Zizhi Wo
+> As pointed out by Arnd this is due to there being two symbols that
+> control the gelic_udbg.c code.
+>
+> I don't see the need for PS3GELIC_UDBG, without PPC_EARLY_DEBUG_PS3GELIC
+> it just causes gelic_udbg.c to be built, but never called.
+>
+> The diff below fixes the error AFAICS.
+>
+> I can just fold it in if you're happy with that Arnd.
 
-在 2023/11/10 12:34, kernel test robot 写道:
-> Hi WoZ1zh1,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on next-20231108]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/WoZ1zh1/proc-support-file-f_pos-checking-in-mem_lseek/20231109-103353
-> base:   next-20231108
-> patch link:    https://lore.kernel.org/r/20231109102658.2075547-1-wozizhi%40huawei.com
-> patch subject: [PATCH -next V2] proc: support file->f_pos checking in mem_lseek
-> config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231110/202311101239.ihy4cKpf-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101239.ihy4cKpf-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311101239.ihy4cKpf-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     In file included from fs/proc/base.c:68:
->     In file included from include/linux/swap.h:9:
->     In file included from include/linux/memcontrol.h:13:
->     In file included from include/linux/cgroup.h:26:
->     In file included from include/linux/kernel_stat.h:9:
->     In file included from include/linux/interrupt.h:11:
->     In file included from include/linux/hardirq.h:11:
->     In file included from arch/um/include/asm/hardirq.h:5:
->     In file included from include/asm-generic/hardirq.h:17:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/um/include/asm/io.h:24:
->     include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       547 |         val = __raw_readb(PCI_IOBASE + addr);
->           |                           ~~~~~~~~~~ ^
->     include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->           |                                                         ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->        37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->           |                                                   ^
->     In file included from fs/proc/base.c:68:
->     In file included from include/linux/swap.h:9:
->     In file included from include/linux/memcontrol.h:13:
->     In file included from include/linux/cgroup.h:26:
->     In file included from include/linux/kernel_stat.h:9:
->     In file included from include/linux/interrupt.h:11:
->     In file included from include/linux/hardirq.h:11:
->     In file included from arch/um/include/asm/hardirq.h:5:
->     In file included from include/asm-generic/hardirq.h:17:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/um/include/asm/io.h:24:
->     include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->           |                                                         ~~~~~~~~~~ ^
->     include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
->        35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->           |                                                   ^
->     In file included from fs/proc/base.c:68:
->     In file included from include/linux/swap.h:9:
->     In file included from include/linux/memcontrol.h:13:
->     In file included from include/linux/cgroup.h:26:
->     In file included from include/linux/kernel_stat.h:9:
->     In file included from include/linux/interrupt.h:11:
->     In file included from include/linux/hardirq.h:11:
->     In file included from arch/um/include/asm/hardirq.h:5:
->     In file included from include/asm-generic/hardirq.h:17:
->     In file included from include/linux/irq.h:20:
->     In file included from include/linux/io.h:13:
->     In file included from arch/um/include/asm/io.h:24:
->     include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       584 |         __raw_writeb(value, PCI_IOBASE + addr);
->           |                             ~~~~~~~~~~ ^
->     include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->           |                                                       ~~~~~~~~~~ ^
->     include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->           |                                                       ~~~~~~~~~~ ^
->     include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       692 |         readsb(PCI_IOBASE + addr, buffer, count);
->           |                ~~~~~~~~~~ ^
->     include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       700 |         readsw(PCI_IOBASE + addr, buffer, count);
->           |                ~~~~~~~~~~ ^
->     include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       708 |         readsl(PCI_IOBASE + addr, buffer, count);
->           |                ~~~~~~~~~~ ^
->     include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       717 |         writesb(PCI_IOBASE + addr, buffer, count);
->           |                 ~~~~~~~~~~ ^
->     include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       726 |         writesw(PCI_IOBASE + addr, buffer, count);
->           |                 ~~~~~~~~~~ ^
->     include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->       735 |         writesl(PCI_IOBASE + addr, buffer, count);
->           |                 ~~~~~~~~~~ ^
->>> fs/proc/base.c:912:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
->       912 |         case SEEK_SET:
->           |         ^
->     fs/proc/base.c:912:2: note: insert '__attribute__((fallthrough));' to silence this warning
->       912 |         case SEEK_SET:
->           |         ^
->           |         __attribute__((fallthrough));
->     fs/proc/base.c:912:2: note: insert 'break;' to avoid fall-through
->       912 |         case SEEK_SET:
->           |         ^
->           |         break;
->     13 warnings generated.
-> 
-> 
-> vim +912 fs/proc/base.c
-> 
->     903	
->     904	loff_t mem_lseek(struct file *file, loff_t offset, int orig)
->     905	{
->     906		loff_t ret = 0;
->     907	
->     908		spin_lock(&file->f_lock);
->     909		switch (orig) {
->     910		case SEEK_CUR:
->     911			offset += file->f_pos;
->   > 912		case SEEK_SET:
->     913			/* to avoid userland mistaking f_pos=-9 as -EBADF=-9 */
->     914			if ((unsigned long long)offset >= -MAX_ERRNO)
->     915				ret = -EOVERFLOW;
->     916			break;
->     917		default:
->     918			ret = -EINVAL;
->     919		}
->     920		if (!ret) {
->     921			if (offset < 0 && !(unsigned_offsets(file))) {
->     922				ret = -EINVAL;
->     923			} else {
->     924				file->f_pos = offset;
->     925				ret = file->f_pos;
->     926				force_successful_syscall_return();
->     927			}
->     928		}
->     929	
->     930		spin_unlock(&file->f_lock);
->     931		return ret;
->     932	}
->     933	
-> 
+Yes, looks good to me, please do.
+
+    Arnd
