@@ -1,155 +1,129 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F3C1841
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 03:41:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC4F1841
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 04:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="Wn9r2B2o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1699587663;
-	bh=YOCyMuYL5I88d66lN6C2ldLGMCIsUO0ppwylpN45zyo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Wn9r2B2oowVuwO3Zl60Sr9Z7DSIDr8i4EJteomcnu3WFRku9t2zjeGtWw/AfYoOq5
-	 XerWwP5hl6W2IDQ5oXo+OZXfKtozNy1mBrujHuJp4zzE9/45aaZipxAREYXOxgQXjR
-	 xx19dsVEjqqJPfYy9EFUE6ihgIPQKmEaihSxSFNcCQ/L/9u8gV3yA/STX7nGjo0Ay1
-	 OCJMdsK73uaxkAAVAiTIRUL555Hy0+R21BiuN73bxY9L0vGIsep9+GApy/PVgwZ/He
-	 2F3mvN8a7FGyoZXJ8CxS3uCxTiW7jZu6MLPM2TNQPrzMidLoukJmFiTgUaJ+eTYqfU
-	 wzdmlm/HPhRgQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4SRPjy5kW7z4x2W;
-	Fri, 10 Nov 2023 14:40:54 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>, Arnd Bergmann <arnd@arndb.de>, Matt Turner
- <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>, Russell King
- <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Guo
- Ren <guoren@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ard
- Biesheuvel <ardb@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, Greg
- Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, Dinh Nguyen
- <dinguyen@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, Christophe
- Leroy <christophe.leroy@csgroup.eu>, Geoff Levand <geoff@infradead.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Heiko Carstens <hca@linux.ibm.com>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Andy Lutomirski
- <luto@kernel.org>
-Subject: Re: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
-In-Reply-To: <202311090843.b8ISrsV1-lkp@intel.com>
-References: <20231108125843.3806765-18-arnd@kernel.org>
- <202311090843.b8ISrsV1-lkp@intel.com>
-Date: Fri, 10 Nov 2023 14:40:51 +1100
-Message-ID: <87h6lu8ed8.fsf@mail.lhotse>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+izoxH2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699590230; x=1731126230;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P+HrsfTgmIAQuHJtSIDJylsGuedtQJzyUXRzKrUPFZE=;
+  b=k+izoxH29MLtGaA5loSTY76IM3NCIcRBfL33stagsWysrt3/C0m8Qi9h
+   WGShDEqi+tI/3Cwf7NeViSZC4B3vSOFkNfX8g68DOu0PUT2bN9upnfFqn
+   PwH+YnJTxywvSjMpfRGAKhKgAmyn68mOHTHNQeoUnS64jFGw4gXYOdqK3
+   /bpqUsEXJz0knMdwj7CKeOdJZq8sIma9T8rg7keD4Y2nVKE0FLNWSxSxZ
+   EZk+9iqughXqvN2Pql5kalxFiKA/V4miQbcRBdjbgz56dV8zsxJzcoADa
+   +jDdXXhxwzgIWpYM4SvCn3CyTKqbvO60Wmgt+BZrdjlrsMQ1XS9axu/0J
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="370336243"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="370336243"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 20:23:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="4745660"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 09 Nov 2023 20:23:44 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1J3V-0009Q4-27;
+	Fri, 10 Nov 2023 04:23:41 +0000
+Date: Fri, 10 Nov 2023 12:23:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Walker <danielwa@cisco.com>, Will Deacon <will@kernel.org>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Rob Herring <robh@kernel.org>,
+	Daniel Gimpelevich <daniel@gimpelevich.san-francisco.ca.us>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Pratyush Brahma <quic_pbrahma@quicinc.com>,
+	Tomas Mudrunka <tomas.mudrunka@gmail.com>,
+	Sean Anderson <sean.anderson@seco.com>, x86@kernel.org,
+	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	xe-linux-external@cisco.com, Ard Biesheuvel <ardb@kernel.org>,
+	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/8] drivers: firmware: efi: libstub: enable generic
+ commandline
+Message-ID: <202311101224.evyh4zgY-lkp@intel.com>
+References: <20231110013817.2378507-6-danielwa@cisco.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231110013817.2378507-6-danielwa@cisco.com>
 
-kernel test robot <lkp@intel.com> writes:
-> Hi Arnd,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on next-20231108]
-> [cannot apply to v6.6]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/ida-make-ida_dump-static/20231109-005742
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20231108125843.3806765-18-arnd%40kernel.org
-> patch subject: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
-> config: powerpc64-randconfig-001-20231109 (https://download.01.org/0day-ci/archive/20231109/202311090843.b8ISrsV1-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311090843.b8ISrsV1-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311090843.b8ISrsV1-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    arch/powerpc/platforms/ps3/gelic_udbg.c:59:1: warning: alignment 1 of 'struct debug_block' is less than 32 [-Wpacked-not-aligned]
->       59 | } __packed;
->          | ^
->>> arch/powerpc/platforms/ps3/gelic_udbg.c:240:6: error: redefinition of 'udbg_shutdown_ps3gelic'
->      240 | void udbg_shutdown_ps3gelic(void)
->          |      ^~~~~~~~~~~~~~~~~~~~~~
->    In file included from arch/powerpc/platforms/ps3/gelic_udbg.c:17:
->    arch/powerpc/include/asm/ps3.h:520:20: note: previous definition of 'udbg_shutdown_ps3gelic' with type 'void(void)'
->      520 | static inline void udbg_shutdown_ps3gelic(void) {}
->          |                    ^~~~~~~~~~~~~~~~~~~~~~
+Hi Daniel,
 
-As pointed out by Arnd this is due to there being two symbols that
-control the gelic_udbg.c code.
+kernel test robot noticed the following build warnings:
 
-I don't see the need for PS3GELIC_UDBG, without PPC_EARLY_DEBUG_PS3GELIC
-it just causes gelic_udbg.c to be built, but never called.
+[auto build test WARNING on v6.6]
+[cannot apply to arm64/for-next/core efi/next tip/x86/core robh/for-next linus/master next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The diff below fixes the error AFAICS.
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Walker/CMDLINE-add-generic-builtin-command-line/20231110-094423
+base:   v6.6
+patch link:    https://lore.kernel.org/r/20231110013817.2378507-6-danielwa%40cisco.com
+patch subject: [PATCH 5/8] drivers: firmware: efi: libstub: enable generic commandline
+config: loongarch-randconfig-002-20231110 (https://download.01.org/0day-ci/archive/20231110/202311101224.evyh4zgY-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101224.evyh4zgY-lkp@intel.com/reproduce)
 
-I can just fold it in if you're happy with that Arnd.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311101224.evyh4zgY-lkp@intel.com/
 
-diff --git a/arch/powerpc/Kconfig.debug b/arch/powerpc/Kconfig.debug
-index ea4033abc07d..8c80b154e814 100644
---- a/arch/powerpc/Kconfig.debug
-+++ b/arch/powerpc/Kconfig.debug
-@@ -271,7 +271,6 @@ config PPC_EARLY_DEBUG_USBGECKO
- config PPC_EARLY_DEBUG_PS3GELIC
- 	bool "Early debugging through the PS3 Ethernet port"
- 	depends on PPC_PS3
--	select PS3GELIC_UDBG
- 	help
- 	  Select this to enable early debugging for the PlayStation3 via
- 	  UDP broadcasts sent out through the Ethernet port.
-diff --git a/arch/powerpc/platforms/ps3/Kconfig b/arch/powerpc/platforms/ps3/Kconfig
-index a44869e5ea70..e9c1087dd42e 100644
---- a/arch/powerpc/platforms/ps3/Kconfig
-+++ b/arch/powerpc/platforms/ps3/Kconfig
-@@ -167,16 +167,4 @@ config PS3_LPM
- 	  profiling support of the Cell processor with programs like
- 	  perfmon2, then say Y or M, otherwise say N.
- 
--config PS3GELIC_UDBG
--	bool "PS3 udbg output via UDP broadcasts on Ethernet"
--	depends on PPC_PS3
--	help
--	  Enables udbg early debugging output by sending broadcast UDP
--	  via the Ethernet port (UDP port number 18194).
--
--	  This driver uses a trivial implementation and is independent
--	  from the main PS3 gelic network driver.
--
--	  If in doubt, say N here.
--
- endmenu
-diff --git a/arch/powerpc/platforms/ps3/Makefile b/arch/powerpc/platforms/ps3/Makefile
-index 86bf2967a8d4..bc79bb124d1e 100644
---- a/arch/powerpc/platforms/ps3/Makefile
-+++ b/arch/powerpc/platforms/ps3/Makefile
-@@ -3,7 +3,7 @@ obj-y += setup.o mm.o time.o hvcall.o htab.o repository.o
- obj-y += interrupt.o exports.o os-area.o
- obj-y += system-bus.o
- 
--obj-$(CONFIG_PS3GELIC_UDBG) += gelic_udbg.o
-+obj-$(CONFIG_PPC_EARLY_DEBUG_PS3GELIC) += gelic_udbg.o
- obj-$(CONFIG_SMP) += smp.o
- obj-$(CONFIG_SPU_BASE) += spu.o
- obj-y += device-init.o
+All warnings (new ones prefixed by >>):
+
+>> drivers/firmware/efi/libstub/efi-stub-helper.c:43: warning: expecting prototype for efi_handle_cmdline(). Prototype was for efi_handle_builtin_cmdline() instead
+   drivers/firmware/efi/libstub/efi-stub-helper.c:592: warning: Function parameter or member 'out' not described in 'efi_load_initrd'
 
 
-cheers
+vim +43 drivers/firmware/efi/libstub/efi-stub-helper.c
+
+    32	
+    33	/**
+    34	 * efi_handle_cmdline() - handle adding in built-in parts of the command line
+    35	 * @cmdline:	kernel command line
+    36	 *
+    37	 * Add in the generic parts of the commandline and start the parsing of the
+    38	 * command line.
+    39	 *
+    40	 * Return:	status code
+    41	 */
+    42	efi_status_t efi_handle_builtin_cmdline(char const *cmdline)
+  > 43	{
+    44		efi_status_t status = EFI_SUCCESS;
+    45	
+    46		if (sizeof(CMDLINE_STATIC_PREPEND) > 1)
+    47			status |= efi_parse_options(CMDLINE_STATIC_PREPEND);
+    48	
+    49		if (!IS_ENABLED(CONFIG_CMDLINE_OVERRIDE))
+    50			status |= efi_parse_options(cmdline);
+    51	
+    52		if (sizeof(CMDLINE_STATIC_APPEND) > 1)
+    53			status |= efi_parse_options(CMDLINE_STATIC_APPEND);
+    54	
+    55		if (status != EFI_SUCCESS)
+    56			efi_err("Failed to parse options\n");
+    57	
+    58		return status;
+    59	}
+    60	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
