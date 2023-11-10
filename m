@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D632F50
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 05:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4785A23D4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 06:10:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZTP3N8Xp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQeqwoxR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699595985; x=1731131985;
+  t=1699596648; x=1731132648;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yyYQ8amR3uB35gwrCOYFHTsujVGfnmg2sr5CJFdCqBk=;
-  b=ZTP3N8Xpg50Wmm+Nj2zZzII4RxpxVB/KyqvVxHLjxkZ8VcYc7LJBvyWx
-   qxb/+V8JIYbBPobU48f4yNc+pyjyptEtB4wvQqAjPNN5Jti3HDD7pB0FQ
-   3iC3lNknEI0yWdyP/oPct3I7XU4Ext4KuE7qwh0Knyngyk8xzVInLuRpU
-   cPd0P7ONTBW9ydrBFhsLiEu4OXCk6/nRKZ21ldUbALim9l9eAOI6raXjv
-   bEd/TcACj9Q3Ol4dspz2UwK7p2OwtKy84VTxm6ktAkpQXWj8C8PMcajQv
-   rtBZhfSB84UQeoTceS4M0Ici+zBcRMarb7Js3sdqEsJTYz4fzIk5Np94r
+  bh=BwUK2lhp0aL0k4mLHSHuWAbnPDKPIUyDN82k4U5czaU=;
+  b=nQeqwoxRl14wyJRBjeaggMCEjPupuv6Odg1UzZmJpdIW+Br9jkXVUyl6
+   cQQTfhl/VaGnMeQwcM0oWhkG6OlV2plY3fis27zclnz6Hacz0AXHee1Yl
+   9yVa3X9mVoF1gcAOKJIRt+AOweLFKzKVXYO1h3NJfo2YcmAqi8hdb/txK
+   rJpT945WilIJ0KqXAL99gmH3hmWjfPZgofKfPGknfrih0dDOR86+wjpcy
+   Tw5+W1wMXcGJqydc+eVA5sgHe3zTCRzytInsPS1o8cByeSOl04bk9uqZl
+   ewd3RytuLfyScmd2W0py8Nwrx4hIiFu3clYk3iVBoPXqigQd+AUzohKeA
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="375178454"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="393012191"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="375178454"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 21:59:44 -0800
+   d="scan'208";a="393012191"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 22:10:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="792780899"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="907383922"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="792780899"
+   d="scan'208";a="907383922"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Nov 2023 21:59:43 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 09 Nov 2023 22:10:44 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1KYP-0009S0-0R;
-	Fri, 10 Nov 2023 05:59:41 +0000
-Date: Fri, 10 Nov 2023 13:59:30 +0800
+	id 1r1Kj3-0009SO-2K;
+	Fri, 10 Nov 2023 06:10:41 +0000
+Date: Fri, 10 Nov 2023 14:09:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Slaby <jslaby@suse.cz>
+To: Ognjen Galic <smclt30p@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: arch/mips/sgi-ip27/ip27-hubio.c:30: warning: Excess function
- parameter 'hub' description in 'hub_pio_map'
-Message-ID: <202311101336.BUL1JuvU-lkp@intel.com>
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: drivers/platform/x86/thinkpad_acpi.c:9270: warning: Function
+ parameter or member 'method' not described in 'tpacpi_battery_acpi_eval'
+Message-ID: <202311101401.V95EdtRq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,92 +51,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Ognjen,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   89cdf9d556016a54ff6ddd62324aa5ec790c05cc
-commit: e8a3118e1f5cbe0c26704419390bf074689b349f objtool: make it visible in make V=1 output
-date:   7 years ago
-config: mips-randconfig-r035-20210927 (https://download.01.org/0day-ci/archive/20231110/202311101336.BUL1JuvU-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101336.BUL1JuvU-lkp@intel.com/reproduce)
+commit: 2801b9683f740012863f7f0b1f0bc770c417fe72 thinkpad_acpi: Add support for battery thresholds
+date:   6 years ago
+config: i386-randconfig-004-20230904 (https://download.01.org/0day-ci/archive/20231110/202311101401.V95EdtRq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101401.V95EdtRq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311101336.BUL1JuvU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311101401.V95EdtRq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/mips/sgi-ip27/ip27-hubio.c:30: warning: Function parameter or member 'cnode' not described in 'hub_pio_map'
->> arch/mips/sgi-ip27/ip27-hubio.c:30: warning: Excess function parameter 'hub' description in 'hub_pio_map'
+   drivers/platform/x86/thinkpad_acpi.c: In function 'create_attr_set':
+   drivers/platform/x86/thinkpad_acpi.c:1034:31: warning: taking address of packed member of 'struct attribute_set_obj' may result in an unaligned pointer value [-Waddress-of-packed-member]
+    1034 |         sobj->s.group.attrs = &sobj->a;
+         |                               ^~~~~~~~
+   drivers/platform/x86/thinkpad_acpi.c:1037:16: warning: taking address of packed member of 'struct attribute_set_obj' may result in an unaligned pointer value [-Waddress-of-packed-member]
+    1037 |         return &sobj->s;
+         |                ^~~~~~~~
+   drivers/platform/x86/thinkpad_acpi.c: In function 'tpacpi_battery_store':
+   drivers/platform/x86/thinkpad_acpi.c:9451:27: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
+    9451 |                 if (value < 0 || value > 99)
+         |                           ^
+   drivers/platform/x86/thinkpad_acpi.c: In function 'thermal_get_sensor':
+   drivers/platform/x86/thinkpad_acpi.c:6224:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    6224 |                 if (idx >= 8 && idx <= 15) {
+         |                    ^
+   drivers/platform/x86/thinkpad_acpi.c:6230:9: note: here
+    6230 |         case TPACPI_THERMAL_TPEC_8:
+         |         ^~~~
+   drivers/platform/x86/thinkpad_acpi.c: In function 'hotkey_notify':
+   drivers/platform/x86/thinkpad_acpi.c:4181:28: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    4181 |                         if (tp_features.hotkey_wlsw &&
+         |                            ^
+   drivers/platform/x86/thinkpad_acpi.c:4189:17: note: here
+    4189 |                 default:
+         |                 ^~~~~~~
+>> drivers/platform/x86/thinkpad_acpi.c:9270: warning: Function parameter or member 'method' not described in 'tpacpi_battery_acpi_eval'
+>> drivers/platform/x86/thinkpad_acpi.c:9270: warning: Function parameter or member 'ret' not described in 'tpacpi_battery_acpi_eval'
+>> drivers/platform/x86/thinkpad_acpi.c:9270: warning: Function parameter or member 'param' not described in 'tpacpi_battery_acpi_eval'
 
 
-vim +30 arch/mips/sgi-ip27/ip27-hubio.c
+vim +9270 drivers/platform/x86/thinkpad_acpi.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  18  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  19  /**
-^1da177e4c3f41 Linus Torvalds 2005-04-16  20   * hub_pio_map	-  establish a HUB PIO mapping
-^1da177e4c3f41 Linus Torvalds 2005-04-16  21   *
-^1da177e4c3f41 Linus Torvalds 2005-04-16  22   * @hub:	hub to perform PIO mapping on
-^1da177e4c3f41 Linus Torvalds 2005-04-16  23   * @widget:	widget ID to perform PIO mapping for
-^1da177e4c3f41 Linus Torvalds 2005-04-16  24   * @xtalk_addr: xtalk_address that needs to be mapped
-^1da177e4c3f41 Linus Torvalds 2005-04-16  25   * @size:	size of the PIO mapping
-^1da177e4c3f41 Linus Torvalds 2005-04-16  26   *
-^1da177e4c3f41 Linus Torvalds 2005-04-16  27   **/
-^1da177e4c3f41 Linus Torvalds 2005-04-16  28  unsigned long hub_pio_map(cnodeid_t cnode, xwidgetnum_t widget,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  29  			  unsigned long xtalk_addr, size_t size)
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @30  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  31  	nasid_t nasid = COMPACT_TO_NASID_NODEID(cnode);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  32  	unsigned i;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  33  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  34  	/* use small-window mapping if possible */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  35  	if ((xtalk_addr % SWIN_SIZE) + size <= SWIN_SIZE)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  36  		return NODE_SWIN_BASE(nasid, widget) + (xtalk_addr % SWIN_SIZE);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  37  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  38  	if ((xtalk_addr % BWIN_SIZE) + size > BWIN_SIZE) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  39  		printk(KERN_WARNING "PIO mapping at hub %d widget %d addr 0x%lx"
-^1da177e4c3f41 Linus Torvalds 2005-04-16  40  				" too big (%ld)\n",
-^1da177e4c3f41 Linus Torvalds 2005-04-16  41  				nasid, widget, xtalk_addr, size);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  42  		return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  43  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  44  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  45  	xtalk_addr &= ~(BWIN_SIZE-1);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  46  	for (i = 0; i < HUB_NUM_BIG_WINDOW; i++) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  47  		if (test_and_set_bit(i, hub_data(cnode)->h_bigwin_used))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  48  			continue;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  49  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  50  		/*
-^1da177e4c3f41 Linus Torvalds 2005-04-16  51  		 * The code below does a PIO write to setup an ITTE entry.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  52  		 *
-^1da177e4c3f41 Linus Torvalds 2005-04-16  53  		 * We need to prevent other CPUs from seeing our updated
-^1da177e4c3f41 Linus Torvalds 2005-04-16  54  		 * memory shadow of the ITTE (in the piomap) until the ITTE
-^1da177e4c3f41 Linus Torvalds 2005-04-16  55  		 * entry is actually set up; otherwise, another CPU might
-^1da177e4c3f41 Linus Torvalds 2005-04-16  56  		 * attempt a PIO prematurely.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  57  		 *
-^1da177e4c3f41 Linus Torvalds 2005-04-16  58  		 * Also, the only way we can know that an entry has been
-^1da177e4c3f41 Linus Torvalds 2005-04-16  59  		 * received  by the hub and can be used by future PIO reads/
-^1da177e4c3f41 Linus Torvalds 2005-04-16  60  		 * writes is by reading back the ITTE entry after writing it.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  61  		 *
-^1da177e4c3f41 Linus Torvalds 2005-04-16  62  		 * For these two reasons, we PIO read back the ITTE entry
-^1da177e4c3f41 Linus Torvalds 2005-04-16  63  		 * after we write it.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  64  		 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  65  		IIO_ITTE_PUT(nasid, i, HUB_PIO_MAP_TO_MEM, widget, xtalk_addr);
-e12f47ef1680d8 Ralf Baechle   2011-04-11  66  		(void) HUB_L(IIO_ITTE_GET(nasid, i));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  67  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  68  		return NODE_BWIN_BASE(nasid, widget) + (xtalk_addr % BWIN_SIZE);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  69  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  70  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  71  	printk(KERN_WARNING "unable to establish PIO mapping for at"
-^1da177e4c3f41 Linus Torvalds 2005-04-16  72  			" hub %d widget %d addr 0x%lx\n",
-^1da177e4c3f41 Linus Torvalds 2005-04-16  73  			nasid, widget, xtalk_addr);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  74  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  75  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  76  
-
-:::::: The code at line 30 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  9263	
+  9264	/**
+  9265	 * This evaluates a ACPI method call specific to the battery
+  9266	 * ACPI extension. The specifics are that an error is marked
+  9267	 * in the 32rd bit of the response, so we just check that here.
+  9268	 */
+  9269	static acpi_status tpacpi_battery_acpi_eval(char *method, int *ret, int param)
+> 9270	{
+  9271		int response;
+  9272	
+  9273		if (!acpi_evalf(hkey_handle, &response, method, "dd", param)) {
+  9274			acpi_handle_err(hkey_handle, "%s: evaluate failed", method);
+  9275			return AE_ERROR;
+  9276		}
+  9277		if (response & METHOD_ERR) {
+  9278			acpi_handle_err(hkey_handle,
+  9279					"%s evaluated but flagged as error", method);
+  9280			return AE_ERROR;
+  9281		}
+  9282		*ret = response;
+  9283		return AE_OK;
+  9284	}
+  9285	
 
 -- 
 0-DAY CI Kernel Test Service
