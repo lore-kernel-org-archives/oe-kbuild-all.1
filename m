@@ -1,258 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E22B31A9E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 18:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjL4lii4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699640460; x=1731176460;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z2K6kngVP4uhNfXXT9sNq6OSxYjOhSYj71MCgkUbDp8=;
-  b=SjL4lii44Dqn3nYcFHVkj3aCmrquxGgnHt6RnUlOOT7m1m6PHu3bcGf5
-   u3O+I/5T9i74Dy96IT2P93hdk6C9XGCiKZEupKhkEAjzVq4QGG4I1Zu0f
-   ZmLmWHJbMYUKp5DzojryhwKRxvSIocSFhbz4/NCjI+ffIxq4kimP+T09f
-   1gmoiJrR81CR4G10cw/Ls7j/YE2jf3zcznmXJfQorFADKj/F4BcVwCGTj
-   Lf8P6rUQDdGFflzRUmVNuVpq0VhHFPOuS57X4VU08R2zLUg6wLuy0Y5v0
-   E+eY3b1Jz4alfg+IH3gQ9+Ndpm2niO3GZy/yb1FuxRM7DB/USaJ6db3NP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="370422067"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="370422067"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 10:20:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="887407673"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="887407673"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 10 Nov 2023 10:20:56 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r1W7i-0009oD-1c;
-	Fri, 10 Nov 2023 18:20:54 +0000
-Date: Sat, 11 Nov 2023 02:20:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Calvin Owens <calvinowens@fb.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kees Cook <keescook@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: fs/proc/base.c:1980:25: sparse: sparse: cast to restricted fmode_t
-Message-ID: <202311110246.tkZYTtvq-lkp@intel.com>
+Received: from smtp.chopps.org (smtp.chopps.org [54.88.81.56])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD44618E03
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 18:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chopps.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=chopps.org
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from dhcp-9b29.meeting.ietf.org.chopps.org (dhcp-9b29.meeting.ietf.org [31.133.155.41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by smtp.chopps.org (Postfix) with ESMTPSA id 8314E7D06C;
+	Fri, 10 Nov 2023 18:26:22 +0000 (UTC)
+References: <20231110113719.3055788-6-chopps@chopps.org>
+ <202311110118.MvEGQstw-lkp@intel.com>
+User-agent: mu4e 1.8.14; emacs 28.2
+From: Christian Hopps <chopps@chopps.org>
+To: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Christian Hopps <chopps@chopps.org>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC ipsec-next 5/8] iptfs: netlink: add config (netlink) options
+Date: Fri, 10 Nov 2023 19:22:06 +0100
+In-reply-to: <202311110118.MvEGQstw-lkp@intel.com>
+Message-ID: <m27cmpxy5v.fsf@dhcp-9b29.meeting.ietf.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; format=flowed
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   89cdf9d556016a54ff6ddd62324aa5ec790c05cc
-commit: bdb4d100afe9818aebd1d98ced575c5ef143456c procfs: always expose /proc/<pid>/map_files/ and make it readable
-date:   8 years ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231111/202311110246.tkZYTtvq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110246.tkZYTtvq-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311110246.tkZYTtvq-lkp@intel.com/
+This seems like a rebase issue that I didn't catch.. For me though things compiled and my tests passed. The fix is obvious (pick the correct max value for the build bug on).. unless you indicate otherwise i'll fix this locally but not issue new RFC patches yet.
 
-sparse warnings: (new ones prefixed by >>)
->> fs/proc/base.c:1980:25: sparse: sparse: cast to restricted fmode_t
->> fs/proc/base.c:2039:42: sparse: sparse: cast from restricted fmode_t
-   fs/proc/base.c:2138:48: sparse: sparse: cast from restricted fmode_t
-   fs/proc/base.c:1033:24: sparse: sparse: context imbalance in 'oom_adj_read' - different lock contexts for basic block
-   fs/proc/base.c:1136:24: sparse: sparse: context imbalance in 'oom_score_adj_read' - different lock contexts for basic block
-   fs/proc/base.c:2166:13: sparse: sparse: context imbalance in 'timers_start' - wrong count at exit
-   fs/proc/base.c:2192:36: sparse: sparse: context imbalance in 'timers_stop' - unexpected unlock
-   In file included from include/linux/kobject.h:21,
-                    from include/linux/device.h:17,
-                    from include/linux/node.h:17,
-                    from include/linux/swap.h:10,
-                    from fs/proc/base.c:66:
-   include/linux/sysfs.h: In function 'sysfs_get_dirent':
-   include/linux/sysfs.h:496:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
-     496 |         return kernfs_find_and_get(parent, name);
-         |                                            ^~~~
-         |                                            |
-         |                                            const unsigned char *
-   In file included from include/linux/cgroup.h:19,
-                    from include/linux/memcontrol.h:22,
-                    from include/linux/swap.h:8:
-   include/linux/kernfs.h:424:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
-     424 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
-         |                                             ~~~~~~~~~~~~^~~~
-   In file included from fs/proc/base.c:94:
-   fs/proc/internal.h: In function 'name_to_int':
-   fs/proc/internal.h:117:28: warning: pointer targets in initialization of 'const char *' from 'const unsigned char *' differ in signedness [-Wpointer-sign]
-     117 |         const char *name = qstr->name;
-         |                            ^~~~
-   In file included from include/linux/fs.h:7,
-                    from include/linux/proc_fs.h:8,
-                    from fs/proc/base.c:54:
-   fs/proc/base.c: In function 'proc_fill_cache':
-   fs/proc/base.c:1814:39: warning: pointer targets in initialization of 'const unsigned char *' from 'const char *' differ in signedness [-Wpointer-sign]
-    1814 |         struct qstr qname = QSTR_INIT(name, len);
-         |                                       ^~~~
-   include/linux/dcache.h:54:52: note: in definition of macro 'QSTR_INIT'
-      54 | #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
-         |                                                    ^
-   fs/proc/base.c:1814:39: note: (near initialization for 'qname.name')
-    1814 |         struct qstr qname = QSTR_INIT(name, len);
-         |                                       ^~~~
-   include/linux/dcache.h:54:52: note: in definition of macro 'QSTR_INIT'
-      54 | #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
-         |                                                    ^
-   fs/proc/base.c: In function 'dname_to_vma_addr':
-   fs/proc/base.c:1846:34: warning: pointer targets in passing argument 1 of 'sscanf' differ in signedness [-Wpointer-sign]
-    1846 |         if (sscanf(dentry->d_name.name, "%lx-%lx", start, end) != 2)
-         |                    ~~~~~~~~~~~~~~^~~~~
-         |                                  |
-         |                                  const unsigned char *
-   In file included from include/asm-generic/bug.h:13,
-                    from arch/x86/include/asm/bug.h:35,
-                    from include/linux/bug.h:4,
-                    from include/linux/thread_info.h:11,
-                    from arch/x86/include/asm/uaccess.h:8,
-                    from fs/proc/base.c:50:
-   include/linux/kernel.h:418:12: note: expected 'const char *' but argument is of type 'const unsigned char *'
-     418 | int sscanf(const char *, const char *, ...);
-         |            ^~~~~~~~~~~~
-   fs/proc/base.c: In function 'proc_map_files_readdir':
-   fs/proc/base.c:2123:49: warning: pointer targets in passing argument 1 of 'snprintf' differ in signedness [-Wpointer-sign]
-    2123 |                         info.len = snprintf(info.name,
-         |                                             ~~~~^~~~~
-         |                                                 |
-         |                                                 unsigned char *
-   include/linux/kernel.h:405:20: note: expected 'char *' but argument is of type 'unsigned char *'
-     405 | int snprintf(char *buf, size_t size, const char *fmt, ...);
-         |              ~~~~~~^~~
-   fs/proc/base.c:2135:40: warning: pointer targets in passing argument 3 of 'proc_fill_cache' differ in signedness [-Wpointer-sign]
-    2135 |                                       p->name, p->len,
-         |                                       ~^~~~~~
-         |                                        |
-         |                                        unsigned char *
-   fs/proc/base.c:1810:21: note: expected 'const char *' but argument is of type 'unsigned char *'
-    1810 |         const char *name, int len,
-         |         ~~~~~~~~~~~~^~~~
-   fs/proc/base.c: In function 'proc_flush_task_mnt':
-   fs/proc/base.c:2876:19: warning: pointer targets in assignment from 'char *' to 'const unsigned char *' differ in signedness [-Wpointer-sign]
-    2876 |         name.name = buf;
-         |                   ^
-   fs/proc/base.c:2888:19: warning: pointer targets in assignment from 'char *' to 'const unsigned char *' differ in signedness [-Wpointer-sign]
-    2888 |         name.name = buf;
-         |                   ^
-   fs/proc/base.c:2894:19: warning: pointer targets in assignment from 'char *' to 'const unsigned char *' differ in signedness [-Wpointer-sign]
-    2894 |         name.name = "task";
-         |                   ^
-   fs/proc/base.c:2895:31: warning: pointer targets in passing argument 1 of 'strlen' differ in signedness [-Wpointer-sign]
-    2895 |         name.len = strlen(name.name);
-         |                           ~~~~^~~~~
-         |                               |
-         |                               const unsigned char *
-   In file included from arch/x86/include/asm/string.h:4,
-                    from include/linux/string.h:17,
-                    from include/linux/dynamic_debug.h:111,
-                    from include/linux/printk.h:277,
-                    from include/linux/kernel.h:13:
-   arch/x86/include/asm/string_64.h:64:27: note: expected 'const char *' but argument is of type 'const unsigned char *'
-      64 | size_t strlen(const char *s);
-         |               ~~~~~~~~~~~~^
-   fs/proc/base.c:2900:19: warning: pointer targets in assignment from 'char *' to 'const unsigned char *' differ in signedness [-Wpointer-sign]
-    2900 |         name.name = buf;
+Thanks,
+Chris.
 
-vim +1980 fs/proc/base.c
+kernel test robot <lkp@intel.com> writes:
 
-bdb4d100afe981 Calvin Owens         2015-09-09  1975  
-c52a47ace7ef58 Al Viro              2013-06-15  1976  static int
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1977  proc_map_files_instantiate(struct inode *dir, struct dentry *dentry,
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1978  			   struct task_struct *task, const void *ptr)
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1979  {
-7b540d0646ce12 Al Viro              2012-08-27 @1980  	fmode_t mode = (fmode_t)(unsigned long)ptr;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1981  	struct proc_inode *ei;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1982  	struct inode *inode;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1983  
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1984  	inode = proc_pid_make_inode(dir->i_sb, task);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1985  	if (!inode)
-c52a47ace7ef58 Al Viro              2013-06-15  1986  		return -ENOENT;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1987  
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1988  	ei = PROC_I(inode);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1989  	ei->op.proc_get_link = proc_map_files_get_link;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1990  
-bdb4d100afe981 Calvin Owens         2015-09-09  1991  	inode->i_op = &proc_map_files_link_inode_operations;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1992  	inode->i_size = 64;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1993  	inode->i_mode = S_IFLNK;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1994  
-7b540d0646ce12 Al Viro              2012-08-27  1995  	if (mode & FMODE_READ)
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1996  		inode->i_mode |= S_IRUSR;
-7b540d0646ce12 Al Viro              2012-08-27  1997  	if (mode & FMODE_WRITE)
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1998  		inode->i_mode |= S_IWUSR;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  1999  
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2000  	d_set_d_op(dentry, &tid_map_files_dentry_operations);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2001  	d_add(dentry, inode);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2002  
-c52a47ace7ef58 Al Viro              2013-06-15  2003  	return 0;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2004  }
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2005  
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2006  static struct dentry *proc_map_files_lookup(struct inode *dir,
-00cd8dd3bf95f2 Al Viro              2012-06-10  2007  		struct dentry *dentry, unsigned int flags)
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2008  {
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2009  	unsigned long vm_start, vm_end;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2010  	struct vm_area_struct *vma;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2011  	struct task_struct *task;
-c52a47ace7ef58 Al Viro              2013-06-15  2012  	int result;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2013  	struct mm_struct *mm;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2014  
-c52a47ace7ef58 Al Viro              2013-06-15  2015  	result = -ENOENT;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2016  	task = get_proc_task(dir);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2017  	if (!task)
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2018  		goto out;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2019  
-c52a47ace7ef58 Al Viro              2013-06-15  2020  	result = -EACCES;
-eb94cd96e05d6c Cyrill Gorcunov      2012-05-17  2021  	if (!ptrace_may_access(task, PTRACE_MODE_READ))
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2022  		goto out_put_task;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2023  
-c52a47ace7ef58 Al Viro              2013-06-15  2024  	result = -ENOENT;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2025  	if (dname_to_vma_addr(dentry, &vm_start, &vm_end))
-eb94cd96e05d6c Cyrill Gorcunov      2012-05-17  2026  		goto out_put_task;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2027  
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2028  	mm = get_task_mm(task);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2029  	if (!mm)
-eb94cd96e05d6c Cyrill Gorcunov      2012-05-17  2030  		goto out_put_task;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2031  
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2032  	down_read(&mm->mmap_sem);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2033  	vma = find_exact_vma(mm, vm_start, vm_end);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2034  	if (!vma)
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2035  		goto out_no_vma;
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2036  
-05f564849d4949 Stanislav Kinsbursky 2012-11-26  2037  	if (vma->vm_file)
-7b540d0646ce12 Al Viro              2012-08-27  2038  		result = proc_map_files_instantiate(dir, dentry, task,
-7b540d0646ce12 Al Viro              2012-08-27 @2039  				(void *)(unsigned long)vma->vm_file->f_mode);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2040  
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2041  out_no_vma:
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2042  	up_read(&mm->mmap_sem);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2043  	mmput(mm);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2044  out_put_task:
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2045  	put_task_struct(task);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2046  out:
-c52a47ace7ef58 Al Viro              2013-06-15  2047  	return ERR_PTR(result);
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2048  }
-640708a2cff7f8 Pavel Emelyanov      2012-01-10  2049  
+> Hi Christian,
+>
+> [This is a private test report for your RFC patch.]
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on klassert-ipsec-next/master]
+> [also build test ERROR on klassert-ipsec/master netfilter-nf/main linus/master v6.6 next-20231110]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:
+> https://github.com/intel-lab-lkp/linux/commits/Christian-Hopps/iptfs-uapi-ip-add-ip_tfs_-_hdr-packet-formats/20231110-203822
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
+> patch link:    https://lore.kernel.org/r/20231110113719.3055788-6-chopps%40chopps.org
+> patch subject: [RFC ipsec-next 5/8] iptfs: netlink: add config (netlink) options
+> config: x86_64-buildonly-randconfig-004-20231110
+> (https://download.01.org/0day-ci/archive/20231111/202311110118.MvEGQstw-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build):
+> (https://download.01.org/0day-ci/archive/20231111/202311110118.MvEGQstw-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311110118.MvEGQstw-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from <command-line>:
+>    In function 'xfrm_xlate32_attr',
+>        inlined from 'xfrm_xlate32' at net/xfrm/xfrm_compat.c:575:9:
+>>> include/linux/compiler_types.h:425:45: error: call to
+>> '__compiletime_assert_709' declared with attribute error: BUILD_BUG_ON failed:
+>> XFRMA_MAX != XFRMA_MTIMER_THRESH
+>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>          |                                             ^
+>    include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+>      406 |                         prefix ## suffix();                             \
+>          |                         ^~~~~~
+>    include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>          |         ^~~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+>       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+>          |                                     ^~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+>       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+>          |         ^~~~~~~~~~~~~~~~
+>    net/xfrm/xfrm_compat.c:437:17: note: in expansion of macro 'BUILD_BUG_ON'
+>      437 |                 BUILD_BUG_ON(XFRMA_MAX != XFRMA_MTIMER_THRESH);
+>          |                 ^~~~~~~~~~~~
+>    net/xfrm/xfrm_compat.c: In function 'xfrm_xlate64_attr':
+>    include/linux/compiler_types.h:425:45: error: call to
+> '__compiletime_assert_708' declared with attribute error: BUILD_BUG_ON failed:
+> XFRMA_MAX != XFRMA_MTIMER_THRESH
+>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>          |                                             ^
+>    include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+>      406 |                         prefix ## suffix();                             \
+>          |                         ^~~~~~
+>    include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+>      425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>          |         ^~~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+>       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+>          |                                     ^~~~~~~~~~~~~~~~~~
+>    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+>       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+>          |         ^~~~~~~~~~~~~~~~
+>    net/xfrm/xfrm_compat.c:282:17: note: in expansion of macro 'BUILD_BUG_ON'
+>      282 |                 BUILD_BUG_ON(XFRMA_MAX != XFRMA_MTIMER_THRESH);
+>          |                 ^~~~~~~~~~~~
+>
+>
+> vim +/__compiletime_assert_709 +425 include/linux/compiler_types.h
+>
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  411
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  412  #define _compiletime_assert(condition, msg, prefix, suffix) \
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  413  	__compiletime_assert(condition, msg, prefix, suffix)
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  414
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  415  /**
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  416   * compiletime_assert - break build and emit msg if condition is false
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  417   * @condition: a compile-time constant condition to check
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  418   * @msg:       a message to emit if condition is false
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  419   *
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  420   * In tradition of POSIX assert, this macro will break the build if the
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  421   * supplied condition is *false*, emitting the supplied error message if the
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  422   * compiler has support to do so.
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  423   */
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  424  #define compiletime_assert(condition, msg) \
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21 @425  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+> eb5c2d4b45e3d2 Will Deacon 2020-07-21  426
 
-:::::: The code at line 1980 was first introduced by commit
-:::::: 7b540d0646ce122f0ba4520412be91e530719742 proc_map_files_readdir(): don't bother with grabbing files
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
