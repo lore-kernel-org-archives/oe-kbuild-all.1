@@ -1,56 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823473C685
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 21:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD841DFF8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 21:41:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OBVCgYgo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DD1tulao"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699651782; x=1731187782;
+  t=1699652484; x=1731188484;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NA23B0Hz907EL3uQodBGpP4znG68sVHIJYpbYAN5Xys=;
-  b=OBVCgYgocfoahfMGm5/N6iH+OuqmCa5hLePJT7ha+VJlr3Pxe8CA7Z37
-   71ZJmjKkJnk+4qzNPyyvB25skgh3BzR6+iVivl4082TU8bMeMIecvnHqD
-   JE4iXKPb26m8S90qjY+74dcV4YhfOHaLiU/FT0Bvt8uOmWR3GBA2p7Gv2
-   e/9+j+ymFzo060F69W/zxuXGGX+lG5Zekouct7J9EdYXBX5TP96B4FYMV
-   XPPb+7eF5CLqjt0jTUgFFvVaazwFO3YSotV4M1MqYWeFUeJ3QXHKSu89W
-   bdHmUHOIMYl6yVlto1COo7dyVSxMY41rAfgtxHEbQfabCSvIv8+i1c9Pv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="476460860"
+  bh=2j7CJJ56KtAuv4IFO7UAathuBSQQLXvHDcuKEMKgnEU=;
+  b=DD1tulao9OXM7Fp0m3zgjJEd4tFpVi+7SUbdCv3w22NV/Rd47b9TKua4
+   pQcIPZ5MGdpebta7Y3WT8d32ygjN5vx6LN8AVX70ERdHne8gr3edSiJ4I
+   Aw1wiy/9WJiC05C+ikqw0qnMpjw1d+/e8vqDs8zFKyt66m0cFbFbl9mKO
+   cQE254zncN0zYtE7BowrKqj46bPz9nNR8T/caCm98S5i9htUuARG4EajV
+   QkjYz4co/zGjM9wet5clnxkvXEpM4qE2P8pBNcvxAPETlTcBNzB074nLk
+   fqhxCodscYPzkXup7ZfyQtjavTVAx7d2HfLnCxqrz+LeYfzFafj0GqnSv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="454537102"
 X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
-   d="scan'208";a="476460860"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 13:29:41 -0800
+   d="scan'208";a="454537102"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 13:41:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="881059314"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="763836864"
 X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
-   d="scan'208";a="881059314"
+   d="scan'208";a="763836864"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2023 13:29:38 -0800
+  by orsmga002.jf.intel.com with ESMTP; 10 Nov 2023 13:41:22 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1Z4K-0009v0-1j;
-	Fri, 10 Nov 2023 21:29:36 +0000
-Date: Sat, 11 Nov 2023 05:29:20 +0800
+	id 1r1ZFf-0009vS-36;
+	Fri, 10 Nov 2023 21:41:19 +0000
+Date: Sat, 11 Nov 2023 05:40:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 2/2] rtc: max31335: add driver support
-Message-ID: <202311110508.MdqXcQsW-lkp@intel.com>
-References: <20231109101449.8347-2-antoniu.miclaus@analog.com>
+To: York Jasper Niebuhr <yjnworkstation@gmail.com>,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	York Jasper Niebuhr <yjnworkstation@gmail.com>
+Subject: Re: [PATCH] mm: exitz syscall
+Message-ID: <202311110549.g5gj4ZVU-lkp@intel.com>
+References: <20231110184720.39780-1-yjnworkstation@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,68 +52,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231109101449.8347-2-antoniu.miclaus@analog.com>
+In-Reply-To: <20231110184720.39780-1-yjnworkstation@gmail.com>
 
-Hi Antoniu,
+Hi York,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on abelloni/rtc-next]
-[also build test WARNING on linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 8728c14129df7a6e29188a2e737b4774fb200953]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/rtc-max31335-add-driver-support/20231109-231755
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20231109101449.8347-2-antoniu.miclaus%40analog.com
-patch subject: [PATCH v7 2/2] rtc: max31335: add driver support
-config: x86_64-randconfig-123-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110508.MdqXcQsW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110508.MdqXcQsW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/York-Jasper-Niebuhr/mm-exitz-syscall/20231111-031729
+base:   8728c14129df7a6e29188a2e737b4774fb200953
+patch link:    https://lore.kernel.org/r/20231110184720.39780-1-yjnworkstation%40gmail.com
+patch subject: [PATCH] mm: exitz syscall
+config: loongarch-randconfig-001-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110549.g5gj4ZVU-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110549.g5gj4ZVU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311110508.MdqXcQsW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110549.g5gj4ZVU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/rtc/rtc-max31335.c:504:22: sparse: sparse: symbol 'max31335_clk_init' was not declared. Should it be static?
->> drivers/rtc/rtc-max31335.c:527:21: sparse: sparse: symbol 'max31335_nvmem_cfg' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/max31335_clk_init +504 drivers/rtc/rtc-max31335.c
+>> kernel/exitz.c:73:6: warning: no previous prototype for 'exit_memz' [-Wmissing-prototypes]
+      73 | void exit_memz(void)
+         |      ^~~~~~~~~
 
-   503	
- > 504	struct clk_init_data max31335_clk_init = {
-   505		.name = "max31335-clkout",
-   506		.ops = &max31335_clkout_ops,
-   507	};
-   508	
-   509	static int max31335_nvmem_reg_read(void *priv, unsigned int offset,
-   510					   void *val, size_t bytes)
-   511	{
-   512		struct max31335_data *max31335 = priv;
-   513		unsigned int reg = MAX31335_TS0_SEC_1_128 + offset;
-   514	
-   515		return regmap_bulk_read(max31335->regmap, reg, val, bytes);
-   516	}
-   517	
-   518	static int max31335_nvmem_reg_write(void *priv, unsigned int offset,
-   519					    void *val, size_t bytes)
-   520	{
-   521		struct max31335_data *max31335 = priv;
-   522		unsigned int reg = MAX31335_TS0_SEC_1_128 + offset;
-   523	
-   524		return regmap_bulk_write(max31335->regmap, reg, val, bytes);
-   525	}
-   526	
- > 527	struct nvmem_config max31335_nvmem_cfg = {
-   528		.reg_read = max31335_nvmem_reg_read,
-   529		.reg_write = max31335_nvmem_reg_write,
-   530		.word_size = 8,
-   531		.size = MAX31335_RAM_SIZE,
-   532	};
-   533	
+
+vim +/exit_memz +73 kernel/exitz.c
+
+    69	
+    70	/*
+    71	 * Overwrite any memory associated to current process with zeros.
+    72	 */
+  > 73	void exit_memz(void)
+    74	{
+    75		if (!(current->ezflags & EZ_MEM))
+    76			return;
+    77	
+    78		struct vm_area_struct *vma;
+    79	
+    80		VMA_ITERATOR(vmi, current->mm, 0);
+    81	
+    82		for_each_vma(vmi, vma) {
+    83			memz_range(vma->vm_start, vma->vm_end);
+    84		}
+    85	}
+    86	
 
 -- 
 0-DAY CI Kernel Test Service
