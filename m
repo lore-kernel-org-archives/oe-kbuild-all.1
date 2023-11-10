@@ -1,113 +1,156 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C936125A4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 06:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F621079D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 06:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="AY+Eyy9+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FL4aOef4"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 3B8D83200AE3;
-	Fri, 10 Nov 2023 01:30:43 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Fri, 10 Nov 2023 01:30:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1699597842; x=1699684242; bh=hX
-	qqY4BWR14neNf2OWhT/hoES7tg7nkHkI39Wk4fnR4=; b=AY+Eyy9+TUI2gFefVm
-	OQ2F+8oM4FfGiO6xnl65YXS3uHvP9rtPE8qRzIHpPJbPl8CF7V9cR7SnjJDuGx0W
-	I0BfJQKvddhepAG9h6Lpg99YGKa7/DaTH11t4n/nDaryAY08+jc71UiNKbgxl3EJ
-	JoSpwiluGAgxn9TuseqhcaMdHR3tMMx8OqZ96zVHGM+zQ1nuAtGE/fEU6DaQf5SL
-	sfie5yeHfkWU6ozEjZL/0haGXFXv6FG9mzo2Pkhafqj88hr1XQLGaBRmmgqk1fbM
-	n75g+U6f4zMEBhIV930lAbRqYUv2BD+AfgdqXscMvnQnE+JhGHJxdnQ7/vmh6mN+
-	e23Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1699597842; x=1699684242; bh=hXqqY4BWR14ne
-	Nf2OWhT/hoES7tg7nkHkI39Wk4fnR4=; b=FL4aOef4wrn+mcyjJq2E/ZO3fCQVo
-	M/MT7NCE29j0g7qW2Q8h1puyq1dWOLY1JM2CmmpEJ0tKBw8cOYi4zRmGB9T6JneP
-	CLG62qgARHN4F2r5y+wBgiZCHuOwhyQ3pm6kKNoDN7o3SeCFncHv10C2bphgFVqy
-	KgthlZWeFLYsGw5JM/DctoVueEumEgRcleNfu0KBGrq0nyG5h10gAHwvAS8I7XPi
-	QEEgNzaocUjV0EicCwV0Vxywfu+QY6khpk0mUVUZz1pOcCdWf5q+jTXQfHVsFFdC
-	MFHSWbukx561a0ms34MO7juCuoNGzZ5D5UDbhf5msu/yHki82fsLSkUpA==
-X-ME-Sender: <xms:EM5NZd0ZO5Keau_3lae8xWi_VQl_vF0AtX3RJT3glfwO6bSWgp94RA>
-    <xme:EM5NZUGtGCJoujiCpk1rmVeeK9S3-E7Vd_uootXFoAbYL9340BuifPLl_GbRpYdMp
-    hXLrAGzHqgPROMraxE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedruddvvddgleefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:Ec5NZd6Cdr1B5-_seQjypiAD77jU0p_usS1DQ9sE_NVRr_anxaKgcA>
-    <xmx:Ec5NZa2YlJLASmHePpYoiFhGCJgcvHB9qT9WXegouv0MidmFx2vG2Q>
-    <xmx:Ec5NZQE0MOxHxwSJwsqIUEkDZEyqoeh3hoGlJ7LlWxJoL8foGy_bXA>
-    <xmx:Es5NZeMOC-xWrCco4yoZufFoPvP4nkYgbIxaKBSTkxqIdWzy6E_bqg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id DA3AEB60089; Fri, 10 Nov 2023 01:30:40 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1108-g3a29173c6d-fm-20231031.005-g3a29173c
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cG4MU2z7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699598031; x=1731134031;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UcyO2pk3EyIevztdKzcr3aFhpegG/JvQLD8cR0YtNYE=;
+  b=cG4MU2z7BtkSPIZw1tJvUXhG7jjBUnWYCYI81zeUicaSFtSVu6BrvQvk
+   o+cPgavXK5BGmfD3YhpPic5girWjwJ0eRT1GPsqKA4n98BsWzcHwrjmLT
+   CT/Sb6AYqfNXYBAa8KK8oQ4ys6332WdKDeVAXHjzGIlf2LT0O87m8vOjR
+   953WqquyAS2JBagjLPKVHe7qgMVXvMchIZMf8o5tz/niCk/OZrPkN4oup
+   zXiQ9tkG2LxNfpL8JB0rAKkEAup84tCJYQrMBQ7t7IScb1vfaS+A5rSQh
+   KVWc8mNl8823hFJvc19BhJ34g6WYBZoUU0Y4VmMZ90eP7bo6MNz4qpZH0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="393014366"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="393014366"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 22:33:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="834073027"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="834073027"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 09 Nov 2023 22:33:49 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1L5P-0009Sk-1x;
+	Fri, 10 Nov 2023 06:33:47 +0000
+Date: Fri, 10 Nov 2023 14:33:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 6/6] wifi: mac80211: use wiphy locked debugfs for
+ sdata/link
+Message-ID: <202311101458.nTUgKNEi-lkp@intel.com>
+References: <20231109222251.f6f6241e2541.I99a21601e124f5ac4e161ad32b19949e7896e390@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <5e0966cd-7fa6-4217-a92e-d4a73b6b8bd6@app.fastmail.com>
-In-Reply-To: <87h6lu8ed8.fsf@mail.lhotse>
-References: <20231108125843.3806765-18-arnd@kernel.org>
- <202311090843.b8ISrsV1-lkp@intel.com> <87h6lu8ed8.fsf@mail.lhotse>
-Date: Fri, 10 Nov 2023 07:30:20 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Michael Ellerman" <mpe@ellerman.id.au>,
- "kernel test robot" <lkp@intel.com>, "Arnd Bergmann" <arnd@kernel.org>,
- "Andrew Morton" <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- "Masahiro Yamada" <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
- "Linux Memory Management List" <linux-mm@kvack.org>,
- "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
- "Russell King" <linux@armlinux.org.uk>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Will Deacon" <will@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>, guoren <guoren@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Ard Biesheuvel" <ardb@kernel.org>,
- "Huacai Chen" <chenhuacai@kernel.org>,
- "Greg Ungerer" <gerg@linux-m68k.org>, "Michal Simek" <monstr@monstr.eu>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Dinh Nguyen" <dinguyen@kernel.org>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Geoff Levand" <geoff@infradead.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>,
- "Heiko Carstens" <hca@linux.ibm.com>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "Andy Lutomirski" <luto@kernel.org>
-Subject: Re: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231109222251.f6f6241e2541.I99a21601e124f5ac4e161ad32b19949e7896e390@changeid>
 
-On Fri, Nov 10, 2023, at 04:40, Michael Ellerman wrote:
+Hi Johannes,
 
-> As pointed out by Arnd this is due to there being two symbols that
-> control the gelic_udbg.c code.
->
-> I don't see the need for PS3GELIC_UDBG, without PPC_EARLY_DEBUG_PS3GELIC
-> it just causes gelic_udbg.c to be built, but never called.
->
-> The diff below fixes the error AFAICS.
->
-> I can just fold it in if you're happy with that Arnd.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-Yes, looks good to me, please do.
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus wireless-next/main wireless/main linus/master next-20231110]
+[cannot apply to v6.6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-    Arnd
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/debugfs-fix-automount-d_fsdata-usage/20231110-054024
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20231109222251.f6f6241e2541.I99a21601e124f5ac4e161ad32b19949e7896e390%40changeid
+patch subject: [RFC PATCH 6/6] wifi: mac80211: use wiphy locked debugfs for sdata/link
+config: arm64-randconfig-002-20231110 (https://download.01.org/0day-ci/archive/20231110/202311101458.nTUgKNEi-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101458.nTUgKNEi-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311101458.nTUgKNEi-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   net/mac80211/debugfs_netdev.c: In function 'ieee80211_if_read_sdata':
+>> net/mac80211/debugfs_netdev.c:54:16: error: implicit declaration of function 'wiphy_locked_debugfs_read' [-Werror=implicit-function-declaration]
+      54 |         return wiphy_locked_debugfs_read(sdata->local->hw.wiphy,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mac80211/debugfs_netdev.c: In function 'ieee80211_if_write_sdata':
+>> net/mac80211/debugfs_netdev.c:90:16: error: implicit declaration of function 'wiphy_locked_debugfs_write' [-Werror=implicit-function-declaration]
+      90 |         return wiphy_locked_debugfs_write(sdata->local->hw.wiphy,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/wiphy_locked_debugfs_read +54 net/mac80211/debugfs_netdev.c
+
+    40	
+    41	static ssize_t ieee80211_if_read_sdata(
+    42		struct file *file,
+    43		char __user *userbuf,
+    44		size_t count, loff_t *ppos,
+    45		ssize_t (*format)(const struct ieee80211_sub_if_data *sdata, char *, int))
+    46	{
+    47		struct ieee80211_sub_if_data *sdata = file->private_data;
+    48		struct ieee80211_if_read_sdata_data data = {
+    49			.format = format,
+    50			.sdata = sdata,
+    51		};
+    52		char buf[200];
+    53	
+  > 54		return wiphy_locked_debugfs_read(sdata->local->hw.wiphy,
+    55						 file, buf, sizeof(buf),
+    56						 userbuf, count, ppos,
+    57						 ieee80211_if_read_sdata_handler,
+    58						 &data);
+    59	}
+    60	
+    61	struct ieee80211_if_write_sdata_data {
+    62		ssize_t (*write)(struct ieee80211_sub_if_data *, const char *, int);
+    63		struct ieee80211_sub_if_data *sdata;
+    64	};
+    65	
+    66	static ssize_t ieee80211_if_write_sdata_handler(struct wiphy *wiphy,
+    67							struct file *file,
+    68							char *buf,
+    69							size_t count,
+    70							void *data)
+    71	{
+    72		struct ieee80211_if_write_sdata_data *d = data;
+    73	
+    74		return d->write(d->sdata, buf, count);
+    75	}
+    76	
+    77	static ssize_t ieee80211_if_write_sdata(
+    78		struct file *file,
+    79		const char __user *userbuf,
+    80		size_t count, loff_t *ppos,
+    81		ssize_t (*write)(struct ieee80211_sub_if_data *sdata, const char *, int))
+    82	{
+    83		struct ieee80211_sub_if_data *sdata = file->private_data;
+    84		struct ieee80211_if_write_sdata_data data = {
+    85			.write = write,
+    86			.sdata = sdata,
+    87		};
+    88		char buf[64];
+    89	
+  > 90		return wiphy_locked_debugfs_write(sdata->local->hw.wiphy,
+    91						  file, buf, sizeof(buf),
+    92						  userbuf, count,
+    93						  ieee80211_if_write_sdata_handler,
+    94						  &data);
+    95	}
+    96	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
