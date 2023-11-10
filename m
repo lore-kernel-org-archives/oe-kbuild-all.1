@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3991640A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 11:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE76B182D2;
+	Fri, 10 Nov 2023 12:04:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M4UvR8kn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UBqbMe/t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699615736; x=1731151736;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UAlGeMIA9Nyg+X2+IJaIV1Hk7ig7yo1589d+zKiyDsA=;
-  b=M4UvR8knwG7Uyo3A/zmp5DZBBOxcVM1X0ZzhlQhSxEH6cVVdrPQYBJaD
-   WJ5/QDGJdhclJkR7nTzNh+SmoSncZPbLKd6LWC7ciHE72CECLw2q+j9R5
-   SU5DXP/C/XgjtSVxAX7r3nzpxEAghXSzSsERItmAfJ6oJ/owB+SZEUXuE
-   3ElsLKaY4mpThZsTXwTe+IlcyBdfuKt6QX36cOhJutLqb1uWTa8E8i/1A
-   btJUR6eh13SML37AlvSWmASnFerYSjciQ4frRCuJO6dvDKKBA4oM8p9TE
-   YdjAnyFgIBS5pZt1cW9WfF2IzXgtCYsZ6D4kr8sx56cFqCkhBZ9OtwuMk
+  t=1699617877; x=1731153877;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G/iY1jVyLDz4SjgbWHGdsi1NXyiPDXENgHGwBCD5kp4=;
+  b=UBqbMe/tXOUffaspYYMEMxAtKieGbD3XGJtNYC+J9d5Gmg1SN9VtNawe
+   tYdpyVkTnfVEdCjArljQYNJw4XVryJd92KziE7o6HyZ5kme1f6TGN9U5d
+   b7hC+EvbfvKeNGrV7vGP9cv+qeyxIi1OlBTG+K05en1ithjZtdbvMdQns
+   X9eOVKXfGzE4ZOYezpOeKw1awhFgmiI91sTwNIvVUBU2/E14MGxZkLxtR
+   ZscdwRqaubz7BQAMCTW8tmFl75AbTs3AES1qaUM7MaorTVhnbz48fFKEF
+   SwlI205w6+rarMMQwpUzX8Y1LJkra0O2ANZsbmVaVUQLX9La0Xakk0w0v
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="389977095"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="8827094"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="389977095"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 03:28:55 -0800
+   d="scan'208";a="8827094"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 04:04:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="763737649"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="1095176851"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="763737649"
+   d="scan'208";a="1095176851"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 10 Nov 2023 03:28:54 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 10 Nov 2023 04:04:34 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1Pgy-0009ZR-10;
-	Fri, 10 Nov 2023 11:28:52 +0000
-Date: Fri, 10 Nov 2023 19:28:10 +0800
+	id 1r1QFU-0009aU-14;
+	Fri, 10 Nov 2023 12:04:32 +0000
+Date: Fri, 10 Nov 2023 20:04:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 3089/27787] fs/incfs/vfs.c:1307:37:
- sparse: sparse: non size-preserving integer to pointer cast
-Message-ID: <202311101937.nxT0nTGm-lkp@intel.com>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 5/6] wifi: mac80211: use wiphy locked debugfs helpers
+ for agg_status
+Message-ID: <202311101917.1895GcFy-lkp@intel.com>
+References: <20231109222251.186dcaf8bdcc.Id4251db174cdd42519a5ef19cbb08d7ed8f65397@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,228 +51,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231109222251.186dcaf8bdcc.Id4251db174cdd42519a5ef19cbb08d7ed8f65397@changeid>
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   d43ac48de222318c621dccb5b140e46676779736
-commit: 383f53ee186a22c3d04cc6809e3b5e13bc2b571d [3089/27787] ANDROID: Incremental fs: Remove unneeded compatibility typedef
-config: i386-randconfig-061-20231110 (https://download.01.org/0day-ci/archive/20231110/202311101937.nxT0nTGm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101937.nxT0nTGm-lkp@intel.com/reproduce)
+Hi Johannes,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus wireless-next/main wireless/main linus/master v6.6 next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/debugfs-fix-automount-d_fsdata-usage/20231110-054024
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20231109222251.186dcaf8bdcc.Id4251db174cdd42519a5ef19cbb08d7ed8f65397%40changeid
+patch subject: [RFC PATCH 5/6] wifi: mac80211: use wiphy locked debugfs helpers for agg_status
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231110/202311101917.1895GcFy-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101917.1895GcFy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311101937.nxT0nTGm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311101917.1895GcFy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/incfs/vfs.c:1307:37: sparse: sparse: non size-preserving integer to pointer cast
->> fs/incfs/vfs.c:2054:23: sparse: sparse: cast truncates bits from constant value (5346434e49 becomes 46434e49)
+All errors (new ones prefixed by >>):
 
-vim +1307 fs/incfs/vfs.c
+>> net/mac80211/debugfs_sta.c:368:8: error: call to undeclared function 'wiphy_locked_debugfs_read'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ret = wiphy_locked_debugfs_read(wiphy, file, buf, bufsz,
+                 ^
+>> net/mac80211/debugfs_sta.c:445:9: error: call to undeclared function 'wiphy_locked_debugfs_write'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           return wiphy_locked_debugfs_write(wiphy, file, _buf, sizeof(_buf),
+                  ^
+   2 errors generated.
 
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1138  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1139  static long ioctl_create_file(struct mount_info *mi,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1140  			struct incfs_new_file_args __user *usr_args)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1141  {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1142  	struct incfs_new_file_args args;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1143  	char *file_id_str = NULL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1144  	struct dentry *index_file_dentry = NULL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1145  	struct dentry *named_file_dentry = NULL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1146  	struct path parent_dir_path = {};
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1147  	struct inode *index_dir_inode = NULL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1148  	__le64 size_attr_value = 0;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1149  	char *file_name = NULL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1150  	char *attr_value = NULL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1151  	int error = 0;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1152  	bool locked = false;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1153  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1154  	if (!mi || !mi->mi_index_dir) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1155  		error = -EFAULT;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1156  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1157  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1158  	if (!access_ok(usr_args, sizeof(args))) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1159  		error = -EFAULT;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1160  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1161  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1162  	if (copy_from_user(&args, usr_args, sizeof(args)) > 0) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1163  		error = -EFAULT;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1164  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1165  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1166  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1167  	file_name = strndup_user(u64_to_user_ptr(args.file_name), PATH_MAX);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1168  	if (IS_ERR(file_name)) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1169  		error = PTR_ERR(file_name);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1170  		file_name = NULL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1171  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1172  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1173  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1174  	error = validate_name(file_name);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1175  	if (error)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1176  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1177  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1178  	file_id_str = file_id_to_str(args.file_id);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1179  	if (!file_id_str) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1180  		error = -ENOMEM;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1181  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1182  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1183  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1184  	error = mutex_lock_interruptible(&mi->mi_dir_struct_mutex);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1185  	if (error)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1186  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1187  	locked = true;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1188  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1189  	/* Find a directory to put the file into. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1190  	error = dir_relative_path_resolve(mi,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1191  			u64_to_user_ptr(args.directory_path),
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1192  			&parent_dir_path);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1193  	if (error)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1194  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1195  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1196  	if (parent_dir_path.dentry == mi->mi_index_dir) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1197  		/* Can't create a file directly inside .index */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1198  		error = -EBUSY;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1199  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1200  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1201  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1202  	/* Look up a dentry in the parent dir. It should be negative. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1203  	named_file_dentry = incfs_lookup_dentry(parent_dir_path.dentry,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1204  					file_name);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1205  	if (!named_file_dentry) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1206  		error = -EFAULT;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1207  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1208  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1209  	if (IS_ERR(named_file_dentry)) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1210  		error = PTR_ERR(named_file_dentry);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1211  		named_file_dentry = NULL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1212  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1213  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1214  	if (d_really_is_positive(named_file_dentry)) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1215  		/* File with this path already exists. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1216  		error = -EEXIST;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1217  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1218  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1219  	/* Look up a dentry in the .index dir. It should be negative. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1220  	index_file_dentry = incfs_lookup_dentry(mi->mi_index_dir, file_id_str);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1221  	if (!index_file_dentry) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1222  		error = -EFAULT;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1223  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1224  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1225  	if (IS_ERR(index_file_dentry)) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1226  		error = PTR_ERR(index_file_dentry);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1227  		index_file_dentry = NULL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1228  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1229  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1230  	if (d_really_is_positive(index_file_dentry)) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1231  		/* File with this ID already exists in index. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1232  		error = -EEXIST;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1233  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1234  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1235  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1236  	/* Creating a file in the .index dir. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1237  	index_dir_inode = d_inode(mi->mi_index_dir);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1238  	inode_lock_nested(index_dir_inode, I_MUTEX_PARENT);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1239  	error = vfs_create(index_dir_inode, index_file_dentry,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1240  			args.mode, true);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1241  	inode_unlock(index_dir_inode);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1242  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1243  	if (error)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1244  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1245  	if (!d_really_is_positive(index_file_dentry)) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1246  		error = -EINVAL;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1247  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1248  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1249  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1250  	/* Save the file's ID as an xattr for easy fetching in future. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1251  	error = vfs_setxattr(index_file_dentry, INCFS_XATTR_ID_NAME,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1252  		file_id_str, strlen(file_id_str), XATTR_CREATE);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1253  	if (error) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1254  		pr_debug("incfs: vfs_setxattr err:%d\n", error);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1255  		goto delete_index_file;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1256  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1257  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1258  	/* Save the file's size as an xattr for easy fetching in future. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1259  	size_attr_value = cpu_to_le64(args.size);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1260  	error = vfs_setxattr(index_file_dentry, INCFS_XATTR_SIZE_NAME,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1261  		(char *)&size_attr_value, sizeof(size_attr_value),
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1262  		XATTR_CREATE);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1263  	if (error) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1264  		pr_debug("incfs: vfs_setxattr err:%d\n", error);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1265  		goto delete_index_file;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1266  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1267  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1268  	/* Save the file's attrubute as an xattr */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1269  	if (args.file_attr_len && args.file_attr) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1270  		if (args.file_attr_len > INCFS_MAX_FILE_ATTR_SIZE) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1271  			error = -E2BIG;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1272  			goto delete_index_file;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1273  		}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1274  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1275  		attr_value = kmalloc(args.file_attr_len, GFP_NOFS);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1276  		if (!attr_value) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1277  			error = -ENOMEM;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1278  			goto delete_index_file;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1279  		}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1280  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1281  		if (!access_ok(u64_to_user_ptr(args.file_attr),
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1282  			       args.file_attr_len)) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1283  			error = -EFAULT;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1284  			goto delete_index_file;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1285  		}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1286  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1287  		if (copy_from_user(attr_value,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1288  				u64_to_user_ptr(args.file_attr),
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1289  				args.file_attr_len) > 0) {
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1290  			error = -EFAULT;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1291  			goto delete_index_file;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1292  		}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1293  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1294  		error = vfs_setxattr(index_file_dentry,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1295  				INCFS_XATTR_METADATA_NAME,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1296  				attr_value, args.file_attr_len,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1297  				XATTR_CREATE);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1298  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1299  		if (error)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1300  			goto delete_index_file;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1301  	}
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1302  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1303  	/* Initializing a newly created file. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1304  	error = init_new_file(mi, index_file_dentry, &args.file_id, args.size,
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1305  			range(attr_value, args.file_attr_len),
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1306  			(struct incfs_file_signature_info __user *)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18 @1307  				args.signature_info);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1308  	if (error)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1309  		goto delete_index_file;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1310  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1311  	/* Linking a file with it's real name from the requested dir. */
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1312  	error = incfs_link(index_file_dentry, named_file_dentry);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1313  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1314  	if (!error)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1315  		goto out;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1316  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1317  delete_index_file:
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1318  	incfs_unlink(index_file_dentry);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1319  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1320  out:
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1321  	if (error)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1322  		pr_debug("incfs: %s err:%d\n", __func__, error);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1323  
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1324  	kfree(file_id_str);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1325  	kfree(file_name);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1326  	kfree(attr_value);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1327  	dput(named_file_dentry);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1328  	dput(index_file_dentry);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1329  	path_put(&parent_dir_path);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1330  	if (locked)
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1331  		mutex_unlock(&mi->mi_dir_struct_mutex);
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1332  	return error;
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1333  }
-1be052b20ba04b6 Eugene Zemtsov 2019-11-18  1334  
 
-:::::: The code at line 1307 was first introduced by commit
-:::::: 1be052b20ba04b635cf87bcff80de5314697953e ANDROID: Initial commit of Incremental FS
+vim +/wiphy_locked_debugfs_read +368 net/mac80211/debugfs_sta.c
 
-:::::: TO: Eugene Zemtsov <ezemtsov@google.com>
-:::::: CC: Paul Lawrence <paullawrence@google.com>
+   355	
+   356	static ssize_t sta_agg_status_read(struct file *file, char __user *userbuf,
+   357					   size_t count, loff_t *ppos)
+   358	{
+   359		struct sta_info *sta = file->private_data;
+   360		struct wiphy *wiphy = sta->local->hw.wiphy;
+   361		size_t bufsz = 71 + IEEE80211_NUM_TIDS * 40;
+   362		char *buf = kmalloc(bufsz, GFP_KERNEL);
+   363		ssize_t ret;
+   364	
+   365		if (!buf)
+   366			return -ENOMEM;
+   367	
+ > 368		ret = wiphy_locked_debugfs_read(wiphy, file, buf, bufsz,
+   369						userbuf, count, ppos,
+   370						sta_agg_status_do_read, sta);
+   371		kfree(buf);
+   372	
+   373		return ret;
+   374	}
+   375	
+   376	static ssize_t sta_agg_status_do_write(struct wiphy *wiphy, struct file *file,
+   377					       char *buf, size_t count, void *data)
+   378	{
+   379		struct sta_info *sta = data;
+   380		bool start, tx;
+   381		unsigned long tid;
+   382		char *pos = buf;
+   383		int ret, timeout = 5000;
+   384	
+   385		buf = strsep(&pos, " ");
+   386		if (!buf)
+   387			return -EINVAL;
+   388	
+   389		if (!strcmp(buf, "tx"))
+   390			tx = true;
+   391		else if (!strcmp(buf, "rx"))
+   392			tx = false;
+   393		else
+   394			return -EINVAL;
+   395	
+   396		buf = strsep(&pos, " ");
+   397		if (!buf)
+   398			return -EINVAL;
+   399		if (!strcmp(buf, "start")) {
+   400			start = true;
+   401			if (!tx)
+   402				return -EINVAL;
+   403		} else if (!strcmp(buf, "stop")) {
+   404			start = false;
+   405		} else {
+   406			return -EINVAL;
+   407		}
+   408	
+   409		buf = strsep(&pos, " ");
+   410		if (!buf)
+   411			return -EINVAL;
+   412		if (sscanf(buf, "timeout=%d", &timeout) == 1) {
+   413			buf = strsep(&pos, " ");
+   414			if (!buf || !tx || !start)
+   415				return -EINVAL;
+   416		}
+   417	
+   418		ret = kstrtoul(buf, 0, &tid);
+   419		if (ret || tid >= IEEE80211_NUM_TIDS)
+   420			return -EINVAL;
+   421	
+   422		if (tx) {
+   423			if (start)
+   424				ret = ieee80211_start_tx_ba_session(&sta->sta, tid,
+   425								    timeout);
+   426			else
+   427				ret = ieee80211_stop_tx_ba_session(&sta->sta, tid);
+   428		} else {
+   429			__ieee80211_stop_rx_ba_session(sta, tid, WLAN_BACK_RECIPIENT,
+   430						       3, true);
+   431			ret = 0;
+   432		}
+   433	
+   434		return ret ?: count;
+   435	}
+   436	
+   437	static ssize_t sta_agg_status_write(struct file *file,
+   438					    const char __user *userbuf,
+   439					    size_t count, loff_t *ppos)
+   440	{
+   441		struct sta_info *sta = file->private_data;
+   442		struct wiphy *wiphy = sta->local->hw.wiphy;
+   443		char _buf[26];
+   444	
+ > 445		return wiphy_locked_debugfs_write(wiphy, file, _buf, sizeof(_buf),
+   446						  userbuf, count,
+   447						  sta_agg_status_do_write, sta);
+   448	}
+   449	STA_OPS_RW(agg_status);
+   450	
 
 -- 
 0-DAY CI Kernel Test Service
