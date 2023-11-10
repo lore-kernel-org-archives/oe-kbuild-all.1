@@ -1,46 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E8579F9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 12:43:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F5A1A714
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 13:33:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJWi1AB1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d70V3eY1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699620233; x=1731156233;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DlvQdSBX/WW9fYA1g6Fn+SCEN2Gi3eiuxv35iy5Eyz8=;
-  b=kJWi1AB1mqvy8On+hze45w76l0zf5uAamm9nI3z5E3IeNwsOjJXKKqop
-   7TBltn0s21Z/JXDfN6/DWDcSrgBZ1Iiy0YMGunguaLaTpL8hP0qBeC+mR
-   e7QqghYbmMQDosKaBgFTpZg1rh7zWEomqKcF5gzm1ENCeOUbFAUmXro3g
-   6lEOu+FDYXBUfNrsMN16c54dxqPUJFi9q9boNqFjQXUelWdKCTZU7fIXF
-   8XBII0292NOlQhQPyoNkkKmP9REmI8+qPmI+P+4Bfsc5mZiIJgQfS5QkP
-   XpfUr8Mx48mRUKevA95PJwhdWgo47c6f6JsBpndRXM6MB+GB4b58fgbHS
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="11727050"
+  t=1699623216; x=1731159216;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5IcUF/otYdlJ+LWh5Vmq5mSFolDipvdSkMRiFuEUJRE=;
+  b=d70V3eY1RwpCrST77Hewyc7ASFQUMX1bVJi51ydiCB7bfNXFk7OMPiD8
+   QZDV3jOnsCj+7Gqc1+yrQ1SOV7riOLTwHyJOha0JHsGrUiMw3GJfUPeMD
+   m9/pEyVEvz3ZiHzhK3bL3D2F+thzzQxh61vDMoxZKRIlvCqtsTSx4ME74
+   w7GQNHE1FCDqzf90qrLyLfdFgik43jpgbGkpmT3hj4GpuQOVJtnvVojqV
+   5OXezwP/2Kh9KuM5MDydlEIzzZ1TOyhwAnGFTyLJ/bQ6n7lABhhUDfA68
+   saNIf1IK9iKJDBLDb0IlWkJB/7m/cYmHbB4AmPeR1iix5+9IPmfX/zAqL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="370386919"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="11727050"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 04:43:52 -0800
+   d="scan'208";a="370386919"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 05:33:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="829644308"
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="740164665"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="829644308"
+   d="scan'208";a="740164665"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Nov 2023 04:43:51 -0800
+  by orsmga006.jf.intel.com with ESMTP; 10 Nov 2023 05:33:33 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1QrU-0009bS-2h;
-	Fri, 10 Nov 2023 12:43:48 +0000
-Date: Fri, 10 Nov 2023 20:43:17 +0800
+	id 1r1Rdb-0009cM-0x;
+	Fri, 10 Nov 2023 13:33:31 +0000
+Date: Fri, 10 Nov 2023 21:32:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/ipvlan/ipvlan_core.c:57:36: sparse: sparse: incorrect
- type in argument 1 (different base types)
-Message-ID: <202311102025.IRGm5CAD-lkp@intel.com>
+To: Karolina Stolarek <karolina.stolarek@intel.com>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Amaranath Somalapuram <Amaranath.Somalapuram@amd.com>,
+	Karolina Stolarek <karolina.stolarek@intel.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH v6 2/8] drm/ttm/tests: Add tests for ttm_tt
+Message-ID: <202311102150.uqD1nk5m-lkp@intel.com>
+References: <cdc3571116060fed572b6e82623a9c9455c9b716.1699445194.git.karolina.stolarek@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,42 +56,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cdc3571116060fed572b6e82623a9c9455c9b716.1699445194.git.karolina.stolarek@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   89cdf9d556016a54ff6ddd62324aa5ec790c05cc
-commit: c675e06a98a474f7ad0af32ce467613da818da52 ipvlan: decouple l3s mode dependencies from other modes
-date:   4 years, 9 months ago
-config: i386-randconfig-062-20230914 (https://download.01.org/0day-ci/archive/20231110/202311102025.IRGm5CAD-lkp@intel.com/config)
+Hi Karolina,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.6 next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_resource-and-ttm_sys_man/20231108-225515
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/cdc3571116060fed572b6e82623a9c9455c9b716.1699445194.git.karolina.stolarek%40intel.com
+patch subject: [PATCH v6 2/8] drm/ttm/tests: Add tests for ttm_tt
+config: x86_64-randconfig-122-20231110 (https://download.01.org/0day-ci/archive/20231110/202311102150.uqD1nk5m-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311102025.IRGm5CAD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311102150.uqD1nk5m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311102025.IRGm5CAD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311102150.uqD1nk5m-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/net/ipvlan/ipvlan_core.c:57:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] a @@     got restricted __be32 const [usertype] s_addr @@
-   drivers/net/ipvlan/ipvlan_core.c:57:36: sparse:     expected unsigned int [usertype] a
-   drivers/net/ipvlan/ipvlan_core.c:57:36: sparse:     got restricted __be32 const [usertype] s_addr
+>> drivers/gpu/drm/ttm/tests/ttm_tt_test.c:232:25: sparse: sparse: symbol 'ttm_dev_empty_funcs' was not declared. Should it be static?
 
-vim +57 drivers/net/ipvlan/ipvlan_core.c
+vim +/ttm_dev_empty_funcs +232 drivers/gpu/drm/ttm/tests/ttm_tt_test.c
 
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  52  
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  53  static u8 ipvlan_get_v4_hash(const void *iaddr)
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  54  {
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  55  	const struct in_addr *ip4_addr = iaddr;
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  56  
-2ad7bf3638411c Mahesh Bandewar 2014-11-23 @57  	return jhash_1word(ip4_addr->s_addr, ipvlan_jhash_secret) &
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  58  	       IPVLAN_HASH_MASK;
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  59  }
-2ad7bf3638411c Mahesh Bandewar 2014-11-23  60  
-
-:::::: The code at line 57 was first introduced by commit
-:::::: 2ad7bf3638411cb547f2823df08166c13ab04269 ipvlan: Initial check-in of the IPVLAN driver.
-
-:::::: TO: Mahesh Bandewar <maheshb@google.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   231	
+ > 232	struct ttm_device_funcs ttm_dev_empty_funcs = {
+   233		.ttm_tt_create = ttm_tt_null_create,
+   234	};
+   235	
 
 -- 
 0-DAY CI Kernel Test Service
