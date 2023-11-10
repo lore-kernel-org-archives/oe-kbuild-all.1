@@ -1,73 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A981DA45;
-	Fri, 10 Nov 2023 16:00:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61071DA58;
+	Fri, 10 Nov 2023 16:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hrWgeazJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8D0A0C433C8;
-	Fri, 10 Nov 2023 16:00:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699632023;
-	bh=KH9bp3yzXKlaQ5NXA0sRIemhBh3Sql4091UMoxT916s=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=hrWgeazJip/QyHj3IANToBkohoVbxA1ciDtKf3LhQRvtDyt38CfA3wH5R0uFupsnD
-	 FNhplE5Y3FCmW3eUb9lgugqHWflCAcmARKfzlHZ90dMeUDpppXy9e21L0TVGt4vH5U
-	 Yd4BWCage3Fsgw4XCXVcO2TA9MiIk7tNN2bnEiGFnbRtTzZFzLucZZ/G8sy3o0O1uz
-	 AAnfcrYtPN4IQ2DuiGzJ9453RPhkljH7AC2zsbQulOKd4F1HlKGxapL+MuT5vL5IWZ
-	 brOxSWICNzCd3WeryL0KOat0U6+MXbKuUz0ki4qXQ6g10fgfEKOuji67MLjh8+xF9B
-	 Eejhb6RbvS8iQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 697BDE00083;
-	Fri, 10 Nov 2023 16:00:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m5bbJOCA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699632774; x=1731168774;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=2FiCiaCEIwYAaJU4ujZ1sI+d9HiqkjfYakXKQithpxA=;
+  b=m5bbJOCA1dOTdfH1nUrBcO/0ZbyBHaLknewtql4Ux07xtn8576O+KoxC
+   0bgC5tx7u4fy6eG+LbA5/luMqB8Ze4wj3djLlQn5flKkCgOS/xogmtBWM
+   03FM8uqmopFAPe95StEurA9ZtNmW4gJVU5nzYn2fjBf9CbMc9K52ECIbX
+   L4s7I896kSIL6NY6o0Kma0noxg7kvEpjldKevE/bzycGad2+A+KD3D0AL
+   L0ypcHusNbBBGTTL7wNf0XDM9sG8pYbw3aYJChT0E5DC9wIkF7whotHW0
+   ZmN0bKZpbZj9gfrCAmFYiV0OSMoC5wxpuTi3SkCXhOebKl3NmUqJSRFK/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="369533656"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="369533656"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 08:12:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="713671676"
+X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
+   d="scan'208";a="713671676"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 10 Nov 2023 08:12:51 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1U7l-0009iW-19;
+	Fri, 10 Nov 2023 16:12:49 +0000
+Date: Sat, 11 Nov 2023 00:12:04 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: vmlinux.o: warning: objtool: amd_spi_host_transfer() falls through
+ to next function amd_spi_max_transfer_size()
+Message-ID: <202311110005.jFzk03aZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 bpf-next] compiler-gcc: Suppress -Wmissing-prototypes
- warning for all supported GCC
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <169963202342.12004.15203642381829601670.git-patchwork-notify@kernel.org>
-Date: Fri, 10 Nov 2023 16:00:23 +0000
-References: <20231106031802.4188-1-laoar.shao@gmail.com>
-In-Reply-To: <20231106031802.4188-1-laoar.shao@gmail.com>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: lkp@intel.com, andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
- cgroups@vger.kernel.org, daniel@iogearbox.net, hannes@cmpxchg.org,
- haoluo@google.com, john.fastabend@gmail.com, jolsa@kernel.org,
- kpsingh@kernel.org, lizefan.x@bytedance.com, longman@redhat.com,
- martin.lau@linux.dev, mkoutny@suse.com, oe-kbuild-all@lists.linux.dev,
- oliver.sang@intel.com, sdf@google.com, sinquersw@gmail.com, song@kernel.org,
- tj@kernel.org, yonghong.song@linux.dev, yosryahmed@google.com, arnd@arndb.de,
- memxor@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello:
+CC: linux-kernel@vger.kernel.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
+CC: Mark Brown <broonie@kernel.org>
 
-This patch was applied to bpf/bpf-next.git (master)
-by Alexei Starovoitov <ast@kernel.org>:
+Hi Yang,
 
-On Mon,  6 Nov 2023 03:18:02 +0000 you wrote:
-> The kernel supports a minimum GCC version of 5.1.0 for building. However,
-> the "__diag_ignore_all" directive only suppresses the
-> "-Wmissing-prototypes" warning for GCC versions >= 8.0.0. As a result, when
-> building the kernel with older GCC versions, warnings may be triggered. The
-> example below illustrates the warnings reported by the kernel test robot
-> using GCC 7.5.0:
-> 
-> [...]
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-Here is the summary with links:
-  - [v2,bpf-next] compiler-gcc: Suppress -Wmissing-prototypes warning for all supported GCC
-    https://git.kernel.org/bpf/bpf-next/c/689b097a06ba
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   89cdf9d556016a54ff6ddd62324aa5ec790c05cc
+commit: e9759d403baaeda9ea4d61d64c3151e214561217 spi: amd: switch to use modern name
+date:   3 months ago
+config: x86_64-randconfig-011-20230912 (https://download.01.org/0day-ci/archive/20231111/202311110005.jFzk03aZ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110005.jFzk03aZ-lkp@intel.com/reproduce)
 
-You are awesome, thank you!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110005.jFzk03aZ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   vmlinux.o: warning: objtool: ibt_selftest+0xf: sibling call from callable instruction with modified stack frame
+>> vmlinux.o: warning: objtool: amd_spi_host_transfer() falls through to next function amd_spi_max_transfer_size()
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
