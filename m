@@ -1,259 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A5D62B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 00:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B87262B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 00:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KqM/j2I8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699577108;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O5T+8idnS6WiaO5uSOEZcqcU3gG2BIpvoUbMSw4APFw=;
-	b=KqM/j2I8C5kjZOCuprBIwUwB1lEWaFvHNs5JnkeHcQvSGTUah+OzyQglE++Kb3W5T/dEWC
-	sWUArZaKOBCpBV/9EZ7VoEkH+sWeoSSm/0bolpQfBNlT/mfol20dhdP+0cQ1l7PYVz8f4e
-	JMSD91YHl7DOkqkNSMikDGUtcBYz9bM=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-274-CwRADp8fM0OXNFIayoBCrA-1; Thu, 09 Nov 2023 19:45:06 -0500
-X-MC-Unique: CwRADp8fM0OXNFIayoBCrA-1
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-5b914c0b7c8so1419789a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 09 Nov 2023 16:45:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699577105; x=1700181905;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O5T+8idnS6WiaO5uSOEZcqcU3gG2BIpvoUbMSw4APFw=;
-        b=ffNMz+vXAojGORSaGBbO0O5v4RxKOG/QA9ouKb8xB4Q+t07n31766Gn1wnkLk/rdLh
-         99cyM15kPZSqHLoEN/kRcxQbVqkI5ZuPXtv50i0BpE9Bpoa/2zJ84OtgQNlO2lWIjflk
-         Xe4rkXUw6puVplR1lhBDVvoU13Cutpwnt0LdBbnyndzU/D1CQRh1wuuB5PqCjfjvJRIh
-         2TYL42w1WKuotooxDwdM9MG2rgoy49wWfokoYi5Hu+y26wTMeqYyNzxahkwrlZbfGpUu
-         BZc4j9vuNYAP5q4B6OQEg5N1mlrPi5T9NrwVd5CEGV/8Z9eGueXf67PS5nHSW4+Efpsb
-         yVSw==
-X-Gm-Message-State: AOJu0YxldfSKR56mYaJhovMI26/8cnvVSr9ZZSDVlbKFi3aXHbl5+j0x
-	olirlDsAeh9ih3sVqOhr1L8QPlc8q3s2qX0ZhFE5YAUZtTt6PRlMFNIkS6zBEUPqEOHj9meCODg
-	nQM6awUYF3cFTr8ZT6qdQSWdPjPQeyY8K6E6R
-X-Received: by 2002:a05:6a20:e11b:b0:181:219f:4a6a with SMTP id kr27-20020a056a20e11b00b00181219f4a6amr8539186pzb.49.1699577104856;
-        Thu, 09 Nov 2023 16:45:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHlISqlH4FKpBdjh552al6Q5uyYXgxKKDzEhPXefq1IvQon2P+YZXh4Ysos9oa4K6oDbkR4sA==
-X-Received: by 2002:a05:6a20:e11b:b0:181:219f:4a6a with SMTP id kr27-20020a056a20e11b00b00181219f4a6amr8539171pzb.49.1699577104460;
-        Thu, 09 Nov 2023 16:45:04 -0800 (PST)
-Received: from [10.72.112.221] ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id h15-20020aa786cf000000b006c06779e593sm11724046pfo.16.2023.11.09.16.45.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 16:45:04 -0800 (PST)
-Message-ID: <b91a9c36-3709-0449-3c89-aa733cfe67d4@redhat.com>
-Date: Fri, 10 Nov 2023 08:45:00 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXcvXBiZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699577361; x=1731113361;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zgfTN0TZEGmYLF5W0HanA1V7XSIVaeMhBLdeiribmps=;
+  b=EXcvXBiZfnBdLGAa/iZUNjeSRjC+ssR32XKCJN7859JlZvIcDtwq4huz
+   lh5BT2NQJWlxKuUp4qVPjANsI0dj2EdAXtw0G8Kx1StukC2W/jy+fd/9/
+   JV54LQU1h7rcjvVpsQ0VG0DmIup1A1iRzO9+qC5xqxsxLrCQBkIs8ejoo
+   KQ6kexhYq7sIVDYI4Kl3JyXsjBcRwIcQj83u5oUAGAxGCe8QxF/NIzK+/
+   NLWof4boPJ5/oeaMbrztUK2wWM7Hau8D1m/1mf3isCTk6t0x1uCY5D6Mk
+   MdcVNoq5hr7HuSEOUMRoduRLucJ28Z3i/BeAtQq9D9URnIEROOAFcQx9q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="380497759"
+X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
+   d="scan'208";a="380497759"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 16:49:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,290,1694761200"; 
+   d="scan'208";a="11319474"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 09 Nov 2023 16:49:20 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1Fi0-0009JC-1n;
+	Fri, 10 Nov 2023 00:49:16 +0000
+Date: Fri, 10 Nov 2023 08:48:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prasad Sodagudi <psodagud@codeaurora.org>
+Cc: oe-kbuild-all@lists.linux.dev, Yogesh Lal <quic_ylal@quicinc.com>,
+	Elliot Berman <eberman@codeaurora.org>
+Subject: [sudeep-holla:android13-5.15/ffa 1113/4062]
+ drivers/android/android_debug_symbols.c:27:6: sparse: sparse: symbol
+ 'ads_page_owner' was not declared. Should it be static?
+Message-ID: <202311100822.JBecBqtk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [ceph-client:testing 5/17] include/linux/kern_levels.h:5:25:
- warning: format '%s' expects argument of type 'char *', but argument 5 has
- type 'u32' {aka 'unsigned int'}
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-References: <202311100323.X2ldielo-lkp@intel.com>
-From: Xiubo Li <xiubli@redhat.com>
-In-Reply-To: <202311100323.X2ldielo-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for reporting this. I fixed the testing branch.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.15/ffa
+head:   c6013f50f1ae0e42d14d51a06118779ead3047ef
+commit: b2df67a932b5cbd6535de9f1a6e63004992ad014 [1113/4062] ANDROID: android: Create debug_symbols driver
+config: i386-randconfig-061-20230915 (https://download.01.org/0day-ci/archive/20231110/202311100822.JBecBqtk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100822.JBecBqtk-lkp@intel.com/reproduce)
 
-Cheers.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311100822.JBecBqtk-lkp@intel.com/
 
-- Xiubo
+sparse warnings: (new ones prefixed by >>)
+>> drivers/android/android_debug_symbols.c:27:6: sparse: sparse: symbol 'ads_page_owner' was not declared. Should it be static?
+>> drivers/android/android_debug_symbols.c:28:6: sparse: sparse: symbol 'ads_slub_debug' was not declared. Should it be static?
+>> drivers/android/android_debug_symbols.c:29:15: sparse: sparse: symbol 'ads_vmalloc_nr_pages' was not declared. Should it be static?
+>> drivers/android/android_debug_symbols.c:30:15: sparse: sparse: symbol 'ads_pcpu_nr_pages' was not declared. Should it be static?
+>> drivers/android/android_debug_symbols.c:88:9: sparse: sparse: cast removes address space '__percpu' of expression
 
-On 11/10/23 04:10, kernel test robot wrote:
-> tree:   https://github.com/ceph/ceph-client.git testing
-> head:   df68d14f678dc8f70ab1dc9cb4f1257af7b7d91b
-> commit: c67942de8d2ccb3f1a8d1b87908f679be5a9d6a3 [5/17] [DO NOT MERGE] ceph: BUG if MDS changed truncate_seq with client caps still outstanding
-> config: i386-randconfig-006-20231110 (https://download.01.org/0day-ci/archive/20231110/202311100323.X2ldielo-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100323.X2ldielo-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311100323.X2ldielo-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->           |         ^~~~~~
->     fs/ceph/inode.c:789:33: note: in expansion of macro 'pr_err_client'
->       789 |                                 pr_err_client(" truncate_seq %u -> %u\n",
->           |                                 ^~~~~~~~~~~~~
->     include/linux/kern_levels.h:5:25: warning: format '%llu' expects a matching 'long long unsigned int' argument [-Wformat=]
->         5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
->           |                         ^~~~~~
->     include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
->       427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->           |                         ^~~~
->     include/linux/printk.h:498:9: note: in expansion of macro 'printk'
->       498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->           |         ^~~~~~
->     include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
->        11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
->           |                         ^~~~~~~~
->     include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
->       498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->           |                ^~~~~~~~
->     include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
->        68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
->           |         ^~~~~~
->     fs/ceph/inode.c:789:33: note: in expansion of macro 'pr_err_client'
->       789 |                                 pr_err_client(" truncate_seq %u -> %u\n",
->           |                                 ^~~~~~~~~~~~~
->     fs/ceph/inode.c:791:72: error: expected ')' before 'isize'
->       791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
->           |                                                                        ^~~~~
->     include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
->       427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->           |                         ^~~~
->     include/linux/printk.h:498:9: note: in expansion of macro 'printk'
->       498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->           |         ^~~~~~
->     include/linux/printk.h:498:25: note: in expansion of macro 'pr_fmt'
->       498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->           |                         ^~~~~~
->     include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
->        68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
->           |         ^~~~~~
->     fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
->       791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
->           |                                 ^~~~~~~~~~~~~
->     include/linux/printk.h:427:24: note: to match this '('
->       427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->           |                        ^
->     include/linux/printk.h:455:26: note: in expansion of macro 'printk_index_wrap'
->       455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
->           |                          ^~~~~~~~~~~~~~~~~
->     include/linux/printk.h:498:9: note: in expansion of macro 'printk'
->       498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->           |         ^~~~~~
->     include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
->        68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
->           |         ^~~~~~
->     fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
->       791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
->           |                                 ^~~~~~~~~~~~~
->     include/linux/kern_levels.h:5:25: warning: format '%p' expects a matching 'void *' argument [-Wformat=]
->         5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
->           |                         ^~~~~~
->     include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
->       427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->           |                         ^~~~
->     include/linux/printk.h:498:9: note: in expansion of macro 'printk'
->       498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->           |         ^~~~~~
->     include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
->        11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
->           |                         ^~~~~~~~
->     include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
->       498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->           |                ^~~~~~~~
->     include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
->        68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
->           |         ^~~~~~
->     fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
->       791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
->           |                                 ^~~~~~~~~~~~~
->     include/linux/kern_levels.h:5:25: warning: format '%llu' expects a matching 'long long unsigned int' argument [-Wformat=]
->         5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
->           |                         ^~~~~~
->     include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
->       427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->           |                         ^~~~
->     include/linux/printk.h:498:9: note: in expansion of macro 'printk'
->       498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->           |         ^~~~~~
->     include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
->        11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
->           |                         ^~~~~~~~
->     include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
->       498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
->           |                ^~~~~~~~
->     include/linux/ceph/ceph_debug.h:68:9: note: in expansion of macro 'pr_err'
->        68 |         pr_err("[%pU %llu]: " fmt, &client->fsid,                       \
->           |         ^~~~~~
->     fs/ceph/inode.c:791:33: note: in expansion of macro 'pr_err_client'
->       791 |                                 pr_err_client("  size %lld -> %llu\n", isize, size);
->           |                                 ^~~~~~~~~~~~~
->>> include/linux/kern_levels.h:5:25: warning: format '%s' expects argument of type 'char *', but argument 5 has type 'u32' {aka 'unsigned int'} [-Wformat=]
->         5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
->           |                         ^~~~~~
->     include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
->       427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->           |                         ^~~~
->     include/linux/printk.h:129:17: note: in expansion of macro 'printk'
->       129 |                 printk(fmt, ##__VA_ARGS__);             \
->           |                 ^~~~~~
->     include/linux/printk.h:585:9: note: in expansion of macro 'no_printk'
->       585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
->           |         ^~~~~~~~~
->     include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
->        15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
->           |                         ^~~~~~~~
->     include/linux/printk.h:585:19: note: in expansion of macro 'KERN_DEBUG'
->       585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
->           |                   ^~~~~~~~~~
->     include/linux/ceph/ceph_debug.h:50:9: note: in expansion of macro 'pr_debug'
->        50 |         pr_debug(" [%pU %llu] %s: " fmt, &client->fsid,                 \
->           |         ^~~~~~~~
->     fs/ceph/inode.c:794:25: note: in expansion of macro 'doutc'
->       794 |                         doutc(cl, "%s truncate_seq %u -> %u\n",
->           |                         ^~~~~
->>> include/linux/kern_levels.h:5:25: warning: format '%u' expects a matching 'unsigned int' argument [-Wformat=]
->         5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
->           |                         ^~~~~~
->     include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
->       427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->           |                         ^~~~
->     include/linux/printk.h:129:17: note: in expansion of macro 'printk'
->       129 |                 printk(fmt, ##__VA_ARGS__);             \
->           |                 ^~~~~~
->     include/linux/printk.h:585:9: note: in expansion of macro 'no_printk'
->       585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
->           |         ^~~~~~~~~
->     include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
->        15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
->           |                         ^~~~~~~~
->     include/linux/printk.h:585:19: note: in expansion of macro 'KERN_DEBUG'
->       585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
->           |                   ^~~~~~~~~~
->     include/linux/ceph/ceph_debug.h:50:9: note: in expansion of macro 'pr_debug'
->        50 |         pr_debug(" [%pU %llu] %s: " fmt, &client->fsid,                 \
->           |         ^~~~~~~~
->     fs/ceph/inode.c:794:25: note: in expansion of macro 'doutc'
->       794 |                         doutc(cl, "%s truncate_seq %u -> %u\n",
->           |                         ^~~~~
->
->
-> vim +5 include/linux/kern_levels.h
->
-> 314ba3520e513a Joe Perches 2012-07-30  4
-> 04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-> 04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-> 04d2c8c83d0e3a Joe Perches 2012-07-30  7
->
-> :::::: The code at line 5 was first introduced by commit
-> :::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
->
-> :::::: TO: Joe Perches <joe@perches.com>
-> :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
->
+vim +/ads_page_owner +27 drivers/android/android_debug_symbols.c
 
+    26	
+  > 27	bool ads_page_owner;
+  > 28	bool ads_slub_debug;
+  > 29	unsigned long ads_vmalloc_nr_pages;
+  > 30	unsigned long ads_pcpu_nr_pages;
+    31	
+    32	#define _ADS_ENTRY(index, symbol)			\
+    33		[index] = { .name = #symbol, .addr = (void *)symbol }
+    34	#define ADS_ENTRY(index, symbol) _ADS_ENTRY(index, symbol)
+    35	
+    36	#define _ADS_PER_CPU_ENTRY(index, symbol)			\
+    37		[index] = { .name = #symbol, .addr = (void *)&symbol }
+    38	#define ADS_PER_CPU_ENTRY(index, symbol) _ADS_PER_CPU_ENTRY(index, symbol)
+    39	
+    40	/*
+    41	 * This module maintains static array of symbol and address information.
+    42	 * Add all required core kernel symbols and their addresses into ads_entries[] array,
+    43	 * so that vendor modules can query and to find address of non-exported symbol.
+    44	 */
+    45	static const struct ads_entry ads_entries[ADS_END] = {
+    46		ADS_ENTRY(ADS_SDATA, _sdata),
+    47		ADS_ENTRY(ADS_BSS_END, __bss_stop),
+    48		ADS_ENTRY(ADS_PER_CPU_START, __per_cpu_start),
+    49		ADS_ENTRY(ADS_PER_CPU_END, __per_cpu_end),
+    50		ADS_ENTRY(ADS_START_RO_AFTER_INIT, __start_ro_after_init),
+    51		ADS_ENTRY(ADS_END_RO_AFTER_INIT, __end_ro_after_init),
+    52		ADS_ENTRY(ADS_LINUX_BANNER, linux_banner),
+    53	#ifdef CONFIG_CMA
+    54		ADS_ENTRY(ADS_TOTAL_CMA, &totalcma_pages),
+    55	#endif
+    56		ADS_ENTRY(ADS_SLAB_CACHES, &slab_caches),
+    57		ADS_ENTRY(ADS_SLAB_MUTEX, &slab_mutex),
+    58		ADS_ENTRY(ADS_MIN_LOW_PFN, &min_low_pfn),
+    59		ADS_ENTRY(ADS_MAX_PFN, &max_pfn),
+    60		ADS_ENTRY(ADS_VMALLOC_NR_PAGES, &ads_vmalloc_nr_pages),
+    61		ADS_ENTRY(ADS_PCPU_NR_PAGES, &ads_pcpu_nr_pages),
+    62	#ifdef CONFIG_PAGE_OWNER
+    63		ADS_ENTRY(ADS_PAGE_OWNER_ENABLED, &ads_page_owner),
+    64	#endif
+    65	#ifdef CONFIG_SLUB_DEBUG
+    66		ADS_ENTRY(ADS_SLUB_DEBUG, &ads_slub_debug),
+    67	#endif
+    68	#ifdef CONFIG_SWAP
+    69		ADS_ENTRY(ADS_NR_SWAP_PAGES, &nr_swap_pages),
+    70	#endif
+    71	#ifdef CONFIG_MMU
+    72		ADS_ENTRY(ADS_MMAP_MIN_ADDR, &mmap_min_addr),
+    73	#endif
+    74		ADS_ENTRY(ADS_STACK_GUARD_GAP, &stack_guard_gap),
+    75	#ifdef CONFIG_SYSCTL
+    76		ADS_ENTRY(ADS_SYSCTL_LEGACY_VA_LAYOUT, &sysctl_legacy_va_layout),
+    77	#endif
+    78	};
+    79	
+    80	/*
+    81	 * ads_per_cpu_entries array contains all the per_cpu variable address information.
+    82	 */
+    83	static const struct ads_entry ads_per_cpu_entries[ADS_DEBUG_PER_CPU_END] = {
+    84	#ifdef CONFIG_ARM64
+    85		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, irq_stack_ptr),
+    86	#endif
+    87	#ifdef CONFIG_X86
+  > 88		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, hardirq_stack_ptr),
+    89	#endif
+    90	};
+    91	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
