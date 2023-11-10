@@ -1,46 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6527220B37
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 17:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFAD38DC2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 17:55:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+ljHyf9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmkBCOUA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699638316; x=1731174316;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=H596S4di8zlFtL3cZzv7D9e4KA+VjPJUEjHLcXQyKTA=;
-  b=f+ljHyf9qf3RzILIqP7Pjrokgg6wcGsEIfAtaM5ctgwzJEy7B8i8P66q
-   RtCx4K/seZHUkywIqTG9fjQpD43l6fYvIVF+hgFfloeWWUqIFfh+zFUSw
-   eEHk4dRR2+1WVhn+7f/t3QJ/9vSXh9LsbiX1B2Y3mRsOBadrkJ4IwtsqA
-   plLD9OIEqvLnYFmdbB0VFA97KEco0Sm9XTxWe9tXyOc5r/l+AqI2IBi8s
-   aED33OaQhjq39lq0Gkq+gfFjq+bBLTdphP5V+2R0iRypu3H2ypBCc+nLa
-   7ETmzQFPuM+trBFDTEAIGKOR8vWBGg0ViPqk8eOQCvWCxOBu0JVKtqy4a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="389073530"
+  t=1699638944; x=1731174944;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZF63sDUiX4AR9mM26k2dZiMwcqoex5DR9VpSPPJi2CU=;
+  b=kmkBCOUAehRWvc/OpUm91d4pMPc8sRAIKywdGyrwUNeRTBvIZB/HfJsG
+   spjiaL5XRu0YGpcgjoEr0ZStN/8Ug+w3Rpr0hBdMlpu4B34HkPsgjcyDc
+   pVaS78hZd2aPOz+ZhVEqXvLHoIut1BKSSiA0y9CizH26cAwaj1+nXCJ+J
+   dxD0ujx6gdyWP6tLTG7QVJ6STQAlWconsWAMRhMVIcNnzXMa3eat5W0Ma
+   zQX6JRT1F7wOKbkbk0lY6IvDMU7bc44/HaG8jnbPbVikTuSC5qydQCwZi
+   D5AaVMo4djLSc3DjGLcFHX2gxa431WA09SZrh2eQXbAyHcN3Ml+o+0Low
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="369547603"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="389073530"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 09:45:15 -0800
+   d="scan'208";a="369547603"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 09:55:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="881017085"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="763800178"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="881017085"
+   d="scan'208";a="763800178"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Nov 2023 09:45:14 -0800
+  by orsmga002.jf.intel.com with ESMTP; 10 Nov 2023 09:55:41 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1VZA-0009n0-1h;
-	Fri, 10 Nov 2023 17:45:12 +0000
-Date: Sat, 11 Nov 2023 01:43:10 +0800
+	id 1r1VjG-0009nO-23;
+	Fri, 10 Nov 2023 17:55:38 +0000
+Date: Sat, 11 Nov 2023 01:55:14 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_t 3163/30000] security/security.c:423:5:
- sparse: sparse: symbol 'lsm_sock_alloc' was not declared. Should it be
- static?
-Message-ID: <202311110126.j1ChqvBm-lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Subject: [drm-intel:drm-intel-gt-next 1/6]
+ drivers/gpu/drm/i915/i915_drm_client.h:81:1: warning: no return statement in
+ function returning non-void
+Message-ID: <202311110104.8TlHVxUI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,61 +53,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   247bc655e03e4ac3632b21081ca56b813a644dcf
-commit: 36f477475f6efc888df3f897192991bd5ce66d2d [3163/30000] LSM: Infrastructure management of the sock security
-config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20231111/202311110126.j1ChqvBm-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110126.j1ChqvBm-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm-intel drm-intel-gt-next
+head:   968853033d8aa4dbb80fbafa6f5d9b6a0ea21272
+commit: e4ae85e364fc652ea15d85b0f3a6da304c9b5ce7 [1/6] drm/i915: Add ability for tracking buffer objects per client
+config: x86_64-buildonly-randconfig-001-20231110 (https://download.01.org/0day-ci/archive/20231111/202311110104.8TlHVxUI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311110104.8TlHVxUI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311110126.j1ChqvBm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311110104.8TlHVxUI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   security/security.c:321:5: sparse: sparse: symbol 'lsm_file_alloc' was not declared. Should it be static?
-   security/security.c:342:5: sparse: sparse: symbol 'lsm_task_alloc' was not declared. Should it be static?
->> security/security.c:423:5: sparse: sparse: symbol 'lsm_sock_alloc' was not declared. Should it be static?
-   security/security.c:444:5: sparse: sparse: symbol 'lsm_superblock_alloc' was not declared. Should it be static?
-   security/security.c:321:5: warning: no previous prototype for 'lsm_file_alloc' [-Wmissing-prototypes]
-     321 | int lsm_file_alloc(struct file *file)
-         |     ^~~~~~~~~~~~~~
-   security/security.c:342:5: warning: no previous prototype for 'lsm_task_alloc' [-Wmissing-prototypes]
-     342 | int lsm_task_alloc(struct task_struct *task)
-         |     ^~~~~~~~~~~~~~
-   security/security.c:423:5: warning: no previous prototype for 'lsm_sock_alloc' [-Wmissing-prototypes]
-     423 | int lsm_sock_alloc(struct sock *sock, gfp_t priority)
-         |     ^~~~~~~~~~~~~~
-   security/security.c:444:5: warning: no previous prototype for 'lsm_superblock_alloc' [-Wmissing-prototypes]
-     444 | int lsm_superblock_alloc(struct super_block *sb)
-         |     ^~~~~~~~~~~~~~~~~~~~
+All warnings (new ones prefixed by >>):
 
-vim +/lsm_sock_alloc +423 security/security.c
+   In file included from drivers/gpu/drm/i915/i915_drv.h:54,
+                    from drivers/gpu/drm/i915/gt/intel_context.h:14,
+                    from drivers/gpu/drm/i915/gem/i915_gem_context.h:12,
+                    from drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:8:
+   drivers/gpu/drm/i915/i915_drm_client.h: In function 'i915_drm_client_remove_object':
+>> drivers/gpu/drm/i915/i915_drm_client.h:81:1: warning: no return statement in function returning non-void [-Wreturn-type]
+      81 | }
+         | ^
+--
+   In file included from drivers/gpu/drm/i915/selftests/../i915_drv.h:54,
+                    from drivers/gpu/drm/i915/selftests/igt_reset.c:12:
+   drivers/gpu/drm/i915/selftests/../i915_drm_client.h: In function 'i915_drm_client_remove_object':
+>> drivers/gpu/drm/i915/selftests/../i915_drm_client.h:81:1: warning: no return statement in function returning non-void [-Wreturn-type]
+      81 | }
+         | ^
 
-   413	
-   414	/**
-   415	 * lsm_sock_alloc - allocate a composite sock blob
-   416	 * @sock: the sock that needs a blob
-   417	 * @priority: allocation mode
-   418	 *
-   419	 * Allocate the sock blob for all the modules
-   420	 *
-   421	 * Returns 0, or -ENOMEM if memory can't be allocated.
-   422	 */
- > 423	int lsm_sock_alloc(struct sock *sock, gfp_t priority)
-   424	{
-   425		if (blob_sizes.lbs_sock == 0) {
-   426			sock->sk_security = NULL;
-   427			return 0;
-   428		}
-   429	
-   430		sock->sk_security = kzalloc(blob_sizes.lbs_sock, priority);
-   431		if (sock->sk_security == NULL)
-   432			return -ENOMEM;
-   433		return 0;
-   434	}
-   435	
+
+vim +81 drivers/gpu/drm/i915/i915_drm_client.h
+
+    78	
+    79	static inline bool i915_drm_client_remove_object(struct drm_i915_gem_object *obj)
+    80	{
+  > 81	}
+    82	#endif
+    83	
 
 -- 
 0-DAY CI Kernel Test Service
