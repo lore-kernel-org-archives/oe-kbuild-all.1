@@ -1,122 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B1A10965
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 06:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4775D1C2E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 06:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LwYf1tPj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699598033; x=1731134033;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=66YBL6PfrqVg04K0JChX/7lt+q7ycdrEOKTR8Zp9r54=;
-  b=LwYf1tPjWRsEKtDoI2ttzQQsMGQBqZhXmun/BvqXxXAMNcOo9P7rXeX/
-   nib8CC2WR0NFNL/oDTvbwFF5hOdrj5PX/sb31SXG40oWF/pta3Mk3oVBY
-   S1vQZoewCOoCp4JCer2qAS8F6EsCIDZJwOEKwghStgZea7vxkU9A+i9E4
-   0OJzpTeOjFZAwye+OruSbDcXY6N5qpAP5D64uCrIj11RYk4XHm4fGOHap
-   rAcZXiD4bFQUmlSW/kOExscrx5EEQjL1wakQcC4sQLWRzfUQzNWAUXBJX
-   67qY8ZllHuqh3lZbd1YuJ3SdLoulGStyFajJTTQi1I55Vk9TTU96bMT7J
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="393014370"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="393014370"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 22:33:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="834073028"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="834073028"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Nov 2023 22:33:49 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r1L5P-0009Sm-2I;
-	Fri, 10 Nov 2023 06:33:47 +0000
-Date: Fri, 10 Nov 2023 14:33:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrea Parri <parri.andrea@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: oe-kbuild-all@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>,
-	charlie@rivosinc.com, rehn@rivosinc.com, paulmck@kernel.org,
-	Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	mmaas@google.com, hboehm@google.com, striker@us.ibm.com
-Subject: Re: [PATCH 1/2] locking: Introduce prepare_sync_core_cmd()
-Message-ID: <202311101405.3plnlyj4-lkp@intel.com>
-References: <ZU0sliwUQJyNAH1y@andrea>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="yieh30Rd";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vQJBwM/4"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 3FCF53200B06;
+	Fri, 10 Nov 2023 01:35:05 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 10 Nov 2023 01:35:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+	1699598104; x=1699684504; bh=b4ZzDDt0njYwoFJ2ZN/gcE0Je20siJqsd/U
+	27wOBtP8=; b=yieh30RdeUYv8s36J2LYyw95FKjfwwzzUE2OyJXZ/AZF2p0/Uub
+	Zffu82JE99/otcJpQYmFPAaaklJm05VkqiBA9T7AoLH8U0kRZQ7NwFmNtDlqUbW1
+	+wVMsXucgbhWOqOhtGuxUcGRzafHgZqUkc8ARde5cNZs/iHlMWc6thws39NJeK8r
+	MBlOIJqeTgWErECYLrO1Xx0hgKVmj8EOiBFjMTi/OcW+tF3ng3c4uA1ascqPXtOg
+	tZ7c/aKuG1X0bKEOUkCoXZ8mYDhtZn1XEcLd356LzzNPiVHxq2drZg+o9RKpM4hE
+	9C6nHmeae6bAJLgyOqpJXXmKbqJBzbybRRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1699598104; x=1699684504; bh=b4ZzDDt0njYwoFJ2ZN/gcE0Je20siJqsd/U
+	27wOBtP8=; b=vQJBwM/4Q+kiuhh5q5uiUBn984CL1QnaJYt/iL2VW0/ZrNgv7Dw
+	pt3ubFwjPXTzgDNLdhifo3Kl+e7YRhloFDFFBHVOgGPRfat/sKxCy4HdIn2cvyMS
+	GcANw8896OG+zqmhoVbMLFv7HLJXpZjdxEeikKeIXaP0glvJDBCZ/QqTFaJJpwg0
+	cK4w4oV89294SWZBr1HwOYHatbcbaaEofFIKgRBvBPPRv/mJfcewgFCOfDtKMfLX
+	M373LsUdUUR/hw81hlQUuMC1563FfZWLk57lva16tpHdQ49zb0+TGIhi7Jg9Oxcp
+	b2NzIk1s1DGyTuFfzSIVev3dyZk71Kyavsg==
+X-ME-Sender: <xms:F89NZZOWVmfxXzKrA54GMxWcixUCFA20aB-3rNHV7yVmxPUD9Eu7JQ>
+    <xme:F89NZb9KoFy1RHMb1tWn6hG6IlJCxUwFcwgmOfrFaNLDOF4UlUr-O950AJW9gwGXD
+    tsYBIPMD627JMrnMqc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedruddvvddgleegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpefgkeeuleegieeghfduudeltdekfeffjeeuleehleefudettddtgfevueef
+    feeigeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:F89NZYTF2_QtmymzjURWMjHCidNomPURzOfAobg3D7_6_dLQ9lNCRA>
+    <xmx:F89NZVsdm4c-2Z7K9yUctV8nf4P9Xg8U4wH5bY0ZI8uqMC_5jxBNeQ>
+    <xmx:F89NZRcGk09mmJO2SN9RRPnkw43vwqJFQBLo4KvAFMVa6QYOObXudA>
+    <xmx:GM9NZTeGNCC2WGrDNMPW-Sw0pb_IzNuhwOc4OZp1BK-ExtWnawmMWw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id CF212B60089; Fri, 10 Nov 2023 01:35:03 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1108-g3a29173c6d-fm-20231031.005-g3a29173c
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZU0sliwUQJyNAH1y@andrea>
+Message-Id: <98fe8917-9054-4a46-a777-613d8c640d36@app.fastmail.com>
+In-Reply-To: 
+ <CAADnVQLDOEPmDyipHOH0E6QSg4aJtcHcfghoAQmQtROAMd=imQ@mail.gmail.com>
+References: <202311031651.A7crZEur-lkp@intel.com>
+ <20231106031802.4188-1-laoar.shao@gmail.com>
+ <CAADnVQLDOEPmDyipHOH0E6QSg4aJtcHcfghoAQmQtROAMd=imQ@mail.gmail.com>
+Date: Fri, 10 Nov 2023 07:34:43 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>,
+ "Yafang Shao" <laoar.shao@gmail.com>
+Cc: "kernel test robot" <lkp@intel.com>,
+ "Andrii Nakryiko" <andrii@kernel.org>, "Alexei Starovoitov" <ast@kernel.org>,
+ bpf <bpf@vger.kernel.org>,
+ "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Hao Luo" <haoluo@google.com>,
+ "John Fastabend" <john.fastabend@gmail.com>, "Jiri Olsa" <jolsa@kernel.org>,
+ "KP Singh" <kpsingh@kernel.org>, "Zefan Li" <lizefan.x@bytedance.com>,
+ "Waiman Long" <longman@redhat.com>,
+ "Martin KaFai Lau" <martin.lau@linux.dev>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ oe-kbuild-all@lists.linux.dev, "kernel test robot" <oliver.sang@intel.com>,
+ "Stanislav Fomichev" <sdf@google.com>, "Kui-Feng Lee" <sinquersw@gmail.com>,
+ "Song Liu" <song@kernel.org>, "Tejun Heo" <tj@kernel.org>,
+ "Yonghong Song" <yonghong.song@linux.dev>,
+ "Yosry Ahmed" <yosryahmed@google.com>,
+ "Kumar Kartikeya Dwivedi" <memxor@gmail.com>
+Subject: Re: [PATCH v2 bpf-next] compiler-gcc: Suppress -Wmissing-prototypes warning
+ for all supported GCC
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andrea,
+On Thu, Nov 9, 2023, at 19:23, Alexei Starovoitov wrote:
+> On Sun, Nov 5, 2023 at 7:18=E2=80=AFPM Yafang Shao <laoar.shao@gmail.c=
+om> wrote:
+>> In the future, if you wish to suppress warnings that are only support=
+ed on
+>> higher GCC versions, it is advisable to explicitly use "__diag_ignore=
+" to
+>> specify the GCC version you are targeting.
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Closes: https://lore.kernel.org/oe-kbuild-all/202311031651.A7crZEur-l=
+kp@intel.com/
+>> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+>> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+>> Cc: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+>> Cc: Arnd Bergmann <arnd@arndb.de>
+>> ---
+>>  include/linux/compiler-gcc.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/include/linux/compiler-gcc.h b/include/linux/compiler-gc=
+c.h
+>> index 7af9e34..80918bd 100644
+>> --- a/include/linux/compiler-gcc.h
+>> +++ b/include/linux/compiler-gcc.h
+>> @@ -138,7 +138,7 @@
+>>  #endif
+>>
+>>  #define __diag_ignore_all(option, comment) \
+>> -       __diag_GCC(8, ignore, option)
+>> +       __diag(__diag_GCC_ignore option)
+>
+> Arnd,
+> does this look good to you?
 
-kernel test robot noticed the following build errors:
+Yes, this is good. We could do the same thing for=20
+clang already, but it doesn't make a huge difference.
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-Parri/locking-Introduce-prepare_sync_core_cmd/20231110-035816
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/ZU0sliwUQJyNAH1y%40andrea
-patch subject: [PATCH 1/2] locking: Introduce prepare_sync_core_cmd()
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20231110/202311101405.3plnlyj4-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311101405.3plnlyj4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311101405.3plnlyj4-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/sync_core.h:6,
-                    from include/linux/sched/mm.h:10,
-                    from include/linux/xarray.h:19,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:1075,
-                    from arch/riscv/kernel/asm-offsets.c:10:
-   arch/riscv/include/asm/sync_core.h: In function 'prepare_sync_core_cmd':
->> arch/riscv/include/asm/sync_core.h:20:36: error: 'mm_context_t' has no member named 'icache_stale_mask'
-      20 |         cpumask_setall(&mm->context.icache_stale_mask);
-         |                                    ^
-   make[3]: *** [scripts/Makefile.build:116: arch/riscv/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1202: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +20 arch/riscv/include/asm/sync_core.h
-
-    13	
-    14	/*
-    15	 * Ensure the next switch_mm() on every CPU issues a core serializing
-    16	 * instruction for the given @mm.
-    17	 */
-    18	static inline void prepare_sync_core_cmd(struct mm_struct *mm)
-    19	{
-  > 20		cpumask_setall(&mm->context.icache_stale_mask);
-    21	}
-    22	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Acked-by: Arnd Bergmann <arnd@arndb.de>
