@@ -1,50 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C0C1B297
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 14:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2461BDCA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 10 Nov 2023 14:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gerxeJzM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auzgHSfP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699626119; x=1731162119;
+  t=1699626493; x=1731162493;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ln6nQab9ywcVhQrTHU5Lg3Qaj627vK0Zz872TRuVk5A=;
-  b=gerxeJzMAoTrohF1+1xYKUoXaxNueeF0ov4ZR7Y4fFXJWHNp7OQyXIKO
-   rVYO1USy37z9lR6oM4uJ4tnQypOiMQBeGKVJNIWH+aYWJVZB7copKpvCc
-   8GhXRJIRxH8bbMq7xFGsIDWixeY7ZG1WAwZxzxg38CryzEuTxt8WXG9nX
-   OSjTzkswXaH/AarCo0bHVEjE78Tlo1WmyqXQz9AeOfi1aIIa5/ZjnUX57
-   agGg/mngOiVz0JNJZE6I3Zib/t+g7P3rPlHX1+UjVz5EMUqRVtdoT7/BN
-   QTrmSGQN1X+Kg/X20R0nWDfEI7zl5BqVmXc1/Qc8vRO4Z+4L184ZE5jpr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="456686922"
+  bh=v2cWD40pnESfklx3IChr4sF09jcu/aufcX8F+y8XgNo=;
+  b=auzgHSfPOhfhIkWlBnliLzZX85Uvdqj3UajtMJKdtTOpNtQXv4ZsQlrL
+   hdkBi4V7b3K9CdN7BlxiczeiRE0FGDi13R9hE9e3n1jli42CPf3S/0iXi
+   /Lg0NUw2q6FhMniSBY84xV02Msb47vOmxvhLIMx9fWhnw7ZVVOSlyz0MC
+   YYQ7po1xDMcgPzHjYBi3bZ2HfD1GLAAewvTSMIazPz2CYb31k6r/UkKmc
+   6FVyMmGIrLEHSHlni6h7bSfyRU08vCGssTkvVCWkUMYHBZnYFg2TBtNyh
+   62avKEObNTQn6TvZKgaUqTM1opG1VdP25sImoSkh7AwQKwxGTboFKwfr8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="370393010"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="456686922"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 06:21:59 -0800
+   d="scan'208";a="370393010"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 06:28:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="1095198564"
 X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="1095198564"
+   d="scan'208";a="5065666"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Nov 2023 06:21:56 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 10 Nov 2023 06:28:06 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1SOP-0009dO-21;
-	Fri, 10 Nov 2023 14:21:53 +0000
-Date: Fri, 10 Nov 2023 22:19:43 +0800
+	id 1r1SUO-0009e2-0h;
+	Fri, 10 Nov 2023 14:28:04 +0000
+Date: Fri, 10 Nov 2023 22:27:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Dae R. Jeong" <threeearcat@gmail.com>, borisp@nvidia.com,
-	john.fastabend@gmail.com, kuba@kernel.org, davem@davemloft.net,
-	edumazet@google.com, pabeni@redhat.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ywchoi@casys.kaist.ac.kr
-Subject: Re: [PATCH] tls: fix missing memory barrier in tls_init
-Message-ID: <202311102254.YAU3c8F7-lkp@intel.com>
-References: <ZU4Mk_RfzvRpwkmX@dragonet>
+To: LeoLiu-oc <LeoLiu-oc@zhaoxin.com>, herbert@gondor.apana.org.au,
+	davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, seanjc@google.com, kim.phillips@amd.com,
+	pbonzini@redhat.com, babu.moger@amd.com, jiaxi.chen@linux.intel.com,
+	jmattson@google.com, pawan.kumar.gupta@linux.intel.com,
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, CobeChen@zhaoxin.com,
+	TonyWWang@zhaoxin.com, YunShen@zhaoxin.com, Leoliu@zhaoxin.com,
+	LeoLiuoc <LeoLiu-oc@zhaoxin.com>
+Subject: Re: [PATCH] crypto: x86/sm2 -add Zhaoxin SM2 algorithm implementation
+Message-ID: <202311102217.ZDrXGyK9-lkp@intel.com>
+References: <20231109094744.545887-1-LeoLiu-oc@zhaoxin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,36 +57,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZU4Mk_RfzvRpwkmX@dragonet>
+In-Reply-To: <20231109094744.545887-1-LeoLiu-oc@zhaoxin.com>
 
-Hi Dae,
+Hi LeoLiu-oc,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6 next-20231110]
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master tip/x86/core linus/master v6.6 next-20231110]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dae-R-Jeong/tls-fix-missing-memory-barrier-in-tls_init/20231110-190047
-base:   linus/master
-patch link:    https://lore.kernel.org/r/ZU4Mk_RfzvRpwkmX%40dragonet
-patch subject: [PATCH] tls: fix missing memory barrier in tls_init
-config: csky-randconfig-002-20231110 (https://download.01.org/0day-ci/archive/20231110/202311102254.YAU3c8F7-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311102254.YAU3c8F7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/LeoLiu-oc/crypto-x86-sm2-add-Zhaoxin-SM2-algorithm-implementation/20231109-231229
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20231109094744.545887-1-LeoLiu-oc%40zhaoxin.com
+patch subject: [PATCH] crypto: x86/sm2 -add Zhaoxin SM2 algorithm implementation
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231110/202311102217.ZDrXGyK9-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311102217.ZDrXGyK9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311102254.YAU3c8F7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311102217.ZDrXGyK9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   csky-linux-ld: net/tls/tls_toe.o: in function `tls_toe_bypass':
->> tls_toe.c:(.text+0xf4): undefined reference to `tls_ctx_create'
->> csky-linux-ld: tls_toe.c:(.text+0x14c): undefined reference to `tls_ctx_create'
+   arch/x86/crypto/sm2-zhaoxin-gmi_asm.S: Assembler messages:
+>> arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:38: Error: bad register name `%r12'
+>> arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:39: Error: bad register name `%rbx'
+>> arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:41: Error: bad register name `%rsi'
+>> arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:42: Error: bad register name `%rdi'
+>> arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:43: Error: bad register name `%rdx'
+   arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:44: Error: bad register name `%rdx'
+>> arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:45: Error: bad register name `%rcx'
+   arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:46: Error: bad register name `%r12'
+   arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:53: Error: bad register name `%rcx'
+   arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:55: Error: bad register name `%rbx'
+   arch/x86/crypto/sm2-zhaoxin-gmi_asm.S:56: Error: bad register name `%r12'
+
+
+vim +38 arch/x86/crypto/sm2-zhaoxin-gmi_asm.S
+
+    26	
+    27	.text
+    28	.align 32
+    29	###############################################################################
+    30	# int zhaoxin_gmi_sm2_verify (
+    31	#         unsigned char *key, /*key*/
+    32	#         unsigned char *hash, /*hash*/
+    33	#         unsigned char *sig, /*signature*/
+    34	#         unsigned char *scratch /*8 kbytes scratch space*/
+    35	#     );
+    36	###############################################################################
+    37	SYM_FUNC_START(zhaoxin_gmi_sm2_verify)
+  > 38		push %r12
+  > 39		push %rbx
+    40	
+  > 41		mov HASH_PTR, %rax
+  > 42		mov KEY_PTR, %rbx
+  > 43		mov SIG_PTR, %r12
+    44		mov $8, %rdx
+  > 45		mov SCRATCH_PTR, %rsi
 
 -- 
 0-DAY CI Kernel Test Service
