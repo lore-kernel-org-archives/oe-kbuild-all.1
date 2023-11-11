@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72F5125D8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 10:23:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBFA10A3A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 10:25:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hc8Aqlts"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYNKzrUm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699698197; x=1731234197;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6dhJDCo2Sx7Nuc9ZuhnfAD+Xq8KlFKrWMzhR+b1b9eQ=;
-  b=Hc8AqltsmXzg6USln5+2emMA94yufpND9dtKUSovFZJZmnzDD8ckWxxc
-   UsoflBhdLQ/cPSc820fSczLn8/UK3Olapgv+85r0e6a81Pye2Fe2TeTom
-   GtVyyxTGpS433TVO7I5hN+Tw+/IzjyP8u/nEU18bcrl/tWupA2QKXKBja
-   BNz9ow0i5WHJ2Qe4nfL0ULVPFirfRMtL+iqDIYrUGK+ZZGxkQbpFpu/fb
-   mtKy/i+l7uid6hPAL44pn09mK2FHEYA6R6uDrRQixa/WA4U7VuJSuGyuL
-   D6qNAQhC/AVD6Qpslfo2XoJoO8lpPoKdlukjOG9MkSs33jQDTwQz5lkaF
+  t=1699698314; x=1731234314;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gzAW+jbbT0DzHgHZ+3l31KF6horzJFlHllPKICVMSR8=;
+  b=CYNKzrUmqlr9sLp5+RXoNmwybID6F3vwDTbKx2T9fmAhqn4nPejgiq7t
+   7hiOR5IrU+kgEx8UtE0AHQyj479kD+UO/Xe1nmJSvDorNRsqv0U+l6iJB
+   zCK7Fy2O2zxS3T2G18ZjB2O01ZEY2LYUEBAXrc79RN6uaJieh4d5E7BZ/
+   b1HHu2YS6BwzxfJYPcf1JuLoIzVnpmE/Idbx4j+jUYUqqIZoPWb3dj0za
+   F3Xn4Hd6WfIWcWspRMnVKGa6Qf3Ewwjoz7khAIhx9ydwXNh8/OwY6DxII
+   IPE+BINxUfbG7GRgZcnCjd8zlpzZceoUVWj86/THxBhRed6AVOCEqSNTD
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="390075540"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="421363446"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="390075540"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 02:23:14 -0800
+   d="scan'208";a="421363446"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 02:25:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="793029086"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="907635489"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="793029086"
+   d="scan'208";a="907635489"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 11 Nov 2023 02:23:12 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2023 02:25:12 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1l8v-000AMq-34;
-	Sat, 11 Nov 2023 10:23:09 +0000
-Date: Sat, 11 Nov 2023 18:22:54 +0800
+	id 1r1lAs-000AN6-1D;
+	Sat, 11 Nov 2023 10:25:10 +0000
+Date: Sat, 11 Nov 2023 18:25:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: arch/x86/kernel/cpu/common.c:111:43: sparse: sparse: cast truncates
- bits from constant value (fffff becomes ffff)
-Message-ID: <202311111812.GT19bClP-lkp@intel.com>
+To: John Stultz <jstultz@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6 11/20] sched: Split scheduler execution context
+Message-ID: <202311111836.bVMOgOgk-lkp@intel.com>
+References: <20231106193524.866104-12-jstultz@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,130 +50,228 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231106193524.866104-12-jstultz@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3ca112b71f35dd5d99fc4571a56b5fc6f0c15814
-commit: 38e9e81f4c81c75799b002d5811de7241b307676 x86/gdt: Use bitfields for initialization
-date:   6 years ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231111/202311111812.GT19bClP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111812.GT19bClP-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on v6.6]
+[cannot apply to tip/sched/core tip/master linus/master tip/auto-latest next-20231110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Stultz/sched-Unify-runtime-accounting-across-classes/20231107-033946
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20231106193524.866104-12-jstultz%40google.com
+patch subject: [PATCH v6 11/20] sched: Split scheduler execution context
+config: i386-randconfig-062-20231111 (https://download.01.org/0day-ci/archive/20231111/202311111836.bVMOgOgk-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111836.bVMOgOgk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311111812.GT19bClP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311111836.bVMOgOgk-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   arch/x86/kernel/cpu/common.c:446:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got char ( * )[40] @@
-   arch/x86/kernel/cpu/common.c:446:44: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   arch/x86/kernel/cpu/common.c:446:44: sparse:     got char ( * )[40]
-   arch/x86/kernel/cpu/common.c:1301:1: sparse: sparse: symbol 'irq_stack_union' redeclared with different type (different address spaces):
-   arch/x86/kernel/cpu/common.c:1301:1: sparse:    union irq_stack_union [addressable] [noderef] [toplevel] <asn:3> irq_stack_union
-   arch/x86/kernel/cpu/common.c: note: in included file (through arch/x86/include/asm/cpufeature.h, arch/x86/include/asm/thread_info.h, include/linux/thread_info.h, ...):
-   arch/x86/include/asm/processor.h:385:1: sparse: note: previously declared as:
-   arch/x86/include/asm/processor.h:385:1: sparse:    union irq_stack_union extern [addressable] [toplevel] irq_stack_union
-   arch/x86/kernel/cpu/common.c:1313:53: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char *[addressable] [noderef] [toplevel] <asn:3> irq_stack_ptr @@     got char [noderef] <asn:3> * @@
-   arch/x86/kernel/cpu/common.c:1313:53: sparse:     expected char *[addressable] [noderef] [toplevel] <asn:3> irq_stack_ptr
-   arch/x86/kernel/cpu/common.c:1313:53: sparse:     got char [noderef] <asn:3> *
-   arch/x86/kernel/cpu/common.c:1532:33: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected char *estacks @@     got char [noderef] * @@
-   arch/x86/kernel/cpu/common.c:1532:33: sparse:     expected char *estacks
-   arch/x86/kernel/cpu/common.c:1532:33: sparse:     got char [noderef] *
->> arch/x86/kernel/cpu/common.c:111:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
-   arch/x86/kernel/cpu/common.c:112:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
-   arch/x86/kernel/cpu/common.c:113:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
-   arch/x86/kernel/cpu/common.c:114:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
-   arch/x86/kernel/cpu/common.c:115:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
-   arch/x86/kernel/cpu/common.c:116:43: sparse: sparse: cast truncates bits from constant value (fffff becomes ffff)
-   arch/x86/kernel/cpu/common.c: note: in included file (through include/linux/bitops.h, include/linux/kernel.h, include/linux/list.h, ...):
-   arch/x86/include/asm/bitops.h:115:37: sparse: sparse: cast truncates bits from constant value (ffffff7f becomes 7f)
-   arch/x86/include/asm/bitops.h:115:37: sparse: sparse: cast truncates bits from constant value (ffffff7f becomes 7f)
-   In file included from arch/x86/include/asm/page_types.h:47,
-                    from arch/x86/include/asm/page.h:8,
-                    from arch/x86/include/asm/thread_info.h:11,
-                    from include/linux/thread_info.h:37,
-                    from arch/x86/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:80,
-                    from include/linux/spinlock.h:50,
-                    from include/linux/mmzone.h:7,
-                    from include/linux/bootmem.h:7,
-                    from arch/x86/kernel/cpu/common.c:1:
-   arch/x86/include/asm/page_64_types.h:22:21: warning: initialized field overwritten [-Woverride-init]
-      22 | #define DEBUG_STKSZ (PAGE_SIZE << DEBUG_STACK_ORDER)
-         |                     ^
-   arch/x86/kernel/cpu/common.c:1328:51: note: in expansion of macro 'DEBUG_STKSZ'
-    1328 |           [DEBUG_STACK - 1]                     = DEBUG_STKSZ
-         |                                                   ^~~~~~~~~~~
-   arch/x86/include/asm/page_64_types.h:22:21: note: (near initialization for 'exception_stack_sizes[2]')
-      22 | #define DEBUG_STKSZ (PAGE_SIZE << DEBUG_STACK_ORDER)
-         |                     ^
-   arch/x86/kernel/cpu/common.c:1328:51: note: in expansion of macro 'DEBUG_STKSZ'
-    1328 |           [DEBUG_STACK - 1]                     = DEBUG_STKSZ
-         |                                                   ^~~~~~~~~~~
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/rt.c:961:70: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/rt.c:961:70: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/rt.c:961:70: sparse:    struct task_struct *
+   kernel/sched/rt.c:2411:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/rt.c:2411:25: sparse:    struct task_struct *
+   kernel/sched/rt.c:2411:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/rt.c:1047:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:1047:36: sparse:     expected struct task_struct *curr
+   kernel/sched/rt.c:1047:36: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:1585:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:1585:31: sparse:     expected struct task_struct *p
+   kernel/sched/rt.c:1585:31: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:1924:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/rt.c:1924:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/rt.c:1924:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/rt.c:1605:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
+   kernel/sched/rt.c:1605:14: sparse:     expected struct task_struct *curr
+   kernel/sched/rt.c:1605:14: sparse:     got struct task_struct [noderef] __rcu *
+>> kernel/sched/rt.c:1606:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *selected @@     got struct task_struct [noderef] __rcu * @@
+   kernel/sched/rt.c:1606:18: sparse:     expected struct task_struct *selected
+   kernel/sched/rt.c:1606:18: sparse:     got struct task_struct [noderef] __rcu *
+   kernel/sched/rt.c:1667:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:1667:43: sparse:     expected struct task_struct *p
+   kernel/sched/rt.c:1667:43: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:1710:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:1710:36: sparse:     expected struct task_struct *curr
+   kernel/sched/rt.c:1710:36: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:1730:63: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:1730:63: sparse:     expected struct task_struct *tsk
+   kernel/sched/rt.c:1730:63: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:2093:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:2093:40: sparse:     expected struct task_struct *task
+   kernel/sched/rt.c:2093:40: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:2114:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/rt.c:2114:13: sparse:    struct task_struct *
+   kernel/sched/rt.c:2114:13: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/rt.c:2462:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:2462:54: sparse:     expected struct task_struct *tsk
+   kernel/sched/rt.c:2462:54: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:2464:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:2464:38: sparse:     expected struct task_struct *p
+   kernel/sched/rt.c:2464:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:2464:66: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:2464:66: sparse:     expected struct task_struct *p
+   kernel/sched/rt.c:2464:66: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/deadline.c:2301:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:2301:21: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:2301:21: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:2311:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:2311:13: sparse:    struct task_struct *
+   kernel/sched/deadline.c:2311:13: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:2419:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:2419:25: sparse:    struct task_struct *
+   kernel/sched/deadline.c:2419:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:1939:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
+   kernel/sched/deadline.c:1939:40: sparse:     expected struct sched_dl_entity const *b
+   kernel/sched/deadline.c:1939:40: sparse:     got struct sched_dl_entity [noderef] __rcu *
+   kernel/sched/deadline.c:1950:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:1950:38: sparse:     expected struct task_struct *tsk
+   kernel/sched/deadline.c:1950:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:1177:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:1177:21: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:1177:21: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:1300:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:1300:36: sparse:     expected struct task_struct *curr
+   kernel/sched/deadline.c:1300:36: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:2159:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/deadline.c:2159:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/deadline.c:2159:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/deadline.c:1823:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
+   kernel/sched/deadline.c:1823:14: sparse:     expected struct task_struct *curr
+   kernel/sched/deadline.c:1823:14: sparse:     got struct task_struct [noderef] __rcu *
+>> kernel/sched/deadline.c:1824:18: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *selected @@     got struct task_struct [noderef] __rcu * @@
+   kernel/sched/deadline.c:1824:18: sparse:     expected struct task_struct *selected
+   kernel/sched/deadline.c:1824:18: sparse:     got struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:1900:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:1900:41: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:1900:41: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:2464:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:2464:38: sparse:     expected struct task_struct *tsk
+   kernel/sched/deadline.c:2464:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:2466:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:2466:21: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:2466:21: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:2468:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
+   kernel/sched/deadline.c:2468:42: sparse:     expected struct sched_dl_entity const *b
+   kernel/sched/deadline.c:2468:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
+   kernel/sched/deadline.c:2643:29: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:2643:29: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:2643:29: sparse:    struct task_struct *
+   kernel/sched/deadline.c:2692:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/sched.h:2155:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2155:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2166:32: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2166:32: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2166:32: sparse:    struct task_struct *
+   kernel/sched/sched.h:2155:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2166:32: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2166:32: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2166:32: sparse:    struct task_struct *
+   kernel/sched/sched.h:2155:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2155:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2155:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2166:32: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2166:32: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2166:32: sparse:    struct task_struct *
 
-vim +111 arch/x86/kernel/cpu/common.c
+vim +1606 kernel/sched/rt.c
 
-0a488a53d7ca46 arch/x86/kernel/cpu/common.c  Yinghai Lu                2008-09-04  100  
-06deef892c7327 arch/x86/kernel/cpu/common.c  Brian Gerst               2009-01-21  101  DEFINE_PER_CPU_PAGE_ALIGNED(struct gdt_page, gdt_page) = { .gdt = {
-950ad7ff6ec17f arch/x86/kernel/cpu/common.c  Yinghai Lu                2008-09-04  102  #ifdef CONFIG_X86_64
-06deef892c7327 arch/x86/kernel/cpu/common.c  Brian Gerst               2009-01-21  103  	/*
-06deef892c7327 arch/x86/kernel/cpu/common.c  Brian Gerst               2009-01-21  104  	 * We need valid kernel segments for data and code in long mode too
-950ad7ff6ec17f arch/x86/kernel/cpu/common.c  Yinghai Lu                2008-09-04  105  	 * IRET will check the segment types  kkeil 2000/10/28
-950ad7ff6ec17f arch/x86/kernel/cpu/common.c  Yinghai Lu                2008-09-04  106  	 * Also sysret mandates a special GDT layout
-06deef892c7327 arch/x86/kernel/cpu/common.c  Brian Gerst               2009-01-21  107  	 *
-9766cdbcb26038 arch/x86/kernel/cpu/common.c  Jaswinder Singh Rajput    2009-03-14  108  	 * TLS descriptors are currently at a different place compared to i386.
-06deef892c7327 arch/x86/kernel/cpu/common.c  Brian Gerst               2009-01-21  109  	 * Hopefully nobody expects them at a fixed place (Wine?)
-950ad7ff6ec17f arch/x86/kernel/cpu/common.c  Yinghai Lu                2008-09-04  110  	 */
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19 @111  	[GDT_ENTRY_KERNEL32_CS]		= GDT_ENTRY_INIT(0xc09b, 0, 0xfffff),
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  112  	[GDT_ENTRY_KERNEL_CS]		= GDT_ENTRY_INIT(0xa09b, 0, 0xfffff),
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  113  	[GDT_ENTRY_KERNEL_DS]		= GDT_ENTRY_INIT(0xc093, 0, 0xfffff),
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  114  	[GDT_ENTRY_DEFAULT_USER32_CS]	= GDT_ENTRY_INIT(0xc0fb, 0, 0xfffff),
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  115  	[GDT_ENTRY_DEFAULT_USER_DS]	= GDT_ENTRY_INIT(0xc0f3, 0, 0xfffff),
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  116  	[GDT_ENTRY_DEFAULT_USER_CS]	= GDT_ENTRY_INIT(0xa0fb, 0, 0xfffff),
-950ad7ff6ec17f arch/x86/kernel/cpu/common.c  Yinghai Lu                2008-09-04  117  #else
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  118  	[GDT_ENTRY_KERNEL_CS]		= GDT_ENTRY_INIT(0xc09a, 0, 0xfffff),
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  119  	[GDT_ENTRY_KERNEL_DS]		= GDT_ENTRY_INIT(0xc092, 0, 0xfffff),
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  120  	[GDT_ENTRY_DEFAULT_USER_CS]	= GDT_ENTRY_INIT(0xc0fa, 0, 0xfffff),
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  121  	[GDT_ENTRY_DEFAULT_USER_DS]	= GDT_ENTRY_INIT(0xc0f2, 0, 0xfffff),
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  122  	/*
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  123  	 * Segments used for calling PnP BIOS have byte granularity.
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  124  	 * They code segments and data segments have fixed 64k limits,
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  125  	 * the transfer segment sizes are set at run time.
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  126  	 */
-6842ef0e85a9cc arch/x86/kernel/cpu/common.c  Glauber de Oliveira Costa 2008-01-30  127  	/* 32-bit code */
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  128  	[GDT_ENTRY_PNPBIOS_CS32]	= GDT_ENTRY_INIT(0x409a, 0, 0xffff),
-6842ef0e85a9cc arch/x86/kernel/cpu/common.c  Glauber de Oliveira Costa 2008-01-30  129  	/* 16-bit code */
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  130  	[GDT_ENTRY_PNPBIOS_CS16]	= GDT_ENTRY_INIT(0x009a, 0, 0xffff),
-6842ef0e85a9cc arch/x86/kernel/cpu/common.c  Glauber de Oliveira Costa 2008-01-30  131  	/* 16-bit data */
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  132  	[GDT_ENTRY_PNPBIOS_DS]		= GDT_ENTRY_INIT(0x0092, 0, 0xffff),
-6842ef0e85a9cc arch/x86/kernel/cpu/common.c  Glauber de Oliveira Costa 2008-01-30  133  	/* 16-bit data */
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  134  	[GDT_ENTRY_PNPBIOS_TS1]		= GDT_ENTRY_INIT(0x0092, 0, 0),
-6842ef0e85a9cc arch/x86/kernel/cpu/common.c  Glauber de Oliveira Costa 2008-01-30  135  	/* 16-bit data */
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  136  	[GDT_ENTRY_PNPBIOS_TS2]		= GDT_ENTRY_INIT(0x0092, 0, 0),
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  137  	/*
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  138  	 * The APM segments have byte granularity and their bases
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  139  	 * are set at run time.  All have 64k limits.
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  140  	 */
-6842ef0e85a9cc arch/x86/kernel/cpu/common.c  Glauber de Oliveira Costa 2008-01-30  141  	/* 32-bit code */
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  142  	[GDT_ENTRY_APMBIOS_BASE]	= GDT_ENTRY_INIT(0x409a, 0, 0xffff),
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  143  	/* 16-bit code */
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  144  	[GDT_ENTRY_APMBIOS_BASE+1]	= GDT_ENTRY_INIT(0x009a, 0, 0xffff),
-6842ef0e85a9cc arch/x86/kernel/cpu/common.c  Glauber de Oliveira Costa 2008-01-30  145  	/* data */
-72c4d853024426 arch/x86/kernel/cpu/common.c  Ingo Molnar               2009-08-03  146  	[GDT_ENTRY_APMBIOS_BASE+2]	= GDT_ENTRY_INIT(0x4092, 0, 0xffff),
-bf50467204b435 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  147  
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  148  	[GDT_ENTRY_ESPFIX_SS]		= GDT_ENTRY_INIT(0xc092, 0, 0xfffff),
-1e5de18278e686 arch/x86/kernel/cpu/common.c  Akinobu Mita              2009-07-19  149  	[GDT_ENTRY_PERCPU]		= GDT_ENTRY_INIT(0xc092, 0, 0xfffff),
-60a5317ff0f42d arch/x86/kernel/cpu/common.c  Tejun Heo                 2009-02-09  150  	GDT_STACK_CANARY_INIT
-950ad7ff6ec17f arch/x86/kernel/cpu/common.c  Yinghai Lu                2008-09-04  151  #endif
-06deef892c7327 arch/x86/kernel/cpu/common.c  Brian Gerst               2009-01-21  152  } };
-7a61d35d4b4056 arch/i386/kernel/cpu/common.c Jeremy Fitzhardinge       2007-05-02  153  EXPORT_PER_CPU_SYMBOL_GPL(gdt_page);
-ae1ee11be77f51 arch/i386/kernel/cpu/common.c Rusty Russell             2007-05-02  154  
-
-:::::: The code at line 111 was first introduced by commit
-:::::: 1e5de18278e6862f4198412b5059a03770fa816a x86: Introduce GDT_ENTRY_INIT()
-
-:::::: TO: Akinobu Mita <akinobu.mita@gmail.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+  1590	
+  1591	static int
+  1592	select_task_rq_rt(struct task_struct *p, int cpu, int flags)
+  1593	{
+  1594		struct task_struct *curr, *selected;
+  1595		struct rq *rq;
+  1596		bool test;
+  1597	
+  1598		/* For anything but wake ups, just return the task_cpu */
+  1599		if (!(flags & (WF_TTWU | WF_FORK)))
+  1600			goto out;
+  1601	
+  1602		rq = cpu_rq(cpu);
+  1603	
+  1604		rcu_read_lock();
+  1605		curr = READ_ONCE(rq->curr); /* unlocked access */
+> 1606		selected = READ_ONCE(rq_selected(rq));
+  1607	
+  1608		/*
+  1609		 * If the current task on @p's runqueue is an RT task, then
+  1610		 * try to see if we can wake this RT task up on another
+  1611		 * runqueue. Otherwise simply start this RT task
+  1612		 * on its current runqueue.
+  1613		 *
+  1614		 * We want to avoid overloading runqueues. If the woken
+  1615		 * task is a higher priority, then it will stay on this CPU
+  1616		 * and the lower prio task should be moved to another CPU.
+  1617		 * Even though this will probably make the lower prio task
+  1618		 * lose its cache, we do not want to bounce a higher task
+  1619		 * around just because it gave up its CPU, perhaps for a
+  1620		 * lock?
+  1621		 *
+  1622		 * For equal prio tasks, we just let the scheduler sort it out.
+  1623		 *
+  1624		 * Otherwise, just let it ride on the affined RQ and the
+  1625		 * post-schedule router will push the preempted task away
+  1626		 *
+  1627		 * This test is optimistic, if we get it wrong the load-balancer
+  1628		 * will have to sort it out.
+  1629		 *
+  1630		 * We take into account the capacity of the CPU to ensure it fits the
+  1631		 * requirement of the task - which is only important on heterogeneous
+  1632		 * systems like big.LITTLE.
+  1633		 */
+  1634		test = curr &&
+  1635		       unlikely(rt_task(selected)) &&
+  1636		       (curr->nr_cpus_allowed < 2 || selected->prio <= p->prio);
+  1637	
+  1638		if (test || !rt_task_fits_capacity(p, cpu)) {
+  1639			int target = find_lowest_rq(p);
+  1640	
+  1641			/*
+  1642			 * Bail out if we were forcing a migration to find a better
+  1643			 * fitting CPU but our search failed.
+  1644			 */
+  1645			if (!test && target != -1 && !rt_task_fits_capacity(p, target))
+  1646				goto out_unlock;
+  1647	
+  1648			/*
+  1649			 * Don't bother moving it if the destination CPU is
+  1650			 * not running a lower priority task.
+  1651			 */
+  1652			if (target != -1 &&
+  1653			    p->prio < cpu_rq(target)->rt.highest_prio.curr)
+  1654				cpu = target;
+  1655		}
+  1656	
+  1657	out_unlock:
+  1658		rcu_read_unlock();
+  1659	
+  1660	out:
+  1661		return cpu;
+  1662	}
+  1663	
 
 -- 
 0-DAY CI Kernel Test Service
