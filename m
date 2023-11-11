@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5263214F61
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 13:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EFF14F82
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 14:15:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HzKslNc5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FaBlxlby"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699710573; x=1731246573;
+  t=1699712134; x=1731248134;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X/s5HHx/IY/n8yN0V5cwU9/C4Xn+ZM9rVrX8E+M01QY=;
-  b=HzKslNc59FKRvZCxv32olgHFlOnCbsH/a0aD24Vf5z9gtkxcJF4J/e78
-   jzDmwRzsv7Ai0gYXxlqc+6bw+nNU4p3bK/cenScyE1BnBBu/5h4+y4dSg
-   4Va5vG8xv6uDfo0qpCaBEBg8XGMv+1K+OOWAKW4MVKii5Ozsux0Qua3B6
-   f6skSzIBU+lMAeiM4b6ck2iUafSVUiDlutZfLA1giLqVh/fAaCkMFwu+E
-   5KOvw2cHUOHpN0V7qrv2Q2l7AGLbVje/yaMhf8zdjLDae2PHh5xATIhPY
-   IHD2GUZKPFvwDozlf1zt+xWPVai1jwn6aYmy1tpYTcnpcYO4Jhs0/wQ/E
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="421372883"
+  bh=7h5VTnyqGf4nV/G0A3J3j4JuhJFlXCc0wWmU/Ia0jpE=;
+  b=FaBlxlbyyEzLK9gggSb74kkzQ56S/eizDedpEVPrbRBaV3Fq7GEUDB0N
+   TceIb9vLUzHToUEz5LIqEan0MJV4np7Hk/XnT1sd2emNCb6DgsVRUwTWx
+   B2ACqgE/wYSuUb0TRlFcdztwlnMbdn/AnGVB3f5U3DkGWRhvVSKE4wyaL
+   2ttwDtJc07cN/8OxX9zx1JNuGti4FcrXHZHICLQ20B3LxCFTybY+LxkrH
+   WQk4bwRaTG14aSsCvgVGgnRyrX00ukSbIkeVS5leClg+KNiO5IMrVpAQj
+   38PUAbqk3H2VwcWvxPBXVhmzuYrmTuufMOES3ooGqiOxEBikVy6B/0gSz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="454578497"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="421372883"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 05:49:32 -0800
+   d="scan'208";a="454578497"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 06:15:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="757415448"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="798802483"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="757415448"
+   d="scan'208";a="798802483"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 11 Nov 2023 05:49:30 -0800
+  by orsmga001.jf.intel.com with ESMTP; 11 Nov 2023 06:15:32 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1oMa-000AUE-1B;
-	Sat, 11 Nov 2023 13:49:28 +0000
-Date: Sat, 11 Nov 2023 21:49:12 +0800
+	id 1r1olm-000AV0-0p;
+	Sat, 11 Nov 2023 14:15:30 +0000
+Date: Sat, 11 Nov 2023 22:14:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Meng Wei <wei.meng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Chang Ying <ying.chang@intel.com>
-Subject: [intel-lts:4.19/android_s 2647/30000] versioncheck:
- ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-Message-ID: <202311112117.vRISArhu-lkp@intel.com>
+To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 2649/30000] versioncheck:
+ ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+Message-ID: <202311112227.d5w4alf2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,13 +52,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
 head:   b0d2cfb03adf70bb24abac09facf2edc99111de4
-commit: 123826108e51794c3922a0f8eba95e0375ffa36b [2647/30000] media: pci: add IPU driver for BXT platform
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311112117.vRISArhu-lkp@intel.com/reproduce)
+commit: 82243dcb96a6754968425b2a13d390b0c4803dab [2649/30000] media: intel-ipu4: ici driver base code; WW43 firmware f61e455.
+reproduce: (https://download.01.org/0day-ci/archive/20231111/202311112227.d5w4alf2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311112117.vRISArhu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311112227.d5w4alf2-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -87,28 +86,30 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
    ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
    ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
->> ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
->> ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
->> ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
->> ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
->> ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
->> ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
->> ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
->> ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
->> ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+>> ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+>> ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
+   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
    ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
    ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
->> ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
    ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
    ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
    ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
