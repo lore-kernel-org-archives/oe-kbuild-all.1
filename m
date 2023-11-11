@@ -1,47 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3690C14274
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 13:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451CD14A81;
+	Sat, 11 Nov 2023 13:19:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhJC70zk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PcvVrIHZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699708797; x=1731244797;
+  t=1699708799; x=1731244799;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dDjUPU6M3nwYvePknbL4Dnn95mL9UD+BJOckd+ujn+s=;
-  b=hhJC70zkJaqoq6FnkWXnARF5QTJyQr+sjGGCjyVDCk+vsw0G/eb/+2Ow
-   EziTd+dQaY4VxEpsOtobWTH+FkWZKrfo/JPl5j1f/NlLTWnoK1MELwuRD
-   LowaMr7yRxdrhaun7nD6hw4a0BRXU2sEzq5xarY8SZ1Y3+Pc/WUiWyC+D
-   lPjC4JOtjc/lmCvlE6evD3uzCFceG9XWuVxmCq4iS5qgHAc2ofnw03yPR
-   URNEqHLYicuMOCS+qEI9+rOWAa5EC8AbKnhfRWIQd/md7tm7HXM9BN24E
-   ZutUSV0llfPHZRdl0KuiecoRtblJVVOXxvBnWZug69bQ3qGGCeejEostn
+  bh=Yfgk6CCBGqckjRbY7YyOyRronAXE5qqlYifqaJYqfSM=;
+  b=PcvVrIHZs/dTKXo4LpjW5fBKG44WUuiiOQ3LV62BgRrTqpnhE/ErvVwI
+   Lbhqu9cXxe09tOc3EFDLnL/Vl8TkmrGlFxUYI2B1T2yWfMCgazH6kYbId
+   cJL5PeUPUqP48fhMzY3b/3Ujdrn69sdlCXcAFovau5xqQF2v73ktAYude
+   3nQ/gpJkrgi0kZkj0+/CA9AISa1Y9vT2umQftFOybYQK7z8S7d/2nyhuQ
+   miXnELJAQxJIteakLYmMivXwguS2gCoRa/FGLBWXyvMhs4otO7c0r+lFS
+   ibzjW15GufoTw8R0JcCW+dLSvVEKLhmXq5DDUBxpfCThLHrnKQvDtuozd
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="421371457"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="476501199"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="421371457"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 05:19:56 -0800
+   d="scan'208";a="476501199"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 05:19:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="767529257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="829861140"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="767529257"
+   d="scan'208";a="829861140"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Nov 2023 05:19:55 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 11 Nov 2023 05:19:54 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1ntx-000ATA-14;
-	Sat, 11 Nov 2023 13:19:53 +0000
-Date: Sat, 11 Nov 2023 21:19:43 +0800
+	id 1r1ntw-000AT4-2T;
+	Sat, 11 Nov 2023 13:19:52 +0000
+Date: Sat, 11 Nov 2023 21:19:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: William Qiu <william.qiu@starfivetech.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 2/4] pwm: opencores: Add PWM driver support
-Message-ID: <202311112141.UCOa6ZV5-lkp@intel.com>
-References: <20231110062039.103339-3-william.qiu@starfivetech.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_skananth@quicinc.com, quic_parass@quicinc.com,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Subject: Re: [PATCH v4] bus: mhi: host: Add tracing support
+Message-ID: <202311112133.5QrqkZ0r-lkp@intel.com>
+References: <20231111-ftrace_support-v4-1-c83602399461@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,32 +58,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231110062039.103339-3-william.qiu@starfivetech.com>
+In-Reply-To: <20231111-ftrace_support-v4-1-c83602399461@quicinc.com>
 
-Hi William,
+Hi Krishna,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on thierry-reding-pwm/for-next linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 3006adf3be79cde4d14b1800b963b82b6e5572e0]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/William-Qiu/dt-bindings-pwm-Add-OpenCores-PWM-module/20231110-142301
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231110062039.103339-3-william.qiu%40starfivetech.com
-patch subject: [PATCH v7 2/4] pwm: opencores: Add PWM driver support
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311112141.UCOa6ZV5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/bus-mhi-host-Add-tracing-support/20231111-135816
+base:   3006adf3be79cde4d14b1800b963b82b6e5572e0
+patch link:    https://lore.kernel.org/r/20231111-ftrace_support-v4-1-c83602399461%40quicinc.com
+patch subject: [PATCH v4] bus: mhi: host: Add tracing support
+config: x86_64-randconfig-123-20231111 (https://download.01.org/0day-ci/archive/20231111/202311112133.5QrqkZ0r-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311112133.5QrqkZ0r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311112141.UCOa6ZV5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311112133.5QrqkZ0r-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/bus/mhi/host/init.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, drivers/bus/mhi/host/trace.h):
+>> drivers/bus/mhi/host/./trace.h:17:1: sparse: sparse: cast to restricted __le64
+>> drivers/bus/mhi/host/./trace.h:17:1: sparse: sparse: restricted __le64 degrades to integer
+>> drivers/bus/mhi/host/./trace.h:17:1: sparse: sparse: restricted __le64 degrades to integer
+>> drivers/bus/mhi/host/./trace.h:17:1: sparse: sparse: cast to restricted __le32
+>> drivers/bus/mhi/host/./trace.h:17:1: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/bus/mhi/host/./trace.h:17:1: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/bus/mhi/host/./trace.h:17:1: sparse: sparse: cast to restricted __le32
+>> drivers/bus/mhi/host/./trace.h:17:1: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/bus/mhi/host/./trace.h:17:1: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bus/mhi/host/./trace.h:99:1: sparse: sparse: cast to restricted __le64
+   drivers/bus/mhi/host/./trace.h:99:1: sparse: sparse: restricted __le64 degrades to integer
+   drivers/bus/mhi/host/./trace.h:99:1: sparse: sparse: restricted __le64 degrades to integer
+   drivers/bus/mhi/host/./trace.h:99:1: sparse: sparse: cast to restricted __le32
+   drivers/bus/mhi/host/./trace.h:99:1: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bus/mhi/host/./trace.h:99:1: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bus/mhi/host/./trace.h:99:1: sparse: sparse: cast to restricted __le32
+   drivers/bus/mhi/host/./trace.h:99:1: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bus/mhi/host/./trace.h:99:1: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bus/mhi/host/./trace.h:123:1: sparse: sparse: cast to restricted __le64
+   drivers/bus/mhi/host/./trace.h:123:1: sparse: sparse: restricted __le64 degrades to integer
+   drivers/bus/mhi/host/./trace.h:123:1: sparse: sparse: restricted __le64 degrades to integer
+   drivers/bus/mhi/host/./trace.h:123:1: sparse: sparse: cast to restricted __le32
+   drivers/bus/mhi/host/./trace.h:123:1: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bus/mhi/host/./trace.h:123:1: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bus/mhi/host/./trace.h:123:1: sparse: sparse: cast to restricted __le32
+   drivers/bus/mhi/host/./trace.h:123:1: sparse: sparse: restricted __le32 degrades to integer
+   drivers/bus/mhi/host/./trace.h:123:1: sparse: sparse: restricted __le32 degrades to integer
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pwm/opencores,pwm-ocores.yaml
+vim +17 drivers/bus/mhi/host/./trace.h
+
+    16	
+  > 17	TRACE_EVENT(mhi_gen_tre,
+    18	
+    19		TP_PROTO(const char *name, int ch_num, u64 wp, __le64 tre_ptr,
+    20			 __le32 dword0, __le32 dword1),
+    21	
+    22		TP_ARGS(name, ch_num, wp, tre_ptr, dword0, dword1),
+    23	
+    24		TP_STRUCT__entry(
+    25			__string(name, name)
+    26			__field(int, ch_num)
+    27			__field(u64, wp)
+    28			__field(__le64, tre_ptr)
+    29			__field(__le32, dword0)
+    30			__field(__le32, dword1)
+    31		),
+    32	
+    33		TP_fast_assign(
+    34			__assign_str(name, name);
+    35			__entry->ch_num = ch_num;
+    36			__entry->wp = wp;
+    37			__entry->tre_ptr = tre_ptr;
+    38			__entry->dword0 = dword0;
+    39			__entry->dword1 = dword1;
+    40		),
+    41	
+    42		TP_printk("%s: Chan: %d WP: 0x%llx TRE: 0x%llx 0x%08x 0x%08x\n",
+    43			  __get_str(name), __entry->ch_num, __entry->wp, __entry->tre_ptr,
+    44			  __entry->dword0, __entry->dword1)
+    45	);
+    46	
 
 -- 
 0-DAY CI Kernel Test Service
