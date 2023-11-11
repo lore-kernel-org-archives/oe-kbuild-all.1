@@ -1,65 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8E81BDC6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 17:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51231C290
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 18:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/1qORrG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OI7ImoeM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699724714; x=1731260714;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JCkyLUFSiAGNSLRbnliFr9Cc7vWp3ub6eb46sIme+qs=;
-  b=h/1qORrGVJ8i+PIjH3trT/x3PE2034FbfOsjz3iCTFMA6z9mOWkzUb0+
-   9Y9g2v8iiHZ3bav3TBSbqDBuv7nahoD+q62ti2nn07z1EePAXPohstfHP
-   0hY1a3d7Up74F/3Ko6syH9mN3A3gUtvuhClEvSgSP1WhQK4w/L2vw52Ky
-   nOxaD3sCaNPALiZi+96YKONJAkgQdPAhx/7COtNW0ZjGmm69IxbNB6E8Y
-   FOrXC8jfXvYsRa+D9SLo8EIzuL9xPOPALSlHiY/75OC49NmgoeOBc1vGe
-   Dpz3E0zVrE5NqVBdCLoMrTp1vfR/FY3bRc5Rp1dREwdXykdnEgcw19cAd
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="3346743"
+  t=1699726781; x=1731262781;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=xjuFaaGsjDwCie4vVJKvAWGf/MuBfl7jtv0Vz44COsk=;
+  b=OI7ImoeMG9n9U/5shSXLH6/dDy46BBLCDPBagpImqhUXcNKHD1iPkv8h
+   YvuYyml546VPGY8PBeLgL06URFPHyu0l/+/gThH2Sf7MuxO8tWRasvKh5
+   Y64CO+pLAtBh1VOQQts8HRPCIcP3lH5CoXiZ1MUoQJBsiBXHnwP8Oq/rF
+   XtP6fba5SHu3vE2qqXzdrk76LC27BIjwXJkVfzV8ttWjZHPgtzXaIDLxq
+   kLE2mlDBAs4Cg9Q/LLk+C+Rahm/9og3hZRs++LNq+ysy4yGH9EX+2wugC
+   m2VnbVsQo8QDvRhORxuQwJwoyK6TAht6XKDVh49Elezsggja2kZqrlDxq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="389156866"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="3346743"
+   d="scan'208";a="389156866"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 09:45:13 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 10:19:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="763989254"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="763992992"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="763989254"
+   d="scan'208";a="763992992"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Nov 2023 09:45:07 -0800
+  by orsmga002.jf.intel.com with ESMTP; 11 Nov 2023 10:19:39 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1s2b-000Aee-0Z;
-	Sat, 11 Nov 2023 17:45:05 +0000
-Date: Sun, 12 Nov 2023 01:44:23 +0800
+	id 1r1sa1-000Aff-0s
+	for oe-kbuild-all@lists.linux.dev;
+	Sat, 11 Nov 2023 18:19:37 +0000
+Date: Sun, 12 Nov 2023 02:18:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	John Stultz <jstultz@google.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jeffrey Kardatzke <jkardatzke@google.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Vijayanand Jitta <quic_vjitta@quicinc.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Yong Wu <yong.wu@mediatek.com>, jianjiao.zeng@mediatek.com,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
-	linux-mediatek@lists.infradead.org,
-	Joakim Bech <joakim.bech@linaro.org>, tjmercier@google.com,
-	linux-arm-kernel@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/8] dma-buf: heaps: secure_heap: Initialize tee
- session
-Message-ID: <202311120136.o1VqalXm-lkp@intel.com>
-References: <20231111111559.8218-4-yong.wu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:4.19/android_t 14278/30000]
+ drivers/cpuidle/cpuidle.c:598:27: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202311120215.OAV90oEx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,37 +50,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231111111559.8218-4-yong.wu@mediatek.com>
 
-Hi Yong,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on robh/for-next drm-tip/drm-tip linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wu/dma-buf-heaps-Initialize-a-secure-heap/20231111-192115
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231111111559.8218-4-yong.wu%40mediatek.com
-patch subject: [PATCH v2 3/8] dma-buf: heaps: secure_heap: Initialize tee session
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231112/202311120136.o1VqalXm-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120136.o1VqalXm-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: 02f88aaaac53929e0cf4fe50f807cdea4b9e224d [14278/30000] ANDROID: GKI: Export symbols arm_cpuidle_suspend, cpuidle_dev and cpuidle_register_governor
+config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20231112/202311120215.OAV90oEx-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120215.OAV90oEx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311120136.o1VqalXm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311120215.OAV90oEx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/cpuidle/cpuidle.c:598:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct cpuidle_device * @@
+   drivers/cpuidle/cpuidle.c:598:27: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   drivers/cpuidle/cpuidle.c:598:27: sparse:     got struct cpuidle_device *
+   drivers/cpuidle/cpuidle.c:630:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct cpuidle_device * @@
+   drivers/cpuidle/cpuidle.c:630:27: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   drivers/cpuidle/cpuidle.c:630:27: sparse:     got struct cpuidle_device *
 
-   s390-linux-ld: drivers/dma-buf/heaps/secure_heap.o: in function `secure_heap_tee_session_init':
-   secure_heap.c:(.text+0x256): undefined reference to `tee_client_open_context'
->> s390-linux-ld: secure_heap.c:(.text+0x3e0): undefined reference to `tee_client_open_session'
->> s390-linux-ld: secure_heap.c:(.text+0x52a): undefined reference to `tee_client_close_context'
+vim +598 drivers/cpuidle/cpuidle.c
+
+4f86d3a8e29720 Len Brown      2007-10-03  584  
+1c192d047a0ddc Daniel Lezcano 2013-04-23  585  /**
+4c637b2175a0dc Daniel Lezcano 2013-04-23  586   * cpuidle_unregister: unregister a driver and the devices. This function
+4c637b2175a0dc Daniel Lezcano 2013-04-23  587   * can be used only if the driver has been previously registered through
+4c637b2175a0dc Daniel Lezcano 2013-04-23  588   * the cpuidle_register function.
+4c637b2175a0dc Daniel Lezcano 2013-04-23  589   *
+4c637b2175a0dc Daniel Lezcano 2013-04-23  590   * @drv: a valid pointer to a struct cpuidle_driver
+4c637b2175a0dc Daniel Lezcano 2013-04-23  591   */
+4c637b2175a0dc Daniel Lezcano 2013-04-23  592  void cpuidle_unregister(struct cpuidle_driver *drv)
+4c637b2175a0dc Daniel Lezcano 2013-04-23  593  {
+4c637b2175a0dc Daniel Lezcano 2013-04-23  594  	int cpu;
+4c637b2175a0dc Daniel Lezcano 2013-04-23  595  	struct cpuidle_device *device;
+4c637b2175a0dc Daniel Lezcano 2013-04-23  596  
+82467a5a885ddd Daniel Lezcano 2013-06-07  597  	for_each_cpu(cpu, drv->cpumask) {
+4c637b2175a0dc Daniel Lezcano 2013-04-23 @598  		device = &per_cpu(cpuidle_dev, cpu);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  599  		cpuidle_unregister_device(device);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  600  	}
+4c637b2175a0dc Daniel Lezcano 2013-04-23  601  
+4c637b2175a0dc Daniel Lezcano 2013-04-23  602  	cpuidle_unregister_driver(drv);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  603  }
+4c637b2175a0dc Daniel Lezcano 2013-04-23  604  EXPORT_SYMBOL_GPL(cpuidle_unregister);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  605  
+
+:::::: The code at line 598 was first introduced by commit
+:::::: 4c637b2175a0dc65d533494225525c6c82d73293 cpuidle: make a single register function for all
+
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
