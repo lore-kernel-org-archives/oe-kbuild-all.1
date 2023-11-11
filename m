@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C235B14014
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 14:45:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2B212B92
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 14:45:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmzkWECU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEHg2BFx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699713902; x=1731249902;
+  t=1699713910; x=1731249910;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=924pxLn8zaRaAZnO1MpooGuUFSTDMbWRCp6JzkD2mgQ=;
-  b=dmzkWECUoItqjT38v6rQiETZUoI5adO24eQuv/vuMRkIWDgsexgPC+4D
-   IAfjxaOxCJ6bATzFX3eym4HYQ7262xoLJRxP6nDIlzXJKJ78k+2gcsnsJ
-   Tkad26obK1uM5PgQV3vUBX+T5GsVdINhoPdtEttgeiJzEJL/HaMa3Ye+f
-   cdh/zvpb4+SqQCp9hq/aDmZfXa1PiUGWtVtk02bsP4wx4kYbwcN2vDA9l
-   QPdIv+eK1FKwDYV22XFAY9Ez2J2ThMqvFqVdPuefyaSMiaZJhbpxtEGsk
-   C0fOWb1iK8XHCLc3kfyG5aJD9apnwonsP0BMq7oCBVU1b/lMAGIDKItPu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="3293160"
+  bh=/Z5GBhvikeNhgd5pBavXtTRMfLTDXAG5he18S2VN6aM=;
+  b=KEHg2BFxEX+HQyZhPNU/odX1U6gNNv8ppM9OUFweWbTBqHZu7+8M1Zdn
+   dwfpfIshXfMtRJAUM1/Tl8bO3nnTEMazzoMfkCXBeEffbJ653yRAPCR8d
+   Jr3re8eM7Iw7P+TLVwUTsMVPyfmZyZE5v/NGEiSpFd9LEDZoRcF8Xyv/m
+   9p2TuVWigN9dcs4OLiBZ3kMgU7/oKtaxigWONc2H4a7LOGXcrUxj93+fO
+   xIjeN1Zhjjrjlp73yiqsCXLjHw6B5vvmiSN1zs4jWrdMeS07I6htp4hRN
+   TB6tr1VaKTYyX6oQbgXKWhkJeMJrKUo2TJztwGn7ubhu2dbb0Oju8fl4s
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369610494"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="3293160"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 06:45:01 -0800
+   d="scan'208";a="369610494"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 06:45:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="854604547"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="854604547"
+   d="scan'208";a="5282460"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Nov 2023 06:45:00 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2023 06:45:08 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1pEH-000AW9-3A;
-	Sat, 11 Nov 2023 14:44:57 +0000
-Date: Sat, 11 Nov 2023 22:43:58 +0800
+	id 1r1pEQ-000AWE-0K;
+	Sat, 11 Nov 2023 14:45:06 +0000
+Date: Sat, 11 Nov 2023 22:43:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hardik T Shah <hardik.t.shah@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_s 2784/30000] versioncheck:
- ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
-Message-ID: <202311112225.fB2CA8aV-lkp@intel.com>
+To: Vivek Gautam <vivek.gautam@codeaurora.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Jaehoon Chung <jh80.chung@samsung.com>
+Subject: drivers/phy/samsung/phy-exynos5-usbdrd.c:184: warning: Function
+ parameter or member 'phys.phy' not described in 'exynos5_usbdrd_phy'
+Message-ID: <202311112233.05ft5O4Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,112 +51,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   b0d2cfb03adf70bb24abac09facf2edc99111de4
-commit: d7a49dd5fcce1d2295e1c63f2fbe3802663e4292 [2784/30000] ASoC:Codecs: Add support for SV FPGA SoundWire PDM Codec.
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311112225.fB2CA8aV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3ca112b71f35dd5d99fc4571a56b5fc6f0c15814
+commit: 0b56e9a7e8358e59b21d8a425e463072bfae523c phy: Group vendor specific phy drivers
+date:   6 years ago
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231111/202311112233.05ft5O4Q-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311112233.05ft5O4Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311112225.fB2CA8aV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311112233.05ft5O4Q-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wrestrict -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wundef -funsigned-char -Wenum-conversion -Wno-error=return-type -Wreturn-type -Wno-error=missing-prototypes W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
-   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
-   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
-   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
-   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
->> ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
->> ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:184: warning: Function parameter or member 'phys' not described in 'exynos5_usbdrd_phy'
+>> drivers/phy/samsung/phy-exynos5-usbdrd.c:184: warning: Function parameter or member 'phys.phy' not described in 'exynos5_usbdrd_phy'
+>> drivers/phy/samsung/phy-exynos5-usbdrd.c:184: warning: Function parameter or member 'phys.index' not described in 'exynos5_usbdrd_phy'
+>> drivers/phy/samsung/phy-exynos5-usbdrd.c:184: warning: Function parameter or member 'phys.reg_pmu' not described in 'exynos5_usbdrd_phy'
+>> drivers/phy/samsung/phy-exynos5-usbdrd.c:184: warning: Function parameter or member 'phys.pmu_offset' not described in 'exynos5_usbdrd_phy'
+>> drivers/phy/samsung/phy-exynos5-usbdrd.c:184: warning: Function parameter or member 'phys.phy_cfg' not described in 'exynos5_usbdrd_phy'
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:184: warning: Function parameter or member 'vbus' not described in 'exynos5_usbdrd_phy'
+   drivers/phy/samsung/phy-exynos5-usbdrd.c:184: warning: Function parameter or member 'vbus_boost' not described in 'exynos5_usbdrd_phy'
+
+
+vim +184 drivers/phy/samsung/phy-exynos5-usbdrd.c
+
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  146  
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  147  /**
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  148   * struct exynos5_usbdrd_phy - driver data for USB 3.0 PHY
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  149   * @dev: pointer to device instance of this platform device
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  150   * @reg_phy: usb phy controller register memory base
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  151   * @clk: phy clock for register access
+9bde18c1b5d2c9 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-11-21  152   * @pipeclk: clock for pipe3 phy
+9bde18c1b5d2c9 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-11-21  153   * @utmiclk: clock for utmi+ phy
+9bde18c1b5d2c9 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-11-21  154   * @itpclk: clock for ITP generation
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  155   * @drv_data: pointer to SoC level driver data structure
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  156   * @phys[]: array for 'EXYNOS5_DRDPHYS_NUM' number of PHY
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  157   *	    instances each with its 'phy' and 'phy_cfg'.
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  158   * @extrefclk: frequency select settings when using 'separate
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  159   *	       reference clocks' for SS and HS operations
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  160   * @ref_clk: reference clock to PHY block from which PHY's
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  161   *	     operational clocks are derived
+a6867836db35d1 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-11-21  162   * vbus: VBUS regulator for phy
+a6867836db35d1 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-11-21  163   * vbus_boost: Boost regulator for VBUS present on few Exynos boards
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  164   */
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  165  struct exynos5_usbdrd_phy {
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  166  	struct device *dev;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  167  	void __iomem *reg_phy;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  168  	struct clk *clk;
+9bde18c1b5d2c9 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-11-21  169  	struct clk *pipeclk;
+9bde18c1b5d2c9 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-11-21  170  	struct clk *utmiclk;
+9bde18c1b5d2c9 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-11-21  171  	struct clk *itpclk;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  172  	const struct exynos5_usbdrd_phy_drvdata *drv_data;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  173  	struct phy_usb_instance {
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  174  		struct phy *phy;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  175  		u32 index;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  176  		struct regmap *reg_pmu;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  177  		u32 pmu_offset;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  178  		const struct exynos5_usbdrd_phy_config *phy_cfg;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  179  	} phys[EXYNOS5_DRDPHYS_NUM];
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  180  	u32 extrefclk;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  181  	struct clk *ref_clk;
+4fc8a4e65fda32 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  182  	struct regulator *vbus;
+a6867836db35d1 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-11-21  183  	struct regulator *vbus_boost;
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13 @184  };
+59025887fb08a8 drivers/phy/phy-exynos5-usbdrd.c Vivek Gautam 2014-05-13  185  
+
+:::::: The code at line 184 was first introduced by commit
+:::::: 59025887fb08a8b913605fb20f8a62eb0bb69b36 phy: Add new Exynos5 USB 3.0 PHY driver
+
+:::::: TO: Vivek Gautam <gautam.vivek@samsung.com>
+:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
