@@ -1,51 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC8B748D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 07:38:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15447496;
+	Sat, 11 Nov 2023 07:52:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EssFxnIZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvPpD1bB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699688315; x=1731224315;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C6BY88badSpVTD6TKEk2NjB+fBSGGycdZUunr9OjOA8=;
-  b=EssFxnIZUcM/TA9Gl2Bt0jworbd8rfK6uooAlxEIgR5dDhhY0sG0jPQR
-   I2FirYRdcN/OGPQykK2VJ0Z4OJIKq/HLXm3Xl0GcPp5wOJdQ26c0iSIEk
-   cHfAVX/OoULGoye+NRXj6JjdudMz8s3mRpbycraJRhzlXcmLO6j+qHUug
-   jSVbOps37DrJH+p1MlL1KJ6N/+KaP7UFz1Ybb6L3giSNxJeUQuEHz2p3K
-   TMXRj5WN2i223g2mNSa5aWrF70aqA4WAG0WyrBuPLs1k6mYeq6h17iEon
-   LkcKk2Z4pOSfGrieENBOLv3ux73aqBvXxr02BrblxRjlt2olVl95VqIKq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="454563378"
+  t=1699689176; x=1731225176;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P35mStZNxkg9uguD+AoPwvrzhuSkOSt4IKHX8z0Mqy4=;
+  b=JvPpD1bBfwJRVHP2MurUBft1eBvhMayx3jYO3r+VFbFlcKhk+E+3wnQc
+   DEoS8FseMsbwNE0+m2vEJvRFRKm4OaY/IVyIV5XtU9SqHlkYIStmsLOFV
+   FzofGQQOlNdtMKSST0Ua/HFQFp7KGPnjMYNxKsCMijReamm9GRWv8bNHi
+   /MRdkPRjtHi1Uh2krnly035m7Liq1/7iRmlEd0zJ5Fu0ZXBaDUSY/4Xb3
+   cld7PvEeb3S1KPvvxQDPa4NaTdzN1b1H5IcRmffqv65uz78ygpCzrxizD
+   QWb7oPPYA4Q1QLIa3rVbubHTcOee3dAzkrVTBiuRH/jzIwexVSNOSrThD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="454563871"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="454563378"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 23:38:32 -0800
+   d="scan'208";a="454563871"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 23:52:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="740318734"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="854557822"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="740318734"
+   d="scan'208";a="854557822"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 10 Nov 2023 23:38:30 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2023 23:52:51 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1iZY-000AIj-0e;
-	Sat, 11 Nov 2023 07:38:28 +0000
-Date: Sat, 11 Nov 2023 15:38:24 +0800
+	id 1r1inR-000AJC-2C;
+	Sat, 11 Nov 2023 07:52:49 +0000
+Date: Sat, 11 Nov 2023 15:52:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Riana Tauro <riana.tauro@intel.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>, linux-doc@vger.kernel.org
-Subject: [drm-xe:drm-xe-next 1708/1927] htmldocs: Warning:
- /sys/devices/.../hwmon/hwmon<i>/power1_max is defined 2 times:
-  ./Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:0
-  ./Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:8
-Message-ID: <202311111546.yozUaR9N-lkp@intel.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, quic_vbadigan@quicinc.com,
+	quic_ramkri@quicinc.com, quic_nitegupt@quicinc.com,
+	quic_skananth@quicinc.com, quic_parass@quicinc.com,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Subject: Re: [PATCH v4] bus: mhi: host: Add tracing support
+Message-ID: <202311111502.wEcI1Okb-lkp@intel.com>
+References: <20231111-ftrace_support-v4-1-c83602399461@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,21 +58,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231111-ftrace_support-v4-1-c83602399461@quicinc.com>
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   b3890fb4386dcef68a96888141c4cc773f6241ce
-commit: 1be1e64c654d3c9a22badb904e5b889372c0c918 [1708/1927] drm/xe/hwmon: Expose power attributes
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311111546.yozUaR9N-lkp@intel.com/reproduce)
+Hi Krishna,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3006adf3be79cde4d14b1800b963b82b6e5572e0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/bus-mhi-host-Add-tracing-support/20231111-135816
+base:   3006adf3be79cde4d14b1800b963b82b6e5572e0
+patch link:    https://lore.kernel.org/r/20231111-ftrace_support-v4-1-c83602399461%40quicinc.com
+patch subject: [PATCH v4] bus: mhi: host: Add tracing support
+config: csky-randconfig-002-20231111 (https://download.01.org/0day-ci/archive/20231111/202311111502.wEcI1Okb-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111502.wEcI1Okb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311111546.yozUaR9N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311111502.wEcI1Okb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: /sys/devices/.../hwmon/hwmon<i>/power1_max is defined 2 times:  ./Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:0  ./Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:8
->> Warning: /sys/devices/.../hwmon/hwmon<i>/power1_rated_max is defined 2 times:  ./Documentation/ABI/testing/sysfs-driver-intel-xe-hwmon:14  ./Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon:22
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/bus/mhi/host/trace.h:225,
+                    from drivers/bus/mhi/host/init.c:24:
+   drivers/bus/mhi/host/./trace.h: In function 'trace_event_raw_event_mhi_process_ctrl_ev_ring':
+>> drivers/bus/mhi/host/./trace.h:141:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     141 |                 __entry->rp = (u64)rp;
+         |                               ^
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/bus/mhi/host/./trace.h:123:1: note: in expansion of macro 'TRACE_EVENT'
+     123 | TRACE_EVENT(mhi_process_ctrl_ev_ring,
+         | ^~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:139:9: note: in expansion of macro 'TP_fast_assign'
+     139 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:103:
+   drivers/bus/mhi/host/./trace.h: In function 'perf_trace_mhi_process_ctrl_ev_ring':
+>> drivers/bus/mhi/host/./trace.h:141:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     141 |                 __entry->rp = (u64)rp;
+         |                               ^
+   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   drivers/bus/mhi/host/./trace.h:123:1: note: in expansion of macro 'TRACE_EVENT'
+     123 | TRACE_EVENT(mhi_process_ctrl_ev_ring,
+         | ^~~~~~~~~~~
+   drivers/bus/mhi/host/./trace.h:139:9: note: in expansion of macro 'TP_fast_assign'
+     139 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+
+
+vim +141 drivers/bus/mhi/host/./trace.h
+
+   124	
+   125		TP_PROTO(const char *name, struct mhi_ring_element *rp, __le64 ptr,
+   126			 __le32 dword0, __le32 dword1),
+   127	
+   128		TP_ARGS(name, rp, ptr, dword0, dword1),
+   129	
+   130		TP_STRUCT__entry(
+   131			__field(u64, rp)
+   132			__field(__le64, ptr)
+   133			__string(name, name)
+   134			__field(__le32, dword0)
+   135			__field(__le32, dword1)
+   136			__field(int, state)
+   137		),
+   138	
+   139		TP_fast_assign(
+   140			__assign_str(name, name);
+ > 141			__entry->rp = (u64)rp;
+   142			__entry->ptr = ptr;
+   143			__entry->dword0 = dword0;
+   144			__entry->dword1 = dword1;
+   145			__entry->state = MHI_TRE_GET_EV_STATE(rp);
+   146		),
+   147	
+   148		TP_printk("%s: RP:0x%llx Processing Event:0x%llx 0x%08x 0x%08x state:%s\n",
+   149			  __get_str(name), __entry->rp, __entry->ptr, __entry->dword0,
+   150			  __entry->dword1, mhi_state_str(__entry->state))
+   151	);
+   152	
 
 -- 
 0-DAY CI Kernel Test Service
