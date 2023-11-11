@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5008C18E3E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 16:18:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1E11B270
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 16:44:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d62Szd7I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IMGhSXzY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699719538; x=1731255538;
+  t=1699721098; x=1731257098;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XYWbg6fZzOxfy3S5rtUnAAJ5CE2+wVd528m2ccKIWAE=;
-  b=d62Szd7IY05f+ex9Zp+ROApRGD/D6AbB7XgHVykD/N/qggosRC9nE0VO
-   OODEkdLWZcM98OYyrWCkkuO99cqVgz4EmiJ5fvczFd9IJ7WjHLPtJlV5X
-   EM8w+hdH6B2fsuDDkHfSm/A/2xaFSQbDyI99M+kxvnnT5BiiRomBZBqmA
-   jydQLOAati0HkD+aS8myTvCJW2DO3KfLq+Gs6JgPS5DpD5SCRGfztfK43
-   +RIwMYmN9Rtj0wQTqKMEana6143t75v42hZAldaxhVrSoR62iUcq8wu/Q
-   MskHov3cloispPuiBKQRdjWGhn8PWHDjlw9j6Vl2ZZL4P/kAwMkjdv2U8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="456781841"
+  bh=2Qtiw6Ia22SvdhBRcdYGB19DGbCclQQV/GOzH4ZUZYU=;
+  b=IMGhSXzYM4LICzlAhvqhBYDW+zw5EWtA4LTt1RKwwnOnDU4Us1QC40fn
+   xridqvpzybXq5HpEZfSEhl+ijihI0Rm1iQ5zn7jsJlbLUVvLdZ4aj9qt3
+   Y5XVc2tt+icgX3al5DBK6JBKHXQGqAOUdpg4/Z4b6jysTkpnA04fA/8Zr
+   Fr8LsewrdUFnhTdhCh4NiMWcBz1XcnkjVSDbI397niHZsKqCXZbB+Rqrb
+   yOiZZuX6XpZPCGHHRjIO6SaIkKw/TRrvFNbEAtWFKjvHjm1DHSgtNx98G
+   cPQAgFzDMgoDROZ7YrLoxREvz6fEmfYxlHcSxMgoWBg93wrZRzZLiPNf3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="476511629"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="456781841"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 08:18:54 -0800
+   d="scan'208";a="476511629"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 08:44:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="907678118"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="767547743"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="907678118"
+   d="scan'208";a="767547743"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Nov 2023 08:18:52 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 11 Nov 2023 08:44:56 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1qh8-000AZq-1K;
-	Sat, 11 Nov 2023 16:18:50 +0000
-Date: Sun, 12 Nov 2023 00:17:53 +0800
+	id 1r1r6L-000AcI-3B;
+	Sat, 11 Nov 2023 16:44:53 +0000
+Date: Sun, 12 Nov 2023 00:44:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Coly Li <colyli@suse.de>
+To: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: drivers/md/bcache/super.c:108:24: sparse: sparse: cast from
- restricted __le16
-Message-ID: <202311120039.OLhMyC7g-lkp@intel.com>
+	Stafford Horne <shorne@gmail.com>
+Subject: kernel/time/tick-broadcast.c:873: warning: Function parameter or
+ member 'bc' not described in 'tick_broadcast_setup_oneshot'
+Message-ID: <202311120044.hYNk7hms-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,191 +53,105 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   3ca112b71f35dd5d99fc4571a56b5fc6f0c15814
-commit: 7c02b0055f774ed9afb6e1c7724f33bf148ffdc0 bcache: explicity type cast in bset_bkey_last()
-date:   3 years, 9 months ago
-config: i386-randconfig-062-20230914 (https://download.01.org/0day-ci/archive/20231112/202311120039.OLhMyC7g-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120039.OLhMyC7g-lkp@intel.com/reproduce)
+commit: 8e6d08e0a15e7d4d4b608b56597350d4cdd77710 openrisc: initial SMP support
+date:   6 years ago
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20231112/202311120044.hYNk7hms-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120044.hYNk7hms-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311120039.OLhMyC7g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311120044.hYNk7hms-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/md/bcache/super.c:108:24: sparse: sparse: cast from restricted __le16
-   drivers/md/bcache/super.c:108:14: sparse: sparse: restricted __le64 degrades to integer
-   drivers/md/bcache/super.c:235:21: sparse: sparse: cast from restricted __le16
-   drivers/md/bcache/super.c:235:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [usertype] csum @@     got unsigned long long @@
-   drivers/md/bcache/super.c:235:19: sparse:     expected restricted __le64 [usertype] csum
-   drivers/md/bcache/super.c:235:19: sparse:     got unsigned long long
-   drivers/md/bcache/super.c: note: in included file (through drivers/md/bcache/bcache.h):
-   include/uapi/linux/bcache.h:346:38: sparse: sparse: array of flexible structures
-   drivers/md/bcache/super.c:572:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] prio @@     got restricted __le16 [usertype] @@
-   drivers/md/bcache/super.c:572:33: sparse:     expected unsigned short [usertype] prio
-   drivers/md/bcache/super.c:572:33: sparse:     got restricted __le16 [usertype]
-   drivers/md/bcache/super.c:640:27: sparse: sparse: cast to restricted __le16
-   drivers/md/bcache/super.c:742:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] invalidated @@     got restricted __le32 [usertype] @@
-   drivers/md/bcache/super.c:742:32: sparse:     expected unsigned int [usertype] invalidated
-   drivers/md/bcache/super.c:742:32: sparse:     got restricted __le32 [usertype]
-   drivers/md/bcache/super.c:1102:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] rtime @@     got restricted __le32 [usertype] @@
-   drivers/md/bcache/super.c:1102:26: sparse:     expected unsigned int [usertype] rtime
-   drivers/md/bcache/super.c:1102:26: sparse:     got restricted __le32 [usertype]
-   drivers/md/bcache/super.c:1146:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] invalidated @@     got restricted __le32 [usertype] @@
-   drivers/md/bcache/super.c:1146:32: sparse:     expected unsigned int [usertype] invalidated
-   drivers/md/bcache/super.c:1146:32: sparse:     got restricted __le32 [usertype]
-   drivers/md/bcache/super.c:1496:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] last_reg @@     got restricted __le32 [usertype] @@
-   drivers/md/bcache/super.c:1496:36: sparse:     expected unsigned int [usertype] last_reg
-   drivers/md/bcache/super.c:1496:36: sparse:     got restricted __le32 [usertype]
-   drivers/md/bcache/super.c: note: in included file (through drivers/md/bcache/bcache.h):
-   drivers/md/bcache/bset.h:231:36: sparse: sparse: array of flexible structures
+All warnings (new ones prefixed by >>):
 
-vim +108 drivers/md/bcache/super.c
+   In file included from include/linux/workqueue.h:8,
+                    from include/linux/srcu.h:34,
+                    from include/linux/notifier.h:15,
+                    from include/linux/memory_hotplug.h:6,
+                    from include/linux/mmzone.h:779,
+                    from include/linux/gfp.h:5,
+                    from include/linux/idr.h:16,
+                    from include/linux/kernfs.h:14,
+                    from include/linux/sysfs.h:15,
+                    from include/linux/kobject.h:21,
+                    from include/linux/device.h:17,
+                    from include/linux/node.h:17,
+                    from include/linux/cpu.h:16,
+                    from kernel/time/tick-broadcast.c:14:
+   include/linux/timer.h: In function 'timer_setup':
+   include/linux/timer.h:178:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
+     178 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
+         |                              ^
+   include/linux/timer.h:143:39: note: in definition of macro '__setup_timer'
+     143 |                 (_timer)->function = (_fn);                             \
+         |                                       ^~~
+   kernel/time/tick-broadcast.c: In function 'tick_broadcast_control':
+   kernel/time/tick-broadcast.c:381:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     381 |                 tick_broadcast_forced = 1;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~^~~
+   kernel/time/tick-broadcast.c:382:9: note: here
+     382 |         case TICK_BROADCAST_ON:
+         |         ^~~~
+>> kernel/time/tick-broadcast.c:873: warning: Function parameter or member 'bc' not described in 'tick_broadcast_setup_oneshot'
 
-cafe563591446c Kent Overstreet   2013-03-23   60  
-cafe563591446c Kent Overstreet   2013-03-23   61  static const char *read_super(struct cache_sb *sb, struct block_device *bdev,
-cfa0c56db9c087 Christoph Hellwig 2020-01-24   62  			      struct cache_sb_disk **res)
-cafe563591446c Kent Overstreet   2013-03-23   63  {
-cafe563591446c Kent Overstreet   2013-03-23   64  	const char *err;
-a702a692cd7559 Christoph Hellwig 2020-01-24   65  	struct cache_sb_disk *s;
-6321bef028de43 Christoph Hellwig 2020-01-24   66  	struct page *page;
-6f10f7d1b02b1b Coly Li           2018-08-11   67  	unsigned int i;
-cafe563591446c Kent Overstreet   2013-03-23   68  
-6321bef028de43 Christoph Hellwig 2020-01-24   69  	page = read_cache_page_gfp(bdev->bd_inode->i_mapping,
-6321bef028de43 Christoph Hellwig 2020-01-24   70  				   SB_OFFSET >> PAGE_SHIFT, GFP_KERNEL);
-6321bef028de43 Christoph Hellwig 2020-01-24   71  	if (IS_ERR(page))
-cafe563591446c Kent Overstreet   2013-03-23   72  		return "IO error";
-6321bef028de43 Christoph Hellwig 2020-01-24   73  	s = page_address(page) + offset_in_page(SB_OFFSET);
-cafe563591446c Kent Overstreet   2013-03-23   74  
-cafe563591446c Kent Overstreet   2013-03-23   75  	sb->offset		= le64_to_cpu(s->offset);
-cafe563591446c Kent Overstreet   2013-03-23   76  	sb->version		= le64_to_cpu(s->version);
-cafe563591446c Kent Overstreet   2013-03-23   77  
-cafe563591446c Kent Overstreet   2013-03-23   78  	memcpy(sb->magic,	s->magic, 16);
-cafe563591446c Kent Overstreet   2013-03-23   79  	memcpy(sb->uuid,	s->uuid, 16);
-cafe563591446c Kent Overstreet   2013-03-23   80  	memcpy(sb->set_uuid,	s->set_uuid, 16);
-cafe563591446c Kent Overstreet   2013-03-23   81  	memcpy(sb->label,	s->label, SB_LABEL_SIZE);
-cafe563591446c Kent Overstreet   2013-03-23   82  
-cafe563591446c Kent Overstreet   2013-03-23   83  	sb->flags		= le64_to_cpu(s->flags);
-cafe563591446c Kent Overstreet   2013-03-23   84  	sb->seq			= le64_to_cpu(s->seq);
-cafe563591446c Kent Overstreet   2013-03-23   85  	sb->last_mount		= le32_to_cpu(s->last_mount);
-cafe563591446c Kent Overstreet   2013-03-23   86  	sb->first_bucket	= le16_to_cpu(s->first_bucket);
-cafe563591446c Kent Overstreet   2013-03-23   87  	sb->keys		= le16_to_cpu(s->keys);
-cafe563591446c Kent Overstreet   2013-03-23   88  
-cafe563591446c Kent Overstreet   2013-03-23   89  	for (i = 0; i < SB_JOURNAL_BUCKETS; i++)
-cafe563591446c Kent Overstreet   2013-03-23   90  		sb->d[i] = le64_to_cpu(s->d[i]);
-cafe563591446c Kent Overstreet   2013-03-23   91  
-cafe563591446c Kent Overstreet   2013-03-23   92  	pr_debug("read sb version %llu, flags %llu, seq %llu, journal size %u",
-cafe563591446c Kent Overstreet   2013-03-23   93  		 sb->version, sb->flags, sb->seq, sb->keys);
-cafe563591446c Kent Overstreet   2013-03-23   94  
-aaf8dbeab58657 Coly Li           2019-11-13   95  	err = "Not a bcache superblock (bad offset)";
-cafe563591446c Kent Overstreet   2013-03-23   96  	if (sb->offset != SB_SECTOR)
-cafe563591446c Kent Overstreet   2013-03-23   97  		goto err;
-cafe563591446c Kent Overstreet   2013-03-23   98  
-aaf8dbeab58657 Coly Li           2019-11-13   99  	err = "Not a bcache superblock (bad magic)";
-cafe563591446c Kent Overstreet   2013-03-23  100  	if (memcmp(sb->magic, bcache_magic, 16))
-cafe563591446c Kent Overstreet   2013-03-23  101  		goto err;
-cafe563591446c Kent Overstreet   2013-03-23  102  
-cafe563591446c Kent Overstreet   2013-03-23  103  	err = "Too many journal buckets";
-cafe563591446c Kent Overstreet   2013-03-23  104  	if (sb->keys > SB_JOURNAL_BUCKETS)
-cafe563591446c Kent Overstreet   2013-03-23  105  		goto err;
-cafe563591446c Kent Overstreet   2013-03-23  106  
-cafe563591446c Kent Overstreet   2013-03-23  107  	err = "Bad checksum";
-cafe563591446c Kent Overstreet   2013-03-23 @108  	if (s->csum != csum_set(s))
-cafe563591446c Kent Overstreet   2013-03-23  109  		goto err;
-cafe563591446c Kent Overstreet   2013-03-23  110  
-cafe563591446c Kent Overstreet   2013-03-23  111  	err = "Bad UUID";
-169ef1cf6171d3 Kent Overstreet   2013-03-28  112  	if (bch_is_zero(sb->uuid, 16))
-cafe563591446c Kent Overstreet   2013-03-23  113  		goto err;
-cafe563591446c Kent Overstreet   2013-03-23  114  
-8abb2a5dbadab9 Kent Overstreet   2013-04-23  115  	sb->block_size	= le16_to_cpu(s->block_size);
-8abb2a5dbadab9 Kent Overstreet   2013-04-23  116  
-8abb2a5dbadab9 Kent Overstreet   2013-04-23  117  	err = "Superblock block size smaller than device block size";
-8abb2a5dbadab9 Kent Overstreet   2013-04-23  118  	if (sb->block_size << 9 < bdev_logical_block_size(bdev))
-8abb2a5dbadab9 Kent Overstreet   2013-04-23  119  		goto err;
-8abb2a5dbadab9 Kent Overstreet   2013-04-23  120  
-2903381fce7100 Kent Overstreet   2013-04-11  121  	switch (sb->version) {
-2903381fce7100 Kent Overstreet   2013-04-11  122  	case BCACHE_SB_VERSION_BDEV:
-2903381fce7100 Kent Overstreet   2013-04-11  123  		sb->data_offset	= BDEV_DATA_START_DEFAULT;
-2903381fce7100 Kent Overstreet   2013-04-11  124  		break;
-2903381fce7100 Kent Overstreet   2013-04-11  125  	case BCACHE_SB_VERSION_BDEV_WITH_OFFSET:
-2903381fce7100 Kent Overstreet   2013-04-11  126  		sb->data_offset	= le64_to_cpu(s->data_offset);
-cafe563591446c Kent Overstreet   2013-03-23  127  
-2903381fce7100 Kent Overstreet   2013-04-11  128  		err = "Bad data offset";
-2903381fce7100 Kent Overstreet   2013-04-11  129  		if (sb->data_offset < BDEV_DATA_START_DEFAULT)
-cafe563591446c Kent Overstreet   2013-03-23  130  			goto err;
-cafe563591446c Kent Overstreet   2013-03-23  131  
-2903381fce7100 Kent Overstreet   2013-04-11  132  		break;
-2903381fce7100 Kent Overstreet   2013-04-11  133  	case BCACHE_SB_VERSION_CDEV:
-2903381fce7100 Kent Overstreet   2013-04-11  134  	case BCACHE_SB_VERSION_CDEV_WITH_UUID:
-2903381fce7100 Kent Overstreet   2013-04-11  135  		sb->nbuckets	= le64_to_cpu(s->nbuckets);
-2903381fce7100 Kent Overstreet   2013-04-11  136  		sb->bucket_size	= le16_to_cpu(s->bucket_size);
-2903381fce7100 Kent Overstreet   2013-04-11  137  
-2903381fce7100 Kent Overstreet   2013-04-11  138  		sb->nr_in_set	= le16_to_cpu(s->nr_in_set);
-2903381fce7100 Kent Overstreet   2013-04-11  139  		sb->nr_this_dev	= le16_to_cpu(s->nr_this_dev);
-2903381fce7100 Kent Overstreet   2013-04-11  140  
-cafe563591446c Kent Overstreet   2013-03-23  141  		err = "Too many buckets";
-cafe563591446c Kent Overstreet   2013-03-23  142  		if (sb->nbuckets > LONG_MAX)
-cafe563591446c Kent Overstreet   2013-03-23  143  			goto err;
-cafe563591446c Kent Overstreet   2013-03-23  144  
-cafe563591446c Kent Overstreet   2013-03-23  145  		err = "Not enough buckets";
-cafe563591446c Kent Overstreet   2013-03-23  146  		if (sb->nbuckets < 1 << 7)
-cafe563591446c Kent Overstreet   2013-03-23  147  			goto err;
-cafe563591446c Kent Overstreet   2013-03-23  148  
-2903381fce7100 Kent Overstreet   2013-04-11  149  		err = "Bad block/bucket size";
-2903381fce7100 Kent Overstreet   2013-04-11  150  		if (!is_power_of_2(sb->block_size) ||
-2903381fce7100 Kent Overstreet   2013-04-11  151  		    sb->block_size > PAGE_SECTORS ||
-2903381fce7100 Kent Overstreet   2013-04-11  152  		    !is_power_of_2(sb->bucket_size) ||
-2903381fce7100 Kent Overstreet   2013-04-11  153  		    sb->bucket_size < PAGE_SECTORS)
-2903381fce7100 Kent Overstreet   2013-04-11  154  			goto err;
-2903381fce7100 Kent Overstreet   2013-04-11  155  
-cafe563591446c Kent Overstreet   2013-03-23  156  		err = "Invalid superblock: device too small";
-b0d30981c05f32 Coly Li           2018-08-11  157  		if (get_capacity(bdev->bd_disk) <
-b0d30981c05f32 Coly Li           2018-08-11  158  		    sb->bucket_size * sb->nbuckets)
-cafe563591446c Kent Overstreet   2013-03-23  159  			goto err;
-cafe563591446c Kent Overstreet   2013-03-23  160  
-cafe563591446c Kent Overstreet   2013-03-23  161  		err = "Bad UUID";
-169ef1cf6171d3 Kent Overstreet   2013-03-28  162  		if (bch_is_zero(sb->set_uuid, 16))
-cafe563591446c Kent Overstreet   2013-03-23  163  			goto err;
-cafe563591446c Kent Overstreet   2013-03-23  164  
-cafe563591446c Kent Overstreet   2013-03-23  165  		err = "Bad cache device number in set";
-cafe563591446c Kent Overstreet   2013-03-23  166  		if (!sb->nr_in_set ||
-cafe563591446c Kent Overstreet   2013-03-23  167  		    sb->nr_in_set <= sb->nr_this_dev ||
-cafe563591446c Kent Overstreet   2013-03-23  168  		    sb->nr_in_set > MAX_CACHES_PER_SET)
-cafe563591446c Kent Overstreet   2013-03-23  169  			goto err;
-cafe563591446c Kent Overstreet   2013-03-23  170  
-cafe563591446c Kent Overstreet   2013-03-23  171  		err = "Journal buckets not sequential";
-cafe563591446c Kent Overstreet   2013-03-23  172  		for (i = 0; i < sb->keys; i++)
-cafe563591446c Kent Overstreet   2013-03-23  173  			if (sb->d[i] != sb->first_bucket + i)
-cafe563591446c Kent Overstreet   2013-03-23  174  				goto err;
-cafe563591446c Kent Overstreet   2013-03-23  175  
-cafe563591446c Kent Overstreet   2013-03-23  176  		err = "Too many journal buckets";
-cafe563591446c Kent Overstreet   2013-03-23  177  		if (sb->first_bucket + sb->keys > sb->nbuckets)
-cafe563591446c Kent Overstreet   2013-03-23  178  			goto err;
-cafe563591446c Kent Overstreet   2013-03-23  179  
-cafe563591446c Kent Overstreet   2013-03-23  180  		err = "Invalid superblock: first bucket comes before end of super";
-cafe563591446c Kent Overstreet   2013-03-23  181  		if (sb->first_bucket * sb->bucket_size < 16)
-cafe563591446c Kent Overstreet   2013-03-23  182  			goto err;
-2903381fce7100 Kent Overstreet   2013-04-11  183  
-2903381fce7100 Kent Overstreet   2013-04-11  184  		break;
-2903381fce7100 Kent Overstreet   2013-04-11  185  	default:
-2903381fce7100 Kent Overstreet   2013-04-11  186  		err = "Unsupported superblock version";
-2903381fce7100 Kent Overstreet   2013-04-11  187  		goto err;
-2903381fce7100 Kent Overstreet   2013-04-11  188  	}
-2903381fce7100 Kent Overstreet   2013-04-11  189  
-75cbb3f1d84042 Arnd Bergmann     2018-07-26  190  	sb->last_mount = (u32)ktime_get_real_seconds();
-cfa0c56db9c087 Christoph Hellwig 2020-01-24  191  	*res = s;
-6321bef028de43 Christoph Hellwig 2020-01-24  192  	return NULL;
-cafe563591446c Kent Overstreet   2013-03-23  193  err:
-6321bef028de43 Christoph Hellwig 2020-01-24  194  	put_page(page);
-cafe563591446c Kent Overstreet   2013-03-23  195  	return err;
-cafe563591446c Kent Overstreet   2013-03-23  196  }
-cafe563591446c Kent Overstreet   2013-03-23  197  
 
-:::::: The code at line 108 was first introduced by commit
-:::::: cafe563591446cf80bfbc2fe3bc72a2e36cf1060 bcache: A block layer cache
+vim +873 kernel/time/tick-broadcast.c
 
-:::::: TO: Kent Overstreet <koverstreet@google.com>
-:::::: CC: Kent Overstreet <koverstreet@google.com>
+7300711e8c6824 Thomas Gleixner 2008-09-06  868  
+79bf2bb335b85d Thomas Gleixner 2007-02-16  869  /**
+8dce39c231af55 Li Zefan        2007-11-05  870   * tick_broadcast_setup_oneshot - setup the broadcast device
+79bf2bb335b85d Thomas Gleixner 2007-02-16  871   */
+94114c367553f3 Stephen Boyd    2017-06-07  872  static void tick_broadcast_setup_oneshot(struct clock_event_device *bc)
+79bf2bb335b85d Thomas Gleixner 2007-02-16 @873  {
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  874  	int cpu = smp_processor_id();
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  875  
+c1a9eeb938b543 Thomas Gleixner 2016-12-15  876  	if (!bc)
+c1a9eeb938b543 Thomas Gleixner 2016-12-15  877  		return;
+c1a9eeb938b543 Thomas Gleixner 2016-12-15  878  
+9c17bcda991000 Thomas Gleixner 2008-09-03  879  	/* Set it up only once ! */
+9c17bcda991000 Thomas Gleixner 2008-09-03  880  	if (bc->event_handler != tick_handle_oneshot_broadcast) {
+472c4a9437d3c6 Viresh Kumar    2015-05-21  881  		int was_periodic = clockevent_state_periodic(bc);
+7300711e8c6824 Thomas Gleixner 2008-09-06  882  
+79bf2bb335b85d Thomas Gleixner 2007-02-16  883  		bc->event_handler = tick_handle_oneshot_broadcast;
+7300711e8c6824 Thomas Gleixner 2008-09-06  884  
+7300711e8c6824 Thomas Gleixner 2008-09-06  885  		/*
+7300711e8c6824 Thomas Gleixner 2008-09-06  886  		 * We must be careful here. There might be other CPUs
+7300711e8c6824 Thomas Gleixner 2008-09-06  887  		 * waiting for periodic broadcast. We need to set the
+7300711e8c6824 Thomas Gleixner 2008-09-06  888  		 * oneshot_mask bits for those and program the
+7300711e8c6824 Thomas Gleixner 2008-09-06  889  		 * broadcast device to fire.
+7300711e8c6824 Thomas Gleixner 2008-09-06  890  		 */
+b352bc1cbc2913 Thomas Gleixner 2013-03-05  891  		cpumask_copy(tmpmask, tick_broadcast_mask);
+b352bc1cbc2913 Thomas Gleixner 2013-03-05  892  		cpumask_clear_cpu(cpu, tmpmask);
+b352bc1cbc2913 Thomas Gleixner 2013-03-05  893  		cpumask_or(tick_broadcast_oneshot_mask,
+b352bc1cbc2913 Thomas Gleixner 2013-03-05  894  			   tick_broadcast_oneshot_mask, tmpmask);
+7300711e8c6824 Thomas Gleixner 2008-09-06  895  
+b352bc1cbc2913 Thomas Gleixner 2013-03-05  896  		if (was_periodic && !cpumask_empty(tmpmask)) {
+d7eb231c71420b Thomas Gleixner 2015-06-02  897  			clockevents_switch_state(bc, CLOCK_EVT_STATE_ONESHOT);
+b352bc1cbc2913 Thomas Gleixner 2013-03-05  898  			tick_broadcast_init_next_event(tmpmask,
+6b954823c24f04 Rusty Russell   2009-01-01  899  						       tick_next_period);
+298dbd1c5cd66f Thomas Gleixner 2015-05-05  900  			tick_broadcast_set_event(bc, cpu, tick_next_period);
+7300711e8c6824 Thomas Gleixner 2008-09-06  901  		} else
+2456e855354415 Thomas Gleixner 2016-12-25  902  			bc->next_event = KTIME_MAX;
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  903  	} else {
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  904  		/*
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  905  		 * The first cpu which switches to oneshot mode sets
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  906  		 * the bit for all other cpus which are in the general
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  907  		 * (periodic) broadcast mask. So the bit is set and
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  908  		 * would prevent the first broadcast enter after this
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  909  		 * to program the bc device.
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  910  		 */
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  911  		tick_broadcast_clear_oneshot(cpu);
+79bf2bb335b85d Thomas Gleixner 2007-02-16  912  	}
+9c17bcda991000 Thomas Gleixner 2008-09-03  913  }
+79bf2bb335b85d Thomas Gleixner 2007-02-16  914  
+
+:::::: The code at line 873 was first introduced by commit
+:::::: 79bf2bb335b85db25d27421c798595a2fa2a0e82 [PATCH] tick-management: dyntick / highres functionality
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
