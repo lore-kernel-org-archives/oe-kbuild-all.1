@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CDA6D18
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 05:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134096FA5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 05:43:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIOUWff4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZwxZJODW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699680067; x=1731216067;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6DAcsZSmlaJZUg0ggETEj1N+Moqk+gXgyuTxxW9kWc8=;
-  b=AIOUWff4id5Wk7Q+N0d/xwBhiHg+S8og0sY7Z8K+cmgoJ5awgLb5QrHz
-   txFvfrfDsBbOpYF0OOybvX6Op7hIxXfBwGCvaNKRrylYyfB0vHs8Hz24t
-   DXYfIp4K/g2kum/E8WclhHE+fMwQLGAoxVzJzWimR1OKpbbWk8tHNz7zl
-   fpLl4dZUXxCVVQ0EcDFQcEApGwOSGRG/TC2dW/g7DQPpJPSIPvI9O5eij
-   xyoZq6hEH5tew805hVEFGHg8KVWM+9ppFZEZm55Se+Nn73HFXiduWAe//
-   ShnuCIHMcYu429/5WGzZ3tG1YixMZ75LVeNqOT8Tq99VxnPyolGGxBqlD
+  t=1699681387; x=1731217387;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tYfeg1MHrdG86oOPOv7HgwebULfV04e2s4WQM+AqvMM=;
+  b=ZwxZJODW3FTDKyrwMNCgewaBoIoGJZXchEj0bpyI0sw7wNitb1NgcDki
+   b3LsX5BLRQz0Ef16IWbr15U9VbmWqxiYCmYfBHW/zpJ3TUHQ2Vx2PLNeo
+   e3xPLOKvBOOlpdZrFOd1Ywatenhu4d1Klq+pmI+n82qxqsXSs4rgIkSpn
+   ShYhoyPBEWca+Yl/O8O4WTjScgtI3JEFSOBuVJg+kdfEvrvh3+9j5/wl2
+   Tz/CT1OAXVRxddu8B8hC7X0qFafpXA4CCkVP+NyPikWlWuDD48sdluQxZ
+   jVuIhFqR581R7ha3euSP/BqqRnIYKDywZ45nKa6DqR0vBTnoIoF7YiFoF
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="421353365"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="387423120"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="421353365"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 21:21:04 -0800
+   d="scan'208";a="387423120"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 21:43:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="767467544"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="767467544"
+   d="scan'208";a="12014590"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Nov 2023 21:21:03 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Nov 2023 21:43:05 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1gQX-000AEb-1X;
-	Sat, 11 Nov 2023 05:21:01 +0000
-Date: Sat, 11 Nov 2023 13:20:50 +0800
+	id 1r1glq-000AF8-2a;
+	Sat, 11 Nov 2023 05:43:02 +0000
+Date: Sat, 11 Nov 2023 13:42:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Hruska <lhruska@suse.cz>
+To: Arnd Bergmann <arnd@arndb.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/4 v1] livedump: Add write protection management
-Message-ID: <202311111350.ddmhyoBh-lkp@intel.com>
-References: <20231110150057.15717-3-lhruska@suse.cz>
+Subject: [arnd-playground:more-default-warnings 28/47]
+ drivers/media/pci/sta2x11/sta2x11_vip.c:771: warning: Function parameter or
+ member 'data' not described in 'vip_irq'
+Message-ID: <202311111357.hfr6vZ4S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,93 +49,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231110150057.15717-3-lhruska@suse.cz>
 
-Hi Lukas,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on tip/x86/mm linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Hruska/crash-vmcore-VMCOREINFO-creation-from-non-kdump-kernel/20231111-022332
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20231110150057.15717-3-lhruska%40suse.cz
-patch subject: [RFC PATCH 2/4 v1] livedump: Add write protection management
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231111/202311111350.ddmhyoBh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111350.ddmhyoBh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git more-default-warnings
+head:   b86302da264f77971112b4be0b16eeb591026cbc
+commit: 29e3980ba2d67abd896b61de27ab04d8b99d4c2b [28/47] media: sta2x11: fix irq handler cast
+config: csky-allyesconfig (https://download.01.org/0day-ci/archive/20231111/202311111357.hfr6vZ4S-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111357.hfr6vZ4S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311111350.ddmhyoBh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311111357.hfr6vZ4S-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/x86/mm/wrprotect.c: In function 'split_large_pages':
->> arch/x86/mm/wrprotect.c:103:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     103 |         int ret;
-         |             ^~~
-   arch/x86/mm/wrprotect.c: In function 'handle_tasks':
-   arch/x86/mm/wrprotect.c:263:9: error: implicit declaration of function 'do_each_thread'; did you mean 'for_each_thread'? [-Werror=implicit-function-declaration]
-     263 |         do_each_thread(p, t) {
-         |         ^~~~~~~~~~~~~~
-         |         for_each_thread
-   arch/x86/mm/wrprotect.c:263:29: error: expected ';' before '{' token
-     263 |         do_each_thread(p, t) {
-         |                             ^~
-         |                             ;
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:29,
-                    from arch/x86/include/asm/wrprotect.h:23,
-                    from arch/x86/mm/wrprotect.c:21:
-   arch/x86/mm/wrprotect.c: In function 'protect_pte':
-   arch/x86/include/asm/pgtable.h:461:21: error: too few arguments to function 'pte_mkwrite'
-     461 | #define pte_mkwrite pte_mkwrite
-         |                     ^~~~~~~~~~~
-   arch/x86/mm/wrprotect.c:386:23: note: in expansion of macro 'pte_mkwrite'
-     386 |                 pte = pte_mkwrite(pte);
-         |                       ^~~~~~~~~~~
-   arch/x86/include/asm/pgtable.h:460:7: note: declared here
-     460 | pte_t pte_mkwrite(pte_t pte, struct vm_area_struct *vma);
-         |       ^~~~~~~~~~~
-   arch/x86/mm/wrprotect.c: In function 'wrprotect_uninit':
-   arch/x86/mm/wrprotect.c:728:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     728 |         int ret;
-         |             ^~~
-   cc1: some warnings being treated as errors
+>> drivers/media/pci/sta2x11/sta2x11_vip.c:771: warning: Function parameter or member 'data' not described in 'vip_irq'
+>> drivers/media/pci/sta2x11/sta2x11_vip.c:771: warning: Excess function parameter 'vip' description in 'vip_irq'
 
 
-vim +/ret +103 arch/x86/mm/wrprotect.c
+vim +771 drivers/media/pci/sta2x11/sta2x11_vip.c
 
-    95	
-    96	/* split_large_pages
-    97	 *
-    98	 * This function splits all large pages in straight mapping area into 4K ones.
-    99	 * Currently wrprotect supports only 4K pages, and so this is needed.
-   100	 */
-   101	static int split_large_pages(void)
-   102	{
- > 103		int ret;
-   104		struct mm_walk_ops split_large_pages_walk_ops;
-   105	
-   106		memset(&split_large_pages_walk_ops, 0, sizeof(struct mm_walk_ops));
-   107		split_large_pages_walk_ops.pud_entry = split_large_pages_walk_pud;
-   108		split_large_pages_walk_ops.pmd_entry = split_large_pages_walk_pmd;
-   109	
-   110		mmap_write_lock(&init_mm);
-   111		ret = walk_page_range_novma(&init_mm, PAGE_OFFSET, PAGE_OFFSET + DIRECT_MAP_SIZE,
-   112			&split_large_pages_walk_ops, init_mm.pgd, NULL);
-   113		mmap_write_unlock(&init_mm);
-   114	
-   115		return 0;
-   116	}
-   117	
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  756  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  757  /**
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  758   * vip_irq - interrupt routine
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  759   * @irq: Number of interrupt ( not used, correct number is assumed )
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  760   * @vip: local data structure containing all information
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  761   *
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  762   * check for both frame interrupts set ( top and bottom ).
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  763   * check FIFO overflow, but limit number of log messages after open.
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  764   * signal a complete buffer if done
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  765   *
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  766   * return value: IRQ_NONE, interrupt was not generated by VIP
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  767   *
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  768   * IRQ_HANDLED, interrupt done.
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  769   */
+29e3980ba2d67a drivers/media/pci/sta2x11/sta2x11_vip.c Arnd Bergmann 2023-11-09  770  static irqreturn_t vip_irq(int irq, void *data)
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12 @771  {
+29e3980ba2d67a drivers/media/pci/sta2x11/sta2x11_vip.c Arnd Bergmann 2023-11-09  772  	struct sta2x11_vip *vip = data;
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  773  	unsigned int status;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  774  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  775  	status = reg_read(vip, DVP_ITS);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  776  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  777  	if (!status)		/* No interrupt to handle */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  778  		return IRQ_NONE;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  779  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  780  	if (status & DVP_IT_FIFO)
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  781  		if (vip->overflow++ > 5)
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  782  			pr_info("VIP: fifo overflow\n");
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  783  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  784  	if ((status & DVP_IT_VST) && (status & DVP_IT_VSB)) {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  785  		/* this is bad, we are too slow, hope the condition is gone
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  786  		 * on the next frame */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  787  		return IRQ_HANDLED;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  788  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  789  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  790  	if (status & DVP_IT_VST)
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  791  		if ((++vip->tcount) < 2)
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  792  			return IRQ_HANDLED;
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  793  	if (status & DVP_IT_VSB) {
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  794  		vip->bcount++;
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  795  		return IRQ_HANDLED;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  796  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  797  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  798  	if (vip->active) { /* Acquisition is over on this buffer */
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  799  		/* Disable acquisition */
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  800  		reg_write(vip, DVP_CTL, reg_read(vip, DVP_CTL) & ~DVP_CTL_ENA);
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  801  		/* Remove the active buffer from the list */
+d6dd645eae76ee drivers/media/pci/sta2x11/sta2x11_vip.c Junghak Sung  2015-11-03  802  		vip->active->vb.vb2_buf.timestamp = ktime_get_ns();
+2d7007153f0c9b drivers/media/pci/sta2x11/sta2x11_vip.c Junghak Sung  2015-09-22  803  		vip->active->vb.sequence = vip->sequence++;
+2d7007153f0c9b drivers/media/pci/sta2x11/sta2x11_vip.c Junghak Sung  2015-09-22  804  		vb2_buffer_done(&vip->active->vb.vb2_buf, VB2_BUF_STATE_DONE);
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  805  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  806  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  807  	return IRQ_HANDLED;
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga 2013-02-05  808  }
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga 2012-04-12  809  
+
+:::::: The code at line 771 was first introduced by commit
+:::::: efeb98b4e2b2ce50e008affce4c493e58167144a [media] STA2X11 VIP: new V4L2 driver
+
+:::::: TO: Federico Vaga <federico.vaga@gmail.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
