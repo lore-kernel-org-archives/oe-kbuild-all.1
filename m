@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4821CAA2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 19:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72341C29E;
+	Sat, 11 Nov 2023 19:58:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jHsTeJ7J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LaR7j5ne"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699730456; x=1731266456;
+  t=1699732712; x=1731268712;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NbOIT+RDvuqSVD9FkD+kLts4kZoWLcH7vk25oq8H7bY=;
-  b=jHsTeJ7JVtAT11/8urESs/OfVwmwa8m38dV7n/pbzxli41N5Bd9VvFcn
-   CGo4ioRhn+B7P4SjZWnBU+63J+Y86uqBL8boVwa9YVKVq44iDauDNnMnC
-   Ta8g0szX2U89PTx/kQoBWzc4R6Iej9W85s4Tv4For3RSxCrwGiwvjVCZC
-   gSTsa/pnvm+22Xbi566uyx5721T5VUGxQtPgEENS1oYCQ4zrL2QuJ7LW0
-   R3oRkghbQXOh0A3u/qJZe/hMBlw/MFvEseMULu+BE4ihrbm4kXC+e7V45
-   aFuuNzVslgv3xmo1DwAJOsqpDKfELaSl4L8c9UAK9fHQOZleNingNR0Ea
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="8938692"
-X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="8938692"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 11:20:49 -0800
+  bh=bhlfVBH7ucyZ+hLw/iYm4Ici3E0r0+mYgshiVDqW64s=;
+  b=LaR7j5neif2ZIBEld3wVcYQ2lgtQ5zji0G0AM/B9y3qnfD/e4wsK9Y3A
+   Eu0db9N8tvhpJkWNKdzSm26LC2h/fhOALjiR8yMZ70bP/+aA/F68765r5
+   Airc0Z/SLsnMLuIUDyNrlTTj1p46KunFMXc34sW5+l1WJXGE4Kscs+9Or
+   9XNBdt1VCt74b7m5OdP5iOWfTgwBHMkTDS4hhQNg92E8yndiyPZFvGvKQ
+   HQAIbFGf4sws1eB26PBfEgTwTFIpAw4nJLJW6Z8pixzPPyZmWOz8b4ITr
+   KObJ2PFuiGbNCpBALYlzmEIJlWavm7FjQ7wltw52AonwuIeYEawEce2fF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="476519221"
+X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
+   d="scan'208";a="476519221"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 11:58:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="798839136"
-X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="798839136"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="764004645"
+X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
+   d="scan'208";a="764004645"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 Nov 2023 11:20:47 -0800
+  by orsmga002.jf.intel.com with ESMTP; 11 Nov 2023 11:58:29 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1tXB-000Ahl-09;
-	Sat, 11 Nov 2023 19:20:45 +0000
-Date: Sun, 12 Nov 2023 03:19:54 +0800
+	id 1r1u7f-000Aif-2P;
+	Sat, 11 Nov 2023 19:58:27 +0000
+Date: Sun, 12 Nov 2023 03:57:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@linux.ibm.com>
-Subject: fs/file.c:351:17: sparse: sparse: incompatible types in comparison
- expression (different address spaces):
-Message-ID: <202311120246.W8nrgLDN-lkp@intel.com>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Vlastimil Babka <vbabka@suse.cz>
+Subject: [vbabka:slub-percpu-caches-v3r1 7/8] lib/maple_tree.c:5524:20:
+ error: use of undeclared identifier 'MA_STATE_PREALLOC'
+Message-ID: <202311120357.5D7KnMKE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,208 +51,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3ca112b71f35dd5d99fc4571a56b5fc6f0c15814
-commit: 423a86a610cad121742ebe698ef98a3b4c87b5dd rcu: Add sparse check to rcu_assign_pointer()
-date:   4 years, 10 months ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231112/202311120246.W8nrgLDN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120246.W8nrgLDN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-caches-v3r1
+head:   d036e3771f4083517ee26582825a8d5c3e139e25
+commit: 29c4ecbf07ab9c134fe842935640a74662def98a [7/8] maple_tree: Remove MA_STATE_PREALLOC
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231112/202311120357.5D7KnMKE-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120357.5D7KnMKE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311120246.W8nrgLDN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311120357.5D7KnMKE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/file.c:335:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] <asn:4> **fd @@
-   fs/file.c:335:17: sparse:     expected struct file **old_fds
-   fs/file.c:335:17: sparse:     got struct file [noderef] <asn:4> **fd
-   fs/file.c:336:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] <asn:4> **fd @@
-   fs/file.c:336:17: sparse:     expected struct file **new_fds
-   fs/file.c:336:17: sparse:     got struct file [noderef] <asn:4> **fd
->> fs/file.c:351:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/file.c:351:17: sparse:    struct file [noderef] <asn:4> *
->> fs/file.c:351:17: sparse:    struct file *
-   fs/file.c:386:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> *[assigned] __ret @@
-   fs/file.c:386:54: sparse:     expected struct file *file
-   fs/file.c:386:54: sparse:     got struct file [noderef] <asn:4> *[assigned] __ret
-   fs/file.c:451:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] <asn:4> *fdt @@     got struct fdtable * @@
-   fs/file.c:451:28: sparse:     expected struct fdtable [noderef] <asn:4> *fdt
-   fs/file.c:451:28: sparse:     got struct fdtable *
-   fs/file.c:629:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> * @@
-   fs/file.c:629:14: sparse:     expected struct file *file
-   fs/file.c:629:14: sparse:     got struct file [noderef] <asn:4> *
-   fs/file.c:656:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> * @@
-   fs/file.c:656:14: sparse:     expected struct file *file
-   fs/file.c:656:14: sparse:     got struct file [noderef] <asn:4> *
-   fs/file.c:693:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> * @@
-   fs/file.c:693:30: sparse:     expected struct file *file
-   fs/file.c:693:30: sparse:     got struct file [noderef] <asn:4> *
-   fs/file.c:859:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] <asn:4> * @@
-   fs/file.c:859:16: sparse:     expected struct file *tofree
-   fs/file.c:859:16: sparse:     got struct file [noderef] <asn:4> *
---
-   kernel/notifier.c:27:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:27:20: sparse:     expected struct notifier_block **nl
-   kernel/notifier.c:27:20: sparse:     got struct notifier_block [noderef] <asn:4> **
-   kernel/notifier.c:29:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block [noderef] <asn:4> *next @@     got struct notifier_block * @@
-   kernel/notifier.c:29:17: sparse:     expected struct notifier_block [noderef] <asn:4> *next
-   kernel/notifier.c:29:17: sparse:     got struct notifier_block *
->> kernel/notifier.c:30:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/notifier.c:30:9: sparse:    struct notifier_block [noderef] <asn:4> *
->> kernel/notifier.c:30:9: sparse:    struct notifier_block *
-   kernel/notifier.c:42:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:42:20: sparse:     expected struct notifier_block **nl
-   kernel/notifier.c:42:20: sparse:     got struct notifier_block [noderef] <asn:4> **
-   kernel/notifier.c:44:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block [noderef] <asn:4> *next @@     got struct notifier_block * @@
-   kernel/notifier.c:44:17: sparse:     expected struct notifier_block [noderef] <asn:4> *next
-   kernel/notifier.c:44:17: sparse:     got struct notifier_block *
-   kernel/notifier.c:45:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/notifier.c:45:9: sparse:    struct notifier_block [noderef] <asn:4> *
-   kernel/notifier.c:45:9: sparse:    struct notifier_block *
-   kernel/notifier.c:54:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/notifier.c:54:25: sparse:    struct notifier_block [noderef] <asn:4> *
-   kernel/notifier.c:54:25: sparse:    struct notifier_block *
-   kernel/notifier.c:128:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:150:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:183:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:224:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:227:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:250:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:277:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:280:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:317:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:350:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:367:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:394:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:432:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:435:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:462:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:465:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
-   kernel/notifier.c:498:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
---
-   lib/rbtree.c: note: in included file:
->> include/linux/rbtree_augmented.h:153:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rbtree_augmented.h:153:25: sparse:    struct rb_node [noderef] <asn:4> *
->> include/linux/rbtree_augmented.h:153:25: sparse:    struct rb_node *
-   include/linux/rbtree_augmented.h:155:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rbtree_augmented.h:155:25: sparse:    struct rb_node [noderef] <asn:4> *
-   include/linux/rbtree_augmented.h:155:25: sparse:    struct rb_node *
-   include/linux/rbtree_augmented.h:157:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rbtree_augmented.h:157:17: sparse:    struct rb_node [noderef] <asn:4> *
-   include/linux/rbtree_augmented.h:157:17: sparse:    struct rb_node *
+All errors (new ones prefixed by >>):
 
-vim +351 fs/file.c
+>> lib/maple_tree.c:5524:20: error: use of undeclared identifier 'MA_STATE_PREALLOC'
+           mas->mas_flags |= MA_STATE_PREALLOC;
+                             ^
+   1 error generated.
 
-02afc6267f6d55 Al Viro         2008-05-08  266  
-02afc6267f6d55 Al Viro         2008-05-08  267  /*
-02afc6267f6d55 Al Viro         2008-05-08  268   * Allocate a new files structure and copy contents from the
-02afc6267f6d55 Al Viro         2008-05-08  269   * passed in files structure.
-02afc6267f6d55 Al Viro         2008-05-08  270   * errorp will be valid only when the returned files_struct is NULL.
-02afc6267f6d55 Al Viro         2008-05-08  271   */
-02afc6267f6d55 Al Viro         2008-05-08  272  struct files_struct *dup_fd(struct files_struct *oldf, int *errorp)
-02afc6267f6d55 Al Viro         2008-05-08  273  {
-02afc6267f6d55 Al Viro         2008-05-08  274  	struct files_struct *newf;
-02afc6267f6d55 Al Viro         2008-05-08  275  	struct file **old_fds, **new_fds;
-9b80a184eaadc1 Alexey Dobriyan 2016-09-02  276  	unsigned int open_files, i;
-02afc6267f6d55 Al Viro         2008-05-08  277  	struct fdtable *old_fdt, *new_fdt;
-02afc6267f6d55 Al Viro         2008-05-08  278  
-02afc6267f6d55 Al Viro         2008-05-08  279  	*errorp = -ENOMEM;
-afbec7fff4928c Al Viro         2008-05-08  280  	newf = kmem_cache_alloc(files_cachep, GFP_KERNEL);
-02afc6267f6d55 Al Viro         2008-05-08  281  	if (!newf)
-02afc6267f6d55 Al Viro         2008-05-08  282  		goto out;
-02afc6267f6d55 Al Viro         2008-05-08  283  
-afbec7fff4928c Al Viro         2008-05-08  284  	atomic_set(&newf->count, 1);
-afbec7fff4928c Al Viro         2008-05-08  285  
-afbec7fff4928c Al Viro         2008-05-08  286  	spin_lock_init(&newf->file_lock);
-8a81252b774b53 Eric Dumazet    2015-06-30  287  	newf->resize_in_progress = false;
-8a81252b774b53 Eric Dumazet    2015-06-30  288  	init_waitqueue_head(&newf->resize_wait);
-afbec7fff4928c Al Viro         2008-05-08  289  	newf->next_fd = 0;
-afbec7fff4928c Al Viro         2008-05-08  290  	new_fdt = &newf->fdtab;
-afbec7fff4928c Al Viro         2008-05-08  291  	new_fdt->max_fds = NR_OPEN_DEFAULT;
-1fd36adcd98c14 David Howells   2012-02-16  292  	new_fdt->close_on_exec = newf->close_on_exec_init;
-1fd36adcd98c14 David Howells   2012-02-16  293  	new_fdt->open_fds = newf->open_fds_init;
-f3f86e33dc3da4 Linus Torvalds  2015-10-30  294  	new_fdt->full_fds_bits = newf->full_fds_bits_init;
-afbec7fff4928c Al Viro         2008-05-08  295  	new_fdt->fd = &newf->fd_array[0];
-afbec7fff4928c Al Viro         2008-05-08  296  
-02afc6267f6d55 Al Viro         2008-05-08  297  	spin_lock(&oldf->file_lock);
-02afc6267f6d55 Al Viro         2008-05-08  298  	old_fdt = files_fdtable(oldf);
-02afc6267f6d55 Al Viro         2008-05-08  299  	open_files = count_open_files(old_fdt);
-02afc6267f6d55 Al Viro         2008-05-08  300  
-02afc6267f6d55 Al Viro         2008-05-08  301  	/*
-02afc6267f6d55 Al Viro         2008-05-08  302  	 * Check whether we need to allocate a larger fd array and fd set.
-02afc6267f6d55 Al Viro         2008-05-08  303  	 */
-adbecb128cd2cc Al Viro         2008-05-08  304  	while (unlikely(open_files > new_fdt->max_fds)) {
-02afc6267f6d55 Al Viro         2008-05-08  305  		spin_unlock(&oldf->file_lock);
-9dec3c4d306b09 Al Viro         2008-05-08  306  
-a892e2d7dcdfa6 Changli Gao     2010-08-10  307  		if (new_fdt != &newf->fdtab)
-a892e2d7dcdfa6 Changli Gao     2010-08-10  308  			__free_fdtable(new_fdt);
-adbecb128cd2cc Al Viro         2008-05-08  309  
-9dec3c4d306b09 Al Viro         2008-05-08  310  		new_fdt = alloc_fdtable(open_files - 1);
-9dec3c4d306b09 Al Viro         2008-05-08  311  		if (!new_fdt) {
-9dec3c4d306b09 Al Viro         2008-05-08  312  			*errorp = -ENOMEM;
-02afc6267f6d55 Al Viro         2008-05-08  313  			goto out_release;
-9dec3c4d306b09 Al Viro         2008-05-08  314  		}
-9dec3c4d306b09 Al Viro         2008-05-08  315  
-9dec3c4d306b09 Al Viro         2008-05-08  316  		/* beyond sysctl_nr_open; nothing to do */
-9dec3c4d306b09 Al Viro         2008-05-08  317  		if (unlikely(new_fdt->max_fds < open_files)) {
-a892e2d7dcdfa6 Changli Gao     2010-08-10  318  			__free_fdtable(new_fdt);
-9dec3c4d306b09 Al Viro         2008-05-08  319  			*errorp = -EMFILE;
-9dec3c4d306b09 Al Viro         2008-05-08  320  			goto out_release;
-9dec3c4d306b09 Al Viro         2008-05-08  321  		}
-9dec3c4d306b09 Al Viro         2008-05-08  322  
-02afc6267f6d55 Al Viro         2008-05-08  323  		/*
-02afc6267f6d55 Al Viro         2008-05-08  324  		 * Reacquire the oldf lock and a pointer to its fd table
-02afc6267f6d55 Al Viro         2008-05-08  325  		 * who knows it may have a new bigger fd table. We need
-02afc6267f6d55 Al Viro         2008-05-08  326  		 * the latest pointer.
-02afc6267f6d55 Al Viro         2008-05-08  327  		 */
-02afc6267f6d55 Al Viro         2008-05-08  328  		spin_lock(&oldf->file_lock);
-02afc6267f6d55 Al Viro         2008-05-08  329  		old_fdt = files_fdtable(oldf);
-adbecb128cd2cc Al Viro         2008-05-08  330  		open_files = count_open_files(old_fdt);
-02afc6267f6d55 Al Viro         2008-05-08  331  	}
-02afc6267f6d55 Al Viro         2008-05-08  332  
-ea5c58e70c3a14 Eric Biggers    2015-11-06  333  	copy_fd_bitmaps(new_fdt, old_fdt, open_files);
-ea5c58e70c3a14 Eric Biggers    2015-11-06  334  
-02afc6267f6d55 Al Viro         2008-05-08  335  	old_fds = old_fdt->fd;
-02afc6267f6d55 Al Viro         2008-05-08  336  	new_fds = new_fdt->fd;
-02afc6267f6d55 Al Viro         2008-05-08  337  
-02afc6267f6d55 Al Viro         2008-05-08  338  	for (i = open_files; i != 0; i--) {
-02afc6267f6d55 Al Viro         2008-05-08  339  		struct file *f = *old_fds++;
-02afc6267f6d55 Al Viro         2008-05-08  340  		if (f) {
-02afc6267f6d55 Al Viro         2008-05-08  341  			get_file(f);
-02afc6267f6d55 Al Viro         2008-05-08  342  		} else {
-02afc6267f6d55 Al Viro         2008-05-08  343  			/*
-02afc6267f6d55 Al Viro         2008-05-08  344  			 * The fd may be claimed in the fd bitmap but not yet
-02afc6267f6d55 Al Viro         2008-05-08  345  			 * instantiated in the files array if a sibling thread
-02afc6267f6d55 Al Viro         2008-05-08  346  			 * is partway through open().  So make sure that this
-02afc6267f6d55 Al Viro         2008-05-08  347  			 * fd is available to the new process.
-02afc6267f6d55 Al Viro         2008-05-08  348  			 */
-1dce27c5aa6770 David Howells   2012-02-16  349  			__clear_open_fd(open_files - i, new_fdt);
-02afc6267f6d55 Al Viro         2008-05-08  350  		}
-02afc6267f6d55 Al Viro         2008-05-08 @351  		rcu_assign_pointer(*new_fds++, f);
-02afc6267f6d55 Al Viro         2008-05-08  352  	}
-02afc6267f6d55 Al Viro         2008-05-08  353  	spin_unlock(&oldf->file_lock);
-02afc6267f6d55 Al Viro         2008-05-08  354  
-ea5c58e70c3a14 Eric Biggers    2015-11-06  355  	/* clear the remainder */
-ea5c58e70c3a14 Eric Biggers    2015-11-06  356  	memset(new_fds, 0, (new_fdt->max_fds - open_files) * sizeof(struct file *));
-02afc6267f6d55 Al Viro         2008-05-08  357  
-afbec7fff4928c Al Viro         2008-05-08  358  	rcu_assign_pointer(newf->fdt, new_fdt);
-afbec7fff4928c Al Viro         2008-05-08  359  
-02afc6267f6d55 Al Viro         2008-05-08  360  	return newf;
-02afc6267f6d55 Al Viro         2008-05-08  361  
-02afc6267f6d55 Al Viro         2008-05-08  362  out_release:
-02afc6267f6d55 Al Viro         2008-05-08  363  	kmem_cache_free(files_cachep, newf);
-02afc6267f6d55 Al Viro         2008-05-08  364  out:
-02afc6267f6d55 Al Viro         2008-05-08  365  	return NULL;
-02afc6267f6d55 Al Viro         2008-05-08  366  }
-02afc6267f6d55 Al Viro         2008-05-08  367  
 
-:::::: The code at line 351 was first introduced by commit
-:::::: 02afc6267f6d55d47aba9fcafdbd1b7230d2294a [PATCH] dup_fd() fixes, part 1
+vim +/MA_STATE_PREALLOC +5524 lib/maple_tree.c
 
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+54a611b605901c Liam R. Howlett  2022-09-06  5468  
+54a611b605901c Liam R. Howlett  2022-09-06  5469  /**
+54a611b605901c Liam R. Howlett  2022-09-06  5470   * mas_preallocate() - Preallocate enough nodes for a store operation
+54a611b605901c Liam R. Howlett  2022-09-06  5471   * @mas: The maple state
+da0892547b101d Liam R. Howlett  2023-07-24  5472   * @entry: The entry that will be stored
+54a611b605901c Liam R. Howlett  2022-09-06  5473   * @gfp: The GFP_FLAGS to use for allocations.
+54a611b605901c Liam R. Howlett  2022-09-06  5474   *
+54a611b605901c Liam R. Howlett  2022-09-06  5475   * Return: 0 on success, -ENOMEM if memory could not be allocated.
+54a611b605901c Liam R. Howlett  2022-09-06  5476   */
+da0892547b101d Liam R. Howlett  2023-07-24  5477  int mas_preallocate(struct ma_state *mas, void *entry, gfp_t gfp)
+54a611b605901c Liam R. Howlett  2022-09-06  5478  {
+17983dc617837a Liam R. Howlett  2023-07-24  5479  	MA_WR_STATE(wr_mas, mas, entry);
+17983dc617837a Liam R. Howlett  2023-07-24  5480  	unsigned char node_size;
+17983dc617837a Liam R. Howlett  2023-07-24  5481  	int request = 1;
+54a611b605901c Liam R. Howlett  2022-09-06  5482  	int ret;
+54a611b605901c Liam R. Howlett  2022-09-06  5483  
+17983dc617837a Liam R. Howlett  2023-07-24  5484  
+17983dc617837a Liam R. Howlett  2023-07-24  5485  	if (unlikely(!mas->index && mas->last == ULONG_MAX))
+17983dc617837a Liam R. Howlett  2023-07-24  5486  		goto ask_now;
+17983dc617837a Liam R. Howlett  2023-07-24  5487  
+17983dc617837a Liam R. Howlett  2023-07-24  5488  	mas_wr_store_setup(&wr_mas);
+17983dc617837a Liam R. Howlett  2023-07-24  5489  	wr_mas.content = mas_start(mas);
+17983dc617837a Liam R. Howlett  2023-07-24  5490  	/* Root expand */
+17983dc617837a Liam R. Howlett  2023-07-24  5491  	if (unlikely(mas_is_none(mas) || mas_is_ptr(mas)))
+17983dc617837a Liam R. Howlett  2023-07-24  5492  		goto ask_now;
+17983dc617837a Liam R. Howlett  2023-07-24  5493  
+17983dc617837a Liam R. Howlett  2023-07-24  5494  	if (unlikely(!mas_wr_walk(&wr_mas))) {
+17983dc617837a Liam R. Howlett  2023-07-24  5495  		/* Spanning store, use worst case for now */
+17983dc617837a Liam R. Howlett  2023-07-24  5496  		request = 1 + mas_mt_height(mas) * 3;
+17983dc617837a Liam R. Howlett  2023-07-24  5497  		goto ask_now;
+17983dc617837a Liam R. Howlett  2023-07-24  5498  	}
+17983dc617837a Liam R. Howlett  2023-07-24  5499  
+17983dc617837a Liam R. Howlett  2023-07-24  5500  	/* At this point, we are at the leaf node that needs to be altered. */
+17983dc617837a Liam R. Howlett  2023-07-24  5501  	/* Exact fit, no nodes needed. */
+17983dc617837a Liam R. Howlett  2023-07-24  5502  	if (wr_mas.r_min == mas->index && wr_mas.r_max == mas->last)
+17983dc617837a Liam R. Howlett  2023-07-24  5503  		return 0;
+17983dc617837a Liam R. Howlett  2023-07-24  5504  
+17983dc617837a Liam R. Howlett  2023-07-24  5505  	mas_wr_end_piv(&wr_mas);
+17983dc617837a Liam R. Howlett  2023-07-24  5506  	node_size = mas_wr_new_end(&wr_mas);
+17983dc617837a Liam R. Howlett  2023-07-24  5507  	if (node_size >= mt_slots[wr_mas.type]) {
+17983dc617837a Liam R. Howlett  2023-07-24  5508  		/* Split, worst case for now. */
+17983dc617837a Liam R. Howlett  2023-07-24  5509  		request = 1 + mas_mt_height(mas) * 2;
+17983dc617837a Liam R. Howlett  2023-07-24  5510  		goto ask_now;
+17983dc617837a Liam R. Howlett  2023-07-24  5511  	}
+17983dc617837a Liam R. Howlett  2023-07-24  5512  
+17983dc617837a Liam R. Howlett  2023-07-24  5513  	/* New root needs a singe node */
+17983dc617837a Liam R. Howlett  2023-07-24  5514  	if (unlikely(mte_is_root(mas->node)))
+17983dc617837a Liam R. Howlett  2023-07-24  5515  		goto ask_now;
+17983dc617837a Liam R. Howlett  2023-07-24  5516  
+17983dc617837a Liam R. Howlett  2023-07-24  5517  	/* Potential spanning rebalance collapsing a node, use worst-case */
+17983dc617837a Liam R. Howlett  2023-07-24  5518  	if (node_size  - 1 <= mt_min_slots[wr_mas.type])
+17983dc617837a Liam R. Howlett  2023-07-24  5519  		request = mas_mt_height(mas) * 2 - 1;
+17983dc617837a Liam R. Howlett  2023-07-24  5520  
+17983dc617837a Liam R. Howlett  2023-07-24  5521  	/* node store, slot store needs one node */
+17983dc617837a Liam R. Howlett  2023-07-24  5522  ask_now:
+17983dc617837a Liam R. Howlett  2023-07-24  5523  	mas_node_count_gfp(mas, request, gfp);
+54a611b605901c Liam R. Howlett  2022-09-06 @5524  	mas->mas_flags |= MA_STATE_PREALLOC;
+54a611b605901c Liam R. Howlett  2022-09-06  5525  	if (likely(!mas_is_err(mas)))
+54a611b605901c Liam R. Howlett  2022-09-06  5526  		return 0;
+54a611b605901c Liam R. Howlett  2022-09-06  5527  
+54a611b605901c Liam R. Howlett  2022-09-06  5528  	mas_set_alloc_req(mas, 0);
+54a611b605901c Liam R. Howlett  2022-09-06  5529  	ret = xa_err(mas->node);
+54a611b605901c Liam R. Howlett  2022-09-06  5530  	mas_reset(mas);
+54a611b605901c Liam R. Howlett  2022-09-06  5531  	mas_destroy(mas);
+54a611b605901c Liam R. Howlett  2022-09-06  5532  	mas_reset(mas);
+54a611b605901c Liam R. Howlett  2022-09-06  5533  	return ret;
+54a611b605901c Liam R. Howlett  2022-09-06  5534  }
+5c63a7c32a94a7 Danilo Krummrich 2023-03-02  5535  EXPORT_SYMBOL_GPL(mas_preallocate);
+54a611b605901c Liam R. Howlett  2022-09-06  5536  
+
+:::::: The code at line 5524 was first introduced by commit
+:::::: 54a611b605901c7d5d05b6b8f5d04a6ceb0962aa Maple Tree: add new data structure
+
+:::::: TO: Liam R. Howlett <Liam.Howlett@Oracle.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
