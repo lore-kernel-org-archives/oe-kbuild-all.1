@@ -1,158 +1,285 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9B73C16
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 01:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42BD3C24
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 02:15:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KTJKybx9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cB+OqVzi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699667779; x=1731203779;
+  t=1699668918; x=1731204918;
   h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=mpRz2WwnD0LL4zvI9d+x/d0kvwNlu2Hm963x1GLzqwo=;
-  b=KTJKybx9BmXy039LazcGfyG5gigrBgRMXxZOPEkFQj9Yb8ycmBwC2/TC
-   qlAFKufm00eL8bw+fGZcCjMKFLC+8WCoj0rqYTZoN5yede9XKzvJCSYYH
-   jN85vAR/2OmiqENNAtg19OihjRr69TlzoZtaDbTdAn6s95IKq40y4Esvf
-   jd/gcErWWmZ7z94Zl7fKvIi8j0epYwxba2BAU1L/wll62X3PD+2JU3AKY
-   DjiWmDf5JhHAUEP77uPhXPIdZf88x1OkkbMmXj2Wb3elVYrYm7+4kSesm
-   guBhCWJMNYXNISGYdzkLHeJT8L+cLLEp3yxZlFIhAa2Leej0TaILll38f
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="456746984"
+   mime-version:in-reply-to;
+  bh=X5ZgYENX2ryWN2rp/ksyXUh7LLw2nbyq8iiQXJOMI0Q=;
+  b=cB+OqVziT5p33yi58+37l/8Oxpe+cUwv6VoWEk0O75hkZ/7CF1HEvIPR
+   owIs0om3b2MmcHpG4MVXZvNJ7YZBNfJE4r+Y7H82ODB55zllK9x7mfL7z
+   oEqN2x3/7H9nR1waj6lsWQ3YqAxzEZ6/xGvS4LoD2HBmHNMI13+GUfirh
+   aGGUHegIQw1clgwP5IDKqBebmBFuhMyki0h15GXDldHmx49kE20YWeZOW
+   jQPRaMdr1QE9TxfvXVIv9LWt/xyqAlY0Mc1HZUBzWkFSX3XVHTfeuDU3v
+   UUnfs4zJ2sa4a4AWUJs1CssCwd9bthCYEix64rBLICwVQoDlRm/L8s4pd
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="11801998"
 X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
-   d="scan'208";a="456746984"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 17:56:18 -0800
+   d="scan'208";a="11801998"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 18:15:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="763867873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="798721003"
 X-IronPort-AV: E=Sophos;i="6.03,293,1694761200"; 
-   d="scan'208";a="763867873"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Nov 2023 17:56:18 -0800
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Fri, 10 Nov 2023 17:56:17 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Fri, 10 Nov 2023 17:56:17 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Fri, 10 Nov 2023 17:56:17 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mJrOAFv5IfBg3ktSPBdhFSaMtrj1dCqCMCUKHtydDI5Iie7D4U4mvJxUGn9PHlp8grzTgQuVLeQKtab3s6up4MAEloCAhN8DQtH8eE3g+D0M1DT/F0j94zQMoYyE7sDPD71TElPvf73vuvWhaFSdpwUbLh15pCzEOD6CjPMuu66fpwdAZ5Te3k2lKQs7iuL3ZPNLnGTQ/A0MP0dKqM9wlqzAUrS2I8n5+17J4RauJtzPmxaTKWMcTNNxa3/tKf/tNRfRy68RS212xbJqgvMkrRi9fJaTRiGK8S7XFfnNAGh5/RLP3lW1b4Xb4jQOE433hLNLH6u6N3OBghk/BVyRXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u92PzrvctkhwnbYKlRWpf21htaMZtd/Q33tdOC16bsA=;
- b=D44d2EFCp9oxGELrxMJg2plTz1sJ3zA0UQgAhUHQZVOdlKp8ObbfPXnaYKZL05YfelBSFduoCi2irnNc4yHmSSA8mOJyEeiGROfzDxwWOmwnlYGWtjtXVuZBw+Q+I8zaVxkHYyHAhu77rjtkPG0YopiXVQNyJB03wwz6OnvK2WHQcqAJhoJ7CSiYnAuasHXCbtSfTh/6eac+VpWUFQ4s6wFLeexSBtnl4hwFxeZrIoYRQ4BMm17OKNe3fCC01KYtrbMjaysAtHTcnS8TQNLIu65rPwHHc+ep16HZBEcLT34eQKsD7TjK9CWSiTWAhs+Vz1EFFrWA1OjH6VDbk1poVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
- by PH7PR11MB5818.namprd11.prod.outlook.com (2603:10b6:510:132::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.22; Sat, 11 Nov
- 2023 01:56:15 +0000
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::2f1a:e62e:9fff:ae67]) by BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::2f1a:e62e:9fff:ae67%4]) with mapi id 15.20.6954.029; Sat, 11 Nov 2023
- 01:56:15 +0000
-Date: Sat, 11 Nov 2023 09:56:07 +0800
-From: Philip Li <philip.li@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: kernel test robot <lkp@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: mm/vmstat.c:358:9: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <ZU7fN28blHi1z9qS@rli9-mobl>
-References: <202311080409.LlOfTR3m-lkp@intel.com>
- <20231110154312.1xjowQfg@linutronix.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231110154312.1xjowQfg@linutronix.de>
-X-ClientProxiedBy: SG2PR04CA0151.apcprd04.prod.outlook.com (2603:1096:4::13)
- To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+   d="scan'208";a="798721003"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 10 Nov 2023 18:15:14 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r1dWi-000A8w-0o;
+	Sat, 11 Nov 2023 02:15:12 +0000
+Date: Sat, 11 Nov 2023 10:13:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: WoZ1zh1 <wozizhi@huawei.com>, xiang@kernel.org, chao@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-erofs@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, wozizhi@huawei.com,
+	yangerkun@huawei.com
+Subject: Re: [PATCH -next V2] erofs: code clean up for function
+ erofs_read_inode()
+Message-ID: <202311111038.Atx87gVV-lkp@intel.com>
+References: <20231109194821.1719430-1-wozizhi@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|PH7PR11MB5818:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81506996-3921-4c48-2c2b-08dbe2596390
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jWDm6TJ+D1Rc94Bjp92UpRSNYNkvmR35K6PkL5R6cvm5gu36O10t0KY2VuB7DqdHlMWmwhg/bbyovV5eN6tM6Y97j8BcYYxbDD+iWx8wcw1CNvRkKvHQQ05mG2qXzm1EvEY3Gw+CP1AW8FesBhobdNCGssoRzJQVLjrF7x2ROwh6PAiiKcMij3kT3ImD1nK4szbonI0QYiMCN+4C9MMGRMqIqAPpEqgvxZi/5KjssizMPrwRrIZeHuxF6FZZ0X3nL7eNhUMh4CFgHXegdI/Rawbm3ues74iTWGB7MW2+moIGT01uQmEQHBYsZDMjHz1rNW7VhiWq23MsQ1+Oi61gmgMKptPjzXETubxa0+oO6KU5lzt/MSazn3rOZekZDPyyyE8GJvcMEmM5LmKAInD0e72xj2ORTCY3oTh18u8jnyNEav+9+4ODskKCKpcEJvecBdk8sS0vqR05e14B6TuDkW/TSWqx3kiIgd35vTltEN88HASw/I9gREf1ZFuclp8OaYAnoI2OqXLRJqMGYaD2ZY9Ybi6uqMHhzJVg1VPXFmybwOCa+BCI4QCPs5zJgOPl
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(376002)(346002)(39860400002)(136003)(396003)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(2906002)(4744005)(44832011)(5660300002)(86362001)(41300700001)(33716001)(26005)(82960400001)(54906003)(66556008)(66946007)(66476007)(6916009)(9686003)(6512007)(316002)(38100700002)(6666004)(478600001)(6486002)(53546011)(6506007)(8676002)(4326008)(8936002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QkpveG9qQzUyemZ1UUFDV05PcXo3aG5yMWFLYXhMeGZTMGZER21KQVdSVGI2?=
- =?utf-8?B?TllnM1lWRUh5OUZlN1VTYlB1amNHQlgvbGxtbjZmOHdQekVsQUlHRVZqUytY?=
- =?utf-8?B?SHh1T1BIeGVpbHlJZW9WaE1XUEFDQkd0dWltSmlSVk5tUjFkNC9oN0h2c083?=
- =?utf-8?B?MzlzZW5aWHZmV2d5blhHWVBOSWVSeGJGSzd5NVRjSWpJekJRMUd3UmU0dEhT?=
- =?utf-8?B?ejFkSk5YSWR2MjEvNzRUN3dkWmhuNE0wb04veWlHQzR6QlV2QzFob0ZMck44?=
- =?utf-8?B?dm4xOHZvZEVkZjhiMkdvSHBDQWsxKzhua3FXeXhKNE9OakQwQ3VIOTd5M01T?=
- =?utf-8?B?eHZvK0NncHNEQ2Zoald2MTVTQ2twVE9ZWjZOZ0svQ09qc3ZmZjRvNnhRS3Rn?=
- =?utf-8?B?L0N4NkF1MS9nOWw5OEh4L2ROTStxSTRpemhpdUdYNjlVOWJFVlBpQTFFSWVx?=
- =?utf-8?B?Tmx2dUhMVGdGVVFJcDc5SW1oNmU1MlZKRldzY29YZjFYbzBOR255SHhtVG5Z?=
- =?utf-8?B?NDM2M0hnQU9QdVdGT05xUDZEUnJRcjltZ1dHN1RsWGpFQVp1Ny80UjB1cm5T?=
- =?utf-8?B?RVQzMTZtTHZXY24yOGJaOUxlV3NNdkxyNS9vM2hDeHFKeDBWZmI1MGcyakFp?=
- =?utf-8?B?ME9xcGdZV3lwZDEvWUdDeGhyVURheFRobkdoYTQrNjBtOVk4OGJTVTloUkxr?=
- =?utf-8?B?UVBxUHc2QS83aUR3eEYvVUpKcys5S3gyQWhQeWNnWVIrdTNFdmtCcTQyNDlm?=
- =?utf-8?B?R2I0Yk5UeE9rd1NBeHRXcCtZTmQ0R2pTc09rRkViNnFIYWFoREE4aFpYeTlB?=
- =?utf-8?B?cUhKTktHMEtkcklHNWxyZzV1eHlrdWdPWm5iRHZqaW5wMUpac21VdURrT3Zj?=
- =?utf-8?B?RW43SWlnSzlGd3ZicW9nMk81clJCTkxaVmxhZXMzeTlNMHJLaWFqYUZmZDNF?=
- =?utf-8?B?TDJKNzE2eDl1eUpMZVRSWnhoa1pqb1ZkckdvMnIzY0RTTzBIdTBKRi9IZTdq?=
- =?utf-8?B?U3NTRm1vWkNCRFdnbGJaNWtKcHhJa1NXSVlwSXhsQlQySklIWEl1RlNYQUZr?=
- =?utf-8?B?OVlmN1dnbXcrL3lKWm82NmY1bjRJaFYvK2V3a1B2cDRlQlozZDlTTFk0WFoz?=
- =?utf-8?B?Y1hQbUNkTGtQL3FxMUFYajBSMUREY0E1UERkVmNIVG1GVFpjZDhucTFIeDVV?=
- =?utf-8?B?Wkt6Q1dRWkl6YzQyZ0ZYTU9UKzZJcWF1OVZlZ0lQWVlLb2JKN2RrSkhpSzEz?=
- =?utf-8?B?SHcwZmVIK1F4azlTT1F0UnpwM2t6RTlyL09YNFZpMXNBajJCb1J5NzRDaWhC?=
- =?utf-8?B?YlF5dStIUFR0T1drR3J5MHhQL2lFTmIyK2gza2lPdC9CL2RDd3ZaMjhidm45?=
- =?utf-8?B?MnFBeDhvenNyM0lBclNERE1zaXlYWkFSWWxpNC9LQlNCNXBjRlhpc0R0aU5E?=
- =?utf-8?B?S0NkVklhKzFQMHFwQTdIaUVkd1lvbjVSZWZaLy9oZS9PeHE1MkM3Y29IYmxt?=
- =?utf-8?B?bEVvdm5hQzFxejdzNWRhMnIzTS9sNDFGY1FXaGk3KzNZVEx2SDdVS0RyWWZl?=
- =?utf-8?B?WW9mYUw3YUVLb2IzVE1LYzZ2Z2d0ZU52TmY4TFFSbmxaQzFZZjNWZG10eklh?=
- =?utf-8?B?eDZob1ZzanpRQ1RhMEdrbGV5UXZwUkZmZk9BZ0xhN3BUSUdsOGQ2UXVZTXpF?=
- =?utf-8?B?RkZwaGgzeVpxbUdLUmN5eVhwdm50SmwzNnVRZSs5OVNGM2hLZ0NwQy9kUHNH?=
- =?utf-8?B?NVJENVhnc0ZRZnZNWVpJMnVIZWZRVXFtdTFJT2I0R21qampFUlRWamcrS1NJ?=
- =?utf-8?B?dXBtT3VIWjNQdFE2SW4ySzlFdGx1Q01lQ0toZTJrTkE5TE1YaG5pem12dW1q?=
- =?utf-8?B?d2Z6aGpRQ0ZQQjFkSEJXRFlXUjBmZVVDMDdVZW9wMjNLaUVQa0ExZmRjSUhP?=
- =?utf-8?B?SElNMDFWcC83aXZqTWIybE55SS9GaHBvY3NST2xOYmdFZG5sV21tbzROU3Jw?=
- =?utf-8?B?UnFYS3BZMldLaXVEeHlKUXQwUXNGZGdwTGF2RVlxS3M2aTRxSzY5bTNLWkJ6?=
- =?utf-8?B?TGZSVW5aTG04Nk5WNXBIbVFFNUNZT1NucDdGV3k5UkVUZ3NsYmxlTEFXU2Fs?=
- =?utf-8?Q?/F1Vh8JBTdWDyCBZHNUbTBoU3?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81506996-3921-4c48-2c2b-08dbe2596390
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2023 01:56:15.4556
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ssXm+bSzab1DME+v404iINL/T4KZbHzcxqwAj9ykaM7YJMcZVdZcT+CA90+MKNuhs1+7JZrLAXLDWYouGF853A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5818
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231109194821.1719430-1-wozizhi@huawei.com>
 
-On Fri, Nov 10, 2023 at 04:43:12PM +0100, Sebastian Andrzej Siewior wrote:
-> On 2023-11-08 05:48:25 [+0800], kernel test robot wrote:
-> …
-> 
-> Same report as in 20231110154208.5UoC_qsI@linutronix.de but for
-> different file. Don't see anything wrong.
+Hi WoZ1zh1,
 
-Thanks for the information, we will check this. Sorry for the false
-report again.
+kernel test robot noticed the following build errors:
 
-> 
-> Sebastian
-> 
+[auto build test ERROR on next-20231109]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/WoZ1zh1/erofs-code-clean-up-for-function-erofs_read_inode/20231110-033810
+base:   next-20231109
+patch link:    https://lore.kernel.org/r/20231109194821.1719430-1-wozizhi%40huawei.com
+patch subject: [PATCH -next V2] erofs: code clean up for function erofs_read_inode()
+config: i386-buildonly-randconfig-004-20231111 (https://download.01.org/0day-ci/archive/20231111/202311111038.Atx87gVV-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111038.Atx87gVV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311111038.Atx87gVV-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/erofs/inode.c: In function 'erofs_read_inode':
+>> fs/erofs/inode.c:55:3: error: a label can only be part of a statement and a declaration is not a statement
+      55 |   struct erofs_inode_extended *die, *copied = NULL;
+         |   ^~~~~~
+
+
+vim +55 fs/erofs/inode.c
+
+    10	
+    11	static void *erofs_read_inode(struct erofs_buf *buf,
+    12				      struct inode *inode, unsigned int *ofs)
+    13	{
+    14		struct super_block *sb = inode->i_sb;
+    15		struct erofs_sb_info *sbi = EROFS_SB(sb);
+    16		struct erofs_inode *vi = EROFS_I(inode);
+    17		const erofs_off_t inode_loc = erofs_iloc(inode);
+    18	
+    19		erofs_blk_t blkaddr, nblks = 0;
+    20		void *kaddr;
+    21		struct erofs_inode_compact *dic;
+    22		unsigned int ifmt;
+    23		int err;
+    24	
+    25		blkaddr = erofs_blknr(sb, inode_loc);
+    26		*ofs = erofs_blkoff(sb, inode_loc);
+    27	
+    28		kaddr = erofs_read_metabuf(buf, sb, blkaddr, EROFS_KMAP);
+    29		if (IS_ERR(kaddr)) {
+    30			erofs_err(sb, "failed to get inode (nid: %llu) page, err %ld",
+    31				  vi->nid, PTR_ERR(kaddr));
+    32			return kaddr;
+    33		}
+    34	
+    35		dic = kaddr + *ofs;
+    36		ifmt = le16_to_cpu(dic->i_format);
+    37	
+    38		if (ifmt & ~EROFS_I_ALL) {
+    39			erofs_err(inode->i_sb, "unsupported i_format %u of nid %llu",
+    40				  ifmt, vi->nid);
+    41			err = -EOPNOTSUPP;
+    42			goto err_out;
+    43		}
+    44	
+    45		vi->datalayout = erofs_inode_datalayout(ifmt);
+    46		if (vi->datalayout >= EROFS_INODE_DATALAYOUT_MAX) {
+    47			erofs_err(inode->i_sb, "unsupported datalayout %u of nid %llu",
+    48				  vi->datalayout, vi->nid);
+    49			err = -EOPNOTSUPP;
+    50			goto err_out;
+    51		}
+    52	
+    53		switch (erofs_inode_version(ifmt)) {
+    54		case EROFS_INODE_LAYOUT_EXTENDED:
+  > 55			struct erofs_inode_extended *die, *copied = NULL;
+    56	
+    57			vi->inode_isize = sizeof(struct erofs_inode_extended);
+    58			/* check if the extended inode acrosses block boundary */
+    59			if (*ofs + vi->inode_isize <= sb->s_blocksize) {
+    60				*ofs += vi->inode_isize;
+    61				die = (struct erofs_inode_extended *)dic;
+    62			} else {
+    63				const unsigned int gotten = sb->s_blocksize - *ofs;
+    64	
+    65				copied = kmalloc(vi->inode_isize, GFP_NOFS);
+    66				if (!copied) {
+    67					err = -ENOMEM;
+    68					goto err_out;
+    69				}
+    70				memcpy(copied, dic, gotten);
+    71				kaddr = erofs_read_metabuf(buf, sb, blkaddr + 1,
+    72							   EROFS_KMAP);
+    73				if (IS_ERR(kaddr)) {
+    74					erofs_err(sb, "failed to get inode payload block (nid: %llu), err %ld",
+    75						  vi->nid, PTR_ERR(kaddr));
+    76					kfree(copied);
+    77					return kaddr;
+    78				}
+    79				*ofs = vi->inode_isize - gotten;
+    80				memcpy((u8 *)copied + gotten, kaddr, *ofs);
+    81				die = copied;
+    82			}
+    83			vi->xattr_isize = erofs_xattr_ibody_size(die->i_xattr_icount);
+    84	
+    85			inode->i_mode = le16_to_cpu(die->i_mode);
+    86			switch (inode->i_mode & S_IFMT) {
+    87			case S_IFREG:
+    88			case S_IFDIR:
+    89			case S_IFLNK:
+    90				vi->raw_blkaddr = le32_to_cpu(die->i_u.raw_blkaddr);
+    91				break;
+    92			case S_IFCHR:
+    93			case S_IFBLK:
+    94				inode->i_rdev =
+    95					new_decode_dev(le32_to_cpu(die->i_u.rdev));
+    96				break;
+    97			case S_IFIFO:
+    98			case S_IFSOCK:
+    99				inode->i_rdev = 0;
+   100				break;
+   101			default:
+   102				kfree(copied);
+   103				goto bogusimode;
+   104			}
+   105			i_uid_write(inode, le32_to_cpu(die->i_uid));
+   106			i_gid_write(inode, le32_to_cpu(die->i_gid));
+   107			set_nlink(inode, le32_to_cpu(die->i_nlink));
+   108	
+   109			/* extended inode has its own timestamp */
+   110			inode_set_ctime(inode, le64_to_cpu(die->i_mtime),
+   111					le32_to_cpu(die->i_mtime_nsec));
+   112	
+   113			inode->i_size = le64_to_cpu(die->i_size);
+   114	
+   115			/* total blocks for compressed files */
+   116			if (erofs_inode_is_data_compressed(vi->datalayout))
+   117				nblks = le32_to_cpu(die->i_u.compressed_blocks);
+   118			else if (vi->datalayout == EROFS_INODE_CHUNK_BASED)
+   119				/* fill chunked inode summary info */
+   120				vi->chunkformat = le16_to_cpu(die->i_u.c.format);
+   121			kfree(copied);
+   122			break;
+   123		case EROFS_INODE_LAYOUT_COMPACT:
+   124			vi->inode_isize = sizeof(struct erofs_inode_compact);
+   125			*ofs += vi->inode_isize;
+   126			vi->xattr_isize = erofs_xattr_ibody_size(dic->i_xattr_icount);
+   127	
+   128			inode->i_mode = le16_to_cpu(dic->i_mode);
+   129			switch (inode->i_mode & S_IFMT) {
+   130			case S_IFREG:
+   131			case S_IFDIR:
+   132			case S_IFLNK:
+   133				vi->raw_blkaddr = le32_to_cpu(dic->i_u.raw_blkaddr);
+   134				break;
+   135			case S_IFCHR:
+   136			case S_IFBLK:
+   137				inode->i_rdev =
+   138					new_decode_dev(le32_to_cpu(dic->i_u.rdev));
+   139				break;
+   140			case S_IFIFO:
+   141			case S_IFSOCK:
+   142				inode->i_rdev = 0;
+   143				break;
+   144			default:
+   145				goto bogusimode;
+   146			}
+   147			i_uid_write(inode, le16_to_cpu(dic->i_uid));
+   148			i_gid_write(inode, le16_to_cpu(dic->i_gid));
+   149			set_nlink(inode, le16_to_cpu(dic->i_nlink));
+   150	
+   151			/* use build time for compact inodes */
+   152			inode_set_ctime(inode, sbi->build_time, sbi->build_time_nsec);
+   153	
+   154			inode->i_size = le32_to_cpu(dic->i_size);
+   155			if (erofs_inode_is_data_compressed(vi->datalayout))
+   156				nblks = le32_to_cpu(dic->i_u.compressed_blocks);
+   157			else if (vi->datalayout == EROFS_INODE_CHUNK_BASED)
+   158				vi->chunkformat = le16_to_cpu(dic->i_u.c.format);
+   159			break;
+   160		default:
+   161			erofs_err(inode->i_sb,
+   162				  "unsupported on-disk inode version %u of nid %llu",
+   163				  erofs_inode_version(ifmt), vi->nid);
+   164			err = -EOPNOTSUPP;
+   165			goto err_out;
+   166		}
+   167	
+   168		if (vi->datalayout == EROFS_INODE_CHUNK_BASED) {
+   169			if (vi->chunkformat & ~EROFS_CHUNK_FORMAT_ALL) {
+   170				erofs_err(inode->i_sb,
+   171					  "unsupported chunk format %x of nid %llu",
+   172					  vi->chunkformat, vi->nid);
+   173				err = -EOPNOTSUPP;
+   174				goto err_out;
+   175			}
+   176			vi->chunkbits = sb->s_blocksize_bits +
+   177				(vi->chunkformat & EROFS_CHUNK_FORMAT_BLKBITS_MASK);
+   178		}
+   179		inode_set_mtime_to_ts(inode,
+   180				      inode_set_atime_to_ts(inode, inode_get_ctime(inode)));
+   181	
+   182		inode->i_flags &= ~S_DAX;
+   183		if (test_opt(&sbi->opt, DAX_ALWAYS) && S_ISREG(inode->i_mode) &&
+   184		    (vi->datalayout == EROFS_INODE_FLAT_PLAIN ||
+   185		     vi->datalayout == EROFS_INODE_CHUNK_BASED))
+   186			inode->i_flags |= S_DAX;
+   187	
+   188		if (!nblks)
+   189			/* measure inode.i_blocks as generic filesystems */
+   190			inode->i_blocks = round_up(inode->i_size, sb->s_blocksize) >> 9;
+   191		else
+   192			inode->i_blocks = nblks << (sb->s_blocksize_bits - 9);
+   193		return kaddr;
+   194	
+   195	bogusimode:
+   196		erofs_err(inode->i_sb, "bogus i_mode (%o) @ nid %llu",
+   197			  inode->i_mode, vi->nid);
+   198		err = -EFSCORRUPTED;
+   199	err_out:
+   200		DBG_BUGON(1);
+   201		erofs_put_metabuf(buf);
+   202		return ERR_PTR(err);
+   203	}
+   204	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
