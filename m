@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AD363AD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 04:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D1D63AD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 04:21:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TBDRPjB1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IjJ8Jw52"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699675604; x=1731211604;
+  t=1699676505; x=1731212505;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nLbkW7U3NusAJccBj5JQlc5x5tb1svvTwaCmTyvbLrk=;
-  b=TBDRPjB1LlKR13wsIyhFkDEQXkPHxL39mwAGcGHacSvG1wa9aAL22Axx
-   fBu56mE282Kg2JUmFzBnUSZ2syXPzR7oxTjkX3S92/QEF9nsY2Lpuc46k
-   Kge4OR6yz5MWgKXkh/dZPnZyMl+uv30d5C2LK3N+s2zii2CvD292zcm/n
-   SlVqtVBb5Vco+LBypkgjXg10kIRHZGPk0m1U409GehhvTA6xqB9VXSkGL
-   chzJ3qAkDLl5OtawUZG4QzN0Wbxpg65WHLNaIZDBNH0JXKMSDNpUujit/
-   bU+5nfkLZ5HJ6X/+1SVcv/baX3jZ+PZx6t4sHKLERBlx4CSMAUwZxtH33
+  bh=//oHXkLWDK1XxNxC1cQmSqFIOk555ollNH0v5Bpu8kY=;
+  b=IjJ8Jw52ZG+J/lc6iGWVHG0DhUwL5aMbrmTzgasBRwLDGDBdtpohqTOL
+   WP0uVAHFuggTv+iXk4rUhfMa6Yyub0VnF3rXdGjTS1luW7DhoB1C8Wv+h
+   fMG+8iA3Vi4J4dXx7clY0lchLZNFkTOktaJNsNU8uXdLlaAYuuWlDY8RH
+   t+H/ofEdhFLuEyqE5HDV8doihfZV5fLwE7Ox8Db922HF2xqqfU7ON2I9R
+   c2h2MaLfhtgWFCgyr/78MPsNmod4QB8dEKovM8OhwkzT02lRwZ37RcX3u
+   WD0FuhsaoRxefvhfjtSDWYY23irnJKjl7ROz3I+IpHUJ5fSrndMfjbP0x
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="11806636"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="375288938"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="11806636"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 20:06:44 -0800
+   d="scan'208";a="375288938"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 20:21:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="767460205"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="854537650"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="767460205"
+   d="scan'208";a="854537650"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Nov 2023 20:06:43 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2023 20:21:43 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1fGa-000ACQ-2r;
-	Sat, 11 Nov 2023 04:06:40 +0000
-Date: Sat, 11 Nov 2023 12:06:32 +0800
+	id 1r1fV7-000ACe-12;
+	Sat, 11 Nov 2023 04:21:41 +0000
+Date: Sat, 11 Nov 2023 12:20:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-6.7 208/336]
- drivers/rtc/rtc-sc27xx.c:97:31: warning: left shift of negative value
-Message-ID: <202311111141.hvHVyK2w-lkp@intel.com>
+To: =?utf-8?B?U3plbXrFkSBBbmRyw6Fz?= <sza@esh.hu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@free-electrons.com>
+Subject: drivers/usb/gadget/udc/atmel_usba_udc.c:379:27: warning: this
+ statement may fall through
+Message-ID: <202311111246.JwAbYSzm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,45 +51,184 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-6.7
-head:   a4b755e29c5eea2a696d7ec17a623dcb675a9897
-commit: 11d4b1a0517e9ce64436fa4019bafaf2895ca282 [208/336] [SUBMITTED 20230811] extrawarn: don't turn off -Wshift-negative-value for gcc-9
-config: i386-buildonly-randconfig-004-20231111 (https://download.01.org/0day-ci/archive/20231111/202311111141.hvHVyK2w-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111141.hvHVyK2w-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3ca112b71f35dd5d99fc4571a56b5fc6f0c15814
+commit: 2d4c44e979eaa846dfa63717c4f4818e11161c66 ARM: at91: Add armv7m support
+date:   6 years ago
+config: arm-randconfig-001-20231106 (https://download.01.org/0day-ci/archive/20231111/202311111246.JwAbYSzm-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111246.JwAbYSzm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311111141.hvHVyK2w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311111246.JwAbYSzm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/rtc/rtc-sc27xx.c: In function 'sprd_rtc_set_time':
->> drivers/rtc/rtc-sc27xx.c:97:31: warning: left shift of negative value [-Wshift-negative-value]
-      97 |  (~SPRD_RTC_POWER_RESET_VALUE << SPRD_RTC_POWER_STS_SHIFT)
-         |                               ^~
-   drivers/rtc/rtc-sc27xx.c:373:8: note: in expansion of macro 'SPRD_RTC_POWER_STS_VALID'
-     373 |        SPRD_RTC_POWER_STS_VALID);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/usb/gadget/udc/atmel_usba_udc.c:12:
+   include/linux/module.h:137:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'udc_driver_exit': 'cold' [-Wmissing-attributes]
+     137 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   include/linux/platform_device.h:256:1: note: in expansion of macro 'module_exit'
+     256 | module_exit(__platform_driver##_exit);
+         | ^~~~~~~~~~~
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2470:1: note: in expansion of macro 'module_platform_driver_probe'
+    2470 | module_platform_driver_probe(udc_driver, usba_udc_probe);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/usb/gadget/udc/atmel_usba_udc.c:21:
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2470:30: note: 'cleanup_module' target declared here
+    2470 | module_platform_driver_probe(udc_driver, usba_udc_probe);
+         |                              ^~~~~~~~~~
+   include/linux/platform_device.h:252:20: note: in definition of macro 'module_platform_driver_probe'
+     252 | static void __exit __platform_driver##_exit(void) \
+         |                    ^~~~~~~~~~~~~~~~~
+   include/linux/module.h:131:13: warning: 'init_module' specifies less restrictive attribute than its target 'udc_driver_init': 'cold' [-Wmissing-attributes]
+     131 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   include/linux/platform_device.h:251:1: note: in expansion of macro 'module_init'
+     251 | module_init(__platform_driver##_init); \
+         | ^~~~~~~~~~~
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2470:1: note: in expansion of macro 'module_platform_driver_probe'
+    2470 | module_platform_driver_probe(udc_driver, usba_udc_probe);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2470:30: note: 'init_module' target declared here
+    2470 | module_platform_driver_probe(udc_driver, usba_udc_probe);
+         |                              ^~~~~~~~~~
+   include/linux/platform_device.h:246:19: note: in definition of macro 'module_platform_driver_probe'
+     246 | static int __init __platform_driver##_init(void) \
+         |                   ^~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/atmel_usba_udc.c: In function 'usba_config_fifo_table':
+>> drivers/usb/gadget/udc/atmel_usba_udc.c:379:27: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     379 |                 fifo_mode = 0;
+         |                 ~~~~~~~~~~^~~
+   drivers/usb/gadget/udc/atmel_usba_udc.c:380:9: note: here
+     380 |         case 0:
+         |         ^~~~
+   drivers/usb/gadget/udc/atmel_usba_udc.c: In function 'usba_udc_pdata':
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2246:40: warning: array subscript i is outside array bounds of 'struct usba_ep_data[0]' [-Warray-bounds=]
+    2246 |                 ep->ep.name = pdata->ep[i].name;
+         |                               ~~~~~~~~~^~~
+   In file included from drivers/usb/gadget/udc/atmel_usba_udc.c:26:
+   include/linux/usb/atmel_usba_udc.h:20:33: note: while referencing 'ep'
+      20 |         struct usba_ep_data     ep[0];
+         |                                 ^~
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2247:42: warning: array subscript i is outside array bounds of 'struct usba_ep_data[0]' [-Warray-bounds=]
+    2247 |                 ep->fifo_size = pdata->ep[i].fifo_size;
+         |                                 ~~~~~~~~~^~~
+   include/linux/usb/atmel_usba_udc.h:20:33: note: while referencing 'ep'
+      20 |         struct usba_ep_data     ep[0];
+         |                                 ^~
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2251:41: warning: array subscript i is outside array bounds of 'struct usba_ep_data[0]' [-Warray-bounds=]
+    2251 |                 ep->nr_banks = pdata->ep[i].nr_banks;
+         |                                ~~~~~~~~~^~~
+   include/linux/usb/atmel_usba_udc.h:20:33: note: while referencing 'ep'
+      20 |         struct usba_ep_data     ep[0];
+         |                                 ^~
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2252:38: warning: array subscript i is outside array bounds of 'struct usba_ep_data[0]' [-Warray-bounds=]
+    2252 |                 ep->index = pdata->ep[i].index;
+         |                             ~~~~~~~~~^~~
+   include/linux/usb/atmel_usba_udc.h:20:33: note: while referencing 'ep'
+      20 |         struct usba_ep_data     ep[0];
+         |                                 ^~
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2253:40: warning: array subscript i is outside array bounds of 'struct usba_ep_data[0]' [-Warray-bounds=]
+    2253 |                 ep->can_dma = pdata->ep[i].can_dma;
+         |                               ~~~~~~~~~^~~
+   include/linux/usb/atmel_usba_udc.h:20:33: note: while referencing 'ep'
+      20 |         struct usba_ep_data     ep[0];
+         |                                 ^~
+   drivers/usb/gadget/udc/atmel_usba_udc.c:2254:41: warning: array subscript i is outside array bounds of 'struct usba_ep_data[0]' [-Warray-bounds=]
+    2254 |                 ep->can_isoc = pdata->ep[i].can_isoc;
+         |                                ~~~~~~~~~^~~
+   include/linux/usb/atmel_usba_udc.h:20:33: note: while referencing 'ep'
+      20 |         struct usba_ep_data     ep[0];
+         |                                 ^~
+--
+   drivers/pinctrl/pinctrl-at91-pio4.c:136: warning: Function parameter or member 'pm_wakeup_sources' not described in 'atmel_pioctrl'
+   drivers/pinctrl/pinctrl-at91-pio4.c:136: warning: Function parameter or member 'pm_suspend_backup' not described in 'atmel_pioctrl'
+>> drivers/pinctrl/pinctrl-at91-pio4.c:136: warning: Function parameter or member 'pm_suspend_backup.imr' not described in 'atmel_pioctrl'
+>> drivers/pinctrl/pinctrl-at91-pio4.c:136: warning: Function parameter or member 'pm_suspend_backup.odsr' not described in 'atmel_pioctrl'
+>> drivers/pinctrl/pinctrl-at91-pio4.c:136: warning: Function parameter or member 'pm_suspend_backup.cfgr' not described in 'atmel_pioctrl'
+--
+   In file included from drivers/power/reset/at91-poweroff.c:15:
+   include/linux/module.h:137:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'at91_poweroff_driver_exit': 'cold' [-Wmissing-attributes]
+     137 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
+         |              ^~~~~~~~~~~~~~
+   include/linux/platform_device.h:256:1: note: in expansion of macro 'module_exit'
+     256 | module_exit(__platform_driver##_exit);
+         | ^~~~~~~~~~~
+   drivers/power/reset/at91-poweroff.c:233:1: note: in expansion of macro 'module_platform_driver_probe'
+     233 | module_platform_driver_probe(at91_poweroff_driver, at91_poweroff_probe);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/power/reset/at91-poweroff.c:18:
+   drivers/power/reset/at91-poweroff.c:233:30: note: 'cleanup_module' target declared here
+     233 | module_platform_driver_probe(at91_poweroff_driver, at91_poweroff_probe);
+         |                              ^~~~~~~~~~~~~~~~~~~~
+   include/linux/platform_device.h:252:20: note: in definition of macro 'module_platform_driver_probe'
+     252 | static void __exit __platform_driver##_exit(void) \
+         |                    ^~~~~~~~~~~~~~~~~
+   include/linux/module.h:131:13: warning: 'init_module' specifies less restrictive attribute than its target 'at91_poweroff_driver_init': 'cold' [-Wmissing-attributes]
+     131 |         int init_module(void) __attribute__((alias(#initfn)));
+         |             ^~~~~~~~~~~
+   include/linux/platform_device.h:251:1: note: in expansion of macro 'module_init'
+     251 | module_init(__platform_driver##_init); \
+         | ^~~~~~~~~~~
+   drivers/power/reset/at91-poweroff.c:233:1: note: in expansion of macro 'module_platform_driver_probe'
+     233 | module_platform_driver_probe(at91_poweroff_driver, at91_poweroff_probe);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/reset/at91-poweroff.c:233:30: note: 'init_module' target declared here
+     233 | module_platform_driver_probe(at91_poweroff_driver, at91_poweroff_probe);
+         |                              ^~~~~~~~~~~~~~~~~~~~
+   include/linux/platform_device.h:246:19: note: in definition of macro 'module_platform_driver_probe'
+     246 | static int __init __platform_driver##_init(void) \
+         |                   ^~~~~~~~~~~~~~~~~
+>> drivers/power/reset/at91-poweroff.c:213:34: warning: 'at91_ramc_of_match' defined but not used [-Wunused-const-variable=]
+     213 | static const struct of_device_id at91_ramc_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~
 
 
-vim +97 drivers/rtc/rtc-sc27xx.c
+vim +379 drivers/usb/gadget/udc/atmel_usba_udc.c
 
-a0defd7cfc2804 Baolin Wang 2018-05-31  91  
-a0defd7cfc2804 Baolin Wang 2018-05-31  92  /* power control/status definition */
-a0defd7cfc2804 Baolin Wang 2018-05-31  93  #define SPRD_RTC_POWER_RESET_VALUE	0x96
-a0defd7cfc2804 Baolin Wang 2018-05-31  94  #define SPRD_RTC_POWER_STS_CLEAR	GENMASK(7, 0)
-a0defd7cfc2804 Baolin Wang 2018-05-31  95  #define SPRD_RTC_POWER_STS_SHIFT	8
-a0defd7cfc2804 Baolin Wang 2018-05-31  96  #define SPRD_RTC_POWER_STS_VALID	\
-a0defd7cfc2804 Baolin Wang 2018-05-31 @97  	(~SPRD_RTC_POWER_RESET_VALUE << SPRD_RTC_POWER_STS_SHIFT)
-495bbde523969c Baolin Wang 2017-11-09  98  
+741d2558bf0aa8 Cristian Birsan 2017-01-23  372  
+fbf4987ae89261 Cristian Birsan 2017-03-28  373  static int usba_config_fifo_table(struct usba_udc *udc)
+741d2558bf0aa8 Cristian Birsan 2017-01-23  374  {
+741d2558bf0aa8 Cristian Birsan 2017-01-23  375  	int n;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  376  
+741d2558bf0aa8 Cristian Birsan 2017-01-23  377  	switch (fifo_mode) {
+741d2558bf0aa8 Cristian Birsan 2017-01-23  378  	default:
+741d2558bf0aa8 Cristian Birsan 2017-01-23 @379  		fifo_mode = 0;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  380  	case 0:
+741d2558bf0aa8 Cristian Birsan 2017-01-23  381  		udc->fifo_cfg = NULL;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  382  		n = 0;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  383  		break;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  384  	case 1:
+741d2558bf0aa8 Cristian Birsan 2017-01-23  385  		udc->fifo_cfg = mode_1_cfg;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  386  		n = ARRAY_SIZE(mode_1_cfg);
+741d2558bf0aa8 Cristian Birsan 2017-01-23  387  		break;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  388  	case 2:
+741d2558bf0aa8 Cristian Birsan 2017-01-23  389  		udc->fifo_cfg = mode_2_cfg;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  390  		n = ARRAY_SIZE(mode_2_cfg);
+741d2558bf0aa8 Cristian Birsan 2017-01-23  391  		break;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  392  	case 3:
+741d2558bf0aa8 Cristian Birsan 2017-01-23  393  		udc->fifo_cfg = mode_3_cfg;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  394  		n = ARRAY_SIZE(mode_3_cfg);
+741d2558bf0aa8 Cristian Birsan 2017-01-23  395  		break;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  396  	case 4:
+741d2558bf0aa8 Cristian Birsan 2017-01-23  397  		udc->fifo_cfg = mode_4_cfg;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  398  		n = ARRAY_SIZE(mode_4_cfg);
+741d2558bf0aa8 Cristian Birsan 2017-01-23  399  		break;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  400  	}
+741d2558bf0aa8 Cristian Birsan 2017-01-23  401  	DBG(DBG_HW, "Setup fifo_mode %d\n", fifo_mode);
+741d2558bf0aa8 Cristian Birsan 2017-01-23  402  
+741d2558bf0aa8 Cristian Birsan 2017-01-23  403  	return n;
+741d2558bf0aa8 Cristian Birsan 2017-01-23  404  }
+741d2558bf0aa8 Cristian Birsan 2017-01-23  405  
 
-:::::: The code at line 97 was first introduced by commit
-:::::: a0defd7cfc2804796144545e00aaf74a486adbe7 rtc: sprd: Add new RTC power down check method
+:::::: The code at line 379 was first introduced by commit
+:::::: 741d2558bf0aa8da9c0834ad43e1b9a1b16aa515 usb: gadget: udc: atmel: Update endpoint allocation scheme
 
-:::::: TO: Baolin Wang <baolin.wang@linaro.org>
-:::::: CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+:::::: TO: Cristian Birsan <cristian.birsan@microchip.com>
+:::::: CC: Felipe Balbi <felipe.balbi@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
