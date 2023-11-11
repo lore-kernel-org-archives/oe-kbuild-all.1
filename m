@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834BA154A2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 15:18:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7C21548B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 15:52:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l2t3oGB4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qyg1E9J3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699715938; x=1731251938;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lvjtUbnNsDItWnvkLpkbh2UeYD3cG89tmWqOctLObyw=;
-  b=l2t3oGB4Py4SpALxVwHo8aZ+DtAbASmj9S06RJT5zL0vUN4VHQyw2quL
-   3lIEwsY6Gpq9uw+rC4KyoOf0St/4UiP3c4O58FOUJoLYcotnaWZ2EUt5A
-   vfmZDPihiQF4ePDBWQLL3cQi5Q07e3i1VGf3lCgWdg6zq8m9L8iYQV8fJ
-   YAiVq72JZ68HcNyX0jXc2ceHMpddndVZdbwABKMYde6UVeQr9gjFV2xp0
-   eZWttjpJ6tT+zBuJqQCyVyFqglavhQCGo/kjLNboWzwSEFD1xb/z27LUh
-   MNEcHiqotwlZ/o6Wy0z7RkONCRG3QBUxxbZMsIgGOhgnYgeo15LfGvgjg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="375312326"
+  t=1699717947; x=1731253947;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=azRCTr/s9E7k7i40qVXBrUDNi2sqQaoFpQ8Hw+4+Y+g=;
+  b=Qyg1E9J3Jnj01jXM4SQ3c40/NZe+OETyzSBh97i8MuJzOBxvZw7m86fj
+   MflbjQy58fUScrYLKw5XbQmg7EEG2h0zvBjdj5WepVZPYzLkeNfV5uZm2
+   2Jr/Scbt9bpA8RzXcWnli5aV0BR6Fv7V6INOBtU5/AIi2DHyiSBS7862g
+   4M5VJ124Ep5SrUngjiVwSSJ0kudkRXF/6MBEinBWAb0QCNFpb9bOc06DD
+   vlFeBM0sL5Rx1AQxj9X/iFAtjF2LfXkN83D6EuBihTzMANVgRh1l/+pAG
+   IYf88TDLFxK0Kn3oGHqrmZeIPvODySUuIC9ejJHhRGDp1m1r7pegQw9Bi
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="456779421"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="375312326"
+   d="scan'208";a="456779421"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 07:18:57 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 07:52:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="767538974"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="767542669"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="767538974"
+   d="scan'208";a="767542669"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Nov 2023 07:18:56 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 11 Nov 2023 07:52:25 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1pl8-000AXG-04;
-	Sat, 11 Nov 2023 15:18:54 +0000
-Date: Sat, 11 Nov 2023 23:18:04 +0800
+	id 1r1qHX-000AYA-00
+	for oe-kbuild-all@lists.linux.dev;
+	Sat, 11 Nov 2023 15:52:23 +0000
+Date: Sat, 11 Nov 2023 23:51:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jon Moeller <jon.moeller@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_s 3434/30000] versioncheck:
- ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
-Message-ID: <202311112339.bQc2JLzo-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:4.19/android_t 13367/30000] drivers/of/irq.c:284:73:
+ sparse: sparse: incorrect type in initializer (different base types)
+Message-ID: <202311112330.3CITZjfq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,129 +50,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   b0d2cfb03adf70bb24abac09facf2edc99111de4
-commit: fadb19e08fbf603c6b11d9c45dbf33accdd58016 [3434/30000] platform/x86: add sep and socwatch drivers without socperf.
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311112339.bQc2JLzo-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
+head:   247bc655e03e4ac3632b21081ca56b813a644dcf
+commit: a323430753b95d8ac29fc0b3c2502b50f6073737 [13367/30000] ANDROID: GKI: of: irq: add helper to remap interrupts to another irqdomain
+config: x86_64-randconfig-122-20230910 (https://download.01.org/0day-ci/archive/20231111/202311112330.3CITZjfq-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311112330.3CITZjfq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311112339.bQc2JLzo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311112330.3CITZjfq-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wrestrict -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wundef -funsigned-char -Wenum-conversion -Wno-error=return-type -Wreturn-type -Wno-error=missing-prototypes W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
-   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
-   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
-   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
-   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/linuxos.h: 79: need linux/version.h
->> ./drivers/platform/x86/sepdk/inc/utility.h: 637: need linux/version.h
->> ./drivers/platform/x86/sepdk/sep/chap.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/core2.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/gmch.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/output.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/perfver4.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/pmi.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/silvermont.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/sys_info.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/unc_mmio.c: 29 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_telem.c: 60 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_tracepoint_handlers.c: 399: need linux/version.h
->> ./drivers/platform/x86/socwatchhv/swhv_acrn.c: 11 linux/version.h not needed.
->> ./drivers/platform/x86/socwatchhv/swhv_driver.c: 70 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
-   ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/of/irq.c:284:73: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be32 @@     got int @@
+   drivers/of/irq.c:284:73: sparse:     expected restricted __be32
+   drivers/of/irq.c:284:73: sparse:     got int
+
+vim +284 drivers/of/irq.c
+
+   276	
+   277	int of_irq_domain_map(const struct irq_fwspec *in, struct irq_fwspec *out)
+   278	{
+   279		char *stem_name;
+   280		char *cells_name, *map_name = NULL, *mask_name = NULL;
+   281		char *pass_name = NULL;
+   282		struct device_node *cur, *new = NULL;
+   283		const __be32 *map, *mask, *pass;
+ > 284		static const __be32 dummy_mask[] = { [0 ... MAX_PHANDLE_ARGS] = ~0 };
+   285		static const __be32 dummy_pass[] = { [0 ... MAX_PHANDLE_ARGS] = 0 };
+   286		__be32 initial_match_array[MAX_PHANDLE_ARGS];
+   287		const __be32 *match_array = initial_match_array;
+   288		int i, ret, map_len, match;
+   289		u32 in_size, out_size;
+   290	
+   291		stem_name = "";
+   292		cells_name = "#interrupt-cells";
+   293	
+   294		ret = -ENOMEM;
+   295		map_name = kasprintf(GFP_KERNEL, "irqdomain%s-map", stem_name);
+   296		if (!map_name)
+   297			goto free;
+   298	
+   299		mask_name = kasprintf(GFP_KERNEL, "irqdomain%s-map-mask", stem_name);
+   300		if (!mask_name)
+   301			goto free;
+   302	
+   303		pass_name = kasprintf(GFP_KERNEL, "irqdomain%s-map-pass-thru", stem_name);
+   304		if (!pass_name)
+   305			goto free;
+   306	
+   307		/* Get the #interrupt-cells property */
+   308		cur = to_of_node(in->fwnode);
+   309		ret = of_property_read_u32(cur, cells_name, &in_size);
+   310		if (ret < 0)
+   311			goto put;
+   312	
+   313		/* Precalculate the match array - this simplifies match loop */
+   314		for (i = 0; i < in_size; i++)
+   315			initial_match_array[i] = cpu_to_be32(in->param[i]);
+   316	
+   317		ret = -EINVAL;
+   318		/* Get the irqdomain-map property */
+   319		map = of_get_property(cur, map_name, &map_len);
+   320		if (!map) {
+   321			ret = 0;
+   322			goto free;
+   323		}
+   324		map_len /= sizeof(u32);
+   325	
+   326		/* Get the irqdomain-map-mask property (optional) */
+   327		mask = of_get_property(cur, mask_name, NULL);
+   328		if (!mask)
+   329			mask = dummy_mask;
+   330		/* Iterate through irqdomain-map property */
+   331		match = 0;
+   332		while (map_len > (in_size + 1) && !match) {
+   333			/* Compare specifiers */
+   334			match = 1;
+   335			for (i = 0; i < in_size; i++, map_len--)
+   336				match &= !((match_array[i] ^ *map++) & mask[i]);
+   337	
+   338			of_node_put(new);
+   339			new = of_find_node_by_phandle(be32_to_cpup(map));
+   340			map++;
+   341			map_len--;
+   342	
+   343			/* Check if not found */
+   344			if (!new)
+   345				goto put;
+   346	
+   347			if (!of_device_is_available(new))
+   348				match = 0;
+   349	
+   350			ret = of_property_read_u32(new, cells_name, &out_size);
+   351			if (ret)
+   352				goto put;
+   353	
+   354			/* Check for malformed properties */
+   355			if (WARN_ON(out_size > MAX_PHANDLE_ARGS))
+   356				goto put;
+   357			if (map_len < out_size)
+   358				goto put;
+   359	
+   360			/* Move forward by new node's #interrupt-cells amount */
+   361			map += out_size;
+   362			map_len -= out_size;
+   363		}
+   364		if (match) {
+   365			/* Get the irqdomain-map-pass-thru property (optional) */
+   366			pass = of_get_property(cur, pass_name, NULL);
+   367			if (!pass)
+   368				pass = dummy_pass;
+   369	
+   370			/*
+   371			 * Successfully parsed a irqdomain-map translation; copy new
+   372			 * specifier into the out structure, keeping the
+   373			 * bits specified in irqdomain-map-pass-thru.
+   374			 */
+   375			match_array = map - out_size;
+   376			for (i = 0; i < out_size; i++) {
+   377				__be32 val = *(map - out_size + i);
+   378	
+   379				out->param[i] = in->param[i];
+   380				if (i < in_size) {
+   381					val &= ~pass[i];
+   382					val |= cpu_to_be32(out->param[i]) & pass[i];
+   383				}
+   384	
+   385				out->param[i] = be32_to_cpu(val);
+   386			}
+   387			out->param_count = in_size = out_size;
+   388			out->fwnode = of_node_to_fwnode(new);
+   389		}
+   390	put:
+   391		of_node_put(cur);
+   392		of_node_put(new);
+   393	free:
+   394		kfree(mask_name);
+   395		kfree(map_name);
+   396		kfree(pass_name);
+   397	
+   398		return ret;
+   399	}
+   400	EXPORT_SYMBOL(of_irq_domain_map);
+   401	
 
 -- 
 0-DAY CI Kernel Test Service
