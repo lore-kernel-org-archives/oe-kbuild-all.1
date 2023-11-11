@@ -1,55 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312CB63B1;
-	Sat, 11 Nov 2023 04:21:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B4146B3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 04:56:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GMiOJgwT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AM9tWCSj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699676507; x=1731212507;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h9G/SoSxJM0c36e1IBLxMCgcVwi5gqimQGFIgL0cVIc=;
-  b=GMiOJgwTPEfv2faBXww7IzqLULFxeArW16cisOrpsHQA3hTTMY92jYAO
-   FOkD957PM34ING9ujJ9IJ/OHdC67p6sF9L+HvL7BCg6s2usDv4Pw5Svbg
-   qeVFAlBOfCjlBUhzZisSyFsbxCq8PBgmO77Dg8H61MppirqPf1jkMeBSr
-   lQdhIzr38XrS9Pn9WAzV0s6v/hIW4V2FSGzZaLmxvAg3HXR6sHqAisq0Q
-   +Wr4UDUqC9XZCHnbbCOy+i4XfV8gKScELp70WzAexQtFJwJCA2Nb7/3nu
-   XZkwmtFsmDtDiL8sL2xXjcmEhDAdBWmz09sJ3OqLNK5+L2LaDTYPtCPQi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="375288944"
+  t=1699678617; x=1731214617;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fB4of8Uc5QVel4j/5Efd20PibuJAOcIpepweOglEqSI=;
+  b=AM9tWCSj4q/v78n/9qZ2yOwYkYx10kDYTQwlwViYKqwA/vjcB/O6SlJd
+   DYO8fPSqCKYEeD7m1Ii6B/jCc64kJ8eDmThPBMWtd7Ex0iXEf8kOhSLxJ
+   j84vn4CNLqDYJI1Zx99LmpRwMIrF9aXa6Jw+5l3e5eu9Ecjy6SrSmrt5X
+   ksYOso/45KfObaew5HfKxLNEqpGGX5SeW6ENEWZB4o+B34p1oNc+6NcEO
+   EtkDQgeRpwzYLV64a1w8rNSMk/t/MGhBuItiMBF22kHN0pnLJbqaCV5Sj
+   YrW3vQvsJ5tatOPjQ3Mo4yQyTUauxZnuFtu+jxkLrBu+483k3Lo+vNX8Z
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="370460277"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="375288944"
+   d="scan'208";a="370460277"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 20:21:46 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 20:56:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="854537651"
+X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="854541876"
 X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="854537651"
+   d="scan'208";a="854541876"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2023 20:21:43 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2023 20:56:55 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1fV7-000ACc-0I;
-	Sat, 11 Nov 2023 04:21:41 +0000
-Date: Sat, 11 Nov 2023 12:20:59 +0800
+	id 1r1g3B-000ADY-0A;
+	Sat, 11 Nov 2023 04:56:53 +0000
+Date: Sat, 11 Nov 2023 12:56:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>, Andi Shyti <andi.shyti@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2 11/12] i2c: designware: Remove ->disable() callback
-Message-ID: <202311111250.CfK3aPG4-lkp@intel.com>
-References: <20231109182823.3531846-12-andriy.shevchenko@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:more-default-warnings 23/47]
+ kernel/trace/trace_osnoise.c:1999:8: warning: 'main' is usually a function
+Message-ID: <202311111234.FEYPmd8T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,55 +49,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231109182823.3531846-12-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wsa/i2c/for-next]
-[also build test ERROR on linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-designware-Replace-MODULE_ALIAS-with-MODULE_DEVICE_TABLE/20231110-040556
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
-patch link:    https://lore.kernel.org/r/20231109182823.3531846-12-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v2 11/12] i2c: designware: Remove ->disable() callback
-config: powerpc64-allmodconfig (https://download.01.org/0day-ci/archive/20231111/202311111250.CfK3aPG4-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111250.CfK3aPG4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git more-default-warnings
+head:   b86302da264f77971112b4be0b16eeb591026cbc
+commit: 00e0c1d8a43a259e001163ce28c5d5813643eab2 [23/47] [SUBMITTED 20230811] extrawarn: do not disable -Wmain at W=1 level
+config: x86_64-randconfig-076-20231111 (https://download.01.org/0day-ci/archive/20231111/202311111234.FEYPmd8T-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231111/202311111234.FEYPmd8T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311111250.CfK3aPG4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311111234.FEYPmd8T-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-designware-slave.c:95:7: error: no member named 'disable' in 'struct dw_i2c_dev'
-      95 |         dev->disable(dev);
-         |         ~~~  ^
-   1 error generated.
+   kernel/trace/trace_osnoise.c: In function 'start_kthread':
+>> kernel/trace/trace_osnoise.c:1999:8: warning: 'main' is usually a function [-Wmain]
+     void *main = osnoise_main;
+           ^~~~
 
 
-vim +95 drivers/i2c/busses/i2c-designware-slave.c
+vim +/main +1999 kernel/trace/trace_osnoise.c
 
-9f3e065c54b05b Luis Oliveira 2017-06-22   89  
-9f3e065c54b05b Luis Oliveira 2017-06-22   90  static int i2c_dw_unreg_slave(struct i2c_client *slave)
-9f3e065c54b05b Luis Oliveira 2017-06-22   91  {
-9f3e065c54b05b Luis Oliveira 2017-06-22   92  	struct dw_i2c_dev *dev = i2c_get_adapdata(slave->adapter);
-9f3e065c54b05b Luis Oliveira 2017-06-22   93  
-fee61247b7f67a Jarkko Nikula 2022-11-07   94  	regmap_write(dev->map, DW_IC_INTR_MASK, 0);
-9f3e065c54b05b Luis Oliveira 2017-06-22  @95  	dev->disable(dev);
-c486dcd2f1bbdd Jarkko Nikula 2019-08-15   96  	synchronize_irq(dev->irq);
-9f3e065c54b05b Luis Oliveira 2017-06-22   97  	dev->slave = NULL;
-2a86cdd2e7d3c7 Jarkko Nikula 2017-08-15   98  	pm_runtime_put(dev->dev);
-9f3e065c54b05b Luis Oliveira 2017-06-22   99  
-9f3e065c54b05b Luis Oliveira 2017-06-22  100  	return 0;
-9f3e065c54b05b Luis Oliveira 2017-06-22  101  }
-9f3e065c54b05b Luis Oliveira 2017-06-22  102  
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  1992  
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  1993  /*
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  1994   * start_kthread - Start a workload tread
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  1995   */
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  1996  static int start_kthread(unsigned int cpu)
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  1997  {
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  1998  	struct task_struct *kthread;
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22 @1999  	void *main = osnoise_main;
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  2000  	char comm[24];
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2001  
+ccb6754495ef25 Daniel Bristot de Oliveira 2021-10-31  2002  	if (timerlat_enabled()) {
+a955d7eac1779b Daniel Bristot de Oliveira 2021-06-22  2003  		snprintf(comm, 24, "timerlat/%d", cpu);
+a955d7eac1779b Daniel Bristot de Oliveira 2021-06-22  2004  		main = timerlat_main;
+a955d7eac1779b Daniel Bristot de Oliveira 2021-06-22  2005  	} else {
+30838fcd81078d Daniel Bristot de Oliveira 2022-11-17  2006  		/* if no workload, just return */
+30838fcd81078d Daniel Bristot de Oliveira 2022-11-17  2007  		if (!test_bit(OSN_WORKLOAD, &osnoise_options)) {
+30838fcd81078d Daniel Bristot de Oliveira 2022-11-17  2008  			per_cpu(per_cpu_osnoise_var, cpu).sampling = true;
+30838fcd81078d Daniel Bristot de Oliveira 2022-11-17  2009  			barrier();
+30838fcd81078d Daniel Bristot de Oliveira 2022-11-17  2010  			return 0;
+30838fcd81078d Daniel Bristot de Oliveira 2022-11-17  2011  		}
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2012  		snprintf(comm, 24, "osnoise/%d", cpu);
+a955d7eac1779b Daniel Bristot de Oliveira 2021-06-22  2013  	}
+ccb6754495ef25 Daniel Bristot de Oliveira 2021-10-31  2014  
+11e4e3523da98c Cai Huoqing                2022-01-14  2015  	kthread = kthread_run_on_cpu(main, NULL, cpu, comm);
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2016  
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2017  	if (IS_ERR(kthread)) {
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2018  		pr_err(BANNER "could not start sampling thread\n");
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2019  		stop_per_cpu_kthreads();
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2020  		return -ENOMEM;
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2021  	}
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2022  
+bce29ac9ce0bb0 Daniel Bristot de Oliveira 2021-06-22  2023  	per_cpu(per_cpu_osnoise_var, cpu).kthread = kthread;
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  2024  
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  2025  	return 0;
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  2026  }
+c8895e271f7994 Daniel Bristot de Oliveira 2021-06-22  2027  
+
+:::::: The code at line 1999 was first introduced by commit
+:::::: c8895e271f7994a3ecb13b8a280e39aa53879545 trace/osnoise: Support hotplug operations
+
+:::::: TO: Daniel Bristot de Oliveira <bristot@redhat.com>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
