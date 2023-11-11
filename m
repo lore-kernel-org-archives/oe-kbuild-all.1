@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABC11B27D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 19:20:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4821CAA2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 19:20:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i92JI7x0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jHsTeJ7J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699730455; x=1731266455;
+  t=1699730456; x=1731266456;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FUWt0zs1a70NNFIZXZPDAqKNlj2/BRGibeJKPAhnzNo=;
-  b=i92JI7x0S7YDggLvNFS9IeqCo+IgwzvuNmZs/FuZ7w9tab7qJV0A10bd
-   p6a2DOkEUqIi3VPbDNp5w+rRayfr4K2/EFrlXCa0KKpjG+rvdmqy1faXh
-   G3sb+7WcohnQRYE+6EwGAUTlW0j3s1vdu/4m/j3fXi0udBS9pPlBQ1VbU
-   m2G/U5xgB2IWsBsAyjLzhStPTyfIqagOBO+/FCoAWbkR077t/Ym2E7alq
-   wbKhSrmydwzyZBskQmqDl00HDE3jNb2hZ7dEqW8Y/RBKgK4JoZCVznioA
-   wPl0Ud2lSbhcWDQfh1CUplZWm7YFtFPri9V2evLkFFWp/TYdidAMQTrMD
+  bh=NbOIT+RDvuqSVD9FkD+kLts4kZoWLcH7vk25oq8H7bY=;
+  b=jHsTeJ7JVtAT11/8urESs/OfVwmwa8m38dV7n/pbzxli41N5Bd9VvFcn
+   CGo4ioRhn+B7P4SjZWnBU+63J+Y86uqBL8boVwa9YVKVq44iDauDNnMnC
+   Ta8g0szX2U89PTx/kQoBWzc4R6Iej9W85s4Tv4For3RSxCrwGiwvjVCZC
+   gSTsa/pnvm+22Xbi566uyx5721T5VUGxQtPgEENS1oYCQ4zrL2QuJ7LW0
+   R3oRkghbQXOh0A3u/qJZe/hMBlw/MFvEseMULu+BE4ihrbm4kXC+e7V45
+   aFuuNzVslgv3xmo1DwAJOsqpDKfELaSl4L8c9UAK9fHQOZleNingNR0Ea
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="8938690"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="8938692"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="8938690"
+   d="scan'208";a="8938692"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 11:20:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="798839138"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="798839136"
 X-IronPort-AV: E=Sophos;i="6.03,295,1694761200"; 
-   d="scan'208";a="798839138"
+   d="scan'208";a="798839136"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 11 Nov 2023 11:20:47 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1tXB-000Ahr-1z;
+	id 1r1tXB-000Ahl-09;
 	Sat, 11 Nov 2023 19:20:45 +0000
-Date: Sun, 12 Nov 2023 03:20:10 +0800
+Date: Sun, 12 Nov 2023 03:19:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/642 1573/30000]
- drivers/input/touchscreen/vtl/vtl_ts.c:228:5: sparse: sparse: symbol
- 'vtl_ts_suspend' was not declared. Should it be static?
-Message-ID: <202311120333.0qEGdfpW-lkp@intel.com>
+To: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@linux.ibm.com>
+Subject: fs/file.c:351:17: sparse: sparse: incompatible types in comparison
+ expression (different address spaces):
+Message-ID: <202311120246.W8nrgLDN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,239 +51,208 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/642
-head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
-commit: 3785cf3fded6ec2c0230baf53fca19a1e956446f [1573/30000] MLK-13244 input: touchscreen: add support for vtl touchscreen
-config: i386-randconfig-063-20231021 (https://download.01.org/0day-ci/archive/20231112/202311120333.0qEGdfpW-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3ca112b71f35dd5d99fc4571a56b5fc6f0c15814
+commit: 423a86a610cad121742ebe698ef98a3b4c87b5dd rcu: Add sparse check to rcu_assign_pointer()
+date:   4 years, 10 months ago
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231112/202311120246.W8nrgLDN-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120333.0qEGdfpW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120246.W8nrgLDN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311120333.0qEGdfpW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311120246.W8nrgLDN-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/input/touchscreen/vtl/vtl_ts.c:80:6: sparse: sparse: symbol 'vtl_ts_free_gpio' was not declared. Should it be static?
-   drivers/input/touchscreen/vtl/vtl_ts.c:90:6: sparse: sparse: symbol 'vtl_ts_hw_reset' was not declared. Should it be static?
->> drivers/input/touchscreen/vtl/vtl_ts.c:228:5: sparse: sparse: symbol 'vtl_ts_suspend' was not declared. Should it be static?
->> drivers/input/touchscreen/vtl/vtl_ts.c:241:5: sparse: sparse: symbol 'vtl_ts_resume' was not declared. Should it be static?
-   drivers/input/touchscreen/vtl/vtl_ts.c:278:6: sparse: sparse: symbol 'vtl_ts_remove' was not declared. Should it be static?
-   drivers/input/touchscreen/vtl/vtl_ts.c:366:5: sparse: sparse: symbol 'ct36x_test_tp' was not declared. Should it be static?
-   drivers/input/touchscreen/vtl/vtl_ts.c:382:5: sparse: sparse: symbol 'vtl_ts_probe' was not declared. Should it be static?
+   fs/file.c:335:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **old_fds @@     got struct file [noderef] <asn:4> **fd @@
+   fs/file.c:335:17: sparse:     expected struct file **old_fds
+   fs/file.c:335:17: sparse:     got struct file [noderef] <asn:4> **fd
+   fs/file.c:336:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file **new_fds @@     got struct file [noderef] <asn:4> **fd @@
+   fs/file.c:336:17: sparse:     expected struct file **new_fds
+   fs/file.c:336:17: sparse:     got struct file [noderef] <asn:4> **fd
+>> fs/file.c:351:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/file.c:351:17: sparse:    struct file [noderef] <asn:4> *
+>> fs/file.c:351:17: sparse:    struct file *
+   fs/file.c:386:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> *[assigned] __ret @@
+   fs/file.c:386:54: sparse:     expected struct file *file
+   fs/file.c:386:54: sparse:     got struct file [noderef] <asn:4> *[assigned] __ret
+   fs/file.c:451:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fdtable [noderef] <asn:4> *fdt @@     got struct fdtable * @@
+   fs/file.c:451:28: sparse:     expected struct fdtable [noderef] <asn:4> *fdt
+   fs/file.c:451:28: sparse:     got struct fdtable *
+   fs/file.c:629:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> * @@
+   fs/file.c:629:14: sparse:     expected struct file *file
+   fs/file.c:629:14: sparse:     got struct file [noderef] <asn:4> *
+   fs/file.c:656:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> * @@
+   fs/file.c:656:14: sparse:     expected struct file *file
+   fs/file.c:656:14: sparse:     got struct file [noderef] <asn:4> *
+   fs/file.c:693:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *file @@     got struct file [noderef] <asn:4> * @@
+   fs/file.c:693:30: sparse:     expected struct file *file
+   fs/file.c:693:30: sparse:     got struct file [noderef] <asn:4> *
+   fs/file.c:859:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *tofree @@     got struct file [noderef] <asn:4> * @@
+   fs/file.c:859:16: sparse:     expected struct file *tofree
+   fs/file.c:859:16: sparse:     got struct file [noderef] <asn:4> *
+--
+   kernel/notifier.c:27:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:27:20: sparse:     expected struct notifier_block **nl
+   kernel/notifier.c:27:20: sparse:     got struct notifier_block [noderef] <asn:4> **
+   kernel/notifier.c:29:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block [noderef] <asn:4> *next @@     got struct notifier_block * @@
+   kernel/notifier.c:29:17: sparse:     expected struct notifier_block [noderef] <asn:4> *next
+   kernel/notifier.c:29:17: sparse:     got struct notifier_block *
+>> kernel/notifier.c:30:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/notifier.c:30:9: sparse:    struct notifier_block [noderef] <asn:4> *
+>> kernel/notifier.c:30:9: sparse:    struct notifier_block *
+   kernel/notifier.c:42:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:42:20: sparse:     expected struct notifier_block **nl
+   kernel/notifier.c:42:20: sparse:     got struct notifier_block [noderef] <asn:4> **
+   kernel/notifier.c:44:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block [noderef] <asn:4> *next @@     got struct notifier_block * @@
+   kernel/notifier.c:44:17: sparse:     expected struct notifier_block [noderef] <asn:4> *next
+   kernel/notifier.c:44:17: sparse:     got struct notifier_block *
+   kernel/notifier.c:45:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/notifier.c:45:9: sparse:    struct notifier_block [noderef] <asn:4> *
+   kernel/notifier.c:45:9: sparse:    struct notifier_block *
+   kernel/notifier.c:54:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/notifier.c:54:25: sparse:    struct notifier_block [noderef] <asn:4> *
+   kernel/notifier.c:54:25: sparse:    struct notifier_block *
+   kernel/notifier.c:128:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:150:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:183:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:224:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:227:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:250:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:277:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:280:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:317:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:350:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:367:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:394:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:432:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:435:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:462:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:465:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+   kernel/notifier.c:498:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct notifier_block **nl @@     got struct notifier_block [noderef] <asn:4> ** @@
+--
+   lib/rbtree.c: note: in included file:
+>> include/linux/rbtree_augmented.h:153:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/rbtree_augmented.h:153:25: sparse:    struct rb_node [noderef] <asn:4> *
+>> include/linux/rbtree_augmented.h:153:25: sparse:    struct rb_node *
+   include/linux/rbtree_augmented.h:155:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/rbtree_augmented.h:155:25: sparse:    struct rb_node [noderef] <asn:4> *
+   include/linux/rbtree_augmented.h:155:25: sparse:    struct rb_node *
+   include/linux/rbtree_augmented.h:157:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/rbtree_augmented.h:157:17: sparse:    struct rb_node [noderef] <asn:4> *
+   include/linux/rbtree_augmented.h:157:17: sparse:    struct rb_node *
 
-vim +/vtl_ts_suspend +228 drivers/input/touchscreen/vtl/vtl_ts.c
+vim +351 fs/file.c
 
-    46	
-    47	
-    48	/* Global or static variables */
-  > 49	struct ts_driver g_driver;
-    50	
-    51	static struct ts_info g_ts = {
-    52		.driver = &g_driver,
-    53	};
-    54	static struct ts_info *pg_ts = &g_ts;
-    55	
-    56	static struct i2c_device_id vtl_ts_id[] = {
-    57		{ DRIVER_NAME, 0 },
-    58		{ }
-    59	};
-    60	MODULE_DEVICE_TABLE(i2c, vtl_ts_id);
-    61	
-    62	
-    63	static int vtl_ts_config(struct ts_info *ts)
-    64	{
-    65		struct device *dev;
-    66	
-    67		DEBUG();
-    68	
-    69		dev = &ts->driver->client->dev;
-    70	
-    71		/* ts config */
-    72		ts->config_info.touch_point_number = TOUCH_POINT_NUM;
-    73	
-    74		pr_info("Configuring vtl\n");
-    75		ts->config_info.screen_max_x = SCREEN_MAX_X;
-    76		ts->config_info.screen_max_y = SCREEN_MAX_y;
-    77		return 0;
-    78	}
-    79	
-    80	void vtl_ts_free_gpio(void)
-    81	{
-    82		struct ts_info *ts;
-    83	
-    84		ts = pg_ts;
-    85		DEBUG();
-    86	
-    87		gpio_free(ts->config_info.irq_gpio_number);
-    88	}
-    89	
-    90	void vtl_ts_hw_reset(void)
-    91	{
-    92		struct ts_info *ts;
-    93	
-    94		ts = pg_ts;
-    95		DEBUG();
-    96	
-    97		gpio_set_value(ts->config_info.rst_gpio_number, 0);
-    98		mdelay(50);
-    99		gpio_set_value(ts->config_info.rst_gpio_number, 1);
-   100	}
-   101	
-   102	static irqreturn_t vtl_ts_irq(int irq, void *dev)
-   103	{
-   104		struct ts_info *ts;
-   105	
-   106		ts = pg_ts;
-   107		DEBUG();
-   108	
-   109		queue_work(ts->driver->workqueue, &ts->driver->event_work);
-   110	
-   111		return IRQ_HANDLED;
-   112	}
-   113	
-   114	static union ts_xy_data *vtl_read_xy_data(struct ts_info *ts)
-   115	{
-   116		struct i2c_msg msgs;
-   117		int err;
-   118	
-   119		DEBUG();
-   120	
-   121		msgs.addr = ts->driver->client->addr;
-   122		msgs.flags = 0x01;
-   123		msgs.len = sizeof(ts->xy_data.buf);
-   124		msgs.buf = ts->xy_data.buf;
-   125	
-   126		err = i2c_transfer(ts->driver->client->adapter, &msgs, 1);
-   127		if (err != 1) {
-   128			pr_err("___%s:i2c read err___\n", __func__);
-   129			return NULL;
-   130		}
-   131		return &ts->xy_data;
-   132	}
-   133	
-   134	static void vtl_report_xy_coord(struct input_dev *input_dev,
-   135					union ts_xy_data *xy_data,
-   136					unsigned char touch_point_number)
-   137	{
-   138		struct ts_info *ts;
-   139		int id;
-   140		int sync;
-   141		int x, y;
-   142		unsigned int press;
-   143		static unsigned int release;
-   144	
-   145		ts = pg_ts;
-   146		DEBUG();
-   147	
-   148		/* report points */
-   149		sync = 0;  press = 0;
-   150		for (id = 0; id < touch_point_number; id++) {
-   151			if ((xy_data->point[id].xhi != 0xFF) &&
-   152			    (xy_data->point[id].yhi != 0xFF) &&
-   153			   ((xy_data->point[id].status == 1) ||
-   154			    (xy_data->point[id].status == 2))) {
-   155				x = (xy_data->point[id].xhi<<4) |
-   156				    (xy_data->point[id].xlo&0xF);
-   157				y = (xy_data->point[id].yhi<<4) |
-   158				    (xy_data->point[id].ylo&0xF);
-   159	
-   160			if (ts->config_info.exchange_x_y_flag)
-   161				swap(x, y);
-   162	
-   163			if (ts->config_info.revert_x_flag)
-   164				x = ts->config_info.screen_max_x - x;
-   165	
-   166			if (ts->config_info.revert_y_flag)
-   167				y = ts->config_info.screen_max_y - y;
-   168	#ifndef FORCE_SINGLE_EVENT
-   169				input_mt_slot(input_dev, xy_data->point[id].id - 1);
-   170				input_mt_report_slot_state(input_dev,
-   171							   MT_TOOL_FINGER, true);
-   172				input_report_abs(input_dev, ABS_MT_POSITION_X, x);
-   173				input_report_abs(input_dev, ABS_MT_POSITION_Y, y);
-   174				input_report_abs(input_dev, ABS_MT_TOUCH_MAJOR, 30);
-   175				input_report_abs(input_dev, ABS_MT_WIDTH_MAJOR, 128);
-   176	#else
-   177				input_report_abs(input_dev, ABS_X, x);
-   178				input_report_abs(input_dev, ABS_Y, y);
-   179				input_report_key(input_dev, BTN_TOUCH, 1);
-   180				input_report_abs(input_dev, ABS_PRESSURE, 1);
-   181	#endif
-   182				sync = 1;
-   183				press |= 0x01 << (xy_data->point[id].id - 1);
-   184			}
-   185		}
-   186	
-   187		release &= (release ^ press); /*release point flag */
-   188		for (id = 0; id < touch_point_number; id++) {
-   189			if (release & (0x01 << id)) {
-   190	#ifndef FORCE_SINGLE_EVENT
-   191				input_mt_slot(input_dev, id);
-   192				input_mt_report_slot_state(input_dev,
-   193							   MT_TOOL_FINGER, false);
-   194	#else
-   195				input_report_key(input_dev, BTN_TOUCH, 0);
-   196				input_report_abs(input_dev, ABS_PRESSURE, 0);
-   197	#endif
-   198				sync = 1;
-   199			}
-   200	
-   201		}
-   202		release = press;
-   203	
-   204		if (sync)
-   205			input_sync(input_dev);
-   206	}
-   207	
-   208	static void vtl_ts_workfunc(struct work_struct *work)
-   209	{
-   210	
-   211		union ts_xy_data *xy_data;
-   212		struct input_dev *input_dev;
-   213		unsigned char touch_point_number;
-   214	
-   215		DEBUG();
-   216	
-   217		input_dev = pg_ts->driver->input_dev;
-   218		touch_point_number = pg_ts->config_info.touch_point_number;
-   219	
-   220		xy_data = vtl_read_xy_data(pg_ts);
-   221		if (xy_data != NULL)
-   222			vtl_report_xy_coord(input_dev, xy_data, touch_point_number);
-   223		else
-   224			pr_err("____xy_data error___\n");
-   225	}
-   226	
-   227	#ifdef CONFIG_PM_SLEEP
- > 228	int vtl_ts_suspend(struct device *dev)
-   229	{
-   230		struct ts_info *ts;
-   231	
-   232		ts = pg_ts;
-   233		DEBUG();
-   234	
-   235		disable_irq(ts->config_info.irq_number);
-   236		cancel_work_sync(&ts->driver->event_work);
-   237	
-   238		return 0;
-   239	}
-   240	
- > 241	int vtl_ts_resume(struct device *dev)
-   242	{
-   243		struct ts_info *ts;
-   244	
-   245		ts = pg_ts;
-   246		DEBUG();
-   247	
-   248		/* Hardware reset */
-   249		vtl_ts_hw_reset();
-   250		enable_irq(ts->config_info.irq_number);
-   251	
-   252		return 0;
-   253	}
-   254	#endif
-   255	
+02afc6267f6d55 Al Viro         2008-05-08  266  
+02afc6267f6d55 Al Viro         2008-05-08  267  /*
+02afc6267f6d55 Al Viro         2008-05-08  268   * Allocate a new files structure and copy contents from the
+02afc6267f6d55 Al Viro         2008-05-08  269   * passed in files structure.
+02afc6267f6d55 Al Viro         2008-05-08  270   * errorp will be valid only when the returned files_struct is NULL.
+02afc6267f6d55 Al Viro         2008-05-08  271   */
+02afc6267f6d55 Al Viro         2008-05-08  272  struct files_struct *dup_fd(struct files_struct *oldf, int *errorp)
+02afc6267f6d55 Al Viro         2008-05-08  273  {
+02afc6267f6d55 Al Viro         2008-05-08  274  	struct files_struct *newf;
+02afc6267f6d55 Al Viro         2008-05-08  275  	struct file **old_fds, **new_fds;
+9b80a184eaadc1 Alexey Dobriyan 2016-09-02  276  	unsigned int open_files, i;
+02afc6267f6d55 Al Viro         2008-05-08  277  	struct fdtable *old_fdt, *new_fdt;
+02afc6267f6d55 Al Viro         2008-05-08  278  
+02afc6267f6d55 Al Viro         2008-05-08  279  	*errorp = -ENOMEM;
+afbec7fff4928c Al Viro         2008-05-08  280  	newf = kmem_cache_alloc(files_cachep, GFP_KERNEL);
+02afc6267f6d55 Al Viro         2008-05-08  281  	if (!newf)
+02afc6267f6d55 Al Viro         2008-05-08  282  		goto out;
+02afc6267f6d55 Al Viro         2008-05-08  283  
+afbec7fff4928c Al Viro         2008-05-08  284  	atomic_set(&newf->count, 1);
+afbec7fff4928c Al Viro         2008-05-08  285  
+afbec7fff4928c Al Viro         2008-05-08  286  	spin_lock_init(&newf->file_lock);
+8a81252b774b53 Eric Dumazet    2015-06-30  287  	newf->resize_in_progress = false;
+8a81252b774b53 Eric Dumazet    2015-06-30  288  	init_waitqueue_head(&newf->resize_wait);
+afbec7fff4928c Al Viro         2008-05-08  289  	newf->next_fd = 0;
+afbec7fff4928c Al Viro         2008-05-08  290  	new_fdt = &newf->fdtab;
+afbec7fff4928c Al Viro         2008-05-08  291  	new_fdt->max_fds = NR_OPEN_DEFAULT;
+1fd36adcd98c14 David Howells   2012-02-16  292  	new_fdt->close_on_exec = newf->close_on_exec_init;
+1fd36adcd98c14 David Howells   2012-02-16  293  	new_fdt->open_fds = newf->open_fds_init;
+f3f86e33dc3da4 Linus Torvalds  2015-10-30  294  	new_fdt->full_fds_bits = newf->full_fds_bits_init;
+afbec7fff4928c Al Viro         2008-05-08  295  	new_fdt->fd = &newf->fd_array[0];
+afbec7fff4928c Al Viro         2008-05-08  296  
+02afc6267f6d55 Al Viro         2008-05-08  297  	spin_lock(&oldf->file_lock);
+02afc6267f6d55 Al Viro         2008-05-08  298  	old_fdt = files_fdtable(oldf);
+02afc6267f6d55 Al Viro         2008-05-08  299  	open_files = count_open_files(old_fdt);
+02afc6267f6d55 Al Viro         2008-05-08  300  
+02afc6267f6d55 Al Viro         2008-05-08  301  	/*
+02afc6267f6d55 Al Viro         2008-05-08  302  	 * Check whether we need to allocate a larger fd array and fd set.
+02afc6267f6d55 Al Viro         2008-05-08  303  	 */
+adbecb128cd2cc Al Viro         2008-05-08  304  	while (unlikely(open_files > new_fdt->max_fds)) {
+02afc6267f6d55 Al Viro         2008-05-08  305  		spin_unlock(&oldf->file_lock);
+9dec3c4d306b09 Al Viro         2008-05-08  306  
+a892e2d7dcdfa6 Changli Gao     2010-08-10  307  		if (new_fdt != &newf->fdtab)
+a892e2d7dcdfa6 Changli Gao     2010-08-10  308  			__free_fdtable(new_fdt);
+adbecb128cd2cc Al Viro         2008-05-08  309  
+9dec3c4d306b09 Al Viro         2008-05-08  310  		new_fdt = alloc_fdtable(open_files - 1);
+9dec3c4d306b09 Al Viro         2008-05-08  311  		if (!new_fdt) {
+9dec3c4d306b09 Al Viro         2008-05-08  312  			*errorp = -ENOMEM;
+02afc6267f6d55 Al Viro         2008-05-08  313  			goto out_release;
+9dec3c4d306b09 Al Viro         2008-05-08  314  		}
+9dec3c4d306b09 Al Viro         2008-05-08  315  
+9dec3c4d306b09 Al Viro         2008-05-08  316  		/* beyond sysctl_nr_open; nothing to do */
+9dec3c4d306b09 Al Viro         2008-05-08  317  		if (unlikely(new_fdt->max_fds < open_files)) {
+a892e2d7dcdfa6 Changli Gao     2010-08-10  318  			__free_fdtable(new_fdt);
+9dec3c4d306b09 Al Viro         2008-05-08  319  			*errorp = -EMFILE;
+9dec3c4d306b09 Al Viro         2008-05-08  320  			goto out_release;
+9dec3c4d306b09 Al Viro         2008-05-08  321  		}
+9dec3c4d306b09 Al Viro         2008-05-08  322  
+02afc6267f6d55 Al Viro         2008-05-08  323  		/*
+02afc6267f6d55 Al Viro         2008-05-08  324  		 * Reacquire the oldf lock and a pointer to its fd table
+02afc6267f6d55 Al Viro         2008-05-08  325  		 * who knows it may have a new bigger fd table. We need
+02afc6267f6d55 Al Viro         2008-05-08  326  		 * the latest pointer.
+02afc6267f6d55 Al Viro         2008-05-08  327  		 */
+02afc6267f6d55 Al Viro         2008-05-08  328  		spin_lock(&oldf->file_lock);
+02afc6267f6d55 Al Viro         2008-05-08  329  		old_fdt = files_fdtable(oldf);
+adbecb128cd2cc Al Viro         2008-05-08  330  		open_files = count_open_files(old_fdt);
+02afc6267f6d55 Al Viro         2008-05-08  331  	}
+02afc6267f6d55 Al Viro         2008-05-08  332  
+ea5c58e70c3a14 Eric Biggers    2015-11-06  333  	copy_fd_bitmaps(new_fdt, old_fdt, open_files);
+ea5c58e70c3a14 Eric Biggers    2015-11-06  334  
+02afc6267f6d55 Al Viro         2008-05-08  335  	old_fds = old_fdt->fd;
+02afc6267f6d55 Al Viro         2008-05-08  336  	new_fds = new_fdt->fd;
+02afc6267f6d55 Al Viro         2008-05-08  337  
+02afc6267f6d55 Al Viro         2008-05-08  338  	for (i = open_files; i != 0; i--) {
+02afc6267f6d55 Al Viro         2008-05-08  339  		struct file *f = *old_fds++;
+02afc6267f6d55 Al Viro         2008-05-08  340  		if (f) {
+02afc6267f6d55 Al Viro         2008-05-08  341  			get_file(f);
+02afc6267f6d55 Al Viro         2008-05-08  342  		} else {
+02afc6267f6d55 Al Viro         2008-05-08  343  			/*
+02afc6267f6d55 Al Viro         2008-05-08  344  			 * The fd may be claimed in the fd bitmap but not yet
+02afc6267f6d55 Al Viro         2008-05-08  345  			 * instantiated in the files array if a sibling thread
+02afc6267f6d55 Al Viro         2008-05-08  346  			 * is partway through open().  So make sure that this
+02afc6267f6d55 Al Viro         2008-05-08  347  			 * fd is available to the new process.
+02afc6267f6d55 Al Viro         2008-05-08  348  			 */
+1dce27c5aa6770 David Howells   2012-02-16  349  			__clear_open_fd(open_files - i, new_fdt);
+02afc6267f6d55 Al Viro         2008-05-08  350  		}
+02afc6267f6d55 Al Viro         2008-05-08 @351  		rcu_assign_pointer(*new_fds++, f);
+02afc6267f6d55 Al Viro         2008-05-08  352  	}
+02afc6267f6d55 Al Viro         2008-05-08  353  	spin_unlock(&oldf->file_lock);
+02afc6267f6d55 Al Viro         2008-05-08  354  
+ea5c58e70c3a14 Eric Biggers    2015-11-06  355  	/* clear the remainder */
+ea5c58e70c3a14 Eric Biggers    2015-11-06  356  	memset(new_fds, 0, (new_fdt->max_fds - open_files) * sizeof(struct file *));
+02afc6267f6d55 Al Viro         2008-05-08  357  
+afbec7fff4928c Al Viro         2008-05-08  358  	rcu_assign_pointer(newf->fdt, new_fdt);
+afbec7fff4928c Al Viro         2008-05-08  359  
+02afc6267f6d55 Al Viro         2008-05-08  360  	return newf;
+02afc6267f6d55 Al Viro         2008-05-08  361  
+02afc6267f6d55 Al Viro         2008-05-08  362  out_release:
+02afc6267f6d55 Al Viro         2008-05-08  363  	kmem_cache_free(files_cachep, newf);
+02afc6267f6d55 Al Viro         2008-05-08  364  out:
+02afc6267f6d55 Al Viro         2008-05-08  365  	return NULL;
+02afc6267f6d55 Al Viro         2008-05-08  366  }
+02afc6267f6d55 Al Viro         2008-05-08  367  
+
+:::::: The code at line 351 was first introduced by commit
+:::::: 02afc6267f6d55d47aba9fcafdbd1b7230d2294a [PATCH] dup_fd() fixes, part 1
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
