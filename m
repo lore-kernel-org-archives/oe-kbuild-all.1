@@ -1,52 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B3014296
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 15:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C983314AB6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 15:47:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5XCCnWR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m28lT/Ko"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699803430; x=1731339430;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6+rGikK4Qo6QtlUFO84kfV1pxROXDN6ZfNpcss2LyoA=;
-  b=d5XCCnWRrA2fWB8a4TrnRwyZP/d45VkNWgByej5b/hPI33MfLGgqhONP
-   JUvts7QcLGzkZgqiN+3rz6bJ10hxz1+fflHTds6LaZ233aE1T9zLS3YRZ
-   RnBAojeSGcJ49OYqW4VR40vahfKhOUEryGcFTOiOPr3UYyuzzTMaIVs+F
-   +V+Oj6ZSBmSK3LZew9ZWKhHNi8EX49b3GRQXku+QhCcomhf0gauXIMvje
-   BhXOFsJ5cLDBbCtYTcKxDRfsHw4vKi1/3a/R05gid0YWbn/Yl4PPWIyOp
-   BpjAEcWeaXTJDhNzVf9JcpDAZVESlz+hNE6p4SOS5CYxnj8aZmefUnS4C
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="369664362"
+  t=1699804065; x=1731340065;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sODrFILA0yU0o0OAO7zmqV5cYaglUUXAStU7udI77OE=;
+  b=m28lT/KopYBs1zZXtGuH6a2KTstTNpKYXwI6SzNZF64lXPoHzNAgQpGS
+   A8Qnib/eO0+dGIoAIq5aoNyK9ItKNVGbxE5cnP35DU596p0mFmTZjYgtJ
+   xCpvsDg0IA33eqKVOnYVdeeyJDG0+FtDy35T17O3l3+TXGci4ktuLPPm7
+   NQI2pF697YKL4VXvo1T2qdR4NNEANlca35GFBZyGwq+dnq2MfKieW6IAT
+   r6vg762p+t/diRASdFpzC5RqymzN5Cm2NlymIylTXxK/Eo+KkX1bfOKA5
+   Z21Fjbw3JS4LdfSG3DjEHyp9pnUN7KEelHWt8p33HYx+TR0ZKMrjfFe2d
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="393205389"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="369664362"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 07:37:08 -0800
+   d="scan'208";a="393205389"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 07:47:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="937555804"
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="881443105"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="937555804"
+   d="scan'208";a="881443105"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 12 Nov 2023 07:37:03 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 12 Nov 2023 07:47:43 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2CWC-000BEy-31;
-	Sun, 12 Nov 2023 15:37:00 +0000
-Date: Sun, 12 Nov 2023 23:35:59 +0800
+	id 1r2CgX-000BFq-27;
+	Sun, 12 Nov 2023 15:47:41 +0000
+Date: Sun, 12 Nov 2023 23:47:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alan Maguire <alan.maguire@oracle.com>, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, jolsa@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, quentin@isovalent.com, eddyz87@gmail.com,
-	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-	haoluo@google.com, masahiroy@kernel.org, bpf@vger.kernel.org,
-	Alan Maguire <alan.maguire@oracle.com>
-Subject: Re: [PATCH v4 bpf-next 13/17] bpf: support standalone BTF in modules
-Message-ID: <202311122307.bjlq3XJ5-lkp@intel.com>
-References: <20231112124834.388735-14-alan.maguire@oracle.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/642 1573/30000]
+ drivers/input/touchscreen/vtl/vtl_ts.c:49:18: sparse: sparse: symbol
+ 'g_driver' was not declared. Should it be static?
+Message-ID: <202311122315.7tePeocQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,172 +50,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231112124834.388735-14-alan.maguire@oracle.com>
 
-Hi Alan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alan-Maguire/btf-add-kind-layout-encoding-crcs-to-UAPI/20231112-205314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231112124834.388735-14-alan.maguire%40oracle.com
-patch subject: [PATCH v4 bpf-next 13/17] bpf: support standalone BTF in modules
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20231112/202311122307.bjlq3XJ5-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311122307.bjlq3XJ5-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/642
+head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
+commit: 3785cf3fded6ec2c0230baf53fca19a1e956446f [1573/30000] MLK-13244 input: touchscreen: add support for vtl touchscreen
+config: i386-randconfig-062-20231021 (https://download.01.org/0day-ci/archive/20231112/202311122315.7tePeocQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311122315.7tePeocQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311122307.bjlq3XJ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311122315.7tePeocQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/touchscreen/vtl/vtl_ts.c:80:6: sparse: sparse: symbol 'vtl_ts_free_gpio' was not declared. Should it be static?
+>> drivers/input/touchscreen/vtl/vtl_ts.c:90:6: sparse: sparse: symbol 'vtl_ts_hw_reset' was not declared. Should it be static?
+>> drivers/input/touchscreen/vtl/vtl_ts.c:278:6: sparse: sparse: symbol 'vtl_ts_remove' was not declared. Should it be static?
+>> drivers/input/touchscreen/vtl/vtl_ts.c:366:5: sparse: sparse: symbol 'ct36x_test_tp' was not declared. Should it be static?
+>> drivers/input/touchscreen/vtl/vtl_ts.c:382:5: sparse: sparse: symbol 'vtl_ts_probe' was not declared. Should it be static?
 
-   kernel/bpf/btf.c: In function 'btf_seq_show':
-   kernel/bpf/btf.c:7447:29: warning: function 'btf_seq_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7447 |         seq_vprintf((struct seq_file *)show->target, fmt, args);
-         |                             ^~~~~~~~
-   kernel/bpf/btf.c: In function 'btf_snprintf_show':
-   kernel/bpf/btf.c:7484:9: warning: function 'btf_snprintf_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7484 |         len = vsnprintf(show->target, ssnprintf->len_left, fmt, args);
-         |         ^~~
-   kernel/bpf/btf.c: In function 'btf_populate_kfunc_set':
->> kernel/bpf/btf.c:8153:44: error: implicit declaration of function 'btf_id_renumber'; did you mean 'btf_is_enum64'? [-Werror=implicit-function-declaration]
-    8153 |                         set->pairs[i].id = btf_id_renumber(btf, set->pairs[i].id);
-         |                                            ^~~~~~~~~~~~~~~
-         |                                            btf_is_enum64
-   cc1: some warnings being treated as errors
+vim +/g_driver +49 drivers/input/touchscreen/vtl/vtl_ts.c
 
-
-vim +8153 kernel/bpf/btf.c
-
-  8046	
-  8047	static int btf_populate_kfunc_set(struct btf *btf, enum btf_kfunc_hook hook,
-  8048					  const struct btf_kfunc_id_set *kset)
-  8049	{
-  8050		struct btf_kfunc_hook_filter *hook_filter;
-  8051		struct btf_id_set8 *add_set = kset->set;
-  8052		bool vmlinux_set = !btf_is_module(btf);
-  8053		bool add_filter = !!kset->filter;
-  8054		struct btf_kfunc_set_tab *tab;
-  8055		struct btf_id_set8 *set;
-  8056		u32 set_cnt;
-  8057		int ret;
-  8058	
-  8059		if (hook >= BTF_KFUNC_HOOK_MAX) {
-  8060			ret = -EINVAL;
-  8061			goto end;
-  8062		}
-  8063	
-  8064		if (!add_set->cnt)
-  8065			return 0;
-  8066	
-  8067		tab = btf->kfunc_set_tab;
-  8068	
-  8069		if (tab && add_filter) {
-  8070			u32 i;
-  8071	
-  8072			hook_filter = &tab->hook_filters[hook];
-  8073			for (i = 0; i < hook_filter->nr_filters; i++) {
-  8074				if (hook_filter->filters[i] == kset->filter) {
-  8075					add_filter = false;
-  8076					break;
-  8077				}
-  8078			}
-  8079	
-  8080			if (add_filter && hook_filter->nr_filters == BTF_KFUNC_FILTER_MAX_CNT) {
-  8081				ret = -E2BIG;
-  8082				goto end;
-  8083			}
-  8084		}
-  8085	
-  8086		if (!tab) {
-  8087			tab = kzalloc(sizeof(*tab), GFP_KERNEL | __GFP_NOWARN);
-  8088			if (!tab)
-  8089				return -ENOMEM;
-  8090			btf->kfunc_set_tab = tab;
-  8091		}
-  8092	
-  8093		set = tab->sets[hook];
-  8094		/* Warn when register_btf_kfunc_id_set is called twice for the same hook
-  8095		 * for module sets.
-  8096		 */
-  8097		if (WARN_ON_ONCE(set && !vmlinux_set)) {
-  8098			ret = -EINVAL;
-  8099			goto end;
-  8100		}
-  8101	
-  8102		/* We don't need to allocate, concatenate, and sort module sets, because
-  8103		 * only one is allowed per hook. Hence, we can directly assign the
-  8104		 * pointer and return.
-  8105		 */
-  8106		if (!vmlinux_set) {
-  8107			tab->sets[hook] = add_set;
-  8108			goto do_add_filter;
-  8109		}
-  8110	
-  8111		/* In case of vmlinux sets, there may be more than one set being
-  8112		 * registered per hook. To create a unified set, we allocate a new set
-  8113		 * and concatenate all individual sets being registered. While each set
-  8114		 * is individually sorted, they may become unsorted when concatenated,
-  8115		 * hence re-sorting the final set again is required to make binary
-  8116		 * searching the set using btf_id_set8_contains function work.
-  8117		 */
-  8118		set_cnt = set ? set->cnt : 0;
-  8119	
-  8120		if (set_cnt > U32_MAX - add_set->cnt) {
-  8121			ret = -EOVERFLOW;
-  8122			goto end;
-  8123		}
-  8124	
-  8125		if (set_cnt + add_set->cnt > BTF_KFUNC_SET_MAX_CNT) {
-  8126			ret = -E2BIG;
-  8127			goto end;
-  8128		}
-  8129	
-  8130		/* Grow set */
-  8131		set = krealloc(tab->sets[hook],
-  8132			       offsetof(struct btf_id_set8, pairs[set_cnt + add_set->cnt]),
-  8133			       GFP_KERNEL | __GFP_NOWARN);
-  8134		if (!set) {
-  8135			ret = -ENOMEM;
-  8136			goto end;
-  8137		}
-  8138	
-  8139		/* For newly allocated set, initialize set->cnt to 0 */
-  8140		if (!tab->sets[hook])
-  8141			set->cnt = 0;
-  8142		tab->sets[hook] = set;
-  8143	
-  8144		/* Concatenate the two sets */
-  8145		memcpy(set->pairs + set->cnt, add_set->pairs, add_set->cnt * sizeof(set->pairs[0]));
-  8146		if (btf->standalone_btf) {
-  8147			u32 i;
-  8148	
-  8149			/* renumber BTF ids since BTF is standalone and has been mapped to look
-  8150			 * like split BTF, while BTF kfunc ids are still old unmapped values.
-  8151			 */
-  8152			for (i = set->cnt; i < set->cnt + add_set->cnt; i++)
-> 8153				set->pairs[i].id = btf_id_renumber(btf, set->pairs[i].id);
-  8154		}
-  8155	
-  8156		set->cnt += add_set->cnt;
-  8157	
-  8158		sort(set->pairs, set->cnt, sizeof(set->pairs[0]), btf_id_cmp_func, NULL);
-  8159	
-  8160	do_add_filter:
-  8161		if (add_filter) {
-  8162			hook_filter = &tab->hook_filters[hook];
-  8163			hook_filter->filters[hook_filter->nr_filters++] = kset->filter;
-  8164		}
-  8165		return 0;
-  8166	end:
-  8167		btf_free_kfunc_set_tab(btf);
-  8168		return ret;
-  8169	}
-  8170	
+    46	
+    47	
+    48	/* Global or static variables */
+  > 49	struct ts_driver g_driver;
+    50	
+    51	static struct ts_info g_ts = {
+    52		.driver = &g_driver,
+    53	};
+    54	static struct ts_info *pg_ts = &g_ts;
+    55	
+    56	static struct i2c_device_id vtl_ts_id[] = {
+    57		{ DRIVER_NAME, 0 },
+    58		{ }
+    59	};
+    60	MODULE_DEVICE_TABLE(i2c, vtl_ts_id);
+    61	
+    62	
+    63	static int vtl_ts_config(struct ts_info *ts)
+    64	{
+    65		struct device *dev;
+    66	
+    67		DEBUG();
+    68	
+    69		dev = &ts->driver->client->dev;
+    70	
+    71		/* ts config */
+    72		ts->config_info.touch_point_number = TOUCH_POINT_NUM;
+    73	
+    74		pr_info("Configuring vtl\n");
+    75		ts->config_info.screen_max_x = SCREEN_MAX_X;
+    76		ts->config_info.screen_max_y = SCREEN_MAX_y;
+    77		return 0;
+    78	}
+    79	
+  > 80	void vtl_ts_free_gpio(void)
+    81	{
+    82		struct ts_info *ts;
+    83	
+    84		ts = pg_ts;
+    85		DEBUG();
+    86	
+    87		gpio_free(ts->config_info.irq_gpio_number);
+    88	}
+    89	
+  > 90	void vtl_ts_hw_reset(void)
+    91	{
+    92		struct ts_info *ts;
+    93	
+    94		ts = pg_ts;
+    95		DEBUG();
+    96	
+    97		gpio_set_value(ts->config_info.rst_gpio_number, 0);
+    98		mdelay(50);
+    99		gpio_set_value(ts->config_info.rst_gpio_number, 1);
+   100	}
+   101	
 
 -- 
 0-DAY CI Kernel Test Service
