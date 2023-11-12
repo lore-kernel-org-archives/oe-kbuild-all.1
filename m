@@ -1,46 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F230617E1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 01:39:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A28317ED
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 01:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZq1ddOd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DOVlSl5z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699753160; x=1731289160;
+  t=1699753162; x=1731289162;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O/+aus1Io8KkkCFwacXo/gaH48rMU9UIlRnaT7TpBGk=;
-  b=dZq1ddOdDdzlTGeFexD5PhWcloK87wL8hi4NqNv+OY8YKGvl1Mhs5zlr
-   Vk2Z4CI6SQJ+10FKZNejgI5t7plHw5oUTtq+1xj5WNkChGpQYLFUSoSEK
-   yNHzgvTTyDAd5pXKh2BWszRoH+SrwLq6Tn9ZwZM6wksHxomGAeX9KJk25
-   Kah9DyibvIs7gptdFTi+2af2VaCDGSx0iUqn1fRl/guCh5l5J0LL9e1U7
-   r6Yfbcsut0RzC2rqsfGGS1503MkaJbkgS9fVv+k1YTGIdydhxPfqPLYi2
-   tA73I6xZ+YabixgzTAX1enZ6OWsAY2i/QDThfa7Bv2xp88JNJxmhd9Xc6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369634514"
+  bh=lbRtOE6TpGXkYuSWT43CQbzcxeiNeQg2DfhnsrgcXAA=;
+  b=DOVlSl5zt2z3Onu6LQzcN3fXxXZ11SVpqUjX4z26AIP6WyLXtEtd3YQW
+   FjOu53AH2drhvpUtxq9uPuBy4veFLQ8JroQoYBRvQo75g4v0uliCZevkA
+   bejltz+k4CuG8IcZktYga4m0ZYqtKVwsvvlNcHGvcCbbTQbjR190r3Ow8
+   HBzZHNjDv8X4f5jj1GMLEYR9WQ+7SqFQkKJCXaQFm8qWaXpoHJVQ0HTFo
+   x6ILtO6jHaEimgfWXMU8BIY9Q5EncHYpDn5xGWpJWuXx62KFRQMYirWeR
+   gJLpCEH5pvxvxERxTncy9TEBIywWkqjMg5PRgp6sHiZc/pN4CUvplomao
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369634515"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="369634514"
+   d="scan'208";a="369634515"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 17:39:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="767607661"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="767607662"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="767607661"
+   d="scan'208";a="767607662"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
   by fmsmga007.fm.intel.com with ESMTP; 11 Nov 2023 17:39:17 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1zRT-000ArW-0h;
+	id 1r1zRT-000ArY-0y;
 	Sun, 12 Nov 2023 01:39:15 +0000
-Date: Sun, 12 Nov 2023 09:38:12 +0800
+Date: Sun, 12 Nov 2023 09:38:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/642 136/30000] drivers/usb/cdns3/core.c:661:46:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202311120907.i9KAfGFG-lkp@intel.com>
+To: Prasanth Babu Mantena <p-mantena@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y 21/82]
+ drivers/media/platform/chips-media/wave5/wave5-helper.c:223:6: warning:
+ variable 'ret' is used uninitialized whenever 'if' condition is false
+Message-ID: <202311120910.GEhtQsTS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,213 +52,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Freescale/linux-fslc pr/642
-head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
-commit: 7692d3bf1f316d49478b9796e22244bece63db25 [136/30000] MLK-16976-4 usb: cdns3: add power management support
-config: i386-randconfig-063-20231021 (https://download.01.org/0day-ci/archive/20231112/202311120907.i9KAfGFG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120907.i9KAfGFG-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
+head:   a98195cd9fc9813d8a2c9959484e5d3f9eb2502e
+commit: 1bb45095919cd3307dd7729168754a3212b7a119 [21/82] arm64: media: wave5: Add Support for frequency points
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231112/202311120910.GEhtQsTS-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120910.GEhtQsTS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311120907.i9KAfGFG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311120910.GEhtQsTS-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/cdns3/core.c:661:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got void * @@
-   drivers/usb/cdns3/core.c:661:46: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/core.c:661:46: sparse:     got void *
->> drivers/usb/cdns3/core.c:663:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
-   drivers/usb/cdns3/core.c:663:46: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/core.c:663:46: sparse:     got void *
-   drivers/usb/cdns3/core.c:666:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got void * @@
-   drivers/usb/cdns3/core.c:666:46: sparse:     expected void const volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/core.c:666:46: sparse:     got void *
-   drivers/usb/cdns3/core.c:668:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
-   drivers/usb/cdns3/core.c:668:46: sparse:     expected void volatile [noderef] <asn:2> *addr
-   drivers/usb/cdns3/core.c:668:46: sparse:     got void *
->> drivers/usb/cdns3/core.c:757:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *none_core_regs @@     got void [noderef] <asn:2> *none_core_regs @@
-   drivers/usb/cdns3/core.c:757:34: sparse:     expected void *none_core_regs
-   drivers/usb/cdns3/core.c:757:34: sparse:     got void [noderef] <asn:2> *none_core_regs
-   drivers/usb/cdns3/core.c:767:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *none_core_regs @@     got void [noderef] <asn:2> *none_core_regs @@
-   drivers/usb/cdns3/core.c:767:34: sparse:     expected void *none_core_regs
-   drivers/usb/cdns3/core.c:767:34: sparse:     got void [noderef] <asn:2> *none_core_regs
+All warnings (new ones prefixed by >>):
 
-vim +661 drivers/usb/cdns3/core.c
+>> drivers/media/platform/chips-media/wave5/wave5-helper.c:223:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (acq_freq != inst->dev->opp_freq) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/wave5/wave5-helper.c:231:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   drivers/media/platform/chips-media/wave5/wave5-helper.c:223:2: note: remove the 'if' if its condition is always true
+           if (acq_freq != inst->dev->opp_freq) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/wave5/wave5-helper.c:206:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   drivers/media/platform/chips-media/wave5/wave5-helper.c:248:28: warning: variable 'req_freq' set but not used [-Wunused-but-set-variable]
+           unsigned long pixel_rate, req_freq;
+                                     ^
+   2 warnings generated.
 
-   654	
-   655	static void cdns3_set_wakeup(void *none_core_regs, bool enable)
-   656	{
-   657		u32 value;
-   658	
-   659		if (enable) {
-   660			/* Enable wakeup and phy_refclk_req */
- > 661			value = readl(none_core_regs + USB3_INT_REG);
-   662			value |= OTG_WAKEUP_EN | DEVU3_WAEKUP_EN;
- > 663			writel(value, none_core_regs + USB3_INT_REG);
-   664		} else {
-   665			/* disable wakeup and phy_refclk_req */
-   666			value = readl(none_core_regs + USB3_INT_REG);
-   667			value &= ~(OTG_WAKEUP_EN | DEVU3_WAEKUP_EN);
-   668			writel(value, none_core_regs + USB3_INT_REG);
-   669		}
-   670	}
-   671	
-   672	static void cdns3_enter_suspend(struct cdns3 *cdns, bool suspend, bool wakeup)
-   673	{
-   674		void __iomem *otg_regs = cdns->otg_regs;
-   675		void __iomem *xhci_regs = cdns->xhci_regs;
-   676		void __iomem *phy_regs = cdns->phy_regs;
-   677		void __iomem *none_core_regs = cdns->none_core_regs;
-   678		u32 value;
-   679		int timeout_us = 100000;
-   680	
-   681		if (cdns->role != CDNS3_ROLE_HOST)
-   682			return;
-   683	
-   684		if (suspend) {
-   685			value = readl(otg_regs + OTGREFCLK);
-   686			value |= OTG_STB_CLK_SWITCH_EN;
-   687			writel(value, otg_regs + OTGREFCLK);
-   688	
-   689			value = readl(xhci_regs + XECP_PORT_CAP_REG);
-   690			value |= LPM_2_STB_SWITCH_EN;
-   691			writel(value, xhci_regs + XECP_PORT_CAP_REG);
-   692			if (cdns3_role(cdns)->suspend)
-   693				cdns3_role(cdns)->suspend(cdns, wakeup);
-   694	
-   695			/* RXDET_IN_P3_32KHZ, Receiver detect slow clock enable */
-   696			value = readl(phy_regs + TB_ADDR_TX_RCVDETSC_CTRL);
-   697			value |= RXDET_IN_P3_32KHZ;
-   698			writel(value, phy_regs + TB_ADDR_TX_RCVDETSC_CTRL);
-   699			/*
-   700			 * SW should ensure LPM_2_STB_SWITCH_EN and RXDET_IN_P3_32KHZ
-   701			 * are aligned before setting CFG_RXDET_P3_EN
-   702			 */
-   703			value = readl(xhci_regs + XECP_AUX_CTRL_REG1);
-   704			value |= CFG_RXDET_P3_EN;
-   705			writel(value, xhci_regs + XECP_AUX_CTRL_REG1);
-   706			/* SW request low power when all usb ports allow to it ??? */
-   707			value = readl(xhci_regs + XECP_PM_PMCSR);
-   708			value |= PS_D0;
-   709			writel(value, xhci_regs + XECP_PM_PMCSR);
-   710	
-   711			/* mdctrl_clk_sel */
-   712			value = readl(none_core_regs + USB3_CORE_CTRL1);
-   713			value |= MDCTRL_CLK_SEL;
-   714			writel(value, none_core_regs + USB3_CORE_CTRL1);
-   715	
-   716			/* wait for mdctrl_clk_status */
-   717			value = readl(none_core_regs + USB3_CORE_STATUS);
-   718			while (!(value & MDCTRL_CLK_STATUS) && timeout_us-- > 0) {
-   719				value = readl(none_core_regs + USB3_CORE_STATUS);
-   720				udelay(1);
-   721			}
-   722	
-   723			if (timeout_us <= 0)
-   724				dev_err(cdns->dev, "wait mdctrl_clk_status timeout\n");
-   725	
-   726			dev_dbg(cdns->dev, "mdctrl_clk_status is set\n");
-   727	
-   728			/* wait lpm_clk_req to be 0 */
-   729			value = readl(none_core_regs + USB3_INT_REG);
-   730			timeout_us = 100000;
-   731			while ((value & LPM_CLK_REQ) && timeout_us-- > 0) {
-   732				value = readl(none_core_regs + USB3_INT_REG);
-   733				udelay(1);
-   734			}
-   735	
-   736			if (timeout_us <= 0)
-   737				dev_err(cdns->dev, "wait lpm_clk_req timeout\n");
-   738	
-   739			dev_dbg(cdns->dev, "lpm_clk_req cleared\n");
-   740	
-   741			/* wait phy_refclk_req to be 0 */
-   742			value = readl(none_core_regs + USB3_SSPHY_STATUS);
-   743			timeout_us = 100000;
-   744			while ((value & PHY_REFCLK_REQ) && timeout_us-- > 0) {
-   745				value = readl(none_core_regs + USB3_SSPHY_STATUS);
-   746				udelay(1);
-   747			}
-   748	
-   749			if (timeout_us <= 0)
-   750				dev_err(cdns->dev, "wait phy_refclk_req timeout\n");
-   751	
-   752			dev_dbg(cdns->dev, "phy_refclk_req cleared\n");
-   753	
-   754			/* rxdet fix in P3, default is 0x5098 */
-   755			writel(0x509b, phy_regs + TB_ADDR_TX_PSC_A3);
-   756	
- > 757			cdns3_set_wakeup(none_core_regs, true);
-   758		} else {
-   759			value = readl(none_core_regs + USB3_INT_REG);
-   760			/* wait CLK_125_REQ to be 1 */
-   761			value = readl(none_core_regs + USB3_INT_REG);
-   762			while (!(value & CLK_125_REQ) && timeout_us-- > 0) {
-   763				value = readl(none_core_regs + USB3_INT_REG);
-   764				udelay(1);
-   765			}
-   766	
-   767			cdns3_set_wakeup(none_core_regs, false);
-   768	
-   769			/* SW request D0 */
-   770			value = readl(xhci_regs + XECP_PM_PMCSR);
-   771			value &= ~PS_D0;
-   772			writel(value, xhci_regs + XECP_PM_PMCSR);
-   773	
-   774			/* clr CFG_RXDET_P3_EN */
-   775			value = readl(xhci_regs + XECP_AUX_CTRL_REG1);
-   776			value &= ~CFG_RXDET_P3_EN;
-   777			writel(value, xhci_regs + XECP_AUX_CTRL_REG1);
-   778	
-   779			/* clear RXDET_IN_P3_32KHZ */
-   780			value = readl(phy_regs + TB_ADDR_TX_RCVDETSC_CTRL);
-   781			value &= ~RXDET_IN_P3_32KHZ;
-   782			writel(value, phy_regs + TB_ADDR_TX_RCVDETSC_CTRL);
-   783	
-   784			/* clear mdctrl_clk_sel */
-   785			value = readl(none_core_regs + USB3_CORE_CTRL1);
-   786			value &= ~MDCTRL_CLK_SEL;
-   787			writel(value, none_core_regs + USB3_CORE_CTRL1);
-   788	
-   789			/* wait for mdctrl_clk_status is cleared */
-   790			value = readl(none_core_regs + USB3_CORE_STATUS);
-   791			timeout_us = 100000;
-   792			while ((value & MDCTRL_CLK_STATUS) && timeout_us-- > 0) {
-   793				value = readl(none_core_regs + USB3_CORE_STATUS);
-   794				udelay(1);
-   795			}
-   796	
-   797			if (timeout_us <= 0)
-   798				dev_err(cdns->dev, "wait mdctrl_clk_status timeout\n");
-   799	
-   800			dev_dbg(cdns->dev, "mdctrl_clk_status cleared\n");
-   801	
-   802			writel(0x5098, phy_regs + TB_ADDR_TX_PSC_A3);
-   803	
-   804			/* Wait until OTG_NRDY is 0 */
-   805			value = readl(otg_regs + OTGSTS);
-   806			timeout_us = 100000;
-   807			while ((value & OTG_NRDY) && timeout_us-- > 0) {
-   808				value = readl(otg_regs + OTGSTS);
-   809				udelay(1);
-   810			}
-   811	
-   812			if (timeout_us <= 0)
-   813				dev_err(cdns->dev, "wait OTG ready timeout\n");
-   814	
-   815			value = readl(none_core_regs + USB3_CORE_STATUS);
-   816			timeout_us = 100000;
-   817			while (!(value & HOST_POWER_ON_READY) && timeout_us-- > 0) {
-   818				value = readl(none_core_regs + USB3_CORE_STATUS);
-   819				udelay(1);
-   820			}
-   821	
-   822			if (timeout_us <= 0)
-   823				dev_err(cdns->dev, "wait xhci_power_on_ready timeout\n");
-   824		}
-   825	}
-   826	
+
+vim +223 drivers/media/platform/chips-media/wave5/wave5-helper.c
+
+   201	
+   202	int wave5_set_dev_clk(struct vpu_instance *inst)
+   203	{
+   204		struct dev_pm_opp *opp;
+   205		unsigned long calc_pixel_rate, req_freq, acq_freq, pixel_rate;
+   206		int ret;
+   207	
+   208		pixel_rate = inst->dev->opp_pixel_rate;
+   209		calc_pixel_rate = pixel_rate*(uint)(MAX_OP_HZ);
+   210		req_freq = (calc_pixel_rate / MAX_PIXEL_RATE) + 1;
+   211		opp = dev_pm_opp_find_freq_ceil(inst->dev->dev, &req_freq);
+   212		if (IS_ERR(opp)) {
+   213			opp = dev_pm_opp_find_freq_floor(inst->dev->dev, &req_freq);
+   214			if (IS_ERR(opp)) {
+   215				dev_err(inst->dev->dev, "Failed to get floor value\n");
+   216				return -EINVAL;
+   217			}
+   218	
+   219		}
+   220	
+   221		dev_pm_opp_put(opp);
+   222		acq_freq = dev_pm_opp_get_freq(opp);
+ > 223		if (acq_freq != inst->dev->opp_freq) {
+   224			inst->dev->opp_freq = acq_freq;
+   225			ret = dev_pm_opp_set_rate(inst->dev->dev, acq_freq);
+   226			if (ret) {
+   227				dev_err(inst->dev->dev, "Error setting the clock");
+   228				return ret;
+   229			}
+   230		}
+   231		return ret;
+   232	}
+   233	
 
 -- 
 0-DAY CI Kernel Test Service
