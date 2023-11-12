@@ -1,51 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFB614F6C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 13:28:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6867461;
+	Sun, 12 Nov 2023 14:42:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+cUlpc2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZRhTDNW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699795716; x=1731331716;
+  t=1699800154; x=1731336154;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gonYe3A13CfWlcGYPqibfS02ilOu72+77HDfTQDVhFE=;
-  b=h+cUlpc2Avo1L66vZnVm1dcjCfVBJ6bXxgD+e+6C5tJzzS468K3Mv5zg
-   cqM6JmtgdQWBhNuTSTSgbJcCjfH7Cy16EpmMAV4NiIMAQMWHXnb2SlYhZ
-   SQDv+uzjpEdKxpw3jQYo2SzI/at0bA2Yu5UBUQnsWeE/YZLhs/G9HJI4T
-   PFQ7kiG/C3B9wtgnkXuTqJ5MKTDwWhQbkqgorA/tiR7lHYIHA+TTArx6r
-   NRS6EIm3HjRi1z+7r9hPPqb8/59uJiwUOOUY9RSkMfncA6wex4PvMhE3T
-   Dutc2vyofQXboMLNBWVDMf5Bfr53SNh3wncPCvw17wQ+V5dxcvsJU54x7
+  bh=He2tsisvNal/rPlNHC59npYlS3mXk8AFx4LjcgHkzI8=;
+  b=FZRhTDNWZaS45LAPmYxpwUA4y9mGUczXkubSQOy5dUZjpn91v7klihXI
+   7dLCYcItLKOXxUZs4OIozVSZWDKy5BM3ZVnQNfakNW7QqLLnaKSWzCWfF
+   1jUuARhML2fgXjj2cBZL7PtQCMBxEeIFxv0A2vgaYgBgYfSutsK42izGh
+   5zd13KyruFuSHbx3yx+yfewi7wG/LkHD5LMxb00ZTuTYhQQ0quR47z1TM
+   pZtMkZ2OlRE+1k2A9swCiYUAwuRbuqwoE3u999IEJPdxARjNJJ9RArv3u
+   tE6HzK5VTmrcZpH+W/D/chgAtkmhDmLwbHk1IOea/Lm4vy161TWyPc12j
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="393199346"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369660516"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="393199346"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 05:28:22 -0800
+   d="scan'208";a="369660516"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 06:42:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="834507770"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="793223767"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="834507770"
+   d="scan'208";a="793223767"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Nov 2023 05:28:20 -0800
+  by orsmga008.jf.intel.com with ESMTP; 12 Nov 2023 06:42:29 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2AVe-000BBB-1u;
-	Sun, 12 Nov 2023 13:28:18 +0000
-Date: Sun, 12 Nov 2023 21:27:37 +0800
+	id 1r2BfO-000BCo-1K;
+	Sun, 12 Nov 2023 14:42:26 +0000
+Date: Sun, 12 Nov 2023 22:41:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Javier Martinez Canillas <javierm@redhat.com>,
 	Andrew Worsley <amworsley@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>,
 	open list <linux-kernel@vger.kernel.org>,
 	"open list:DRM DRIVER FOR FIRMWARE FRAMEBUFFERS" <dri-devel@lists.freedesktop.org>,
 	Maxime Ripard <mripard@kernel.org>
 Subject: Re: [PATCH] of/platform: Disable sysfb if a simple-framebuffer node
  is
-Message-ID: <202311122126.kODv1Vau-lkp@intel.com>
+Message-ID: <202311122208.2emZJrfT-lkp@intel.com>
 References: <87a5rj9s37.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -71,26 +72,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
 patch link:    https://lore.kernel.org/r/87a5rj9s37.fsf%40minerva.mail-host-address-is-not-set
 patch subject: [PATCH] of/platform: Disable sysfb if a simple-framebuffer node is
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20231112/202311122126.kODv1Vau-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311122126.kODv1Vau-lkp@intel.com/reproduce)
+config: arm-versatile_defconfig (https://download.01.org/0day-ci/archive/20231112/202311122208.2emZJrfT-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311122208.2emZJrfT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311122126.kODv1Vau-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311122208.2emZJrfT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/of/platform.c: In function 'of_platform_default_populate_init':
->> drivers/of/platform.c:635:25: error: implicit declaration of function 'sysfb_disable'; did you mean 'clk_disable'? [-Werror=implicit-function-declaration]
+>> drivers/of/platform.c:635:4: error: call to undeclared function 'sysfb_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      635 |                         sysfb_disable();
-         |                         ^~~~~~~~~~~~~
-         |                         clk_disable
-   cc1: some warnings being treated as errors
+         |                         ^
+   1 error generated.
 
 
-vim +635 drivers/of/platform.c
+vim +/sysfb_disable +635 drivers/of/platform.c
 
    545	
    546	static int __init of_platform_default_populate_init(void)
