@@ -1,65 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7124B1DA59
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 11 Nov 2023 23:28:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8717F1380
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 00:53:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJOiaEHI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZS+YCTD3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699745304; x=1731281304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yLMN9BN0x0GJyChe1fur9BIfuNV27m8XBnDpqqzLe8E=;
-  b=eJOiaEHIAzoZuYA3YvFK8lNicOZPQET3AU8GUJmMSu1cWyPJ3noKGAOg
-   W9SqF7SWdayOqlZoCAOBICc6JnqXbJkc6LsLDBe1y9FXFi63Pi+Yc476r
-   B9H4jh7aW8xQ9/735qnd4O2WX2GPX3OUcuzCcP5xVffz94a/2PnBRmXDr
-   MKu5lVYynmh+ax8nnzxZq4R/vcEbcjjgxpJpGWwBkhqhOwTtjHrMRz2aK
-   FE/b1hxd3mGZ8B7DpCy82G/hAXKlinJCk7IiOtB+jX1/gww4icWb9HOre
-   Ajcmw0rsMXGlOPyfXmf2rFV34wrLJMN+hjvVsdVJlg4jJvb1GsKVbDHgK
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="3316455"
+  t=1699750422; x=1731286422;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5zVf3rY2XSqBS7Gz/wWCDMEQ9iDekJWIJObQ4CsDhvo=;
+  b=ZS+YCTD3w+FVgUPgyHoOvP8CVUbij82lC8B+Oi7qiVCi5p4fuoGCX+CU
+   ZD+0AiVcx/VmcL0eRU+4kZBGeF1R0VdUIqupbIui++9xai4YzeEGQX5Di
+   GsJuyx53ehNmV/5FYHrjyvKZZRCIB0kWnR/gS6wCIMimUcZJOnmEEkC6Y
+   TgcxX77yPDnXp+V2qtPZQ4waenJIKE2h4j8pOMn8DKUyyZBZpBtHJ0BhN
+   EzpWy1W6UAHFST0UupujpYbIBtSh73FgNeNPd3vVHVB7hxZvJTLN1sfGl
+   jf7vKp347ZOz7T0Q+mYQ+Ob6ywyXzzFJkMDvWxtUzjAB6XFOxQFtMhpuk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369632736"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="3316455"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 15:28:22 -0800
+   d="scan'208";a="369632736"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 16:53:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="764026399"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="854666319"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="764026399"
+   d="scan'208";a="854666319"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Nov 2023 15:28:15 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Nov 2023 16:53:40 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1xOf-000AoU-1f;
-	Sat, 11 Nov 2023 23:28:13 +0000
-Date: Sun, 12 Nov 2023 07:28:00 +0800
+	id 1r1yjK-000AqQ-0G;
+	Sun, 12 Nov 2023 00:53:38 +0000
+Date: Sun, 12 Nov 2023 08:52:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	John Stultz <jstultz@google.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jeffrey Kardatzke <jkardatzke@google.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Vijayanand Jitta <quic_vjitta@quicinc.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Yong Wu <yong.wu@mediatek.com>, jianjiao.zeng@mediatek.com,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
-	linux-mediatek@lists.infradead.org,
-	Joakim Bech <joakim.bech@linaro.org>, tjmercier@google.com,
-	linux-arm-kernel@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/8] dma-buf: heaps: secure_heap: Add tee memory
- service call
-Message-ID: <202311120707.FDrzrRME-lkp@intel.com>
-References: <20231111111559.8218-5-yong.wu@mediatek.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: kernel/time/hrtimer.c:1483:14: warning: variable
+ 'expires_in_hardirq' set but not used
+Message-ID: <202311120815.33YfGjzD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,44 +50,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231111111559.8218-5-yong.wu@mediatek.com>
 
-Hi Yong,
+Hi Sebastian,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on robh/for-next drm-tip/drm-tip linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wu/dma-buf-heaps-Initialize-a-secure-heap/20231111-192115
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231111111559.8218-5-yong.wu%40mediatek.com
-patch subject: [PATCH v2 4/8] dma-buf: heaps: secure_heap: Add tee memory service call
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231112/202311120707.FDrzrRME-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120707.FDrzrRME-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3ca112b71f35dd5d99fc4571a56b5fc6f0c15814
+commit: 73d20564e0dcae003e0d79977f044d5e57496304 hrtimer: Don't dereference the hrtimer pointer after the callback
+date:   3 years, 7 months ago
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20231112/202311120815.33YfGjzD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120815.33YfGjzD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311120707.FDrzrRME-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311120815.33YfGjzD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `tee_client_open_session'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: drivers/dma-buf/heaps/secure_heap.o: in function `secure_heap_tee_session_init':
-   secure_heap.c:(.text.secure_heap_tee_session_init+0xd0): undefined reference to `tee_client_open_context'
-   powerpc64-linux-ld: secure_heap.c:(.text.secure_heap_tee_session_init+0x2b4): undefined reference to `tee_client_open_session'
-   powerpc64-linux-ld: secure_heap.c:(.text.secure_heap_tee_session_init+0x458): undefined reference to `tee_client_close_context'
-   powerpc64-linux-ld: drivers/dma-buf/heaps/secure_heap.o: in function `secure_heap_tee_service_call.constprop.0':
->> secure_heap.c:(.text.secure_heap_tee_service_call.constprop.0+0xbc): undefined reference to `tee_client_invoke_func'
+   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
+     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
+   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
+     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
+   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
+     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
+   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
+     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
+         |                                   ^~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
+   kernel/time/hrtimer.c: In function '__run_hrtimer':
+>> kernel/time/hrtimer.c:1483:14: warning: variable 'expires_in_hardirq' set but not used [-Wunused-but-set-variable]
+    1483 |         bool expires_in_hardirq;
+         |              ^~~~~~~~~~~~~~~~~~
+
+
+vim +/expires_in_hardirq +1483 kernel/time/hrtimer.c
+
+  1458	
+  1459	/*
+  1460	 * The write_seqcount_barrier()s in __run_hrtimer() split the thing into 3
+  1461	 * distinct sections:
+  1462	 *
+  1463	 *  - queued:	the timer is queued
+  1464	 *  - callback:	the timer is being ran
+  1465	 *  - post:	the timer is inactive or (re)queued
+  1466	 *
+  1467	 * On the read side we ensure we observe timer->state and cpu_base->running
+  1468	 * from the same section, if anything changed while we looked at it, we retry.
+  1469	 * This includes timer->base changing because sequence numbers alone are
+  1470	 * insufficient for that.
+  1471	 *
+  1472	 * The sequence numbers are required because otherwise we could still observe
+  1473	 * a false negative if the read side got smeared over multiple consequtive
+  1474	 * __run_hrtimer() invocations.
+  1475	 */
+  1476	
+  1477	static void __run_hrtimer(struct hrtimer_cpu_base *cpu_base,
+  1478				  struct hrtimer_clock_base *base,
+  1479				  struct hrtimer *timer, ktime_t *now,
+  1480				  unsigned long flags) __must_hold(&cpu_base->lock)
+  1481	{
+  1482		enum hrtimer_restart (*fn)(struct hrtimer *);
+> 1483		bool expires_in_hardirq;
+  1484		int restart;
+  1485	
+  1486		lockdep_assert_held(&cpu_base->lock);
+  1487	
+  1488		debug_deactivate(timer);
+  1489		base->running = timer;
+  1490	
+  1491		/*
+  1492		 * Separate the ->running assignment from the ->state assignment.
+  1493		 *
+  1494		 * As with a regular write barrier, this ensures the read side in
+  1495		 * hrtimer_active() cannot observe base->running == NULL &&
+  1496		 * timer->state == INACTIVE.
+  1497		 */
+  1498		raw_write_seqcount_barrier(&base->seq);
+  1499	
+  1500		__remove_hrtimer(timer, base, HRTIMER_STATE_INACTIVE, 0);
+  1501		fn = timer->function;
+  1502	
+  1503		/*
+  1504		 * Clear the 'is relative' flag for the TIME_LOW_RES case. If the
+  1505		 * timer is restarted with a period then it becomes an absolute
+  1506		 * timer. If its not restarted it does not matter.
+  1507		 */
+  1508		if (IS_ENABLED(CONFIG_TIME_LOW_RES))
+  1509			timer->is_rel = false;
+  1510	
+  1511		/*
+  1512		 * The timer is marked as running in the CPU base, so it is
+  1513		 * protected against migration to a different CPU even if the lock
+  1514		 * is dropped.
+  1515		 */
+  1516		raw_spin_unlock_irqrestore(&cpu_base->lock, flags);
+  1517		trace_hrtimer_expire_entry(timer, now);
+  1518		expires_in_hardirq = lockdep_hrtimer_enter(timer);
+  1519	
+  1520		restart = fn(timer);
+  1521	
+  1522		lockdep_hrtimer_exit(expires_in_hardirq);
+  1523		trace_hrtimer_expire_exit(timer);
+  1524		raw_spin_lock_irq(&cpu_base->lock);
+  1525	
+  1526		/*
+  1527		 * Note: We clear the running state after enqueue_hrtimer and
+  1528		 * we do not reprogram the event hardware. Happens either in
+  1529		 * hrtimer_start_range_ns() or in hrtimer_interrupt()
+  1530		 *
+  1531		 * Note: Because we dropped the cpu_base->lock above,
+  1532		 * hrtimer_start_range_ns() can have popped in and enqueued the timer
+  1533		 * for us already.
+  1534		 */
+  1535		if (restart != HRTIMER_NORESTART &&
+  1536		    !(timer->state & HRTIMER_STATE_ENQUEUED))
+  1537			enqueue_hrtimer(timer, base, HRTIMER_MODE_ABS);
+  1538	
+  1539		/*
+  1540		 * Separate the ->running assignment from the ->state assignment.
+  1541		 *
+  1542		 * As with a regular write barrier, this ensures the read side in
+  1543		 * hrtimer_active() cannot observe base->running.timer == NULL &&
+  1544		 * timer->state == INACTIVE.
+  1545		 */
+  1546		raw_write_seqcount_barrier(&base->seq);
+  1547	
+  1548		WARN_ON_ONCE(base->running != timer);
+  1549		base->running = NULL;
+  1550	}
+  1551	
 
 -- 
 0-DAY CI Kernel Test Service
