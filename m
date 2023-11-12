@@ -1,58 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05EE51FA5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 04:17:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8067623BD;
+	Sun, 12 Nov 2023 04:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LNCd5Tna"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIg+qXqs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699762675; x=1731298675;
+  t=1699764778; x=1731300778;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=e9isCT7bEJcgrzgtVQaKx8GL3i4TzCEIyJxvqM33IBc=;
-  b=LNCd5Tna/flOaNldubf6zJtqMsLTPmBmByVzx/I2b0hV9vWR60K7qJEW
-   IW7Loa//SHii0IJKz+0rvVIySidrrV13PesTdOKvh4hilrx3PZ0+/Lijh
-   e6NaI+NamqfLCw9uZqWtctTpZk9uN7YjbXBE62Ej1f5n/OWHd6u3cPoIG
-   2wGk9YLFa5cldaaPoBsAlgKIHYC6bBxIWierUh7wtRa9v6PdzAZWIJybr
-   bk5qYQ2lvgPmHo+gCoQ2+Tn6t47XJIumTXWVZ/eMutSjcZBvPzgDnu41f
-   aN8mpHRVMeg1DEysCM24rA5g//6UmcsfzBiFwd9gyVtkWWzjyq4wWcmGc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369639122"
+  bh=KNrqoAhaBmaC8C417KV79YPfsTBe/AyX3hjvicbv0d8=;
+  b=GIg+qXqsVPHmv8RcaB1Yfe1W3ZyJEdb6pRIX3MU7dncPA5Kgr7misKgQ
+   1Vg+2MR9u64PIJVaftVQMfcHHtvXygf7oCIgpaKSU2NvfuJHI4zPWGDa5
+   8CXwO5fhZN06nFg9GwxL/a78GU+Ef007kzQkI4XBwgei5LrABk+osGHPf
+   GX2rpBUPrlQRP6malCPetKvupNZTbR1uV5HUoi4l0/imrLvTN0kvGW59x
+   KyTqQxvzeQc6XxHU/VDrXVXd8AzuEUxl5EiG1+i1azTV9bOXUnxoC2ciV
+   kjxO5s3GiWY0iSmZnifYqScBtbCKu/HvafLHiD5y+89ZnmCDjDMf3MLnX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="454611424"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="369639122"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 20:17:55 -0800
+   d="scan'208";a="454611424"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 20:52:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="798901291"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="937481356"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="798901291"
+   d="scan'208";a="937481356"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 Nov 2023 20:17:48 -0800
+  by orsmga005.jf.intel.com with ESMTP; 11 Nov 2023 20:52:55 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r21ur-000Awc-2p;
-	Sun, 12 Nov 2023 04:17:45 +0000
-Date: Sun, 12 Nov 2023 12:17:07 +0800
+	id 1r22Sq-000Ax4-2K;
+	Sun, 12 Nov 2023 04:52:52 +0000
+Date: Sun, 12 Nov 2023 12:52:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>, torvalds@linux-foundation.org,
-	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-	bristot@redhat.com, vschneid@redhat.com, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@kernel.org,
-	joshdon@google.com, brho@google.com, pjt@google.com,
-	derkling@google.com, haoluo@google.com, dvernet@meta.com,
-	dschatzberg@meta.com, dskarlat@cs.cmu.edu, riel@surriel.com,
-	changwoo@igalia.com, himadrics@inria.fr, memxor@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 13/36] sched_ext: Add scx_simple and scx_example_qmap
- example schedulers
-Message-ID: <202311121239.GTR1obNe-lkp@intel.com>
-References: <20231111024835.2164816-14-tj@kernel.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Hannes Reinecke <hare@suse.de>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Pankaj Raghav <p.raghav@samsung.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 3/7] buffer: Fix grow_buffers() for block size >
+ PAGE_SIZE
+Message-ID: <202311121240.AN8GbAbe-lkp@intel.com>
+References: <20231109210608.2252323-4-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,41 +57,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231111024835.2164816-14-tj@kernel.org>
+In-Reply-To: <20231109210608.2252323-4-willy@infradead.org>
 
-Hi Tejun,
+Hi Matthew,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linux/master]
+[auto build test ERROR on akpm-mm/mm-everything]
 [also build test ERROR on linus/master next-20231110]
-[cannot apply to tip/sched/core tj-cgroup/for-next v6.6]
+[cannot apply to v6.6]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tejun-Heo/sched-Restructure-sched_class-order-sanity-checks-in-sched_init/20231111-145751
-base:   linux/master
-patch link:    https://lore.kernel.org/r/20231111024835.2164816-14-tj%40kernel.org
-patch subject: [PATCH 13/36] sched_ext: Add scx_simple and scx_example_qmap example schedulers
-reproduce: (https://download.01.org/0day-ci/archive/20231112/202311121239.GTR1obNe-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/buffer-Return-bool-from-grow_dev_folio/20231110-051651
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231109210608.2252323-4-willy%40infradead.org
+patch subject: [PATCH v2 3/7] buffer: Fix grow_buffers() for block size > PAGE_SIZE
+config: hexagon-comet_defconfig (https://download.01.org/0day-ci/archive/20231112/202311121240.AN8GbAbe-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311121240.AN8GbAbe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311121239.GTR1obNe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311121240.AN8GbAbe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> Makefile:83: *** Cannot find a vmlinux for VMLINUX_BTF at any of "  ../../vmlinux /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-0.bpo.2-amd64".  Stop.
-
-vim +83 Makefile
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  81  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  82  ifeq ("$(origin V)", "command line")
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @83    KBUILD_VERBOSE = $(V)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  84  endif
-^1da177e4c3f41 Linus Torvalds 2005-04-16  85  
+>> ld.lld: error: undefined symbol: __muloti4
+   >>> referenced by buffer.c
+   >>>               fs/buffer.o:(bdev_getblk) in archive vmlinux.a
+   >>> referenced by buffer.c
+   >>>               fs/buffer.o:(bdev_getblk) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
