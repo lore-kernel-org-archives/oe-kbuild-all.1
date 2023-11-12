@@ -1,54 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8067623BD;
-	Sun, 12 Nov 2023 04:52:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763442568
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 05:41:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIg+qXqs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZ64zFpY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699764778; x=1731300778;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KNrqoAhaBmaC8C417KV79YPfsTBe/AyX3hjvicbv0d8=;
-  b=GIg+qXqsVPHmv8RcaB1Yfe1W3ZyJEdb6pRIX3MU7dncPA5Kgr7misKgQ
-   1Vg+2MR9u64PIJVaftVQMfcHHtvXygf7oCIgpaKSU2NvfuJHI4zPWGDa5
-   8CXwO5fhZN06nFg9GwxL/a78GU+Ef007kzQkI4XBwgei5LrABk+osGHPf
-   GX2rpBUPrlQRP6malCPetKvupNZTbR1uV5HUoi4l0/imrLvTN0kvGW59x
-   KyTqQxvzeQc6XxHU/VDrXVXd8AzuEUxl5EiG1+i1azTV9bOXUnxoC2ciV
-   kjxO5s3GiWY0iSmZnifYqScBtbCKu/HvafLHiD5y+89ZnmCDjDMf3MLnX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="454611424"
+  t=1699767673; x=1731303673;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JTxCdy75stR0mKYl6ULORAFOapELHcoaqszoGaFgzdM=;
+  b=WZ64zFpY8LYRwJjfAPQIrHbkDmGLob2IixiLtM3Q5ZvcxKowLkQOL4Vg
+   eWG6crau+iMJUCZZ6kCtkPofTUnvS0fO6akemjlriJXKp6kmJqxgJfHOi
+   QcPtLGzz8YhGrGx9ymWyN50KT3QLkc2jGvPm/e1KVevOSzOe+iv29btSc
+   C86Ykcqmbo3ou9/ryBivaHT9m0rFRHpA+Wde1PJHqFg5CRr52kbnQ4OrG
+   asiApUkdPY4FnXHV1lW8m1k1k9Q0JcmsDRpoGTw/rUJ64UysKaWuI/SJX
+   dFGuwJog9mXMLE7bC4TnNHzdJIM7CcyEtFq+CYQ/st2Jh7DDRWfYnpS+F
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="11863432"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="454611424"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 20:52:57 -0800
+   d="scan'208";a="11863432"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 21:41:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="937481356"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="713944395"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="937481356"
+   d="scan'208";a="713944395"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 11 Nov 2023 20:52:55 -0800
+  by orsmga003.jf.intel.com with ESMTP; 11 Nov 2023 21:41:09 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r22Sq-000Ax4-2K;
-	Sun, 12 Nov 2023 04:52:52 +0000
-Date: Sun, 12 Nov 2023 12:52:00 +0800
+	id 1r23DX-000AyE-1v;
+	Sun, 12 Nov 2023 05:41:07 +0000
+Date: Sun, 12 Nov 2023 13:40:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Hannes Reinecke <hare@suse.de>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Pankaj Raghav <p.raghav@samsung.com>, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 3/7] buffer: Fix grow_buffers() for block size >
- PAGE_SIZE
-Message-ID: <202311121240.AN8GbAbe-lkp@intel.com>
-References: <20231109210608.2252323-4-willy@infradead.org>
+To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: kernel/reboot.c:559: warning: Function parameter or member
+ 'poweroff_delay_ms' not described in 'hw_failure_emergency_poweroff'
+Message-ID: <202311121307.FDXuYvzi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,39 +51,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231109210608.2252323-4-willy@infradead.org>
 
-Hi Matthew,
+Hi Matti,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master next-20231110]
-[cannot apply to v6.6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/buffer-Return-bool-from-grow_dev_folio/20231110-051651
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231109210608.2252323-4-willy%40infradead.org
-patch subject: [PATCH v2 3/7] buffer: Fix grow_buffers() for block size > PAGE_SIZE
-config: hexagon-comet_defconfig (https://download.01.org/0day-ci/archive/20231112/202311121240.AN8GbAbe-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311121240.AN8GbAbe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1b907d0507354b74a4f2c286380cd6059af79248
+commit: dfa19b11385d4cf8f0242fd93e2073e25183c331 reboot: Add hardware protection power-off
+date:   2 years, 5 months ago
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20231112/202311121307.FDXuYvzi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311121307.FDXuYvzi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311121240.AN8GbAbe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311121307.FDXuYvzi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: __muloti4
-   >>> referenced by buffer.c
-   >>>               fs/buffer.o:(bdev_getblk) in archive vmlinux.a
-   >>> referenced by buffer.c
-   >>>               fs/buffer.o:(bdev_getblk) in archive vmlinux.a
+   kernel/reboot.c:215: warning: Function parameter or member 'cmd' not described in 'do_kernel_restart'
+>> kernel/reboot.c:559: warning: Function parameter or member 'poweroff_delay_ms' not described in 'hw_failure_emergency_poweroff'
+
+
+vim +559 kernel/reboot.c
+
+   548	
+   549	static DECLARE_DELAYED_WORK(hw_failure_emergency_poweroff_work,
+   550				    hw_failure_emergency_poweroff_func);
+   551	
+   552	/**
+   553	 * hw_failure_emergency_poweroff - Trigger an emergency system poweroff
+   554	 *
+   555	 * This may be called from any critical situation to trigger a system shutdown
+   556	 * after a given period of time. If time is negative this is not scheduled.
+   557	 */
+   558	static void hw_failure_emergency_poweroff(int poweroff_delay_ms)
+ > 559	{
+   560		if (poweroff_delay_ms <= 0)
+   561			return;
+   562		schedule_delayed_work(&hw_failure_emergency_poweroff_work,
+   563				      msecs_to_jiffies(poweroff_delay_ms));
+   564	}
+   565	
 
 -- 
 0-DAY CI Kernel Test Service
