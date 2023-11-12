@@ -1,193 +1,197 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF81E8839
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 12:13:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3F0369
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 12:36:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HnIXjd0I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BQ9Gojgc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699791201; x=1731327201;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=jroJkB8/KyT6PuotZc6oTLHJPFpT6X6WelL7zSzYcS0=;
-  b=HnIXjd0IlSzVCAUQiidpyq+Z5/ERDyCzJNHIFEzXtmm6kbTzeq1HPAC4
-   b+q74V09YmrI1O7u/yBhUe37/jnVEY9QP8Lwc4IGLjW0vxCnz+Af2IrEg
-   p0Lf5VSXoprFPlhcvZ2Kq44fVN83iAEphQV1Bc4uotXWc8vjLX1k5sdkE
-   zSzn0hRXfHMEIF0Po9HpJjtdPLhf+cG3dLxYYfPjWEtQAkC81NnvuIScD
-   HbuD5SOur9JhqOIp5GCVtsbuNZNzhzEp1I/KnaEyPxJ/bRsVyptCuPZ8g
-   52m0t2uRGbtuN4sKlYz2WApDvGHGVrcT8Fupaq3P6RjNBF1WoA38LS92U
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="394228947"
+  t=1699792568; x=1731328568;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X8qILkOHqVGEqzkERq+6jBuI0deHCCDYOHpck3SaxfQ=;
+  b=BQ9GojgczpMG6PrB4yGq9RcvEifrLiJv2vQJZhm9Mh5s3g4iUuCTYzph
+   RpXn6wSXh8KygGykHTQ34aQhKboE3Zhe8p0JcmCNHxkBNq/rTW3lBQQP9
+   TTQhN+MxGnctSPJpaOPnSh1kdslr7z+cY0TYe0MGSpfr830Hbb2/57mud
+   u5xVAAZzM5Y9SroC5KKlX2shI66kcZ/cUx4+Foxd2b2BOJFJQNMVzPE/m
+   zhk6wE99XTTa55dKkXpLclkm4hgASdxfTint/jZbh9M/KnV3V23hQllvw
+   S+6KrlilQmwds3EkplkAvPWwLm0e1K57xYd+LsjEpkb2k8FcWyY38QEFM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369654976"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="394228947"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 04:13:20 -0800
+   d="scan'208";a="369654976"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 04:36:07 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="12250284"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Nov 2023 04:13:20 -0800
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Sun, 12 Nov 2023 04:13:20 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Sun, 12 Nov 2023 04:13:20 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Sun, 12 Nov 2023 04:13:19 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XlDIzE3a70ptsEZSxX3JNeL+9OPNSYn1isrlCqHSTyNXTb2Pr5vxS25LHGQfMqqub3/kmfJBnPALaevyF1MduTXphkHL7scyKuf3hhjLpPtnLk6OEWnHFYEplHLiTwODdbIP7nw1TTr7kAktFetV3K4USyLeHZxhniyypCA9FS2iBxh9pJZmssK4pqFwZ3TmEHLWbSM4iB6aUGcvNp/pZ2YYGzA9FWqCaEtluiTiT8dIxU52bkvbOWf+CS03PcsgWaSPZ4v5SiYhGnn6wCvf/CeSJ6wisAvjiUC6mw6U/BAuukPTt1z6322kVCykqThU2Afydz/j8OW3F0050UkyPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZAcn8Bq1SCzERWZ8lxLHN+XZbnbX0FXyxsxnr+yklm0=;
- b=aaqZJgn4zVe2jv7w7N0W4v3AfI7Jc1DxjwDsqW4pY5pvPcIs2H6C6QgggQAzEkUbjkF+52xMtvbPPJMv5TxsywETyvdAokisIy+lMbOsiClA3t6hIPJ04p+KWEztyLnPgCc9/yHPkEcXoAzpeBFzXw8KC3CVwjBUOE2meJjptNvTLr4K0b6irzRX/H5QI3QuPIylt3MspAaMZSE1udE/s2gAB8UC+FKNhbTOF/O7mzGR3pOf+OoUY7dh4szW47rxgNRGXMo583Nn7czu1V40DGfF0BeXfEmTSkQkXREHVQc5eXaaiKXvexZcnJEk1MWu2r4wpXX38M85/Cs1I++PEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
- by SJ2PR11MB8586.namprd11.prod.outlook.com (2603:10b6:a03:56e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.22; Sun, 12 Nov
- 2023 12:13:18 +0000
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::2f1a:e62e:9fff:ae67]) by BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::2f1a:e62e:9fff:ae67%5]) with mapi id 15.20.6977.028; Sun, 12 Nov 2023
- 12:13:17 +0000
-Date: Sun, 12 Nov 2023 20:13:08 +0800
-From: Philip Li <philip.li@intel.com>
-To: kernel test robot <lkp@intel.com>
-CC: Masahiro Yamada <masahiroy@kernel.org>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Nathan Chancellor <nathan@kernel.org>, "Nick
- Desaulniers" <ndesaulniers@google.com>
-Subject: Re: arch/x86/include/asm/pgtable_32.h:68:5: warning: "PTRS_PER_PMD"
- is not defined, evaluates to 0
-Message-ID: <ZVDBVAFLVK/o6jnk@rli9-mobl>
-References: <202311121854.UxxoSqkX-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202311121854.UxxoSqkX-lkp@intel.com>
-X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
- To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+   d="scan'208";a="11858724"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 12 Nov 2023 04:36:06 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r29h5-000B92-1a;
+	Sun, 12 Nov 2023 12:36:03 +0000
+Date: Sun, 12 Nov 2023 20:35:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:iommufd-v5.19-rc5 68/104]
+ drivers/gpu/drm/i915/gvt/vgpu.c:327: warning: Function parameter or member
+ 'mdev' not described in 'intel_gvt_create_vgpu'
+Message-ID: <202311122039.31l3hlVk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|SJ2PR11MB8586:EE_
-X-MS-Office365-Filtering-Correlation-Id: a51e1b0b-5158-45a5-6c5d-08dbe378c03e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cxBshQSGx/6rhu5DIIsXTimTcijvS2Cgn+nioGBZ/Wf39M8FeJNuIHTotrnwUmPRAXqop4J1MnzDjqp4kloHTeEeb/0DSBzi1sOd+6gWR5/DXFs2bQ32rL1zuntBFjkRmmE61KLMUMl0S95Sb6ym8w3NK5Fzp3zuc0xl8Fqpi4D8C/MsNUxfLaJBYy09bwSfxbB6ClMVh5Cavpe3wNg9ysyqFp4AyqjIms1Qh3+cpRlKxJO6n54JAs8+axrbuMFojvqDzTGrLx0xVhyTZRzSnaR/WjZBWyqF55KkGqCicRTXdKxAbIFJIN+6W0ThvOlu2J4gbr6joNTSQDOR/ye//6kfMCefcSaZ4CiPBt8pmSrALNpZHuRIZWnS3IAdTUJacBPOCunnK6CMDnPXSHNFY7o75G3Wa1x2pAEOSwIozCwC2xqJMDgrJLVPbG6o5PYklZcYM2NVE8WsMelK4fqGaNEboNaBdnAtoq6tAwedmq3LV0PYkYeoOTmzc9mRlGb68PsL/AEKkrJEeZlw137PwT6aOsulVO8R0yLC687yItMJC2PitlXxS0Yu+IY/FXPO8lt2p29yopQ0pKYjLwOEvAcxRFmvYSl04X9c71OaaI7RzcTR5ZgsabSb0yVUgCvpaKao+2vuvxiwKZWt9v6hiQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(39860400002)(136003)(396003)(346002)(376002)(230922051799003)(230173577357003)(230273577357003)(451199024)(186009)(1800799009)(64100799003)(2906002)(44832011)(5660300002)(86362001)(41300700001)(33716001)(26005)(4001150100001)(82960400001)(54906003)(66556008)(66946007)(66476007)(6636002)(9686003)(6512007)(316002)(83380400001)(38100700002)(966005)(478600001)(6486002)(6506007)(6666004)(8676002)(6862004)(4326008)(8936002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yE2YmgWGhCi3CFLwJUEb+vNLt92OM99lh9InF1FU8Ps0wfzVgW9j6tuc2Ppx?=
- =?us-ascii?Q?rdSRWmw5dYuNKVEhHlO/06p0XP9LC6P+VEetel6wZ8nhgHuYXA2JYHRIZAbF?=
- =?us-ascii?Q?SZSCUd4ZXFBd19aSmC4N6FF8HzoFWJwhrtNNMW8YQSlyoxDJixenCqF7+BYS?=
- =?us-ascii?Q?ACG6nR/SedQjtsPf0p2Ok9nH7WeiiWa4qWyFT7daMXk6T9qDu9yqCXAaqpsz?=
- =?us-ascii?Q?DJrD7YU98V8GKXkd54u5T40rNEa+PAREmNQWWid2EePIBK4Z8ZIGnOr0ROWP?=
- =?us-ascii?Q?LpK+klMNNlUsZxYtR9VDECW5HwHDA9XQtf/H+0ncgPbRfMuVKCFXxUSN/UtQ?=
- =?us-ascii?Q?zLzM8kijied5JGAsqnPpZ4AQhBYY7hYsq0ecFl4U7ccHQ/xYKE8FF/f3vbWi?=
- =?us-ascii?Q?EG4vvDK9ROIhhm3yUtr76Al07LFqAl8V0OCnoe1aKiW/7AZt+KwT44MKnty8?=
- =?us-ascii?Q?hJROxBWw+RReb2wepfewXPCcpMZerh1r2QeT/l7OebMv4MTHGb/Vvmz6auGG?=
- =?us-ascii?Q?DvqxFCTLEQGLWjVIH+EcRcCW26iuUliHeq5j+nQ5a5pVYArstkhTUZAq8Sx2?=
- =?us-ascii?Q?2LKRN0/e+OE2Zzd5TiSyofxxSzNDaSzm+P4vlOqYSZDd+fp+UwGvrbSIIOEF?=
- =?us-ascii?Q?s2nVG8ANNdTkC+hDAfi3j5RGp8eHVg1rV2sWAGFFBNxyuu4OLNkqe+GEcby4?=
- =?us-ascii?Q?tgDE/vNV4t/crwMh6Y5kVOHqSIG3zPLuXHMD0ytaffTOUYYQe9I026FJQ/Bv?=
- =?us-ascii?Q?OX0aiFUx3Q0544WSA43AmSUn4TMC2JMxy+z50TxkMvCmg/DoNemYwbefcQGk?=
- =?us-ascii?Q?FUjFo/jvtqTSxz4XujqQaGOJy9Xlqb01CGi3W3QaIH4D8kLTpgm79QOhTiFZ?=
- =?us-ascii?Q?X+MGdgAFL1klzZnu6HFWg2i/9CDTeoRTHJBbcltC9KWMaeplowSQv2kRHAQh?=
- =?us-ascii?Q?NHTYYbt18x9lkvOw9hERJT/uTZ7vEf24rgGTH//rgCObRkCp/eLw34WHxGJO?=
- =?us-ascii?Q?YxzEY9RWNxU3GN4pKAZAUHaHNOe5CvwCMs/1DW9pa1IX9EuB0q2VBSeAdSnH?=
- =?us-ascii?Q?eFZ+1PbWf+nBA07EI6zhXCo4ybc5v+0K6+tU8sRRWMDmRFRzLNlOntx7diJZ?=
- =?us-ascii?Q?z+hn5W2IegaRuvza5tZrrIoIKzWufecHZTOtpSqGtNZh7g+NKsox1d5WFBeE?=
- =?us-ascii?Q?PGvDDbI6lOiBUjfgZFQitmOLzUe+Z3WUac74aEnyLSVQKGwL87kBaYqH4+OO?=
- =?us-ascii?Q?MlGUOZFLC8tL4Ik+FCmaB2efM70cemt6vAulkQbC/BNBr/yjzR0/Ftjp1GdF?=
- =?us-ascii?Q?dULNzupud0yeKG9n63YCGMKPmEsEYPPxJKkaGF2ekYAhEKm4sf7+MIF1pUDo?=
- =?us-ascii?Q?1CWrVRekygRa8tr3dK2YGcwV9oiH+I3zv2LPYwwcffrOlH11lWD2ce4MT8KO?=
- =?us-ascii?Q?dKeZJlYrgKJgxfPnad6W7BFxcc1MU4o96tqr4mXP2hFnxcBHvFt+PguU9rlU?=
- =?us-ascii?Q?l6fkN5LtbEwyyqnbBdeG4nu3nUIwYc8TMtCy0joC15nuup8KSgUcVXu0ipK5?=
- =?us-ascii?Q?YwomHHUUWYHlDnFsoKSVw30RQIHDdWjpB+yfvuTX?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a51e1b0b-5158-45a5-6c5d-08dbe378c03e
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2023 12:13:16.6982
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w6nKKsRIx0hjJIMQxxV5Koh8L6xkPFUsxpoboIo/CV+4L2gZB1SR8NRQj78q913lWlo7Or5F131DiPXMV1ixvw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8586
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Nov 12, 2023 at 06:48:47PM +0800, kernel test robot wrote:
-> Hi Masahiro,
-> 
-> FYI, the error/warning still remains.
+tree:   https://github.com/yiliu1765/iommufd.git iommufd-v5.19-rc5
+head:   f200d9a1de755f3bb98e21535e22b9adf6ba83f7
+commit: 64d7ee610b9894156431404061a136147988b80e [68/104] drm/i915/gvt: Use vfio_alloc_device()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231112/202311122039.31l3hlVk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311122039.31l3hlVk-lkp@intel.com/reproduce)
 
-Kindly ignore this report, as the commit is not the cause of the warning itself.
-Sorry for the false positive.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311122039.31l3hlVk-lkp@intel.com/
 
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   1b907d0507354b74a4f2c286380cd6059af79248
-> commit: 80b6093b55e31c2c40ff082fb32523d4e852954f kbuild: add -Wundef to KBUILD_CPPFLAGS for W=1 builds
-> date:   11 months ago
-> config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20231112/202311121854.UxxoSqkX-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311121854.UxxoSqkX-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311121854.UxxoSqkX-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from arch/x86/kernel/head_32.S:29:
-> >> arch/x86/include/asm/pgtable_32.h:68:5: warning: "PTRS_PER_PMD" is not defined, evaluates to 0 [-Wundef]
->       68 | #if PTRS_PER_PMD > 1
->          |     ^~~~~~~~~~~~
-> 
-> 
-> vim +/PTRS_PER_PMD +68 arch/x86/include/asm/pgtable_32.h
-> 
-> ^1da177e4c3f41 include/asm-i386/pgtable.h        Linus Torvalds  2005-04-16  58  
-> 1e620f9b23e598 arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  59  /*
-> ea3186b9572a1b arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  60   * This is used to calculate the .brk reservation for initial pagetables.
-> ea3186b9572a1b arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  61   * Enough space is reserved to allocate pagetables sufficient to cover all
-> ea3186b9572a1b arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  62   * of LOWMEM_PAGES, which is an upper bound on the size of the direct map of
-> ea3186b9572a1b arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  63   * lowmem.
-> 1e620f9b23e598 arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  64   *
-> ea3186b9572a1b arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  65   * With PAE paging (PTRS_PER_PMD > 1), we allocate PTRS_PER_PGD == 4 pages for
-> ea3186b9572a1b arch/x86/include/asm/pgtable_32.h Arvind Sankar   2020-10-29  66   * the PMD's in addition to the pages required for the last level pagetables.
-> 1e620f9b23e598 arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  67   */
-> 1e620f9b23e598 arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08 @68  #if PTRS_PER_PMD > 1
-> 1e620f9b23e598 arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  69  #define PAGE_TABLE_SIZE(pages) (((pages) / PTRS_PER_PMD) + PTRS_PER_PGD)
-> 1e620f9b23e598 arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  70  #else
-> 1e620f9b23e598 arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  71  #define PAGE_TABLE_SIZE(pages) ((pages) / PTRS_PER_PGD)
-> 1e620f9b23e598 arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  72  #endif
-> 1e620f9b23e598 arch/x86/include/asm/pgtable_32.h Boris Ostrovsky 2016-12-08  73  
-> 
-> :::::: The code at line 68 was first introduced by commit
-> :::::: 1e620f9b23e598ab936ece12233e98e97930b692 x86/boot/32: Convert the 32-bit pgtable setup code from assembly to C
-> 
-> :::::: TO: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-> :::::: CC: Ingo Molnar <mingo@kernel.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/i915/gvt/vgpu.c:168: warning: expecting prototype for intel_gvt_active_vgpu(). Prototype was for intel_gvt_activate_vgpu() instead
+   drivers/gpu/drm/i915/gvt/vgpu.c:183: warning: expecting prototype for intel_gvt_deactive_vgpu(). Prototype was for intel_gvt_deactivate_vgpu() instead
+   drivers/gpu/drm/i915/gvt/vgpu.c:307: warning: expecting prototype for intel_gvt_destroy_vgpu(). Prototype was for intel_gvt_destroy_idle_vgpu() instead
+>> drivers/gpu/drm/i915/gvt/vgpu.c:327: warning: Function parameter or member 'mdev' not described in 'intel_gvt_create_vgpu'
+
+
+vim +327 drivers/gpu/drm/i915/gvt/vgpu.c
+
+afe04fbe6c522e Ping Gao           2017-03-30  314  
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  315  /**
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  316   * intel_gvt_create_vgpu - create a virtual GPU
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  317   * @gvt: GVT device
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  318   * @conf: type of the vGPU to create
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  319   *
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  320   * This function is called when user wants to create a virtual GPU.
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  321   *
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  322   * Returns:
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  323   * pointer to intel_vgpu, error pointer if failed.
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  324   */
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  325  struct intel_vgpu *intel_gvt_create_vgpu(struct intel_gvt *gvt,
+64d7ee610b9894 Yi Liu             2022-07-11  326  		const struct intel_vgpu_config *conf, struct mdev_device *mdev)
+82d375d1b56820 Zhi Wang           2016-07-05 @327  {
+28284943ac9401 Zhenyu Wang        2020-09-14  328  	struct drm_i915_private *dev_priv = gvt->gt->i915;
+82d375d1b56820 Zhi Wang           2016-07-05  329  	struct intel_vgpu *vgpu;
+82d375d1b56820 Zhi Wang           2016-07-05  330  	int ret;
+82d375d1b56820 Zhi Wang           2016-07-05  331  
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  332  	gvt_dbg_core("low %u MB high %u MB fence %u\n",
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  333  			BYTES_TO_MB(conf->low_mm), BYTES_TO_MB(conf->high_mm),
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  334  			conf->fence);
+82d375d1b56820 Zhi Wang           2016-07-05  335  
+64d7ee610b9894 Yi Liu             2022-07-11  336  	vgpu = vfio_alloc_device(intel_vgpu, vfio_device,
+64d7ee610b9894 Yi Liu             2022-07-11  337  				 &mdev->dev, &intel_vgpu_dev_ops);
+82d375d1b56820 Zhi Wang           2016-07-05  338  	if (!vgpu)
+82d375d1b56820 Zhi Wang           2016-07-05  339  		return ERR_PTR(-ENOMEM);
+82d375d1b56820 Zhi Wang           2016-07-05  340  
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  341  	mutex_lock(&gvt->lock);
+afe04fbe6c522e Ping Gao           2017-03-30  342  	ret = idr_alloc(&gvt->vgpu_idr, vgpu, IDLE_VGPU_IDR + 1, GVT_MAX_VGPU,
+afe04fbe6c522e Ping Gao           2017-03-30  343  		GFP_KERNEL);
+82d375d1b56820 Zhi Wang           2016-07-05  344  	if (ret < 0)
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  345  		goto out_unlock;;
+82d375d1b56820 Zhi Wang           2016-07-05  346  
+82d375d1b56820 Zhi Wang           2016-07-05  347  	vgpu->id = ret;
+82d375d1b56820 Zhi Wang           2016-07-05  348  	vgpu->gvt = gvt;
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  349  	vgpu->sched_ctl.weight = conf->weight;
+f25a49ab8ab9c1 Colin Xu           2018-05-19  350  	mutex_init(&vgpu->vgpu_lock);
+d6c6113bfe19af Hang Yuan          2018-07-30  351  	mutex_init(&vgpu->dmabuf_lock);
+e546e281d33d1f Tina Zhang         2017-11-23  352  	INIT_LIST_HEAD(&vgpu->dmabuf_obj_list_head);
+e502a2af4c358d Changbin Du        2018-01-30  353  	INIT_RADIX_TREE(&vgpu->page_track_tree, GFP_KERNEL);
+64e65f443a43c3 Deepak R Varma     2020-11-04  354  	idr_init_base(&vgpu->object_idr, 1);
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  355  	intel_vgpu_init_cfg_space(vgpu, 1);
+ba25d977571e15 Colin Xu           2020-07-09  356  	vgpu->d3_entered = false;
+82d375d1b56820 Zhi Wang           2016-07-05  357  
+cdcc43479c9b92 Changbin Du        2017-01-13  358  	ret = intel_vgpu_init_mmio(vgpu);
+82d375d1b56820 Zhi Wang           2016-07-05  359  	if (ret)
+4e5378918b5b96 Jike Song          2017-01-06  360  		goto out_clean_idr;
+82d375d1b56820 Zhi Wang           2016-07-05  361  
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  362  	ret = intel_vgpu_alloc_resource(vgpu, conf);
+82d375d1b56820 Zhi Wang           2016-07-05  363  	if (ret)
+82d375d1b56820 Zhi Wang           2016-07-05  364  		goto out_clean_vgpu_mmio;
+82d375d1b56820 Zhi Wang           2016-07-05  365  
+82d375d1b56820 Zhi Wang           2016-07-05  366  	populate_pvinfo_page(vgpu);
+82d375d1b56820 Zhi Wang           2016-07-05  367  
+2707e44466881d Zhi Wang           2016-03-28  368  	ret = intel_vgpu_init_gtt(vgpu);
+2707e44466881d Zhi Wang           2016-03-28  369  	if (ret)
+62980cacc37f58 Christoph Hellwig  2022-04-11  370  		goto out_clean_vgpu_resource;
+2707e44466881d Zhi Wang           2016-03-28  371  
+4dff110b15aea2 Xiong Zhang        2017-11-20  372  	ret = intel_vgpu_init_opregion(vgpu);
+04d348ae3f0aea Zhi Wang           2016-04-25  373  	if (ret)
+8f89743bddec87 Jike Song          2016-11-03  374  		goto out_clean_gtt;
+04d348ae3f0aea Zhi Wang           2016-04-25  375  
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  376  	ret = intel_vgpu_init_display(vgpu, conf->edid);
+4dff110b15aea2 Xiong Zhang        2017-11-20  377  	if (ret)
+4dff110b15aea2 Xiong Zhang        2017-11-20  378  		goto out_clean_opregion;
+4dff110b15aea2 Xiong Zhang        2017-11-20  379  
+874b6a910e6cc0 Zhi Wang           2017-09-10  380  	ret = intel_vgpu_setup_submission(vgpu);
+e473405783c064 Zhi Wang           2016-05-01  381  	if (ret)
+ad1d36369b07f6 Zhi Wang           2017-09-13  382  		goto out_clean_display;
+e473405783c064 Zhi Wang           2016-05-01  383  
+4b63960ebd3f4c Zhi Wang           2016-05-01  384  	ret = intel_vgpu_init_sched_policy(vgpu);
+4b63960ebd3f4c Zhi Wang           2016-05-01  385  	if (ret)
+ad1d36369b07f6 Zhi Wang           2017-09-13  386  		goto out_clean_submission;
+4b63960ebd3f4c Zhi Wang           2016-05-01  387  
+f8871ec8fc73f5 Greg Kroah-Hartman 2019-06-13  388  	intel_gvt_debugfs_add_vgpu(vgpu);
+bc7b0be316aeba Changbin Du        2017-09-26  389  
+f9399b0e4a9555 Christoph Hellwig  2022-04-11  390  	ret = intel_gvt_set_opregion(vgpu);
+b851adeac0858c Tina Zhang         2017-11-20  391  	if (ret)
+b851adeac0858c Tina Zhang         2017-11-20  392  		goto out_clean_sched_policy;
+b851adeac0858c Tina Zhang         2017-11-20  393  
+4ceb06e7c336f4 Colin Xu           2020-12-01  394  	if (IS_BROADWELL(dev_priv) || IS_BROXTON(dev_priv))
+f9399b0e4a9555 Christoph Hellwig  2022-04-11  395  		ret = intel_gvt_set_edid(vgpu, PORT_B);
+4ceb06e7c336f4 Colin Xu           2020-12-01  396  	else
+f9399b0e4a9555 Christoph Hellwig  2022-04-11  397  		ret = intel_gvt_set_edid(vgpu, PORT_D);
+39c68e87bc50a7 Hang Yuan          2019-01-30  398  	if (ret)
+39c68e87bc50a7 Hang Yuan          2019-01-30  399  		goto out_clean_sched_policy;
+39c68e87bc50a7 Hang Yuan          2019-01-30  400  
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  401  	intel_gvt_update_reg_whitelist(vgpu);
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  402  	mutex_unlock(&gvt->lock);
+82d375d1b56820 Zhi Wang           2016-07-05  403  	return vgpu;
+82d375d1b56820 Zhi Wang           2016-07-05  404  
+bc7b0be316aeba Changbin Du        2017-09-26  405  out_clean_sched_policy:
+bc7b0be316aeba Changbin Du        2017-09-26  406  	intel_vgpu_clean_sched_policy(vgpu);
+ad1d36369b07f6 Zhi Wang           2017-09-13  407  out_clean_submission:
+874b6a910e6cc0 Zhi Wang           2017-09-10  408  	intel_vgpu_clean_submission(vgpu);
+8453d674ae7e63 Zhi Wang           2016-05-01  409  out_clean_display:
+8453d674ae7e63 Zhi Wang           2016-05-01  410  	intel_vgpu_clean_display(vgpu);
+4dff110b15aea2 Xiong Zhang        2017-11-20  411  out_clean_opregion:
+4dff110b15aea2 Xiong Zhang        2017-11-20  412  	intel_vgpu_clean_opregion(vgpu);
+4d60c5fd3f8751 Zhi Wang           2016-07-20  413  out_clean_gtt:
+4d60c5fd3f8751 Zhi Wang           2016-07-20  414  	intel_vgpu_clean_gtt(vgpu);
+82d375d1b56820 Zhi Wang           2016-07-05  415  out_clean_vgpu_resource:
+82d375d1b56820 Zhi Wang           2016-07-05  416  	intel_vgpu_free_resource(vgpu);
+82d375d1b56820 Zhi Wang           2016-07-05  417  out_clean_vgpu_mmio:
+cdcc43479c9b92 Changbin Du        2017-01-13  418  	intel_vgpu_clean_mmio(vgpu);
+4e5378918b5b96 Jike Song          2017-01-06  419  out_clean_idr:
+4e5378918b5b96 Jike Song          2017-01-06  420  	idr_remove(&gvt->vgpu_idr, vgpu->id);
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  421  out_unlock:
+28e5c5b9d7ea85 Christoph Hellwig  2022-07-04  422  	mutex_unlock(&gvt->lock);
+64d7ee610b9894 Yi Liu             2022-07-11  423  	vfio_put_device(&vgpu->vfio_device);
+82d375d1b56820 Zhi Wang           2016-07-05  424  	return ERR_PTR(ret);
+82d375d1b56820 Zhi Wang           2016-07-05  425  }
+1f31c8294880d1 Zhenyu Wang        2016-11-03  426  
+
+:::::: The code at line 327 was first introduced by commit
+:::::: 82d375d1b56820fd094da15c82562661b6a8f344 drm/i915/gvt: Introduce basic vGPU life cycle management
+
+:::::: TO: Zhi Wang <zhi.a.wang@intel.com>
+:::::: CC: Zhenyu Wang <zhenyuw@linux.intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
