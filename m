@@ -1,47 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7E914286
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 15:14:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B3014296
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 15:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPC3+Pda"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5XCCnWR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699802090; x=1731338090;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q0SrsMtwKHarQmZ6jGZ7yh5YwH1syJtrkFTylQhmUkw=;
-  b=bPC3+Pda/9ugEpqC8zdJXzdAHkWqlOvQey9MjMaCVJYE8/wi+V0SbME+
-   3Sf3+JKJWf+0Kz6YqWpghY/CHrKNe/mqCr1FIm+tiknnibHOZwyroj5ve
-   a3cJkV+DaBMx0EhfDMMlU7sDpvcqp2/yakO8c6/kLIo17Iq/tXjVBpL2o
-   qTt81+UKYTJG9Now88nX6Nd91Dv2wvZo9Jdhn420LBPI2rghkpRVOTc3P
-   zqSeDrhjJTHaAJ+TQiRgvOYjvsp5c2kO4P+V5MVTUQ7WuOCqlMqfA4W7m
-   6uUA+0e8uP4Evh/h6Y579QVIJ/66l/CQYSSH45oAry9jKXOEexMM0867g
+  t=1699803430; x=1731339430;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6+rGikK4Qo6QtlUFO84kfV1pxROXDN6ZfNpcss2LyoA=;
+  b=d5XCCnWRrA2fWB8a4TrnRwyZP/d45VkNWgByej5b/hPI33MfLGgqhONP
+   JUvts7QcLGzkZgqiN+3rz6bJ10hxz1+fflHTds6LaZ233aE1T9zLS3YRZ
+   RnBAojeSGcJ49OYqW4VR40vahfKhOUEryGcFTOiOPr3UYyuzzTMaIVs+F
+   +V+Oj6ZSBmSK3LZew9ZWKhHNi8EX49b3GRQXku+QhCcomhf0gauXIMvje
+   BhXOFsJ5cLDBbCtYTcKxDRfsHw4vKi1/3a/R05gid0YWbn/Yl4PPWIyOp
+   BpjAEcWeaXTJDhNzVf9JcpDAZVESlz+hNE6p4SOS5CYxnj8aZmefUnS4C
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="454636588"
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="369664362"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="454636588"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 07:14:49 -0800
+   d="scan'208";a="369664362"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 07:37:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="830045599"
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="937555804"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="830045599"
+   d="scan'208";a="937555804"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 12 Nov 2023 07:14:47 -0800
+  by orsmga005.jf.intel.com with ESMTP; 12 Nov 2023 07:37:03 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2CAf-000BEI-0k;
-	Sun, 12 Nov 2023 15:14:45 +0000
-Date: Sun, 12 Nov 2023 23:13:48 +0800
+	id 1r2CWC-000BEy-31;
+	Sun, 12 Nov 2023 15:37:00 +0000
+Date: Sun, 12 Nov 2023 23:35:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Lin <CTLIN0@nuvoton.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: sound/soc/codecs/nau8822.c:199:25: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202311122320.T1opZVkP-lkp@intel.com>
+To: Alan Maguire <alan.maguire@oracle.com>, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, jolsa@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quentin@isovalent.com, eddyz87@gmail.com,
+	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+	haoluo@google.com, masahiroy@kernel.org, bpf@vger.kernel.org,
+	Alan Maguire <alan.maguire@oracle.com>
+Subject: Re: [PATCH v4 bpf-next 13/17] bpf: support standalone BTF in modules
+Message-ID: <202311122307.bjlq3XJ5-lkp@intel.com>
+References: <20231112124834.388735-14-alan.maguire@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,105 +55,172 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231112124834.388735-14-alan.maguire@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1b907d0507354b74a4f2c286380cd6059af79248
-commit: 1e3cb6c321be2e5295dcaa94c2bf42a43a47a067 ASoC: nau8822: new codec driver
-date:   5 years ago
-config: x86_64-randconfig-x014-20230805 (https://download.01.org/0day-ci/archive/20231112/202311122320.T1opZVkP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311122320.T1opZVkP-lkp@intel.com/reproduce)
+Hi Alan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alan-Maguire/btf-add-kind-layout-encoding-crcs-to-UAPI/20231112-205314
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231112124834.388735-14-alan.maguire%40oracle.com
+patch subject: [PATCH v4 bpf-next 13/17] bpf: support standalone BTF in modules
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20231112/202311122307.bjlq3XJ5-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311122307.bjlq3XJ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311122320.T1opZVkP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311122307.bjlq3XJ5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/codecs/nau8822.c:199:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [assigned] [usertype] reg_val @@     got restricted __be16 [usertype] @@
-   sound/soc/codecs/nau8822.c:199:25: sparse:     expected unsigned short [assigned] [usertype] reg_val
-   sound/soc/codecs/nau8822.c:199:25: sparse:     got restricted __be16 [usertype]
->> sound/soc/codecs/nau8822.c:235:25: sparse: sparse: cast to restricted __be16
->> sound/soc/codecs/nau8822.c:235:25: sparse: sparse: cast to restricted __be16
->> sound/soc/codecs/nau8822.c:235:25: sparse: sparse: cast to restricted __be16
->> sound/soc/codecs/nau8822.c:235:25: sparse: sparse: cast to restricted __be16
+All errors (new ones prefixed by >>):
 
-vim +199 sound/soc/codecs/nau8822.c
+   kernel/bpf/btf.c: In function 'btf_seq_show':
+   kernel/bpf/btf.c:7447:29: warning: function 'btf_seq_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    7447 |         seq_vprintf((struct seq_file *)show->target, fmt, args);
+         |                             ^~~~~~~~
+   kernel/bpf/btf.c: In function 'btf_snprintf_show':
+   kernel/bpf/btf.c:7484:9: warning: function 'btf_snprintf_show' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    7484 |         len = vsnprintf(show->target, ssnprintf->len_left, fmt, args);
+         |         ^~~
+   kernel/bpf/btf.c: In function 'btf_populate_kfunc_set':
+>> kernel/bpf/btf.c:8153:44: error: implicit declaration of function 'btf_id_renumber'; did you mean 'btf_is_enum64'? [-Werror=implicit-function-declaration]
+    8153 |                         set->pairs[i].id = btf_id_renumber(btf, set->pairs[i].id);
+         |                                            ^~~~~~~~~~~~~~~
+         |                                            btf_is_enum64
+   cc1: some warnings being treated as errors
 
-   176	
-   177	/* The EQ parameters get function is to get the 5 band equalizer control.
-   178	 * The regmap raw read can't work here because regmap doesn't provide
-   179	 * value format for value width of 9 bits. Therefore, the driver reads data
-   180	 * from cache and makes value format according to the endianness of
-   181	 * bytes type control element.
-   182	 */
-   183	static int nau8822_eq_get(struct snd_kcontrol *kcontrol,
-   184		struct snd_ctl_elem_value *ucontrol)
-   185	{
-   186		struct snd_soc_component *component =
-   187				snd_soc_kcontrol_component(kcontrol);
-   188		struct soc_bytes_ext *params = (void *)kcontrol->private_value;
-   189		int i, reg;
-   190		u16 reg_val, *val;
-   191	
-   192		val = (u16 *)ucontrol->value.bytes.data;
-   193		reg = NAU8822_REG_EQ1;
-   194		for (i = 0; i < params->max / sizeof(u16); i++) {
-   195			reg_val = snd_soc_component_read32(component, reg + i);
-   196			/* conversion of 16-bit integers between native CPU format
-   197			 * and big endian format
-   198			 */
- > 199			reg_val = cpu_to_be16(reg_val);
-   200			memcpy(val + i, &reg_val, sizeof(reg_val));
-   201		}
-   202	
-   203		return 0;
-   204	}
-   205	
-   206	/* The EQ parameters put function is to make configuration of 5 band equalizer
-   207	 * control. These configuration includes central frequency, equalizer gain,
-   208	 * cut-off frequency, bandwidth control, and equalizer path.
-   209	 * The regmap raw write can't work here because regmap doesn't provide
-   210	 * register and value format for register with address 7 bits and value 9 bits.
-   211	 * Therefore, the driver makes value format according to the endianness of
-   212	 * bytes type control element and writes data to codec.
-   213	 */
-   214	static int nau8822_eq_put(struct snd_kcontrol *kcontrol,
-   215		struct snd_ctl_elem_value *ucontrol)
-   216	{
-   217		struct snd_soc_component *component =
-   218				snd_soc_kcontrol_component(kcontrol);
-   219		struct soc_bytes_ext *params = (void *)kcontrol->private_value;
-   220		void *data;
-   221		u16 *val, value;
-   222		int i, reg, ret;
-   223	
-   224		data = kmemdup(ucontrol->value.bytes.data,
-   225			params->max, GFP_KERNEL | GFP_DMA);
-   226		if (!data)
-   227			return -ENOMEM;
-   228	
-   229		val = (u16 *)data;
-   230		reg = NAU8822_REG_EQ1;
-   231		for (i = 0; i < params->max / sizeof(u16); i++) {
-   232			/* conversion of 16-bit integers between native CPU format
-   233			 * and big endian format
-   234			 */
- > 235			value = be16_to_cpu(*(val + i));
-   236			ret = snd_soc_component_write(component, reg + i, value);
-   237			if (ret) {
-   238				dev_err(component->dev,
-   239				    "EQ configuration fail, register: %x ret: %d\n",
-   240				    reg + i, ret);
-   241				kfree(data);
-   242				return ret;
-   243			}
-   244		}
-   245		kfree(data);
-   246	
-   247		return 0;
-   248	}
-   249	
+
+vim +8153 kernel/bpf/btf.c
+
+  8046	
+  8047	static int btf_populate_kfunc_set(struct btf *btf, enum btf_kfunc_hook hook,
+  8048					  const struct btf_kfunc_id_set *kset)
+  8049	{
+  8050		struct btf_kfunc_hook_filter *hook_filter;
+  8051		struct btf_id_set8 *add_set = kset->set;
+  8052		bool vmlinux_set = !btf_is_module(btf);
+  8053		bool add_filter = !!kset->filter;
+  8054		struct btf_kfunc_set_tab *tab;
+  8055		struct btf_id_set8 *set;
+  8056		u32 set_cnt;
+  8057		int ret;
+  8058	
+  8059		if (hook >= BTF_KFUNC_HOOK_MAX) {
+  8060			ret = -EINVAL;
+  8061			goto end;
+  8062		}
+  8063	
+  8064		if (!add_set->cnt)
+  8065			return 0;
+  8066	
+  8067		tab = btf->kfunc_set_tab;
+  8068	
+  8069		if (tab && add_filter) {
+  8070			u32 i;
+  8071	
+  8072			hook_filter = &tab->hook_filters[hook];
+  8073			for (i = 0; i < hook_filter->nr_filters; i++) {
+  8074				if (hook_filter->filters[i] == kset->filter) {
+  8075					add_filter = false;
+  8076					break;
+  8077				}
+  8078			}
+  8079	
+  8080			if (add_filter && hook_filter->nr_filters == BTF_KFUNC_FILTER_MAX_CNT) {
+  8081				ret = -E2BIG;
+  8082				goto end;
+  8083			}
+  8084		}
+  8085	
+  8086		if (!tab) {
+  8087			tab = kzalloc(sizeof(*tab), GFP_KERNEL | __GFP_NOWARN);
+  8088			if (!tab)
+  8089				return -ENOMEM;
+  8090			btf->kfunc_set_tab = tab;
+  8091		}
+  8092	
+  8093		set = tab->sets[hook];
+  8094		/* Warn when register_btf_kfunc_id_set is called twice for the same hook
+  8095		 * for module sets.
+  8096		 */
+  8097		if (WARN_ON_ONCE(set && !vmlinux_set)) {
+  8098			ret = -EINVAL;
+  8099			goto end;
+  8100		}
+  8101	
+  8102		/* We don't need to allocate, concatenate, and sort module sets, because
+  8103		 * only one is allowed per hook. Hence, we can directly assign the
+  8104		 * pointer and return.
+  8105		 */
+  8106		if (!vmlinux_set) {
+  8107			tab->sets[hook] = add_set;
+  8108			goto do_add_filter;
+  8109		}
+  8110	
+  8111		/* In case of vmlinux sets, there may be more than one set being
+  8112		 * registered per hook. To create a unified set, we allocate a new set
+  8113		 * and concatenate all individual sets being registered. While each set
+  8114		 * is individually sorted, they may become unsorted when concatenated,
+  8115		 * hence re-sorting the final set again is required to make binary
+  8116		 * searching the set using btf_id_set8_contains function work.
+  8117		 */
+  8118		set_cnt = set ? set->cnt : 0;
+  8119	
+  8120		if (set_cnt > U32_MAX - add_set->cnt) {
+  8121			ret = -EOVERFLOW;
+  8122			goto end;
+  8123		}
+  8124	
+  8125		if (set_cnt + add_set->cnt > BTF_KFUNC_SET_MAX_CNT) {
+  8126			ret = -E2BIG;
+  8127			goto end;
+  8128		}
+  8129	
+  8130		/* Grow set */
+  8131		set = krealloc(tab->sets[hook],
+  8132			       offsetof(struct btf_id_set8, pairs[set_cnt + add_set->cnt]),
+  8133			       GFP_KERNEL | __GFP_NOWARN);
+  8134		if (!set) {
+  8135			ret = -ENOMEM;
+  8136			goto end;
+  8137		}
+  8138	
+  8139		/* For newly allocated set, initialize set->cnt to 0 */
+  8140		if (!tab->sets[hook])
+  8141			set->cnt = 0;
+  8142		tab->sets[hook] = set;
+  8143	
+  8144		/* Concatenate the two sets */
+  8145		memcpy(set->pairs + set->cnt, add_set->pairs, add_set->cnt * sizeof(set->pairs[0]));
+  8146		if (btf->standalone_btf) {
+  8147			u32 i;
+  8148	
+  8149			/* renumber BTF ids since BTF is standalone and has been mapped to look
+  8150			 * like split BTF, while BTF kfunc ids are still old unmapped values.
+  8151			 */
+  8152			for (i = set->cnt; i < set->cnt + add_set->cnt; i++)
+> 8153				set->pairs[i].id = btf_id_renumber(btf, set->pairs[i].id);
+  8154		}
+  8155	
+  8156		set->cnt += add_set->cnt;
+  8157	
+  8158		sort(set->pairs, set->cnt, sizeof(set->pairs[0]), btf_id_cmp_func, NULL);
+  8159	
+  8160	do_add_filter:
+  8161		if (add_filter) {
+  8162			hook_filter = &tab->hook_filters[hook];
+  8163			hook_filter->filters[hook_filter->nr_filters++] = kset->filter;
+  8164		}
+  8165		return 0;
+  8166	end:
+  8167		btf_free_kfunc_set_tab(btf);
+  8168		return ret;
+  8169	}
+  8170	
 
 -- 
 0-DAY CI Kernel Test Service
