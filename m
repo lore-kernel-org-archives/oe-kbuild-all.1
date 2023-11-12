@@ -1,53 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6867461;
-	Sun, 12 Nov 2023 14:42:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7E914286
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 15:14:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZRhTDNW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPC3+Pda"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699800154; x=1731336154;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=He2tsisvNal/rPlNHC59npYlS3mXk8AFx4LjcgHkzI8=;
-  b=FZRhTDNWZaS45LAPmYxpwUA4y9mGUczXkubSQOy5dUZjpn91v7klihXI
-   7dLCYcItLKOXxUZs4OIozVSZWDKy5BM3ZVnQNfakNW7QqLLnaKSWzCWfF
-   1jUuARhML2fgXjj2cBZL7PtQCMBxEeIFxv0A2vgaYgBgYfSutsK42izGh
-   5zd13KyruFuSHbx3yx+yfewi7wG/LkHD5LMxb00ZTuTYhQQ0quR47z1TM
-   pZtMkZ2OlRE+1k2A9swCiYUAwuRbuqwoE3u999IEJPdxARjNJJ9RArv3u
-   tE6HzK5VTmrcZpH+W/D/chgAtkmhDmLwbHk1IOea/Lm4vy161TWyPc12j
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369660516"
+  t=1699802090; x=1731338090;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q0SrsMtwKHarQmZ6jGZ7yh5YwH1syJtrkFTylQhmUkw=;
+  b=bPC3+Pda/9ugEpqC8zdJXzdAHkWqlOvQey9MjMaCVJYE8/wi+V0SbME+
+   3Sf3+JKJWf+0Kz6YqWpghY/CHrKNe/mqCr1FIm+tiknnibHOZwyroj5ve
+   a3cJkV+DaBMx0EhfDMMlU7sDpvcqp2/yakO8c6/kLIo17Iq/tXjVBpL2o
+   qTt81+UKYTJG9Now88nX6Nd91Dv2wvZo9Jdhn420LBPI2rghkpRVOTc3P
+   zqSeDrhjJTHaAJ+TQiRgvOYjvsp5c2kO4P+V5MVTUQ7WuOCqlMqfA4W7m
+   6uUA+0e8uP4Evh/h6Y579QVIJ/66l/CQYSSH45oAry9jKXOEexMM0867g
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="454636588"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="369660516"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 06:42:31 -0800
+   d="scan'208";a="454636588"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 07:14:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="793223767"
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="830045599"
 X-IronPort-AV: E=Sophos;i="6.03,297,1694761200"; 
-   d="scan'208";a="793223767"
+   d="scan'208";a="830045599"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 12 Nov 2023 06:42:29 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 12 Nov 2023 07:14:47 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2BfO-000BCo-1K;
-	Sun, 12 Nov 2023 14:42:26 +0000
-Date: Sun, 12 Nov 2023 22:41:28 +0800
+	id 1r2CAf-000BEI-0k;
+	Sun, 12 Nov 2023 15:14:45 +0000
+Date: Sun, 12 Nov 2023 23:13:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>,
-	Andrew Worsley <amworsley@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:DRM DRIVER FOR FIRMWARE FRAMEBUFFERS" <dri-devel@lists.freedesktop.org>,
-	Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH] of/platform: Disable sysfb if a simple-framebuffer node
- is
-Message-ID: <202311122208.2emZJrfT-lkp@intel.com>
-References: <87a5rj9s37.fsf@minerva.mail-host-address-is-not-set>
+To: David Lin <CTLIN0@nuvoton.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: sound/soc/codecs/nau8822.c:199:25: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202311122320.T1opZVkP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,144 +50,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87a5rj9s37.fsf@minerva.mail-host-address-is-not-set>
 
-Hi Javier,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/of-platform-Disable-sysfb-if-a-simple-framebuffer-node-is/20231112-183751
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/87a5rj9s37.fsf%40minerva.mail-host-address-is-not-set
-patch subject: [PATCH] of/platform: Disable sysfb if a simple-framebuffer node is
-config: arm-versatile_defconfig (https://download.01.org/0day-ci/archive/20231112/202311122208.2emZJrfT-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311122208.2emZJrfT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1b907d0507354b74a4f2c286380cd6059af79248
+commit: 1e3cb6c321be2e5295dcaa94c2bf42a43a47a067 ASoC: nau8822: new codec driver
+date:   5 years ago
+config: x86_64-randconfig-x014-20230805 (https://download.01.org/0day-ci/archive/20231112/202311122320.T1opZVkP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311122320.T1opZVkP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311122208.2emZJrfT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311122320.T1opZVkP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/codecs/nau8822.c:199:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [assigned] [usertype] reg_val @@     got restricted __be16 [usertype] @@
+   sound/soc/codecs/nau8822.c:199:25: sparse:     expected unsigned short [assigned] [usertype] reg_val
+   sound/soc/codecs/nau8822.c:199:25: sparse:     got restricted __be16 [usertype]
+>> sound/soc/codecs/nau8822.c:235:25: sparse: sparse: cast to restricted __be16
+>> sound/soc/codecs/nau8822.c:235:25: sparse: sparse: cast to restricted __be16
+>> sound/soc/codecs/nau8822.c:235:25: sparse: sparse: cast to restricted __be16
+>> sound/soc/codecs/nau8822.c:235:25: sparse: sparse: cast to restricted __be16
 
->> drivers/of/platform.c:635:4: error: call to undeclared function 'sysfb_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     635 |                         sysfb_disable();
-         |                         ^
-   1 error generated.
+vim +199 sound/soc/codecs/nau8822.c
 
-
-vim +/sysfb_disable +635 drivers/of/platform.c
-
-   545	
-   546	static int __init of_platform_default_populate_init(void)
-   547	{
-   548		struct device_node *node;
-   549	
-   550		device_links_supplier_sync_state_pause();
-   551	
-   552		if (!of_have_populated_dt())
-   553			return -ENODEV;
-   554	
-   555		if (IS_ENABLED(CONFIG_PPC)) {
-   556			struct device_node *boot_display = NULL;
-   557			struct platform_device *dev;
-   558			int display_number = 0;
-   559			int ret;
-   560	
-   561			/* Check if we have a MacOS display without a node spec */
-   562			if (of_property_present(of_chosen, "linux,bootx-noscreen")) {
-   563				/*
-   564				 * The old code tried to work out which node was the MacOS
-   565				 * display based on the address. I'm dropping that since the
-   566				 * lack of a node spec only happens with old BootX versions
-   567				 * (users can update) and with this code, they'll still get
-   568				 * a display (just not the palette hacks).
-   569				 */
-   570				dev = platform_device_alloc("bootx-noscreen", 0);
-   571				if (WARN_ON(!dev))
-   572					return -ENOMEM;
-   573				ret = platform_device_add(dev);
-   574				if (WARN_ON(ret)) {
-   575					platform_device_put(dev);
-   576					return ret;
-   577				}
-   578			}
-   579	
-   580			/*
-   581			 * For OF framebuffers, first create the device for the boot display,
-   582			 * then for the other framebuffers. Only fail for the boot display;
-   583			 * ignore errors for the rest.
-   584			 */
-   585			for_each_node_by_type(node, "display") {
-   586				if (!of_get_property(node, "linux,opened", NULL) ||
-   587				    !of_get_property(node, "linux,boot-display", NULL))
-   588					continue;
-   589				dev = of_platform_device_create(node, "of-display", NULL);
-   590				of_node_put(node);
-   591				if (WARN_ON(!dev))
-   592					return -ENOMEM;
-   593				boot_display = node;
-   594				display_number++;
-   595				break;
-   596			}
-   597			for_each_node_by_type(node, "display") {
-   598				char buf[14];
-   599				const char *of_display_format = "of-display.%d";
-   600	
-   601				if (!of_get_property(node, "linux,opened", NULL) || node == boot_display)
-   602					continue;
-   603				ret = snprintf(buf, sizeof(buf), of_display_format, display_number++);
-   604				if (ret < sizeof(buf))
-   605					of_platform_device_create(node, buf, NULL);
-   606			}
-   607	
-   608		} else {
-   609			/*
-   610			 * Handle certain compatibles explicitly, since we don't want to create
-   611			 * platform_devices for every node in /reserved-memory with a
-   612			 * "compatible",
-   613			 */
-   614			for_each_matching_node(node, reserved_mem_matches)
-   615				of_platform_device_create(node, NULL, NULL);
-   616	
-   617			node = of_find_node_by_path("/firmware");
-   618			if (node) {
-   619				of_platform_populate(node, NULL, NULL, NULL);
-   620				of_node_put(node);
-   621			}
-   622	
-   623			node = of_get_compatible_child(of_chosen, "simple-framebuffer");
-   624			if (node) {
-   625				/*
-   626				 * Since a "simple-framebuffer" device is already added
-   627				 * here, disable the Generic System Framebuffers (sysfb)
-   628				 * to prevent it from registering another device for the
-   629				 * system framebuffer later (e.g: using the screen_info
-   630				 * data that may had been filled as well).
-   631				 *
-   632				 * This can happen for example on DT systems that do EFI
-   633				 * booting and may provide a GOP table to the EFI stub.
-   634				 */
- > 635				sysfb_disable();
-   636				of_platform_device_create(node, NULL, NULL);
-   637				of_node_put(node);
-   638			}
-   639	
-   640			/* Populate everything else. */
-   641			of_platform_default_populate(NULL, NULL, NULL);
-   642		}
-   643	
-   644		return 0;
-   645	}
-   646	arch_initcall_sync(of_platform_default_populate_init);
-   647	
+   176	
+   177	/* The EQ parameters get function is to get the 5 band equalizer control.
+   178	 * The regmap raw read can't work here because regmap doesn't provide
+   179	 * value format for value width of 9 bits. Therefore, the driver reads data
+   180	 * from cache and makes value format according to the endianness of
+   181	 * bytes type control element.
+   182	 */
+   183	static int nau8822_eq_get(struct snd_kcontrol *kcontrol,
+   184		struct snd_ctl_elem_value *ucontrol)
+   185	{
+   186		struct snd_soc_component *component =
+   187				snd_soc_kcontrol_component(kcontrol);
+   188		struct soc_bytes_ext *params = (void *)kcontrol->private_value;
+   189		int i, reg;
+   190		u16 reg_val, *val;
+   191	
+   192		val = (u16 *)ucontrol->value.bytes.data;
+   193		reg = NAU8822_REG_EQ1;
+   194		for (i = 0; i < params->max / sizeof(u16); i++) {
+   195			reg_val = snd_soc_component_read32(component, reg + i);
+   196			/* conversion of 16-bit integers between native CPU format
+   197			 * and big endian format
+   198			 */
+ > 199			reg_val = cpu_to_be16(reg_val);
+   200			memcpy(val + i, &reg_val, sizeof(reg_val));
+   201		}
+   202	
+   203		return 0;
+   204	}
+   205	
+   206	/* The EQ parameters put function is to make configuration of 5 band equalizer
+   207	 * control. These configuration includes central frequency, equalizer gain,
+   208	 * cut-off frequency, bandwidth control, and equalizer path.
+   209	 * The regmap raw write can't work here because regmap doesn't provide
+   210	 * register and value format for register with address 7 bits and value 9 bits.
+   211	 * Therefore, the driver makes value format according to the endianness of
+   212	 * bytes type control element and writes data to codec.
+   213	 */
+   214	static int nau8822_eq_put(struct snd_kcontrol *kcontrol,
+   215		struct snd_ctl_elem_value *ucontrol)
+   216	{
+   217		struct snd_soc_component *component =
+   218				snd_soc_kcontrol_component(kcontrol);
+   219		struct soc_bytes_ext *params = (void *)kcontrol->private_value;
+   220		void *data;
+   221		u16 *val, value;
+   222		int i, reg, ret;
+   223	
+   224		data = kmemdup(ucontrol->value.bytes.data,
+   225			params->max, GFP_KERNEL | GFP_DMA);
+   226		if (!data)
+   227			return -ENOMEM;
+   228	
+   229		val = (u16 *)data;
+   230		reg = NAU8822_REG_EQ1;
+   231		for (i = 0; i < params->max / sizeof(u16); i++) {
+   232			/* conversion of 16-bit integers between native CPU format
+   233			 * and big endian format
+   234			 */
+ > 235			value = be16_to_cpu(*(val + i));
+   236			ret = snd_soc_component_write(component, reg + i, value);
+   237			if (ret) {
+   238				dev_err(component->dev,
+   239				    "EQ configuration fail, register: %x ret: %d\n",
+   240				    reg + i, ret);
+   241				kfree(data);
+   242				return ret;
+   243			}
+   244		}
+   245		kfree(data);
+   246	
+   247		return 0;
+   248	}
+   249	
 
 -- 
 0-DAY CI Kernel Test Service
