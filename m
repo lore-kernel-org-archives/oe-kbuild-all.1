@@ -1,47 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8717F1380
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 00:53:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F230617E1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 12 Nov 2023 01:39:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZS+YCTD3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZq1ddOd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699750422; x=1731286422;
+  t=1699753160; x=1731289160;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5zVf3rY2XSqBS7Gz/wWCDMEQ9iDekJWIJObQ4CsDhvo=;
-  b=ZS+YCTD3w+FVgUPgyHoOvP8CVUbij82lC8B+Oi7qiVCi5p4fuoGCX+CU
-   ZD+0AiVcx/VmcL0eRU+4kZBGeF1R0VdUIqupbIui++9xai4YzeEGQX5Di
-   GsJuyx53ehNmV/5FYHrjyvKZZRCIB0kWnR/gS6wCIMimUcZJOnmEEkC6Y
-   TgcxX77yPDnXp+V2qtPZQ4waenJIKE2h4j8pOMn8DKUyyZBZpBtHJ0BhN
-   EzpWy1W6UAHFST0UupujpYbIBtSh73FgNeNPd3vVHVB7hxZvJTLN1sfGl
-   jf7vKp347ZOz7T0Q+mYQ+Ob6ywyXzzFJkMDvWxtUzjAB6XFOxQFtMhpuk
+  bh=O/+aus1Io8KkkCFwacXo/gaH48rMU9UIlRnaT7TpBGk=;
+  b=dZq1ddOdDdzlTGeFexD5PhWcloK87wL8hi4NqNv+OY8YKGvl1Mhs5zlr
+   Vk2Z4CI6SQJ+10FKZNejgI5t7plHw5oUTtq+1xj5WNkChGpQYLFUSoSEK
+   yNHzgvTTyDAd5pXKh2BWszRoH+SrwLq6Tn9ZwZM6wksHxomGAeX9KJk25
+   Kah9DyibvIs7gptdFTi+2af2VaCDGSx0iUqn1fRl/guCh5l5J0LL9e1U7
+   r6Yfbcsut0RzC2rqsfGGS1503MkaJbkgS9fVv+k1YTGIdydhxPfqPLYi2
+   tA73I6xZ+YabixgzTAX1enZ6OWsAY2i/QDThfa7Bv2xp88JNJxmhd9Xc6
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369632736"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="369634514"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="369632736"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 16:53:41 -0800
+   d="scan'208";a="369634514"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 17:39:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="854666319"
+X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="767607661"
 X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="854666319"
+   d="scan'208";a="767607661"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Nov 2023 16:53:40 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 11 Nov 2023 17:39:17 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r1yjK-000AqQ-0G;
-	Sun, 12 Nov 2023 00:53:38 +0000
-Date: Sun, 12 Nov 2023 08:52:44 +0800
+	id 1r1zRT-000ArW-0h;
+	Sun, 12 Nov 2023 01:39:15 +0000
+Date: Sun, 12 Nov 2023 09:38:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: kernel/time/hrtimer.c:1483:14: warning: variable
- 'expires_in_hardirq' set but not used
-Message-ID: <202311120815.33YfGjzD-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/642 136/30000] drivers/usb/cdns3/core.c:661:46:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202311120907.i9KAfGFG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,143 +50,213 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Sebastian,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3ca112b71f35dd5d99fc4571a56b5fc6f0c15814
-commit: 73d20564e0dcae003e0d79977f044d5e57496304 hrtimer: Don't dereference the hrtimer pointer after the callback
-date:   3 years, 7 months ago
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20231112/202311120815.33YfGjzD-lkp@intel.com/config)
+tree:   https://github.com/Freescale/linux-fslc pr/642
+head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
+commit: 7692d3bf1f316d49478b9796e22244bece63db25 [136/30000] MLK-16976-4 usb: cdns3: add power management support
+config: i386-randconfig-063-20231021 (https://download.01.org/0day-ci/archive/20231112/202311120907.i9KAfGFG-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120815.33YfGjzD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120907.i9KAfGFG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311120815.33YfGjzD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311120907.i9KAfGFG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/cdns3/core.c:661:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/usb/cdns3/core.c:661:46: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/core.c:661:46: sparse:     got void *
+>> drivers/usb/cdns3/core.c:663:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/usb/cdns3/core.c:663:46: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/core.c:663:46: sparse:     got void *
+   drivers/usb/cdns3/core.c:666:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/usb/cdns3/core.c:666:46: sparse:     expected void const volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/core.c:666:46: sparse:     got void *
+   drivers/usb/cdns3/core.c:668:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void * @@
+   drivers/usb/cdns3/core.c:668:46: sparse:     expected void volatile [noderef] <asn:2> *addr
+   drivers/usb/cdns3/core.c:668:46: sparse:     got void *
+>> drivers/usb/cdns3/core.c:757:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *none_core_regs @@     got void [noderef] <asn:2> *none_core_regs @@
+   drivers/usb/cdns3/core.c:757:34: sparse:     expected void *none_core_regs
+   drivers/usb/cdns3/core.c:757:34: sparse:     got void [noderef] <asn:2> *none_core_regs
+   drivers/usb/cdns3/core.c:767:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *none_core_regs @@     got void [noderef] <asn:2> *none_core_regs @@
+   drivers/usb/cdns3/core.c:767:34: sparse:     expected void *none_core_regs
+   drivers/usb/cdns3/core.c:767:34: sparse:     got void [noderef] <asn:2> *none_core_regs
 
-   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
-     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
-     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
-     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
-     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-   kernel/time/hrtimer.c: In function '__run_hrtimer':
->> kernel/time/hrtimer.c:1483:14: warning: variable 'expires_in_hardirq' set but not used [-Wunused-but-set-variable]
-    1483 |         bool expires_in_hardirq;
-         |              ^~~~~~~~~~~~~~~~~~
+vim +661 drivers/usb/cdns3/core.c
 
-
-vim +/expires_in_hardirq +1483 kernel/time/hrtimer.c
-
-  1458	
-  1459	/*
-  1460	 * The write_seqcount_barrier()s in __run_hrtimer() split the thing into 3
-  1461	 * distinct sections:
-  1462	 *
-  1463	 *  - queued:	the timer is queued
-  1464	 *  - callback:	the timer is being ran
-  1465	 *  - post:	the timer is inactive or (re)queued
-  1466	 *
-  1467	 * On the read side we ensure we observe timer->state and cpu_base->running
-  1468	 * from the same section, if anything changed while we looked at it, we retry.
-  1469	 * This includes timer->base changing because sequence numbers alone are
-  1470	 * insufficient for that.
-  1471	 *
-  1472	 * The sequence numbers are required because otherwise we could still observe
-  1473	 * a false negative if the read side got smeared over multiple consequtive
-  1474	 * __run_hrtimer() invocations.
-  1475	 */
-  1476	
-  1477	static void __run_hrtimer(struct hrtimer_cpu_base *cpu_base,
-  1478				  struct hrtimer_clock_base *base,
-  1479				  struct hrtimer *timer, ktime_t *now,
-  1480				  unsigned long flags) __must_hold(&cpu_base->lock)
-  1481	{
-  1482		enum hrtimer_restart (*fn)(struct hrtimer *);
-> 1483		bool expires_in_hardirq;
-  1484		int restart;
-  1485	
-  1486		lockdep_assert_held(&cpu_base->lock);
-  1487	
-  1488		debug_deactivate(timer);
-  1489		base->running = timer;
-  1490	
-  1491		/*
-  1492		 * Separate the ->running assignment from the ->state assignment.
-  1493		 *
-  1494		 * As with a regular write barrier, this ensures the read side in
-  1495		 * hrtimer_active() cannot observe base->running == NULL &&
-  1496		 * timer->state == INACTIVE.
-  1497		 */
-  1498		raw_write_seqcount_barrier(&base->seq);
-  1499	
-  1500		__remove_hrtimer(timer, base, HRTIMER_STATE_INACTIVE, 0);
-  1501		fn = timer->function;
-  1502	
-  1503		/*
-  1504		 * Clear the 'is relative' flag for the TIME_LOW_RES case. If the
-  1505		 * timer is restarted with a period then it becomes an absolute
-  1506		 * timer. If its not restarted it does not matter.
-  1507		 */
-  1508		if (IS_ENABLED(CONFIG_TIME_LOW_RES))
-  1509			timer->is_rel = false;
-  1510	
-  1511		/*
-  1512		 * The timer is marked as running in the CPU base, so it is
-  1513		 * protected against migration to a different CPU even if the lock
-  1514		 * is dropped.
-  1515		 */
-  1516		raw_spin_unlock_irqrestore(&cpu_base->lock, flags);
-  1517		trace_hrtimer_expire_entry(timer, now);
-  1518		expires_in_hardirq = lockdep_hrtimer_enter(timer);
-  1519	
-  1520		restart = fn(timer);
-  1521	
-  1522		lockdep_hrtimer_exit(expires_in_hardirq);
-  1523		trace_hrtimer_expire_exit(timer);
-  1524		raw_spin_lock_irq(&cpu_base->lock);
-  1525	
-  1526		/*
-  1527		 * Note: We clear the running state after enqueue_hrtimer and
-  1528		 * we do not reprogram the event hardware. Happens either in
-  1529		 * hrtimer_start_range_ns() or in hrtimer_interrupt()
-  1530		 *
-  1531		 * Note: Because we dropped the cpu_base->lock above,
-  1532		 * hrtimer_start_range_ns() can have popped in and enqueued the timer
-  1533		 * for us already.
-  1534		 */
-  1535		if (restart != HRTIMER_NORESTART &&
-  1536		    !(timer->state & HRTIMER_STATE_ENQUEUED))
-  1537			enqueue_hrtimer(timer, base, HRTIMER_MODE_ABS);
-  1538	
-  1539		/*
-  1540		 * Separate the ->running assignment from the ->state assignment.
-  1541		 *
-  1542		 * As with a regular write barrier, this ensures the read side in
-  1543		 * hrtimer_active() cannot observe base->running.timer == NULL &&
-  1544		 * timer->state == INACTIVE.
-  1545		 */
-  1546		raw_write_seqcount_barrier(&base->seq);
-  1547	
-  1548		WARN_ON_ONCE(base->running != timer);
-  1549		base->running = NULL;
-  1550	}
-  1551	
+   654	
+   655	static void cdns3_set_wakeup(void *none_core_regs, bool enable)
+   656	{
+   657		u32 value;
+   658	
+   659		if (enable) {
+   660			/* Enable wakeup and phy_refclk_req */
+ > 661			value = readl(none_core_regs + USB3_INT_REG);
+   662			value |= OTG_WAKEUP_EN | DEVU3_WAEKUP_EN;
+ > 663			writel(value, none_core_regs + USB3_INT_REG);
+   664		} else {
+   665			/* disable wakeup and phy_refclk_req */
+   666			value = readl(none_core_regs + USB3_INT_REG);
+   667			value &= ~(OTG_WAKEUP_EN | DEVU3_WAEKUP_EN);
+   668			writel(value, none_core_regs + USB3_INT_REG);
+   669		}
+   670	}
+   671	
+   672	static void cdns3_enter_suspend(struct cdns3 *cdns, bool suspend, bool wakeup)
+   673	{
+   674		void __iomem *otg_regs = cdns->otg_regs;
+   675		void __iomem *xhci_regs = cdns->xhci_regs;
+   676		void __iomem *phy_regs = cdns->phy_regs;
+   677		void __iomem *none_core_regs = cdns->none_core_regs;
+   678		u32 value;
+   679		int timeout_us = 100000;
+   680	
+   681		if (cdns->role != CDNS3_ROLE_HOST)
+   682			return;
+   683	
+   684		if (suspend) {
+   685			value = readl(otg_regs + OTGREFCLK);
+   686			value |= OTG_STB_CLK_SWITCH_EN;
+   687			writel(value, otg_regs + OTGREFCLK);
+   688	
+   689			value = readl(xhci_regs + XECP_PORT_CAP_REG);
+   690			value |= LPM_2_STB_SWITCH_EN;
+   691			writel(value, xhci_regs + XECP_PORT_CAP_REG);
+   692			if (cdns3_role(cdns)->suspend)
+   693				cdns3_role(cdns)->suspend(cdns, wakeup);
+   694	
+   695			/* RXDET_IN_P3_32KHZ, Receiver detect slow clock enable */
+   696			value = readl(phy_regs + TB_ADDR_TX_RCVDETSC_CTRL);
+   697			value |= RXDET_IN_P3_32KHZ;
+   698			writel(value, phy_regs + TB_ADDR_TX_RCVDETSC_CTRL);
+   699			/*
+   700			 * SW should ensure LPM_2_STB_SWITCH_EN and RXDET_IN_P3_32KHZ
+   701			 * are aligned before setting CFG_RXDET_P3_EN
+   702			 */
+   703			value = readl(xhci_regs + XECP_AUX_CTRL_REG1);
+   704			value |= CFG_RXDET_P3_EN;
+   705			writel(value, xhci_regs + XECP_AUX_CTRL_REG1);
+   706			/* SW request low power when all usb ports allow to it ??? */
+   707			value = readl(xhci_regs + XECP_PM_PMCSR);
+   708			value |= PS_D0;
+   709			writel(value, xhci_regs + XECP_PM_PMCSR);
+   710	
+   711			/* mdctrl_clk_sel */
+   712			value = readl(none_core_regs + USB3_CORE_CTRL1);
+   713			value |= MDCTRL_CLK_SEL;
+   714			writel(value, none_core_regs + USB3_CORE_CTRL1);
+   715	
+   716			/* wait for mdctrl_clk_status */
+   717			value = readl(none_core_regs + USB3_CORE_STATUS);
+   718			while (!(value & MDCTRL_CLK_STATUS) && timeout_us-- > 0) {
+   719				value = readl(none_core_regs + USB3_CORE_STATUS);
+   720				udelay(1);
+   721			}
+   722	
+   723			if (timeout_us <= 0)
+   724				dev_err(cdns->dev, "wait mdctrl_clk_status timeout\n");
+   725	
+   726			dev_dbg(cdns->dev, "mdctrl_clk_status is set\n");
+   727	
+   728			/* wait lpm_clk_req to be 0 */
+   729			value = readl(none_core_regs + USB3_INT_REG);
+   730			timeout_us = 100000;
+   731			while ((value & LPM_CLK_REQ) && timeout_us-- > 0) {
+   732				value = readl(none_core_regs + USB3_INT_REG);
+   733				udelay(1);
+   734			}
+   735	
+   736			if (timeout_us <= 0)
+   737				dev_err(cdns->dev, "wait lpm_clk_req timeout\n");
+   738	
+   739			dev_dbg(cdns->dev, "lpm_clk_req cleared\n");
+   740	
+   741			/* wait phy_refclk_req to be 0 */
+   742			value = readl(none_core_regs + USB3_SSPHY_STATUS);
+   743			timeout_us = 100000;
+   744			while ((value & PHY_REFCLK_REQ) && timeout_us-- > 0) {
+   745				value = readl(none_core_regs + USB3_SSPHY_STATUS);
+   746				udelay(1);
+   747			}
+   748	
+   749			if (timeout_us <= 0)
+   750				dev_err(cdns->dev, "wait phy_refclk_req timeout\n");
+   751	
+   752			dev_dbg(cdns->dev, "phy_refclk_req cleared\n");
+   753	
+   754			/* rxdet fix in P3, default is 0x5098 */
+   755			writel(0x509b, phy_regs + TB_ADDR_TX_PSC_A3);
+   756	
+ > 757			cdns3_set_wakeup(none_core_regs, true);
+   758		} else {
+   759			value = readl(none_core_regs + USB3_INT_REG);
+   760			/* wait CLK_125_REQ to be 1 */
+   761			value = readl(none_core_regs + USB3_INT_REG);
+   762			while (!(value & CLK_125_REQ) && timeout_us-- > 0) {
+   763				value = readl(none_core_regs + USB3_INT_REG);
+   764				udelay(1);
+   765			}
+   766	
+   767			cdns3_set_wakeup(none_core_regs, false);
+   768	
+   769			/* SW request D0 */
+   770			value = readl(xhci_regs + XECP_PM_PMCSR);
+   771			value &= ~PS_D0;
+   772			writel(value, xhci_regs + XECP_PM_PMCSR);
+   773	
+   774			/* clr CFG_RXDET_P3_EN */
+   775			value = readl(xhci_regs + XECP_AUX_CTRL_REG1);
+   776			value &= ~CFG_RXDET_P3_EN;
+   777			writel(value, xhci_regs + XECP_AUX_CTRL_REG1);
+   778	
+   779			/* clear RXDET_IN_P3_32KHZ */
+   780			value = readl(phy_regs + TB_ADDR_TX_RCVDETSC_CTRL);
+   781			value &= ~RXDET_IN_P3_32KHZ;
+   782			writel(value, phy_regs + TB_ADDR_TX_RCVDETSC_CTRL);
+   783	
+   784			/* clear mdctrl_clk_sel */
+   785			value = readl(none_core_regs + USB3_CORE_CTRL1);
+   786			value &= ~MDCTRL_CLK_SEL;
+   787			writel(value, none_core_regs + USB3_CORE_CTRL1);
+   788	
+   789			/* wait for mdctrl_clk_status is cleared */
+   790			value = readl(none_core_regs + USB3_CORE_STATUS);
+   791			timeout_us = 100000;
+   792			while ((value & MDCTRL_CLK_STATUS) && timeout_us-- > 0) {
+   793				value = readl(none_core_regs + USB3_CORE_STATUS);
+   794				udelay(1);
+   795			}
+   796	
+   797			if (timeout_us <= 0)
+   798				dev_err(cdns->dev, "wait mdctrl_clk_status timeout\n");
+   799	
+   800			dev_dbg(cdns->dev, "mdctrl_clk_status cleared\n");
+   801	
+   802			writel(0x5098, phy_regs + TB_ADDR_TX_PSC_A3);
+   803	
+   804			/* Wait until OTG_NRDY is 0 */
+   805			value = readl(otg_regs + OTGSTS);
+   806			timeout_us = 100000;
+   807			while ((value & OTG_NRDY) && timeout_us-- > 0) {
+   808				value = readl(otg_regs + OTGSTS);
+   809				udelay(1);
+   810			}
+   811	
+   812			if (timeout_us <= 0)
+   813				dev_err(cdns->dev, "wait OTG ready timeout\n");
+   814	
+   815			value = readl(none_core_regs + USB3_CORE_STATUS);
+   816			timeout_us = 100000;
+   817			while (!(value & HOST_POWER_ON_READY) && timeout_us-- > 0) {
+   818				value = readl(none_core_regs + USB3_CORE_STATUS);
+   819				udelay(1);
+   820			}
+   821	
+   822			if (timeout_us <= 0)
+   823				dev_err(cdns->dev, "wait xhci_power_on_ready timeout\n");
+   824		}
+   825	}
+   826	
 
 -- 
 0-DAY CI Kernel Test Service
