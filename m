@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82A91BDE3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 10:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9121CAB6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 13:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G15ZH/tP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dA5x+Uqj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699869934; x=1731405934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fwT9ZCx8qEwyxziVUtopTVHdcw2NHX46p8hVWQQv2MU=;
-  b=G15ZH/tPbZMxrqFmrkVY/0TZL9/xLQutofjejXjfDC+nKtZkSKauvy4K
-   IZwAp8p0CA3PdvVruYQD2xuU49uexvGIhTgd+I+2TBkdgzbhaSoFB+y2u
-   X9pKkrq0/TlKQfO/fBysjgMM3UaG8UEJxrxurarNMFX4SEGqYClgfsVGa
-   YDhAx6eih0JypS0Ns7LLGYN9wCSn2O/olNhAIalyr0c8ejlFcj6R2sQX1
-   M3eThQkZZ7px3AcXIqwK4t9kONPOUnbtW5VBqyazXJsSOaoko/EIHpW7o
-   IcEhlTAY5vkDiaXZhsvcn6ysa8swIluXRR9s7uBvghCALGOjtTEpM7IAz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="394306560"
+  t=1699881672; x=1731417672;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hAx2E/B4AeGjEJ1PdDHS+y0ncyJCfkCZr6zpxW632GQ=;
+  b=dA5x+UqjqNrpNuUrLAmpwf9/LxLFs8bZV0GNFwSmey6tfz+TxHw2BV1e
+   77/CKDLVERlYxmqRaX+/hXFQEZAGY7y1UQTgrh8nZGT3PQnrtIBLHJR6P
+   Hx1blfSL8HOEVRPKc08XNcg3VD/a0JrS92HibhXwYd8963fvmJ6nwg/ma
+   FJlKnuENBMx6ldmBPRLiOM3kzQviC+IJRznc8ZGuB+EFIGcWmRIDwTrvS
+   88YXmBTRCFxxBLwO115E5pyqMzdocv+8KXMFppPMnspwydjpGM2o4GHf5
+   q1IKEqzybBhe/hlrwjeMNJD7B9h3hSGk2ymEcJnXRUycHvW9ltGB7ucXj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="370633279"
 X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="394306560"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 02:05:34 -0800
+   d="scan'208";a="370633279"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 05:21:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="767860428"
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="887917608"
 X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="767860428"
+   d="scan'208";a="887917608"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 13 Nov 2023 02:05:33 -0800
+  by orsmga004.jf.intel.com with ESMTP; 13 Nov 2023 05:21:10 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2Tow-000C18-2K;
-	Mon, 13 Nov 2023 10:05:30 +0000
-Date: Mon, 13 Nov 2023 18:05:10 +0800
+	id 1r2WsF-000C7Y-36;
+	Mon, 13 Nov 2023 13:21:07 +0000
+Date: Mon, 13 Nov 2023 21:20:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Hopps <chopps@chopps.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC ipsec-next v2 8/8] iptfs: impl: add new iptfs xfrm mode impl
-Message-ID: <202311131710.pFEZgGgP-lkp@intel.com>
-References: <20231113035219.920136-9-chopps@chopps.org>
+To: Mark Bloch <mbloch@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
+Subject: [leon-rdma:rdma-next 17/19] include/linux/mlx5/eswitch.h:220:19:
+ error: redefinition of 'mlx5_eswitch_manager_vport'
+Message-ID: <202311132146.VcxMTz7m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,84 +49,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231113035219.920136-9-chopps@chopps.org>
 
-Hi Christian,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on klassert-ipsec-next/master]
-[also build test WARNING on klassert-ipsec/master netfilter-nf/main linus/master v6.7-rc1 next-20231113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hopps/iptfs-config-add-CONFIG_XFRM_IPTFS/20231113-115642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-patch link:    https://lore.kernel.org/r/20231113035219.920136-9-chopps%40chopps.org
-patch subject: [RFC ipsec-next v2 8/8] iptfs: impl: add new iptfs xfrm mode impl
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20231113/202311131710.pFEZgGgP-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311131710.pFEZgGgP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   c559cb7113158c02d75401ac162652072ef1b5f0
+commit: 1efa1ad5a92370a6b6c6395bfd04cf1586632824 [17/19] net/mlx5: E-Switch, expose eswitch manager vport
+config: loongarch-randconfig-001-20231113 (https://download.01.org/0day-ci/archive/20231113/202311132146.VcxMTz7m-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311132146.VcxMTz7m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311131710.pFEZgGgP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311132146.VcxMTz7m-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/xfrm/xfrm_iptfs.c:468:17: warning: no previous prototype for 'iptfs_pskb_add_frags' [-Wmissing-prototypes]
-     468 | struct sk_buff *iptfs_pskb_add_frags(struct sk_buff *tpl,
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_iptfs.c: In function '__iptfs_reassem_done':
-   net/xfrm/xfrm_iptfs.c:629:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     629 |         int ret;
-         |             ^~~
-   net/xfrm/xfrm_iptfs.c: In function '__reorder_drop':
-   net/xfrm/xfrm_iptfs.c:1234:13: warning: variable 'wantseq' set but not used [-Wunused-but-set-variable]
-    1234 |         u64 wantseq = xtfs->w_wantseq;
-         |             ^~~~~~~
-   net/xfrm/xfrm_iptfs.c: In function '__reorder_this':
-   net/xfrm/xfrm_iptfs.c:1283:13: warning: variable 'wantseq' set but not used [-Wunused-but-set-variable]
-    1283 |         u64 wantseq = xtfs->w_wantseq;
-         |             ^~~~~~~
-   net/xfrm/xfrm_iptfs.c: In function '__reorder_future_shifts':
-   net/xfrm/xfrm_iptfs.c:1405:13: warning: variable 'last_drop_seq' set but not used [-Wunused-but-set-variable]
-    1405 |         u64 last_drop_seq = xtfs->w_wantseq;
-         |             ^~~~~~~~~~~~~
-   net/xfrm/xfrm_iptfs.c: In function 'iptfs_drop_timer':
-   net/xfrm/xfrm_iptfs.c:1625:20: warning: variable 'fcount' set but not used [-Wunused-but-set-variable]
-    1625 |         u32 count, fcount;
-         |                    ^~~~~~
-   net/xfrm/xfrm_iptfs.c: In function 'iptfs_delay_timer':
-   net/xfrm/xfrm_iptfs.c:2357:16: warning: variable 'osize' set but not used [-Wunused-but-set-variable]
-    2357 |         size_t osize;
-         |                ^~~~~
-   net/xfrm/xfrm_iptfs.c: In function 'iptfs_encap_add_ipv4':
-   net/xfrm/xfrm_iptfs.c:2405:13: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
-    2405 |         int flags;
-         |             ^~~~~
-   net/xfrm/xfrm_iptfs.c: At top level:
-   net/xfrm/xfrm_iptfs.c:100:12: warning: '__trace_ip_proto_seq' defined but not used [-Wunused-function]
-     100 | static u32 __trace_ip_proto_seq(struct iphdr *iph)
-         |            ^~~~~~~~~~~~~~~~~~~~
->> net/xfrm/xfrm_iptfs.c:93:12: warning: '__trace_ip_proto' defined but not used [-Wunused-function]
-      93 | static u32 __trace_ip_proto(struct iphdr *iph)
-         |            ^~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:42,
+                    from drivers/net/ethernet/mellanox/mlx5/core/devlink.c:9:
+>> include/linux/mlx5/eswitch.h:220:19: error: redefinition of 'mlx5_eswitch_manager_vport'
+     220 | static inline u16 mlx5_eswitch_manager_vport(struct mlx5_core_dev *dev)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mlx5/eswitch.h:202:19: note: previous definition of 'mlx5_eswitch_manager_vport' with type 'u16(struct mlx5_core_dev *)' {aka 'short unsigned int(struct mlx5_core_dev *)'}
+     202 | static inline u16 mlx5_eswitch_manager_vport(struct mlx5_core_dev *dev)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/__trace_ip_proto +93 net/xfrm/xfrm_iptfs.c
+vim +/mlx5_eswitch_manager_vport +220 include/linux/mlx5/eswitch.h
 
-    92	
-  > 93	static u32 __trace_ip_proto(struct iphdr *iph)
-    94	{
-    95		if (iph->version == 4)
-    96			return iph->protocol;
-    97		return ((struct ipv6hdr *)iph)->nexthdr;
-    98	}
-    99	
+   218	
+   219	/* The returned number is valid only when the dev is eswitch manager. */
+ > 220	static inline u16 mlx5_eswitch_manager_vport(struct mlx5_core_dev *dev)
 
 -- 
 0-DAY CI Kernel Test Service
