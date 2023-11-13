@@ -1,136 +1,199 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A8A1D69C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 13:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70BB323C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 15:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="YokQeuw4"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1CE7F40E0171;
-	Mon, 13 Nov 2023 13:57:11 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id bimc4FpwqRg5; Mon, 13 Nov 2023 13:57:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1699883827; bh=/Xv6YqaVx2Uqc+B0ZtgaLioLedmrT3VC28U0wm7nbnk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YokQeuw4aV1A6/uTz1/a04NW1A5PSV7gjaNsWEkohTSmulHz7hWX5NzsddEe7wyPQ
-	 /WcLvXnYO1+NLuD69NBvHvTr0NGC+UsA1HvI0YAl43o24snYnef2xgUvhKoRHWw/Wx
-	 wNJfbLP4KRs28o8lfMNgEJe1E5lDZ/bAH1NwtkTu+mW9l5EhzCPm2nIlgAF0+5josQ
-	 7Smw/sB7IBX1QS0kX7yKPCH9hUCYMukLMqAI+tCPzcTNRxVdktiHV1FQDbKDkVDjiS
-	 MBMDi8tMeFGOX50zYLo8Z7tsD1mSlgxja3NShfR8jJITbDzWAD+u0hC1LTqllzfX10
-	 abcrxU0mLZEclTRMIJcc1dShGZaBzCQoM/IzszFgPri0XV8s4tY1mYrV0Yl3+DyFTs
-	 TQYd63q6WgOAXTdkbrNj8pJgTZHnwshrkmssv9cNdzrJ6C82lCfmOcxfym/qNt2FzM
-	 LZGG8ALwQcY4PUY92/BX5paJ4q6IywjuEvl94uPLMN0pinoOuZ4qB9fA8yv0V6KZjC
-	 rF0TOTXR+pFWOcNsFrwkIl2HG1pdEqjKZ4PeyY7jO0iJVauprmWcR+W7Lpq106TCW5
-	 b1nk+8XSFcKADrtCjbkWtKmaaSF4N72i/kdjwvRfjkc5rGbANI7eJD7G/NGNsgfU8+
-	 SET6KYXMPoeakRSR4+PVzSOo=
-Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C06F740E0031;
-	Mon, 13 Nov 2023 13:57:03 +0000 (UTC)
-Date: Mon, 13 Nov 2023 14:56:57 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Juergen Gross <jgross@suse.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] x86/mtrr: Document missing function parameters in kernel-doc
-Message-ID: <20231113135657.GBZVIrKWD8gvvXz8u2@fat_crate.local>
-References: <202311130104.9xKAKzke-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfzJdJWH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699889879; x=1731425879;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w8TTSWY7bGFFxI17jKTubI0A2ir8yt0Laypod+M+uRk=;
+  b=DfzJdJWH0ltoGeTA5F+oF+HY7nDXX/Z92q+PyzDB+xo9mNZoLfYgwMRz
+   1/o+IZEAkqDBncfQoTn1Dzz9UaDcnbqS7b9tR0OdVsjCjAPqvGHqZfVuO
+   zyyslGZYLOgG5YxGQui8HAhSVFYT5lDsejGDEjnC2TcNc49mmlj3URo//
+   vFtjwNOGBt84nvOlsbRpgdJ2fFBfYK/FQ0AXFmpCJYqYKYt7+2MuFKr7O
+   1Zv/2pMWEOM+ULXeStrfR39blAOfoagiRskZ6Uxc6u4zYLl1oFr/d8KHR
+   LAyKCuXv3wn+QNzC0ObPx+PRREdbK57GcJcYnJiYYbMJQkpV2SP6LD0xi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="375481338"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="375481338"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 07:37:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="1011571200"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="1011571200"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 13 Nov 2023 07:37:55 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r2Z0a-000CE6-2m;
+	Mon, 13 Nov 2023 15:37:52 +0000
+Date: Mon, 13 Nov 2023 23:37:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: SEO HOYOUNG <hy50.seo@samsung.com>, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alim.akhtar@samsung.com,
+	avri.altman@wdc.com, jejb@linux.ibm.com, martin.petersen@oracle.com,
+	beanhuo@micron.com, bvanassche@acm.org, kwangwon.min@samsung.com,
+	kwmad.kim@samsung.com, sh425.lee@samsung.com, sc.suh@samsung.com,
+	quic_nguyenb@quicinc.com, cpgs@samsung.com, grant.jung@samsung.com,
+	junwoo80.lee@samsung.com
+Cc: oe-kbuild-all@lists.linux.dev, SEO HOYOUNG <hy50.seo@samsung.com>
+Subject: Re: [PATCH v1] scsi: ufs: core: fix racing issue during
+ ufshcd_mcq_abort
+Message-ID: <202311132304.bqVcJ27s-lkp@intel.com>
+References: <20231113112935.16343-1-hy50.seo@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202311130104.9xKAKzke-lkp@intel.com>
+In-Reply-To: <20231113112935.16343-1-hy50.seo@samsung.com>
 
-On Mon, Nov 13, 2023 at 01:54:18AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   1b907d0507354b74a4f2c286380cd6059af79248
-> commit: 29055dc74287467bd7a053d60b4afe753832960d x86/mtrr: Support setting MTRR state for software defined MTRRs
-> date:   5 months ago
-> config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20231113/202311130104.9xKAKzke-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311130104.9xKAKzke-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311130104.9xKAKzke-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_fixed'
+Hi SEO,
 
-...
+kernel test robot noticed the following build errors:
 
-From: "Borislav Petkov (AMD)" <bp@alien8.de>
-Date: Mon, 13 Nov 2023 14:52:52 +0100
-Subject: [PATCH] x86/mtrr: Document missing function parameters in kernel-doc
+[auto build test ERROR on jejb-scsi/for-next]
+[also build test ERROR on mkp-scsi/for-next linus/master v6.7-rc1 next-20231113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Add text explaining what they do.
+url:    https://github.com/intel-lab-lkp/linux/commits/SEO-HOYOUNG/scsi-ufs-core-fix-racing-issue-during-ufshcd_mcq_abort/20231113-194433
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20231113112935.16343-1-hy50.seo%40samsung.com
+patch subject: [PATCH v1] scsi: ufs: core: fix racing issue during ufshcd_mcq_abort
+config: arc-randconfig-001-20231113 (https://download.01.org/0day-ci/archive/20231113/202311132304.bqVcJ27s-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311132304.bqVcJ27s-lkp@intel.com/reproduce)
 
-No functional changes.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311132304.bqVcJ27s-lkp@intel.com/
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202311130104.9xKAKzke-lkp@intel.com/
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Link: https://lore.kernel.org/r/202311130104.9xKAKzke-lkp@intel.com
----
- arch/x86/kernel/cpu/mtrr/generic.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+All errors (new ones prefixed by >>):
 
-diff --git a/arch/x86/kernel/cpu/mtrr/generic.c b/arch/x86/kernel/cpu/mtrr/generic.c
-index 2d6aa5d2e3d7..d3524778a545 100644
---- a/arch/x86/kernel/cpu/mtrr/generic.c
-+++ b/arch/x86/kernel/cpu/mtrr/generic.c
-@@ -428,6 +428,10 @@ void __init mtrr_copy_map(void)
-  * from the x86_init.hyper.init_platform() hook.  It can be called only once.
-  * The MTRR state can't be changed afterwards.  To ensure that, X86_FEATURE_MTRR
-  * is cleared.
-+ *
-+ * @var: MTRR variable range array to use
-+ * @num_var: length of the @var array
-+ * @def_type: default caching type
-  */
- void mtrr_overwrite_state(struct mtrr_var_range *var, unsigned int num_var,
- 			  mtrr_type def_type)
-@@ -492,13 +496,15 @@ static u8 type_merge(u8 type, u8 new_type, u8 *uniform)
- /**
-  * mtrr_type_lookup - look up memory type in MTRR
-  *
-+ * @start: Begin of the physical address range
-+ * @end: End of the physical address range
-+ * @uniform: output argument:
-+ *  - 1: the returned MTRR type is valid for the whole region
-+ *  - 0: otherwise
-+ *
-  * Return Values:
-  * MTRR_TYPE_(type)  - The effective MTRR type for the region
-  * MTRR_TYPE_INVALID - MTRR is disabled
-- *
-- * Output Argument:
-- * uniform - Set to 1 when the returned MTRR type is valid for the whole
-- *	     region, set to 0 else.
-  */
- u8 mtrr_type_lookup(u64 start, u64 end, u8 *uniform)
- {
+   drivers/ufs/core/ufshcd.c: In function 'ufshcd_try_to_abort_task':
+>> drivers/ufs/core/ufshcd.c:7571:34: error: 'cmd' undeclared (first use in this function)
+    7571 |         if (!ufshcd_cmd_inflight(cmd) ||
+         |                                  ^~~
+   drivers/ufs/core/ufshcd.c:7571:34: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/cmd +7571 drivers/ufs/core/ufshcd.c
+
+  7484	
+  7485	/**
+  7486	 * ufshcd_try_to_abort_task - abort a specific task
+  7487	 * @hba: Pointer to adapter instance
+  7488	 * @tag: Task tag/index to be aborted
+  7489	 *
+  7490	 * Abort the pending command in device by sending UFS_ABORT_TASK task management
+  7491	 * command, and in host controller by clearing the door-bell register. There can
+  7492	 * be race between controller sending the command to the device while abort is
+  7493	 * issued. To avoid that, first issue UFS_QUERY_TASK to check if the command is
+  7494	 * really issued and then try to abort it.
+  7495	 *
+  7496	 * Return: zero on success, non-zero on failure.
+  7497	 */
+  7498	int ufshcd_try_to_abort_task(struct ufs_hba *hba, int tag)
+  7499	{
+  7500		struct ufshcd_lrb *lrbp = &hba->lrb[tag];
+  7501		int err = 0;
+  7502		int poll_cnt;
+  7503		u8 resp = 0xF;
+  7504		u32 reg;
+  7505	
+  7506		for (poll_cnt = 100; poll_cnt; poll_cnt--) {
+  7507			err = ufshcd_issue_tm_cmd(hba, lrbp->lun, lrbp->task_tag,
+  7508					UFS_QUERY_TASK, &resp);
+  7509			if (!err && resp == UPIU_TASK_MANAGEMENT_FUNC_SUCCEEDED) {
+  7510				/* cmd pending in the device */
+  7511				dev_err(hba->dev, "%s: cmd pending in the device. tag = %d\n",
+  7512					__func__, tag);
+  7513				break;
+  7514			} else if (!err && resp == UPIU_TASK_MANAGEMENT_FUNC_COMPL) {
+  7515				/*
+  7516				 * cmd not pending in the device, check if it is
+  7517				 * in transition.
+  7518				 */
+  7519				dev_err(hba->dev, "%s: cmd at tag %d not pending in the device.\n",
+  7520					__func__, tag);
+  7521				if (is_mcq_enabled(hba)) {
+  7522					/* MCQ mode */
+  7523					if (ufshcd_cmd_inflight(lrbp->cmd)) {
+  7524						/* sleep for max. 200us same delay as in SDB mode */
+  7525						usleep_range(100, 200);
+  7526						continue;
+  7527					}
+  7528					/* command completed already */
+  7529					dev_err(hba->dev, "%s: cmd at tag=%d is cleared.\n",
+  7530						__func__, tag);
+  7531					goto out;
+  7532				}
+  7533	
+  7534				/* Single Doorbell Mode */
+  7535				reg = ufshcd_readl(hba, REG_UTP_TRANSFER_REQ_DOOR_BELL);
+  7536				if (reg & (1 << tag)) {
+  7537					/* sleep for max. 200us to stabilize */
+  7538					usleep_range(100, 200);
+  7539					continue;
+  7540				}
+  7541				/* command completed already */
+  7542				dev_err(hba->dev, "%s: cmd at tag %d successfully cleared from DB.\n",
+  7543					__func__, tag);
+  7544				goto out;
+  7545			} else {
+  7546				dev_err(hba->dev,
+  7547					"%s: no response from device. tag = %d, err %d\n",
+  7548					__func__, tag, err);
+  7549				if (!err)
+  7550					err = resp; /* service response error */
+  7551				goto out;
+  7552			}
+  7553		}
+  7554	
+  7555		if (!poll_cnt) {
+  7556			err = -EBUSY;
+  7557			goto out;
+  7558		}
+  7559	
+  7560		err = ufshcd_issue_tm_cmd(hba, lrbp->lun, lrbp->task_tag,
+  7561				UFS_ABORT_TASK, &resp);
+  7562		if (err || resp != UPIU_TASK_MANAGEMENT_FUNC_COMPL) {
+  7563			if (!err) {
+  7564				err = resp; /* service response error */
+  7565				dev_err(hba->dev, "%s: issued. tag = %d, err %d\n",
+  7566					__func__, tag, err);
+  7567			}
+  7568			goto out;
+  7569		}
+  7570	
+> 7571		if (!ufshcd_cmd_inflight(cmd) ||
+  7572		    test_bit(SCMD_STATE_COMPLETE, &cmd->state))
+  7573			goto out;
+  7574	
+  7575		err = ufshcd_clear_cmd(hba, tag);
+  7576		if (err)
+  7577			dev_err(hba->dev, "%s: Failed clearing cmd at tag %d, err %d\n",
+  7578				__func__, tag, err);
+  7579	
+  7580	out:
+  7581		return err;
+  7582	}
+  7583	
+
 -- 
-2.42.0.rc0.25.ga82fb66fed25
-
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
