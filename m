@@ -1,254 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698C88494
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 06:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T7IWLqQp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699857461; x=1731393461;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=nvclJTydn7YgEqT3BYQG+DbhLYS57e+ImrGusbSRW0o=;
-  b=T7IWLqQpMSK1dXJuEe4NXoL0IyfUJggwedNZaJbwSkB2RNReh1NUAGGc
-   l93f6lrWn4Hq1iD0bUz+QHKwOAI96FBNhAGLd0QxUbQMvroeajGCeq4xi
-   rRB93g6PkmscBT60YhVYYn3WoQ4/swnvjnHAyAJWJ3i69oQ5fzK98u3ZZ
-   ZyZ3YmlNv3e0Ghwsa6nyT/HdrVmz/IyJ9jZyH0Cd1HUh5kSn+e/WXwHgB
-   rKIoYEZg9ExEytUYfHRcdBwIBclLXSkKKH4CU+eYSI9CfeH5Ao66nvQHO
-   ZiENQjOGrjQ8s41xFYSxZsbU734hC3mc7RBfDFDV5ZstWdJuwmSXXi84r
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="394282262"
-X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
-   d="scan'208";a="394282262"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2023 22:37:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,298,1694761200"; 
-   d="scan'208";a="5375576"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Nov 2023 22:37:40 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Sun, 12 Nov 2023 22:37:39 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Sun, 12 Nov 2023 22:37:39 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Sun, 12 Nov 2023 22:37:39 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ml0MHSz9thllBngTJurBeabeHOwwQcOql1SHBkRnVBY5SsD9BQGRW9EiX1mp80eZIzVm3sRMVJQSJZGxVLxwIIzwcbQZkn+EBZyFB8E7SF2Fjv58P7eZzkH9gVfFjlxLSG2JWTlpVvM3K+Clo98EBaavG0zmkEEME5NGpB48PwAQl6hnENJIC9du8juja4/SKoR6kHrut5NjvX7YLFfApWoa4ynz89eyZgWZmWlkxt229xEJtYnxU/+ox2xezZyivrueVebw+QDbWGptKM4EBIbwAc7fh9vYDfqcQBcGmCZ3Y1RfrgPTOxyHVSK/T7ODfIbyNwtLJFupJWvoIZ/Q0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1q0ExgpH74pWjiGRDl2TGdqOXOfh5yqtXbdjLLCy0XY=;
- b=j2DACkWzqA1JN3d/D7r5IXbRHLHfSdvowj3g9yqaanRvFfaBZ4R63WAmXzDTUU87xt4AtzzifFZLAf5ddPRmoRvVEzTGgcsUEAUVRm9kY28zBkPdvDOtrlWdp+8Z5ybGfaVyb8KEp7m+UkqQrxmsylwtyU+DYaVnjT3Zfeti6BrCR+V1x+dW/zF6mwXDz5RxYqAG62ekpgkGlbbnG87pDuFiUnPkJQpnxeaoyfcEYqUrx269aI7er379d2EKFmwHk646aftyiQTjVpJHTl77+0IiStZ14YJV/wmxUyKOCuhWZzwC2sNcmWJTYrIg/NZIOsVueWOShxKQ9i3Rnbkb9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by MW6PR11MB8410.namprd11.prod.outlook.com (2603:10b6:303:249::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.29; Mon, 13 Nov
- 2023 06:37:37 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.6933.028; Mon, 13 Nov 2023
- 06:37:37 +0000
-Date: Mon, 13 Nov 2023 14:32:55 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-CC: kernel test robot <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: drivers/power/supply/pmu_battery.c:171:50: warning: '%d'
- directive writing between 1 and 11 bytes into a region of size 4
-Message-ID: <ZVHDF2yzthb0D0SS@yujie-X299>
-References: <202311100157.2Kn3gHLg-lkp@intel.com>
- <35cd8b05-8687-696a-4b1e-8449616104c1@csgroup.eu>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <35cd8b05-8687-696a-4b1e-8449616104c1@csgroup.eu>
-X-ClientProxiedBy: SI2PR01CA0042.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::23) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCAF1A58B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 09:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5afabb23900so49420747b3.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 01:46:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699868800; x=1700473600;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hwzQbtIpe+t3wqED8YWdB5pI957h93jq9NhhCumia7w=;
+        b=q6K3U2fZL8S0nSHtGiskZEvIiuucepcWMlmqjgbHerSjULb4bw1sV9BmG8yjBx4Tox
+         tPZPYbAiAgo8eUBzmwDyYF+7eRco6MfqH2tDPdH3p8D3Tld1Sh9f7ZfFiqv/cV1AeUZr
+         OrGvTLbEN5Z6iYibxEEkHwDz+cuNdOQLMhU57qW5G+5qgMHmZjqTxC23WALf7DsBZZTv
+         IUloA21JjYAVRZ6IQv5WuHGoPCiCv9lNvdmxF10AA+6/zrT3vc7SKVwfBxQX/K6+W05P
+         Sd7VtkUhlKWLh6zY8R5qr4grm5eZnfocBLzNPLqpOiXVmSaXuf/KSyVZDCuWh1htHHOg
+         1vEQ==
+X-Gm-Message-State: AOJu0YxaJpuCOYnuQiPmyeXxRh2mntSZYrD9fbGF+qxzT4ur2vYoZg0A
+	2sUp/qRTC0wF68MublshNcom4M51WIsMzA==
+X-Google-Smtp-Source: AGHT+IH/S7JIisoNGvBTXEZaxjNq5r1GDVgmrbNp97OUhs4V0yA8fROC6ehfS2RcXaQtPAzRdH/lZw==
+X-Received: by 2002:a0d:ed06:0:b0:59f:5361:d18c with SMTP id w6-20020a0ded06000000b0059f5361d18cmr6135967ywe.41.1699868800236;
+        Mon, 13 Nov 2023 01:46:40 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id h84-20020a815357000000b0057087e7691bsm1681371ywb.56.2023.11.13.01.46.39
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Nov 2023 01:46:39 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d865854ef96so4273689276.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 01:46:39 -0800 (PST)
+X-Received: by 2002:a25:42d2:0:b0:da0:c8d1:5c5 with SMTP id
+ p201-20020a2542d2000000b00da0c8d105c5mr5227362yba.41.1699868799056; Mon, 13
+ Nov 2023 01:46:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|MW6PR11MB8410:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a30b0f9-cc6d-4b8a-64e8-08dbe413065d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fBmdMN7ydJ1hq+YmYzVecN/y5sCJw6xR25GQkphz3+IIO9WWW2Oo6mGzqy93LkBJwWuUISiWZNl9QBPWN78sFY7xGtyJxsZlmeowYVsDvuC5rIlyQVzQ6l8b2VuvuZq0NhazKQr5FeJRnKk613WldYMBSIEiizIbaWponwiYyeUFpLzCLPD+UaaNm7W61+zej1aLfpCeNsiFMVjTT5Joi9PaNNQei89EMqsmrN2pPqj4APNUUjfFwUbh87icnKQibvrfN8rJgwaDnBGQ3geavSK2o4ybEDIhtf4JKBjGJ22kjXyaXhj91gqhyscscUeUioohJRzOumQGHxfIjls66PNNWY/XLOUgmG5XvYW3IWKL5DZ3fb37jFlWtE4Kd1ir8qMOrOqRj/6VGdiukwLkr5hGQP8t60/yztbiON/B/OAA5SH7MW6+hjVr89qnvIm/k+ZJ8Id38mYuEAOaFOyrd5uuPFKq91RKKr3LWUyn6gzq2QM7/fSXSz5M5JcyjNtCqL1zZpLRAa+pJhAhTfdMPnA/f7lcOVl5UFZw0hrOyaKRPBz1MbzYtvjUbUrn5xLhPeE7IhyFFgBy3a1uvgmAR8so/cmiH+QYIXfxWZBI8/n4r29YeocllRDPBZmSyg6am7hYPAprbdsot1/3uIb62g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(366004)(396003)(346002)(376002)(39860400002)(230273577357003)(230173577357003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(26005)(66574015)(6506007)(33716001)(6666004)(6512007)(9686003)(83380400001)(44832011)(5660300002)(4326008)(8676002)(8936002)(41300700001)(2906002)(966005)(6486002)(478600001)(316002)(6916009)(54906003)(66476007)(66556008)(66946007)(82960400001)(86362001)(38100700002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?tttzp2NIpasnsLmtCLheiK4vB2pYGAez0B3xhk1EyfUOzEqWdEG8XBYYNb?=
- =?iso-8859-1?Q?X1+MhGWlXouJXTjImZj9nLF4z9vc6WzZ1uecUjYvuKzwMWh+fWNUtBr6j3?=
- =?iso-8859-1?Q?eKf8pGA1bOSzBcEt68AfnvtpK7A0q6CyTJEEi533pKOiiFTH1xCmLtCtkv?=
- =?iso-8859-1?Q?ipoTxevIdeULdQponDmNNhgc1LLU0Vps2kz7q0Qc9Hx7XZA8cnmbEoy0dB?=
- =?iso-8859-1?Q?u5Au6v89lSoJcTPPBpMkhUNEVzackTKvIBgdoxFuERMTOP921/b/LcpKaw?=
- =?iso-8859-1?Q?6yWYwvTH/Mz4fH/UqV7VFO6i1cOsg+v3A+tiocnn5udCNnPnFakRWjbaC8?=
- =?iso-8859-1?Q?C23PzWq2uzQfGz/QQtUHRyzVhc09dh41x4b6NcZMaGS6VX32CpnVFwwCmQ?=
- =?iso-8859-1?Q?PMDefEfqPU7lwFjHjq4iWBzH2rry+HZW+o6cUCVi8+n17nwHxeXzXmw4ZD?=
- =?iso-8859-1?Q?ukx8A2s4/7giUcPX+o3GQyWtMpCtaIVmyEB0bai6vg/m+OJUnSRzoQuTto?=
- =?iso-8859-1?Q?8sW+lp9LovOwZs0o6KXngP5VHyl2PsebqkEak+45V9QBkfxcL4GSfweeIW?=
- =?iso-8859-1?Q?qMfnil2/T7UkJwld4kmyrMKEl+CvpdKk2v9XLvi2VUJuWIwL5dYGZWUGMt?=
- =?iso-8859-1?Q?tfcTiDISRHlCQmV4VlANHiwe1tDn8/RCbM8DQmlHMs7dof1arglCFkxf9i?=
- =?iso-8859-1?Q?4VN7PYI0CGePfRwIigmggF4mY/mhjcLCsfDU1ftoXt19TJqiw145CM7ssF?=
- =?iso-8859-1?Q?EqhZn0mNlNOqze+RmDtK/0IKn3FmV77QogDOEXtJv6rxOznW4nOR9Sf5pM?=
- =?iso-8859-1?Q?pcH0P1Nq7pgzq1OaXkwsUJxZAYeQkq2Nh0X4mHWOE6qC1BnSLhyAZu7gY0?=
- =?iso-8859-1?Q?QsAI518VhYgm+eGi8kEzRYKe01F7lndKzQzP6SQW98tLYuI2EoRJTUNJSr?=
- =?iso-8859-1?Q?DuQB0emiWH8xqnc6UynJm7gr83SIP8NRB//0J/feVTUpFgce+zJoPUIeIl?=
- =?iso-8859-1?Q?i3JFb8eRqEVeNoVWQcT6+zafsVGMhCHZaE8IRkE3B97xQ4bejjqbm9kcit?=
- =?iso-8859-1?Q?sbqI8xVqqenuXxPooMgVvP41j4b8tcvm0LMcBLEBczgf4SarrGlCygIQM4?=
- =?iso-8859-1?Q?7k7Yps/oamlF6aNOiQcKoGOi2H/qiQtkp6xaLLhB7P5Y6kfob7AObhSYYC?=
- =?iso-8859-1?Q?/sKm4hN/bybQPjQJSS/czAt70MlatbVXr8RkAE2/FLOB8w3TAePJBDb5ZP?=
- =?iso-8859-1?Q?xZaaRb3eb8ztv/05/VWHxEOpogJAo7o4QgIFnwMwSTwk2ARW3u5rH5vQfO?=
- =?iso-8859-1?Q?tQr+J1JjaxdzFEbPU7XU5Yg3424FiM1u5QdaJ5RcaBBRcY7zXRDcNvrl40?=
- =?iso-8859-1?Q?790RvOh5acLRqlLH74IzBNNXT6zVcsz0eByOIwpPx3vWXqegCILzrgMzh0?=
- =?iso-8859-1?Q?xz+MbGCGkQcZvFkb8A8xuYhOMGrwoAfrem6dHRFhr5vzrtk3ibu7jCnzr4?=
- =?iso-8859-1?Q?YpgvhuAd9uRY9QMcxmNsB04DTFMgiWCE16oz9SsYSKfyb0jDgIDArCp0gi?=
- =?iso-8859-1?Q?bFlyLDqrFpWBSWYxog9KM4TU6xsO+1R4gDq/raeFTX/c9cSs/8hFWiyRyb?=
- =?iso-8859-1?Q?SvjxXm/C16G/ggAGojAUXia56fb4hTgyhj?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a30b0f9-cc6d-4b8a-64e8-08dbe413065d
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2023 06:37:36.8653
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: piiBwoH/HbYSDS2X7Sr58Ztc3UZJI+n/K3/KMFrnHil8BR9pTKvD47ti3HcDGfZA6KNC73a7olTVOvNGW8D4pA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR11MB8410
-X-OriginatorOrg: intel.com
+References: <20231108125843.3806765-18-arnd@kernel.org> <202311090843.b8ISrsV1-lkp@intel.com>
+ <87h6lu8ed8.fsf@mail.lhotse>
+In-Reply-To: <87h6lu8ed8.fsf@mail.lhotse>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 13 Nov 2023 10:46:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVxpKwkvU5fcZXLdjRAuaBqj3JxE4JtBcEW55EzidxhCQ@mail.gmail.com>
+Message-ID: <CAMuHMdVxpKwkvU5fcZXLdjRAuaBqj3JxE4JtBcEW55EzidxhCQ@mail.gmail.com>
+Subject: Re: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, 
+	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	Huacai Chen <chenhuacai@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>, 
+	Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Geoff Levand <geoff@infradead.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Andy Lutomirski <luto@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 09, 2023 at 06:23:55PM +0000, Christophe Leroy wrote:
-> 
-> 
-> Le 09/11/2023 à 18:27, kernel test robot a écrit :
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   6bc986ab839c844e78a2333a02e55f02c9e57935
-> > commit: 2edb16efc899f9c232e2d880930b855e4cf55df4 powerpc/32: Add KASAN support
-> > date:   4 years, 6 months ago
-> 
-> Must be something wrong with the robot, this report is absolutely 
-> unrelated to the implementation of KASAN support, I can't see why it 
-> would pop-up with that commit.
+Hi Michael,
 
-Hi Christophe,
-
-We are investigating this case to understand what went wrong in the
-bisection process of the robot. Sorry for the false alarm and please
-kindly ignore this report.
-
-> 
-> Christophe
-> 
-> > config: powerpc-randconfig-r031-20211015 (https://download.01.org/0day-ci/archive/20231110/202311100157.2Kn3gHLg-lkp@intel.com/config)
-> > compiler: powerpc-linux-gcc (GCC) 12.3.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231110/202311100157.2Kn3gHLg-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+On Fri, Nov 10, 2023 at 4:42=E2=80=AFAM Michael Ellerman <mpe@ellerman.id.a=
+u> wrote:
+> kernel test robot <lkp@intel.com> writes:
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on linus/master]
+> > [also build test ERROR on next-20231108]
+> > [cannot apply to v6.6]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/id=
+a-make-ida_dump-static/20231109-005742
+> > base:   linus/master
+> > patch link:    https://lore.kernel.org/r/20231108125843.3806765-18-arnd=
+%40kernel.org
+> > patch subject: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic =
+prototype
+> > config: powerpc64-randconfig-001-20231109 (https://download.01.org/0day=
+-ci/archive/20231109/202311090843.b8ISrsV1-lkp@intel.com/config)
+> > compiler: powerpc64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20231109/202311090843.b8ISrsV1-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
 > > the same patch/commit), kindly add following tags
 > > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202311100157.2Kn3gHLg-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >     drivers/power/supply/pmu_battery.c: In function 'pmu_bat_init':
-> >>> drivers/power/supply/pmu_battery.c:171:50: warning: '%d' directive writing between 1 and 11 bytes into a region of size 4 [-Wformat-overflow=]
-> >       171 |                 sprintf(pbat->name, "PMU_battery_%d", i);
-> >           |                                                  ^~
-> >     drivers/power/supply/pmu_battery.c:171:37: note: directive argument in the range [-2147483643, 2147483646]
-> >       171 |                 sprintf(pbat->name, "PMU_battery_%d", i);
-> >           |                                     ^~~~~~~~~~~~~~~~
-> >     drivers/power/supply/pmu_battery.c:171:17: note: 'sprintf' output between 14 and 24 bytes into a destination of size 16
-> >       171 |                 sprintf(pbat->name, "PMU_battery_%d", i);
-> >           |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > 
-> > vim +171 drivers/power/supply/pmu_battery.c
-> > 
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  145
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  146  static int __init pmu_bat_init(void)
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  147  {
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  148  	int ret = 0;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  149  	int i;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  150
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  151  	bat_pdev = platform_device_register_simple("pmu-battery",
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  152  						   0, NULL, 0);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  153  	if (IS_ERR(bat_pdev)) {
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  154  		ret = PTR_ERR(bat_pdev);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  155  		goto pdev_register_failed;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  156  	}
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  157
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  158  	pmu_ac = power_supply_register(&bat_pdev->dev, &pmu_ac_desc, NULL);
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  159  	if (IS_ERR(pmu_ac)) {
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  160  		ret = PTR_ERR(pmu_ac);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  161  		goto ac_register_failed;
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  162  	}
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  163
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  164  	for (i = 0; i < pmu_battery_count; i++) {
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  165  		struct power_supply_config psy_cfg = {};
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  166  		struct pmu_battery_dev *pbat = kzalloc(sizeof(*pbat),
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  167  						       GFP_KERNEL);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  168  		if (!pbat)
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  169  			break;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  170
-> > 35bf559145b633 drivers/power/pmu_battery.c Christian Kujau     2008-05-02 @171  		sprintf(pbat->name, "PMU_battery_%d", i);
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  172  		pbat->bat_desc.name = pbat->name;
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  173  		pbat->bat_desc.properties = pmu_bat_props;
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  174  		pbat->bat_desc.num_properties = ARRAY_SIZE(pmu_bat_props);
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  175  		pbat->bat_desc.get_property = pmu_bat_get_property;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  176  		pbat->pbi = &pmu_batteries[i];
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  177  		psy_cfg.drv_data = pbat;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  178
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  179  		pbat->bat = power_supply_register(&bat_pdev->dev,
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  180  						  &pbat->bat_desc,
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  181  						  &psy_cfg);
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  182  		if (IS_ERR(pbat->bat)) {
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  183  			ret = PTR_ERR(pbat->bat);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  184  			kfree(pbat);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  185  			goto battery_register_failed;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  186  		}
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  187  		pbats[i] = pbat;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  188  	}
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  189
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  190  	goto success;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  191
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  192  battery_register_failed:
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  193  	while (i--) {
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  194  		if (!pbats[i])
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  195  			continue;
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  196  		power_supply_unregister(pbats[i]->bat);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  197  		kfree(pbats[i]);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  198  	}
-> > 297d716f6260cc drivers/power/pmu_battery.c Krzysztof Kozlowski 2015-03-12  199  	power_supply_unregister(pmu_ac);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  200  ac_register_failed:
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  201  	platform_device_unregister(bat_pdev);
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  202  pdev_register_failed:
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  203  success:
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  204  	return ret;
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  205  }
-> > efea58e397dec8 drivers/power/pmu_battery.c David Woodhouse     2007-05-04  206
-> > 
-> > :::::: The code at line 171 was first introduced by commit
-> > :::::: 35bf559145b6332f5465c15a4e5cd7a363985382 PMU battery: filenames in sysfs with spaces
-> > 
-> > :::::: TO: Christian Kujau <lists@nerdbynature.de>
-> > :::::: CC: Anton Vorontsov <cbouatmailru@gmail.com>
-> > 
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202311090843.b8ISrsV1-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    arch/powerpc/platforms/ps3/gelic_udbg.c:59:1: warning: alignment 1 o=
+f 'struct debug_block' is less than 32 [-Wpacked-not-aligned]
+> >       59 | } __packed;
+> >          | ^
+> >>> arch/powerpc/platforms/ps3/gelic_udbg.c:240:6: error: redefinition of=
+ 'udbg_shutdown_ps3gelic'
+> >      240 | void udbg_shutdown_ps3gelic(void)
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~
+> >    In file included from arch/powerpc/platforms/ps3/gelic_udbg.c:17:
+> >    arch/powerpc/include/asm/ps3.h:520:20: note: previous definition of =
+'udbg_shutdown_ps3gelic' with type 'void(void)'
+> >      520 | static inline void udbg_shutdown_ps3gelic(void) {}
+> >          |                    ^~~~~~~~~~~~~~~~~~~~~~
+>
+> As pointed out by Arnd this is due to there being two symbols that
+> control the gelic_udbg.c code.
+>
+> I don't see the need for PS3GELIC_UDBG, without PPC_EARLY_DEBUG_PS3GELIC
+> it just causes gelic_udbg.c to be built, but never called.
+
+My first thought was: PPC_EARLY_DEBUG_PS3GELIC is meant as an early
+debugging console, while PS3GELIC_UDBG can be used with xmon later,
+but that does not seem to be the case.
+
+> The diff below fixes the error AFAICS.
+
+So your changes on top LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
