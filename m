@@ -1,85 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9121CAB6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 13:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A8A1D69C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 13:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dA5x+Uqj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699881672; x=1731417672;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hAx2E/B4AeGjEJ1PdDHS+y0ncyJCfkCZr6zpxW632GQ=;
-  b=dA5x+UqjqNrpNuUrLAmpwf9/LxLFs8bZV0GNFwSmey6tfz+TxHw2BV1e
-   77/CKDLVERlYxmqRaX+/hXFQEZAGY7y1UQTgrh8nZGT3PQnrtIBLHJR6P
-   Hx1blfSL8HOEVRPKc08XNcg3VD/a0JrS92HibhXwYd8963fvmJ6nwg/ma
-   FJlKnuENBMx6ldmBPRLiOM3kzQviC+IJRznc8ZGuB+EFIGcWmRIDwTrvS
-   88YXmBTRCFxxBLwO115E5pyqMzdocv+8KXMFppPMnspwydjpGM2o4GHf5
-   q1IKEqzybBhe/hlrwjeMNJD7B9h3hSGk2ymEcJnXRUycHvW9ltGB7ucXj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="370633279"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="370633279"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 05:21:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="887917608"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="887917608"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 13 Nov 2023 05:21:10 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r2WsF-000C7Y-36;
-	Mon, 13 Nov 2023 13:21:07 +0000
-Date: Mon, 13 Nov 2023 21:20:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
-Subject: [leon-rdma:rdma-next 17/19] include/linux/mlx5/eswitch.h:220:19:
- error: redefinition of 'mlx5_eswitch_manager_vport'
-Message-ID: <202311132146.VcxMTz7m-lkp@intel.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="YokQeuw4"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1CE7F40E0171;
+	Mon, 13 Nov 2023 13:57:11 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id bimc4FpwqRg5; Mon, 13 Nov 2023 13:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1699883827; bh=/Xv6YqaVx2Uqc+B0ZtgaLioLedmrT3VC28U0wm7nbnk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YokQeuw4aV1A6/uTz1/a04NW1A5PSV7gjaNsWEkohTSmulHz7hWX5NzsddEe7wyPQ
+	 /WcLvXnYO1+NLuD69NBvHvTr0NGC+UsA1HvI0YAl43o24snYnef2xgUvhKoRHWw/Wx
+	 wNJfbLP4KRs28o8lfMNgEJe1E5lDZ/bAH1NwtkTu+mW9l5EhzCPm2nIlgAF0+5josQ
+	 7Smw/sB7IBX1QS0kX7yKPCH9hUCYMukLMqAI+tCPzcTNRxVdktiHV1FQDbKDkVDjiS
+	 MBMDi8tMeFGOX50zYLo8Z7tsD1mSlgxja3NShfR8jJITbDzWAD+u0hC1LTqllzfX10
+	 abcrxU0mLZEclTRMIJcc1dShGZaBzCQoM/IzszFgPri0XV8s4tY1mYrV0Yl3+DyFTs
+	 TQYd63q6WgOAXTdkbrNj8pJgTZHnwshrkmssv9cNdzrJ6C82lCfmOcxfym/qNt2FzM
+	 LZGG8ALwQcY4PUY92/BX5paJ4q6IywjuEvl94uPLMN0pinoOuZ4qB9fA8yv0V6KZjC
+	 rF0TOTXR+pFWOcNsFrwkIl2HG1pdEqjKZ4PeyY7jO0iJVauprmWcR+W7Lpq106TCW5
+	 b1nk+8XSFcKADrtCjbkWtKmaaSF4N72i/kdjwvRfjkc5rGbANI7eJD7G/NGNsgfU8+
+	 SET6KYXMPoeakRSR4+PVzSOo=
+Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C06F740E0031;
+	Mon, 13 Nov 2023 13:57:03 +0000 (UTC)
+Date: Mon, 13 Nov 2023 14:56:57 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Juergen Gross <jgross@suse.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] x86/mtrr: Document missing function parameters in kernel-doc
+Message-ID: <20231113135657.GBZVIrKWD8gvvXz8u2@fat_crate.local>
+References: <202311130104.9xKAKzke-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <202311130104.9xKAKzke-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   c559cb7113158c02d75401ac162652072ef1b5f0
-commit: 1efa1ad5a92370a6b6c6395bfd04cf1586632824 [17/19] net/mlx5: E-Switch, expose eswitch manager vport
-config: loongarch-randconfig-001-20231113 (https://download.01.org/0day-ci/archive/20231113/202311132146.VcxMTz7m-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311132146.VcxMTz7m-lkp@intel.com/reproduce)
+On Mon, Nov 13, 2023 at 01:54:18AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   1b907d0507354b74a4f2c286380cd6059af79248
+> commit: 29055dc74287467bd7a053d60b4afe753832960d x86/mtrr: Support setting MTRR state for software defined MTRRs
+> date:   5 months ago
+> config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20231113/202311130104.9xKAKzke-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311130104.9xKAKzke-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311130104.9xKAKzke-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    arch/x86/kernel/cpu/mtrr/generic.c:125: warning: Function parameter or member 'start' not described in 'mtrr_type_lookup_fixed'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311132146.VcxMTz7m-lkp@intel.com/
+...
 
-All errors (new ones prefixed by >>):
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Mon, 13 Nov 2023 14:52:52 +0100
+Subject: [PATCH] x86/mtrr: Document missing function parameters in kernel-doc
 
-   In file included from drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:42,
-                    from drivers/net/ethernet/mellanox/mlx5/core/devlink.c:9:
->> include/linux/mlx5/eswitch.h:220:19: error: redefinition of 'mlx5_eswitch_manager_vport'
-     220 | static inline u16 mlx5_eswitch_manager_vport(struct mlx5_core_dev *dev)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mlx5/eswitch.h:202:19: note: previous definition of 'mlx5_eswitch_manager_vport' with type 'u16(struct mlx5_core_dev *)' {aka 'short unsigned int(struct mlx5_core_dev *)'}
-     202 | static inline u16 mlx5_eswitch_manager_vport(struct mlx5_core_dev *dev)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+Add text explaining what they do.
 
+No functional changes.
 
-vim +/mlx5_eswitch_manager_vport +220 include/linux/mlx5/eswitch.h
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202311130104.9xKAKzke-lkp@intel.com/
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/202311130104.9xKAKzke-lkp@intel.com
+---
+ arch/x86/kernel/cpu/mtrr/generic.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-   218	
-   219	/* The returned number is valid only when the dev is eswitch manager. */
- > 220	static inline u16 mlx5_eswitch_manager_vport(struct mlx5_core_dev *dev)
+diff --git a/arch/x86/kernel/cpu/mtrr/generic.c b/arch/x86/kernel/cpu/mtrr/generic.c
+index 2d6aa5d2e3d7..d3524778a545 100644
+--- a/arch/x86/kernel/cpu/mtrr/generic.c
++++ b/arch/x86/kernel/cpu/mtrr/generic.c
+@@ -428,6 +428,10 @@ void __init mtrr_copy_map(void)
+  * from the x86_init.hyper.init_platform() hook.  It can be called only once.
+  * The MTRR state can't be changed afterwards.  To ensure that, X86_FEATURE_MTRR
+  * is cleared.
++ *
++ * @var: MTRR variable range array to use
++ * @num_var: length of the @var array
++ * @def_type: default caching type
+  */
+ void mtrr_overwrite_state(struct mtrr_var_range *var, unsigned int num_var,
+ 			  mtrr_type def_type)
+@@ -492,13 +496,15 @@ static u8 type_merge(u8 type, u8 new_type, u8 *uniform)
+ /**
+  * mtrr_type_lookup - look up memory type in MTRR
+  *
++ * @start: Begin of the physical address range
++ * @end: End of the physical address range
++ * @uniform: output argument:
++ *  - 1: the returned MTRR type is valid for the whole region
++ *  - 0: otherwise
++ *
+  * Return Values:
+  * MTRR_TYPE_(type)  - The effective MTRR type for the region
+  * MTRR_TYPE_INVALID - MTRR is disabled
+- *
+- * Output Argument:
+- * uniform - Set to 1 when the returned MTRR type is valid for the whole
+- *	     region, set to 0 else.
+  */
+ u8 mtrr_type_lookup(u64 start, u64 end, u8 *uniform)
+ {
+-- 
+2.42.0.rc0.25.ga82fb66fed25
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
