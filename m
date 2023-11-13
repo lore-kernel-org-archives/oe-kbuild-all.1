@@ -1,148 +1,134 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCAF1A58B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 09:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5afabb23900so49420747b3.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 01:46:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699868800; x=1700473600;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hwzQbtIpe+t3wqED8YWdB5pI957h93jq9NhhCumia7w=;
-        b=q6K3U2fZL8S0nSHtGiskZEvIiuucepcWMlmqjgbHerSjULb4bw1sV9BmG8yjBx4Tox
-         tPZPYbAiAgo8eUBzmwDyYF+7eRco6MfqH2tDPdH3p8D3Tld1Sh9f7ZfFiqv/cV1AeUZr
-         OrGvTLbEN5Z6iYibxEEkHwDz+cuNdOQLMhU57qW5G+5qgMHmZjqTxC23WALf7DsBZZTv
-         IUloA21JjYAVRZ6IQv5WuHGoPCiCv9lNvdmxF10AA+6/zrT3vc7SKVwfBxQX/K6+W05P
-         Sd7VtkUhlKWLh6zY8R5qr4grm5eZnfocBLzNPLqpOiXVmSaXuf/KSyVZDCuWh1htHHOg
-         1vEQ==
-X-Gm-Message-State: AOJu0YxaJpuCOYnuQiPmyeXxRh2mntSZYrD9fbGF+qxzT4ur2vYoZg0A
-	2sUp/qRTC0wF68MublshNcom4M51WIsMzA==
-X-Google-Smtp-Source: AGHT+IH/S7JIisoNGvBTXEZaxjNq5r1GDVgmrbNp97OUhs4V0yA8fROC6ehfS2RcXaQtPAzRdH/lZw==
-X-Received: by 2002:a0d:ed06:0:b0:59f:5361:d18c with SMTP id w6-20020a0ded06000000b0059f5361d18cmr6135967ywe.41.1699868800236;
-        Mon, 13 Nov 2023 01:46:40 -0800 (PST)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id h84-20020a815357000000b0057087e7691bsm1681371ywb.56.2023.11.13.01.46.39
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Nov 2023 01:46:39 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d865854ef96so4273689276.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 01:46:39 -0800 (PST)
-X-Received: by 2002:a25:42d2:0:b0:da0:c8d1:5c5 with SMTP id
- p201-20020a2542d2000000b00da0c8d105c5mr5227362yba.41.1699868799056; Mon, 13
- Nov 2023 01:46:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82A91BDE3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 13 Nov 2023 10:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G15ZH/tP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699869934; x=1731405934;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fwT9ZCx8qEwyxziVUtopTVHdcw2NHX46p8hVWQQv2MU=;
+  b=G15ZH/tPbZMxrqFmrkVY/0TZL9/xLQutofjejXjfDC+nKtZkSKauvy4K
+   IZwAp8p0CA3PdvVruYQD2xuU49uexvGIhTgd+I+2TBkdgzbhaSoFB+y2u
+   X9pKkrq0/TlKQfO/fBysjgMM3UaG8UEJxrxurarNMFX4SEGqYClgfsVGa
+   YDhAx6eih0JypS0Ns7LLGYN9wCSn2O/olNhAIalyr0c8ejlFcj6R2sQX1
+   M3eThQkZZ7px3AcXIqwK4t9kONPOUnbtW5VBqyazXJsSOaoko/EIHpW7o
+   IcEhlTAY5vkDiaXZhsvcn6ysa8swIluXRR9s7uBvghCALGOjtTEpM7IAz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="394306560"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="394306560"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 02:05:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="767860428"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="767860428"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 13 Nov 2023 02:05:33 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r2Tow-000C18-2K;
+	Mon, 13 Nov 2023 10:05:30 +0000
+Date: Mon, 13 Nov 2023 18:05:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Hopps <chopps@chopps.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC ipsec-next v2 8/8] iptfs: impl: add new iptfs xfrm mode impl
+Message-ID: <202311131710.pFEZgGgP-lkp@intel.com>
+References: <20231113035219.920136-9-chopps@chopps.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231108125843.3806765-18-arnd@kernel.org> <202311090843.b8ISrsV1-lkp@intel.com>
- <87h6lu8ed8.fsf@mail.lhotse>
-In-Reply-To: <87h6lu8ed8.fsf@mail.lhotse>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 13 Nov 2023 10:46:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVxpKwkvU5fcZXLdjRAuaBqj3JxE4JtBcEW55EzidxhCQ@mail.gmail.com>
-Message-ID: <CAMuHMdVxpKwkvU5fcZXLdjRAuaBqj3JxE4JtBcEW55EzidxhCQ@mail.gmail.com>
-Subject: Re: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, 
-	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	Huacai Chen <chenhuacai@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>, 
-	Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Geoff Levand <geoff@infradead.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Andy Lutomirski <luto@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231113035219.920136-9-chopps@chopps.org>
 
-Hi Michael,
+Hi Christian,
 
-On Fri, Nov 10, 2023 at 4:42=E2=80=AFAM Michael Ellerman <mpe@ellerman.id.a=
-u> wrote:
-> kernel test robot <lkp@intel.com> writes:
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on linus/master]
-> > [also build test ERROR on next-20231108]
-> > [cannot apply to v6.6]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/id=
-a-make-ida_dump-static/20231109-005742
-> > base:   linus/master
-> > patch link:    https://lore.kernel.org/r/20231108125843.3806765-18-arnd=
-%40kernel.org
-> > patch subject: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic =
-prototype
-> > config: powerpc64-randconfig-001-20231109 (https://download.01.org/0day=
--ci/archive/20231109/202311090843.b8ISrsV1-lkp@intel.com/config)
-> > compiler: powerpc64-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20231109/202311090843.b8ISrsV1-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202311090843.b8ISrsV1-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    arch/powerpc/platforms/ps3/gelic_udbg.c:59:1: warning: alignment 1 o=
-f 'struct debug_block' is less than 32 [-Wpacked-not-aligned]
-> >       59 | } __packed;
-> >          | ^
-> >>> arch/powerpc/platforms/ps3/gelic_udbg.c:240:6: error: redefinition of=
- 'udbg_shutdown_ps3gelic'
-> >      240 | void udbg_shutdown_ps3gelic(void)
-> >          |      ^~~~~~~~~~~~~~~~~~~~~~
-> >    In file included from arch/powerpc/platforms/ps3/gelic_udbg.c:17:
-> >    arch/powerpc/include/asm/ps3.h:520:20: note: previous definition of =
-'udbg_shutdown_ps3gelic' with type 'void(void)'
-> >      520 | static inline void udbg_shutdown_ps3gelic(void) {}
-> >          |                    ^~~~~~~~~~~~~~~~~~~~~~
->
-> As pointed out by Arnd this is due to there being two symbols that
-> control the gelic_udbg.c code.
->
-> I don't see the need for PS3GELIC_UDBG, without PPC_EARLY_DEBUG_PS3GELIC
-> it just causes gelic_udbg.c to be built, but never called.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-My first thought was: PPC_EARLY_DEBUG_PS3GELIC is meant as an early
-debugging console, while PS3GELIC_UDBG can be used with xmon later,
-but that does not seem to be the case.
+[auto build test WARNING on klassert-ipsec-next/master]
+[also build test WARNING on klassert-ipsec/master netfilter-nf/main linus/master v6.7-rc1 next-20231113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> The diff below fixes the error AFAICS.
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hopps/iptfs-config-add-CONFIG_XFRM_IPTFS/20231113-115642
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
+patch link:    https://lore.kernel.org/r/20231113035219.920136-9-chopps%40chopps.org
+patch subject: [RFC ipsec-next v2 8/8] iptfs: impl: add new iptfs xfrm mode impl
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20231113/202311131710.pFEZgGgP-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231113/202311131710.pFEZgGgP-lkp@intel.com/reproduce)
 
-So your changes on top LGTM.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311131710.pFEZgGgP-lkp@intel.com/
 
-Gr{oetje,eeting}s,
+All warnings (new ones prefixed by >>):
 
-                        Geert
+   net/xfrm/xfrm_iptfs.c:468:17: warning: no previous prototype for 'iptfs_pskb_add_frags' [-Wmissing-prototypes]
+     468 | struct sk_buff *iptfs_pskb_add_frags(struct sk_buff *tpl,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   net/xfrm/xfrm_iptfs.c: In function '__iptfs_reassem_done':
+   net/xfrm/xfrm_iptfs.c:629:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     629 |         int ret;
+         |             ^~~
+   net/xfrm/xfrm_iptfs.c: In function '__reorder_drop':
+   net/xfrm/xfrm_iptfs.c:1234:13: warning: variable 'wantseq' set but not used [-Wunused-but-set-variable]
+    1234 |         u64 wantseq = xtfs->w_wantseq;
+         |             ^~~~~~~
+   net/xfrm/xfrm_iptfs.c: In function '__reorder_this':
+   net/xfrm/xfrm_iptfs.c:1283:13: warning: variable 'wantseq' set but not used [-Wunused-but-set-variable]
+    1283 |         u64 wantseq = xtfs->w_wantseq;
+         |             ^~~~~~~
+   net/xfrm/xfrm_iptfs.c: In function '__reorder_future_shifts':
+   net/xfrm/xfrm_iptfs.c:1405:13: warning: variable 'last_drop_seq' set but not used [-Wunused-but-set-variable]
+    1405 |         u64 last_drop_seq = xtfs->w_wantseq;
+         |             ^~~~~~~~~~~~~
+   net/xfrm/xfrm_iptfs.c: In function 'iptfs_drop_timer':
+   net/xfrm/xfrm_iptfs.c:1625:20: warning: variable 'fcount' set but not used [-Wunused-but-set-variable]
+    1625 |         u32 count, fcount;
+         |                    ^~~~~~
+   net/xfrm/xfrm_iptfs.c: In function 'iptfs_delay_timer':
+   net/xfrm/xfrm_iptfs.c:2357:16: warning: variable 'osize' set but not used [-Wunused-but-set-variable]
+    2357 |         size_t osize;
+         |                ^~~~~
+   net/xfrm/xfrm_iptfs.c: In function 'iptfs_encap_add_ipv4':
+   net/xfrm/xfrm_iptfs.c:2405:13: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
+    2405 |         int flags;
+         |             ^~~~~
+   net/xfrm/xfrm_iptfs.c: At top level:
+   net/xfrm/xfrm_iptfs.c:100:12: warning: '__trace_ip_proto_seq' defined but not used [-Wunused-function]
+     100 | static u32 __trace_ip_proto_seq(struct iphdr *iph)
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> net/xfrm/xfrm_iptfs.c:93:12: warning: '__trace_ip_proto' defined but not used [-Wunused-function]
+      93 | static u32 __trace_ip_proto(struct iphdr *iph)
+         |            ^~~~~~~~~~~~~~~~
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+vim +/__trace_ip_proto +93 net/xfrm/xfrm_iptfs.c
+
+    92	
+  > 93	static u32 __trace_ip_proto(struct iphdr *iph)
+    94	{
+    95		if (iph->version == 4)
+    96			return iph->protocol;
+    97		return ((struct ipv6hdr *)iph)->nexthdr;
+    98	}
+    99	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
