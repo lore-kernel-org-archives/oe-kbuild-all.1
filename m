@@ -1,46 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FC82E824;
-	Tue, 14 Nov 2023 22:01:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3352E83A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Nov 2023 22:22:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+YXf8sT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTwOVLch"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699999270; x=1731535270;
+  t=1700000568; x=1731536568;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hNfGDhSIjxC4wg8QyoplkZ666TnC1zzFj/TjEKx3psY=;
-  b=g+YXf8sTCpMVR2P3oAHUeciqTEEnvorJhmUHDoEI09ktjhBKdaTrJe3A
-   F3GSd9nFMRWGXilW2ObFMG0SsZc32jUJmAY/2KpsJMjApqcsuelFH6avE
-   EXeteA6nlxMVM5wLbg7rxZmYNU1xzJZ/X2X1fxBjL/i+NVsVPaYi/5pPk
-   MstCVsebS9+of39GEtEdSXukvc5O/2KadhYlCa13xkl2xQxChTRLqT052
-   NrGbxyofAlAPJgWeoWFmp6Dt/LPzNySQAM+kW/oIVN9c57rh1ErylyiEP
-   i9ZVVBo9TepUyOtgvBsme3zVQ0RiJyLp8bqSsdXQ8uHSg+Ta5a7MiVnyq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="476975289"
+  bh=vnZSDFlO6pJDmvncw6FdtOux83jE5JCf2Pni8UNa0XY=;
+  b=GTwOVLchVI0gezvHzUihMWDwDSz/2wNAQXG5Ez4VyM5QPPOoufj6vhl2
+   wh7wIDhkItLO5EzIucESdh1tTwmBaiC8U1Fga5YPk9Ph5U2gAUtlIDmas
+   kd7M4y02gLAzfioTCJ1r0GKUsderxto6bF4IQW4Lez0Mk/vXWtww7UaLl
+   j9P/hH1YBKb8QPBikuvbywkwjDq5D8WEQAXTrfH4ER8aWxmfvA0zDtd4T
+   RdtLiGwQdPXfIj0rysyXe9bZ2bJMkghgneakLOqIZ7otfUxxSs6CIzr/W
+   2lwhuDSDqZPxWGWPbfD4bPTMVnZJ1GoI9opx6cImwqwX4aktXFBgTJwDT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="421857938"
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="476975289"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 14:01:09 -0800
+   d="scan'208";a="421857938"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 14:22:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="908556633"
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="908556633"
+   d="scan'208";a="12942343"
 Received: from lkp-server02.sh.intel.com (HELO 83346ef18697) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2023 14:01:08 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 14 Nov 2023 14:22:45 -0800
 Received: from kbuild by 83346ef18697 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r31T0-0000ho-0s;
-	Tue, 14 Nov 2023 22:01:06 +0000
-Date: Wed, 15 Nov 2023 06:00:12 +0800
+	id 1r31nu-0000jg-0o;
+	Tue, 14 Nov 2023 22:22:42 +0000
+Date: Wed, 15 Nov 2023 06:20:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:afs-fixes 41/41] fs/afs/server_list.c:75:21: warning:
- variable 'tmp' is uninitialized when used here
-Message-ID: <202311150502.t1avq03b-lkp@intel.com>
+To: Suwan Kim <suwan.kim027@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Christoph Hellwig <hch@lst.de>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: drivers/block/virtio_blk.c:570:68: error: '%d' directive output may
+ be truncated writing between 1 and 11 bytes into a region of size 7
+Message-ID: <202311150655.hb4vzaIj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,156 +53,119 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git afs-fixes
-head:   9e6938066eb39856ef50be2da622f8e7214d4009
-commit: 9e6938066eb39856ef50be2da622f8e7214d4009 [41/41] afs: Fix the handling of RO volumes
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231115/202311150502.t1avq03b-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311150502.t1avq03b-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9bacdd8996c77c42ca004440be610692275ff9d0
+commit: 4e0400525691d0e676dbe002641f9a61261f1e1b virtio-blk: support polling I/O
+date:   1 year, 5 months ago
+config: x86_64-sof-customedconfig-edison-defconfig (https://download.01.org/0day-ci/archive/20231115/202311150655.hb4vzaIj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311150655.hb4vzaIj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311150502.t1avq03b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311150655.hb4vzaIj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/afs/server_list.c:75:21: warning: variable 'tmp' is uninitialized when used here [-Wuninitialized]
-      75 |                 bool newrepsite = tmp & AFS_VLSF_NEWREPSITE;
-         |                                   ^~~
-   fs/afs/server_list.c:36:9: note: initialize the variable 'tmp' to silence this warning
-      36 |         u32 tmp;
-         |                ^
-         |                 = 0
-   1 warning generated.
---
->> fs/afs/validation.c:328:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     328 |         if (op->volsync.creation != TIME64_MIN || op->volsync.update != TIME64_MIN) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/afs/validation.c:343:9: note: uninitialized use occurs here
-     343 |         return ret;
-         |                ^~~
-   fs/afs/validation.c:328:2: note: remove the 'if' if its condition is always true
-     328 |         if (op->volsync.creation != TIME64_MIN || op->volsync.update != TIME64_MIN) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/afs/validation.c:324:9: note: initialize the variable 'ret' to silence this warning
-     324 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+   drivers/block/virtio_blk.c: In function 'init_vq':
+>> drivers/block/virtio_blk.c:570:68: error: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 7 [-Werror=format-truncation=]
+     570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
+         |                                                                    ^~
+   drivers/block/virtio_blk.c:570:58: note: directive argument in the range [-2147483648, 65534]
+     570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
+         |                                                          ^~~~~~~~~~~~~
+   drivers/block/virtio_blk.c:570:17: note: 'snprintf' output between 11 and 21 bytes into a destination of size 16
+     570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/tmp +75 fs/afs/server_list.c
+vim +570 drivers/block/virtio_blk.c
 
-    23	
-    24	/*
-    25	 * Build a server list from a VLDB record.
-    26	 */
-    27	struct afs_server_list *afs_alloc_server_list(struct afs_volume *volume,
-    28						      struct key *key,
-    29						      struct afs_vldb_entry *vldb)
-    30	{
-    31		struct afs_server_list *slist;
-    32		struct afs_server *server;
-    33		unsigned int type_mask = 1 << volume->type;
-    34		bool use_newrepsites = false;
-    35		int ret = -ENOMEM, nr_servers = 0, newrep = 0, i, j;
-    36		u32 tmp;
-    37	
-    38		/* Work out if we're going to restrict to NEWREPSITE-marked servers or
-    39		 * not.  If at least one site is marked as NEWREPSITE, then it's likely
-    40		 * that "vos release" is busy updating RO sites.  We cut over from one
-    41		 * to the other when >=50% of the sites have been updated.  Sites that
-    42		 * are in the process of being updated are marked DONTUSE.
-    43		 */
-    44		for (i = 0; i < vldb->nr_servers; i++) {
-    45			if (!(vldb->fs_mask[i] & type_mask))
-    46				continue;
-    47			nr_servers++;
-    48			if (vldb->vlsf_flags[i] & AFS_VLSF_DONTUSE)
-    49				continue;
-    50			if (vldb->vlsf_flags[i] & AFS_VLSF_NEWREPSITE)
-    51				newrep++;
-    52		}
-    53	
-    54		slist = kzalloc(struct_size(slist, servers, nr_servers), GFP_KERNEL);
-    55		if (!slist)
-    56			goto error;
-    57	
-    58		if (newrep) {
-    59			if (newrep < nr_servers / 2) {
-    60				kdebug("USE-OLD");
-    61				slist->ro_replicating = AFS_RO_REPLICATING_USE_OLD;
-    62			} else {
-    63				kdebug("USE-NEW");
-    64				slist->ro_replicating = AFS_RO_REPLICATING_USE_NEW;
-    65				use_newrepsites = true;
-    66			}
-    67		}
-    68	
-    69		refcount_set(&slist->usage, 1);
-    70		rwlock_init(&slist->lock);
-    71	
-    72		/* Make sure a records exists for each server in the list. */
-    73		for (i = 0; i < vldb->nr_servers; i++) {
-    74			unsigned long se_flags = 0;
-  > 75			bool newrepsite = tmp & AFS_VLSF_NEWREPSITE;
-    76	
-    77			if (!(vldb->fs_mask[i] & type_mask))
-    78				continue;
-    79			if (tmp & AFS_VLSF_DONTUSE)
-    80				__set_bit(AFS_SE_EXCLUDED, &se_flags);
-    81			if (newrep && (newrepsite ^ use_newrepsites))
-    82				__set_bit(AFS_SE_EXCLUDED, &se_flags);
-    83	
-    84			server = afs_lookup_server(volume->cell, key, &vldb->fs_server[i],
-    85						   vldb->addr_version[i]);
-    86			if (IS_ERR(server)) {
-    87				ret = PTR_ERR(server);
-    88				if (ret == -ENOENT ||
-    89				    ret == -ENOMEDIUM)
-    90					continue;
-    91				goto error_2;
-    92			}
-    93	
-    94			/* Insertion-sort by UUID */
-    95			for (j = 0; j < slist->nr_servers; j++)
-    96				if (memcmp(&slist->servers[j].server->uuid,
-    97					   &server->uuid,
-    98					   sizeof(server->uuid)) >= 0)
-    99					break;
-   100			if (j < slist->nr_servers) {
-   101				if (slist->servers[j].server == server) {
-   102					afs_put_server(volume->cell->net, server,
-   103						       afs_server_trace_put_slist_isort);
-   104					continue;
-   105				}
-   106	
-   107				memmove(slist->servers + j + 1,
-   108					slist->servers + j,
-   109					(slist->nr_servers - j) * sizeof(struct afs_server_entry));
-   110			}
-   111	
-   112			slist->servers[j].server = server;
-   113			slist->servers[j].volume = volume;
-   114			slist->servers[j].flags = se_flags;
-   115			slist->servers[j].cb_expires_at = AFS_NO_CB_PROMISE;
-   116			slist->nr_servers++;
-   117		}
-   118	
-   119		if (slist->nr_servers == 0) {
-   120			ret = -EDESTADDRREQ;
-   121			goto error_2;
-   122		}
-   123	
-   124		return slist;
-   125	
-   126	error_2:
-   127		afs_put_serverlist(volume->cell->net, slist);
-   128	error:
-   129		return ERR_PTR(ret);
-   130	}
-   131	
+   511	
+   512	static int init_vq(struct virtio_blk *vblk)
+   513	{
+   514		int err;
+   515		int i;
+   516		vq_callback_t **callbacks;
+   517		const char **names;
+   518		struct virtqueue **vqs;
+   519		unsigned short num_vqs;
+   520		unsigned int num_poll_vqs;
+   521		struct virtio_device *vdev = vblk->vdev;
+   522		struct irq_affinity desc = { 0, };
+   523	
+   524		err = virtio_cread_feature(vdev, VIRTIO_BLK_F_MQ,
+   525					   struct virtio_blk_config, num_queues,
+   526					   &num_vqs);
+   527		if (err)
+   528			num_vqs = 1;
+   529	
+   530		if (!err && !num_vqs) {
+   531			dev_err(&vdev->dev, "MQ advertised but zero queues reported\n");
+   532			return -EINVAL;
+   533		}
+   534	
+   535		num_vqs = min_t(unsigned int,
+   536				min_not_zero(num_request_queues, nr_cpu_ids),
+   537				num_vqs);
+   538	
+   539		num_poll_vqs = min_t(unsigned int, poll_queues, num_vqs - 1);
+   540	
+   541		vblk->io_queues[HCTX_TYPE_DEFAULT] = num_vqs - num_poll_vqs;
+   542		vblk->io_queues[HCTX_TYPE_READ] = 0;
+   543		vblk->io_queues[HCTX_TYPE_POLL] = num_poll_vqs;
+   544	
+   545		dev_info(&vdev->dev, "%d/%d/%d default/read/poll queues\n",
+   546					vblk->io_queues[HCTX_TYPE_DEFAULT],
+   547					vblk->io_queues[HCTX_TYPE_READ],
+   548					vblk->io_queues[HCTX_TYPE_POLL]);
+   549	
+   550		vblk->vqs = kmalloc_array(num_vqs, sizeof(*vblk->vqs), GFP_KERNEL);
+   551		if (!vblk->vqs)
+   552			return -ENOMEM;
+   553	
+   554		names = kmalloc_array(num_vqs, sizeof(*names), GFP_KERNEL);
+   555		callbacks = kmalloc_array(num_vqs, sizeof(*callbacks), GFP_KERNEL);
+   556		vqs = kmalloc_array(num_vqs, sizeof(*vqs), GFP_KERNEL);
+   557		if (!names || !callbacks || !vqs) {
+   558			err = -ENOMEM;
+   559			goto out;
+   560		}
+   561	
+   562		for (i = 0; i < num_vqs - num_poll_vqs; i++) {
+   563			callbacks[i] = virtblk_done;
+   564			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req.%d", i);
+   565			names[i] = vblk->vqs[i].name;
+   566		}
+   567	
+   568		for (; i < num_vqs; i++) {
+   569			callbacks[i] = NULL;
+ > 570			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
+   571			names[i] = vblk->vqs[i].name;
+   572		}
+   573	
+   574		/* Discover virtqueues and write information to configuration.  */
+   575		err = virtio_find_vqs(vdev, num_vqs, vqs, callbacks, names, &desc);
+   576		if (err)
+   577			goto out;
+   578	
+   579		for (i = 0; i < num_vqs; i++) {
+   580			spin_lock_init(&vblk->vqs[i].lock);
+   581			vblk->vqs[i].vq = vqs[i];
+   582		}
+   583		vblk->num_vqs = num_vqs;
+   584	
+   585	out:
+   586		kfree(vqs);
+   587		kfree(callbacks);
+   588		kfree(names);
+   589		if (err)
+   590			kfree(vblk->vqs);
+   591		return err;
+   592	}
+   593	
 
 -- 
 0-DAY CI Kernel Test Service
