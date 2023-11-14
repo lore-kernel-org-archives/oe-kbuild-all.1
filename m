@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECE38489
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Nov 2023 03:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0871172C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Nov 2023 06:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYbU6AQd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k0438IOG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699932150; x=1731468150;
+  t=1699944772; x=1731480772;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZiwVZpu/w9V0HkVlGPbETi7tetu7DinGfS+gwcNH38I=;
-  b=EYbU6AQdbgj5rE8l95xOkEY1+7+vWG/E2XhbnGhV+BxdVTd8edSluvlG
-   u+/6gdRKLfR1jDLxCfKz8v8VSD0EoT4eLZdA0jan2T24/zfBMFx/cTBxU
-   lBVkXjfSVO1BuoprK+zLULCl4zCksECbwhO6ydy3FjHspc01WF3kN8bUi
-   HFw03RDHPmOP7SyBFe9yRsHkzHBrX5bHKX8IN3NmbiDb2fTCY5O/Z+12r
-   xoGVHFGA3OcwEOEbKnLLDRzhufs5vGdmEWC9oJZ1p1/xISNPZW0fgt6ac
-   +wNGzw8sfpITYCJMbfo5g8DtxrTFGZaiC7wcurv76xecd6iTNp+X+8joS
+  bh=fx27CGjo3Jc2ahPnPnLskc113YZ6f38vCsg/I+Fv2HE=;
+  b=k0438IOGD0EEV1xf/50jeL1NVgUf2uRvvImmwmS7rudgmXil1+eEjShq
+   kELnwfHKCaJIrleyO7BEO1+BSBJ7pGsWyuGk3QpqM4t0qbe6JzndwlW6n
+   zDqrkzkIX9Iv+baF/4anpSPHKP8yCDb6Y7y/A2LxkgOXJXsouWZpo0gh3
+   BBcFQUtTK6440vmFvNVMBaSpoHyy1QOnnIPR6x7OzKURF9K//fBcPVHQf
+   RfL5rJMiJeKz0bkKULtBradZuQDWGWzbmHLUwaMFJn/fC/81sa/t9IGre
+   PwOiyqSEXoLF4tJdu62Dv5wwGlJ4WVsP5xh0fqmMI6D/A5G/Mf7ONAstE
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="375599917"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="375599917"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 19:22:30 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="9236989"
+X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
+   d="scan'208";a="9236989"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 22:52:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="1011751026"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="1011751026"
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="714480339"
+X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
+   d="scan'208";a="714480339"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Nov 2023 19:22:28 -0800
+  by orsmga003.jf.intel.com with ESMTP; 13 Nov 2023 22:52:50 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r2k0Q-000CnX-30;
-	Tue, 14 Nov 2023 03:22:26 +0000
-Date: Tue, 14 Nov 2023 11:22:01 +0800
+	id 1r2nI0-000Cy4-05;
+	Tue, 14 Nov 2023 06:52:48 +0000
+Date: Tue, 14 Nov 2023 14:52:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rob Clark <robdclark@chromium.org>
-Subject: xtensa-linux-ld: a6xx_gmu.c:undefined reference to `qmp_send'
-Message-ID: <202311141134.fwWgT7wL-lkp@intel.com>
+To: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sforshee:fscaps-vfsid 14/17] security/commoncap.c:524: warning:
+ Function parameter or member 'caps' not described in 'cap_convert_nscap'
+Message-ID: <202311141452.vSqQHhTR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,28 +50,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Konrad,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9bacdd8996c77c42ca004440be610692275ff9d0
-commit: 88a0997f2f949f1f7076adeb5d4fa4d684cca5bf drm/msm/a6xx: Send ACD state to QMP at GMU resume
-date:   5 weeks ago
-config: xtensa-randconfig-001-20231114 (https://download.01.org/0day-ci/archive/20231114/202311141134.fwWgT7wL-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231114/202311141134.fwWgT7wL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sforshee/linux.git fscaps-vfsid
+head:   4147292fec1dab43e2907743ac84fe7b6b8b7ab0
+commit: 32148b459f0e553719947357b8512dccced52c44 [14/17] fs: use vfs interfaces for capabilities xattrs
+config: mips-allnoconfig (https://download.01.org/0day-ci/archive/20231114/202311141452.vSqQHhTR-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231114/202311141452.vSqQHhTR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311141134.fwWgT7wL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311141452.vSqQHhTR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   xtensa-linux-ld: drivers/gpu/drm/msm/adreno/a6xx_gmu.o: in function `a6xx_gmu_fw_start':
-   a6xx_gmu.c:(.text+0x2fec): undefined reference to `qmp_send'
->> xtensa-linux-ld: a6xx_gmu.c:(.text+0x3093): undefined reference to `qmp_send'
+>> security/commoncap.c:524: warning: Function parameter or member 'caps' not described in 'cap_convert_nscap'
+>> security/commoncap.c:524: warning: Excess function parameter 'vfs_caps' description in 'cap_convert_nscap'
+
+
+vim +524 security/commoncap.c
+
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  503  
+e65ce2a50cf6af Christian Brauner           2021-01-21  504  /**
+e65ce2a50cf6af Christian Brauner           2021-01-21  505   * cap_convert_nscap - check vfs caps
+e65ce2a50cf6af Christian Brauner           2021-01-21  506   *
+39f60c1ccee72c Christian Brauner           2023-01-13  507   * @idmap:	idmap of the mount the inode was found from
+e65ce2a50cf6af Christian Brauner           2021-01-21  508   * @dentry:	used to retrieve inode to check permissions on
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  509)  * @vfs_caps:	vfs caps which may be modified by this function
+e65ce2a50cf6af Christian Brauner           2021-01-21  510   *
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  511)  * User requested a write of security.capability.  Check permissions, and if
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  512)  * needed, update the xattr to change from v2 to v3.
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  513   *
+39f60c1ccee72c Christian Brauner           2023-01-13  514   * If the inode has been found through an idmapped mount the idmap of
+39f60c1ccee72c Christian Brauner           2023-01-13  515   * the vfsmount must be passed through @idmap. This function will then
+39f60c1ccee72c Christian Brauner           2023-01-13  516   * take care to map the inode according to @idmap before checking
+e65ce2a50cf6af Christian Brauner           2021-01-21  517   * permissions. On non-idmapped mounts or if permission checking is to be
+4432b507445acf Paul Moore                  2023-05-24  518   * performed on the raw inode simply pass @nop_mnt_idmap.
+e65ce2a50cf6af Christian Brauner           2021-01-21  519   *
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  520)  * Return: On success, return 0; on error, return < 0.
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  521   */
+39f60c1ccee72c Christian Brauner           2023-01-13  522  int cap_convert_nscap(struct mnt_idmap *idmap, struct dentry *dentry,
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  523) 		      struct vfs_caps *caps)
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08 @524  {
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  525  	struct inode *inode = d_backing_inode(dentry);
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  526  	struct user_namespace *task_ns = current_user_ns(),
+3b0c2d3eaa83da Eric W. Biederman           2021-03-12  527  		*fs_ns = inode->i_sb->s_user_ns;
+b7c9b6751242fe Christian Brauner           2022-10-20  528  	vfsuid_t vfsrootid;
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  529) 	__u32 revision;
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  530  
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  531) 	revision = sansflags(caps->magic_etc);
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  532) 	if (revision != VFS_CAP_REVISION_2 && revision != VFS_CAP_REVISION_3)
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  533  		return -EINVAL;
+9452e93e6dae86 Christian Brauner           2023-01-13  534  	if (!capable_wrt_inode_uidgid(idmap, inode, CAP_SETFCAP))
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  535  		return -EPERM;
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  536) 	if (revision == VFS_CAP_REVISION_2 && (idmap == &nop_mnt_idmap))
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  537  		if (ns_capable(inode->i_sb->s_user_ns, CAP_SETFCAP))
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  538  			/* user is privileged, just write the v2 */
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  539) 			return 0;
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  540  
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  541) 	vfsrootid = rootid_from_vfs_caps(caps, task_ns);
+b7c9b6751242fe Christian Brauner           2022-10-20  542  	if (!vfsuid_valid(vfsrootid))
+b7c9b6751242fe Christian Brauner           2022-10-20  543  		return -EINVAL;
+b7c9b6751242fe Christian Brauner           2022-10-20  544  
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  545) 	if (!vfsuid_has_fsmapping(idmap, fs_ns, vfsrootid))
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  546  		return -EINVAL;
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  547  
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  548) 	caps->rootid = vfsrootid;
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  549) 	caps->magic_etc = VFS_CAP_REVISION_3 |
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  550) 			  (caps->magic_etc & VFS_CAP_FLAGS_EFFECTIVE);
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  551  
+32148b459f0e55 Seth Forshee (DigitalOcean  2023-10-11  552) 	return 0;
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  553  }
+8db6c34f1dbc8e Serge E. Hallyn             2017-05-08  554  
+
+:::::: The code at line 524 was first introduced by commit
+:::::: 8db6c34f1dbc8e06aa016a9b829b06902c3e1340 Introduce v3 namespaced file capabilities
+
+:::::: TO: Serge E. Hallyn <serge@hallyn.com>
+:::::: CC: Eric W. Biederman <ebiederm@xmission.com>
 
 -- 
 0-DAY CI Kernel Test Service
