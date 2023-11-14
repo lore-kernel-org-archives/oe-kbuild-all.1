@@ -1,79 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A26F224CD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Nov 2023 11:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0683B798
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 14 Nov 2023 12:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CAQaDdBf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FVMgX2F0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699962072; x=1731498072;
+  t=1699963209; x=1731499209;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Qd0JXalpGcwrYa5tsYwaquRc1lmCzBIUp6iekemYFyE=;
-  b=CAQaDdBf3d1g622tAJGdJHJxbVXHeHEPuY/hut0aFM/uNGWKM6IH5u2q
-   PmkyC+q1vEnQcU7BIGz5FDIW6NLe7HDQ2lH+V6K3MUq4fV+BXeBcf6Ytz
-   TdJYDTafooshQ+5Fy2XCEJang17eSdtnemfpv8+T/qmPjLLz47l/GwTCF
-   psJsuQUH/QVFzWUeGxB0N2TUVa9VuZrK50ahRwKTFS5W0rgT6OwINREq7
-   MjK5BNWyv/gi23DHjLeaW2/Sr33VA+tuWxnDrGgvzbbOz8XBtvmvSxC4o
-   hA4Q2N5AI0NyCsZBEAqx9tfH1aGqP7lW+/mqzGnLqHjOw0VDyK6SD88HI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="3742845"
+  bh=b27aR23QnMlnn3EqrFF72aKDu4+Fvfh3kQ7lTwG6N7Q=;
+  b=FVMgX2F0jJv6XF5kKatB0Mdd/sqonGpgfct9AEGwX924OOY70iWnz3T3
+   6VtBnMUjGjYmyDgWnGQjLcuwwjOydZulRcH1kIp2QOEdObgLNVgiCQfwN
+   vUwHBrAx5ZvtuYuGPdbbUaVf+9XrEXxKSZZDeZaltPcM+/dE2kROmtJ3z
+   szfHICquT3E4aK65y/toTvwYlBg6WKjlzrfNCpEjDoJyiR3aAzZ3niGiy
+   UuO6yAyMD7QjZ/iWmaPTub9oYA4xNERAm9jpSUo8uQ6WIyUEBBhQkZDNY
+   SK1b8NwkRM7TzcsS+tuuShOue81SvKOfFkHLwcwBPn9dbNE9lTBXEqp4j
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="9279356"
 X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; 
-   d="scan'208";a="3742845"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 03:41:11 -0800
+   d="scan'208";a="9279356"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 04:00:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="938053799"
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="1096074227"
 X-IronPort-AV: E=Sophos;i="6.03,302,1694761200"; 
-   d="scan'208";a="938053799"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 03:41:05 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1r2rmv-0000000DnLW-4BEl;
-	Tue, 14 Nov 2023 13:41:01 +0200
-Date: Tue, 14 Nov 2023 13:41:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <yujie.liu@intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
+   d="scan'208";a="1096074227"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga005.fm.intel.com with ESMTP; 14 Nov 2023 04:00:05 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id EF6475C2; Tue, 14 Nov 2023 13:50:24 +0200 (EET)
+Date: Tue, 14 Nov 2023 13:50:24 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: kernel test robot <yujie.liu@intel.com>,
+	Raag Jadav <raag.jadav@intel.com>, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
 	Linus Walleij <linus.walleij@linaro.org>
 Subject: Re: [PATCH v2 2/2] pinctrl: intel: Add a generic Intel pin control
  platform driver
-Message-ID: <ZVNczZMruhh59Vfc@smile.fi.intel.com>
+Message-ID: <20231114115024.GV17433@black.fi.intel.com>
 References: <20231113123147.4075203-3-andriy.shevchenko@linux.intel.com>
  <202311140345.etMnKZeR-lkp@intel.com>
+ <ZVNczZMruhh59Vfc@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202311140345.etMnKZeR-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <ZVNczZMruhh59Vfc@smile.fi.intel.com>
 
-On Tue, Nov 14, 2023 at 09:46:07AM +0800, kernel test robot wrote:
-> Hi Andy,
+On Tue, Nov 14, 2023 at 01:41:01PM +0200, Andy Shevchenko wrote:
+> On Tue, Nov 14, 2023 at 09:46:07AM +0800, kernel test robot wrote:
+> > Hi Andy,
+> > 
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on linusw-pinctrl/devel]
+> > [also build test ERROR on linusw-pinctrl/for-next linus/master v6.7-rc1 next-20231113]
 > 
-> kernel test robot noticed the following build errors:
+> False positive as the dependencies appeared in today's Linux Next.
 > 
-> [auto build test ERROR on linusw-pinctrl/devel]
-> [also build test ERROR on linusw-pinctrl/for-next linus/master v6.7-rc1 next-20231113]
+> $ git tag --contains 22f57707fa0c
+> next-20231114
 
-False positive as the dependencies appeared in today's Linux Next.
+Okay thanks for checking!
 
-$ git tag --contains 22f57707fa0c
-next-20231114
+The series looks good to me so feel free to add,
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
