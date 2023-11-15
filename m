@@ -1,114 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C512F3A8F4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 19:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4108F3A8F3;
+	Wed, 15 Nov 2023 19:48:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NoTwRqod"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700077572; x=1731613572;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v0s9Qj/S2hf8yaJEDOD2sO2ksek5SA3/tKx574pwuiE=;
-  b=NoTwRqod4xYZIVFCRzdDaAW2zFMF/zwfmM2XAw/JjavG4gE1RdwiFaSU
-   lS0RZXZGeW56xuFdIAt96xKN3BE8TLUWUaaY8BzmImgqSUHlqGmvxqazk
-   PiSesltE/srILmIEONjlEkIMTlLzAAoMDAxCvqvbh1RftMYVA3kmP7zib
-   E//gSOj2E+0qa5AiV61TvoNItfDf109bgCJyVZ0lBgPZXwdOcOECzvjMc
-   841QtjdpT3P+NUlECLB9p8s0dHIKiiRcI60xySrmovEV9ha+8bBHRBhhe
-   9FIGj2p39RQN1njxhBqjU7ofcLsCXjzPep5PwJFPb/XeR9gji7gsceBsv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="4022458"
-X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="4022458"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 11:46:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="714966020"
-X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="714966020"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 15 Nov 2023 11:46:08 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3Lpt-0000lY-2H;
-	Wed, 15 Nov 2023 19:46:05 +0000
-Date: Thu, 16 Nov 2023 03:45:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 32/60] fs/xfs/xfs_quota.h:171:10: error:
- parameter name omitted
-Message-ID: <202311160333.ACq7OCIA-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="P+kR6N98"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3693C433C8;
+	Wed, 15 Nov 2023 19:48:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1700077732;
+	bh=PcYrztn+GnerQs1n8YJapL++P9j6o3LBnZ3K9rK2tkg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=P+kR6N986Emqablfp+D6+oGu34fRLgXubojvpdDMsEdQOgobcoUD7GMOTkxh1Lknf
+	 JNpQgX+qJ2wIkY/Muoef7AFtHRpbOOr8hHoKKBdHvlo8uKUXJDVKaQRa49oQysW+t7
+	 +20nQ+yFElJzGVcIkBTZWOn+xVo8Z6djbTL8nyEY=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	kernel test robot <lkp@intel.com>,
+	Ian Rogers <irogers@google.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Namhyung Kim <namhyung@kernel.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.6 467/603] perf tools: Do not ignore the default vmlinux.h
+Date: Wed, 15 Nov 2023 14:16:52 -0500
+Message-ID: <20231115191644.856202067@linuxfoundation.org>
+X-Mailer: git-send-email 2.42.1
+In-Reply-To: <20231115191613.097702445@linuxfoundation.org>
+References: <20231115191613.097702445@linuxfoundation.org>
+User-Agent: quilt/0.67
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   1f3ae3d354c278bed39a2951003c1411ebf428eb
-commit: 55c775f7f07c2222007068a151e3808734654259 [32/60] xfs: turn the xfs_trans_mod_dquot_byino stub into an inline function
-config: i386-randconfig-016-20231116 (https://download.01.org/0day-ci/archive/20231116/202311160333.ACq7OCIA-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160333.ACq7OCIA-lkp@intel.com/reproduce)
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311160333.ACq7OCIA-lkp@intel.com/
+------------------
 
-All errors (new ones prefixed by >>):
+From: Namhyung Kim <namhyung@kernel.org>
 
-   In file included from fs/xfs/libxfs/xfs_imeta.c:20:0:
-   fs/xfs/xfs_quota.h: In function 'xfs_trans_mod_dquot_byino':
->> fs/xfs/xfs_quota.h:171:10: error: parameter name omitted
-      struct xfs_inode *ip, uint, int64_t)
-             ^~~~~~~~~
->> fs/xfs/xfs_quota.h:171:10: error: parameter name omitted
+[ Upstream commit 1f36b190ad2dea68e3a7e84b7b2f24ce8c4063ea ]
 
+The recent change made it possible to generate vmlinux.h from BTF and
+to ignore the file.  But we also have a minimal vmlinux.h that will be
+used by default.  It should not be ignored by GIT.
 
-vim +171 fs/xfs/xfs_quota.h
+Fixes: b7a2d774c9c5 ("perf build: Add ability to build with a generated vmlinux.h")
+Reported-by: kernel test robot <lkp@intel.com>
+Reviewed-by: Ian Rogers <irogers@google.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202310110451.rvdUZJEY-lkp@intel.com/
+Cc: oe-kbuild-all@lists.linux.dev
+Signed-off-by: Namhyung Kim <namhyung@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ tools/perf/util/bpf_skel/vmlinux/.gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 tools/perf/util/bpf_skel/vmlinux/.gitignore
 
-   156	
-   157	#else
-   158	static inline int
-   159	xfs_qm_vop_dqalloc(struct xfs_inode *ip, kuid_t kuid, kgid_t kgid,
-   160			prid_t prid, uint flags, struct xfs_dquot **udqp,
-   161			struct xfs_dquot **gdqp, struct xfs_dquot **pdqp)
-   162	{
-   163		*udqp = NULL;
-   164		*gdqp = NULL;
-   165		*pdqp = NULL;
-   166		return 0;
-   167	}
-   168	#define xfs_trans_dup_dqinfo(tp, tp2)
-   169	#define xfs_trans_free_dqinfo(tp)
-   170	static inline void xfs_trans_mod_dquot_byino(struct xfs_trans *tp,
- > 171			struct xfs_inode *ip, uint, int64_t)
-   172	{
-   173	}
-   174	#define xfs_trans_apply_dquot_deltas(tp)
-   175	#define xfs_trans_unreserve_and_mod_dquots(tp)
-   176	static inline int xfs_trans_reserve_quota_nblks(struct xfs_trans *tp,
-   177			struct xfs_inode *ip, int64_t dblocks, int64_t rblocks,
-   178			bool force)
-   179	{
-   180		return 0;
-   181	}
-   182	static inline int xfs_trans_reserve_quota_bydquots(struct xfs_trans *tp,
-   183			struct xfs_mount *mp, struct xfs_dquot *udqp,
-   184			struct xfs_dquot *gdqp, struct xfs_dquot *pdqp,
-   185			int64_t nblks, long nions, uint flags)
-   186	{
-   187		return 0;
-   188	}
-   189	
-
+diff --git a/tools/perf/util/bpf_skel/vmlinux/.gitignore b/tools/perf/util/bpf_skel/vmlinux/.gitignore
+new file mode 100644
+index 0000000000000..49502c04183a2
+--- /dev/null
++++ b/tools/perf/util/bpf_skel/vmlinux/.gitignore
+@@ -0,0 +1 @@
++!vmlinux.h
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
+
+
