@@ -1,52 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B175D43AD2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 20:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8500A43AB8;
+	Wed, 15 Nov 2023 21:05:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4nLJqMs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Avv+xlY+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700081510; x=1731617510;
+  t=1700082314; x=1731618314;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gEmSesFKnrmpRA25UkqersrEcx6SvM/BHS3f/SD5mrQ=;
-  b=F4nLJqMsO8hAmdt+5lX0NMgpG1d9WyGa0OWbacdPXoUlKkK9HSGCeHFa
-   wJK2XR0f0wDTcbDvl8GE2bO9xmGr5jTIe9uQ8fCbAtWG3Z+MreKUowGgF
-   MxYth+u+eOeLJMyfcubYGGDY5K7ijUsfUbARs4b21Bd/UX67RwVTA4+fx
-   0aGSY9+F5CUcWdoqVYbcGARws3VScrt2MKOhr8iffHf8KaxloomPdwQDQ
-   cofLvvd65VnyDDhbNzbUAApvgfZ12HLo5PmqWl/06MouyEdCCL6tyh0P/
-   iJmjW2YlfE+Mc+gK+R3ktWv0TriduPnGc1teeydlEsBFX3GGxhu47Ul7F
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="389810518"
+  bh=HZaP63qR51WdI944Jzx+qswTuQEwasjcvHgL6QGSQhs=;
+  b=Avv+xlY+k0ejGxsDCkzZmzDrHsmphujqtKqvMFSFYGHtg/hU5I3KpJ40
+   Bifl4LvvNUgEgZEJtvjETz3B5kHtQLWop6bqGTVUlFVuuqKxIZ/lc4rKz
+   BOWR7QaR0IAimOKfS5oLgTHgO/mU5b6+YEEBMBw4fpTLCnFAEHQHK6HbZ
+   CgYLS2FO2IBuRpAEDLhIGSNlvPgBVb4zC9I7YFz1+OxL01ImlOPEQNh0n
+   pzc9zjK3gNgQmQedQ1ZtCYs3Y0FW/mjrB1O2LZB7y1oz0HZefA1UWq1zb
+   gcoKgoTym8kE+o8iLs9ebOxvPSni2QMNZKml9hlzZXgwCL3QQLxfNQDcD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="4032589"
 X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="389810518"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 12:51:49 -0800
+   d="scan'208";a="4032589"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 13:05:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="882508058"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="888699475"
 X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="882508058"
+   d="scan'208";a="888699475"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Nov 2023 12:51:45 -0800
+  by orsmga004.jf.intel.com with ESMTP; 15 Nov 2023 13:05:08 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3MrP-0000oZ-1N;
-	Wed, 15 Nov 2023 20:51:43 +0000
-Date: Thu, 16 Nov 2023 04:51:00 +0800
+	id 1r3N4M-0000p6-1l;
+	Wed, 15 Nov 2023 21:05:06 +0000
+Date: Thu, 16 Nov 2023 05:04:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cruz Zhao <CruzZhao@linux.alibaba.com>, mingo@redhat.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-	bristot@redhat.com, vschneid@redhat.com, joel@joelfernandes.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] sched/fair: introduce core_vruntime and
- core_min_vruntime
-Message-ID: <202311160442.IBG98IUu-lkp@intel.com>
-References: <20231115113341.13261-4-CruzZhao@linux.alibaba.com>
+To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kexec@lists.infradead.org, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-parisc@vger.kernel.org, Baoquan He <bhe@redhat.com>
+Subject: Re: [PATCH 2/7] kexec_file: print out debugging message if required
+Message-ID: <202311160431.BXPc7NO9-lkp@intel.com>
+References: <20231114153253.241262-3-bhe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,111 +54,175 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231115113341.13261-4-CruzZhao@linux.alibaba.com>
+In-Reply-To: <20231114153253.241262-3-bhe@redhat.com>
 
-Hi Cruz,
+Hi Baoquan,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.7-rc1 next-20231115]
-[cannot apply to tip/sched/core]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on tip/x86/core powerpc/next powerpc/fixes linus/master v6.7-rc1 next-20231115]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cruz-Zhao/sched-core-introduce-core_id-to-struct-rq/20231115-193559
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231115113341.13261-4-CruzZhao%40linux.alibaba.com
-patch subject: [PATCH 3/4] sched/fair: introduce core_vruntime and core_min_vruntime
-config: i386-buildonly-randconfig-005-20231116 (https://download.01.org/0day-ci/archive/20231116/202311160442.IBG98IUu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160442.IBG98IUu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec_file-add-kexec_file-flag-to-control-debug-printing/20231114-234003
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20231114153253.241262-3-bhe%40redhat.com
+patch subject: [PATCH 2/7] kexec_file: print out debugging message if required
+config: hexagon-comet_defconfig (https://download.01.org/0day-ci/archive/20231116/202311160431.BXPc7NO9-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160431.BXPc7NO9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311160442.IBG98IUu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311160431.BXPc7NO9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/fair.c:54:
-   kernel/sched/fair.c: In function 'update_min_vruntime':
->> kernel/sched/fair.c:802:37: error: 'struct cfs_rq' has no member named 'core_min_vruntime_copy'; did you mean 'core_min_vruntime'?
-     802 |         u64_u32_store(cfs_rq->core->core_min_vruntime,
-         |                                     ^~~~~~~~~~~~~~~~~
-   kernel/sched/sched.h:528:9: note: in definition of macro 'u64_u32_store_copy'
-     528 |         copy = __val;                                                   \
-         |         ^~~~
-   kernel/sched/fair.c:802:9: note: in expansion of macro 'u64_u32_store'
-     802 |         u64_u32_store(cfs_rq->core->core_min_vruntime,
-         |         ^~~~~~~~~~~~~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:12462:6: warning: no previous prototype for 'sched_core_init_cfs_rq' [-Wmissing-prototypes]
-   12462 | void sched_core_init_cfs_rq(struct task_group *tg, struct cfs_rq *cfs_rq)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'init_cfs_rq':
-   kernel/sched/fair.c:12698:31: error: 'struct cfs_rq' has no member named 'core_min_vruntime_copy'; did you mean 'core_min_vruntime'?
-   12698 |         u64_u32_store(cfs_rq->core_min_vruntime, (u64)(-(1LL << 20)));
-         |                               ^~~~~~~~~~~~~~~~~
-   kernel/sched/sched.h:528:9: note: in definition of macro 'u64_u32_store_copy'
-     528 |         copy = __val;                                                   \
-         |         ^~~~
-   kernel/sched/fair.c:12698:9: note: in expansion of macro 'u64_u32_store'
-   12698 |         u64_u32_store(cfs_rq->core_min_vruntime, (u64)(-(1LL << 20)));
-         |         ^~~~~~~~~~~~~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:12985:6: warning: no previous prototype for 'free_fair_sched_group' [-Wmissing-prototypes]
-   12985 | void free_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:12987:5: warning: no previous prototype for 'alloc_fair_sched_group' [-Wmissing-prototypes]
-   12987 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:12992:6: warning: no previous prototype for 'online_fair_sched_group' [-Wmissing-prototypes]
-   12992 | void online_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:12994:6: warning: no previous prototype for 'unregister_fair_sched_group' [-Wmissing-prototypes]
-   12994 | void unregister_fair_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/crash_core.c:13:
+   In file included from include/linux/kexec.h:19:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/crash_core.c:13:
+   In file included from include/linux/kexec.h:19:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/crash_core.c:13:
+   In file included from include/linux/kexec.h:19:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> kernel/crash_core.c:412:3: error: call to undeclared function 'kexec_dprintk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   kexec_dprintk("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, "
+                   ^
+   6 warnings and 1 error generated.
 
 
-vim +802 kernel/sched/fair.c
+vim +/kexec_dprintk +412 kernel/crash_core.c
 
-   772	
-   773		if (curr) {
-   774			if (curr->on_rq) {
-   775				vruntime = curr->vruntime;
-   776	#ifdef CONFIG_SCHED_CORE
-   777				core_vruntime = curr->core_vruntime;
-   778	#endif
-   779			} else {
-   780				curr = NULL;
-   781			}
-   782		}
-   783	
-   784		if (se) {
-   785			if (!curr) {
-   786				vruntime = se->vruntime;
-   787	#ifdef CONFIG_SCHED_CORE
-   788				core_vruntime = se->core_vruntime;
-   789	#endif
-   790			} else {
-   791				vruntime = min_vruntime(vruntime, se->vruntime);
-   792	#ifdef CONFIG_SCHED_CORE
-   793				core_vruntime = min_vruntime(core_vruntime, se->core_vruntime);
-   794	#endif
-   795			}
-   796		}
-   797	
-   798		/* ensure we never gain time by being placed backwards. */
-   799		u64_u32_store(cfs_rq->min_vruntime,
-   800			      __update_min_vruntime(cfs_rq, vruntime));
-   801	#ifdef CONFIG_SCHED_CORE
- > 802		u64_u32_store(cfs_rq->core->core_min_vruntime,
-   803			     __update_core_min_vruntime(cfs_rq->core, vruntime));
-   804	#endif
-   805	}
-   806	
+   323	
+   324	int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+   325				  void **addr, unsigned long *sz)
+   326	{
+   327		Elf64_Ehdr *ehdr;
+   328		Elf64_Phdr *phdr;
+   329		unsigned long nr_cpus = num_possible_cpus(), nr_phdr, elf_sz;
+   330		unsigned char *buf;
+   331		unsigned int cpu, i;
+   332		unsigned long long notes_addr;
+   333		unsigned long mstart, mend;
+   334	
+   335		/* extra phdr for vmcoreinfo ELF note */
+   336		nr_phdr = nr_cpus + 1;
+   337		nr_phdr += mem->nr_ranges;
+   338	
+   339		/*
+   340		 * kexec-tools creates an extra PT_LOAD phdr for kernel text mapping
+   341		 * area (for example, ffffffff80000000 - ffffffffa0000000 on x86_64).
+   342		 * I think this is required by tools like gdb. So same physical
+   343		 * memory will be mapped in two ELF headers. One will contain kernel
+   344		 * text virtual addresses and other will have __va(physical) addresses.
+   345		 */
+   346	
+   347		nr_phdr++;
+   348		elf_sz = sizeof(Elf64_Ehdr) + nr_phdr * sizeof(Elf64_Phdr);
+   349		elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+   350	
+   351		buf = vzalloc(elf_sz);
+   352		if (!buf)
+   353			return -ENOMEM;
+   354	
+   355		ehdr = (Elf64_Ehdr *)buf;
+   356		phdr = (Elf64_Phdr *)(ehdr + 1);
+   357		memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
+   358		ehdr->e_ident[EI_CLASS] = ELFCLASS64;
+   359		ehdr->e_ident[EI_DATA] = ELFDATA2LSB;
+   360		ehdr->e_ident[EI_VERSION] = EV_CURRENT;
+   361		ehdr->e_ident[EI_OSABI] = ELF_OSABI;
+   362		memset(ehdr->e_ident + EI_PAD, 0, EI_NIDENT - EI_PAD);
+   363		ehdr->e_type = ET_CORE;
+   364		ehdr->e_machine = ELF_ARCH;
+   365		ehdr->e_version = EV_CURRENT;
+   366		ehdr->e_phoff = sizeof(Elf64_Ehdr);
+   367		ehdr->e_ehsize = sizeof(Elf64_Ehdr);
+   368		ehdr->e_phentsize = sizeof(Elf64_Phdr);
+   369	
+   370		/* Prepare one phdr of type PT_NOTE for each possible CPU */
+   371		for_each_possible_cpu(cpu) {
+   372			phdr->p_type = PT_NOTE;
+   373			notes_addr = per_cpu_ptr_to_phys(per_cpu_ptr(crash_notes, cpu));
+   374			phdr->p_offset = phdr->p_paddr = notes_addr;
+   375			phdr->p_filesz = phdr->p_memsz = sizeof(note_buf_t);
+   376			(ehdr->e_phnum)++;
+   377			phdr++;
+   378		}
+   379	
+   380		/* Prepare one PT_NOTE header for vmcoreinfo */
+   381		phdr->p_type = PT_NOTE;
+   382		phdr->p_offset = phdr->p_paddr = paddr_vmcoreinfo_note();
+   383		phdr->p_filesz = phdr->p_memsz = VMCOREINFO_NOTE_SIZE;
+   384		(ehdr->e_phnum)++;
+   385		phdr++;
+   386	
+   387		/* Prepare PT_LOAD type program header for kernel text region */
+   388		if (need_kernel_map) {
+   389			phdr->p_type = PT_LOAD;
+   390			phdr->p_flags = PF_R|PF_W|PF_X;
+   391			phdr->p_vaddr = (unsigned long) _text;
+   392			phdr->p_filesz = phdr->p_memsz = _end - _text;
+   393			phdr->p_offset = phdr->p_paddr = __pa_symbol(_text);
+   394			ehdr->e_phnum++;
+   395			phdr++;
+   396		}
+   397	
+   398		/* Go through all the ranges in mem->ranges[] and prepare phdr */
+   399		for (i = 0; i < mem->nr_ranges; i++) {
+   400			mstart = mem->ranges[i].start;
+   401			mend = mem->ranges[i].end;
+   402	
+   403			phdr->p_type = PT_LOAD;
+   404			phdr->p_flags = PF_R|PF_W|PF_X;
+   405			phdr->p_offset  = mstart;
+   406	
+   407			phdr->p_paddr = mstart;
+   408			phdr->p_vaddr = (unsigned long) __va(mstart);
+   409			phdr->p_filesz = phdr->p_memsz = mend - mstart + 1;
+   410			phdr->p_align = 0;
+   411			ehdr->e_phnum++;
+ > 412			kexec_dprintk("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, "
+   413				"sz=0x%llx e_phnum=%d p_offset=0x%llx\n",
+   414				phdr, phdr->p_vaddr, phdr->p_paddr, phdr->p_filesz,
+   415				ehdr->e_phnum, phdr->p_offset);
+   416			phdr++;
+   417		}
+   418	
+   419		*addr = buf;
+   420		*sz = elf_sz;
+   421		return 0;
+   422	}
+   423	
 
 -- 
 0-DAY CI Kernel Test Service
