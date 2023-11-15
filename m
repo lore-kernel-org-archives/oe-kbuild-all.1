@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80300621
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 00:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BDD631
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 00:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="egeydY8t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZsQMv/iA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700009427; x=1731545427;
+  t=1700009431; x=1731545431;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LAQEW6kzwi9RyYMXcPDf4fk+jZzMUVRv+ysNj+I9MOM=;
-  b=egeydY8tF5tu2VHSkUMHf74Wfnongd+FBb7NkYpmWqVQHapCVEnge3JN
-   JYV1bGrLv6CQbVNoUCP6UdsUYr+XQT/Ht85A65L/DmHq838TIsUNg/S5l
-   9K+J9cI8CC6KCwcPazv7Yu+3hsJZZ3padMA9kyndXFyHLW64wLJgObaEY
-   6pvHvGFCXSCIz/pKaWw6BEQMOPwXsJNPevWFz85+1noBW1ZzNPNGIliFn
-   ZVOUjPHnFUku7iTgJ68BxKeqWhq8lsoZENMz50feyxpglIDjMwFXIeCwr
-   5Kgm0HdEmIUWmQwyeaVhmCZRfxoES+9oOhEDfRpkvfT3FnBD0+wAIjv9c
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="393637522"
+  bh=Vd08LoyVEWnxZ5T+q5GPkFLvm5e9l0fj5U/OOVJ0kQI=;
+  b=ZsQMv/iAEoFmitihThxB7Ly2ZdgZy+BKrM6IYN93hxyH62hNn9zRy9HO
+   KLMHVOvxeI5gzlxPZGYYpo7wuP5+g3S9IbCKNOUeKjrYAa7NzMfpac9vv
+   lFiV6GMSZsbKebLzdmqKRmAh3K6teg1wSnzXHumcvIrbLX5L0/+FUm9UQ
+   LjQQmNHFWOG2RjXtpX+EGFXlHRdtj3ZVdx2ZQfi0BCI++M/O1TmIsdQiF
+   ZgXbA8pdVVUnhEi/N4B1t4As2WS/SvGdhVlpt9xtbzXm6MSuJAncnl3bq
+   LRYeQKDiDWsEqI9799wPDvJ9ZEiLQZ/D1+xaooiwcZ4/I3pb0EGSTPmP5
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="393637539"
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="393637522"
+   d="scan'208";a="393637539"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 16:50:22 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="5964503"
+   d="scan'208";a="5964509"
 Received: from lkp-server02.sh.intel.com (HELO 83346ef18697) ([10.239.97.151])
   by orviesa002.jf.intel.com with ESMTP; 14 Nov 2023 16:50:10 -0800
 Received: from kbuild by 83346ef18697 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r346Y-0000qO-36;
-	Wed, 15 Nov 2023 00:50:06 +0000
-Date: Wed, 15 Nov 2023 08:49:28 +0800
+	id 1r346Z-0000qR-0N;
+	Wed, 15 Nov 2023 00:50:07 +0000
+Date: Wed, 15 Nov 2023 08:49:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Antipov <dmantipov@yandex.ru>
+To: Lu Baolu <baolu.lu@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kalle Valo <quic_kvalo@quicinc.com>
-Subject: include/linux/compiler_types.h:397:45: error: call to
- '__compiletime_assert_460' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(vring->va[0]) != 32
-Message-ID: <202311150821.cI4yciFE-lkp@intel.com>
+	Joerg Roedel <jroedel@suse.de>, Kevin Tian <kevin.tian@intel.com>,
+	Steve Wahl <steve.wahl@hpe.com>
+Subject: drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing
+ between 1 and 10 bytes into a region of size 9
+Message-ID: <202311150851.QD7VEYOT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,92 +51,153 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dmitry,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9bacdd8996c77c42ca004440be610692275ff9d0
-commit: 1ad8237e971630c66a1a6194491e0837b64d00e0 wifi: wil6210: fix fortify warnings
-date:   4 months ago
-config: arm-buildonly-randconfig-r003-20220914 (https://download.01.org/0day-ci/archive/20231115/202311150821.cI4yciFE-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311150821.cI4yciFE-lkp@intel.com/reproduce)
+commit: 913432f217c843a69ff9d11a6474a7982033087b iommu/vt-d: Use IDA interface to manage iommu sequence id
+date:   1 year, 4 months ago
+config: x86_64-sof-customedconfig-edison-defconfig (https://download.01.org/0day-ci/archive/20231115/202311150851.QD7VEYOT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311150851.QD7VEYOT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311150821.cI4yciFE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311150851.QD7VEYOT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/net/wireless/ath/wil6210/txrx.c: In function 'wil_vring_alloc':
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_460' declared with attribute error: BUILD_BUG_ON failed: sizeof(vring->va[0]) != 32
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wil6210/txrx.c:118:9: note: in expansion of macro 'BUILD_BUG_ON'
-     118 |         BUILD_BUG_ON(sizeof(vring->va[0]) != 32);
-         |         ^~~~~~~~~~~~
---
-   In file included from <command-line>:
-   drivers/net/wireless/ath/wil6210/txrx_edma.c: In function 'wil_ring_alloc_desc_ring':
->> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_452' declared with attribute error: BUILD_BUG_ON failed: sizeof(ring->va[0]) != 32
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
-     378 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
-     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wil6210/txrx_edma.c:381:9: note: in expansion of macro 'BUILD_BUG_ON'
-     381 |         BUILD_BUG_ON(sizeof(ring->va[0]) != 32);
-         |         ^~~~~~~~~~~~
+   drivers/iommu/intel/dmar.c: In function 'dmar_parse_one_drhd':
+>> drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing between 1 and 10 bytes into a region of size 9 [-Werror=format-overflow=]
+    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
+         |                                   ^~
+   In function 'alloc_iommu',
+       inlined from 'dmar_parse_one_drhd' at drivers/iommu/intel/dmar.c:439:8:
+   drivers/iommu/intel/dmar.c:1050:30: note: directive argument in the range [0, 2147483647]
+    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
+         |                              ^~~~~~~~
+   drivers/iommu/intel/dmar.c:1050:9: note: 'sprintf' output between 6 and 15 bytes into a destination of size 13
+    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/__compiletime_assert_460 +397 include/linux/compiler_types.h
+vim +1050 drivers/iommu/intel/dmar.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
-
-:::::: The code at line 397 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+  1025	
+  1026	static int alloc_iommu(struct dmar_drhd_unit *drhd)
+  1027	{
+  1028		struct intel_iommu *iommu;
+  1029		u32 ver, sts;
+  1030		int agaw = -1;
+  1031		int msagaw = -1;
+  1032		int err;
+  1033	
+  1034		if (!drhd->reg_base_addr) {
+  1035			warn_invalid_dmar(0, "");
+  1036			return -EINVAL;
+  1037		}
+  1038	
+  1039		iommu = kzalloc(sizeof(*iommu), GFP_KERNEL);
+  1040		if (!iommu)
+  1041			return -ENOMEM;
+  1042	
+  1043		iommu->seq_id = ida_alloc_range(&dmar_seq_ids, 0,
+  1044						DMAR_UNITS_SUPPORTED - 1, GFP_KERNEL);
+  1045		if (iommu->seq_id < 0) {
+  1046			pr_err("Failed to allocate seq_id\n");
+  1047			err = iommu->seq_id;
+  1048			goto error;
+  1049		}
+> 1050		sprintf(iommu->name, "dmar%d", iommu->seq_id);
+  1051	
+  1052		err = map_iommu(iommu, drhd->reg_base_addr);
+  1053		if (err) {
+  1054			pr_err("Failed to map %s\n", iommu->name);
+  1055			goto error_free_seq_id;
+  1056		}
+  1057	
+  1058		err = -EINVAL;
+  1059		if (cap_sagaw(iommu->cap) == 0) {
+  1060			pr_info("%s: No supported address widths. Not attempting DMA translation.\n",
+  1061				iommu->name);
+  1062			drhd->ignored = 1;
+  1063		}
+  1064	
+  1065		if (!drhd->ignored) {
+  1066			agaw = iommu_calculate_agaw(iommu);
+  1067			if (agaw < 0) {
+  1068				pr_err("Cannot get a valid agaw for iommu (seq_id = %d)\n",
+  1069				       iommu->seq_id);
+  1070				drhd->ignored = 1;
+  1071			}
+  1072		}
+  1073		if (!drhd->ignored) {
+  1074			msagaw = iommu_calculate_max_sagaw(iommu);
+  1075			if (msagaw < 0) {
+  1076				pr_err("Cannot get a valid max agaw for iommu (seq_id = %d)\n",
+  1077				       iommu->seq_id);
+  1078				drhd->ignored = 1;
+  1079				agaw = -1;
+  1080			}
+  1081		}
+  1082		iommu->agaw = agaw;
+  1083		iommu->msagaw = msagaw;
+  1084		iommu->segment = drhd->segment;
+  1085	
+  1086		iommu->node = NUMA_NO_NODE;
+  1087	
+  1088		ver = readl(iommu->reg + DMAR_VER_REG);
+  1089		pr_info("%s: reg_base_addr %llx ver %d:%d cap %llx ecap %llx\n",
+  1090			iommu->name,
+  1091			(unsigned long long)drhd->reg_base_addr,
+  1092			DMAR_VER_MAJOR(ver), DMAR_VER_MINOR(ver),
+  1093			(unsigned long long)iommu->cap,
+  1094			(unsigned long long)iommu->ecap);
+  1095	
+  1096		/* Reflect status in gcmd */
+  1097		sts = readl(iommu->reg + DMAR_GSTS_REG);
+  1098		if (sts & DMA_GSTS_IRES)
+  1099			iommu->gcmd |= DMA_GCMD_IRE;
+  1100		if (sts & DMA_GSTS_TES)
+  1101			iommu->gcmd |= DMA_GCMD_TE;
+  1102		if (sts & DMA_GSTS_QIES)
+  1103			iommu->gcmd |= DMA_GCMD_QIE;
+  1104	
+  1105		raw_spin_lock_init(&iommu->register_lock);
+  1106	
+  1107		/*
+  1108		 * This is only for hotplug; at boot time intel_iommu_enabled won't
+  1109		 * be set yet. When intel_iommu_init() runs, it registers the units
+  1110		 * present at boot time, then sets intel_iommu_enabled.
+  1111		 */
+  1112		if (intel_iommu_enabled && !drhd->ignored) {
+  1113			err = iommu_device_sysfs_add(&iommu->iommu, NULL,
+  1114						     intel_iommu_groups,
+  1115						     "%s", iommu->name);
+  1116			if (err)
+  1117				goto err_unmap;
+  1118	
+  1119			err = iommu_device_register(&iommu->iommu, &intel_iommu_ops, NULL);
+  1120			if (err)
+  1121				goto err_sysfs;
+  1122		}
+  1123	
+  1124		drhd->iommu = iommu;
+  1125		iommu->drhd = drhd;
+  1126	
+  1127		return 0;
+  1128	
+  1129	err_sysfs:
+  1130		iommu_device_sysfs_remove(&iommu->iommu);
+  1131	err_unmap:
+  1132		unmap_iommu(iommu);
+  1133	error_free_seq_id:
+  1134		ida_free(&dmar_seq_ids, iommu->seq_id);
+  1135	error:
+  1136		kfree(iommu);
+  1137		return err;
+  1138	}
+  1139	
 
 -- 
 0-DAY CI Kernel Test Service
