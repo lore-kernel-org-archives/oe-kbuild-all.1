@@ -1,65 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725B817992
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 11:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F931798F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 12:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2xfEekD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LNNZtHZ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700049440; x=1731585440;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=16w+40d0xLLcfCPMxmhTbWzTg032nxyn4BeL0NpQz0U=;
-  b=O2xfEekDnlHyArOY0/jQvwP52NT49a6WnjrvH5j4jqksl5skoeAa9VOD
-   GsodFA0Pm/uN9GZzps4sGixRRO8xR+q/W0aQRQ7X6KGDrGgFJAce2WIbo
-   DQTOnXlIHDIitkzJuqMapM6LucGWX3LpUWysurxUee3FrfV+sZ7xXxvhE
-   coZEJ6O8FeLxBUVuzn4xtXW/12wQzIae7PZJcwUHt457PDSGbV3cra3aX
-   VpU76v4YUfmf3D/UyUwwpmj4qNDNugJnLlUH9Itw3x92WZ4ObB9+7B1WD
-   UkGHXtbbtofLmWbUU5/qcA7GmvV34Uoi1tPY/on8TkwE98gyXOCScsPhS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="12411005"
+  t=1700050284; x=1731586284;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oVQprlmxqKR+44uPorntLBHlx2c75fM9PHkgCNxKdvY=;
+  b=LNNZtHZ0xwU/AQGFoLCjBMtUyLjs59U5CVgdOJxUQyKxtupYg/unQK0R
+   WEq2hJCnQxwQHafdkrOewf8pfl8sLhbemAjjtsUeI4gT6QVP/ZiHolyw7
+   Yei2qcJRWZMXnyHVd9GdQlpKOrf13Ri743xTYnv1cJUaYhy+2+vMPfRh8
+   zacsfsPOSytHs9icrHVzDiGG3CeCFE5OqGITCr6dz2F7IuSSvLT68riG7
+   L0zJyMhtiBgkOrEOIZMZY86SzNlC5wO6Tu5LKFUPmtkcLX0RjcF5STyAJ
+   AadXozKrvchpjNcE6d8GdGWl3KVkPg8MVrzo9UJxuhUgwLmbIHaujbtRQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="370210219"
 X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
-   d="scan'208";a="12411005"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 03:57:19 -0800
+   d="scan'208";a="370210219"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 04:11:23 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="835382527"
 X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
-   d="scan'208";a="6377009"
+   d="scan'208";a="835382527"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Nov 2023 03:57:13 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 15 Nov 2023 04:11:21 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3EW6-0000J1-2q;
-	Wed, 15 Nov 2023 11:57:10 +0000
-Date: Wed, 15 Nov 2023 19:56:22 +0800
+	id 1r3Ejl-0000Js-1D;
+	Wed, 15 Nov 2023 12:11:17 +0000
+Date: Wed, 15 Nov 2023 20:10:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Romain Gantois <romain.gantois@bootlin.com>, davem@davemloft.net,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Romain Gantois <romain.gantois@bootlin.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, thomas.petazzoni@bootlin.com,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	linux-arm-kernel@lists.infradead.org,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Luka Perkov <luka.perkov@sartura.hr>,
-	Robert Marko <robert.marko@sartura.hr>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@somainline.org>
-Subject: Re: [PATCH net-next v3 5/8] net: qualcomm: ipqess: add bridge
- offloading features to the IPQESS driver
-Message-ID: <202311151907.EpWA1jzi-lkp@intel.com>
-References: <20231114105600.1012056-6-romain.gantois@bootlin.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Will Deacon <will@kernel.org>,
+	Ilkka Koskinen <ilkka@os.amperecomputing.com>
+Subject: drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202311151948.RANfH9T9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,89 +51,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231114105600.1012056-6-romain.gantois@bootlin.com>
 
-Hi Romain,
+Hi Robin,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-net-Introduce-the-Qualcomm-IPQESS-Ethernet-switch/20231114-185953
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231114105600.1012056-6-romain.gantois%40bootlin.com
-patch subject: [PATCH net-next v3 5/8] net: qualcomm: ipqess: add bridge offloading features to the IPQESS driver
-config: x86_64-randconfig-003-20231115 (https://download.01.org/0day-ci/archive/20231115/202311151907.EpWA1jzi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311151907.EpWA1jzi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
+commit: f9bd34e3753ea8f1433a3ba70f03a165a1416f98 perf/arm_cspmu: Clean up ACPI dependency
+date:   5 months ago
+config: loongarch-randconfig-r133-20231107 (https://download.01.org/0day-ci/archive/20231115/202311151948.RANfH9T9-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231115/202311151948.RANfH9T9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311151907.EpWA1jzi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311151948.RANfH9T9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     expected void *ptr
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     got unsigned int [noderef] __percpu *
+>> drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     expected void *ptr
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     got unsigned int [noderef] __percpu *
+>> drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     expected void *ptr
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     got unsigned int [noderef] __percpu *
+>> drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     expected void *ptr
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     got unsigned int [noderef] __percpu *
+>> drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     expected void *ptr
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     got int [noderef] __percpu *
+>> drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     expected void *ptr
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     got int [noderef] __percpu *
+>> drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     expected void *ptr
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     got int [noderef] __percpu *
+>> drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     expected void *ptr
+   drivers/perf/arm_cspmu/arm_cspmu.c:627:9: sparse:     got int [noderef] __percpu *
 
->> drivers/net/dsa/qca/qca8k-8xxx.c:1982:5: warning: no previous prototype for 'qca8k_dsa_port_fdb_dump' [-Wmissing-prototypes]
-    1982 | int qca8k_dsa_port_fdb_dump(struct dsa_switch *ds, int port,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/dsa/qca/qca8k-8xxx.c:1988:6: warning: no previous prototype for 'qca8k_dsa_port_stp_state_set' [-Wmissing-prototypes]
-    1988 | void qca8k_dsa_port_stp_state_set(struct dsa_switch *ds, int port,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/dsa/qca/qca8k-8xxx.c:1995:6: warning: no previous prototype for 'qca8k_dsa_port_fast_age' [-Wmissing-prototypes]
-    1995 | void qca8k_dsa_port_fast_age(struct dsa_switch *ds, int port)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/dsa/qca/qca8k-8xxx.c:2000:5: warning: no previous prototype for 'qca8k_dsa_set_ageing_time' [-Wmissing-prototypes]
-    2000 | int qca8k_dsa_set_ageing_time(struct dsa_switch *ds, unsigned int msecs)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/dsa/qca/qca8k-8xxx.c:2005:5: warning: no previous prototype for 'qca8k_dsa_port_vlan_filtering' [-Wmissing-prototypes]
-    2005 | int qca8k_dsa_port_vlan_filtering(struct dsa_switch *ds, int port,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/dsa/qca/qca8k-8xxx.c:2012:5: warning: no previous prototype for 'qca8k_dsa_vlan_add' [-Wmissing-prototypes]
-    2012 | int qca8k_dsa_vlan_add(struct dsa_switch *ds, int port,
-         |     ^~~~~~~~~~~~~~~~~~
+vim +627 drivers/perf/arm_cspmu/arm_cspmu.c
 
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  609  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  610  /*
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  611   * Make sure the group of events can be scheduled at once
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  612   * on the PMU.
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  613   */
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  614  static bool arm_cspmu_validate_group(struct perf_event *event)
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  615  {
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  616  	struct perf_event *sibling, *leader = event->group_leader;
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  617  	struct arm_cspmu_hw_events fake_hw_events;
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  618  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  619  	if (event->group_leader == event)
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  620  		return true;
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  621  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  622  	memset(&fake_hw_events, 0, sizeof(fake_hw_events));
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  623  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  624  	if (!arm_cspmu_validate_event(event->pmu, &fake_hw_events, leader))
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  625  		return false;
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  626  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11 @627  	for_each_sibling_event(sibling, leader) {
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  628  		if (!arm_cspmu_validate_event(event->pmu, &fake_hw_events,
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  629  						  sibling))
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  630  			return false;
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  631  	}
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  632  
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  633  	return arm_cspmu_validate_event(event->pmu, &fake_hw_events, event);
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  634  }
+e37dfd65731dc4 Besar Wicaksono 2022-11-11  635  
 
-vim +/qca8k_dsa_port_fdb_dump +1982 drivers/net/dsa/qca/qca8k-8xxx.c
+:::::: The code at line 627 was first introduced by commit
+:::::: e37dfd65731dc4f001fa7dfa7f705e6840017d5a perf: arm_cspmu: Add support for ARM CoreSight PMU driver
 
-  1981	
-> 1982	int qca8k_dsa_port_fdb_dump(struct dsa_switch *ds, int port,
-  1983				    dsa_fdb_dump_cb_t *cb, void *data)
-  1984	{
-  1985		return qca8k_port_fdb_dump(ds->priv, port, cb, data);
-  1986	}
-  1987	
-> 1988	void qca8k_dsa_port_stp_state_set(struct dsa_switch *ds, int port,
-  1989					  u8 state)
-  1990	{
-  1991		qca8k_port_stp_state_set(ds->priv, port, state,
-  1992					 dsa_to_port(ds, port)->learning, true);
-  1993	}
-  1994	
-> 1995	void qca8k_dsa_port_fast_age(struct dsa_switch *ds, int port)
-  1996	{
-  1997		qca8k_port_fast_age(ds->priv, port);
-  1998	}
-  1999	
-> 2000	int qca8k_dsa_set_ageing_time(struct dsa_switch *ds, unsigned int msecs)
-  2001	{
-  2002		return qca8k_set_ageing_time(ds->priv, msecs);
-  2003	}
-  2004	
-> 2005	int qca8k_dsa_port_vlan_filtering(struct dsa_switch *ds, int port,
-  2006					  bool vlan_filtering,
-  2007					  struct netlink_ext_ack *extack)
-  2008	{
-  2009		return qca8k_port_vlan_filtering(ds->priv, port, vlan_filtering);
-  2010	}
-  2011	
-> 2012	int qca8k_dsa_vlan_add(struct dsa_switch *ds, int port,
-  2013			       const struct switchdev_obj_port_vlan *vlan,
-  2014			       struct netlink_ext_ack *extack)
-  2015	{
-  2016		return qca8k_port_vlan_add(ds->priv, port, vlan, extack);
-  2017	}
-  2018	
+:::::: TO: Besar Wicaksono <bwicaksono@nvidia.com>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
