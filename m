@@ -1,53 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9451A2C1BD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 14:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABA03EA68
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 14:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EN5Zkg96"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="la2K023g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700059332; x=1731595332;
+  t=1700059863; x=1731595863;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GOd8brVgrcyzV87kIfZ0CKvFJZubqUN4ZgVoBmKvJPk=;
-  b=EN5Zkg96v7u8OfnuHWXxP8BVgr59nx82BJpTtEm3Pksk00rXwCsdU8eK
-   kXtgftowZCj8Z/xGlzheCqp2RACc0C1l3C675oKohAoccymuQg8vFoxDd
-   sai6eSWQBCybAOm0GeG3mc3mNMZ5yBEVjhNsj6L5AntqqNNbYnbh75FxE
-   1ytcA06JRIuwiFz4RKDibDnkPCdD9fdS71mFllLZT4zcB0yZxeHcJG6HS
-   EAeUTsD4ExX5RUjMLQOaaT4Tfl0gAD57FPXqEFppReeprILP2LiTWsTKf
-   hFgnGj16URIm/LHc9tSuKEXVi9Bj2ghr0pZadbaLa0KQFN2fUt/0Sl+mA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="371073847"
+  bh=pkIPOw810249sk90oDTDuwzqTKjcTyNRgT3NVxcT2Gk=;
+  b=la2K023gDvrwHQ0NTf5sF8Oe/kW/lzSqSXm1LOh4Bt6AXCaWiTFMBE5X
+   ItKy6+s7VT5ti1BF/LcdA1VXLhPfu7SPtCW2qkPzj/JB26kxv3ZIw3L4W
+   Ge6HXxe3bDvsT8XwT8SQDGKKX5H7cpGa4qBkvUpwkMjVF1380Cq+Xd2aj
+   TSeqQGaVio4pu1F5t38q7wW2mDvUnIpfGibhB+cN04b3pt27Hg6oyPgLp
+   iBNsM3nk13+Tf0BMp6gI9B3mLcI200/tBF5OGsfQRBaRdaOMonINGaSPS
+   eiW48ivWDaU2dsWDhhL+EumC4/Yo/a1r/G10izwgeiQvfJ5qRem25MJy6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="371075738"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="371073847"
+   d="scan'208";a="371075738"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 06:38:58 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 06:51:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="908797967"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="908801239"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="908797967"
+   d="scan'208";a="908801239"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Nov 2023 06:38:55 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 15 Nov 2023 06:50:59 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3H2b-0000PU-1p;
-	Wed, 15 Nov 2023 14:38:53 +0000
-Date: Wed, 15 Nov 2023 22:37:45 +0800
+	id 1r3HEG-0000Ps-2c;
+	Wed, 15 Nov 2023 14:50:56 +0000
+Date: Wed, 15 Nov 2023 22:50:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel.lezcano@linaro.org,
-	rui.zhang@intel.com, lukasz.luba@arm.com, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel@collabora.com,
-	wenst@chromium.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] thermal: Add support for device tree thermal zones
- consumers
-Message-ID: <202311152230.nzJVHaeG-lkp@intel.com>
-References: <20231114131514.89031-1-angelogioacchino.delregno@collabora.com>
+To: Huang Shijie <shijie@os.amperecomputing.com>, catalin.marinas@arm.com
+Cc: oe-kbuild-all@lists.linux.dev, will@kernel.org,
+	gregkh@linuxfoundation.org, rafael@kernel.org, arnd@arndb.de,
+	mark.rutland@arm.com, broonie@kernel.org, keescook@chromium.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, patches@amperecomputing.com,
+	Huang Shijie <shijie@os.amperecomputing.com>
+Subject: Re: [PATCH] arm64: irq: set the correct node for VMAP stack
+Message-ID: <202311152250.ozO781vZ-lkp@intel.com>
+References: <20231114091643.59530-1-shijie@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,161 +55,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231114131514.89031-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231114091643.59530-1-shijie@os.amperecomputing.com>
 
-Hi AngeloGioacchino,
+Hi Huang,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on linus/master v6.7-rc1 next-20231115]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus arnd-asm-generic/master linus/master v6.7-rc1 next-20231115]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/thermal-Add-support-for-device-tree-thermal-zones-consumers/20231114-211656
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20231114131514.89031-1-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH] thermal: Add support for device tree thermal zones consumers
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231115/202311152230.nzJVHaeG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311152230.nzJVHaeG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Huang-Shijie/arm64-irq-set-the-correct-node-for-VMAP-stack/20231114-171932
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20231114091643.59530-1-shijie%40os.amperecomputing.com
+patch subject: [PATCH] arm64: irq: set the correct node for VMAP stack
+config: arm64-randconfig-001-20231115 (https://download.01.org/0day-ci/archive/20231115/202311152250.ozO781vZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311152250.ozO781vZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311152230.nzJVHaeG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311152250.ozO781vZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: arch/x86/kernel/acpi/cppc.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: arch/x86/kernel/acpi/cppc.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: arch/x86/kernel/acpi/cstate.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: arch/x86/kernel/acpi/cstate.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/idle/intel_idle.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/idle/intel_idle.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/acpi_processor.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/acpi_processor.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/processor_core.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/processor_core.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/processor_pdc.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/processor_pdc.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/fan_core.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/fan_core.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/processor_driver.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/processor_driver.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/processor_thermal.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/processor_thermal.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/processor_idle.o: in function `thermal_of_get_zone_by_index':
->> include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/processor_idle.o: in function `thermal_of_get_zone':
->> include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/processor_throttling.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/processor_throttling.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/processor_perflib.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/processor_perflib.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/thermal.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/thermal.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/acpi/cppc_acpi.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/acpi/cppc_acpi.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/power/supply/power_supply_core.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/power/supply/power_supply_core.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/hwmon/hwmon.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/hwmon/hwmon.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/thermal_core.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/thermal_core.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/thermal_sysfs.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/thermal_sysfs.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/thermal_trip.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/thermal_trip.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/thermal_helpers.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/thermal_helpers.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/thermal_hwmon.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/thermal_hwmon.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/thermal_acpi.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/thermal_acpi.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/gov_fair_share.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/gov_fair_share.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/gov_bang_bang.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/gov_bang_bang.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/gov_step_wise.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/gov_step_wise.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/thermal/gov_user_space.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/thermal/gov_user_space.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/cpufreq/cpufreq.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/cpufreq/cpufreq.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
-   ld: drivers/cpufreq/intel_pstate.o: in function `thermal_of_get_zone_by_index':
-   include/linux/thermal.h:282: multiple definition of `thermal_of_get_zone_by_index'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:282: first defined here
-   ld: drivers/cpufreq/intel_pstate.o: in function `thermal_of_get_zone':
-   include/linux/thermal.h:287: multiple definition of `thermal_of_get_zone'; arch/x86/kernel/acpi/boot.o:include/linux/thermal.h:287: first defined here
+   arch/arm64/kernel/irq.c: In function 'init_irq_stacks':
+>> arch/arm64/kernel/irq.c:60:59: error: implicit declaration of function 'early_cpu_to_node'; did you mean 'early_pfn_to_nid'? [-Werror=implicit-function-declaration]
+      60 |                 p = arch_alloc_vmap_stack(IRQ_STACK_SIZE, early_cpu_to_node(cpu));
+         |                                                           ^~~~~~~~~~~~~~~~~
+         |                                                           early_pfn_to_nid
+   cc1: some warnings being treated as errors
 
 
-vim +282 include/linux/thermal.h
+vim +60 arch/arm64/kernel/irq.c
 
-   280	
-   281	struct thermal_zone_device *thermal_of_get_zone_by_index(struct device *dev, int index)
- > 282	{
-   283		return ERR_PTR(-EOPNOTSUPP);
-   284	}
-   285	
-   286	struct thermal_zone_device *thermal_of_get_zone(struct device *dev, const char *name)
- > 287	{
-   288		return ERR_PTR(-EOPNOTSUPP);
-   289	}
-   290	#endif
-   291	
+    52	
+    53	#ifdef CONFIG_VMAP_STACK
+    54	static void init_irq_stacks(void)
+    55	{
+    56		int cpu;
+    57		unsigned long *p;
+    58	
+    59		for_each_possible_cpu(cpu) {
+  > 60			p = arch_alloc_vmap_stack(IRQ_STACK_SIZE, early_cpu_to_node(cpu));
+    61			per_cpu(irq_stack_ptr, cpu) = p;
+    62		}
+    63	}
+    64	#else
+    65	/* irq stack only needs to be 16 byte aligned - not IRQ_STACK_SIZE aligned. */
+    66	DEFINE_PER_CPU_ALIGNED(unsigned long [IRQ_STACK_SIZE/sizeof(long)], irq_stack);
+    67	
 
 -- 
 0-DAY CI Kernel Test Service
