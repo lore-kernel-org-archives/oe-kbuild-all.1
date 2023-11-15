@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE4D3DBB2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 19:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273733DB82
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 19:13:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oK8g6MLU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gaAR1jIN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700075606; x=1731611606;
+  t=1700075605; x=1731611605;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UnwaWSnKj21fqbI7LoTqr7zqVIHJgRL+YfEgy/pSXpQ=;
-  b=oK8g6MLUYQFrJ1bAzESpbQjowNHadMLFmDgDW1xR5XiOKvuzOqaiTcjk
-   g6Gjyzc8JbJfbmHhvvDzVetb+MSdSefxQXbdj1iWmLygZ3qIcI/8qte8h
-   yCmYoSFs7FXIhCppaE//OJR/3IR4nrqyVKvih/jjikruDIphIcAzC21NV
-   NwNg/XwkaWeZlGf/jx/3YmcCRQ0+DGC7heb1Q7JW1kzzcy1foXjH94Z2D
-   HlcbHAm7FKteryLKge50/TYAXFQECEi4zBPPFK6phsv66tTbht3+RgJ0b
-   7XZ3hxa8d1uQPnCBWIMy5fnORGxsDfmgwd9aamr4AOLl7toNGJaIoieHK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="370288061"
+  bh=ifYVWvscdRK6V99rtfowEQkzuyNJ5E9DWdsc6q5+VBg=;
+  b=gaAR1jINQcVHsZK5JZXYWJ/+1S7hKq7rTmT3nyimNJFbH0h/BspB4lRP
+   9slyHiT0qVImaDWncAppm0y5YzO51NWlEwnQ25MggyHzeEVJHs5vcN29k
+   U4QlpI6ViYByUHmh6Tk9Wv77uIgQnez1yN3KiJb8Zn4fua5k+1IYb3WWS
+   7c1lkgdPvvQH27+w28dltXDmiDe7Sn5gbiYkK0m1+S6xdbhVTFiPLhmJH
+   JmmYmLPyCoJgYdTk0BYeLwmrDESLJ8HUNqAxlTCoGoUx1nejgCg0+ahuk
+   PHBe9vIk3sXpeenBZ1pmoY6LlHF88rBYg4lY/5cuklpdjNCgjZDXtwiJo
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="455226648"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="370288061"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 11:13:25 -0800
+   d="scan'208";a="455226648"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 11:13:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="741519647"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="741519647"
+   d="scan'208";a="6263087"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 15 Nov 2023 11:13:23 -0800
+  by orviesa002.jf.intel.com with ESMTP; 15 Nov 2023 11:13:23 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3LKC-0000jk-2o;
+	id 1r3LKC-0000jm-2v;
 	Wed, 15 Nov 2023 19:13:20 +0000
-Date: Thu, 16 Nov 2023 03:12:25 +0800
+Date: Thu, 16 Nov 2023 03:12:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10-2023-11 3634/30000]
- drivers/android/debug_symbols.c:50:9: sparse: sparse: cast removes address
- space '__percpu' of expression
-Message-ID: <202311160346.pWKp73p5-lkp@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Alexander Duyck <alexanderduyck@fb.com>
+Subject: net/core/page_pool.c:590:9: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202311160339.DbhaH8LX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,36 +51,150 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10-2023-11
-head:   4a17384380d80175aa17dc7d6741e2c0ff2b077b
-commit: 3fcbb15c1a91a318fb9367bee24603af24648a2d [3634/30000] ANDROID: android: Create debug_symbols driver
-config: x86_64-randconfig-123-20231113 (https://download.01.org/0day-ci/archive/20231116/202311160346.pWKp73p5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160346.pWKp73p5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
+commit: ff4e538c8c3e675a15e1e49509c55951832e0451 page_pool: add a lockdep check for recycling in hardirq
+date:   3 months ago
+config: loongarch-randconfig-r133-20231107 (https://download.01.org/0day-ci/archive/20231116/202311160339.DbhaH8LX-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231116/202311160339.DbhaH8LX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311160346.pWKp73p5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311160339.DbhaH8LX-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/android/debug_symbols.c:50:9: sparse: sparse: cast removes address space '__percpu' of expression
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got unsigned int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got unsigned int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got unsigned int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got unsigned int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got unsigned int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got unsigned int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got unsigned int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got unsigned int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
+>> net/core/page_pool.c:590:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   net/core/page_pool.c:590:9: sparse:     expected void *ptr
+   net/core/page_pool.c:590:9: sparse:     got int [noderef] __percpu *
 
-vim +/__percpu +50 drivers/android/debug_symbols.c
+vim +590 net/core/page_pool.c
 
-    41	
-    42	/*
-    43	 * ads_per_cpu_entries array contains all the per_cpu variable address information.
-    44	 */
-    45	static const struct ads_entry ads_per_cpu_entries[ADS_DEBUG_PER_CPU_END] = {
-    46	#ifdef CONFIG_ARM64
-    47		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, irq_stack_ptr),
-    48	#endif
-    49	#ifdef CONFIG_X86
-  > 50		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, hardirq_stack_ptr),
-    51	#endif
-    52	};
-    53	
+   579	
+   580	/* If the page refcnt == 1, this will try to recycle the page.
+   581	 * if PP_FLAG_DMA_SYNC_DEV is set, we'll try to sync the DMA area for
+   582	 * the configured size min(dma_sync_size, pool->max_len).
+   583	 * If the page refcnt != 1, then the page will be returned to memory
+   584	 * subsystem.
+   585	 */
+   586	static __always_inline struct page *
+   587	__page_pool_put_page(struct page_pool *pool, struct page *page,
+   588			     unsigned int dma_sync_size, bool allow_direct)
+   589	{
+ > 590		lockdep_assert_no_hardirq();
+   591	
+   592		/* This allocator is optimized for the XDP mode that uses
+   593		 * one-frame-per-page, but have fallbacks that act like the
+   594		 * regular page allocator APIs.
+   595		 *
+   596		 * refcnt == 1 means page_pool owns page, and can recycle it.
+   597		 *
+   598		 * page is NOT reusable when allocated when system is under
+   599		 * some pressure. (page_is_pfmemalloc)
+   600		 */
+   601		if (likely(page_ref_count(page) == 1 && !page_is_pfmemalloc(page))) {
+   602			/* Read barrier done in page_ref_count / READ_ONCE */
+   603	
+   604			if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
+   605				page_pool_dma_sync_for_device(pool, page,
+   606							      dma_sync_size);
+   607	
+   608			if (allow_direct && in_softirq() &&
+   609			    page_pool_recycle_in_cache(page, pool))
+   610				return NULL;
+   611	
+   612			/* Page found as candidate for recycling */
+   613			return page;
+   614		}
+   615		/* Fallback/non-XDP mode: API user have elevated refcnt.
+   616		 *
+   617		 * Many drivers split up the page into fragments, and some
+   618		 * want to keep doing this to save memory and do refcnt based
+   619		 * recycling. Support this use case too, to ease drivers
+   620		 * switching between XDP/non-XDP.
+   621		 *
+   622		 * In-case page_pool maintains the DMA mapping, API user must
+   623		 * call page_pool_put_page once.  In this elevated refcnt
+   624		 * case, the DMA is unmapped/released, as driver is likely
+   625		 * doing refcnt based recycle tricks, meaning another process
+   626		 * will be invoking put_page.
+   627		 */
+   628		recycle_stat_inc(pool, released_refcnt);
+   629		page_pool_return_page(pool, page);
+   630	
+   631		return NULL;
+   632	}
+   633	
 
 -- 
 0-DAY CI Kernel Test Service
