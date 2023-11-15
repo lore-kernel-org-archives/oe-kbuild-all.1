@@ -1,135 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DF535F15
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 21:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A0418657
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 21:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyqlKr9t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700082320; x=1731618320;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rcToWmLfNTrsUiv8LTunATTkIMt6WybUwub2LGTkAEY=;
-  b=nyqlKr9t3dh/lap9dSQepKKxKtR7qozchfM6rDfe3kEbK3TzQqkgWn02
-   9Kkb3UEnOdPngsQlDyoLCewerduzrD0k6L2aVxpMQ5lKCwfLpp6ifZxOi
-   rTycPkPYB4lNroyDaKbg060FHxe3rGEmXyAZtVLG7szrWgPdvxIRu+25S
-   XATAspsdSVAQZkpDamt4lLiTb9mThBx1cKObN7Sg+708Q4cPUDzuAuvoR
-   Gltdhvb+UDLo7JmVOf4O3KKEO1Pb9Afj3bhxS/vMhG+YObKXQnsCKe02s
-   ugLCeEweMz1rfIH9WgF/YokpXPGep3fqT1lSGQ0ZISB9h4UG/80A2gfSc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="381348225"
-X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="381348225"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 13:05:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="13327401"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Nov 2023 13:05:17 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3N4V-0000pH-0H;
-	Wed, 15 Nov 2023 21:05:15 +0000
-Date: Thu, 16 Nov 2023 05:04:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	rafael@kernel.org, jacopo.mondi@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 1/6] pm: runtime: Simplify pm_runtime_get_if_active()
- usage
-Message-ID: <202311160402.sZooXBaB-lkp@intel.com>
-References: <20231115181840.1509046-2-sakari.ailus@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cPAOBrqS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1700083085;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F+AAJRoNFb+NoS3KMWG2rvbhxYwWgV66EeFRyHv0H4g=;
+	b=cPAOBrqSAodIoSdwsL6PxOQn02JNqJ5MA5vt4TKWEX4u5QS732RV2y7UNiFd1seZ4felGZ
+	4l7e9MMEqufiuWJxIhVR8sB+TNPxtrZj2l57LqJrunAw5+KbEIJGvEYIugNqtgG2/kpr4h
+	K8z8QibKPlfRgrz+X1ebyPYdzxGvyB4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-618-8rha03oRNsqcXim3L5cd9Q-1; Wed, 15 Nov 2023 16:18:03 -0500
+X-MC-Unique: 8rha03oRNsqcXim3L5cd9Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB46085CBE1;
+	Wed, 15 Nov 2023 21:18:01 +0000 (UTC)
+Received: from [10.22.9.184] (unknown [10.22.9.184])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 24A9B40C6EB9;
+	Wed, 15 Nov 2023 21:18:01 +0000 (UTC)
+Message-ID: <6c4ac1fb-f53a-496b-bab6-07e70c2197c7@redhat.com>
+Date: Wed, 15 Nov 2023 16:18:01 -0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231115181840.1509046-2-sakari.ailus@linux.intel.com>
-
-Hi Sakari,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 3e238417254bfdcc23fe207780b59cbb08656762]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/pm-runtime-Simplify-pm_runtime_get_if_active-usage/20231116-022051
-base:   3e238417254bfdcc23fe207780b59cbb08656762
-patch link:    https://lore.kernel.org/r/20231115181840.1509046-2-sakari.ailus%40linux.intel.com
-patch subject: [PATCH 1/6] pm: runtime: Simplify pm_runtime_get_if_active() usage
-config: i386-buildonly-randconfig-006-20231116 (https://download.01.org/0day-ci/archive/20231116/202311160402.sZooXBaB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160402.sZooXBaB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311160402.sZooXBaB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/i915/intel_runtime_pm.c: In function '__intel_runtime_pm_get_if_active':
->> drivers/gpu/drm/i915/intel_runtime_pm.c:437:21: error: too many arguments to function '__pm_runtime_get_conditional'
-     437 |                 if (__pm_runtime_get_conditional(rpm->kdev, ignore_usecount) <= 0)
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/i915/intel_runtime_pm.c:29:
-   include/linux/pm_runtime.h:300:19: note: declared here
-     300 | static inline int __pm_runtime_get_conditional(struct device *dev)
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] workqueue: Make workqueue_set_unbound_cpumask()
+ static
+To: kernel test robot <lkp@intel.com>, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Peter Hunt <pehunt@redhat.com>,
+ Frederic Weisbecker <frederic@kernel.org>
+References: <20231115170359.163299-2-longman@redhat.com>
+ <202311160353.FAdfQwO3-lkp@intel.com>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <202311160353.FAdfQwO3-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
 
-vim +/__pm_runtime_get_conditional +437 drivers/gpu/drm/i915/intel_runtime_pm.c
+On 11/15/23 14:12, kernel test robot wrote:
+> Hi Waiman,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on shuah-kselftest/next]
+> [also build test WARNING on shuah-kselftest/fixes linus/master v6.7-rc1]
+> [cannot apply to tj-cgroup/for-next tj-wq/for-next next-20231115]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/workqueue-Make-workqueue_set_unbound_cpumask-static/20231116-010940
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+> patch link:    https://lore.kernel.org/r/20231115170359.163299-2-longman%40redhat.com
+> patch subject: [PATCH v3 1/5] workqueue: Make workqueue_set_unbound_cpumask() static
+> config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20231116/202311160353.FAdfQwO3-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160353.FAdfQwO3-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311160353.FAdfQwO3-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>>> kernel/workqueue.c:4421:13: warning: 'apply_wqattrs_unlock' defined but not used [-Wunused-function]
+>      4421 | static void apply_wqattrs_unlock(void)
+>           |             ^~~~~~~~~~~~~~~~~~~~
+>>> kernel/workqueue.c:4414:13: warning: 'apply_wqattrs_lock' defined but not used [-Wunused-function]
+>      4414 | static void apply_wqattrs_lock(void)
+>           |             ^~~~~~~~~~~~~~~~~~
+>
+>
+> vim +/apply_wqattrs_unlock +4421 kernel/workqueue.c
+>
+> 8864b4e59f7945 Tejun Heo                 2013-03-12  4413
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19 @4414  static void apply_wqattrs_lock(void)
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19  4415  {
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19  4416  	/* CPUs should stay stable across pwq creations and installations */
+> ffd8bea81fbb5a Sebastian Andrzej Siewior 2021-08-03  4417  	cpus_read_lock();
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19  4418  	mutex_lock(&wq_pool_mutex);
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19  4419  }
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19  4420
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19 @4421  static void apply_wqattrs_unlock(void)
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19  4422  {
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19  4423  	mutex_unlock(&wq_pool_mutex);
+> ffd8bea81fbb5a Sebastian Andrzej Siewior 2021-08-03  4424  	cpus_read_unlock();
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19  4425  }
+> a0111cf6710bd1 Lai Jiangshan             2015-05-19  4426
+>
+OK, there are more functions that are CONFIG_SYSFS specific and need to 
+be moved as well.
 
-   404	
-   405	/**
-   406	 * __intel_runtime_pm_get_if_active - grab a runtime pm reference if device is active
-   407	 * @rpm: the intel_runtime_pm structure
-   408	 * @ignore_usecount: get a ref even if dev->power.usage_count is 0
-   409	 *
-   410	 * This function grabs a device-level runtime pm reference if the device is
-   411	 * already active and ensures that it is powered up. It is illegal to try
-   412	 * and access the HW should intel_runtime_pm_get_if_active() report failure.
-   413	 *
-   414	 * If @ignore_usecount is true, a reference will be acquired even if there is no
-   415	 * user requiring the device to be powered up (dev->power.usage_count == 0).
-   416	 * If the function returns false in this case then it's guaranteed that the
-   417	 * device's runtime suspend hook has been called already or that it will be
-   418	 * called (and hence it's also guaranteed that the device's runtime resume
-   419	 * hook will be called eventually).
-   420	 *
-   421	 * Any runtime pm reference obtained by this function must have a symmetric
-   422	 * call to intel_runtime_pm_put() to release the reference again.
-   423	 *
-   424	 * Returns: the wakeref cookie to pass to intel_runtime_pm_put(), evaluates
-   425	 * as True if the wakeref was acquired, or False otherwise.
-   426	 */
-   427	static intel_wakeref_t __intel_runtime_pm_get_if_active(struct intel_runtime_pm *rpm,
-   428								bool ignore_usecount)
-   429	{
-   430		if (IS_ENABLED(CONFIG_PM)) {
-   431			/*
-   432			 * In cases runtime PM is disabled by the RPM core and we get
-   433			 * an -EINVAL return value we are not supposed to call this
-   434			 * function, since the power state is undefined. This applies
-   435			 * atm to the late/early system suspend/resume handlers.
-   436			 */
- > 437			if (__pm_runtime_get_conditional(rpm->kdev, ignore_usecount) <= 0)
-   438				return 0;
-   439		}
-   440	
-   441		intel_runtime_pm_acquire(rpm, true);
-   442	
-   443		return track_intel_runtime_pm_wakeref(rpm);
-   444	}
-   445	
+Will post another version to fix that :-(
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Longman
+
