@@ -1,48 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321DE1EB3C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 13:59:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CB11EB3C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 13:59:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MB6q9xzI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GKjRkWnB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700056761; x=1731592761;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XzC7zCOE4CH5Yyhze0M21STx/sgEyX4bX00oS5Repss=;
-  b=MB6q9xzI1vIQqAZPdpjHI8ZlTgUTR22Zqa5iOJycfOCmL8W30DKOnj8v
-   V0b44EBWGNpPzIvC9drEIbgmTYCp+gak3wH8oYLDLk9NFyCG/2UBMAoVp
-   L+Vgz8MPAk7Qh3esBxgkQhrG+rDi1K7ggyaoOTQ4/Z30x5A6W/rlQePvl
-   RZOypqr4aR0K3adxYV0nRh5HhSmFi6aKE4iQza9Pyx5eW/IzXFJFAtlO4
-   mIrl+z9nUlWl+uTOvwAaLxUplXdf1mNXVTEegQJbP2xv4/R80RALl/9Pr
-   zFC3YqpR//gAxDP74jTILGVcsBcmv328g6y9x50X3on5CYnvj5hnj/oSs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="375918794"
+  t=1700056763; x=1731592763;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oDAG9U9fPnXH4/W5TINxeu6R/Ejjv31ZgA04gxsa7NI=;
+  b=GKjRkWnBYL8rXN/9N4ZqFMmmYy5S/jfJdR3Ukg6kmsr/EY7hIA8jgnHK
+   GOHny2oIOrEJ3YvG9ZXRUUFp1WOfPZH9HTsJn3dsDqXToakVaSjrWXpLp
+   Fa9NX8IDlsK5t5gJSV4/EK7xYmrI9XRKdbbruNv0Urenl8r+QPNXowdRw
+   7hbygobUZpby/O6R7FxVMUSUHYpbmBO1S5XhhguBZ4Zb16uBv6+FsilQ7
+   sCQZOtCKxos5m+NZTdvuzf05sm/LdPzdobzv8yHpGnPilqv2iJiQa7y/9
+   SFF3yhAldyJPtRvT3NsLzWXk/xXSBeBHXMYvcJ8aJcCdqzANZuygRw4gl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="375918799"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="375918794"
+   d="scan'208";a="375918799"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 05:59:20 -0800
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 05:59:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="758502871"
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="758502870"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="758502871"
+   d="scan'208";a="758502870"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
   by orsmga007.jf.intel.com with ESMTP; 15 Nov 2023 05:59:19 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3GQG-0000NT-3A;
+	id 1r3GQG-0000NQ-1m;
 	Wed, 15 Nov 2023 13:59:16 +0000
 Date: Wed, 15 Nov 2023 21:58:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sj:damon/next 39/42] htmldocs:
- Documentation/admin-guide/mm/damon/usage.rst:124: WARNING: undefined label:
- sysfs_schemes_quota_goals (if the link has no caption the label must precede
- a section header)
-Message-ID: <202311152116.wp5LS1ON-lkp@intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v2 2/2] media: i2c: Add driver for OmniVision OV64A40
+Message-ID: <202311152102.decxO6op-lkp@intel.com>
+References: <20231114182831.220823-3-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,41 +56,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231114182831.220823-3-jacopo.mondi@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   1c0004773dde317766d90f066adee4e2bc22a0d6
-commit: 520566dca2f1ac43c8782bb34f447ee3db88b931 [39/42] Docs/admin-guide/mm/damon/usage: update for quota goals
-reproduce: (https://download.01.org/0day-ci/archive/20231115/202311152116.wp5LS1ON-lkp@intel.com/reproduce)
+Hi Jacopo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 61ab89c1916219ccbeca9f6cefb1680212de8d1c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-dt-bindings-Add-OmniVision-OV64A40/20231115-035231
+base:   61ab89c1916219ccbeca9f6cefb1680212de8d1c
+patch link:    https://lore.kernel.org/r/20231114182831.220823-3-jacopo.mondi%40ideasonboard.com
+patch subject: [PATCH v2 2/2] media: i2c: Add driver for OmniVision OV64A40
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231115/202311152102.decxO6op-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311152102.decxO6op-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311152116.wp5LS1ON-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311152102.decxO6op-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/admin-guide/mm/damon/usage.rst:124: WARNING: undefined label: sysfs_schemes_quota_goals (if the link has no caption the label must precede a section header)
+   drivers/media/i2c/ov64a40.c:2808:31: warning: no previous prototype for 'ov64a40_get_timings' [-Wmissing-prototypes]
+    2808 | const struct ov64a40_timings *ov64a40_get_timings(struct ov64a40 *ov64a40)
+         |                               ^~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov64a40.c: In function 'ov64a40_remove':
+   drivers/media/i2c/ov64a40.c:3609:25: warning: unused variable 'ov64a40' [-Wunused-variable]
+    3609 |         struct ov64a40 *ov64a40 = sd_to_ov64a40(sd);
+         |                         ^~~~~~~
+   drivers/media/i2c/ov64a40.c: At top level:
+>> drivers/media/i2c/ov64a40.c:3175:12: warning: 'ov64a40_power_on' defined but not used [-Wunused-function]
+    3175 | static int ov64a40_power_on(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov64a40.c:119:18: warning: 'ov64a40_link_freq_menu' defined but not used [-Wunused-const-variable=]
+     119 | static const s64 ov64a40_link_freq_menu[] = {
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
 
-vim +124 Documentation/admin-guide/mm/damon/usage.rst
 
-b18402726bd10e SeongJae Park 2022-03-22  123  
-b18402726bd10e SeongJae Park 2022-03-22 @124  Reading ``state`` returns ``on`` if the kdamond is currently running, or
-b18402726bd10e SeongJae Park 2022-03-22  125  ``off`` if it is not running.  Writing ``on`` or ``off`` makes the kdamond be
-adc286e6bdd39e SeongJae Park 2022-05-09  126  in the state.  Writing ``commit`` to the ``state`` file makes kdamond reads the
-adc286e6bdd39e SeongJae Park 2022-05-09  127  user inputs in the sysfs files except ``state`` file again.  Writing
-520566dca2f1ac SeongJae Park 2023-10-31  128  ``commit_schemes_quota_goals`` to the ``state`` file makes kdamond reads the
-520566dca2f1ac SeongJae Park 2023-10-31  129  DAMON-based operation schemes' :ref:`quota goals <sysfs_schemes_quota_goals>`
-520566dca2f1ac SeongJae Park 2023-10-31  130  of the kdamond.  Writing ``update_schemes_stats`` to ``state`` file updates the
-520566dca2f1ac SeongJae Park 2023-10-31  131  contents of stats files for each DAMON-based operation scheme of the kdamond.
-520566dca2f1ac SeongJae Park 2023-10-31  132  For details of the stats, please refer to :ref:`stats section
-520566dca2f1ac SeongJae Park 2023-10-31  133  <sysfs_schemes_stats>`.
-ea7f03a441b58a SeongJae Park 2023-08-02  134  
+vim +/ov64a40_power_on +3175 drivers/media/i2c/ov64a40.c
 
-:::::: The code at line 124 was first introduced by commit
-:::::: b18402726bd10e122c65eecc244ca1cdcb868cc8 Docs/admin-guide/mm/damon/usage: document DAMON sysfs interface
-
-:::::: TO: SeongJae Park <sj@kernel.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  3174	
+> 3175	static int ov64a40_power_on(struct device *dev)
+  3176	{
+  3177		struct v4l2_subdev *sd = dev_get_drvdata(dev);
+  3178		struct ov64a40 *ov64a40 = sd_to_ov64a40(sd);
+  3179		int ret;
+  3180	
+  3181		ret = ov64a40_enable(dev);
+  3182		if (ret)
+  3183			return ret;
+  3184	
+  3185		/*
+  3186		 * The first configuration sequence is pretty long, so we write it
+  3187		 * once at power-on time to avoid doing it in consecutive
+  3188		 * start_streaming calls.
+  3189		 */
+  3190		return cci_multi_reg_write(ov64a40->cci, ov64a40_init,
+  3191					   ARRAY_SIZE(ov64a40_init), NULL);
+  3192	}
+  3193	
 
 -- 
 0-DAY CI Kernel Test Service
