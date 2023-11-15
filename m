@@ -1,204 +1,353 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BDD631
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 00:50:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9092A39B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 02:02:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZsQMv/iA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hSfXbXiU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700009431; x=1731545431;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vd08LoyVEWnxZ5T+q5GPkFLvm5e9l0fj5U/OOVJ0kQI=;
-  b=ZsQMv/iAEoFmitihThxB7Ly2ZdgZy+BKrM6IYN93hxyH62hNn9zRy9HO
-   KLMHVOvxeI5gzlxPZGYYpo7wuP5+g3S9IbCKNOUeKjrYAa7NzMfpac9vv
-   lFiV6GMSZsbKebLzdmqKRmAh3K6teg1wSnzXHumcvIrbLX5L0/+FUm9UQ
-   LjQQmNHFWOG2RjXtpX+EGFXlHRdtj3ZVdx2ZQfi0BCI++M/O1TmIsdQiF
-   ZgXbA8pdVVUnhEi/N4B1t4As2WS/SvGdhVlpt9xtbzXm6MSuJAncnl3bq
-   LRYeQKDiDWsEqI9799wPDvJ9ZEiLQZ/D1+xaooiwcZ4/I3pb0EGSTPmP5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="393637539"
+  t=1700013728; x=1731549728;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=2zEQ5sQbmFRlcI7u2JHK6NQ+gAzCv9v1pB+ihl7DjMs=;
+  b=hSfXbXiUgTEuJsWIAlL10AqtJId3bJlfx5M4KIBFs+/e6rkbWzlOoWEV
+   X9xkH6dQbShfK48h3be2aObE4qq6j6l+BS6iBjVk8Cw7oLrI8DoSlHA4P
+   y3frXr9WCY1XHC2eI7Fkalhv5LWQces+Z45cupa1iAkxvjshztGzRRI+D
+   attxFviYcYmRM6fVWfLGtJ5rL1DnfETROTY6MIqJBdsM/Kk8DqiBeN4Sv
+   fma30lDc1FyQdqB0KkBcRo4XmaHMMV+QvCFkxSdZHAsdS3WAdOg8QFDI5
+   89agiHizGku+ydscBBjClHMBaWFwwkboFcV9SQzs4XW9/x6b0wEqU0Gf4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="455083716"
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="393637539"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 16:50:22 -0800
+   d="scan'208";a="455083716"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 18:02:07 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="835248818"
 X-IronPort-AV: E=Sophos;i="6.03,303,1694761200"; 
-   d="scan'208";a="5964509"
-Received: from lkp-server02.sh.intel.com (HELO 83346ef18697) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 14 Nov 2023 16:50:10 -0800
-Received: from kbuild by 83346ef18697 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r346Z-0000qR-0N;
-	Wed, 15 Nov 2023 00:50:07 +0000
-Date: Wed, 15 Nov 2023 08:49:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Joerg Roedel <jroedel@suse.de>, Kevin Tian <kevin.tian@intel.com>,
-	Steve Wahl <steve.wahl@hpe.com>
-Subject: drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing
- between 1 and 10 bytes into a region of size 9
-Message-ID: <202311150851.QD7VEYOT-lkp@intel.com>
+   d="scan'208";a="835248818"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Nov 2023 18:02:07 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 14 Nov 2023 18:02:06 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Tue, 14 Nov 2023 18:02:06 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Tue, 14 Nov 2023 18:02:05 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SgkSx/rXLFsH2N+9woHrqTT3EPr1BTEzNcUme1d0fkwMPiGP1WDe1pjKntQ8chE1oQ5sckW4zcdfP9YVAArragaSKaQY6SdKZl01DXtyKtxKoRxsD1e+6VzaxA3gdYsPCCjc+BGkVrv2aWQxril5HKpR1VS6dm93xkt+SMpNwh7kqufIrluAZK2iLRzjd9A17ZTvthJ2myq60zCECkS8YKE0Bq2Ofc4VTDZmQQJg7x0YdPytDODYSVKiE7St3z6Jqk/n2lC9+ulW39qp326TT+cd/xReZ5pUHgy+COdznVoWUH6RPe4wWBgYX5YkP2bL/B9rOaj0j/w0xMHz4YBfGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oKbI0j6pc/rdAO3cP0b9jc3CKq61IFwO5KJBUEY6ghc=;
+ b=OGAj9wmLIyNZZZzVRbG2FHPcu9sKWnt6gvS7lgWQRcLHjIaWuHMiZr+A/iEgutUckWKPwh6WZSSnQrrpB0cM56vIxrv0e38B2maSE5Aci5Ri+nEhSWv9UAhr3FYxgikgdhZBuLPHX7oaxI70H22KFRszQni78VjoZnU/87F3kM5ZEJx0KgeKOBgQY7rxrpXdy5zDMhvJYAopIiZY053l4tDezPhsgkPXbzz3M7zJlSKWuziVWsHutZK68S0eqtMtvO6+8LYY1K5WSuP7Jq+MP9AJK26itcBFygx9BtETRx1OnSwtwe1h0h1ObVcMpfZtTfG5dfbGFC9Ba1ukmSDaag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by MW3PR11MB4521.namprd11.prod.outlook.com (2603:10b6:303:55::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.17; Wed, 15 Nov
+ 2023 02:02:03 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.6933.028; Wed, 15 Nov 2023
+ 02:02:03 +0000
+Date: Wed, 15 Nov 2023 09:57:21 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
+	<herbert@gondor.apana.org.au>, <linux-crypto@vger.kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <manjunath.hadli@vayavyalabs.com>,
+	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>, shwetar
+	<shwetar@vayavyalabs.com>, Ruud Derwig <Ruud.Derwig@synopsys.com>
+Subject: Re: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and
+ Makefile file
+Message-ID: <202311141830.g6TK9OTS-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231114050525.471854-5-pavitrakumarm@vayavyalabs.com>
+X-ClientProxiedBy: SG2PR02CA0036.apcprd02.prod.outlook.com
+ (2603:1096:3:18::24) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|MW3PR11MB4521:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5a612835-6630-495e-2371-08dbe57edc6f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: d7TGKmK9Xt/lQpRTOkOLXrHpqB4AfegLbXTZYQwQAf30C3zqXtb+Jo1wl4a8+gTYZwQJd99CpKSusS2UpU6B70f4uAkthC+VZB/6P2/Q0Yns4TYX8XwWtgP86Ie87OOscaCEzT9EnKXbeoxK/zOeBa0sFUkO4yKz0Doyu818VLwyXUAk/ybeuKssBUwKYzfMY7fwSX2wW1920ab/Gjp+0+H3h/eiO7yGFIHlyXc4kbVzfkOd3THqmMag40bTUANGTJDPh3lkoSVT5Rotu6eI/+Ntl4HVR4jr/EchJxVGyAV3YV/j4f6w8LVdljTRY77cAHboWOwVAuLJOCjAqc9WUz4kmG+u4oqN7i5GhlfEUvdHEh1rPjufdd54uNYch1KME1PPJX77UunHKBFSIBsSReIiUfKdY30gHoAIb0LKclsBezC2eWtEXfWU3F/Y3cSIjCcyYmj7f4mlVkdgRFVOgdU4eDwrhUpTkmlCZktIK17aRga3n0juD+73stfFVvjX4umzDYFte9oYGASMe4ujytltWhzQcegHVLLQvcC8P+Pztn1iIdcrXI1exBgYHP65qUZRYk5yOYs3QbxTkdhcVXmjLl/TnRY9E/8ExCNXJxOcGsO8j4Cx/99NPZ+7dUKGEJOUZCCfz3/pmqA3wCfv5Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(346002)(366004)(396003)(136003)(230173577357003)(230922051799003)(230273577357003)(64100799003)(451199024)(1800799009)(186009)(6486002)(966005)(66556008)(54906003)(66476007)(66946007)(1076003)(5660300002)(478600001)(316002)(8936002)(8676002)(4326008)(6666004)(6506007)(6512007)(41300700001)(86362001)(82960400001)(83380400001)(2616005)(36756003)(38100700002)(30864003)(26005)(2906002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2Sia1DnT63hhT+zaKqo04NshXRI4aQGlY8q5z+zjmfLRt/xv3KgiDBsQCYUk?=
+ =?us-ascii?Q?OOsShCDNQbviANDm163WvDU1evgh34NSlCOnSb7b9k4XG6QRRzhiTFo4uJ1n?=
+ =?us-ascii?Q?i1lXFL4Q60faTDSlQdAgLzfqGBFfcjR0Z6d5IqiL3p7nAXIbstv84xcLvCAS?=
+ =?us-ascii?Q?IBtAC/ZGoCgSWx3HaLoiYwRIxddpDPLB7E2ZD57PZ/L5x4pB/21Ry+mQv1A7?=
+ =?us-ascii?Q?LNb7z0Ugygsq6LbuoiEfCI0vpa40rPoD5Jki7yem6jdxkLWGnQadQTVekNPc?=
+ =?us-ascii?Q?fo/TEz5G+GzqADeZjVLNm+TedfrhISQBjEL/0FwSuksbKUhODPsqU3EeiVrg?=
+ =?us-ascii?Q?xMzrKp6jWACPB3GhhcrwiDLfLbZosvNdBcbZg2id6FxKpuBgV1qhdUEyFQ+h?=
+ =?us-ascii?Q?VSvbZU+LutKLPwV3IY4NdKcKkx/WrB11WADps5tiBSkRuoahrhL5DI4mCZP/?=
+ =?us-ascii?Q?h73f6cr4lzYZPvaxN3G23sVSTT6eYnTlV4+jUYZRXdkrZ2opKaSZD2zWVLtH?=
+ =?us-ascii?Q?3sWO3JW9bEDjYFy8Z8nPCt/PduHyNjQ9z0Ee7VqGuvSnlQzAfp0Z6y2B09OV?=
+ =?us-ascii?Q?zzjwFojDdnyxDlaMycsKPz4nr7O7Gci6p9KSrrmn5kNAs2uA8mvb7ryOmKoB?=
+ =?us-ascii?Q?lN548+4HC5AiW/mUT7kwMaIY9tgOIEU+lJwBGBWhANxLEm6UoATdUU03nbfB?=
+ =?us-ascii?Q?2zLSk5ZqX2ImmCy7JbC6Xa76t63jxRH6NeG7PWJK2GFmKWwmJPiCinLtDSZX?=
+ =?us-ascii?Q?7YiH9d4svr8HsCp6AJ0NjfvAwX2udI7TgH3q9GF+LCnyDenPMZZVUFPf9cIv?=
+ =?us-ascii?Q?xx+mR7E0Eaj81tXIgRs59I9ihpYDy/yTk6/oWglgTXhk/fXb/AqLLD4bgpwY?=
+ =?us-ascii?Q?eXXvfNTPkP9z2WXjdhpAZuXf4ShQ6iSXuPbGypOPbik1j5T4TPKRpjkMroZP?=
+ =?us-ascii?Q?e26fubtoX9R2QzzRug+OvLBb8/1gd470h11nuZyNpUgEeBddfloBW8XCzfZ7?=
+ =?us-ascii?Q?m41yvAxnr6VBY9ZyBH6mX1eOM4ZQDmxcV6mT7aVtk7edRSY1J8RrTXju5ol5?=
+ =?us-ascii?Q?iU8ygkQBItGkPmNGFsJMIDAuOngC2NFOwrcXO8rFsjaCKE+G7NDjyhxlPc6r?=
+ =?us-ascii?Q?XGAa/LAhPqFM9V7SmvweYKtrf0nw5367cnYKUFSJWkyqaQu/1qPwB4e0Bjd3?=
+ =?us-ascii?Q?F0zMgB/f4oL4NPS50SMvWKItmZDJp/y1cR5642gBWaV2nKMmNd3JWu8dhXYV?=
+ =?us-ascii?Q?l+LWDqaP8DftzGqFvfDPUy2tWnGryVtQTiYKUuBqLTp4u1oIE+jB+xtuncUU?=
+ =?us-ascii?Q?P9on/HA8gNObcpU8UY8p5Mv5sazO2+EraENx5vA89xcbHn2uLagumR6a9Vmy?=
+ =?us-ascii?Q?Tz0obNCp8VausB9RlVesQPUuqCp7yjsqkGQgoPaQ79l2h0F8ZjkTe2wIxIqR?=
+ =?us-ascii?Q?Gb0zhx5CbBJfNyhBYj+3sb5P52cDDaHhmlnOk/IXfpvT/Vp3NZwGG2o9odTr?=
+ =?us-ascii?Q?L0M0ng405Hklub17GvuqyR5wvyiNj9Yunn+ocn38dZk/ASP6V3Ky7XD3dImX?=
+ =?us-ascii?Q?gk9+kzACR3PfGmE4MLEINPcfBPMxTN6k38aGJ1gh?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a612835-6630-495e-2371-08dbe57edc6f
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 02:02:03.3607
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1eghzLcs7SLYkPGPuTi5rpesiElaDMZIdMawD4Qfb7pytshg1xX+XGLP63twHvmhL2dzm1j5cuGLg6I/WOLlnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4521
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9bacdd8996c77c42ca004440be610692275ff9d0
-commit: 913432f217c843a69ff9d11a6474a7982033087b iommu/vt-d: Use IDA interface to manage iommu sequence id
-date:   1 year, 4 months ago
-config: x86_64-sof-customedconfig-edison-defconfig (https://download.01.org/0day-ci/archive/20231115/202311150851.QD7VEYOT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311150851.QD7VEYOT-lkp@intel.com/reproduce)
+Hi Pavitrakumar,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master linus/master v6.7-rc1]
+[cannot apply to xilinx-xlnx/master next-20231114]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPACC-driver-to-Linux-kernel/20231114-143618
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20231114050525.471854-5-pavitrakumarm%40vayavyalabs.com
+patch subject: [PATCH 4/4] Enable Driver compilation in crypto Kconfig and Makefile file
+config: csky-randconfig-001-20231114 (https://download.01.org/0day-ci/archive/20231114/202311141830.g6TK9OTS-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231114/202311141830.g6TK9OTS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311150851.QD7VEYOT-lkp@intel.com/
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202311141830.g6TK9OTS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/iommu/intel/dmar.c: In function 'dmar_parse_one_drhd':
->> drivers/iommu/intel/dmar.c:1050:35: error: '%d' directive writing between 1 and 10 bytes into a region of size 9 [-Werror=format-overflow=]
-    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
-         |                                   ^~
-   In function 'alloc_iommu',
-       inlined from 'dmar_parse_one_drhd' at drivers/iommu/intel/dmar.c:439:8:
-   drivers/iommu/intel/dmar.c:1050:30: note: directive argument in the range [0, 2147483647]
-    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
-         |                              ^~~~~~~~
-   drivers/iommu/intel/dmar.c:1050:9: note: 'sprintf' output between 6 and 15 bytes into a destination of size 13
-    1050 |         sprintf(iommu->name, "dmar%d", iommu->seq_id);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:87:5: warning: no previous prototype for 'spacc_skcipher_fallback' [-Wmissing-prototypes]
+      87 | int spacc_skcipher_fallback(unsigned char *name, struct skcipher_request *req,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/dwc-spacc/spacc_skcipher.c: In function 'spacc_cipher_cb':
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:131:18: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+     131 |         int err, rc;
+         |                  ^~
+   drivers/crypto/dwc-spacc/spacc_skcipher.c: At top level:
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:155:5: warning: no previous prototype for 'spacc_cipher_init_dma' [-Wmissing-prototypes]
+     155 | int spacc_cipher_init_dma(struct device *dev, struct skcipher_request *req)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:179:5: warning: no previous prototype for 'spacc_cipher_cra_init' [-Wmissing-prototypes]
+     179 | int spacc_cipher_cra_init(struct crypto_tfm *tfm)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:210:5: warning: no previous prototype for 'spacc_cipher_setkey' [-Wmissing-prototypes]
+     210 | int spacc_cipher_setkey(struct crypto_skcipher *tfm, const u8 *key,
+         |     ^~~~~~~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:283:5: warning: no previous prototype for 'spacc_cipher_process' [-Wmissing-prototypes]
+     283 | int spacc_cipher_process(struct skcipher_request *req, int enc_dec)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/dwc-spacc/spacc_skcipher.c: In function 'spacc_cipher_process':
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:293:13: warning: variable 'ivsize' set but not used [-Wunused-but-set-variable]
+     293 |         int ivsize;
+         |             ^~~~~~
+   drivers/crypto/dwc-spacc/spacc_skcipher.c: At top level:
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:473:5: warning: no previous prototype for 'spacc_cipher_encrypt' [-Wmissing-prototypes]
+     473 | int spacc_cipher_encrypt(struct skcipher_request *req)
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:487:5: warning: no previous prototype for 'spacc_cipher_decrypt' [-Wmissing-prototypes]
+     487 | int spacc_cipher_decrypt(struct skcipher_request *req)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/dwc-spacc/spacc_skcipher.c: In function 'probe_ciphers':
+>> drivers/crypto/dwc-spacc/spacc_skcipher.c:533:59: warning: '%s' directive output may be truncated writing up to 5299 bytes into a region of size 128 [-Wformat-truncation=]
+     533 |         snprintf(calg->cra_name, sizeof(calg->cra_name), "%s", mode->name);
+         |                                                           ^~
+   In function 'spacc_init_calg',
+       inlined from 'spacc_register_cipher' at drivers/crypto/dwc-spacc/spacc_skcipher.c:549:2,
+       inlined from 'probe_ciphers' at drivers/crypto/dwc-spacc/spacc_skcipher.c:596:11:
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:533:9: note: 'snprintf' output between 1 and 5300 bytes into a destination of size 128
+     533 |         snprintf(calg->cra_name, sizeof(calg->cra_name), "%s", mode->name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/dwc-spacc/spacc_skcipher.c: In function 'probe_ciphers':
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:535:25: warning: '%s' directive output may be truncated writing up to 5299 bytes into a region of size 122 [-Wformat-truncation=]
+     535 |                  "spacc-%s", mode->name);
+         |                         ^~
+   In function 'spacc_init_calg',
+       inlined from 'spacc_register_cipher' at drivers/crypto/dwc-spacc/spacc_skcipher.c:549:2,
+       inlined from 'probe_ciphers' at drivers/crypto/dwc-spacc/spacc_skcipher.c:596:11:
+   drivers/crypto/dwc-spacc/spacc_skcipher.c:534:9: note: 'snprintf' output between 7 and 5306 bytes into a destination of size 128
+     534 |         snprintf(calg->cra_driver_name, sizeof(calg->cra_driver_name),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     535 |                  "spacc-%s", mode->name);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/crypto/dwc-spacc/spacc_core.c:1113:5: warning: no previous prototype for 'spacc_sgs_to_ddt' [-Wmissing-prototypes]
+    1113 | int spacc_sgs_to_ddt(struct device *dev,
+         |     ^~~~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_core.c:1179:5: warning: no previous prototype for 'modify_scatterlist' [-Wmissing-prototypes]
+    1179 | int modify_scatterlist(struct scatterlist *src, struct scatterlist *dst,
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_core.c:1215:5: warning: no previous prototype for 'spacc_sg_to_ddt' [-Wmissing-prototypes]
+    1215 | int spacc_sg_to_ddt(struct device *dev, struct scatterlist *sg,
+         |     ^~~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_core.c:2991:12: warning: 'spacc_load_skp' defined but not used [-Wunused-function]
+    2991 | static int spacc_load_skp(struct spacc_device *spacc, uint32_t *key, int keysz,
+         |            ^~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_core.c:2849:13: warning: 'spacc_set_secure_mode' defined but not used [-Wunused-function]
+    2849 | static void spacc_set_secure_mode(struct spacc_device *spacc, int src, int dst,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_core.c:974:26: warning: 'names' defined but not used [-Wunused-const-variable=]
+     974 | static const char *const names[] = {
+         |                          ^~~~~
+   In file included from <command-line>:
+   In function 'spacc_sg_chain',
+       inlined from 'fixup_sg' at drivers/crypto/dwc-spacc/spacc_core.c:1105:4,
+       inlined from 'spacc_sgs_to_ddt' at drivers/crypto/dwc-spacc/spacc_core.c:1132:16:
+>> include/linux/compiler_types.h:425:45: error: call to '__compiletime_assert_235' declared with attribute error: BUILD_BUG_ON failed: IS_ENABLED(CONFIG_DEBUG_SG)
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+     406 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/crypto/dwc-spacc/spacc_core.c:1072:9: note: in expansion of macro 'BUILD_BUG_ON'
+    1072 |         BUILD_BUG_ON(IS_ENABLED(CONFIG_DEBUG_SG));
+         |         ^~~~~~~~~~~~
+   In function 'spacc_sg_chain',
+       inlined from 'fixup_sg' at drivers/crypto/dwc-spacc/spacc_core.c:1105:4,
+       inlined from 'spacc_sg_to_ddt' at drivers/crypto/dwc-spacc/spacc_core.c:1222:15:
+>> include/linux/compiler_types.h:425:45: error: call to '__compiletime_assert_235' declared with attribute error: BUILD_BUG_ON failed: IS_ENABLED(CONFIG_DEBUG_SG)
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:406:25: note: in definition of macro '__compiletime_assert'
+     406 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:425:9: note: in expansion of macro '_compiletime_assert'
+     425 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/crypto/dwc-spacc/spacc_core.c:1072:9: note: in expansion of macro 'BUILD_BUG_ON'
+    1072 |         BUILD_BUG_ON(IS_ENABLED(CONFIG_DEBUG_SG));
+         |         ^~~~~~~~~~~~
+--
+>> drivers/crypto/dwc-spacc/spacc_ahash.c:499:5: warning: no previous prototype for 'do_shash' [-Wmissing-prototypes]
+     499 | int do_shash(unsigned char *name, unsigned char *result,
+         |     ^~~~~~~~
+   drivers/crypto/dwc-spacc/spacc_ahash.c: In function 'spacc_hash_final':
+>> drivers/crypto/dwc-spacc/spacc_ahash.c:1007:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+    1007 |         int err;
+         |             ^~~
+   drivers/crypto/dwc-spacc/spacc_ahash.c: In function 'probe_hashes':
+>> drivers/crypto/dwc-spacc/spacc_ahash.c:177:59: warning: '%s' directive output may be truncated writing up to 8479 bytes into a region of size 128 [-Wformat-truncation=]
+     177 |         snprintf(calg->cra_name, sizeof(calg->cra_name), "%s", mode->name);
+         |                                                           ^~
+   In function 'spacc_init_calg',
+       inlined from 'spacc_register_hash' at drivers/crypto/dwc-spacc/spacc_ahash.c:1164:2,
+       inlined from 'probe_hashes' at drivers/crypto/dwc-spacc/spacc_ahash.c:1211:9:
+   drivers/crypto/dwc-spacc/spacc_ahash.c:177:9: note: 'snprintf' output between 1 and 8480 bytes into a destination of size 128
+     177 |         snprintf(calg->cra_name, sizeof(calg->cra_name), "%s", mode->name);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/dwc-spacc/spacc_ahash.c: In function 'probe_hashes':
+   drivers/crypto/dwc-spacc/spacc_ahash.c:179:25: warning: '%s' directive output may be truncated writing up to 8479 bytes into a region of size 122 [-Wformat-truncation=]
+     179 |                  "spacc-%s", mode->name);
+         |                         ^~
+   In function 'spacc_init_calg',
+       inlined from 'spacc_register_hash' at drivers/crypto/dwc-spacc/spacc_ahash.c:1164:2,
+       inlined from 'probe_hashes' at drivers/crypto/dwc-spacc/spacc_ahash.c:1211:9:
+   drivers/crypto/dwc-spacc/spacc_ahash.c:178:9: note: 'snprintf' output between 7 and 8486 bytes into a destination of size 128
+     178 |         snprintf(calg->cra_driver_name, sizeof(calg->cra_driver_name),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     179 |                  "spacc-%s", mode->name);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/crypto/dwc-spacc/spacc_interrupt.c:188:6: warning: no previous prototype for 'spacc_disable_int' [-Wmissing-prototypes]
+     188 | void spacc_disable_int (struct spacc_device *spacc)
+         |      ^~~~~~~~~~~~~~~~~
+>> drivers/crypto/dwc-spacc/spacc_interrupt.c:194:13: warning: no previous prototype for 'spacc_irq_handler' [-Wmissing-prototypes]
+     194 | irqreturn_t spacc_irq_handler(int irq, void *dev)
+         |             ^~~~~~~~~~~~~~~~~
+--
+   drivers/crypto/dwc-spacc/spacc_hal.c: In function 'pdu_get_version':
+>> drivers/crypto/dwc-spacc/spacc_hal.c:19:28: warning: variable 'ver' set but not used [-Wunused-but-set-variable]
+      19 |         unsigned long tmp, ver;
+         |                            ^~~
+   drivers/crypto/dwc-spacc/spacc_hal.c: At top level:
+>> drivers/crypto/dwc-spacc/spacc_hal.c:374:5: warning: no previous prototype for 'pdu_sg_to_ddt' [-Wmissing-prototypes]
+     374 | int pdu_sg_to_ddt(struct scatterlist *sg, int sg_count, struct pdu_ddt *ddt)
+         |     ^~~~~~~~~~~~~
+--
+   drivers/crypto/dwc-spacc/spacc_aead.c: In function 'spacc_aead_init_dma':
+>> drivers/crypto/dwc-spacc/spacc_aead.c:256:31: warning: variable 'buf' set but not used [-Wunused-but-set-variable]
+     256 |                         char *buf = sg_virt(req->src);
+         |                               ^~~
 
 
-vim +1050 drivers/iommu/intel/dmar.c
+vim +/__compiletime_assert_235 +425 include/linux/compiler_types.h
 
-  1025	
-  1026	static int alloc_iommu(struct dmar_drhd_unit *drhd)
-  1027	{
-  1028		struct intel_iommu *iommu;
-  1029		u32 ver, sts;
-  1030		int agaw = -1;
-  1031		int msagaw = -1;
-  1032		int err;
-  1033	
-  1034		if (!drhd->reg_base_addr) {
-  1035			warn_invalid_dmar(0, "");
-  1036			return -EINVAL;
-  1037		}
-  1038	
-  1039		iommu = kzalloc(sizeof(*iommu), GFP_KERNEL);
-  1040		if (!iommu)
-  1041			return -ENOMEM;
-  1042	
-  1043		iommu->seq_id = ida_alloc_range(&dmar_seq_ids, 0,
-  1044						DMAR_UNITS_SUPPORTED - 1, GFP_KERNEL);
-  1045		if (iommu->seq_id < 0) {
-  1046			pr_err("Failed to allocate seq_id\n");
-  1047			err = iommu->seq_id;
-  1048			goto error;
-  1049		}
-> 1050		sprintf(iommu->name, "dmar%d", iommu->seq_id);
-  1051	
-  1052		err = map_iommu(iommu, drhd->reg_base_addr);
-  1053		if (err) {
-  1054			pr_err("Failed to map %s\n", iommu->name);
-  1055			goto error_free_seq_id;
-  1056		}
-  1057	
-  1058		err = -EINVAL;
-  1059		if (cap_sagaw(iommu->cap) == 0) {
-  1060			pr_info("%s: No supported address widths. Not attempting DMA translation.\n",
-  1061				iommu->name);
-  1062			drhd->ignored = 1;
-  1063		}
-  1064	
-  1065		if (!drhd->ignored) {
-  1066			agaw = iommu_calculate_agaw(iommu);
-  1067			if (agaw < 0) {
-  1068				pr_err("Cannot get a valid agaw for iommu (seq_id = %d)\n",
-  1069				       iommu->seq_id);
-  1070				drhd->ignored = 1;
-  1071			}
-  1072		}
-  1073		if (!drhd->ignored) {
-  1074			msagaw = iommu_calculate_max_sagaw(iommu);
-  1075			if (msagaw < 0) {
-  1076				pr_err("Cannot get a valid max agaw for iommu (seq_id = %d)\n",
-  1077				       iommu->seq_id);
-  1078				drhd->ignored = 1;
-  1079				agaw = -1;
-  1080			}
-  1081		}
-  1082		iommu->agaw = agaw;
-  1083		iommu->msagaw = msagaw;
-  1084		iommu->segment = drhd->segment;
-  1085	
-  1086		iommu->node = NUMA_NO_NODE;
-  1087	
-  1088		ver = readl(iommu->reg + DMAR_VER_REG);
-  1089		pr_info("%s: reg_base_addr %llx ver %d:%d cap %llx ecap %llx\n",
-  1090			iommu->name,
-  1091			(unsigned long long)drhd->reg_base_addr,
-  1092			DMAR_VER_MAJOR(ver), DMAR_VER_MINOR(ver),
-  1093			(unsigned long long)iommu->cap,
-  1094			(unsigned long long)iommu->ecap);
-  1095	
-  1096		/* Reflect status in gcmd */
-  1097		sts = readl(iommu->reg + DMAR_GSTS_REG);
-  1098		if (sts & DMA_GSTS_IRES)
-  1099			iommu->gcmd |= DMA_GCMD_IRE;
-  1100		if (sts & DMA_GSTS_TES)
-  1101			iommu->gcmd |= DMA_GCMD_TE;
-  1102		if (sts & DMA_GSTS_QIES)
-  1103			iommu->gcmd |= DMA_GCMD_QIE;
-  1104	
-  1105		raw_spin_lock_init(&iommu->register_lock);
-  1106	
-  1107		/*
-  1108		 * This is only for hotplug; at boot time intel_iommu_enabled won't
-  1109		 * be set yet. When intel_iommu_init() runs, it registers the units
-  1110		 * present at boot time, then sets intel_iommu_enabled.
-  1111		 */
-  1112		if (intel_iommu_enabled && !drhd->ignored) {
-  1113			err = iommu_device_sysfs_add(&iommu->iommu, NULL,
-  1114						     intel_iommu_groups,
-  1115						     "%s", iommu->name);
-  1116			if (err)
-  1117				goto err_unmap;
-  1118	
-  1119			err = iommu_device_register(&iommu->iommu, &intel_iommu_ops, NULL);
-  1120			if (err)
-  1121				goto err_sysfs;
-  1122		}
-  1123	
-  1124		drhd->iommu = iommu;
-  1125		iommu->drhd = drhd;
-  1126	
-  1127		return 0;
-  1128	
-  1129	err_sysfs:
-  1130		iommu_device_sysfs_remove(&iommu->iommu);
-  1131	err_unmap:
-  1132		unmap_iommu(iommu);
-  1133	error_free_seq_id:
-  1134		ida_free(&dmar_seq_ids, iommu->seq_id);
-  1135	error:
-  1136		kfree(iommu);
-  1137		return err;
-  1138	}
-  1139	
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  411  
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  412  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  413  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  414  
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  415  /**
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  416   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  417   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  418   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  419   *
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  420   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  421   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  422   * compiler has support to do so.
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  423   */
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  424  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21 @425  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d5 Will Deacon 2020-07-21  426  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
