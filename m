@@ -1,123 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA558D29D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 10:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E5ED510
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 10:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfi8JoKA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700043930; x=1731579930;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W32g1ljBXpttbCwPvsIRYVi8eHr+YWboLSVaJBJJWe4=;
-  b=cfi8JoKAIOiYFBTuTkRttPzavEI2tqTBtB0rMpi+e45lbalEI2QyjJoL
-   AComBb0nFW6ju6bacpbunLXAIek/DcO+UAvnHoSjabnC2fOIMH2ahxzlf
-   6oCn2N93xyuBvqEkGCqCK8aZCuiz8UkBgbGe04I7QjkfchcxvJ4Z9t3Q7
-   pnVazkpxgzOeFaJHxKbjZy4NGvg9596cLRmvSfedURT2WC6FKgcp3MPrO
-   QAOlCrUEtFFgC4Tl8OnDj/M/Y7v2WbKK58uSXCfzHxhO5Ce+qAxOjkFeN
-   IfvIe7cKmpQH6H3Ioi4cL/qMxKW9tPYJeSLHQpuDzuqMjys5wtBfomUb1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="375890323"
-X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
-   d="scan'208";a="375890323"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 02:25:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="908727325"
-X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
-   d="scan'208";a="908727325"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Nov 2023 02:25:27 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3D5G-0000FW-36;
-	Wed, 15 Nov 2023 10:25:24 +0000
-Date: Wed, 15 Nov 2023 18:18:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jun Yi <yijun@loongson.cn>
-Subject: drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202311151820.kqckMHmB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="fcJoEjzL"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AF8RKgq026572;
+	Wed, 15 Nov 2023 04:25:39 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-transfer-encoding:in-reply-to; s=
+	PODMain02222019; bh=WU5nZyJTrXQvRiyk3lOymBc4LYlI1sgiF28uWIkTirM=; b=
+	fcJoEjzLBcQMRe4moUkamR7m0tXtlYT0/Wil5LaBXNxAfIYnJFDSjRw/O0EerTxt
+	0W3t9sIobZh/L8mujHuIZ5wSD0uoPOFA14kILnjnflOTtjbDGJgVhkz5TrVQWk7z
+	Eb50s4oNtdIbdPHeZryazf2J7pq4glW7g8ooOlI0aNEQndzo1MSCTpVLraaOzgtO
+	XqwBM/UOZ6E6IYjsbnHWrIO+EE89VGhpBhdoou6JMfqUbbEgoIW8fj/bbJLcGmY8
+	zplycEsQWLJSHVEEgI1aiemSy76fZKLlMphtxpilno5QeU+S6IfBW4e+4KtRlTGr
+	x51Phbq/UPhg5T++YZ4GeA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ua6wpch3u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Nov 2023 04:25:39 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 15 Nov
+ 2023 10:25:37 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.39 via Frontend Transport; Wed, 15 Nov 2023 10:25:37 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7851915A1;
+	Wed, 15 Nov 2023 10:25:37 +0000 (UTC)
+Date: Wed, 15 Nov 2023 10:25:37 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+CC: kernel test robot <lkp@intel.com>, Rob Herring <robh+dt@kernel.org>,
+        <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: pasting
+ "LOCHNAGAR1_" and "(" does not give a valid preprocessing token
+Message-ID: <20231115102537.GB32655@ediswmail.ad.cirrus.com>
+References: <202311071303.JJMAOjy4-lkp@intel.com>
+ <CACRpkdb4d9pfstqDTZoBSqOSS4d4vLOUCnS6AKcMjLZ8TTQ2Wg@mail.gmail.com>
+ <20231115093742.GA32655@ediswmail.ad.cirrus.com>
+ <CACRpkdYHJcx8gDsa5P2eLBh6iaVQzZY+-4eMJPKtnQTq3uR6oQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdYHJcx8gDsa5P2eLBh6iaVQzZY+-4eMJPKtnQTq3uR6oQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: rOqXo6meEJM6lTSU5Tw9mjRheaugKhQM
+X-Proofpoint-ORIG-GUID: rOqXo6meEJM6lTSU5Tw9mjRheaugKhQM
+X-Proofpoint-Spam-Reason: safe
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
-commit: a275a82dcd4024c75337db15d59ed039c31e21da LoongArch: Use alternative to optimize libraries
-date:   11 months ago
-config: loongarch-randconfig-r133-20231107 (https://download.01.org/0day-ci/archive/20231115/202311151820.kqckMHmB-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231115/202311151820.kqckMHmB-lkp@intel.com/reproduce)
+On Wed, Nov 15, 2023 at 10:57:29AM +0100, Linus Walleij wrote:
+> On Wed, Nov 15, 2023 at 10:37 AM Charles Keepax
+> <ckeepax@opensource.cirrus.com> wrote:
+> > On Tue, Nov 14, 2023 at 02:40:38PM +0100, Linus Walleij wrote:
+> > > On Tue, Nov 7, 2023 at 6:19 AM kernel test robot <lkp@intel.com> wrote:
+> > It has somewhat been on my radar to fix at some point, but I have
+> > in general been a little unsure how to proceed. RST feels like
+> > a mega over generic macro name to be exporting, so in some ways
+> > feels like fixing that would be nice. On the other side, renaming
+> > the register on the Lochnagar side would be very easy, although it
+> > would mean the register naming no longer matches all the hardware
+> > documentation which would be kinda lame.
+> 
+> If MIPS breaks things like this because of weird defines I would say
+> it is actually fair to just quirk it in Kconfig with a comment:
+> 
+>   # MIPS occupy very generic defines
+>   depends on !MIPS
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311151820.kqckMHmB-lkp@intel.com/
+Hm... hadn't considered that. The driver is pretty unlikely to be
+needed on MIPS anytime soon, so might be a reasonable work around
+for now. Would you like me to fire in a patch, or you want to?
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void * @@
-   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atmel_lcdfb.c:354:27: sparse:     got void *
->> drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *__s @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:     expected void *__s
-   drivers/video/fbdev/atmel_lcdfb.c:362:20: sparse:     got char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     expected void *cpu_addr
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     got char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     expected void *cpu_addr
-   drivers/video/fbdev/atmel_lcdfb.c:333:59: sparse:     got char [noderef] __iomem *screen_base
-
-vim +362 drivers/video/fbdev/atmel_lcdfb.c
-
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  336  
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  337  /**
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  338   *	atmel_lcdfb_alloc_video_memory - Allocate framebuffer memory
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  339   *	@sinfo: the frame buffer to allocate memory for
-1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  340   * 	
-1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  341   * 	This function is called only from the atmel_lcdfb_probe()
-1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  342   * 	so no locking by fb_info->mm_lock around smem_len setting is needed.
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  343   */
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  344  static int atmel_lcdfb_alloc_video_memory(struct atmel_lcdfb_info *sinfo)
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  345  {
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  346  	struct fb_info *info = sinfo->info;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  347  	struct fb_var_screeninfo *var = &info->var;
-ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  348  	unsigned int smem_len;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  349  
-ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  350  	smem_len = (var->xres_virtual * var->yres_virtual
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  351  		    * ((var->bits_per_pixel + 7) / 8));
-ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  352  	info->fix.smem_len = max(smem_len, sinfo->smem_len);
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  353  
-f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  354  	info->screen_base = dma_alloc_wc(info->device, info->fix.smem_len,
-f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  355  					 (dma_addr_t *)&info->fix.smem_start,
-f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  356  					 GFP_KERNEL);
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  357  
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  358  	if (!info->screen_base) {
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  359  		return -ENOMEM;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  360  	}
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  361  
-01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28 @362  	memset(info->screen_base, 0, info->fix.smem_len);
-01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28  363  
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  364  	return 0;
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  365  }
-14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  366  
-
-:::::: The code at line 362 was first introduced by commit
-:::::: 01d3a5e7fab7732cfc5d5d4533e9378ea435295a atmel_lcdfb: don't initialize a pre-allocated framebuffer
-
-:::::: TO: Haavard Skinnemoen <hskinnemoen@atmel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Charles
