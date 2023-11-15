@@ -1,118 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D963A8CC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 19:13:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD9C3BB42
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 19:21:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OE3Sfg/V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RzbWT8/i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700075609; x=1731611609;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gXRiJ5Lucq8DXuhZwt0/bXTGhj/qXhHAst2jYHjGW3k=;
-  b=OE3Sfg/VaMReWq7z4sVWldQUolEcy6rBYuDqIVpGQ4ghMo5dbNocNdc7
-   xGx353ebHUxALV30rriLTZD1j0j6g/dTbAhXx0ksRPhguZVWGbtlckTFh
-   oovp7owA8UjtYpSTHGdezyvQFY+/hntgYrG/Ub1a+gHaOmQycWIIt2y/z
-   /qY4+5YKAcdIUIDbtK2bUU+RlP/HWaN21UFfXJHa2ZMYmj+/ELLjrEuIk
-   5eJ1TCfq3ee937c5ehXiuvlZ7cGsS+4cYH9eLj6B+gMvHZvdSSA0p9Bl7
-   6Smn4SKeYILJlzdTKdq2o8jV75WXUF7nEwlVg/4qyIq7FWTUO9XMlkGt/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="370288069"
+  t=1700076109; x=1731612109;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=G5x7wUs4spnSEklWHslegWXInUYrR+I+P7R4aBKmcxU=;
+  b=RzbWT8/ircM1SHAl8CgJ6wE0Pu9J71GsHR+s6KDlKGVjLW4LXeS1DFvs
+   UPSS/rmrSlYbqXNEt6eIIS0l8yb8G7QnKUFuEtD/zQXciJw1m2oFH2DOo
+   xw17o6SVNXRCyeir3gnGmdPQiItZS2CRTIznlJupKnwbi7yvKFm2rtt1G
+   h2H5I1+jQB3aITBugGZmVxXtMuG9vFd/cnetjZRaXxaLZ5FvS1gK3eq7Z
+   PJ5uB9zSgqcY0IdbDUxUhKmi+fmcP3MX96HKZcV/vHwjL5dMm5rUQO4PS
+   cpFgoAzxy/tmRDY95Zc/4t4U1Ez8oXlUvX6PaYqCC+CTxoCg6QWJCS1Am
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="455227985"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="370288069"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 11:13:29 -0800
+   d="scan'208";a="455227985"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 11:21:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="741519658"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="741519658"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 15 Nov 2023 11:13:25 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3LKF-0000jt-01;
-	Wed, 15 Nov 2023 19:13:23 +0000
-Date: Thu, 16 Nov 2023 03:12:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Peter Hunt <pehunt@redhat.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH v3 1/5] workqueue: Make workqueue_set_unbound_cpumask()
- static
-Message-ID: <202311160353.FAdfQwO3-lkp@intel.com>
-References: <20231115170359.163299-2-longman@redhat.com>
+   d="scan'208";a="6265205"
+Received: from mmatragr-mobl1.amr.corp.intel.com (HELO [10.255.229.105]) ([10.255.229.105])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 11:21:44 -0800
+Message-ID: <541fff8a-ad8f-43f5-9a44-c64302698029@intel.com>
+Date: Wed, 15 Nov 2023 11:21:41 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231115170359.163299-2-longman@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] crypto: x86/sm2 -add Zhaoxin SM2 algorithm
+ implementation
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, LeoLiu-oc <LeoLiu-oc@zhaoxin.com>,
+ herbert@gondor.apana.org.au, davem@davemloft.net, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ hpa@zytor.com, seanjc@google.com, kim.phillips@amd.com, pbonzini@redhat.com,
+ babu.moger@amd.com, jiaxi.chen@linux.intel.com, jmattson@google.com,
+ pawan.kumar.gupta@linux.intel.com, linux-crypto@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, CobeChen@zhaoxin.com,
+ TonyWWang@zhaoxin.com, YunShen@zhaoxin.com, Leoliu@zhaoxin.com
+References: <20231115071724.575356-1-LeoLiu-oc@zhaoxin.com>
+ <202311160022.csCILGmA-lkp@intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <202311160022.csCILGmA-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Waiman,
 
-kernel test robot noticed the following build warnings:
+> vim +/asm +43 arch/x86/crypto/sm2-zhaoxin-gmi_glue.c
+> 
+>     35	
+>     36	/* Zhaoxin sm2 verify function */
+>     37	static inline int zhaoxin_gmi_sm2_verify(unsigned char *key, unsigned char *hash, unsigned char *sig,
+>     38					unsigned char *scratch)
+>     39	{
+>     40		uint64_t cword, f_ok;
+>     41		cword = (uint64_t)0x8;
+>     42	
+>   > 43		asm(".byte 0xf2, 0x0f, 0xa6, 0xc0"
+>     44			:"=c"(f_ok), "+a"(hash), "+b"(key), "+d"(cword), "+S"(scratch), "+D"(sig));
+>     45	
+>     46		return f_ok;
+>     47	}
+>     48	
 
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes linus/master v6.7-rc1]
-[cannot apply to tj-cgroup/for-next tj-wq/for-next next-20231115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/workqueue-Make-workqueue_set_unbound_cpumask-static/20231116-010940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20231115170359.163299-2-longman%40redhat.com
-patch subject: [PATCH v3 1/5] workqueue: Make workqueue_set_unbound_cpumask() static
-config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20231116/202311160353.FAdfQwO3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160353.FAdfQwO3-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311160353.FAdfQwO3-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/workqueue.c:4421:13: warning: 'apply_wqattrs_unlock' defined but not used [-Wunused-function]
-    4421 | static void apply_wqattrs_unlock(void)
-         |             ^~~~~~~~~~~~~~~~~~~~
->> kernel/workqueue.c:4414:13: warning: 'apply_wqattrs_lock' defined but not used [-Wunused-function]
-    4414 | static void apply_wqattrs_lock(void)
-         |             ^~~~~~~~~~~~~~~~~~
-
-
-vim +/apply_wqattrs_unlock +4421 kernel/workqueue.c
-
-8864b4e59f7945 Tejun Heo                 2013-03-12  4413  
-a0111cf6710bd1 Lai Jiangshan             2015-05-19 @4414  static void apply_wqattrs_lock(void)
-a0111cf6710bd1 Lai Jiangshan             2015-05-19  4415  {
-a0111cf6710bd1 Lai Jiangshan             2015-05-19  4416  	/* CPUs should stay stable across pwq creations and installations */
-ffd8bea81fbb5a Sebastian Andrzej Siewior 2021-08-03  4417  	cpus_read_lock();
-a0111cf6710bd1 Lai Jiangshan             2015-05-19  4418  	mutex_lock(&wq_pool_mutex);
-a0111cf6710bd1 Lai Jiangshan             2015-05-19  4419  }
-a0111cf6710bd1 Lai Jiangshan             2015-05-19  4420  
-a0111cf6710bd1 Lai Jiangshan             2015-05-19 @4421  static void apply_wqattrs_unlock(void)
-a0111cf6710bd1 Lai Jiangshan             2015-05-19  4422  {
-a0111cf6710bd1 Lai Jiangshan             2015-05-19  4423  	mutex_unlock(&wq_pool_mutex);
-ffd8bea81fbb5a Sebastian Andrzej Siewior 2021-08-03  4424  	cpus_read_unlock();
-a0111cf6710bd1 Lai Jiangshan             2015-05-19  4425  }
-a0111cf6710bd1 Lai Jiangshan             2015-05-19  4426  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+When you go fix your compile error, can you please look around the tree
+and see what folks do for replacing .byte?  AS_SHA1_NI, for example.
