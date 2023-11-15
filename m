@@ -1,56 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B20F35EFB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 16:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBA335EFB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 16:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IyOFReVK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JWdTfZQt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700067578; x=1731603578;
+  t=1700067590; x=1731603590;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CKen/SAx4UEsgZztdlCyc7GUsdmkySPk3GnM9twjEo8=;
-  b=IyOFReVKir3mTxXEnE1cw53jgXoVLglW4ggMottEXhILVwWbuVShJzZP
-   kbzVa/NyyA8+IHI1g79LF5qE6ml966Wy0AX5Q+U0fdCutrxH+0VtbZZTV
-   t/46ARqWysP8svn1DsbvQMnVA+w1o/NKr2WZqJ6JMVB/Jy/SPB7tWo+pw
-   zvxjVpw1r+5qRd9Jq/Nsm79seUGksY21jgOGp+8AkLSgeHeNANra9CaoF
-   iZtXEYe3wwrYF+7zs1n5AqBA7qO0fXiNqLzMU0MCkIL/rOZ8eYp5dfE6J
-   ni3cSJtHizTzpKgOC4YDqGAo5vcTmrhJWXVdFZ/Qw9ASU3+8XbifIDTpT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="3992074"
+  bh=9uKcFY4QauvFYKvl+Sytq0IYlA4lqNfQ+9TYosW5GMY=;
+  b=JWdTfZQthlTo4/EWoOR8WbNQBxo1JjwdH/3VO7e4Zm0qMpT4qZW8frkh
+   fkjo3BNfK/p3AuW66xz5t75ZAG40x/XLlwsOd/KXbTj4Jjvu8oThMfb/u
+   A4YT6y2pZOk7fZLpYQOJyi62kDg3uu5uZlLQYupMxZYy5T1wT0wAqRs65
+   m23fWF4oeRqV5F3lqTXCCcZ2umNuOoCQUWuHMsRBcmsBNFlGTNXMcLVRm
+   X86LZrToi8JZvCstooFwLGL/JuplLgYoknhmW+gfpjOr1uzYkaud7bXMA
+   gWgCd1rojHbXRkGaKAM3q8wT5RecFDBA+3PAddODp1qSovcq65eIPOCoM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="375952889"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="3992074"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 08:59:37 -0800
+   d="scan'208";a="375952889"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 08:59:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="799901038"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="799901038"
+   d="scan'208";a="6220123"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 15 Nov 2023 08:59:30 -0800
+  by orviesa002.jf.intel.com with ESMTP; 15 Nov 2023 08:59:30 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3JEe-0000c0-0U;
+	id 1r3JEe-0000c8-0k;
 	Wed, 15 Nov 2023 16:59:28 +0000
-Date: Thu, 16 Nov 2023 00:58:36 +0800
+Date: Thu, 16 Nov 2023 00:58:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: LeoLiu-oc <LeoLiu-oc@zhaoxin.com>, herbert@gondor.apana.org.au,
-	davem@davemloft.net, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, seanjc@google.com, kim.phillips@amd.com,
-	pbonzini@redhat.com, babu.moger@amd.com, jiaxi.chen@linux.intel.com,
-	jmattson@google.com, pawan.kumar.gupta@linux.intel.com,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, CobeChen@zhaoxin.com,
-	TonyWWang@zhaoxin.com, YunShen@zhaoxin.com, Leoliu@zhaoxin.com,
-	LeoLiuoc <LeoLiu-oc@zhaoxin.com>
-Subject: Re: [PATCH v2] crypto: x86/sm2 -add Zhaoxin SM2 algorithm
- implementation
-Message-ID: <202311160022.csCILGmA-lkp@intel.com>
-References: <20231115071724.575356-1-LeoLiu-oc@zhaoxin.com>
+To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kexec@lists.infradead.org,
+	x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-parisc@vger.kernel.org, Baoquan He <bhe@redhat.com>
+Subject: Re: [PATCH 4/7] kexec_file, arm64: print out debugging message if
+ required
+Message-ID: <202311160022.QM6xJYSy-lkp@intel.com>
+References: <20231114153253.241262-5-bhe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,57 +53,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231115071724.575356-1-LeoLiu-oc@zhaoxin.com>
+In-Reply-To: <20231114153253.241262-5-bhe@redhat.com>
 
-Hi LeoLiu-oc,
+Hi Baoquan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on herbert-crypto-2.6/master tip/x86/core linus/master v6.7-rc1 next-20231115]
+[auto build test WARNING on arm64/for-next/core]
+[also build test WARNING on tip/x86/core powerpc/next powerpc/fixes linus/master v6.7-rc1 next-20231115]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/LeoLiu-oc/crypto-x86-sm2-add-Zhaoxin-SM2-algorithm-implementation/20231115-163848
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20231115071724.575356-1-LeoLiu-oc%40zhaoxin.com
-patch subject: [PATCH v2] crypto: x86/sm2 -add Zhaoxin SM2 algorithm implementation
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231116/202311160022.csCILGmA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160022.csCILGmA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec_file-add-kexec_file-flag-to-control-debug-printing/20231114-234003
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20231114153253.241262-5-bhe%40redhat.com
+patch subject: [PATCH 4/7] kexec_file, arm64: print out debugging message if required
+config: arm64-randconfig-001-20231115 (https://download.01.org/0day-ci/archive/20231116/202311160022.QM6xJYSy-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160022.QM6xJYSy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311160022.csCILGmA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311160022.QM6xJYSy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In function 'zhaoxin_gmi_sm2_verify',
-       inlined from '_zhaoxin_sm2_verify' at arch/x86/crypto/sm2-zhaoxin-gmi_glue.c:56:9,
-       inlined from 'zhaoxin_sm2_verify' at arch/x86/crypto/sm2-zhaoxin-gmi_glue.c:79:8:
->> arch/x86/crypto/sm2-zhaoxin-gmi_glue.c:43:9: error: inconsistent operand constraints in an 'asm'
-      43 |         asm(".byte 0xf2, 0x0f, 0xa6, 0xc0"
-         |         ^~~
+   arch/arm64/kernel/machine_kexec.c: In function '_kexec_image_info':
+>> arch/arm64/kernel/machine_kexec.c:35:23: warning: unused variable 'i' [-Wunused-variable]
+      35 |         unsigned long i;
+         |                       ^
 
 
-vim +/asm +43 arch/x86/crypto/sm2-zhaoxin-gmi_glue.c
+vim +/i +35 arch/arm64/kernel/machine_kexec.c
 
-    35	
-    36	/* Zhaoxin sm2 verify function */
-    37	static inline int zhaoxin_gmi_sm2_verify(unsigned char *key, unsigned char *hash, unsigned char *sig,
-    38					unsigned char *scratch)
-    39	{
-    40		uint64_t cword, f_ok;
-    41		cword = (uint64_t)0x8;
-    42	
-  > 43		asm(".byte 0xf2, 0x0f, 0xa6, 0xc0"
-    44			:"=c"(f_ok), "+a"(hash), "+b"(key), "+d"(cword), "+S"(scratch), "+D"(sig));
-    45	
-    46		return f_ok;
-    47	}
-    48	
+d28f6df1305a86 Geoff Levand 2016-06-23  27  
+221f2c770e10d3 Geoff Levand 2016-06-23  28  /**
+221f2c770e10d3 Geoff Levand 2016-06-23  29   * kexec_image_info - For debugging output.
+221f2c770e10d3 Geoff Levand 2016-06-23  30   */
+221f2c770e10d3 Geoff Levand 2016-06-23  31  #define kexec_image_info(_i) _kexec_image_info(__func__, __LINE__, _i)
+221f2c770e10d3 Geoff Levand 2016-06-23  32  static void _kexec_image_info(const char *func, int line,
+221f2c770e10d3 Geoff Levand 2016-06-23  33  	const struct kimage *kimage)
+221f2c770e10d3 Geoff Levand 2016-06-23  34  {
+221f2c770e10d3 Geoff Levand 2016-06-23 @35  	unsigned long i;
+221f2c770e10d3 Geoff Levand 2016-06-23  36  
+f24d07b8c8e272 Baoquan He   2023-11-14  37  	kexec_dprintk("%s:%d:\n", func, line);
+f24d07b8c8e272 Baoquan He   2023-11-14  38  	kexec_dprintk("  kexec kimage info:\n");
+f24d07b8c8e272 Baoquan He   2023-11-14  39  	kexec_dprintk("    type:        %d\n", kimage->type);
+f24d07b8c8e272 Baoquan He   2023-11-14  40  	kexec_dprintk("    head:        %lx\n", kimage->head);
+f24d07b8c8e272 Baoquan He   2023-11-14  41  	kexec_dprintk("    kern_reloc: %pa\n", &kimage->arch.kern_reloc);
+f24d07b8c8e272 Baoquan He   2023-11-14  42  	kexec_dprintk("    el2_vectors: %pa\n", &kimage->arch.el2_vectors);
+221f2c770e10d3 Geoff Levand 2016-06-23  43  }
+221f2c770e10d3 Geoff Levand 2016-06-23  44  
 
 -- 
 0-DAY CI Kernel Test Service
