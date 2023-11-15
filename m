@@ -1,95 +1,88 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED7BD51E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 10:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FF3DF51
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 10:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jG4PPL9c"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5a92782615dso77225577b3.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 02:28:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700044116; x=1700648916; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=do0Q0u29Tz44Y8UUBoHQ+KrW0i2gijbFLTrdRooPIFA=;
-        b=jG4PPL9cbbWsuhOoMxxyb/fAKzbEzUWHKXNaeuj+5BMEPXABX6UdlPMTOfHipUJl03
-         qDq3DtLVtY2VzXjUp/MS2KWZPu8Sa08xbKLC9Wwkue4H9Rka+I/1qzqDY60URo87D/nA
-         HFKvdYPeorc9xbI1HNWQT4a9tflpc45jtT6oUDErcMOq1g6SFMlxd6Kcv4wLL28DKeMV
-         1delFYagorW9A1J8RP8rJZPseTGfm6adtLFifIye5asN1ssBheW2dHD1TTdbCqNO6kJG
-         YxvZwSQHubLlCDtGSZ0lgnK8O0KuFj5wMJ0ZHvnBWx8lQ2kgAlm71yApfexe3f2ohp4T
-         BxwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700044116; x=1700648916;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=do0Q0u29Tz44Y8UUBoHQ+KrW0i2gijbFLTrdRooPIFA=;
-        b=YSlUOwKA3uCNvHmnJUsyCQ2zHIxt3C7qY/kqOx6iawDA+wzvuDgQBH9nnI50rPKf30
-         hKadhl2p4RGzicsQ4GlTriC4XdupOsaCI/40mkXqDkV4mdO9a9vsT9pbFHuqfAGeuquw
-         DC9uvZfj2PhUv3qcoVhpNn5XlBSFsswumoK+KQ6P/Fmo4dDSQSZIE3unmGdRLxjsRuMB
-         Wpdl98zE0iBwRS8xIt2fhzWo9Jz8yw6ogYBrfRrTauP4nWCyf3E9qnrVrhPql0QquLEm
-         hz4jO/+zouAXkreDSReugwYLV7ZINHT9U+s9k1xdRznEkMdnPLOCafbbXtifE7RPw1W2
-         WMZQ==
-X-Gm-Message-State: AOJu0YwjRJKLXYTpF0P/YUqh1C8s40XYUOzsDsUwrsRtGu9rZcfxbf1t
-	vF4r8dNntoQP/5sHFAV9E4Vr6qjhssivXpvzuNXysFA3HMcE7gvt
-X-Google-Smtp-Source: AGHT+IF8n86745aK0mAoqCk8o8BEcrky8kE5DIJC+RtaVr5hq4EG/nfkYjQEASp55CZ9wVIawIo8P8fKkM+MZ6bgDto=
-X-Received: by 2002:a81:48d8:0:b0:5bf:5741:517f with SMTP id
- v207-20020a8148d8000000b005bf5741517fmr12584129ywa.22.1700044116627; Wed, 15
- Nov 2023 02:28:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPFhQJvh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700044654; x=1731580654;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pASj3ynWAqrCC1Zge9+9eZpkrLPAlWqt+3s/Z4yMYFw=;
+  b=IPFhQJvhO2xRQFmnonvjOKMmkE+XhcIb936u+ntxgYFND7sLTx8Hz0uy
+   SMSwBisaFJIG7843WU92zeTWPRPb8Zp8zpfITa1dQHM8RKFt8Ujm1yRle
+   W+oAc7iXCuJFNuo5Z3LTRmAKyItFJLZjJXZ2sFXuMXxn6QFr8g7skKl+W
+   mzwklPGqwqsXKtrLmIeBKIYMiF2+qP2iGs8UHUc6WXh+ffsAwHSfIRSuo
+   nj+9wWbafGwoJxOvU9I0WAmVJccZXSVwR+UXxkQjxx8WWCXJ56zemKgrK
+   EVqnr0ombOHHEC047XAuGCUB2OrklJHVEiH1mj/P6+zjpROpeQvE0PS4u
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="477074238"
+X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
+   d="scan'208";a="477074238"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 02:37:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="830915908"
+X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
+   d="scan'208";a="830915908"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 15 Nov 2023 02:37:32 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r3DGv-0000Fc-0R;
+	Wed, 15 Nov 2023 10:37:26 +0000
+Date: Wed, 15 Nov 2023 18:36:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nicholas Piggin <npiggin@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: /tmp/ccDME0uz.s:1274: Error: unrecognized opcode: `ldbrx'
+Message-ID: <202311151805.cYO3x9wy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202311071303.JJMAOjy4-lkp@intel.com> <CACRpkdb4d9pfstqDTZoBSqOSS4d4vLOUCnS6AKcMjLZ8TTQ2Wg@mail.gmail.com>
- <20231115093742.GA32655@ediswmail.ad.cirrus.com> <CACRpkdYHJcx8gDsa5P2eLBh6iaVQzZY+-4eMJPKtnQTq3uR6oQ@mail.gmail.com>
- <20231115102537.GB32655@ediswmail.ad.cirrus.com>
-In-Reply-To: <20231115102537.GB32655@ediswmail.ad.cirrus.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 15 Nov 2023 11:28:24 +0100
-Message-ID: <CACRpkda3yBJjuHRvuCyL-XqJiNO57wPyuHJzn6cBMpaBnR+RMw@mail.gmail.com>
-Subject: Re: drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: pasting
- "LOCHNAGAR1_" and "(" does not give a valid preprocessing token
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: kernel test robot <lkp@intel.com>, Rob Herring <robh+dt@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Nov 15, 2023 at 11:25=E2=80=AFAM Charles Keepax
-<ckeepax@opensource.cirrus.com> wrote:
-> On Wed, Nov 15, 2023 at 10:57:29AM +0100, Linus Walleij wrote:
-> > On Wed, Nov 15, 2023 at 10:37=E2=80=AFAM Charles Keepax
-> > <ckeepax@opensource.cirrus.com> wrote:
-> > > On Tue, Nov 14, 2023 at 02:40:38PM +0100, Linus Walleij wrote:
-> > > > On Tue, Nov 7, 2023 at 6:19=E2=80=AFAM kernel test robot <lkp@intel=
-.com> wrote:
-> > > It has somewhat been on my radar to fix at some point, but I have
-> > > in general been a little unsure how to proceed. RST feels like
-> > > a mega over generic macro name to be exporting, so in some ways
-> > > feels like fixing that would be nice. On the other side, renaming
-> > > the register on the Lochnagar side would be very easy, although it
-> > > would mean the register naming no longer matches all the hardware
-> > > documentation which would be kinda lame.
-> >
-> > If MIPS breaks things like this because of weird defines I would say
-> > it is actually fair to just quirk it in Kconfig with a comment:
-> >
-> >   # MIPS occupy very generic defines
-> >   depends on !MIPS
->
-> Hm... hadn't considered that. The driver is pretty unlikely to be
-> needed on MIPS anytime soon, so might be a reasonable work around
-> for now. Would you like me to fire in a patch, or you want to?
+Hi Nicholas,
 
-Send it and I'll merge it.
+FYI, the error/warning still remains.
 
-I don't see the value in MIPS compile coverage for this driver,
-since it already builds fine with e.g. m68k big endian.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
+commit: f5df87b855fd835ff0f4928575adbf4f5302bb40 powerpc/build: Remove -pipe from compilation flags
+date:   5 months ago
+config: powerpc-cell_defconfig (https://download.01.org/0day-ci/archive/20231115/202311151805.cYO3x9wy-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311151805.cYO3x9wy-lkp@intel.com/reproduce)
 
-Yours,
-Linus Walleij
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311151805.cYO3x9wy-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   /tmp/ccDME0uz.s: Assembler messages:
+>> /tmp/ccDME0uz.s:1274: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:1276: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:1278: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:1279: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:2033: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:2039: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:2040: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:7758: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:8366: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:8493: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:8495: Error: unrecognized opcode: `ldbrx'
+   /tmp/ccDME0uz.s:8502: Error: unrecognized opcode: `ldbrx'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
