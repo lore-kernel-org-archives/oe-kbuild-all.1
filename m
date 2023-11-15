@@ -1,161 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C047E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 09:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12A97E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 09:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j6ePuH/e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700039720; x=1731575720;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UV3NuFFzI6aW/rGifueyBnWfJNTeeqEssuxS6rbinXQ=;
-  b=j6ePuH/e0nfZHnaF7qRL7ipXbdK8AN31QWbyQ8BeOktDogTdol85hOZ6
-   vjc9j6SCxPaN0EPfoi4lAlLB0i0OqRzvvsp7qrSC/4NnMYcf7D3IkMwCj
-   uBn68SUA8VIVRHheSoSqpBzpUCfNNoLbKP+Z7aLsrw8eyvR7gs+JWoh/s
-   nO+thDZtlezFe+z2LYHsolItgGpbB7LOs+eTQUim5aIAC1GLxJJisPTUq
-   YJW89bcgBj7tYBJxfcyG3hbMQNdiIiaFHxLiHc0P74TjweR90ei8qFS54
-   H49N6SdT/Nq4ILqbGqCc1FKLGSL+zFs2b5NG1xt9qJPqqt61vlvDuOXQo
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="394756654"
-X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
-   d="scan'208";a="394756654"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 01:15:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="741382716"
-X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
-   d="scan'208";a="741382716"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 15 Nov 2023 01:15:16 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3Byq-0000DP-35;
-	Wed, 15 Nov 2023 09:15:03 +0000
-Date: Wed, 15 Nov 2023 17:12:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Robert Foss <rfoss@kernel.org>
-Subject: drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c:230:26: warning:
- 'best_m' is used uninitialized
-Message-ID: <202311151746.f7u7dzbZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dXLcemkp"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AF6u5ua002185;
+	Wed, 15 Nov 2023 03:37:44 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-transfer-encoding:in-reply-to; s=
+	PODMain02222019; bh=wA83epg46IZxAyewUV28Kirt+0qSsu7iAQen/Bkb5aY=; b=
+	dXLcemkpsj1/UAK2CyrriXw6ZgBELDmsR9lGpAAMoccixZjRyqc1gnjO+XST9tGw
+	mYEx8hjBz/dHDeYKtqflSo3nXORfeO0clhxvgQizGsVQVCJHLOu1I0NyFg3edovJ
+	9xVGSasZVKOXqkAkUK2XAmSPYIQFZflXGNOykqvLD99EX6AO7qC7v61QkbAbNMll
+	t5KJNinb2h4b86R3y3RJDlNzXm3NvNDBXVFo6b71RwXZFgWfGSEbAZu+R7mBF27r
+	C6Zep1pWw2+dRoOBRgZqo7+M6edaaghDB6He5iHKta0Kshq+iVxjrlf0O+ZUThKE
+	d/1BhiMzh47wxlpYdb88fg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3ua6wpcfp2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Nov 2023 03:37:43 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 15 Nov
+ 2023 09:37:42 +0000
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.39 via Frontend Transport; Wed, 15 Nov 2023 09:37:42 +0000
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 16FB915A1;
+	Wed, 15 Nov 2023 09:37:42 +0000 (UTC)
+Date: Wed, 15 Nov 2023 09:37:42 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+CC: kernel test robot <lkp@intel.com>, Rob Herring <robh+dt@kernel.org>,
+        <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: pasting
+ "LOCHNAGAR1_" and "(" does not give a valid preprocessing token
+Message-ID: <20231115093742.GA32655@ediswmail.ad.cirrus.com>
+References: <202311071303.JJMAOjy4-lkp@intel.com>
+ <CACRpkdb4d9pfstqDTZoBSqOSS4d4vLOUCnS6AKcMjLZ8TTQ2Wg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdb4d9pfstqDTZoBSqOSS4d4vLOUCnS6AKcMjLZ8TTQ2Wg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: ib5uJw7pb3N9TXitRPyqY-5-0thUbsl9
+X-Proofpoint-ORIG-GUID: ib5uJw7pb3N9TXitRPyqY-5-0thUbsl9
+X-Proofpoint-Spam-Reason: safe
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
-commit: ce62f8ea7e3f8a8e788c3b5ea0195f1224575b66 drm/bridge: imx: Add i.MX93 MIPI DSI support
-date:   4 weeks ago
-config: arc-randconfig-001-20231115 (https://download.01.org/0day-ci/archive/20231115/202311151746.f7u7dzbZ-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311151746.f7u7dzbZ-lkp@intel.com/reproduce)
+On Tue, Nov 14, 2023 at 02:40:38PM +0100, Linus Walleij wrote:
+> On Tue, Nov 7, 2023 at 6:19 AM kernel test robot <lkp@intel.com> wrote:
+> 
+> > >> drivers/pinctrl/cirrus/pinctrl-lochnagar.c:52:53: error: pasting "LOCHNAGAR1_" and "(" does not give a valid preprocessing token
+> >       52 |         .name = NAME, .type = LN_PTYPE_GPIO, .reg = LOCHNAGAR##REV##_##REG, \
+> >          |                                                     ^~~~~~~~~
+> >    drivers/pinctrl/cirrus/pinctrl-lochnagar.c:67:9: note: in expansion of macro 'LN_PIN_GPIO'
+> >       67 |         LN_PIN_GPIO(1, ID, NAME, REG, SHIFT, INVERT)
+> >          |         ^~~~~~~~~~~
+> 
+> I looked a bit at this, can this be due to the fact that the macros use defines
+> from include/dt-bindings/...* and that MIPS does not use these includes
+> somehow, such as not using the same dtc compiler?
+> 
+> Rob, do you know the story of how MIPS interoperates with <dt-bindings/*>?
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311151746.f7u7dzbZ-lkp@intel.com/
+Is that what is going on here? I though this was the long standing
+problem that MIPS has some global define for RST so the macro that
+string pastes that in, no longer pastes in the letters RST but some
+value instead.
 
-All warnings (new ones prefixed by >>):
+It has somewhat been on my radar to fix at some point, but I have
+in general been a little unsure how to proceed. RST feels like
+a mega over generic macro name to be exporting, so in some ways
+feels like fixing that would be nice. On the other side, renaming
+the register on the Lochnagar side would be very easy, although it
+would mean the register naming no longer matches all the hardware
+documentation which would be kinda lame.
 
-   drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c: In function 'dphy_pll_get_configure_from_opts.isra':
->> drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c:230:26: warning: 'best_m' is used uninitialized [-Wuninitialized]
-     230 |         unsigned long m, best_m;
-         |                          ^~~~~~
->> drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c:229:39: warning: 'best_n' is used uninitialized [-Wuninitialized]
-     229 |         unsigned int min_n, max_n, n, best_n;
-         |                                       ^~~~~~
-
-
-vim +/best_m +230 drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-
-   218	
-   219	static int
-   220	dphy_pll_get_configure_from_opts(struct imx93_dsi *dsi,
-   221					 struct phy_configure_opts_mipi_dphy *dphy_opts,
-   222					 struct dphy_pll_cfg *cfg)
-   223	{
-   224		struct device *dev = dsi->dev;
-   225		unsigned long fin = dsi->ref_clk_rate;
-   226		unsigned long fout;
-   227		unsigned long best_fout = 0;
-   228		unsigned int fvco_div;
- > 229		unsigned int min_n, max_n, n, best_n;
- > 230		unsigned long m, best_m;
-   231		unsigned long min_delta = ULONG_MAX;
-   232		unsigned long delta;
-   233		u64 tmp;
-   234	
-   235		if (dphy_opts->hs_clk_rate < DATA_RATE_MIN_SPEED ||
-   236		    dphy_opts->hs_clk_rate > DATA_RATE_MAX_SPEED) {
-   237			dev_dbg(dev, "invalid data rate per lane: %lu\n",
-   238				dphy_opts->hs_clk_rate);
-   239			return -EINVAL;
-   240		}
-   241	
-   242		fout = data_rate_to_fout(dphy_opts->hs_clk_rate);
-   243	
-   244		/* DPHY Databook 3.3.6.1 Output Frequency */
-   245		/* Fout = Fvco / Fvco_div = (Fin * M) / (Fvco_div * N) */
-   246		/* Fvco_div could be 1/2/4/8 according to Fout range. */
-   247		fvco_div = 8UL / min(DIV_ROUND_UP(fout, FVCO_DIV_FACTOR), 8UL);
-   248	
-   249		/* limitation: 2MHz <= Fin / N <= 8MHz */
-   250		min_n = DIV_ROUND_UP_ULL((u64)fin, MHZ(8));
-   251		max_n = DIV_ROUND_DOWN_ULL((u64)fin, MHZ(2));
-   252	
-   253		/* clamp possible N(s) */
-   254		min_n = clamp(min_n, N_MIN, N_MAX);
-   255		max_n = clamp(max_n, N_MIN, N_MAX);
-   256	
-   257		dev_dbg(dev, "Fout = %lu, Fvco_div = %u, n_range = [%u, %u]\n",
-   258			fout, fvco_div, min_n, max_n);
-   259	
-   260		for (n = min_n; n <= max_n; n++) {
-   261			/* M = (Fout * N * Fvco_div) / Fin */
-   262			m = DIV_ROUND_CLOSEST(fout * n * fvco_div, fin);
-   263	
-   264			/* check M range */
-   265			if (m < M_MIN || m > M_MAX)
-   266				continue;
-   267	
-   268			/* calculate temporary Fout */
-   269			tmp = m * fin;
-   270			do_div(tmp, n * fvco_div);
-   271			if (tmp < FOUT_MIN || tmp > FOUT_MAX)
-   272				continue;
-   273	
-   274			delta = abs(fout - tmp);
-   275			if (delta < min_delta) {
-   276				best_n = n;
-   277				best_m = m;
-   278				min_delta = delta;
-   279				best_fout = tmp;
-   280			}
-   281		}
-   282	
-   283		if (best_fout) {
-   284			cfg->m = best_m;
-   285			cfg->n = best_n;
-   286			dev_dbg(dev, "best Fout = %lu, m = %u, n = %u\n",
-   287				best_fout, cfg->m, cfg->n);
-   288		} else {
-   289			dev_dbg(dev, "failed to find best Fout\n");
-   290			return -EINVAL;
-   291		}
-   292	
-   293		return 0;
-   294	}
-   295	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Charles
