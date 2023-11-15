@@ -1,92 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A77C2747F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 14:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B3D2E64B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 14:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jAWWRj5Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700059864; x=1731595864;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9D3T4M10CW55F/QDP/Mvbsq/NHZU+GWFUpkbGjqS5g4=;
-  b=jAWWRj5QthRWcSzak+K0A6OtbbdPNRF4jaa+rjMrCh4L5z7EDRm0RN2m
-   OLUG+GIOSrHjE4Qg3VZdExiiQeBi9XJTSAMz5o7Fwrc/rdtEPYb/91IFU
-   4wuwdNycj72cPpPIcJqn479jB2ZjqZ0fFSi0Q3jCqtnuvIa1EAp4lCsB0
-   wYPG5RzmK1r6/AdlfLTbUPZhWP4kFOQWWYQyq4r74LnbBd3oiiotH+J3q
-   OmdREQPTHVVWI6EJPbskIWTuYpaw4IMk19ffKIxi0cTXiJwWCYZCVKNIm
-   0Xmc1SD+BRTeJJj8AoyBn90qEtIjnN2Nk6U/AjDGZ10e6pKMmvkGHPVeE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="9524549"
-X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="9524549"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 06:51:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="938496598"
-X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="938496598"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 15 Nov 2023 06:50:59 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3HEG-0000Pu-2g;
-	Wed, 15 Nov 2023 14:50:56 +0000
-Date: Wed, 15 Nov 2023 22:50:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guo Ren <guoren@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: arch/riscv/kernel/irq.c:49:1: sparse: sparse: symbol
- '__pcpu_scope_irq_stack' was not declared. Should it be static?
-Message-ID: <202311152232.0ru8PmcL-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="l1TITT5h"
+Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 6803566072F6;
+	Wed, 15 Nov 2023 14:46:02 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1700059563;
+	bh=SysEHQyfnDl2ED6yEuD/ZWURaU47ZbaPWA3AZzp3zCU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=l1TITT5hAZpW8tHUZnZdSzdJPAzIaOspip8Wsbds8NnwpadodZgJv2VFzRso4KS0o
+	 HB2g+EKaRIDWxmAsn56WIecMVN4rF6mm75zr43ZOjq0EVW0CfG1GQvSx7S74zfYmCP
+	 LUuPpKZaBS0o9A+ow8WojcipY6Uau/37wmvFSbXDGVxlIObHPDZ+FYNmSXX+kHkFCe
+	 2iL87MNv3OfavWKBRJE8mrpDQ1cto5ETHcTtRSx1mS4eIL03PknrAGzb3U2bvVnGNQ
+	 BvNBaik3KqhQmQ0MAZVw299c316P16p0gWGhsDE8qe1dzbCdqn9NqVGGEx/hJjyWl5
+	 iP/J1L/AcOBEw==
+Message-ID: <8e40838f-1a72-4167-8ff5-0ca1584e0246@collabora.com>
+Date: Wed, 15 Nov 2023 15:45:59 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] thermal: Add support for device tree thermal zones
+ consumers
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, rafael@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, daniel.lezcano@linaro.org,
+ rui.zhang@intel.com, lukasz.luba@arm.com, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@collabora.com, wenst@chromium.org
+References: <20231114131514.89031-1-angelogioacchino.delregno@collabora.com>
+ <202311152230.nzJVHaeG-lkp@intel.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <202311152230.nzJVHaeG-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
-commit: 163e76cc6ef43b7a5e9b6e245a6d6667c9d9b4a7 riscv: stack: Support HAVE_IRQ_EXIT_ON_IRQ_STACK
-date:   5 months ago
-config: riscv-randconfig-r122-20231115 (https://download.01.org/0day-ci/archive/20231115/202311152232.0ru8PmcL-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231115/202311152232.0ru8PmcL-lkp@intel.com/reproduce)
+Il 15/11/23 15:37, kernel test robot ha scritto:
+> Hi AngeloGioacchino,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on rafael-pm/thermal]
+> [also build test ERROR on linus/master v6.7-rc1 next-20231115]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/thermal-Add-support-for-device-tree-thermal-zones-consumers/20231114-211656
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+> patch link:    https://lore.kernel.org/r/20231114131514.89031-1-angelogioacchino.delregno%40collabora.com
+> patch subject: [PATCH] thermal: Add support for device tree thermal zones consumers
+> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20231115/202311152230.nzJVHaeG-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311152230.nzJVHaeG-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311152230.nzJVHaeG-lkp@intel.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311152232.0ru8PmcL-lkp@intel.com/
+..snip..
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zihintpause'
->> arch/riscv/kernel/irq.c:49:1: sparse: sparse: symbol '__pcpu_scope_irq_stack' was not declared. Should it be static?
+> 
+> 
+> vim +282 include/linux/thermal.h
+> 
+>     280	
 
-vim +/__pcpu_scope_irq_stack +49 arch/riscv/kernel/irq.c
+That's right, I forgot to add "static inline" :-)
 
-    35	
-    36	#ifdef CONFIG_VMAP_STACK
-    37	static void init_irq_stacks(void)
-    38	{
-    39		int cpu;
-    40		ulong *p;
-    41	
-    42		for_each_possible_cpu(cpu) {
-    43			p = arch_alloc_vmap_stack(IRQ_STACK_SIZE, cpu_to_node(cpu));
-    44			per_cpu(irq_stack_ptr, cpu) = p;
-    45		}
-    46	}
-    47	#else
-    48	/* irq stack only needs to be 16 byte aligned - not IRQ_STACK_SIZE aligned. */
-  > 49	DEFINE_PER_CPU_ALIGNED(ulong [IRQ_STACK_SIZE/sizeof(ulong)], irq_stack);
-    50	
+Fixing and sending a v2.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>     281	struct thermal_zone_device *thermal_of_get_zone_by_index(struct device *dev, int index)
+>   > 282	{
+>     283		return ERR_PTR(-EOPNOTSUPP);
+>     284	}
+>     285	
+>     286	struct thermal_zone_device *thermal_of_get_zone(struct device *dev, const char *name)
+>   > 287	{
+>     288		return ERR_PTR(-EOPNOTSUPP);
+>     289	}
+>     290	#endif
+>     291	
+> 
+
+
+
