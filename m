@@ -1,88 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FF3DF51
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 10:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A45F154B7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 11:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPFhQJvh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700044654; x=1731580654;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pASj3ynWAqrCC1Zge9+9eZpkrLPAlWqt+3s/Z4yMYFw=;
-  b=IPFhQJvhO2xRQFmnonvjOKMmkE+XhcIb936u+ntxgYFND7sLTx8Hz0uy
-   SMSwBisaFJIG7843WU92zeTWPRPb8Zp8zpfITa1dQHM8RKFt8Ujm1yRle
-   W+oAc7iXCuJFNuo5Z3LTRmAKyItFJLZjJXZ2sFXuMXxn6QFr8g7skKl+W
-   mzwklPGqwqsXKtrLmIeBKIYMiF2+qP2iGs8UHUc6WXh+ffsAwHSfIRSuo
-   nj+9wWbafGwoJxOvU9I0WAmVJccZXSVwR+UXxkQjxx8WWCXJ56zemKgrK
-   EVqnr0ombOHHEC047XAuGCUB2OrklJHVEiH1mj/P6+zjpROpeQvE0PS4u
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="477074238"
-X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
-   d="scan'208";a="477074238"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 02:37:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="830915908"
-X-IronPort-AV: E=Sophos;i="6.03,304,1694761200"; 
-   d="scan'208";a="830915908"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Nov 2023 02:37:32 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3DGv-0000Fc-0R;
-	Wed, 15 Nov 2023 10:37:26 +0000
-Date: Wed, 15 Nov 2023 18:36:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nicholas Piggin <npiggin@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: /tmp/ccDME0uz.s:1274: Error: unrecognized opcode: `ldbrx'
-Message-ID: <202311151805.cYO3x9wy-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dkpR8xDX"
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-7ba170ac211so2571516241.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 03:15:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700046901; x=1700651701; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Na/qyJPpv7M2mD4KWI412UY7s6MpSD8TKED279inyuc=;
+        b=dkpR8xDX9Ep0uVs09slJxCudB2DBa5NRzd2frhDPyGL1NPbFeS1lqqCPNXpOIJTM10
+         i+1WGvl+oN5jDHrWvfG0gArAIESqnw1wz2nRPb61fZb53hZ9reE0ObQ8mpCHO9DQJf77
+         4UueMqKWBgM5F3/31jF/fRD4srfYhK//bEPpPRfoaSeq/Xv6IdOSMzfs762BzG98yoPL
+         JdgU2F+KFJhPxXX6/sBH+0bbYM5NCJZtH7GfT2ffEoKWWdehsaJYt0/wA/wL5DTiz3tE
+         H1JNO7D3GhpDwGi10Xrm4VgznemlfU5Q/UKnCFCaCh8esen2NwbznrNqnELEPz10Xqxg
+         xJEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700046901; x=1700651701;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Na/qyJPpv7M2mD4KWI412UY7s6MpSD8TKED279inyuc=;
+        b=W7jNnbXAqLVldVN81lhfzMzf9lat7af/XM6SZOalgnFaUtRVeMORW0kATQk4MS2vJu
+         /WW1b2S6y7JC4MVzqXUvgrc6xrrEoVrhlPJNxKB/q5MdpEDCmUQmaNNPimwHbbQM+GSt
+         f4qQUxqEMEsz7+h4QoCRpDbL8v4hCgXGx99vYyF7a9fS9a4YY2h1OzgLr7TIhTxvAKDk
+         miw1vSZXHsx0pFCSM4o7B1GwWhJOD+Y10cxP1u9y1qwP8E+vzNgheexZawTfV+nrTaYc
+         7PNNIKCy4UpGq6/7Dy2yt7JDg76PsRPDhLhQzTiEWxEVDHxMYvPbnzaigvBi5/jAqjKJ
+         2Apw==
+X-Gm-Message-State: AOJu0YwEX5wFLIj1o999J75fG9F03p185xn14rLsfCknajhOPQbGBiJl
+	3rvGse6REvS0NLM+U5jTRvKvtSj51Yvp863O2TiSuw==
+X-Google-Smtp-Source: AGHT+IFTWpi4Ff/kgs493Yi1PtmVxMEBSw015UrnpDNqrt3IXeS1C8RYEVdQRr67V4vRMJRNPFGXcdY6WD7U8DE0Wd4=
+X-Received: by 2002:a67:b202:0:b0:45f:8783:beaa with SMTP id
+ b2-20020a67b202000000b0045f8783beaamr12841662vsf.12.1700046901398; Wed, 15
+ Nov 2023 03:15:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20231109210608.2252323-4-willy@infradead.org> <202311121240.AN8GbAbe-lkp@intel.com>
+ <20231113091006.f9d4de1aaf7ed2f8beef07fb@linux-foundation.org> <20231113172052.GA3733520@dev-arch.thelio-3990X>
+In-Reply-To: <20231113172052.GA3733520@dev-arch.thelio-3990X>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Wed, 15 Nov 2023 16:44:49 +0530
+Message-ID: <CA+G9fYuA_PTd7R2NsBvtNb7qjwp4avHpCmWi4=OmY4jndDcQYA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/7] buffer: Fix grow_buffers() for block size > PAGE_SIZE
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kernel test robot <lkp@intel.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Hannes Reinecke <hare@suse.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Pankaj Raghav <p.raghav@samsung.com>, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Nicholas,
+Hi Nathan,
 
-FYI, the error/warning still remains.
+On Mon, 13 Nov 2023 at 22:50, Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> On Mon, Nov 13, 2023 at 09:10:06AM -0800, Andrew Morton wrote:
+> > On Sun, 12 Nov 2023 12:52:00 +0800 kernel test robot <lkp@intel.com> wrote:
+> >
+> > > Hi Matthew,
+> > >
+> > > kernel test robot noticed the following build errors:
+> > >
+> > > [auto build test ERROR on akpm-mm/mm-everything]
+> > > [also build test ERROR on linus/master next-20231110]
+> > > [cannot apply to v6.6]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/buffer-Return-bool-from-grow_dev_folio/20231110-051651
+> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> > > patch link:    https://lore.kernel.org/r/20231109210608.2252323-4-willy%40infradead.org
+> > > patch subject: [PATCH v2 3/7] buffer: Fix grow_buffers() for block size > PAGE_SIZE
+> > > config: hexagon-comet_defconfig (https://download.01.org/0day-ci/archive/20231112/202311121240.AN8GbAbe-lkp@intel.com/config)
+> > > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311121240.AN8GbAbe-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202311121240.AN8GbAbe-lkp@intel.com/
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
-commit: f5df87b855fd835ff0f4928575adbf4f5302bb40 powerpc/build: Remove -pipe from compilation flags
-date:   5 months ago
-config: powerpc-cell_defconfig (https://download.01.org/0day-ci/archive/20231115/202311151805.cYO3x9wy-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311151805.cYO3x9wy-lkp@intel.com/reproduce)
+KFT CI also have been noticing this build problem on Linux next.
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311151805.cYO3x9wy-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > > >> ld.lld: error: undefined symbol: __muloti4
+> > >    >>> referenced by buffer.c
+> > >    >>>               fs/buffer.o:(bdev_getblk) in archive vmlinux.a
+> > >    >>> referenced by buffer.c
+> > >    >>>               fs/buffer.o:(bdev_getblk) in archive vmlinux.a
+> > >
+> >
+> > What a peculiar compiler.
+> >
+> > I assume this fixes?
+> >
+> > --- a/fs/buffer.c~buffer-fix-grow_buffers-for-block-size-page_size-fix
+> > +++ a/fs/buffer.c
+> > @@ -1099,7 +1099,7 @@ static bool grow_buffers(struct block_de
+> >       }
+> >
+> >       /* Create a folio with the proper size buffers */
+> > -     return grow_dev_folio(bdev, block, pos / PAGE_SIZE, size, gfp);
+> > +     return grow_dev_folio(bdev, block, pos >> PAGE_SHIFT, size, gfp);
+> >  }
+> >
+> >  static struct buffer_head *
+> > _
+> >
+> >
+>
+> No, this is not a division libcall. This seems to be related to the
+> types of the variables used in __builtin_mul_overflow() :/ for some odd
+> reason, clang generates a libcall when passing in an 'unsigned long
+> long' and 'unsigned int', which apparently has not been done before in
+> the kernel?
+>
+> https://github.com/ClangBuiltLinux/linux/issues/1958
+> https://godbolt.org/z/csfGc6z6c
+>
+> A cast would work around this but that could have other implications I
+> am not aware of (I've done little further investigation due to LPC):
 
-All errors (new ones prefixed by >>):
+Thanks for providing this fix patch.
 
-   /tmp/ccDME0uz.s: Assembler messages:
->> /tmp/ccDME0uz.s:1274: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:1276: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:1278: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:1279: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:2033: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:2039: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:2040: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:7758: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:8366: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:8493: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:8495: Error: unrecognized opcode: `ldbrx'
-   /tmp/ccDME0uz.s:8502: Error: unrecognized opcode: `ldbrx'
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> diff --git a/fs/buffer.c b/fs/buffer.c
+> index 4eb44ccdc6be..d39934783743 100644
+> --- a/fs/buffer.c
+> +++ b/fs/buffer.c
+> @@ -1091,7 +1091,7 @@ static bool grow_buffers(struct block_device *bdev, sector_t block,
+>          * Check for a block which lies outside our maximum possible
+>          * pagecache index.
+>          */
+> -       if (check_mul_overflow(block, size, &pos) || pos > MAX_LFS_FILESIZE) {
+> +       if (check_mul_overflow(block, (u64)size, &pos) || pos > MAX_LFS_FILESIZE) {
+>                 printk(KERN_ERR "%s: requested out-of-range block %llu for device %pg\n",
+>                         __func__, (unsigned long long)block,
+>                         bdev);
+>
+> Cheers,
+> Nathan
+
+- Naresh
