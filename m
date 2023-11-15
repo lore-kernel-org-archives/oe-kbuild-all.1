@@ -1,68 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4867218030
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 21:28:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC9545BEB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 21:58:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6QExNgF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZtVEQDG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700083691; x=1731619691;
+  t=1700085507; x=1731621507;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aVQ+ADMhrDZ4kk2S38tTkqmpGbaKt4CUfHleSmAFCiY=;
-  b=b6QExNgFDF153k9wPMKVE/0JRXogye77azEKFqC7R9Takk076P/zq1no
-   W8fxjWOgPmTbjycKh+YxFHET5FcXkQw6s73Osy/3YyqomiDQGC5+6bKpp
-   6QDSN24GwfVF0VRENNBj8Io2SbKEckxr44pqBNQQX/FuwnaROD1lmTv56
-   0/rYlFHgD6UNeMl4vBavoTQUq8dAffikkWiT46IXk2KafQSDyBJmAQR+u
-   52bvcBfO4n29xPuHBg9CcxFFnjmA0Pzyz0Ks2xueVlsy/hxU5xRhprJIe
-   F+hWPG3BeUiTsUuU4hvsbmeSgpFsSrFManX4ydz+p9+ugecmS89QVXEJK
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="388124662"
+  bh=Td6rqxMaLlzRdRD/IYOyHFFg+IU/kkNOBGZuEnKora0=;
+  b=WZtVEQDGoNqPQSXZOOLH8A9cgVRqbA+dPqy5xUIKmPZXO2Eb+X2yPYuq
+   2sJtcUEoPrf/fw2PW99fkQAlj+h95El8JQRCpppKHey+ljoD+Guorzqke
+   asx/SrUxZIrGZNQa/1HhWHjnujgewl8TYpmJ7KC52IxMf4hYhDC36mRGt
+   Mmd6Z4UXCnilvzH9P0m/sru41Lfyagwh3amteHh4YaYyGup8VbrQFSLee
+   lIwxaknmRWIYD0zBr7T2XcMZItC7CyefKc23pPzqD/uUAzXkG0dhDO3PT
+   Ep+7f/E1w85SnQQhT4+5YguyAQyx2PmAsDO6Kvo8N+U+qQLcBcMiiXLQn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="390756839"
 X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="388124662"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 13:28:10 -0800
+   d="scan'208";a="390756839"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 13:58:26 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="882525588"
 X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="6298239"
+   d="scan'208";a="882525588"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 15 Nov 2023 13:28:04 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 15 Nov 2023 13:58:24 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3NQX-0000ql-1m;
-	Wed, 15 Nov 2023 21:28:01 +0000
-Date: Thu, 16 Nov 2023 05:26:49 +0800
+	id 1r3Ntu-0000t2-0q;
+	Wed, 15 Nov 2023 21:58:22 +0000
+Date: Thu, 16 Nov 2023 05:57:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Roberts <ryan.roberts@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Matthew Wilcox <willy@infradead.org>, Yu Zhao <yuzhao@google.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	David Hildenbrand <david@redhat.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	John Hubbard <jhubbard@nvidia.com>, Zi Yan <ziy@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/14] mm: Batch-copy PTE ranges during fork()
-Message-ID: <202311160516.kHhfmjvl-lkp@intel.com>
-References: <20231115163018.1303287-2-ryan.roberts@arm.com>
+To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kexec@lists.infradead.org,
+	x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-parisc@vger.kernel.org, Baoquan He <bhe@redhat.com>
+Subject: Re: [PATCH 2/7] kexec_file: print out debugging message if required
+Message-ID: <202311160502.jnu7b8KF-lkp@intel.com>
+References: <20231114153253.241262-3-bhe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,88 +53,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231115163018.1303287-2-ryan.roberts@arm.com>
+In-Reply-To: <20231114153253.241262-3-bhe@redhat.com>
 
-Hi Ryan,
+Hi Baoquan,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.7-rc1 next-20231115]
-[cannot apply to arm64/for-next/core efi/next]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on tip/x86/core powerpc/next powerpc/fixes linus/master v6.7-rc1 next-20231115]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/mm-Batch-copy-PTE-ranges-during-fork/20231116-010123
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231115163018.1303287-2-ryan.roberts%40arm.com
-patch subject: [PATCH v2 01/14] mm: Batch-copy PTE ranges during fork()
-config: arm-randconfig-002-20231116 (https://download.01.org/0day-ci/archive/20231116/202311160516.kHhfmjvl-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160516.kHhfmjvl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec_file-add-kexec_file-flag-to-control-debug-printing/20231114-234003
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20231114153253.241262-3-bhe%40redhat.com
+patch subject: [PATCH 2/7] kexec_file: print out debugging message if required
+config: x86_64-randconfig-002-20231115 (https://download.01.org/0day-ci/archive/20231116/202311160502.jnu7b8KF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160502.jnu7b8KF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311160516.kHhfmjvl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311160502.jnu7b8KF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'folio_nr_pages_cont_mapped':
->> mm/memory.c:969:16: error: implicit declaration of function 'pte_pgprot'; did you mean 'ptep_get'? [-Werror=implicit-function-declaration]
-     969 |         prot = pte_pgprot(pte_mkold(pte_mkclean(ptent)));
-         |                ^~~~~~~~~~
-         |                ptep_get
+   kernel/crash_core.c: In function 'crash_prepare_elf64_headers':
+>> kernel/crash_core.c:412:17: error: implicit declaration of function 'kexec_dprintk'; did you mean '_dev_printk'? [-Werror=implicit-function-declaration]
+     412 |                 kexec_dprintk("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, "
+         |                 ^~~~~~~~~~~~~
+         |                 _dev_printk
    cc1: some warnings being treated as errors
 
 
-vim +969 mm/memory.c
+vim +412 kernel/crash_core.c
 
-   950	
-   951	static int folio_nr_pages_cont_mapped(struct folio *folio,
-   952					      struct page *page, pte_t *pte,
-   953					      unsigned long addr, unsigned long end,
-   954					      pte_t ptent, bool *any_dirty)
-   955	{
-   956		int floops;
-   957		int i;
-   958		unsigned long pfn;
-   959		pgprot_t prot;
-   960		struct page *folio_end;
-   961	
-   962		if (!folio_test_large(folio))
-   963			return 1;
-   964	
-   965		folio_end = &folio->page + folio_nr_pages(folio);
-   966		end = min(page_cont_mapped_vaddr(folio_end, page, addr), end);
-   967		floops = (end - addr) >> PAGE_SHIFT;
-   968		pfn = page_to_pfn(page);
- > 969		prot = pte_pgprot(pte_mkold(pte_mkclean(ptent)));
-   970	
-   971		*any_dirty = pte_dirty(ptent);
-   972	
-   973		pfn++;
-   974		pte++;
-   975	
-   976		for (i = 1; i < floops; i++) {
-   977			ptent = ptep_get(pte);
-   978			ptent = pte_mkold(pte_mkclean(ptent));
-   979	
-   980			if (!pte_present(ptent) || pte_pfn(ptent) != pfn ||
-   981			    pgprot_val(pte_pgprot(ptent)) != pgprot_val(prot))
-   982				break;
-   983	
-   984			if (pte_dirty(ptent))
-   985				*any_dirty = true;
-   986	
-   987			pfn++;
-   988			pte++;
-   989		}
-   990	
-   991		return i;
-   992	}
-   993	
+   323	
+   324	int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+   325				  void **addr, unsigned long *sz)
+   326	{
+   327		Elf64_Ehdr *ehdr;
+   328		Elf64_Phdr *phdr;
+   329		unsigned long nr_cpus = num_possible_cpus(), nr_phdr, elf_sz;
+   330		unsigned char *buf;
+   331		unsigned int cpu, i;
+   332		unsigned long long notes_addr;
+   333		unsigned long mstart, mend;
+   334	
+   335		/* extra phdr for vmcoreinfo ELF note */
+   336		nr_phdr = nr_cpus + 1;
+   337		nr_phdr += mem->nr_ranges;
+   338	
+   339		/*
+   340		 * kexec-tools creates an extra PT_LOAD phdr for kernel text mapping
+   341		 * area (for example, ffffffff80000000 - ffffffffa0000000 on x86_64).
+   342		 * I think this is required by tools like gdb. So same physical
+   343		 * memory will be mapped in two ELF headers. One will contain kernel
+   344		 * text virtual addresses and other will have __va(physical) addresses.
+   345		 */
+   346	
+   347		nr_phdr++;
+   348		elf_sz = sizeof(Elf64_Ehdr) + nr_phdr * sizeof(Elf64_Phdr);
+   349		elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+   350	
+   351		buf = vzalloc(elf_sz);
+   352		if (!buf)
+   353			return -ENOMEM;
+   354	
+   355		ehdr = (Elf64_Ehdr *)buf;
+   356		phdr = (Elf64_Phdr *)(ehdr + 1);
+   357		memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
+   358		ehdr->e_ident[EI_CLASS] = ELFCLASS64;
+   359		ehdr->e_ident[EI_DATA] = ELFDATA2LSB;
+   360		ehdr->e_ident[EI_VERSION] = EV_CURRENT;
+   361		ehdr->e_ident[EI_OSABI] = ELF_OSABI;
+   362		memset(ehdr->e_ident + EI_PAD, 0, EI_NIDENT - EI_PAD);
+   363		ehdr->e_type = ET_CORE;
+   364		ehdr->e_machine = ELF_ARCH;
+   365		ehdr->e_version = EV_CURRENT;
+   366		ehdr->e_phoff = sizeof(Elf64_Ehdr);
+   367		ehdr->e_ehsize = sizeof(Elf64_Ehdr);
+   368		ehdr->e_phentsize = sizeof(Elf64_Phdr);
+   369	
+   370		/* Prepare one phdr of type PT_NOTE for each possible CPU */
+   371		for_each_possible_cpu(cpu) {
+   372			phdr->p_type = PT_NOTE;
+   373			notes_addr = per_cpu_ptr_to_phys(per_cpu_ptr(crash_notes, cpu));
+   374			phdr->p_offset = phdr->p_paddr = notes_addr;
+   375			phdr->p_filesz = phdr->p_memsz = sizeof(note_buf_t);
+   376			(ehdr->e_phnum)++;
+   377			phdr++;
+   378		}
+   379	
+   380		/* Prepare one PT_NOTE header for vmcoreinfo */
+   381		phdr->p_type = PT_NOTE;
+   382		phdr->p_offset = phdr->p_paddr = paddr_vmcoreinfo_note();
+   383		phdr->p_filesz = phdr->p_memsz = VMCOREINFO_NOTE_SIZE;
+   384		(ehdr->e_phnum)++;
+   385		phdr++;
+   386	
+   387		/* Prepare PT_LOAD type program header for kernel text region */
+   388		if (need_kernel_map) {
+   389			phdr->p_type = PT_LOAD;
+   390			phdr->p_flags = PF_R|PF_W|PF_X;
+   391			phdr->p_vaddr = (unsigned long) _text;
+   392			phdr->p_filesz = phdr->p_memsz = _end - _text;
+   393			phdr->p_offset = phdr->p_paddr = __pa_symbol(_text);
+   394			ehdr->e_phnum++;
+   395			phdr++;
+   396		}
+   397	
+   398		/* Go through all the ranges in mem->ranges[] and prepare phdr */
+   399		for (i = 0; i < mem->nr_ranges; i++) {
+   400			mstart = mem->ranges[i].start;
+   401			mend = mem->ranges[i].end;
+   402	
+   403			phdr->p_type = PT_LOAD;
+   404			phdr->p_flags = PF_R|PF_W|PF_X;
+   405			phdr->p_offset  = mstart;
+   406	
+   407			phdr->p_paddr = mstart;
+   408			phdr->p_vaddr = (unsigned long) __va(mstart);
+   409			phdr->p_filesz = phdr->p_memsz = mend - mstart + 1;
+   410			phdr->p_align = 0;
+   411			ehdr->e_phnum++;
+ > 412			kexec_dprintk("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, "
+   413				"sz=0x%llx e_phnum=%d p_offset=0x%llx\n",
+   414				phdr, phdr->p_vaddr, phdr->p_paddr, phdr->p_filesz,
+   415				ehdr->e_phnum, phdr->p_offset);
+   416			phdr++;
+   417		}
+   418	
+   419		*addr = buf;
+   420		*sz = elf_sz;
+   421		return 0;
+   422	}
+   423	
 
 -- 
 0-DAY CI Kernel Test Service
