@@ -1,51 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8500A43AB8;
-	Wed, 15 Nov 2023 21:05:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DF535F15
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 21:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Avv+xlY+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyqlKr9t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700082314; x=1731618314;
+  t=1700082320; x=1731618320;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HZaP63qR51WdI944Jzx+qswTuQEwasjcvHgL6QGSQhs=;
-  b=Avv+xlY+k0ejGxsDCkzZmzDrHsmphujqtKqvMFSFYGHtg/hU5I3KpJ40
-   Bifl4LvvNUgEgZEJtvjETz3B5kHtQLWop6bqGTVUlFVuuqKxIZ/lc4rKz
-   BOWR7QaR0IAimOKfS5oLgTHgO/mU5b6+YEEBMBw4fpTLCnFAEHQHK6HbZ
-   CgYLS2FO2IBuRpAEDLhIGSNlvPgBVb4zC9I7YFz1+OxL01ImlOPEQNh0n
-   pzc9zjK3gNgQmQedQ1ZtCYs3Y0FW/mjrB1O2LZB7y1oz0HZefA1UWq1zb
-   gcoKgoTym8kE+o8iLs9ebOxvPSni2QMNZKml9hlzZXgwCL3QQLxfNQDcD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="4032589"
+  bh=rcToWmLfNTrsUiv8LTunATTkIMt6WybUwub2LGTkAEY=;
+  b=nyqlKr9t3dh/lap9dSQepKKxKtR7qozchfM6rDfe3kEbK3TzQqkgWn02
+   9Kkb3UEnOdPngsQlDyoLCewerduzrD0k6L2aVxpMQ5lKCwfLpp6ifZxOi
+   rTycPkPYB4lNroyDaKbg060FHxe3rGEmXyAZtVLG7szrWgPdvxIRu+25S
+   XATAspsdSVAQZkpDamt4lLiTb9mThBx1cKObN7Sg+708Q4cPUDzuAuvoR
+   Gltdhvb+UDLo7JmVOf4O3KKEO1Pb9Afj3bhxS/vMhG+YObKXQnsCKe02s
+   ugLCeEweMz1rfIH9WgF/YokpXPGep3fqT1lSGQ0ZISB9h4UG/80A2gfSc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="381348225"
 X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="4032589"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 13:05:12 -0800
+   d="scan'208";a="381348225"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 13:05:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="888699475"
 X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
-   d="scan'208";a="888699475"
+   d="scan'208";a="13327401"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Nov 2023 13:05:08 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 15 Nov 2023 13:05:17 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3N4M-0000p6-1l;
-	Wed, 15 Nov 2023 21:05:06 +0000
-Date: Thu, 16 Nov 2023 05:04:43 +0800
+	id 1r3N4V-0000pH-0H;
+	Wed, 15 Nov 2023 21:05:15 +0000
+Date: Thu, 16 Nov 2023 05:04:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kexec@lists.infradead.org, x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-parisc@vger.kernel.org, Baoquan He <bhe@redhat.com>
-Subject: Re: [PATCH 2/7] kexec_file: print out debugging message if required
-Message-ID: <202311160431.BXPc7NO9-lkp@intel.com>
-References: <20231114153253.241262-3-bhe@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	rafael@kernel.org, jacopo.mondi@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 1/6] pm: runtime: Simplify pm_runtime_get_if_active()
+ usage
+Message-ID: <202311160402.sZooXBaB-lkp@intel.com>
+References: <20231115181840.1509046-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,175 +52,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231114153253.241262-3-bhe@redhat.com>
+In-Reply-To: <20231115181840.1509046-2-sakari.ailus@linux.intel.com>
 
-Hi Baoquan,
+Hi Sakari,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on tip/x86/core powerpc/next powerpc/fixes linus/master v6.7-rc1 next-20231115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 3e238417254bfdcc23fe207780b59cbb08656762]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec_file-add-kexec_file-flag-to-control-debug-printing/20231114-234003
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20231114153253.241262-3-bhe%40redhat.com
-patch subject: [PATCH 2/7] kexec_file: print out debugging message if required
-config: hexagon-comet_defconfig (https://download.01.org/0day-ci/archive/20231116/202311160431.BXPc7NO9-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160431.BXPc7NO9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/pm-runtime-Simplify-pm_runtime_get_if_active-usage/20231116-022051
+base:   3e238417254bfdcc23fe207780b59cbb08656762
+patch link:    https://lore.kernel.org/r/20231115181840.1509046-2-sakari.ailus%40linux.intel.com
+patch subject: [PATCH 1/6] pm: runtime: Simplify pm_runtime_get_if_active() usage
+config: i386-buildonly-randconfig-006-20231116 (https://download.01.org/0day-ci/archive/20231116/202311160402.sZooXBaB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160402.sZooXBaB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311160431.BXPc7NO9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311160402.sZooXBaB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/crash_core.c:13:
-   In file included from include/linux/kexec.h:19:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/crash_core.c:13:
-   In file included from include/linux/kexec.h:19:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/crash_core.c:13:
-   In file included from include/linux/kexec.h:19:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> kernel/crash_core.c:412:3: error: call to undeclared function 'kexec_dprintk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   kexec_dprintk("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, "
-                   ^
-   6 warnings and 1 error generated.
+   drivers/gpu/drm/i915/intel_runtime_pm.c: In function '__intel_runtime_pm_get_if_active':
+>> drivers/gpu/drm/i915/intel_runtime_pm.c:437:21: error: too many arguments to function '__pm_runtime_get_conditional'
+     437 |                 if (__pm_runtime_get_conditional(rpm->kdev, ignore_usecount) <= 0)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/intel_runtime_pm.c:29:
+   include/linux/pm_runtime.h:300:19: note: declared here
+     300 | static inline int __pm_runtime_get_conditional(struct device *dev)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/kexec_dprintk +412 kernel/crash_core.c
+vim +/__pm_runtime_get_conditional +437 drivers/gpu/drm/i915/intel_runtime_pm.c
 
-   323	
-   324	int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
-   325				  void **addr, unsigned long *sz)
-   326	{
-   327		Elf64_Ehdr *ehdr;
-   328		Elf64_Phdr *phdr;
-   329		unsigned long nr_cpus = num_possible_cpus(), nr_phdr, elf_sz;
-   330		unsigned char *buf;
-   331		unsigned int cpu, i;
-   332		unsigned long long notes_addr;
-   333		unsigned long mstart, mend;
-   334	
-   335		/* extra phdr for vmcoreinfo ELF note */
-   336		nr_phdr = nr_cpus + 1;
-   337		nr_phdr += mem->nr_ranges;
-   338	
-   339		/*
-   340		 * kexec-tools creates an extra PT_LOAD phdr for kernel text mapping
-   341		 * area (for example, ffffffff80000000 - ffffffffa0000000 on x86_64).
-   342		 * I think this is required by tools like gdb. So same physical
-   343		 * memory will be mapped in two ELF headers. One will contain kernel
-   344		 * text virtual addresses and other will have __va(physical) addresses.
-   345		 */
-   346	
-   347		nr_phdr++;
-   348		elf_sz = sizeof(Elf64_Ehdr) + nr_phdr * sizeof(Elf64_Phdr);
-   349		elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
-   350	
-   351		buf = vzalloc(elf_sz);
-   352		if (!buf)
-   353			return -ENOMEM;
-   354	
-   355		ehdr = (Elf64_Ehdr *)buf;
-   356		phdr = (Elf64_Phdr *)(ehdr + 1);
-   357		memcpy(ehdr->e_ident, ELFMAG, SELFMAG);
-   358		ehdr->e_ident[EI_CLASS] = ELFCLASS64;
-   359		ehdr->e_ident[EI_DATA] = ELFDATA2LSB;
-   360		ehdr->e_ident[EI_VERSION] = EV_CURRENT;
-   361		ehdr->e_ident[EI_OSABI] = ELF_OSABI;
-   362		memset(ehdr->e_ident + EI_PAD, 0, EI_NIDENT - EI_PAD);
-   363		ehdr->e_type = ET_CORE;
-   364		ehdr->e_machine = ELF_ARCH;
-   365		ehdr->e_version = EV_CURRENT;
-   366		ehdr->e_phoff = sizeof(Elf64_Ehdr);
-   367		ehdr->e_ehsize = sizeof(Elf64_Ehdr);
-   368		ehdr->e_phentsize = sizeof(Elf64_Phdr);
-   369	
-   370		/* Prepare one phdr of type PT_NOTE for each possible CPU */
-   371		for_each_possible_cpu(cpu) {
-   372			phdr->p_type = PT_NOTE;
-   373			notes_addr = per_cpu_ptr_to_phys(per_cpu_ptr(crash_notes, cpu));
-   374			phdr->p_offset = phdr->p_paddr = notes_addr;
-   375			phdr->p_filesz = phdr->p_memsz = sizeof(note_buf_t);
-   376			(ehdr->e_phnum)++;
-   377			phdr++;
-   378		}
-   379	
-   380		/* Prepare one PT_NOTE header for vmcoreinfo */
-   381		phdr->p_type = PT_NOTE;
-   382		phdr->p_offset = phdr->p_paddr = paddr_vmcoreinfo_note();
-   383		phdr->p_filesz = phdr->p_memsz = VMCOREINFO_NOTE_SIZE;
-   384		(ehdr->e_phnum)++;
-   385		phdr++;
-   386	
-   387		/* Prepare PT_LOAD type program header for kernel text region */
-   388		if (need_kernel_map) {
-   389			phdr->p_type = PT_LOAD;
-   390			phdr->p_flags = PF_R|PF_W|PF_X;
-   391			phdr->p_vaddr = (unsigned long) _text;
-   392			phdr->p_filesz = phdr->p_memsz = _end - _text;
-   393			phdr->p_offset = phdr->p_paddr = __pa_symbol(_text);
-   394			ehdr->e_phnum++;
-   395			phdr++;
-   396		}
-   397	
-   398		/* Go through all the ranges in mem->ranges[] and prepare phdr */
-   399		for (i = 0; i < mem->nr_ranges; i++) {
-   400			mstart = mem->ranges[i].start;
-   401			mend = mem->ranges[i].end;
-   402	
-   403			phdr->p_type = PT_LOAD;
-   404			phdr->p_flags = PF_R|PF_W|PF_X;
-   405			phdr->p_offset  = mstart;
-   406	
-   407			phdr->p_paddr = mstart;
-   408			phdr->p_vaddr = (unsigned long) __va(mstart);
-   409			phdr->p_filesz = phdr->p_memsz = mend - mstart + 1;
-   410			phdr->p_align = 0;
-   411			ehdr->e_phnum++;
- > 412			kexec_dprintk("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, "
-   413				"sz=0x%llx e_phnum=%d p_offset=0x%llx\n",
-   414				phdr, phdr->p_vaddr, phdr->p_paddr, phdr->p_filesz,
-   415				ehdr->e_phnum, phdr->p_offset);
-   416			phdr++;
-   417		}
-   418	
-   419		*addr = buf;
-   420		*sz = elf_sz;
-   421		return 0;
-   422	}
-   423	
+   404	
+   405	/**
+   406	 * __intel_runtime_pm_get_if_active - grab a runtime pm reference if device is active
+   407	 * @rpm: the intel_runtime_pm structure
+   408	 * @ignore_usecount: get a ref even if dev->power.usage_count is 0
+   409	 *
+   410	 * This function grabs a device-level runtime pm reference if the device is
+   411	 * already active and ensures that it is powered up. It is illegal to try
+   412	 * and access the HW should intel_runtime_pm_get_if_active() report failure.
+   413	 *
+   414	 * If @ignore_usecount is true, a reference will be acquired even if there is no
+   415	 * user requiring the device to be powered up (dev->power.usage_count == 0).
+   416	 * If the function returns false in this case then it's guaranteed that the
+   417	 * device's runtime suspend hook has been called already or that it will be
+   418	 * called (and hence it's also guaranteed that the device's runtime resume
+   419	 * hook will be called eventually).
+   420	 *
+   421	 * Any runtime pm reference obtained by this function must have a symmetric
+   422	 * call to intel_runtime_pm_put() to release the reference again.
+   423	 *
+   424	 * Returns: the wakeref cookie to pass to intel_runtime_pm_put(), evaluates
+   425	 * as True if the wakeref was acquired, or False otherwise.
+   426	 */
+   427	static intel_wakeref_t __intel_runtime_pm_get_if_active(struct intel_runtime_pm *rpm,
+   428								bool ignore_usecount)
+   429	{
+   430		if (IS_ENABLED(CONFIG_PM)) {
+   431			/*
+   432			 * In cases runtime PM is disabled by the RPM core and we get
+   433			 * an -EINVAL return value we are not supposed to call this
+   434			 * function, since the power state is undefined. This applies
+   435			 * atm to the late/early system suspend/resume handlers.
+   436			 */
+ > 437			if (__pm_runtime_get_conditional(rpm->kdev, ignore_usecount) <= 0)
+   438				return 0;
+   439		}
+   440	
+   441		intel_runtime_pm_acquire(rpm, true);
+   442	
+   443		return track_intel_runtime_pm_wakeref(rpm);
+   444	}
+   445	
 
 -- 
 0-DAY CI Kernel Test Service
