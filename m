@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18A117992
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 13:05:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED7B1A707
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 15 Nov 2023 13:35:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWzkyItm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ANFvcNiR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700053509; x=1731589509;
+  t=1700055350; x=1731591350;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fl2KgAOspRDSHaeQpwBvYNd0skppiXxytJbu41LdzGw=;
-  b=gWzkyItmzp7OB6TG9nhh2OlZsIdqrAYuEC36BibtII2oZPsnvOucfleF
-   VfjaFZUVEJHX0EsgVPAzSnO134x2qemBTGkeLAXEayCPCyM61fB4DLLM7
-   oN6vMf8p6yw/VMQt5GjoAKveh70I7jg/t76kxED08cfC9bjJugIyTVr4B
-   TWNrj1Jo3sY53HfmCmaog95LfldQGzoQ31cpuKHLx32MYH3vHTRkvfiUx
-   DdCM/5SLPcZO3poMDmB3l9leLyLWQQH/OYdshk6HKp2cXbFfgFgYbUoUS
-   AWdTF3XysKjfz2ttOb6wW+eT00gBKMsibyAs5aNrw/IaaZIpzpMmOOgqv
+  bh=oevVv3YMWJgRFZ9dan46FvJECfmbn1LhI/1QGXyKk7Q=;
+  b=ANFvcNiRf8ZPjuCTwShw7xFtwNgoJUnpL2XlvV4iCIgUt+pu1DyVfdw4
+   npRxslAfZDx/C0Zj2eaahwQ4DubqDVmO0jeAjLKgtokoiqPM04x+E/TAb
+   gUdoMS1B2zIFf+EEhyF8bVAzE9m8HGqSvA0wwQKgL+2MnE/G3tqlZJpoI
+   gfieCwNm16vBoI3Laap2KM1PbBsgyt9hHIcMH81YCLD2+geovq/KugEPZ
+   546+5E4rChv3cDzzhLSA9lXZbjfK4NkPbBXoBEvEevQGJjvH7YYe/XLQY
+   KM1W42wpOUGCNx3nlwOS/ZSK2m3rEmdxLQGis60Tn1Y1QpnHi8JHsqkPm
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="375911315"
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="393732321"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="375911315"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 05:05:04 -0800
+   d="scan'208";a="393732321"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 05:35:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="1096437485"
 X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="1096437485"
+   d="scan'208";a="6404696"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Nov 2023 05:05:03 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 15 Nov 2023 05:35:45 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3FZl-0000LE-0q;
-	Wed, 15 Nov 2023 13:05:01 +0000
-Date: Wed, 15 Nov 2023 21:04:03 +0800
+	id 1r3G3T-0000MY-0e;
+	Wed, 15 Nov 2023 13:35:43 +0000
+Date: Wed, 15 Nov 2023 21:35:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [drm-xe:drm-xe-next 3/15]
- drivers/gpu/drm/i915/display/intel_fbdev_fb.c:13:25: warning: no previous
- prototype for 'intel_fbdev_fb_alloc'
-Message-ID: <202311152128.2R0TGUKs-lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [hverkuil-media-tree:hdmi-dbg 27/33] m68k-linux-ld:
+ drm_atomic_state_helper.c:undefined reference to
+ `drm_hdmi_avi_infoframe_bars'
+Message-ID: <202311152125.dbfniW3l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,87 +50,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   14d1d786caacdb3438d07ab86fabf2e36c8151cc
-commit: 9eb20bf3156f1a9e1c73e857be09c042deb2b5a0 [3/15] drm/i915/display: split i915 specific code from intel_fbdev
-config: x86_64-randconfig-004-20231115 (https://download.01.org/0day-ci/archive/20231115/202311152128.2R0TGUKs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311152128.2R0TGUKs-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/hverkuil/media_tree.git hdmi-dbg
+head:   509acd58c8dd0202ccdbb861ede858e4975b42c4
+commit: a7a7b6b700693e86f08273e8816a91d86583cd3f [27/33] drm/connector: hdmi: Add Infoframes generation
+config: m68k-virt_defconfig (https://download.01.org/0day-ci/archive/20231115/202311152125.dbfniW3l-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311152125.dbfniW3l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311152128.2R0TGUKs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311152125.dbfniW3l-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_fbdev_fb.c:13:25: warning: no previous prototype for 'intel_fbdev_fb_alloc' [-Wmissing-prototypes]
-      13 | struct drm_framebuffer *intel_fbdev_fb_alloc(struct drm_fb_helper *helper,
-         |                         ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i915/display/intel_fbdev_fb.c:68:5: warning: no previous prototype for 'intel_fbdev_fb_fill_info' [-Wmissing-prototypes]
-      68 | int intel_fbdev_fb_fill_info(struct drm_i915_private *i915, struct fb_info *info,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   m68k-linux-ld: drivers/gpu/drm/drm_atomic_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
+   drm_atomic_state_helper.c:(.text+0x1554): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
+>> m68k-linux-ld: drm_atomic_state_helper.c:(.text+0x155e): undefined reference to `drm_hdmi_avi_infoframe_bars'
+>> m68k-linux-ld: drm_atomic_state_helper.c:(.text+0x15a8): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
 
-
-vim +/intel_fbdev_fb_alloc +13 drivers/gpu/drm/i915/display/intel_fbdev_fb.c
-
-    12	
-  > 13	struct drm_framebuffer *intel_fbdev_fb_alloc(struct drm_fb_helper *helper,
-    14						     struct drm_fb_helper_surface_size *sizes)
-    15	{
-    16		struct drm_framebuffer *fb;
-    17		struct drm_device *dev = helper->dev;
-    18		struct drm_i915_private *dev_priv = to_i915(dev);
-    19		struct drm_mode_fb_cmd2 mode_cmd = {};
-    20		struct drm_i915_gem_object *obj;
-    21		int size;
-    22	
-    23		/* we don't do packed 24bpp */
-    24		if (sizes->surface_bpp == 24)
-    25			sizes->surface_bpp = 32;
-    26	
-    27		mode_cmd.width = sizes->surface_width;
-    28		mode_cmd.height = sizes->surface_height;
-    29	
-    30		mode_cmd.pitches[0] = ALIGN(mode_cmd.width *
-    31					    DIV_ROUND_UP(sizes->surface_bpp, 8), 64);
-    32		mode_cmd.pixel_format = drm_mode_legacy_fb_format(sizes->surface_bpp,
-    33								  sizes->surface_depth);
-    34	
-    35		size = mode_cmd.pitches[0] * mode_cmd.height;
-    36		size = PAGE_ALIGN(size);
-    37	
-    38		obj = ERR_PTR(-ENODEV);
-    39		if (HAS_LMEM(dev_priv)) {
-    40			obj = i915_gem_object_create_lmem(dev_priv, size,
-    41							  I915_BO_ALLOC_CONTIGUOUS |
-    42							  I915_BO_ALLOC_USER);
-    43		} else {
-    44			/*
-    45			 * If the FB is too big, just don't use it since fbdev is not very
-    46			 * important and we should probably use that space with FBC or other
-    47			 * features.
-    48			 *
-    49			 * Also skip stolen on MTL as Wa_22018444074 mitigation.
-    50			 */
-    51			if (!(IS_METEORLAKE(dev_priv)) && size * 2 < dev_priv->dsm.usable_size)
-    52				obj = i915_gem_object_create_stolen(dev_priv, size);
-    53			if (IS_ERR(obj))
-    54				obj = i915_gem_object_create_shmem(dev_priv, size);
-    55		}
-    56	
-    57		if (IS_ERR(obj)) {
-    58			drm_err(&dev_priv->drm, "failed to allocate framebuffer (%pe)\n", obj);
-    59			return ERR_PTR(-ENOMEM);
-    60		}
-    61	
-    62		fb = intel_framebuffer_create(obj, &mode_cmd);
-    63		i915_gem_object_put(obj);
-    64	
-    65		return fb;
-    66	}
-    67	
-  > 68	int intel_fbdev_fb_fill_info(struct drm_i915_private *i915, struct fb_info *info,
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM_DISPLAY_HELPER [=n]
+   Selected by [y]:
+   - DRM_KMS_HELPER [=y] && HAS_IOMEM [=y] && DRM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
