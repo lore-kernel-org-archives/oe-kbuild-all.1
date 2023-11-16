@@ -1,90 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE012583
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 05:05:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A956CA59
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 05:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJD+pTKG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/J/4dl8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700111103; x=1731647103;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=7NldozFnq19wM23n2QCweGBOEeJqtO09t+Ph7O7FlRw=;
-  b=GJD+pTKGHOXgsWS4FfhS2HvbURBrxdWi6Z0pMXDeL71WUlUw/5rtjjwi
-   P1aks7+OXUUVs8M9ntOGtIEF7GO0l+NgEnmesnyIqnLqx2fFvTpNHP3dm
-   Ut7ns0IyYE5fRDtn0G13IlPYj4JX5ZYuwrxrZUuFhsT44lYgaOylB7F1z
-   +xGEz39YDUlyhYXxdO+bzrCDbJNhMfV4Yo/fYNI7q+ILzx3vHBSDNDC6U
-   +Zdo1jukcttO+Tzi0nkfqJBLbsIVs5jnjGaHzb6w61/Ukp6GLZX3dIBMv
-   bFZU+r7XwIfTfryrhAz4VxJKkNmFarfRONCb6EEmj9OuUiQZ43unc1Oof
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="370372239"
+  t=1700113300; x=1731649300;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/b5r+pgh2drAuFIapXMC8Mylgftw4MthinO0WFviQsU=;
+  b=I/J/4dl8xflqjruBWttz2nWkNzR+lBfWSYM8Hv/ISvcrvo5mHYG6fEkI
+   HpHhfOG75cqV0zF7a/n05YJO0an+OBjYf8NGnMvnToIxyNN1/Ftd41Gye
+   1zjpWaqEeC61tHIYlajTiM6wLXHgfcbAYqvriSFwV/bNYdB+ccG7AYtFt
+   Uv3XpwYfVpz4pEFqQpatA29fPnSCQV4i1AQUNvfdYjrrW/OFKPUq65xVP
+   SWzmleGiJjq4ZT76Cn30AhSGNtCAsq2k1Ke1PTc6fPAVWoXqiGXP2MNKC
+   CFN+rZhwMECEotlVJoLBYJuSoCIWcXJf2I4l3W6mmGyFJXpw79bM9whZT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="455310178"
 X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="370372239"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 21:04:37 -0800
+   d="scan'208";a="455310178"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 21:41:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="800066212"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="855874072"
 X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="800066212"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Nov 2023 21:04:36 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+   d="scan'208";a="855874072"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by FMSMGA003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Nov 2023 21:41:37 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 15 Nov 2023 21:04:36 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ 15.1.2507.34; Wed, 15 Nov 2023 21:41:37 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 15 Nov 2023 21:04:35 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Wed, 15 Nov 2023 21:04:35 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.34 via Frontend Transport; Wed, 15 Nov 2023 21:41:37 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Wed, 15 Nov 2023 21:04:35 -0800
+ 15.1.2507.34; Wed, 15 Nov 2023 21:41:35 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f2k1m5Gq7g2A3TNbhsjYrfjlw/W+d0+eLMttCkiFPsiwKS1EnGKKa8w9HMmiJ9Y/5s/lpNdav8NoJkehke40/DsYJNuwC7wxZfsiUndiv5bbF55GMOc5LcfrAOamGQIIdLoAKTm1uBoC9pFj84vIKNnXhlIWtkR2Bi0CmcnE+fccRA1kChgKKn/aeL5fyNoYxtStjoUkpAUAh/+lzslE6LL8TVUTWWXctK5BOav5nkGiuNUV4PT5rk1Zvhu9M1Gsn6d4kmPBREfzj+yM82fjEwHXb+PgctRW/gUaGz1sKDikGUzwHEwkkt49US6aUYt+02vyT47qwhH9XGjDaltilg==
+ b=ieDZtEBbEiBlbAbme+B+cVHDfBKX3OOACi5Iwsxxp6CNSTtG19J2N0hiQlQko0RHF2NL6C+mzecWZlvHbBfbiCXqUU0NXKGHjOj4YYMiicRP+zlzPkuO+1ADQVSowEzR7Q/ZomSPXxydKTEBnbOGeJ0lfju0IabuTxclXB704mzZj1zCM6bj1/bYJcBaX45zpsyWTLtPkyzFwoGsKOFh6fakq/DBIEQ0UmlZ5mp26NgPH31HJ7c1I5y7H8ZeXDd/JDpLL6I5QGCtDxJq+jhL3DUb39kZi2+Vxufpe5P5KClak3/bhBDvDWfQhzwltO/blj8J1JUOwrytUy2t8l4TaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3hA32ZfT0tHpKVkWMc+zS8ojFdohXQjYEpwWtAFd7bI=;
- b=jvainZWiIzfvea8AGzrFyCdpVHFlBCtc4VZdYCZ2et/mQhvkTj1ZWItGzBm1pzbaa1I+y2EXDKeCxlmrXd4x2fvDt0U9Oq4B5Hf795aAaM7aML9S9FKZFWErgXO5S1aA7Jz5HdGk4jss4695DvzAJxLlw3g7c7Tpuiuf6qURcFWt5TMyqhS1QJvas50HDRJmA5wO2C/1K1AMwJK818E1Q1dfbjgjWSY/rQptqwN77MyK5OImH6s6J9tan8dAudjSKWlNhae2/JtzyWzQQRBrqNxeJYNASZF9TNyEM6K24/hbKKQuYAh+6RERaa3rUJ5ibHHYzJBELW34jdZa/rN+DQ==
+ bh=2CXkUNDb5QZLeXemwGORzhsw0Rt1ylxfnhf7VuTr5Oc=;
+ b=KzlreUPHDAU6YSQJM3QmFlgf5UTj3H87jUMW7AjNSZFHlI06meq07TOdWLIZLRcpK9l4bTbzY6RTFQyoLHWoorBbpmd9qCF/7eJv6sjF0uLscR8SgEleI/Lq7MSx5bMXLXZ9Ahv2+pyeNhehPQ//Mm0QTPihqxs6nBCCtD1lbXlb+/7z+uRBM6oH5h4GGcLotXJkihOPUfliM88McmmKgvSWJvUIGrZkja16uHTcH9O9wAxyVkAughKYGy0XGodWyc1rrxoxc2oPmvKMUGXPxCyCI87W/RijFKrlk3Y4b/sAp6JPrKQHEvIvGcEZSCX+azdPiEM0X68BunCppNzv+A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by CY8PR11MB7730.namprd11.prod.outlook.com (2603:10b6:930:74::13) with
+ by SJ2PR11MB8499.namprd11.prod.outlook.com (2603:10b6:a03:578::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.17; Thu, 16 Nov
- 2023 05:04:34 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Thu, 16 Nov
+ 2023 05:41:28 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7002.019; Thu, 16 Nov 2023
- 05:04:34 +0000
-Date: Thu, 16 Nov 2023 12:59:50 +0800
+ 05:41:28 +0000
+Date: Thu, 16 Nov 2023 13:36:48 +0800
 From: kernel test robot <yujie.liu@intel.com>
-To: Yicong Yang <yangyicong@huawei.com>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <sudeep.holla@arm.com>,
-	<linux-arm-kernel@lists.infradead.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <dietmar.eggemann@arm.com>,
-	<gregkh@linuxfoundation.org>, <rafael@kernel.org>,
-	<jonathan.cameron@huawei.com>, <prime.zeng@hisilicon.com>,
-	<linuxarm@huawei.com>, <yangyicong@hisilicon.com>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 4/4] arm64: Kconfig: Enable HOTPLUG_SMT
-Message-ID: <202311151900.K9xc6Xqz-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [freescale-fslc:pr/645 132/15769]
+ include/asm-generic/div64.h:238:36: error: passing argument 1 of
+ '__div64_32' from incompatible pointer type
+Message-ID: <202311161240.h8OnkbaZ-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20231114040110.54590-5-yangyicong@huawei.com>
-X-ClientProxiedBy: SGXP274CA0003.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::15)
- To CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+X-ClientProxiedBy: SI1PR02CA0056.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::7) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -92,126 +83,154 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|CY8PR11MB7730:EE_
-X-MS-Office365-Filtering-Correlation-Id: d417bc37-3647-40c6-8810-08dbe66185af
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|SJ2PR11MB8499:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f5a0bd8-b860-4e02-d9e6-08dbe666adb5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oqa1qIoGYHwVnkTqiHthl8bYeKKQdFnGS03RgETqPuEeBMRRKbnESQ+fomHZ8brH3xGplQ+kZay2pMSG7ewbilMuDP5tZXk3C7UELktRIAy87O3RLhcbIHSmYhg5bl/bOx7j+yqiecP+lK64h9qIO/qSVxy1U5CEJbciPM1fy+9LubFvMUEExdwtWYM0mhlMWD5ssCoYAHB0s8wOJ8AiwuLekOcyOavSKb1QFi5o1J79+Zb7nsxsD7GI9Mq1eMYIkBXo6WyuiGtMmshfHXYlrSSCGF+eSEdVnJa8DQ0+EvMCkXufPJCR4nR75ht9jRUeqw5ob5Hw9w9j2+AYr2O15hBxDRjiCoVIgv5npUUC7Wuy+c+qdw4m31DA03AqylGQ5gXPSu5YsA4AfwQHLQrKhNryZsRQyZOdtfKh9PN5TG1fs40FhkKrptRrfz5jIVgJEH6cvKs4iJNQiILZoskjavhyOyJn0ch6f+XCMF3gcengbnw4DG4G8qYUPHMV4c1V2IGRxq70UdSolI9iAVuajD8JAd8wxeLCOszXQ7dNf9q4VLPkuwC4+454jLIBQFVbTssfaNIntGurL2jeh1iw2d5eB+fit5956Qk8pBdXSiwgB3sZUHH8U6eCRxoYyNMe6MN5N42HSOi6L5PA3mA1xQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(396003)(136003)(376002)(366004)(230273577357003)(230173577357003)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(41300700001)(38100700002)(966005)(6486002)(478600001)(66946007)(36756003)(86362001)(316002)(66476007)(66556008)(1076003)(7416002)(82960400001)(2616005)(5660300002)(2906002)(6512007)(6666004)(6506007)(4326008)(4001150100001)(26005)(8936002)(8676002)(83380400001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: bGvkeF/phWspapDHiKJb8e/gm8L4Vxk9QPKMN5JEFKMwmch2LDjmXj86hR7/z5FZ2eGZiBibN+0fsDOiNOxFOhkC+Q0IolZndKuE9Zxa+eDvOdglaF8b45N6f5Qxq/novMqnNbL7uaERqaaOoCEcl/+infqhb18snm5LKz2jf02zBr8o0wXuGGJ1kdflsJy5ARX4W831HkB8iPatAaNvCNBH0qLPDnBcWvpr+7vBjOKnJ1oKEiPMLNM+Uo5RsRFDlxplFlMmWgtlPmfWB6SbsS6/4mQLS511znNlDmieJd21MQf6RoTnzlbgaeSY4kq8zl8xqu0h5IhBbJE1s06Omc5GYBcvQPEKTRn0SG63I0ymUKj2uPkZugZASuPVkE6CJxolGx/Qa74jThCmswp0bnmg1K87Td4mrBmSFBc2upXJyJxdj1lrlAKo9RC4tndQ30R1BpEz/VAjSkvmI2K053EiFNY6ggqlH5uP8vw10CybVpwzh0snlUN8AZDI9XrNwYu6oBxb+b2RCHM9A1TYmBkVkbixLouofITYGiCPRqMVvmRZzM1/kyFkgL4hDcVbL7lozj1hIn28Vn0HTqhGltZqFffrdNlP1nVJwee1hSgCQxlgTFA76BPTXwnHXFbb4iHOnlGe1Ni6LXdWMhNWT1OnVazKWx2BD1q8zdnz2AD/Gka4GtNUSy2lnqBYsRCu
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(346002)(39860400002)(376002)(230922051799003)(230173577357003)(230273577357003)(64100799003)(451199024)(186009)(1800799009)(966005)(6486002)(6512007)(66946007)(66476007)(66556008)(6666004)(6506007)(478600001)(41300700001)(8936002)(4326008)(8676002)(2906002)(4001150100001)(5660300002)(316002)(6916009)(26005)(36756003)(83380400001)(38100700002)(82960400001)(2616005)(1076003)(86362001)(41533002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?F+H5dzDmaEaL4XzRooZljKKp+ROCxTsx7FV8/my8w2fw4zbquJ+8ECUqh893?=
- =?us-ascii?Q?qTLXxb9mrhE3fU2JtQHfP76x6dvoSfCJGI2YhjP3AYyU5WlT/gLfo2PDDFRQ?=
- =?us-ascii?Q?zrVTDQ5uqVdNkvMUMnLWA508awp9hcYKpXc/CVBekzjuBCrx2TJDFYtVI8X9?=
- =?us-ascii?Q?kcG3Xeifr5mY9d4dNMxW8NtDtD6T6t20krurSwg8l2AMziJtMQI4yUA04XB3?=
- =?us-ascii?Q?pjcJNEqLtzDbLczE9Pg5yJzCi5x0ptMlchIulGkldpqdEBoWS97FGJZ/AJRG?=
- =?us-ascii?Q?kurqcomi/oS3ehqjAZxZp4MGAiyHctf2ks5JAqLI2G+NFo/hGFOyyajRkoK3?=
- =?us-ascii?Q?f58HDXPvtbWH07n2MaBZAQbIqXy34kHklEtPmD7HEjz913wG9cmaoFylU19E?=
- =?us-ascii?Q?RTZzjWNw2p/gMtN5BGPQUW3tqEBkNrSuCO50Yn+Y/GwuURxop1YxwRjCq2O3?=
- =?us-ascii?Q?H2mi615mk41jR9YR0147b7ngxbEK8wu7xocqB9uZRFZaAMYnB11Lc7EH/FbJ?=
- =?us-ascii?Q?JBrSn2y6p3hvuv3eVAPF65m5P5TWY3474fyESLeYJySpZYcQtKMAAXaHha9e?=
- =?us-ascii?Q?OmEPZWE+rAdZnH8LPs3GyHR8nLO8pjckYLlpgeGrdaEjlE9huPtlvBPfhkCY?=
- =?us-ascii?Q?gx7NkpM5r9YmCdDm1LBkcWpZepALS2jH6xb23T4xXVBAEzXtH00iO8MaoipQ?=
- =?us-ascii?Q?khjs0eQ31XCauiyVoA6mGmbKYbKxZfn+0/bYoHP54z/Y+FagtHQ96TlBx3i1?=
- =?us-ascii?Q?08WuQJ69usaXzcVDTZ0iA4eS7g+iXFtvb/9GWN5Vq/wD2KX87TwzBQ0j2BTf?=
- =?us-ascii?Q?JCBeWO7pKYsvNpqTgz9RzW0yRQOvZ6cMCFdZQQ06f/aPQabFYlYJOmXI7JjP?=
- =?us-ascii?Q?v7QEBLV5T2F77jVHAhHqa1r5EcknO2tnPb0BUM8EkvBvWo3ZUJWwU7QJNtHI?=
- =?us-ascii?Q?Vlaiig3ZJ3SCB77XpQ7OTxiGWxzKNAYd/3hFDYmAM8nDI0QhSIr1njLZOr2b?=
- =?us-ascii?Q?yQi0/W2bOsgDacv600l/llIYfxUYmahn79jvqX8SLADevfzpXZQtR1JR6j5V?=
- =?us-ascii?Q?9L20PGYFamZ8P4I4I02WrQG+3QmLX8Z4ryLMKzadFzxB1++IXFr1eyh7/bp+?=
- =?us-ascii?Q?9HNCWJ98dMp31WyaICKAWJcGOKnEzfyyYO+eWIL2slGdZ14Go8DFsn9MVOJQ?=
- =?us-ascii?Q?TxLaE1cSWqgja9yzPalDrL1JKcuaiuUiLmtomBRRxqxOkXslPKu4k80Bh1Sz?=
- =?us-ascii?Q?nBKhlz3GsSp64bAwR+bQ9Au3q4EYTLfeIQHeHnr69Ls7IphCUUfpeJmNNUxz?=
- =?us-ascii?Q?f9NgyjlnthPXtjySuV5I3GV9c37aKbvvV95mxqWum9bEDmmwh57InB34d1y/?=
- =?us-ascii?Q?4nTmzTH2et05HsWjC9hUw18O5NXiGlvpNEUrAIDyhx6GPYd5Rq6l+vxNiiWH?=
- =?us-ascii?Q?mLsWnmm4vj10SzqSvdVbvfGcOKP1oW9sWW+7zUoS1cVwI+WN1uCtFgWCfwoL?=
- =?us-ascii?Q?mklrNHQupmWcifnKJAZgd9DEiYbnSw1T89LN8z8XEnmxuma+rPWCv4VfI8cL?=
- =?us-ascii?Q?ioV9yM6t9ZXKBZPIVWjJUF85LSQ3m9Ue4w8Yq9ie?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d417bc37-3647-40c6-8810-08dbe66185af
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZeV/7xvBtvb3B8jrPb7JF0gy9MVJGN9wYLBh1dlaQbl+muKyJbZSpRfX6SFB?=
+ =?us-ascii?Q?NbDj8FXcKNoSMduurn+rJqG3AYYf9KtXpPs9U/6ZCBEmG6eiTBoF6oHvS9p0?=
+ =?us-ascii?Q?0aGOjRc2SqAnaQYQUDzzfRE7mCtL+IRxBujZWs6jZEuDp8o1BB8/8fwxrIQ/?=
+ =?us-ascii?Q?oixMTC6exGAK/DuTOUW8ZmMIHJpND5T8QYCBPmutQKwb58Nst45lLTtxFa8F?=
+ =?us-ascii?Q?Nd5IpdjZL9sDfFMLJ9FpWLBRbBWyj5KaroWpTAU18+XjzKspmDx+AsvNtiPw?=
+ =?us-ascii?Q?8hHulgSACRD1SLRaKoagGbzQ80aZJBHNhj8ZhXXFcJYyDu8BSDRO5CokamuF?=
+ =?us-ascii?Q?a581h4FTO6HGeIBd44e5VxCCUtEDpeDXZxvNRdwaabYCnzC9ycQgSnBm7zl8?=
+ =?us-ascii?Q?ysXfR0ge+kPJK9AsPPNywCb0JHX48v6ZwrBXBL/SH5XKzOmjeT5+lfWCfZao?=
+ =?us-ascii?Q?l2xGTLjVEmAbEpRGoxxx7tB5I/8+SFJ1LduC+xIBEoT1mXs1GxRWAQ64s1Ks?=
+ =?us-ascii?Q?k1k8s3VjiA7JrT8tYsVLuuA27D941Uymv0CXbgAxyNkxHP99slmVUVLZfDK8?=
+ =?us-ascii?Q?F6vJt3Q1o1JwzO1gQAacwYa5GNEljksXGR2sA9HCSatTJmrlRkxpQLTckuHR?=
+ =?us-ascii?Q?MOx+GonCSeXli+S+y80k3BeDdFyzkbf2qQzcztn0GtUU7IlQw2wg9kzloPAV?=
+ =?us-ascii?Q?tLgUABXqqZTkEOEUHFKN6op9kwGbmOKDfF/2/jOGH+C9C6wmvTWq+dfMlOd7?=
+ =?us-ascii?Q?0AEl88EymIGssMRAs4c+GZhttGyVfSwxpeQ5hOtoM6OqdBtBZccnbxf2Tgpx?=
+ =?us-ascii?Q?4gHOt9f/V2DazYRWVV9qw+Dw7YtzZcJMKNTGq3nqRtzg+zq1d6TY6FPcE67w?=
+ =?us-ascii?Q?uXDbj3lFzQ1ezkl8EyZ5tPuqrxKYRikr/QETdYvgqL1AUux1eBn2xGo6lLu5?=
+ =?us-ascii?Q?65ERDfOHq8fI04GH+nJkGNG3fnwzp4FwkdsldxMOThIYNN3rBleRHA+T6M05?=
+ =?us-ascii?Q?Cdl9rS1uwSTYgps16MlIAvY/tcBZZgVlma6ugz5/9REC1FtbLQ/ModfZ+HuQ?=
+ =?us-ascii?Q?F0Km+f6UkyQ5CG4TvJkWrpM9RS5LTkwZsWsQ7gSuNn/RfxBg6K6W14J+3Buj?=
+ =?us-ascii?Q?zmZyLJFiXHcn/oT/AHTkMQD4dJ444ZMjfLDoi4ucBkFZfTHbWN9552T+TrSL?=
+ =?us-ascii?Q?Q5fy5Nh+REUTIDtcgABBMjpoKbuDWAQ1Grw5rvKyksutQ8W2WP23U+hroeV/?=
+ =?us-ascii?Q?wgpbhyartdRrdtjrSqBcercDnLUp/Nh4YXh/arcRnS/MAY11sM/cdTGdnp2g?=
+ =?us-ascii?Q?9SZ3x6ZcyndGadptS3kaIK1UV/OuF8FkOZX/Xzs5xM8qIUr2smYfyUt3eH+Z?=
+ =?us-ascii?Q?/lFgvh9/jvAOaHJ69rzIeVbPjhTO8CKN7jcknLs970/D9USTK7bKfWXQIMn0?=
+ =?us-ascii?Q?+0yyL7VL4UO2DoG44Znp9Ppdlmn1uBThtotFv5vCzp16D9dlPPN7bP8xt4ZP?=
+ =?us-ascii?Q?Ozf8ELrRL5D76O/CojjSaUUqHmW5qqMKLiXNM3MNaVBggSSM5BTsFrrWIZcG?=
+ =?us-ascii?Q?dQe0SlIU/x0iaw6V9phknfGChCK7kOFL9/RR7/Iq?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f5a0bd8-b860-4e02-d9e6-08dbe666adb5
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 05:04:33.6595
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 05:41:28.1449
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YJeOvTuhACLWPh8ljHBciPBE7KqPJ99qG9IKWNzPbef1UZJtTSQlYC2303+YiFfo6g14YkNVfdnU7stHHtMEbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7730
+X-MS-Exchange-CrossTenant-UserPrincipalName: QNAPVOWKq8RE1YIz3Sap6FWmluL646BSLhNXpg20Mq9Kny8WZVFFf57yDAVKzyUSX2n0D/Dv2E1CM3qostMQ3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8499
 X-OriginatorOrg: intel.com
 
-Hi Yicong,
+Hi Adrian,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus arm/for-next kvmarm/next soc/for-next linus/master arm/fixes v6.7-rc1 next-20231115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yicong-Yang/arch_topology-Support-basic-SMT-control-for-the-driver/20231114-120544
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20231114040110.54590-5-yangyicong%40huawei.com
-patch subject: [PATCH v3 4/4] arm64: Kconfig: Enable HOTPLUG_SMT
-config: arm64-randconfig-002-20231115 (https://download.01.org/0day-ci/archive/20231115/202311151900.K9xc6Xqz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311151900.K9xc6Xqz-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/645
+head:   d9e9cb8ce9bc751887fd5ed53e0cfac82c8aae13
+commit: a876adc3ae12aec519af4b9cbb6ed25f542f6fb9 [132/15769] MLK-24930-1: sound: soc: fsl: imx pcm512x: iqaudio dac
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20231116/202311161240.h8OnkbaZ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311161240.h8OnkbaZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202311151900.K9xc6Xqz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311161240.h8OnkbaZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/cpu.c: In function 'cpuhp_smt_disable':
->> kernel/cpu.c:2687:23: error: implicit declaration of function 'cpu_down_maps_locked' [-Werror=implicit-function-declaration]
-    2687 |                 ret = cpu_down_maps_locked(cpu, CPUHP_OFFLINE);
-         |                       ^~~~~~~~~~~~~~~~~~~~
+   In file included from ./arch/xtensa/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from sound/soc/fsl/imx-pcm512x.c:13:
+   sound/soc/fsl/imx-pcm512x.c: In function 'imx_pcm512x_hw_params':
+   include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   sound/soc/fsl/imx-pcm512x.c:189:21: note: in expansion of macro 'do_div'
+     189 |                 if (do_div(rate, 8000)) {
+         |                     ^~~~~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12:
+   include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:77:45: note: in definition of macro 'likely'
+      77 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   sound/soc/fsl/imx-pcm512x.c:189:21: note: in expansion of macro 'do_div'
+     189 |                 if (do_div(rate, 8000)) {
+         |                     ^~~~~~
+>> include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    unsigned int *
+   sound/soc/fsl/imx-pcm512x.c:189:21: note: in expansion of macro 'do_div'
+     189 |                 if (do_div(rate, 8000)) {
+         |                     ^~~~~~
+   include/asm-generic/div64.h:213:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'unsigned int *'
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   sound/soc/fsl/imx-pcm512x.c:193:33: error: 'PCM512x_SYSCLK_MCLK1' undeclared (first use in this function); did you mean 'PCM512x_SDAC_MCK'?
+     193 |                                 PCM512x_SYSCLK_MCLK1, mclk_freq, SND_SOC_CLOCK_IN);
+         |                                 ^~~~~~~~~~~~~~~~~~~~
+         |                                 PCM512x_SDAC_MCK
+   sound/soc/fsl/imx-pcm512x.c:193:33: note: each undeclared identifier is reported only once for each function it appears in
+   sound/soc/fsl/imx-pcm512x.c:198:33: error: 'PCM512x_SYSCLK_MCLK2' undeclared (first use in this function); did you mean 'PCM512x_SDAC_MCK'?
+     198 |                                 PCM512x_SYSCLK_MCLK2, mclk_freq, SND_SOC_CLOCK_IN);
+         |                                 ^~~~~~~~~~~~~~~~~~~~
+         |                                 PCM512x_SDAC_MCK
    cc1: some warnings being treated as errors
 
 
-vim +/cpu_down_maps_locked +2687 kernel/cpu.c
+vim +/__div64_32 +238 include/asm-generic/div64.h
 
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2672  
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2673  int cpuhp_smt_disable(enum cpuhp_smt_control ctrlval)
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2674  {
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2675  	int cpu, ret = 0;
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2676  
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2677  	cpu_maps_update_begin();
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2678  	for_each_online_cpu(cpu) {
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2679  		if (topology_is_primary_thread(cpu))
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2680  			continue;
-38253464bc821d Michael Ellerman 2023-07-05  2681  		/*
-38253464bc821d Michael Ellerman 2023-07-05  2682  		 * Disable can be called with CPU_SMT_ENABLED when changing
-38253464bc821d Michael Ellerman 2023-07-05  2683  		 * from a higher to lower number of SMT threads per core.
-38253464bc821d Michael Ellerman 2023-07-05  2684  		 */
-38253464bc821d Michael Ellerman 2023-07-05  2685  		if (ctrlval == CPU_SMT_ENABLED && cpu_smt_thread_allowed(cpu))
-38253464bc821d Michael Ellerman 2023-07-05  2686  			continue;
-dc8d37ed304eee Arnd Bergmann    2019-12-10 @2687  		ret = cpu_down_maps_locked(cpu, CPUHP_OFFLINE);
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2688  		if (ret)
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2689  			break;
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2690  		/*
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2691  		 * As this needs to hold the cpu maps lock it's impossible
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2692  		 * to call device_offline() because that ends up calling
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2693  		 * cpu_down() which takes cpu maps lock. cpu maps lock
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2694  		 * needs to be held as this might race against in kernel
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2695  		 * abusers of the hotplug machinery (thermal management).
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2696  		 *
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2697  		 * So nothing would update device:offline state. That would
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2698  		 * leave the sysfs entry stale and prevent onlining after
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2699  		 * smt control has been changed to 'off' again. This is
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2700  		 * called under the sysfs hotplug lock, so it is properly
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2701  		 * serialized against the regular offline usage.
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2702  		 */
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2703  		cpuhp_offline_cpu_device(cpu);
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2704  	}
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2705  	if (!ret)
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2706  		cpu_smt_control = ctrlval;
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2707  	cpu_maps_update_done();
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2708  	return ret;
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2709  }
-dc8d37ed304eee Arnd Bergmann    2019-12-10  2710  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  215  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  218   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
+461a5e51060c93 Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93 Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
+461a5e51060c93 Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  234  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  237  	} else {					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @238  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  239  	}						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	__rem;						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  241   })
+^1da177e4c3f41 Linus Torvalds     2005-04-16  242  
+
+:::::: The code at line 238 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
 -- 
 0-DAY CI Kernel Test Service
