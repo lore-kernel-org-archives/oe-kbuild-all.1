@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DEC315AF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 14:09:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976D62F84B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 14:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MzD/6wzM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PG3JETZq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700143785; x=1731679785;
+  t=1700145961; x=1731681961;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=obXrc3QeoXL3bMpGcLRvF+VyVwoplaPFUBf6cbbtgVY=;
-  b=MzD/6wzMu8O3IVufUk5VjDxlUsPK4Eze3uxm4uUPl+1len61vwnsBpeZ
-   +R0Js2PkVJ8jyqL8fOATXUVR9qPG6wTNF7SHQQha4Vteot/7aqPzuT91q
-   QkgpxxFxDd/rnisV3fWLgGY7uJm3GcxaFmhqNv/zrG8yB6qJgmuDGG8VM
-   CYd5aIPtdaprvPXC2Kpa86IUJVqtcRyQnZVep25PbNzVSO/o+h48+Z+3w
-   nTaFfYjbGMz4Hq1rQcMBFQEV+TStNowIskqIimuoo2WsR4vFUG4V3REUo
-   owW38KYpOiOALpzfjRN+JLHCsaQ5Mt4BW23Fz3luHdPE6klJ7h7GmnWz8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="4174794"
+  bh=L9XNHSq+30j3A4kCvAzbsmtTtelpSi06Z0nMD8C/X78=;
+  b=PG3JETZqVsXVDJVfd/16luCXnG8Nq3kBGxZ+35nlPzm2tFMwPEAJ80Md
+   Mk316eM4vZZDeR+ShSZ+1x3RiEeH5wLJdw0BWjdlrHJ7IFJHRgyvc7rUp
+   Ys0xSlsQRTYNSE/yYImnKwuJQjk6Jg+3RFbrx8rFExFYF/gotrA7JoOWh
+   L4VuAal4Ic7yhsolntkTz550BezB6m/Sp/UAsMjqPRlGn1rjMzJJncyzC
+   XzJeP8cfR4+AQhtsY+m3aMMCWGYC51dziSlM5Xf07xxkMECGDsRIRT0A8
+   Y4wfkE0n0H0n4IRimolCt89dOwbViwpUtDcvhzR7CaN1iAqOTGId3/3KK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="455392771"
 X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
-   d="scan'208";a="4174794"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 06:09:27 -0800
+   d="scan'208";a="455392771"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 06:46:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="835754603"
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="794513454"
 X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
-   d="scan'208";a="835754603"
+   d="scan'208";a="794513454"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Nov 2023 06:09:25 -0800
+  by orsmga008.jf.intel.com with ESMTP; 16 Nov 2023 06:45:59 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3d3b-0001jn-00;
-	Thu, 16 Nov 2023 14:09:23 +0000
-Date: Thu, 16 Nov 2023 22:08:22 +0800
+	id 1r3dcz-0001nH-22;
+	Thu, 16 Nov 2023 14:45:57 +0000
+Date: Thu, 16 Nov 2023 22:45:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wang <frank.wang@rock-chips.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Sebastian Reichel <sre@kernel.org>,
-	Zhang Yubing <yubing.zhang@rock-chips.com>
-Subject: [sre-misc:rk3588 14/37] kismet: WARNING: unmet direct dependencies
- detected for USB_COMMON when selected by EXTCON_RTK_TYPE_C
-Message-ID: <202311162120.877lxBDq-lkp@intel.com>
+To: Chris Morgan <macromorgan@hotmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast
+ truncates bits from constant value (aa01a0 becomes a0)
+Message-ID: <202311162214.kJuTyMck-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,29 +51,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-misc.git rk3588
-head:   f41b3e9a9d7f22bef0735b4fe0007321ce6b6d6b
-commit: 5c34bb1e195fbbcaccf42a04f56e8d035d0864bb [14/37] phy: rockchip: add usbdp combo phy driver
-config: arm64-kismet-CONFIG_USB_COMMON-CONFIG_EXTCON_RTK_TYPE_C-0-0 (https://download.01.org/0day-ci/archive/20231116/202311162120.877lxBDq-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20231116/202311162120.877lxBDq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7475e51b87969e01a6812eac713a1c8310372e8a
+commit: 66603243f5283f7f28c795f09e7c2167233df0bd Input: add driver for Hynitron cstxxx touchscreens
+date:   1 year, 1 month ago
+config: x86_64-randconfig-x001-20230717 (https://download.01.org/0day-ci/archive/20231116/202311162214.kJuTyMck-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311162214.kJuTyMck-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311162120.877lxBDq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311162214.kJuTyMck-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for USB_COMMON when selected by EXTCON_RTK_TYPE_C
-   
-   WARNING: unmet direct dependencies detected for TYPEC
-     Depends on [n]: USB_SUPPORT [=n]
-     Selected by [y]:
-     - PHY_ROCKCHIP_USBDP [=y] && ARCH_ROCKCHIP [=y] && OF [=y]
-   
-   WARNING: unmet direct dependencies detected for USB_COMMON
-     Depends on [n]: USB_SUPPORT [=n]
-     Selected by [y]:
-     - EXTCON_RTK_TYPE_C [=y] && EXTCON [=y] && (ARCH_REALTEK [=y] || COMPILE_TEST [=n]) && TYPEC [=y]
+sparse warnings: (new ones prefixed by >>)
+   drivers/input/touchscreen/hynitron_cstxxx.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h):
+>> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (aa01a0 becomes a0)
+   include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (aa01 becomes 1)
+>> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (ab00d0 becomes d0)
+   include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (ab00 becomes 0)
+
+vim +119 include/asm-generic/unaligned.h
+
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  116  
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  117  static inline void __put_unaligned_le24(const u32 val, u8 *p)
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  118  {
+803f4e1eab7a89 Arnd Bergmann 2021-05-08 @119  	*p++ = val;
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  120  	*p++ = val >> 8;
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  121  	*p++ = val >> 16;
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  122  }
+803f4e1eab7a89 Arnd Bergmann 2021-05-08  123  
+
+:::::: The code at line 119 was first introduced by commit
+:::::: 803f4e1eab7a8938ba3a3c30dd4eb5e9eeef5e63 asm-generic: simplify asm/unaligned.h
+
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Arnd Bergmann <arnd@arndb.de>
 
 -- 
 0-DAY CI Kernel Test Service
