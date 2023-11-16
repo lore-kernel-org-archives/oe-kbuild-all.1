@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577A3D2F4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 07:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BD8D298
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 07:15:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEIBzXyu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oBiqDlTw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700118336; x=1731654336;
+  t=1700118950; x=1731654950;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hAF05acjh+JI9bGX30Npj6cSGVV5iXnVXwheU062u38=;
-  b=YEIBzXyudpTh9nQpRw91pROrPK9DaPz6q9p+YQElSZ65xwKRMWJj7pqB
-   iKiDJPxdBkGp/FRKozU3Cn1xLERcxy8I5EJkRTGZ3/Q22HQ0h1KPWwFVw
-   E1QvY73BrEaHcwBqjy+LuY05ZT2Hh+yxWSsg4p50CgxM4UArakAS0xZ9b
-   JueGktHidaPKt+bkBHczfL2XOBVTQERE2Jyf9O2IecHyvqifRbinIf1K0
-   N1XqoLmayFK3eKg9YRm3ux6ddrcONixRKamjomTKw6SG3K0reAsOfNDRl
-   yiChXB6d6u69+y38wuBOfHneCP7/aPUnbtB6ZKP/pgUWmJJ/wh8nVTo1P
+  bh=c+IPOqklc31jQ5GJXna+TFaVrgBYMqlZiLJ6XjApKP8=;
+  b=oBiqDlTwQ1SRL4ruhF7FuN1ciclbkkUkLkxh3nmC9iE7w5ky1pUdcCDp
+   S0yU6qAdYNCLV5YGwk7rP2DAW0+N1EY9r59MSa90+KmSSJIm6zQYY2Z3n
+   GbSMR9KecqPqdd9TZL38opor/JNRYoel5NxS3r0uODc66vo8uU1Z4ww3J
+   ZTOzkdbhX0INReigqtFx040891YaItVEo5VQEl7D0gIuQb0hqbMdPzd3a
+   Pz0xhBwWwyCi4LHmUejUHbi1/MAFy9jGiBlX8D+9Gif+L968E6R4eal6V
+   J96khO/Tt65yLyZjD6kc4rQ+Lf91amctmlJfVGdKUCAngYgojHP1HEM49
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="477247186"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="370391405"
 X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="477247186"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 23:05:35 -0800
+   d="scan'208";a="370391405"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 23:15:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="1096702594"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="888830220"
 X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="1096702594"
+   d="scan'208";a="888830220"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Nov 2023 23:05:34 -0800
+  by orsmga004.jf.intel.com with ESMTP; 15 Nov 2023 23:15:48 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3WRQ-0001Qx-03;
-	Thu, 16 Nov 2023 07:05:32 +0000
-Date: Thu, 16 Nov 2023 15:04:32 +0800
+	id 1r3WbJ-0001Rn-21;
+	Thu, 16 Nov 2023 07:15:45 +0000
+Date: Thu, 16 Nov 2023 15:15:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.6-rc5-esp32 19/43] versioncheck:
- ./drivers/net/wireless/espressif/esp32-ng/esp_bt.c: 253: need
- linux/version.h
-Message-ID: <202311161455.v3QJM9tp-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Frederic Weisbecker <frederic@kernel.org>
+Subject: kernel/locking/locktorture.c:127:23: sparse: sparse: symbol
+ 'call_rcu_chain' was not declared. Should it be static?
+Message-ID: <202311161525.FcMR6mQM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,41 +51,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.6-rc5-esp32
-head:   e136b1438e7e7838acc6127c3f1a9200356d7248
-commit: 4bbe55067a282a1a5f7f6021bd8175a9b233c82d [19/43] drivers/net/wireless/espressif/esp32-ng: initial import
-reproduce: (https://download.01.org/0day-ci/archive/20231116/202311161455.v3QJM9tp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
+commit: 7f993623e9ebcd633c0f760991e5078b95a37db3 locktorture: Add call_rcu_chains module parameter
+date:   8 weeks ago
+config: sparc-randconfig-r021-20230427 (https://download.01.org/0day-ci/archive/20231116/202311161525.FcMR6mQM-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231116/202311161525.FcMR6mQM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311161455.v3QJM9tp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311161525.FcMR6mQM-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/net/wireless/espressif/esp32-ng/esp_bt.c: 253: need linux/version.h
->> ./drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.h: 11 linux/version.h not needed.
->> ./drivers/net/wireless/espressif/esp32-ng/esp_cmd.c: 1596: need linux/version.h
->> ./drivers/net/wireless/espressif/esp32-ng/esp_spi.c: 697: need linux/version.h
->> ./drivers/net/wireless/espressif/esp32-ng/main.c: 921: need linux/version.h
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+sparse warnings: (new ones prefixed by >>)
+>> kernel/locking/locktorture.c:127:23: sparse: sparse: symbol 'call_rcu_chain' was not declared. Should it be static?
+   kernel/locking/locktorture.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   kernel/locking/locktorture.c:496:12: sparse: sparse: context imbalance in 'torture_mutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c:512:13: sparse: sparse: context imbalance in 'torture_mutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:570:12: sparse: sparse: context imbalance in 'torture_ww_mutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c:614:13: sparse: sparse: context imbalance in 'torture_ww_mutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:665:12: sparse: sparse: context imbalance in 'torture_rtmutex_lock' - wrong count at exit
+   kernel/locking/locktorture.c:689:13: sparse: sparse: context imbalance in 'torture_rtmutex_unlock' - wrong count at exit
+   kernel/locking/locktorture.c:729:12: sparse: sparse: context imbalance in 'torture_rwsem_down_write' - wrong count at exit
+   kernel/locking/locktorture.c:745:13: sparse: sparse: context imbalance in 'torture_rwsem_up_write' - wrong count at exit
+   kernel/locking/locktorture.c:751:12: sparse: sparse: context imbalance in 'torture_rwsem_down_read' - wrong count at exit
+   kernel/locking/locktorture.c:769:13: sparse: sparse: context imbalance in 'torture_rwsem_up_read' - wrong count at exit
+   kernel/locking/locktorture.c:799:12: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_write' - wrong count at exit
+   kernel/locking/locktorture.c:806:13: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_write' - wrong count at exit
+   kernel/locking/locktorture.c: note: in included file (through include/linux/fs.h, include/linux/proc_fs.h, arch/sparc/include/asm/prom.h, ...):
+   include/linux/percpu-rwsem.h:70:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_read' - wrong count at exit
+   include/linux/percpu-rwsem.h:121:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_read' - wrong count at exit
+
+vim +/call_rcu_chain +127 kernel/locking/locktorture.c
+
+   122	
+   123	struct call_rcu_chain {
+   124		struct rcu_head crc_rh;
+   125		bool crc_stop;
+   126	};
+ > 127	struct call_rcu_chain *call_rcu_chain;
+   128	
 
 -- 
 0-DAY CI Kernel Test Service
