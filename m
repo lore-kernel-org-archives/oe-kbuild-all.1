@@ -1,134 +1,78 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 410BD819
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 10:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 47AA51595;
-	Thu, 16 Nov 2023 02:37:36 -0800 (PST)
-Received: from [10.1.35.163] (XHFQ2J9959.cambridge.arm.com [10.1.35.163])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1F8C23F6C4;
-	Thu, 16 Nov 2023 02:36:47 -0800 (PST)
-Message-ID: <a397d45b-6369-4a45-915e-cbebecd4556b@arm.com>
-Date: Thu, 16 Nov 2023 10:36:45 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B046B28DA2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 10:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="muPlZXHi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700131997; x=1731667997;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iLiRJAEHxpPCOLagrNrmxVA2+c1VWswA3PQnOUleMCI=;
+  b=muPlZXHiyCWj0TESqKt0XFek4JQy4j/pFUI35lUHLFlUJonAJH3lj+Zy
+   P/+Kp1tLHBMZ0u7GdYLNQsm+Quu/T2hQw9vARjYrPgVdHlVNb8fpnc7bM
+   rlIsxBSrjWz/lEA+phtbmcGVOhhqtjF84Z+LlZMrZv1x+xjKBHwAo0YHi
+   91sQvKE0wLYtIPhF37cGXMYsyfafs5aFQjfc4C4ELW+kBvXkjZ0YFwduT
+   BWc1YexFROPAYcnu6khdNxQ/71yyeNNhw5QiTzs6O9pNYkbDBYFqYqbVq
+   fFtQpL1zaevH4rQyMcgjAzINrZNiFGuTfd10hO1nJD/Qs0JdD5Lq1cWt9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="4141620"
+X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; 
+   d="scan'208";a="4141620"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 02:53:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="1012573463"
+X-IronPort-AV: E=Sophos;i="6.03,308,1694761200"; 
+   d="scan'208";a="1012573463"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 16 Nov 2023 02:53:14 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r3Zzk-0001Zr-0x;
+	Thu, 16 Nov 2023 10:53:12 +0000
+Date: Thu, 16 Nov 2023 18:52:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: [rmk-arm:aarch64/hotplug-vcpu/v6.7-rc1 41/42] kismet: WARNING: unmet
+ direct dependencies detected for ACPI_HOTPLUG_IGNORE_OSC when selected by
+ X86
+Message-ID: <202311161822.fk212KaN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/14] mm: Batch-copy PTE ranges during fork()
-Content-Language: en-GB
-To: David Hildenbrand <david@redhat.com>, kernel test robot <lkp@intel.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Matthew Wilcox <willy@infradead.org>, Yu Zhao <yuzhao@google.com>,
- Mark Rutland <mark.rutland@arm.com>, Kefeng Wang
- <wangkefeng.wang@huawei.com>, John Hubbard <jhubbard@nvidia.com>,
- Zi Yan <ziy@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20231115163018.1303287-2-ryan.roberts@arm.com>
- <202311160516.kHhfmjvl-lkp@intel.com>
- <e6060ff2-ced0-42fd-b92a-c2e710c4e15a@arm.com>
- <4e8d329c-eda6-4ff8-bb56-8924bb4583b2@redhat.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <4e8d329c-eda6-4ff8-bb56-8924bb4583b2@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 16/11/2023 10:12, David Hildenbrand wrote:
-> On 16.11.23 11:07, Ryan Roberts wrote:
->> Hi All,
->>
->> Hoping for some guidance below!
->>
->>
->> On 15/11/2023 21:26, kernel test robot wrote:
->>> Hi Ryan,
->>>
->>> kernel test robot noticed the following build errors:
->>>
->>> [auto build test ERROR on akpm-mm/mm-everything]
->>> [also build test ERROR on linus/master v6.7-rc1 next-20231115]
->>> [cannot apply to arm64/for-next/core efi/next]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>> And when submitting patch, we suggest to use '--base' as documented in
->>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>
->>> url:   
->>> https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/mm-Batch-copy-PTE-ranges-during-fork/20231116-010123
->>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
->>> mm-everything
->>> patch link:   
->>> https://lore.kernel.org/r/20231115163018.1303287-2-ryan.roberts%40arm.com
->>> patch subject: [PATCH v2 01/14] mm: Batch-copy PTE ranges during fork()
->>> config: arm-randconfig-002-20231116
->>> (https://download.01.org/0day-ci/archive/20231116/202311160516.kHhfmjvl-lkp@intel.com/config)
->>> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
->>> reproduce (this is a W=1 build):
->>> (https://download.01.org/0day-ci/archive/20231116/202311160516.kHhfmjvl-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes:
->>> https://lore.kernel.org/oe-kbuild-all/202311160516.kHhfmjvl-lkp@intel.com/
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>     mm/memory.c: In function 'folio_nr_pages_cont_mapped':
->>>>> mm/memory.c:969:16: error: implicit declaration of function 'pte_pgprot';
->>>>> did you mean 'ptep_get'? [-Werror=implicit-function-declaration]
->>>       969 |         prot = pte_pgprot(pte_mkold(pte_mkclean(ptent)));
->>>           |                ^~~~~~~~~~
->>>           |                ptep_get
->>>     cc1: some warnings being treated as errors
->>
->> It turns out that pte_pgprot() is not universal; its only implemented by
->> architectures that select CONFIG_HAVE_IOREMAP_PROT (currently arc, arm64,
->> loongarch, mips, powerpc, s390, sh, x86).
->>
->> I'm using it in core-mm to help calculate the number of "contiguously mapped"
->> pages within a folio (note that's not the same as arm64's notion of
->> contpte-mapped. I just want to know that there are N physically contiguous pages
->> mapped virtually contiguously with the same permissions). And I'm using
->> pte_pgprot() to extract the permissions for each pte to compare. It's important
->> that we compare the permissions because just because the pages belongs to the
->> same folio doesn't imply they are mapped with the same permissions; think
->> mprotect()ing a sub-range.
->>
->> I don't have a great idea for how to fix this - does anyone have any thoughts?
-> 
-> KIS :) fork() operates on individual VMAs if I am not daydreaming.
-> 
-> Just check for the obvious pte_write()/dirty/ and you'll be fine.
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm aarch64/hotplug-vcpu/v6.7-rc1
+head:   7cd0d2ba4b60697c90c4328a7377ce411568299e
+commit: 14c87bb96df0d5d15ee8cea9114bcc9183d5dc4f [41/42] ACPI: Add _OSC bits to advertise OS support for toggling CPU present/enabled
+config: i386-kismet-CONFIG_ACPI_HOTPLUG_IGNORE_OSC-CONFIG_X86-0-0 (https://download.01.org/0day-ci/archive/20231116/202311161822.fk212KaN-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231116/202311161822.fk212KaN-lkp@intel.com/reproduce)
 
-Yes, that seems much simpler! I think we might have to be careful about the uffd
-wp bit too? I think that's it - are there any other exotic bits that might need
-to be considered?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311161822.fk212KaN-lkp@intel.com/
 
-> 
-> If your code tries to optimize "between VMAs", you really shouldn't be doing
-> that at this point.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ACPI_HOTPLUG_IGNORE_OSC when selected by X86
+   
+   WARNING: unmet direct dependencies detected for ACPI_HOTPLUG_IGNORE_OSC
+     Depends on [n]: ACPI [=y] && ACPI_HOTPLUG_PRESENT_CPU [=n]
+     Selected by [y]:
+     - X86 [=y] && ACPI [=y] && HOTPLUG_CPU [=y]
 
-No I'm not doing that; It's one VMA at a time.
-
-> 
-> If someone did an mprotect(), there are separate VMAs, and you shouldn't be
-> looking at the PTEs belonging to a different VMA.
-> 
-
-Yep understood, thanks.
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
