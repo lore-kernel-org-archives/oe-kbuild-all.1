@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A50845957
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 12:07:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFD945957
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 12:08:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MEGNhA7d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VcJulQuF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700136476; x=1731672476;
+  t=1700136537; x=1731672537;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lOf+dsY6hg6ALegKfu+XLgN7HT546Llv2QELZgpFiuY=;
-  b=MEGNhA7dYRdhzm3Wf72+IeCHCEft+Oi/YkGSWjpIFyRfi18Fc3i0hMek
-   A70rr2hMSVSmRV7i6aJe1ifRmqOpLyka3za5toSeHzqLJv1pYobWKbUhB
-   w4p5t7gmc5VsmT3p7/iGB1c4qcAzChFKqfs1vb/iG9hdmlDHQPPOTh1JW
-   Js+bjJb9U9DQ0GLJyD3qZZhJ3dREVEtP++ZK0iGc2EwK5f2e6TqDyqL0v
-   MF80C5cI8X0Cy1wHjUc07uFQt5diYvVwE5JlN622XbFQkeRA5aa+Y8U07
-   QD5fKkvJ2cvZ+5CQrlyPeGfzOB4m7NpmuQfWUwkS5LAd1GeFVdYZ5MBGO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="457568029"
+  bh=BOb/8RhNlKkC0rdxULxYcCwlK+TEhj2aqR5Z1u+geKk=;
+  b=VcJulQuFbQVpanMdHFC16MLjgtIch6DfCR6APcLJvZ7ZinuPki8N5S2N
+   nHfb3aTfbpex+K97Ngg9cL0Z8/Ez0wNbLDJKyh1s8+hQkhRw8GVfp/8ne
+   gRPACNTBJIV1Qth/2oyEX6e93Fdw92u/E/k83zyP1veGCBrceUeLnCXJN
+   dhOMe0ufRmwzsslzaCQc0mtr/5ct70uxc9Ab9zRjTyK9rvfzUUCwTAiFa
+   m2VR4PwfZDeS63ZhuobwAEs2ptDQ7Qm80ji7SG0KGoh3DLv1J0mJwKCgQ
+   +ePJDfSFK+bwrW3STqnsGdt5D5TLFheEEB/GUbKkFF9bOTWiiGI+qbC+1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="389934131"
 X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
-   d="scan'208";a="457568029"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 04:07:55 -0800
+   d="scan'208";a="389934131"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 04:08:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="909091192"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="758818120"
 X-IronPort-AV: E=Sophos;i="6.04,308,1695711600"; 
-   d="scan'208";a="909091192"
+   d="scan'208";a="758818120"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Nov 2023 04:07:54 -0800
+  by orsmga007.jf.intel.com with ESMTP; 16 Nov 2023 04:08:54 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3b9z-0001cZ-2h;
-	Thu, 16 Nov 2023 12:07:51 +0000
-Date: Thu, 16 Nov 2023 20:07:40 +0800
+	id 1r3bAy-0001cg-1L;
+	Thu, 16 Nov 2023 12:08:52 +0000
+Date: Thu, 16 Nov 2023 20:07:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Marchevsky <davemarchevsky@fb.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates
- bits from constant value (eb9f becomes 9f)
-Message-ID: <202311161930.Y0q8E1aT-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/642 2462/30000]
+ drivers/staging/fsl_qbman/fsl_usdpaa.c:376:6: error: no previous prototype
+ for 'dbci_portal'
+Message-ID: <202311162040.c77bnPkd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,55 +51,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
-commit: c3c510ce431cd99fa10dcd50d995c8e89330ee5b bpf: Add 'owner' field to bpf_{list,rb}_node
-date:   4 months ago
-config: alpha-randconfig-r123-20231116 (https://download.01.org/0day-ci/archive/20231116/202311161930.Y0q8E1aT-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231116/202311161930.Y0q8E1aT-lkp@intel.com/reproduce)
+Hi Madalin,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/Freescale/linux-fslc pr/642
+head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
+commit: d30d0c1e963944b56c0b21744b1996039fa4eb8c [2462/30000] config: add SDK QBMan driver
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231116/202311162040.c77bnPkd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311162040.c77bnPkd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311161930.Y0q8E1aT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311162040.c77bnPkd-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/helpers.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
-   kernel/bpf/helpers.c: note: in included file (through arch/alpha/include/asm/cmpxchg.h, arch/alpha/include/asm/atomic.h, include/linux/atomic.h, ...):
->> arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (eb9f becomes 9f)
->> arch/alpha/include/asm/xchg.h:234:32: sparse: sparse: cast truncates bits from constant value (eb9f becomes 9f)
-   kernel/bpf/helpers.c:2419:18: sparse: sparse: context imbalance in 'bpf_rcu_read_lock' - wrong count at exit
-   kernel/bpf/helpers.c:2424:18: sparse: sparse: context imbalance in 'bpf_rcu_read_unlock' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +234 arch/alpha/include/asm/xchg.h
+   In file included from include/linux/fsl_usdpaa.h:17,
+                    from drivers/staging/fsl_qbman/dpa_sys.h:66,
+                    from drivers/staging/fsl_qbman/fsl_usdpaa.c:26:
+   include/linux/fsl_qman.h:415:1: error: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Werror=packed-not-aligned]
+     415 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:469:17: error: alignment 1 of 'struct <anonymous>' is less than 8 [-Werror=packed-not-aligned]
+     469 |                 } __packed ern;
+         |                 ^
+   include/linux/fsl_qman.h:468:38: error: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Werror=packed-not-aligned]
+     468 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:486:17: error: alignment 1 of 'struct <anonymous>' is less than 8 [-Werror=packed-not-aligned]
+     486 |                 } __packed dcern;
+         |                 ^
+   include/linux/fsl_qman.h:485:38: error: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Werror=packed-not-aligned]
+     485 |                         struct qm_fd fd;
+         |                                      ^~
+   include/linux/fsl_qman.h:1679:1: error: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Werror=packed-not-aligned]
+    1679 | } __packed;
+         | ^
+   include/linux/fsl_qman.h:1677:22: error: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Werror=packed-not-aligned]
+    1677 |         struct qm_fd fd;
+         |                      ^~
+   In file included from drivers/staging/fsl_qbman/fsl_usdpaa.c:29:
+   drivers/staging/fsl_qbman/qman_low.h: In function 'qm_shutdown_fq':
+   drivers/staging/fsl_qbman/qman_low.h:1291:29: error: variable 'dequeue_wq' set but not used [-Werror=unused-but-set-variable]
+    1291 |                         u16 dequeue_wq = 0;
+         |                             ^~~~~~~~~~
+   drivers/staging/fsl_qbman/fsl_usdpaa.c: At top level:
+>> drivers/staging/fsl_qbman/fsl_usdpaa.c:376:6: error: no previous prototype for 'dbci_portal' [-Werror=missing-prototypes]
+     376 | void dbci_portal(void *addr)
+         |      ^~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  227  
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  228  static __always_inline unsigned long
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  229  ____cmpxchg(, volatile void *ptr, unsigned long old, unsigned long new,
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  230  	      int size)
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  231  {
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  232  	switch (size) {
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  233  		case 1:
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31 @234  			return ____cmpxchg(_u8, ptr, old, new);
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  235  		case 2:
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  236  			return ____cmpxchg(_u16, ptr, old, new);
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  237  		case 4:
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  238  			return ____cmpxchg(_u32, ptr, old, new);
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  239  		case 8:
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  240  			return ____cmpxchg(_u64, ptr, old, new);
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  241  	}
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  242  	__cmpxchg_called_with_bad_pointer();
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  243  	return old;
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  244  }
-a6209d6d71f2ab Ivan Kokshaysky 2009-03-31  245  
 
-:::::: The code at line 234 was first introduced by commit
-:::::: a6209d6d71f2ab8c63cc1587ef65490d83022baf alpha: xchg/cmpxchg cleanup and fixes
+vim +/dbci_portal +376 drivers/staging/fsl_qbman/fsl_usdpaa.c
 
-:::::: TO: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+16ff861424bca7 Madalin Bucur 2017-05-10  373  
+d74c7bad305495 Roy Pledge    2017-05-25  374  
+d74c7bad305495 Roy Pledge    2017-05-25  375  /* Invalidate a portal */
+d74c7bad305495 Roy Pledge    2017-05-25 @376  void dbci_portal(void *addr)
+d74c7bad305495 Roy Pledge    2017-05-25  377  {
+d74c7bad305495 Roy Pledge    2017-05-25  378  	int i;
+d74c7bad305495 Roy Pledge    2017-05-25  379  
+d74c7bad305495 Roy Pledge    2017-05-25  380  	for (i = 0; i < 0x4000; i += 64)
+d74c7bad305495 Roy Pledge    2017-05-25  381  		dcbi(addr + i);
+d74c7bad305495 Roy Pledge    2017-05-25  382  }
+d74c7bad305495 Roy Pledge    2017-05-25  383  
+
+:::::: The code at line 376 was first introduced by commit
+:::::: d74c7bad3054956cf086061d138e3929718bc6dc fsl_qbman/usdpaa: Invalidate software portals before use
+
+:::::: TO: Roy Pledge <roy.pledge@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
