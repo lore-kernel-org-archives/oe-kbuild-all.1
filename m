@@ -1,62 +1,81 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2134.outbound.protection.outlook.com [40.107.113.134])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33529391
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 01:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D3D7E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 01:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="bfnV8agf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AH0bT74V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700097270; x=1731633270;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=w0h1coB24f5X/RO2XFbOSjmbVTL+qRLmxvtOCitX1rw=;
+  b=AH0bT74V7lQkCo32LnQDCaLITDXoSdK9WlU950SWifXKh0E32bA7372o
+   GUpKLKKwUTk/ssR/ohb6ymRUqMf137KWZK+cp+0tCBMx7JpWf+LkSPICn
+   kDPXys93ly9NbhpZFNC4SaSen6JM1z0EBkcUFXBn1TQkrk5OyAetNsZjJ
+   FseFIVZfe6mYj3ubwVX4FX1hItyfbRLYnuwbn/u24NrxvezkYEJtiOv+I
+   EqEm6eTc3L6OHPk5Sej105MoMUMfQuJN7ZBZq7Ni30JehqJMkhp1Z5nEf
+   Ek+Cap43c0ocG10Qd5rKJq3iL8khyjwOR9s0XGW1qMHn/x00tXOdgQgzb
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="477208342"
+X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
+   d="scan'208";a="477208342"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 17:14:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="765151318"
+X-IronPort-AV: E=Sophos;i="6.03,306,1694761200"; 
+   d="scan'208";a="765151318"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Nov 2023 17:14:28 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Wed, 15 Nov 2023 17:14:28 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Wed, 15 Nov 2023 17:14:28 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Wed, 15 Nov 2023 17:14:27 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NDk9kPLcaX1qyODuQ59CuZZo0EKGVOB2Q2F8ZVnfB7meCZlDUyVMN2AbKbhP78fZdOOf2QK9mimqT6J0lyVI7/gg0wt5aiKFso3Nk8tYHZUu0g7Zok0cU1yH3OTICnkryWdSQfJPBVW7LGbYTNJUwoFZWbY/FAWp2l3HXBbTegOf8jAwlgzVAuWLHXTfpuwgXeqGT6QbRVxv0HYqu13X/OQhGv9b8/Hg5SCWvxDiUvBSMjMNBZ6JA/NyM53iymtMuvRye7K/AZONfRV6blsN4qpYt0smP3rnluLlf2Lb+1l6V3fz40xZIsC1FSFALiigGyF4G6sUZWobXQSHr8m2oQ==
+ b=cI9mKy8EVxcymfDhi8rZzmNiZR8HTm39XBFxH4vqhz0S9IwOqS33AxoYxZaPxC3hG/pGn/ARNB4OYsToKdoPtEDHskJxyiXH9+MP+aE5nZhlopYYw1+exr1llo4bcGIC9OZNkPo3CXAEdv1G0//LXCo/hIsBzE7V8TR/aZ7NwrpMZeau1Ga4Xpkpwm2PMCXCw8I7yJKhJtjjpwinVcBYySeYEh4nZqJCgn5osLtqinHZpWu0dYFFU/qChn3RsrsPz99Zv9sgSEXGZAs2TyA3I4DbM5VqI9y1Mf8oioTTptepTulfzCbdDPcR03BodQOmW2+cNde2hEowfcpk22YTvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DjQ6xJuZ1xTwIkbGjEy2wfE2BYgDcscqS5bm2+wZdj0=;
- b=aj2BdLxj3V3sVUfx7BweaIaIkLQZsDuhq4WKrtayj7Tmk8OD6+ImHmwC+oNUj0nkzihjezBq2n9GZ9+OsUYD600FKRlqOBWQXQAvq9g0JXvGq2oKxkv1VGvuq8TESg6NtcAjZtHo4M8BxuZQeezrsVyIUtII5CK0Xms/B6IXZ2IFlVesngG3DVNHKWrDxn7V5zwkWEFKrBDyHXqYa3SP13pCnSbDc9Txh8h7O5qNLI3/4a+7GndXw4jy+ytqhMUGJEO9MhvW6OG02kztsItFyZThwPpef8otMcGkwYjAkneEa+jDdTNfE1At6ZANeHsIp9eYjVsEImEXcUpUGynlmA==
+ bh=23rsoMV0/0jUTlQyG5w9Uk8IY5Rk15xeVAG6vxAstPc=;
+ b=fgrj6Z9X1HD/VX1124ZIVNyuqbgDdSYzzZcVRE9vuq8TFcki9IrvBlCaoQ+l+j2DHrBLyaaYvl+z3fIcqgC5sSI6W5N0A3Bx6toHy7uWPwJkqccph7PJyX1a3u/NYHm62J8L19wCqWropRIdFvQe8npdY5ks7aoesyaCeoyL9KDgKbgC2qxAzQVLxahoOwX/tZH05RRVf8ZHMmBd7vDuENjDHhowS/iJ+TrfDYHa9O7PbEN0ucNRoot3KFZZfeFWAQ8Rhrpjg6BtaG0xTf54BlKXrA7kZvJ+JtvsDCCpCR0KFYwUoSqyHJsFPn1vzJbLml5XjBtjFmcubuiaKMEcHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DjQ6xJuZ1xTwIkbGjEy2wfE2BYgDcscqS5bm2+wZdj0=;
- b=bfnV8agfmq6aj2urDfz+NeAGlTMM5zcpKy6iFteiM7IOgeO6CyGudyqDdljDgx9bgFcmZrPJhxL//N8swDPzdcm33WNSR7jvdw7aVWZ/pz3DO/7WAOFcvJHTnk4B3MzQCAmuo7WBv7wKWTsSQPtQDhX3Bv98OUnePcVKI3s9VxI=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OSAPR01MB2178.jpnprd01.prod.outlook.com (2603:1096:603:1a::14)
- by OS3PR01MB10154.jpnprd01.prod.outlook.com (2603:1096:604:1e3::7) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by IA1PR11MB7776.namprd11.prod.outlook.com (2603:10b6:208:3f9::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Thu, 16 Nov
- 2023 01:04:32 +0000
-Received: from OSAPR01MB2178.jpnprd01.prod.outlook.com
- ([fe80::173f:d892:3d66:397d]) by OSAPR01MB2178.jpnprd01.prod.outlook.com
- ([fe80::173f:d892:3d66:397d%4]) with mapi id 15.20.7002.021; Thu, 16 Nov 2023
- 01:04:32 +0000
-Message-ID: <874jhmtso0.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Frank Rowand <frowand.list@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Aymeric Aillet <aymeric.aillet@iot.bzh>,
-	Yusuke Goda <yusuke.goda.sx@renesas.com>
-Subject: Re: [PATCH 4/4] drivers: clk: renesas: enable all clocks which is assinged to non Linux system
-In-Reply-To: <202311142059.XrPUseGq-lkp@intel.com>
-References: <87wmulrynq.wl-kuninori.morimoto.gx@renesas.com>
-	<202311142059.XrPUseGq-lkp@intel.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 16 Nov 2023 01:04:31 +0000
-X-ClientProxiedBy: TY2PR06CA0046.apcprd06.prod.outlook.com
- (2603:1096:404:2e::34) To OSAPR01MB2178.jpnprd01.prod.outlook.com
- (2603:1096:603:1a::14)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Thu, 16 Nov
+ 2023 01:14:25 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7002.019; Thu, 16 Nov 2023
+ 01:14:25 +0000
+Date: Thu, 16 Nov 2023 09:09:45 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Laurent
+ Fert" <laurent.fert@intel.com>
+Subject: drivers/hwtracing/intel_th/msu.c:60: warning: Function parameter or
+ member 'msc' not described in 'msc_window'
+Message-ID: <202311160709.39OzBNLo-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SI2PR01CA0033.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::23) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,70 +83,170 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSAPR01MB2178:EE_|OS3PR01MB10154:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b58215c-f68e-48e5-067c-08dbe63ffdd2
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|IA1PR11MB7776:EE_
+X-MS-Office365-Filtering-Correlation-Id: 483a8e02-958e-4975-9e2e-08dbe6415f0b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	YEPmCS0XxmS7yGxQ5/nK3NzO4pXde42yYf4qztuHdOA0nlw1aUytTDwKQkBgMhmVXP+R5mwFDlBIeonmjGBS2A0F9BZU8ZGCx3S675hZrz9fptEkWMn3QmSGagLLK2g5DmcqQXZWFBDc4fzZuWG3jzU9KM6nLx33CoiS9HZ/Qdsqgu2VvESjRq7H4xuxYb0sc7yqvSfc6R8vWXBFtq9D/z+CBDUftnv19gyxSikEmbyNqGBlnb5BMAcVr5UVcBNMjmzywJw+r9FzUL6sir5RnIlBWzTfAZEjgVf7JdRQtrVVPBuuMKwrNB+KWXLXVkOSWRSgaJThVGQBbRQw1RhYZmutI8XkWz6vq67v9FoVPJypsNUV0TYPNzOYDZJQx/w6X32QrjMEuqqwdfE6yjVCNT+sL8UO7v8vA/7tM3eWI/N1eINWIqcrO3K0syYK0vpRd4oz2ST6ByTcSXm06uKyb481B8sw6UaACublfgsma4daLZwRZ2tkekrNc780i734VNCnhSNGRjYAieOd24l60iVnvP1Qw1eWKGz1PE059osR+CeeuPj3XxjuibmNXsay32x3Y5eRsYByfWPpQ/4KW1cVvUJNVYhSRAtZUBCMjZPVRRjOhqa7I14FENbwNxiJdSIv2iFPDARXe454MzTIH17cVxB/zZTlx9EJN1jCWhg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2178.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(396003)(39860400002)(136003)(230173577357003)(230922051799003)(230273577357003)(451199024)(186009)(1800799009)(64100799003)(7416002)(5660300002)(86362001)(8676002)(8936002)(4326008)(41300700001)(38350700005)(36756003)(2906002)(4744005)(83380400001)(26005)(107886003)(2616005)(38100700002)(66476007)(66556008)(66946007)(54906003)(316002)(6916009)(6506007)(52116002)(6512007)(6486002)(478600001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: YsmY682ovp0PzI8+7iNjBOAeMoZrQ76tCC4X+NtsbLarGFCvIQK4eGKKe4VigyxNcx4SGkRuKpDx6cONcZip11ypBn+JZb6DF/HWmbzeV2JE245gjZ4i7q797sLcpfzktHIYYBeDwu1EPQ1AC07Wqj2Jjo2vafYq2U3IYKVuRedfiT3GTjcc8vLhzBWFOfxiKYYDRMBsXx0Jg6y35yGdeXxFi2xmvaT9UUSDHbA/cCYGmNR9WC1N1IYwAMONk6ag1glTgaHoGJGMg+/+cqFZlCUyFRgo/DJmuT7HT0GcVrvSKStVG2bqFXAZ2A+FLmTw0cE8xPpN9ZDahL7L6Tic+QKukobsEtafEVXdZw8uHOO6D8HbloqT7etbfZt6mnYn3pf1+foDMGlRKvdpEN0X2ECMUCr+rL1xMieenapf2oCniCb7u9aiAI8S4dG3RKOukmwXtEc73H6YnYqWXKghPwE/ft9JWuJBcizvuDXI2ruaN8nr3IG1eNwdnme2ojRVxK418JJjOo3Ps2YjY1WURWV3Q7CUkRKGxI/VAiAE5+sXxtIzqTk+34MyH09Ra8JwiHpupYOSTZ1fa0lQ1rAwnk+TqPEiu80Wb04QohmbON4Eggo+fOU/XAlXXOK80+2nq6mCVfePBghMF3NERfjmSQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(396003)(39860400002)(346002)(230922051799003)(230173577357003)(230273577357003)(451199024)(64100799003)(1800799009)(186009)(4326008)(2616005)(86362001)(6506007)(5660300002)(8676002)(8936002)(38100700002)(6666004)(2906002)(478600001)(1076003)(82960400001)(6512007)(66556008)(66946007)(316002)(66476007)(6486002)(966005)(26005)(6916009)(41300700001)(36756003)(83380400001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6hfJE+lWOBTM4gbm6LKRUP2QY043LKuIJcyZsN5mevd3hHp35drc3FgUqu9P?=
- =?us-ascii?Q?dt3aJAZFpMtZmF6ci/hVcA8MAquC0+z1NDl8OSAyDsPYggX1h1I82gEWOeEc?=
- =?us-ascii?Q?u0OKX0DiFzWpwGtW9oKoMpNzGMd/DWCdCCCFW61s60/k+DFNBAHTUGtIcoU0?=
- =?us-ascii?Q?AlgiudiSbAalFxjDPHriqgNTbXI9X+4ES9wcdGbMLImovmn0LUYqYaO5tm+q?=
- =?us-ascii?Q?flt+vh/01kl7x+EkQ4QnPrqCiiQi/FXG6rxU5ofQnyc7Lg7fAJaS9AnKASU/?=
- =?us-ascii?Q?lu7s5gdds9IX5zBqFOzMr8gEap6cf63WD/MFQIa46z029gNi1dYJ7Za5ALYZ?=
- =?us-ascii?Q?okwpmRaAMocWMEhoAPgr+g1eo9Gr0jRcP2xkSqAbYMsGfzM3uKtXQ5o2tEBI?=
- =?us-ascii?Q?E2QuU/QCi6B77nqn3gwnM3ZUs7lg182gGlNKJXDLFgqyADLD29gET1glffp+?=
- =?us-ascii?Q?NzwabcvE460zvEJsOo4cRP26LbDeGQEebRc8akk2d1AHAh8UWSJ5RrKC2xtf?=
- =?us-ascii?Q?39uxcq2YeuRfT9lihFnnyA0g7p1P+klMqWp+o9IiwRY7vGSGW4y9+kkASKQh?=
- =?us-ascii?Q?QYGOlkHHKmNosbEw0Kzorm3fS1Ag9sgNFRt6C3YLpqCrierlBvBjYrsi0DVx?=
- =?us-ascii?Q?y32xcSoO52LRotRFG4B+Ypd+xGbKc2lLYy1xD7LYL+Icz7kaG0Rfh+2efMZS?=
- =?us-ascii?Q?y/m1zNirBU/vtQ4Zn9LcV/p30nvKADdcCkWx/EnZgIJu+qBxrok2Lm0SeBth?=
- =?us-ascii?Q?QjEUqf4hVLsSIqZqckj292CYOsOlKVg+Rb8fDPubf6v3pVxkr+kG6VkvCfRK?=
- =?us-ascii?Q?zjwzNY9sUHQ4i05OH7aA11cOvdjyYLgs/+gVw6qq4Q/jOolssIywVx4u7uqH?=
- =?us-ascii?Q?jzxO7RIfiWBHxZx5vqBC3aI61nOolQq9cgkcf8chc+MeKEJ5SBX4eZoaOA0p?=
- =?us-ascii?Q?1W44YPPZfs4xQ3blW7pdTmsxIqj1xl/IBYURfAZUbVaBsjpVVtDX2j/uibqa?=
- =?us-ascii?Q?795N6Sc5eHGNkYwDkSIqd7OXKOfCKyx32M3lWvbWbGYahMK8+e+dnK0B7h7g?=
- =?us-ascii?Q?O4TNa8qpJ0dXqIGG3yG2VJ8Efv8JHP5ZqWpNhXVKtNMGdj2+rZZQAotqSPJy?=
- =?us-ascii?Q?4p1RqaAQQfe+SHFh2WRaw5Y1rdOwTdHHNq3sPF5evg1a9nSs9JidHXgPVFov?=
- =?us-ascii?Q?p2KtEWKhB+1glSVg4gEgeVTEo68rz8BiEbVz6COYLGkFTQR4wp3uDMleD5Ai?=
- =?us-ascii?Q?A/oWTBch7Vayt/6rki3qgRY+cDNSGmzIZLG4HSiivwiNMoVXmKA0lZ7jZgp5?=
- =?us-ascii?Q?0hvtuggD3VfTooQRpWQb7hCdvjMDLcTS0Gx2QLGZEUIR4bYi7ncLBcdXeFp6?=
- =?us-ascii?Q?LR5mf6oi466pJfeoX93WTRXCuLG0izi/glkfBr6pb/vrf268HWiqxdeTArQ2?=
- =?us-ascii?Q?UjduUulOmxuNAA9WRzQP0nIqQPvATvAJpD5xL7cPu+D9CPEeH6ck3S1ryOIs?=
- =?us-ascii?Q?l3OhEiNljIzv63sdF2TCpeM993IUnTNnvREIwGMBAtaeUI7Vrs33o5gNJO6E?=
- =?us-ascii?Q?/1gCdk5s2Ydo/GzZajp1x3KkZRScbzWUkcHWQ7IYp7CdHB6fs1iw5Mo+AF0J?=
- =?us-ascii?Q?1YGVsSuYWtmAF396ho+3P/I=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b58215c-f68e-48e5-067c-08dbe63ffdd2
-X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB2178.jpnprd01.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?J1b8WSx5G4Wbgg8rrjymiRXHZdWTYjrZr8Jzehq4EMCsd+F99tJF6h1JQMij?=
+ =?us-ascii?Q?geyHWsPi6wlt0LEU7eHFq2Z1ayi85X1nUWtO87hNleObreqYHUD59ruZhoUt?=
+ =?us-ascii?Q?gjbcPzoGQnxuEDhOj2i49uSlaEUJMf4i5IXZNpu2YEKHCwLYrSTkJTo+MQ1h?=
+ =?us-ascii?Q?fz8ajRrF4OYxqlSqc4eMjMkGl9Z/8q+koHPDvB+3B2tiIsqIDepOBEIEqVmT?=
+ =?us-ascii?Q?fEKV+/IGp0wfOoYyByyx8A1sAX3CbEO8/o0oNakAliO2cZa26fKGwvX3Fisu?=
+ =?us-ascii?Q?VTIqmgn6GGXJqhO4RaqKbAmwuhXu1o1r0J3i4ZaucYKOWvVP7fep/+YBDfOX?=
+ =?us-ascii?Q?uv1KtjQE6FdgqJvcDI889uDBcEcFxaoTLwwqTxOzk9Z2Tysm3f2pI1Y1mtcm?=
+ =?us-ascii?Q?YEj0M1f9klB3z1F+0gNZGEuF6EmsIF26Ed2Wb2oBi6CoFL3Pa5iatv0W2nIe?=
+ =?us-ascii?Q?5+SbBdQbh57Cyo8DsdGtUAokrYFdqhISStA6cXcPZy7ezJIO85hROjncQ+gg?=
+ =?us-ascii?Q?k/h8iyW9QPx3D8TP/2HAFwVe7okyg/yDocqLoQSw97NZmGIO6te4Ve8OPiVz?=
+ =?us-ascii?Q?ufGtoIjLlmUsBW1tjUN0MK6PGzrgHmwyHthiMby86bA9hOlG09c6zWdkyYor?=
+ =?us-ascii?Q?yE3hVfxlPLAgfpr+lhwkNxt8EZLSrwE89Mp7chFKNA0TYPe8CD/UJJ5K9hz3?=
+ =?us-ascii?Q?1yoMlmsEGDOHWtSE9G8zlrVcWsqeYvapiU7kZo3J86sBjiUCUuS2Xo0ygsbl?=
+ =?us-ascii?Q?WZ6aWTmmRqkc4dH/ePgSjPbaByvvzwUJ9GQLgS+HSjSnCi7/z9hAAGHxT9g3?=
+ =?us-ascii?Q?h0BU+jIiH0V3PMsmTNXtyP/f5JFC8Amxfc+V0nxxUQ1pM3iuRheCME2YAyOP?=
+ =?us-ascii?Q?4L6tWCM4zlR0QZwu2ym5ZXDFuUJaadPlfHbyvZK2V6oekaXAY1U6Kc/zLXtY?=
+ =?us-ascii?Q?+80F57fsn/rbtgZp68FAmVENkXd7sfdV6Zz7FYmRLlZyzP9Tf8R29sulPMrq?=
+ =?us-ascii?Q?2gIPUoJszswzGq18xttetJQjMzP6/kO96gtaL7PsUw7ooizpFl0jTRaXCnU7?=
+ =?us-ascii?Q?y305Vztwcz2iIbFM0JnCe5FXEpHIpspV6sQkCkC9c//6vc+TnbRcnwm/WQMV?=
+ =?us-ascii?Q?tWc1ewaUmZddTkYevUsCb6rlM3w3CIu8goPfVEVCw7DFSjWEY+h/C3Tw7F9S?=
+ =?us-ascii?Q?Y+9vdO1IrwBsbS5yDEucEnzIUBKbvHRXqHzRr3U3rgicGqkdLvn36Z6pZ2Zn?=
+ =?us-ascii?Q?rk50GY29EVVVi1bQs7S6WF6KOsWbUDK2bK0uiyV948cKwk789f3i8VHIKWD1?=
+ =?us-ascii?Q?fStRh8zPXNXWyfIefaomY9fNLHjWtt4lb12pfGnHOg2FMl28pb7gJ5U7YOu+?=
+ =?us-ascii?Q?UwsHV975O6F7pa8DqzT5wnM1/2QRGiEW2nbIhQ+SodDMvDrhKoZ4ExdtI8j7?=
+ =?us-ascii?Q?j/FyZoLjn8FJS2H4HNswwe0KNqckF+8Y/GHbXU4oLoOCpNXH3N3eA1n2axJh?=
+ =?us-ascii?Q?BVwa08i7FLlK+EVrY5SWXbV9t6MSPY11a38tx8z2zn6z/ODtYDdjgOC1nYec?=
+ =?us-ascii?Q?9U5fkgh5ddL3wfnVw4Nmcppqy/40gc+h2zfiHOXi?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 483a8e02-958e-4975-9e2e-08dbe6415f0b
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 01:04:32.0577
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 01:14:24.8292
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JA2uxo8TU/qZnkytxKxpP99kVsD7teUKeY2J/F9nzpujdMFgV/QM//oGxruXV0H9D8nivsiM/Ubp28LyOqbeiNsSWzWHGhUh3+dxEViNUlWoYMfJYQv3IsqwZ0bUHP1w
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB10154
+X-MS-Exchange-CrossTenant-UserPrincipalName: MiPNQnwVjb8cmCcjq5I8Cjk6wB0dLOsBGysGtOtZVtr7ka7Qhr5XM3j9e9fHvxDXW26LPpOuZRsZ+Q9vP3mvqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7776
+X-OriginatorOrg: intel.com
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
+commit: ba82664c134ef7ab97808f09a3c5e894b0a4900d intel_th: Add Memory Storage Unit driver
+config: x86_64-randconfig-x011-20230813 (https://download.01.org/0day-ci/archive/20231116/202311160709.39OzBNLo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160709.39OzBNLo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202311160709.39OzBNLo-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/hwtracing/intel_th/msu.c:60: warning: Function parameter or member 'msc' not described in 'msc_window'
+>> drivers/hwtracing/intel_th/msu.c:101: warning: bad line: 
+   drivers/hwtracing/intel_th/msu.c:134: warning: Function parameter or member 'iter_mutex' not described in 'msc'
+>> drivers/hwtracing/intel_th/msu.c:134: warning: Function parameter or member 'iter_list' not described in 'msc'
+>> drivers/hwtracing/intel_th/msu.c:894: warning: Function parameter or member 'nr_pages' not described in 'msc_buffer_alloc'
+>> drivers/hwtracing/intel_th/msu.c:894: warning: Function parameter or member 'nr_wins' not described in 'msc_buffer_alloc'
+>> drivers/hwtracing/intel_th/msu.c:894: warning: Excess function parameter 'size' description in 'msc_buffer_alloc'
 
 
-Hi kernel test
+vim +60 drivers/hwtracing/intel_th/msu.c
 
-> kernel test robot noticed the following build warnings:
-(snip)
-> >> drivers/clk/renesas/renesas-cpg-mssr.c:175: warning: Function parameter or member 'reserved_ids' not described in 'cpg_mssr_priv'
-> >> drivers/clk/renesas/renesas-cpg-mssr.c:175: warning: Function parameter or member 'num_reserved_ids' not described in 'cpg_mssr_priv'
+ba82664c134ef7a Alexander Shishkin 2015-09-22   46  
+ba82664c134ef7a Alexander Shishkin 2015-09-22   47  /**
+ba82664c134ef7a Alexander Shishkin 2015-09-22   48   * struct msc_window - multiblock mode window descriptor
+ba82664c134ef7a Alexander Shishkin 2015-09-22   49   * @entry:	window list linkage (msc::win_list)
+ba82664c134ef7a Alexander Shishkin 2015-09-22   50   * @pgoff:	page offset into the buffer that this window starts at
+ba82664c134ef7a Alexander Shishkin 2015-09-22   51   * @nr_blocks:	number of blocks (pages) in this window
+ba82664c134ef7a Alexander Shishkin 2015-09-22   52   * @block:	array of block descriptors
+ba82664c134ef7a Alexander Shishkin 2015-09-22   53   */
+ba82664c134ef7a Alexander Shishkin 2015-09-22   54  struct msc_window {
+ba82664c134ef7a Alexander Shishkin 2015-09-22   55  	struct list_head	entry;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   56  	unsigned long		pgoff;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   57  	unsigned int		nr_blocks;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   58  	struct msc		*msc;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   59  	struct msc_block	block[0];
+ba82664c134ef7a Alexander Shishkin 2015-09-22  @60  };
+ba82664c134ef7a Alexander Shishkin 2015-09-22   61  
+ba82664c134ef7a Alexander Shishkin 2015-09-22   62  /**
+ba82664c134ef7a Alexander Shishkin 2015-09-22   63   * struct msc_iter - iterator for msc buffer
+ba82664c134ef7a Alexander Shishkin 2015-09-22   64   * @entry:		msc::iter_list linkage
+ba82664c134ef7a Alexander Shishkin 2015-09-22   65   * @msc:		pointer to the MSC device
+ba82664c134ef7a Alexander Shishkin 2015-09-22   66   * @start_win:		oldest window
+ba82664c134ef7a Alexander Shishkin 2015-09-22   67   * @win:		current window
+ba82664c134ef7a Alexander Shishkin 2015-09-22   68   * @offset:		current logical offset into the buffer
+ba82664c134ef7a Alexander Shishkin 2015-09-22   69   * @start_block:	oldest block in the window
+ba82664c134ef7a Alexander Shishkin 2015-09-22   70   * @block:		block number in the window
+ba82664c134ef7a Alexander Shishkin 2015-09-22   71   * @block_off:		offset into current block
+ba82664c134ef7a Alexander Shishkin 2015-09-22   72   * @wrap_count:		block wrapping handling
+ba82664c134ef7a Alexander Shishkin 2015-09-22   73   * @eof:		end of buffer reached
+ba82664c134ef7a Alexander Shishkin 2015-09-22   74   */
+ba82664c134ef7a Alexander Shishkin 2015-09-22   75  struct msc_iter {
+ba82664c134ef7a Alexander Shishkin 2015-09-22   76  	struct list_head	entry;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   77  	struct msc		*msc;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   78  	struct msc_window	*start_win;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   79  	struct msc_window	*win;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   80  	unsigned long		offset;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   81  	int			start_block;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   82  	int			block;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   83  	unsigned int		block_off;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   84  	unsigned int		wrap_count;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   85  	unsigned int		eof;
+ba82664c134ef7a Alexander Shishkin 2015-09-22   86  };
+ba82664c134ef7a Alexander Shishkin 2015-09-22   87  
+ba82664c134ef7a Alexander Shishkin 2015-09-22   88  /**
+ba82664c134ef7a Alexander Shishkin 2015-09-22   89   * struct msc - MSC device representation
+ba82664c134ef7a Alexander Shishkin 2015-09-22   90   * @reg_base:		register window base address
+ba82664c134ef7a Alexander Shishkin 2015-09-22   91   * @thdev:		intel_th_device pointer
+ba82664c134ef7a Alexander Shishkin 2015-09-22   92   * @win_list:		list of windows in multiblock mode
+ba82664c134ef7a Alexander Shishkin 2015-09-22   93   * @nr_pages:		total number of pages allocated for this buffer
+ba82664c134ef7a Alexander Shishkin 2015-09-22   94   * @single_sz:		amount of data in single mode
+ba82664c134ef7a Alexander Shishkin 2015-09-22   95   * @single_wrap:	single mode wrap occurred
+ba82664c134ef7a Alexander Shishkin 2015-09-22   96   * @base:		buffer's base pointer
+ba82664c134ef7a Alexander Shishkin 2015-09-22   97   * @base_addr:		buffer's base address
+ba82664c134ef7a Alexander Shishkin 2015-09-22   98   * @user_count:		number of users of the buffer
+ba82664c134ef7a Alexander Shishkin 2015-09-22   99   * @mmap_count:		number of mappings
+ba82664c134ef7a Alexander Shishkin 2015-09-22  100   * @buf_mutex:		mutex to serialize access to buffer-related bits
+ba82664c134ef7a Alexander Shishkin 2015-09-22 @101  
+ba82664c134ef7a Alexander Shishkin 2015-09-22  102   * @enabled:		MSC is enabled
+ba82664c134ef7a Alexander Shishkin 2015-09-22  103   * @wrap:		wrapping is enabled
+ba82664c134ef7a Alexander Shishkin 2015-09-22  104   * @mode:		MSC operating mode
+ba82664c134ef7a Alexander Shishkin 2015-09-22  105   * @burst_len:		write burst length
+ba82664c134ef7a Alexander Shishkin 2015-09-22  106   * @index:		number of this MSC in the MSU
+ba82664c134ef7a Alexander Shishkin 2015-09-22  107   */
+ba82664c134ef7a Alexander Shishkin 2015-09-22  108  struct msc {
+ba82664c134ef7a Alexander Shishkin 2015-09-22  109  	void __iomem		*reg_base;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  110  	struct intel_th_device	*thdev;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  111  
+ba82664c134ef7a Alexander Shishkin 2015-09-22  112  	struct list_head	win_list;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  113  	unsigned long		nr_pages;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  114  	unsigned long		single_sz;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  115  	unsigned int		single_wrap : 1;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  116  	void			*base;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  117  	dma_addr_t		base_addr;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  118  
+ba82664c134ef7a Alexander Shishkin 2015-09-22  119  	/* <0: no buffer, 0: no users, >0: active users */
+ba82664c134ef7a Alexander Shishkin 2015-09-22  120  	atomic_t		user_count;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  121  
+ba82664c134ef7a Alexander Shishkin 2015-09-22  122  	atomic_t		mmap_count;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  123  	struct mutex		buf_mutex;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  124  
+ba82664c134ef7a Alexander Shishkin 2015-09-22  125  	struct mutex		iter_mutex;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  126  	struct list_head	iter_list;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  127  
+ba82664c134ef7a Alexander Shishkin 2015-09-22  128  	/* config */
+ba82664c134ef7a Alexander Shishkin 2015-09-22  129  	unsigned int		enabled : 1,
+ba82664c134ef7a Alexander Shishkin 2015-09-22  130  				wrap	: 1;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  131  	unsigned int		mode;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  132  	unsigned int		burst_len;
+ba82664c134ef7a Alexander Shishkin 2015-09-22  133  	unsigned int		index;
+ba82664c134ef7a Alexander Shishkin 2015-09-22 @134  };
+ba82664c134ef7a Alexander Shishkin 2015-09-22  135  
 
-Thank you for the report.
-I will fixup it on v2.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
