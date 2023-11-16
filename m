@@ -1,46 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A6745008
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 21:00:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1307B495CB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 21:43:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RMSWIhP1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fE4c3Xdf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700168456; x=1731704456;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+LoGkfC6gD6kSAPTyvJNXWYirhXHahVs8GoVMDljuqo=;
-  b=RMSWIhP13QsnJfWJG6NSlo+eyvrusC6428rIX+wwZGNG1Nqgc2Rc2T7T
-   eK+s4IbIQYF3M5uemM2ha+2C1AaSWmYXhRKCzYnzmoyiRFzAIdkIgPh3+
-   lz3VXVr2J6eVYTOyrRMbQD9C6TONVMbNYanUrOvzL3NACTEVS4//GU23v
-   oMMhaYOcicm3e5gwFcTfmQyCNEgz1NFFLVYtDBCgHJ1rycmCL2jXUKhJ4
-   qNVfDDuHGfS1wrBUOXI0zKlSW/ofv2fY/EY6Hnd3pGAVw9RaqSvGJ+RqL
-   z0h1a2Aau8ZSVV4CsgX6wPTFLQ86j37YE4zwih7wAqBMkV4sqYPSwc/jZ
+  t=1700171032; x=1731707032;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SwVG/jvEau5UTgAvdXPnimEGYlUsxriyeiBCVMkNrtM=;
+  b=fE4c3XdfNEIN/pGFMqK6VljH7+LH8z2DtMtCDut7Y64zWD6IihLwd6Ym
+   X6wnmr9lECt++VgFQf8PBsyWUIiRvDxmCeZgaHK5q7CDAllHteu8ei5YR
+   3xKeSVahZg61uIaKFAefF2+VwmZO3E7DNybCkZmG+llKn9IaqS0L8fM13
+   b8w1Uu+K0KX155sOJH30ENMvduc2MO7wyUIQ2i2R4Cr+vEeSfZAHMWr7T
+   ewaAipKfLSTeFI/Zk1SVQKhrtGq3xhFA7sfkl/VEjuVjT9KucoWSuv8hE
+   iJwM6btarsIx+v5XJWvjrcTf3fRCRf7O89foH8J5LZqHpyuGQb3v7hka0
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="12730993"
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="390043762"
 X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; 
-   d="scan'208";a="12730993"
+   d="scan'208";a="390043762"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 13:00:42 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 13:43:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="835862381"
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="835874525"
 X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; 
-   d="scan'208";a="835862381"
+   d="scan'208";a="835874525"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Nov 2023 13:00:40 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 16 Nov 2023 13:43:43 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3jTa-00023l-1c;
-	Thu, 16 Nov 2023 21:00:38 +0000
-Date: Fri, 17 Nov 2023 05:00:29 +0800
+	id 1r3k9F-00025L-2N;
+	Thu, 16 Nov 2023 21:43:41 +0000
+Date: Fri, 17 Nov 2023 05:42:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: missing
- identifier in declaration
-Message-ID: <202311170447.4luWB2PB-lkp@intel.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Marco Elver <elver@google.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Pekka Enberg <penberg@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Vasily Gorbik <gor@linux.ibm.com>, Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: Re: [PATCH 27/32] s390/string: Add KMSAN support
+Message-ID: <202311170550.bSBo44ix-lkp@intel.com>
+References: <20231115203401.2495875-28-iii@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,52 +71,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231115203401.2495875-28-iii@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7475e51b87969e01a6812eac713a1c8310372e8a
-commit: 4800a6215e335c6dade05e10c8fdbf919c04a3a7 parisc: Wire up eBPF JIT compiler
-date:   3 months ago
-config: parisc-randconfig-r113-20231115 (https://download.01.org/0day-ci/archive/20231117/202311170447.4luWB2PB-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231117/202311170447.4luWB2PB-lkp@intel.com/reproduce)
+Hi Ilya,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on s390/features]
+[also build test ERROR on akpm-mm/mm-everything linus/master vbabka-slab/for-next v6.7-rc1 next-20231116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Leoshkevich/ftrace-Unpoison-ftrace_regs-in-ftrace_ops_list_func/20231116-045608
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+patch link:    https://lore.kernel.org/r/20231115203401.2495875-28-iii%40linux.ibm.com
+patch subject: [PATCH 27/32] s390/string: Add KMSAN support
+config: s390-debug_defconfig (https://download.01.org/0day-ci/archive/20231117/202311170550.bSBo44ix-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231117/202311170550.bSBo44ix-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311170447.4luWB2PB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311170550.bSBo44ix-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: missing identifier in declaration
-   arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: Expected ; at the end of type declaration
-   arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: got $
-   arch/parisc/net/bpf_jit_comp32.c:322:13: sparse: sparse: Expected ; at the end of type declaration
-   arch/parisc/net/bpf_jit_comp32.c:322:13: sparse: sparse: got $
-   arch/parisc/net/bpf_jit_comp32.c:323:13: sparse: sparse: Expected ; at the end of type declaration
-   arch/parisc/net/bpf_jit_comp32.c:323:13: sparse: sparse: got $
-   arch/parisc/net/bpf_jit_comp32.c:666:37: sparse: sparse: Expected ) in function call
-   arch/parisc/net/bpf_jit_comp32.c:666:37: sparse: sparse: got $
-   arch/parisc/net/bpf_jit_comp32.c:669:37: sparse: sparse: Expected ) in function call
-   arch/parisc/net/bpf_jit_comp32.c:669:37: sparse: sparse: got $
-   arch/parisc/net/bpf_jit_comp32.c:672:37: sparse: sparse: Expected ) in function call
-   arch/parisc/net/bpf_jit_comp32.c:672:37: sparse: sparse: got $
->> arch/parisc/net/bpf_jit_comp32.c:666:36: sparse: sparse: not enough arguments for function emit_call_millicode
-   arch/parisc/net/bpf_jit_comp32.c:669:36: sparse: sparse: not enough arguments for function emit_call_millicode
-   arch/parisc/net/bpf_jit_comp32.c:672:36: sparse: sparse: not enough arguments for function emit_call_millicode
+All errors (new ones prefixed by >>):
 
-vim +321 arch/parisc/net/bpf_jit_comp32.c
+   s390-linux-ld: arch/s390/mm/vmem.o: in function `crst_table_init':
+>> arch/s390/include/asm/pgalloc.h:33:(.text+0x1ba): undefined reference to `memset64'
+   s390-linux-ld: arch/s390/mm/vmem.o: in function `vmem_pte_alloc':
+>> arch/s390/mm/vmem.c:68:(.ref.text+0x1ec): undefined reference to `memset64'
+   s390-linux-ld: arch/s390/mm/pgalloc.o: in function `base_pgt_alloc':
+>> arch/s390/mm/pgalloc.c:241:(.text+0x184): undefined reference to `memset64'
+   s390-linux-ld: arch/s390/mm/pgalloc.o: in function `crst_table_init':
+   arch/s390/include/asm/pgalloc.h:33:(.text+0x3e8): undefined reference to `memset64'
+>> s390-linux-ld: arch/s390/include/asm/pgalloc.h:33:(.text+0x568): undefined reference to `memset64'
+   s390-linux-ld: arch/s390/mm/pgalloc.o:arch/s390/include/asm/pgalloc.h:33: more undefined references to `memset64' follow
+   s390-linux-ld: lib/test_string.o: in function `memset16_selftest':
+>> lib/test_string.c:19:(.init.text+0x94): undefined reference to `memset16'
+   s390-linux-ld: lib/test_string.o: in function `memset32_selftest':
+>> lib/test_string.c:55:(.init.text+0x234): undefined reference to `memset32'
+   s390-linux-ld: lib/test_string.o: in function `memset64_selftest':
+>> lib/test_string.c:91:(.init.text+0x3c2): undefined reference to `memset64'
+   s390-linux-ld: drivers/video/fbdev/core/fbcon.o: in function `scr_memsetw':
+>> include/linux/vt_buffer.h:36:(.text+0x30f6): undefined reference to `memset16'
+>> s390-linux-ld: include/linux/vt_buffer.h:36:(.text+0x320a): undefined reference to `memset16'
+   s390-linux-ld: include/linux/vt_buffer.h:36:(.text+0x32c4): undefined reference to `memset16'
+   s390-linux-ld: include/linux/vt_buffer.h:36:(.text+0x33b8): undefined reference to `memset16'
+   s390-linux-ld: include/linux/vt_buffer.h:36:(.text+0x4f60): undefined reference to `memset16'
+   s390-linux-ld: drivers/video/fbdev/core/fbcon.o:include/linux/vt_buffer.h:36: more undefined references to `memset16' follow
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_copy_area':
+>> drivers/tty/vt/vt.c:464:(.text+0x107e): undefined reference to `memset32'
+>> s390-linux-ld: drivers/tty/vt/vt.c:471:(.text+0x1104): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.c:471:(.text+0x1118): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.c:471:(.text+0x1140): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_insert':
+   drivers/tty/vt/vt.c:374:(.text+0x13a4): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o:drivers/tty/vt/vt.c:385: more undefined references to `memset32' follow
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `scr_memsetw':
+   include/linux/vt_buffer.h:36:(.text+0x2844): undefined reference to `memset16'
+   s390-linux-ld: include/linux/vt_buffer.h:36:(.text+0x2932): undefined reference to `memset16'
+   s390-linux-ld: include/linux/vt_buffer.h:36:(.text+0x2fe8): undefined reference to `memset16'
+   s390-linux-ld: include/linux/vt_buffer.h:36:(.text+0x319c): undefined reference to `memset16'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_clear_line':
+   drivers/tty/vt/vt.c:393:(.text+0x3f78): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_clear_lines':
+   drivers/tty/vt/vt.c:401:(.text+0x3fb8): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.c:401:(.text+0x3fe2): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `scr_memsetw':
+   include/linux/vt_buffer.h:36:(.text+0x4018): undefined reference to `memset16'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_clear_lines':
+   drivers/tty/vt/vt.c:401:(.text+0x40de): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.c:401:(.text+0x4114): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.c:401:(.text+0x4134): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_clear_line':
+   drivers/tty/vt/vt.c:393:(.text+0x417c): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_clear_lines':
+   drivers/tty/vt/vt.c:401:(.text+0x41d6): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o:drivers/tty/vt/vt.c:401: more undefined references to `memset32' follow
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `scr_memsetw':
+   include/linux/vt_buffer.h:36:(.text+0x46d2): undefined reference to `memset16'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_clear_lines':
+   drivers/tty/vt/vt.c:401:(.text+0x4736): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.c:401:(.text+0x47b6): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.c:401:(.text+0x47f2): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.c:401:(.text+0x482e): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_clear_line':
+   drivers/tty/vt/vt.c:393:(.text+0x7b1a): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `scr_memsetw':
+   include/linux/vt_buffer.h:36:(.text+0x7b30): undefined reference to `memset16'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `vc_uniscr_clear_line':
+   drivers/tty/vt/vt.c:393:(.text+0x7c7a): undefined reference to `memset32'
+   s390-linux-ld: drivers/tty/vt/vt.o: in function `scr_memsetw':
+   include/linux/vt_buffer.h:36:(.text+0x7c9c): undefined reference to `memset16'
+   s390-linux-ld: drivers/block/zram/zram_drv.o: in function `memset_l':
+>> include/linux/string.h:168:(.text+0x1860): undefined reference to `memset64'
 
-ceb0e7267693d3 Helge Deller 2023-08-17  319  
-ceb0e7267693d3 Helge Deller 2023-08-17  320  /* extern hppa millicode functions */
-ceb0e7267693d3 Helge Deller 2023-08-17 @321  extern void $$mulI(void);
-ceb0e7267693d3 Helge Deller 2023-08-17  322  extern void $$divU(void);
-ceb0e7267693d3 Helge Deller 2023-08-17  323  extern void $$remU(void);
-ceb0e7267693d3 Helge Deller 2023-08-17  324  
 
-:::::: The code at line 321 was first introduced by commit
-:::::: ceb0e7267693d3e6c43bd65695cd79d7c072a42a parisc: Add 32-bit eBPF JIT compiler
+vim +168 include/linux/string.h
 
-:::::: TO: Helge Deller <deller@gmx.de>
-:::::: CC: Helge Deller <deller@gmx.de>
+3b3c4babd89871 Matthew Wilcox 2017-09-08  161  
+3b3c4babd89871 Matthew Wilcox 2017-09-08  162  static inline void *memset_l(unsigned long *p, unsigned long v,
+3b3c4babd89871 Matthew Wilcox 2017-09-08  163  		__kernel_size_t n)
+3b3c4babd89871 Matthew Wilcox 2017-09-08  164  {
+3b3c4babd89871 Matthew Wilcox 2017-09-08  165  	if (BITS_PER_LONG == 32)
+3b3c4babd89871 Matthew Wilcox 2017-09-08  166  		return memset32((uint32_t *)p, v, n);
+3b3c4babd89871 Matthew Wilcox 2017-09-08  167  	else
+3b3c4babd89871 Matthew Wilcox 2017-09-08 @168  		return memset64((uint64_t *)p, v, n);
+3b3c4babd89871 Matthew Wilcox 2017-09-08  169  }
+3b3c4babd89871 Matthew Wilcox 2017-09-08  170  
 
 -- 
 0-DAY CI Kernel Test Service
