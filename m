@@ -1,99 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BD8D298
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 07:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oBiqDlTw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700118950; x=1731654950;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c+IPOqklc31jQ5GJXna+TFaVrgBYMqlZiLJ6XjApKP8=;
-  b=oBiqDlTwQ1SRL4ruhF7FuN1ciclbkkUkLkxh3nmC9iE7w5ky1pUdcCDp
-   S0yU6qAdYNCLV5YGwk7rP2DAW0+N1EY9r59MSa90+KmSSJIm6zQYY2Z3n
-   GbSMR9KecqPqdd9TZL38opor/JNRYoel5NxS3r0uODc66vo8uU1Z4ww3J
-   ZTOzkdbhX0INReigqtFx040891YaItVEo5VQEl7D0gIuQb0hqbMdPzd3a
-   Pz0xhBwWwyCi4LHmUejUHbi1/MAFy9jGiBlX8D+9Gif+L968E6R4eal6V
-   J96khO/Tt65yLyZjD6kc4rQ+Lf91amctmlJfVGdKUCAngYgojHP1HEM49
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="370391405"
-X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="370391405"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 23:15:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="888830220"
-X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="888830220"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Nov 2023 23:15:48 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3WbJ-0001Rn-21;
-	Thu, 16 Nov 2023 07:15:45 +0000
-Date: Thu, 16 Nov 2023 15:15:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>
-Subject: kernel/locking/locktorture.c:127:23: sparse: sparse: symbol
- 'call_rcu_chain' was not declared. Should it be static?
-Message-ID: <202311161525.FcMR6mQM-lkp@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9F2F2942F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 10:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0F741595;
+	Thu, 16 Nov 2023 02:08:44 -0800 (PST)
+Received: from [10.1.35.163] (XHFQ2J9959.cambridge.arm.com [10.1.35.163])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 42D543F6C4;
+	Thu, 16 Nov 2023 02:07:55 -0800 (PST)
+Message-ID: <e6060ff2-ced0-42fd-b92a-c2e710c4e15a@arm.com>
+Date: Thu, 16 Nov 2023 10:07:53 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/14] mm: Batch-copy PTE ranges during fork()
+Content-Language: en-GB
+To: kernel test robot <lkp@intel.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+ <yuzenghui@huawei.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Matthew Wilcox <willy@infradead.org>, Yu Zhao <yuzhao@google.com>,
+ Mark Rutland <mark.rutland@arm.com>, David Hildenbrand <david@redhat.com>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>, John Hubbard
+ <jhubbard@nvidia.com>, Zi Yan <ziy@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20231115163018.1303287-2-ryan.roberts@arm.com>
+ <202311160516.kHhfmjvl-lkp@intel.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <202311160516.kHhfmjvl-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
-commit: 7f993623e9ebcd633c0f760991e5078b95a37db3 locktorture: Add call_rcu_chains module parameter
-date:   8 weeks ago
-config: sparc-randconfig-r021-20230427 (https://download.01.org/0day-ci/archive/20231116/202311161525.FcMR6mQM-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231116/202311161525.FcMR6mQM-lkp@intel.com/reproduce)
+Hi All,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311161525.FcMR6mQM-lkp@intel.com/
+Hoping for some guidance below!
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/locking/locktorture.c:127:23: sparse: sparse: symbol 'call_rcu_chain' was not declared. Should it be static?
-   kernel/locking/locktorture.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   kernel/locking/locktorture.c:496:12: sparse: sparse: context imbalance in 'torture_mutex_lock' - wrong count at exit
-   kernel/locking/locktorture.c:512:13: sparse: sparse: context imbalance in 'torture_mutex_unlock' - wrong count at exit
-   kernel/locking/locktorture.c:570:12: sparse: sparse: context imbalance in 'torture_ww_mutex_lock' - wrong count at exit
-   kernel/locking/locktorture.c:614:13: sparse: sparse: context imbalance in 'torture_ww_mutex_unlock' - wrong count at exit
-   kernel/locking/locktorture.c:665:12: sparse: sparse: context imbalance in 'torture_rtmutex_lock' - wrong count at exit
-   kernel/locking/locktorture.c:689:13: sparse: sparse: context imbalance in 'torture_rtmutex_unlock' - wrong count at exit
-   kernel/locking/locktorture.c:729:12: sparse: sparse: context imbalance in 'torture_rwsem_down_write' - wrong count at exit
-   kernel/locking/locktorture.c:745:13: sparse: sparse: context imbalance in 'torture_rwsem_up_write' - wrong count at exit
-   kernel/locking/locktorture.c:751:12: sparse: sparse: context imbalance in 'torture_rwsem_down_read' - wrong count at exit
-   kernel/locking/locktorture.c:769:13: sparse: sparse: context imbalance in 'torture_rwsem_up_read' - wrong count at exit
-   kernel/locking/locktorture.c:799:12: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_write' - wrong count at exit
-   kernel/locking/locktorture.c:806:13: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_write' - wrong count at exit
-   kernel/locking/locktorture.c: note: in included file (through include/linux/fs.h, include/linux/proc_fs.h, arch/sparc/include/asm/prom.h, ...):
-   include/linux/percpu-rwsem.h:70:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_down_read' - wrong count at exit
-   include/linux/percpu-rwsem.h:121:9: sparse: sparse: context imbalance in 'torture_percpu_rwsem_up_read' - wrong count at exit
 
-vim +/call_rcu_chain +127 kernel/locking/locktorture.c
+On 15/11/2023 21:26, kernel test robot wrote:
+> Hi Ryan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on akpm-mm/mm-everything]
+> [also build test ERROR on linus/master v6.7-rc1 next-20231115]
+> [cannot apply to arm64/for-next/core efi/next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/mm-Batch-copy-PTE-ranges-during-fork/20231116-010123
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20231115163018.1303287-2-ryan.roberts%40arm.com
+> patch subject: [PATCH v2 01/14] mm: Batch-copy PTE ranges during fork()
+> config: arm-randconfig-002-20231116 (https://download.01.org/0day-ci/archive/20231116/202311160516.kHhfmjvl-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311160516.kHhfmjvl-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311160516.kHhfmjvl-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    mm/memory.c: In function 'folio_nr_pages_cont_mapped':
+>>> mm/memory.c:969:16: error: implicit declaration of function 'pte_pgprot'; did you mean 'ptep_get'? [-Werror=implicit-function-declaration]
+>      969 |         prot = pte_pgprot(pte_mkold(pte_mkclean(ptent)));
+>          |                ^~~~~~~~~~
+>          |                ptep_get
+>    cc1: some warnings being treated as errors
 
-   122	
-   123	struct call_rcu_chain {
-   124		struct rcu_head crc_rh;
-   125		bool crc_stop;
-   126	};
- > 127	struct call_rcu_chain *call_rcu_chain;
-   128	
+It turns out that pte_pgprot() is not universal; its only implemented by
+architectures that select CONFIG_HAVE_IOREMAP_PROT (currently arc, arm64,
+loongarch, mips, powerpc, s390, sh, x86).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'm using it in core-mm to help calculate the number of "contiguously mapped"
+pages within a folio (note that's not the same as arm64's notion of
+contpte-mapped. I just want to know that there are N physically contiguous pages
+mapped virtually contiguously with the same permissions). And I'm using
+pte_pgprot() to extract the permissions for each pte to compare. It's important
+that we compare the permissions because just because the pages belongs to the
+same folio doesn't imply they are mapped with the same permissions; think
+mprotect()ing a sub-range.
+
+I don't have a great idea for how to fix this - does anyone have any thoughts?
+
+Some ideas:
+
+- Implement folio_nr_pages_cont_mapped() conditionally on
+CONFIG_HAVE_IOREMAP_PROT being set, otherwise it just returns 1 and for those
+arches we always get the old, non-batching behavior. There is some precident;
+mm/memory.c is already using pte_pgprot() behind this ifdef.
+
+- Implement a generic helper the same way arm64 does it. This will return all
+the pte bits that are not part of the PFN. But I'm not sure this is definitely a
+valid thing to do for all architectures:
+
+static inline pgprot_t pte_pgprot(pte_t pte)
+{
+	unsigned long pfn = pte_pfn(pte);
+
+	return __pgprot(pte_val(pfn_pte(pfn, __pgprot(0))) ^ pte_val(pte));
+}
+
+- Explicitly implement pte_pgprot() for all arches that don't currently have it
+(sigh).
+
+Thanks,
+Ryan
+
+
+> 
+> 
+> vim +969 mm/memory.c
+> 
+>    950	
+>    951	static int folio_nr_pages_cont_mapped(struct folio *folio,
+>    952					      struct page *page, pte_t *pte,
+>    953					      unsigned long addr, unsigned long end,
+>    954					      pte_t ptent, bool *any_dirty)
+>    955	{
+>    956		int floops;
+>    957		int i;
+>    958		unsigned long pfn;
+>    959		pgprot_t prot;
+>    960		struct page *folio_end;
+>    961	
+>    962		if (!folio_test_large(folio))
+>    963			return 1;
+>    964	
+>    965		folio_end = &folio->page + folio_nr_pages(folio);
+>    966		end = min(page_cont_mapped_vaddr(folio_end, page, addr), end);
+>    967		floops = (end - addr) >> PAGE_SHIFT;
+>    968		pfn = page_to_pfn(page);
+>  > 969		prot = pte_pgprot(pte_mkold(pte_mkclean(ptent)));
+>    970	
+>    971		*any_dirty = pte_dirty(ptent);
+>    972	
+>    973		pfn++;
+>    974		pte++;
+>    975	
+>    976		for (i = 1; i < floops; i++) {
+>    977			ptent = ptep_get(pte);
+>    978			ptent = pte_mkold(pte_mkclean(ptent));
+>    979	
+>    980			if (!pte_present(ptent) || pte_pfn(ptent) != pfn ||
+>    981			    pgprot_val(pte_pgprot(ptent)) != pgprot_val(prot))
+>    982				break;
+>    983	
+>    984			if (pte_dirty(ptent))
+>    985				*any_dirty = true;
+>    986	
+>    987			pfn++;
+>    988			pte++;
+>    989		}
+>    990	
+>    991		return i;
+>    992	}
+>    993	
+> 
+
