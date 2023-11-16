@@ -1,172 +1,219 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C2917E3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 04:46:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE012583
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 05:05:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gr4cMTTL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GJD+pTKG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700109965; x=1731645965;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DWg8gmVjVRjLuRrzL5UgsXn3x3er6VzpA6Gex9Qjg48=;
-  b=gr4cMTTL+BK7f2dYi03aoY/sUkqS4KPKbAKJ6+FeMpZSkF/OWJXfLUxB
-   vimcdDcPE+W6yz1R6AbMPK15bf4HUzm1rxcu23GTo06e+Ltxyfso8e2RT
-   EAu+AwMGgAOEDMqqbW6m+T0hyV3Kzq0u75PIHoUCFxqJm2P0wsAU6G1yl
-   CgmbJhVuAdSpqoTbKrYjJ4w8qcIv/pDbC8Cp8jwx/UPHygy1+JCEaKDDq
-   16tDC4BjhEl8jUBwaxi+GgDyJgEBStDZtCoehoMpre6GkxfpF+QKOI45p
-   GR+4RC8JaaQWUjtq1oarLquZz1tczAn/3p6EJeYa1OITwj58vCoVUW2fT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="9654372"
+  t=1700111103; x=1731647103;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=7NldozFnq19wM23n2QCweGBOEeJqtO09t+Ph7O7FlRw=;
+  b=GJD+pTKGHOXgsWS4FfhS2HvbURBrxdWi6Z0pMXDeL71WUlUw/5rtjjwi
+   P1aks7+OXUUVs8M9ntOGtIEF7GO0l+NgEnmesnyIqnLqx2fFvTpNHP3dm
+   Ut7ns0IyYE5fRDtn0G13IlPYj4JX5ZYuwrxrZUuFhsT44lYgaOylB7F1z
+   +xGEz39YDUlyhYXxdO+bzrCDbJNhMfV4Yo/fYNI7q+ILzx3vHBSDNDC6U
+   +Zdo1jukcttO+Tzi0nkfqJBLbsIVs5jnjGaHzb6w61/Ukp6GLZX3dIBMv
+   bFZU+r7XwIfTfryrhAz4VxJKkNmFarfRONCb6EEmj9OuUiQZ43unc1Oof
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="370372239"
 X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="9654372"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 20:46:04 -0800
+   d="scan'208";a="370372239"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 21:04:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="938714949"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="800066212"
 X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="938714949"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 15 Nov 2023 20:46:02 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3UGO-0001Ig-1v;
-	Thu, 16 Nov 2023 04:46:00 +0000
-Date: Thu, 16 Nov 2023 12:45:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sandipan Das <sandipan.das@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: arch/x86/events/amd/uncore.c:941:52: error: '%d' directive output
- may be truncated writing between 1 and 10 bytes into a region of size 8
-Message-ID: <202311161239.NeSj2wJT-lkp@intel.com>
+   d="scan'208";a="800066212"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Nov 2023 21:04:36 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Wed, 15 Nov 2023 21:04:36 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Wed, 15 Nov 2023 21:04:35 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Wed, 15 Nov 2023 21:04:35 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Wed, 15 Nov 2023 21:04:35 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f2k1m5Gq7g2A3TNbhsjYrfjlw/W+d0+eLMttCkiFPsiwKS1EnGKKa8w9HMmiJ9Y/5s/lpNdav8NoJkehke40/DsYJNuwC7wxZfsiUndiv5bbF55GMOc5LcfrAOamGQIIdLoAKTm1uBoC9pFj84vIKNnXhlIWtkR2Bi0CmcnE+fccRA1kChgKKn/aeL5fyNoYxtStjoUkpAUAh/+lzslE6LL8TVUTWWXctK5BOav5nkGiuNUV4PT5rk1Zvhu9M1Gsn6d4kmPBREfzj+yM82fjEwHXb+PgctRW/gUaGz1sKDikGUzwHEwkkt49US6aUYt+02vyT47qwhH9XGjDaltilg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3hA32ZfT0tHpKVkWMc+zS8ojFdohXQjYEpwWtAFd7bI=;
+ b=jvainZWiIzfvea8AGzrFyCdpVHFlBCtc4VZdYCZ2et/mQhvkTj1ZWItGzBm1pzbaa1I+y2EXDKeCxlmrXd4x2fvDt0U9Oq4B5Hf795aAaM7aML9S9FKZFWErgXO5S1aA7Jz5HdGk4jss4695DvzAJxLlw3g7c7Tpuiuf6qURcFWt5TMyqhS1QJvas50HDRJmA5wO2C/1K1AMwJK818E1Q1dfbjgjWSY/rQptqwN77MyK5OImH6s6J9tan8dAudjSKWlNhae2/JtzyWzQQRBrqNxeJYNASZF9TNyEM6K24/hbKKQuYAh+6RERaa3rUJ5ibHHYzJBELW34jdZa/rN+DQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by CY8PR11MB7730.namprd11.prod.outlook.com (2603:10b6:930:74::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.17; Thu, 16 Nov
+ 2023 05:04:34 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7002.019; Thu, 16 Nov 2023
+ 05:04:34 +0000
+Date: Thu, 16 Nov 2023 12:59:50 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Yicong Yang <yangyicong@huawei.com>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <sudeep.holla@arm.com>,
+	<linux-arm-kernel@lists.infradead.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <dietmar.eggemann@arm.com>,
+	<gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<jonathan.cameron@huawei.com>, <prime.zeng@hisilicon.com>,
+	<linuxarm@huawei.com>, <yangyicong@hisilicon.com>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 4/4] arm64: Kconfig: Enable HOTPLUG_SMT
+Message-ID: <202311151900.K9xc6Xqz-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231114040110.54590-5-yangyicong@huawei.com>
+X-ClientProxiedBy: SGXP274CA0003.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::15)
+ To CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|CY8PR11MB7730:EE_
+X-MS-Office365-Filtering-Correlation-Id: d417bc37-3647-40c6-8810-08dbe66185af
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oqa1qIoGYHwVnkTqiHthl8bYeKKQdFnGS03RgETqPuEeBMRRKbnESQ+fomHZ8brH3xGplQ+kZay2pMSG7ewbilMuDP5tZXk3C7UELktRIAy87O3RLhcbIHSmYhg5bl/bOx7j+yqiecP+lK64h9qIO/qSVxy1U5CEJbciPM1fy+9LubFvMUEExdwtWYM0mhlMWD5ssCoYAHB0s8wOJ8AiwuLekOcyOavSKb1QFi5o1J79+Zb7nsxsD7GI9Mq1eMYIkBXo6WyuiGtMmshfHXYlrSSCGF+eSEdVnJa8DQ0+EvMCkXufPJCR4nR75ht9jRUeqw5ob5Hw9w9j2+AYr2O15hBxDRjiCoVIgv5npUUC7Wuy+c+qdw4m31DA03AqylGQ5gXPSu5YsA4AfwQHLQrKhNryZsRQyZOdtfKh9PN5TG1fs40FhkKrptRrfz5jIVgJEH6cvKs4iJNQiILZoskjavhyOyJn0ch6f+XCMF3gcengbnw4DG4G8qYUPHMV4c1V2IGRxq70UdSolI9iAVuajD8JAd8wxeLCOszXQ7dNf9q4VLPkuwC4+454jLIBQFVbTssfaNIntGurL2jeh1iw2d5eB+fit5956Qk8pBdXSiwgB3sZUHH8U6eCRxoYyNMe6MN5N42HSOi6L5PA3mA1xQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(396003)(136003)(376002)(366004)(230273577357003)(230173577357003)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(41300700001)(38100700002)(966005)(6486002)(478600001)(66946007)(36756003)(86362001)(316002)(66476007)(66556008)(1076003)(7416002)(82960400001)(2616005)(5660300002)(2906002)(6512007)(6666004)(6506007)(4326008)(4001150100001)(26005)(8936002)(8676002)(83380400001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?F+H5dzDmaEaL4XzRooZljKKp+ROCxTsx7FV8/my8w2fw4zbquJ+8ECUqh893?=
+ =?us-ascii?Q?qTLXxb9mrhE3fU2JtQHfP76x6dvoSfCJGI2YhjP3AYyU5WlT/gLfo2PDDFRQ?=
+ =?us-ascii?Q?zrVTDQ5uqVdNkvMUMnLWA508awp9hcYKpXc/CVBekzjuBCrx2TJDFYtVI8X9?=
+ =?us-ascii?Q?kcG3Xeifr5mY9d4dNMxW8NtDtD6T6t20krurSwg8l2AMziJtMQI4yUA04XB3?=
+ =?us-ascii?Q?pjcJNEqLtzDbLczE9Pg5yJzCi5x0ptMlchIulGkldpqdEBoWS97FGJZ/AJRG?=
+ =?us-ascii?Q?kurqcomi/oS3ehqjAZxZp4MGAiyHctf2ks5JAqLI2G+NFo/hGFOyyajRkoK3?=
+ =?us-ascii?Q?f58HDXPvtbWH07n2MaBZAQbIqXy34kHklEtPmD7HEjz913wG9cmaoFylU19E?=
+ =?us-ascii?Q?RTZzjWNw2p/gMtN5BGPQUW3tqEBkNrSuCO50Yn+Y/GwuURxop1YxwRjCq2O3?=
+ =?us-ascii?Q?H2mi615mk41jR9YR0147b7ngxbEK8wu7xocqB9uZRFZaAMYnB11Lc7EH/FbJ?=
+ =?us-ascii?Q?JBrSn2y6p3hvuv3eVAPF65m5P5TWY3474fyESLeYJySpZYcQtKMAAXaHha9e?=
+ =?us-ascii?Q?OmEPZWE+rAdZnH8LPs3GyHR8nLO8pjckYLlpgeGrdaEjlE9huPtlvBPfhkCY?=
+ =?us-ascii?Q?gx7NkpM5r9YmCdDm1LBkcWpZepALS2jH6xb23T4xXVBAEzXtH00iO8MaoipQ?=
+ =?us-ascii?Q?khjs0eQ31XCauiyVoA6mGmbKYbKxZfn+0/bYoHP54z/Y+FagtHQ96TlBx3i1?=
+ =?us-ascii?Q?08WuQJ69usaXzcVDTZ0iA4eS7g+iXFtvb/9GWN5Vq/wD2KX87TwzBQ0j2BTf?=
+ =?us-ascii?Q?JCBeWO7pKYsvNpqTgz9RzW0yRQOvZ6cMCFdZQQ06f/aPQabFYlYJOmXI7JjP?=
+ =?us-ascii?Q?v7QEBLV5T2F77jVHAhHqa1r5EcknO2tnPb0BUM8EkvBvWo3ZUJWwU7QJNtHI?=
+ =?us-ascii?Q?Vlaiig3ZJ3SCB77XpQ7OTxiGWxzKNAYd/3hFDYmAM8nDI0QhSIr1njLZOr2b?=
+ =?us-ascii?Q?yQi0/W2bOsgDacv600l/llIYfxUYmahn79jvqX8SLADevfzpXZQtR1JR6j5V?=
+ =?us-ascii?Q?9L20PGYFamZ8P4I4I02WrQG+3QmLX8Z4ryLMKzadFzxB1++IXFr1eyh7/bp+?=
+ =?us-ascii?Q?9HNCWJ98dMp31WyaICKAWJcGOKnEzfyyYO+eWIL2slGdZ14Go8DFsn9MVOJQ?=
+ =?us-ascii?Q?TxLaE1cSWqgja9yzPalDrL1JKcuaiuUiLmtomBRRxqxOkXslPKu4k80Bh1Sz?=
+ =?us-ascii?Q?nBKhlz3GsSp64bAwR+bQ9Au3q4EYTLfeIQHeHnr69Ls7IphCUUfpeJmNNUxz?=
+ =?us-ascii?Q?f9NgyjlnthPXtjySuV5I3GV9c37aKbvvV95mxqWum9bEDmmwh57InB34d1y/?=
+ =?us-ascii?Q?4nTmzTH2et05HsWjC9hUw18O5NXiGlvpNEUrAIDyhx6GPYd5Rq6l+vxNiiWH?=
+ =?us-ascii?Q?mLsWnmm4vj10SzqSvdVbvfGcOKP1oW9sWW+7zUoS1cVwI+WN1uCtFgWCfwoL?=
+ =?us-ascii?Q?mklrNHQupmWcifnKJAZgd9DEiYbnSw1T89LN8z8XEnmxuma+rPWCv4VfI8cL?=
+ =?us-ascii?Q?ioV9yM6t9ZXKBZPIVWjJUF85LSQ3m9Ue4w8Yq9ie?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d417bc37-3647-40c6-8810-08dbe66185af
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 05:04:33.6595
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YJeOvTuhACLWPh8ljHBciPBE7KqPJ99qG9IKWNzPbef1UZJtTSQlYC2303+YiFfo6g14YkNVfdnU7stHHtMEbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7730
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
-commit: 25e56847821f7375bdee7dae1027c7917d07ce4b perf/x86/amd/uncore: Add memory controller support
-date:   5 weeks ago
-config: x86_64-sof-customedconfig-avs-defconfig (https://download.01.org/0day-ci/archive/20231116/202311161239.NeSj2wJT-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311161239.NeSj2wJT-lkp@intel.com/reproduce)
+Hi Yicong,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus arm/for-next kvmarm/next soc/for-next linus/master arm/fixes v6.7-rc1 next-20231115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yicong-Yang/arch_topology-Support-basic-SMT-control-for-the-driver/20231114-120544
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20231114040110.54590-5-yangyicong%40huawei.com
+patch subject: [PATCH v3 4/4] arm64: Kconfig: Enable HOTPLUG_SMT
+config: arm64-randconfig-002-20231115 (https://download.01.org/0day-ci/archive/20231115/202311151900.K9xc6Xqz-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231115/202311151900.K9xc6Xqz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311161239.NeSj2wJT-lkp@intel.com/
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202311151900.K9xc6Xqz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/events/amd/uncore.c: In function 'amd_uncore_umc_ctx_init':
->> arch/x86/events/amd/uncore.c:941:52: error: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Werror=format-truncation=]
-       snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
-                                                       ^~
-   arch/x86/events/amd/uncore.c:941:43: note: directive argument in the range [0, 2147483647]
-       snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
-                                              ^~~~~~~~~~~~
-   arch/x86/events/amd/uncore.c:941:4: note: 'snprintf' output between 10 and 19 bytes into a destination of size 16
-       snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   kernel/cpu.c: In function 'cpuhp_smt_disable':
+>> kernel/cpu.c:2687:23: error: implicit declaration of function 'cpu_down_maps_locked' [-Werror=implicit-function-declaration]
+    2687 |                 ret = cpu_down_maps_locked(cpu, CPUHP_OFFLINE);
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +941 arch/x86/events/amd/uncore.c
+vim +/cpu_down_maps_locked +2687 kernel/cpu.c
 
-   900	
-   901	static
-   902	int amd_uncore_umc_ctx_init(struct amd_uncore *uncore, unsigned int cpu)
-   903	{
-   904		DECLARE_BITMAP(gmask, UNCORE_GROUP_MAX) = { 0 };
-   905		u8 group_num_pmus[UNCORE_GROUP_MAX] = { 0 };
-   906		u8 group_num_pmcs[UNCORE_GROUP_MAX] = { 0 };
-   907		union amd_uncore_info info;
-   908		struct amd_uncore_pmu *pmu;
-   909		int index = 0, gid, i;
-   910	
-   911		if (pmu_version < 2)
-   912			return 0;
-   913	
-   914		/* Run just once */
-   915		if (uncore->init_done)
-   916			return amd_uncore_ctx_init(uncore, cpu);
-   917	
-   918		/* Find unique groups */
-   919		for_each_online_cpu(i) {
-   920			info = *per_cpu_ptr(uncore->info, i);
-   921			gid = info.split.gid;
-   922			if (test_bit(gid, gmask))
-   923				continue;
-   924	
-   925			__set_bit(gid, gmask);
-   926			group_num_pmus[gid] = hweight32(info.split.aux_data);
-   927			group_num_pmcs[gid] = info.split.num_pmcs;
-   928			uncore->num_pmus += group_num_pmus[gid];
-   929		}
-   930	
-   931		uncore->pmus = kzalloc(sizeof(*uncore->pmus) * uncore->num_pmus,
-   932				       GFP_KERNEL);
-   933		if (!uncore->pmus) {
-   934			uncore->num_pmus = 0;
-   935			goto done;
-   936		}
-   937	
-   938		for_each_set_bit(gid, gmask, UNCORE_GROUP_MAX) {
-   939			for (i = 0; i < group_num_pmus[gid]; i++) {
-   940				pmu = &uncore->pmus[index];
- > 941				snprintf(pmu->name, sizeof(pmu->name), "amd_umc_%d", index);
-   942				pmu->num_counters = group_num_pmcs[gid] / group_num_pmus[gid];
-   943				pmu->msr_base = MSR_F19H_UMC_PERF_CTL + i * pmu->num_counters * 2;
-   944				pmu->rdpmc_base = -1;
-   945				pmu->group = gid;
-   946	
-   947				pmu->ctx = alloc_percpu(struct amd_uncore_ctx *);
-   948				if (!pmu->ctx)
-   949					goto done;
-   950	
-   951				pmu->pmu = (struct pmu) {
-   952					.task_ctx_nr	= perf_invalid_context,
-   953					.attr_groups	= amd_uncore_umc_attr_groups,
-   954					.name		= pmu->name,
-   955					.event_init	= amd_uncore_umc_event_init,
-   956					.add		= amd_uncore_add,
-   957					.del		= amd_uncore_del,
-   958					.start		= amd_uncore_umc_start,
-   959					.stop		= amd_uncore_stop,
-   960					.read		= amd_uncore_read,
-   961					.capabilities	= PERF_PMU_CAP_NO_EXCLUDE | PERF_PMU_CAP_NO_INTERRUPT,
-   962					.module		= THIS_MODULE,
-   963				};
-   964	
-   965				if (perf_pmu_register(&pmu->pmu, pmu->pmu.name, -1)) {
-   966					free_percpu(pmu->ctx);
-   967					pmu->ctx = NULL;
-   968					goto done;
-   969				}
-   970	
-   971				pr_info("%d %s counters detected\n", pmu->num_counters,
-   972					pmu->pmu.name);
-   973	
-   974				index++;
-   975			}
-   976		}
-   977	
-   978	done:
-   979		uncore->num_pmus = index;
-   980		uncore->init_done = true;
-   981	
-   982		return amd_uncore_ctx_init(uncore, cpu);
-   983	}
-   984	
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2672  
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2673  int cpuhp_smt_disable(enum cpuhp_smt_control ctrlval)
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2674  {
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2675  	int cpu, ret = 0;
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2676  
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2677  	cpu_maps_update_begin();
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2678  	for_each_online_cpu(cpu) {
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2679  		if (topology_is_primary_thread(cpu))
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2680  			continue;
+38253464bc821d Michael Ellerman 2023-07-05  2681  		/*
+38253464bc821d Michael Ellerman 2023-07-05  2682  		 * Disable can be called with CPU_SMT_ENABLED when changing
+38253464bc821d Michael Ellerman 2023-07-05  2683  		 * from a higher to lower number of SMT threads per core.
+38253464bc821d Michael Ellerman 2023-07-05  2684  		 */
+38253464bc821d Michael Ellerman 2023-07-05  2685  		if (ctrlval == CPU_SMT_ENABLED && cpu_smt_thread_allowed(cpu))
+38253464bc821d Michael Ellerman 2023-07-05  2686  			continue;
+dc8d37ed304eee Arnd Bergmann    2019-12-10 @2687  		ret = cpu_down_maps_locked(cpu, CPUHP_OFFLINE);
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2688  		if (ret)
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2689  			break;
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2690  		/*
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2691  		 * As this needs to hold the cpu maps lock it's impossible
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2692  		 * to call device_offline() because that ends up calling
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2693  		 * cpu_down() which takes cpu maps lock. cpu maps lock
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2694  		 * needs to be held as this might race against in kernel
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2695  		 * abusers of the hotplug machinery (thermal management).
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2696  		 *
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2697  		 * So nothing would update device:offline state. That would
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2698  		 * leave the sysfs entry stale and prevent onlining after
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2699  		 * smt control has been changed to 'off' again. This is
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2700  		 * called under the sysfs hotplug lock, so it is properly
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2701  		 * serialized against the regular offline usage.
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2702  		 */
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2703  		cpuhp_offline_cpu_device(cpu);
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2704  	}
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2705  	if (!ret)
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2706  		cpu_smt_control = ctrlval;
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2707  	cpu_maps_update_done();
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2708  	return ret;
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2709  }
+dc8d37ed304eee Arnd Bergmann    2019-12-10  2710  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
