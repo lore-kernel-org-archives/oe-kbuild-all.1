@@ -1,47 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D53DDD7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 07:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D8BC15D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 07:05:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KGGba537"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0QKiDM9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700118337; x=1731654337;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e0f1aMdVOzw5HUq1/TuGWkEw1fxRem6hN50CnWju7Tk=;
-  b=KGGba537ynTlbVsovcZWj3gSg+CQQUdSW+bKIesxt7/Ud1ILNavlGOwD
-   H1u4L/b+u78baKJjnxZAQr8TXDXd42rWFH8auq14CxNw/xxQ0GX+WreiT
-   1xKxoVuefKQS8y+tmzV60H8g6vY1RfoSz40DB/1JZOc8GhZLO9UjXY7W+
-   Hg3vnv65yRZeAQGDzWxOzpjcHYVcwWDgd79O4bc+0vZ/7NebCmIZYXhnC
-   YqbpiL9negs281R3Sqa3QJZh09bz4wpXwl7vRfa3kKTSpGMEHxVRyrCc8
-   sDMjcWv4+we9h4QEZGt9SUuRSoq5Dm3rvepmnDdBInBQWVbseHbo7UDnf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="4159751"
+  t=1700118338; x=1731654338;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iccyYLx60+kSDjnII5GF2rxDscXXNDcHqPGFIfB7nyk=;
+  b=Q0QKiDM9+VIOy/lmtQzlpx2cZkwDy91vw66bYxb4kp8MYNtvHpD3GFtZ
+   +cphELR1GogizIGHutEDrvsEh5WOJJO/0IxcgNOTSnJMU030f4HDJHvBb
+   KDHWGZEMvfgrhORBO9ETznyyuownN3WiGVTvOD8bMAUDr+HcTTMxrtfHc
+   JuhayRzlMIik7rgjUjxv60hZQ4FCJOQfMTTsGGfsyP62vf/CbM/k8ZYny
+   C6b5tLF/8GOE62S9jqtyG8nnd+Giz3JC3ZhnlMwUPdaPymGqHX/HLOr8w
+   M73jJAHLD5OdZj4uUQenG0QMV+I/IeTTSyHunaVkvyxnonHMZCZLw6ZcZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="477247193"
 X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="4159751"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 23:05:36 -0800
+   d="scan'208";a="477247193"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 23:05:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="855893639"
+X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="1096702607"
 X-IronPort-AV: E=Sophos;i="6.03,307,1694761200"; 
-   d="scan'208";a="855893639"
+   d="scan'208";a="1096702607"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Nov 2023 23:05:34 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 15 Nov 2023 23:05:34 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3WRQ-0001R6-0L;
+	id 1r3WRQ-0001R2-0C;
 	Thu, 16 Nov 2023 07:05:32 +0000
-Date: Thu, 16 Nov 2023 15:04:57 +0800
+Date: Thu, 16 Nov 2023 15:04:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 17/17] drivers/cdx/cdx.c:575:20: warning:
- assignment to 'struct platform_device *' from 'int' makes pointer from
- integer without a cast
-Message-ID: <202311161510.QeT26SWo-lkp@intel.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org,
+	tiwai@suse.com, perex@perex.cz
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+	amadeuszx.slawinski@linux.intel.com,
+	pierre-louis.bossart@linux.intel.com, hdegoede@redhat.com,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: Re: [PATCH v3 01/16] ALSA: pcm: Introduce MSBITS subformat interface
+Message-ID: <202311161421.XWUhngXI-lkp@intel.com>
+References: <20231114201317.1348066-2-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,91 +55,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231114201317.1348066-2-cezary.rojewski@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   30bd4c46bf0b9c85631b39f39c6bfc901846dbc9
-commit: 30bd4c46bf0b9c85631b39f39c6bfc901846dbc9 [17/17] of: header cleanups
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231116/202311161510.QeT26SWo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311161510.QeT26SWo-lkp@intel.com/reproduce)
+Hi Cezary,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus broonie-sound/for-next linus/master v6.7-rc1 next-20231116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cezary-Rojewski/ALSA-pcm-Introduce-MSBITS-subformat-interface/20231115-041959
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20231114201317.1348066-2-cezary.rojewski%40intel.com
+patch subject: [PATCH v3 01/16] ALSA: pcm: Introduce MSBITS subformat interface
+config: i386-randconfig-062-20231116 (https://download.01.org/0day-ci/archive/20231116/202311161421.XWUhngXI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311161421.XWUhngXI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311161510.QeT26SWo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311161421.XWUhngXI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> sound/core/pcm_native.c:2517:43: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int val @@     got restricted snd_pcm_format_t [assigned] [usertype] f @@
+   sound/core/pcm_native.c:2517:43: sparse:     expected unsigned int val
+   sound/core/pcm_native.c:2517:43: sparse:     got restricted snd_pcm_format_t [assigned] [usertype] f
+   sound/core/pcm_native.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   sound/core/pcm_native.c:95:1: sparse: sparse: context imbalance in 'snd_pcm_group_lock' - different lock contexts for basic block
+   sound/core/pcm_native.c:96:1: sparse: sparse: context imbalance in 'snd_pcm_group_unlock' - unexpected unlock
+   sound/core/pcm_native.c:97:1: sparse: sparse: context imbalance in 'snd_pcm_group_lock_irq' - different lock contexts for basic block
+   sound/core/pcm_native.c:98:1: sparse: sparse: context imbalance in 'snd_pcm_group_unlock_irq' - unexpected unlock
+   sound/core/pcm_native.c:145:9: sparse: sparse: context imbalance in 'snd_pcm_stream_lock_nested' - different lock contexts for basic block
+   sound/core/pcm_native.c:171:9: sparse: sparse: context imbalance in '_snd_pcm_stream_lock_irqsave' - different lock contexts for basic block
+   sound/core/pcm_native.c:184:9: sparse: sparse: context imbalance in '_snd_pcm_stream_lock_irqsave_nested' - different lock contexts for basic block
+   sound/core/pcm_native.c:201:39: sparse: sparse: context imbalance in 'snd_pcm_stream_unlock_irqrestore' - unexpected unlock
+   sound/core/pcm_native.c:1278:44: sparse: sparse: context imbalance in 'snd_pcm_action_group' - unexpected unlock
+   sound/core/pcm_native.c:1348:37: sparse: sparse: context imbalance in 'snd_pcm_stream_group_ref' - different lock contexts for basic block
 
-   drivers/cdx/cdx.c: In function 'rescan_store':
-   drivers/cdx/cdx.c:575:22: error: implicit declaration of function 'of_find_device_by_node'; did you mean 'bus_find_device_by_fwnode'? [-Werror=implicit-function-declaration]
-     575 |                 pd = of_find_device_by_node(np);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-         |                      bus_find_device_by_fwnode
->> drivers/cdx/cdx.c:575:20: warning: assignment to 'struct platform_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     575 |                 pd = of_find_device_by_node(np);
-         |                    ^
-   drivers/cdx/cdx.c:579:23: error: implicit declaration of function 'platform_get_drvdata' [-Werror=implicit-function-declaration]
-     579 |                 cdx = platform_get_drvdata(pd);
-         |                       ^~~~~~~~~~~~~~~~~~~~
->> drivers/cdx/cdx.c:579:21: warning: assignment to 'struct cdx_controller *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     579 |                 cdx = platform_get_drvdata(pd);
-         |                     ^
-   drivers/cdx/cdx.c:583:31: error: invalid use of undefined type 'struct platform_device'
-     583 |                 put_device(&pd->dev);
-         |                               ^~
-   cc1: some warnings being treated as errors
+vim +2517 sound/core/pcm_native.c
 
-
-vim +575 drivers/cdx/cdx.c
-
-48a6c7bced2a78 Nipun Gupta      2023-03-13  550  
-d06f5a3f714092 Linus Torvalds   2023-04-27  551  static ssize_t rescan_store(const struct bus_type *bus,
-2959ab247061e6 Nipun Gupta      2023-03-13  552  			    const char *buf, size_t count)
-2959ab247061e6 Nipun Gupta      2023-03-13  553  {
-2959ab247061e6 Nipun Gupta      2023-03-13  554  	struct cdx_controller *cdx;
-54b406e10f0334 Abhijit Gangurde 2023-10-17  555  	struct platform_device *pd;
-54b406e10f0334 Abhijit Gangurde 2023-10-17  556  	struct device_node *np;
-2959ab247061e6 Nipun Gupta      2023-03-13  557  	bool val;
-2959ab247061e6 Nipun Gupta      2023-03-13  558  
-2959ab247061e6 Nipun Gupta      2023-03-13  559  	if (kstrtobool(buf, &val) < 0)
-2959ab247061e6 Nipun Gupta      2023-03-13  560  		return -EINVAL;
-2959ab247061e6 Nipun Gupta      2023-03-13  561  
-2959ab247061e6 Nipun Gupta      2023-03-13  562  	if (!val)
-2959ab247061e6 Nipun Gupta      2023-03-13  563  		return -EINVAL;
-2959ab247061e6 Nipun Gupta      2023-03-13  564  
-f0af816834667b Abhijit Gangurde 2023-10-17  565  	mutex_lock(&cdx_controller_lock);
-f0af816834667b Abhijit Gangurde 2023-10-17  566  
-2959ab247061e6 Nipun Gupta      2023-03-13  567  	/* Unregister all the devices on the bus */
-2959ab247061e6 Nipun Gupta      2023-03-13  568  	cdx_unregister_devices(&cdx_bus_type);
-2959ab247061e6 Nipun Gupta      2023-03-13  569  
-2959ab247061e6 Nipun Gupta      2023-03-13  570  	/* Rescan all the devices */
-54b406e10f0334 Abhijit Gangurde 2023-10-17  571  	for_each_compatible_node(np, NULL, compat_node_name) {
-54b406e10f0334 Abhijit Gangurde 2023-10-17  572  		if (!np)
-54b406e10f0334 Abhijit Gangurde 2023-10-17  573  			return -EINVAL;
-2959ab247061e6 Nipun Gupta      2023-03-13  574  
-54b406e10f0334 Abhijit Gangurde 2023-10-17 @575  		pd = of_find_device_by_node(np);
-54b406e10f0334 Abhijit Gangurde 2023-10-17  576  		if (!pd)
-54b406e10f0334 Abhijit Gangurde 2023-10-17  577  			return -EINVAL;
-54b406e10f0334 Abhijit Gangurde 2023-10-17  578  
-54b406e10f0334 Abhijit Gangurde 2023-10-17 @579  		cdx = platform_get_drvdata(pd);
-54b406e10f0334 Abhijit Gangurde 2023-10-17  580  		if (cdx && cdx->controller_registered && cdx->ops->scan)
-54b406e10f0334 Abhijit Gangurde 2023-10-17  581  			cdx->ops->scan(cdx);
-54b406e10f0334 Abhijit Gangurde 2023-10-17  582  
-54b406e10f0334 Abhijit Gangurde 2023-10-17  583  		put_device(&pd->dev);
-2959ab247061e6 Nipun Gupta      2023-03-13  584  	}
-2959ab247061e6 Nipun Gupta      2023-03-13  585  
-f0af816834667b Abhijit Gangurde 2023-10-17  586  	mutex_unlock(&cdx_controller_lock);
-f0af816834667b Abhijit Gangurde 2023-10-17  587  
-2959ab247061e6 Nipun Gupta      2023-03-13  588  	return count;
-2959ab247061e6 Nipun Gupta      2023-03-13  589  }
-2959ab247061e6 Nipun Gupta      2023-03-13  590  static BUS_ATTR_WO(rescan);
-2959ab247061e6 Nipun Gupta      2023-03-13  591  
-
-:::::: The code at line 575 was first introduced by commit
-:::::: 54b406e10f0334ee0245d5129c8def444a49cd9b cdx: Remove cdx controller list from cdx bus system
-
-:::::: TO: Abhijit Gangurde <abhijit.gangurde@amd.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  2502	
+  2503	static int snd_pcm_hw_rule_subformats(struct snd_pcm_hw_params *params,
+  2504					      struct snd_pcm_hw_rule *rule)
+  2505	{
+  2506		struct snd_mask *sfmask = hw_param_mask(params, SNDRV_PCM_HW_PARAM_SUBFORMAT);
+  2507		struct snd_mask *fmask = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+  2508		u32 *subformats = rule->private;
+  2509		snd_pcm_format_t f;
+  2510		struct snd_mask m;
+  2511	
+  2512		snd_mask_none(&m);
+  2513		/* All PCMs support at least the default STD subformat. */
+  2514		snd_mask_set(&m, (__force unsigned)SNDRV_PCM_SUBFORMAT_STD);
+  2515	
+  2516		pcm_for_each_format(f) {
+> 2517			if (!snd_mask_test(fmask, f))
+  2518				continue;
+  2519	
+  2520			if (f == SNDRV_PCM_FORMAT_S32_LE)
+  2521				m.bits[0] |= *subformats;
+  2522			else if (snd_pcm_format_linear(f))
+  2523				snd_mask_set(&m, (__force unsigned)SNDRV_PCM_SUBFORMAT_MSBITS_MAX);
+  2524		}
+  2525	
+  2526		return snd_mask_refine(sfmask, &m);
+  2527	}
+  2528	
 
 -- 
 0-DAY CI Kernel Test Service
