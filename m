@@ -1,47 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1BD2DF9D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 16:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7159E3EA7E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 16:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JMM3XISP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G6RWUcK+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700152180; x=1731688180;
+  t=1700152855; x=1731688855;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=590Nfx5LOhJrlXzOujMm3jU8gvF5FKBx9gK0/11xrYU=;
-  b=JMM3XISPE8kHqArkg/GU/n0r3m43Iz2TPfKBvL2/b4fC8aVd0d7Rb8hf
-   Tyy2uPLMGusjDTeXm66Syvs/B6ySu5Gwqee0aXGpeXvIZ+eXmZrA+DjCn
-   kVtUwlmGMztKNr7XVbihuI7InnFUryAIdZf67YGpzvsJMpTyGVb30ckvi
-   fMkS+SatUP+wZ4kZ8VTFDz34lK9Onkcr1hQwcuU58IuJvs1SbXkRSsYqt
-   2x18Za3EIV7pd8slyU7/+PP7uMWwh9jRsXgYvMGK8JYBRLR++5aTL5rjr
-   zTSdAt3VjB3KgINrmZ7W+yuDF2r6kAs7Ul3qgS0CnxPFnqdJLQAnVIBt8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="395042281"
+  bh=tW4aPbN4cDBugAQB4hklly5NTiT4ybdSykVOwMNinEY=;
+  b=G6RWUcK+iRiU48rCTGOVdZ2KdW/d9wczXE+gZaU2gir68eZQRaMDkInW
+   /+dqbfjPFlvpYG/sKxviHiZQWs1P/AvYvFY7Y0oOQpS9htbRC5nLsmYeN
+   clfLd4vpXKQlaY/Qw0LhAYguyfGVabBbY7dLlOjjrmq1c78gyLJNbUxon
+   wBqw1RoLGD6xb5PCaKtI46zajyPQXPF6n1iFoRWQmSkIWtPts7hOW7NEM
+   HrwHvWWI3tRQZScan2Yp8jOySFT1MwSB42RTaGGGhHfdshBlnbUiE1Fqe
+   PQ40zDNiV6DN+j6YFujFCMKfrwDLtuyi8otP1H3vWT42fESBa0xWnp2ck
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="4204349"
 X-IronPort-AV: E=Sophos;i="6.04,204,1695711600"; 
-   d="scan'208";a="395042281"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 08:29:34 -0800
+   d="scan'208";a="4204349"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 08:40:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="800209190"
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="1012664799"
 X-IronPort-AV: E=Sophos;i="6.04,204,1695711600"; 
-   d="scan'208";a="800209190"
+   d="scan'208";a="1012664799"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 16 Nov 2023 08:29:33 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 16 Nov 2023 08:40:50 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3fFD-0001t5-1R;
-	Thu, 16 Nov 2023 16:29:31 +0000
-Date: Fri, 17 Nov 2023 00:29:24 +0800
+	id 1r3fQ8-0001v9-2J;
+	Thu, 16 Nov 2023 16:40:48 +0000
+Date: Fri, 17 Nov 2023 00:40:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hverkuil-media-tree:hdmi-dbg 2/33]
- drivers/clk/clk-hifiberry-dacpro.c:90:22: sparse: sparse: symbol
- 'clk_hifiberry_dacpro_rate_ops' was not declared. Should it be static?
-Message-ID: <202311170053.yCffnDxd-lkp@intel.com>
+To: Shravan Kumar Ramani <shravankr@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	David Thompson <davthompson@nvidia.com>
+Subject: drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202311170008.NMSMlgyY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,41 +53,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Hans,
-
-First bad commit (maybe != root cause):
-
-tree:   git://linuxtv.org/hverkuil/media_tree.git hdmi-dbg
-head:   509acd58c8dd0202ccdbb861ede858e4975b42c4
-commit: 6213708f949443dd8f9efa3f65d7dcf0718d7475 [2/33] hifiberry_dacplusadc: add support for the Hifiberry DAC+ ADC
-config: mips-randconfig-r132-20231116 (https://download.01.org/0day-ci/archive/20231117/202311170053.yCffnDxd-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231117/202311170053.yCffnDxd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7475e51b87969e01a6812eac713a1c8310372e8a
+commit: 423c3361855c1e81f1cb91728a2ac5ddfd2cbf16 platform/mellanox: mlxbf-pmc: Add support for BlueField-3
+date:   9 weeks ago
+config: arm64-randconfig-r121-20231116 (https://download.01.org/0day-ci/archive/20231117/202311170008.NMSMlgyY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231117/202311170008.NMSMlgyY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311170053.yCffnDxd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311170008.NMSMlgyY-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/clk/clk-hifiberry-dacpro.c:90:22: sparse: sparse: symbol 'clk_hifiberry_dacpro_rate_ops' was not declared. Should it be static?
+>> drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse:     expected void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse:     got void [noderef] __iomem *
+>> drivers/platform/mellanox/mlxbf-pmc.c:1174:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1174:31: sparse:     expected void [noderef] __iomem *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1174:31: sparse:     got void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1186:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1186:32: sparse:     expected void [noderef] __iomem *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1186:32: sparse:     got void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1194:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1194:14: sparse:     expected void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1194:14: sparse:     got void [noderef] __iomem *
+   drivers/platform/mellanox/mlxbf-pmc.c:1198:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1198:32: sparse:     expected void [noderef] __iomem *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1198:32: sparse:     got void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1415:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1415:14: sparse:     expected void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1415:14: sparse:     got void [noderef] __iomem *
+   drivers/platform/mellanox/mlxbf-pmc.c:1417:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1417:31: sparse:     expected void [noderef] __iomem *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1417:31: sparse:     got void *addr
 
-vim +/clk_hifiberry_dacpro_rate_ops +90 drivers/clk/clk-hifiberry-dacpro.c
+vim +1172 drivers/platform/mellanox/mlxbf-pmc.c
 
-a1a3257de3d6b0 Hans Verkuil 2021-07-19  88  
-a1a3257de3d6b0 Hans Verkuil 2021-07-19  89  
-a1a3257de3d6b0 Hans Verkuil 2021-07-19 @90  const struct clk_ops clk_hifiberry_dacpro_rate_ops = {
-a1a3257de3d6b0 Hans Verkuil 2021-07-19  91  	.recalc_rate = clk_hifiberry_dacpro_recalc_rate,
-a1a3257de3d6b0 Hans Verkuil 2021-07-19  92  	.round_rate = clk_hifiberry_dacpro_round_rate,
-a1a3257de3d6b0 Hans Verkuil 2021-07-19  93  	.set_rate = clk_hifiberry_dacpro_set_rate,
-a1a3257de3d6b0 Hans Verkuil 2021-07-19  94  };
-a1a3257de3d6b0 Hans Verkuil 2021-07-19  95  
-
-:::::: The code at line 90 was first introduced by commit
-:::::: a1a3257de3d6b0b8eef70eb0a2daf777a0e3bb50 clk-hifiberry-dacpro: add support for the Hifiberry DAC+ ADC
-
-:::::: TO: Hans Verkuil <hverkuil@xs4all.nl>
-:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+  1163	
+  1164	/* Method to handle crspace counter programming */
+  1165	static int mlxbf_pmc_program_crspace_counter(int blk_num, uint32_t cnt_num,
+  1166						     uint32_t evt)
+  1167	{
+  1168		uint32_t word;
+  1169		void *addr;
+  1170		int ret;
+  1171	
+> 1172		addr = pmc->block[blk_num].mmio_base +
+  1173			(rounddown(cnt_num, 2) * MLXBF_PMC_CRSPACE_PERFSEL_SZ);
+> 1174		ret = mlxbf_pmc_readl(addr, &word);
+  1175		if (ret)
+  1176			return ret;
+  1177	
+  1178		if (cnt_num % 2) {
+  1179			word &= ~MLXBF_PMC_CRSPACE_PERFSEL1;
+  1180			word |= FIELD_PREP(MLXBF_PMC_CRSPACE_PERFSEL1, evt);
+  1181		} else {
+  1182			word &= ~MLXBF_PMC_CRSPACE_PERFSEL0;
+  1183			word |= FIELD_PREP(MLXBF_PMC_CRSPACE_PERFSEL0, evt);
+  1184		}
+  1185	
+  1186		return mlxbf_pmc_write(addr, MLXBF_PMC_WRITE_REG_32, word);
+  1187	}
+  1188	
 
 -- 
 0-DAY CI Kernel Test Service
