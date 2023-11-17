@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9516430344;
-	Fri, 17 Nov 2023 13:30:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41FF30CF7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 13:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NzZTcuta"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OCqA3sGM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700227816; x=1731763816;
+  t=1700227817; x=1731763817;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rhtSPekSs7KwRL5a1ctU+DiZKDMVTv8mjNGqU4u6Zhc=;
-  b=NzZTcuta6Q7Dtjzzs7GuFaU5z0Htw/hZqyYnvWdDAeUHYoW0RW2eosau
-   P6+ATCQS6oorn8UZbd1IA6iJHPj4nUBcPkIarc8csEPhUAzhyEJSa9PTx
-   oeGPZyAdNIqmYdLxhYOnrcBpbHdMRFP5DU6vExtBJmX8idbrXrnDI9Fi+
-   vUgP+KhmFoTSxuu+VOrXRod0+4jbsYRmjnN1lV7vbvoC3suLMQn5Dvy6M
-   MkD02ZrIIzDzxlTmSDbMksd4/ZVD9xy0PYYeWmxXT+2uHk0uZHOt12GN9
-   sBiZDoP8GKzsb/lzmetTfZyM8X5xbs5Eh7banVAYjmY2c+1SzgtIA+b4o
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="9960118"
+  bh=yajHqxO2vyLALn8JMoL2xZqghCmkvRZBineKEVAkJGE=;
+  b=OCqA3sGM2iNVF8WGMxMqNQQxt3ymfJmYEpjGuXDE4X4x/jNBVtsiox6g
+   PscnO4xsCAc5ozN/ZCqNCQj2zxNRPsl+eQs/S+GKwunjh86XtSys5qihV
+   hwWGl35nmLCvHC5XKztKcq5J042eJLEpdDdVpGIFFa+Xa9EXtqupAvUDS
+   1MNEQklHA8QyL6v1oKKo+ekX8RRtpAciNChef4nlHB9jgRdxRIZtzYWfu
+   QQyAAY48V0VC3ETLNm3CB+EiYB2RoOh/8edWkl5alXKgGYe/ccBlQy93X
+   dFIZVZiBrWG4QHYecq2LmzyPYhH5CFC8xLuY7GZVBN/lhUAcusJYQ63m4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="12846454"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="9960118"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 05:30:16 -0800
+   d="scan'208";a="12846454"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 05:30:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="939148470"
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="1012933898"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="939148470"
+   d="scan'208";a="1012933898"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 17 Nov 2023 05:30:14 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 17 Nov 2023 05:30:14 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3yvE-0002pX-0X;
+	id 1r3yvE-0002pZ-0c;
 	Fri, 17 Nov 2023 13:30:12 +0000
-Date: Fri, 17 Nov 2023 21:30:06 +0800
+Date: Fri, 17 Nov 2023 21:30:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:iov-kunit 1/6] lib/kunit_iov_iter.c:551:47: warning:
- performing pointer arithmetic on a null pointer has undefined behavior
-Message-ID: <202311172145.ZjpSTmPw-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: arch/arm/mach-omap2/clkt2xxx_virt_prcm_set.c:63: warning: Function
+ parameter or member 'parent_rate' not described in 'omap2_table_mpu_recalc'
+Message-ID: <202311172108.UYDpxcdv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,166 +51,242 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-kunit
-head:   7c85bb8bf31d419e04c93c10cc5348af1f499d77
-commit: 9176b1c027c84dd5c718df009dd5ef26317d3094 [1/6] iov_iter: Fix some checkpatch complaints in kunit tests
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20231117/202311172145.ZjpSTmPw-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231117/202311172145.ZjpSTmPw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7475e51b87969e01a6812eac713a1c8310372e8a
+commit: 2934167dd02b4fb5f6c57b36c92b3af23e8bad9f ARM: realview: enable multiplatform
+date:   8 years ago
+config: arm-randconfig-003-20230915 (https://download.01.org/0day-ci/archive/20231117/202311172108.UYDpxcdv-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231117/202311172108.UYDpxcdv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311172145.ZjpSTmPw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311172108.UYDpxcdv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from lib/kunit_iov_iter.c:14:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from lib/kunit_iov_iter.c:14:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from lib/kunit_iov_iter.c:14:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> lib/kunit_iov_iter.c:551:47: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     551 |                         pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
-         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   lib/kunit_iov_iter.c:629:47: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     629 |                         pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
-         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   lib/kunit_iov_iter.c:712:48: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     712 |                                 pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
-         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   9 warnings generated.
+   In file included from include/linux/cpumask.h:11,
+                    from include/linux/rcupdate.h:40,
+                    from include/linux/srcu.h:33,
+                    from include/linux/notifier.h:15,
+                    from include/linux/clk.h:17,
+                    from arch/arm/mach-omap2/clkt2xxx_virt_prcm_set.c:31:
+   include/linux/bitmap.h: In function 'bitmap_empty':
+   include/linux/bitmap.h:287:43: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     287 |         return find_first_bit(src, nbits) == nbits;
+         |                                           ^~
+   include/linux/bitmap.h: In function 'bitmap_full':
+   include/linux/bitmap.h:295:48: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     295 |         return find_first_zero_bit(src, nbits) == nbits;
+         |                                                ^~
+>> arch/arm/mach-omap2/clkt2xxx_virt_prcm_set.c:63: warning: Function parameter or member 'parent_rate' not described in 'omap2_table_mpu_recalc'
+>> arch/arm/mach-omap2/clkt2xxx_virt_prcm_set.c:174: warning: expecting prototype for omap2xxx_clkt_vps_check_bootloader_rate(). Prototype was for omap2xxx_clkt_vps_check_bootloader_rates() instead
+--
+   In file included from include/linux/cpumask.h:11,
+                    from include/linux/rcupdate.h:40,
+                    from include/linux/srcu.h:33,
+                    from include/linux/notifier.h:15,
+                    from include/linux/clk.h:17,
+                    from arch/arm/mach-omap2/omap2-restart.c:13:
+   include/linux/bitmap.h: In function 'bitmap_empty':
+   include/linux/bitmap.h:287:43: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     287 |         return find_first_bit(src, nbits) == nbits;
+         |                                           ^~
+   include/linux/bitmap.h: In function 'bitmap_full':
+   include/linux/bitmap.h:295:48: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     295 |         return find_first_zero_bit(src, nbits) == nbits;
+         |                                                ^~
+>> arch/arm/mach-omap2/omap2-restart.c:35: warning: Function parameter or member 'mode' not described in 'omap2xxx_restart'
+>> arch/arm/mach-omap2/omap2-restart.c:35: warning: Function parameter or member 'cmd' not described in 'omap2xxx_restart'
+--
+   In file included from include/linux/cpumask.h:11,
+                    from include/linux/rcupdate.h:40,
+                    from include/linux/srcu.h:33,
+                    from include/linux/notifier.h:15,
+                    from include/linux/clk.h:17,
+                    from arch/arm/mach-omap2/clkt2xxx_dpllcore.c:25:
+   include/linux/bitmap.h: In function 'bitmap_empty':
+   include/linux/bitmap.h:287:43: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     287 |         return find_first_bit(src, nbits) == nbits;
+         |                                           ^~
+   include/linux/bitmap.h: In function 'bitmap_full':
+   include/linux/bitmap.h:295:48: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     295 |         return find_first_zero_bit(src, nbits) == nbits;
+         |                                                ^~
+>> arch/arm/mach-omap2/clkt2xxx_dpllcore.c:192: warning: Function parameter or member 'hw' not described in 'omap2xxx_clkt_dpllcore_init'
+>> arch/arm/mach-omap2/clkt2xxx_dpllcore.c:192: warning: Excess function parameter 'clk' description in 'omap2xxx_clkt_dpllcore_init'
+--
+   In file included from include/linux/cpumask.h:11,
+                    from include/linux/rcupdate.h:40,
+                    from include/linux/srcu.h:33,
+                    from include/linux/notifier.h:15,
+                    from include/linux/clk.h:17,
+                    from drivers/clk/ti/dpll.c:18:
+   include/linux/bitmap.h: In function 'bitmap_empty':
+   include/linux/bitmap.h:287:43: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     287 |         return find_first_bit(src, nbits) == nbits;
+         |                                           ^~
+   include/linux/bitmap.h: In function 'bitmap_full':
+   include/linux/bitmap.h:295:48: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+     295 |         return find_first_zero_bit(src, nbits) == nbits;
+         |                                                ^~
+   drivers/clk/ti/dpll.c: At top level:
+>> drivers/clk/ti/dpll.c:130:29: warning: 'dpll_x2_ck_ops' defined but not used [-Wunused-const-variable=]
+     130 | static const struct clk_ops dpll_x2_ck_ops = {
+         |                             ^~~~~~~~~~~~~~
+   drivers/clk/ti/dpll.c:101:29: warning: 'omap3_dpll_core_ck_ops' defined but not used [-Wunused-const-variable=]
+     101 | static const struct clk_ops omap3_dpll_core_ck_ops = {};
+         |                             ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/ti/dpll.c:44:29: warning: 'dpll_m4xen_ck_ops' defined but not used [-Wunused-const-variable=]
+      44 | static const struct clk_ops dpll_m4xen_ck_ops = {};
+         |                             ^~~~~~~~~~~~~~~~~
 
 
-vim +551 lib/kunit_iov_iter.c
+vim +63 arch/arm/mach-omap2/clkt2xxx_virt_prcm_set.c
 
-   521	
-   522	/*
-   523	 * Test the extraction of ITER_KVEC-type iterators.
-   524	 */
-   525	static void __init iov_kunit_extract_pages_kvec(struct kunit *test)
-   526	{
-   527		const struct kvec_test_range *pr;
-   528		struct iov_iter iter;
-   529		struct page **bpages, *pagelist[8], **pages = pagelist;
-   530		struct kvec kvec[8];
-   531		u8 *buffer;
-   532		ssize_t len;
-   533		size_t bufsize, size = 0, npages;
-   534		int i, from;
-   535	
-   536		bufsize = 0x100000;
-   537		npages = bufsize / PAGE_SIZE;
-   538	
-   539		buffer = iov_kunit_create_buffer(test, &bpages, npages);
-   540	
-   541		iov_kunit_load_kvec(test, &iter, READ, kvec, ARRAY_SIZE(kvec),
-   542				    buffer, bufsize, kvec_test_ranges);
-   543		size = iter.count;
-   544	
-   545		pr = kvec_test_ranges;
-   546		from = pr->from;
-   547		do {
-   548			size_t offset0 = LONG_MAX;
-   549	
-   550			for (i = 0; i < ARRAY_SIZE(pagelist); i++)
- > 551				pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
-   552	
-   553			len = iov_iter_extract_pages(&iter, &pages, 100 * 1024,
-   554						     ARRAY_SIZE(pagelist), 0, &offset0);
-   555			KUNIT_EXPECT_GE(test, len, 0);
-   556			if (len < 0)
-   557				break;
-   558			KUNIT_EXPECT_GE(test, (ssize_t)offset0, 0);
-   559			KUNIT_EXPECT_LT(test, offset0, PAGE_SIZE);
-   560			KUNIT_EXPECT_LE(test, len, size);
-   561			KUNIT_EXPECT_EQ(test, iter.count, size - len);
-   562			size -= len;
-   563	
-   564			if (len == 0)
-   565				break;
-   566	
-   567			for (i = 0; i < ARRAY_SIZE(pagelist); i++) {
-   568				struct page *p;
-   569				ssize_t part = min_t(ssize_t, len, PAGE_SIZE - offset0);
-   570				int ix;
-   571	
-   572				KUNIT_ASSERT_GE(test, part, 0);
-   573				while (from == pr->to) {
-   574					pr++;
-   575					from = pr->from;
-   576					if (from < 0)
-   577						goto stop;
-   578				}
-   579				ix = from / PAGE_SIZE;
-   580				KUNIT_ASSERT_LT(test, ix, npages);
-   581				p = bpages[ix];
-   582				KUNIT_EXPECT_PTR_EQ(test, pagelist[i], p);
-   583				KUNIT_EXPECT_EQ(test, offset0, from % PAGE_SIZE);
-   584				from += part;
-   585				len -= part;
-   586				KUNIT_ASSERT_GE(test, len, 0);
-   587				if (len == 0)
-   588					break;
-   589				offset0 = 0;
-   590			}
-   591	
-   592			if (test->status == KUNIT_FAILURE)
-   593				break;
-   594		} while (iov_iter_count(&iter) > 0);
-   595	
-   596	stop:
-   597		KUNIT_EXPECT_EQ(test, size, 0);
-   598		KUNIT_EXPECT_EQ(test, iter.count, 0);
-   599		KUNIT_SUCCEED();
-   600	}
-   601	
+baa689b8b2e9a6 Paul Walmsley  2012-10-29   54  
+734f69a773d8ff Paul Walmsley  2010-01-26   55  /**
+734f69a773d8ff Paul Walmsley  2010-01-26   56   * omap2_table_mpu_recalc - just return the MPU speed
+734f69a773d8ff Paul Walmsley  2010-01-26   57   * @clk: virt_prcm_set struct clk
+734f69a773d8ff Paul Walmsley  2010-01-26   58   *
+734f69a773d8ff Paul Walmsley  2010-01-26   59   * Set virt_prcm_set's rate to the mpu_speed field of the current PRCM set.
+734f69a773d8ff Paul Walmsley  2010-01-26   60   */
+ed1ebc4948fdfe Rajendra Nayak 2012-04-27   61  unsigned long omap2_table_mpu_recalc(struct clk_hw *clk,
+ed1ebc4948fdfe Rajendra Nayak 2012-04-27   62  				     unsigned long parent_rate)
+734f69a773d8ff Paul Walmsley  2010-01-26  @63  {
+734f69a773d8ff Paul Walmsley  2010-01-26   64  	return curr_prcm_set->mpu_speed;
+734f69a773d8ff Paul Walmsley  2010-01-26   65  }
+734f69a773d8ff Paul Walmsley  2010-01-26   66  
+734f69a773d8ff Paul Walmsley  2010-01-26   67  /*
+734f69a773d8ff Paul Walmsley  2010-01-26   68   * Look for a rate equal or less than the target rate given a configuration set.
+734f69a773d8ff Paul Walmsley  2010-01-26   69   *
+734f69a773d8ff Paul Walmsley  2010-01-26   70   * What's not entirely clear is "which" field represents the key field.
+734f69a773d8ff Paul Walmsley  2010-01-26   71   * Some might argue L3-DDR, others ARM, others IVA. This code is simple and
+734f69a773d8ff Paul Walmsley  2010-01-26   72   * just uses the ARM rates.
+734f69a773d8ff Paul Walmsley  2010-01-26   73   */
+ed1ebc4948fdfe Rajendra Nayak 2012-04-27   74  long omap2_round_to_table_rate(struct clk_hw *hw, unsigned long rate,
+ed1ebc4948fdfe Rajendra Nayak 2012-04-27   75  			       unsigned long *parent_rate)
+734f69a773d8ff Paul Walmsley  2010-01-26   76  {
+734f69a773d8ff Paul Walmsley  2010-01-26   77  	const struct prcm_config *ptr;
+baa689b8b2e9a6 Paul Walmsley  2012-10-29   78  	long highest_rate;
+734f69a773d8ff Paul Walmsley  2010-01-26   79  
+734f69a773d8ff Paul Walmsley  2010-01-26   80  	highest_rate = -EINVAL;
+734f69a773d8ff Paul Walmsley  2010-01-26   81  
+734f69a773d8ff Paul Walmsley  2010-01-26   82  	for (ptr = rate_table; ptr->mpu_speed; ptr++) {
+734f69a773d8ff Paul Walmsley  2010-01-26   83  		if (!(ptr->flags & cpu_mask))
+734f69a773d8ff Paul Walmsley  2010-01-26   84  			continue;
+baa689b8b2e9a6 Paul Walmsley  2012-10-29   85  		if (ptr->xtal_speed != sys_ck_rate)
+734f69a773d8ff Paul Walmsley  2010-01-26   86  			continue;
+734f69a773d8ff Paul Walmsley  2010-01-26   87  
+734f69a773d8ff Paul Walmsley  2010-01-26   88  		highest_rate = ptr->mpu_speed;
+734f69a773d8ff Paul Walmsley  2010-01-26   89  
+734f69a773d8ff Paul Walmsley  2010-01-26   90  		/* Can check only after xtal frequency check */
+734f69a773d8ff Paul Walmsley  2010-01-26   91  		if (ptr->mpu_speed <= rate)
+734f69a773d8ff Paul Walmsley  2010-01-26   92  			break;
+734f69a773d8ff Paul Walmsley  2010-01-26   93  	}
+734f69a773d8ff Paul Walmsley  2010-01-26   94  	return highest_rate;
+734f69a773d8ff Paul Walmsley  2010-01-26   95  }
+734f69a773d8ff Paul Walmsley  2010-01-26   96  
+734f69a773d8ff Paul Walmsley  2010-01-26   97  /* Sets basic clocks based on the specified rate */
+ed1ebc4948fdfe Rajendra Nayak 2012-04-27   98  int omap2_select_table_rate(struct clk_hw *hw, unsigned long rate,
+ed1ebc4948fdfe Rajendra Nayak 2012-04-27   99  			    unsigned long parent_rate)
+734f69a773d8ff Paul Walmsley  2010-01-26  100  {
+cd6e9db27728e8 Tero Kristo    2013-10-11  101  	u32 cur_rate, done_rate, bypass = 0;
+734f69a773d8ff Paul Walmsley  2010-01-26  102  	const struct prcm_config *prcm;
+734f69a773d8ff Paul Walmsley  2010-01-26  103  	unsigned long found_speed = 0;
+734f69a773d8ff Paul Walmsley  2010-01-26  104  	unsigned long flags;
+734f69a773d8ff Paul Walmsley  2010-01-26  105  
+734f69a773d8ff Paul Walmsley  2010-01-26  106  	for (prcm = rate_table; prcm->mpu_speed; prcm++) {
+734f69a773d8ff Paul Walmsley  2010-01-26  107  		if (!(prcm->flags & cpu_mask))
+734f69a773d8ff Paul Walmsley  2010-01-26  108  			continue;
+734f69a773d8ff Paul Walmsley  2010-01-26  109  
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  110  		if (prcm->xtal_speed != sys_ck_rate)
+734f69a773d8ff Paul Walmsley  2010-01-26  111  			continue;
+734f69a773d8ff Paul Walmsley  2010-01-26  112  
+734f69a773d8ff Paul Walmsley  2010-01-26  113  		if (prcm->mpu_speed <= rate) {
+734f69a773d8ff Paul Walmsley  2010-01-26  114  			found_speed = prcm->mpu_speed;
+734f69a773d8ff Paul Walmsley  2010-01-26  115  			break;
+734f69a773d8ff Paul Walmsley  2010-01-26  116  		}
+734f69a773d8ff Paul Walmsley  2010-01-26  117  	}
+734f69a773d8ff Paul Walmsley  2010-01-26  118  
+734f69a773d8ff Paul Walmsley  2010-01-26  119  	if (!found_speed) {
+734f69a773d8ff Paul Walmsley  2010-01-26  120  		printk(KERN_INFO "Could not set MPU rate to %luMHz\n",
+734f69a773d8ff Paul Walmsley  2010-01-26  121  		       rate / 1000000);
+734f69a773d8ff Paul Walmsley  2010-01-26  122  		return -EINVAL;
+734f69a773d8ff Paul Walmsley  2010-01-26  123  	}
+734f69a773d8ff Paul Walmsley  2010-01-26  124  
+734f69a773d8ff Paul Walmsley  2010-01-26  125  	curr_prcm_set = prcm;
+5f03937700e399 Paul Walmsley  2012-10-29  126  	cur_rate = omap2xxx_clk_get_core_rate();
+734f69a773d8ff Paul Walmsley  2010-01-26  127  
+734f69a773d8ff Paul Walmsley  2010-01-26  128  	if (prcm->dpll_speed == cur_rate / 2) {
+734f69a773d8ff Paul Walmsley  2010-01-26  129  		omap2xxx_sdrc_reprogram(CORE_CLK_SRC_DPLL, 1);
+734f69a773d8ff Paul Walmsley  2010-01-26  130  	} else if (prcm->dpll_speed == cur_rate * 2) {
+734f69a773d8ff Paul Walmsley  2010-01-26  131  		omap2xxx_sdrc_reprogram(CORE_CLK_SRC_DPLL_X2, 1);
+734f69a773d8ff Paul Walmsley  2010-01-26  132  	} else if (prcm->dpll_speed != cur_rate) {
+734f69a773d8ff Paul Walmsley  2010-01-26  133  		local_irq_save(flags);
+734f69a773d8ff Paul Walmsley  2010-01-26  134  
+734f69a773d8ff Paul Walmsley  2010-01-26  135  		if (prcm->dpll_speed == prcm->xtal_speed)
+734f69a773d8ff Paul Walmsley  2010-01-26  136  			bypass = 1;
+734f69a773d8ff Paul Walmsley  2010-01-26  137  
+734f69a773d8ff Paul Walmsley  2010-01-26  138  		if ((prcm->cm_clksel2_pll & OMAP24XX_CORE_CLK_SRC_MASK) ==
+734f69a773d8ff Paul Walmsley  2010-01-26  139  		    CORE_CLK_SRC_DPLL_X2)
+734f69a773d8ff Paul Walmsley  2010-01-26  140  			done_rate = CORE_CLK_SRC_DPLL_X2;
+734f69a773d8ff Paul Walmsley  2010-01-26  141  		else
+734f69a773d8ff Paul Walmsley  2010-01-26  142  			done_rate = CORE_CLK_SRC_DPLL;
+734f69a773d8ff Paul Walmsley  2010-01-26  143  
+cd6e9db27728e8 Tero Kristo    2013-10-11  144  		omap2xxx_cm_set_mod_dividers(prcm->cm_clksel_mpu,
+cd6e9db27728e8 Tero Kristo    2013-10-11  145  					     prcm->cm_clksel_dsp,
+cd6e9db27728e8 Tero Kristo    2013-10-11  146  					     prcm->cm_clksel_gfx,
+cd6e9db27728e8 Tero Kristo    2013-10-11  147  					     prcm->cm_clksel1_core,
+cd6e9db27728e8 Tero Kristo    2013-10-11  148  					     prcm->cm_clksel_mdm);
+734f69a773d8ff Paul Walmsley  2010-01-26  149  
+734f69a773d8ff Paul Walmsley  2010-01-26  150  		/* x2 to enter omap2xxx_sdrc_init_params() */
+734f69a773d8ff Paul Walmsley  2010-01-26  151  		omap2xxx_sdrc_reprogram(CORE_CLK_SRC_DPLL_X2, 1);
+734f69a773d8ff Paul Walmsley  2010-01-26  152  
+734f69a773d8ff Paul Walmsley  2010-01-26  153  		omap2_set_prcm(prcm->cm_clksel1_pll, prcm->base_sdrc_rfr,
+734f69a773d8ff Paul Walmsley  2010-01-26  154  			       bypass);
+734f69a773d8ff Paul Walmsley  2010-01-26  155  
+734f69a773d8ff Paul Walmsley  2010-01-26  156  		omap2xxx_sdrc_init_params(omap2xxx_sdrc_dll_is_unlocked());
+734f69a773d8ff Paul Walmsley  2010-01-26  157  		omap2xxx_sdrc_reprogram(done_rate, 0);
+734f69a773d8ff Paul Walmsley  2010-01-26  158  
+734f69a773d8ff Paul Walmsley  2010-01-26  159  		local_irq_restore(flags);
+734f69a773d8ff Paul Walmsley  2010-01-26  160  	}
+734f69a773d8ff Paul Walmsley  2010-01-26  161  
+734f69a773d8ff Paul Walmsley  2010-01-26  162  	return 0;
+734f69a773d8ff Paul Walmsley  2010-01-26  163  }
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  164  
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  165  /**
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  166   * omap2xxx_clkt_vps_check_bootloader_rate - determine which of the rate
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  167   * table sets matches the current CORE DPLL hardware rate
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  168   *
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  169   * Check the MPU rate set by bootloader.  Sets the 'curr_prcm_set'
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  170   * global to point to the active rate set when found; otherwise, sets
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  171   * it to NULL.  No return value;
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  172   */
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  173  void omap2xxx_clkt_vps_check_bootloader_rates(void)
+baa689b8b2e9a6 Paul Walmsley  2012-10-29 @174  {
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  175  	const struct prcm_config *prcm = NULL;
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  176  	unsigned long rate;
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  177  
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  178  	rate = omap2xxx_clk_get_core_rate();
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  179  	for (prcm = rate_table; prcm->mpu_speed; prcm++) {
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  180  		if (!(prcm->flags & cpu_mask))
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  181  			continue;
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  182  		if (prcm->xtal_speed != sys_ck_rate)
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  183  			continue;
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  184  		if (prcm->dpll_speed <= rate)
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  185  			break;
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  186  	}
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  187  	curr_prcm_set = prcm;
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  188  }
+baa689b8b2e9a6 Paul Walmsley  2012-10-29  189  
+
+:::::: The code at line 63 was first introduced by commit
+:::::: 734f69a773d8ff65111562116c18c987049ddac4 OMAP2xxx clock: move the DVFS virtual clock code into mach-omap2/clkt2xxx_virt_prcm_set.c
+
+:::::: TO: Paul Walmsley <paul@pwsan.com>
+:::::: CC: Paul Walmsley <paul@pwsan.com>
 
 -- 
 0-DAY CI Kernel Test Service
