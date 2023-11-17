@@ -1,55 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0AA14A82
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 16 Nov 2023 22:57:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D33C62A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 00:04:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PyeEE6z9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KxrD9G4n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700175427; x=1731711427;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DoKsAm90KLbcU8NPakFeOISVTzmaVznKzJBhMC+X33E=;
-  b=PyeEE6z9o9pm5RKaUXEOCbrEcnGrOKA7ikECAOuCQ53nWbgmiiEGQhKc
-   y95P2rQGoQLopV63Pilg/Tbj39jlucg+oMUfFRtB8MV4JxkipGa1p3CLv
-   Y8XwgzzKjROEiFtPwYv7usfqI85SDNZuiLLeH7CEg+MXucDgUyvjBlHhy
-   fyK56+7w4am5X2/ZqpDFHHkhL2h4H8WRspC4pzKVPaowDoYJLUhQ5zWEj
-   xJyvlEVAMe0r/TuiOftlzME3Tn52jeGuWpBrnQO4YyOcHfMQBlpfooZw9
-   DiarPts2rqVIEzufig4+hjaKas8qdhGdvpRYQpO2zgx1WRaVkheRQ1UAC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="455498015"
+  t=1700179474; x=1731715474;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nhH7u1dVutBgChfQiLWCRnXfOfLR8ytyAeWNycBHTIQ=;
+  b=KxrD9G4nzVsTf0z5aze+7AmqKqSegNxf0qMmMnn7aYKsAglA5bOHG7FB
+   SeZ/pVSeww2mf27y4TqVxn+VP9uvFOo/ALDpmCGRDzqR/9LEOJI7Tkl/H
+   QWUsHFRvvs2Zwdjfk2T0doygOaRIMECPJ8Ma1Cq1oW2p4W7XBGFOCDhVB
+   ZDcwCYXiqWy/Ls15jcQPiG/+mDoU5tBGpNOOnixXWQTgYSFirwZjHEHl/
+   cJUfNnY1faF0m36LZ+AFMniaHnXMufMm70r4iAOo+Knmhb4ghazBl5fKP
+   eGGhT0WdcRAY3JHSuYh31pKE4MoXnH3OJulZZc7tmhBXUdXP2XRI7J2kw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="390988271"
 X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; 
-   d="scan'208";a="455498015"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 14:57:06 -0800
+   d="scan'208";a="390988271"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2023 16:04:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="938985403"
 X-IronPort-AV: E=Sophos;i="6.04,205,1695711600"; 
-   d="scan'208";a="938985403"
+   d="scan'208";a="13296077"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 16 Nov 2023 14:57:03 -0800
+  by orviesa001.jf.intel.com with ESMTP; 16 Nov 2023 16:04:32 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3lID-00027X-0f;
-	Thu, 16 Nov 2023 22:57:01 +0000
-Date: Fri, 17 Nov 2023 06:56:58 +0800
+	id 1r3mLV-00029X-1u;
+	Fri, 17 Nov 2023 00:04:29 +0000
+Date: Fri, 17 Nov 2023 08:04:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tzuyi Chang <tychang@realtek.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	TY Chang <tychang@realtek.com>
-Subject: Re: [PATCH v2 2/2] Add GPIO support for Realtek DHC(Digital Home
- Center) RTD SoCs.
-Message-ID: <202311170603.TawAUggC-lkp@intel.com>
-References: <20231116111441.2339-3-tychang@realtek.com>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Sami Tolvanen <samitolvanen@google.com>
+Subject: arch/riscv/kernel/traps.c:405:1: sparse: sparse: symbol
+ '__pcpu_scope_overflow_stack' was not declared. Should it be static?
+Message-ID: <202311170738.xXn02awd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,84 +50,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231116111441.2339-3-tychang@realtek.com>
 
-Hi Tzuyi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on robh/for-next linus/master v6.7-rc1 next-20231116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tzuyi-Chang/dt-bindings-gpio-realtek-Add-realtek-rtd-gpio/20231116-191928
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20231116111441.2339-3-tychang%40realtek.com
-patch subject: [PATCH v2 2/2] Add GPIO support for Realtek DHC(Digital Home Center) RTD SoCs.
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231117/202311170603.TawAUggC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231117/202311170603.TawAUggC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7475e51b87969e01a6812eac713a1c8310372e8a
+commit: be97d0db5f44c0674480cb79ac6f5b0529b84c76 riscv: VMAP_STACK overflow detection thread-safe
+date:   3 weeks ago
+config: riscv-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231117/202311170738.xXn02awd-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231117/202311170738.xXn02awd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311170603.TawAUggC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311170738.xXn02awd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zihintpause'
+>> arch/riscv/kernel/traps.c:405:1: sparse: sparse: symbol '__pcpu_scope_overflow_stack' was not declared. Should it be static?
 
->> drivers/gpio/gpio-rtd.c:71: warning: Function parameter or member 'num_dir' not described in 'rtd_gpio_info'
->> drivers/gpio/gpio-rtd.c:71: warning: Function parameter or member 'num_dato' not described in 'rtd_gpio_info'
->> drivers/gpio/gpio-rtd.c:71: warning: Function parameter or member 'num_dati' not described in 'rtd_gpio_info'
->> drivers/gpio/gpio-rtd.c:71: warning: Function parameter or member 'num_ie' not described in 'rtd_gpio_info'
->> drivers/gpio/gpio-rtd.c:71: warning: Function parameter or member 'num_dp' not described in 'rtd_gpio_info'
->> drivers/gpio/gpio-rtd.c:71: warning: Function parameter or member 'num_gpa' not described in 'rtd_gpio_info'
->> drivers/gpio/gpio-rtd.c:71: warning: Function parameter or member 'num_gpda' not described in 'rtd_gpio_info'
->> drivers/gpio/gpio-rtd.c:71: warning: Function parameter or member 'num_deb' not described in 'rtd_gpio_info'
+vim +/__pcpu_scope_overflow_stack +405 arch/riscv/kernel/traps.c
 
-
-vim +71 drivers/gpio/gpio-rtd.c
-
-    34	
-    35	/**
-    36	 * struct rtd_gpio_info - Specific GPIO register information
-    37	 * @name: GPIO device name
-    38	 * @type: RTD GPIO ID
-    39	 * @gpio_base: GPIO base number
-    40	 * @num_gpios: Number of GPIOs
-    41	 * @dir_offset: Offset for GPIO direction registers
-    42	 * @dato_offset: Offset for GPIO data output registers
-    43	 * @dati_offset: Offset for GPIO data input registers
-    44	 * @ie_offset: Offset for GPIO interrupt enable registers
-    45	 * @dp_offset: Offset for GPIO detection polarity registers
-    46	 * @gpa_offset: Offset for GPIO assert interrupt status registers
-    47	 * @gpda_offset: Offset for GPIO deassert interrupt status registers
-    48	 * @deb_offset: Offset for GPIO debounce registers
-    49	 */
-    50	struct rtd_gpio_info {
-    51		const char		*name;
-    52		enum rtd_gpio_type	type;
-    53		unsigned int		gpio_base;
-    54		unsigned int		num_gpios;
-    55		u8			*dir_offset;
-    56		u8			num_dir;
-    57		u8			*dato_offset;
-    58		u8			num_dato;
-    59		u8			*dati_offset;
-    60		u8			num_dati;
-    61		u8			*ie_offset;
-    62		u8			num_ie;
-    63		u8			*dp_offset;
-    64		u8			num_dp;
-    65		u8			*gpa_offset;
-    66		u8			num_gpa;
-    67		u8			*gpda_offset;
-    68		u8			num_gpda;
-    69		u8			*deb_offset;
-    70		u8			num_deb;
-  > 71	};
-    72	
+   403	
+   404	#ifdef CONFIG_VMAP_STACK
+ > 405	DEFINE_PER_CPU(unsigned long [OVERFLOW_STACK_SIZE/sizeof(long)],
+   406			overflow_stack)__aligned(16);
+   407	
 
 -- 
 0-DAY CI Kernel Test Service
