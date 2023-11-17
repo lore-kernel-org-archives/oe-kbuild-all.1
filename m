@@ -1,98 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4676B30F95
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 13:08:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9FADDA7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 13:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FagYyY81"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700226507; x=1731762507;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xkaVHL3tFGeBn4BZ93EHL8cAlgVs4wOIQHp2pZFPBFw=;
-  b=FagYyY81e8kBiPXcpxt6zGGHw9EsLZ1d250SwtsSbLEwX8X3QOA/+te8
-   8jagWEWV0r3/ONhvkS8nqvYfcOYVU6GHXMJiDnhXaerZ5cJuudro6DTaI
-   SmYQBFtdE0/mJfhbUUkMIV+uEB/ewPplN6u9D4MJMkpIzrGxs8+zF/V81
-   Lf8Eqsxya+y2p8i2urh1govNYlWSa53K63jkMTqGrxyru3IUikRWLr3at
-   rK/vHUbZRUVV2OOTsPqgGiYt5P9v0/P+9x3bkqdN+5HubnGD1jNixj7Mi
-   vtz06l2MNx6op3ZbnkEi9RE5GW+PTbcmwrPreM2PcKZ5VtyLGwTJdQaz7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="395222865"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="395222865"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 05:08:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="1012929239"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="1012929239"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Nov 2023 05:08:23 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3ya4-0002od-39;
-	Fri, 17 Nov 2023 13:08:20 +0000
-Date: Fri, 17 Nov 2023 21:07:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	linux-doc@vger.kernel.org
-Subject: [linux-next:master 1819/1905] htmldocs:
- ./security/landlock/ruleset.h:287: warning: This comment starts with '/**',
- but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202311172010.AfFjwTiU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="GJk4W7B/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+	t=1700226962; x=1700831762; i=deller@gmx.de;
+	bh=d41I09Of2YlpgB5uKQmlEG1iefIIC8G5swjr11flPyo=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=GJk4W7B/O63ROlPHsvyZOSwZhK54Vnq8sHJrbntTrRfPeHa2nJ7usEdEN+htuPqX
+	 x2PCTNO04TIdWkNNcoQskLqYQwaejTKMoEWoqOSyLVr6uGYCBMRNt1muxFOp1iAVd
+	 0Erz1AbBjjLp6Hu+A22rBy3dNJsBN52W7c84eDys2wIUL1h9oBeuYv1yZqjncS93y
+	 eif23/doi8HDInR0o1sPokjwbNN2ME3piFHN91GuhWwLeMTbKhP4sVZLCFHwtF8+3
+	 jNp2JA/KGxSIv4ToDn9VgYpTr5b1SO9KU4PJPabbIf3++ivsMqbvwQbyMK4O4EQPQ
+	 LOI5RGSk3e/ZEP1glg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.147.146]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPXhA-1qhNND3qRG-00MY58; Fri, 17
+ Nov 2023 14:16:01 +0100
+Message-ID: <a13df827-cd2c-481f-87ed-719936b96c41@gmx.de>
+Date: Fri, 17 Nov 2023 14:16:00 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: missing
+ identifier in declaration
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <202311172127.5PEz8XzL-lkp@intel.com>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <202311172127.5PEz8XzL-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:2MP6qMlCT/3DOVaYbo8+pNmyqfSBpXdNqAW4coAnpeI5F2VA8Pw
+ +f6/xLpivG46BLMnilf5MPmFUgCCbHYWZoNAuierL1QsHYD9TaSf2//EMs9byWAcdJeIuV6
+ 4E6jpv8ZzFBADu9ciXSHI4m3Uq4u8xV7hHNff9gy3MCjBxmoAN8haJAssF64NF4m8X6AFeH
+ 9PcpQvnS64bmyLrh5LOHQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:O3WHSLZvOek=;tR9F4A/2IlCFkWUzqGuRl+tEWCX
+ In71UCJTwCeeyLuW7yWIMc9Px/0TvNUSClHcVv+yeo5FRl3wtP9wUPHYGG8jIjem63mYlwAZ0
+ yPhWtuD7IiMPJG7uoy5d4Ryo8A9hIhrWZrDuOO8993ajI32nKGKNoIGfmlomvF5rA858l8OFD
+ bm35VE0ajKAUdLCiwpfZuOno80Rud4KF4UCzidaPbnLbOQiO3kNmuzylr6KwOnmZXrszNt+Nw
+ Z2o+N40DrmD3LcKW1C7HeJvwvcwbc7FKI32XHBVwrBugONF2ba2Cr8Qp0H6f/mmJQjti8SHkJ
+ PEtJtfDqPkCxWo7F1YI96GwZENO4Nrn6O+1UiMK44VTj64penSiW0a/Ci5OT/TWHr18SBUR+W
+ E5mRbGcJ6fg5KDbGa0DPTX6UNG5elIOYFsAAZFg3Yvo9Omdz1SECSQWisGy+1JcXMvfbIrtif
+ wck/P5XTQYS/VayJLf5pyPK7zWso7aj01cj3KLiFSBeFXMjQPzgwpaiXUF3W1hVx6dyxcE9G7
+ AiYTXbj8p4ZzQ2W7lJ0Y7US99LchCCMw4jf8tlNSKlDzlIvTjsJRfT1ijQmvc8ljzGi5K4WZW
+ V5hW4zC+dVGBP8HA7hSttRWoudZFA+REf4S3rV7CI+y6L2iM7JIuk4GqNLXchLSEG/1s6lRek
+ bsHguDA9EaNw3c9OrFecmOX34EZ+UZt04vEiJi0OeDc3IcvnmlSfGxjjHzUOPeqEw07DS4wkD
+ jy1Z3XHlA2YOsBHBzVySHVOSUMYzmIFU83Vbmka36bo3Pp40EZCk8S5DQBWhVHZhXr31TWwOR
+ Y+nf8BGM9atKA1n47I5h06JcmnrsgsqqRx4YnxRvsYB3LiXhVKf/byDP6fiJvD4zTX0XUi2We
+ OFxcY9hUV00yeTFw5+QPQFy3AAwUGvx72fRoUfXfxNtpc7FybMwhgHtDA82k/zUdFYJq0nl7J
+ mEdWrHhKplgTRg2mUOOARf0VQMI=
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   eff99d8edbed7918317331ebd1e365d8e955d65e
-commit: f3672f581e951204d0ff4570a04daef1b81e182c [1819/1905] landlock: Add IOCTL access right
-reproduce: (https://download.01.org/0day-ci/archive/20231117/202311172010.AfFjwTiU-lkp@intel.com/reproduce)
+On 11/17/23 14:07, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
+it master
+> head:   7475e51b87969e01a6812eac713a1c8310372e8a
+> commit: 4800a6215e335c6dade05e10c8fdbf919c04a3a7 parisc: Wire up eBPF JI=
+T compiler
+> date:   3 months ago
+> config: parisc-randconfig-r113-20231115 (https://download.01.org/0day-ci=
+/archive/20231117/202311172127.5PEz8XzL-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231117/20231117212=
+7.5PEz8XzL-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
+sion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311172127.5PEz8XzL-lk=
+p@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: missing ident=
+ifier in declaration
+>     arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: Expected ; =
+at the end of type declaration
+>     arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: got $
+>     arch/parisc/net/bpf_jit_comp32.c:322:13: sparse: sparse: Expected ; =
+at the end of type declaration
+>     arch/parisc/net/bpf_jit_comp32.c:322:13: sparse: sparse: got $
+>     arch/parisc/net/bpf_jit_comp32.c:323:13: sparse: sparse: Expected ; =
+at the end of type declaration
+>     arch/parisc/net/bpf_jit_comp32.c:323:13: sparse: sparse: got $
+>     arch/parisc/net/bpf_jit_comp32.c:666:37: sparse: sparse: Expected ) =
+in function call
+>     arch/parisc/net/bpf_jit_comp32.c:666:37: sparse: sparse: got $
+>     arch/parisc/net/bpf_jit_comp32.c:669:37: sparse: sparse: Expected ) =
+in function call
+>     arch/parisc/net/bpf_jit_comp32.c:669:37: sparse: sparse: got $
+>     arch/parisc/net/bpf_jit_comp32.c:672:37: sparse: sparse: Expected ) =
+in function call
+>     arch/parisc/net/bpf_jit_comp32.c:672:37: sparse: sparse: got $
+>>> arch/parisc/net/bpf_jit_comp32.c:666:36: sparse: sparse: not enough ar=
+guments for function emit_call_millicode
+>     arch/parisc/net/bpf_jit_comp32.c:669:36: sparse: sparse: not enough =
+arguments for function emit_call_millicode
+>     arch/parisc/net/bpf_jit_comp32.c:672:36: sparse: sparse: not enough =
+arguments for function emit_call_millicode
+>
+> vim +321 arch/parisc/net/bpf_jit_comp32.c
+>
+> ceb0e7267693d3 Helge Deller 2023-08-17  319
+> ceb0e7267693d3 Helge Deller 2023-08-17  320  /* extern hppa millicode fu=
+nctions */
+> ceb0e7267693d3 Helge Deller 2023-08-17 @321  extern void $$mulI(void);
+> ceb0e7267693d3 Helge Deller 2023-08-17  322  extern void $$divU(void);
+> ceb0e7267693d3 Helge Deller 2023-08-17  323  extern void $$remU(void);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311172010.AfFjwTiU-lkp@intel.com/
+This is actually a sparse bug.... "$" is a valid character with which func=
+tion
+names may start with (at least on parisc).
 
-All warnings (new ones prefixed by >>):
+Helge
 
->> ./security/landlock/ruleset.h:287: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-
-vim +287 ./security/landlock/ruleset.h
-
-   285	
-   286	/**
- > 287	 * Returns @access with the synthetic IOCTL group flags enabled if necessary.
-   288	 *
-   289	 * @handled: Handled FS access rights.
-   290	 * @access:  FS access rights to expand.
-   291	 *
-   292	 * Returns:
-   293	 * @access expanded by the necessary flags for the synthetic IOCTL access rights.
-   294	 */
-   295	static inline access_mask_t expand_all_ioctl(access_mask_t handled,
-   296						     access_mask_t access)
-   297	{
-   298		return access |
-   299		       expand_ioctl(handled, access, LANDLOCK_ACCESS_FS_WRITE_FILE,
-   300				    IOCTL_CMD_G1 | IOCTL_CMD_G2 | IOCTL_CMD_G4) |
-   301		       expand_ioctl(handled, access, LANDLOCK_ACCESS_FS_READ_FILE,
-   302				    IOCTL_CMD_G1 | IOCTL_CMD_G2 | IOCTL_CMD_G3) |
-   303		       expand_ioctl(handled, access, LANDLOCK_ACCESS_FS_READ_DIR,
-   304				    IOCTL_CMD_G1);
-   305	}
-   306	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
