@@ -1,165 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7992D15AE0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 09:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C7917994
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 10:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHh1ABlI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N6VsVOYD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700214252; x=1731750252;
+  t=1700216197; x=1731752197;
   h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3ufHONy2q+jfTAGtVGR7dO4HOaXhsEv262jrK440I9o=;
-  b=dHh1ABlIqhOMqd8HCfNxa0N8/Wbbdi/BZmHs89p34Bz4nFq9it4PS0hC
-   sr0VrFk0TpiB0HcIYXOk0nbj8MzglPcM/gfFDE0cCDGmvXVKvWVl9xAIk
-   q0eSC8f4g5qc5tSp5uSDmxPbHcqNgXeOwVO8g3rExOf8JI4cV2237smUW
-   4N4IVj8vNjdmIT4fx2Nt4v7cIVrPv2LWgRrmpl+/e1tOPKvA5Kxv1UtwI
-   TZUQRxP/o+SasVSHivvBnSd3Nuuc8OrXpfQ0NMOEKHW41g5Ak3dJZ3SgM
-   OofSw4KW6S55QWv+Ta3bvJGk3/uWC9qraLPHcMnOBbtXkrvSKVOO0IDns
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="4410164"
+   in-reply-to;
+  bh=yJPsPhF5wclSrG0ibvMi58FrGM0vcjhtpxV3DNG0rhg=;
+  b=N6VsVOYDfjOQFFZ1HlLwp/bG4qNi+QCUqxEUWM13lHK5+JfKCF6Bnzj0
+   icR8RfMxHK0tsFgAYSxQ5nYbNeHVsClz4p3rhgHG3ZudJcn7gpWL0Qz2u
+   AmbV09CTmPaJXZPi8Y2Hnn3qwRmuXR+veY1/GgRZ0/h6CDHac5AoaecKP
+   gMXf3Ri8E8jGoNrM4iJisqVQQASG62m21R5esiehebabH3rYxs8QUPn2u
+   10jAh4XuCgIrj0XU5DjlCtCMPj+7CgWapWgB428XpKSk+BFmLv8uF2/v/
+   HtMPUExCJlZLqkvyrUzWSbnIEGN9Lfs786D+7ShQNlsQwS/s9niISPbUM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="455573337"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="4410164"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 01:44:11 -0800
+   d="scan'208";a="455573337"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 02:16:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="889187883"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="889187883"
+   d="scan'208";a="6803264"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 17 Nov 2023 01:44:09 -0800
+  by orviesa002.jf.intel.com with ESMTP; 17 Nov 2023 02:16:36 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r3vOO-0002Yg-1P;
-	Fri, 17 Nov 2023 09:44:05 +0000
-Date: Fri, 17 Nov 2023 17:43:11 +0800
+	id 1r3vtm-0002bR-1W;
+	Fri, 17 Nov 2023 10:16:31 +0000
+Date: Fri, 17 Nov 2023 18:11:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?B?QvZzevZybelueWkgWm9sdOFu?= <zboszormenyi@sicom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: drivers/input/touchscreen/egalax_ts_serial.c:116:21: warning:
- '/input0' directive output may be truncated writing 7 bytes into a region of
- size between 1 and 32
-Message-ID: <202311171716.uIQY5rT4-lkp@intel.com>
+To: Jiawen Wu <jiawenwu@trustnetic.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net] net: wangxun: fix kernel panic due to null pointer
+Message-ID: <ZVc8UrRhUXzzE6FV@6473735b5665>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231117101108.893335-1-jiawenwu@trustnetic.com>
 
-Hi Böszörményi,
+Hi,
 
-FYI, the error/warning still remains.
+Thanks for your patch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7475e51b87969e01a6812eac713a1c8310372e8a
-commit: 6b0f8f9c52efe24d6dac06ab963b7bd91c723751 Input: add eGalaxTouch serial touchscreen driver
-date:   8 years ago
-config: x86_64-buildonly-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20231117/202311171716.uIQY5rT4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231117/202311171716.uIQY5rT4-lkp@intel.com/reproduce)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311171716.uIQY5rT4-lkp@intel.com/
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/kobject.h:21,
-                    from include/linux/module.h:17,
-                    from drivers/input/touchscreen/egalax_ts_serial.c:19:
-   include/linux/sysfs.h: In function 'sysfs_get_dirent':
-   include/linux/sysfs.h:517:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
-     517 |         return kernfs_find_and_get(parent, name);
-         |                                            ^~~~
-         |                                            |
-         |                                            const unsigned char *
-   In file included from include/linux/sysfs.h:15:
-   include/linux/kernfs.h:428:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
-     428 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
-         |                                             ~~~~~~~~~~~~^~~~
-   drivers/input/touchscreen/egalax_ts_serial.c: In function 'egalax_connect':
->> drivers/input/touchscreen/egalax_ts_serial.c:116:21: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-     116 |                  "%s/input0", serio->phys);
-         |                     ^~~~~~~
-   drivers/input/touchscreen/egalax_ts_serial.c:115:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-     115 |         snprintf(egalax->phys, sizeof(egalax->phys),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     116 |                  "%s/input0", serio->phys);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +116 drivers/input/touchscreen/egalax_ts_serial.c
-
-    94	
-    95	/*
-    96	 * egalax_connect() is the routine that is called when someone adds a
-    97	 * new serio device that supports egalax protocol and registers it as
-    98	 * an input device. This is usually accomplished using inputattach.
-    99	 */
-   100	static int egalax_connect(struct serio *serio, struct serio_driver *drv)
-   101	{
-   102		struct egalax *egalax;
-   103		struct input_dev *input_dev;
-   104		int error;
-   105	
-   106		egalax = kzalloc(sizeof(struct egalax), GFP_KERNEL);
-   107		input_dev = input_allocate_device();
-   108		if (!egalax) {
-   109			error = -ENOMEM;
-   110			goto err_free_mem;
-   111		}
-   112	
-   113		egalax->serio = serio;
-   114		egalax->input = input_dev;
-   115		snprintf(egalax->phys, sizeof(egalax->phys),
- > 116			 "%s/input0", serio->phys);
-   117	
-   118		input_dev->name = "EETI eGalaxTouch Serial TouchScreen";
-   119		input_dev->phys = egalax->phys;
-   120		input_dev->id.bustype = BUS_RS232;
-   121		input_dev->id.vendor = SERIO_EGALAX;
-   122		input_dev->id.product = 0;
-   123		input_dev->id.version = 0x0001;
-   124		input_dev->dev.parent = &serio->dev;
-   125	
-   126		input_set_capability(input_dev, EV_KEY, BTN_TOUCH);
-   127		input_set_abs_params(input_dev, ABS_X,
-   128				     EGALAX_MIN_XC, EGALAX_MAX_XC, 0, 0);
-   129		input_set_abs_params(input_dev, ABS_Y,
-   130				     EGALAX_MIN_YC, EGALAX_MAX_YC, 0, 0);
-   131	
-   132		serio_set_drvdata(serio, egalax);
-   133	
-   134		error = serio_open(serio, drv);
-   135		if (error)
-   136			goto err_reset_drvdata;
-   137	
-   138		error = input_register_device(input_dev);
-   139		if (error)
-   140			goto err_close_serio;
-   141	
-   142		return 0;
-   143	
-   144	err_close_serio:
-   145		serio_close(serio);
-   146	err_reset_drvdata:
-   147		serio_set_drvdata(serio, NULL);
-   148	err_free_mem:
-   149		input_free_device(input_dev);
-   150		kfree(egalax);
-   151		return error;
-   152	}
-   153	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH net] net: wangxun: fix kernel panic due to null pointer
+Link: https://lore.kernel.org/stable/20231117101108.893335-1-jiawenwu%40trustnetic.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
