@@ -1,320 +1,251 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345274315D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 19:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4478043AB2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 19:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhUBmVaB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700249955; x=1731785955;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cxz4Xaj1IOahQuZbCn4lsL89rB9lM3XwSgHxfC9bHhs=;
-  b=LhUBmVaB7nPCpFV0WuiHu8UNCkWdK57EqLsAZVx7tZ2XCa+StT3Hkmyb
-   wJ597EQOeGxnL9xwQ+P1h1JwdLrb8WDJ2S5r8OYtRXnUdA3EVjCNNp9y9
-   VElLNkRs5876HzVyn3srXe6RPtotB6LS0e6f8LPi5ARfrYbSNg9Be0POD
-   bHdc5VPlDKnatHqStsLMaqGIUty6fqKl+wqROrc6ZR/3wVQPIPvX8hNNh
-   dGH4EOWRzDJqcfrJIwVzrdkXIVHide0sLVid9YTFootJJOyIpyjb/6GP0
-   dgpQf0TfFcGjOFQLYqZUwyMi4FO7JpGTro5giKLH2fgCPUIBq2jGwvYy+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="371535967"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="371535967"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 11:39:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="1013026095"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="1013026095"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Nov 2023 11:39:12 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r44gI-00034p-2I;
-	Fri, 17 Nov 2023 19:39:10 +0000
-Date: Sat, 18 Nov 2023 03:35:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hverkuil-media-tree:fraction_bits 1/3]
- drivers/media/v4l2-core/v4l2-ctrls-core.c:269:25: error: 'const struct
- v4l2_ctrl' has no member named 'fraction_bits'
-Message-ID: <202311180358.3Jqd10Pe-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ON11Xtfv"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4078fe6a063so10015e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 11:44:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1700250295; x=1700855095; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uH82KyLyY0MGpQ1oskhisGiR92JnjPKjPD6wdaivO9M=;
+        b=ON11Xtfv0UmKV+L0dHaTKJOF8YgnFWhtiVozJOisrLNRy0uwqkvrMWs4e30K5TgEgb
+         eCinCl4mJ27Nw6G7HcqJQbOZGUOKqkZPRVLoKhPgdBO+1wVjWpjD7mzw9XZfoFkHl6B2
+         NIqu6yfCaVpG/NX9zLnIKcCsnKbBl//1kTTN7LY8oidkjMoeMg+QvVZCkh2dVgx6X+/0
+         2IVAYpvS2Re1jveJD2f55skmxMWwGWiN4HwuNCXJQOrocSdz6HrWTQp2rYN060FZpd1/
+         PqSbwo1lpt7IbPfAIyhsU4SCJUW7fpwsVbtghVCqdyEV966KqO69ClvS+LxJWXC/aTeK
+         lk3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700250295; x=1700855095;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uH82KyLyY0MGpQ1oskhisGiR92JnjPKjPD6wdaivO9M=;
+        b=TdQ0IRdb0EJz6UMd8VZqfbbMCaabbwvRqaKgKULLUx8YeSDoY5uf9SkStmcnKhtC3V
+         dWOe5tBxHm3Kvwo1S9Flpxo/rsjxRuQVtX9e67iJYIUS63/VIC4gqXy8bdFUvmsvewZT
+         VzL1l3NLpG5MSG624IroGHhvBBQO2cenE/5hOmFpGc3kOV6Xb97zzEkrrLywzfWrHedp
+         9sQ/MhqFwYIw6G8I4HRoUBKw2HAmA3IjP2vYPGUt3wL+iG8u8SRNx5hjaDTmuyy3ejqP
+         m+6BCMXhZu2eDMS+azlWM/y8Vdwhjs2nvLaUsaMFVM65YSMDKoWqOGrXQXHOJSaO94f1
+         B/Ew==
+X-Gm-Message-State: AOJu0YztMltiBCGzID9em96w6TLvh9jaNHxO48AQkft6nejWHDEZLI7L
+	8DgP7oTPG8IF0tYLMvv3Chhm32g8cQ0JofFYzucNRQ==
+X-Google-Smtp-Source: AGHT+IF7KOIGm8pgTMbbQoxb87rgd/7FRl+zIWO3sJM649IAWg1afr67XhaZMxxm651cUYUmizQTsTO4FwpluIj5Hhg=
+X-Received: by 2002:a1c:7504:0:b0:404:74f8:f47c with SMTP id
+ o4-20020a1c7504000000b0040474f8f47cmr35527wmc.5.1700250295208; Fri, 17 Nov
+ 2023 11:44:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20231113233301.1020992-5-lixiaoyan@google.com> <202311162002.m26ObVLU-lkp@intel.com>
+In-Reply-To: <202311162002.m26ObVLU-lkp@intel.com>
+From: Coco Li <lixiaoyan@google.com>
+Date: Fri, 17 Nov 2023 11:44:41 -0800
+Message-ID: <CADjXwjjPrhDF3hfPWKrXxCkJjwBJDfumFkAvCPg2gvOBme2sTA@mail.gmail.com>
+Subject: Re: [PATCH v7 net-next 4/5] net-device: reorganize net_device fast
+ path variables
+To: kernel test robot <lkp@intel.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, 
+	Neal Cardwell <ncardwell@google.com>, Mubashir Adnan Qureshi <mubashirq@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	David Ahern <dsahern@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
+	Chao Wu <wwchao@google.com>, Wei Wang <weiwan@google.com>, 
+	Pradeep Nemavat <pnemavat@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git fraction_bits
-head:   4eb67a5410cf98ca3636ddca34c61ad48f1ea0ae
-commit: d1108d470aed7dd4d6f25f5e165915cb54e7211d [1/3] wip
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231118/202311180358.3Jqd10Pe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311180358.3Jqd10Pe-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311180358.3Jqd10Pe-lkp@intel.com/
-
-Note: the hverkuil-media-tree/fraction_bits HEAD 4eb67a5410cf98ca3636ddca34c61ad48f1ea0ae builds fine.
-      It only hurts bisectability.
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/v4l2-core/v4l2-ctrls-core.c: In function 'v4l2_ctrl_type_op_log':
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:269:25: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     269 |                 if (ctrl->fraction_bits) {
-         |                         ^~
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:87,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from drivers/media/v4l2-core/v4l2-ctrls-core.c:9:
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:270:62: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     270 |                         pr_cont("%d", *ptr.p_s32 / (1 << ctrl->fraction_bits));
-         |                                                              ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:270:25: note: in expansion of macro 'pr_cont'
-     270 |                         pr_cont("%d", *ptr.p_s32 / (1 << ctrl->fraction_bits));
-         |                         ^~~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:294:25: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     294 |                 if (ctrl->fraction_bits)
-         |                         ^~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:295:71: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     295 |                         pr_cont("%u.%03u", (unsigned)*ptr.p_u8 >> ctrl->fraction_bits,
-         |                                                                       ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:295:25: note: in expansion of macro 'pr_cont'
-     295 |                         pr_cont("%u.%03u", (unsigned)*ptr.p_u8 >> ctrl->fraction_bits,
-         |                         ^~~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:296:67: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     296 |                                 (unsigned)*ptr.p_u8 & ((1U << ctrl->fraction_bits) - 1));
-         |                                                                   ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:295:25: note: in expansion of macro 'pr_cont'
-     295 |                         pr_cont("%u.%03u", (unsigned)*ptr.p_u8 >> ctrl->fraction_bits,
-         |                         ^~~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:301:25: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     301 |                 if (ctrl->fraction_bits)
-         |                         ^~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:302:72: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     302 |                         pr_cont("%u.%05u", (unsigned)*ptr.p_u16 >> ctrl->fraction_bits,
-         |                                                                        ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:302:25: note: in expansion of macro 'pr_cont'
-     302 |                         pr_cont("%u.%05u", (unsigned)*ptr.p_u16 >> ctrl->fraction_bits,
-         |                         ^~~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:303:68: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     303 |                                 (unsigned)*ptr.p_u16 & ((1U << ctrl->fraction_bits) - 1));
-         |                                                                    ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:302:25: note: in expansion of macro 'pr_cont'
-     302 |                         pr_cont("%u.%05u", (unsigned)*ptr.p_u16 >> ctrl->fraction_bits,
-         |                         ^~~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:308:25: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     308 |                 if (ctrl->fraction_bits)
-         |                         ^~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:309:72: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     309 |                         pr_cont("%u.%09u", (unsigned)*ptr.p_u32 >> ctrl->fraction_bits,
-         |                                                                        ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:309:25: note: in expansion of macro 'pr_cont'
-     309 |                         pr_cont("%u.%09u", (unsigned)*ptr.p_u32 >> ctrl->fraction_bits,
-         |                         ^~~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:310:68: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
-     310 |                                 (unsigned)*ptr.p_u32 & ((1U << ctrl->fraction_bits) - 1));
-         |                                                                    ^~
-   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
-     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:309:25: note: in expansion of macro 'pr_cont'
-     309 |                         pr_cont("%u.%09u", (unsigned)*ptr.p_u32 >> ctrl->fraction_bits,
+Spending some time setting up a clang17 compatible environment, will
+update soon.
 
 
-vim +269 drivers/media/v4l2-core/v4l2-ctrls-core.c
-
-   254	
-   255	void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
-   256	{
-   257		union v4l2_ctrl_ptr ptr = ctrl->p_cur;
-   258	
-   259		if (ctrl->is_array) {
-   260			unsigned i;
-   261	
-   262			for (i = 0; i < ctrl->nr_of_dims; i++)
-   263				pr_cont("[%u]", ctrl->dims[i]);
-   264			pr_cont(" ");
-   265		}
-   266	
-   267		switch (ctrl->type) {
-   268		case V4L2_CTRL_TYPE_INTEGER:
- > 269			if (ctrl->fraction_bits) {
-   270				pr_cont("%d", *ptr.p_s32 / (1 << ctrl->fraction_bits));
-   271			} else {
-   272				pr_cont("%d", *ptr.p_s32);
-   273			}
-   274			break;
-   275		case V4L2_CTRL_TYPE_BOOLEAN:
-   276			pr_cont("%s", *ptr.p_s32 ? "true" : "false");
-   277			break;
-   278		case V4L2_CTRL_TYPE_MENU:
-   279			pr_cont("%s", ctrl->qmenu[*ptr.p_s32]);
-   280			break;
-   281		case V4L2_CTRL_TYPE_INTEGER_MENU:
-   282			pr_cont("%lld", ctrl->qmenu_int[*ptr.p_s32]);
-   283			break;
-   284		case V4L2_CTRL_TYPE_BITMASK:
-   285			pr_cont("0x%08x", *ptr.p_s32);
-   286			break;
-   287		case V4L2_CTRL_TYPE_INTEGER64:
-   288			pr_cont("%lld", *ptr.p_s64);
-   289			break;
-   290		case V4L2_CTRL_TYPE_STRING:
-   291			pr_cont("%s", ptr.p_char);
-   292			break;
-   293		case V4L2_CTRL_TYPE_U8:
-   294			if (ctrl->fraction_bits)
-   295				pr_cont("%u.%03u", (unsigned)*ptr.p_u8 >> ctrl->fraction_bits,
-   296					(unsigned)*ptr.p_u8 & ((1U << ctrl->fraction_bits) - 1));
-   297			else
-   298				pr_cont("%u", (unsigned)*ptr.p_u8);
-   299			break;
-   300		case V4L2_CTRL_TYPE_U16:
-   301			if (ctrl->fraction_bits)
-   302				pr_cont("%u.%05u", (unsigned)*ptr.p_u16 >> ctrl->fraction_bits,
-   303					(unsigned)*ptr.p_u16 & ((1U << ctrl->fraction_bits) - 1));
-   304			else
-   305				pr_cont("%u", (unsigned)*ptr.p_u16);
-   306			break;
-   307		case V4L2_CTRL_TYPE_U32:
-   308			if (ctrl->fraction_bits)
-   309				pr_cont("%u.%09u", (unsigned)*ptr.p_u32 >> ctrl->fraction_bits,
-   310					(unsigned)*ptr.p_u32 & ((1U << ctrl->fraction_bits) - 1));
-   311			else
-   312				pr_cont("%u", (unsigned)*ptr.p_u32);
-   313			break;
-   314		case V4L2_CTRL_TYPE_H264_SPS:
-   315			pr_cont("H264_SPS");
-   316			break;
-   317		case V4L2_CTRL_TYPE_H264_PPS:
-   318			pr_cont("H264_PPS");
-   319			break;
-   320		case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
-   321			pr_cont("H264_SCALING_MATRIX");
-   322			break;
-   323		case V4L2_CTRL_TYPE_H264_SLICE_PARAMS:
-   324			pr_cont("H264_SLICE_PARAMS");
-   325			break;
-   326		case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
-   327			pr_cont("H264_DECODE_PARAMS");
-   328			break;
-   329		case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
-   330			pr_cont("H264_PRED_WEIGHTS");
-   331			break;
-   332		case V4L2_CTRL_TYPE_FWHT_PARAMS:
-   333			pr_cont("FWHT_PARAMS");
-   334			break;
-   335		case V4L2_CTRL_TYPE_VP8_FRAME:
-   336			pr_cont("VP8_FRAME");
-   337			break;
-   338		case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
-   339			pr_cont("HDR10_CLL_INFO");
-   340			break;
-   341		case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
-   342			pr_cont("HDR10_MASTERING_DISPLAY");
-   343			break;
-   344		case V4L2_CTRL_TYPE_MPEG2_QUANTISATION:
-   345			pr_cont("MPEG2_QUANTISATION");
-   346			break;
-   347		case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
-   348			pr_cont("MPEG2_SEQUENCE");
-   349			break;
-   350		case V4L2_CTRL_TYPE_MPEG2_PICTURE:
-   351			pr_cont("MPEG2_PICTURE");
-   352			break;
-   353		case V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR:
-   354			pr_cont("VP9_COMPRESSED_HDR");
-   355			break;
-   356		case V4L2_CTRL_TYPE_VP9_FRAME:
-   357			pr_cont("VP9_FRAME");
-   358			break;
-   359		case V4L2_CTRL_TYPE_HEVC_SPS:
-   360			pr_cont("HEVC_SPS");
-   361			break;
-   362		case V4L2_CTRL_TYPE_HEVC_PPS:
-   363			pr_cont("HEVC_PPS");
-   364			break;
-   365		case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
-   366			pr_cont("HEVC_SLICE_PARAMS");
-   367			break;
-   368		case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
-   369			pr_cont("HEVC_SCALING_MATRIX");
-   370			break;
-   371		case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
-   372			pr_cont("HEVC_DECODE_PARAMS");
-   373			break;
-   374		case V4L2_CTRL_TYPE_AV1_SEQUENCE:
-   375			pr_cont("AV1_SEQUENCE");
-   376			break;
-   377		case V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY:
-   378			pr_cont("AV1_TILE_GROUP_ENTRY");
-   379			break;
-   380		case V4L2_CTRL_TYPE_AV1_FRAME:
-   381			pr_cont("AV1_FRAME");
-   382			break;
-   383		case V4L2_CTRL_TYPE_AV1_FILM_GRAIN:
-   384			pr_cont("AV1_FILM_GRAIN");
-   385			break;
-   386	
-   387		default:
-   388			pr_cont("unknown type %d", ctrl->type);
-   389			break;
-   390		}
-   391	}
-   392	EXPORT_SYMBOL(v4l2_ctrl_type_op_log);
-   393	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Thu, Nov 16, 2023 at 4:40=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Coco,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on net-next/main]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Coco-Li/Documentat=
+ions-Analyze-heavily-used-Networking-related-structs/20231114-073648
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20231113233301.1020992-5-lixiaoy=
+an%40google.com
+> patch subject: [PATCH v7 net-next 4/5] net-device: reorganize net_device =
+fast path variables
+> config: powerpc-mpc8313_rdb_defconfig (https://download.01.org/0day-ci/ar=
+chive/20231116/202311162002.m26ObVLU-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git =
+4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20231116/202311162002.m26ObVLU-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311162002.m26ObVLU-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    net/core/dev.c:4079:1: warning: unused function 'sch_handle_ingress' [=
+-Wunused-function]
+>     4079 | sch_handle_ingress(struct sk_buff *skb, struct packet_type **p=
+t_prev, int *ret,
+>          | ^
+>    net/core/dev.c:4086:1: warning: unused function 'sch_handle_egress' [-=
+Wunused-function]
+>     4086 | sch_handle_egress(struct sk_buff *skb, int *ret, struct net_de=
+vice *dev)
+>          | ^
+>    net/core/dev.c:5296:19: warning: unused function 'nf_ingress' [-Wunuse=
+d-function]
+>     5296 | static inline int nf_ingress(struct sk_buff *skb, struct packe=
+t_type **pt_prev,
+>          |                   ^
+> >> net/core/dev.c:11547:2: error: call to '__compiletime_assert_971' decl=
+ared with 'error' attribute: BUILD_BUG_ON failed: offsetof(struct net_devic=
+e, __cacheline_group_end__net_device_read_txrx) - offsetofend(struct net_de=
+vice, __cacheline_group_begin__net_device_read_txrx) > 24
+>     11547 |         CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_de=
+vice_read_txrx, 24);
+>           |         ^
+>    include/linux/cache.h:108:2: note: expanded from macro 'CACHELINE_ASSE=
+RT_GROUP_SIZE'
+>      108 |         BUILD_BUG_ON(offsetof(TYPE, __cacheline_group_end__##G=
+ROUP) - \
+>          |         ^
+>    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_O=
+N'
+>       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #c=
+ondition)
+>          |         ^
+>    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_=
+ON_MSG'
+>       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond)=
+, msg)
+>          |                                     ^
+>    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+>    include/linux/compiler_types.h:423:2: note: expanded from macro '_comp=
+iletime_assert'
+>      423 |         __compiletime_assert(condition, msg, prefix, suffix)
+>          |         ^
+>    include/linux/compiler_types.h:416:4: note: expanded from macro '__com=
+piletime_assert'
+>      416 |                         prefix ## suffix();                   =
+          \
+>          |                         ^
+>    <scratch space>:11:1: note: expanded from here
+>       11 | __compiletime_assert_971
+>          | ^
+>    3 warnings and 1 error generated.
+>
+>
+> vim +11547 net/core/dev.c
+>
+>  11515
+>  11516  static void __init net_dev_struct_check(void)
+>  11517  {
+>  11518          /* TX read-mostly hotpath */
+>  11519          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, priv_flags);
+>  11520          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, netdev_ops);
+>  11521          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, header_ops);
+>  11522          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, _tx);
+>  11523          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, real_num_tx_queues);
+>  11524          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, gso_max_size);
+>  11525          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, gso_ipv4_max_size);
+>  11526          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, gso_max_segs);
+>  11527          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, num_tc);
+>  11528          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, mtu);
+>  11529          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, needed_headroom);
+>  11530          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, tc_to_txq);
+>  11531  #ifdef CONFIG_XPS
+>  11532          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, xps_maps);
+>  11533  #endif
+>  11534  #ifdef CONFIG_NETFILTER_EGRESS
+>  11535          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, nf_hooks_egress);
+>  11536  #endif
+>  11537  #ifdef CONFIG_NET_XGRESS
+>  11538          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_tx, tcx_egress);
+>  11539  #endif
+>  11540          CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device=
+_read_tx, 152);
+>  11541
+>  11542          /* TXRX read-mostly hotpath */
+>  11543          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_txrx, flags);
+>  11544          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_txrx, hard_header_len);
+>  11545          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_txrx, features);
+>  11546          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_txrx, ip6_ptr);
+>  11547          CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device=
+_read_txrx, 24);
+>  11548
+>  11549          /* RX read-mostly hotpath */
+>  11550          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, ptype_specific);
+>  11551          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, ifindex);
+>  11552          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, real_num_rx_queues);
+>  11553          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, _rx);
+>  11554          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, gro_flush_timeout);
+>  11555          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, napi_defer_hard_irqs);
+>  11556          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, gro_max_size);
+>  11557          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, gro_ipv4_max_size);
+>  11558          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, rx_handler);
+>  11559          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, rx_handler_data);
+>  11560          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, nd_net);
+>  11561  #ifdef CONFIG_NETPOLL
+>  11562          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, npinfo);
+>  11563  #endif
+>  11564  #ifdef CONFIG_NET_XGRESS
+>  11565          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_devi=
+ce_read_rx, tcx_ingress);
+>  11566  #endif
+>  11567          CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device=
+_read_rx, 96);
+>  11568  }
+>  11569
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
