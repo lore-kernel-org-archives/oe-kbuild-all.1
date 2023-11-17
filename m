@@ -1,47 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79D13717C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 16:13:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FA232C8A;
+	Fri, 17 Nov 2023 16:14:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYbUlvoW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXH4otYD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700237601; x=1731773601;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=vy2s8mYSFL5dJxaQns/JKEAR02Q+yzAmdd+0GYo9N88=;
-  b=TYbUlvoWHIxgUSO35AQAUrdv8nBlWOvwWy435es4lCidwRR4MNWAzdJO
-   I3M0tzvEk7x9Ei710TNPVGErcXrq4lKvR4t6QYC0y3XB+Z/6lSj/tEz9I
-   5syrPa/mDgW+YD5Zkr9kwf+0dhDJuieHuanJ+wFdXHwj8iaSgkB/CqwG1
-   x9Ju2NKePjTUfBhPw495fGZtGa5ZtupcjZZn1ua0zQBY7dFkYGx/iB1PC
-   smGqq2EnydPhVOxKWWdU/vy8bYPYH8pDQsmOzCzz/0zmcXwcgdhDSpn3T
-   1eaN6ouxmwNmv1lTb9LrxwoQaada6ZMfttBGoR180V2HeNzuO9wkuU6wR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="394172716"
+  t=1700237679; x=1731773679;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NI2VBdU0kL7e3DDwI2MC3cO07kHxp55zQbUgUsZ/B9s=;
+  b=KXH4otYD/hMammtSdMtcUJ4PwkDpWZCoyFqtvWzpxedCyz90s077E6ML
+   u5ZxPZDkCOX/SdmLPGcx8IRYka4gfCAXGrOEn+G8yeu0gI9HlTCYIijY1
+   zJychABN9n3B5+u58NFGptDP9WG4mzlVTVV1UPHd8nSOu05tJIMZ+PG9n
+   e01zHEm0eIUH6KMiX1GDVF4W5hciE5AjmbdGC1IMiWDkabFIvKP3ROsFv
+   M8SRtAGV5GAuvl9MA99jU8yL3frDQLW9Jy/w/0HNoculowWxatzVOn/4I
+   CVeXbHGrb+Rl4tVU8B5UUi59m6+pGyKoAZrsAFyf7i5THfNM7NlaAzkXz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="388472639"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="394172716"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 08:13:20 -0800
+   d="scan'208";a="388472639"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 08:14:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="889282546"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="889282546"
+   d="scan'208";a="7055238"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 17 Nov 2023 08:13:19 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2023 08:14:19 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r41T2-0002v6-2f;
-	Fri, 17 Nov 2023 16:13:16 +0000
-Date: Sat, 18 Nov 2023 00:13:16 +0800
+	id 1r41U0-0002vD-2k;
+	Fri, 17 Nov 2023 16:14:16 +0000
+Date: Sat, 18 Nov 2023 00:13:27 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y-cicd 18/21]
- drivers/tty/serial/8250/8250_omap.c:1251:15: error: implicit declaration of
- function 'pinctrl_select_state'
-Message-ID: <202311172355.BvDAMXgJ-lkp@intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v4 2/2] media: i2c: Add driver for OmniVision OV64A40
+Message-ID: <202311180044.xY99kUW9-lkp@intel.com>
+References: <20231115141507.37572-3-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,70 +55,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231115141507.37572-3-jacopo.mondi@ideasonboard.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   3d320fa61172b4a33d1c11e57374cc6880562ae0
-commit: 9a2c8fd78ca6eb30b1ea6aa3400d74871a51dca0 [18/21] serial: 8250: omap: Support wakeup pinctrl state
-config: sh-randconfig-002-20231117 (https://download.01.org/0day-ci/archive/20231117/202311172355.BvDAMXgJ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231117/202311172355.BvDAMXgJ-lkp@intel.com/reproduce)
+Hi Jacopo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 61ab89c1916219ccbeca9f6cefb1680212de8d1c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-dt-bindings-Add-OmniVision-OV64A40/20231115-221906
+base:   61ab89c1916219ccbeca9f6cefb1680212de8d1c
+patch link:    https://lore.kernel.org/r/20231115141507.37572-3-jacopo.mondi%40ideasonboard.com
+patch subject: [PATCH v4 2/2] media: i2c: Add driver for OmniVision OV64A40
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20231118/202311180044.xY99kUW9-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311180044.xY99kUW9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311172355.BvDAMXgJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311180044.xY99kUW9-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_omap.c: In function 'omap8250_sysoff_handler':
->> drivers/tty/serial/8250/8250_omap.c:1251:15: error: implicit declaration of function 'pinctrl_select_state' [-Werror=implicit-function-declaration]
-    1251 |         ret = pinctrl_select_state(priv->pinctrl, priv->pinctrl_wakeup);
-         |               ^~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_omap.c: In function 'omap8250_probe':
->> drivers/tty/serial/8250/8250_omap.c:1482:25: error: implicit declaration of function 'devm_pinctrl_get'; did you mean 'of_pinctrl_get'? [-Werror=implicit-function-declaration]
-    1482 |         priv->pinctrl = devm_pinctrl_get(&pdev->dev);
-         |                         ^~~~~~~~~~~~~~~~
-         |                         of_pinctrl_get
->> drivers/tty/serial/8250/8250_omap.c:1482:23: warning: assignment to 'struct pinctrl *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1482 |         priv->pinctrl = devm_pinctrl_get(&pdev->dev);
-         |                       ^
->> drivers/tty/serial/8250/8250_omap.c:1484:41: error: implicit declaration of function 'pinctrl_lookup_state' [-Werror=implicit-function-declaration]
-    1484 |                 priv->pinctrl_default = pinctrl_lookup_state(priv->pinctrl, "default");
-         |                                         ^~~~~~~~~~~~~~~~~~~~
->> drivers/tty/serial/8250/8250_omap.c:1484:39: warning: assignment to 'struct pinctrl_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1484 |                 priv->pinctrl_default = pinctrl_lookup_state(priv->pinctrl, "default");
-         |                                       ^
-   drivers/tty/serial/8250/8250_omap.c:1485:38: warning: assignment to 'struct pinctrl_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1485 |                 priv->pinctrl_wakeup = pinctrl_lookup_state(priv->pinctrl, "wakeup");
-         |                                      ^
-   cc1: some warnings being treated as errors
+   In file included from drivers/media/i2c/ov64a40.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/media/i2c/ov64a40.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/media/i2c/ov64a40.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/media/i2c/ov64a40.c:119:18: warning: unused variable 'ov64a40_link_freq_menu' [-Wunused-const-variable]
+     119 | static const s64 ov64a40_link_freq_menu[] = {
+         |                  ^
+   7 warnings generated.
 
 
-vim +/pinctrl_select_state +1251 drivers/tty/serial/8250/8250_omap.c
+vim +/ov64a40_link_freq_menu +119 drivers/media/i2c/ov64a40.c
 
-  1237	
-  1238	static int omap8250_sysoff_handler(struct sys_off_data *data)
-  1239	{
-  1240		struct omap8250_priv *priv = dev_get_drvdata(data->dev);
-  1241		int ret;
-  1242	
-  1243		dev_dbg(data->dev, "sysoff handler\n");
-  1244	
-  1245		if (IS_ERR_OR_NULL(priv->pinctrl_wakeup))
-  1246			return NOTIFY_DONE;
-  1247	
-  1248		if (!device_may_wakeup(data->dev))
-  1249			return NOTIFY_DONE;
-  1250	
-> 1251		ret = pinctrl_select_state(priv->pinctrl, priv->pinctrl_wakeup);
-  1252		if (ret)
-  1253			dev_err(data->dev, "Failed to select pinctrl state 'wakeup', continuing poweroff\n");
-  1254	
-  1255		dev_dbg(data->dev, "Setup wakeup pinctrl\n");
-  1256	
-  1257		return NOTIFY_DONE;
-  1258	}
-  1259	
+   118	
+ > 119	static const s64 ov64a40_link_freq_menu[] = {
+   120		OV64A40_LINK_FREQ_456M,
+   121		OV64A40_LINK_FREQ_360M
+   122	};
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
