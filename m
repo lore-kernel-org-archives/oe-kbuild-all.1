@@ -1,170 +1,216 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9FADDA7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 13:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9516430344;
+	Fri, 17 Nov 2023 13:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="GJk4W7B/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1700226962; x=1700831762; i=deller@gmx.de;
-	bh=d41I09Of2YlpgB5uKQmlEG1iefIIC8G5swjr11flPyo=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=GJk4W7B/O63ROlPHsvyZOSwZhK54Vnq8sHJrbntTrRfPeHa2nJ7usEdEN+htuPqX
-	 x2PCTNO04TIdWkNNcoQskLqYQwaejTKMoEWoqOSyLVr6uGYCBMRNt1muxFOp1iAVd
-	 0Erz1AbBjjLp6Hu+A22rBy3dNJsBN52W7c84eDys2wIUL1h9oBeuYv1yZqjncS93y
-	 eif23/doi8HDInR0o1sPokjwbNN2ME3piFHN91GuhWwLeMTbKhP4sVZLCFHwtF8+3
-	 jNp2JA/KGxSIv4ToDn9VgYpTr5b1SO9KU4PJPabbIf3++ivsMqbvwQbyMK4O4EQPQ
-	 LOI5RGSk3e/ZEP1glg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.147.146]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPXhA-1qhNND3qRG-00MY58; Fri, 17
- Nov 2023 14:16:01 +0100
-Message-ID: <a13df827-cd2c-481f-87ed-719936b96c41@gmx.de>
-Date: Fri, 17 Nov 2023 14:16:00 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NzZTcuta"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700227816; x=1731763816;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rhtSPekSs7KwRL5a1ctU+DiZKDMVTv8mjNGqU4u6Zhc=;
+  b=NzZTcuta6Q7Dtjzzs7GuFaU5z0Htw/hZqyYnvWdDAeUHYoW0RW2eosau
+   P6+ATCQS6oorn8UZbd1IA6iJHPj4nUBcPkIarc8csEPhUAzhyEJSa9PTx
+   oeGPZyAdNIqmYdLxhYOnrcBpbHdMRFP5DU6vExtBJmX8idbrXrnDI9Fi+
+   vUgP+KhmFoTSxuu+VOrXRod0+4jbsYRmjnN1lV7vbvoC3suLMQn5Dvy6M
+   MkD02ZrIIzDzxlTmSDbMksd4/ZVD9xy0PYYeWmxXT+2uHk0uZHOt12GN9
+   sBiZDoP8GKzsb/lzmetTfZyM8X5xbs5Eh7banVAYjmY2c+1SzgtIA+b4o
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="9960118"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="9960118"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 05:30:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="939148470"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="939148470"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 17 Nov 2023 05:30:14 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r3yvE-0002pX-0X;
+	Fri, 17 Nov 2023 13:30:12 +0000
+Date: Fri, 17 Nov 2023 21:30:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:iov-kunit 1/6] lib/kunit_iov_iter.c:551:47: warning:
+ performing pointer arithmetic on a null pointer has undefined behavior
+Message-ID: <202311172145.ZjpSTmPw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: missing
- identifier in declaration
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <202311172127.5PEz8XzL-lkp@intel.com>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <202311172127.5PEz8XzL-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2MP6qMlCT/3DOVaYbo8+pNmyqfSBpXdNqAW4coAnpeI5F2VA8Pw
- +f6/xLpivG46BLMnilf5MPmFUgCCbHYWZoNAuierL1QsHYD9TaSf2//EMs9byWAcdJeIuV6
- 4E6jpv8ZzFBADu9ciXSHI4m3Uq4u8xV7hHNff9gy3MCjBxmoAN8haJAssF64NF4m8X6AFeH
- 9PcpQvnS64bmyLrh5LOHQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:O3WHSLZvOek=;tR9F4A/2IlCFkWUzqGuRl+tEWCX
- In71UCJTwCeeyLuW7yWIMc9Px/0TvNUSClHcVv+yeo5FRl3wtP9wUPHYGG8jIjem63mYlwAZ0
- yPhWtuD7IiMPJG7uoy5d4Ryo8A9hIhrWZrDuOO8993ajI32nKGKNoIGfmlomvF5rA858l8OFD
- bm35VE0ajKAUdLCiwpfZuOno80Rud4KF4UCzidaPbnLbOQiO3kNmuzylr6KwOnmZXrszNt+Nw
- Z2o+N40DrmD3LcKW1C7HeJvwvcwbc7FKI32XHBVwrBugONF2ba2Cr8Qp0H6f/mmJQjti8SHkJ
- PEtJtfDqPkCxWo7F1YI96GwZENO4Nrn6O+1UiMK44VTj64penSiW0a/Ci5OT/TWHr18SBUR+W
- E5mRbGcJ6fg5KDbGa0DPTX6UNG5elIOYFsAAZFg3Yvo9Omdz1SECSQWisGy+1JcXMvfbIrtif
- wck/P5XTQYS/VayJLf5pyPK7zWso7aj01cj3KLiFSBeFXMjQPzgwpaiXUF3W1hVx6dyxcE9G7
- AiYTXbj8p4ZzQ2W7lJ0Y7US99LchCCMw4jf8tlNSKlDzlIvTjsJRfT1ijQmvc8ljzGi5K4WZW
- V5hW4zC+dVGBP8HA7hSttRWoudZFA+REf4S3rV7CI+y6L2iM7JIuk4GqNLXchLSEG/1s6lRek
- bsHguDA9EaNw3c9OrFecmOX34EZ+UZt04vEiJi0OeDc3IcvnmlSfGxjjHzUOPeqEw07DS4wkD
- jy1Z3XHlA2YOsBHBzVySHVOSUMYzmIFU83Vbmka36bo3Pp40EZCk8S5DQBWhVHZhXr31TWwOR
- Y+nf8BGM9atKA1n47I5h06JcmnrsgsqqRx4YnxRvsYB3LiXhVKf/byDP6fiJvD4zTX0XUi2We
- OFxcY9hUV00yeTFw5+QPQFy3AAwUGvx72fRoUfXfxNtpc7FybMwhgHtDA82k/zUdFYJq0nl7J
- mEdWrHhKplgTRg2mUOOARf0VQMI=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 11/17/23 14:07, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
-it master
-> head:   7475e51b87969e01a6812eac713a1c8310372e8a
-> commit: 4800a6215e335c6dade05e10c8fdbf919c04a3a7 parisc: Wire up eBPF JI=
-T compiler
-> date:   3 months ago
-> config: parisc-randconfig-r113-20231115 (https://download.01.org/0day-ci=
-/archive/20231117/202311172127.5PEz8XzL-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231117/20231117212=
-7.5PEz8XzL-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
-sion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311172127.5PEz8XzL-lk=
-p@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->>> arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: missing ident=
-ifier in declaration
->     arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: Expected ; =
-at the end of type declaration
->     arch/parisc/net/bpf_jit_comp32.c:321:13: sparse: sparse: got $
->     arch/parisc/net/bpf_jit_comp32.c:322:13: sparse: sparse: Expected ; =
-at the end of type declaration
->     arch/parisc/net/bpf_jit_comp32.c:322:13: sparse: sparse: got $
->     arch/parisc/net/bpf_jit_comp32.c:323:13: sparse: sparse: Expected ; =
-at the end of type declaration
->     arch/parisc/net/bpf_jit_comp32.c:323:13: sparse: sparse: got $
->     arch/parisc/net/bpf_jit_comp32.c:666:37: sparse: sparse: Expected ) =
-in function call
->     arch/parisc/net/bpf_jit_comp32.c:666:37: sparse: sparse: got $
->     arch/parisc/net/bpf_jit_comp32.c:669:37: sparse: sparse: Expected ) =
-in function call
->     arch/parisc/net/bpf_jit_comp32.c:669:37: sparse: sparse: got $
->     arch/parisc/net/bpf_jit_comp32.c:672:37: sparse: sparse: Expected ) =
-in function call
->     arch/parisc/net/bpf_jit_comp32.c:672:37: sparse: sparse: got $
->>> arch/parisc/net/bpf_jit_comp32.c:666:36: sparse: sparse: not enough ar=
-guments for function emit_call_millicode
->     arch/parisc/net/bpf_jit_comp32.c:669:36: sparse: sparse: not enough =
-arguments for function emit_call_millicode
->     arch/parisc/net/bpf_jit_comp32.c:672:36: sparse: sparse: not enough =
-arguments for function emit_call_millicode
->
-> vim +321 arch/parisc/net/bpf_jit_comp32.c
->
-> ceb0e7267693d3 Helge Deller 2023-08-17  319
-> ceb0e7267693d3 Helge Deller 2023-08-17  320  /* extern hppa millicode fu=
-nctions */
-> ceb0e7267693d3 Helge Deller 2023-08-17 @321  extern void $$mulI(void);
-> ceb0e7267693d3 Helge Deller 2023-08-17  322  extern void $$divU(void);
-> ceb0e7267693d3 Helge Deller 2023-08-17  323  extern void $$remU(void);
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-kunit
+head:   7c85bb8bf31d419e04c93c10cc5348af1f499d77
+commit: 9176b1c027c84dd5c718df009dd5ef26317d3094 [1/6] iov_iter: Fix some checkpatch complaints in kunit tests
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20231117/202311172145.ZjpSTmPw-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231117/202311172145.ZjpSTmPw-lkp@intel.com/reproduce)
 
-This is actually a sparse bug.... "$" is a valid character with which func=
-tion
-names may start with (at least on parisc).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311172145.ZjpSTmPw-lkp@intel.com/
 
-Helge
+All warnings (new ones prefixed by >>):
 
+   In file included from lib/kunit_iov_iter.c:14:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from lib/kunit_iov_iter.c:14:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from lib/kunit_iov_iter.c:14:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> lib/kunit_iov_iter.c:551:47: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     551 |                         pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   lib/kunit_iov_iter.c:629:47: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     629 |                         pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   lib/kunit_iov_iter.c:712:48: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     712 |                                 pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
+         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   9 warnings generated.
+
+
+vim +551 lib/kunit_iov_iter.c
+
+   521	
+   522	/*
+   523	 * Test the extraction of ITER_KVEC-type iterators.
+   524	 */
+   525	static void __init iov_kunit_extract_pages_kvec(struct kunit *test)
+   526	{
+   527		const struct kvec_test_range *pr;
+   528		struct iov_iter iter;
+   529		struct page **bpages, *pagelist[8], **pages = pagelist;
+   530		struct kvec kvec[8];
+   531		u8 *buffer;
+   532		ssize_t len;
+   533		size_t bufsize, size = 0, npages;
+   534		int i, from;
+   535	
+   536		bufsize = 0x100000;
+   537		npages = bufsize / PAGE_SIZE;
+   538	
+   539		buffer = iov_kunit_create_buffer(test, &bpages, npages);
+   540	
+   541		iov_kunit_load_kvec(test, &iter, READ, kvec, ARRAY_SIZE(kvec),
+   542				    buffer, bufsize, kvec_test_ranges);
+   543		size = iter.count;
+   544	
+   545		pr = kvec_test_ranges;
+   546		from = pr->from;
+   547		do {
+   548			size_t offset0 = LONG_MAX;
+   549	
+   550			for (i = 0; i < ARRAY_SIZE(pagelist); i++)
+ > 551				pagelist[i] = (void *)POISON_POINTER_DELTA + 0x5a;
+   552	
+   553			len = iov_iter_extract_pages(&iter, &pages, 100 * 1024,
+   554						     ARRAY_SIZE(pagelist), 0, &offset0);
+   555			KUNIT_EXPECT_GE(test, len, 0);
+   556			if (len < 0)
+   557				break;
+   558			KUNIT_EXPECT_GE(test, (ssize_t)offset0, 0);
+   559			KUNIT_EXPECT_LT(test, offset0, PAGE_SIZE);
+   560			KUNIT_EXPECT_LE(test, len, size);
+   561			KUNIT_EXPECT_EQ(test, iter.count, size - len);
+   562			size -= len;
+   563	
+   564			if (len == 0)
+   565				break;
+   566	
+   567			for (i = 0; i < ARRAY_SIZE(pagelist); i++) {
+   568				struct page *p;
+   569				ssize_t part = min_t(ssize_t, len, PAGE_SIZE - offset0);
+   570				int ix;
+   571	
+   572				KUNIT_ASSERT_GE(test, part, 0);
+   573				while (from == pr->to) {
+   574					pr++;
+   575					from = pr->from;
+   576					if (from < 0)
+   577						goto stop;
+   578				}
+   579				ix = from / PAGE_SIZE;
+   580				KUNIT_ASSERT_LT(test, ix, npages);
+   581				p = bpages[ix];
+   582				KUNIT_EXPECT_PTR_EQ(test, pagelist[i], p);
+   583				KUNIT_EXPECT_EQ(test, offset0, from % PAGE_SIZE);
+   584				from += part;
+   585				len -= part;
+   586				KUNIT_ASSERT_GE(test, len, 0);
+   587				if (len == 0)
+   588					break;
+   589				offset0 = 0;
+   590			}
+   591	
+   592			if (test->status == KUNIT_FAILURE)
+   593				break;
+   594		} while (iov_iter_count(&iter) > 0);
+   595	
+   596	stop:
+   597		KUNIT_EXPECT_EQ(test, size, 0);
+   598		KUNIT_EXPECT_EQ(test, iter.count, 0);
+   599		KUNIT_SUCCEED();
+   600	}
+   601	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
