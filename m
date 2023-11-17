@@ -1,53 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B074B43174
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 18:55:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345274315D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 19:39:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Il5ui6s7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhUBmVaB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700247301; x=1731783301;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=22IeTBS/0i5e01l93kvTVPXptw53FK4PWLryYKbUdTI=;
-  b=Il5ui6s7J8SIHdKkbZWY15DTnLVClRQofiXkgN9MjxymR2z5wAbA19Cy
-   QiTLeH5uB0I5u3ZMNEH73LnUp+jF3SzxpBt/dFUr/jrdirI3ykybzu/TZ
-   Auo0ovW8RfD5a09dbHtVZBlQBEbGzPgwsCWEopm4gH9yb6KK5Vn6P4+Y8
-   5HDbjqy7PVFV6HOxSfoaR1CkoWIyt6R+zPPeGZKORTwGjgL+wKSfPYxs+
-   fqvWnSQ70sXWAw7VsufdYigwMo3XHMkRnP/GAVO0WK9X6DnZUy+SLjLtR
-   5cQEnHMQNsqMGr6v3a0+HrzoxucKCOcnjQm8Um0cIyUvgdkFrDh+/i+YD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="455650641"
+  t=1700249955; x=1731785955;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cxz4Xaj1IOahQuZbCn4lsL89rB9lM3XwSgHxfC9bHhs=;
+  b=LhUBmVaB7nPCpFV0WuiHu8UNCkWdK57EqLsAZVx7tZ2XCa+StT3Hkmyb
+   wJ597EQOeGxnL9xwQ+P1h1JwdLrb8WDJ2S5r8OYtRXnUdA3EVjCNNp9y9
+   VElLNkRs5876HzVyn3srXe6RPtotB6LS0e6f8LPi5ARfrYbSNg9Be0POD
+   bHdc5VPlDKnatHqStsLMaqGIUty6fqKl+wqROrc6ZR/3wVQPIPvX8hNNh
+   dGH4EOWRzDJqcfrJIwVzrdkXIVHide0sLVid9YTFootJJOyIpyjb/6GP0
+   dgpQf0TfFcGjOFQLYqZUwyMi4FO7JpGTro5giKLH2fgCPUIBq2jGwvYy+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="371535967"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="455650641"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 10:54:58 -0800
+   d="scan'208";a="371535967"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 11:39:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="836148948"
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="1013026095"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="836148948"
+   d="scan'208";a="1013026095"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 17 Nov 2023 10:54:56 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 17 Nov 2023 11:39:12 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r43zS-00033N-0l;
-	Fri, 17 Nov 2023 18:54:54 +0000
-Date: Sat, 18 Nov 2023 02:54:34 +0800
+	id 1r44gI-00034p-2I;
+	Fri, 17 Nov 2023 19:39:10 +0000
+Date: Sat, 18 Nov 2023 03:35:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Karolina Stolarek <karolina.stolarek@intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Andi Shyti <andi.shyti@linux.intel.com>,
-	Nirmoy Das <nirmoy.das@intel.com>
-Subject: Re: [PATCH v7 6/8] drm/ttm/tests: Test simple BO creation and
- validation
-Message-ID: <202311180247.4A61HKYG-lkp@intel.com>
-References: <fe0d1ba291b12e7b4671bee8b95812ac30a469df.1700207346.git.karolina.stolarek@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hverkuil-media-tree:fraction_bits 1/3]
+ drivers/media/v4l2-core/v4l2-ctrls-core.c:269:25: error: 'const struct
+ v4l2_ctrl' has no member named 'fraction_bits'
+Message-ID: <202311180358.3Jqd10Pe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,87 +50,270 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fe0d1ba291b12e7b4671bee8b95812ac30a469df.1700207346.git.karolina.stolarek@intel.com>
 
-Hi Karolina,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc1 next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_resource-and-ttm_sys_man/20231117-165755
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/fe0d1ba291b12e7b4671bee8b95812ac30a469df.1700207346.git.karolina.stolarek%40intel.com
-patch subject: [PATCH v7 6/8] drm/ttm/tests: Test simple BO creation and validation
-config: x86_64-randconfig-122-20231117 (https://download.01.org/0day-ci/archive/20231118/202311180247.4A61HKYG-lkp@intel.com/config)
+tree:   git://linuxtv.org/hverkuil/media_tree.git fraction_bits
+head:   4eb67a5410cf98ca3636ddca34c61ad48f1ea0ae
+commit: d1108d470aed7dd4d6f25f5e165915cb54e7211d [1/3] wip
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231118/202311180358.3Jqd10Pe-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311180247.4A61HKYG-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311180358.3Jqd10Pe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311180247.4A61HKYG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311180358.3Jqd10Pe-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:98:9: sparse: sparse: cast removes address space '__rcu' of expression
->> drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c:98:9: sparse: sparse: cast removes address space '__rcu' of expression
+Note: the hverkuil-media-tree/fraction_bits HEAD 4eb67a5410cf98ca3636ddca34c61ad48f1ea0ae builds fine.
+      It only hurts bisectability.
 
-vim +/__rcu +98 drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+All errors (new ones prefixed by >>):
 
-    59	
-    60	KUNIT_ARRAY_PARAM(ttm_bo_types, ttm_bo_type_cases,
-    61			  ttm_bo_validate_case_desc);
-    62	
-    63	static void ttm_bo_init_reserved_sys_man(struct kunit *test)
-    64	{
-    65		const struct ttm_bo_validate_test_case *params = test->param_value;
-    66		struct ttm_test_devices *priv = test->priv;
-    67		struct ttm_buffer_object *bo;
-    68		struct ttm_place *place;
-    69		struct ttm_placement *placement;
-    70		enum ttm_bo_type bo_type = params->bo_type;
-    71		struct ttm_operation_ctx ctx = { };
-    72		uint32_t size = ALIGN(BO_SIZE, PAGE_SIZE);
-    73		int err;
-    74	
-    75		bo = kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-    76		KUNIT_ASSERT_NOT_NULL(test, bo);
-    77	
-    78		place = ttm_place_kunit_init(test, TTM_PL_SYSTEM, 0);
-    79		placement = ttm_placement_kunit_init(test, place, 1, NULL, 0);
-    80	
-    81		drm_gem_private_object_init(priv->drm, &bo->base, size);
-    82	
-    83		err = ttm_bo_init_reserved(priv->ttm_dev, bo, bo_type, placement,
-    84					   PAGE_SIZE, &ctx, NULL, NULL,
-    85					   &dummy_ttm_bo_destroy);
-    86		dma_resv_unlock(bo->base.resv);
-    87	
-    88		KUNIT_EXPECT_EQ(test, err, 0);
-    89		KUNIT_EXPECT_EQ(test, kref_read(&bo->kref), 1);
-    90		KUNIT_EXPECT_PTR_EQ(test, bo->bdev, priv->ttm_dev);
-    91		KUNIT_EXPECT_EQ(test, bo->type, bo_type);
-    92		KUNIT_EXPECT_EQ(test, bo->page_alignment, PAGE_SIZE);
-    93		KUNIT_EXPECT_PTR_EQ(test, bo->destroy, &dummy_ttm_bo_destroy);
-    94		KUNIT_EXPECT_EQ(test, bo->pin_count, 0);
-    95		KUNIT_EXPECT_NULL(test, bo->bulk_move);
-    96		KUNIT_EXPECT_NOT_NULL(test, bo->ttm);
-    97		KUNIT_EXPECT_FALSE(test, ttm_tt_is_populated(bo->ttm));
-  > 98		KUNIT_EXPECT_NOT_NULL(test, (void *)bo->base.resv->fences);
-    99		KUNIT_EXPECT_EQ(test, ctx.bytes_moved, size);
-   100	
-   101		if (bo_type != ttm_bo_type_kernel)
-   102			KUNIT_EXPECT_TRUE(test,
-   103					  drm_mm_node_allocated(&bo->base.vma_node.vm_node));
-   104	
-   105		ttm_resource_free(bo, &bo->resource);
-   106		ttm_bo_put(bo);
-   107	}
-   108	
+   drivers/media/v4l2-core/v4l2-ctrls-core.c: In function 'v4l2_ctrl_type_op_log':
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:269:25: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     269 |                 if (ctrl->fraction_bits) {
+         |                         ^~
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:87,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from drivers/media/v4l2-core/v4l2-ctrls-core.c:9:
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:270:62: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     270 |                         pr_cont("%d", *ptr.p_s32 / (1 << ctrl->fraction_bits));
+         |                                                              ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
+     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:270:25: note: in expansion of macro 'pr_cont'
+     270 |                         pr_cont("%d", *ptr.p_s32 / (1 << ctrl->fraction_bits));
+         |                         ^~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:294:25: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     294 |                 if (ctrl->fraction_bits)
+         |                         ^~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:295:71: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     295 |                         pr_cont("%u.%03u", (unsigned)*ptr.p_u8 >> ctrl->fraction_bits,
+         |                                                                       ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
+     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:295:25: note: in expansion of macro 'pr_cont'
+     295 |                         pr_cont("%u.%03u", (unsigned)*ptr.p_u8 >> ctrl->fraction_bits,
+         |                         ^~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:296:67: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     296 |                                 (unsigned)*ptr.p_u8 & ((1U << ctrl->fraction_bits) - 1));
+         |                                                                   ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
+     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:295:25: note: in expansion of macro 'pr_cont'
+     295 |                         pr_cont("%u.%03u", (unsigned)*ptr.p_u8 >> ctrl->fraction_bits,
+         |                         ^~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:301:25: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     301 |                 if (ctrl->fraction_bits)
+         |                         ^~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:302:72: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     302 |                         pr_cont("%u.%05u", (unsigned)*ptr.p_u16 >> ctrl->fraction_bits,
+         |                                                                        ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
+     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:302:25: note: in expansion of macro 'pr_cont'
+     302 |                         pr_cont("%u.%05u", (unsigned)*ptr.p_u16 >> ctrl->fraction_bits,
+         |                         ^~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:303:68: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     303 |                                 (unsigned)*ptr.p_u16 & ((1U << ctrl->fraction_bits) - 1));
+         |                                                                    ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
+     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:302:25: note: in expansion of macro 'pr_cont'
+     302 |                         pr_cont("%u.%05u", (unsigned)*ptr.p_u16 >> ctrl->fraction_bits,
+         |                         ^~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:308:25: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     308 |                 if (ctrl->fraction_bits)
+         |                         ^~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:309:72: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     309 |                         pr_cont("%u.%09u", (unsigned)*ptr.p_u32 >> ctrl->fraction_bits,
+         |                                                                        ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
+     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:309:25: note: in expansion of macro 'pr_cont'
+     309 |                         pr_cont("%u.%09u", (unsigned)*ptr.p_u32 >> ctrl->fraction_bits,
+         |                         ^~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:310:68: error: 'const struct v4l2_ctrl' has no member named 'fraction_bits'
+     310 |                                 (unsigned)*ptr.p_u32 & ((1U << ctrl->fraction_bits) - 1));
+         |                                                                    ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:540:9: note: in expansion of macro 'printk'
+     540 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-core.c:309:25: note: in expansion of macro 'pr_cont'
+     309 |                         pr_cont("%u.%09u", (unsigned)*ptr.p_u32 >> ctrl->fraction_bits,
+
+
+vim +269 drivers/media/v4l2-core/v4l2-ctrls-core.c
+
+   254	
+   255	void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+   256	{
+   257		union v4l2_ctrl_ptr ptr = ctrl->p_cur;
+   258	
+   259		if (ctrl->is_array) {
+   260			unsigned i;
+   261	
+   262			for (i = 0; i < ctrl->nr_of_dims; i++)
+   263				pr_cont("[%u]", ctrl->dims[i]);
+   264			pr_cont(" ");
+   265		}
+   266	
+   267		switch (ctrl->type) {
+   268		case V4L2_CTRL_TYPE_INTEGER:
+ > 269			if (ctrl->fraction_bits) {
+   270				pr_cont("%d", *ptr.p_s32 / (1 << ctrl->fraction_bits));
+   271			} else {
+   272				pr_cont("%d", *ptr.p_s32);
+   273			}
+   274			break;
+   275		case V4L2_CTRL_TYPE_BOOLEAN:
+   276			pr_cont("%s", *ptr.p_s32 ? "true" : "false");
+   277			break;
+   278		case V4L2_CTRL_TYPE_MENU:
+   279			pr_cont("%s", ctrl->qmenu[*ptr.p_s32]);
+   280			break;
+   281		case V4L2_CTRL_TYPE_INTEGER_MENU:
+   282			pr_cont("%lld", ctrl->qmenu_int[*ptr.p_s32]);
+   283			break;
+   284		case V4L2_CTRL_TYPE_BITMASK:
+   285			pr_cont("0x%08x", *ptr.p_s32);
+   286			break;
+   287		case V4L2_CTRL_TYPE_INTEGER64:
+   288			pr_cont("%lld", *ptr.p_s64);
+   289			break;
+   290		case V4L2_CTRL_TYPE_STRING:
+   291			pr_cont("%s", ptr.p_char);
+   292			break;
+   293		case V4L2_CTRL_TYPE_U8:
+   294			if (ctrl->fraction_bits)
+   295				pr_cont("%u.%03u", (unsigned)*ptr.p_u8 >> ctrl->fraction_bits,
+   296					(unsigned)*ptr.p_u8 & ((1U << ctrl->fraction_bits) - 1));
+   297			else
+   298				pr_cont("%u", (unsigned)*ptr.p_u8);
+   299			break;
+   300		case V4L2_CTRL_TYPE_U16:
+   301			if (ctrl->fraction_bits)
+   302				pr_cont("%u.%05u", (unsigned)*ptr.p_u16 >> ctrl->fraction_bits,
+   303					(unsigned)*ptr.p_u16 & ((1U << ctrl->fraction_bits) - 1));
+   304			else
+   305				pr_cont("%u", (unsigned)*ptr.p_u16);
+   306			break;
+   307		case V4L2_CTRL_TYPE_U32:
+   308			if (ctrl->fraction_bits)
+   309				pr_cont("%u.%09u", (unsigned)*ptr.p_u32 >> ctrl->fraction_bits,
+   310					(unsigned)*ptr.p_u32 & ((1U << ctrl->fraction_bits) - 1));
+   311			else
+   312				pr_cont("%u", (unsigned)*ptr.p_u32);
+   313			break;
+   314		case V4L2_CTRL_TYPE_H264_SPS:
+   315			pr_cont("H264_SPS");
+   316			break;
+   317		case V4L2_CTRL_TYPE_H264_PPS:
+   318			pr_cont("H264_PPS");
+   319			break;
+   320		case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
+   321			pr_cont("H264_SCALING_MATRIX");
+   322			break;
+   323		case V4L2_CTRL_TYPE_H264_SLICE_PARAMS:
+   324			pr_cont("H264_SLICE_PARAMS");
+   325			break;
+   326		case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
+   327			pr_cont("H264_DECODE_PARAMS");
+   328			break;
+   329		case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
+   330			pr_cont("H264_PRED_WEIGHTS");
+   331			break;
+   332		case V4L2_CTRL_TYPE_FWHT_PARAMS:
+   333			pr_cont("FWHT_PARAMS");
+   334			break;
+   335		case V4L2_CTRL_TYPE_VP8_FRAME:
+   336			pr_cont("VP8_FRAME");
+   337			break;
+   338		case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
+   339			pr_cont("HDR10_CLL_INFO");
+   340			break;
+   341		case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
+   342			pr_cont("HDR10_MASTERING_DISPLAY");
+   343			break;
+   344		case V4L2_CTRL_TYPE_MPEG2_QUANTISATION:
+   345			pr_cont("MPEG2_QUANTISATION");
+   346			break;
+   347		case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
+   348			pr_cont("MPEG2_SEQUENCE");
+   349			break;
+   350		case V4L2_CTRL_TYPE_MPEG2_PICTURE:
+   351			pr_cont("MPEG2_PICTURE");
+   352			break;
+   353		case V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR:
+   354			pr_cont("VP9_COMPRESSED_HDR");
+   355			break;
+   356		case V4L2_CTRL_TYPE_VP9_FRAME:
+   357			pr_cont("VP9_FRAME");
+   358			break;
+   359		case V4L2_CTRL_TYPE_HEVC_SPS:
+   360			pr_cont("HEVC_SPS");
+   361			break;
+   362		case V4L2_CTRL_TYPE_HEVC_PPS:
+   363			pr_cont("HEVC_PPS");
+   364			break;
+   365		case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+   366			pr_cont("HEVC_SLICE_PARAMS");
+   367			break;
+   368		case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
+   369			pr_cont("HEVC_SCALING_MATRIX");
+   370			break;
+   371		case V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS:
+   372			pr_cont("HEVC_DECODE_PARAMS");
+   373			break;
+   374		case V4L2_CTRL_TYPE_AV1_SEQUENCE:
+   375			pr_cont("AV1_SEQUENCE");
+   376			break;
+   377		case V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY:
+   378			pr_cont("AV1_TILE_GROUP_ENTRY");
+   379			break;
+   380		case V4L2_CTRL_TYPE_AV1_FRAME:
+   381			pr_cont("AV1_FRAME");
+   382			break;
+   383		case V4L2_CTRL_TYPE_AV1_FILM_GRAIN:
+   384			pr_cont("AV1_FILM_GRAIN");
+   385			break;
+   386	
+   387		default:
+   388			pr_cont("unknown type %d", ctrl->type);
+   389			break;
+   390		}
+   391	}
+   392	EXPORT_SYMBOL(v4l2_ctrl_type_op_log);
+   393	
 
 -- 
 0-DAY CI Kernel Test Service
