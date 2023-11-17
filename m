@@ -1,89 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0A01A5A8;
-	Fri, 17 Nov 2023 10:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVsv6nmF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0501CC433C8;
-	Fri, 17 Nov 2023 10:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700218217;
-	bh=HvWpi6K5JMfOG02tS6wIaBqmihK/4R9WAkRywr1PWk0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eVsv6nmFrCOWliGgEylZ3eoOcL1B5/EIqny6OK8ESrckYwnkPxK6aqSYHZ9CEGzCa
-	 GGQpTgbrqmFdyE891FwxMfG1G4KVsyEEKTPFnjkJRor4Tv3sznOpH5R4+gWjeLR2a/
-	 djecHn0lDy1Hqk7BLjpJwstd/jTkXhs4fpp7VXJuUWW07C9d+GBc5922K7Zpv46EER
-	 eoiGZmr+BSlobU9naNZ+zpqGXUFnJCr4cwHMYZsbBD8MuaqSsaM3I6uvlFT6kuD3SE
-	 y7FjuSVjofKwnc5UqvK7nXifpd2n3VVaurBW+68KBu6DDfVFrSwc/dmX0/TsQ6gzP5
-	 yHb3gRw/hGd5w==
-Date: Fri, 17 Nov 2023 16:20:07 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: kernel test robot <lkp@intel.com>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Nirmal Patel <nirmal.patel@linux.intel.com>,
-	Jonathan Derrick <jonathan.derrick@linux.dev>,
-	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Michael Bottini <michael.a.bottini@linux.intel.com>,
-	"David E . Box" <david.e.box@linux.intel.com>
-Subject: Re: [PATCH 1/6] PCI/ASPM: Add locked helper for enabling link state
-Message-ID: <20231117105007.GQ250770@thinkpad>
-References: <20231114135553.32301-2-johan+linaro@kernel.org>
- <202311152225.ZdVv0ufT-lkp@intel.com>
- <ZVTsf9A05HQ9UYT-@hovoldconsulting.com>
- <20231117102724.GI250770@thinkpad>
- <ZVdAz4glDioMx5Zw@hovoldconsulting.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16C01A702
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 17 Nov 2023 10:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1r3vzo-000bhM-Dy; Fri, 17 Nov 2023 18:22:45 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 17 Nov 2023 18:22:52 +0800
+Date: Fri, 17 Nov 2023 18:22:52 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: kernel test robot <lkp@intel.com>
+Cc: Danny Tsen <dtsen@linux.ibm.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
+Subject: Re: arch/powerpc/crypto/aes-gcm-p10-glue.c:121:9: error:
+ 'gcm_init_htable' accessing 256 bytes in a region of size 224
+Message-ID: <ZVc+/IXxz7VgY3jO@gondor.apana.org.au>
+References: <202310290004.TQsw1iN1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZVdAz4glDioMx5Zw@hovoldconsulting.com>
+In-Reply-To: <202310290004.TQsw1iN1-lkp@intel.com>
 
-On Fri, Nov 17, 2023 at 11:30:39AM +0100, Johan Hovold wrote:
-> On Fri, Nov 17, 2023 at 03:57:24PM +0530, Manivannan Sadhasivam wrote:
-> > On Wed, Nov 15, 2023 at 05:06:23PM +0100, Johan Hovold wrote:
-> > > On Wed, Nov 15, 2023 at 10:26:40PM +0800, kernel test robot wrote:
-> > >  
-> > > > >> drivers/pci/pcie/aspm.c:1186: warning: expecting prototype for pci_enable_link_state(). Prototype was for pci_enable_link_state_locked() instead
-> > > > 
-> > > > 
-> > > > vim +1186 drivers/pci/pcie/aspm.c
-> > > > 
-> > > >   1172	
-> > > >   1173	/**
-> > > >   1174	 * pci_enable_link_state - Clear and set the default device link state so that
-> > > 
-> > > I apparently forgot to update the name here to
-> > > 
-> > > 	pci_enable_link_state_locked
-> > > 
-> > 
-> > While fixing the name, please add locking information in description as well.
-> 
-> It's already there:
-> 
-> 	Context: Caller holds pci_bus_sem read lock.
+On Sun, Oct 29, 2023 at 12:54:22AM +0800, kernel test robot wrote:
+>
+>    arch/powerpc/crypto/aes-gcm-p10-glue.c: In function 'gcmp10_init':
+> >> arch/powerpc/crypto/aes-gcm-p10-glue.c:121:9: error: 'gcm_init_htable' accessing 256 bytes in a region of size 224 [-Werror=stringop-overflow=]
+>      121 |         gcm_init_htable(hash->Htable+32, hash->H);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    arch/powerpc/crypto/aes-gcm-p10-glue.c:121:9: note: referencing argument 1 of type 'unsigned char[256]'
+>    arch/powerpc/crypto/aes-gcm-p10-glue.c:121:9: note: referencing argument 2 of type 'unsigned char[16]'
+>    arch/powerpc/crypto/aes-gcm-p10-glue.c:41:17: note: in a call to function 'gcm_init_htable'
+>       41 | asmlinkage void gcm_init_htable(unsigned char htable[256], unsigned char Xi[16]);
+>          |                 ^~~~~~~~~~~~~~~
+>    cc1: all warnings being treated as errors
 
-Ah, I was looking for it in the description. Fine then!
+Danny, can you please look into this error?
 
-- Mani
+Perhaps htable should be changed to 224?
 
-> 
-> Johan
-
+Thanks,
 -- 
-மணிவண்ணன் சதாசிவம்
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
