@@ -1,29 +1,25 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FCD18C38;
-	Fri, 17 Nov 2023 10:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0A01A5A8;
+	Fri, 17 Nov 2023 10:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QuSThNAw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8B3C433C7;
-	Fri, 17 Nov 2023 10:30:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVsv6nmF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0501CC433C8;
+	Fri, 17 Nov 2023 10:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700217040;
-	bh=5GTodjIFYK3+cnDn/z8EfJv/gMxH/BGnB0nWLlAzxEM=;
+	s=k20201202; t=1700218217;
+	bh=HvWpi6K5JMfOG02tS6wIaBqmihK/4R9WAkRywr1PWk0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QuSThNAwH1MfJunYOe28kslPlu44S5J0JAkJPuY3v4rgiTy5E6ZobP+TAr3bCm/cN
-	 siDSE8JpO29RINiiQP5ViFcsohJ/ZQ4UEfcTxxJ+jCHr/5z5cr00DbHwmgbR362l26
-	 OK6aTsrFZTRSSJRi+qju/VI5E6D6Bcj/6uICNYL6sK+ujEFALEVQNZKRlb4rgsxT5W
-	 f/FzTXowZsumJ5FFwZPZHhNkEbUbgumNiwgg+2N1niiXSLf/4NM881jBUmbfmrv/xz
-	 vO428BOnJamwe+M1mhRUW/2NKOEvYSmcSuG1kKfgQrz3RdO1YrwxpY6vjyQcYRcsMa
-	 3n2En4M7aUp4g==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1r3w7T-0000av-0s;
-	Fri, 17 Nov 2023 11:30:40 +0100
-Date: Fri, 17 Nov 2023 11:30:39 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
+	b=eVsv6nmFrCOWliGgEylZ3eoOcL1B5/EIqny6OK8ESrckYwnkPxK6aqSYHZ9CEGzCa
+	 GGQpTgbrqmFdyE891FwxMfG1G4KVsyEEKTPFnjkJRor4Tv3sznOpH5R4+gWjeLR2a/
+	 djecHn0lDy1Hqk7BLjpJwstd/jTkXhs4fpp7VXJuUWW07C9d+GBc5922K7Zpv46EER
+	 eoiGZmr+BSlobU9naNZ+zpqGXUFnJCr4cwHMYZsbBD8MuaqSsaM3I6uvlFT6kuD3SE
+	 y7FjuSVjofKwnc5UqvK7nXifpd2n3VVaurBW+68KBu6DDfVFrSwc/dmX0/TsQ6gzP5
+	 yHb3gRw/hGd5w==
+Date: Fri, 17 Nov 2023 16:20:07 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Johan Hovold <johan@kernel.org>
 Cc: kernel test robot <lkp@intel.com>,
 	Johan Hovold <johan+linaro@kernel.org>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
@@ -40,43 +36,54 @@ Cc: kernel test robot <lkp@intel.com>,
 	Michael Bottini <michael.a.bottini@linux.intel.com>,
 	"David E . Box" <david.e.box@linux.intel.com>
 Subject: Re: [PATCH 1/6] PCI/ASPM: Add locked helper for enabling link state
-Message-ID: <ZVdAz4glDioMx5Zw@hovoldconsulting.com>
+Message-ID: <20231117105007.GQ250770@thinkpad>
 References: <20231114135553.32301-2-johan+linaro@kernel.org>
  <202311152225.ZdVv0ufT-lkp@intel.com>
  <ZVTsf9A05HQ9UYT-@hovoldconsulting.com>
  <20231117102724.GI250770@thinkpad>
+ <ZVdAz4glDioMx5Zw@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231117102724.GI250770@thinkpad>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZVdAz4glDioMx5Zw@hovoldconsulting.com>
 
-On Fri, Nov 17, 2023 at 03:57:24PM +0530, Manivannan Sadhasivam wrote:
-> On Wed, Nov 15, 2023 at 05:06:23PM +0100, Johan Hovold wrote:
-> > On Wed, Nov 15, 2023 at 10:26:40PM +0800, kernel test robot wrote:
-> >  
-> > > >> drivers/pci/pcie/aspm.c:1186: warning: expecting prototype for pci_enable_link_state(). Prototype was for pci_enable_link_state_locked() instead
+On Fri, Nov 17, 2023 at 11:30:39AM +0100, Johan Hovold wrote:
+> On Fri, Nov 17, 2023 at 03:57:24PM +0530, Manivannan Sadhasivam wrote:
+> > On Wed, Nov 15, 2023 at 05:06:23PM +0100, Johan Hovold wrote:
+> > > On Wed, Nov 15, 2023 at 10:26:40PM +0800, kernel test robot wrote:
+> > >  
+> > > > >> drivers/pci/pcie/aspm.c:1186: warning: expecting prototype for pci_enable_link_state(). Prototype was for pci_enable_link_state_locked() instead
+> > > > 
+> > > > 
+> > > > vim +1186 drivers/pci/pcie/aspm.c
+> > > > 
+> > > >   1172	
+> > > >   1173	/**
+> > > >   1174	 * pci_enable_link_state - Clear and set the default device link state so that
 > > > 
+> > > I apparently forgot to update the name here to
 > > > 
-> > > vim +1186 drivers/pci/pcie/aspm.c
+> > > 	pci_enable_link_state_locked
 > > > 
-> > >   1172	
-> > >   1173	/**
-> > >   1174	 * pci_enable_link_state - Clear and set the default device link state so that
 > > 
-> > I apparently forgot to update the name here to
-> > 
-> > 	pci_enable_link_state_locked
-> > 
+> > While fixing the name, please add locking information in description as well.
 > 
-> While fixing the name, please add locking information in description as well.
+> It's already there:
+> 
+> 	Context: Caller holds pci_bus_sem read lock.
 
-It's already there:
+Ah, I was looking for it in the description. Fine then!
 
-	Context: Caller holds pci_bus_sem read lock.
+- Mani
 
-Johan
+> 
+> Johan
+
+-- 
+மணிவண்ணன் சதாசிவம்
