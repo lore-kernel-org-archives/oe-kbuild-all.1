@@ -1,48 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CF1D2E5;
-	Sat, 18 Nov 2023 05:21:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE87D2F1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 05:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J34rJLOG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KX/vs6zF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700284913; x=1731820913;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EbJCo8ZdSwZUIaS0Ve2SlJ6vsXsnPlA53ftsf5UfFe0=;
-  b=J34rJLOGKNf2tyxGPX7LjhajgyXoIejYOyFNauCJfAGtd07xJOq4k1B2
-   T7W1bAQQeygZdAYifW0iYmSllUNUzEJoUqufuFWWwlRXOvPH7xGVrL3+S
-   Zvb0VT95LZWn6cstiD5B6iatfnPwZ+RzxIhcmPdlRYxCm/28sgwh7yXtZ
-   L60lC5lk/ZlXCRFnXGZViXXtbb66yLW6karlJSJyt3ugCDqn4legwB6bc
-   GA9HON4HJ7erkMMHqXPtoDCZU2aojWO5jsgEO47TCLHIxfQPm823vpezu
-   jhGrotkSctcJIQXsopOkciN1M0vU1XfdFSKLuKwopC6Vjd6Y0ERgLa1KW
+  t=1700284915; x=1731820915;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yEreUHMKYBFFkEB3u/u/R/cCq3R3tX2VCM4VmFEVxYA=;
+  b=KX/vs6zF1ZNDxhSICsi/JLSz08C3EA6MjqAxLesr2wPFei/k+f9ZnJBK
+   9Vo0Wng5f1V4GgltZpeI6Ovkga6IfKGOEVX4JUyPt6DMoQCE1yXg3gR50
+   XGlfANZAFnxEAf+ILIdgXuC78hZ1BGOGS5bea6L0P65B13ZVtn9ltWi8d
+   cd8SdvTNU8tWfnsnsEFnFark1nWmWMnnsap6dCYEZa+qX64FmdLYHpMf6
+   YmWneRSs099xuCH/m6cVYByq3P7mWI38jwT0s4mpqf8G8El2Y+tZtHFLV
+   rjCKQPXT30iQzhDvRhspTe7hJD/AgaBAVVO49rLgoVvJ0vJdjMOfK/zQt
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="395334550"
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="395334553"
 X-IronPort-AV: E=Sophos;i="6.04,207,1695711600"; 
-   d="scan'208";a="395334550"
+   d="scan'208";a="395334553"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 21:21:52 -0800
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 21:21:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="1097293091"
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="1097293092"
 X-IronPort-AV: E=Sophos;i="6.04,207,1695711600"; 
-   d="scan'208";a="1097293091"
+   d="scan'208";a="1097293092"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
   by fmsmga005.fm.intel.com with ESMTP; 17 Nov 2023 21:21:51 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4Dm8-0003YP-2o;
+	id 1r4Dm8-0003YN-2N;
 	Sat, 18 Nov 2023 05:21:48 +0000
-Date: Sat, 18 Nov 2023 13:21:17 +0800
+Date: Sat, 18 Nov 2023 13:21:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <brauner@kernel.org>,
-	Eric Biggers <ebiggers@google.com>
-Subject: [krisman-unicode:for-next 3/10] fs/ceph/dir.c:1872:44: error: too
- few arguments to function call, expected 3, have 2
-Message-ID: <202311181351.Hn7HpZKC-lkp@intel.com>
+To: Petre Rodan <petre.rodan@subdimension.ro>, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Andreas Klinger <ak@it-klinger.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2 2/2] iio: pressure: driver for Honeywell HSC/SSC
+ series pressure sensors
+Message-ID: <202311181316.z2BmTZmP-lkp@intel.com>
+References: <20231117164232.8474-2-petre.rodan@subdimension.ro>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,146 +60,202 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231117164232.8474-2-petre.rodan@subdimension.ro>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krisman/unicode.git for-next
-head:   ea1a615cb6e7ea94b0682005400c7f30bf448f00
-commit: 24084e50e5790ecce3c7107d41233be6b11fc696 [3/10] fs: Expose name under lookup to d_revalidate hooks
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231118/202311181351.Hn7HpZKC-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311181351.Hn7HpZKC-lkp@intel.com/reproduce)
+Hi Petre,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on robh/for-next linus/master v6.7-rc1]
+[cannot apply to next-20231117]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Petre-Rodan/iio-pressure-driver-for-Honeywell-HSC-SSC-series-pressure-sensors/20231118-072654
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20231117164232.8474-2-petre.rodan%40subdimension.ro
+patch subject: [PATCH v2 2/2] iio: pressure: driver for Honeywell HSC/SSC series pressure sensors
+config: riscv-rv32_defconfig (attached as .config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311181316.z2BmTZmP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311181351.Hn7HpZKC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311181316.z2BmTZmP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/ceph/dir.c:1872:44: error: too few arguments to function call, expected 3, have 2
-           valid = fscrypt_d_revalidate(dentry, flags);
-                   ~~~~~~~~~~~~~~~~~~~~              ^
-   include/linux/fscrypt.h:356:5: note: 'fscrypt_d_revalidate' declared here
-   int fscrypt_d_revalidate(struct dentry *dentry, const struct qstr *name,
-       ^
-   1 error generated.
+>> drivers/iio/pressure/Kconfig:120: syntax error
+   drivers/iio/pressure/Kconfig:119:warning: ignoring unsupported character '.'
+   drivers/iio/pressure/Kconfig:119: unknown statement "pressure"
+   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ','
+   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ':'
+   drivers/iio/pressure/Kconfig:121: unknown statement "To"
+   drivers/iio/pressure/Kconfig:122:warning: ignoring unsupported character '.'
+   drivers/iio/pressure/Kconfig:122: unknown statement "called"
+   make[3]: *** [scripts/kconfig/Makefile:77: oldconfig] Error 1
+   make[2]: *** [Makefile:685: oldconfig] Error 2
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'oldconfig' not remade because of errors.
+--
+>> drivers/iio/pressure/Kconfig:120: syntax error
+   drivers/iio/pressure/Kconfig:119:warning: ignoring unsupported character '.'
+   drivers/iio/pressure/Kconfig:119: unknown statement "pressure"
+   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ','
+   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ':'
+   drivers/iio/pressure/Kconfig:121: unknown statement "To"
+   drivers/iio/pressure/Kconfig:122:warning: ignoring unsupported character '.'
+   drivers/iio/pressure/Kconfig:122: unknown statement "called"
+   make[3]: *** [scripts/kconfig/Makefile:77: olddefconfig] Error 1
+   make[2]: *** [Makefile:685: olddefconfig] Error 2
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'olddefconfig' not remade because of errors.
+--
+>> drivers/iio/pressure/Kconfig:120: syntax error
+   drivers/iio/pressure/Kconfig:119:warning: ignoring unsupported character '.'
+   drivers/iio/pressure/Kconfig:119: unknown statement "pressure"
+   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ','
+   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ':'
+   drivers/iio/pressure/Kconfig:121: unknown statement "To"
+   drivers/iio/pressure/Kconfig:122:warning: ignoring unsupported character '.'
+   drivers/iio/pressure/Kconfig:122: unknown statement "called"
+   make[5]: *** [scripts/kconfig/Makefile:87: defconfig] Error 1
+   make[4]: *** [Makefile:685: defconfig] Error 2
+   make[3]: *** [Makefile:350: __build_one_by_one] Error 2
+   make[3]: Target 'defconfig' not remade because of errors.
+   make[3]: Target '32-bit.config' not remade because of errors.
+   make[2]: *** [arch/riscv/Makefile:190: rv32_defconfig] Error 2
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'rv32_defconfig' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'rv32_defconfig' not remade because of errors.
 
 
-vim +1872 fs/ceph/dir.c
+vim +120 drivers/iio/pressure/Kconfig
 
-2817b000b02c5f Sage Weil               2009-10-06  1860  
-2817b000b02c5f Sage Weil               2009-10-06  1861  /*
-2817b000b02c5f Sage Weil               2009-10-06  1862   * Check if cached dentry can be trusted.
-2817b000b02c5f Sage Weil               2009-10-06  1863   */
-24084e50e5790e Gabriel Krisman Bertazi 2023-08-16  1864  static int ceph_d_revalidate(struct dentry *dentry, const struct qstr *name,
-24084e50e5790e Gabriel Krisman Bertazi 2023-08-16  1865  			     unsigned int flags)
-2817b000b02c5f Sage Weil               2009-10-06  1866  {
-bf1c6aca96c9d2 Sage Weil               2011-07-26  1867  	int valid = 0;
-641235d8f82357 Yan, Zheng              2016-03-16  1868  	struct dentry *parent;
-aa8dd816732b2b Al Viro                 2019-10-29  1869  	struct inode *dir, *inode;
-719a2514e9bf31 Yan, Zheng              2020-03-05  1870  	struct ceph_mds_client *mdsc;
-34286d6662308d Nicholas Piggin         2011-01-07  1871  
-c526760181ca08 Jeff Layton             2020-08-07 @1872  	valid = fscrypt_d_revalidate(dentry, flags);
-c526760181ca08 Jeff Layton             2020-08-07  1873  	if (valid <= 0)
-c526760181ca08 Jeff Layton             2020-08-07  1874  		return valid;
-c526760181ca08 Jeff Layton             2020-08-07  1875  
-f49d1e058d23a5 Jeff Layton             2016-07-01  1876  	if (flags & LOOKUP_RCU) {
-52953d55917e45 Seraphime Kirkovski     2016-12-26  1877  		parent = READ_ONCE(dentry->d_parent);
-f49d1e058d23a5 Jeff Layton             2016-07-01  1878  		dir = d_inode_rcu(parent);
-f49d1e058d23a5 Jeff Layton             2016-07-01  1879  		if (!dir)
-34286d6662308d Nicholas Piggin         2011-01-07  1880  			return -ECHILD;
-aa8dd816732b2b Al Viro                 2019-10-29  1881  		inode = d_inode_rcu(dentry);
-f49d1e058d23a5 Jeff Layton             2016-07-01  1882  	} else {
-f49d1e058d23a5 Jeff Layton             2016-07-01  1883  		parent = dget_parent(dentry);
-f49d1e058d23a5 Jeff Layton             2016-07-01  1884  		dir = d_inode(parent);
-aa8dd816732b2b Al Viro                 2019-10-29  1885  		inode = d_inode(dentry);
-f49d1e058d23a5 Jeff Layton             2016-07-01  1886  	}
-34286d6662308d Nicholas Piggin         2011-01-07  1887  
-c526760181ca08 Jeff Layton             2020-08-07  1888  	dout("d_revalidate %p '%pd' inode %p offset 0x%llx nokey %d\n", dentry,
-c526760181ca08 Jeff Layton             2020-08-07  1889  	     dentry, inode, ceph_dentry(dentry)->offset,
-c526760181ca08 Jeff Layton             2020-08-07  1890  	     !!(dentry->d_flags & DCACHE_NOKEY_NAME));
-2817b000b02c5f Sage Weil               2009-10-06  1891  
-719a2514e9bf31 Yan, Zheng              2020-03-05  1892  	mdsc = ceph_sb_to_client(dir->i_sb)->mdsc;
-719a2514e9bf31 Yan, Zheng              2020-03-05  1893  
-2817b000b02c5f Sage Weil               2009-10-06  1894  	/* always trust cached snapped dentries, snapdir dentry */
-2817b000b02c5f Sage Weil               2009-10-06  1895  	if (ceph_snap(dir) != CEPH_NOSNAP) {
-a455589f181e60 Al Viro                 2014-10-21  1896  		dout("d_revalidate %p '%pd' inode %p is SNAPPED\n", dentry,
-aa8dd816732b2b Al Viro                 2019-10-29  1897  		     dentry, inode);
-bf1c6aca96c9d2 Sage Weil               2011-07-26  1898  		valid = 1;
-aa8dd816732b2b Al Viro                 2019-10-29  1899  	} else if (inode && ceph_snap(inode) == CEPH_SNAPDIR) {
-bf1c6aca96c9d2 Sage Weil               2011-07-26  1900  		valid = 1;
-14fb9c9efe3570 Jeff Layton             2016-07-01  1901  	} else {
-8f2a98ef3c1adf Yan, Zheng              2019-05-23  1902  		valid = dentry_lease_is_valid(dentry, flags);
-14fb9c9efe3570 Jeff Layton             2016-07-01  1903  		if (valid == -ECHILD)
-14fb9c9efe3570 Jeff Layton             2016-07-01  1904  			return valid;
-719a2514e9bf31 Yan, Zheng              2020-03-05  1905  		if (valid || dir_lease_is_valid(dir, dentry, mdsc)) {
-aa8dd816732b2b Al Viro                 2019-10-29  1906  			if (inode)
-aa8dd816732b2b Al Viro                 2019-10-29  1907  				valid = ceph_is_any_caps(inode);
-9215aeea622fec Yan, Zheng              2013-11-30  1908  			else
-bf1c6aca96c9d2 Sage Weil               2011-07-26  1909  				valid = 1;
-2817b000b02c5f Sage Weil               2009-10-06  1910  		}
-14fb9c9efe3570 Jeff Layton             2016-07-01  1911  	}
-2817b000b02c5f Sage Weil               2009-10-06  1912  
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1913  	if (!valid) {
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1914  		struct ceph_mds_request *req;
-1097680d759918 Jeff Layton             2017-01-12  1915  		int op, err;
-1097680d759918 Jeff Layton             2017-01-12  1916  		u32 mask;
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1917  
-f49d1e058d23a5 Jeff Layton             2016-07-01  1918  		if (flags & LOOKUP_RCU)
-f49d1e058d23a5 Jeff Layton             2016-07-01  1919  			return -ECHILD;
-f49d1e058d23a5 Jeff Layton             2016-07-01  1920  
-f9009efac49c83 Xiubo Li                2020-03-19  1921  		percpu_counter_inc(&mdsc->metric.d_lease_mis);
-f9009efac49c83 Xiubo Li                2020-03-19  1922  
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1923  		op = ceph_snap(dir) == CEPH_SNAPDIR ?
-5eb9f6040f3854 Jeff Layton             2017-01-30  1924  			CEPH_MDS_OP_LOOKUPSNAP : CEPH_MDS_OP_LOOKUP;
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1925  		req = ceph_mdsc_create_request(mdsc, op, USE_ANY_MDS);
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1926  		if (!IS_ERR(req)) {
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1927  			req->r_dentry = dget(dentry);
-5eb9f6040f3854 Jeff Layton             2017-01-30  1928  			req->r_num_caps = 2;
-5eb9f6040f3854 Jeff Layton             2017-01-30  1929  			req->r_parent = dir;
-4c18347238ab5a Jeff Layton             2021-06-18  1930  			ihold(dir);
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1931  
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1932  			mask = CEPH_STAT_CAP_INODE | CEPH_CAP_AUTH_SHARED;
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1933  			if (ceph_security_xattr_wanted(dir))
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1934  				mask |= CEPH_CAP_XATTR_SHARED;
-1097680d759918 Jeff Layton             2017-01-12  1935  			req->r_args.getattr.mask = cpu_to_le32(mask);
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1936  
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1937  			err = ceph_mdsc_do_request(mdsc, NULL, req);
-c3f4688a08fd86 Jeff Layton             2016-11-30  1938  			switch (err) {
-c3f4688a08fd86 Jeff Layton             2016-11-30  1939  			case 0:
-c3f4688a08fd86 Jeff Layton             2016-11-30  1940  				if (d_really_is_positive(dentry) &&
-c3f4688a08fd86 Jeff Layton             2016-11-30  1941  				    d_inode(dentry) == req->r_target_inode)
-c3f4688a08fd86 Jeff Layton             2016-11-30  1942  					valid = 1;
-c3f4688a08fd86 Jeff Layton             2016-11-30  1943  				break;
-c3f4688a08fd86 Jeff Layton             2016-11-30  1944  			case -ENOENT:
-c3f4688a08fd86 Jeff Layton             2016-11-30  1945  				if (d_really_is_negative(dentry))
-c3f4688a08fd86 Jeff Layton             2016-11-30  1946  					valid = 1;
-df561f6688fef7 Gustavo A. R. Silva     2020-08-23  1947  				fallthrough;
-c3f4688a08fd86 Jeff Layton             2016-11-30  1948  			default:
-c3f4688a08fd86 Jeff Layton             2016-11-30  1949  				break;
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1950  			}
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1951  			ceph_mdsc_put_request(req);
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1952  			dout("d_revalidate %p lookup result=%d\n",
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1953  			     dentry, err);
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1954  		}
-f9009efac49c83 Xiubo Li                2020-03-19  1955  	} else {
-f9009efac49c83 Xiubo Li                2020-03-19  1956  		percpu_counter_inc(&mdsc->metric.d_lease_hit);
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1957  	}
-200fd27c8fa2ba Yan, Zheng              2016-03-17  1958  
-bf1c6aca96c9d2 Sage Weil               2011-07-26  1959  	dout("d_revalidate %p %s\n", dentry, valid ? "valid" : "invalid");
-37c4efc1ddf98b Yan, Zheng              2019-01-31  1960  	if (!valid)
-9215aeea622fec Yan, Zheng              2013-11-30  1961  		ceph_dir_clear_complete(dir);
-641235d8f82357 Yan, Zheng              2016-03-16  1962  
-f49d1e058d23a5 Jeff Layton             2016-07-01  1963  	if (!(flags & LOOKUP_RCU))
-641235d8f82357 Yan, Zheng              2016-03-16  1964  		dput(parent);
-bf1c6aca96c9d2 Sage Weil               2011-07-26  1965  	return valid;
-2817b000b02c5f Sage Weil               2009-10-06  1966  }
-2817b000b02c5f Sage Weil               2009-10-06  1967  
-
-:::::: The code at line 1872 was first introduced by commit
-:::::: c526760181ca083dbd607d2e694b43080a8b1585 ceph: make d_revalidate call fscrypt revalidator for encrypted dentries
-
-:::::: TO: Jeff Layton <jlayton@kernel.org>
-:::::: CC: Ilya Dryomov <idryomov@gmail.com>
+     8	
+     9	config ABP060MG
+    10		tristate "Honeywell ABP pressure sensor driver"
+    11		depends on I2C
+    12		help
+    13		  Say yes here to build support for the Honeywell ABP pressure
+    14		  sensors.
+    15	
+    16		  To compile this driver as a module, choose M here: the module
+    17		  will be called abp060mg.
+    18	
+    19	config ROHM_BM1390
+    20		tristate "ROHM BM1390GLV-Z pressure sensor driver"
+    21		depends on I2C
+    22		help
+    23		  Support for the ROHM BM1390 pressure sensor. The BM1390GLV-Z
+    24		  can measure pressures ranging from 300 hPa to 1300 hPa with
+    25		  configurable measurement averaging and internal FIFO. The
+    26		  sensor does also provide temperature measurements.
+    27	
+    28	config BMP280
+    29		tristate "Bosch Sensortec BMP180/BMP280/BMP380/BMP580 pressure sensor driver"
+    30		depends on (I2C || SPI_MASTER)
+    31		select REGMAP
+    32		select BMP280_I2C if (I2C)
+    33		select BMP280_SPI if (SPI_MASTER)
+    34		help
+    35		  Say yes here to build support for Bosch Sensortec BMP180, BMP280, BMP380
+    36		  and BMP580 pressure and temperature sensors. Also supports the BME280 with
+    37		  an additional humidity sensor channel.
+    38	
+    39		  To compile this driver as a module, choose M here: the core module
+    40		  will be called bmp280 and you will also get bmp280-i2c for I2C
+    41		  and/or bmp280-spi for SPI support.
+    42	
+    43	config BMP280_I2C
+    44		tristate
+    45		depends on BMP280
+    46		depends on I2C
+    47		select REGMAP_I2C
+    48	
+    49	config BMP280_SPI
+    50		tristate
+    51		depends on BMP280
+    52		depends on SPI_MASTER
+    53		select REGMAP
+    54	
+    55	config IIO_CROS_EC_BARO
+    56		tristate "ChromeOS EC Barometer Sensor"
+    57		depends on IIO_CROS_EC_SENSORS_CORE
+    58		help
+    59		  Say yes here to build support for the Barometer sensor when
+    60		  presented by the ChromeOS EC Sensor hub.
+    61	
+    62		  To compile this driver as a module, choose M here: the module
+    63		  will be called cros_ec_baro.
+    64	
+    65	config DLHL60D
+    66		tristate "All Sensors DLHL60D and DLHL60G low voltage digital pressure sensors"
+    67		depends on I2C
+    68		select IIO_BUFFER
+    69		select IIO_TRIGGERED_BUFFER
+    70		help
+    71		  Say yes here to build support for the All Sensors DLH series
+    72		  pressure sensors driver.
+    73	
+    74		  To compile this driver as a module, choose M here: the module
+    75		  will be called dlhl60d.
+    76	
+    77	config DPS310
+    78		tristate "Infineon DPS310 pressure and temperature sensor"
+    79		depends on I2C
+    80		select REGMAP_I2C
+    81		help
+    82		  Support for the Infineon DPS310 digital barometric pressure sensor.
+    83		  It can be accessed over I2C bus.
+    84	
+    85		  This driver can also be built as a module.  If so, the module will be
+    86		  called dps310.
+    87	
+    88	config HID_SENSOR_PRESS
+    89		depends on HID_SENSOR_HUB
+    90		select IIO_BUFFER
+    91		select HID_SENSOR_IIO_COMMON
+    92		select HID_SENSOR_IIO_TRIGGER
+    93		tristate "HID PRESS"
+    94		help
+    95		  Say yes here to build support for the HID SENSOR
+    96		  Pressure driver
+    97	
+    98		  To compile this driver as a module, choose M here: the module
+    99		  will be called hid-sensor-press.
+   100	
+   101	config HP03
+   102		tristate "Hope RF HP03 temperature and pressure sensor driver"
+   103		depends on I2C
+   104		select REGMAP_I2C
+   105		help
+   106		  Say yes here to build support for Hope RF HP03 pressure and
+   107		  temperature sensor.
+   108	
+   109		  To compile this driver as a module, choose M here: the module
+   110		  will be called hp03.
+   111	
+   112	config HSC030PA
+   113		tristate "Honeywell HSC/SSC (TruStability pressure sensors series)"
+   114		depends on (I2C || SPI_MASTER)
+   115		select HSC030PA_I2C if (I2C)
+   116		select HSC030PA_SPI if (SPI_MASTER)
+   117		help
+   118		  Say Y here to build support for the Honeywell HSC and SSC TruStability
+   119	      pressure and temperature sensor series.
+ > 120	
+   121		  To compile this driver as a module, choose M here: the module will be
+   122		  called hsc030pa.
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
