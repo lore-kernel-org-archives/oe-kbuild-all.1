@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31D6D2F0;
-	Sat, 18 Nov 2023 08:44:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C29101FE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 09:32:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AChrXqwC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hT8W7cNc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700297050; x=1731833050;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4PAq8AXIKGxSKrr0aKgQv8Mci6H7jVHiPzq47htjhEk=;
-  b=AChrXqwC4YjcdWWh+ZClxEo2W/qdXO95t0VZnvWfNz4/asB515U87bIG
-   z9Cj81mP7SU/ysBv+hy6xmBR9codCuY/Gcatb78TpH+K0DnbmLGVNG6Bq
-   2wTisIcgT/wxWdpSL65fy2ngdXk7IZPwkRm8OcYSbyx/gjO2i/PdqAt33
-   ksBGw6jZiPgj+mYDRKCTmSkbBeESBFSWGmY7/eBrLCr3E46FiFzCrvlkh
-   gx4JD5xnJ1dQRn/EMBZeyh5YRBvo91mnoXOs4jEUrxSuetJ6Tti92ATVM
-   IDBMS+/LbZVNRk9/qS2J3Cs/+pwdHMXH7fZDvuwC7N374d39LQyysGIuM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="381803247"
+  t=1700299975; x=1731835975;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UT0xXKlsAD5tN+26TNuowKOiXYdidZQ+b0rSz01tHv8=;
+  b=hT8W7cNcT4qx/1fz2jDSRSoT36+hC+IpXmlQ3LffIGp9XPJ9y/LFWbZK
+   5MYmYv1kPWdS9vMq9FsJAxlg6bGBEsVAjeg82DxHJx18PhiVTEn7RpKy9
+   vJ/vS9FXTfLs8KOCdJ1IrIcjXys8p/SVMY/DzaPN2n6Ao+jKY/BeC75C9
+   Cr2WPyXZtL/eI/K3P9p8u4HWriVrp6b0i5iT84L6lHt0pR5GToQ5L/WEZ
+   xYqAZ6cWYuuNVz0xuMTVmLc817NPTKOc4OVr4A7zCP8zFSS4LCOXtF/oh
+   tyFDmLf1ks2h0ycK6viEp88BzDYbMSAxbZqyZLiVgpk8AalX6h+2NH1nZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="10077578"
 X-IronPort-AV: E=Sophos;i="6.04,207,1695711600"; 
-   d="scan'208";a="381803247"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 00:44:09 -0800
+   d="scan'208";a="10077578"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 01:32:54 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="1097323012"
 X-IronPort-AV: E=Sophos;i="6.04,207,1695711600"; 
-   d="scan'208";a="13704331"
+   d="scan'208";a="1097323012"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Nov 2023 00:44:08 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 18 Nov 2023 01:32:52 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4Gvt-0003ht-1n;
-	Sat, 18 Nov 2023 08:44:05 +0000
-Date: Sat, 18 Nov 2023 16:42:50 +0800
+	id 1r4Hh4-0003jr-0N;
+	Sat, 18 Nov 2023 09:32:50 +0000
+Date: Sat, 18 Nov 2023 17:31:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 5/7] media: ov8858: Use pm_runtime_get_if_active(),
- put usage_count correctly
-Message-ID: <202311181620.Oz3Uibrc-lkp@intel.com>
-References: <20231117111433.1561669-6-sakari.ailus@linux.intel.com>
+To: Naveen N Rao <naveen@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: arch/powerpc/kernel/trace/ftrace.c:752:46: sparse: sparse: cast
+ truncates bits from constant value (200000000 becomes 0)
+Message-ID: <202311181725.D58Uyh29-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,122 +51,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231117111433.1561669-6-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 3e238417254bfdcc23fe207780b59cbb08656762]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/pm-runtime-Simplify-pm_runtime_get_if_active-usage/20231117-191654
-base:   3e238417254bfdcc23fe207780b59cbb08656762
-patch link:    https://lore.kernel.org/r/20231117111433.1561669-6-sakari.ailus%40linux.intel.com
-patch subject: [PATCH v2 5/7] media: ov8858: Use pm_runtime_get_if_active(), put usage_count correctly
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231118/202311181620.Oz3Uibrc-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311181620.Oz3Uibrc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   791c8ab095f71327899023223940dd52257a4173
+commit: f3993a0330e2d11e42c095810c6c33084024df46 powerpc/ftrace: Extend ftrace support for large kernels to ppc32
+date:   3 months ago
+config: powerpc-randconfig-r111-20231118 (https://download.01.org/0day-ci/archive/20231118/202311181725.D58Uyh29-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231118/202311181725.D58Uyh29-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311181620.Oz3Uibrc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311181725.D58Uyh29-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/powerpc/kernel/trace/ftrace.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/irq.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+>> arch/powerpc/kernel/trace/ftrace.c:752:46: sparse: sparse: cast truncates bits from constant value (200000000 becomes 0)
+   arch/powerpc/kernel/trace/ftrace.c:752:72: sparse: sparse: cast truncates bits from constant value (200000000 becomes 0)
 
->> drivers/media/i2c/ov8858.c:1606:3: error: call to undeclared function 'pm_runtime_mark_busy_autosusp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   pm_runtime_mark_busy_autosusp(&client->dev);
-                   ^
-   drivers/media/i2c/ov8858.c:1606:3: note: did you mean 'pm_runtime_put_mark_busy_autosusp'?
-   include/linux/pm_runtime.h:508:19: note: 'pm_runtime_put_mark_busy_autosusp' declared here
-   static inline int pm_runtime_put_mark_busy_autosusp(struct device *dev)
-                     ^
-   1 error generated.
+vim +752 arch/powerpc/kernel/trace/ftrace.c
 
+84ade0a6655bee arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2022-05-16  720  
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  721  int __init ftrace_dyn_arch_init(void)
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  722  {
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  723  	unsigned int *tramp[] = { ftrace_tramp_text, ftrace_tramp_init };
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  724  	unsigned long addr = FTRACE_REGS_ADDR;
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  725  	long reladdr;
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  726  	int i;
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  727  	u32 stub_insns[] = {
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  728  #ifdef CONFIG_PPC_KERNEL_PCREL
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  729  		/* pla r12,addr */
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  730  		PPC_PREFIX_MLS | __PPC_PRFX_R(1),
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  731  		PPC_INST_PADDI | ___PPC_RT(_R12),
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  732  		PPC_RAW_MTCTR(_R12),
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  733  		PPC_RAW_BCTR()
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  734  #elif defined(CONFIG_PPC64)
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  735  		PPC_RAW_LD(_R12, _R13, offsetof(struct paca_struct, kernel_toc)),
+e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  736  		PPC_RAW_ADDIS(_R12, _R12, 0),
+e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  737  		PPC_RAW_ADDI(_R12, _R12, 0),
+e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  738  		PPC_RAW_MTCTR(_R12),
+e89aa642be21b1 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  739  		PPC_RAW_BCTR()
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  740  #else
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  741  		PPC_RAW_LIS(_R12, 0),
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  742  		PPC_RAW_ADDI(_R12, _R12, 0),
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  743  		PPC_RAW_MTCTR(_R12),
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  744  		PPC_RAW_BCTR()
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  745  #endif
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  746  	};
+af8b9f352ffd43 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  747  
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  748  	if (IS_ENABLED(CONFIG_PPC_KERNEL_PCREL)) {
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  749  		for (i = 0; i < 2; i++) {
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  750  			reladdr = addr - (unsigned long)tramp[i];
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  751  
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08 @752  			if (reladdr >= (long)SZ_8G || reladdr < -(long)SZ_8G) {
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  753  				pr_err("Address of %ps out of range of pcrel address.\n",
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  754  					(void *)addr);
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  755  				return -1;
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  756  			}
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  757  
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  758  			memcpy(tramp[i], stub_insns, sizeof(stub_insns));
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  759  			tramp[i][0] |= IMM_H18(reladdr);
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  760  			tramp[i][1] |= IMM_L(reladdr);
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  761  			add_ftrace_tramp((unsigned long)tramp[i]);
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  762  		}
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  763  	} else if (IS_ENABLED(CONFIG_PPC64)) {
+af8b9f352ffd43 arch/powerpc/kernel/trace/ftrace.c Christophe Leroy 2022-05-09  764  		reladdr = addr - kernel_toc_addr();
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  765  
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  766  		if (reladdr >= (long)SZ_2G || reladdr < -(long long)SZ_2G) {
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  767  			pr_err("Address of %ps out of range of kernel_toc.\n",
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  768  				(void *)addr);
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  769  			return -1;
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  770  		}
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  771  
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  772  		for (i = 0; i < 2; i++) {
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  773  			memcpy(tramp[i], stub_insns, sizeof(stub_insns));
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  774  			tramp[i][1] |= PPC_HA(reladdr);
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  775  			tramp[i][2] |= PPC_LO(reladdr);
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  776  			add_ftrace_tramp((unsigned long)tramp[i]);
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  777  		}
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  778  	} else {
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  779  		for (i = 0; i < 2; i++) {
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  780  			memcpy(tramp[i], stub_insns, sizeof(stub_insns));
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  781  			tramp[i][0] |= PPC_HA(addr);
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  782  			tramp[i][1] |= PPC_LO(addr);
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  783  			add_ftrace_tramp((unsigned long)tramp[i]);
+f3993a0330e2d1 arch/powerpc/kernel/trace/ftrace.c Naveen N Rao     2023-06-19  784  		}
+7e3a68be42e10f arch/powerpc/kernel/trace/ftrace.c Nicholas Piggin  2023-04-08  785  	}
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  786  
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  787  	return 0;
+67361cf8071286 arch/powerpc/kernel/trace/ftrace.c Naveen N. Rao    2018-10-17  788  }
+6794c78243bfda arch/powerpc/kernel/ftrace.c       Steven Rostedt   2009-02-09  789  
 
-vim +/pm_runtime_mark_busy_autosusp +1606 drivers/media/i2c/ov8858.c
+:::::: The code at line 752 was first introduced by commit
+:::::: 7e3a68be42e10f5fa5890e97afc0afd992355bc3 powerpc/64: vmlinux support building with PCREL addresing
 
-  1530	
-  1531	static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
-  1532	{
-  1533		struct ov8858 *ov8858 = container_of(ctrl->handler,
-  1534						     struct ov8858, ctrl_handler);
-  1535	
-  1536		struct i2c_client *client = v4l2_get_subdevdata(&ov8858->subdev);
-  1537		struct v4l2_mbus_framefmt *format;
-  1538		struct v4l2_subdev_state *state;
-  1539		u16 digi_gain;
-  1540		s64 max_exp;
-  1541		int ret, pm_status;
-  1542	
-  1543		/*
-  1544		 * The control handler and the subdev state use the same mutex and the
-  1545		 * mutex is guaranteed to be locked:
-  1546		 * - by the core when s_ctrl is called int the VIDIOC_S_CTRL call path
-  1547		 * - by the driver when s_ctrl is called in the s_stream(1) call path
-  1548		 */
-  1549		state = v4l2_subdev_get_locked_active_state(&ov8858->subdev);
-  1550		format = v4l2_subdev_get_pad_format(&ov8858->subdev, state, 0);
-  1551	
-  1552		/* Propagate change of current control to all related controls */
-  1553		switch (ctrl->id) {
-  1554		case V4L2_CID_VBLANK:
-  1555			/* Update max exposure while meeting expected vblanking */
-  1556			max_exp = format->height + ctrl->val - OV8858_EXPOSURE_MARGIN;
-  1557			__v4l2_ctrl_modify_range(ov8858->exposure,
-  1558						 ov8858->exposure->minimum, max_exp,
-  1559						 ov8858->exposure->step,
-  1560						 ov8858->exposure->default_value);
-  1561			break;
-  1562		}
-  1563	
-  1564		pm_status = pm_runtime_get_if_active(&client->dev);
-  1565		if (!pm_status)
-  1566			return 0;
-  1567	
-  1568		switch (ctrl->id) {
-  1569		case V4L2_CID_EXPOSURE:
-  1570			/* 4 least significant bits of exposure are fractional part */
-  1571			ret = ov8858_write(ov8858, OV8858_REG_LONG_EXPO,
-  1572					   ctrl->val << 4, NULL);
-  1573			break;
-  1574		case V4L2_CID_ANALOGUE_GAIN:
-  1575			ret = ov8858_write(ov8858, OV8858_REG_LONG_GAIN,
-  1576					   ctrl->val, NULL);
-  1577			break;
-  1578		case V4L2_CID_DIGITAL_GAIN:
-  1579			/*
-  1580			 * Digital gain is assembled as:
-  1581			 * 0x350a[7:0] = dgain[13:6]
-  1582			 * 0x350b[5:0] = dgain[5:0]
-  1583			 * Reassemble the control value to write it in one go.
-  1584			 */
-  1585			digi_gain = (ctrl->val & OV8858_LONG_DIGIGAIN_L_MASK)
-  1586				  | ((ctrl->val & OV8858_LONG_DIGIGAIN_H_MASK) <<
-  1587				      OV8858_LONG_DIGIGAIN_H_SHIFT);
-  1588			ret = ov8858_write(ov8858, OV8858_REG_LONG_DIGIGAIN,
-  1589					   digi_gain, NULL);
-  1590			break;
-  1591		case V4L2_CID_VBLANK:
-  1592			ret = ov8858_write(ov8858, OV8858_REG_VTS,
-  1593					   ctrl->val + format->height, NULL);
-  1594			break;
-  1595		case V4L2_CID_TEST_PATTERN:
-  1596			ret = ov8858_enable_test_pattern(ov8858, ctrl->val);
-  1597			break;
-  1598		default:
-  1599			ret = -EINVAL;
-  1600			dev_warn(&client->dev, "%s Unhandled id: 0x%x\n",
-  1601				 __func__, ctrl->id);
-  1602			break;
-  1603		}
-  1604	
-  1605		if (pm_status > 0)
-> 1606			pm_runtime_mark_busy_autosusp(&client->dev);
-  1607	
-  1608		return ret;
-  1609	}
-  1610	
+:::::: TO: Nicholas Piggin <npiggin@gmail.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
