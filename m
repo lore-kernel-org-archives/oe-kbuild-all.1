@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1747883D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 11:13:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E69510A1C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 11:23:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emN+FkuA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L1id65Uk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700306010; x=1731842010;
+  t=1700306616; x=1731842616;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Oy4WM8STg6mHyrvgUdfedhz06G8DR9Lkz2Ullp7dju4=;
-  b=emN+FkuAKjS8JvGCm90mupTznpfKeikqDhL4goomeO26mD9HewzHIt7r
-   wHJssz3Ql2tTN/TxMkusQ3y7CMlJ1AposcJb38eIZobtKYeyCKDWdMK2t
-   APyWGE9noUwBYMiqUJeo5Wjf2/W2SGsF7lmz73T5zZ8fdRjUytAUeBKRo
-   gxroNG5NH/arguUavbgGTcNCE2SfRtUd292va2BGk3B2+vadMq+MZWgGo
-   bQbW4OfbmN7Vp9Cy3ZuMiwzQxomzcjLNh2G6bIinKdRZFCO3QUvvLxtki
-   3oY/ngCS2HFpjc8KT8g0AJ00kUpfUibbmUEq9IkPVBy4uG1mh7EMb335/
+  bh=CnURLSGEW9prGglwf+8+NMdn/PPFYctcqO4oaEaG1oM=;
+  b=L1id65UkOjd9lOccMX+RGOhZnUtnIqGFw3Gy1NhvgQR9inwkeCZbBFGc
+   N/AytWeWySY0m4N2hoBDuoJ74A+66/wLLmw6wNaOgWJD1m/t//LI2pfs4
+   tiiXgzEcx7L2vGvc+2oHhrjHkogmw8+1TKHiQGZLHspAwH13NI7CPDgpD
+   ydl1gEqL3Odtxs6LzMHnvKkO9ihxoeJNt+AkGYYbuQonUj5XqnI+3ZNbj
+   m49NO0RiFQehSfQEMCtQl2OgRwfkm71JyAsAw6LUS6cha1t/Mph/T7sRg
+   nX7t1Q5SJfjbHSTBzcH6Gb+jj3OVty3raX9vX2/0dZf6UCNX1uNoaNewJ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="457922965"
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="376468250"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="457922965"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 03:13:30 -0800
+   d="scan'208";a="376468250"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 03:23:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="765835646"
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="883388257"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="765835646"
+   d="scan'208";a="883388257"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 18 Nov 2023 03:13:28 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2023 03:23:34 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4JGP-0003qN-2z;
-	Sat, 18 Nov 2023 11:13:25 +0000
-Date: Sat, 18 Nov 2023 19:12:58 +0800
+	id 1r4JQC-0003ql-0A;
+	Sat, 18 Nov 2023 11:23:32 +0000
+Date: Sat, 18 Nov 2023 19:23:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Teodora Baluta <teodora.baluta@intel.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: drivers/iio/accel/mxc4005.c:328:36: warning: 'mxc4005_acpi_match'
- defined but not used
-Message-ID: <202311181952.1usxCcup-lkp@intel.com>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Gow <davidgow@google.com>
+Subject: lib/kunit/string-stream-test.c:73:9: sparse: sparse: incorrect type
+ in initializer (different base types)
+Message-ID: <202311181918.0mpCu2Xh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,133 +54,45 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   791c8ab095f71327899023223940dd52257a4173
-commit: 077377fc4f74899c58e946e47352216412d0bb3a iio: accel: add support for mxc4005 accelerometer
-date:   8 years ago
-config: x86_64-buildonly-randconfig-004-20230906 (https://download.01.org/0day-ci/archive/20231118/202311181952.1usxCcup-lkp@intel.com/config)
+commit: d1a0d699bfc00ae5b5e74bb640d791a93e825b68 kunit: string-stream: Add tests for freeing resource-managed string_stream
+date:   9 weeks ago
+config: x86_64-randconfig-x001-20230717 (https://download.01.org/0day-ci/archive/20231118/202311181918.0mpCu2Xh-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311181952.1usxCcup-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311181918.0mpCu2Xh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311181952.1usxCcup-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311181918.0mpCu2Xh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/kunit/string-stream-test.c:73:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted gfp_t const __left @@
+   lib/kunit/string-stream-test.c:73:9: sparse:     expected long long left_value
+   lib/kunit/string-stream-test.c:73:9: sparse:     got restricted gfp_t const __left
+>> lib/kunit/string-stream-test.c:73:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted gfp_t const __right @@
+   lib/kunit/string-stream-test.c:73:9: sparse:     expected long long right_value
+   lib/kunit/string-stream-test.c:73:9: sparse:     got restricted gfp_t const __right
 
-   arch/x86/include/asm/paravirt_types.h:545:33: note: in expansion of macro 'BUG_ON'
-     545 | #define PVOP_TEST_NULL(op)      BUG_ON(op == NULL)
-         |                                 ^~~~~~
-   arch/x86/include/asm/paravirt_types.h:555:17: note: in expansion of macro 'PVOP_TEST_NULL'
-     555 |                 PVOP_TEST_NULL(op);                                     \
-         |                 ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:587:9: note: in expansion of macro '____PVOP_CALL'
-     587 |         ____PVOP_CALL(rettype, op.func, CLBR_RET_REG,                   \
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:624:9: note: in expansion of macro '__PVOP_CALLEESAVE'
-     624 |         __PVOP_CALLEESAVE(rettype, op, "", "")
-         |         ^~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:831:16: note: in expansion of macro 'PVOP_CALLEE0'
-     831 |         return PVOP_CALLEE0(unsigned long, pv_irq_ops.save_fl);
-         |                ^~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h: In function 'arch_local_irq_restore':
-   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
-         |                                               ^
-   arch/x86/include/asm/paravirt_types.h:545:33: note: in expansion of macro 'BUG_ON'
-     545 | #define PVOP_TEST_NULL(op)      BUG_ON(op == NULL)
-         |                                 ^~~~~~
-   arch/x86/include/asm/paravirt_types.h:595:17: note: in expansion of macro 'PVOP_TEST_NULL'
-     595 |                 PVOP_TEST_NULL(op);                                     \
-         |                 ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:612:9: note: in expansion of macro '____PVOP_VCALL'
-     612 |         ____PVOP_VCALL(op.func, CLBR_RET_REG,                           \
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:637:9: note: in expansion of macro '__PVOP_VCALLEESAVE'
-     637 |         __PVOP_VCALLEESAVE(op, "", "", PVOP_CALL_ARG1(arg1))
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:836:9: note: in expansion of macro 'PVOP_VCALLEE1'
-     836 |         PVOP_VCALLEE1(pv_irq_ops.restore_fl, f);
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h: In function 'arch_local_irq_disable':
-   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
-         |                                               ^
-   arch/x86/include/asm/paravirt_types.h:545:33: note: in expansion of macro 'BUG_ON'
-     545 | #define PVOP_TEST_NULL(op)      BUG_ON(op == NULL)
-         |                                 ^~~~~~
-   arch/x86/include/asm/paravirt_types.h:595:17: note: in expansion of macro 'PVOP_TEST_NULL'
-     595 |                 PVOP_TEST_NULL(op);                                     \
-         |                 ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:612:9: note: in expansion of macro '____PVOP_VCALL'
-     612 |         ____PVOP_VCALL(op.func, CLBR_RET_REG,                           \
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:626:9: note: in expansion of macro '__PVOP_VCALLEESAVE'
-     626 |         __PVOP_VCALLEESAVE(op, "", "")
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:841:9: note: in expansion of macro 'PVOP_VCALLEE0'
-     841 |         PVOP_VCALLEE0(pv_irq_ops.irq_disable);
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h: In function 'arch_local_irq_enable':
-   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
-         |                                               ^
-   arch/x86/include/asm/paravirt_types.h:545:33: note: in expansion of macro 'BUG_ON'
-     545 | #define PVOP_TEST_NULL(op)      BUG_ON(op == NULL)
-         |                                 ^~~~~~
-   arch/x86/include/asm/paravirt_types.h:595:17: note: in expansion of macro 'PVOP_TEST_NULL'
-     595 |                 PVOP_TEST_NULL(op);                                     \
-         |                 ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:612:9: note: in expansion of macro '____PVOP_VCALL'
-     612 |         ____PVOP_VCALL(op.func, CLBR_RET_REG,                           \
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:626:9: note: in expansion of macro '__PVOP_VCALLEESAVE'
-     626 |         __PVOP_VCALLEESAVE(op, "", "")
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:846:9: note: in expansion of macro 'PVOP_VCALLEE0'
-     846 |         PVOP_VCALLEE0(pv_irq_ops.irq_enable);
-         |         ^~~~~~~~~~~~~
-   include/asm-generic/fixmap.h: In function 'virt_to_fix':
-   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
-         |                                               ^
-   include/asm-generic/fixmap.h:37:9: note: in expansion of macro 'BUG_ON'
-      37 |         BUG_ON(vaddr >= FIXADDR_TOP || vaddr < FIXADDR_START);
-         |         ^~~~~~
-   In file included from include/linux/kobject.h:21,
-                    from include/linux/module.h:17:
-   include/linux/sysfs.h: In function 'sysfs_get_dirent':
-   include/linux/sysfs.h:496:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
-     496 |         return kernfs_find_and_get(parent, name);
-         |                                            ^~~~
-         |                                            |
-         |                                            const unsigned char *
-   In file included from include/linux/sysfs.h:15:
-   include/linux/kernfs.h:424:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
-     424 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
-         |                                             ~~~~~~~~~~~~^~~~
-   drivers/iio/accel/mxc4005.c: At top level:
-   drivers/iio/accel/mxc4005.c:329:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
-     329 |         {"MXC4005",     0},
-         |         ^
-   In file included from include/linux/i2c.h:29,
-                    from drivers/iio/accel/mxc4005.c:17:
-   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
-     192 |         __u32 cls;
-         |               ^~~
->> drivers/iio/accel/mxc4005.c:328:36: warning: 'mxc4005_acpi_match' defined but not used [-Wunused-const-variable=]
-     328 | static const struct acpi_device_id mxc4005_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~
+vim +73 lib/kunit/string-stream-test.c
 
-
-vim +/mxc4005_acpi_match +328 drivers/iio/accel/mxc4005.c
-
-   327	
- > 328	static const struct acpi_device_id mxc4005_acpi_match[] = {
- > 329		{"MXC4005",	0},
-   330		{ },
-   331	};
-   332	MODULE_DEVICE_TABLE(acpi, mxc4005_acpi_match);
-   333	
+    61	
+    62	/* Unmanaged string_stream object is initialized correctly. */
+    63	static void string_stream_unmanaged_init_test(struct kunit *test)
+    64	{
+    65		struct string_stream *stream;
+    66	
+    67		stream = alloc_string_stream(GFP_KERNEL);
+    68		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, stream);
+    69		kunit_add_action(test, cleanup_raw_stream, stream);
+    70	
+    71		KUNIT_EXPECT_EQ(test, stream->length, 0);
+    72		KUNIT_EXPECT_TRUE(test, list_empty(&stream->fragments));
+  > 73		KUNIT_EXPECT_EQ(test, stream->gfp, GFP_KERNEL);
+    74		KUNIT_EXPECT_FALSE(test, stream->append_newlines);
+    75	
+    76		KUNIT_EXPECT_TRUE(test, string_stream_is_empty(stream));
+    77	}
+    78	
 
 -- 
 0-DAY CI Kernel Test Service
