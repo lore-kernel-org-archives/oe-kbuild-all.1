@@ -1,50 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1FF12E4D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 15:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA3610A07;
+	Sat, 18 Nov 2023 15:12:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/t4pQ9N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZS4UUQy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700319874; x=1731855874;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g94IAzBaDrXXBM3wde18BakVdeksJK1Q+O3n3qhmQCg=;
-  b=C/t4pQ9Nxpdf7H01BFsGTH6Inx52ALpjFX7K6zZNBjRYxTLP57unJTNu
-   gjvVAAmYVhG8jCGvb0JwI3PDS7bqpVos8cgRRqYGU22Plg6VOD6gKvqJi
-   eJVoinitoIQoKcnhTeyqhCPpq2J3WCgeazcRToPEwoNlecFtnO+UHybtK
-   AhGB7Co7h2v7bOMtYUdXB9wCJIKCszhOrn++3pzvY3ZfPY+XAEhrlAnxh
-   98037jtgpLXdHE/XK0i10fXOHWuRKY5z1Z8IMASLhzcK6eqmZIOWwKefY
-   bbRzdZ11TGkhoiACW/Rcv4m8DvPD9REznaRzlyrikOySi1JCKDyuP+7E/
+  t=1700320357; x=1731856357;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5B2Xxvs6DDT8AhafnhBmojnHSguxFUePA5GQi/wh8Ng=;
+  b=gZS4UUQyOVkn5keAaC5zkBKn6kGWz6XTaZDeFhi4pNAN3d7XBVapPu6Y
+   SqLZ1G7O43duvRp6/xnzQkJvVFXFNqBWb5YiAKYDi3lN1hrQjO5Zznmnw
+   5x11FDRf5YMwwcOiriSeRFhlpvXSup9g7//uEjLPo2LC/9mt4M1sJ87ZC
+   393oPZWpE4YyUJT63rGtaVsVMYAlnufj21XLzaYxWhF0amwcm1kPBqoiG
+   9sWvngvUNozIev5kXhhpxeRZfUNfQMDNQaYTMZpemnmjZpKfrJPPwjCKi
+   BBo5K9k5qxbl+qcqu8+6ByPeYT6FHML2Z8I0F+/BGgHiWikMKGNFAx4BG
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="455727715"
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="394281690"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="455727715"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 07:04:27 -0800
+   d="scan'208";a="394281690"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 07:12:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="1013195108"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="1013195108"
+   d="scan'208";a="14179906"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Nov 2023 07:04:24 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 18 Nov 2023 07:12:35 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4Mru-0003zv-18;
-	Sat, 18 Nov 2023 15:04:22 +0000
-Date: Sat, 18 Nov 2023 23:01:09 +0800
+	id 1r4Mze-00040B-2d;
+	Sat, 18 Nov 2023 15:12:29 +0000
+Date: Sat, 18 Nov 2023 23:11:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>, Anders Larsen <al@alarsen.net>
-Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <keescook@chromium.org>,
-	Ronald Monthero <debug.penguin32@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 1/2] qnx4: Extract dir entry filename processing into
- helper
-Message-ID: <202311182210.gREgIbSb-lkp@intel.com>
-References: <20231118033225.2181299-1-keescook@chromium.org>
+To: Michal Kubiak <michal.kubiak@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:pr/21 8/10]
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: error: call to
+ undeclared function 'xdp_do_flush_map'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202311182318.8vcqyUX2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,87 +50,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231118033225.2181299-1-keescook@chromium.org>
 
-Hi Kees,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.7-rc1 next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/qnx4-Extract-dir-entry-filename-processing-into-helper/20231118-114223
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231118033225.2181299-1-keescook%40chromium.org
-patch subject: [PATCH 1/2] qnx4: Extract dir entry filename processing into helper
-config: i386-randconfig-011-20231118 (https://download.01.org/0day-ci/archive/20231118/202311182210.gREgIbSb-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311182210.gREgIbSb-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux pr/21
+head:   17e2d4276ad07f26ea53c62f51094d0b388aabfb
+commit: 182d94b17320b2a4dd20c84605816a1645a85290 [8/10] idpf: add support for XDP_REDIRECT
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231118/202311182318.8vcqyUX2-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311182318.8vcqyUX2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311182210.gREgIbSb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311182318.8vcqyUX2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/qnx4/dir.c:16:0:
->> fs/qnx4/qnx4.h:86:51: error: expected ',' before ')' token
-            offsetof(struct qnx4_link_info, dl_status));
-                                                      ^
-   fs/qnx4/qnx4.h:88:56: error: expected ',' before ')' token
-            offsetof(union qnx4_directory_entry, de_status));
-                                                           ^
+   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:27:
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: error: call to undeclared function 'xdp_do_flush_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   xdp_do_flush_map();
+                   ^
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: note: did you mean 'xdp_do_flush'?
+   include/linux/filter.h:1026:6: note: 'xdp_do_flush' declared here
+   void xdp_do_flush(void);
+        ^
+   1 error generated.
+--
+   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
+   In file included from drivers/net/ethernet/intel/idpf/idpf.h:27:
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: error: call to undeclared function 'xdp_do_flush_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   xdp_do_flush_map();
+                   ^
+   drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: note: did you mean 'xdp_do_flush'?
+   include/linux/filter.h:1026:6: note: 'xdp_do_flush' declared here
+   void xdp_do_flush(void);
+        ^
+   drivers/net/ethernet/intel/idpf/idpf_main.c:162:39: warning: shift count >= width of type [-Wshift-count-overflow]
+           err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+                                                ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+                                                        ^ ~~~
+   1 warning and 1 error generated.
 
 
-vim +86 fs/qnx4/qnx4.h
+vim +/xdp_do_flush_map +1103 drivers/net/ethernet/intel/idpf/idpf_txrx.h
 
-    47	
-    48	/*
-    49	 * A qnx4 directory entry is an inode entry or link info
-    50	 * depending on the status field in the last byte. The
-    51	 * first byte is where the name start either way, and a
-    52	 * zero means it's empty.
-    53	 *
-    54	 * Also, due to a bug in gcc, we don't want to use the
-    55	 * real (differently sized) name arrays in the inode and
-    56	 * link entries, but always the 'de_name[]' one in the
-    57	 * fake struct entry.
-    58	 *
-    59	 * See
-    60	 *
-    61	 *   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99578#c6
-    62	 *
-    63	 * for details, but basically gcc will take the size of the
-    64	 * 'name' array from one of the used union entries randomly.
-    65	 *
-    66	 * This use of 'de_name[]' (48 bytes) avoids the false positive
-    67	 * warnings that would happen if gcc decides to use 'inode.di_name'
-    68	 * (16 bytes) even when the pointer and size were to come from
-    69	 * 'link.dl_name' (48 bytes).
-    70	 *
-    71	 * In all cases the actual name pointer itself is the same, it's
-    72	 * only the gcc internal 'what is the size of this field' logic
-    73	 * that can get confused.
-    74	 */
-    75	union qnx4_directory_entry {
-    76		struct {
-    77			const char de_name[48];
-    78			u8 de_pad[15];
-    79			u8 de_status;
-    80		};
-    81		struct qnx4_inode_entry inode;
-    82		struct qnx4_link_info link;
-    83	};
-    84	/* Make sure the status byte is in the same place for all structs. */
-    85	_Static_assert(offsetof(struct qnx4_inode_entry, di_status) ==
-  > 86		       offsetof(struct qnx4_link_info, dl_status));
-    87	_Static_assert(offsetof(struct qnx4_inode_entry, di_status) ==
-    88		       offsetof(union qnx4_directory_entry, de_status));
-    89	
+  1090	
+  1091	/**
+  1092	 * idpf_finalize_xdp_rx - Bump XDP Tx tail and/or flush redirect map
+  1093	 * @xdpq: XDP Tx queue
+  1094	 * @xdp_act: Logical OR of flags of XDP actions that require finalization
+  1095	 *
+  1096	 * This function bumps XDP Tx tail and/or flush redirect map, and
+  1097	 * should be called when a batch of packets has been processed in the
+  1098	 * napi loop.
+  1099	 */
+  1100	static inline void idpf_finalize_xdp_rx(struct idpf_queue *xdpq, u32 xdp_act)
+  1101	{
+  1102		if (xdp_act & IDPF_XDP_ACT_FINALIZE_REDIR)
+> 1103			xdp_do_flush_map();
+  1104		if (xdp_act & IDPF_XDP_ACT_FINALIZE_TX) {
+  1105			idpf_set_rs_bit(xdpq);
+  1106			idpf_xdpq_update_tail(xdpq);
+  1107		}
+  1108	}
+  1109	
 
 -- 
 0-DAY CI Kernel Test Service
