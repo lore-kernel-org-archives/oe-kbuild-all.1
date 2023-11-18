@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD0619451
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 20:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2D02CA5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 21:35:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QLqW1F3I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y2oUvqaK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700340099; x=1731876099;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SNOxp2VKi69QamJfV6FHH/Q0V+/45fY4L6p3Mwj1vf0=;
-  b=QLqW1F3IBxaISXlcCkcz8rbiTn57eUDZGztlo0IzrcYV/SUgSZtX15dt
-   bZz+KuqtaI2AsBkuXWlhzL2gZBdFqPPlRYaJwuj0GIRwPGW1z0+i7W6Ca
-   e2dJvWXJ/vDSOoItos5weJbF/jmniCIpnjPWl9BNhAQJzJgWg8u/wCRvI
-   FhcuziwleFrZuwXe0+5nRFX4nBgZHrD1aCNU3D9DwT4vxlyHWrh1cZRFk
-   wkGAGzrM4vaFb/gS3Na9Yx3Hrd/k3rKFstQ3GS1/Zh81Z/a8X7jpaGXWb
-   Xk//WIg1+pCfY7SMZ8HHC42HqhcpSskq1vzT3kuUSzK6FgUhXHjkSWJ6s
+  t=1700343344; x=1731879344;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VymuWaacWeaq2SD97m0ZVzFc3UXoH/u+NQk7MnUnAL0=;
+  b=Y2oUvqaKSjnOf5TwWfR0sjDXH3719vME8Y3RFmXo75s1uRDGICAAVIWP
+   b7b68QkFuDwhFiwtQy/s1w8cpqHmJKJuaSYDxIW7ISABIrX4QO0IuColX
+   5gDWwYEN71IlpjZwrj/gzHHIYLUM7L81KFa2HR0uUwPoQZvfopLycpssa
+   oD3Er6jCqzmKYr2lyJm4XcTCU+X0FjKfYfRDHF2QDgjNmMFmy0kLqbj76
+   sytNu2/Ym3/63zpV88JNvGN4uJspy0c92N9HBnhd039aeoLIOJEANyIoS
+   FaNYeDqCjQehttGqNIfyBMCBV3ywWV/J5EI2gGnl4/qqC0ywHOzCm3JmI
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="477670337"
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="422548551"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="477670337"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 12:41:38 -0800
+   d="scan'208";a="422548551"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 13:35:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="742376792"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="742376792"
+   d="scan'208";a="7342321"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 18 Nov 2023 12:41:35 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 18 Nov 2023 13:35:42 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4S8D-0004GV-1o;
-	Sat, 18 Nov 2023 20:41:33 +0000
-Date: Sun, 19 Nov 2023 04:40:53 +0800
+	id 1r4SyZ-0004Jl-1y;
+	Sat, 18 Nov 2023 21:35:39 +0000
+Date: Sun, 19 Nov 2023 05:34:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: qiwuchen55@gmail.com, catalin.marinas@arm.com, will@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, chenqiwu <qiwu.chen@transsion.com>
-Subject: Re: [PATCH] arm64: Add user stacktrace support
-Message-ID: <202311190405.QUvoF0b3-lkp@intel.com>
-References: <20231118134504.154842-1-qiwu.chen@transsion.com>
+To: Markus Pargmann <mpa@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>
+Subject: drivers/iio/accel/bmc150-accel-i2c.c:64:36: warning:
+ 'bmc150_accel_acpi_match' defined but not used
+Message-ID: <202311190544.BAldQrGA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,80 +49,142 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231118134504.154842-1-qiwu.chen@transsion.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on linus/master v6.7-rc1 next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/qiwuchen55-gmail-com/arm64-Add-user-stacktrace-support/20231118-214756
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20231118134504.154842-1-qiwu.chen%40transsion.com
-patch subject: [PATCH] arm64: Add user stacktrace support
-config: arm64-randconfig-r071-20231119 (https://download.01.org/0day-ci/archive/20231119/202311190405.QUvoF0b3-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311190405.QUvoF0b3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b8f1fa2419c19c81bc386a6b350879ba54a573e1
+commit: 55637c38377a301cd0768cee73021e43d05de543 iio: bmc150: Split the driver into core and i2c
+date:   8 years ago
+config: x86_64-buildonly-randconfig-004-20230906 (https://download.01.org/0day-ci/archive/20231119/202311190544.BAldQrGA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311190544.BAldQrGA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311190405.QUvoF0b3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311190544.BAldQrGA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kernel/stacktrace.c:393: warning: expecting prototype for stack_trace_save_user(). Prototype was for arch_stack_walk_user() instead
+     806 |         PVOP_VCALLEE1(pv_irq_ops.restore_fl, f);
+         |         ^~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt.h: In function 'arch_local_irq_disable':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   arch/x86/include/asm/paravirt_types.h:542:33: note: in expansion of macro 'BUG_ON'
+     542 | #define PVOP_TEST_NULL(op)      BUG_ON(op == NULL)
+         |                                 ^~~~~~
+   arch/x86/include/asm/paravirt_types.h:592:17: note: in expansion of macro 'PVOP_TEST_NULL'
+     592 |                 PVOP_TEST_NULL(op);                                     \
+         |                 ^~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:609:9: note: in expansion of macro '____PVOP_VCALL'
+     609 |         ____PVOP_VCALL(op.func, CLBR_RET_REG,                           \
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:623:9: note: in expansion of macro '__PVOP_VCALLEESAVE'
+     623 |         __PVOP_VCALLEESAVE(op, "", "")
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt.h:811:9: note: in expansion of macro 'PVOP_VCALLEE0'
+     811 |         PVOP_VCALLEE0(pv_irq_ops.irq_disable);
+         |         ^~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt.h: In function 'arch_local_irq_enable':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   arch/x86/include/asm/paravirt_types.h:542:33: note: in expansion of macro 'BUG_ON'
+     542 | #define PVOP_TEST_NULL(op)      BUG_ON(op == NULL)
+         |                                 ^~~~~~
+   arch/x86/include/asm/paravirt_types.h:592:17: note: in expansion of macro 'PVOP_TEST_NULL'
+     592 |                 PVOP_TEST_NULL(op);                                     \
+         |                 ^~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:609:9: note: in expansion of macro '____PVOP_VCALL'
+     609 |         ____PVOP_VCALL(op.func, CLBR_RET_REG,                           \
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:623:9: note: in expansion of macro '__PVOP_VCALLEESAVE'
+     623 |         __PVOP_VCALLEESAVE(op, "", "")
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt.h:816:9: note: in expansion of macro 'PVOP_VCALLEE0'
+     816 |         PVOP_VCALLEE0(pv_irq_ops.irq_enable);
+         |         ^~~~~~~~~~~~~
+   include/linux/sysfs.h: In function 'sysfs_get_dirent':
+   include/linux/sysfs.h:496:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
+     496 |         return kernfs_find_and_get(parent, name);
+         |                                            ^~~~
+         |                                            |
+         |                                            const unsigned char *
+   include/linux/kernfs.h:428:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
+     428 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
+         |                                             ~~~~~~~~~~~~^~~~
+   include/asm-generic/fixmap.h: In function 'virt_to_fix':
+   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
+         |                                               ^
+   include/asm-generic/fixmap.h:37:9: note: in expansion of macro 'BUG_ON'
+      37 |         BUG_ON(vaddr >= FIXADDR_TOP || vaddr < FIXADDR_START);
+         |         ^~~~~~
+   drivers/iio/accel/bmc150-accel-i2c.c: At top level:
+   drivers/iio/accel/bmc150-accel-i2c.c:65:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
+      65 |         {"BSBA0150",    bmc150},
+         |         ^
+   In file included from drivers/iio/accel/bmc150-accel-i2c.c:23:
+   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
+     192 |         __u32 cls;
+         |               ^~~
+   drivers/iio/accel/bmc150-accel-i2c.c:66:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
+      66 |         {"BMC150A",     bmc150},
+         |         ^
+   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
+     192 |         __u32 cls;
+         |               ^~~
+   drivers/iio/accel/bmc150-accel-i2c.c:67:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
+      67 |         {"BMI055A",     bmi055},
+         |         ^
+   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
+     192 |         __u32 cls;
+         |               ^~~
+   drivers/iio/accel/bmc150-accel-i2c.c:68:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
+      68 |         {"BMA0255",     bma255},
+         |         ^
+   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
+     192 |         __u32 cls;
+         |               ^~~
+   drivers/iio/accel/bmc150-accel-i2c.c:69:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
+      69 |         {"BMA250E",     bma250e},
+         |         ^
+   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
+     192 |         __u32 cls;
+         |               ^~~
+   drivers/iio/accel/bmc150-accel-i2c.c:70:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
+      70 |         {"BMA222E",     bma222e},
+         |         ^
+   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
+     192 |         __u32 cls;
+         |               ^~~
+   drivers/iio/accel/bmc150-accel-i2c.c:71:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
+      71 |         {"BMA0280",     bma280},
+         |         ^
+   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
+     192 |         __u32 cls;
+         |               ^~~
+>> drivers/iio/accel/bmc150-accel-i2c.c:64:36: warning: 'bmc150_accel_acpi_match' defined but not used [-Wunused-const-variable=]
+      64 | static const struct acpi_device_id bmc150_accel_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +393 arch/arm64/kernel/stacktrace.c
+vim +/bmc150_accel_acpi_match +64 drivers/iio/accel/bmc150-accel-i2c.c
 
-   384	
-   385	/**
-   386	 * stack_trace_save_user - Save user space stack traces into a storage array
-   387	 * @consume_entry: Callback for save a user space stack trace
-   388	 * @cookie:	Caller supplied pointer handed back by arch_stack_walk()
-   389	 * @regs: The pt_regs pointer of current task
-   390	 */
-   391	void arch_stack_walk_user(stack_trace_consume_fn consume_entry, void *cookie,
-   392				  const struct pt_regs *regs)
- > 393	{
-   394		struct stack_frame_user frame;
-   395		struct vm_area_struct *vma;
-   396		unsigned long userstack_start, userstack_end;
-   397		struct task_struct *tsk = current;
-   398	
-   399		/* TODO: support stack unwind for compat user mode */
-   400		if (!regs || !user_mode(regs) || compat_user_mode(regs))
-   401			return;
-   402	
-   403		userstack_start = regs->user_regs.sp;
-   404		vma = find_user_stack_vma(tsk, userstack_start);
-   405		if (!vma)
-   406			return;
-   407	
-   408		userstack_end = vma->vm_end;
-   409		frame.fp = regs->user_regs.regs[29];
-   410		frame.sp = userstack_start;
-   411		frame.pc = regs->user_regs.pc;
-   412	
-   413		while (1) {
-   414			unsigned long where = frame.pc;
-   415	
-   416			/* Sanity check: ABI requires pc to be aligned 4 bytes. */
-   417			if (!where || where & 0x3)
-   418				break;
-   419			if (!consume_entry(cookie, where))
-   420				break;
-   421			if (arch_unwind_user_frame(tsk, userstack_end, &frame) < 0)
-   422				break;
-   423		}
-   424	}
-   425	
+    63	
+  > 64	static const struct acpi_device_id bmc150_accel_acpi_match[] = {
+    65		{"BSBA0150",	bmc150},
+    66		{"BMC150A",	bmc150},
+    67		{"BMI055A",	bmi055},
+    68		{"BMA0255",	bma255},
+    69		{"BMA250E",	bma250e},
+    70		{"BMA222E",	bma222e},
+    71		{"BMA0280",	bma280},
+    72		{ },
+    73	};
+    74	MODULE_DEVICE_TABLE(acpi, bmc150_accel_acpi_match);
+    75	
 
 -- 
 0-DAY CI Kernel Test Service
