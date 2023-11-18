@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA3610A07;
-	Sat, 18 Nov 2023 15:12:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E42710A19
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 15:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZS4UUQy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="faqVuWOm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700320357; x=1731856357;
+  t=1700320358; x=1731856358;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5B2Xxvs6DDT8AhafnhBmojnHSguxFUePA5GQi/wh8Ng=;
-  b=gZS4UUQyOVkn5keAaC5zkBKn6kGWz6XTaZDeFhi4pNAN3d7XBVapPu6Y
-   SqLZ1G7O43duvRp6/xnzQkJvVFXFNqBWb5YiAKYDi3lN1hrQjO5Zznmnw
-   5x11FDRf5YMwwcOiriSeRFhlpvXSup9g7//uEjLPo2LC/9mt4M1sJ87ZC
-   393oPZWpE4YyUJT63rGtaVsVMYAlnufj21XLzaYxWhF0amwcm1kPBqoiG
-   9sWvngvUNozIev5kXhhpxeRZfUNfQMDNQaYTMZpemnmjZpKfrJPPwjCKi
-   BBo5K9k5qxbl+qcqu8+6ByPeYT6FHML2Z8I0F+/BGgHiWikMKGNFAx4BG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="394281690"
+  bh=tpmyZF1938wyoEZjrL2Y8WcTbQ6TTU/PtfnVmbaE6YM=;
+  b=faqVuWOmZZ5yBPymXZJv05D1pW4M5HKYOO8CFTd03BQ7VAcqd9ycDy34
+   tdr1EwERKl2K6lMtCQt/VNR06jJNJwUkZiJCm+xXaB2m4UJD13ZupTRh1
+   GrwYn5xOG3XSzLQp91TsO5AlOuN9LQPOIFaSRQtAwylDbEpzV5Eg+JURX
+   VZwIKGldSNSZ+lPBq9RPITXF8CCdcxYGvRTMnoQbKp+HsST09YDUihAG5
+   uS1eZ2gCbJuofTot6QPkAsiZC8BWWZNlFVT0qNZ1kDiHt/+BEFbYRb9F9
+   iX4K523usvRy5zQUDqLZqPEubQH/1o4aEiZ0GxQqHeNuWKjZEYyNHC84l
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="477646843"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="394281690"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 07:12:36 -0800
+   d="scan'208";a="477646843"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 07:12:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="14179906"
+   d="scan'208";a="7129467"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Nov 2023 07:12:35 -0800
+  by orviesa002.jf.intel.com with ESMTP; 18 Nov 2023 07:12:36 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4Mze-00040B-2d;
-	Sat, 18 Nov 2023 15:12:29 +0000
-Date: Sat, 18 Nov 2023 23:11:46 +0800
+	id 1r4Mzp-00040D-01;
+	Sat, 18 Nov 2023 15:12:33 +0000
+Date: Sat, 18 Nov 2023 23:11:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Kubiak <michal.kubiak@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:pr/21 8/10]
- drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: error: call to
- undeclared function 'xdp_do_flush_map'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202311182318.8vcqyUX2-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: kernel/stacktrace.c:138: warning: Function parameter or member 'tsk'
+ not described in 'stack_trace_save_tsk'
+Message-ID: <202311182316.IieU4Dl1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,71 +50,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux pr/21
-head:   17e2d4276ad07f26ea53c62f51094d0b388aabfb
-commit: 182d94b17320b2a4dd20c84605816a1645a85290 [8/10] idpf: add support for XDP_REDIRECT
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20231118/202311182318.8vcqyUX2-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311182318.8vcqyUX2-lkp@intel.com/reproduce)
+Hi Thomas,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   791c8ab095f71327899023223940dd52257a4173
+commit: 214d8ca6ee854f696f75e75511fe66b409e656db stacktrace: Provide common infrastructure
+date:   4 years, 7 months ago
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20231118/202311182316.IieU4Dl1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311182316.IieU4Dl1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311182318.8vcqyUX2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311182316.IieU4Dl1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:27:
->> drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: error: call to undeclared function 'xdp_do_flush_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   xdp_do_flush_map();
-                   ^
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: note: did you mean 'xdp_do_flush'?
-   include/linux/filter.h:1026:6: note: 'xdp_do_flush' declared here
-   void xdp_do_flush(void);
-        ^
-   1 error generated.
---
-   In file included from drivers/net/ethernet/intel/idpf/idpf_main.c:4:
-   In file included from drivers/net/ethernet/intel/idpf/idpf.h:27:
->> drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: error: call to undeclared function 'xdp_do_flush_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   xdp_do_flush_map();
-                   ^
-   drivers/net/ethernet/intel/idpf/idpf_txrx.h:1103:3: note: did you mean 'xdp_do_flush'?
-   include/linux/filter.h:1026:6: note: 'xdp_do_flush' declared here
-   void xdp_do_flush(void);
-        ^
-   drivers/net/ethernet/intel/idpf/idpf_main.c:162:39: warning: shift count >= width of type [-Wshift-count-overflow]
-           err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
-                                                ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-                                                        ^ ~~~
-   1 warning and 1 error generated.
+>> kernel/stacktrace.c:138: warning: Function parameter or member 'tsk' not described in 'stack_trace_save_tsk'
+>> kernel/stacktrace.c:138: warning: Excess function parameter 'task' description in 'stack_trace_save_tsk'
 
 
-vim +/xdp_do_flush_map +1103 drivers/net/ethernet/intel/idpf/idpf_txrx.h
+vim +138 kernel/stacktrace.c
 
-  1090	
-  1091	/**
-  1092	 * idpf_finalize_xdp_rx - Bump XDP Tx tail and/or flush redirect map
-  1093	 * @xdpq: XDP Tx queue
-  1094	 * @xdp_act: Logical OR of flags of XDP actions that require finalization
-  1095	 *
-  1096	 * This function bumps XDP Tx tail and/or flush redirect map, and
-  1097	 * should be called when a batch of packets has been processed in the
-  1098	 * napi loop.
-  1099	 */
-  1100	static inline void idpf_finalize_xdp_rx(struct idpf_queue *xdpq, u32 xdp_act)
-  1101	{
-  1102		if (xdp_act & IDPF_XDP_ACT_FINALIZE_REDIR)
-> 1103			xdp_do_flush_map();
-  1104		if (xdp_act & IDPF_XDP_ACT_FINALIZE_TX) {
-  1105			idpf_set_rs_bit(xdpq);
-  1106			idpf_xdpq_update_tail(xdpq);
-  1107		}
-  1108	}
-  1109	
+   126	
+   127	/**
+   128	 * stack_trace_save_tsk - Save a task stack trace into a storage array
+   129	 * @task:	The task to examine
+   130	 * @store:	Pointer to storage array
+   131	 * @size:	Size of the storage array
+   132	 * @skipnr:	Number of entries to skip at the start of the stack trace
+   133	 *
+   134	 * Return: Number of trace entries stored.
+   135	 */
+   136	unsigned int stack_trace_save_tsk(struct task_struct *tsk, unsigned long *store,
+   137					  unsigned int size, unsigned int skipnr)
+ > 138	{
+   139		stack_trace_consume_fn consume_entry = stack_trace_consume_entry_nosched;
+   140		struct stacktrace_cookie c = {
+   141			.store	= store,
+   142			.size	= size,
+   143			.skip	= skipnr + 1,
+   144		};
+   145	
+   146		if (!try_get_task_stack(tsk))
+   147			return 0;
+   148	
+   149		arch_stack_walk(consume_entry, &c, tsk, NULL);
+   150		put_task_stack(tsk);
+   151		return c.len;
+   152	}
+   153	
 
 -- 
 0-DAY CI Kernel Test Service
