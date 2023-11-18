@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64E85251
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 03:10:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332E123A8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 03:49:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0ss2O4O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AfJ5VUMJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700277050; x=1731813050;
+  t=1700279369; x=1731815369;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k1pdNEvj+Wq6UzFW3DfVYO3iWwVtpSz7zaznBuWvaw8=;
-  b=H0ss2O4OXlRjJviHwqNtGhWsBkJ0Vzi0RVqaAQdN09mXLR/SBhVCpVbH
-   1cXuf6eHIK13vyEBk1QeBDS7d4luXbEctmxVzkhXA0pH1DjxXwRtX7Uky
-   JJnj64eiPBarDxTW7gJFqYKGEEGlj16PiojflGBm29slAMVgYLtSsp6f0
-   H0lxQwd673jnKLzN5ml+UqrEcx8iRWBCw4PkWXE0UzzzGhY7a9DgLhPwj
-   1vw9HiUf+0if69a/WxDmTvuHJt/zcfM0EXJODgHhd+k/HICbi4QV7O3i+
-   BZXIrVfEXDzHgAwgwgwcKlDaOWOfl8t+zviDsOXMMmofu3VR3GxepzrXt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="455698660"
+  bh=+EoFR0cj0+VGJ4groLlxTDAtdkFOj1XwxfhyfTgLFts=;
+  b=AfJ5VUMJh07awSRan8XQQuvbYIdYsAO4esILVlGwezZa80pBDJVMAi8L
+   glWIppT+qWkw0fUDTklFD13KZMz3bGWSYax0gCv8L1ZUMSZWgIN7SB4p2
+   IqpE30J08viRvkANtnxObOE1yB2BYGnvvVhSpZPe8wuCDX1oe3skVDpF0
+   HK9N1AWQDh/eaB3w8aAUnQHq4jaN6NJYHORat95xfqx/VNNv+5rabBvuU
+   XugZmB9taYqHfcNBl8dFPzWJw3bU/TyG/NSO9XtFO9QEsPmzaTduFPaaM
+   grVUb4WBLgSqNM8rPZ/UQ33UrFTwZ44mjUzfXmjo8Ds0l+lu5ctUwlXdl
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="376452266"
 X-IronPort-AV: E=Sophos;i="6.04,207,1695711600"; 
-   d="scan'208";a="455698660"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 19:10:49 -0800
+   d="scan'208";a="376452266"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 19:49:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="1013102337"
 X-IronPort-AV: E=Sophos;i="6.04,207,1695711600"; 
-   d="scan'208";a="1013102337"
+   d="scan'208";a="13661858"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Nov 2023 19:10:48 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Nov 2023 19:49:25 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4BjI-0003T8-1A;
-	Sat, 18 Nov 2023 03:10:45 +0000
-Date: Sat, 18 Nov 2023 11:10:30 +0800
+	id 1r4CKg-0003Up-0K;
+	Sat, 18 Nov 2023 03:49:22 +0000
+Date: Sat, 18 Nov 2023 11:49:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/snapshot.c:962:9: sparse: sparse: cast from restricted
- __le32
-Message-ID: <202311181146.DJCFO6rR-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+Subject: drivers/remoteproc/stm32_rproc.c:139:20: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202311181131.FV6wkpIs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,138 +50,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Arnd,
+
+First bad commit (maybe != root cause):
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   791c8ab095f71327899023223940dd52257a4173
-commit: f55d6e07bc6c9b90f58586daf9c432adb5f5ce25 bcachefs: Cleanup redundant snapshot nodes
-date:   4 weeks ago
-config: mips-randconfig-r132-20231115 (https://download.01.org/0day-ci/archive/20231118/202311181146.DJCFO6rR-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231118/202311181146.DJCFO6rR-lkp@intel.com/reproduce)
+commit: 03bd158e1535e68bcd2b1e095b0ebcad7c84bd20 remoteproc: stm32: use correct format strings on 64-bit
+date:   5 months ago
+config: arm-randconfig-r121-20231118 (https://download.01.org/0day-ci/archive/20231118/202311181131.FV6wkpIs-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231118/202311181131.FV6wkpIs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311181146.DJCFO6rR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311181131.FV6wkpIs-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/bcachefs/snapshot.c:962:9: sparse: sparse: cast from restricted __le32
-   fs/bcachefs/snapshot.c:989:41: sparse: sparse: cast to restricted __le32
-   fs/bcachefs/snapshot.c:989:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 @@     got unsigned int [usertype] @@
-   fs/bcachefs/snapshot.c:989:39: sparse:     expected restricted __le32
-   fs/bcachefs/snapshot.c:989:39: sparse:     got unsigned int [usertype]
-   fs/bcachefs/snapshot.c:1023:17: sparse: sparse: cast from restricted __le32
-   fs/bcachefs/snapshot.c:942:5: sparse: sparse: symbol 'bch2_snapshot_node_delete' was not declared. Should it be static?
+   drivers/remoteproc/stm32_rproc.c:122:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *va @@     got void [noderef] __iomem * @@
+   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     expected void *va
+   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     got void [noderef] __iomem *
+>> drivers/remoteproc/stm32_rproc.c:139:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *io_addr @@     got void *va @@
+   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     expected void volatile [noderef] __iomem *io_addr
+   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     got void *va
+   drivers/remoteproc/stm32_rproc.c:644:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/remoteproc/stm32_rproc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +962 fs/bcachefs/snapshot.c
+vim +139 drivers/remoteproc/stm32_rproc.c
 
-   941	
-   942	int bch2_snapshot_node_delete(struct btree_trans *trans, u32 id)
-   943	{
-   944		struct bch_fs *c = trans->c;
-   945		struct btree_iter iter, p_iter = (struct btree_iter) { NULL };
-   946		struct btree_iter c_iter = (struct btree_iter) { NULL };
-   947		struct btree_iter tree_iter = (struct btree_iter) { NULL };
-   948		struct bkey_s_c_snapshot s;
-   949		u32 parent_id, child_id;
-   950		unsigned i;
-   951		int ret = 0;
-   952	
-   953		s = bch2_bkey_get_iter_typed(trans, &iter, BTREE_ID_snapshots, POS(0, id),
-   954					     BTREE_ITER_INTENT, snapshot);
-   955		ret = bkey_err(s);
-   956		bch2_fs_inconsistent_on(bch2_err_matches(ret, ENOENT), c,
-   957					"missing snapshot %u", id);
-   958	
-   959		if (ret)
-   960			goto err;
-   961	
- > 962		BUG_ON(s.v->children[1]);
-   963	
-   964		parent_id = le32_to_cpu(s.v->parent);
-   965		child_id = le32_to_cpu(s.v->children[0]);
-   966	
-   967		if (parent_id) {
-   968			struct bkey_i_snapshot *parent;
-   969	
-   970			parent = bch2_bkey_get_mut_typed(trans, &p_iter,
-   971					     BTREE_ID_snapshots, POS(0, parent_id),
-   972					     0, snapshot);
-   973			ret = PTR_ERR_OR_ZERO(parent);
-   974			bch2_fs_inconsistent_on(bch2_err_matches(ret, ENOENT), c,
-   975						"missing snapshot %u", parent_id);
-   976			if (unlikely(ret))
-   977				goto err;
-   978	
-   979			/* find entry in parent->children for node being deleted */
-   980			for (i = 0; i < 2; i++)
-   981				if (le32_to_cpu(parent->v.children[i]) == id)
-   982					break;
-   983	
-   984			if (bch2_fs_inconsistent_on(i == 2, c,
-   985						"snapshot %u missing child pointer to %u",
-   986						parent_id, id))
-   987				goto err;
-   988	
-   989			parent->v.children[i] = le32_to_cpu(child_id);
-   990	
-   991			normalize_snapshot_child_pointers(&parent->v);
-   992		}
-   993	
-   994		if (child_id) {
-   995			struct bkey_i_snapshot *child;
-   996	
-   997			child = bch2_bkey_get_mut_typed(trans, &c_iter,
-   998					     BTREE_ID_snapshots, POS(0, child_id),
-   999					     0, snapshot);
-  1000			ret = PTR_ERR_OR_ZERO(child);
-  1001			bch2_fs_inconsistent_on(bch2_err_matches(ret, ENOENT), c,
-  1002						"missing snapshot %u", child_id);
-  1003			if (unlikely(ret))
-  1004				goto err;
-  1005	
-  1006			child->v.parent = cpu_to_le32(parent_id);
-  1007	
-  1008			if (!child->v.parent) {
-  1009				child->v.skip[0] = 0;
-  1010				child->v.skip[1] = 0;
-  1011				child->v.skip[2] = 0;
-  1012			}
-  1013		}
-  1014	
-  1015		if (!parent_id) {
-  1016			/*
-  1017			 * We're deleting the root of a snapshot tree: update the
-  1018			 * snapshot_tree entry to point to the new root, or delete it if
-  1019			 * this is the last snapshot ID in this tree:
-  1020			 */
-  1021			struct bkey_i_snapshot_tree *s_t;
-  1022	
-  1023			BUG_ON(s.v->children[1]);
-  1024	
-  1025			s_t = bch2_bkey_get_mut_typed(trans, &tree_iter,
-  1026					BTREE_ID_snapshot_trees, POS(0, le32_to_cpu(s.v->tree)),
-  1027					0, snapshot_tree);
-  1028			ret = PTR_ERR_OR_ZERO(s_t);
-  1029			if (ret)
-  1030				goto err;
-  1031	
-  1032			if (s.v->children[0]) {
-  1033				s_t->v.root_snapshot = s.v->children[0];
-  1034			} else {
-  1035				s_t->k.type = KEY_TYPE_deleted;
-  1036				set_bkey_val_u64s(&s_t->k, 0);
-  1037			}
-  1038		}
-  1039	
-  1040		ret = bch2_btree_delete_at(trans, &iter, 0);
-  1041	err:
-  1042		bch2_trans_iter_exit(trans, &tree_iter);
-  1043		bch2_trans_iter_exit(trans, &p_iter);
-  1044		bch2_trans_iter_exit(trans, &c_iter);
-  1045		bch2_trans_iter_exit(trans, &iter);
-  1046		return ret;
-  1047	}
-  1048	
+13140de09cc2dd Fabien Dessenne 2019-05-14  114  
+13140de09cc2dd Fabien Dessenne 2019-05-14  115  static int stm32_rproc_mem_alloc(struct rproc *rproc,
+13140de09cc2dd Fabien Dessenne 2019-05-14  116  				 struct rproc_mem_entry *mem)
+13140de09cc2dd Fabien Dessenne 2019-05-14  117  {
+13140de09cc2dd Fabien Dessenne 2019-05-14  118  	struct device *dev = rproc->dev.parent;
+13140de09cc2dd Fabien Dessenne 2019-05-14  119  	void *va;
+13140de09cc2dd Fabien Dessenne 2019-05-14  120  
+03bd158e1535e6 Arnd Bergmann   2023-06-09  121  	dev_dbg(dev, "map memory: %pad+%zx\n", &mem->dma, mem->len);
+13140de09cc2dd Fabien Dessenne 2019-05-14 @122  	va = ioremap_wc(mem->dma, mem->len);
+13140de09cc2dd Fabien Dessenne 2019-05-14  123  	if (IS_ERR_OR_NULL(va)) {
+03bd158e1535e6 Arnd Bergmann   2023-06-09  124  		dev_err(dev, "Unable to map memory region: %pad+0x%zx\n",
+13140de09cc2dd Fabien Dessenne 2019-05-14  125  			&mem->dma, mem->len);
+13140de09cc2dd Fabien Dessenne 2019-05-14  126  		return -ENOMEM;
+13140de09cc2dd Fabien Dessenne 2019-05-14  127  	}
+13140de09cc2dd Fabien Dessenne 2019-05-14  128  
+13140de09cc2dd Fabien Dessenne 2019-05-14  129  	/* Update memory entry va */
+13140de09cc2dd Fabien Dessenne 2019-05-14  130  	mem->va = va;
+13140de09cc2dd Fabien Dessenne 2019-05-14  131  
+13140de09cc2dd Fabien Dessenne 2019-05-14  132  	return 0;
+13140de09cc2dd Fabien Dessenne 2019-05-14  133  }
+13140de09cc2dd Fabien Dessenne 2019-05-14  134  
+13140de09cc2dd Fabien Dessenne 2019-05-14  135  static int stm32_rproc_mem_release(struct rproc *rproc,
+13140de09cc2dd Fabien Dessenne 2019-05-14  136  				   struct rproc_mem_entry *mem)
+13140de09cc2dd Fabien Dessenne 2019-05-14  137  {
+13140de09cc2dd Fabien Dessenne 2019-05-14  138  	dev_dbg(rproc->dev.parent, "unmap memory: %pa\n", &mem->dma);
+13140de09cc2dd Fabien Dessenne 2019-05-14 @139  	iounmap(mem->va);
+13140de09cc2dd Fabien Dessenne 2019-05-14  140  
+13140de09cc2dd Fabien Dessenne 2019-05-14  141  	return 0;
+13140de09cc2dd Fabien Dessenne 2019-05-14  142  }
+13140de09cc2dd Fabien Dessenne 2019-05-14  143  
+
+:::::: The code at line 139 was first introduced by commit
+:::::: 13140de09cc2dd5e5166ad42292bb82af4e23cef remoteproc: stm32: add an ST stm32_rproc driver
+
+:::::: TO: Fabien Dessenne <fabien.dessenne@st.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
