@@ -1,46 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7982F5698;
-	Sat, 18 Nov 2023 10:48:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E173B4F8B8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 10:48:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCqScrQ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBE19fKC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700304536; x=1731840536;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o4EzpXfuSPXqGqQnHd1XRC1/iEZEE6TxSB289ZJM1Ds=;
-  b=QCqScrQ2RPbnR7RqDzFUOyfqUOkBi6Jg943QuuOzjJ95sfV4d442tCs7
-   TeJdL32DoTfcEVnxGR/xfayADUrvKLOOqffKLwqJaIIgWg3sQJyHxUUFd
-   9Ofd0pOHhl4pI5idDlnfNoLLD+qmJGDNELblMRLUjlCQ9OIID4A7wMbMY
-   erQHJFf63VP/x5M0dEjjzg103VKKP9f3GAyx0XVzDR35Mwwsnj6q1CnWb
-   wFIA2wdnvPhjMgMfzkpfvWWxfGKL6/4l17O5LWza+ug3IPZ/QGNpnlfT6
-   hjs4SwDRPV/kr4aQ/kXORMa1Up/+M42raefMSvi33PBh+cqM8hdEo84Kt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="371597401"
+  t=1700304537; x=1731840537;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mKdSlX1swM3WMDVc4VlkT9vSVawkuWJWZPUjsBu/gEg=;
+  b=VBE19fKCPXA9e2rgfuIGiggeYt+SDrThVLZszumH2WZm6VON3UkmABRY
+   /TSaSsVeiIBRRNk8rSd8YIIkFxU5zkdtGDfKsrgROtHteaaE6rMSFq1L9
+   xJ0LqkUUjg35szqyqUbbeiS9oX1w08fNehTxnsZ7zdeo/pd/6MOE1jnXk
+   2PND+DywbvlbK+wmPuU4zzXJncLTfzYBu5Lofgtv8+CRU6uRyWLi3cUzQ
+   pOPr6ZVls1GN9kRyHbXS8uUFXOmlCa/FAyuXCub2P/tHti79ON18CUTyW
+   ihA/USTHbA4eKZ+ZIdZOjuj1NuUmNY7bBACx/Bjglp3VheNmjeqp1tPS4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="371597403"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="371597401"
+   d="scan'208";a="371597403"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 02:48:55 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 02:48:56 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="7263530"
+   d="scan'208";a="7263539"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 18 Nov 2023 02:48:54 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4Isd-0003pD-35;
-	Sat, 18 Nov 2023 10:48:51 +0000
-Date: Sat, 18 Nov 2023 18:48:43 +0800
+	id 1r4Ise-0003pH-00;
+	Sat, 18 Nov 2023 10:48:52 +0000
+Date: Sat, 18 Nov 2023 18:48:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:write-pipelining 9/19] drivers/scsi/sd_test.c:34:13:
- warning: stack frame size (2688) exceeds limit (1024) in
- 'test_sd_cmp_sector'
-Message-ID: <202311181859.GE5EFaE5-lkp@intel.com>
+To: Prashanth K <quic_prashk@quicinc.com>, stable@vger.kernel.org,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mathias Nyman <mathias.nyman@intel.com>,
+	Tejas Joglekar <joglekar@synopsys.com>,
+	linux-kernel@vger.kernel.org, linux-usbyy@vger.kernel.org,
+	Prashanth K <quic_prashk@quicinc.com>
+Subject: Re: [PATCH 1/2] usb: dwc3: core: Add support for
+ xhci-sg-trb-cache-size-quirk
+Message-ID: <202311181846.AjhQ7gvy-lkp@intel.com>
+References: <20231118055455.249088-2-quic_prashk@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,130 +55,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231118055455.249088-2-quic_prashk@quicinc.com>
 
-tree:   https://github.com/bvanassche/linux write-pipelining
-head:   f409a1d5e3ab8709f7ee3147de97200d455003e8
-commit: 53da08715927f5be1d68ad383bb7a419c834ea47 [9/19] scsi: sd: Add a unit test for sd_cmp_sector()
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20231118/202311181859.GE5EFaE5-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311181859.GE5EFaE5-lkp@intel.com/reproduce)
+Hi Prashanth,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.7-rc1 next-20231117]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Prashanth-K/usb-dwc3-core-Add-support-for-xhci-sg-trb-cache-size-quirk/20231118-135837
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20231118055455.249088-2-quic_prashk%40quicinc.com
+patch subject: [PATCH 1/2] usb: dwc3: core: Add support for xhci-sg-trb-cache-size-quirk
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231118/202311181846.AjhQ7gvy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311181846.AjhQ7gvy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311181859.GE5EFaE5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311181846.AjhQ7gvy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/scsi/sd.c:40:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/scsi/sd.c:40:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/scsi/sd.c:40:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/scsi/sd.c:4146:
->> drivers/scsi/sd_test.c:34:13: warning: stack frame size (2688) exceeds limit (1024) in 'test_sd_cmp_sector' [-Wframe-larger-than]
-      34 | static void test_sd_cmp_sector(struct kunit *test)
-         |             ^
-   7 warnings generated.
+   drivers/usb/dwc3/host.c: In function 'dwc3_host_init':
+   drivers/usb/dwc3/host.c:66:16: error: variable 'dwc3_xhci_plat_priv' has initializer but incomplete type
+      66 |         struct xhci_plat_priv   dwc3_xhci_plat_priv = {0};
+         |                ^~~~~~~~~~~~~~
+>> drivers/usb/dwc3/host.c:66:56: warning: excess elements in struct initializer
+      66 |         struct xhci_plat_priv   dwc3_xhci_plat_priv = {0};
+         |                                                        ^
+   drivers/usb/dwc3/host.c:66:56: note: (near initialization for 'dwc3_xhci_plat_priv')
+   drivers/usb/dwc3/host.c:66:33: error: storage size of 'dwc3_xhci_plat_priv' isn't known
+      66 |         struct xhci_plat_priv   dwc3_xhci_plat_priv = {0};
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc3/host.c:92:47: error: 'XHCI_SG_TRB_CACHE_SIZE_QUIRK' undeclared (first use in this function)
+      92 |                 dwc3_xhci_plat_priv.quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
+         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc3/host.c:92:47: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/usb/dwc3/host.c:66:33: warning: unused variable 'dwc3_xhci_plat_priv' [-Wunused-variable]
+      66 |         struct xhci_plat_priv   dwc3_xhci_plat_priv = {0};
+         |                                 ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/test_sd_cmp_sector +34 drivers/scsi/sd_test.c
+vim +66 drivers/usb/dwc3/host.c
 
-    30	
-    31	/*
-    32	 * Verify that sd_cmp_sector() does what it is expected to do.
-    33	 */
-  > 34	static void test_sd_cmp_sector(struct kunit *test)
-    35	{
-    36		struct request_queue *q1 __free(kfree) =
-    37			ALLOC_Q(.limits.use_zone_write_lock = true);
-    38		struct request_queue *q2 __free(kfree) =
-    39			ALLOC_Q(.limits.use_zone_write_lock = false);
-    40		struct rq_and_cmd *cmd1 __free(kfree) = ALLOC_CMD(.rq = {
-    41									  .q = q1,
-    42									  .__sector = 7,
-    43								  });
-    44		struct rq_and_cmd *cmd2 __free(kfree) = ALLOC_CMD(.rq = {
-    45									  .q = q1,
-    46									  .__sector = 5,
-    47								  });
-    48		struct rq_and_cmd *cmd3 __free(kfree) = ALLOC_CMD(.rq = {
-    49									  .q = q2,
-    50									  .__sector = 7,
-    51								  });
-    52		struct rq_and_cmd *cmd4 __free(kfree) = ALLOC_CMD(.rq = {
-    53									  .q = q2,
-    54									  .__sector = 5,
-    55								  });
-    56		LIST_HEAD(cmd_list);
-    57	
-    58		list_add_tail(&cmd1->cmd.eh_entry, &cmd_list);
-    59		list_add_tail(&cmd2->cmd.eh_entry, &cmd_list);
-    60		list_add_tail(&cmd3->cmd.eh_entry, &cmd_list);
-    61		list_add_tail(&cmd4->cmd.eh_entry, &cmd_list);
-    62		KUNIT_EXPECT_EQ(test, list_count_nodes(&cmd_list), 4);
-    63		list_sort(NULL, &cmd_list, sd_cmp_sector);
-    64		KUNIT_EXPECT_EQ(test, list_count_nodes(&cmd_list), 4);
-    65		KUNIT_EXPECT_PTR_EQ(test, cmd_list.next, &cmd4->cmd.eh_entry);
-    66		KUNIT_EXPECT_PTR_EQ(test, cmd_list.next->next, &cmd3->cmd.eh_entry);
-    67		KUNIT_EXPECT_PTR_EQ(test, cmd_list.next->next->next,
-    68				    &cmd1->cmd.eh_entry);
-    69		KUNIT_EXPECT_PTR_EQ(test, cmd_list.next->next->next->next,
-    70				    &cmd2->cmd.eh_entry);
-    71	}
-    72	
+    61	
+    62	int dwc3_host_init(struct dwc3 *dwc)
+    63	{
+    64		struct property_entry	props[4];
+    65		struct platform_device	*xhci;
+  > 66		struct xhci_plat_priv   dwc3_xhci_plat_priv = {0};
+    67		int			ret, irq;
+    68		int			prop_idx = 0;
+    69	
+    70		irq = dwc3_host_get_irq(dwc);
+    71		if (irq < 0)
+    72			return irq;
+    73	
+    74		xhci = platform_device_alloc("xhci-hcd", PLATFORM_DEVID_AUTO);
+    75		if (!xhci) {
+    76			dev_err(dwc->dev, "couldn't allocate xHCI device\n");
+    77			return -ENOMEM;
+    78		}
+    79	
+    80		xhci->dev.parent	= dwc->dev;
+    81	
+    82		dwc->xhci = xhci;
+    83	
+    84		ret = platform_device_add_resources(xhci, dwc->xhci_resources,
+    85							DWC3_XHCI_RESOURCES_NUM);
+    86		if (ret) {
+    87			dev_err(dwc->dev, "couldn't add resources to xHCI device\n");
+    88			goto err;
+    89		}
+    90	
+    91		if (dwc->xhci_sg_trb_cache_size_quirk)
+    92			dwc3_xhci_plat_priv.quirks |= XHCI_SG_TRB_CACHE_SIZE_QUIRK;
+    93	
+    94		ret = platform_device_add_data(xhci, &dwc3_xhci_plat_priv,
+    95						sizeof(dwc3_xhci_plat_priv));
+    96		if (ret)
+    97			goto err;
+    98	
+    99		memset(props, 0, sizeof(struct property_entry) * ARRAY_SIZE(props));
+   100	
+   101		if (dwc->usb3_lpm_capable)
+   102			props[prop_idx++] = PROPERTY_ENTRY_BOOL("usb3-lpm-capable");
+   103	
+   104		if (dwc->usb2_lpm_disable)
+   105			props[prop_idx++] = PROPERTY_ENTRY_BOOL("usb2-lpm-disable");
+   106	
+   107		/**
+   108		 * WORKAROUND: dwc3 revisions <=3.00a have a limitation
+   109		 * where Port Disable command doesn't work.
+   110		 *
+   111		 * The suggested workaround is that we avoid Port Disable
+   112		 * completely.
+   113		 *
+   114		 * This following flag tells XHCI to do just that.
+   115		 */
+   116		if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
+   117			props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
+   118	
+   119		if (prop_idx) {
+   120			ret = device_create_managed_software_node(&xhci->dev, props, NULL);
+   121			if (ret) {
+   122				dev_err(dwc->dev, "failed to add properties to xHCI\n");
+   123				goto err;
+   124			}
+   125		}
+   126	
+   127		ret = platform_device_add(xhci);
+   128		if (ret) {
+   129			dev_err(dwc->dev, "failed to register xHCI device\n");
+   130			goto err;
+   131		}
+   132	
+   133		return 0;
+   134	err:
+   135		platform_device_put(xhci);
+   136		return ret;
+   137	}
+   138	
 
 -- 
 0-DAY CI Kernel Test Service
