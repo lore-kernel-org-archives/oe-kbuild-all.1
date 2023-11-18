@@ -1,57 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE87D2F1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 05:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AD2EBF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 18 Nov 2023 05:35:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KX/vs6zF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJKcSXBg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700284915; x=1731820915;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yEreUHMKYBFFkEB3u/u/R/cCq3R3tX2VCM4VmFEVxYA=;
-  b=KX/vs6zF1ZNDxhSICsi/JLSz08C3EA6MjqAxLesr2wPFei/k+f9ZnJBK
-   9Vo0Wng5f1V4GgltZpeI6Ovkga6IfKGOEVX4JUyPt6DMoQCE1yXg3gR50
-   XGlfANZAFnxEAf+ILIdgXuC78hZ1BGOGS5bea6L0P65B13ZVtn9ltWi8d
-   cd8SdvTNU8tWfnsnsEFnFark1nWmWMnnsap6dCYEZa+qX64FmdLYHpMf6
-   YmWneRSs099xuCH/m6cVYByq3P7mWI38jwT0s4mpqf8G8El2Y+tZtHFLV
-   rjCKQPXT30iQzhDvRhspTe7hJD/AgaBAVVO49rLgoVvJ0vJdjMOfK/zQt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="395334553"
+  t=1700285737; x=1731821737;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4PTE22XuUBmN1yOTRez9gP6+nBfQF/LMdyRYZF1JMmw=;
+  b=RJKcSXBgDdkuj6Wk1JKt3Y6g23vNEwrCUjizGBUd9ZK5nB/R5a4tk5uf
+   s8vbra0oQCMJVv6fXocd27ZUkwWvQUWcAmVEppmVk14fLumFB9yDI71iz
+   f7E39TYYphezA47AK/8wmZ4SsNyRCL6no7cNmd2OI+cOVN1K64QU1LDPa
+   q30g3RvJCWqS4Au4I/jlobjZYWi366AfFTOTqIlfL4H+ENV9y8jzsmvur
+   ftC8p9nq0iXU8Odo7BVzbzEMHex13tqYVkMe5N+Zsl8Cvj50LGeLH4NCH
+   m5KAmkqbJw1jQQV+ivL24BSTFs24ouJKkhm+dECvcfwW59Pm/UqA8aAJp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="370756886"
 X-IronPort-AV: E=Sophos;i="6.04,207,1695711600"; 
-   d="scan'208";a="395334553"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 21:21:54 -0800
+   d="scan'208";a="370756886"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 21:35:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="1097293092"
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="715732358"
 X-IronPort-AV: E=Sophos;i="6.04,207,1695711600"; 
-   d="scan'208";a="1097293092"
+   d="scan'208";a="715732358"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Nov 2023 21:21:51 -0800
+  by orsmga003.jf.intel.com with ESMTP; 17 Nov 2023 21:35:34 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4Dm8-0003YN-2N;
-	Sat, 18 Nov 2023 05:21:48 +0000
-Date: Sat, 18 Nov 2023 13:21:16 +0800
+	id 1r4DzQ-0003Yt-0S;
+	Sat, 18 Nov 2023 05:35:32 +0000
+Date: Sat, 18 Nov 2023 13:35:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petre Rodan <petre.rodan@subdimension.ro>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Angel Iglesias <ang.iglesiasg@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Andreas Klinger <ak@it-klinger.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v2 2/2] iio: pressure: driver for Honeywell HSC/SSC
- series pressure sensors
-Message-ID: <202311181316.z2BmTZmP-lkp@intel.com>
-References: <20231117164232.8474-2-petre.rodan@subdimension.ro>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.1.x-imx 4851/15770]
+ drivers/media/platform/mxc/output/mxc_vout.c:292:9: error: unknown type name
+ 'mm_segment_t'
+Message-ID: <202311181328.QHBzi5Gi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,202 +50,205 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231117164232.8474-2-petre.rodan@subdimension.ro>
 
-Hi Petre,
+Hi Dong,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on robh/for-next linus/master v6.7-rc1]
-[cannot apply to next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Petre-Rodan/iio-pressure-driver-for-Honeywell-HSC-SSC-series-pressure-sensors/20231118-072654
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20231117164232.8474-2-petre.rodan%40subdimension.ro
-patch subject: [PATCH v2 2/2] iio: pressure: driver for Honeywell HSC/SSC series pressure sensors
-config: riscv-rv32_defconfig (attached as .config)
-compiler: riscv32-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311181316.z2BmTZmP-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   742924a05c8a6349d6d1fe67010a3c5ed54df884
+commit: 77225c634e06fdb5ae7fcd3d52cb5dd7d2996acb [4851/15770] Merge branch 'mxc/next' into next
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231118/202311181328.QHBzi5Gi-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311181328.QHBzi5Gi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311181316.z2BmTZmP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311181328.QHBzi5Gi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/iio/pressure/Kconfig:120: syntax error
-   drivers/iio/pressure/Kconfig:119:warning: ignoring unsupported character '.'
-   drivers/iio/pressure/Kconfig:119: unknown statement "pressure"
-   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ','
-   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ':'
-   drivers/iio/pressure/Kconfig:121: unknown statement "To"
-   drivers/iio/pressure/Kconfig:122:warning: ignoring unsupported character '.'
-   drivers/iio/pressure/Kconfig:122: unknown statement "called"
-   make[3]: *** [scripts/kconfig/Makefile:77: oldconfig] Error 1
-   make[2]: *** [Makefile:685: oldconfig] Error 2
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'oldconfig' not remade because of errors.
---
->> drivers/iio/pressure/Kconfig:120: syntax error
-   drivers/iio/pressure/Kconfig:119:warning: ignoring unsupported character '.'
-   drivers/iio/pressure/Kconfig:119: unknown statement "pressure"
-   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ','
-   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ':'
-   drivers/iio/pressure/Kconfig:121: unknown statement "To"
-   drivers/iio/pressure/Kconfig:122:warning: ignoring unsupported character '.'
-   drivers/iio/pressure/Kconfig:122: unknown statement "called"
-   make[3]: *** [scripts/kconfig/Makefile:77: olddefconfig] Error 1
-   make[2]: *** [Makefile:685: olddefconfig] Error 2
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'olddefconfig' not remade because of errors.
---
->> drivers/iio/pressure/Kconfig:120: syntax error
-   drivers/iio/pressure/Kconfig:119:warning: ignoring unsupported character '.'
-   drivers/iio/pressure/Kconfig:119: unknown statement "pressure"
-   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ','
-   drivers/iio/pressure/Kconfig:121:warning: ignoring unsupported character ':'
-   drivers/iio/pressure/Kconfig:121: unknown statement "To"
-   drivers/iio/pressure/Kconfig:122:warning: ignoring unsupported character '.'
-   drivers/iio/pressure/Kconfig:122: unknown statement "called"
-   make[5]: *** [scripts/kconfig/Makefile:87: defconfig] Error 1
-   make[4]: *** [Makefile:685: defconfig] Error 2
-   make[3]: *** [Makefile:350: __build_one_by_one] Error 2
-   make[3]: Target 'defconfig' not remade because of errors.
-   make[3]: Target '32-bit.config' not remade because of errors.
-   make[2]: *** [arch/riscv/Makefile:190: rv32_defconfig] Error 2
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'rv32_defconfig' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'rv32_defconfig' not remade because of errors.
+      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
+         |         ^~~~~~
+   include/media/v4l2-common.h:74:25: note: in expansion of macro 'v4l2_printk'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                         ^~~~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/media/v4l2-common.h:74:37: note: in expansion of macro 'KERN_DEBUG'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                                     ^~~~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c:268:9: note: in expansion of macro 'v4l2_dbg'
+     268 |         v4l2_dbg(1, debug, vout->vfd->v4l2_dev,
+         |         ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'dma_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/media/v4l2-common.h:58:9: note: in expansion of macro 'printk'
+      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
+         |         ^~~~~~
+   include/media/v4l2-common.h:74:25: note: in expansion of macro 'v4l2_printk'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                         ^~~~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/media/v4l2-common.h:74:37: note: in expansion of macro 'KERN_DEBUG'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                                     ^~~~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c:268:9: note: in expansion of macro 'v4l2_dbg'
+     268 |         v4l2_dbg(1, debug, vout->vfd->v4l2_dev,
+         |         ^~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c: In function 'alloc_dma_buf':
+   include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/media/v4l2-common.h:58:9: note: in expansion of macro 'printk'
+      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
+         |         ^~~~~~
+   include/media/v4l2-common.h:61:9: note: in expansion of macro 'v4l2_printk'
+      61 |         v4l2_printk(KERN_ERR, dev, fmt , ## arg)
+         |         ^~~~~~~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/media/v4l2-common.h:61:21: note: in expansion of macro 'KERN_ERR'
+      61 |         v4l2_printk(KERN_ERR, dev, fmt , ## arg)
+         |                     ^~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c:280:17: note: in expansion of macro 'v4l2_err'
+     280 |                 v4l2_err(vout->vfd->v4l2_dev,
+         |                 ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/media/v4l2-common.h:58:9: note: in expansion of macro 'printk'
+      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
+         |         ^~~~~~
+   include/media/v4l2-common.h:74:25: note: in expansion of macro 'v4l2_printk'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                         ^~~~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/media/v4l2-common.h:74:37: note: in expansion of macro 'KERN_DEBUG'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                                     ^~~~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c:284:9: note: in expansion of macro 'v4l2_dbg'
+     284 |         v4l2_dbg(1, debug, vout->vfd->v4l2_dev,
+         |         ^~~~~~~~
+   include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'dma_addr_t' {aka 'long long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/media/v4l2-common.h:58:9: note: in expansion of macro 'printk'
+      58 |         printk(level "%s: " fmt, (dev)->name , ## arg)
+         |         ^~~~~~
+   include/media/v4l2-common.h:74:25: note: in expansion of macro 'v4l2_printk'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                         ^~~~~~~~~~~
+   include/linux/kern_levels.h:15:25: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
+         |                         ^~~~~~~~
+   include/media/v4l2-common.h:74:37: note: in expansion of macro 'KERN_DEBUG'
+      74 |                         v4l2_printk(KERN_DEBUG, dev, fmt , ## arg);     \
+         |                                     ^~~~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c:284:9: note: in expansion of macro 'v4l2_dbg'
+     284 |         v4l2_dbg(1, debug, vout->vfd->v4l2_dev,
+         |         ^~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c: In function 'get_ipu_channel':
+>> drivers/media/platform/mxc/output/mxc_vout.c:292:9: error: unknown type name 'mm_segment_t'
+     292 |         mm_segment_t old_fs;
+         |         ^~~~~~~~~~~~
+>> drivers/media/platform/mxc/output/mxc_vout.c:295:26: error: implicit declaration of function 'get_fs'; did you mean 'sget_fc'? [-Werror=implicit-function-declaration]
+     295 |                 old_fs = get_fs();
+         |                          ^~~~~~
+         |                          sget_fc
+>> drivers/media/platform/mxc/output/mxc_vout.c:296:17: error: implicit declaration of function 'set_fs'; did you mean 'sget_fc'? [-Werror=implicit-function-declaration]
+     296 |                 set_fs(KERNEL_DS);
+         |                 ^~~~~~
+         |                 sget_fc
+>> drivers/media/platform/mxc/output/mxc_vout.c:296:24: error: 'KERNEL_DS' undeclared (first use in this function); did you mean 'KERNFS_NS'?
+     296 |                 set_fs(KERNEL_DS);
+         |                        ^~~~~~~~~
+         |                        KERNFS_NS
+   drivers/media/platform/mxc/output/mxc_vout.c:296:24: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/media/platform/mxc/output/mxc_vout.c: In function 'get_ipu_fmt':
+   drivers/media/platform/mxc/output/mxc_vout.c:307:9: error: unknown type name 'mm_segment_t'
+     307 |         mm_segment_t old_fs;
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c:312:24: error: 'KERNEL_DS' undeclared (first use in this function); did you mean 'KERNFS_NS'?
+     312 |                 set_fs(KERNEL_DS);
+         |                        ^~~~~~~~~
+         |                        KERNFS_NS
+   drivers/media/platform/mxc/output/mxc_vout.c: In function 'set_window_position':
+   drivers/media/platform/mxc/output/mxc_vout.c:1797:9: error: unknown type name 'mm_segment_t'
+    1797 |         mm_segment_t old_fs;
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c:1802:24: error: 'KERNEL_DS' undeclared (first use in this function); did you mean 'KERNFS_NS'?
+    1802 |                 set_fs(KERNEL_DS);
+         |                        ^~~~~~~~~
+         |                        KERNFS_NS
+   drivers/media/platform/mxc/output/mxc_vout.c: In function 'wait_for_vsync':
+   drivers/media/platform/mxc/output/mxc_vout.c:1963:9: error: unknown type name 'mm_segment_t'
+    1963 |         mm_segment_t old_fs;
+         |         ^~~~~~~~~~~~
+   drivers/media/platform/mxc/output/mxc_vout.c:1967:24: error: 'KERNEL_DS' undeclared (first use in this function); did you mean 'KERNFS_NS'?
+    1967 |                 set_fs(KERNEL_DS);
+         |                        ^~~~~~~~~
+         |                        KERNFS_NS
+   cc1: some warnings being treated as errors
 
 
-vim +120 drivers/iio/pressure/Kconfig
+vim +/mm_segment_t +292 drivers/media/platform/mxc/output/mxc_vout.c
 
-     8	
-     9	config ABP060MG
-    10		tristate "Honeywell ABP pressure sensor driver"
-    11		depends on I2C
-    12		help
-    13		  Say yes here to build support for the Honeywell ABP pressure
-    14		  sensors.
-    15	
-    16		  To compile this driver as a module, choose M here: the module
-    17		  will be called abp060mg.
-    18	
-    19	config ROHM_BM1390
-    20		tristate "ROHM BM1390GLV-Z pressure sensor driver"
-    21		depends on I2C
-    22		help
-    23		  Support for the ROHM BM1390 pressure sensor. The BM1390GLV-Z
-    24		  can measure pressures ranging from 300 hPa to 1300 hPa with
-    25		  configurable measurement averaging and internal FIFO. The
-    26		  sensor does also provide temperature measurements.
-    27	
-    28	config BMP280
-    29		tristate "Bosch Sensortec BMP180/BMP280/BMP380/BMP580 pressure sensor driver"
-    30		depends on (I2C || SPI_MASTER)
-    31		select REGMAP
-    32		select BMP280_I2C if (I2C)
-    33		select BMP280_SPI if (SPI_MASTER)
-    34		help
-    35		  Say yes here to build support for Bosch Sensortec BMP180, BMP280, BMP380
-    36		  and BMP580 pressure and temperature sensors. Also supports the BME280 with
-    37		  an additional humidity sensor channel.
-    38	
-    39		  To compile this driver as a module, choose M here: the core module
-    40		  will be called bmp280 and you will also get bmp280-i2c for I2C
-    41		  and/or bmp280-spi for SPI support.
-    42	
-    43	config BMP280_I2C
-    44		tristate
-    45		depends on BMP280
-    46		depends on I2C
-    47		select REGMAP_I2C
-    48	
-    49	config BMP280_SPI
-    50		tristate
-    51		depends on BMP280
-    52		depends on SPI_MASTER
-    53		select REGMAP
-    54	
-    55	config IIO_CROS_EC_BARO
-    56		tristate "ChromeOS EC Barometer Sensor"
-    57		depends on IIO_CROS_EC_SENSORS_CORE
-    58		help
-    59		  Say yes here to build support for the Barometer sensor when
-    60		  presented by the ChromeOS EC Sensor hub.
-    61	
-    62		  To compile this driver as a module, choose M here: the module
-    63		  will be called cros_ec_baro.
-    64	
-    65	config DLHL60D
-    66		tristate "All Sensors DLHL60D and DLHL60G low voltage digital pressure sensors"
-    67		depends on I2C
-    68		select IIO_BUFFER
-    69		select IIO_TRIGGERED_BUFFER
-    70		help
-    71		  Say yes here to build support for the All Sensors DLH series
-    72		  pressure sensors driver.
-    73	
-    74		  To compile this driver as a module, choose M here: the module
-    75		  will be called dlhl60d.
-    76	
-    77	config DPS310
-    78		tristate "Infineon DPS310 pressure and temperature sensor"
-    79		depends on I2C
-    80		select REGMAP_I2C
-    81		help
-    82		  Support for the Infineon DPS310 digital barometric pressure sensor.
-    83		  It can be accessed over I2C bus.
-    84	
-    85		  This driver can also be built as a module.  If so, the module will be
-    86		  called dps310.
-    87	
-    88	config HID_SENSOR_PRESS
-    89		depends on HID_SENSOR_HUB
-    90		select IIO_BUFFER
-    91		select HID_SENSOR_IIO_COMMON
-    92		select HID_SENSOR_IIO_TRIGGER
-    93		tristate "HID PRESS"
-    94		help
-    95		  Say yes here to build support for the HID SENSOR
-    96		  Pressure driver
-    97	
-    98		  To compile this driver as a module, choose M here: the module
-    99		  will be called hid-sensor-press.
-   100	
-   101	config HP03
-   102		tristate "Hope RF HP03 temperature and pressure sensor driver"
-   103		depends on I2C
-   104		select REGMAP_I2C
-   105		help
-   106		  Say yes here to build support for Hope RF HP03 pressure and
-   107		  temperature sensor.
-   108	
-   109		  To compile this driver as a module, choose M here: the module
-   110		  will be called hp03.
-   111	
-   112	config HSC030PA
-   113		tristate "Honeywell HSC/SSC (TruStability pressure sensors series)"
-   114		depends on (I2C || SPI_MASTER)
-   115		select HSC030PA_I2C if (I2C)
-   116		select HSC030PA_SPI if (SPI_MASTER)
-   117		help
-   118		  Say Y here to build support for the Honeywell HSC and SSC TruStability
-   119	      pressure and temperature sensor series.
- > 120	
-   121		  To compile this driver as a module, choose M here: the module will be
-   122		  called hsc030pa.
-   123	
+5d9bff325f48dc Liu Ying 2019-09-29  276  
+5d9bff325f48dc Liu Ying 2019-09-29  277  	buf->vaddr = dma_alloc_coherent(vout->vbq.dev, buf->size, &buf->paddr,
+5d9bff325f48dc Liu Ying 2019-09-29  278  						GFP_DMA | GFP_KERNEL);
+5d9bff325f48dc Liu Ying 2019-09-29  279  	if (!buf->vaddr) {
+5d9bff325f48dc Liu Ying 2019-09-29  280  		v4l2_err(vout->vfd->v4l2_dev,
+5d9bff325f48dc Liu Ying 2019-09-29  281  			"cannot get dma buf size:0x%x\n", buf->size);
+5d9bff325f48dc Liu Ying 2019-09-29  282  		return -ENOMEM;
+5d9bff325f48dc Liu Ying 2019-09-29  283  	}
+5d9bff325f48dc Liu Ying 2019-09-29 @284  	v4l2_dbg(1, debug, vout->vfd->v4l2_dev,
+5d9bff325f48dc Liu Ying 2019-09-29  285  		"alloc dma buf size:0x%x, paddr:0x%x\n", buf->size, buf->paddr);
+5d9bff325f48dc Liu Ying 2019-09-29  286  	return 0;
+5d9bff325f48dc Liu Ying 2019-09-29  287  }
+5d9bff325f48dc Liu Ying 2019-09-29  288  
+5d9bff325f48dc Liu Ying 2019-09-29  289  static ipu_channel_t get_ipu_channel(struct fb_info *fbi)
+5d9bff325f48dc Liu Ying 2019-09-29  290  {
+5d9bff325f48dc Liu Ying 2019-09-29  291  	ipu_channel_t ipu_ch = CHAN_NONE;
+5d9bff325f48dc Liu Ying 2019-09-29 @292  	mm_segment_t old_fs;
+5d9bff325f48dc Liu Ying 2019-09-29  293  
+5d9bff325f48dc Liu Ying 2019-09-29  294  	if (fbi->fbops->fb_ioctl) {
+5d9bff325f48dc Liu Ying 2019-09-29 @295  		old_fs = get_fs();
+5d9bff325f48dc Liu Ying 2019-09-29 @296  		set_fs(KERNEL_DS);
+5d9bff325f48dc Liu Ying 2019-09-29  297  		fbi->fbops->fb_ioctl(fbi, MXCFB_GET_FB_IPU_CHAN,
+5d9bff325f48dc Liu Ying 2019-09-29  298  				(unsigned long)&ipu_ch);
+5d9bff325f48dc Liu Ying 2019-09-29  299  		set_fs(old_fs);
+5d9bff325f48dc Liu Ying 2019-09-29  300  	}
+5d9bff325f48dc Liu Ying 2019-09-29  301  
+5d9bff325f48dc Liu Ying 2019-09-29  302  	return ipu_ch;
+5d9bff325f48dc Liu Ying 2019-09-29  303  }
+5d9bff325f48dc Liu Ying 2019-09-29  304  
+
+:::::: The code at line 292 was first introduced by commit
+:::::: 5d9bff325f48dc4a03785772f28c4262008783a4 media: platform: mxc: output: Forward IPUv3 V4L2 output driver from imx_4.19.y
+
+:::::: TO: Liu Ying <victor.liu@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
 
 -- 
 0-DAY CI Kernel Test Service
