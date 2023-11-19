@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DAC14012
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Nov 2023 16:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3F014A88;
+	Sun, 19 Nov 2023 16:38:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YpUWEpLx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxzC1g4v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700410476; x=1731946476;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=FmOlT/eU9lPAXEVQ1c/7DIysKvt2THMLPBoSU26qtck=;
-  b=YpUWEpLxdDNhZ73iMq5bvUOUnTk5hMrM13bOVE+PxtzKN+YS0t4giQwC
-   W7LqfTxmk+YNgsFOY954y+emRBJ1L1kCP1q9kf4JuUNilxu3Bf/2p5n8/
-   ySsLopbn2821vglVGg1Hfq0vKuvHySo4cZFudUXXeOoPorCR1Bl/WELsH
-   N70JuTUbT/WrBXUw62th6BbwtD4/h/DRLXCGQftIqYm8aonw3UqPO8wQR
-   7gGcoNypSGvA6OOuNIv77CrZoyNhx3wP8Jo1RzK3kj0LCTmxCVZRllIye
-   jRiUBWh+UxWEqukYLbuMtwte2/ITMQxmHqvuu9POKBe4r/irnV+CtHfBU
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="422601332"
+  t=1700411922; x=1731947922;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VsypNjcZNuu2rmKk0dNm+jvIdAmIQsxPV/0JsNT+hoU=;
+  b=kxzC1g4vcPuwOS6EDu+QZ2vhOuwG0E/qbWhmkrxRS695NMw0XP54BTlf
+   mjJkHly98OjHsmhlrsEugeM7LJYGVSg+gcu/Rrw3/ZBCMclGFbIWbRnmM
+   K6mPgm2T8dDMHAjZMR7l2nCr0N8i8ZUfeP/tkuh7X+6E22Pdb1LCvu8G2
+   pL57BQ+xfAX6naEPx8S/8K+j8QxgVPsybJGtkGKC+BgZjlz88vroBEhia
+   5XyooG+qzQV5DEeQI7c8sI/3nQMrGnAkcfUNnwqEyQpGTRbltuq8hgLSZ
+   gG6n+0fNTHzKGjWDVf4gigvDZWhc+7l+sRWs/tggHnvssjar7uGJa0Syc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="391291859"
 X-IronPort-AV: E=Sophos;i="6.04,210,1695711600"; 
-   d="scan'208";a="422601332"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 08:14:35 -0800
+   d="scan'208";a="391291859"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 08:38:41 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="889712827"
 X-IronPort-AV: E=Sophos;i="6.04,210,1695711600"; 
-   d="scan'208";a="13946937"
+   d="scan'208";a="889712827"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 19 Nov 2023 08:14:33 -0800
+  by orsmga004.jf.intel.com with ESMTP; 19 Nov 2023 08:38:40 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4kRK-0005Gr-25;
-	Sun, 19 Nov 2023 16:14:30 +0000
-Date: Mon, 20 Nov 2023 00:14:11 +0800
+	id 1r4kof-0005Js-2g;
+	Sun, 19 Nov 2023 16:38:37 +0000
+Date: Mon, 20 Nov 2023 00:37:52 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Praneeth Bajjuri <praneeth@ti.com>,
-	Prasanth Babu Mantena <p-mantena@ti.com>,
-	Brandon Brnich <b-brnich@ti.com>, Andrew Davis <afd@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y-cicd 1/26]
- drivers/media/platform/chips-media/wave5/wave5-hw.c:122:21: warning: shift
- count >= width of type
-Message-ID: <202311192325.aMqD8wEm-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/010-soc 5/15] drivers/soc/apple/mailbox.c:151:17:
+ error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202311200016.SyYjPYOE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,140 +51,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   3d320fa61172b4a33d1c11e57374cc6880562ae0
-commit: 30bcc25e7cb1b25667db88d61828728f0f0b5f4b [1/26] wave5: Support 48bit memory address.
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20231119/202311192325.aMqD8wEm-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311192325.aMqD8wEm-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   3d3347e62feacf57f15c7f20c0309c8dac65da44
+commit: 105f2e7cd98f62370c0269b367d6466bfc49b7b2 [5/15] soc: apple: mailbox: Add ASC/M3 mailbox driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231120/202311200016.SyYjPYOE-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311200016.SyYjPYOE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311192325.aMqD8wEm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311200016.SyYjPYOE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/chips-media/wave5/wave5-hw.c:8:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/chips-media/wave5/wave5-hw.c:8:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/chips-media/wave5/wave5-hw.c:8:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/media/platform/chips-media/wave5/wave5-hw.c:122:21: warning: shift count >= width of type [-Wshift-count-overflow]
-     122 |         addr = ((high_addr << 32) | val);
-         |                            ^  ~~
-   7 warnings generated.
---
-   In file included from drivers/media/platform/chips-media/wave5/wave5-vpu.c:11:
-   In file included from include/linux/of_address.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/chips-media/wave5/wave5-vpu.c:11:
-   In file included from include/linux/of_address.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/chips-media/wave5/wave5-vpu.c:11:
-   In file included from include/linux/of_address.h:7:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   drivers/media/platform/chips-media/wave5/wave5-vpu.c:275:36: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     275 |                 dev_dbg(&pdev->dev, "%s: sram daddr: %pad, size: 0x%lx\n",
-         |                                                                    ~~~
-         |                                                                    %zx
-     276 |                         __func__, &dev->sram_buf.daddr, dev->sram_buf.size);
-         |                                                         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:39: note: expanded from macro 'dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:19: note: expanded from macro 'dynamic_dev_dbg'
-     273 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:249:59: note: expanded from macro '_dynamic_func_call'
-     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:247:65: note: expanded from macro '_dynamic_func_call_cls'
-     247 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:223:15: note: expanded from macro '__dynamic_func_call_cls'
-     223 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
->> drivers/media/platform/chips-media/wave5/wave5-vpu.c:284:42: warning: shift count >= width of type [-Wshift-count-overflow]
-     284 |         dev->ext_addr = ((dev->common_mem.daddr >> 32) & 0xFFFF);
-         |                                                 ^  ~~
-   8 warnings generated.
+>> drivers/soc/apple/mailbox.c:151:17: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+                          ^
+>> drivers/soc/apple/mailbox.c:188:14: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   msg.msg1 = FIELD_GET(
+                              ^
+   2 errors generated.
 
 
-vim +122 drivers/media/platform/chips-media/wave5/wave5-hw.c
+vim +/FIELD_PREP +151 drivers/soc/apple/mailbox.c
 
+    95	
+    96	int apple_mbox_send(struct apple_mbox *mbox, const struct apple_mbox_msg msg,
+    97			    bool atomic)
+    98	{
+    99		unsigned long flags;
+   100		int ret;
+   101		u32 mbox_ctrl;
+   102		long t;
+   103	
+   104		spin_lock_irqsave(&mbox->tx_lock, flags);
+   105		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+   106	
+   107		while (mbox_ctrl & mbox->hw->control_full) {
+   108			if (atomic) {
+   109				ret = readl_poll_timeout_atomic(
+   110					mbox->regs + mbox->hw->a2i_control, mbox_ctrl,
+   111					!(mbox_ctrl & mbox->hw->control_full), 100,
+   112					APPLE_MBOX_TX_TIMEOUT * 1000);
    113	
-   114	static dma_addr_t wave5_read_reg_for_mem_addr(struct vpu_instance *inst,
-   115						      unsigned int reg_addr)
-   116	{
-   117		dma_addr_t addr;
-   118		dma_addr_t high_addr = inst->dev->ext_addr;
-   119		u32 val;
-   120	
-   121		val = vpu_read_reg(inst->dev, reg_addr);
- > 122		addr = ((high_addr << 32) | val);
-   123	
-   124		return addr;
-   125	}
-   126	
+   114				if (ret) {
+   115					spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   116					return ret;
+   117				}
+   118	
+   119				break;
+   120			}
+   121			/*
+   122			 * The interrupt is level triggered and will keep firing as long as the
+   123			 * FIFO is empty. It will also keep firing if the FIFO was empty
+   124			 * at any point in the past until it has been acknowledged at the
+   125			 * mailbox level. By acknowledging it here we can ensure that we will
+   126			 * only get the interrupt once the FIFO has been cleared again.
+   127			 * If the FIFO is already empty before the ack it will fire again
+   128			 * immediately after the ack.
+   129			 */
+   130			if (mbox->hw->has_irq_controls) {
+   131				writel_relaxed(mbox->hw->irq_bit_send_empty,
+   132					       mbox->regs + mbox->hw->irq_ack);
+   133			}
+   134			enable_irq(mbox->irq_send_empty);
+   135			reinit_completion(&mbox->tx_empty);
+   136			spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   137	
+   138			t = wait_for_completion_interruptible_timeout(
+   139				&mbox->tx_empty,
+   140				msecs_to_jiffies(APPLE_MBOX_TX_TIMEOUT));
+   141			if (t < 0)
+   142				return t;
+   143			else if (t == 0)
+   144				return -ETIMEDOUT;
+   145	
+   146			spin_lock_irqsave(&mbox->tx_lock, flags);
+   147			mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+   148		}
+   149	
+   150		writeq_relaxed(msg.msg0, mbox->regs + mbox->hw->a2i_send0);
+ > 151		writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+   152			       mbox->regs + mbox->hw->a2i_send1);
+   153	
+   154		spin_unlock_irqrestore(&mbox->tx_lock, flags);
+   155	
+   156		return 0;
+   157	}
+   158	EXPORT_SYMBOL(apple_mbox_send);
+   159	
+   160	static irqreturn_t apple_mbox_send_empty_irq(int irq, void *data)
+   161	{
+   162		struct apple_mbox *mbox = data;
+   163	
+   164		/*
+   165		 * We don't need to acknowledge the interrupt at the mailbox level
+   166		 * here even if supported by the hardware. It will keep firing but that
+   167		 * doesn't matter since it's disabled at the main interrupt controller.
+   168		 * apple_mbox_send will acknowledge it before enabling
+   169		 * it at the main controller again.
+   170		 */
+   171		spin_lock(&mbox->tx_lock);
+   172		disable_irq_nosync(mbox->irq_send_empty);
+   173		complete(&mbox->tx_empty);
+   174		spin_unlock(&mbox->tx_lock);
+   175	
+   176		return IRQ_HANDLED;
+   177	}
+   178	
+   179	static int apple_mbox_poll_locked(struct apple_mbox *mbox)
+   180	{
+   181		struct apple_mbox_msg msg;
+   182		int ret = 0;
+   183	
+   184		u32 mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+   185	
+   186		while (!(mbox_ctrl & mbox->hw->control_empty)) {
+   187			msg.msg0 = readq_relaxed(mbox->regs + mbox->hw->i2a_recv0);
+ > 188			msg.msg1 = FIELD_GET(
+   189				APPLE_MBOX_MSG1_MSG,
+   190				readq_relaxed(mbox->regs + mbox->hw->i2a_recv1));
+   191	
+   192			mbox->rx(mbox, msg, mbox->cookie);
+   193			ret++;
+   194			mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+   195		}
+   196	
+   197		/*
+   198		 * The interrupt will keep firing even if there are no more messages
+   199		 * unless we also acknowledge it at the mailbox level here.
+   200		 * There's no race if a message comes in between the check in the while
+   201		 * loop above and the ack below: If a new messages arrives inbetween
+   202		 * those two the interrupt will just fire again immediately after the
+   203		 * ack since it's level triggered.
+   204		 */
+   205		if (mbox->hw->has_irq_controls) {
+   206			writel_relaxed(mbox->hw->irq_bit_recv_not_empty,
+   207				       mbox->regs + mbox->hw->irq_ack);
+   208		}
+   209	
+   210		return ret;
+   211	}
+   212	
 
 -- 
 0-DAY CI Kernel Test Service
