@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60E136B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Nov 2023 00:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E47F7F3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Nov 2023 01:57:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UvejQzi1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWcb+hh3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700355565; x=1731891565;
+  t=1700359074; x=1731895074;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pbf5bjSXH9S9BeKa0XAWshh8bN6iYo1416hY+iTMM/Y=;
-  b=UvejQzi1qqGmmqIePl1vd9Ffr/nZk1qgPP4/g7S/MYvptOXBtQTBQbjT
-   Kzv9i8vPetmzzzjZfbCICJlKWp6/fv+b0ysBCks2gTrwpntpyTTFyAN2Y
-   aRRMjksW8G9Jw+TVBYUBV9Dx8YwAgslR56P4cIMJP1T+osV3iQEcEz/kY
-   NzOKDIdSkU66TQowskDRyoP4qoVENobgHTSITY2wdYlO7/uTIkX7qaT2N
-   X5yqtcd8DNnsg3OEMyLPDmB2xXh3IvuUNIv8b8Lg2RmcqJuSavFM/gr2K
-   5rIHCH1SJef5a9vXuDAv3G7w9jPqvw9SqWDpFz2YSdTWw1SGc4DX9arYW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="376505138"
+  bh=qN9skTXVoFZZSlyX+VNOQpfYZIAzaQ+mbVciBNMHxoc=;
+  b=QWcb+hh3FDZnKKlE+Hazdivo3DIBvdQ+oMgDLY3otZlCMQ+E4WZ0Brva
+   yLQavVPdP04Zanmm7atLHRTfn+kMC84Sg01K+fvcqO8KjOa4D+mmbTj4U
+   g0BAcvn+XC28wC558WWQH6ByzhT+SYKVHaArbexhxzhvZUAalVY6QCkrh
+   7lvFjoYYcdgOK3mvtYsvG1PXzqAH1bNcEo5y5KgQiIJE6jj5j/YU04Rvt
+   WQxKFkVZt81cAKC0a9UpXpbpwNsb8eWE/QDkj7kSOCrlZviqEMXZPfGRu
+   X4mSDZzFQfT0I5rW3lJS8HZRM5buLEflT0TV7fCyOLvzdMqK5SxAB9rW3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="457967539"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="376505138"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 16:59:25 -0800
+   d="scan'208";a="457967539"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 17:57:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="909748652"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="909748652"
+   d="scan'208";a="7196299"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2023 16:59:24 -0800
+  by orviesa002.jf.intel.com with ESMTP; 18 Nov 2023 17:57:52 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4W9h-0004Ug-39;
-	Sun, 19 Nov 2023 00:59:21 +0000
-Date: Sun, 19 Nov 2023 08:59:05 +0800
+	id 1r4X4H-0004WY-24;
+	Sun, 19 Nov 2023 01:57:49 +0000
+Date: Sun, 19 Nov 2023 09:57:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sj:damon/next 7/40] mm/damon/core-test.h:301:43: warning: large
- integer implicitly truncated to unsigned type
-Message-ID: <202311190815.NSeoMUOt-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: kismet: WARNING: unmet direct dependencies detected for
+ SND_SOC_WM8731_I2C when selected by SND_SOC_DB1200
+Message-ID: <202311190914.zX7FPiKo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,38 +51,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   8dbdd274afed68979a606009d184cc9fd9dcc48c
-commit: c5b4cd2968f94e487351a07c141023e44a2e9d3d [7/40] mm/damon/core-test: test overflow-causing divide-by-zero
-config: i386-buildonly-randconfig-001-20231119 (https://download.01.org/0day-ci/archive/20231119/202311190815.NSeoMUOt-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311190815.NSeoMUOt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b8f1fa2419c19c81bc386a6b350879ba54a573e1
+commit: 9dc15f81baf273b5aaaa3302ee8faacd78f361fd ASoC: wm8731: Factor out the I2C and SPI bus code into separate modules
+date:   1 year, 8 months ago
+config: mips-kismet-CONFIG_SND_SOC_WM8731_I2C-CONFIG_SND_SOC_DB1200-0-0 (https://download.01.org/0day-ci/archive/20231119/202311190914.zX7FPiKo-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231119/202311190914.zX7FPiKo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311190815.NSeoMUOt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311190914.zX7FPiKo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from mm/damon/core.c:1689:0:
-   mm/damon/core-test.h: In function 'damon_test_nr_accesses_to_accesses_bp':
->> mm/damon/core-test.h:301:43: warning: large integer implicitly truncated to unsigned type [-Woverflow]
-      .sample_interval = 10, .aggr_interval = 42949672960,};
-                                              ^~~~~~~~~~~
-
-
-vim +301 mm/damon/core-test.h
-
-   297	
-   298	static void damon_test_nr_accesses_to_accesses_bp(struct kunit *test)
-   299	{
-   300		struct damon_attrs attrs = {
- > 301			.sample_interval = 10, .aggr_interval = 42949672960,};
-   302	
-   303		KUNIT_EXPECT_EQ(test, damon_nr_accesses_to_accesses_bp(123, &attrs), 0);
-   304	}
-   305	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for SND_SOC_WM8731_I2C when selected by SND_SOC_DB1200
+   
+   WARNING: unmet direct dependencies detected for SND_SOC_WM8731_I2C
+     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && I2C [=n]
+     Selected by [y]:
+     - SND_SOC_DB1200 [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_SOC_AU1XPSC [=y]
 
 -- 
 0-DAY CI Kernel Test Service
