@@ -1,46 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9799D17980
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Nov 2023 23:19:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D9319BAA;
+	Sun, 19 Nov 2023 23:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WX/tw0Ip"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LeXjH9lQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700435954; x=1731971954;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b50dDd2EiaIVGkD3Aiv6Bi2pqx7RJ+nnxepdf7IMN9Y=;
-  b=WX/tw0Ip792Y3u0hrZL0Bvili2btqXGsT6LOMTHpBt2Vkrn3PWA2qehB
-   Aa17viOZLXI8vc3vmhhS/Jy4QEZLStnLrQ4X+YFGA2uEEFXn/y45jvi/f
-   e2rf31O7NOD4/DJKo0i41RtmzPttqrXq3At3drZF0RoWVeWbp3TCGqTlZ
-   5lfQrYfIZ0u24i1EMGjJ4Oud95E7gTWlLTGhjFO5eWdzQTDoy9bfnj9fA
-   G5ghpTZQwKa2MLEn+aZFJUKJvkzSu0CXuUKEI9nfB+m8zcuL8X+KcnGJn
-   eZlnJ86afVgCenrU16oR64fEQ1qq2qtag2tYQC4pMg57a/IdDQ3Vi+SLo
+  t=1700437986; x=1731973986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oAZ/UNAUbG1NYGNaNzLfsqB71nZvrBS2LltjNf91pck=;
+  b=LeXjH9lQtqqzRdrf+JeA+C2thmJLBdOrdfcL1k5TLBi003iniiB9xfrB
+   I5DMKd8xjzHyFHfJyD2q+8mSoRsuAd50sW5/4dZhXNIIn+SSaLzdmRDml
+   Rue5TNcC7KWYbE8nl8enpa8fnopb6XvoMQFRXTQuQcZHn7Vlyu4Lr91qa
+   G4iNtldNzAEPyoGr5wiTQFsA+NAsXMLvoo0U8Qb+3Nqzqw0qsGy9TtqN3
+   iAJGAbsrzUzOR2JVEpKvI/NDbfeK3hOvOz4ZJ/EovjS9L11mPDMFiaqeI
+   GpEVE4czVFvkoedUaB9NZwWvVTuqAslaKCl6mMLD83mhJEgpwhm344Y6H
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="376561465"
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="371707094"
 X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="376561465"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 15:19:14 -0800
+   d="scan'208";a="371707094"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 15:53:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="1097592293"
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="939637719"
 X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="1097592293"
+   d="scan'208";a="939637719"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 19 Nov 2023 15:19:12 -0800
+  by orsmga005.jf.intel.com with ESMTP; 19 Nov 2023 15:53:02 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4r4C-0005gO-1c;
-	Sun, 19 Nov 2023 23:19:07 +0000
-Date: Mon, 20 Nov 2023 07:17:15 +0800
+	id 1r4rb1-0005i1-2T;
+	Sun, 19 Nov 2023 23:52:59 +0000
+Date: Mon, 20 Nov 2023 07:52:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.6/prjc 408/449] include/linux/cpumask.h:28:37: error: invalid
- type argument of '->' (have 'int')
-Message-ID: <202311200705.cfpHOfwk-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>, vkoul@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org, imx@lists.linux.dev, joy.zou@nxp.com,
+	krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org,
+	peng.fan@nxp.com, robh+dt@kernel.org, shenwei.wang@nxp.com
+Subject: Re: [PATCH v2 3/5] dmaengine: mcf-edma: force type conversion for
+ TCD pointer
+Message-ID: <202311200733.Dq7bx5cj-lkp@intel.com>
+References: <20231116222743.2984776-4-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,174 +54,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231116222743.2984776-4-Frank.Li@nxp.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.6/prjc
-head:   a343b008e1bf155cdcfe9a46e38336032adeb65a
-commit: 60e37e86027139db2d687b2bc3beb8b503e5bf63 [408/449] sched/alt: [Sync] 596ff4a09b89 cpumask: re-introduce constant-sized cpumask optimizations
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20231120/202311200705.cfpHOfwk-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311200705.cfpHOfwk-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on linus/master v6.7-rc1 next-20231117]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dmaengine-fsl-edma-involve-help-macro-fsl_edma_set-get-_tcd/20231117-062946
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20231116222743.2984776-4-Frank.Li%40nxp.com
+patch subject: [PATCH v2 3/5] dmaengine: mcf-edma: force type conversion for TCD pointer
+config: hexagon-randconfig-r121-20231119 (https://download.01.org/0day-ci/archive/20231120/202311200733.Dq7bx5cj-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231120/202311200733.Dq7bx5cj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311200705.cfpHOfwk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311200733.Dq7bx5cj-lkp@intel.com/
 
-Note: the zen/6.6/prjc HEAD a343b008e1bf155cdcfe9a46e38336032adeb65a builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma/mcf-edma-main.c:205:35: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/dma/mcf-edma-main.c:205:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got restricted __le16 * @@
+   drivers/dma/mcf-edma-main.c:205:35: sparse:     expected void [noderef] __iomem *
+   drivers/dma/mcf-edma-main.c:205:35: sparse:     got restricted __le16 *
+   drivers/dma/mcf-edma-main.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-All errors (new ones prefixed by >>):
+vim +205 drivers/dma/mcf-edma-main.c
 
-   kernel/sched/alt_core.c:1005:6: warning: no previous prototype for 'resched_curr' [-Wmissing-prototypes]
-    1005 | void resched_curr(struct rq *rq)
-         |      ^~~~~~~~~~~~
-   In file included from include/linux/sched/clock.h:5,
-                    from kernel/sched/alt_core.c:14:
-   kernel/sched/alt_core.c: In function 'resched_curr':
-   include/linux/smp.h:134:9: error: implicit declaration of function 'trace_ipi_send_cpu' [-Werror=implicit-function-declaration]
-     134 |         trace_ipi_send_cpu(cpu, _RET_IP_, NULL);  \
-         |         ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1023:17: note: in expansion of macro 'smp_send_reschedule'
-    1023 |                 smp_send_reschedule(cpu);
-         |                 ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c: At top level:
-   kernel/sched/alt_core.c:1028:6: warning: no previous prototype for 'resched_cpu' [-Wmissing-prototypes]
-    1028 | void resched_cpu(int cpu)
-         |      ^~~~~~~~~~~
-   kernel/sched/alt_core.c:1043:6: warning: no previous prototype for 'select_nohz_load_balancer' [-Wmissing-prototypes]
-    1043 | void select_nohz_load_balancer(int stop_tick) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1045:6: warning: no previous prototype for 'set_cpu_sd_state_idle' [-Wmissing-prototypes]
-    1045 | void set_cpu_sd_state_idle(void) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1231:6: warning: no previous prototype for 'hrtick_start' [-Wmissing-prototypes]
-    1231 | void hrtick_start(struct rq *rq, u64 delay)
-         |      ^~~~~~~~~~~~
-   kernel/sched/alt_core.c:2467:6: warning: no previous prototype for 'sched_ttwu_pending' [-Wmissing-prototypes]
-    2467 | void sched_ttwu_pending(void *arg)
-         |      ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:2504:6: warning: no previous prototype for 'send_call_function_single_ipi' [-Wmissing-prototypes]
-    2504 | void send_call_function_single_ipi(int cpu)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c: In function '__sched_setscheduler':
-   kernel/sched/alt_core.c:5594:17: error: implicit declaration of function 'cpuset_read_lock'; did you mean 'cpus_read_lock'? [-Werror=implicit-function-declaration]
-    5594 |                 cpuset_read_lock();
-         |                 ^~~~~~~~~~~~~~~~
-         |                 cpus_read_lock
-   kernel/sched/alt_core.c:5642:25: error: implicit declaration of function 'cpuset_read_unlock'; did you mean 'cpus_read_unlock'? [-Werror=implicit-function-declaration]
-    5642 |                         cpuset_read_unlock();
-         |                         ^~~~~~~~~~~~~~~~~~
-         |                         cpus_read_unlock
-   kernel/sched/alt_core.c: At top level:
-   kernel/sched/alt_core.c:7047:5: error: conflicting types for 'task_can_attach'; have 'int(struct task_struct *, const struct cpumask *)'
-    7047 | int task_can_attach(struct task_struct *p,
-         |     ^~~~~~~~~~~~~~~
-   In file included from include/linux/sched/signal.h:7,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/alt_core.c:15:
-   include/linux/sched.h:1883:12: note: previous declaration of 'task_can_attach' with type 'int(struct task_struct *)'
-    1883 | extern int task_can_attach(struct task_struct *p);
-         |            ^~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7284:5: warning: no previous prototype for 'sched_cpu_activate' [-Wmissing-prototypes]
-    7284 | int sched_cpu_activate(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7323:5: warning: no previous prototype for 'sched_cpu_deactivate' [-Wmissing-prototypes]
-    7323 | int sched_cpu_deactivate(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7387:5: warning: no previous prototype for 'sched_cpu_starting' [-Wmissing-prototypes]
-    7387 | int sched_cpu_starting(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c: In function 'sched_init_topology_cpumask':
-   kernel/sched/alt_core.c:7515:57: error: implicit declaration of function 'cpu_coregroup_mask' [-Werror=implicit-function-declaration]
-    7515 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
-         |                                                         ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7515:57: warning: passing argument 1 of 'cpumask_first' makes pointer from integer without a cast [-Wint-conversion]
-    7515 |                 per_cpu(sd_llc_id, cpu) = cpumask_first(cpu_coregroup_mask(cpu));
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                                         |
-         |                                                         int
-   In file included from include/linux/smp.h:13:
-   include/linux/cpumask.h:160:64: note: expected 'const struct cpumask *' but argument is of type 'int'
-     160 | static inline unsigned int cpumask_first(const struct cpumask *srcp)
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~^~~~
-   kernel/sched/alt_core.c:7517:45: warning: passing argument 3 of 'cpumask_and' makes pointer from integer without a cast [-Wint-conversion]
-    7517 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             int
-   kernel/sched/alt_core.c:7490:37: note: in definition of macro 'TOPOLOGY_CPUMASK'
-    7490 |         if (cpumask_and(topo, topo, mask)) {                                    \
-         |                                     ^~~~
-   include/linux/cpumask.h:567:54: note: expected 'const struct cpumask *' but argument is of type 'int'
-     567 |                                const struct cpumask *src2p)
-         |                                ~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   kernel/sched/alt_core.c:7517:45: warning: passing argument 2 of 'cpumask_copy' makes pointer from integer without a cast [-Wint-conversion]
-    7517 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             int
-   kernel/sched/alt_core.c:7491:36: note: in definition of macro 'TOPOLOGY_CPUMASK'
-    7491 |                 cpumask_copy(topo, mask);                                       \
-         |                                    ^~~~
-   include/linux/cpumask.h:738:55: note: expected 'const struct cpumask *' but argument is of type 'int'
-     738 |                                 const struct cpumask *srcp)
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~^~~~
->> include/linux/cpumask.h:28:37: error: invalid type argument of '->' (have 'int')
-      28 | #define cpumask_bits(maskp) ((maskp)->bits)
-         |                                     ^~
-   kernel/sched/alt_core.c:7496:55: note: in expansion of macro 'cpumask_bits'
-    7496 |                 bitmap_complement(cpumask_bits(topo), cpumask_bits(mask),       \
-         |                                                       ^~~~~~~~~~~~
-   kernel/sched/alt_core.c:7517:17: note: in expansion of macro 'TOPOLOGY_CPUMASK'
-    7517 |                 TOPOLOGY_CPUMASK(coregroup, cpu_coregroup_mask(cpu), false);
-         |                 ^~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c: At top level:
-   kernel/sched/alt_core.c:7532:13: warning: no previous prototype for 'sched_init_smp' [-Wmissing-prototypes]
-    7532 | void __init sched_init_smp(void)
-         |             ^~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7592:13: warning: no previous prototype for 'sched_init' [-Wmissing-prototypes]
-    7592 | void __init sched_init(void)
-         |             ^~~~~~~~~~
-   kernel/sched/alt_core.c:7950:20: warning: no previous prototype for 'sched_create_group' [-Wmissing-prototypes]
-    7950 | struct task_group *sched_create_group(struct task_group *parent)
-         |                    ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7961:6: warning: no previous prototype for 'sched_online_group' [-Wmissing-prototypes]
-    7961 | void sched_online_group(struct task_group *tg, struct task_group *parent)
-         |      ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7972:6: warning: no previous prototype for 'sched_destroy_group' [-Wmissing-prototypes]
-    7972 | void sched_destroy_group(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7978:6: warning: no previous prototype for 'sched_release_group' [-Wmissing-prototypes]
-    7978 | void sched_release_group(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:8046:5: warning: no previous prototype for 'sched_group_set_shares' [-Wmissing-prototypes]
-    8046 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:8116:27: warning: initialized field overwritten [-Woverride-init]
-    8116 |         .legacy_cftypes = cpu_legacy_files,
-         |                           ^~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:8116:27: note: (near initialization for 'cpu_cgrp_subsys.legacy_cftypes')
-   cc1: some warnings being treated as errors
-
-
-vim +28 include/linux/cpumask.h
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  20  
-ae7a47e72e1a0b Rusty Russell  2008-12-30  21  /**
-6ba2ef7baac23a Rusty Russell  2009-09-24  22   * cpumask_bits - get the bits in a cpumask
-6ba2ef7baac23a Rusty Russell  2009-09-24  23   * @maskp: the struct cpumask *
-ae7a47e72e1a0b Rusty Russell  2008-12-30  24   *
-6ba2ef7baac23a Rusty Russell  2009-09-24  25   * You should only assume nr_cpu_ids bits of this mask are valid.  This is
-6ba2ef7baac23a Rusty Russell  2009-09-24  26   * a macro so it's const-correct.
-ae7a47e72e1a0b Rusty Russell  2008-12-30  27   */
-6ba2ef7baac23a Rusty Russell  2009-09-24 @28  #define cpumask_bits(maskp) ((maskp)->bits)
-7ea931c9fc80c4 Paul Jackson   2008-04-28  29  
-
-:::::: The code at line 28 was first introduced by commit
-:::::: 6ba2ef7baac23a5d9bb85e28b882d16b439a2293 cpumask: Move deprecated functions to end of header.
-
-:::::: TO: Rusty Russell <rusty@rustcorp.com.au>
-:::::: CC: Rusty Russell <rusty@rustcorp.com.au>
+   152	
+   153	static int mcf_edma_probe(struct platform_device *pdev)
+   154	{
+   155		struct mcf_edma_platform_data *pdata;
+   156		struct fsl_edma_engine *mcf_edma;
+   157		struct edma_regs *regs;
+   158		int ret, i, chans;
+   159	
+   160		pdata = dev_get_platdata(&pdev->dev);
+   161		if (!pdata) {
+   162			dev_err(&pdev->dev, "no platform data supplied\n");
+   163			return -EINVAL;
+   164		}
+   165	
+   166		if (!pdata->dma_channels) {
+   167			dev_info(&pdev->dev, "setting default channel number to 64");
+   168			chans = 64;
+   169		} else {
+   170			chans = pdata->dma_channels;
+   171		}
+   172	
+   173		mcf_edma = devm_kzalloc(&pdev->dev, struct_size(mcf_edma, chans, chans),
+   174					GFP_KERNEL);
+   175		if (!mcf_edma)
+   176			return -ENOMEM;
+   177	
+   178		mcf_edma->n_chans = chans;
+   179	
+   180		/* Set up drvdata for ColdFire edma */
+   181		mcf_edma->drvdata = &mcf_data;
+   182		mcf_edma->big_endian = 1;
+   183	
+   184		mutex_init(&mcf_edma->fsl_edma_mutex);
+   185	
+   186		mcf_edma->membase = devm_platform_ioremap_resource(pdev, 0);
+   187		if (IS_ERR(mcf_edma->membase))
+   188			return PTR_ERR(mcf_edma->membase);
+   189	
+   190		fsl_edma_setup_regs(mcf_edma);
+   191		regs = &mcf_edma->regs;
+   192	
+   193		INIT_LIST_HEAD(&mcf_edma->dma_dev.channels);
+   194		for (i = 0; i < mcf_edma->n_chans; i++) {
+   195			struct fsl_edma_chan *mcf_chan = &mcf_edma->chans[i];
+   196	
+   197			mcf_chan->edma = mcf_edma;
+   198			mcf_chan->slave_id = i;
+   199			mcf_chan->idle = true;
+   200			mcf_chan->dma_dir = DMA_NONE;
+   201			mcf_chan->vchan.desc_free = fsl_edma_free_desc;
+   202			vchan_init(&mcf_chan->vchan, &mcf_edma->dma_dev);
+   203			mcf_chan->tcd = mcf_edma->membase + EDMA_TCD
+   204					+ i * sizeof(struct fsl_edma_hw_tcd);
+ > 205			iowrite32(0x0, &((struct fsl_edma_hw_tcd *)mcf_chan->tcd)->csr);
+   206		}
+   207	
+   208		iowrite32(~0, regs->inth);
+   209		iowrite32(~0, regs->intl);
+   210	
+   211		ret = mcf_edma->drvdata->setup_irq(pdev, mcf_edma);
+   212		if (ret)
+   213			return ret;
+   214	
+   215		dma_cap_set(DMA_PRIVATE, mcf_edma->dma_dev.cap_mask);
+   216		dma_cap_set(DMA_SLAVE, mcf_edma->dma_dev.cap_mask);
+   217		dma_cap_set(DMA_CYCLIC, mcf_edma->dma_dev.cap_mask);
+   218	
+   219		mcf_edma->dma_dev.dev = &pdev->dev;
+   220		mcf_edma->dma_dev.device_alloc_chan_resources =
+   221				fsl_edma_alloc_chan_resources;
+   222		mcf_edma->dma_dev.device_free_chan_resources =
+   223				fsl_edma_free_chan_resources;
+   224		mcf_edma->dma_dev.device_config = fsl_edma_slave_config;
+   225		mcf_edma->dma_dev.device_prep_dma_cyclic =
+   226				fsl_edma_prep_dma_cyclic;
+   227		mcf_edma->dma_dev.device_prep_slave_sg = fsl_edma_prep_slave_sg;
+   228		mcf_edma->dma_dev.device_tx_status = fsl_edma_tx_status;
+   229		mcf_edma->dma_dev.device_pause = fsl_edma_pause;
+   230		mcf_edma->dma_dev.device_resume = fsl_edma_resume;
+   231		mcf_edma->dma_dev.device_terminate_all = fsl_edma_terminate_all;
+   232		mcf_edma->dma_dev.device_issue_pending = fsl_edma_issue_pending;
+   233	
+   234		mcf_edma->dma_dev.src_addr_widths = FSL_EDMA_BUSWIDTHS;
+   235		mcf_edma->dma_dev.dst_addr_widths = FSL_EDMA_BUSWIDTHS;
+   236		mcf_edma->dma_dev.directions =
+   237				BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
+   238	
+   239		mcf_edma->dma_dev.filter.fn = mcf_edma_filter_fn;
+   240		mcf_edma->dma_dev.filter.map = pdata->slave_map;
+   241		mcf_edma->dma_dev.filter.mapcnt = pdata->slavecnt;
+   242	
+   243		platform_set_drvdata(pdev, mcf_edma);
+   244	
+   245		ret = dma_async_device_register(&mcf_edma->dma_dev);
+   246		if (ret) {
+   247			dev_err(&pdev->dev,
+   248				"Can't register Freescale eDMA engine. (%d)\n", ret);
+   249			return ret;
+   250		}
+   251	
+   252		/* Enable round robin arbitration */
+   253		iowrite32(EDMA_CR_ERGA | EDMA_CR_ERCA, regs->cr);
+   254	
+   255		return 0;
+   256	}
+   257	
 
 -- 
 0-DAY CI Kernel Test Service
