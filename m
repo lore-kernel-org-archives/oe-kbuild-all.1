@@ -1,47 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F30615B9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Nov 2023 02:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA761847;
+	Sun, 19 Nov 2023 03:14:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YD3f2LaE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crKG24SE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700362323; x=1731898323;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QGTI8e5HrwBVqtHTXqt0DhdvG+n+xpW4HPnMOsNBkOk=;
-  b=YD3f2LaEyjaBtHS4nXV+DToNEdPl6eEG5q2Bq5W4w4J4xzDXA4pc8qom
-   UC3dvCFYNFDmtuCdRI5VM0znqoG7g0wKFu9Y3SR8yuEv1t1kRNI6HNOtv
-   /GQoeQpPiFcx7xhhnJh4qw/Tf5t4DhRfb17RgvXiLDYXaCgNKoDTAM/fD
-   pW3EWmgBzfUBKgNIv6cfkwhr4tWOuqR5Im5SgqBMNtTdJNdRls1klYtB4
-   zwtgIjpV406pu3xUC0VMNeUvASuDz6e2S5Kv+Vbuc0TGKmApciBQlGUC+
-   ul1PCD/4cusYA609H+VNRi12ScVs/Bi/R2f1TLrNL0AsRB0I0GXPfl1ue
+  t=1700363662; x=1731899662;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DgMR+20joI22QFpxuYG34MFkzxuJ+eU5dAVuggNsAkY=;
+  b=crKG24SEVzDB+/qpn5UkJtaCvz4M5b+dCf1WRzbgH/97u50JW2nzuMR2
+   OsiyuOcCJqNzgEKS7AzwKzQUzoQm5dN2FmgRCakBDYJATQjlVWC39UQl0
+   O+WjvD0TTEcmq6wZwUePSt61/FoKDnFL8BkLoEj67fJgmUla1hTxflQro
+   0it5PAlXhVj/JDPWqnCgUUGK5DpHc74ShAz7iAqoMTAIXKkJkhbsaqp4W
+   om2CW063g7wFvgC1mfE8i5jsOx1+jwrA5bVPjkPiY1/tk2oYMR+JiIQ1/
+   kmW07znCra8rmfHDNFj8/dRKLsgP1N56aEksIrEjn/TZ8DEGcxXyK29Fu
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="10129671"
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="370812190"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="10129671"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 18:52:02 -0800
+   d="scan'208";a="370812190"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 19:14:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="836426935"
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="800823006"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="836426935"
+   d="scan'208";a="800823006"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Nov 2023 18:52:00 -0800
+  by orsmga001.jf.intel.com with ESMTP; 18 Nov 2023 19:14:14 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4Xug-0004Zn-1P;
-	Sun, 19 Nov 2023 02:51:58 +0000
-Date: Sun, 19 Nov 2023 10:51:31 +0800
+	id 1r4YGC-0004aP-0K;
+	Sun, 19 Nov 2023 03:14:12 +0000
+Date: Sun, 19 Nov 2023 11:13:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shaohua Li <shli@fb.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: block/blk-throttle.c:1488:74: warning: 'snprintf' output may be
- truncated before the last format character
-Message-ID: <202311191030.CRFJc6T4-lkp@intel.com>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	linux-hexagon@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+	Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	linux-m68k@lists.linux-m68k.org,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	linux-arm-kernel@lists.infradead.org,
+	Brian Cain <bcain@quicinc.com>, linux-parisc@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH] asm/io: remove unnecessary xlate_dev_mem_ptr() and
+ unxlate_dev_mem_ptr()
+Message-ID: <202311191145.pppExJS6-lkp@intel.com>
+References: <20231118100827.1599422-1-wangkefeng.wang@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,93 +66,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231118100827.1599422-1-wangkefeng.wang@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b8f1fa2419c19c81bc386a6b350879ba54a573e1
-commit: ada75b6e5b2a939401d4919dfaf2f2fc9484f68a blk-throttle: add interface to configure idle time threshold
-date:   7 years ago
-config: x86_64-randconfig-r031-20230816 (https://download.01.org/0day-ci/archive/20231119/202311191030.CRFJc6T4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311191030.CRFJc6T4-lkp@intel.com/reproduce)
+Hi Kefeng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on geert-m68k/for-next geert-m68k/for-linus deller-parisc/for-next powerpc/next powerpc/fixes linus/master v6.7-rc1 next-20231117]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/asm-io-remove-unnecessary-xlate_dev_mem_ptr-and-unxlate_dev_mem_ptr/20231118-183038
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20231118100827.1599422-1-wangkefeng.wang%40huawei.com
+patch subject: [PATCH] asm/io: remove unnecessary xlate_dev_mem_ptr() and unxlate_dev_mem_ptr()
+config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20231119/202311191145.pppExJS6-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311191145.pppExJS6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311191030.CRFJc6T4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311191145.pppExJS6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   block/blk-throttle.c:1675:13: warning: 'throtl_tg_is_idle' defined but not used [-Wunused-function]
-    1675 | static bool throtl_tg_is_idle(struct throtl_grp *tg)
-         |             ^~~~~~~~~~~~~~~~~
-   block/blk-throttle.c: In function 'tg_prfill_limit':
->> block/blk-throttle.c:1488:74: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
-    1488 |                         snprintf(idle_time, sizeof(idle_time), " idle=%lu",
-         |                                                                          ^
-   block/blk-throttle.c:1488:25: note: 'snprintf' output between 8 and 27 bytes into a destination of size 26
-    1488 |                         snprintf(idle_time, sizeof(idle_time), " idle=%lu",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1489 |                                 tg->idletime_threshold);
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/char/mem.c:159:10: error: call to undeclared function 'xlate_dev_mem_ptr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                           ptr = xlate_dev_mem_ptr(p);
+                                 ^
+>> drivers/char/mem.c:159:8: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+                           ptr = xlate_dev_mem_ptr(p);
+                               ^ ~~~~~~~~~~~~~~~~~~~~
+>> drivers/char/mem.c:164:4: error: call to undeclared function 'unxlate_dev_mem_ptr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                           unxlate_dev_mem_ptr(p, ptr);
+                           ^
+   drivers/char/mem.c:235:10: error: call to undeclared function 'xlate_dev_mem_ptr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                           ptr = xlate_dev_mem_ptr(p);
+                                 ^
+   drivers/char/mem.c:235:8: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+                           ptr = xlate_dev_mem_ptr(p);
+                               ^ ~~~~~~~~~~~~~~~~~~~~
+   drivers/char/mem.c:243:4: error: call to undeclared function 'unxlate_dev_mem_ptr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                           unxlate_dev_mem_ptr(p, ptr);
+                           ^
+   6 errors generated.
 
 
-vim +/snprintf +1488 block/blk-throttle.c
+vim +/xlate_dev_mem_ptr +159 drivers/char/mem.c
 
-  1442	
-  1443	static u64 tg_prfill_limit(struct seq_file *sf, struct blkg_policy_data *pd,
-  1444				 int off)
-  1445	{
-  1446		struct throtl_grp *tg = pd_to_tg(pd);
-  1447		const char *dname = blkg_dev_name(pd->blkg);
-  1448		char bufs[4][21] = { "max", "max", "max", "max" };
-  1449		u64 bps_dft;
-  1450		unsigned int iops_dft;
-  1451		char idle_time[26] = "";
-  1452	
-  1453		if (!dname)
-  1454			return 0;
-  1455	
-  1456		if (off == LIMIT_LOW) {
-  1457			bps_dft = 0;
-  1458			iops_dft = 0;
-  1459		} else {
-  1460			bps_dft = U64_MAX;
-  1461			iops_dft = UINT_MAX;
-  1462		}
-  1463	
-  1464		if (tg->bps_conf[READ][off] == bps_dft &&
-  1465		    tg->bps_conf[WRITE][off] == bps_dft &&
-  1466		    tg->iops_conf[READ][off] == iops_dft &&
-  1467		    tg->iops_conf[WRITE][off] == iops_dft &&
-  1468		    (off != LIMIT_LOW || tg->idletime_threshold ==
-  1469					  tg->td->dft_idletime_threshold))
-  1470			return 0;
-  1471	
-  1472		if (tg->bps_conf[READ][off] != bps_dft)
-  1473			snprintf(bufs[0], sizeof(bufs[0]), "%llu",
-  1474				tg->bps_conf[READ][off]);
-  1475		if (tg->bps_conf[WRITE][off] != bps_dft)
-  1476			snprintf(bufs[1], sizeof(bufs[1]), "%llu",
-  1477				tg->bps_conf[WRITE][off]);
-  1478		if (tg->iops_conf[READ][off] != iops_dft)
-  1479			snprintf(bufs[2], sizeof(bufs[2]), "%u",
-  1480				tg->iops_conf[READ][off]);
-  1481		if (tg->iops_conf[WRITE][off] != iops_dft)
-  1482			snprintf(bufs[3], sizeof(bufs[3]), "%u",
-  1483				tg->iops_conf[WRITE][off]);
-  1484		if (off == LIMIT_LOW) {
-  1485			if (tg->idletime_threshold == ULONG_MAX)
-  1486				strcpy(idle_time, " idle=max");
-  1487			else
-> 1488				snprintf(idle_time, sizeof(idle_time), " idle=%lu",
-  1489					tg->idletime_threshold);
-  1490		}
-  1491	
-  1492		seq_printf(sf, "%s rbps=%s wbps=%s riops=%s wiops=%s%s\n",
-  1493			   dname, bufs[0], bufs[1], bufs[2], bufs[3], idle_time);
-  1494		return 0;
-  1495	}
-  1496	
+^1da177e4c3f41 Linus Torvalds                2005-04-16  133  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  134  	bounce = kmalloc(PAGE_SIZE, GFP_KERNEL);
+22ec1a2aea73b9 Kees Cook                     2017-12-01  135  	if (!bounce)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  136  		return -ENOMEM;
+22ec1a2aea73b9 Kees Cook                     2017-12-01  137  
+^1da177e4c3f41 Linus Torvalds                2005-04-16  138  	while (count > 0) {
+fa29e97bb8c70f Wu Fengguang                  2009-12-14  139  		unsigned long remaining;
+b5b38200ebe548 Kees Cook                     2018-03-27  140  		int allowed, probe;
+fa29e97bb8c70f Wu Fengguang                  2009-12-14  141  
+f222318e9c3a31 Wu Fengguang                  2009-12-14  142  		sz = size_inside_page(p, count);
+^1da177e4c3f41 Linus Torvalds                2005-04-16  143  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  144  		err = -EPERM;
+a4866aa812518e Kees Cook                     2017-04-05  145  		allowed = page_is_allowed(p >> PAGE_SHIFT);
+a4866aa812518e Kees Cook                     2017-04-05  146  		if (!allowed)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  147  			goto failed;
+22ec1a2aea73b9 Kees Cook                     2017-12-01  148  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  149  		err = -EFAULT;
+a4866aa812518e Kees Cook                     2017-04-05  150  		if (allowed == 2) {
+a4866aa812518e Kees Cook                     2017-04-05  151  			/* Show zeros for restricted memory. */
+a4866aa812518e Kees Cook                     2017-04-05  152  			remaining = clear_user(buf, sz);
+a4866aa812518e Kees Cook                     2017-04-05  153  		} else {
+^1da177e4c3f41 Linus Torvalds                2005-04-16  154  			/*
+a4866aa812518e Kees Cook                     2017-04-05  155  			 * On ia64 if a page has been mapped somewhere as
+a4866aa812518e Kees Cook                     2017-04-05  156  			 * uncached, then it must also be accessed uncached
+a4866aa812518e Kees Cook                     2017-04-05  157  			 * by the kernel or data corruption may occur.
+^1da177e4c3f41 Linus Torvalds                2005-04-16  158  			 */
+^1da177e4c3f41 Linus Torvalds                2005-04-16 @159  			ptr = xlate_dev_mem_ptr(p);
+e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  160  			if (!ptr)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  161  				goto failed;
+a4866aa812518e Kees Cook                     2017-04-05  162  
+fe557319aa06c2 Christoph Hellwig             2020-06-17  163  			probe = copy_from_kernel_nofault(bounce, ptr, sz);
+e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18 @164  			unxlate_dev_mem_ptr(p, ptr);
+b5b38200ebe548 Kees Cook                     2018-03-27  165  			if (probe)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  166  				goto failed;
+22ec1a2aea73b9 Kees Cook                     2017-12-01  167  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  168  			remaining = copy_to_user(buf, bounce, sz);
+a4866aa812518e Kees Cook                     2017-04-05  169  		}
+a4866aa812518e Kees Cook                     2017-04-05  170  
+fa29e97bb8c70f Wu Fengguang                  2009-12-14  171  		if (remaining)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  172  			goto failed;
+e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  173  
+^1da177e4c3f41 Linus Torvalds                2005-04-16  174  		buf += sz;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  175  		p += sz;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  176  		count -= sz;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  177  		read += sz;
+8619e5bdeee8b2 Tetsuo Handa                  2019-08-26  178  		if (should_stop_iteration())
+8619e5bdeee8b2 Tetsuo Handa                  2019-08-26  179  			break;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  180  	}
+22ec1a2aea73b9 Kees Cook                     2017-12-01  181  	kfree(bounce);
+^1da177e4c3f41 Linus Torvalds                2005-04-16  182  
+^1da177e4c3f41 Linus Torvalds                2005-04-16  183  	*ppos += read;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  184  	return read;
+22ec1a2aea73b9 Kees Cook                     2017-12-01  185  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  186  failed:
+22ec1a2aea73b9 Kees Cook                     2017-12-01  187  	kfree(bounce);
+22ec1a2aea73b9 Kees Cook                     2017-12-01  188  	return err;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  189  }
+^1da177e4c3f41 Linus Torvalds                2005-04-16  190  
 
 -- 
 0-DAY CI Kernel Test Service
