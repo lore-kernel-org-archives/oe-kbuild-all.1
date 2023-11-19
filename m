@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEFB1FDA;
-	Sun, 19 Nov 2023 04:10:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026C54A3B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 19 Nov 2023 04:11:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="REcNM4K/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8pK678k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700367040; x=1731903040;
+  t=1700367061; x=1731903061;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wk2SArLJLBSovqoRcDBFWmIaTkq0kkM4zpZ8yKd2aEQ=;
-  b=REcNM4K/Qo8eKsVkZBznZG4XMNsWIvA2diD2FFWBActZq0uM4+mIGW0X
-   YVpVN9xg3C5r8VC2j9uTgj8W/cX4sToWDknHK8DGWfGlOWqhrX7MFYwJS
-   yroiR6xoCs+FnjF35iwmpYVWWLfbqtXR6pcBXVqAamoLcippHL3WMNhTa
-   RrIdd1rpOCffAhFj4iTbmbdHVUKFXmQXFwSx+dOsbOTRa31MVG+32Cvki
-   3A7lonafqB9bVW8Z6TQx4bXfdvCdjYJz4kVyrPi7OBaLsY8we6/AeIXse
-   P/qaoDtmBHcheN4mS5pFkDmQmLj1jRp3BA9Shp8q+xcX6A7u2KhvRanCA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="370813305"
+  bh=PWSC7wGrwL5e16wIBjFpA5ikAsF9CLQfZ0HQlkbkZtc=;
+  b=O8pK678k7H09fWB5gcBIizr7e+bpNHGP+fyR75OAcqGP9F6WaJ8GUdFt
+   /ERP+fCEhLIMn/yzLJmJXcUbaYpHnl1YLr8aEwzOjXhTCFusBeEpsvIXX
+   TNYh7+P3/PSjIEotxVqU740+80BQuK1okOKnVT0jD0h/RrWeYTuSI9w8Z
+   /ho2xa1XfSzlQvEPtrzo+BY1FuyjHJRTrrrXqnAE7jY8ayJjpZz+G4x9C
+   ZuoqTmTZXw1x5XxtY0g/yRdqlGV1RknkMmvOw2ibq4QLCw/0RjTBr4OD6
+   KjmSGbkm/auhXbX2JDhuTIRYGDU9qVQ8R0OH/3uSwamoJlC6x3mxefYl0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="10131959"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="370813305"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 20:10:40 -0800
+   d="scan'208";a="10131959"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 20:11:00 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="795166791"
 X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="13852077"
+   d="scan'208";a="795166791"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Nov 2023 20:10:38 -0800
+  by orsmga008.jf.intel.com with ESMTP; 18 Nov 2023 20:10:58 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4Z8l-0004d9-2b;
-	Sun, 19 Nov 2023 04:10:35 +0000
-Date: Sun, 19 Nov 2023 12:09:24 +0800
+	id 1r4Z96-0004dG-12;
+	Sun, 19 Nov 2023 04:10:56 +0000
+Date: Sun, 19 Nov 2023 12:09:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [linux-next:master 1467/1905] drivers/hwmon/nct6775-i2c.c:164:15:
- warning: cast to smaller integer type 'enum kinds' from 'const void *'
-Message-ID: <202311191205.EDRfQlJF-lkp@intel.com>
+To: Greg Joyce <gjoyce@linux.vnet.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>,
+	Jonathan Derrick <jonathan.derrick@linux.dev>
+Subject: arch/powerpc/platforms/pseries/plpks_sed_ops.c:89:15: sparse:
+ sparse: cast to restricted __be32
+Message-ID: <202311191142.ZOdOE2vT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,46 +52,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   eff99d8edbed7918317331ebd1e365d8e955d65e
-commit: 0a7093e69c1eb508d699d6076013706b0c523597 [1467/1905] hwmon: nct6775-i2c: Use i2c_get_match_data()
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231119/202311191205.EDRfQlJF-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311191205.EDRfQlJF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b8f1fa2419c19c81bc386a6b350879ba54a573e1
+commit: ec8cf230ceccfcc2bd29990c2902be168a92dee4 powerpc/pseries: PLPKS SED Opal keystore support
+date:   5 weeks ago
+config: powerpc64-randconfig-r131-20231119 (https://download.01.org/0day-ci/archive/20231119/202311191142.ZOdOE2vT-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231119/202311191142.ZOdOE2vT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311191205.EDRfQlJF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311191142.ZOdOE2vT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:89:15: sparse: sparse: cast to restricted __be32
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:89:15: sparse: sparse: cast to restricted __be32
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:89:15: sparse: sparse: cast to restricted __be32
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:89:15: sparse: sparse: cast to restricted __be32
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:89:15: sparse: sparse: cast to restricted __be32
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:89:15: sparse: sparse: cast to restricted __be32
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:116:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long [addressable] [assigned] [usertype] authority @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/pseries/plpks_sed_ops.c:116:24: sparse:     expected unsigned long [addressable] [assigned] [usertype] authority
+   arch/powerpc/platforms/pseries/plpks_sed_ops.c:116:24: sparse:     got restricted __be64 [usertype]
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:117:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long [addressable] [assigned] [usertype] range @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/pseries/plpks_sed_ops.c:117:20: sparse:     expected unsigned long [addressable] [assigned] [usertype] range
+   arch/powerpc/platforms/pseries/plpks_sed_ops.c:117:20: sparse:     got restricted __be64 [usertype]
+>> arch/powerpc/platforms/pseries/plpks_sed_ops.c:119:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] [usertype] key_len @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/pseries/plpks_sed_ops.c:119:22: sparse:     expected unsigned int [addressable] [assigned] [usertype] key_len
+   arch/powerpc/platforms/pseries/plpks_sed_ops.c:119:22: sparse:     got restricted __be32 [usertype]
 
->> drivers/hwmon/nct6775-i2c.c:164:15: warning: cast to smaller integer type 'enum kinds' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-           data->kind = (enum kinds)i2c_get_match_data(client);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +89 arch/powerpc/platforms/pseries/plpks_sed_ops.c
 
-
-vim +164 drivers/hwmon/nct6775-i2c.c
-
-   154	
-   155	static int nct6775_i2c_probe(struct i2c_client *client)
-   156	{
-   157		struct nct6775_data *data;
-   158		struct device *dev = &client->dev;
-   159	
-   160		data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
-   161		if (!data)
-   162			return -ENOMEM;
-   163	
- > 164		data->kind = (enum kinds)i2c_get_match_data(client);
-   165		data->read_only = true;
-   166		data->driver_data = client;
-   167		data->driver_init = nct6775_i2c_probe_init;
-   168	
-   169		return nct6775_probe(dev, data, &nct6775_i2c_regmap_config);
-   170	}
-   171	
+    66	
+    67	/*
+    68	 * Read the SED Opal key from PLPKS given the label
+    69	 */
+    70	int sed_read_key(char *keyname, char *key, u_int *keylen)
+    71	{
+    72		struct plpks_var var;
+    73		struct plpks_sed_object_data data;
+    74		int ret;
+    75		u_int len;
+    76	
+    77		plpks_init_var(&var, keyname);
+    78	
+    79		if (!plpks_sed_available)
+    80			return -EOPNOTSUPP;
+    81	
+    82		var.data = (u8 *)&data;
+    83		var.datalen = sizeof(data);
+    84	
+    85		ret = plpks_read_os_var(&var);
+    86		if (ret != 0)
+    87			return ret;
+    88	
+  > 89		len = min_t(u16, be32_to_cpu(data.key_len), var.datalen);
+    90		memcpy(key, data.key, len);
+    91		key[len] = '\0';
+    92		*keylen = len;
+    93	
+    94		return 0;
+    95	}
+    96	
+    97	/*
+    98	 * Write the SED Opal key to PLPKS given the label
+    99	 */
+   100	int sed_write_key(char *keyname, char *key, u_int keylen)
+   101	{
+   102		struct plpks_var var;
+   103		struct plpks_sed_object_data data;
+   104		struct plpks_var_name vname;
+   105	
+   106		plpks_init_var(&var, keyname);
+   107	
+   108		if (!plpks_sed_available)
+   109			return -EOPNOTSUPP;
+   110	
+   111		var.datalen = sizeof(struct plpks_sed_object_data);
+   112		var.data = (u8 *)&data;
+   113	
+   114		/* initialize SED object */
+   115		data.version = PLPKS_SED_OBJECT_DATA_V0;
+ > 116		data.authority = cpu_to_be64(PLPKS_SED_AUTHORITY);
+ > 117		data.range = cpu_to_be64(PLPKS_SED_RANGE);
+   118		memset(&data.pad1, '\0', sizeof(data.pad1));
+ > 119		data.key_len = cpu_to_be32(keylen);
 
 -- 
 0-DAY CI Kernel Test Service
