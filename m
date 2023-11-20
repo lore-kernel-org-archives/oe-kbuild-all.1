@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781A6D519;
-	Mon, 20 Nov 2023 07:59:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13839D521
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 07:59:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHqNI3n+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HS1sI90u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700467164; x=1732003164;
+  t=1700467165; x=1732003165;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RkoBlV0ZvQ4yB4slhmGVmoFATZDCQaRMKWluOzLvrLc=;
-  b=HHqNI3n+sZuZ/uyO2cLGXjJfDaPT4RhbU4rVeKj0NgzG+vlhw3l0Ight
-   0feb1wKUuPw+W9sZkhI01c21o8mFWcO+2E4riaH+7bzQR5srRf5G1hXlG
-   v3UvERGvrblZCzpHtcpvdjnO1EptJdDTHTUD2pqN8irQvLtwFhqbLVb/p
-   Ef0r0kxam1BBGqtaIcq0mKvznli/l9YqKMHWn4qLECga3vSOQP9NrOG6I
-   63152JgP+b8VvY6LFyvycqUmxPTVMdPwtj0Ixs23fHdwRxO3//ADptDPh
-   BgWm/rnQBWpMUei2q2Vb6KndwKZf9i0k87TJtu316UJGtx1NM46uSmTmD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="390432917"
+  bh=JzSFdhpu4Z2Dl0iRmYFt0FhnPqgEZQkDIIi0hsLtfRY=;
+  b=HS1sI90uw4+Bu1pOY4yTrJb7tZApd4ul+Jwo0dUwtpyo/ChBzwdruEvV
+   erTakpUpDWvofUi6TtsKDaFzEB//4bf1667YDMnLwY+x3/yEFOvFzRYkH
+   5C8HOhoGGBGuuLBSLk/5gmweTcsY1GDqLzFzh2yuLfE7j4VWsfhdHcSd4
+   KXMbdxxWkKR60gMtMFGTKMIf4J8Hzxyoi19oo4Kzdj00KcQFvlHA9HhLw
+   PbmSw2hP7F54DGU0R6ghSlTd7JtT5lFqeHoKytsdgvLoyfKX4uhpY0/BS
+   dCv6Xi5zHYz2hFzW7H6CnRSw/KNoX+XR/nYzxg7vwZ3dbGoHvlkCefGKY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="390432919"
 X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="390432917"
+   d="scan'208";a="390432919"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 23:59:21 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 23:59:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="1097677167"
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="1097677168"
 X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="1097677167"
+   d="scan'208";a="1097677168"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
   by fmsmga005.fm.intel.com with ESMTP; 19 Nov 2023 23:59:19 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4zBc-0006C3-2Z;
+	id 1r4zBc-0006CC-2s;
 	Mon, 20 Nov 2023 07:59:16 +0000
-Date: Mon, 20 Nov 2023 15:58:39 +0800
+Date: Mon, 20 Nov 2023 15:58:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>, linux-bcachefs@vger.kernel.org,
-	linux-bcache@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kmo@daterainc.com>,
-	Kees Cook <keescook@chromium.org>, Coly Li <colyli@suse.de>
-Subject: Re: [PATCH] closures: CLOSURE_CALLBACK() to fix type punning
-Message-ID: <202311201543.JV4oP14G-lkp@intel.com>
-References: <20231120030729.3285278-1-kent.overstreet@linux.dev>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lpieralisi@kernel.org, kw@linux.com,
+	robh@kernel.org, linux-kernel@vger.kernel.org,
+	chenhuacai@kernel.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v5] pci: loongson: Workaround MIPS firmware MRRS settings
+Message-ID: <202311201537.u2ZGD7A8-lkp@intel.com>
+References: <20231119215635.52810-1-jiaxun.yang@flygoat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,116 +53,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120030729.3285278-1-kent.overstreet@linux.dev>
+In-Reply-To: <20231119215635.52810-1-jiaxun.yang@flygoat.com>
 
-Hi Kent,
+Hi Jiaxun,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc2 next-20231117]
-[cannot apply to kees/for-next/pstore kees/for-next/kspp]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.7-rc2 next-20231120]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kent-Overstreet/closures-CLOSURE_CALLBACK-to-fix-type-punning/20231120-110920
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231120030729.3285278-1-kent.overstreet%40linux.dev
-patch subject: [PATCH] closures: CLOSURE_CALLBACK() to fix type punning
-config: x86_64-buildonly-randconfig-003-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201543.JV4oP14G-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311201543.JV4oP14G-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiaxun-Yang/pci-loongson-Workaround-MIPS-firmware-MRRS-settings/20231120-055946
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231119215635.52810-1-jiaxun.yang%40flygoat.com
+patch subject: [PATCH v5] pci: loongson: Workaround MIPS firmware MRRS settings
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231120/202311201537.u2ZGD7A8-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311201537.u2ZGD7A8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311201543.JV4oP14G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311201537.u2ZGD7A8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/io_write.c:1570: warning: Function parameter or member 'bch2_write' not described in 'CLOSURE_CALLBACK'
->> fs/bcachefs/io_write.c:1570: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
+   In file included from drivers/pci/controller/pci-loongson.c:10:
+   drivers/pci/controller/pci-loongson.c:122:50: error: 'loongson_mrrs_quirk_old' undeclared here (not in a function)
+     122 | DECLARE_PCI_FIXUP_ENABLE(PCI_ANY_ID, PCI_ANY_ID, loongson_mrrs_quirk_old);
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci.h:2241:57: note: in definition of macro 'DECLARE_PCI_FIXUP_SECTION'
+    2241 |                 = { vendor, device, class, class_shift, hook };
+         |                                                         ^~~~
+   drivers/pci/controller/pci-loongson.c:122:1: note: in expansion of macro 'DECLARE_PCI_FIXUP_ENABLE'
+     122 | DECLARE_PCI_FIXUP_ENABLE(PCI_ANY_ID, PCI_ANY_ID, loongson_mrrs_quirk_old);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/pci-loongson.c:92:13: warning: 'loongson_set_min_mrrs_quirk' defined but not used [-Wunused-function]
+      92 | static void loongson_set_min_mrrs_quirk(struct pci_dev *pdev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1570 fs/bcachefs/io_write.c
+vim +/loongson_set_min_mrrs_quirk +92 drivers/pci/controller/pci-loongson.c
 
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1551  
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1552  /**
-96dea3d599dbc3 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1553   * bch2_write() - handle a write to a cache device or flash only volume
-96dea3d599dbc3 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1554   * @cl:		&bch_write_op->cl
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1555   *
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1556   * This is the starting point for any data to end up in a cache device; it could
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1557   * be from a normal write, or a writeback write, or a write to a flash only
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1558   * volume - it's also used by the moving garbage collector to compact data in
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1559   * mostly empty buckets.
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1560   *
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1561   * It first writes the data to the cache, creating a list of keys to be inserted
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1562   * (if the data won't fit in a single open bucket, there will be multiple keys);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1563   * after the data is written it calls bch_journal, and after the keys have been
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1564   * added to the next journal write they're inserted into the btree.
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1565   *
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1566   * If op->discard is true, instead of inserting the data it invalidates the
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1567   * region of the cache represented by op->bio and op->inode.
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1568   */
-b945f655e6185e fs/bcachefs/io_write.c Kent Overstreet 2023-11-19  1569  CLOSURE_CALLBACK(bch2_write)
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16 @1570  {
-b945f655e6185e fs/bcachefs/io_write.c Kent Overstreet 2023-11-19  1571  	closure_type(op, struct bch_write_op, cl);
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1572  	struct bio *bio = &op->wbio.bio;
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1573  	struct bch_fs *c = op->c;
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1574  	unsigned data_len;
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1575  
-b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1576  	EBUG_ON(op->cl.parent);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1577  	BUG_ON(!op->nr_replicas);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1578  	BUG_ON(!op->write_point.v);
-e88a75ebe86c1d fs/bcachefs/io.c       Kent Overstreet 2022-11-24  1579  	BUG_ON(bkey_eq(op->pos, POS_MAX));
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1580  
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1581  	op->start_time = local_clock();
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1582  	bch2_keylist_init(&op->insert_keys, op->inline_keys);
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1583  	wbio_init(bio)->put_bio = false;
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1584  
-8244f3209b5b49 fs/bcachefs/io.c       Kent Overstreet 2021-12-14  1585  	if (bio->bi_iter.bi_size & (c->opts.block_size - 1)) {
-7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1586  		bch_err_inum_offset_ratelimited(c,
-7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1587  			op->pos.inode,
-7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1588  			op->pos.offset << 9,
-0fefe8d8ef7402 fs/bcachefs/io.c       Kent Overstreet 2020-12-03  1589  			"misaligned write");
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1590  		op->error = -EIO;
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1591  		goto err;
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1592  	}
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1593  
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1594  	if (c->opts.nochanges) {
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1595  		op->error = -BCH_ERR_erofs_no_writes;
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1596  		goto err;
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1597  	}
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1598  
-b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1599  	if (!(op->flags & BCH_WRITE_MOVE) &&
-d94189ad568f6c fs/bcachefs/io.c       Kent Overstreet 2023-02-09  1600  	    !bch2_write_ref_tryget(c, BCH_WRITE_REF_write)) {
-858536c7cea8bb fs/bcachefs/io.c       Kent Overstreet 2022-12-11  1601  		op->error = -BCH_ERR_erofs_no_writes;
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1602  		goto err;
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1603  	}
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1604  
-104c69745fdf7e fs/bcachefs/io.c       Daniel Hill     2022-03-15  1605  	this_cpu_add(c->counters[BCH_COUNTER_io_write], bio_sectors(bio));
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1606  	bch2_increment_clock(c, bio_sectors(bio), WRITE);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1607  
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1608  	data_len = min_t(u64, bio->bi_iter.bi_size,
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1609  			 op->new_i_size - (op->pos.offset << 9));
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1610  
-07358a82bb36ff fs/bcachefs/io.c       Kent Overstreet 2019-11-29  1611  	if (c->opts.inline_data &&
-07358a82bb36ff fs/bcachefs/io.c       Kent Overstreet 2019-11-29  1612  	    data_len <= min(block_bytes(c) / 2, 1024U)) {
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1613  		bch2_write_data_inline(op, data_len);
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1614  		return;
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1615  	}
-4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1616  
-b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1617  	__bch2_write(op);
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1618  	return;
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1619  err:
-4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1620  	bch2_disk_reservation_put(c, &op->res);
-46e4bb1c378248 fs/bcachefs/io.c       Kent Overstreet 2019-12-27  1621  
-b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1622  	closure_debug_destroy(&op->cl);
-b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1623  	if (op->end_io)
-c32bd3ad1fe595 fs/bcachefs/io.c       Kent Overstreet 2019-11-11  1624  		op->end_io(op);
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1625  }
-1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1626  
+    54	
+    55	/* Fixup wrong class code in PCIe bridges */
+    56	static void bridge_class_quirk(struct pci_dev *dev)
+    57	{
+    58		dev->class = PCI_CLASS_BRIDGE_PCI_NORMAL;
+    59	}
+    60	DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_LOONGSON,
+    61				DEV_LS7A_PCIE_PORT0, bridge_class_quirk);
+    62	DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_LOONGSON,
+    63				DEV_LS7A_PCIE_PORT1, bridge_class_quirk);
+    64	DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_LOONGSON,
+    65				DEV_LS7A_PCIE_PORT2, bridge_class_quirk);
+    66	
+    67	static void system_bus_quirk(struct pci_dev *pdev)
+    68	{
+    69		/*
+    70		 * The address space consumed by these devices is outside the
+    71		 * resources of the host bridge.
+    72		 */
+    73		pdev->mmio_always_on = 1;
+    74		pdev->non_compliant_bars = 1;
+    75	}
+    76	DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_LOONGSON,
+    77				DEV_LS2K_APB, system_bus_quirk);
+    78	DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_LOONGSON,
+    79				DEV_LS7A_CONF, system_bus_quirk);
+    80	DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_LOONGSON,
+    81				DEV_LS7A_LPC, system_bus_quirk);
+    82	
+    83	/*
+    84	 * Some Loongson PCIe ports have h/w limitations of maximum read
+    85	 * request size. They can't handle anything larger than this.
+    86	 * Sane firmware will set proper MRRS at boot, so we only need
+    87	 * no_inc_mrrs for bridges. However, some MIPS Loongson firmware
+    88	 * won't set MRRS properly, and we have to enforce maximum safe
+    89	 * MRRS, which is 256 bytes.
+    90	 */
+    91	#ifdef CONFIG_MIPS
+  > 92	static void loongson_set_min_mrrs_quirk(struct pci_dev *pdev)
+    93	{
+    94		struct pci_bus *bus = pdev->bus;
+    95		struct pci_dev *bridge;
+    96		static const struct pci_device_id bridge_devids[] = {
+    97			{ PCI_VDEVICE(LOONGSON, DEV_LS2K_PCIE_PORT0) },
+    98			{ PCI_VDEVICE(LOONGSON, DEV_LS7A_PCIE_PORT0) },
+    99			{ PCI_VDEVICE(LOONGSON, DEV_LS7A_PCIE_PORT1) },
+   100			{ PCI_VDEVICE(LOONGSON, DEV_LS7A_PCIE_PORT2) },
+   101			{ PCI_VDEVICE(LOONGSON, DEV_LS7A_PCIE_PORT3) },
+   102			{ PCI_VDEVICE(LOONGSON, DEV_LS7A_PCIE_PORT4) },
+   103			{ PCI_VDEVICE(LOONGSON, DEV_LS7A_PCIE_PORT5) },
+   104			{ PCI_VDEVICE(LOONGSON, DEV_LS7A_PCIE_PORT6) },
+   105			{ 0, },
+   106		};
+   107	
+   108		/* look for the matching bridge */
+   109		while (!pci_is_root_bus(bus)) {
+   110			bridge = bus->self;
+   111			bus = bus->parent;
+   112	
+   113			if (pci_match_id(bridge_devids, bridge)) {
+   114				if (pcie_get_readrq(pdev) > 256) {
+   115					pci_info(pdev, "limiting MRRS to 256\n");
+   116					pcie_set_readrq(pdev, 256);
+   117				}
+   118				break;
+   119			}
+   120		}
+   121	}
+   122	DECLARE_PCI_FIXUP_ENABLE(PCI_ANY_ID, PCI_ANY_ID, loongson_mrrs_quirk_old);
+   123	#endif
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
