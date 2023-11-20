@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79CA38DE0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 23:41:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B1E3B29C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 23:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/E/EXn6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FP3mi3Zx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700523661; x=1732059661;
+  t=1700523663; x=1732059663;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=feSvV0+cWNC4uBEcbTGoSvkz6BJZ9IxEyyejxLx6g5U=;
-  b=X/E/EXn6ytwwsm68rT5YFQE9HNEeA+Xy56ZrZgL2H7RL3aUmVP/d9YWj
-   jpzrFQ+smvXbUvvDQ09nZdho6mp2u4c/0hrcwu4OdyGxbgycG1T0H1EQx
-   7W79D1VRkV6LSIrEfI3TwILPXcN2zN1t4dMboFrluUy8u4XP/H+NGm2wL
-   GKAjcaE24XtpIPKHxf+NB6MfKez3b9YEFsN4MGKu0hyGwte98ImzbKcmF
-   rOI/gEcORdzUJ0OazmRgKYYwMOHPNyPjTNbYng43sADceq+jH+4O7F0RC
-   DcD4eIu3sJ7vI5xIl1wJBSl/YMPiJWOwSpIFTy/jD34/R7uJ6K+w+9slk
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="422830578"
+  bh=daMPJww/fi98pBcQzTmoc2bVxnZmnm0x+lwyJMphapU=;
+  b=FP3mi3Zx840s0piQSiMpnZ5WSzXh1YMU5kILv4B2gSYiq/lUPAO8ms8v
+   tE5qAdfw3VMZWFt17htUD42iHwfyxLTe7d0Pkb6ASACX085oyPAkQNe3e
+   vW40MPpdhrOLG5cZsB4FGho17V2waiRrByJJEXnnQt/OUTawrSJp6zDAk
+   6+aPLBFPMlmphPs11gs9PvB22ljgbTmQniJ0ITm6Ph2f++tKv946cdXzJ
+   pq1epyKvyk1zoOuH9XUBeti+/X35kuOKsQkUWOWoa4tIay6FT4hvvxbTw
+   lXKUhbW+wW+GHqjjqBchVyKrvFMBx5049+BdSXFmT3Hzkm5EWH0JfDlyL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="371067949"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="422830578"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 15:41:01 -0800
+   d="scan'208";a="371067949"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 15:41:01 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="910280034"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="7875005"
+   d="scan'208";a="910280034"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Nov 2023 15:41:00 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 20 Nov 2023 15:41:00 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5Dsv-00074I-1T;
+	id 1r5Dsv-00074L-31;
 	Mon, 20 Nov 2023 23:40:57 +0000
-Date: Tue, 21 Nov 2023 07:39:58 +0800
+Date: Tue, 21 Nov 2023 07:39:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Young <sean@mess.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: drivers/media/rc/ttusbir.c:1: warning: no structured comments found
-Message-ID: <202311210746.QM5MR14D-lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hverkuil-media-tree:fraction_bits 1/1] v4l2-ctrls-core.c:undefined
+ reference to `__divdi3'
+Message-ID: <202311210718.iWh1VQc9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,48 +50,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-commit: b9e1486e0e4b5e0fc0cde214ceecec8a5734f620 media: rc-core: do not depend on MEDIA_SUPPORT
-date:   6 years ago
-config: i386-randconfig-005-20231120 (https://download.01.org/0day-ci/archive/20231121/202311210746.QM5MR14D-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311210746.QM5MR14D-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/hverkuil/media_tree.git fraction_bits
+head:   d25f61730ea9fb92d79ae3fcd562b33553dd9133
+commit: d25f61730ea9fb92d79ae3fcd562b33553dd9133 [1/1] media: v4l2-ctrls: add support for fraction_bits
+config: i386-buildonly-randconfig-001-20231121 (https://download.01.org/0day-ci/archive/20231121/202311210718.iWh1VQc9-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311210718.iWh1VQc9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311210746.QM5MR14D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311210718.iWh1VQc9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/rc/ttusbir.c:1: warning: no structured comments found
-
-
-vim +1 drivers/media/rc/ttusbir.c
-
-0938069fa08970 Sean Young 2012-08-13  @1  /*
-0938069fa08970 Sean Young 2012-08-13   2   * TechnoTrend USB IR Receiver
-0938069fa08970 Sean Young 2012-08-13   3   *
-0938069fa08970 Sean Young 2012-08-13   4   * Copyright (C) 2012 Sean Young <sean@mess.org>
-0938069fa08970 Sean Young 2012-08-13   5   *
-0938069fa08970 Sean Young 2012-08-13   6   * This program is free software; you can redistribute it and/or modify
-0938069fa08970 Sean Young 2012-08-13   7   * it under the terms of the GNU General Public License as published by
-0938069fa08970 Sean Young 2012-08-13   8   * the Free Software Foundation; either version 2 of the License, or
-0938069fa08970 Sean Young 2012-08-13   9   * (at your option) any later version.
-0938069fa08970 Sean Young 2012-08-13  10   *
-0938069fa08970 Sean Young 2012-08-13  11   * This program is distributed in the hope that it will be useful,
-0938069fa08970 Sean Young 2012-08-13  12   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-0938069fa08970 Sean Young 2012-08-13  13   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-0938069fa08970 Sean Young 2012-08-13  14   * GNU General Public License for more details.
-0938069fa08970 Sean Young 2012-08-13  15   */
-0938069fa08970 Sean Young 2012-08-13  16  
-
-:::::: The code at line 1 was first introduced by commit
-:::::: 0938069fa08970f1c898970c1331a029efe9a1ce [media] rc: Add support for the TechnoTrend USB IR Receiver
-
-:::::: TO: Sean Young <sean@mess.org>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+   ld: drivers/media/v4l2-core/v4l2-ctrls-core.o: in function `v4l2_ctrl_log_fp':
+>> v4l2-ctrls-core.c:(.text+0x996): undefined reference to `__divdi3'
 
 -- 
 0-DAY CI Kernel Test Service
