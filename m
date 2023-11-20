@@ -1,54 +1,53 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0279F4F3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 08:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE5FF9C2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 09:09:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mh1iHDOc"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50970c2115eso5916586e87.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 00:55:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700470503; x=1701075303; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Fy+1mN1JURxGkFdikha5Vmh+lSHC6OOSWhmLP+px5PU=;
-        b=mh1iHDOcMV/h6LaItXwdW1lF1DnlJtycBXRuKdoDKxIU768KcXCCJoRuYjeeqf1R9D
-         hhQM/Qr1bwtow+WOHTg6h1jLm9yUTJfsHdVBqZcNzsK/oVjpHvmHFQJDeHvoqg/fp7wo
-         ydwXAALKwpgoWJRy/lqye9BVbnADKsJ/tdn+N3GWy6E88AxPBCQNRxlWR9Af+O/QErr1
-         crCWzqH1NlF2QH6C3xnjxgaQA6ikjiOXmbGp1LAPT1W/0EfTz20+/WzP+Ps2tCUAVZfs
-         pmYgHSszKvVC7sgIsR+9oswHj+bYkSjY0SGdUqzZNP2qa9N4auF1/Xm4WXKQLarFHaCa
-         VOSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700470503; x=1701075303;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fy+1mN1JURxGkFdikha5Vmh+lSHC6OOSWhmLP+px5PU=;
-        b=OEp/zlZp89MfI4dY7nuercSpVgv7O5pqmBKRyOqGi+SE6cWiEF0D+rMUOVeBP+KFhB
-         CKvgOZMAQI16U+JlxJyUMmu62d8RAObaYMJwz/wjxg+ShM7k9v7RfQCA1oDLSpulaYGc
-         eop3LH3BULtLJRwrmeaQ6RjwKI+5waoexumvU+Vs2FixLOqaE4fBZwA985thmrdjpJXK
-         37gqsG6oNOzRMtq8/BGuryUaiUs13h6MQOdZW9Rr6SbHXiWHAOpmCgMnww8Xp50kgqVI
-         GOozLZ6aZuMCWgY9HKJ6d5P4UYVj2814sawvOjqjqnPp3s6mWF3NZ//XFcWl2RzZ2JQJ
-         Hxbw==
-X-Gm-Message-State: AOJu0YwIsg7IGZkIsC/TFY+e56BpDnhYUK/QhMGrE6cB+3HOSS6WvCuR
-	PuVv68xrZ/43xpkHa9yUysOIgQ==
-X-Google-Smtp-Source: AGHT+IGKKjF1LV0qlPxktUq9SEpMGkiV4eJgkmIn+nNGDyKTGo5RKPCRZIRX7Fpgc2rc0/8jcBXZbg==
-X-Received: by 2002:ac2:59c9:0:b0:509:860e:debf with SMTP id x9-20020ac259c9000000b00509860edebfmr5297010lfn.27.1700470502813;
-        Mon, 20 Nov 2023 00:55:02 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q10-20020adff94a000000b003317796e0e3sm6521707wrr.65.2023.11.20.00.55.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 00:55:02 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 03:55:00 -0500
-To: oe-kbuild@lists.linux.dev, Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [tglx-devel:queue/core 1/1] lib/debugobjects.c:730
- debug_object_activate() error: 'obj' dereferencing possible ERR_PTR()
-Message-ID: <2999d03c-4002-474f-9654-e9eded9af8c3@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PGGkZI0s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700471375; x=1732007375;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I89fI9PTT5l0jZ52puX0Apio/xjtpZcVDTQZapvSpQ8=;
+  b=PGGkZI0sN02nmxCcx0oa81ebdz9+VeTUpN4xdXlSC5GPqBGl1wmCa4Be
+   NxoJ/wdRbI9r3Fj/faAI6G4O05XYIqpjocszLaZw3Sf4DZcJBi9DuREwT
+   jKWAY4sMHWdVzE9KFMpZcIkC55/l0Iq9Gwmgka+x38G+OyzsJHzSOoWQF
+   EdZVt0NW2mGxRLFqAwt+lOkA8F9wQmgej2ev3SNIog+Wt/BkCq50zudTO
+   RkTOTh3o0D3RHAnEiAFPdV609drGb7azXVFL1GMtONEGcq76NTVnooHOL
+   b+e4TbRAgfS03Gzvhweb539z1RKGVGRpgdwUyiOiaulO0cj7fER+qiZRY
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="370926023"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="370926023"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 01:09:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="832209604"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="832209604"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 20 Nov 2023 01:09:30 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r50HY-0006FH-0G;
+	Mon, 20 Nov 2023 09:09:28 +0000
+Date: Mon, 20 Nov 2023 17:08:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Elad Nachman <enachman@marvell.com>, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	andrew@lunn.ch, gregory.clement@bootlin.com,
+	sebastian.hesselbarth@gmail.com, pali@kernel.org,
+	mrkiko.rs@gmail.com, chris.packham@alliedtelesis.co.nz,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, enachman@marvell.com, cyuval@marvell.com
+Subject: Re: [PATCH v5 2/3] dt-bindings: arm64: add Marvell COM Express boards
+Message-ID: <202311201610.9d8EdO2Y-lkp@intel.com>
+References: <20231119102638.1041978-3-enachman@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,74 +56,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231119102638.1041978-3-enachman@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git queue/core
-head:   265c43c4e983edc38cb9b0b75fc82eda0808512d
-commit: 265c43c4e983edc38cb9b0b75fc82eda0808512d [1/1] debugobjects: Stop accessing objects after releasing hash bucket lock
-config: i386-randconfig-141-20231107 (https://download.01.org/0day-ci/archive/20231109/202311092147.YQefKK78-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231109/202311092147.YQefKK78-lkp@intel.com/reproduce)
+Hi Elad,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.7-rc2 next-20231120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elad-Nachman/MAINTAINERS-add-ac5-to-list-of-maintained-Marvell-dts-files/20231119-182821
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20231119102638.1041978-3-enachman%40marvell.com
+patch subject: [PATCH v5 2/3] dt-bindings: arm64: add Marvell COM Express boards
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231120/202311201610.9d8EdO2Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311092147.YQefKK78-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311201610.9d8EdO2Y-lkp@intel.com/
 
-smatch warnings:
-lib/debugobjects.c:730 debug_object_activate() error: 'obj' dereferencing possible ERR_PTR()
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/arm/marvell/armada-7k-8k.yaml:64:13: [warning] wrong indentation: expected 10 but found 12 (indentation)
 
-vim +/obj +730 lib/debugobjects.c
+vim +64 Documentation/devicetree/bindings/arm/marvell/armada-7k-8k.yaml
 
-aedcade6f4fa9a Stephen Boyd     2020-08-14  694  int debug_object_activate(void *addr, const struct debug_obj_descr *descr)
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  695  {
-63a759694eed61 Thomas Gleixner  2023-04-12  696  	struct debug_obj o = { .object = addr, .state = ODEBUG_STATE_NOTAVAILABLE, .descr = descr };
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  697  	struct debug_bucket *db;
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  698  	struct debug_obj *obj;
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  699  	unsigned long flags;
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  700  
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  701  	if (!debug_objects_enabled)
-b778ae25366e6f Paul E. McKenney 2013-04-23  702  		return 0;
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  703  
-0af462f19e635a Thomas Gleixner  2023-05-01  704  	debug_objects_fill_pool();
-0af462f19e635a Thomas Gleixner  2023-05-01  705  
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  706  	db = get_bucket((unsigned long) addr);
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  707  
-aef9cb05247df3 Thomas Gleixner  2009-11-17  708  	raw_spin_lock_irqsave(&db->lock, flags);
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  709  
-63a759694eed61 Thomas Gleixner  2023-04-12  710  	obj = lookup_object_or_alloc(addr, db, descr, false, true);
-265c43c4e983ed Andrzej Hajda    2023-10-25  711  	if (unlikely(!obj)) {
-265c43c4e983ed Andrzej Hajda    2023-10-25  712  		raw_spin_unlock_irqrestore(&db->lock, flags);
-265c43c4e983ed Andrzej Hajda    2023-10-25  713  		debug_objects_oom();
-265c43c4e983ed Andrzej Hajda    2023-10-25  714  		return 0;
-265c43c4e983ed Andrzej Hajda    2023-10-25  715  	} else if (likely(!IS_ERR(obj))) {
-                                                                          ^^^^^^^^^^^^
-obj is an error pointer
-
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  716  		switch (obj->state) {
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  717  		case ODEBUG_STATE_ACTIVE:
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  718  		case ODEBUG_STATE_DESTROYED:
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  719  			break;
-265c43c4e983ed Andrzej Hajda    2023-10-25  720  		case ODEBUG_STATE_INIT:
-265c43c4e983ed Andrzej Hajda    2023-10-25  721  		case ODEBUG_STATE_INACTIVE:
-265c43c4e983ed Andrzej Hajda    2023-10-25  722  			obj->state = ODEBUG_STATE_ACTIVE;
-265c43c4e983ed Andrzej Hajda    2023-10-25  723  			fallthrough;
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  724  		default:
-aef9cb05247df3 Thomas Gleixner  2009-11-17  725  			raw_spin_unlock_irqrestore(&db->lock, flags);
-265c43c4e983ed Andrzej Hajda    2023-10-25  726  			return 0;
-265c43c4e983ed Andrzej Hajda    2023-10-25  727  		}
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  728  	}
-3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  729  
-265c43c4e983ed Andrzej Hajda    2023-10-25 @730  	o = *obj;
-                                                            ^^^^^
-Unchecked dereference
-
-aef9cb05247df3 Thomas Gleixner  2009-11-17  731  	raw_spin_unlock_irqrestore(&db->lock, flags);
-265c43c4e983ed Andrzej Hajda    2023-10-25  732  	debug_print_object(&o, "activate");
-d5f34153e52690 Waiman Long      2019-05-20  733  
-265c43c4e983ed Andrzej Hajda    2023-10-25  734  	switch (o.state) {
+     8	
+     9	maintainers:
+    10	  - Gregory CLEMENT <gregory.clement@bootlin.com>
+    11	
+    12	properties:
+    13	  $nodename:
+    14	    const: '/'
+    15	  compatible:
+    16	    oneOf:
+    17	
+    18	      - description: Armada 7020 SoC
+    19	        items:
+    20	          - const: marvell,armada7020
+    21	          - const: marvell,armada-ap806-dual
+    22	          - const: marvell,armada-ap806
+    23	
+    24	      - description: Armada 7040 SoC
+    25	        items:
+    26	          - const: marvell,armada7040
+    27	          - const: marvell,armada-ap806-quad
+    28	          - const: marvell,armada-ap806
+    29	
+    30	      - description: Armada 8020 SoC
+    31	        items:
+    32	          - const: marvell,armada8020
+    33	          - const: marvell,armada-ap806-dual
+    34	          - const: marvell,armada-ap806
+    35	
+    36	      - description: Armada 8040 SoC
+    37	        items:
+    38	          - const: marvell,armada8040
+    39	          - const: marvell,armada-ap806-quad
+    40	          - const: marvell,armada-ap806
+    41	
+    42	      - description: Armada CN9130 SoC with no external CP
+    43	        items:
+    44	          - const: marvell,cn9130
+    45	          - const: marvell,armada-ap807-quad
+    46	          - const: marvell,armada-ap807
+    47	
+    48	      - description: Armada CN9131 SoC with one external CP
+    49	        items:
+    50	          - const: marvell,cn9131
+    51	          - const: marvell,cn9130
+    52	          - const: marvell,armada-ap807-quad
+    53	          - const: marvell,armada-ap807
+    54	
+    55	      - description: Armada CN9132 SoC with two external CPs
+    56	        items:
+    57	          - const: marvell,cn9132
+    58	          - const: marvell,cn9131
+    59	          - const: marvell,cn9130
+    60	          - const: marvell,armada-ap807-quad
+    61	          - const: marvell,armada-ap807
+    62	
+    63	      - description:
+  > 64	            Alleycat5X (98DX35xx) Reference Design as COM Express Carrier plus
+    65	            Armada CN9131 COM Express CPU module
+    66	        items:
+    67	          - enum:
+    68	              - marvell,ac5x-car-with-cn9131
+    69	          - const: marvell,rd-ac5x-carrier
+    70	          - const: marvell,cn9131-cpu-module
+    71	          - const: marvell,cn9131
+    72	          - const: marvell,armada-ap807-quad
+    73	          - const: marvell,armada-ap807
+    74	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
