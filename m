@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A3F1C2AB;
-	Mon, 20 Nov 2023 14:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED181C287
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 14:22:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPbseGko"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700489880; x=1732025880;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SIQqNu5a5f9r/m9C12b+ZnqfhFeNry/inI2ahfZeaHM=;
-  b=nPbseGko5Mdy5KWqGhHZLPqGORjGLZY4SRfzuuMTPbyeLaYuX218bNKv
-   kjjfFJ20091p352mpsWVfZ07A0OZnIwlBHXH1UYqhvRYgNnBLQCAry0pI
-   pufhKUlrgmNterXQ7KoFFZw53ZORWkHFrc+wDf71PAAWj2HsOqNEFV/zc
-   ZRJlVzmYvaRSK7vA9teEqjJc/dw/CLp1vzQaMeJ7UgMqE2vV2+fpL81Wl
-   pQiFyM9iU9PH6NmFEoEhH9iDKp23M9tL4ZolYVX9V1lCtmvOLAN6YOYmB
-   VUn9V2pns5DxwJ4TAnMdpl6WfkOr2SHRv0Q3701bzSVC5heOjt5Uzxgry
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="458123273"
-X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="458123273"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 06:17:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="759795652"
-X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="759795652"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 20 Nov 2023 06:17:55 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5561-0006W5-0g;
-	Mon, 20 Nov 2023 14:17:53 +0000
-Date: Mon, 20 Nov 2023 22:17:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Michal Hocko <mhocko@suse.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Waiman Long <longman@redhat.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Oscar Salvador <osalvador@suse.de>
-Subject: Re: [PATCH v6 4/4] mm,page_owner: Filter out stacks by a threshold
- counter
-Message-ID: <202311202220.b6pHpn7J-lkp@intel.com>
-References: <20231120084300.4368-5-osalvador@suse.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DKyjpsvc"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-32fb190bf9bso3298643f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 06:22:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700490127; x=1701094927; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WZRoTaJ32o9tPRXkkVwVS9YWvdhMT3yvRyQ+4toqfvw=;
+        b=DKyjpsvcaIbAijyOLq58wAuZLgrW7BfXnNtq/8/aIPzhzCvPVZKuRDFSDvJ5u8YK5o
+         xAk+lq2LV0CgfKxhnTUMDJZt6bZ2590mi8Ty5l0wGm3giadQVxt3ln0C9tbftnBTfWD+
+         Og7uEaJegLf8/w7l5h5DPrMwicFZtcbOq0fR95usLCY+1MlPk0TGLScDgjgaWwNu6/TR
+         GaudzRITRo67NzgcYSQUVprRpXEOLglXRq8rKNhmNIWThv1Cm+/aIUO4wzDUqAcpmSmo
+         lGkgPJPV6Gj2k6DugjY6M25g/kArTkNTUay2uChvdEHr7btp3qXnUP0BkncYOqeuUAmX
+         OJ4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700490127; x=1701094927;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WZRoTaJ32o9tPRXkkVwVS9YWvdhMT3yvRyQ+4toqfvw=;
+        b=iZ3kVkrHK0jQcwI9fR0Ll2pUjOBpsDQjqSFEqIXWSK8P1NctbCHiQzILToUSXgLk1x
+         HNbF/9J6zj5l25gn/0QH3qxROTatZke/hWc0RjLns9x0wWC5iOwRQjES2YVX8L9d9Y9r
+         kXOWnMHKaXtC3AFuZJMFtlCRqaghxCPkxziji6H1bIJfmxj/xDpTwA6UcoFbXnwV2hat
+         DXYoAmd3C3+pq1t/jkL5U1CXqj63X/L9Dj92XlV7+P160Nwr1rk4C6Ok379MBtS1/cHU
+         czfpEZ/V8olvhvTOUbNar4ylKTGeVoRg6hPVmPUI9mCd2W1OloSeXH0NueMwfkmKQAo+
+         TVlw==
+X-Gm-Message-State: AOJu0YwraXKwSvSw0D9gEaFFEwIa1JC9Jnt0KSgcuOkBM2sUICXGJvNu
+	Z8NAqsRNyhtm6GMks/H3ockU6w==
+X-Google-Smtp-Source: AGHT+IFiA9HA9YGTYfmnRJC/OH9eFnvSMpMYsG1aOBeKPBbXmirgcRrKHviUUGkw4b9Eh2Ya3MfMqg==
+X-Received: by 2002:a5d:47a6:0:b0:332:c65a:8f1e with SMTP id 6-20020a5d47a6000000b00332c65a8f1emr3774513wrb.19.1700490126592;
+        Mon, 20 Nov 2023 06:22:06 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p11-20020adfcc8b000000b0032d9337e7d1sm11390181wrj.11.2023.11.20.06.22.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 06:22:06 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Mon, 20 Nov 2023 09:22:03 -0500
+To: oe-kbuild@lists.linux.dev, Jia Jie Ho <jiajie.ho@starfivetech.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jenny Zhang <jenny.zhang@starfivetech.com>
+Subject: drivers/char/hw_random/jh7110-trng.c:303 starfive_trng_probe() warn:
+ passing zero to 'dev_err_probe'
+Message-ID: <e9e60d3b-77db-4b5d-ae63-b5454f61a59f@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,66 +59,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120084300.4368-5-osalvador@suse.de>
 
-Hi Oscar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.7-rc2 next-20231120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oscar-Salvador/lib-stackdepot-Add-a-refcount-field-in-stack_record/20231120-164913
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231120084300.4368-5-osalvador%40suse.de
-patch subject: [PATCH v6 4/4] mm,page_owner: Filter out stacks by a threshold counter
-config: arm-randconfig-001-20231120 (https://download.01.org/0day-ci/archive/20231120/202311202220.b6pHpn7J-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311202220.b6pHpn7J-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c42d9eeef8e5ba9292eda36fd8e3c11f35ee065c
+commit: c388f458bc34eb3a5728b67f6614f9375cd99087 hwrng: starfive - Add TRNG driver for StarFive SoC
+config: riscv-randconfig-r071-20231112 (https://download.01.org/0day-ci/archive/20231116/202311160649.3GhKCfhd-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231116/202311160649.3GhKCfhd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311202220.b6pHpn7J-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311160649.3GhKCfhd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/char/hw_random/jh7110-trng.c:303 starfive_trng_probe() warn: passing zero to 'dev_err_probe'
 
->> mm/page_owner.c:819:5: warning: no previous prototype for function 'page_owner_threshold_get' [-Wmissing-prototypes]
-     819 | int page_owner_threshold_get(void *data, u64 *val)
-         |     ^
-   mm/page_owner.c:819:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     819 | int page_owner_threshold_get(void *data, u64 *val)
-         | ^
-         | static 
->> mm/page_owner.c:825:5: warning: no previous prototype for function 'page_owner_threshold_set' [-Wmissing-prototypes]
-     825 | int page_owner_threshold_set(void *data, u64 val)
-         |     ^
-   mm/page_owner.c:825:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     825 | int page_owner_threshold_set(void *data, u64 val)
-         | ^
-         | static 
-   2 warnings generated.
+vim +/dev_err_probe +303 drivers/char/hw_random/jh7110-trng.c
 
+c388f458bc34eb Jia Jie Ho 2023-01-17  274  static int starfive_trng_probe(struct platform_device *pdev)
+c388f458bc34eb Jia Jie Ho 2023-01-17  275  {
+c388f458bc34eb Jia Jie Ho 2023-01-17  276  	int ret;
+c388f458bc34eb Jia Jie Ho 2023-01-17  277  	int irq;
+c388f458bc34eb Jia Jie Ho 2023-01-17  278  	struct starfive_trng *trng;
+c388f458bc34eb Jia Jie Ho 2023-01-17  279  
+c388f458bc34eb Jia Jie Ho 2023-01-17  280  	trng = devm_kzalloc(&pdev->dev, sizeof(*trng), GFP_KERNEL);
+c388f458bc34eb Jia Jie Ho 2023-01-17  281  	if (!trng)
+c388f458bc34eb Jia Jie Ho 2023-01-17  282  		return -ENOMEM;
+c388f458bc34eb Jia Jie Ho 2023-01-17  283  
+c388f458bc34eb Jia Jie Ho 2023-01-17  284  	platform_set_drvdata(pdev, trng);
+c388f458bc34eb Jia Jie Ho 2023-01-17  285  	trng->dev = &pdev->dev;
+c388f458bc34eb Jia Jie Ho 2023-01-17  286  
+c388f458bc34eb Jia Jie Ho 2023-01-17  287  	trng->base = devm_platform_ioremap_resource(pdev, 0);
+c388f458bc34eb Jia Jie Ho 2023-01-17  288  	if (IS_ERR(trng->base))
+c388f458bc34eb Jia Jie Ho 2023-01-17  289  		return dev_err_probe(&pdev->dev, PTR_ERR(trng->base),
+c388f458bc34eb Jia Jie Ho 2023-01-17  290  				     "Error remapping memory for platform device.\n");
+c388f458bc34eb Jia Jie Ho 2023-01-17  291  
+c388f458bc34eb Jia Jie Ho 2023-01-17  292  	irq = platform_get_irq(pdev, 0);
+c388f458bc34eb Jia Jie Ho 2023-01-17  293  	if (irq < 0)
+c388f458bc34eb Jia Jie Ho 2023-01-17  294  		return irq;
+c388f458bc34eb Jia Jie Ho 2023-01-17  295  
+c388f458bc34eb Jia Jie Ho 2023-01-17  296  	init_completion(&trng->random_done);
+c388f458bc34eb Jia Jie Ho 2023-01-17  297  	init_completion(&trng->reseed_done);
+c388f458bc34eb Jia Jie Ho 2023-01-17  298  	spin_lock_init(&trng->write_lock);
+c388f458bc34eb Jia Jie Ho 2023-01-17  299  
+c388f458bc34eb Jia Jie Ho 2023-01-17  300  	ret = devm_request_irq(&pdev->dev, irq, starfive_trng_irq, 0, pdev->name,
+c388f458bc34eb Jia Jie Ho 2023-01-17  301  			       (void *)trng);
+c388f458bc34eb Jia Jie Ho 2023-01-17  302  	if (ret)
+c388f458bc34eb Jia Jie Ho 2023-01-17 @303  		return dev_err_probe(&pdev->dev, irq,
+                                                                                         ^^^
+Should be "ret".  Weird how we're getting this warning in November when
+the code is from Jan...  Looks like the bug is still their in linux-next
+though.
 
-vim +/page_owner_threshold_get +819 mm/page_owner.c
-
-   818	
- > 819	int page_owner_threshold_get(void *data, u64 *val)
-   820	{
-   821		*val = page_owner_stack_threshold;
-   822		return 0;
-   823	}
-   824	
- > 825	int page_owner_threshold_set(void *data, u64 val)
-   826	{
-   827		page_owner_stack_threshold = val;
-   828		return 0;
-   829	}
-   830	
+c388f458bc34eb Jia Jie Ho 2023-01-17  304  				     "Failed to register interrupt handler\n");
+c388f458bc34eb Jia Jie Ho 2023-01-17  305  
+c388f458bc34eb Jia Jie Ho 2023-01-17  306  	trng->hclk = devm_clk_get(&pdev->dev, "hclk");
+c388f458bc34eb Jia Jie Ho 2023-01-17  307  	if (IS_ERR(trng->hclk))
+c388f458bc34eb Jia Jie Ho 2023-01-17  308  		return dev_err_probe(&pdev->dev, PTR_ERR(trng->hclk),
+c388f458bc34eb Jia Jie Ho 2023-01-17  309  				     "Error getting hardware reference clock\n");
+c388f458bc34eb Jia Jie Ho 2023-01-17  310  
+c388f458bc34eb Jia Jie Ho 2023-01-17  311  	trng->ahb = devm_clk_get(&pdev->dev, "ahb");
+c388f458bc34eb Jia Jie Ho 2023-01-17  312  	if (IS_ERR(trng->ahb))
+c388f458bc34eb Jia Jie Ho 2023-01-17  313  		return dev_err_probe(&pdev->dev, PTR_ERR(trng->ahb),
+c388f458bc34eb Jia Jie Ho 2023-01-17  314  				     "Error getting ahb reference clock\n");
+c388f458bc34eb Jia Jie Ho 2023-01-17  315  
+c388f458bc34eb Jia Jie Ho 2023-01-17  316  	trng->rst = devm_reset_control_get_shared(&pdev->dev, NULL);
+c388f458bc34eb Jia Jie Ho 2023-01-17  317  	if (IS_ERR(trng->rst))
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
