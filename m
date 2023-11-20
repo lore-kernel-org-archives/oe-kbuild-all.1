@@ -1,86 +1,110 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0019B1DFC4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 15:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7575C1CFBD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 15:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YvUji9dw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5O6szdcE"
-Date: Mon, 20 Nov 2023 16:17:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1700493435;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K3luYjW4+b8eiOVyq/MgJ1GTBk4q8MbuB+R3JUqmQTI=;
-	b=YvUji9dwKUG9gmCseE4F82oupuwKlYYjIKYGLEftJp9sjT/kXCv7CKvIsQ4PphrwOMU1ZM
-	rLKb29ojeupexh2H7QrN84SVK+mL+11SX2jm14WwGwy1Kpc5+o6CZG67G35KubDz1RN178
-	Mjyv8VZtzZFPIuobNu0wlVJt6AILWSFjnZgJLfo/59hcf6GlKL73dVBNcxQ2A96HZcq9tu
-	m8GLRqlI8NcEXMhbt62TQdygsuunk4iBJl38GdgJWgbIXOnZ+vapxkSW0QHI4dcmSXH7Xg
-	49Byu9fYwjEc13v8i+Q0cQ3dbeqOt0A0Pi/gTLjKw4whqRWs9GxO+I1U5bfFVw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1700493435;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K3luYjW4+b8eiOVyq/MgJ1GTBk4q8MbuB+R3JUqmQTI=;
-	b=5O6szdcEW60mmbNfoS+J72fQnONmREIyw4rrpy/Atj6GOjDJ5aSWHt35Kc1sh9BH6b/oPO
-	RvJ1pgWJentKVWDw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: kernel/time/hrtimer.c:1483:14: warning: variable
- 'expires_in_hardirq' set but not used
-Message-ID: <20231120151714.ttaFVMK0@linutronix.de>
-References: <202311120815.33YfGjzD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKM08v3p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700493810; x=1732029810;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lu9RovSORki4bzxPOhqn7yeqxvsuyv64tegt6OJdMxI=;
+  b=NKM08v3pJlgMsJ6Wse/wY5DxGMSRBcN0v0tYdD1EFc3WF2TDaPtuum1C
+   YL9dBE2nN/YfEGJ2uzkbU8f8sEFTVO51MssPvv4YmdK+f4YILtJ2ncxKw
+   p8+C4oBM69o0apA8Vo35diMKAHG5QBNmNX4W2P/G/pfuptBITGa3Ub4Zj
+   3ddEvHE7n+xaVzAGNOawYv53ATb/OcnGzZhDhGjE959AT3e8trhYN0dgm
+   VC0Wn4ryUB6kUx3JjREYcbBMhqJwz3onnB3GWJvzOcoVw9aoFN6vG2OZA
+   lnJlVd++jpedhKFoz0QJN6e9ZJFnelbWxWLlilOh07I2zqoQPiUy+kEuj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="4754334"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="4754334"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 07:23:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="716236151"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="716236151"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 20 Nov 2023 07:23:27 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r567R-0006ZY-2A;
+	Mon, 20 Nov 2023 15:23:25 +0000
+Date: Mon, 20 Nov 2023 23:10:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:dma-ops-cleanup 4/8] kernel/dma/mapping.c:121:9: warning:
+ return makes pointer from integer without a cast
+Message-ID: <202311202246.z8Pp9rKm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202311120815.33YfGjzD-lkp@intel.com>
 
-On 2023-11-12 08:52:44 [+0800], kernel test robot wrote:
-> Hi Sebastian,
-Hi,
+tree:   git://git.infradead.org/users/hch/misc.git dma-ops-cleanup
+head:   5ab735c803b75be08ec98ef185b2df10bf41475a
+commit: 5b95bda81e5c3a8365de492b8bb19a65591c5df4 [4/8] dma-mapping: make get_dma_ops private
+config: i386-randconfig-012-20231120 (https://download.01.org/0day-ci/archive/20231120/202311202246.z8Pp9rKm-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311202246.z8Pp9rKm-lkp@intel.com/reproduce)
 
-> FYI, the error/warning still remains.
-> 
->    kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
->      120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
->          |                                   ^~~~~~~~~~~~~~~~~~~~~
->    kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
->    kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
->      121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
->          |                                   ^~~~~~~~~~~~~~~~~~~~~~
->    kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
->    kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
->      122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
->          |                                   ^~~~~~~~~~~~~~~~~~~~~
->    kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
->    kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
->      123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
->          |                                   ^~~~~~~~~~~~~~~~
->    kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311202246.z8Pp9rKm-lkp@intel.com/
 
-This is "okay". The array is first initialized completely to a safe
-value and then a few of the individual values are overwritten.
-So this "initialized field overwritten", that the compiler complains
-about, is intended here. 
+All warnings (new ones prefixed by >>):
 
->    kernel/time/hrtimer.c: In function '__run_hrtimer':
-> >> kernel/time/hrtimer.c:1483:14: warning: variable 'expires_in_hardirq' set but not used [-Wunused-but-set-variable]
->     1483 |         bool expires_in_hardirq;
->          |              ^~~~~~~~~~~~~~~~~~
+   kernel/dma/ops_helpers.c: In function 'dma_common_alloc_pages':
+   kernel/dma/ops_helpers.c:64:34: error: implicit declaration of function 'get_dma_ops'; did you mean 'set_dma_ops'? [-Werror=implicit-function-declaration]
+     const struct dma_map_ops *ops = get_dma_ops(dev);
+                                     ^~~~~~~~~~~
+                                     set_dma_ops
+>> kernel/dma/ops_helpers.c:64:34: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+   kernel/dma/ops_helpers.c: In function 'dma_common_free_pages':
+   kernel/dma/ops_helpers.c:87:34: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+     const struct dma_map_ops *ops = get_dma_ops(dev);
+                                     ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   kernel/dma/mapping.c: In function 'get_dma_ops':
+   kernel/dma/mapping.c:121:9: error: implicit declaration of function 'get_arch_dma_ops'; did you mean 'get_dma_ops'? [-Werror=implicit-function-declaration]
+     return get_arch_dma_ops();
+            ^~~~~~~~~~~~~~~~
+            get_dma_ops
+>> kernel/dma/mapping.c:121:9: warning: return makes pointer from integer without a cast [-Wint-conversion]
+     return get_arch_dma_ops();
+            ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-This is because the code using it is disabled at build time. I could
-tweak the code to make look it used in the off case so the warning goes
-away.
 
-Sebastian
+vim +121 kernel/dma/mapping.c
+
+   115	
+   116	#ifdef CONFIG_DMA_OPS
+   117	static inline const struct dma_map_ops *get_dma_ops(struct device *dev)
+   118	{
+   119		if (dev->dma_ops)
+   120			return dev->dma_ops;
+ > 121		return get_arch_dma_ops();
+   122	}
+   123	#else /* CONFIG_DMA_OPS */
+   124	static inline const struct dma_map_ops *get_dma_ops(struct device *dev)
+   125	{
+   126		return NULL;
+   127	}
+   128	#endif /* CONFIG_DMA_OPS */
+   129	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
