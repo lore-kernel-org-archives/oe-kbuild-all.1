@@ -1,64 +1,46 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024D01B277
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 14:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694E41B279
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 14:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a3qsQMSB"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40a4848c6e1so13952945e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 06:55:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700492143; x=1701096943; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kGFXkVothP8GzTo2jzsCD/SdXLlf2F5wZiQpSoYT7RM=;
-        b=a3qsQMSBvb5G/I2K7aKjVEkQU16t0x71j6lzOaxhumcR9uNOWppAq3NoyT+ZB7Nhc0
-         j1/Geoy2Jqn7XqHNdG61n4ph0aKgY+Xq4Q9YzYK2q0/hthLigLb7TJJbkBGG+R8M8deG
-         AUNi6tHFlgiEmKTCfaect+eTGnnn+9ZErm430hKD6xAxkH4HfqB6bbJoCsShRPZ39jyU
-         kvCt70tGk7YH5lTK2TwKjmXTOjShRQ4cL5k7YsrtzfbFdEyMyhZGaAyVpVMq3GAzFZNz
-         Mb32lTiL/pktoZA/Uyrdv5RTXsit+hM9uxlpDnkYKez4wmIpoKK6yUwG72X6srxZpYy1
-         6WOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700492143; x=1701096943;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kGFXkVothP8GzTo2jzsCD/SdXLlf2F5wZiQpSoYT7RM=;
-        b=DobbSX+D5Rdi8c6rMKue2ikDWP5ZOgPmDRWtY4yttpnoYDkGdvNqDNFgOFpOmDOM3A
-         Rc62MdmknFqsBJaUd7fHukKFhh/aGoa8A7DlmSeGPFn/EJR2NCb1aeqNQtZHeZNW4KN2
-         T28HrW7hcr4cX2JONwZQJRWVGspf1ppTvLomXMpsS+bXxYf6s48XxOBcnMxbOkFhTLqv
-         CHxhvI4mA10OE1XDJJDv6bxwBP3p2DpsL2N56/RYJPG2grV5K10aW6Y0A2QI4ALN+yK5
-         V8rxr8PA/Yo8lYVRFIy1FOpdsx+NG/OPZRAmP9g9i+Xkn4GzrYu1ZKdZdD8r4+PNFaTp
-         eQ7Q==
-X-Gm-Message-State: AOJu0YxsRL549yzMRxDb2OvkLK3y9nlnU1PGVbld3TkhBrC/UoOVTDNG
-	VpsuP/rHxoBpxwNmEye7l2FmWg==
-X-Google-Smtp-Source: AGHT+IFdemXx/VBd55p8WW6PTbADwdmABtmyFhPv5LoMpcPkl7d+s0athPBnib8Bo4DNxgkN7RrcTQ==
-X-Received: by 2002:a05:6000:1845:b0:32f:9ad3:860f with SMTP id c5-20020a056000184500b0032f9ad3860fmr5696667wri.52.1700492143135;
-        Mon, 20 Nov 2023 06:55:43 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c15-20020adfe70f000000b0032da8fb0d05sm11408245wrm.110.2023.11.20.06.55.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 06:55:42 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 09:55:40 -0500
-To: oe-kbuild@lists.linux.dev, Kairui Song <ryncsn@gmail.com>,
-	linux-mm@kvack.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Huang, Ying" <ying.huang@intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Hugh Dickins <hughd@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Michal Hocko <mhocko@suse.com>, linux-kernel@vger.kernel.org,
-	Kairui Song <kasong@tencent.com>
-Subject: Re: [PATCH 03/24] mm/swap: move no readahead swapin code to a stand
- alone helper
-Message-ID: <918235dd-44d0-470e-aad2-5001ac947cb8@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZ9jK283"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700492168; x=1732028168;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=M+hKLW10thwhyA5EkcyqrBZP2b4gkjD/oPTdC7F1Au4=;
+  b=gZ9jK283C2Ayo1U2RDSKh5PiuhSMiWAj9Ww5iDes9WHPtwnrurQHrhsT
+   7lFujR2KQ+4tvDWLphnnnIX3r8sDiQLVf+7QxZ6Tjgo2UjxXyCVV+o5zo
+   5wm7EWxGsXmbbzzKlfIl0wy5RKJylz1kNWddEHJhw6INfFzF1+8lAPT6U
+   3Qv6W/F9RNApkPFvUcXfBMYci4sgjoIecDlvjtv5zkL8noOXKC1OMfYaV
+   o5AGMz5UwlcLvD60as6DlmHP9lpjsR6p5faZTZQnJiGGD+O1PlTr8GDCq
+   8z5RFM+k5/oX2yzy+8UbJ3DQMvpKocd8+aR2cGA8seCMzCYzuFFC1u6Gf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="477839307"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="477839307"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 06:56:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="795493231"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="795493231"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 20 Nov 2023 06:56:05 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r55fb-0006Xx-2W;
+	Mon, 20 Nov 2023 14:55:13 +0000
+Date: Mon, 20 Nov 2023 22:48:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joel Stanley <joel@jms.id.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [shenki:dev-6.6 27/58] drivers/hwmon/pmbus/max31785.c:322:38:
+ warning: '%s' directive argument is null
+Message-ID: <202311202220.jaBwJUGt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,85 +49,254 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231119194740.94101-4-ryncsn@gmail.com>
 
-Hi Kairui,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-swap-fix-a-potential-undefined-behavior-issue/20231120-035926
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231119194740.94101-4-ryncsn%40gmail.com
-patch subject: [PATCH 03/24] mm/swap: move no readahead swapin code to a stand alone helper
-config: um-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201135.iG2KLShW-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231120/202311201135.iG2KLShW-lkp@intel.com/reproduce)
+tree:   https://github.com/shenki/linux dev-6.6
+head:   9fd3fe525544779d6bc28fa948759535ff7232db
+commit: 00783d5ee2916278eae8283a7547a95c37506cc7 [27/58] pmbus (max31785): Add support for devicetree configuration
+config: i386-randconfig-013-20231120 (https://download.01.org/0day-ci/archive/20231120/202311202220.jaBwJUGt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311202220.jaBwJUGt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311201135.iG2KLShW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311202220.jaBwJUGt-lkp@intel.com/
 
-smatch warnings:
-mm/swap_state.c:881 swapin_no_readahead() warn: use 'gfp_mask' here instead of GFP_KERNEL?
+All warnings (new ones prefixed by >>):
 
-vim +/gfp_mask +881 mm/swap_state.c
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:14,
+                    from include/linux/i2c.h:13,
+                    from drivers/hwmon/pmbus/max31785.c:10:
+   drivers/hwmon/pmbus/max31785.c: In function 'max31785_of_fan_config':
+>> drivers/hwmon/pmbus/max31785.c:322:38: warning: '%s' directive argument is null [-Wformat-overflow=]
+     322 |                         dev_err(dev, "maxim,fan-lock-polarity has invalid value for fan %d: %s\n",
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/hwmon/pmbus/max31785.c:322:25: note: in expansion of macro 'dev_err'
+     322 |                         dev_err(dev, "maxim,fan-lock-polarity has invalid value for fan %d: %s\n",
+         |                         ^~~~~~~
+   drivers/hwmon/pmbus/max31785.c:322:93: note: format string is defined here
+     322 |                         dev_err(dev, "maxim,fan-lock-polarity has invalid value for fan %d: %s\n",
+         |                                                                                             ^~
 
-19f582d2684e47 Kairui Song 2023-11-20  856  /**
-19f582d2684e47 Kairui Song 2023-11-20  857   * swapin_no_readahead - swap in pages skipping swap cache and readahead
-19f582d2684e47 Kairui Song 2023-11-20  858   * @entry: swap entry of this memory
-19f582d2684e47 Kairui Song 2023-11-20  859   * @gfp_mask: memory allocation flags
-19f582d2684e47 Kairui Song 2023-11-20  860   * @vmf: fault information
-19f582d2684e47 Kairui Song 2023-11-20  861   *
-19f582d2684e47 Kairui Song 2023-11-20  862   * Returns the struct page for entry and addr after the swap entry is read
-19f582d2684e47 Kairui Song 2023-11-20  863   * in.
-19f582d2684e47 Kairui Song 2023-11-20  864   */
-19f582d2684e47 Kairui Song 2023-11-20  865  struct page *swapin_no_readahead(swp_entry_t entry, gfp_t gfp_mask,
-19f582d2684e47 Kairui Song 2023-11-20  866  				 struct vm_fault *vmf)
-19f582d2684e47 Kairui Song 2023-11-20  867  {
-19f582d2684e47 Kairui Song 2023-11-20  868  	struct vm_area_struct *vma = vmf->vma;
-19f582d2684e47 Kairui Song 2023-11-20  869  	struct page *page = NULL;
-19f582d2684e47 Kairui Song 2023-11-20  870  	struct folio *folio;
-19f582d2684e47 Kairui Song 2023-11-20  871  	void *shadow = NULL;
-19f582d2684e47 Kairui Song 2023-11-20  872  
-19f582d2684e47 Kairui Song 2023-11-20  873  	folio = vma_alloc_folio(GFP_HIGHUSER_MOVABLE, 0,
-19f582d2684e47 Kairui Song 2023-11-20  874  				vma, vmf->address, false);
-19f582d2684e47 Kairui Song 2023-11-20  875  	if (folio) {
-19f582d2684e47 Kairui Song 2023-11-20  876  		__folio_set_locked(folio);
-19f582d2684e47 Kairui Song 2023-11-20  877  		__folio_set_swapbacked(folio);
-19f582d2684e47 Kairui Song 2023-11-20  878  
-19f582d2684e47 Kairui Song 2023-11-20  879  		if (mem_cgroup_swapin_charge_folio(folio,
-19f582d2684e47 Kairui Song 2023-11-20  880  					vma->vm_mm, GFP_KERNEL,
 
-s/GFP_KERNEL/gfp_mask/?
+vim +322 drivers/hwmon/pmbus/max31785.c
 
-19f582d2684e47 Kairui Song 2023-11-20 @881  					entry)) {
-19f582d2684e47 Kairui Song 2023-11-20  882  			folio_unlock(folio);
-19f582d2684e47 Kairui Song 2023-11-20  883  			folio_put(folio);
-19f582d2684e47 Kairui Song 2023-11-20  884  			return NULL;
-19f582d2684e47 Kairui Song 2023-11-20  885  		}
-19f582d2684e47 Kairui Song 2023-11-20  886  		mem_cgroup_swapin_uncharge_swap(entry);
-19f582d2684e47 Kairui Song 2023-11-20  887  
-19f582d2684e47 Kairui Song 2023-11-20  888  		shadow = get_shadow_from_swap_cache(entry);
-19f582d2684e47 Kairui Song 2023-11-20  889  		if (shadow)
-19f582d2684e47 Kairui Song 2023-11-20  890  			workingset_refault(folio, shadow);
-19f582d2684e47 Kairui Song 2023-11-20  891  
-19f582d2684e47 Kairui Song 2023-11-20  892  		folio_add_lru(folio);
-19f582d2684e47 Kairui Song 2023-11-20  893  
-19f582d2684e47 Kairui Song 2023-11-20  894  		/* To provide entry to swap_readpage() */
-19f582d2684e47 Kairui Song 2023-11-20  895  		folio->swap = entry;
-19f582d2684e47 Kairui Song 2023-11-20  896  		page = &folio->page;
-19f582d2684e47 Kairui Song 2023-11-20  897  		swap_readpage(page, true, NULL);
-19f582d2684e47 Kairui Song 2023-11-20  898  		folio->private = NULL;
-19f582d2684e47 Kairui Song 2023-11-20  899  	}
-19f582d2684e47 Kairui Song 2023-11-20  900  
-19f582d2684e47 Kairui Song 2023-11-20  901  	return page;
-19f582d2684e47 Kairui Song 2023-11-20  902  }
+   248	
+   249	/*
+   250	 * Returns negative error codes if an unrecoverable problem is detected, 0 if a
+   251	 * recoverable problem is detected, or a positive value on success.
+   252	 */
+   253	static int max31785_of_fan_config(struct i2c_client *client,
+   254					  struct pmbus_driver_info *info,
+   255					  struct device_node *child)
+   256	{
+   257		int mfr_cfg = 0, mfr_fault_resp = 0, pb_cfg;
+   258		struct device *dev = &client->dev;
+   259		char *lock_polarity = NULL;
+   260		const char *sval;
+   261		u32 page;
+   262		u32 uval;
+   263		int ret;
+   264	
+   265		if (!of_device_is_compatible(child, "pmbus-fan"))
+   266			return 0;
+   267	
+   268		ret = of_property_read_u32(child, "reg", &page);
+   269		if (ret < 0) {
+   270			dev_err(&client->dev, "Missing valid reg property\n");
+   271			return ret;
+   272		}
+   273	
+   274		if (!(info->func[page] & PMBUS_HAVE_FAN12)) {
+   275			dev_err(dev, "Page %d does not have fan capabilities\n", page);
+   276			return -ENXIO;
+   277		}
+   278	
+   279		ret = i2c_smbus_write_byte_data(client, PMBUS_PAGE, page);
+   280		if (ret < 0)
+   281			return ret;
+   282	
+   283		pb_cfg = i2c_smbus_read_byte_data(client, PMBUS_FAN_CONFIG_12);
+   284		if (pb_cfg < 0)
+   285			return pb_cfg;
+   286	
+   287		if (of_property_read_bool(child->parent, "use-stored-presence")) {
+   288			if (!(pb_cfg & PB_FAN_1_INSTALLED))
+   289				dev_info(dev, "Fan %d is configured but not installed\n",
+   290					 page);
+   291		} else {
+   292			pb_cfg |= PB_FAN_1_INSTALLED;
+   293		}
+   294	
+   295		ret = of_property_read_string(child, "maxim,fan-rotor-input", &sval);
+   296		if (ret < 0) {
+   297			dev_err(dev, "Missing valid maxim,fan-rotor-input property for fan %d\n",
+   298					page);
+   299			return ret;
+   300		}
+   301	
+   302		if (strcmp("tach", sval) && strcmp("lock", sval)) {
+   303			dev_err(dev, "maxim,fan-rotor-input has invalid value for fan %d: %s\n",
+   304					page, sval);
+   305			return -EINVAL;
+   306		} else if (!strcmp("lock", sval)) {
+   307			mfr_cfg |= MFR_FAN_CONFIG_ROTOR;
+   308	
+   309			ret = i2c_smbus_write_word_data(client, MFR_FAN_FAULT_LIMIT, 1);
+   310			if (ret < 0)
+   311				return ret;
+   312	
+   313			ret = of_property_read_string(child, "maxim,fan-lock-polarity",
+   314						      &sval);
+   315			if (ret < 0) {
+   316				dev_err(dev, "Missing valid maxim,fan-lock-polarity property for fan %d\n",
+   317						page);
+   318				return ret;
+   319			}
+   320	
+   321			if (strcmp("low", sval) && strcmp("high", sval)) {
+ > 322				dev_err(dev, "maxim,fan-lock-polarity has invalid value for fan %d: %s\n",
+   323						page, lock_polarity);
+   324				return -EINVAL;
+   325			} else if (!strcmp("high", sval))
+   326				mfr_cfg |= MFR_FAN_CONFIG_ROTOR_HI_LO;
+   327		}
+   328	
+   329		if (!of_property_read_string(child, "fan-mode", &sval)) {
+   330			if (!strcmp("rpm", sval))
+   331				pb_cfg |= PB_FAN_1_RPM;
+   332			else if (!strcmp("pwm", sval))
+   333				pb_cfg &= ~PB_FAN_1_RPM;
+   334			else {
+   335				dev_err(dev, "fan-mode has invalid value for fan %d: %s\n",
+   336						page, sval);
+   337				return -EINVAL;
+   338			}
+   339		}
+   340	
+   341		ret = of_property_read_u32(child, "tach-pulses", &uval);
+   342		if (ret < 0) {
+   343			pb_cfg &= ~PB_FAN_1_PULSE_MASK;
+   344		} else if (uval && (uval - 1) < 4) {
+   345			pb_cfg = ((pb_cfg & ~PB_FAN_1_PULSE_MASK) | ((uval - 1) << 4));
+   346		} else {
+   347			dev_err(dev, "tach-pulses has invalid value for fan %d: %u\n",
+   348					page, uval);
+   349			return -EINVAL;
+   350		}
+   351	
+   352		if (of_property_read_bool(child, "maxim,fan-health"))
+   353			mfr_cfg |= MFR_FAN_CONFIG_HEALTH;
+   354	
+   355		if (of_property_read_bool(child, "maxim,fan-no-watchdog") ||
+   356			of_property_read_bool(child, "maxim,tmp-no-fault-ramp"))
+   357			mfr_cfg |= MFR_FAN_CONFIG_TSFO;
+   358	
+   359		if (of_property_read_bool(child, "maxim,fan-dual-tach"))
+   360			mfr_cfg |= MFR_FAN_CONFIG_DUAL_TACH;
+   361	
+   362		if (of_property_read_bool(child, "maxim,fan-no-fault-ramp"))
+   363			mfr_cfg |= MFR_FAN_CONFIG_TACHO;
+   364	
+   365		if (!of_property_read_u32(child, "maxim,fan-startup", &uval)) {
+   366			uval /= 2;
+   367			if (uval < 5) {
+   368				mfr_cfg |= uval;
+   369			} else {
+   370				dev_err(dev, "maxim,fan-startup has invalid value for fan %d: %u\n",
+   371						page, uval);
+   372				return -EINVAL;
+   373			}
+   374		}
+   375	
+   376		if (!of_property_read_u32(child, "maxim,fan-ramp", &uval)) {
+   377			if (uval < 8) {
+   378				mfr_cfg |= uval << 5;
+   379			} else {
+   380				dev_err(dev, "maxim,fan-ramp has invalid value for fan %d: %u\n",
+   381						page, uval);
+   382				return -EINVAL;
+   383			}
+   384		}
+   385	
+   386		if (!of_property_read_u32(child, "maxim,tmp-hysteresis", &uval)) {
+   387			uval /= 2;
+   388			uval -= 1;
+   389			if (uval < 4) {
+   390				mfr_cfg |= uval << 10;
+   391			} else {
+   392				dev_err(dev, "maxim,tmp-hysteresis has invalid value for fan %d, %u\n",
+   393						page, uval);
+   394				return -EINVAL;
+   395			}
+   396		}
+   397	
+   398		if (!of_property_read_u32(child, "maxim,fan-pwm-freq", &uval)) {
+   399			u16 val;
+   400	
+   401			if (uval == 30) {
+   402				val = 0;
+   403			} else if (uval == 50) {
+   404				val = 1;
+   405			} else if (uval == 100) {
+   406				val = 2;
+   407			} else if (uval == 150) {
+   408				val = 3;
+   409			} else if (uval == 25000) {
+   410				val = 7;
+   411			} else {
+   412				dev_err(dev, "maxim,fan-pwm-freq has invalid value for fan %d: %u\n",
+   413						page, uval);
+   414				return -EINVAL;
+   415			}
+   416	
+   417			mfr_cfg |= val << 13;
+   418		}
+   419	
+   420		if (of_property_read_bool(child, "maxim,fan-fault-pin-mon"))
+   421			mfr_fault_resp |= MFR_FAULT_RESPONSE_MONITOR;
+   422	
+   423		ret = i2c_smbus_write_byte_data(client, PMBUS_FAN_CONFIG_12,
+   424						pb_cfg & ~PB_FAN_1_INSTALLED);
+   425		if (ret < 0)
+   426			return ret;
+   427	
+   428		ret = i2c_smbus_write_word_data(client, MFR_FAN_CONFIG, mfr_cfg);
+   429		if (ret < 0)
+   430			return ret;
+   431	
+   432		ret = i2c_smbus_write_byte_data(client, MFR_FAULT_RESPONSE,
+   433						mfr_fault_resp);
+   434		if (ret < 0)
+   435			return ret;
+   436	
+   437		ret = i2c_smbus_write_byte_data(client, PMBUS_FAN_CONFIG_12, pb_cfg);
+   438		if (ret < 0)
+   439			return ret;
+   440	
+   441		/*
+   442		 * Fans are on pages 0 - 5. If the page property of a fan node is
+   443		 * greater than 5 we will have errored in checks above out above.
+   444		 * Therefore we don't need to cope with values up to 31, and the int
+   445		 * return type is enough.
+   446		 *
+   447		 * The bit mask return value is used to populate a bitfield of fans
+   448		 * who are both configured in the devicetree _and_ reported as
+   449		 * installed by the hardware. Any fans that are not configured in the
+   450		 * devicetree but are reported as installed by the hardware will have
+   451		 * their hardware configuration updated to unset the installed bit.
+   452		 */
+   453		return BIT(page);
+   454	}
+   455	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
