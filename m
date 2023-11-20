@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE5FF9C2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 09:09:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849A1F9C2;
+	Mon, 20 Nov 2023 09:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PGGkZI0s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TqkVOnbk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700471375; x=1732007375;
+  t=1700471378; x=1732007378;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=I89fI9PTT5l0jZ52puX0Apio/xjtpZcVDTQZapvSpQ8=;
-  b=PGGkZI0sN02nmxCcx0oa81ebdz9+VeTUpN4xdXlSC5GPqBGl1wmCa4Be
-   NxoJ/wdRbI9r3Fj/faAI6G4O05XYIqpjocszLaZw3Sf4DZcJBi9DuREwT
-   jKWAY4sMHWdVzE9KFMpZcIkC55/l0Iq9Gwmgka+x38G+OyzsJHzSOoWQF
-   EdZVt0NW2mGxRLFqAwt+lOkA8F9wQmgej2ev3SNIog+Wt/BkCq50zudTO
-   RkTOTh3o0D3RHAnEiAFPdV609drGb7azXVFL1GMtONEGcq76NTVnooHOL
-   b+e4TbRAgfS03Gzvhweb539z1RKGVGRpgdwUyiOiaulO0cj7fER+qiZRY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="370926023"
+  bh=2CTH71gUL8f+hX64gpw0KnmZN7mC9T3jKZ/oNiWW2p0=;
+  b=TqkVOnbkwpljVKzJiO//UtcNMMVv4fmCV4uM9C07YBmUapN+LRkobZJ+
+   sl1iWz91H9MZBmK8qRHxGTiztfuv6HaKQbAmU5MtLGaE44oBLRNvRjubZ
+   vkx4IonHq1pqN1TtRzBQDaZ3E92mpb9FEA4LZ0cjUNJihpDVcQqvyhiMl
+   QqiveBT0iZiGoxrG3ChnLO587V8hHAn2uCyTrCSQ83FtYm71mSHAQLJs1
+   W9pgJmDhxtN5ueT0W+JYICEBkubQCr8Pww5B5ezxvaBBZEHXx8G5hdI8P
+   ktAwSepIqqb9tUyS4HKOVJmJWPqHXDE/oEk4mPyBPT64VKcLtNMp+iym3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="370926013"
 X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="370926023"
+   d="scan'208";a="370926013"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 01:09:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="832209604"
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="832209606"
 X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="832209604"
+   d="scan'208";a="832209606"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
   by fmsmga008.fm.intel.com with ESMTP; 20 Nov 2023 01:09:30 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r50HY-0006FH-0G;
+	id 1r50HY-0006FK-0L;
 	Mon, 20 Nov 2023 09:09:28 +0000
-Date: Mon, 20 Nov 2023 17:08:52 +0800
+Date: Mon, 20 Nov 2023 17:08:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elad Nachman <enachman@marvell.com>, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	andrew@lunn.ch, gregory.clement@bootlin.com,
-	sebastian.hesselbarth@gmail.com, pali@kernel.org,
-	mrkiko.rs@gmail.com, chris.packham@alliedtelesis.co.nz,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, enachman@marvell.com, cyuval@marvell.com
-Subject: Re: [PATCH v5 2/3] dt-bindings: arm64: add Marvell COM Express boards
-Message-ID: <202311201610.9d8EdO2Y-lkp@intel.com>
-References: <20231119102638.1041978-3-enachman@marvell.com>
+To: Sui Jingfeng <sui.jingfeng@linux.dev>, Phong LE <ple@baylibre.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Sui Jingfeng <suijingfeng@loongson.cn>
+Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
+Message-ID: <202311201649.qjEbx5YL-lkp@intel.com>
+References: <20231114150130.497915-9-sui.jingfeng@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,102 +56,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231119102638.1041978-3-enachman@marvell.com>
+In-Reply-To: <20231114150130.497915-9-sui.jingfeng@linux.dev>
 
-Hi Elad,
+Hi Sui,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
+[auto build test WARNING on drm-misc/drm-misc-next]
 [also build test WARNING on linus/master v6.7-rc2 next-20231120]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Elad-Nachman/MAINTAINERS-add-ac5-to-list-of-maintained-Marvell-dts-files/20231119-182821
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231119102638.1041978-3-enachman%40marvell.com
-patch subject: [PATCH v5 2/3] dt-bindings: arm64: add Marvell COM Express boards
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231120/202311201610.9d8EdO2Y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-bridge-it66121-Use-dev-replace-ctx-dev-in-the-it66121_probe/20231114-231203
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231114150130.497915-9-sui.jingfeng%40linux.dev
+patch subject: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
+config: x86_64-buildonly-randconfig-004-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201649.qjEbx5YL-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311201649.qjEbx5YL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311201610.9d8EdO2Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311201649.qjEbx5YL-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/arm/marvell/armada-7k-8k.yaml:64:13: [warning] wrong indentation: expected 10 but found 12 (indentation)
+All warnings (new ones prefixed by >>):
 
-vim +64 Documentation/devicetree/bindings/arm/marvell/armada-7k-8k.yaml
+>> drivers/gpu/drm/bridge/ite-it66121.c:1654:5: warning: no previous prototype for function 'it66121_create_bridge' [-Wmissing-prototypes]
+   int it66121_create_bridge(struct i2c_client *client, bool of_support,
+       ^
+   drivers/gpu/drm/bridge/ite-it66121.c:1654:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int it66121_create_bridge(struct i2c_client *client, bool of_support,
+   ^
+   static 
+>> drivers/gpu/drm/bridge/ite-it66121.c:1752:6: warning: no previous prototype for function 'it66121_destroy_bridge' [-Wmissing-prototypes]
+   void it66121_destroy_bridge(struct drm_bridge *bridge)
+        ^
+   drivers/gpu/drm/bridge/ite-it66121.c:1752:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void it66121_destroy_bridge(struct drm_bridge *bridge)
+   ^
+   static 
+   2 warnings generated.
 
-     8	
-     9	maintainers:
-    10	  - Gregory CLEMENT <gregory.clement@bootlin.com>
-    11	
-    12	properties:
-    13	  $nodename:
-    14	    const: '/'
-    15	  compatible:
-    16	    oneOf:
-    17	
-    18	      - description: Armada 7020 SoC
-    19	        items:
-    20	          - const: marvell,armada7020
-    21	          - const: marvell,armada-ap806-dual
-    22	          - const: marvell,armada-ap806
-    23	
-    24	      - description: Armada 7040 SoC
-    25	        items:
-    26	          - const: marvell,armada7040
-    27	          - const: marvell,armada-ap806-quad
-    28	          - const: marvell,armada-ap806
-    29	
-    30	      - description: Armada 8020 SoC
-    31	        items:
-    32	          - const: marvell,armada8020
-    33	          - const: marvell,armada-ap806-dual
-    34	          - const: marvell,armada-ap806
-    35	
-    36	      - description: Armada 8040 SoC
-    37	        items:
-    38	          - const: marvell,armada8040
-    39	          - const: marvell,armada-ap806-quad
-    40	          - const: marvell,armada-ap806
-    41	
-    42	      - description: Armada CN9130 SoC with no external CP
-    43	        items:
-    44	          - const: marvell,cn9130
-    45	          - const: marvell,armada-ap807-quad
-    46	          - const: marvell,armada-ap807
-    47	
-    48	      - description: Armada CN9131 SoC with one external CP
-    49	        items:
-    50	          - const: marvell,cn9131
-    51	          - const: marvell,cn9130
-    52	          - const: marvell,armada-ap807-quad
-    53	          - const: marvell,armada-ap807
-    54	
-    55	      - description: Armada CN9132 SoC with two external CPs
-    56	        items:
-    57	          - const: marvell,cn9132
-    58	          - const: marvell,cn9131
-    59	          - const: marvell,cn9130
-    60	          - const: marvell,armada-ap807-quad
-    61	          - const: marvell,armada-ap807
-    62	
-    63	      - description:
-  > 64	            Alleycat5X (98DX35xx) Reference Design as COM Express Carrier plus
-    65	            Armada CN9131 COM Express CPU module
-    66	        items:
-    67	          - enum:
-    68	              - marvell,ac5x-car-with-cn9131
-    69	          - const: marvell,rd-ac5x-carrier
-    70	          - const: marvell,cn9131-cpu-module
-    71	          - const: marvell,cn9131
-    72	          - const: marvell,armada-ap807-quad
-    73	          - const: marvell,armada-ap807
-    74	
+
+vim +/it66121_create_bridge +1654 drivers/gpu/drm/bridge/ite-it66121.c
+
+  1653	
+> 1654	int it66121_create_bridge(struct i2c_client *client, bool of_support,
+  1655				  bool hpd_support, bool audio_support,
+  1656				  struct drm_bridge **bridge)
+  1657	{
+  1658		struct device *dev = &client->dev;
+  1659		int ret;
+  1660		struct it66121_ctx *ctx;
+  1661	
+  1662		ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+  1663		if (!ctx)
+  1664			return -ENOMEM;
+  1665	
+  1666		ctx->dev = dev;
+  1667		ctx->client = client;
+  1668		mutex_init(&ctx->lock);
+  1669	
+  1670		if (of_support) {
+  1671			ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
+  1672			if (ret)
+  1673				return ret;
+  1674	
+  1675			ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
+  1676			if (ret)
+  1677				return ret;
+  1678		} else {
+  1679			ctx->bus_width = 24;
+  1680			ctx->next_bridge = NULL;
+  1681		}
+  1682	
+  1683		it66121_hw_reset(ctx);
+  1684	
+  1685		ctx->regmap = devm_regmap_init_i2c(client, &it66121_regmap_config);
+  1686		if (IS_ERR(ctx->regmap))
+  1687			return PTR_ERR(ctx->regmap);
+  1688	
+  1689		ret = it66121_read_chip_id(ctx, false);
+  1690		if (ret)
+  1691			return ret;
+  1692	
+  1693		ctx->info = it66121_get_match_data(ctx->vender_id, ctx->device_id);
+  1694		if (!ctx->info)
+  1695			return -ENODEV;
+  1696	
+  1697		if (hpd_support) {
+  1698			ret = devm_request_threaded_irq(dev, client->irq, NULL,
+  1699							it66121_irq_threaded_handler,
+  1700							IRQF_ONESHOT, dev_name(dev),
+  1701							ctx);
+  1702			if (ret < 0) {
+  1703				dev_err(dev, "Failed to request irq: %d\n", ret);
+  1704				return ret;
+  1705			}
+  1706		}
+  1707	
+  1708		it66121_bridge_init_base(&ctx->bridge, dev->of_node, true);
+  1709	
+  1710		if (audio_support)
+  1711			it66121_audio_codec_init(ctx, dev);
+  1712	
+  1713		*bridge = &ctx->bridge;
+  1714	
+  1715		dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
+  1716			 ctx->vender_id, ctx->device_id, ctx->revision);
+  1717	
+  1718		return 0;
+  1719	}
+  1720	EXPORT_SYMBOL_GPL(it66121_create_bridge);
+  1721	
+  1722	static int it66121_probe(struct i2c_client *client)
+  1723	{
+  1724		struct device *dev = &client->dev;
+  1725		struct it66121_ctx *ctx;
+  1726		struct drm_bridge *bridge;
+  1727		int ret;
+  1728	
+  1729		if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+  1730			dev_err(dev, "I2C check functionality failed.\n");
+  1731			return -ENXIO;
+  1732		}
+  1733	
+  1734		ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(it66121_supplies),
+  1735						     it66121_supplies);
+  1736		if (ret) {
+  1737			dev_err(dev, "Failed to enable power supplies\n");
+  1738			return ret;
+  1739		}
+  1740	
+  1741		ret = it66121_create_bridge(client, true, true, true, &bridge);
+  1742		if (ret)
+  1743			return ret;
+  1744	
+  1745		ctx = bridge_to_it66121(bridge);
+  1746	
+  1747		i2c_set_clientdata(client, ctx);
+  1748	
+  1749		return 0;
+  1750	}
+  1751	
+> 1752	void it66121_destroy_bridge(struct drm_bridge *bridge)
+  1753	{
+  1754		struct it66121_ctx *ctx = bridge_to_it66121(bridge);
+  1755	
+  1756		drm_bridge_remove(bridge);
+  1757	
+  1758		mutex_destroy(&ctx->lock);
+  1759	}
+  1760	EXPORT_SYMBOL_GPL(it66121_destroy_bridge);
+  1761	
 
 -- 
 0-DAY CI Kernel Test Service
