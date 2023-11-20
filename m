@@ -1,216 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849A1F9C2;
-	Mon, 20 Nov 2023 09:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E7F11193;
+	Mon, 20 Nov 2023 09:22:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TqkVOnbk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4Zhn7F3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700471378; x=1732007378;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2CTH71gUL8f+hX64gpw0KnmZN7mC9T3jKZ/oNiWW2p0=;
-  b=TqkVOnbkwpljVKzJiO//UtcNMMVv4fmCV4uM9C07YBmUapN+LRkobZJ+
-   sl1iWz91H9MZBmK8qRHxGTiztfuv6HaKQbAmU5MtLGaE44oBLRNvRjubZ
-   vkx4IonHq1pqN1TtRzBQDaZ3E92mpb9FEA4LZ0cjUNJihpDVcQqvyhiMl
-   QqiveBT0iZiGoxrG3ChnLO587V8hHAn2uCyTrCSQ83FtYm71mSHAQLJs1
-   W9pgJmDhxtN5ueT0W+JYICEBkubQCr8Pww5B5ezxvaBBZEHXx8G5hdI8P
-   ktAwSepIqqb9tUyS4HKOVJmJWPqHXDE/oEk4mPyBPT64VKcLtNMp+iym3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="370926013"
+  t=1700472148; x=1732008148;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XOse6nLS+ynJKf7K7tWCjaNLnveAeFnXb4gQHbRK2b0=;
+  b=m4Zhn7F3TnK0zioS29ipTqeVWbhpsw0qcL3wyurj6qMLJfOzBPNQ8Owd
+   /OtU+ZE5mlCIlKn0zqvC3sbRYto+Ut6f5ntUdZAcpA8skc0OcxSX0vEsj
+   zYrEI54h2qUGK4tmzwYEZwW4vr/LTYWRqO7DVbC4rEoCd88uVf+ECvvC4
+   KAA8pW0uMpJrmiTKPWd6t8VdBXa6HOF0osbr4jEarLK9Jas/5zaSrOuw/
+   LoNQ54raTjJL0laUT1q9XbcDx0/xmO1lQO8g7+5zc2/AbzVLzONOFVBVT
+   YUTQ/aQqpWh2fnNQXPLPmcqV16BPLkzafgV5MioBLZw1LieaMdIUO85Q1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="388724167"
 X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="370926013"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 01:09:33 -0800
+   d="scan'208";a="388724167"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 01:22:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="832209606"
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="742668572"
 X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="832209606"
+   d="scan'208";a="742668572"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Nov 2023 01:09:30 -0800
+  by orsmga006.jf.intel.com with ESMTP; 20 Nov 2023 01:22:18 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r50HY-0006FK-0L;
-	Mon, 20 Nov 2023 09:09:28 +0000
-Date: Mon, 20 Nov 2023 17:08:44 +0800
+	id 1r50Tr-0006G5-2w;
+	Mon, 20 Nov 2023 09:22:13 +0000
+Date: Mon, 20 Nov 2023 17:21:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, Phong LE <ple@baylibre.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Sui Jingfeng <suijingfeng@loongson.cn>
-Subject: Re: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-Message-ID: <202311201649.qjEbx5YL-lkp@intel.com>
-References: <20231114150130.497915-9-sui.jingfeng@linux.dev>
+	devel@driverdev.osuosl.org
+Subject: [driver-core:debugfs_cleanup 6/7]
+ drivers/platform/x86/amd/hsmp.c:474:9: error: call to undeclared function
+ 'devm_device_add_groups'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202311201751.eHNoBaoW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231114150130.497915-9-sui.jingfeng@linux.dev>
+Content-Transfer-Encoding: 8bit
 
-Hi Sui,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.7-rc2 next-20231120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-bridge-it66121-Use-dev-replace-ctx-dev-in-the-it66121_probe/20231114-231203
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231114150130.497915-9-sui.jingfeng%40linux.dev
-patch subject: [PATCH 8/8] drm/bridge: it66121: Allow link this driver as a lib
-config: x86_64-buildonly-randconfig-004-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201649.qjEbx5YL-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git debugfs_cleanup
+head:   a260586a7ea6421f743308ef55f7ee80ef3488ac
+commit: a596671292945febec43acb2254628ce36afdafd [6/7] driver core: remove devm_device_add_groups()
+config: x86_64-buildonly-randconfig-006-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201751.eHNoBaoW-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311201649.qjEbx5YL-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311201751.eHNoBaoW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311201649.qjEbx5YL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311201751.eHNoBaoW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/bridge/ite-it66121.c:1654:5: warning: no previous prototype for function 'it66121_create_bridge' [-Wmissing-prototypes]
-   int it66121_create_bridge(struct i2c_client *client, bool of_support,
-       ^
-   drivers/gpu/drm/bridge/ite-it66121.c:1654:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int it66121_create_bridge(struct i2c_client *client, bool of_support,
-   ^
-   static 
->> drivers/gpu/drm/bridge/ite-it66121.c:1752:6: warning: no previous prototype for function 'it66121_destroy_bridge' [-Wmissing-prototypes]
-   void it66121_destroy_bridge(struct drm_bridge *bridge)
-        ^
-   drivers/gpu/drm/bridge/ite-it66121.c:1752:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void it66121_destroy_bridge(struct drm_bridge *bridge)
-   ^
-   static 
-   2 warnings generated.
+>> drivers/platform/x86/amd/hsmp.c:474:9: error: call to undeclared function 'devm_device_add_groups'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           return devm_device_add_groups(plat_dev.dev, hsmp_attr_grps);
+                  ^
+   drivers/platform/x86/amd/hsmp.c:474:9: note: did you mean 'devm_device_add_group'?
+   include/linux/device.h:1205:18: note: 'devm_device_add_group' declared here
+   int __must_check devm_device_add_group(struct device *dev,
+                    ^
+   1 error generated.
 
 
-vim +/it66121_create_bridge +1654 drivers/gpu/drm/bridge/ite-it66121.c
+vim +/devm_device_add_groups +474 drivers/platform/x86/amd/hsmp.c
 
-  1653	
-> 1654	int it66121_create_bridge(struct i2c_client *client, bool of_support,
-  1655				  bool hpd_support, bool audio_support,
-  1656				  struct drm_bridge **bridge)
-  1657	{
-  1658		struct device *dev = &client->dev;
-  1659		int ret;
-  1660		struct it66121_ctx *ctx;
-  1661	
-  1662		ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-  1663		if (!ctx)
-  1664			return -ENOMEM;
-  1665	
-  1666		ctx->dev = dev;
-  1667		ctx->client = client;
-  1668		mutex_init(&ctx->lock);
-  1669	
-  1670		if (of_support) {
-  1671			ret = it66121_of_read_bus_width(dev, &ctx->bus_width);
-  1672			if (ret)
-  1673				return ret;
-  1674	
-  1675			ret = it66121_of_get_next_bridge(dev, &ctx->next_bridge);
-  1676			if (ret)
-  1677				return ret;
-  1678		} else {
-  1679			ctx->bus_width = 24;
-  1680			ctx->next_bridge = NULL;
-  1681		}
-  1682	
-  1683		it66121_hw_reset(ctx);
-  1684	
-  1685		ctx->regmap = devm_regmap_init_i2c(client, &it66121_regmap_config);
-  1686		if (IS_ERR(ctx->regmap))
-  1687			return PTR_ERR(ctx->regmap);
-  1688	
-  1689		ret = it66121_read_chip_id(ctx, false);
-  1690		if (ret)
-  1691			return ret;
-  1692	
-  1693		ctx->info = it66121_get_match_data(ctx->vender_id, ctx->device_id);
-  1694		if (!ctx->info)
-  1695			return -ENODEV;
-  1696	
-  1697		if (hpd_support) {
-  1698			ret = devm_request_threaded_irq(dev, client->irq, NULL,
-  1699							it66121_irq_threaded_handler,
-  1700							IRQF_ONESHOT, dev_name(dev),
-  1701							ctx);
-  1702			if (ret < 0) {
-  1703				dev_err(dev, "Failed to request irq: %d\n", ret);
-  1704				return ret;
-  1705			}
-  1706		}
-  1707	
-  1708		it66121_bridge_init_base(&ctx->bridge, dev->of_node, true);
-  1709	
-  1710		if (audio_support)
-  1711			it66121_audio_codec_init(ctx, dev);
-  1712	
-  1713		*bridge = &ctx->bridge;
-  1714	
-  1715		dev_info(dev, "IT66121 probed, chip id: 0x%x:0x%x, revision: %u\n",
-  1716			 ctx->vender_id, ctx->device_id, ctx->revision);
-  1717	
-  1718		return 0;
-  1719	}
-  1720	EXPORT_SYMBOL_GPL(it66121_create_bridge);
-  1721	
-  1722	static int it66121_probe(struct i2c_client *client)
-  1723	{
-  1724		struct device *dev = &client->dev;
-  1725		struct it66121_ctx *ctx;
-  1726		struct drm_bridge *bridge;
-  1727		int ret;
-  1728	
-  1729		if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-  1730			dev_err(dev, "I2C check functionality failed.\n");
-  1731			return -ENXIO;
-  1732		}
-  1733	
-  1734		ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(it66121_supplies),
-  1735						     it66121_supplies);
-  1736		if (ret) {
-  1737			dev_err(dev, "Failed to enable power supplies\n");
-  1738			return ret;
-  1739		}
-  1740	
-  1741		ret = it66121_create_bridge(client, true, true, true, &bridge);
-  1742		if (ret)
-  1743			return ret;
-  1744	
-  1745		ctx = bridge_to_it66121(bridge);
-  1746	
-  1747		i2c_set_clientdata(client, ctx);
-  1748	
-  1749		return 0;
-  1750	}
-  1751	
-> 1752	void it66121_destroy_bridge(struct drm_bridge *bridge)
-  1753	{
-  1754		struct it66121_ctx *ctx = bridge_to_it66121(bridge);
-  1755	
-  1756		drm_bridge_remove(bridge);
-  1757	
-  1758		mutex_destroy(&ctx->lock);
-  1759	}
-  1760	EXPORT_SYMBOL_GPL(it66121_destroy_bridge);
-  1761	
+5150542b8ec5fb Suma Hegde 2023-10-10  432  
+5150542b8ec5fb Suma Hegde 2023-10-10  433  static int hsmp_create_sysfs_interface(void)
+5150542b8ec5fb Suma Hegde 2023-10-10  434  {
+5150542b8ec5fb Suma Hegde 2023-10-10  435  	const struct attribute_group **hsmp_attr_grps;
+5150542b8ec5fb Suma Hegde 2023-10-10  436  	struct bin_attribute **hsmp_bin_attrs;
+5150542b8ec5fb Suma Hegde 2023-10-10  437  	struct attribute_group *attr_grp;
+5150542b8ec5fb Suma Hegde 2023-10-10  438  	int ret;
+5150542b8ec5fb Suma Hegde 2023-10-10  439  	u16 i;
+5150542b8ec5fb Suma Hegde 2023-10-10  440  
+5150542b8ec5fb Suma Hegde 2023-10-10  441  	/* String formatting is currently limited to u8 sockets */
+5150542b8ec5fb Suma Hegde 2023-10-10  442  	if (WARN_ON(plat_dev.num_sockets > U8_MAX))
+5150542b8ec5fb Suma Hegde 2023-10-10  443  		return -ERANGE;
+5150542b8ec5fb Suma Hegde 2023-10-10  444  
+5150542b8ec5fb Suma Hegde 2023-10-10  445  	hsmp_attr_grps = devm_kzalloc(plat_dev.dev, sizeof(struct attribute_group *) *
+5150542b8ec5fb Suma Hegde 2023-10-10  446  				      (plat_dev.num_sockets + 1), GFP_KERNEL);
+5150542b8ec5fb Suma Hegde 2023-10-10  447  	if (!hsmp_attr_grps)
+5150542b8ec5fb Suma Hegde 2023-10-10  448  		return -ENOMEM;
+5150542b8ec5fb Suma Hegde 2023-10-10  449  
+5150542b8ec5fb Suma Hegde 2023-10-10  450  	/* Create a sysfs directory for each socket */
+5150542b8ec5fb Suma Hegde 2023-10-10  451  	for (i = 0; i < plat_dev.num_sockets; i++) {
+5150542b8ec5fb Suma Hegde 2023-10-10  452  		attr_grp = devm_kzalloc(plat_dev.dev, sizeof(struct attribute_group), GFP_KERNEL);
+5150542b8ec5fb Suma Hegde 2023-10-10  453  		if (!attr_grp)
+5150542b8ec5fb Suma Hegde 2023-10-10  454  			return -ENOMEM;
+5150542b8ec5fb Suma Hegde 2023-10-10  455  
+5150542b8ec5fb Suma Hegde 2023-10-10  456  		snprintf(plat_dev.sock[i].name, HSMP_ATTR_GRP_NAME_SIZE, "socket%u", (u8)i);
+5150542b8ec5fb Suma Hegde 2023-10-10  457  		attr_grp->name = plat_dev.sock[i].name;
+5150542b8ec5fb Suma Hegde 2023-10-10  458  
+5150542b8ec5fb Suma Hegde 2023-10-10  459  		/* Null terminated list of attributes */
+5150542b8ec5fb Suma Hegde 2023-10-10  460  		hsmp_bin_attrs = devm_kzalloc(plat_dev.dev, sizeof(struct bin_attribute *) *
+5150542b8ec5fb Suma Hegde 2023-10-10  461  					      (NUM_HSMP_ATTRS + 1), GFP_KERNEL);
+5150542b8ec5fb Suma Hegde 2023-10-10  462  		if (!hsmp_bin_attrs)
+5150542b8ec5fb Suma Hegde 2023-10-10  463  			return -ENOMEM;
+5150542b8ec5fb Suma Hegde 2023-10-10  464  
+5150542b8ec5fb Suma Hegde 2023-10-10  465  		attr_grp->bin_attrs		= hsmp_bin_attrs;
+5150542b8ec5fb Suma Hegde 2023-10-10  466  		attr_grp->is_bin_visible	= hsmp_is_sock_attr_visible;
+5150542b8ec5fb Suma Hegde 2023-10-10  467  		hsmp_attr_grps[i]		= attr_grp;
+5150542b8ec5fb Suma Hegde 2023-10-10  468  
+5150542b8ec5fb Suma Hegde 2023-10-10  469  		/* Now create the leaf nodes */
+5150542b8ec5fb Suma Hegde 2023-10-10  470  		ret = hsmp_init_metric_tbl_bin_attr(hsmp_bin_attrs, i);
+5150542b8ec5fb Suma Hegde 2023-10-10  471  		if (ret)
+5150542b8ec5fb Suma Hegde 2023-10-10  472  			return ret;
+5150542b8ec5fb Suma Hegde 2023-10-10  473  	}
+5150542b8ec5fb Suma Hegde 2023-10-10 @474  	return devm_device_add_groups(plat_dev.dev, hsmp_attr_grps);
+5150542b8ec5fb Suma Hegde 2023-10-10  475  }
+5150542b8ec5fb Suma Hegde 2023-10-10  476  
+
+:::::: The code at line 474 was first introduced by commit
+:::::: 5150542b8ec5fb561be080ed0ef3bab8598154c3 platform/x86/amd/hsmp: add support for metrics tbl
+
+:::::: TO: Suma Hegde <suma.hegde@amd.com>
+:::::: CC: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
