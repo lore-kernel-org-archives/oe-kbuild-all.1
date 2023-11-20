@@ -1,56 +1,62 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4622D14A98
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 11:33:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BCA14F82
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 11:35:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KjlXGpPf"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-408425c7c10so15096915e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 03:33:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="we6DoAHe"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-507a0907896so6034242e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 03:35:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700480021; x=1701084821; darn=lists.linux.dev;
-        h=delivered-to:content-disposition:mime-version:message-id:subject:cc
+        d=linaro.org; s=google; t=1700480107; x=1701084907; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fs61Zyqtl8RiwGd/Qwpq0Eq8JZ08z+qR/ljCWMxQk9c=;
-        b=KjlXGpPfMP7THmMGjdx7NvIIKM6M5G+9F8yVR7bovbWlNlQrQccbKlO9Dxl27OpoVm
-         +cjY8YVaoAl0LEcqMZt6U5AlzjdHqwIy8nGOfOU8XM/MPtoTD8/LLiSyykL51s20Jqwj
-         y9qFHqNnkZQ2+CwG9GXrC4Z3RszxnR8XIDiyq7Q8VHbD0i8HQVVMoZOcSEwuJHCQY83A
-         saPJiOF4n92ru1YTJ+yBnaaGtCmU75js/xvh61KIfWR92QhMDq77F6BbvR6uPOjpKbr6
-         5pCk0dZftitYJ1WsLGMu5Q/Dc6s0KXbfEjU0+LOmKzHnctYZlvqIk7JagmTsGtvCXaGd
-         xAgw==
+        bh=FnHXXBG/PcSIOhkoJ9kEnpC6kzNN9AjZ6LY10zqo+h0=;
+        b=we6DoAHeHrDUdrDGDdihT1u0jTL3m8iibFoDlxYN5VphQG/zcDHf6WvHGM+yBSg53l
+         /aKQQCsZKFj1OdzCY1flI0nSQHbkjcFJQ9kDw7+InkV36lclqarGgyzXbSAR1vnoblK/
+         wwrgLanLw4Ox9HFGwwknCAXC4xX7o6jDcs8pRGml5kccECGqC/2XLZGH5svLuEqns5WV
+         pBoBNWSLEgbG4DoQHg68QRvlBHHnI9/K9OYCfk76e2yaMs60d4XRewRrxcm70N//uA85
+         CihkIWh+EEsfIx7Odu+TCmW+2d694w/EteREMg5g6s3YxL/8AA5bpk2Q3AdngiCqLoXF
+         uaPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700480021; x=1701084821;
-        h=delivered-to:content-disposition:mime-version:message-id:subject:cc
+        d=1e100.net; s=20230601; t=1700480107; x=1701084907;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Fs61Zyqtl8RiwGd/Qwpq0Eq8JZ08z+qR/ljCWMxQk9c=;
-        b=fj66DpmGdCj2kpt6Pxb4ylZlnZXDEQOzuszKKlBSpdXWHyR050IEOnZYgZvaLLNh4J
-         xEyMjVzJ2jJvZg5ENQ/MBuD7nmoZSQzvEfwuDZ5pD/c3hxif+4uGT2MKTUZrwuX0O4sb
-         daV0jV6Y0dfzz87Ww8RZx3R374EPSkqcK3KDHNBRI3Qagkwlv6e5uVE3hvj5mpnSeWeE
-         NtWOxacSkDaXzS+/9vK9Gf3tRWbYC9SE6BMRND1/77Mtz8a7c68mn5lkgh3etLa96KG/
-         6d2mwbvsTxJoIilmmD8yT/f4mDFCfXC1MZWgID+L3Q+skaPPtvf72Kj3PgkzctdfaOC5
-         lUlQ==
-X-Gm-Message-State: AOJu0YzPI+EZL19VjtPRKiVjSYmHRmAdbHdqGuF4/PVMtZG17g6GRV9p
-	TTTgevTp+3TJMqsMzCx821pK6A==
-X-Google-Smtp-Source: AGHT+IHvJRlSE9rLXuTs8KamcZydWqt0EnB34IkJRlIRX76ozZnhif74wiG08n7mVNlW6EcEL6wbKA==
-X-Received: by 2002:a7b:c8d6:0:b0:409:7900:f3d0 with SMTP id f22-20020a7bc8d6000000b004097900f3d0mr5798594wml.34.1700480021452;
-        Mon, 20 Nov 2023 03:33:41 -0800 (PST)
+        bh=FnHXXBG/PcSIOhkoJ9kEnpC6kzNN9AjZ6LY10zqo+h0=;
+        b=FV0sYXMSShg4ZKRbQxKReFdEyNJwkaCuby0CVyKJzEpRWtEjTwYRVsTQE3slwJVwea
+         iRKfBcAhBcIW46lt0JU8MoL8+fz0KgZQYBVy17luAahH0UyKpSddpqKTEBdG0lBpF7Ll
+         Wue6yBEeGwaCdcSVqm3TG2eA48BnuYzuuEmrve+KGrJV0ZYeeWlJaTfALYoRvHDmU2od
+         KkDwYbi/XUgmhRfhJAUqLj5n4H60xFsBBX1ZXCsc8tEnCAOJNEihUqPIYEb/xuaN6sMG
+         OX+34SqK4vnbhgM41Nf1gMG/JB9xHKsi4q0huIlSH0O0P9RTmMJRbCnCfy+ETgebq8Ct
+         cGJg==
+X-Gm-Message-State: AOJu0Yy5CO1/FpvnOKqZzBGsoW1ez3ecITQrebiQYekZI5CTaKAknUba
+	ugE/iRbYeled0a0DhHblcT+IgQ==
+X-Google-Smtp-Source: AGHT+IE4p1HjJUlGRGxGDBmDUsbIOwoBbIXNzM2Hj8ktYhCtgv5uw2xJHZLQAN5AdJEy4CeFtILz0A==
+X-Received: by 2002:a05:6512:360e:b0:509:8e13:48e0 with SMTP id f14-20020a056512360e00b005098e1348e0mr4603700lfs.37.1700480107308;
+        Mon, 20 Nov 2023 03:35:07 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id w8-20020a05600c474800b0040836519dd9sm13320664wmo.25.2023.11.20.03.33.40
+        by smtp.gmail.com with ESMTPSA id f19-20020a05600c4e9300b00405d9a950a2sm17666272wmq.28.2023.11.20.03.35.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 03:33:41 -0800 (PST)
+        Mon, 20 Nov 2023 03:35:07 -0800 (PST)
 From: Dan Carpenter <dan.carpenter@linaro.org>
 X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 06:33:38 -0500
-To: oe-kbuild@lists.linux.dev, Shyam Prasad N <sprasad@microsoft.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-	Steve French <stfrench@microsoft.com>
-Subject: [cifs:for-next 8/13] fs/smb/client/sess.c:323
- cifs_disable_secondary_channels() error: dereferencing freed memory 'iface'
-Message-ID: <539918b1-f4bb-4637-8bb4-057e5f1290f8@suswa.mountain>
+Date: Mon, 20 Nov 2023 06:35:04 -0500
+To: oe-kbuild@lists.linux.dev, Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v7 2/2] rtc: max31335: add driver support
+Message-ID: <ad78bb08-d415-481d-8f26-0b0195a1ad9d@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,61 +65,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231109101449.8347-2-antoniu.miclaus@analog.com>
 
-tree:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-head:   fd2bd7c0539e28f267a84da8d68f9378511b50a7
-commit: aa52cd09620b0ebd34ccae0e7f9f5b773497a499 [8/13] cifs: handle when server stops supporting multichannel
-config: i386-randconfig-141-20231108 (https://download.01.org/0day-ci/archive/20231111/202311110815.UJaeU3Tt-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110815.UJaeU3Tt-lkp@intel.com/reproduce)
+Hi Antoniu,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/rtc-max31335-add-driver-support/20231109-231755
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20231109101449.8347-2-antoniu.miclaus%40analog.com
+patch subject: [PATCH v7 2/2] rtc: max31335: add driver support
+config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110943.V2lcrQlf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110943.V2lcrQlf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311110815.UJaeU3Tt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311110943.V2lcrQlf-lkp@intel.com/
 
 smatch warnings:
-fs/smb/client/sess.c:323 cifs_disable_secondary_channels() error: dereferencing freed memory 'iface'
+drivers/rtc/rtc-max31335.c:415 max31335_trickle_charger_setup() error: uninitialized symbol 'trickle_cfg'.
 
-vim +/iface +323 fs/smb/client/sess.c
+vim +/trickle_cfg +415 drivers/rtc/rtc-max31335.c
 
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  298  void
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  299  cifs_disable_secondary_channels(struct cifs_ses *ses)
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  300  {
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  301  	int i, chan_count;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  302  	struct TCP_Server_Info *server;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  303  	struct cifs_server_iface *iface;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  304  
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  305  	spin_lock(&ses->chan_lock);
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  306  	chan_count = ses->chan_count;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  307  	if (chan_count == 1)
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  308  		goto done;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  309  
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  310  	ses->chan_count = 1;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  311  
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  312  	/* for all secondary channels reset the need reconnect bit */
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  313  	ses->chans_need_reconnect &= 1;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  314  
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  315  	for (i = 1; i < chan_count; i++) {
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  316  		iface = ses->chans[i].iface;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  317  		server = ses->chans[i].server;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  318  
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  319  		if (iface) {
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  320  			spin_lock(&ses->iface_lock);
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  321  			kref_put(&iface->refcount, release_iface);
-                                                                                                                   ^^^^^^^^^^^^^
-Freed if last reference.
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  383  static int max31335_trickle_charger_setup(struct device *dev,
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  384  					  struct max31335_data *max31335)
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  385  {
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  386  	u32 ohms, chargeable;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  387  	int i, trickle_cfg;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  388  	const char *diode;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  389  
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  390  	if (device_property_read_u32(dev, "aux-voltage-chargeable",
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  391  				     &chargeable))
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  392  		return 0;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  393  
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  394  	if (device_property_read_u32(dev, "trickle-resistor-ohms", &ohms))
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  395  		return 0;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  396  
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  397  	if (device_property_read_string(dev, "adi,tc-diode", &diode))
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  398  		return 0;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  399  
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  400  	if (!strcmp(diode, "schottky"))
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  401  		trickle_cfg = MAX31335_TRICKLE_SCHOTTKY_DIODE;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  402  	else if (!strcmp(diode, "standard+schottky"))
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  403  		trickle_cfg = MAX31335_TRICKLE_STANDARD_DIODE;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  404  	else
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  405  		dev_err_probe(dev, -EINVAL, "Invalid tc-diode value: %s\n",
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  406  			      diode);
 
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  322  			ses->chans[i].iface = NULL;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13 @323  			iface->num_channels--;
-                                                                                        ^^^^^
-Dereference after free.
+Probably was intended to be return dev_err_probe();
 
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  324  			if (iface->weight_fulfilled)
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  325  				iface->weight_fulfilled--;
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  326  			spin_unlock(&ses->iface_lock);
-aa52cd09620b0e fs/smb/client/sess.c Shyam Prasad N 2023-10-13  327  		}
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  407  
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  408  	for (i = 0; i < ARRAY_SIZE(max31335_trickle_resistors); i++)
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  409  		if (ohms == max31335_trickle_resistors[i])
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  410  			break;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  411  
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  412  	if (i >= ARRAY_SIZE(max31335_trickle_resistors))
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  413  		return 0;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  414  
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09 @415  	i = i + trickle_cfg;
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  416  
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  417  	return regmap_write(max31335->regmap, MAX31335_TRICKLE_REG,
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  418  			    FIELD_PREP(MAX31335_TRICKLE_REG_TRICKLE, i) |
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  419  			    FIELD_PREP(MAX31335_TRICKLE_REG_EN_TRICKLE,
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  420  				       chargeable));
+d76a0d3a61615e5 Antoniu Miclaus 2023-11-09  421  }
 
 -- 
 0-DAY CI Kernel Test Service
