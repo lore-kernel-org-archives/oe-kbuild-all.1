@@ -1,47 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6DFED8;
-	Mon, 20 Nov 2023 12:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0DC17999
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 12:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gjAX1Zwn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700484308; x=1732020308;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eb+ZOfbeIo4oNALZHoP3RSs4JQUSqU9+Xesd9kmD1Ho=;
-  b=gjAX1Zwn4QIeolvALHaTHOoPqzNKr8+38KrjfdTnu02RpE5kyHqZIKOZ
-   vUUn5ssCvdE7AIpftCVwhNPVap2krsPGIwgsvbu7JMLG+RILLdm3AIszW
-   nYpXbg+5b75DC90lsqsNuT5Rj+pLkNN1MbWvXO+lFKzLoqBO9jJFm95VU
-   Zdh2ENaaCBorzO68R0/1KSLYTR4vRWOLaa2xHjlr4qAt+khHpwTVn+H30
-   ESwdocV2EOhR9Ak+HKp0dvCPpo4lrayf9Mj5Px31sJhnlTsCWMvwv3ODf
-   OLo+nnoBHbDRRRZlDGNqzovUyC4nQBq34ZOhFrzvOSGgoGvF04t37DApR
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="390470004"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="390470004"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 04:45:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="889908623"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="889908623"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 20 Nov 2023 04:45:05 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r53eA-0006Sz-1g;
-	Mon, 20 Nov 2023 12:45:02 +0000
-Date: Mon, 20 Nov 2023 20:44:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/220-tso 4/4]
- arch/arm64/kernel/cpufeature_impdef.c:12:6: warning: no previous prototype
- for function 'has_apple_feature'
-Message-ID: <202311202018.ECg9m9He-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ac++89k7"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-507a55302e0so6268365e87.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 04:59:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700485172; x=1701089972; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nFq2J1bznNq6qgpwN/h9IoM2g3bEEN9t3djnlv7UTR8=;
+        b=ac++89k7mgoRuhnF+7AMjOurwOUOJMyRTl106fp0PCJXIF8Q3LWACZM5ytYjjWvY9L
+         TH7TAz5pL3OzYOZpxGupQWxIsS1T2/wl+zuf+5wyIo4TTVsDWMHySL8xeeywUI3jl2s3
+         NHCHmbzCo5aljjqhXuCC2hb8Jq8IeDZU+WGSnYgyIKWWWluivZOfsjpZUraoEMSaebD6
+         uc09IPTabn4xpSymQg5+wliEJJteFjPTT6A6zNEe60AsHGU2UZ9YldltjK0XkLlslSHk
+         XKi20Gm1dlYoVjec5fR5wA4UgeqOYbLM6hJYBFETwFkeAJpgmDeRoapQhPuaB5DW2D7n
+         /nJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700485172; x=1701089972;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nFq2J1bznNq6qgpwN/h9IoM2g3bEEN9t3djnlv7UTR8=;
+        b=u8I+HGcQtnpW/cHzCvQ8Ttcl7a+F3LYX6Ho2O4jll11z9miUzALMKkkq9pF8KLIEiY
+         9BJxhMRG0s9BjxaGii6NVwi/0IDVNwIO411Vk8f2yuA6Mqd4cdtHzCjz3GOzdeZTKIP9
+         nDwp3sW6pnhVwqNyMex4haGYRfX51LuzHQBfpKrHYaIzaAvZc13oKcJelSmxDp0tr8YW
+         5uwj5iNbH0SRuI4VgWOh1edHvda4HDjEU/6Z6o2wYFxAMtUynfg18WBx0ttcc1vVOXdO
+         mqB+JQ+lwktJ1LWD5JDi+nuyQt8YL321EHdQ880TdYLrVFDqn1ikebvQ4OJdqnEKbuNf
+         Pusw==
+X-Gm-Message-State: AOJu0YwMcioD8B6oPjqGh5F7+SGKSWJ26wumLhY9308sZ7AzRLOR7RKu
+	JD0HJ8UGX0an4JnT5bSFgs05ww==
+X-Google-Smtp-Source: AGHT+IFncXFhmSO/Ii+6Ze9igA6aVHPEFA24QIvIv5o+0k4N/7VHzmGpra3v1ANkRcO0GagTh92tXw==
+X-Received: by 2002:ac2:4219:0:b0:509:4655:d8d6 with SMTP id y25-20020ac24219000000b005094655d8d6mr4333479lfh.67.1700485171735;
+        Mon, 20 Nov 2023 04:59:31 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id d16-20020adffbd0000000b003313902cef5sm11141717wrs.93.2023.11.20.04.59.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 04:59:31 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Mon, 20 Nov 2023 07:59:28 -0500
+To: oe-kbuild@lists.linux.dev, Sagi Shahar <sagis@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Isaku Yamahata <isaku.yamahata@intel.com>
+Subject: [intel-tdx:kvm-upstream-next 196/273] arch/x86/kvm/x86.c:14007
+ pre_move_enc_context_from() warn: missing error code 'ret'
+Message-ID: <93ac3561-6437-490c-a03d-f04f3bb2a5fb@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,60 +58,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/220-tso
-head:   308062b9b17efd95c1c98c7c2cf667f620492fce
-commit: 308062b9b17efd95c1c98c7c2cf667f620492fce [4/4] arm64: Implement Apple IMPDEF TSO memory model control
-config: arm64-randconfig-002-20231120 (https://download.01.org/0day-ci/archive/20231120/202311202018.ECg9m9He-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311202018.ECg9m9He-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/tdx.git kvm-upstream-next
+head:   90fec84219b5d2bf13e61f02777f6a44ab755bc4
+commit: bf2a53c6d4d7151ace11879b20cacf6b07bdedcb [196/273] KVM: SEV: Refactor common code out of sev_vm_move_enc_context_from
+config: x86_64-randconfig-161-20231117 (https://download.01.org/0day-ci/archive/20231117/202311171500.e2f5AH17-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20231117/202311171500.e2f5AH17-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311202018.ECg9m9He-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311171500.e2f5AH17-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+arch/x86/kvm/x86.c:14007 pre_move_enc_context_from() warn: missing error code 'ret'
 
->> arch/arm64/kernel/cpufeature_impdef.c:12:6: warning: no previous prototype for function 'has_apple_feature' [-Wmissing-prototypes]
-      12 | bool has_apple_feature(const struct arm64_cpu_capabilities *entry, int scope)
-         |      ^
-   arch/arm64/kernel/cpufeature_impdef.c:12:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      12 | bool has_apple_feature(const struct arm64_cpu_capabilities *entry, int scope)
-         | ^
-         | static 
-   arch/arm64/kernel/cpufeature_impdef.c:24:6: warning: no previous prototype for function 'has_tso_fixed' [-Wmissing-prototypes]
-      24 | bool has_tso_fixed(const struct arm64_cpu_capabilities *entry, int scope)
-         |      ^
-   arch/arm64/kernel/cpufeature_impdef.c:24:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      24 | bool has_tso_fixed(const struct arm64_cpu_capabilities *entry, int scope)
-         | ^
-         | static 
-   arch/arm64/kernel/cpufeature_impdef.c:59:13: warning: no previous prototype for function 'init_cpucap_indirect_list_impdef' [-Wmissing-prototypes]
-      59 | void __init init_cpucap_indirect_list_impdef(void)
-         |             ^
-   arch/arm64/kernel/cpufeature_impdef.c:59:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      59 | void __init init_cpucap_indirect_list_impdef(void)
-         | ^
-         | static 
-   3 warnings generated.
+vim +/ret +14007 arch/x86/kvm/x86.c
 
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13983  int pre_move_enc_context_from(struct kvm *dst_kvm, struct kvm *src_kvm,
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13984  			      atomic_t *dst_migration_in_progress,
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13985  			      atomic_t *src_migration_in_progress)
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13986  {
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13987  	struct kvm_vcpu *src_vcpu;
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13988  	unsigned long i;
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13989  	int ret = -EINVAL;
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13990  
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13991  	ret = lock_two_vms_for_migration(dst_kvm, src_kvm,
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13992  					 dst_migration_in_progress,
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13993  					 src_migration_in_progress);
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13994  	if (ret)
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13995  		return ret;
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13996  
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13997  	ret = lock_vcpus_for_migration(dst_kvm, MIGRATION_TARGET);
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13998  	if (ret)
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  13999  		goto unlock_vms;
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14000  
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14001  	ret = lock_vcpus_for_migration(src_kvm, MIGRATION_SOURCE);
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14002  	if (ret)
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14003  		goto unlock_dst_vcpu;
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14004  
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14005  	if (atomic_read(&dst_kvm->online_vcpus) !=
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14006  	    atomic_read(&src_kvm->online_vcpus))
+bf2a53c6d4d715 Sagi Shahar 2023-04-07 @14007  		goto unlock_dst_vcpu;
 
-vim +/has_apple_feature +12 arch/arm64/kernel/cpufeature_impdef.c
+Missing error code?
 
-    11	
-  > 12	bool has_apple_feature(const struct arm64_cpu_capabilities *entry, int scope)
-    13	{
-    14		u64 val;
-    15		WARN_ON(scope != SCOPE_SYSTEM);
-    16	
-    17		if (read_cpuid_implementor() != ARM_CPU_IMP_APPLE)
-    18			return false;
-    19	
-    20		val = read_sysreg(aidr_el1);
-    21		return feature_matches(val, entry);
-    22	}
-    23	
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14008  
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14009  	kvm_for_each_vcpu(i, src_vcpu, src_kvm) {
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14010  		if (!src_vcpu->arch.guest_state_protected)
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14011  			goto unlock_dst_vcpu;
+
+Here too.
+
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14012  	}
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14013  
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14014  	return 0;
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14015  
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14016  unlock_dst_vcpu:
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14017  	unlock_vcpus_for_migration(dst_kvm);
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14018  unlock_vms:
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14019  	unlock_two_vms_for_migration(dst_kvm, src_kvm,
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14020  				     dst_migration_in_progress,
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14021  				     src_migration_in_progress);
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14022  
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14023  	return ret;
+bf2a53c6d4d715 Sagi Shahar 2023-04-07  14024  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
