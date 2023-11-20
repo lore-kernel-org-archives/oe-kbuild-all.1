@@ -1,44 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D36715D2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 00:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADE815D2;
+	Mon, 20 Nov 2023 01:08:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NSbqgdL9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gLq2T5hL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700441429; x=1731977429;
+  t=1700442480; x=1731978480;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SQSlQVcIwOTVNAsthDE2Qp1AHV7FsCkFHdvb4nHAnAE=;
-  b=NSbqgdL9msmIZIMl4mSPThaC6tDGkrgtY/s9LQeizp6TRcD67f96u/oA
-   Fb6He643fN0TAAJF3XuU3DaWbp6rdRzYsoARcoBVWkde8GX9fsVDGmvfh
-   tyWuA5ymcEBJ5EQzEePOSfDNuLR5NFKU+zgjFnwzcD0knKfbroDokIeZO
-   JiQG/91it9YoMRMp5lQKkBXQXbDL4L4GZBmLThVZ7Y6TuAOwdQvP/7h54
-   T6Q1gDWrp4DNvLU9nxxtnZSEHN3pxsjCfnomuayBGxxF6crSf/DF6ZgGF
-   BRnVTN+uTgBz1tqAALXPXzp8weS/xQOXp9r69S/1abnJc6fqn2qY3d4Ao
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="390390805"
+  bh=Afwg7Fdj8Ft7cQDd8qfi6qWAHO+5mdbO4VPlEFQ6/MY=;
+  b=gLq2T5hLUAhLqoU2noNZ0pathr3MhBz88y5WaLt0H8NUUTq6c3x7Trfa
+   3vLfrzUQ6xlHmq4dwZi9HzxA1360mvuQs2AIoXIjRsAD2ClhKUFuRJbs1
+   aNAbFyjAUSAUj3729ar7VriGcEu2Du6W75sAW/9Wc+/n+vf7WaIxm08+Z
+   A+1kw0Gd+/BIeqLVtj0q9Dez0v2MvNJ67DyDpniqjKekcdPBSQ3issNsq
+   ynUpjAN78bMRzO6bk4q2zDEfa3fQ/gQCQtfMAJNBHJFlxdNC2m5TL6OQe
+   B+EFB82lZ54eE0cfP7rozXNxmD2jT7z13MT6tp3XBoJX3wJJYEX8YvrpR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="422627221"
 X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="390390805"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 16:50:28 -0800
+   d="scan'208";a="422627221"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 17:07:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="889770711"
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="939646615"
 X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="889770711"
+   d="scan'208";a="939646615"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 19 Nov 2023 16:50:24 -0800
+  by orsmga005.jf.intel.com with ESMTP; 19 Nov 2023 17:07:55 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r4sUY-0005lp-1E;
-	Mon, 20 Nov 2023 00:50:22 +0000
-Date: Mon, 20 Nov 2023 08:47:38 +0800
+	id 1r4slV-0005mJ-1C;
+	Mon, 20 Nov 2023 01:07:53 +0000
+Date: Mon, 20 Nov 2023 09:07:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kairui Song <ryncsn@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	"Huang, Ying" <ying.huang@intel.com>,
@@ -48,10 +48,9 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Matthew Wilcox <willy@infradead.org>,
 	Michal Hocko <mhocko@suse.com>, linux-kernel@vger.kernel.org,
 	Kairui Song <kasong@tencent.com>
-Subject: Re: [PATCH 11/24] mm/swap: also handle swapcache lookup in
- swapin_readahead
-Message-ID: <202311200813.x056cCRJ-lkp@intel.com>
-References: <20231119194740.94101-12-ryncsn@gmail.com>
+Subject: Re: [PATCH 18/24] mm/swap: introduce a helper non fault swapin
+Message-ID: <202311200850.FrQj7bMD-lkp@intel.com>
+References: <20231119194740.94101-19-ryncsn@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,7 +59,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231119194740.94101-12-ryncsn@gmail.com>
+In-Reply-To: <20231119194740.94101-19-ryncsn@gmail.com>
 
 Hi Kairui,
 
@@ -74,361 +73,149 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Kairui-Song/mm-swap-fix-a-potential-undefined-behavior-issue/20231120-035926
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231119194740.94101-12-ryncsn%40gmail.com
-patch subject: [PATCH 11/24] mm/swap: also handle swapcache lookup in swapin_readahead
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231120/202311200813.x056cCRJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311200813.x056cCRJ-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20231119194740.94101-19-ryncsn%40gmail.com
+patch subject: [PATCH 18/24] mm/swap: introduce a helper non fault swapin
+config: i386-buildonly-randconfig-002-20231120 (https://download.01.org/0day-ci/archive/20231120/202311200850.FrQj7bMD-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311200850.FrQj7bMD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311200813.x056cCRJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311200850.FrQj7bMD-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from mm/filemap.c:62:
->> mm/swap.h:101:52: warning: 'enum swap_cache_result' declared inside parameter list will not be visible outside of this definition or declaration
-     101 |                         struct vm_fault *vmf, enum swap_cache_result *result)
-         |                                                    ^~~~~~~~~~~~~~~~~
---
-   In file included from mm/memory.c:93:
->> mm/swap.h:101:52: warning: 'enum swap_cache_result' declared inside parameter list will not be visible outside of this definition or declaration
-     101 |                         struct vm_fault *vmf, enum swap_cache_result *result)
-         |                                                    ^~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'do_swap_page':
->> mm/memory.c:3790:32: error: storage size of 'cache_result' isn't known
-    3790 |         enum swap_cache_result cache_result;
-         |                                ^~~~~~~~~~~~
->> mm/memory.c:3857:37: error: 'SWAP_CACHE_HIT' undeclared (first use in this function); did you mean 'DQST_CACHE_HITS'?
-    3857 |                 if (cache_result != SWAP_CACHE_HIT) {
-         |                                     ^~~~~~~~~~~~~~
-         |                                     DQST_CACHE_HITS
-   mm/memory.c:3857:37: note: each undeclared identifier is reported only once for each function it appears in
->> mm/memory.c:3863:37: error: 'SWAP_CACHE_BYPASS' undeclared (first use in this function); did you mean 'SMP_CACHE_BYTES'?
-    3863 |                 if (cache_result != SWAP_CACHE_BYPASS)
-         |                                     ^~~~~~~~~~~~~~~~~
-         |                                     SMP_CACHE_BYTES
->> mm/memory.c:3790:32: warning: unused variable 'cache_result' [-Wunused-variable]
-    3790 |         enum swap_cache_result cache_result;
-         |                                ^~~~~~~~~~~~
+   In file included from mm/shmem.c:43:
+   mm/swap.h:105:31: warning: declaration of 'enum swap_cache_result' will not be visible outside of this function [-Wvisibility]
+                           struct vm_fault *vmf, enum swap_cache_result *result)
+                                                      ^
+   mm/swap.h:112:8: warning: declaration of 'enum swap_cache_result' will not be visible outside of this function [-Wvisibility]
+                   enum swap_cache_result *result)
+                        ^
+>> mm/shmem.c:1841:25: error: variable has incomplete type 'enum swap_cache_result'
+           enum swap_cache_result result;
+                                  ^
+   mm/shmem.c:1841:7: note: forward declaration of 'enum swap_cache_result'
+           enum swap_cache_result result;
+                ^
+>> mm/shmem.c:1870:31: error: use of undeclared identifier 'SWAP_CACHE_HIT'
+                   if (fault_type && result != SWAP_CACHE_HIT) {
+                                               ^
+>> mm/shmem.c:1879:17: error: use of undeclared identifier 'SWAP_CACHE_BYPASS'
+           if ((result != SWAP_CACHE_BYPASS && !folio_test_swapcache(folio)) ||
+                          ^
+   2 warnings and 3 errors generated.
 
 
-vim +3790 mm/memory.c
+vim +1841 mm/shmem.c
 
-  3777	
-  3778	/*
-  3779	 * We enter with non-exclusive mmap_lock (to exclude vma changes,
-  3780	 * but allow concurrent faults), and pte mapped but not yet locked.
-  3781	 * We return with pte unmapped and unlocked.
-  3782	 *
-  3783	 * We return with the mmap_lock locked or unlocked in the same cases
-  3784	 * as does filemap_fault().
-  3785	 */
-  3786	vm_fault_t do_swap_page(struct vm_fault *vmf)
-  3787	{
-  3788		struct vm_area_struct *vma = vmf->vma;
-  3789		struct folio *swapcache = NULL, *folio = NULL;
-> 3790		enum swap_cache_result cache_result;
-  3791		struct page *page;
-  3792		struct swap_info_struct *si = NULL;
-  3793		rmap_t rmap_flags = RMAP_NONE;
-  3794		bool exclusive = false;
-  3795		swp_entry_t entry;
-  3796		pte_t pte;
-  3797		vm_fault_t ret = 0;
-  3798	
-  3799		if (!pte_unmap_same(vmf))
-  3800			goto out;
-  3801	
-  3802		entry = pte_to_swp_entry(vmf->orig_pte);
-  3803		if (unlikely(non_swap_entry(entry))) {
-  3804			if (is_migration_entry(entry)) {
-  3805				migration_entry_wait(vma->vm_mm, vmf->pmd,
-  3806						     vmf->address);
-  3807			} else if (is_device_exclusive_entry(entry)) {
-  3808				vmf->page = pfn_swap_entry_to_page(entry);
-  3809				ret = remove_device_exclusive_entry(vmf);
-  3810			} else if (is_device_private_entry(entry)) {
-  3811				if (vmf->flags & FAULT_FLAG_VMA_LOCK) {
-  3812					/*
-  3813					 * migrate_to_ram is not yet ready to operate
-  3814					 * under VMA lock.
-  3815					 */
-  3816					vma_end_read(vma);
-  3817					ret = VM_FAULT_RETRY;
-  3818					goto out;
-  3819				}
-  3820	
-  3821				vmf->page = pfn_swap_entry_to_page(entry);
-  3822				vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
-  3823						vmf->address, &vmf->ptl);
-  3824				if (unlikely(!vmf->pte ||
-  3825					     !pte_same(ptep_get(vmf->pte),
-  3826								vmf->orig_pte)))
-  3827					goto unlock;
-  3828	
-  3829				/*
-  3830				 * Get a page reference while we know the page can't be
-  3831				 * freed.
-  3832				 */
-  3833				get_page(vmf->page);
-  3834				pte_unmap_unlock(vmf->pte, vmf->ptl);
-  3835				ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
-  3836				put_page(vmf->page);
-  3837			} else if (is_hwpoison_entry(entry)) {
-  3838				ret = VM_FAULT_HWPOISON;
-  3839			} else if (is_pte_marker_entry(entry)) {
-  3840				ret = handle_pte_marker(vmf);
-  3841			} else {
-  3842				print_bad_pte(vma, vmf->address, vmf->orig_pte, NULL);
-  3843				ret = VM_FAULT_SIGBUS;
-  3844			}
-  3845			goto out;
-  3846		}
-  3847	
-  3848		/* Prevent swapoff from happening to us. */
-  3849		si = get_swap_device(entry);
-  3850		if (unlikely(!si))
-  3851			goto out;
-  3852	
-  3853		page = swapin_readahead(entry, GFP_HIGHUSER_MOVABLE,
-  3854					vmf, &cache_result);
-  3855		if (page) {
-  3856			folio = page_folio(page);
-> 3857			if (cache_result != SWAP_CACHE_HIT) {
-  3858				/* Had to read the page from swap area: Major fault */
-  3859				ret = VM_FAULT_MAJOR;
-  3860				count_vm_event(PGMAJFAULT);
-  3861				count_memcg_event_mm(vma->vm_mm, PGMAJFAULT);
-  3862			}
-> 3863			if (cache_result != SWAP_CACHE_BYPASS)
-  3864				swapcache = folio;
-  3865			if (PageHWPoison(page)) {
-  3866				/*
-  3867				 * hwpoisoned dirty swapcache pages are kept for killing
-  3868				 * owner processes (which may be unknown at hwpoison time)
-  3869				 */
-  3870				ret = VM_FAULT_HWPOISON;
-  3871				goto out_release;
-  3872			}
-  3873		} else {
-  3874			/*
-  3875			 * Back out if somebody else faulted in this pte
-  3876			 * while we released the pte lock.
-  3877			 */
-  3878			vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
-  3879					vmf->address, &vmf->ptl);
-  3880			if (likely(vmf->pte &&
-  3881				   pte_same(ptep_get(vmf->pte), vmf->orig_pte)))
-  3882				ret = VM_FAULT_OOM;
-  3883			goto unlock;
-  3884		}
-  3885	
-  3886		ret |= folio_lock_or_retry(folio, vmf);
-  3887		if (ret & VM_FAULT_RETRY)
-  3888			goto out_release;
-  3889	
-  3890		if (swapcache) {
-  3891			/*
-  3892			 * Make sure folio_free_swap() or swapoff did not release the
-  3893			 * swapcache from under us.  The page pin, and pte_same test
-  3894			 * below, are not enough to exclude that.  Even if it is still
-  3895			 * swapcache, we need to check that the page's swap has not
-  3896			 * changed.
-  3897			 */
-  3898			if (unlikely(!folio_test_swapcache(folio) ||
-  3899				     page_swap_entry(page).val != entry.val))
-  3900				goto out_page;
-  3901	
-  3902			/*
-  3903			 * KSM sometimes has to copy on read faults, for example, if
-  3904			 * page->index of !PageKSM() pages would be nonlinear inside the
-  3905			 * anon VMA -- PageKSM() is lost on actual swapout.
-  3906			 */
-  3907			page = ksm_might_need_to_copy(page, vma, vmf->address);
-  3908			if (unlikely(!page)) {
-  3909				ret = VM_FAULT_OOM;
-  3910				goto out_page;
-  3911			} else if (unlikely(PTR_ERR(page) == -EHWPOISON)) {
-  3912				ret = VM_FAULT_HWPOISON;
-  3913				goto out_page;
-  3914			}
-  3915			folio = page_folio(page);
-  3916	
-  3917			/*
-  3918			 * If we want to map a page that's in the swapcache writable, we
-  3919			 * have to detect via the refcount if we're really the exclusive
-  3920			 * owner. Try removing the extra reference from the local LRU
-  3921			 * caches if required.
-  3922			 */
-  3923			if ((vmf->flags & FAULT_FLAG_WRITE) && folio == swapcache &&
-  3924			    !folio_test_ksm(folio) && !folio_test_lru(folio))
-  3925				lru_add_drain();
-  3926		}
-  3927	
-  3928		folio_throttle_swaprate(folio, GFP_KERNEL);
-  3929	
-  3930		/*
-  3931		 * Back out if somebody else already faulted in this pte.
-  3932		 */
-  3933		vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
-  3934				&vmf->ptl);
-  3935		if (unlikely(!vmf->pte || !pte_same(ptep_get(vmf->pte), vmf->orig_pte)))
-  3936			goto out_nomap;
-  3937	
-  3938		if (unlikely(!folio_test_uptodate(folio))) {
-  3939			ret = VM_FAULT_SIGBUS;
-  3940			goto out_nomap;
-  3941		}
-  3942	
-  3943		/*
-  3944		 * PG_anon_exclusive reuses PG_mappedtodisk for anon pages. A swap pte
-  3945		 * must never point at an anonymous page in the swapcache that is
-  3946		 * PG_anon_exclusive. Sanity check that this holds and especially, that
-  3947		 * no filesystem set PG_mappedtodisk on a page in the swapcache. Sanity
-  3948		 * check after taking the PT lock and making sure that nobody
-  3949		 * concurrently faulted in this page and set PG_anon_exclusive.
-  3950		 */
-  3951		BUG_ON(!folio_test_anon(folio) && folio_test_mappedtodisk(folio));
-  3952		BUG_ON(folio_test_anon(folio) && PageAnonExclusive(page));
-  3953	
-  3954		/*
-  3955		 * Check under PT lock (to protect against concurrent fork() sharing
-  3956		 * the swap entry concurrently) for certainly exclusive pages.
-  3957		 */
-  3958		if (!folio_test_ksm(folio)) {
-  3959			exclusive = pte_swp_exclusive(vmf->orig_pte);
-  3960			if (folio != swapcache) {
-  3961				/*
-  3962				 * We have a fresh page that is not exposed to the
-  3963				 * swapcache -> certainly exclusive.
-  3964				 */
-  3965				exclusive = true;
-  3966			} else if (exclusive && folio_test_writeback(folio) &&
-  3967				  data_race(si->flags & SWP_STABLE_WRITES)) {
-  3968				/*
-  3969				 * This is tricky: not all swap backends support
-  3970				 * concurrent page modifications while under writeback.
-  3971				 *
-  3972				 * So if we stumble over such a page in the swapcache
-  3973				 * we must not set the page exclusive, otherwise we can
-  3974				 * map it writable without further checks and modify it
-  3975				 * while still under writeback.
-  3976				 *
-  3977				 * For these problematic swap backends, simply drop the
-  3978				 * exclusive marker: this is perfectly fine as we start
-  3979				 * writeback only if we fully unmapped the page and
-  3980				 * there are no unexpected references on the page after
-  3981				 * unmapping succeeded. After fully unmapped, no
-  3982				 * further GUP references (FOLL_GET and FOLL_PIN) can
-  3983				 * appear, so dropping the exclusive marker and mapping
-  3984				 * it only R/O is fine.
-  3985				 */
-  3986				exclusive = false;
-  3987			}
-  3988		}
-  3989	
-  3990		/*
-  3991		 * Some architectures may have to restore extra metadata to the page
-  3992		 * when reading from swap. This metadata may be indexed by swap entry
-  3993		 * so this must be called before swap_free().
-  3994		 */
-  3995		arch_swap_restore(entry, folio);
-  3996	
-  3997		/*
-  3998		 * Remove the swap entry and conditionally try to free up the swapcache.
-  3999		 * We're already holding a reference on the page but haven't mapped it
-  4000		 * yet.
-  4001		 */
-  4002		swap_free(entry);
-  4003		if (should_try_to_free_swap(folio, vma, vmf->flags))
-  4004			folio_free_swap(folio);
-  4005	
-  4006		inc_mm_counter(vma->vm_mm, MM_ANONPAGES);
-  4007		dec_mm_counter(vma->vm_mm, MM_SWAPENTS);
-  4008		pte = mk_pte(page, vma->vm_page_prot);
-  4009	
-  4010		/*
-  4011		 * Same logic as in do_wp_page(); however, optimize for pages that are
-  4012		 * certainly not shared either because we just allocated them without
-  4013		 * exposing them to the swapcache or because the swap entry indicates
-  4014		 * exclusivity.
-  4015		 */
-  4016		if (!folio_test_ksm(folio) &&
-  4017		    (exclusive || folio_ref_count(folio) == 1)) {
-  4018			if (vmf->flags & FAULT_FLAG_WRITE) {
-  4019				pte = maybe_mkwrite(pte_mkdirty(pte), vma);
-  4020				vmf->flags &= ~FAULT_FLAG_WRITE;
-  4021			}
-  4022			rmap_flags |= RMAP_EXCLUSIVE;
-  4023		}
-  4024		flush_icache_page(vma, page);
-  4025		if (pte_swp_soft_dirty(vmf->orig_pte))
-  4026			pte = pte_mksoft_dirty(pte);
-  4027		if (pte_swp_uffd_wp(vmf->orig_pte))
-  4028			pte = pte_mkuffd_wp(pte);
-  4029		vmf->orig_pte = pte;
-  4030	
-  4031		/* ksm created a completely new copy */
-  4032		if (unlikely(folio != swapcache && swapcache)) {
-  4033			page_add_new_anon_rmap(page, vma, vmf->address);
-  4034			folio_add_lru_vma(folio, vma);
-  4035		} else {
-  4036			page_add_anon_rmap(page, vma, vmf->address, rmap_flags);
-  4037		}
-  4038	
-  4039		VM_BUG_ON(!folio_test_anon(folio) ||
-  4040				(pte_write(pte) && !PageAnonExclusive(page)));
-  4041		set_pte_at(vma->vm_mm, vmf->address, vmf->pte, pte);
-  4042		arch_do_swap_page(vma->vm_mm, vma, vmf->address, pte, vmf->orig_pte);
-  4043	
-  4044		folio_unlock(folio);
-  4045		if (folio != swapcache && swapcache) {
-  4046			/*
-  4047			 * Hold the lock to avoid the swap entry to be reused
-  4048			 * until we take the PT lock for the pte_same() check
-  4049			 * (to avoid false positives from pte_same). For
-  4050			 * further safety release the lock after the swap_free
-  4051			 * so that the swap count won't change under a
-  4052			 * parallel locked swapcache.
-  4053			 */
-  4054			folio_unlock(swapcache);
-  4055			folio_put(swapcache);
-  4056		}
-  4057	
-  4058		if (vmf->flags & FAULT_FLAG_WRITE) {
-  4059			ret |= do_wp_page(vmf);
-  4060			if (ret & VM_FAULT_ERROR)
-  4061				ret &= VM_FAULT_ERROR;
-  4062			goto out;
-  4063		}
-  4064	
-  4065		/* No need to invalidate - it was non-present before */
-  4066		update_mmu_cache_range(vmf, vma, vmf->address, vmf->pte, 1);
-  4067	unlock:
-  4068		if (vmf->pte)
-  4069			pte_unmap_unlock(vmf->pte, vmf->ptl);
-  4070	out:
-  4071		if (si)
-  4072			put_swap_device(si);
-  4073		return ret;
-  4074	out_nomap:
-  4075		if (vmf->pte)
-  4076			pte_unmap_unlock(vmf->pte, vmf->ptl);
-  4077	out_page:
-  4078		folio_unlock(folio);
-  4079	out_release:
-  4080		folio_put(folio);
-  4081		if (folio != swapcache && swapcache) {
-  4082			folio_unlock(swapcache);
-  4083			folio_put(swapcache);
-  4084		}
-  4085		if (si)
-  4086			put_swap_device(si);
-  4087		return ret;
-  4088	}
-  4089	
+  1827	
+  1828	/*
+  1829	 * Swap in the folio pointed to by *foliop.
+  1830	 * Caller has to make sure that *foliop contains a valid swapped folio.
+  1831	 * Returns 0 and the folio in foliop if success. On failure, returns the
+  1832	 * error code and NULL in *foliop.
+  1833	 */
+  1834	static int shmem_swapin_folio(struct inode *inode, pgoff_t index,
+  1835				     struct folio **foliop, enum sgp_type sgp,
+  1836				     gfp_t gfp, struct mm_struct *fault_mm,
+  1837				     vm_fault_t *fault_type)
+  1838	{
+  1839		struct address_space *mapping = inode->i_mapping;
+  1840		struct shmem_inode_info *info = SHMEM_I(inode);
+> 1841		enum swap_cache_result result;
+  1842		struct folio *folio = NULL;
+  1843		struct mempolicy *mpol;
+  1844		struct page *page;
+  1845		swp_entry_t swap;
+  1846		pgoff_t ilx;
+  1847		int error;
+  1848	
+  1849		VM_BUG_ON(!*foliop || !xa_is_value(*foliop));
+  1850		swap = radix_to_swp_entry(*foliop);
+  1851		*foliop = NULL;
+  1852	
+  1853		if (is_poisoned_swp_entry(swap))
+  1854			return -EIO;
+  1855	
+  1856		mpol = shmem_get_pgoff_policy(info, index, 0, &ilx);
+  1857		page = swapin_page_non_fault(swap, gfp, mpol, ilx, fault_mm, &result);
+  1858		mpol_cond_put(mpol);
+  1859	
+  1860		if (PTR_ERR(page) == -EBUSY) {
+  1861			if (!shmem_confirm_swap(mapping, index, swap))
+  1862				return -EEXIST;
+  1863			else
+  1864				return -EINVAL;
+  1865		} else if (!page) {
+  1866			error = -ENOMEM;
+  1867			goto failed;
+  1868		} else {
+  1869			folio = page_folio(page);
+> 1870			if (fault_type && result != SWAP_CACHE_HIT) {
+  1871				*fault_type |= VM_FAULT_MAJOR;
+  1872				count_vm_event(PGMAJFAULT);
+  1873				count_memcg_event_mm(fault_mm, PGMAJFAULT);
+  1874			}
+  1875		}
+  1876	
+  1877		/* We have to do this with folio locked to prevent races */
+  1878		folio_lock(folio);
+> 1879		if ((result != SWAP_CACHE_BYPASS && !folio_test_swapcache(folio)) ||
+  1880		    folio->swap.val != swap.val ||
+  1881		    !shmem_confirm_swap(mapping, index, swap)) {
+  1882			error = -EEXIST;
+  1883			goto unlock;
+  1884		}
+  1885		if (!folio_test_uptodate(folio)) {
+  1886			error = -EIO;
+  1887			goto failed;
+  1888		}
+  1889		folio_wait_writeback(folio);
+  1890	
+  1891		/*
+  1892		 * Some architectures may have to restore extra metadata to the
+  1893		 * folio after reading from swap.
+  1894		 */
+  1895		arch_swap_restore(swap, folio);
+  1896	
+  1897		if (shmem_should_replace_folio(folio, gfp)) {
+  1898			error = shmem_replace_folio(&folio, gfp, info, index);
+  1899			if (error)
+  1900				goto failed;
+  1901		}
+  1902	
+  1903		error = shmem_add_to_page_cache(folio, mapping, index,
+  1904						swp_to_radix_entry(swap), gfp);
+  1905		if (error)
+  1906			goto failed;
+  1907	
+  1908		shmem_recalc_inode(inode, 0, -1);
+  1909	
+  1910		if (sgp == SGP_WRITE)
+  1911			folio_mark_accessed(folio);
+  1912	
+  1913		delete_from_swap_cache(folio);
+  1914		folio_mark_dirty(folio);
+  1915		swap_free(swap);
+  1916	
+  1917		*foliop = folio;
+  1918		return 0;
+  1919	failed:
+  1920		if (!shmem_confirm_swap(mapping, index, swap))
+  1921			error = -EEXIST;
+  1922		if (error == -EIO)
+  1923			shmem_set_folio_swapin_error(inode, index, folio, swap);
+  1924	unlock:
+  1925		if (folio) {
+  1926			folio_unlock(folio);
+  1927			folio_put(folio);
+  1928		}
+  1929	
+  1930		return error;
+  1931	}
+  1932	
 
 -- 
 0-DAY CI Kernel Test Service
