@@ -1,219 +1,253 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DC736AED;
-	Mon, 20 Nov 2023 19:41:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D81358A4;
+	Mon, 20 Nov 2023 19:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJI/HRGW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 532A4C433C8;
-	Mon, 20 Nov 2023 19:41:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700509275;
-	bh=Lr3mKQ94fwm7siGM06WAsHZ8psEWqwiymuFwzRs9H0M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mJI/HRGWLBCNAfUdKjEafFXsUs6lQCId2SUGlEjK3LuCHq9Kmbgo5iHeFgoWXQ2S6
-	 +RgeZq6OeNOlh60XpJHMsZIXlmAlEOUgLrlgCTv9TIzMDEb7JPU4WikKRSLZh8NRC2
-	 qqoqn7e7S2csqdSkdHHwhYwLbM2U/56X1onLjq3DTzZ/EG2xjBcsrszP3K+xDTUNAe
-	 tISdYEU3IBiklSIo+UtM21si2q287vn6eUR3BJRf8YnjKsd6FlYoE/2b4m21zVWrM2
-	 DPZLBRQT/OQBkyrSBRjHxTDDP7g1+9MKS2hEO0Ebpd1xlQt3TE0+nF9ybw63PRLnOP
-	 mYTf0zFcecjjg==
-Date: Mon, 20 Nov 2023 12:41:12 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Coco Li <lixiaoyan@google.com>
-Cc: kernel test robot <lkp@intel.com>, Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	Mubashir Adnan Qureshi <mubashirq@google.com>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
-	Jonathan Corbet <corbet@lwn.net>, David Ahern <dsahern@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Chao Wu <wwchao@google.com>, Wei Wang <weiwan@google.com>,
-	Pradeep Nemavat <pnemavat@google.com>
-Subject: Re: [PATCH v7 net-next 4/5] net-device: reorganize net_device fast
- path variables
-Message-ID: <20231120194112.GA276812@dev-arch.thelio-3990X>
-References: <20231113233301.1020992-5-lixiaoyan@google.com>
- <202311162002.m26ObVLU-lkp@intel.com>
- <CADjXwjjPrhDF3hfPWKrXxCkJjwBJDfumFkAvCPg2gvOBme2sTA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMWAtjAW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700509671; x=1732045671;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=hiIgakyFH/t9g/GhYtUbqZuSvfbFFDFs3oErkRhnQh4=;
+  b=DMWAtjAWJH2hIsMcVWURsZAkaAxeMtoHEeO5m/+uuAKVMM1PHzSijZ+1
+   621w/xlwvKKpqcyt0WdEEri6XOR+syNeBvim8om7rUkklhtqs/9OyiEH1
+   3aA0yllb6WLAHlL+ZFYfEvPq3u6beS98Q1r+5FIEAhoRZTcFKSIikPL5F
+   +Yk+RMgmbT+liZBSogjYS937ZvJcgRsCMUOdm5GmB6C5jhkrAmULUrKhI
+   doGG/5NJVmZp8bfCRSw3jhe0N8EL0UaKJPHLOBbdTDiwV6Dhy09PXL6Lh
+   7NSjKhw1NnW7/56EjvLTlUuB9ElePXaqUemqpwXw90kOA/Dw7S0RbDvMh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="394537037"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="394537037"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 11:47:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="1013682736"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="1013682736"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Nov 2023 11:47:45 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 20 Nov 2023 11:47:45 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 20 Nov 2023 11:47:45 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Mon, 20 Nov 2023 11:47:45 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Mon, 20 Nov 2023 11:47:44 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n2DtF8rymyzAvSSVRcZL7Tl3kUhlg0ZrlTiZU20IjRke9yrUpeebfYCFF4Fh5i51+ZEoqwKSl8K9Yw8a9pn2o6vpqOqSmHFyfwQpPG2HojNyoI/FcKjldgAzMSd7y6Q54XNgdu3gJ4+W8M6ZQgyUM53z1gNfZ/yrE41/31OuVFVVHxoRVWJqNYU8MA45+lZ4lNuxxT32ZyWbm/p9rQgV5r7xyyTLdsdj1aNN7dGjehP5bOY/dU3MkMKFXrPzloz+uxINBjI13ryQLEcEi8cwlI5gPDvChjY+TFIZW4hSOga+kRUFw/BuPCtYCY9Q1DhNGnbBxrTc3+NhKCpSzbuURQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kp8ZTvcL10VXEorqK2dtfMiIvUaC7oOtEuqOgC4prfw=;
+ b=eHgRZRfA/OMvfR0OYs2f1PPmkhlTS9e65tHNkoubBrLygddweg66lyP+D59/d9h2kcyIo1R9XXo+rXhV/40h1vjLlDFqHr+4430+1KbPkIkdpCzOGQR67Aga5yh0WgJWWYmY3Tf/ZLIvBJwq8LZaBjk27VhOxXzDZIvxKqdddCMQzTBKWKjKKKI3Pt+Zp6kNdtZKWT3PaoVnH7xUZJeKr7QFZSArBx9senknIZDjc/ZAMoE91fIK74UuTwfPLr3LrxRYGVp3wFJD74DnM42BPqw1msZsjP0MLA27Nt1faJ+AHarvRvK6+bJttoE1DsFzzftDyZNuEOU31rYqmAh3uA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BYAPR11MB2647.namprd11.prod.outlook.com (2603:10b6:a02:be::12)
+ by DM6PR11MB4673.namprd11.prod.outlook.com (2603:10b6:5:2a4::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Mon, 20 Nov
+ 2023 19:47:42 +0000
+Received: from BYAPR11MB2647.namprd11.prod.outlook.com
+ ([fe80::b50a:8b96:5a9a:4c7]) by BYAPR11MB2647.namprd11.prod.outlook.com
+ ([fe80::b50a:8b96:5a9a:4c7%7]) with mapi id 15.20.7002.027; Mon, 20 Nov 2023
+ 19:47:42 +0000
+From: "Yamahata, Isaku" <isaku.yamahata@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>, Sagi Shahar <sagis@google.com>
+CC: lkp <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "Yamahata, Isaku" <isaku.yamahata@intel.com>
+Subject: RE: [intel-tdx:kvm-upstream-next 196/273] arch/x86/kvm/x86.c:14007
+ pre_move_enc_context_from() warn: missing error code 'ret'
+Thread-Topic: [intel-tdx:kvm-upstream-next 196/273] arch/x86/kvm/x86.c:14007
+ pre_move_enc_context_from() warn: missing error code 'ret'
+Thread-Index: AQHaG7FvZLr2tcU8c0iApjfpBzraULCDnR3A
+Date: Mon, 20 Nov 2023 19:47:42 +0000
+Message-ID: <BYAPR11MB2647803835D9EFEEAC95F4F18CB4A@BYAPR11MB2647.namprd11.prod.outlook.com>
+References: <93ac3561-6437-490c-a03d-f04f3bb2a5fb@suswa.mountain>
+In-Reply-To: <93ac3561-6437-490c-a03d-f04f3bb2a5fb@suswa.mountain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR11MB2647:EE_|DM6PR11MB4673:EE_
+x-ms-office365-filtering-correlation-id: 0a7cf557-375c-4443-7b91-08dbea018f3e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: F5xV+RKMVe+kXztEUiSI6bF6FfUCCn+CAPT9+GI8FMAQqDu+btTLSOhV/Rrc71QTYRv072AJP38xJevo3OlBbFWgutMySehvp6RKECQBXjh7OETXve9F/4kZkGyfPMrcMtCI8rDKz8UyOGIiB1gzdfN0uD4fbW1xYR3mAelNXWlZwcjLiEj6dH6JZ3zLDoac0eDIhlKzNdn5ROTqUnQaAPzCtORJ9g1Hu81ljenWhws71a5bqS941VEQshDDfQuzZOFEVVFBIyWE22EJ4YW1OhkYfgb9wGBZ3HSNGO2lsa6oase0ylPXsO2db5yw1JmbiIfUEgz1CZI7aOUS8i8GRt9ZZB7gnMksdfEO8nalS5RH0/30hEHKjTseKJQQcH83hShBpnyfUyKxKDNcdtE0zxOKEuBuXutsR69GFfMxolDOfMTHc7A54giEAtVF5tY/TcLSEa9CnfKVNiGnhT2FxHookuPsJBhm4XbaK0X1MBsEEx7eoeqIZKzRcmSG4V71QOavSM8DPvSWqlXH8f/nXCZjMqAMrAYpWkCyvrskbrGlYAmx/0/Jq85MnSIHbN8QasfdHX/8NCVHELcjb7AHaUE/5EymL2/A+xDpBREyTDje+oQEnjJnwrbUTbeymSknZrmeY0e/HOTn+KImtuvzxYq0g2iy/NPp9t+DszpTN2M/vTZKs0V5tSUXFWam7N5C
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2647.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(366004)(136003)(346002)(376002)(230922051799003)(230173577357003)(230273577357003)(451199024)(64100799003)(186009)(1800799012)(41300700001)(5660300002)(86362001)(52536014)(33656002)(2906002)(38070700009)(9686003)(7696005)(107886003)(122000001)(55016003)(26005)(83380400001)(966005)(478600001)(82960400001)(6506007)(71200400001)(38100700002)(110136005)(4326008)(8936002)(76116006)(316002)(54906003)(66946007)(64756008)(66556008)(66446008)(66476007)(8676002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5u7/yUFPbTDTnMKkhiHv9n0A6hjy8eLzkAS0P156sVVwO4LsxULRNNzS4E2Q?=
+ =?us-ascii?Q?MTy0YFtoxKX2I3UCdupO0jT4Qt/fd2e8nh18RoTfFvihVSkrqFyT5PE6KMRa?=
+ =?us-ascii?Q?0jf1zTlYEn24mOrRH6rblmSaauaVvTX8pqxvVtM+3R2Bstz96gIfCVPg32mU?=
+ =?us-ascii?Q?BwcYlLzM9fDlgGjIFnaSRbzq2bEb+2uOAyVOmm7KZq13nvGDIVASSa7c/Cfk?=
+ =?us-ascii?Q?MnkgyVpb8O3pU3hBm+7dugkjdV4pte3Sj8IQ1kGCFBiP1O6DPrF3cPt4LTPZ?=
+ =?us-ascii?Q?ejdYgivjEpLDh30BRRuEE8o1hFIW9W8S3cXJPyqlnnExpblfGUuDtxacKGv0?=
+ =?us-ascii?Q?A/ZktcMUIdnxqrZURsmIR5+OvInZIUc/8gainj640mWqDCfRWp6P5pQh6GB+?=
+ =?us-ascii?Q?7Ab94vN6V31eQ+8VBscDpOpsgCvn+pPT07gpgOgnCsbcnkfQbeH8jXQQkib9?=
+ =?us-ascii?Q?OXNtdm0PJa+iQ4B5KHipI39KbOvdfdwMv5Vmnohn1Ci/ulXLnkcFoQF6tOtq?=
+ =?us-ascii?Q?h+BU/tCfnDDXaUh+2lPA7lflxdyhEcCYFU6sVhBxp2ALzxnWFDMA9reNJWvM?=
+ =?us-ascii?Q?lYD5LObcrhRX8gG1nvJJRoz+uQf+JG/El1V/Ng4t958QhyU8iGiNcbZPsE6b?=
+ =?us-ascii?Q?zKECHsFTP6C1Outah4a/BtwwZBBYDSMd8+ZXO4wcgSnsFJIwR/ip414IsTQK?=
+ =?us-ascii?Q?9QFnk8xJY15kaVhAJ/yiMtgONDqZQY65JhtQ/7M1b1mfBVtppgOsyrNuWI1B?=
+ =?us-ascii?Q?VRDIZ6e7jXuUTcWvgo/OlqMafYntt7iH5J+3ks+TuY3Apxt2v08eTsa/38pA?=
+ =?us-ascii?Q?Ct9mz9Rvwzxs5qBkL83L7UguavSJlK30i9iVZ648tdsxVWewuNm5o1EPh6vO?=
+ =?us-ascii?Q?uuTkBeScrMKn7/zEeUqZJJzy0EPW4x89tz+DNrLPARUbl4EMiJiLUSL74Ql/?=
+ =?us-ascii?Q?w/TxA1Tt6LfBbPcLRXVcxE30vWyR//JBUDkRkatG2+Pm2C/ivmJImlNuEr6j?=
+ =?us-ascii?Q?lrgTbel/POAfRE+2ZwCaAEzoH/t45qMk/jOd+iq4Pkw6g7Km8skw7i5/c9U3?=
+ =?us-ascii?Q?tJPXp/TC0Dw7QkbvY4uMCGYnV6H+5nAp5wgWrbbiTgSvqQVoNTk/ZY5UtTUk?=
+ =?us-ascii?Q?Jl/LbYdvPBMkBrcx/G5ZTYQEqkkVcGdv6cpb4KuvSZ+YGL8wZ4iitTn/Jr6D?=
+ =?us-ascii?Q?JpEAknOieJvWf6RCjkb1D2XHXt/b2Pz57EoUvqSLsXTspMH9+8e+87+Inawh?=
+ =?us-ascii?Q?fIi7Lotk2UaUN078v9uz0XLddnlYRqDk7NsqtSmNQykVoIb0MUOj2FJLAG6l?=
+ =?us-ascii?Q?ZU89ZOsncnoj+jHW6EVydeawjrWgOVibPfjQsBo7x+KjLmVvw5UbfcjNuzWV?=
+ =?us-ascii?Q?5b9ymaFVKJCma2CrWqxajOSq85FfU89PMXGqQmCxhgPJ7v0NXfJncBlvhDNb?=
+ =?us-ascii?Q?XJWtI1a+XgDfw4cHQr6Pv4NVfwdvgZSQRz+fGy9oERD1mdBgIEGGA6+e1kee?=
+ =?us-ascii?Q?2E6KyhSJdOFHmtOu8fpqN6L7Bmg2WjiH7ufTTAJN891e5FNDwQR2jWgiToEh?=
+ =?us-ascii?Q?IfqKximsZbp5aG9kGGr2RS+0mfVEYw5gZPK4lZRY?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADjXwjjPrhDF3hfPWKrXxCkJjwBJDfumFkAvCPg2gvOBme2sTA@mail.gmail.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2647.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a7cf557-375c-4443-7b91-08dbea018f3e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2023 19:47:42.1911
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XuSnCRpeR5N+dCOL0Ywyuz3Ef0zNTm/RTovvAvgaQFNkAB43FS/7FJ6RDOvyzgBB7yAeu/oy/5zeKvj5aRngiJ4L5hadBKIyjgDeacELdt8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4673
+X-OriginatorOrg: intel.com
 
-On Fri, Nov 17, 2023 at 11:44:41AM -0800, Coco Li wrote:
-> Spending some time setting up a clang17 compatible environment, will
-> update soon.
+> tree:   https://github.com/intel/tdx.git kvm-upstream-next
+> head:   90fec84219b5d2bf13e61f02777f6a44ab755bc4
+> commit: bf2a53c6d4d7151ace11879b20cacf6b07bdedcb [196/273] KVM: SEV: Refa=
+ctor common code out of
+> sev_vm_move_enc_context_from
+> config: x86_64-randconfig-161-20231117 (https://download.01.org/0day-ci/a=
+rchive/20231117/202311171500.e2f5AH17-
+> lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231117/202311171500=
+.e2f5AH17-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202311171500.e2f5AH17-lkp@intel.com/
+>=20
+> New smatch warnings:
+> arch/x86/kvm/x86.c:14007 pre_move_enc_context_from() warn: missing error =
+code 'ret'
+>=20
+> vim +/ret +14007 arch/x86/kvm/x86.c
+>=20
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13983  int pre_move_enc_context_fr=
+om(struct kvm *dst_kvm, struct kvm *src_kvm,
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13984  			      atomic_t *dst_migr=
+ation_in_progress,
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13985  			      atomic_t *src_migr=
+ation_in_progress)
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13986  {
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13987  	struct kvm_vcpu *src_vcpu;
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13988  	unsigned long i;
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13989  	int ret =3D -EINVAL;
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13990
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13991  	ret =3D lock_two_vms_for_m=
+igration(dst_kvm, src_kvm,
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13992  					 dst_migration_in_prog=
+ress,
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13993  					 src_migration_in_prog=
+ress);
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13994  	if (ret)
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13995  		return ret;
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13996
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13997  	ret =3D lock_vcpus_for_mig=
+ration(dst_kvm, MIGRATION_TARGET);
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13998  	if (ret)
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  13999  		goto unlock_vms;
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14000
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14001  	ret =3D lock_vcpus_for_mig=
+ration(src_kvm, MIGRATION_SOURCE);
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14002  	if (ret)
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14003  		goto unlock_dst_vcpu;
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14004
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14005  	if (atomic_read(&dst_kvm->=
+online_vcpus) !=3D
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14006  	    atomic_read(&src_kvm->=
+online_vcpus))
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07 @14007  		goto unlock_dst_vcpu;
+>=20
+> Missing error code?
+>=20
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14008
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14009  	kvm_for_each_vcpu(i, src_v=
+cpu, src_kvm) {
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14010  		if (!src_vcpu->arch.guest=
+_state_protected)
+> bf2a53c6d4d715 Sagi Shahar 2023-04-07  14011  			goto unlock_dst_vcpu;
+>=20
+> Here too.
 
-In case you have not seen it, I have prebuilt LLVM toolchains available
-on kernel.org that should make working in your current environment
-easier:
+Yes. I'll fix the patch on the next respin in my tree.
+Sagi, you'd like to fix your own tree.
 
-https://mirrors.edge.kernel.org/pub/tools/llvm/
-
-For example, I just tested with:
-
-  $ mkdir -p $HOME/toolchains
-
-  $ curl -LSs https://mirrors.edge.kernel.org/pub/tools/llvm/files/llvm-17.0.5-"$(uname -m)".tar.xz | tar -C $HOME/toolchains -xJf -
-
-  $ curl -LSso .config https://download.01.org/0day-ci/archive/20231116/202311162002.m26ObVLU-lkp@intel.com/config
-
-  $ make -skj"$(nproc)" ARCH=powerpc LLVM=$HOME/toolchains/llvm-17.0.5-"$(uname -m)"/bin/ olddefconfig net/core/dev.o
-  net/core/dev.c:11547:2: error: call to '__compiletime_assert_971' declared with 'error' attribute: BUILD_BUG_ON failed: offsetof(struct net_device, __cacheline_group_end__net_device_read_txrx) - offsetofend(struct net_device, __cacheline_group_begin__net_device_read_txrx) > 24
-   11547 |         CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_txrx, 24);
-         |         ^
-  include/linux/cache.h:108:2: note: expanded from macro 'CACHELINE_ASSERT_GROUP_SIZE'
-    108 |         BUILD_BUG_ON(offsetof(TYPE, __cacheline_group_end__##GROUP) - \
-        |         ^
-  include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-     50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-        |         ^
-  include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-     39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-        |                                     ^
-  note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-  include/linux/compiler_types.h:423:2: note: expanded from macro '_compiletime_assert'
-    423 |         __compiletime_assert(condition, msg, prefix, suffix)
-        |         ^
-  include/linux/compiler_types.h:416:4: note: expanded from macro '__compiletime_assert'
-    416 |                         prefix ## suffix();                             \
-        |                         ^
-  <scratch space>:11:1: note: expanded from here
-     11 | __compiletime_assert_971
-        | ^
-  1 error generated.
-
-See the Kbuild documentation if you have any other questions (or just
-ask me directly):
-
-https://kernel.org/doc/html/latest/kbuild/llvm.html
-
-Cheers,
-Nathan
-
-> On Thu, Nov 16, 2023 at 4:40 AM kernel test robot <lkp@intel.com> wrote:
-> >
-> > Hi Coco,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on net-next/main]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Coco-Li/Documentations-Analyze-heavily-used-Networking-related-structs/20231114-073648
-> > base:   net-next/main
-> > patch link:    https://lore.kernel.org/r/20231113233301.1020992-5-lixiaoyan%40google.com
-> > patch subject: [PATCH v7 net-next 4/5] net-device: reorganize net_device fast path variables
-> > config: powerpc-mpc8313_rdb_defconfig (https://download.01.org/0day-ci/archive/20231116/202311162002.m26ObVLU-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231116/202311162002.m26ObVLU-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202311162002.m26ObVLU-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    net/core/dev.c:4079:1: warning: unused function 'sch_handle_ingress' [-Wunused-function]
-> >     4079 | sch_handle_ingress(struct sk_buff *skb, struct packet_type **pt_prev, int *ret,
-> >          | ^
-> >    net/core/dev.c:4086:1: warning: unused function 'sch_handle_egress' [-Wunused-function]
-> >     4086 | sch_handle_egress(struct sk_buff *skb, int *ret, struct net_device *dev)
-> >          | ^
-> >    net/core/dev.c:5296:19: warning: unused function 'nf_ingress' [-Wunused-function]
-> >     5296 | static inline int nf_ingress(struct sk_buff *skb, struct packet_type **pt_prev,
-> >          |                   ^
-> > >> net/core/dev.c:11547:2: error: call to '__compiletime_assert_971' declared with 'error' attribute: BUILD_BUG_ON failed: offsetof(struct net_device, __cacheline_group_end__net_device_read_txrx) - offsetofend(struct net_device, __cacheline_group_begin__net_device_read_txrx) > 24
-> >     11547 |         CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_txrx, 24);
-> >           |         ^
-> >    include/linux/cache.h:108:2: note: expanded from macro 'CACHELINE_ASSERT_GROUP_SIZE'
-> >      108 |         BUILD_BUG_ON(offsetof(TYPE, __cacheline_group_end__##GROUP) - \
-> >          |         ^
-> >    include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-> >       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-> >          |         ^
-> >    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-> >       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-> >          |                                     ^
-> >    note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-> >    include/linux/compiler_types.h:423:2: note: expanded from macro '_compiletime_assert'
-> >      423 |         __compiletime_assert(condition, msg, prefix, suffix)
-> >          |         ^
-> >    include/linux/compiler_types.h:416:4: note: expanded from macro '__compiletime_assert'
-> >      416 |                         prefix ## suffix();                             \
-> >          |                         ^
-> >    <scratch space>:11:1: note: expanded from here
-> >       11 | __compiletime_assert_971
-> >          | ^
-> >    3 warnings and 1 error generated.
-> >
-> >
-> > vim +11547 net/core/dev.c
-> >
-> >  11515
-> >  11516  static void __init net_dev_struct_check(void)
-> >  11517  {
-> >  11518          /* TX read-mostly hotpath */
-> >  11519          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, priv_flags);
-> >  11520          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, netdev_ops);
-> >  11521          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, header_ops);
-> >  11522          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, _tx);
-> >  11523          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, real_num_tx_queues);
-> >  11524          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, gso_max_size);
-> >  11525          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, gso_ipv4_max_size);
-> >  11526          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, gso_max_segs);
-> >  11527          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, num_tc);
-> >  11528          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, mtu);
-> >  11529          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, needed_headroom);
-> >  11530          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, tc_to_txq);
-> >  11531  #ifdef CONFIG_XPS
-> >  11532          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, xps_maps);
-> >  11533  #endif
-> >  11534  #ifdef CONFIG_NETFILTER_EGRESS
-> >  11535          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, nf_hooks_egress);
-> >  11536  #endif
-> >  11537  #ifdef CONFIG_NET_XGRESS
-> >  11538          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, tcx_egress);
-> >  11539  #endif
-> >  11540          CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_tx, 152);
-> >  11541
-> >  11542          /* TXRX read-mostly hotpath */
-> >  11543          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_txrx, flags);
-> >  11544          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_txrx, hard_header_len);
-> >  11545          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_txrx, features);
-> >  11546          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_txrx, ip6_ptr);
-> >  11547          CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_txrx, 24);
-> >  11548
-> >  11549          /* RX read-mostly hotpath */
-> >  11550          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, ptype_specific);
-> >  11551          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, ifindex);
-> >  11552          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, real_num_rx_queues);
-> >  11553          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, _rx);
-> >  11554          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, gro_flush_timeout);
-> >  11555          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, napi_defer_hard_irqs);
-> >  11556          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, gro_max_size);
-> >  11557          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, gro_ipv4_max_size);
-> >  11558          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, rx_handler);
-> >  11559          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, rx_handler_data);
-> >  11560          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, nd_net);
-> >  11561  #ifdef CONFIG_NETPOLL
-> >  11562          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, npinfo);
-> >  11563  #endif
-> >  11564  #ifdef CONFIG_NET_XGRESS
-> >  11565          CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_rx, tcx_ingress);
-> >  11566  #endif
-> >  11567          CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_rx, 96);
-> >  11568  }
-> >  11569
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 71a50d905ecf..97f406051396 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -14147,7 +14147,7 @@ int pre_move_enc_context_from(struct kvm *dst_kvm, =
+struct kvm *src_kvm,
+ {
+        struct kvm_vcpu *src_vcpu;
+        unsigned long i;
+-       int ret =3D -EINVAL;
++       int ret;
+=20
+        ret =3D lock_two_vms_for_migration(dst_kvm, src_kvm,
+                                         dst_migration_in_progress,
+@@ -14164,12 +14164,16 @@ int pre_move_enc_context_from(struct kvm *dst_kvm=
+, struct kvm *src_kvm,
+                goto unlock_dst_vcpu;
+=20
+        if (atomic_read(&dst_kvm->online_vcpus) !=3D
+-           atomic_read(&src_kvm->online_vcpus))
++           atomic_read(&src_kvm->online_vcpus)) {
++               ret =3D -EINVAL;
+                goto unlock_dst_vcpu;
++       }
+=20
+        kvm_for_each_vcpu(i, src_vcpu, src_kvm) {
+-               if (!src_vcpu->arch.guest_state_protected)
++               if (!src_vcpu->arch.guest_state_protected) {
++                       ret =3D -EINVAL;
+                        goto unlock_dst_vcpu;
++               }
+        }
+=20
+        return 0;
