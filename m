@@ -1,136 +1,85 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E96C1DFF1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 16:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABE46FBD;
+	Mon, 20 Nov 2023 16:40:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QwFeY/3/"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40891d38e3fso15553905e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 08:18:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700497105; x=1701101905; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s2521BguFPahNtQVt5gNlkIeY96EJfle3B8C9Si+c40=;
-        b=QwFeY/3/65T1ha+a5I0mf+3vmwc/qNsx6Den/UvSIfpA0V4Fi+s4/vBlKv+EoU3Yfz
-         5GQ2YWtN5DXbhG00a/WdDJjj3JT4lm5v6xM/LPtPKscYXGb324zTVCbnLrTtE6sfKU41
-         9pPsJ4FFlCqNZHBwDVl8/Z9lawdxNy9ss0m1cxT4W+xYPSm/cXD8IyBguUHE9psejA1/
-         NEFyoswSeW/R3cvjBBuVNx/pDHeEg2hfprnVZcpkmyV67CBrLBMIkHuMki3djv42YPqR
-         VTVOz2YrewL1gpvlcwKwkcn4H66ig+4Qb9Fm2Mdl8lOp5f3vWzvM7t+ARUmgAFg01UEm
-         jvqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700497105; x=1701101905;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s2521BguFPahNtQVt5gNlkIeY96EJfle3B8C9Si+c40=;
-        b=K/Xs5uqb7AVHsCd9Rbm7RGgA+l5NpKGcfBcSrg06LrBexP5elCAhU+y/Nj0Z6G+F4m
-         M031/QrsVAGoPj8w3IwU9WCEEk2/b+oUM9ULyJoRyKrgRQd9T+DJ/fLSxOzXQ0d1Xm46
-         HakMSLIQe9wdtohrNlodRC12Z5TIo08SaW01VTFE2L5iVbUTwMTXMv++neHQNvDtuaBr
-         rCUnuge/TDT1WFeNhPRbjTcqgRg/geS9LZbPcA/R/sY/A2XjsycCWAMaEFF+KHZXW+Md
-         FgQh2Rf3L6We1jy1o+7Ir0+PG4G2gTIB4bKpqHDyEDCiaJqimgNuVKS/eZEoZsNw4Vyd
-         PJZg==
-X-Gm-Message-State: AOJu0YwvNhUdQWjePKRTEdRyCSkwlAp0KRklZP0ZcVexZv/ainH7ILPo
-	nB3OjLgv+Ewk+XotyBbnJrGNBQ==
-X-Google-Smtp-Source: AGHT+IHAsnwJrZVQ1CLosctT8NZ/oMBKh372TupzsBQCbJOFIiiLfuJ04UvThrOcL0L28mcMcWZTsg==
-X-Received: by 2002:a05:600c:3b9d:b0:40a:6235:e82d with SMTP id n29-20020a05600c3b9d00b0040a6235e82dmr5088555wms.15.1700497105146;
-        Mon, 20 Nov 2023 08:18:25 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id 1-20020a05600c230100b003fefb94ccc9sm13665281wmo.11.2023.11.20.08.18.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 08:18:24 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 11:18:21 -0500
-To: oe-kbuild@lists.linux.dev, James Tai <james.tai@realtek.com>,
-	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the
- Realtek common interrupt controller driver
-Message-ID: <a045008a-5a97-4903-b5e4-a761f7e4c20a@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I7BgsxLu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 400A7C433C9;
+	Mon, 20 Nov 2023 16:40:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700498448;
+	bh=sYRcaSv4OeRhNDn8QMt+macnnrBAtvVPBWJoKpPRQdo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=I7BgsxLuyPuDatCSJFrWBe0PLuznybO3fQ82hI2yTSAWA5OzzgGFW7jnBaNKxqUaD
+	 BN6mXwVRFN1lkWe9ygLcMavufFhoUtFOH5MGGAcYgv3a7vDA8yY5zOod7Ylt6zSr1J
+	 lSM16qzACSQ4+GPzzDR8MYo/SBo99h1+Zqm7mX83A11tKzuZhmwxBIH/Wf/W/O06CL
+	 w7CupDty2n8OksYI7d/N4HjkQr0EDxRkoZbQEpQs36dHkiKxuiJKLtVWDghmc4Ae0J
+	 4fmDn5WqQy8UhVtZO+caNvBaQx0J3F6PDXCC/mDhaBkFwQFC4VsOR2TYfQUqqPvnTb
+	 PkmDqWuAn1vvw==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5079f9ec8d9so4774883e87.0;
+        Mon, 20 Nov 2023 08:40:48 -0800 (PST)
+X-Gm-Message-State: AOJu0Yx42tspBNlCwsCDc/UU7lV65Ur4U7Hg5iuUCk6vMtiAYB7iVBHH
+	SSZ8H14vPeiGWwO4Y+wdN181QlraiYQNEmkNsw==
+X-Google-Smtp-Source: AGHT+IGmnaSAOJGLyNAgBnyK75675UzVOPLA/nFVz3XU4+moE+VP8Rtp/+08vh8aIAOmtp+34WURZx2Eg5B/NSaVUzU=
+X-Received: by 2002:a05:6512:3b26:b0:50a:a6ea:405f with SMTP id
+ f38-20020a0565123b2600b0050aa6ea405fmr11339lfv.4.1700498446437; Mon, 20 Nov
+ 2023 08:40:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231117162709.1096585-4-james.tai@realtek.com>
+References: <202311191205.EDRfQlJF-lkp@intel.com>
+In-Reply-To: <202311191205.EDRfQlJF-lkp@intel.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 20 Nov 2023 09:40:34 -0700
+X-Gmail-Original-Message-ID: <CAL_JsqJvUXhXNsHp20V_baeRhKjvsqmiMB9w99p6j167ZViRcQ@mail.gmail.com>
+Message-ID: <CAL_JsqJvUXhXNsHp20V_baeRhKjvsqmiMB9w99p6j167ZViRcQ@mail.gmail.com>
+Subject: Re: [linux-next:master 1467/1905] drivers/hwmon/nct6775-i2c.c:164:15:
+ warning: cast to smaller integer type 'enum kinds' from 'const void *'
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi James,
+On Sat, Nov 18, 2023 at 9:10=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   eff99d8edbed7918317331ebd1e365d8e955d65e
+> commit: 0a7093e69c1eb508d699d6076013706b0c523597 [1467/1905] hwmon: nct67=
+75-i2c: Use i2c_get_match_data()
+> config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/2023=
+1119/202311191205.EDRfQlJF-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
+ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20231119/202311191205.EDRfQlJF-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311191205.EDRfQlJF-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> drivers/hwmon/nct6775-i2c.c:164:15: warning: cast to smaller integer t=
+ype 'enum kinds' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+>            data->kind =3D (enum kinds)i2c_get_match_data(client);
+>                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    1 warning generated.
 
-kernel test robot noticed the following build warnings:
+I thought I had fixed all these...
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+However, there's also been discussion[1] to turn this warning off.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Tai/dt-bindings-interrupt-controller-Add-support-for-Realtek-DHC-SoCs/20231118-003036
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20231117162709.1096585-4-james.tai%40realtek.com
-patch subject: [PATCH v2 3/6] irqchip: Introduce RTD1319 support using the Realtek common interrupt controller driver
-config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231120/202311201929.2FpvMRlg-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231120/202311201929.2FpvMRlg-lkp@intel.com/reproduce)
+Rob
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311201929.2FpvMRlg-lkp@intel.com/
-
-smatch warnings:
-drivers/irqchip/irq-realtek-intc-common.c:179 realtek_intc_probe() warn: ignoring unreachable code.
-drivers/irqchip/irq-realtek-intc-common.c:187 realtek_intc_probe() warn: 'data->base' from of_iomap() not released on lines: 176,182.
-
-vim +179 drivers/irqchip/irq-realtek-intc-common.c
-
-40e5ff4eaef72b James Tai 2023-11-18  155  int realtek_intc_probe(struct platform_device *pdev, const struct realtek_intc_info *info)
-40e5ff4eaef72b James Tai 2023-11-18  156  {
-40e5ff4eaef72b James Tai 2023-11-18  157  	struct realtek_intc_data *data;
-40e5ff4eaef72b James Tai 2023-11-18  158  	struct device *dev = &pdev->dev;
-40e5ff4eaef72b James Tai 2023-11-18  159  	struct device_node *node = dev->of_node;
-40e5ff4eaef72b James Tai 2023-11-18  160  	int ret, i;
-40e5ff4eaef72b James Tai 2023-11-18  161  
-40e5ff4eaef72b James Tai 2023-11-18  162  	data = devm_kzalloc(dev, struct_size(data, subset_data, info->cfg_num), GFP_KERNEL);
-40e5ff4eaef72b James Tai 2023-11-18  163  	if (!data)
-40e5ff4eaef72b James Tai 2023-11-18  164  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  165  
-40e5ff4eaef72b James Tai 2023-11-18  166  	data->base = of_iomap(node, 0);
-40e5ff4eaef72b James Tai 2023-11-18  167  	if (!data->base)
-40e5ff4eaef72b James Tai 2023-11-18  168  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  169  
-40e5ff4eaef72b James Tai 2023-11-18  170  	data->info = info;
-40e5ff4eaef72b James Tai 2023-11-18  171  
-40e5ff4eaef72b James Tai 2023-11-18  172  	raw_spin_lock_init(&data->lock);
-40e5ff4eaef72b James Tai 2023-11-18  173  
-40e5ff4eaef72b James Tai 2023-11-18  174  	data->domain = irq_domain_add_linear(node, 32, &realtek_intc_domain_ops, data);
-40e5ff4eaef72b James Tai 2023-11-18  175  	if (!data->domain)
-40e5ff4eaef72b James Tai 2023-11-18  176  		return -ENOMEM;
-40e5ff4eaef72b James Tai 2023-11-18  177  
-40e5ff4eaef72b James Tai 2023-11-18  178  	data->subset_data_num = info->cfg_num;
-40e5ff4eaef72b James Tai 2023-11-18 @179  	for (i = 0; i < info->cfg_num; i++) {
-40e5ff4eaef72b James Tai 2023-11-18  180  		ret = realtek_intc_subset(node, data, i);
-40e5ff4eaef72b James Tai 2023-11-18  181  		WARN(ret, "failed to init subset %d: %d", i, ret);
-40e5ff4eaef72b James Tai 2023-11-18  182  		return -ENOMEM;
-
-This loop just returns -ENOMEM.  Missing if statement?
-No clean up either.  Needs to release resources before returning.
-
-40e5ff4eaef72b James Tai 2023-11-18  183  	}
-40e5ff4eaef72b James Tai 2023-11-18  184  
-40e5ff4eaef72b James Tai 2023-11-18  185  	platform_set_drvdata(pdev, data);
-40e5ff4eaef72b James Tai 2023-11-18  186  
-40e5ff4eaef72b James Tai 2023-11-18 @187  	return 0;
-40e5ff4eaef72b James Tai 2023-11-18  188  }
-40e5ff4eaef72b James Tai 2023-11-18  189  EXPORT_SYMBOL(realtek_intc_probe);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+[1] https://lore.kernel.org/all/CAKwvOd=3D1otHgNkJf7wBajDrGmRNQduvR5ie_XgJM=
+PPWT6+n_mQ@mail.gmail.com/
