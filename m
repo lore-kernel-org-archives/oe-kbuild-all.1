@@ -1,49 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5572DEAEF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 10:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB4F14A87
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 11:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VlXZt2cn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700477713; x=1732013713;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ug9Id+CrjTX7bb6MLdd1T5KMsUuapzU6zXA3yPTOnNM=;
-  b=VlXZt2cnteZMAf2DxGfcTJEyf0B3EEMqatJsF4j9eQeAe3HtpRBIXB/4
-   S9uTRyhmPe1+92R8TePvLxcfVY5SdXus7/Fzxv4WoV1s5pQPvVO3RB4CW
-   qXGctu9uBIw6AfEUObOUJXGN1NzZ7okha+864aSmCZ2Ms5q3AxgNpLb3a
-   mbCWJBWdZhCm5QDwnve7yvfffiSGPM4paAXkbOqL6U2y+E0fNnoXMRZ1h
-   6Msa0Dl91QVRFANQdLyTvAfaM/rRYi0OJLe4fEiGqmX3QoMzLxZ7HpOKe
-   Fbp3uuDv/yO+Pz7S/1IWm4X1UqmxQCy5L/ecwqkjsy/O/S3MuYWZEyMXm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="455921353"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="455921353"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 02:55:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="836712256"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="836712256"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Nov 2023 02:55:10 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r51vo-0006Nd-1e;
-	Mon, 20 Nov 2023 10:55:08 +0000
-Date: Mon, 20 Nov 2023 18:54:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/070-audio 11/105] kismet: WARNING: unmet direct
- dependencies detected for APPLE_ADMAC when selected by
- SND_SOC_APPLE_MACAUDIO
-Message-ID: <202311201832.388YMmxu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dpC0WWZ3"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40839652b97so13427215e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 03:31:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700479882; x=1701084682; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4KNEt5I1ZtkPToMD8d2NEwITwgnPqvD6+p6NguzcVqQ=;
+        b=dpC0WWZ3dA1PBJJ5YBrZW24/qGk04MVgvDe5ZEH+8XQ3x7bJ9pFy4RyyRXqNuL03no
+         9sSmpn6VdZspiqbugJ8VzlAsF+skiWWR/1TNE7+1LE2gEeqDqEhlvleBFqIBl4g3QNrv
+         OIE3FRdhUa5lQVQDdy8Rp/ss3AYH2V9FcaSHKS78AqQl5HnEEEWwMd0vluf/eNFR9xh9
+         BKDGh+elE793MljduiDnQhNiNT6xdYT99xysou4eDPBHfEUZ7RjF3W4jG5uGCBd5h+Qi
+         IOklPc20o4SAZc7EXE/633pRGVx57qPFtMJ7Vkr7TAefGfEYuRQRYNFuLPv+Es61LBs5
+         4QvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700479882; x=1701084682;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4KNEt5I1ZtkPToMD8d2NEwITwgnPqvD6+p6NguzcVqQ=;
+        b=jOQglybCuB5Hoz8sWbfs+K321emuAUcoQR59KMGFjn+lfAQ3bk2HCl6Rjf+Nb9W4Gk
+         wbmWDhhwOkivz9M4RRmTZACWqirRfEpkLiPyob2IG3SSsZC71bfEXiGGH7UwXy9p76eP
+         DfEGOEDST2+c6jjf0kmijedT1NWoZtrMeodM5teJoGKIYM0X3ApcJdEVYYI20Mu1L9Zg
+         6IDi5kM2wXj+uX6OIU574foJDE0ShIMRZemhKAP3gM2tUyv4m06qkknBqI70MF3mHAnV
+         GGaqCaq5JlWrYYACHWYBYdVHuE5lf+D4PT1ZEnDmoTBk8ndfqCM2U7ezqzV6wDiPluCm
+         CvHw==
+X-Gm-Message-State: AOJu0YwXnAZUAFF3vTZ15QIIXxnrZ8HMov8tiEJ9/QheewZNYccuKgjZ
+	vm4xyBfYLgRFBUbwG870DX2Qrdrg6C6mPKkw8XU=
+X-Google-Smtp-Source: AGHT+IGV9nwmrpO82YyxRsAgO5AMe/MOgSLUJJqDmB+XqcoiDICMqgHg2MbPcYkt4WTCYdAoOCqRSA==
+X-Received: by 2002:a05:600c:4587:b0:40a:437e:30fe with SMTP id r7-20020a05600c458700b0040a437e30femr6074667wmo.24.1700479881994;
+        Mon, 20 Nov 2023 03:31:21 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id h20-20020a05600c30d400b004060f0a0fdbsm17178337wmn.41.2023.11.20.03.31.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 03:31:21 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Mon, 20 Nov 2023 06:31:18 -0500
+To: oe-kbuild@lists.linux.dev, Johannes Berg <johannes@sipsolutions.net>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/6] debugfs: fix automount d_fsdata usage
+Message-ID: <5c59da09-c04a-4727-9265-58976ac13a45@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,46 +56,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231109222251.9e54cb55c700.I64fe5615568e87f9ae2d7fb2ac4e5fa96924cb50@changeid>
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   1c71b1fa2c491cc29c94d29f1a450dba39f27557
-commit: c58ceb13a4c2cc59f093a06dfd9ce4804826264c [11/105] ASoC: apple: Add macaudio machine driver
-config: alpha-kismet-CONFIG_APPLE_ADMAC-CONFIG_SND_SOC_APPLE_MACAUDIO-0-0 (https://download.01.org/0day-ci/archive/20231120/202311201832.388YMmxu-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20231120/202311201832.388YMmxu-lkp@intel.com/reproduce)
+Hi Johannes,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/debugfs-fix-automount-d_fsdata-usage/20231110-054024
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20231109222251.9e54cb55c700.I64fe5615568e87f9ae2d7fb2ac4e5fa96924cb50%40changeid
+patch subject: [RFC PATCH 1/6] debugfs: fix automount d_fsdata usage
+config: i386-randconfig-141-20231111 (https://download.01.org/0day-ci/archive/20231111/202311110653.cItFLCy6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231111/202311110653.cItFLCy6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311201832.388YMmxu-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311110653.cItFLCy6-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for APPLE_ADMAC when selected by SND_SOC_APPLE_MACAUDIO
-   
-   WARNING: unmet direct dependencies detected for SND_SOC_CS42L83
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && I2C [=n]
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
-   
-   WARNING: unmet direct dependencies detected for APPLE_ADMAC
-     Depends on [n]: DMADEVICES [=n] && (ARCH_APPLE || COMPILE_TEST [=y])
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
-   
-   WARNING: unmet direct dependencies detected for SND_SOC_TAS2770
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && I2C [=n]
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
-   
-   WARNING: unmet direct dependencies detected for SND_SOC_TAS2764
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && I2C [=n]
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
-   
-   WARNING: unmet direct dependencies detected for COMMON_CLK_APPLE_NCO
-     Depends on [n]: COMMON_CLK [=n] && (ARCH_APPLE || COMPILE_TEST [=y])
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
+New smatch warnings:
+fs/debugfs/inode.c:655 debugfs_create_automount() warn: possible memory leak of 'fsd'
+
+vim +/fsd +655 fs/debugfs/inode.c
+
+77b3da6e3232d3 Al Viro            2015-01-25  633  struct dentry *debugfs_create_automount(const char *name,
+77b3da6e3232d3 Al Viro            2015-01-25  634  					struct dentry *parent,
+93faccbbfa958a Eric W. Biederman  2017-02-01  635  					debugfs_automount_t f,
+77b3da6e3232d3 Al Viro            2015-01-25  636  					void *data)
+77b3da6e3232d3 Al Viro            2015-01-25  637  {
+77b3da6e3232d3 Al Viro            2015-01-25  638  	struct dentry *dentry = start_creating(name, parent);
+3e1dead436f419 Johannes Berg      2023-11-09  639  	struct debugfs_fsdata *fsd;
+77b3da6e3232d3 Al Viro            2015-01-25  640  	struct inode *inode;
+77b3da6e3232d3 Al Viro            2015-01-25  641  
+77b3da6e3232d3 Al Viro            2015-01-25  642  	if (IS_ERR(dentry))
+ff9fb72bc07705 Greg Kroah-Hartman 2019-01-23  643  		return dentry;
+77b3da6e3232d3 Al Viro            2015-01-25  644  
+3e1dead436f419 Johannes Berg      2023-11-09  645  	fsd = kzalloc(sizeof(*fsd), GFP_KERNEL);
+3e1dead436f419 Johannes Berg      2023-11-09  646  	if (!fsd) {
+3e1dead436f419 Johannes Berg      2023-11-09  647  		failed_creating(dentry);
+3e1dead436f419 Johannes Berg      2023-11-09  648  		return ERR_PTR(-ENOMEM);
+3e1dead436f419 Johannes Berg      2023-11-09  649  	}
+3e1dead436f419 Johannes Berg      2023-11-09  650  
+3e1dead436f419 Johannes Berg      2023-11-09  651  	fsd->automount = f;
+3e1dead436f419 Johannes Berg      2023-11-09  652  
+a24c6f7bc923d5 Peter Enderborg    2020-07-16  653  	if (!(debugfs_allow & DEBUGFS_ALLOW_API)) {
+a24c6f7bc923d5 Peter Enderborg    2020-07-16  654  		failed_creating(dentry);
+a24c6f7bc923d5 Peter Enderborg    2020-07-16 @655  		return ERR_PTR(-EPERM);
+
+kfree(fsd);
+
+a24c6f7bc923d5 Peter Enderborg    2020-07-16  656  	}
+a24c6f7bc923d5 Peter Enderborg    2020-07-16  657  
+77b3da6e3232d3 Al Viro            2015-01-25  658  	inode = debugfs_get_inode(dentry->d_sb);
+43e23b6c0b0151 Greg Kroah-Hartman 2019-07-03  659  	if (unlikely(!inode)) {
+43e23b6c0b0151 Greg Kroah-Hartman 2019-07-03  660  		pr_err("out of free dentries, can not create automount '%s'\n",
+43e23b6c0b0151 Greg Kroah-Hartman 2019-07-03  661  		       name);
+77b3da6e3232d3 Al Viro            2015-01-25  662  		return failed_creating(dentry);
+43e23b6c0b0151 Greg Kroah-Hartman 2019-07-03  663  	}
+77b3da6e3232d3 Al Viro            2015-01-25  664  
+87243deb88671f Seth Forshee       2016-03-09  665  	make_empty_dir_inode(inode);
+77b3da6e3232d3 Al Viro            2015-01-25  666  	inode->i_flags |= S_AUTOMOUNT;
+77b3da6e3232d3 Al Viro            2015-01-25  667  	inode->i_private = data;
+3e1dead436f419 Johannes Berg      2023-11-09  668  	dentry->d_fsdata = fsd;
+a8f324a46fbe54 Roman Pen          2016-02-09  669  	/* directory inodes start off with i_nlink == 2 (for "." entry) */
+a8f324a46fbe54 Roman Pen          2016-02-09  670  	inc_nlink(inode);
+77b3da6e3232d3 Al Viro            2015-01-25  671  	d_instantiate(dentry, inode);
+a8f324a46fbe54 Roman Pen          2016-02-09  672  	inc_nlink(d_inode(dentry->d_parent));
+a8f324a46fbe54 Roman Pen          2016-02-09  673  	fsnotify_mkdir(d_inode(dentry->d_parent), dentry);
+77b3da6e3232d3 Al Viro            2015-01-25  674  	return end_creating(dentry);
+77b3da6e3232d3 Al Viro            2015-01-25  675  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
