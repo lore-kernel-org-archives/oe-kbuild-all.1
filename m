@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE837134B1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 10:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52096134B0;
+	Mon, 20 Nov 2023 10:32:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X0uiWDTa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8n0rpMK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700476223; x=1732012223;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=QEpkLRHWnsCnveDh6HwOpmt2fvh85bdL1197FHqfyn8=;
-  b=X0uiWDTa1Mw0wpZPOpA1++AYURhIhQQgRbdKLEUZs0xaF4u/IzJ8uY9d
-   ExPJCRmG8sbIIUwMD6IIAfDbH+Sq9ppGID/rJr7ITBo1jFvXckrZBzJmX
-   +Ud06zobIw8Rz9NO4tWMvUxp4/qV1lyA0jZGtT2Rr4tO3zsnzLqvX9Iyh
-   mcaVPzC5M4hUPXc345PwpLgQpFyX7JksCWyLrQmsvZg9Ug5dA9QSk9evJ
-   NLWtMOE93JnTeP0NDOZTZNjSv24LVh0Hh5lBZWGSL8ZSvfkbcXVsOOiET
-   qNYk27CStd9JDPTo77/Y86RSAiylQXw+s6TO2SGyYeWDn6/p1NiqsAK3d
+  t=1700476352; x=1732012352;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ywRsmRUzuJdLlCTjeuJHtRBSm+sGyVxn8YL3h99U0ZA=;
+  b=T8n0rpMKK4WxZl/xHf+dg/v0WNOCk295j4XtLP97tkxO/YtsTH1o3BcX
+   OVyuzgFTdEEqRc3T41Nroyl9loBBZ1xDDTByt9GBWnYF1rIQOX2P19QSR
+   vzsTjBCumiPeNZHea0v7GAZH46pFfBepPUj04QJVFPWUVgID0qlf6Wb2G
+   +3N8Ek6s1xJuD2+ber+wmlD/DuQIt1VJEyHptgzIfiM0VLJ64xovSs0gO
+   1CoiLKIkQJi4tXQ/XLb4Pevuu/1bPMkCbkmY6v/QTM9qTnEt/wAzEp9r+
+   bXIOa8wZC8fnrTWSMsYz+iwIXXZPpJejj52q+Zj7wyzgL6hvS4NnDkn/Y
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="390451604"
+X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="381983093"
 X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="390451604"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 02:30:22 -0800
+   d="scan'208";a="381983093"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 02:32:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="856948170"
 X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="856948170"
+   d="scan'208";a="14104664"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Nov 2023 02:30:21 -0800
+  by orviesa001.jf.intel.com with ESMTP; 20 Nov 2023 02:32:30 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r51Xn-0006Mb-1E;
-	Mon, 20 Nov 2023 10:30:19 +0000
-Date: Mon, 20 Nov 2023 18:29:19 +0800
+	id 1r51Zq-0006Mf-23;
+	Mon, 20 Nov 2023 10:32:26 +0000
+Date: Mon, 20 Nov 2023 18:31:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumanth Korikkar <sumanthk@linux.ibm.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] mm/memory_hotplug: fix error handling in
- add_memory_resource()
-Message-ID: <ZVs0_ynk1NqtKm3n@c8a6e835e09c>
+To: Matthew Sakai <msakai@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dm-devel@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
+	"J. corwin Coburn" <corwin@hurlbutnet.net>,
+	John Wiele <jwiele@redhat.com>
+Subject: [device-mapper-dm:dm-vdo 45/51] ld.lld: error: undefined symbol:
+ vdo_initialize_layout
+Message-ID: <202311201808.GSxJeVFR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,23 +51,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120102734.2001576-3-sumanthk@linux.ibm.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git dm-vdo
+head:   19b93e634cff09b45c7825804ff65ed4b58b631f
+commit: 07ca0024cbfae90b461baa0a4cd0a6081d2cd4bd [45/51] dm vdo: enable configuration and building of dm-vdo
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20231120/202311201808.GSxJeVFR-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311201808.GSxJeVFR-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311201808.GSxJeVFR-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2 2/3] mm/memory_hotplug: fix error handling in add_memory_resource()
-Link: https://lore.kernel.org/stable/20231120102734.2001576-3-sumanthk%40linux.ibm.com
+>> ld.lld: error: undefined symbol: vdo_initialize_layout
+   >>> referenced by dm-vdo-target.c
+   >>>               drivers/md/dm-vdo-target.o:(vdo_ctr) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
