@@ -1,53 +1,47 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53661B286
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 13:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3110D1B287
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 13:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aZeLns4I"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-32faea0fa1fso2551520f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 05:52:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700488326; x=1701093126; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bULnLIE2eDMfxcHiHhS5j+oGOLRe3aK0Qz+32l5e634=;
-        b=aZeLns4IW9bIsw1IafySg3ajM9HyzPiB0hQJ7oDBYrT4t5rMk8MFf0vMzDBewqgfGd
-         iVu3ZGHhRA01uCkJtZyt+enysdy5OXkwFdY/TC2lwQpcw3kKasQAXqOA36J/Qwci++rx
-         KgiCSHY+F5cxWq07Z/A9waicpeZKCLd5dJotldJh/If7L9ptPYUjaInWwrEQhg13NugW
-         1dNSERAX5QwfR9lgJ4b8YHjag4pLomU6jDNNxf/GUi1cgWlRx755oM/pnrdsGzyY85Kt
-         zsIQ7Qf1jzx67wBfcUpedq9S6TktYAt3A8eAtjXwjy4Z5Zma+LgkmyeRIj3l/AJsjcqo
-         B2DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700488326; x=1701093126;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bULnLIE2eDMfxcHiHhS5j+oGOLRe3aK0Qz+32l5e634=;
-        b=aM5DiXkhTI6ixf3y7qvJ8GnFyjgGR+aBQzBcosJqilSBBcc9i2f8h6KrP1XoPEcxjf
-         y/afAxrc7FwxWIc/OayOaJMJCSCAazdp0BQT8uXeyC5rjPb1TNAkc6RXxMSi0AftnIDc
-         IUEtf29OadnR6/yvwgw0bru+12xIFtzwN6A2zdUREM2JMp7RAiC5FUPMr/8+QZ8V3Eg1
-         5PTDIt5c3SYel1iCi1lJysyxdqC24L5/VIFTAcTibrAbTvFWF0uviGdFABk5qqnyOCmT
-         Z4nPA1S5XlwciZkjtEEf0tEmfQD+ZwPq0mIagquGYFIJF5VXJaLvKAnlGWagcvWlqke3
-         Hvig==
-X-Gm-Message-State: AOJu0YwqYN9kVn4Od6BfEO0xVnMr4Km0K4TzRr1TUm3dFPdkxdZVFE6B
-	rYYodZumn7V2DeYFw9ND324UhA==
-X-Google-Smtp-Source: AGHT+IH2yEh07EdzWqsuK4qg2AB7rLyys/z0uuKef1YCL8GQoowN9H/h8EVsRIwPFSpLvfK5FE+Cqw==
-X-Received: by 2002:a05:6000:18ae:b0:32f:dd2f:9b93 with SMTP id b14-20020a05600018ae00b0032fdd2f9b93mr13482199wri.9.1700488325633;
-        Mon, 20 Nov 2023 05:52:05 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m3-20020adffa03000000b00323293bd023sm11295420wrr.6.2023.11.20.05.52.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 05:52:05 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 20 Nov 2023 08:52:02 -0500
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 21/62] mm/page-writeback.c:2511
- write_cache_folios() error: uninitialized symbol 'nr'.
-Message-ID: <1c4f7d84-7158-43ac-aed3-13237c63ad3a@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUNHNdNj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700488542; x=1732024542;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jQLXsXotpCnDtYSLSfZgjOpAUxc8PjoOMMKrz0Mm5iI=;
+  b=mUNHNdNjY788jVYFnDWgExFH1/KAp3UvJpraaNLfM6zXfI3rrcbnP1o9
+   D043hbihPXs+/BEGrpOfrmpHRILDwTlQ77ko8qdHZHA9990lps6W/lyHE
+   eNs+c8d+iCJG9dG5WqbIQLZpm8L9Ow2feQ1HTZ7+yymjgfacPsA2sPk9D
+   G4E2yK52hmxNqsI8r5OyS0GAPS6MV8fqtxj+UTzVJOgzQq7a7ffn+0YPq
+   +3qrdB4Ec2MMzdkKJOIqdto6XpNU3/Xc2arQfqzzEQGYndNf6bve6Gsux
+   Ar98kMBFBbCr5E+jOh0mNIVSRjkvk63ovYblBOFdp93NQ8CVSYuZYq8TK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="4739434"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="4739434"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 05:55:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="742733508"
+X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
+   d="scan'208";a="742733508"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 20 Nov 2023 05:55:39 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r54kT-0006VR-14;
+	Mon, 20 Nov 2023 13:55:37 +0000
+Date: Mon, 20 Nov 2023 21:54:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:dma-ops-cleanup 4/8] sound/core/memalloc.c:551:15: error:
+ call to undeclared function 'get_dma_ops'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202311202137.N9JNMLe9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,183 +51,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   6ec42a9924d444c5fa6db0af13383a7009f550b6
-commit: 7fe1517b3ffc7ba7c550c79c029c4a6400140f5d [21/62] writeback: optionally submit pending data when blocking in write_cache_pages
-config: i386-randconfig-141-20231119 (https://download.01.org/0day-ci/archive/20231119/202311192253.GU1i7dEt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231119/202311192253.GU1i7dEt-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git dma-ops-cleanup
+head:   5ab735c803b75be08ec98ef185b2df10bf41475a
+commit: 5b95bda81e5c3a8365de492b8bb19a65591c5df4 [4/8] dma-mapping: make get_dma_ops private
+config: i386-buildonly-randconfig-002-20231120 (https://download.01.org/0day-ci/archive/20231120/202311202137.N9JNMLe9-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311202137.N9JNMLe9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311192253.GU1i7dEt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311202137.N9JNMLe9-lkp@intel.com/
 
-New smatch warnings:
-mm/page-writeback.c:2511 write_cache_folios() error: uninitialized symbol 'nr'.
+All errors (new ones prefixed by >>):
 
-vim +/nr +2511 mm/page-writeback.c
+>> sound/core/memalloc.c:551:15: error: call to undeclared function 'get_dma_ops'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           if (!sgt && !get_dma_ops(dmab->dev.dev))
+                        ^
+   sound/core/memalloc.c:551:15: note: did you mean 'set_dma_ops'?
+   include/linux/dma-map-ops.h:88:20: note: 'set_dma_ops' declared here
+   static inline void set_dma_ops(struct device *dev,
+                      ^
+   1 error generated.
+--
+>> kernel/dma/ops_helpers.c:64:34: error: call to undeclared function 'get_dma_ops'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           const struct dma_map_ops *ops = get_dma_ops(dev);
+                                           ^
+   kernel/dma/ops_helpers.c:64:34: note: did you mean 'set_dma_ops'?
+   include/linux/dma-map-ops.h:88:20: note: 'set_dma_ops' declared here
+   static inline void set_dma_ops(struct device *dev,
+                      ^
+>> kernel/dma/ops_helpers.c:64:28: error: incompatible integer to pointer conversion initializing 'const struct dma_map_ops *' with an expression of type 'int' [-Wint-conversion]
+           const struct dma_map_ops *ops = get_dma_ops(dev);
+                                     ^     ~~~~~~~~~~~~~~~~
+   kernel/dma/ops_helpers.c:87:34: error: call to undeclared function 'get_dma_ops'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           const struct dma_map_ops *ops = get_dma_ops(dev);
+                                           ^
+   kernel/dma/ops_helpers.c:87:28: error: incompatible integer to pointer conversion initializing 'const struct dma_map_ops *' with an expression of type 'int' [-Wint-conversion]
+           const struct dma_map_ops *ops = get_dma_ops(dev);
+                                     ^     ~~~~~~~~~~~~~~~~
+   4 errors generated.
+--
+>> kernel/dma/mapping.c:121:9: error: call to undeclared function 'get_arch_dma_ops'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           return get_arch_dma_ops();
+                  ^
+   kernel/dma/mapping.c:121:9: note: did you mean 'get_dma_ops'?
+   kernel/dma/mapping.c:117:41: note: 'get_dma_ops' declared here
+   static inline const struct dma_map_ops *get_dma_ops(struct device *dev)
+                                           ^
+>> kernel/dma/mapping.c:121:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'const struct dma_map_ops *' [-Wint-conversion]
+           return get_arch_dma_ops();
+                  ^~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2397  int write_cache_folios(struct address_space *mapping,
-0ea97180162518 Miklos Szeredi             2007-05-10  2398  		struct writeback_control *wbc, writepage_t writepage,
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2399  		wp_submit_t submit, void *data)
-811d736f9e8013 David Howells              2006-08-29  2400  {
-811d736f9e8013 David Howells              2006-08-29  2401  	int ret = 0;
-811d736f9e8013 David Howells              2006-08-29  2402  	int done = 0;
-3fa750dcf29e86 Brian Foster               2018-12-28  2403  	int error;
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2404) 	struct folio_batch fbatch;
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2405) 	int nr_folios;
-811d736f9e8013 David Howells              2006-08-29  2406  	pgoff_t index;
-811d736f9e8013 David Howells              2006-08-29  2407  	pgoff_t end;		/* Inclusive */
-bd19e012f6fd3b Nicholas Piggin            2009-01-06  2408  	pgoff_t done_index;
-811d736f9e8013 David Howells              2006-08-29  2409  	int range_whole = 0;
-ff9c745b81ff1e Matthew Wilcox             2017-11-22  2410  	xa_mark_t tag;
-811d736f9e8013 David Howells              2006-08-29  2411  
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2412) 	folio_batch_init(&fbatch);
-811d736f9e8013 David Howells              2006-08-29  2413  	if (wbc->range_cyclic) {
-28659cc8cc8766 Chao Yu                    2020-06-01  2414  		index = mapping->writeback_index; /* prev offset */
-811d736f9e8013 David Howells              2006-08-29  2415  		end = -1;
-811d736f9e8013 David Howells              2006-08-29  2416  	} else {
-09cbfeaf1a5a67 Kirill A. Shutemov         2016-04-01  2417  		index = wbc->range_start >> PAGE_SHIFT;
-09cbfeaf1a5a67 Kirill A. Shutemov         2016-04-01  2418  		end = wbc->range_end >> PAGE_SHIFT;
-811d736f9e8013 David Howells              2006-08-29  2419  		if (wbc->range_start == 0 && wbc->range_end == LLONG_MAX)
-811d736f9e8013 David Howells              2006-08-29  2420  			range_whole = 1;
-811d736f9e8013 David Howells              2006-08-29  2421  	}
-cc7b8f6245f004 Mauricio Faria de Oliveira 2020-04-01  2422  	if (wbc->sync_mode == WB_SYNC_ALL || wbc->tagged_writepages) {
-cc7b8f6245f004 Mauricio Faria de Oliveira 2020-04-01  2423  		tag_pages_for_writeback(mapping, index, end);
-f446daaea9d4a4 Jan Kara                   2010-08-09  2424  		tag = PAGECACHE_TAG_TOWRITE;
-cc7b8f6245f004 Mauricio Faria de Oliveira 2020-04-01  2425  	} else {
-f446daaea9d4a4 Jan Kara                   2010-08-09  2426  		tag = PAGECACHE_TAG_DIRTY;
-cc7b8f6245f004 Mauricio Faria de Oliveira 2020-04-01  2427  	}
-bd19e012f6fd3b Nicholas Piggin            2009-01-06  2428  	done_index = index;
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2429  	while (!done && (index <= end)) {
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2430  		int i;
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2431  
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2432) 		nr_folios = filemap_get_folios_tag(mapping, &index, end,
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2433) 				tag, &fbatch);
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2434) 
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2435) 		if (nr_folios == 0)
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2436  			break;
-811d736f9e8013 David Howells              2006-08-29  2437  
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2438) 		for (i = 0; i < nr_folios; i++) {
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2439) 			struct folio *folio = fbatch.folios[i];
-8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28  2440) 			unsigned long nr;
-811d736f9e8013 David Howells              2006-08-29  2441  
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2442) 			done_index = folio->index;
-d5482cdf8a0aac Nicholas Piggin            2009-01-06  2443  
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2444  			if (submit) {
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2445  				if (!folio_trylock(folio)) {
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2446  					error = submit(mapping, wbc, data);
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2447  					if (error)
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2448  						goto handle_error;
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2449  					folio_lock(folio);
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2450  				}
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2451  			} else {
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2452) 				folio_lock(folio);
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2453  			}
-811d736f9e8013 David Howells              2006-08-29  2454  
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2455  			/*
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2456  			 * Page truncated or invalidated. We can freely skip it
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2457  			 * then, even for data integrity operations: the page
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2458  			 * has disappeared concurrently, so there could be no
-f0953a1bbaca71 Ingo Molnar                2021-05-06  2459  			 * real expectation of this data integrity operation
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2460  			 * even if there is now a new, dirty page at the same
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2461  			 * pagecache address.
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2462  			 */
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2463) 			if (unlikely(folio->mapping != mapping)) {
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2464  continue_unlock:
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2465) 				folio_unlock(folio);
-811d736f9e8013 David Howells              2006-08-29  2466  				continue;
-811d736f9e8013 David Howells              2006-08-29  2467  			}
-811d736f9e8013 David Howells              2006-08-29  2468  
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2469) 			if (!folio_test_dirty(folio)) {
-515f4a037fb9ab Nicholas Piggin            2009-01-06  2470  				/* someone wrote it for us */
-515f4a037fb9ab Nicholas Piggin            2009-01-06  2471  				goto continue_unlock;
-515f4a037fb9ab Nicholas Piggin            2009-01-06  2472  			}
-515f4a037fb9ab Nicholas Piggin            2009-01-06  2473  
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2474) 			if (folio_test_writeback(folio)) {
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2475  				if (wbc->sync_mode == WB_SYNC_NONE)
-515f4a037fb9ab Nicholas Piggin            2009-01-06  2476  					goto continue_unlock;
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2477  				if (submit) {
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2478  					error = submit(mapping, wbc, data);
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2479  					if (error)
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2480  						goto handle_error;
 
-"nr" is uninitialized on this path.
+vim +/get_dma_ops +551 sound/core/memalloc.c
 
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2481  				}
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2482  				folio_wait_writeback(folio);
-515f4a037fb9ab Nicholas Piggin            2009-01-06  2483  			}
-811d736f9e8013 David Howells              2006-08-29  2484  
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2485) 			BUG_ON(folio_test_writeback(folio));
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2486) 			if (!folio_clear_dirty_for_io(folio))
-5a3d5c9813db56 Nicholas Piggin            2009-01-06  2487  				goto continue_unlock;
-811d736f9e8013 David Howells              2006-08-29  2488  
-de1414a654e66b Christoph Hellwig          2015-01-14  2489  			trace_wbc_writepage(wbc, inode_to_bdi(mapping->host));
-d585bdbeb79aa1 Matthew Wilcox (Oracle     2023-01-26  2490) 			error = writepage(folio, wbc, data);
-8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28  2491) 			nr = folio_nr_pages(folio);
-3fa750dcf29e86 Brian Foster               2018-12-28  2492  			if (unlikely(error)) {
-7fe1517b3ffc7b Christoph Hellwig          2023-10-25  2493  handle_error:
-3fa750dcf29e86 Brian Foster               2018-12-28  2494  				/*
-3fa750dcf29e86 Brian Foster               2018-12-28  2495  				 * Handle errors according to the type of
-3fa750dcf29e86 Brian Foster               2018-12-28  2496  				 * writeback. There's no need to continue for
-3fa750dcf29e86 Brian Foster               2018-12-28  2497  				 * background writeback. Just push done_index
-3fa750dcf29e86 Brian Foster               2018-12-28  2498  				 * past this page so media errors won't choke
-3fa750dcf29e86 Brian Foster               2018-12-28  2499  				 * writeout for the entire file. For integrity
-3fa750dcf29e86 Brian Foster               2018-12-28  2500  				 * writeback, we must process the entire dirty
-3fa750dcf29e86 Brian Foster               2018-12-28  2501  				 * set regardless of errors because the fs may
-3fa750dcf29e86 Brian Foster               2018-12-28  2502  				 * still have state to clear for each page. In
-3fa750dcf29e86 Brian Foster               2018-12-28  2503  				 * that case we continue processing and return
-3fa750dcf29e86 Brian Foster               2018-12-28  2504  				 * the first error.
-3fa750dcf29e86 Brian Foster               2018-12-28  2505  				 */
-3fa750dcf29e86 Brian Foster               2018-12-28  2506  				if (error == AOP_WRITEPAGE_ACTIVATE) {
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2507) 					folio_unlock(folio);
-3fa750dcf29e86 Brian Foster               2018-12-28  2508  					error = 0;
-3fa750dcf29e86 Brian Foster               2018-12-28  2509  				} else if (wbc->sync_mode != WB_SYNC_ALL) {
-3fa750dcf29e86 Brian Foster               2018-12-28  2510  					ret = error;
-8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28 @2511) 					done_index = folio->index + nr;
+a25684a956468e Takashi Iwai      2021-10-17  535  
+a25684a956468e Takashi Iwai      2021-10-17  536  /*
+a25684a956468e Takashi Iwai      2021-10-17  537   * Non-contiguous pages allocator
+a25684a956468e Takashi Iwai      2021-10-17  538   */
+a25684a956468e Takashi Iwai      2021-10-17  539  static void *snd_dma_noncontig_alloc(struct snd_dma_buffer *dmab, size_t size)
+a25684a956468e Takashi Iwai      2021-10-17  540  {
+a25684a956468e Takashi Iwai      2021-10-17  541  	struct sg_table *sgt;
+a25684a956468e Takashi Iwai      2021-10-17  542  	void *p;
+a25684a956468e Takashi Iwai      2021-10-17  543  
+53466ebdec614f Takashi Iwai      2023-01-25  544  #ifdef CONFIG_SND_DMA_SGBUF
+53466ebdec614f Takashi Iwai      2023-01-25  545  	if (cpu_feature_enabled(X86_FEATURE_XENPV))
+53466ebdec614f Takashi Iwai      2023-01-25  546  		return snd_dma_sg_fallback_alloc(dmab, size);
+53466ebdec614f Takashi Iwai      2023-01-25  547  #endif
+9d8e536d36e75e Takashi Iwai      2022-11-12  548  	sgt = dma_alloc_noncontiguous(dmab->dev.dev, size, dmab->dev.dir,
+db918321275d64 Christoph Hellwig 2022-12-20  549  				      DEFAULT_GFP, 0);
+925ca893b4a651 Takashi Iwai      2022-04-13  550  #ifdef CONFIG_SND_DMA_SGBUF
+53466ebdec614f Takashi Iwai      2023-01-25 @551  	if (!sgt && !get_dma_ops(dmab->dev.dev))
+925ca893b4a651 Takashi Iwai      2022-04-13  552  		return snd_dma_sg_fallback_alloc(dmab, size);
+9736a325137b62 Takashi Iwai      2022-11-10  553  #endif
+9736a325137b62 Takashi Iwai      2022-11-10  554  	if (!sgt)
+9736a325137b62 Takashi Iwai      2022-11-10  555  		return NULL;
+925ca893b4a651 Takashi Iwai      2022-04-13  556  
+8e1741c658996a Takashi Iwai      2022-02-10  557  	dmab->dev.need_sync = dma_need_sync(dmab->dev.dev,
+8e1741c658996a Takashi Iwai      2022-02-10  558  					    sg_dma_address(sgt->sgl));
+a25684a956468e Takashi Iwai      2021-10-17  559  	p = dma_vmap_noncontiguous(dmab->dev.dev, size, sgt);
+37137ec26c2c03 Takashi Iwai      2022-09-06  560  	if (p) {
+a25684a956468e Takashi Iwai      2021-10-17  561  		dmab->private_data = sgt;
+37137ec26c2c03 Takashi Iwai      2022-09-06  562  		/* store the first page address for convenience */
+37137ec26c2c03 Takashi Iwai      2022-09-06  563  		dmab->addr = snd_sgbuf_get_addr(dmab, 0);
+37137ec26c2c03 Takashi Iwai      2022-09-06  564  	} else {
+a25684a956468e Takashi Iwai      2021-10-17  565  		dma_free_noncontiguous(dmab->dev.dev, size, sgt, dmab->dev.dir);
+37137ec26c2c03 Takashi Iwai      2022-09-06  566  	}
+a25684a956468e Takashi Iwai      2021-10-17  567  	return p;
+a25684a956468e Takashi Iwai      2021-10-17  568  }
+a25684a956468e Takashi Iwai      2021-10-17  569  
 
-Potentially uninitialized depending on what submit() returns.
+:::::: The code at line 551 was first introduced by commit
+:::::: 53466ebdec614f915c691809b0861acecb941e30 ALSA: memalloc: Workaround for Xen PV
 
-00266770b8b3a6 Nicholas Piggin            2009-01-06  2512  					done = 1;
-00266770b8b3a6 Nicholas Piggin            2009-01-06  2513  					break;
-e423003028183d Andrew Morton              2007-10-16  2514  				}
-3fa750dcf29e86 Brian Foster               2018-12-28  2515  				if (!ret)
-3fa750dcf29e86 Brian Foster               2018-12-28  2516  					ret = error;
-00266770b8b3a6 Nicholas Piggin            2009-01-06  2517  			}
-00266770b8b3a6 Nicholas Piggin            2009-01-06  2518  
-dcf6a79dda5cc2 Artem Bityutskiy           2009-02-02  2519  			/*
-546a1924224078 Dave Chinner               2010-08-24  2520  			 * We stop writing back only if we are not doing
-546a1924224078 Dave Chinner               2010-08-24  2521  			 * integrity sync. In case of integrity sync we have to
-546a1924224078 Dave Chinner               2010-08-24  2522  			 * keep going until we have written all the pages
-546a1924224078 Dave Chinner               2010-08-24  2523  			 * we tagged for writeback prior to entering this loop.
-dcf6a79dda5cc2 Artem Bityutskiy           2009-02-02  2524  			 */
-8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28  2525) 			wbc->nr_to_write -= nr;
-8344a3d44be3d1 Matthew Wilcox (Oracle     2023-06-28  2526) 			if (wbc->nr_to_write <= 0 &&
-546a1924224078 Dave Chinner               2010-08-24  2527  			    wbc->sync_mode == WB_SYNC_NONE) {
-811d736f9e8013 David Howells              2006-08-29  2528  				done = 1;
-82fd1a9a8ced96 Andrew Morton              2009-01-06  2529  				break;
-82fd1a9a8ced96 Andrew Morton              2009-01-06  2530  			}
-89e1219004b365 Federico Cuello            2009-02-11  2531  		}
-0fff435f060c8b Vishal Moola (Oracle       2023-01-04  2532) 		folio_batch_release(&fbatch);
-811d736f9e8013 David Howells              2006-08-29  2533  		cond_resched();
-811d736f9e8013 David Howells              2006-08-29  2534  	}
-64081362e8ff45 Dave Chinner               2018-10-26  2535  
-811d736f9e8013 David Howells              2006-08-29  2536  	/*
-64081362e8ff45 Dave Chinner               2018-10-26  2537  	 * If we hit the last page and there is more work to be done: wrap
-64081362e8ff45 Dave Chinner               2018-10-26  2538  	 * back the index back to the start of the file for the next
-64081362e8ff45 Dave Chinner               2018-10-26  2539  	 * time we are called.
-811d736f9e8013 David Howells              2006-08-29  2540  	 */
-64081362e8ff45 Dave Chinner               2018-10-26  2541  	if (wbc->range_cyclic && !done)
-64081362e8ff45 Dave Chinner               2018-10-26  2542  		done_index = 0;
-0b5649278e39a0 Dave Chinner               2010-06-09  2543  	if (wbc->range_cyclic || (range_whole && wbc->nr_to_write > 0))
-bd19e012f6fd3b Nicholas Piggin            2009-01-06  2544  		mapping->writeback_index = done_index;
-06d6cf6959d220 Aneesh Kumar K.V           2008-07-11  2545  
-811d736f9e8013 David Howells              2006-08-29  2546  	return ret;
-811d736f9e8013 David Howells              2006-08-29  2547  }
+:::::: TO: Takashi Iwai <tiwai@suse.de>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
