@@ -1,55 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B668F101E1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 23:37:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573BE1D6A9;
+	Mon, 20 Nov 2023 23:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i4Sc6cTt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VK4HaVtd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700523423; x=1732059423;
+  t=1700523604; x=1732059604;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Cxz6UjMDz/60vN8qZ38jsSzHRChcXc2xRatWwl7/9MY=;
-  b=i4Sc6cTtPLGgl3iJrdvAMKD+ULRctN8Ix13j/d0qZheFP0hrQUfI3BRD
-   pnZsW7lKv3UdAa5NfcZDD+BRG6senGsJErJcenGfDPtFa6cZq4f5J/Igb
-   YZGWwrZT//qHEYKdJLzfA7R4R9FRjgs1MEFUlzKB2KTSRj3/tAaKiGXit
-   PLbLhHSCpe48eutszncPc+zmf6eOnPB6AEhxeYEVp/qm6pOmKD0HKZyJ1
-   lnRdIW7/SYXR71JIpgnkL6RGHE8SCiBhKJLz1j4piMrTn+l08j6oOTlcx
-   0TT01uUmk+bABKTs6AY5onGACuzSF0bfHgjexJfsW1a3/Gaz3QaQrxq7l
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="371067518"
+  bh=gp1wbrJ6oJSN+w/KtUYVHSAUTDc/TxqBc/emsqqKEac=;
+  b=VK4HaVtdTI04YNV7OG+VhzykzHWE9MLZO7otT6sfoLwuG55lSQ5AhKnF
+   0/XVodWH50tVbvHU2KTiBPzm01Uar+Ah9UaVZj2FpHOkVGH94iJQISJVn
+   6gS6HnjMIdPYWx6R0oHEKoXym9Sn/cb9nxVC79aX/ALT6jc/fZ29RMmnM
+   AktO6m/Dbdwq2TMHc/d6yqySAm3fGAsfGnLYJJkGhOuVD92WqKdkgK7Ig
+   m0CM3V38wbqQ+6rco9LC9jwQ6lH2UfX1/dQ2ydh22pVQsytdrCtUzqX/G
+   PBVEtPONzOm7K9hrELZf/kcBnfJq4nDAnfkIcxTJGw/5KeN5VqpoDItlJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="371067855"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="371067518"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 15:37:01 -0800
+   d="scan'208";a="371067855"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 15:40:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="832440922"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="910279769"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="832440922"
+   d="scan'208";a="910279769"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Nov 2023 15:36:58 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 20 Nov 2023 15:40:00 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5Dp1-00074A-1T;
-	Mon, 20 Nov 2023 23:36:55 +0000
-Date: Tue, 21 Nov 2023 07:36:30 +0800
+	id 1r5Drx-00074E-16;
+	Mon, 20 Nov 2023 23:39:57 +0000
+Date: Tue, 21 Nov 2023 07:39:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	linux-security-module <linux-security-module@vger.kernel.org>,
-	bpf <bpf@vger.kernel.org>, KP Singh <kpsingh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Moore <paul@paul-moore.com>,
-	Kees Cook <keescook@chromium.org>,
-	Casey Schaufler <casey@schaufler-ca.com>, song@kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Alexei Starovoitov <ast@kernel.org>, renauld@google.com,
-	Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH 4/4] LSM: Add a LSM module which handles dynamically
- appendable LSM hooks.
-Message-ID: <202311210740.Mxc4WM7v-lkp@intel.com>
-References: <34be5cd8-1fdd-4323-82a3-40f2e7d35db3@I-love.SAKURA.ne.jp>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [rft, PATCH v1 1/1] pinctrl: qcom: lpass-lpi: Remove unused
+ member in struct lpi_pingroup
+Message-ID: <202311210748.H9kflJ6K-lkp@intel.com>
+References: <20231120193353.1670732-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,246 +59,203 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <34be5cd8-1fdd-4323-82a3-40f2e7d35db3@I-love.SAKURA.ne.jp>
+In-Reply-To: <20231120193353.1670732-1-andriy.shevchenko@linux.intel.com>
 
-Hi Tetsuo,
+Hi Andy,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf/master]
-[also build test ERROR on pcmoore-audit/next pcmoore-selinux/next linus/master v6.7-rc2]
-[cannot apply to bpf-next/master next-20231120]
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next linus/master v6.7-rc2 next-20231120]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tetsuo-Handa/LSM-Auto-undef-LSM_HOOK-macro/20231120-214522
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/34be5cd8-1fdd-4323-82a3-40f2e7d35db3%40I-love.SAKURA.ne.jp
-patch subject: [PATCH 4/4] LSM: Add a LSM module which handles dynamically appendable LSM hooks.
-config: arc-randconfig-002-20231121 (https://download.01.org/0day-ci/archive/20231121/202311210740.Mxc4WM7v-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311210740.Mxc4WM7v-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-qcom-lpass-lpi-Remove-unused-member-in-struct-lpi_pingroup/20231121-034448
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20231120193353.1670732-1-andriy.shevchenko%40linux.intel.com
+patch subject: [rft, PATCH v1 1/1] pinctrl: qcom: lpass-lpi: Remove unused member in struct lpi_pingroup
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231121/202311210748.H9kflJ6K-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311210748.H9kflJ6K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311210740.Mxc4WM7v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311210748.H9kflJ6K-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> security/security.c:784:13: warning: no previous prototype for 'security_bprm_check_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:114:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     114 | LSM_PLAIN_INT_HOOK(int, 0, bprm_check_security, struct linux_binprm *bprm)
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_sb_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:123:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     123 | LSM_PLAIN_INT_HOOK(int, 0, sb_alloc_security, struct super_block *sb)
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:799:14: warning: no previous prototype for 'security_sb_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:125:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     125 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, sb_free_security, struct super_block *sb)
-         | ^~~~~~~~~~~~~~~~~~~
->> security/security.c:799:14: warning: no previous prototype for 'security_sb_free_mnt_opts' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:126:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     126 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, sb_free_mnt_opts, void *mnt_opts)
-         | ^~~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_inode_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:174:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     174 | LSM_PLAIN_INT_HOOK(int, 0, inode_alloc_security, struct inode *inode)
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:799:14: warning: no previous prototype for 'security_inode_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:175:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     175 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, inode_free_security, struct inode *inode)
-         | ^~~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_file_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:231:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     231 | LSM_PLAIN_INT_HOOK(int, 0, file_alloc_security, struct file *file)
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:799:14: warning: no previous prototype for 'security_file_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:232:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     232 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, file_free_security, struct file *file)
-         | ^~~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_cred_prepare' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:254:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     254 | LSM_PLAIN_INT_HOOK(int, 0, cred_prepare, struct cred *new, const struct cred *old,
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_msg_msg_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:300:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     300 | LSM_PLAIN_INT_HOOK(int, 0, msg_msg_alloc_security, struct msg_msg *msg)
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:799:14: warning: no previous prototype for 'security_msg_msg_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:301:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     301 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, msg_msg_free_security, struct msg_msg *msg)
-         | ^~~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_msg_queue_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:302:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     302 | LSM_PLAIN_INT_HOOK(int, 0, msg_queue_alloc_security, struct kern_ipc_perm *perm)
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:799:14: warning: no previous prototype for 'security_msg_queue_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:303:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     303 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, msg_queue_free_security,
-         | ^~~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_shm_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:311:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     311 | LSM_PLAIN_INT_HOOK(int, 0, shm_alloc_security, struct kern_ipc_perm *perm)
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:799:14: warning: no previous prototype for 'security_shm_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:312:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     312 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, shm_free_security, struct kern_ipc_perm *perm)
-         | ^~~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_sem_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:317:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     317 | LSM_PLAIN_INT_HOOK(int, 0, sem_alloc_security, struct kern_ipc_perm *perm)
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:799:14: warning: no previous prototype for 'security_sem_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:318:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     318 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, sem_free_security, struct kern_ipc_perm *perm)
-         | ^~~~~~~~~~~~~~~~~~~
->> security/security.c:799:14: warning: no previous prototype for 'security_sk_getsecid' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:381:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     381 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, sk_getsecid, const struct sock *sk, u32 *secid)
-         | ^~~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_xfrm_policy_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:420:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     420 | LSM_PLAIN_INT_HOOK(int, 0, xfrm_policy_alloc_security, struct xfrm_sec_ctx **ctxp,
-         | ^~~~~~~~~~~~~~~~~~
->> security/security.c:784:13: warning: no previous prototype for 'security_xfrm_policy_clone_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:422:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     422 | LSM_PLAIN_INT_HOOK(int, 0, xfrm_policy_clone_security, struct xfrm_sec_ctx *old_ctx,
-         | ^~~~~~~~~~~~~~~~~~
-   security/security.c:799:14: warning: no previous prototype for 'security_xfrm_policy_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:424:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     424 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, xfrm_policy_free_security,
-         | ^~~~~~~~~~~~~~~~~~~
-   security/security.c:784:13: warning: no previous prototype for 'security_xfrm_policy_delete_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:426:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     426 | LSM_PLAIN_INT_HOOK(int, 0, xfrm_policy_delete_security, struct xfrm_sec_ctx *ctx)
-         | ^~~~~~~~~~~~~~~~~~
-   security/security.c:799:14: warning: no previous prototype for 'security_xfrm_state_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:431:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     431 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, xfrm_state_free_security, struct xfrm_state *x)
-         | ^~~~~~~~~~~~~~~~~~~
-   security/security.c:784:13: warning: no previous prototype for 'security_xfrm_state_delete_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:432:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     432 | LSM_PLAIN_INT_HOOK(int, 0, xfrm_state_delete_security, struct xfrm_state *x)
-         | ^~~~~~~~~~~~~~~~~~
-   security/security.c:784:13: error: conflicting types for 'security_xfrm_decode_session'; have 'int(struct sk_buff *, u32 *, int)' {aka 'int(struct sk_buff *, unsigned int *, int)'}
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:436:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     436 | LSM_PLAIN_INT_HOOK(int, 0, xfrm_decode_session, struct sk_buff *skb, u32 *secid,
-         | ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/lsm_hooks.h:28,
-                    from security/security.c:21:
-   include/linux/security.h:1753:5: note: previous declaration of 'security_xfrm_decode_session' with type 'int(struct sk_buff *, u32 *)' {aka 'int(struct sk_buff *, unsigned int *)'}
-    1753 | int security_xfrm_decode_session(struct sk_buff *skb, u32 *secid);
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/security.c:784:13: warning: no previous prototype for 'security_bpf_map_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:462:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     462 | LSM_PLAIN_INT_HOOK(int, 0, bpf_map_alloc_security, struct bpf_map *map)
-         | ^~~~~~~~~~~~~~~~~~
-   security/security.c:799:14: warning: no previous prototype for 'security_bpf_map_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:463:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     463 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, bpf_map_free_security, struct bpf_map *map)
-         | ^~~~~~~~~~~~~~~~~~~
-   security/security.c:784:13: warning: no previous prototype for 'security_bpf_prog_alloc_security' [-Wmissing-prototypes]
-     784 |         int security_##NAME(__VA_ARGS__)                                \
-         |             ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:464:1: note: in expansion of macro 'LSM_PLAIN_INT_HOOK'
-     464 | LSM_PLAIN_INT_HOOK(int, 0, bpf_prog_alloc_security, struct bpf_prog_aux *aux)
-         | ^~~~~~~~~~~~~~~~~~
-   security/security.c:799:14: warning: no previous prototype for 'security_bpf_prog_free_security' [-Wmissing-prototypes]
-     799 |         void security_##NAME(__VA_ARGS__)                               \
-         |              ^~~~~~~~~
-   include/linux/lsm_hook_defs.h:465:1: note: in expansion of macro 'LSM_PLAIN_VOID_HOOK'
-     465 | LSM_PLAIN_VOID_HOOK(void, LSM_RET_VOID, bpf_prog_free_security, struct bpf_prog_aux *aux)
-         | ^~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:55:12: warning: unused variable 'gpio0_pins' [-Wunused-variable]
+   static int gpio0_pins[] = { 0 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:56:12: warning: unused variable 'gpio1_pins' [-Wunused-variable]
+   static int gpio1_pins[] = { 1 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:57:12: warning: unused variable 'gpio2_pins' [-Wunused-variable]
+   static int gpio2_pins[] = { 2 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:58:12: warning: unused variable 'gpio3_pins' [-Wunused-variable]
+   static int gpio3_pins[] = { 3 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:59:12: warning: unused variable 'gpio4_pins' [-Wunused-variable]
+   static int gpio4_pins[] = { 4 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:60:12: warning: unused variable 'gpio5_pins' [-Wunused-variable]
+   static int gpio5_pins[] = { 5 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:61:12: warning: unused variable 'gpio6_pins' [-Wunused-variable]
+   static int gpio6_pins[] = { 6 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:62:12: warning: unused variable 'gpio7_pins' [-Wunused-variable]
+   static int gpio7_pins[] = { 7 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:63:12: warning: unused variable 'gpio8_pins' [-Wunused-variable]
+   static int gpio8_pins[] = { 8 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:64:12: warning: unused variable 'gpio9_pins' [-Wunused-variable]
+   static int gpio9_pins[] = { 9 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:65:12: warning: unused variable 'gpio10_pins' [-Wunused-variable]
+   static int gpio10_pins[] = { 10 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:66:12: warning: unused variable 'gpio11_pins' [-Wunused-variable]
+   static int gpio11_pins[] = { 11 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:67:12: warning: unused variable 'gpio12_pins' [-Wunused-variable]
+   static int gpio12_pins[] = { 12 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:68:12: warning: unused variable 'gpio13_pins' [-Wunused-variable]
+   static int gpio13_pins[] = { 13 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:69:12: warning: unused variable 'gpio14_pins' [-Wunused-variable]
+   static int gpio14_pins[] = { 14 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:70:12: warning: unused variable 'gpio15_pins' [-Wunused-variable]
+   static int gpio15_pins[] = { 15 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:71:12: warning: unused variable 'gpio16_pins' [-Wunused-variable]
+   static int gpio16_pins[] = { 16 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:72:12: warning: unused variable 'gpio17_pins' [-Wunused-variable]
+   static int gpio17_pins[] = { 17 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:73:12: warning: unused variable 'gpio18_pins' [-Wunused-variable]
+   static int gpio18_pins[] = { 18 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:74:12: warning: unused variable 'gpio19_pins' [-Wunused-variable]
+   static int gpio19_pins[] = { 19 };
+              ^
+   drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:75:12: warning: unused variable 'gpio20_pins' [-Wunused-variable]
+   static int gpio20_pins[] = { 20 };
+              ^
+   drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:76:12: warning: unused variable 'gpio21_pins' [-Wunused-variable]
+   static int gpio21_pins[] = { 21 };
+              ^
+   drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:77:12: warning: unused variable 'gpio22_pins' [-Wunused-variable]
+   static int gpio22_pins[] = { 22 };
+              ^
+   23 warnings generated.
+--
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:57:12: warning: unused variable 'gpio0_pins' [-Wunused-variable]
+   static int gpio0_pins[] = { 0 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:58:12: warning: unused variable 'gpio1_pins' [-Wunused-variable]
+   static int gpio1_pins[] = { 1 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:59:12: warning: unused variable 'gpio2_pins' [-Wunused-variable]
+   static int gpio2_pins[] = { 2 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:60:12: warning: unused variable 'gpio3_pins' [-Wunused-variable]
+   static int gpio3_pins[] = { 3 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:61:12: warning: unused variable 'gpio4_pins' [-Wunused-variable]
+   static int gpio4_pins[] = { 4 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:62:12: warning: unused variable 'gpio5_pins' [-Wunused-variable]
+   static int gpio5_pins[] = { 5 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:63:12: warning: unused variable 'gpio6_pins' [-Wunused-variable]
+   static int gpio6_pins[] = { 6 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:64:12: warning: unused variable 'gpio7_pins' [-Wunused-variable]
+   static int gpio7_pins[] = { 7 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:65:12: warning: unused variable 'gpio8_pins' [-Wunused-variable]
+   static int gpio8_pins[] = { 8 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:66:12: warning: unused variable 'gpio9_pins' [-Wunused-variable]
+   static int gpio9_pins[] = { 9 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:67:12: warning: unused variable 'gpio10_pins' [-Wunused-variable]
+   static int gpio10_pins[] = { 10 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:68:12: warning: unused variable 'gpio11_pins' [-Wunused-variable]
+   static int gpio11_pins[] = { 11 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:69:12: warning: unused variable 'gpio12_pins' [-Wunused-variable]
+   static int gpio12_pins[] = { 12 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:70:12: warning: unused variable 'gpio13_pins' [-Wunused-variable]
+   static int gpio13_pins[] = { 13 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:71:12: warning: unused variable 'gpio14_pins' [-Wunused-variable]
+   static int gpio14_pins[] = { 14 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:72:12: warning: unused variable 'gpio15_pins' [-Wunused-variable]
+   static int gpio15_pins[] = { 15 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:73:12: warning: unused variable 'gpio16_pins' [-Wunused-variable]
+   static int gpio16_pins[] = { 16 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:74:12: warning: unused variable 'gpio17_pins' [-Wunused-variable]
+   static int gpio17_pins[] = { 17 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:75:12: warning: unused variable 'gpio18_pins' [-Wunused-variable]
+   static int gpio18_pins[] = { 18 };
+              ^
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:76:12: warning: unused variable 'gpio19_pins' [-Wunused-variable]
+   static int gpio19_pins[] = { 19 };
+              ^
+   drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:77:12: warning: unused variable 'gpio20_pins' [-Wunused-variable]
+   static int gpio20_pins[] = { 20 };
+              ^
+   drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:78:12: warning: unused variable 'gpio21_pins' [-Wunused-variable]
+   static int gpio21_pins[] = { 21 };
+              ^
+   drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:79:12: warning: unused variable 'gpio22_pins' [-Wunused-variable]
+   static int gpio22_pins[] = { 22 };
+              ^
+   23 warnings generated.
 
 
-vim +784 security/security.c
+vim +/gpio0_pins +55 drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c
 
-   781	
-   782	#include <linux/lsm_hook_args.h>
-   783	#define LSM_PLAIN_INT_HOOK(RET, DEFAULT, NAME, ...)			\
- > 784		int security_##NAME(__VA_ARGS__)				\
-   785		{								\
-   786			struct security_hook_list *P;				\
-   787										\
-   788			hlist_for_each_entry(P, &security_hook_heads.NAME, list) { \
-   789				int RC = P->hook.NAME(LSM_CALL_ARGS_##NAME);	\
-   790										\
-   791				if (RC != DEFAULT)				\
-   792					return RC;				\
-   793			}							\
-   794			return DEFAULT;						\
-   795		}
-   796	#define LSM_CUSTOM_INT_HOOK(RET, DEFAULT, NAME, ...) DECLARE_LSM_RET_DEFAULT_int(DEFAULT, NAME)
-   797	#define LSM_SPECIAL_INT_HOOK(RET, DEFAULT, NAME, ...) DECLARE_LSM_RET_DEFAULT_int(DEFAULT, NAME)
-   798	#define LSM_PLAIN_VOID_HOOK(RET, DEFAULT, NAME, ...)			\
- > 799		void security_##NAME(__VA_ARGS__)				\
-   800		{								\
-   801			struct security_hook_list *P;				\
-   802										\
-   803			hlist_for_each_entry(P, &security_hook_heads.NAME, list) \
-   804				P->hook.NAME(LSM_CALL_ARGS_##NAME);		\
-   805		}
-   806	#define LSM_CUSTOM_VOID_HOOK(RET, DEFAULT, NAME, ...)
-   807	#define LSM_SPECIAL_VOID_HOOK(RET, DEFAULT, NAME, ...)
-   808	#include <linux/lsm_hook_defs.h>
-   809	
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03  54  
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @55  static int gpio0_pins[] = { 0 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @56  static int gpio1_pins[] = { 1 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @57  static int gpio2_pins[] = { 2 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @58  static int gpio3_pins[] = { 3 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @59  static int gpio4_pins[] = { 4 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @60  static int gpio5_pins[] = { 5 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @61  static int gpio6_pins[] = { 6 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @62  static int gpio7_pins[] = { 7 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @63  static int gpio8_pins[] = { 8 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @64  static int gpio9_pins[] = { 9 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @65  static int gpio10_pins[] = { 10 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @66  static int gpio11_pins[] = { 11 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @67  static int gpio12_pins[] = { 12 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @68  static int gpio13_pins[] = { 13 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @69  static int gpio14_pins[] = { 14 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @70  static int gpio15_pins[] = { 15 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @71  static int gpio16_pins[] = { 16 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @72  static int gpio17_pins[] = { 17 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @73  static int gpio18_pins[] = { 18 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @74  static int gpio19_pins[] = { 19 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @75  static int gpio20_pins[] = { 20 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @76  static int gpio21_pins[] = { 21 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @77  static int gpio22_pins[] = { 22 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03  78  
 
 -- 
 0-DAY CI Kernel Test Service
