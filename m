@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2542F3B2B8;
-	Mon, 20 Nov 2023 23:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7EF180
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 00:03:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ThPn1wwH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O16FvLsh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700523667; x=1732059667;
+  t=1700525000; x=1732061000;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=on1VkK/ckQrjQ7/gZOs2HBXM/dnxe8jUZZQUZoBRg2k=;
-  b=ThPn1wwHxKmNXMC0i4wquu7Tc9mXOVln2Fl9ps4VZnzbAt6FoZYY4VNz
-   o7xuVvjkqUZWtCboob+OLAp3zC19AnuvZqyZGHYMpkKrtWxiF0ztK2uFp
-   GmEWSWXNUfPpT6Taf/Z1vk25fP75E4XMhcbqBPV2E1Ib9iSxy3r+Azho1
-   ujqgj/G94Pq1d0B54P5aXBF40Zrt/fKAILGr1zcNmW+v8wRSHM3QJqAYO
-   4xX+3V9Z8Tf1slaKz/6C4/arDcrWgPhpGKOxNsFm5vxEuUuTI62o2JtZM
-   BkCIFx60mYUtP1CCBgszAyBE6SRQSkj2dm/HYbblRReJJZT/oblRCN17H
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="371067953"
+  bh=lddF/OI0/Y8y8Q++HK52CXKXAHqrpG6VUE1f+V8L0g8=;
+  b=O16FvLsh6U8hWK9ZE6YJW9xNdMIpYbnJKyrLy/ih4BE+Wi5ExaIFbMsH
+   zzoaE9FEg60pokp41LlkgT/OfbRFP/d/agOY5hkxXigT2eumGr+li1AfF
+   5rjPC5uriN/h5WQMc3xEeLmk98S/EW4a4bWrLA/6GsXQCJWKeNcENpbRm
+   EYH+widYK9D25x+JxnDpRrF3ddKolGPqOjT5ckfGiLXLX0OHn+EVRFBTS
+   v/Ab8WrhT8Fx1YglQ80hB0ALdZS+XcPGrLzrcPg2HmVTHT6e/X+ihYNmO
+   MlzfrzDkyvsU6NYxp77x2tqBDY0o6JG1EhcHIptO8aRulH7xvj66V+NJD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="458222983"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="371067953"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 15:41:01 -0800
+   d="scan'208";a="458222983"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 16:03:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="910280036"
 X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="910280036"
+   d="scan'208";a="7886119"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Nov 2023 15:41:00 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 20 Nov 2023 16:03:16 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5Dsw-00074R-0T;
-	Mon, 20 Nov 2023 23:40:58 +0000
-Date: Tue, 21 Nov 2023 07:40:10 +0800
+	id 1r5EEU-00075C-1Q;
+	Tue, 21 Nov 2023 00:03:14 +0000
+Date: Tue, 21 Nov 2023 08:02:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:v10_20231118_amit_kumar_mahapatra_spi_add_support_for_stacked_parallel_memories
- 1/2] sound/pci/hda/cs35l56_hda_spi.c:32:42: error: incompatible pointer to
- integer conversion passing 'u8[4]' (aka 'unsigned char[4]') to parameter of
- type 'int'
-Message-ID: <202311210744.QdYLCBZT-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 12/27] drivers/acpi/thermal_lib.c:46:5:
+ warning: no previous prototype for 'acpi_active_trip_temp'
+Message-ID: <202311210725.tPlWJipc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,71 +50,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v10_20231118_amit_kumar_mahapatra_spi_add_support_for_stacked_parallel_memories
-head:   28c84457d889d997b2cfefd7f6967dc919bdf628
-commit: eb12970007184e2e5c6eae6ef1b32eee13480811 [1/2] spi: Add multi-cs memories support in SPI core
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231121/202311210744.QdYLCBZT-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311210744.QdYLCBZT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   f437a8d1debff5412e36a1c9454adee193b31950
+commit: 932d2c2fd0b1e8242ba7bcb7b8c2553e663e174f [12/27] ACPI: thermal_lib: Add functions returning temperature in deci-Kelvin
+config: x86_64-buildonly-randconfig-003-20231121 (https://download.01.org/0day-ci/archive/20231121/202311210725.tPlWJipc-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311210725.tPlWJipc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311210744.QdYLCBZT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311210725.tPlWJipc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> sound/pci/hda/cs35l56_hda_spi.c:32:42: error: incompatible pointer to integer conversion passing 'u8[4]' (aka 'unsigned char[4]') to parameter of type 'int' [-Wint-conversion]
-           ret = cs35l56_hda_common_probe(cs35l56, spi->chip_select);
-                                                   ^~~~~~~~~~~~~~~~
-   sound/pci/hda/cs35l56_hda.h:45:63: note: passing argument to parameter 'id' here
-   int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int id);
-                                                                 ^
-   1 error generated.
---
->> drivers/mfd/tps6594-spi.c:101:11: error: incompatible pointer to integer conversion assigning to 'unsigned short' from 'u8[4]' (aka 'unsigned char[4]') [-Wint-conversion]
-           tps->reg = spi->chip_select;
-                    ^ ~~~~~~~~~~~~~~~~
-   1 error generated.
+>> drivers/acpi/thermal_lib.c:46:5: warning: no previous prototype for 'acpi_active_trip_temp' [-Wmissing-prototypes]
+      46 | int acpi_active_trip_temp(struct acpi_device *adev, int id, int *ret_temp)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/acpi/thermal_lib.c:56:5: warning: no previous prototype for 'acpi_passive_trip_temp' [-Wmissing-prototypes]
+      56 | int acpi_passive_trip_temp(struct acpi_device *adev, int *ret_temp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/acpi/thermal_lib.c:61:5: warning: no previous prototype for 'acpi_hot_trip_temp' [-Wmissing-prototypes]
+      61 | int acpi_hot_trip_temp(struct acpi_device *adev, int *ret_temp)
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/acpi/thermal_lib.c:66:5: warning: no previous prototype for 'acpi_critical_trip_temp' [-Wmissing-prototypes]
+      66 | int acpi_critical_trip_temp(struct acpi_device *adev, int *ret_temp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +32 sound/pci/hda/cs35l56_hda_spi.c
+vim +/acpi_active_trip_temp +46 drivers/acpi/thermal_lib.c
 
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  13  
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  14  static int cs35l56_hda_spi_probe(struct spi_device *spi)
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  15  {
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  16  	struct cs35l56_hda *cs35l56;
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  17  	int ret;
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  18  
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  19  	cs35l56 = devm_kzalloc(&spi->dev, sizeof(*cs35l56), GFP_KERNEL);
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  20  	if (!cs35l56)
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  21  		return -ENOMEM;
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  22  
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  23  	cs35l56->base.dev = &spi->dev;
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  24  	cs35l56->base.regmap = devm_regmap_init_spi(spi, &cs35l56_regmap_spi);
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  25  	if (IS_ERR(cs35l56->base.regmap)) {
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  26  		ret = PTR_ERR(cs35l56->base.regmap);
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  27  		dev_err(cs35l56->base.dev, "Failed to allocate register map: %d\n",
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  28  			ret);
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  29  		return ret;
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  30  	}
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  31  
-73cfbfa9caea8ed Simon Trimmer 2023-07-21 @32  	ret = cs35l56_hda_common_probe(cs35l56, spi->chip_select);
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  33  	if (ret)
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  34  		return ret;
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  35  	ret = cs35l56_irq_request(&cs35l56->base, spi->irq);
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  36  	if (ret < 0)
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  37  		cs35l56_hda_remove(cs35l56->base.dev);
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  38  
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  39  	return ret;
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  40  }
-73cfbfa9caea8ed Simon Trimmer 2023-07-21  41  
-
-:::::: The code at line 32 was first introduced by commit
-:::::: 73cfbfa9caea8eda54b4c6e49a9555533660aa1e ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier
-
-:::::: TO: Simon Trimmer <simont@opensource.cirrus.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+    45	
+  > 46	int acpi_active_trip_temp(struct acpi_device *adev, int id, int *ret_temp)
+    47	{
+    48		char obj_name[] = {'_', 'A', 'C', '0' + id, '\0'};
+    49	
+    50		if (id < 0 || id > 9)
+    51			return -EINVAL;
+    52	
+    53		return acpi_trip_temp(adev, obj_name, ret_temp);
+    54	}
+    55	
+  > 56	int acpi_passive_trip_temp(struct acpi_device *adev, int *ret_temp)
+    57	{
+    58		return acpi_trip_temp(adev, "_PSV", ret_temp);
+    59	}
+    60	
+  > 61	int acpi_hot_trip_temp(struct acpi_device *adev, int *ret_temp)
+    62	{
+    63		return acpi_trip_temp(adev, "_HOT", ret_temp);
+    64	}
+    65	
+  > 66	int acpi_critical_trip_temp(struct acpi_device *adev, int *ret_temp)
+    67	{
+    68		return acpi_trip_temp(adev, "_CRT", ret_temp);
+    69	}
+    70	
 
 -- 
 0-DAY CI Kernel Test Service
