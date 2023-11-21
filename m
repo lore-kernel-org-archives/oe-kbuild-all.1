@@ -1,141 +1,154 @@
-Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0C419BCA;
-	Tue, 21 Nov 2023 05:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F531A594
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 05:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="likLLOTk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1700545049; x=1732081049;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/zrryXpKWKQAyrCPZGj07xxabi8IACpWZDfQTkTD2cw=;
-  b=likLLOTk+eHaEyvJeOnOTUF7jmxnvAanWC8ApaH1s5HahXiTQhxg8ZQ5
-   2+yqLsYfDCxXFApE5aLzK+fNJe5q2Cc1e/nW00pRPo9N96YF+iJKyUoSw
-   ksa1sqZT892qz4RccZ7QHjus3rrU45LBLXJJ+hbwtxHSkH7iofLYfY2DU
-   I=;
-X-IronPort-AV: E=Sophos;i="6.04,215,1695686400"; 
-   d="scan'208";a="364017441"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-pdx-2c-m6i4x-dc7c3f8b.us-west-2.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 05:37:24 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan2.pdx.amazon.com [10.39.38.66])
-	by email-inbound-relay-pdx-2c-m6i4x-dc7c3f8b.us-west-2.amazon.com (Postfix) with ESMTPS id C90CBA049D;
-	Tue, 21 Nov 2023 05:37:22 +0000 (UTC)
-Received: from EX19MTAUWA002.ant.amazon.com [10.0.7.35:39084]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.8.2:2525] with esmtp (Farcaster)
- id 940a4e78-2f4b-4cb0-b273-910cbf05cc9c; Tue, 21 Nov 2023 05:37:22 +0000 (UTC)
-X-Farcaster-Flow-ID: 940a4e78-2f4b-4cb0-b273-910cbf05cc9c
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Tue, 21 Nov 2023 05:37:22 +0000
-Received: from 88665a182662.ant.amazon.com.com (10.187.171.26) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1118.39;
- Tue, 21 Nov 2023 05:37:17 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <lkp@intel.com>
-CC: <andrii@kernel.org>, <ast@kernel.org>, <bpf@vger.kernel.org>,
-	<daniel@iogearbox.net>, <davem@davemloft.net>, <dsahern@kernel.org>,
-	<edumazet@google.com>, <haoluo@google.com>, <john.fastabend@gmail.com>,
-	<jolsa@kernel.org>, <kpsingh@kernel.org>, <kuba@kernel.org>,
-	<kuniyu@amazon.com>, <llvm@lists.linux.dev>, <martin.lau@linux.dev>,
-	<mykolal@fb.com>, <netdev@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>,
-	<pabeni@redhat.com>, <sdf@google.com>, <song@kernel.org>,
-	<yonghong.song@linux.dev>
-Subject: Re: [PATCH v2 bpf-next 10/11] bpf: tcp: Support arbitrary SYN Cookie.
-Date: Mon, 20 Nov 2023 21:37:09 -0800
-Message-ID: <20231121053709.91149-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <202311211310.E8pJEsnT-lkp@intel.com>
-References: <202311211310.E8pJEsnT-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICXXhH6n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700546076; x=1732082076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nk2eKwYrSn/YReITOMocGbZi9RRDlvIu+Lc6Saoi/+8=;
+  b=ICXXhH6nCSeFwETquTvDwPgsPv5lZ21Sux7Wc585AOmMx0pImO7b1l8K
+   KOlRTv+Q5OZLHMKMI4l7WOcuAKjEWtOhkVQB1vUDeplhl08QuDxYA93q/
+   +6LEUahMK6wahCUHRBsu/8UsRP49YCVztBCL3KHGp+HTfCn2h2gQ7w5DM
+   kr4NM2o2uFdWZ8p9NRttaOt5oD4ny9Jc3bdQV4qCBy1WQhDZWmgS/8A4T
+   mx+CWveNA7CHZtBf2lmJ5MScwkg5zZsHaOI3/eYQnqyCEbqMHr0kCgdks
+   E1AhVTuOsVPaH/bAvFSHgU1c88E4h7sfDJkoeu6xzbBzlK7yEbqAj76Vt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="477975665"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="477975665"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 21:54:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="14395468"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 20 Nov 2023 21:54:34 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5Jhe-0007NF-1W;
+	Tue, 21 Nov 2023 05:54:11 +0000
+Date: Tue, 21 Nov 2023 13:50:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Naresh Solanki <naresh.solanki@9elements.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Naresh Solanki <naresh.solanki@9elements.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] regulator: event: Add regulator netlink event support
+Message-ID: <202311211304.w5znAwJu-lkp@intel.com>
+References: <20231120194311.3581036-1-naresh.solanki@9elements.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.187.171.26]
-X-ClientProxiedBy: EX19D036UWB004.ant.amazon.com (10.13.139.170) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
-Precedence: Bulk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231120194311.3581036-1-naresh.solanki@9elements.com>
 
-From: kernel test robot <lkp@intel.com>
-Date: Tue, 21 Nov 2023 13:17:40 +0800
-> Hi Kuniyuki,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on bpf-next/master]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/tcp-Clean-up-reverse-xmas-tree-in-cookie_v-46-_check/20231121-063036
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20231120222341.54776-11-kuniyu%40amazon.com
-> patch subject: [PATCH v2 bpf-next 10/11] bpf: tcp: Support arbitrary SYN Cookie.
-> config: arm-spear3xx_defconfig (https://download.01.org/0day-ci/archive/20231121/202311211310.E8pJEsnT-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211310.E8pJEsnT-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311211310.E8pJEsnT-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from net/core/sock.c:142:
->    In file included from include/net/tcp.h:32:
-> >> include/net/inet_hashtables.h:472:22: error: use of undeclared identifier 'sock_pfree'
->                            skb->destructor = sock_pfree;
->                                              ^
+Hi Naresh,
 
-Ok, sock_pfree is available with CONFIG_INET.
+kernel test robot noticed the following build warnings:
 
-I'll guard the req->syncookie part in inet6?_steal_sock() by
-CONFIG_SYN_COOKIE too.
+[auto build test WARNING on 753e4d5c433da57da75dd4c3e1aececc8e874a62]
 
----8<---
-diff --git a/include/net/inet6_hashtables.h b/include/net/inet6_hashtables.h
-index b6c0ed5a1e3c..9a67f47a5e64 100644
---- a/include/net/inet6_hashtables.h
-+++ b/include/net/inet6_hashtables.h
-@@ -120,12 +120,14 @@ struct sock *inet6_steal_sock(struct net *net, struct sk_buff *skb, int doff,
- 		return sk;
- 
- 	if (sk->sk_state == TCP_NEW_SYN_RECV) {
-+#if IS_ENABLED(CONFIG_SYN_COOKIE)
- 		if (inet_reqsk(sk)->syncookie) {
- 			*refcounted = false;
- 			skb->sk = sk;
- 			skb->destructor = sock_pfree;
- 			return inet_reqsk(sk)->rsk_listener;
- 		}
-+#endif
- 		return sk;
- 	} else if (sk->sk_state == TCP_TIME_WAIT) {
- 		return sk;
-diff --git a/include/net/inet_hashtables.h b/include/net/inet_hashtables.h
-index 0f4091112967..36609656a047 100644
---- a/include/net/inet_hashtables.h
-+++ b/include/net/inet_hashtables.h
-@@ -466,12 +466,14 @@ struct sock *inet_steal_sock(struct net *net, struct sk_buff *skb, int doff,
- 		return sk;
- 
- 	if (sk->sk_state == TCP_NEW_SYN_RECV) {
-+#if IS_ENABLED(CONFIG_SYN_COOKIE)
- 		if (inet_reqsk(sk)->syncookie) {
- 			*refcounted = false;
- 			skb->sk = sk;
- 			skb->destructor = sock_pfree;
- 			return inet_reqsk(sk)->rsk_listener;
- 		}
-+#endif
- 		return sk;
- 	} else if (sk->sk_state == TCP_TIME_WAIT) {
- 		return sk;
----8<---
+url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/regulator-event-Add-regulator-netlink-event-support/20231121-034604
+base:   753e4d5c433da57da75dd4c3e1aececc8e874a62
+patch link:    https://lore.kernel.org/r/20231120194311.3581036-1-naresh.solanki%409elements.com
+patch subject: [PATCH v1] regulator: event: Add regulator netlink event support
+config: x86_64-buildonly-randconfig-001-20231121 (https://download.01.org/0day-ci/archive/20231121/202311211304.w5znAwJu-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211304.w5znAwJu-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211304.w5znAwJu-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/kernel.h:31,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/netlink.h:7,
+                    from include/net/netlink.h:6,
+                    from drivers/regulator/event.c:3:
+   drivers/regulator/event.c: In function 'reg_generate_netlink_event':
+>> include/linux/kern_levels.h:5:18: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
+         |                  ^~~~~~
+   include/linux/printk.h:427:11: note: in definition of macro 'printk_index_wrap'
+     427 |   _p_func(_fmt, ##__VA_ARGS__);    \
+         |           ^~~~
+   include/linux/printk.h:129:3: note: in expansion of macro 'printk'
+     129 |   printk(fmt, ##__VA_ARGS__);  \
+         |   ^~~~~~
+   include/linux/printk.h:585:2: note: in expansion of macro 'no_printk'
+     585 |  no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |  ^~~~~~~~~
+   include/linux/kern_levels.h:15:20: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG KERN_SOH "7" /* debug-level messages */
+         |                    ^~~~~~~~
+   include/linux/printk.h:585:12: note: in expansion of macro 'KERN_DEBUG'
+     585 |  no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |            ^~~~~~~~~~
+   drivers/regulator/event.c:92:2: note: in expansion of macro 'pr_debug'
+      92 |  pr_debug("%s -> %lx , ret: %x %x", reg_name, event, size);
+         |  ^~~~~~~~
+   drivers/regulator/event.c:92:20: note: format string is defined here
+      92 |  pr_debug("%s -> %lx , ret: %x %x", reg_name, event, size);
+         |                  ~~^
+         |                    |
+         |                    long unsigned int
+         |                  %llx
+   In file included from include/linux/kernel.h:31,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/netlink.h:7,
+                    from include/net/netlink.h:6,
+                    from drivers/regulator/event.c:3:
+>> include/linux/kern_levels.h:5:18: warning: format '%x' expects a matching 'unsigned int' argument [-Wformat=]
+       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
+         |                  ^~~~~~
+   include/linux/printk.h:427:11: note: in definition of macro 'printk_index_wrap'
+     427 |   _p_func(_fmt, ##__VA_ARGS__);    \
+         |           ^~~~
+   include/linux/printk.h:129:3: note: in expansion of macro 'printk'
+     129 |   printk(fmt, ##__VA_ARGS__);  \
+         |   ^~~~~~
+   include/linux/printk.h:585:2: note: in expansion of macro 'no_printk'
+     585 |  no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |  ^~~~~~~~~
+   include/linux/kern_levels.h:15:20: note: in expansion of macro 'KERN_SOH'
+      15 | #define KERN_DEBUG KERN_SOH "7" /* debug-level messages */
+         |                    ^~~~~~~~
+   include/linux/printk.h:585:12: note: in expansion of macro 'KERN_DEBUG'
+     585 |  no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |            ^~~~~~~~~~
+   drivers/regulator/event.c:92:2: note: in expansion of macro 'pr_debug'
+      92 |  pr_debug("%s -> %lx , ret: %x %x", reg_name, event, size);
+         |  ^~~~~~~~
+   drivers/regulator/event.c:92:33: note: format string is defined here
+      92 |  pr_debug("%s -> %lx , ret: %x %x", reg_name, event, size);
+         |                                ~^
+         |                                 |
+         |                                 unsigned int
+
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
