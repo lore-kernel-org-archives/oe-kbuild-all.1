@@ -1,46 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2B71B288
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 06:50:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2A81CF9A;
+	Tue, 21 Nov 2023 07:02:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8xccTTD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BM0zDAa3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700549433; x=1732085433;
+  t=1700550136; x=1732086136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E2Si3Ix7fakoFAsI/ENX9eDNdVSwNa9BjFCjbStediA=;
-  b=N8xccTTDpGhNPSB1jd8NQQT5Wcfc+8K+/zDJ9iSN+XOdECsK6wR51j9D
-   6K6LUwaV3eT8G6nGYmYNKo8GFtdHLPBF5j5ORxYWR0TNPTmS7DxOHkaRk
-   yMA649k9RSMg2X/Y76dQi7eK74iEUgkKKYOftB7Umr6cEtSs50o7M2aQA
-   vmavli/PPg1NHR3JsNVrnw8T2xCFvXJpoSFp7a3PNUu/QuQ1Q0MZeeiwI
-   M6cBWb6IPim4Yh17txJ8lXxsJj7FjOFCAK2V64n4oNI4C07oT+e2Ngh0O
-   0hiXpl5tVR4/AJeCQr8rMNo3mX0eNo5AMfdWlwxrENMEuWFC1Tadfs3Ei
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="371949844"
+  bh=pJYZ1j71i4St9wQRuF3Og2ivToBkBIotpIMkRk/1i04=;
+  b=BM0zDAa3QCf6UxJdDscV1A+bg8hMNpl5hkk+bXY/ye4KNINOQlyAJDRt
+   kt9fzTVG25f8bQHsFtJ5/KJXLzzibT5f5S8TUMrXBJO155IyCu+qxvQki
+   vBdCgPhTgkCr/puCehcec+TNPxSnZ9C/GiV+l458Gih6yQO7i5fmAIg25
+   parZ2e2d1A8o3bRc3PtmnzLff0Nk9AFgO7NHAH9jKt20CLgiH6uB9agi0
+   97RQgF3kVtL0bNoZd5f1UBysIB6zBfdVbrcKiXrYOHfcY6DKvbWGtRixE
+   cpn56suYGh6RTbaeeT0Cm3v8aBLIMtGO/I3wyDvtWzjZZNz3GAWYrQxBw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="371951483"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="371949844"
+   d="scan'208";a="371951483"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 22:50:33 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 23:02:15 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="7801734"
+   d="scan'208";a="7803212"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 20 Nov 2023 22:50:33 -0800
+  by orviesa002.jf.intel.com with ESMTP; 20 Nov 2023 23:02:12 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5KaY-0007Sn-1k;
-	Tue, 21 Nov 2023 06:50:28 +0000
-Date: Tue, 21 Nov 2023 14:47:26 +0800
+	id 1r5Klg-0007TJ-1E;
+	Tue, 21 Nov 2023 07:01:59 +0000
+Date: Tue, 21 Nov 2023 15:00:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting+pasid-11202023 73/95]
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3064:18: sparse: sparse: cast to
- restricted __le64
-Message-ID: <202311211439.MvW0X14b-lkp@intel.com>
+To: Inki Dae <inki.dae@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [daeinki-drm-exynos:exynos-drm-fixes 2/2]
+ drivers/gpu/drm/exynos/exynos_drm_dma.c:119:19: warning: incompatible
+ integer to pointer conversion passing 'int' to parameter of type 'const void
+ *'
+Message-ID: <202311211403.ZKszRGRN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,76 +51,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting+pasid-11202023
-head:   c4ada481317d6b86b847e5d45f7656a498c5275c
-commit: 684e1274dac4c85181ac92452fa969e75cb5bafd [73/95] iommu/arm-smmu-v3: Add arm_smmu_cache_invalidate_user
-config: arm64-randconfig-r121-20231121 (https://download.01.org/0day-ci/archive/20231121/202311211439.MvW0X14b-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231121/202311211439.MvW0X14b-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org:/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-fixes
+head:   a30ba4bd7cdb5726d86a557c5df8df71c7bc7fad
+commit: 9f6ed6faadde040e556880ade6881b3ad92861a3 [2/2] drm/exynos: fix a wrong error checking
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231121/202311211403.ZKszRGRN-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211403.ZKszRGRN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311211439.MvW0X14b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211403.ZKszRGRN-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3064:18: sparse: sparse: cast to restricted __le64
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:3065:18: sparse: sparse: cast to restricted __le64
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through arch/arm64/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
-   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
-   arch/arm64/include/asm/cmpxchg.h:168:1: sparse: sparse: cast truncates bits from constant value (ffffffff80000000 becomes 0)
-   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: note: in included file (through include/linux/resource_ext.h, include/linux/acpi.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +3064 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+>> drivers/gpu/drm/exynos/exynos_drm_dma.c:119:19: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const void *' [-Wint-conversion]
+                           return PTR_ERR(-ENODEV);
+                                          ^~~~~~~
+   include/linux/err.h:49:61: note: passing argument to parameter 'ptr' here
+   static inline long __must_check PTR_ERR(__force const void *ptr)
+                                                               ^
+   1 warning generated.
 
-  3057	
-  3058	static int arm_smmu_fix_user_cmd(struct arm_smmu_nested_domain *nested_domain,
-  3059					 u64 *cmd, u32 *cerror_idx)
-  3060	{
-  3061		struct arm_smmu_device *smmu = nested_domain->s2_parent->smmu;
-  3062		struct arm_smmu_stream *stream;
-  3063	
-> 3064		cmd[0] = le64_to_cpu(cmd[0]);
-  3065		cmd[1] = le64_to_cpu(cmd[1]);
-  3066	
-  3067		switch (*cmd & CMDQ_0_OP) {
-  3068		case CMDQ_OP_TLBI_NSNH_ALL:
-  3069			*cmd &= ~CMDQ_0_OP;
-  3070			*cmd |= CMDQ_OP_TLBI_NH_ALL;
-  3071			fallthrough;
-  3072		case CMDQ_OP_TLBI_NH_VA:
-  3073		case CMDQ_OP_TLBI_NH_VAA:
-  3074		case CMDQ_OP_TLBI_NH_ALL:
-  3075		case CMDQ_OP_TLBI_NH_ASID:
-  3076			*cmd &= ~CMDQ_TLBI_0_VMID;
-  3077			*cmd |= FIELD_PREP(CMDQ_TLBI_0_VMID,
-  3078					   nested_domain->s2_parent->vmid);
-  3079			break;
-  3080		case CMDQ_OP_ATC_INV:
-  3081		case CMDQ_OP_CFGI_CD:
-  3082		case CMDQ_OP_CFGI_CD_ALL:
-  3083			xa_lock(&smmu->streams_user);
-  3084			stream = xa_load(&smmu->streams_user,
-  3085					 FIELD_GET(CMDQ_CFGI_0_SID, *cmd));
-  3086			xa_unlock(&smmu->streams_user);
-  3087			if (!stream) {
-  3088				*cerror_idx = CMDQ_ERR_CERROR_ATC_INV_IDX;
-  3089				return -ENODEV;
-  3090			}
-  3091			*cmd &= ~CMDQ_CFGI_0_SID;
-  3092			*cmd |= FIELD_PREP(CMDQ_CFGI_0_SID, stream->id);
-  3093			break;
-  3094		default:
-  3095			*cerror_idx = CMDQ_ERR_CERROR_ILL_IDX;
-  3096			return -EINVAL;
-  3097		}
-  3098		pr_debug("Fixed user CMD: %016llx : %016llx\n", cmd[1], cmd[0]);
-  3099	
-  3100		return 0;
-  3101	}
-  3102	
+
+vim +119 drivers/gpu/drm/exynos/exynos_drm_dma.c
+
+    94	
+    95	int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
+    96				    void **dma_priv)
+    97	{
+    98		struct exynos_drm_private *priv = drm->dev_private;
+    99	
+   100		if (!priv->dma_dev) {
+   101			priv->dma_dev = dev;
+   102			DRM_INFO("Exynos DRM: using %s device for DMA mapping operations\n",
+   103				 dev_name(dev));
+   104		}
+   105	
+   106		if (!IS_ENABLED(CONFIG_EXYNOS_IOMMU))
+   107			return 0;
+   108	
+   109		if (!priv->mapping) {
+   110			void *mapping = NULL;
+   111	
+   112			if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU))
+   113				mapping = arm_iommu_create_mapping(&platform_bus_type,
+   114					EXYNOS_DEV_ADDR_START, EXYNOS_DEV_ADDR_SIZE);
+   115			else if (IS_ENABLED(CONFIG_IOMMU_DMA))
+   116				mapping = iommu_get_domain_for_dev(priv->dma_dev);
+   117	
+   118			if (!mapping)
+ > 119				return PTR_ERR(-ENODEV);
+   120			priv->mapping = mapping;
+   121		}
+   122	
+   123		return drm_iommu_attach_device(drm, dev, dma_priv);
+   124	}
+   125	
 
 -- 
 0-DAY CI Kernel Test Service
