@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2FE31A88;
-	Tue, 21 Nov 2023 08:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D489B3985D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 08:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="miiEBTq5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B27LXM00"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700554919; x=1732090919;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=06kDnKoPPzGlmQ1ra8/q9Os8ll0YijwScIZDkJ+PJO8=;
-  b=miiEBTq5gRmMPcl2hah9ip/QE6eGGEP8p1JREmb/mpLatOzkLgGKmixE
-   N8vWgkLAoPonawxCcZrVBaKzFA1PBI+bgdRaw6KehirGTZWEjfKC/dKy9
-   Bja1Wy8GDREayv68Tbq4r/ITGEs+7JgvlfYQpmmGCCb2rjfcXKC5zra3q
-   0/SXVTK2I3LK8K5h8/HlFSrvjVnJzUy5aowu0NIU9ybhZ7N2yT2QXgGbp
-   qFUAbe4W2Afyck1yu/YbhaORo0BXnsvwH3erg1Lqs85bb+GubsWv849Iz
-   YuA6Iq2OSaoUgdR02lKUkkUqiFGg82vNREsDTLG7YV7w7dK2LMsgBJRIb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="391568723"
+  t=1700554943; x=1732090943;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2bk+MohBt7VWNyb3vo6oERzidJvVZ7qVhb4jpAvV8UA=;
+  b=B27LXM00oif5TrOiUFCkQp2anS9nN6vQhm5g8gsLPabsWE4Gc2roP9SN
+   8HNEdA4IjwQgjtw5MxgEPO4nsLulZ46XPWKmeer7tXX0NUdkCS2ILMiCk
+   RjvTPqN+h6Gd//LqJ5FTJoJq1noDFgjQwVt12YH+7Li/pcxPrF3VxaU0X
+   5g0WbBlXrM7M/vGL3OXmKHCV9eAgAv9cZgBEh1gqd35Yct9mIiMXvWfvi
+   WUpNOz9KekKlrXmqjXHe9bT6hDIJLHvjOuTgW30TW6TxXxgshhKRVCnfy
+   LmrItQKxrQFzHOJhlkP0FGCc3RnJXArmxp3YWrUVPxpqE5me6YRn5uaYU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="456127184"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="391568723"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:21:58 -0800
+   d="scan'208";a="456127184"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:22:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="770179025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="884121199"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="770179025"
+   d="scan'208";a="884121199"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2023 00:21:57 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2023 00:22:21 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5M0i-0007Yk-1G;
-	Tue, 21 Nov 2023 08:21:48 +0000
-Date: Tue, 21 Nov 2023 16:21:06 +0800
+	id 1r5M16-0007Yn-2g;
+	Tue, 21 Nov 2023 08:22:05 +0000
+Date: Tue, 21 Nov 2023 16:21:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jack Wang <jinpu.wang@ionos.com>, linux-rdma@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, leon@kernel.org,
-	jgg@ziepe.ca
-Subject: Re: [PATCH 2/2] ipoib: Add tx timeout work to recover queue stop
- situation
-Message-ID: <202311211607.9eJYoznW-lkp@intel.com>
-References: <20231120203501.321587-3-jinpu.wang@ionos.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/proc/proc_net.c:130: warning: Function parameter or member
+ 'state_size' not described in 'proc_create_net_data_write'
+Message-ID: <202311211605.jYnwq7JO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,64 +49,182 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120203501.321587-3-jinpu.wang@ionos.com>
 
-Hi Jack,
+Hi David,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on rdma/for-next]
-[also build test ERROR on linus/master v6.7-rc2 next-20231121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Wang/ipoib-Fix-error-code-return-in-ipoib_mcast_join/20231121-044240
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20231120203501.321587-3-jinpu.wang%40ionos.com
-patch subject: [PATCH 2/2] ipoib: Add tx timeout work to recover queue stop situation
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231121/202311211607.9eJYoznW-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211607.9eJYoznW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   98b1cc82c4affc16f5598d4fa14b1858671b2263
+commit: 564def71765caf65040f926c0783b9c27cc6c087 proc: Add a way to make network proc files writable
+date:   6 years ago
+config: x86_64-buildonly-randconfig-001-20231012 (https://download.01.org/0day-ci/archive/20231121/202311211605.jYnwq7JO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211605.jYnwq7JO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311211607.9eJYoznW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211605.jYnwq7JO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/infiniband/ulp/ipoib/ipoib_ib.c:542:9: error: call to undeclared function 'napi_reschedule'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   ret = napi_reschedule(&priv->send_napi);
-                         ^
-   drivers/infiniband/ulp/ipoib/ipoib_ib.c:542:9: note: did you mean 'napi_schedule'?
-   include/linux/netdevice.h:520:20: note: 'napi_schedule' declared here
-   static inline bool napi_schedule(struct napi_struct *n)
-                      ^
-   drivers/infiniband/ulp/ipoib/ipoib_ib.c:554:8: error: call to undeclared function 'napi_reschedule'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ret = napi_reschedule(&priv->send_napi);
-                 ^
-   2 errors generated.
+   In file included from arch/x86/include/asm/bug.h:83,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:12,
+                    from arch/x86/include/asm/preempt.h:7,
+                    from include/linux/preempt.h:81,
+                    from include/linux/rcupdate.h:40,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/uaccess.h:5,
+                    from fs/proc/proc_net.c:11:
+   fs/proc/proc_net.c: In function 'seq_open_net':
+   fs/proc/proc_net.c:47:33: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+      47 |         WARN_ON_ONCE(state_size < sizeof(*p));
+         |                                 ^
+   include/asm-generic/bug.h:69:32: note: in definition of macro 'WARN_ON_ONCE'
+      69 |         int __ret_warn_on = !!(condition);                      \
+         |                                ^~~~~~~~~
+>> fs/proc/proc_net.c:130: warning: Function parameter or member 'state_size' not described in 'proc_create_net_data_write'
 
 
-vim +/napi_reschedule +542 drivers/infiniband/ulp/ipoib/ipoib_ib.c
+vim +130 fs/proc/proc_net.c
 
-   533	
-   534	/* The function will force napi_schedule */
-   535	void ipoib_napi_schedule_work(struct work_struct *work)
-   536	{
-   537		struct ipoib_dev_priv *priv =
-   538			container_of(work, struct ipoib_dev_priv, reschedule_napi_work);
-   539		bool ret;
-   540	
-   541		do {
- > 542			ret = napi_reschedule(&priv->send_napi);
-   543			if (!ret)
-   544				msleep(3);
-   545		} while (!ret && netif_queue_stopped(priv->dev) &&
-   546			 test_bit(IPOIB_FLAG_INITIALIZED, &priv->flags));
-   547	}
-   548	
+  > 11	#include <linux/uaccess.h>
+    12	
+    13	#include <linux/errno.h>
+    14	#include <linux/time.h>
+    15	#include <linux/proc_fs.h>
+    16	#include <linux/stat.h>
+    17	#include <linux/slab.h>
+    18	#include <linux/init.h>
+    19	#include <linux/sched.h>
+    20	#include <linux/sched/task.h>
+    21	#include <linux/module.h>
+    22	#include <linux/bitops.h>
+    23	#include <linux/mount.h>
+    24	#include <linux/nsproxy.h>
+    25	#include <linux/uidgid.h>
+    26	#include <net/net_namespace.h>
+    27	#include <linux/seq_file.h>
+    28	
+    29	#include "internal.h"
+    30	
+    31	static inline struct net *PDE_NET(struct proc_dir_entry *pde)
+    32	{
+    33		return pde->parent->data;
+    34	}
+    35	
+    36	static struct net *get_proc_net(const struct inode *inode)
+    37	{
+    38		return maybe_get_net(PDE_NET(PDE(inode)));
+    39	}
+    40	
+    41	static int seq_open_net(struct inode *inode, struct file *file)
+    42	{
+    43		unsigned int state_size = PDE(inode)->state_size;
+    44		struct seq_net_private *p;
+    45		struct net *net;
+    46	
+    47		WARN_ON_ONCE(state_size < sizeof(*p));
+    48	
+    49		if (file->f_mode & FMODE_WRITE && !PDE(inode)->write)
+    50			return -EACCES;
+    51	
+    52		net = get_proc_net(inode);
+    53		if (!net)
+    54			return -ENXIO;
+    55	
+    56		p = __seq_open_private(file, PDE(inode)->seq_ops, state_size);
+    57		if (!p) {
+    58			put_net(net);
+    59			return -ENOMEM;
+    60		}
+    61	#ifdef CONFIG_NET_NS
+    62		p->net = net;
+    63	#endif
+    64		return 0;
+    65	}
+    66	
+    67	static int seq_release_net(struct inode *ino, struct file *f)
+    68	{
+    69		struct seq_file *seq = f->private_data;
+    70	
+    71		put_net(seq_file_net(seq));
+    72		seq_release_private(ino, f);
+    73		return 0;
+    74	}
+    75	
+    76	static const struct file_operations proc_net_seq_fops = {
+    77		.open		= seq_open_net,
+    78		.read		= seq_read,
+    79		.write		= proc_simple_write,
+    80		.llseek		= seq_lseek,
+    81		.release	= seq_release_net,
+    82	};
+    83	
+    84	struct proc_dir_entry *proc_create_net_data(const char *name, umode_t mode,
+    85			struct proc_dir_entry *parent, const struct seq_operations *ops,
+    86			unsigned int state_size, void *data)
+    87	{
+    88		struct proc_dir_entry *p;
+    89	
+    90		p = proc_create_reg(name, mode, &parent, data);
+    91		if (!p)
+    92			return NULL;
+    93		p->proc_fops = &proc_net_seq_fops;
+    94		p->seq_ops = ops;
+    95		p->state_size = state_size;
+    96		return proc_register(parent, p);
+    97	}
+    98	EXPORT_SYMBOL_GPL(proc_create_net_data);
+    99	
+   100	/**
+   101	 * proc_create_net_data_write - Create a writable net_ns-specific proc file
+   102	 * @name: The name of the file.
+   103	 * @mode: The file's access mode.
+   104	 * @parent: The parent directory in which to create.
+   105	 * @ops: The seq_file ops with which to read the file.
+   106	 * @write: The write method which which to 'modify' the file.
+   107	 * @data: Data for retrieval by PDE_DATA().
+   108	 *
+   109	 * Create a network namespaced proc file in the @parent directory with the
+   110	 * specified @name and @mode that allows reading of a file that displays a
+   111	 * series of elements and also provides for the file accepting writes that have
+   112	 * some arbitrary effect.
+   113	 *
+   114	 * The functions in the @ops table are used to iterate over items to be
+   115	 * presented and extract the readable content using the seq_file interface.
+   116	 *
+   117	 * The @write function is called with the data copied into a kernel space
+   118	 * scratch buffer and has a NUL appended for convenience.  The buffer may be
+   119	 * modified by the @write function.  @write should return 0 on success.
+   120	 *
+   121	 * The @data value is accessible from the @show and @write functions by calling
+   122	 * PDE_DATA() on the file inode.  The network namespace must be accessed by
+   123	 * calling seq_file_net() on the seq_file struct.
+   124	 */
+   125	struct proc_dir_entry *proc_create_net_data_write(const char *name, umode_t mode,
+   126							  struct proc_dir_entry *parent,
+   127							  const struct seq_operations *ops,
+   128							  proc_write_t write,
+   129							  unsigned int state_size, void *data)
+ > 130	{
+   131		struct proc_dir_entry *p;
+   132	
+   133		p = proc_create_reg(name, mode, &parent, data);
+   134		if (!p)
+   135			return NULL;
+   136		p->proc_fops = &proc_net_seq_fops;
+   137		p->seq_ops = ops;
+   138		p->state_size = state_size;
+   139		p->write = write;
+   140		return proc_register(parent, p);
+   141	}
+   142	EXPORT_SYMBOL_GPL(proc_create_net_data_write);
+   143	
 
 -- 
 0-DAY CI Kernel Test Service
