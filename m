@@ -1,84 +1,136 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF62C495EF;
-	Tue, 21 Nov 2023 15:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324D54A9BB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 15:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AE8EXQSg";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rBx7RlY2"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1700579849;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=amG8dsb0Xi5CtDBhMAipVmfkMv2qVhstklyGL0NmvUc=;
-	b=AE8EXQSgyYEbENLUIvGZTC6aH2sOYQgml+6/ceS1hSJiCJhSFVf/EpZ57LIitTkCwu9fOf
-	AhPI5iwhnBp/ykrN+ZuTEQTGzwJ0LuJRANCcukjude86DTlbTCzLg+3egDwYzl0ZlYcALb
-	kM2eM2lt1mFSxRVPuDmkBu5kE5Y+5owjvybBYmotqRz9wokCl2EUtteeOlJs3z7oj3besp
-	5Bk2ESeJBhARSnhaTxZz3yBgrn8nKZ+DNt6l0Jw6BRJdR86Ej/vFP+ihBz189wTEGdWyJY
-	cuj0JFDKu1MeMBNpPn/a3xqbi/D6usIpBuxjWzTewGbd+8rRU+5PfmzZesU+Gg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1700579849;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=amG8dsb0Xi5CtDBhMAipVmfkMv2qVhstklyGL0NmvUc=;
-	b=rBx7RlY2MyayD0JZkpgpdomjyHpcDcDhykjvQxFLPNHOGCiJHeESJ5shUwFaI93dOfG0ln
-	ockmbZh9WNhBaFAw==
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [tglx-devel:queue/core 1/1] lib/debugobjects.c:730
- debug_object_activate() error: 'obj' dereferencing possible ERR_PTR()
-In-Reply-To: <2999d03c-4002-474f-9654-e9eded9af8c3@suswa.mountain>
-References: <2999d03c-4002-474f-9654-e9eded9af8c3@suswa.mountain>
-Date: Tue, 21 Nov 2023 16:17:29 +0100
-Message-ID: <87pm0316gm.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QliQtl2Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700581278; x=1732117278;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=hp2/itkYHGLatqqut+LfjX0mAXpYpgJyMjjE1s8y8h4=;
+  b=QliQtl2Y6WuVOM0q9MGMmcdl2H7TmopyZlS72zqH3prqAfgRzSt5+A5g
+   2W9G6VmGbvsvmWgG1q2K5TsjVlq86xd8wxltXC+qN/B4GbleB1ItQx2G9
+   0Ksk96TkTT5HdTyc6VdtYvB9xJSk2JzmyHC/TBkLtV3L/+yl9Vdflg3tL
+   rCRCYvb1SaKjLdm7KD/JwzPIa3BSQMH2QyMxaiBYpGHPEA7IKNGDqKTZE
+   Z0FGyYDElvG0UKHLd8Gw4dqBnFKSLgpUj6Apr+lKX0MI/51Pwaxtb6OiK
+   /ElBPdmRe/JrdUMALmohv+CtgBaNxLk+fOhc4ibfObt15nanpWgb0jFMH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="458357696"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="458357696"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 07:41:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="8119408"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 21 Nov 2023 07:41:11 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5Ss8-0007y0-17;
+	Tue, 21 Nov 2023 15:41:08 +0000
+Date: Tue, 21 Nov 2023 23:40:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Philipp Stanner <pstanner@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Eric Auger <eric.auger@redhat.com>,
+	Kent Overstreet <kmo@daterainc.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>, NeilBrown <neilb@suse.de>,
+	John Sanpe <sanpeqf@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	David Gow <davidgow@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
+	Jason Baron <jbaron@akamai.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Danilo Krummrich <dakr@redhat.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+Message-ID: <202311212322.TOIJ8Pcg-lkp@intel.com>
+References: <20231120215945.52027-3-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231120215945.52027-3-pstanner@redhat.com>
 
-On Mon, Nov 20 2023 at 03:55, Dan Carpenter wrote:
-> smatch warnings:
-> lib/debugobjects.c:730 debug_object_activate() error: 'obj' dereferencing possible ERR_PTR()
->
-> vim +/obj +730 lib/debugobjects.c
->
-> aedcade6f4fa9a Stephen Boyd     2020-08-14  694  int debug_object_activate(void *addr, const struct debug_obj_descr *descr)
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  695  {
-> 63a759694eed61 Thomas Gleixner  2023-04-12  696  	struct debug_obj o = { .object = addr, .state = ODEBUG_STATE_NOTAVAILABLE, .descr = descr };
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  697  	struct debug_bucket *db;
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  698  	struct debug_obj *obj;
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  699  	unsigned long flags;
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  700  
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  701  	if (!debug_objects_enabled)
-> b778ae25366e6f Paul E. McKenney 2013-04-23  702  		return 0;
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  703  
-> 0af462f19e635a Thomas Gleixner  2023-05-01  704  	debug_objects_fill_pool();
-> 0af462f19e635a Thomas Gleixner  2023-05-01  705  
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  706  	db = get_bucket((unsigned long) addr);
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  707  
-> aef9cb05247df3 Thomas Gleixner  2009-11-17  708  	raw_spin_lock_irqsave(&db->lock, flags);
-> 3ac7fe5a4aab40 Thomas Gleixner  2008-04-30  709  
-> 63a759694eed61 Thomas Gleixner  2023-04-12  710  	obj = lookup_object_or_alloc(addr, db, descr, false, true);
-> 265c43c4e983ed Andrzej Hajda    2023-10-25  711  	if (unlikely(!obj)) {
-> 265c43c4e983ed Andrzej Hajda    2023-10-25  712  		raw_spin_unlock_irqrestore(&db->lock, flags);
-> 265c43c4e983ed Andrzej Hajda    2023-10-25  713  		debug_objects_oom();
-> 265c43c4e983ed Andrzej Hajda    2023-10-25  714  		return 0;
-> 265c43c4e983ed Andrzej Hajda    2023-10-25  715  	} else if (likely(!IS_ERR(obj))) {
->                                                                           ^^^^^^^^^^^^
-> obj is an error pointer
+Hi Philipp,
 
-Ah. Right that's silly. lookup_object_or_alloc() either returns a valid
-pointer or NULL. Let me amend that before I move it over to tip.
+kernel test robot noticed the following build warnings:
 
-Thanks,
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.7-rc2 next-202311=
+21]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-        tglx
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/lib-=
+move-pci_iomap-c-to-drivers-pci/20231121-060258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231120215945.52027-3-pstanner%40=
+redhat.com
+patch subject: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+config: parisc-kismet-CONFIG_GENERIC_PCI_IOMAP-CONFIG_PARISC-0-0 (https://d=
+ownload.01.org/0day-ci/archive/20231121/202311212322.TOIJ8Pcg-lkp@intel.com=
+/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231121/202311212322.T=
+OIJ8Pcg-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311212322.TOIJ8Pcg-lkp@i=
+ntel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMA=
+P when selected by PARISC
+   /usr/bin/grep: /db/releases/20231121182703/kernel-tests/etc/kcflags: No =
+such file or directory
+   {"timestamp":"2023-11-21 21:16:41 +0800", "level":"WARN", "event":"kbuil=
+d.sh:3942:in `add_etc_kcflags': grep exit 2 (ShellError)", "detail":"cmd: '=
+/usr/bin/grep' '-v' '-e' '^#' '-e' '^$' '/db/releases/20231121182703/kernel=
+-tests/etc/kcflags' \nstderr: /usr/bin/grep: /db/releases/20231121182703/ke=
+rnel-tests/etc/kcflags: No such file or directory\n\n", "hostname":"communi=
+ty-kbuild-consumer-161", "host_hostname":"lkp-worker22", "call_stack":"/zda=
+y/kernel-tests/lib/kbuild.sh:3942:in `add_etc_kcflags': /usr/bin/grep: /db/=
+releases/20231121182703/kernel-tests/etc/kcflags: No such file or directory=
+ (ShellError 2)\n  from /zday/kernel-tests/lib/kbuild.sh:3971: setup_kcflag=
+s\n  from /zday/kernel-tests/lib/kbuild.sh:4016: invoke_make\n  from /zday/=
+kernel-tests/lib/kbuild.sh:4122: make\n  from /zday/kernel-tests/lib/kbuild=
+=2Esh:5623: make_config_allyes\n  from /zday/kernel-tests/common.sh:209: re=
+direct_error_to_screen\n  from /zday/kernel-tests/common.sh:217: redirect_c=
+ommand_errors\n  from /zday/kernel-tests/lib/kbuild.sh:5630: make_config\n =
+ from /zday/kernel-tests/lib/builder/kismet.sh:156: generate_make_olddefcon=
+fig_warnings\n  from /zday/kernel-tests/lib/builder/kismet.sh:297: builder_=
+compile\n  from /zday/kernel-tests/bisect-test-build-error.sh:94: main\n"}
+  =20
+   WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMAP
+     Depends on [n]: PCI [=3Dn]
+     Selected by [y]:
+     - PARISC [=3Dy]
+
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
