@@ -1,47 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E49B584D5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 21:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBA5584CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 21:27:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfY3d0US"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDvSRCoC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700602067; x=1732138067;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4oZu79ZLVpsJS10GL5Pf4VpuDeqY4wtlEYpTXwAp6rI=;
-  b=TfY3d0USJdSnC3GdIG3Xrz+qAQuNhhs0j12PL3yYCxek+6w3WqCY5EwR
-   F4qtqTISVg+Oun0Yyi8QbjRt7o8s8UhydPHa3vQqewrZw1dPfR5fYswne
-   N7xqGyVN7eKrgCXRKLMCZ7k8GA+2qDdTry9xv5ULaiBUi9r5cIA9Oxah/
-   lU7mpaMSKy5zgJ5VQZliwEy6t/oWHTPqEHw/1ZMlD3XlzumWyJOOKJR27
-   viQG9euw2b8I1wBK5K+joIp3VtMaQXERAr8dVuZh5SKZlgYFsNhTfSjv1
-   Jp35gXtNamGT0XIjCs58SeS4GsqiU6uOeDlC/jlefC6brsKtb33IN9gp+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="390788285"
+  t=1700602072; x=1732138072;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uEBVNeqKwVe2rty8DYNq8xTPRTe1IjjFFyd71FrkqFs=;
+  b=WDvSRCoCdDUmFa5DczjfJchQv20VV1gPyvO8WfZSVhgyUazk/gabLJFo
+   qDJD/wjfsoT+63S1+2857UlN3QXtYNJuo4zssCX6olgU70G3Tm2LlE8ca
+   5YMGSY+l9bQ2joIfxJbU+Tj6hMfTrLJss4+TE08pBXL/0gybNgQWJPp14
+   ykdeP0KhYF1m5G7QqT5k46EdUZqZZfHjohqj9FH6y9sKzXPTk6hBQTgvg
+   EJ/W0BcU6sOg+JJyFexl8YwszQAHTT+mb0K4Np+a2oYxLg+UEO3O27ouE
+   f8wrzBW1NUX9C1quQI1czsniQjbA561uYiOxIrf6et5k9jwroqO2HHHnV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="389080905"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="390788285"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 13:27:45 -0800
+   d="scan'208";a="389080905"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 13:27:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="857442536"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="857442536"
+   d="scan'208";a="15029831"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Nov 2023 13:27:44 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2023 13:27:44 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5YHW-0008HV-1c;
+	id 1r5YHW-0008HO-14;
 	Tue, 21 Nov 2023 21:27:42 +0000
-Date: Wed, 22 Nov 2023 05:27:14 +0800
+Date: Wed, 22 Nov 2023 05:27:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.6-r4-dango 20/28]
- drivers/net/pcs/pcs-mtk-usxgmii.c:506: undefined reference to
- `phylink_decode_usxgmii_word'
-Message-ID: <202311220533.Xe6vd9yP-lkp@intel.com>
+To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
+	dave@stgolabs.net, jonathan.cameron@huawei.com,
+	dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com,
+	dan.j.williams@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, david@redhat.com,
+	Vilas.Sridharan@amd.com, leo.duran@amd.com, Yazen.Ghannam@amd.com,
+	rientjes@google.com, jiaqiyan@google.com, tony.luck@intel.com,
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, rafael@kernel.org,
+	lenb@kernel.org, naoya.horiguchi@nec.com, james.morse@arm.com,
+	jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	mike.malvestuto@intel.com
+Subject: Re: [PATCH v2 01/10] cxl/mbox: Add GET_SUPPORTED_FEATURES mailbox
+ command
+Message-ID: <202311220525.o2AUzf97-lkp@intel.com>
+References: <20231121101844.1161-2-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,53 +62,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231121101844.1161-2-shiju.jose@huawei.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.6-r4-dango
-head:   a5a598d7e673122a9029ab02546923a7e30ed809
-commit: 7c89ca96e12ef4bfcab4b34456af66044061d12f [20/28] net: pcs: add driver for MediaTek USXGMII PCS
-config: x86_64-randconfig-123-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220533.Xe6vd9yP-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220533.Xe6vd9yP-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/cxl-mbox-Add-GET_SUPPORTED_FEATURES-mailbox-command/20231121-182247
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231121101844.1161-2-shiju.jose%40huawei.com
+patch subject: [PATCH v2 01/10] cxl/mbox: Add GET_SUPPORTED_FEATURES mailbox command
+config: arc-randconfig-r113-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220525.o2AUzf97-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220525.o2AUzf97-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220533.Xe6vd9yP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220525.o2AUzf97-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/cxl/core/mbox.c:1318:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] size_out @@     got restricted __le32 [usertype] count @@
+   drivers/cxl/core/mbox.c:1318:31: sparse:     expected unsigned int [usertype] size_out
+   drivers/cxl/core/mbox.c:1318:31: sparse:     got restricted __le32 [usertype] count
 
-   ld: vmlinux.o: in function `mtk_pcs_lynxi_get_state':
->> drivers/net/pcs/pcs-mtk-lynxi.c:112: undefined reference to `phylink_mii_c22_pcs_decode_state'
-   ld: vmlinux.o: in function `mtk_pcs_lynxi_config':
->> drivers/net/pcs/pcs-mtk-lynxi.c:126: undefined reference to `phylink_mii_c22_pcs_encode_advertisement'
-   ld: vmlinux.o: in function `mtk_usxgmii_pcs_get_an_state':
->> drivers/net/pcs/pcs-mtk-usxgmii.c:506: undefined reference to `phylink_decode_usxgmii_word'
+vim +1318 drivers/cxl/core/mbox.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHY_MTK_PEXTP
-   Depends on [n]: (ARCH_MEDIATEK || COMPILE_TEST [=n]) && OF [=y] && OF_ADDRESS [=y] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - PCS_MTK_USXGMII [=y] && NETDEVICES [=y]
-
-
-vim +506 drivers/net/pcs/pcs-mtk-usxgmii.c
-
-   493	
-   494	static void mtk_usxgmii_pcs_get_an_state(struct mtk_usxgmii_pcs *mpcs,
-   495						 struct phylink_link_state *state)
-   496	{
-   497		u16 lpa;
-   498	
-   499		/* Refresh LPA by toggling LPA_LATCH */
-   500		mtk_m32(mpcs, RG_PCS_AN_STS0, USXGMII_LPA_LATCH, USXGMII_LPA_LATCH);
-   501		ndelay(1020);
-   502		mtk_m32(mpcs, RG_PCS_AN_STS0, USXGMII_LPA_LATCH, 0);
-   503		ndelay(1020);
-   504		lpa = FIELD_GET(USXGMII_LPA, mtk_r32(mpcs, RG_PCS_AN_STS0));
-   505	
- > 506		phylink_decode_usxgmii_word(state, lpa);
-   507	}
-   508	
+  1306	
+  1307	int cxl_get_supported_features(struct cxl_memdev_state *mds,
+  1308							struct cxl_mbox_get_supp_feats_in *pi,
+  1309							void *feats_out)
+  1310	{
+  1311		struct cxl_mbox_cmd mbox_cmd;
+  1312		int rc;
+  1313	
+  1314		mbox_cmd = (struct cxl_mbox_cmd) {
+  1315			.opcode = CXL_MBOX_OP_GET_SUPPORTED_FEATURES,
+  1316			.size_in = sizeof(*pi),
+  1317			.payload_in = pi,
+> 1318			.size_out = pi->count,
+  1319			.payload_out = feats_out,
+  1320			.min_out = sizeof(struct cxl_mbox_get_supp_feats_out),
+  1321		};
+  1322		rc = cxl_internal_send_cmd(mds, &mbox_cmd);
+  1323		if (rc < 0)
+  1324			return rc;
+  1325	
+  1326		return 0;
+  1327	}
+  1328	EXPORT_SYMBOL_NS_GPL(cxl_get_supported_features, CXL);
+  1329	
 
 -- 
 0-DAY CI Kernel Test Service
