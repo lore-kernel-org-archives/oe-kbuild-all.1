@@ -1,47 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2625A584C9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 21:26:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813BA584C6;
+	Tue, 21 Nov 2023 21:26:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iBhhTKeQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xqi9cprQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700601970; x=1732137970;
+  t=1700601978; x=1732137978;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=P/oFptQ3I2vy2qwmdwR6xnbyr54z/uJw1iYsW/V1Ov0=;
-  b=iBhhTKeQllem4y8/90t8R0MrYBw+Fnj8bmCPAFtWmGxYKTH2xHDiIeOP
-   zggNIO/HmCr3QH8/mgh0YzBcC4QHME43G6zmOIkdHAej9AYJTJ7NRCTmM
-   Y/iSlPjC9QQbGHYoJKivXkf3KBjlYJTgRh1a+M2eSrd3pivS+BIqQGRrz
-   h5yCwDPGh8erK0cJKJk0zQQfDNWN8GTA4/+Tdtr6L72YJFXDLVHPrMkDF
-   2AwzttArUoeGQUYBd1ji5FUKDf+OL/LFiDMhFCSL5vFJ6Ks26kMW8uQAn
-   dKDO9qMWaVPcMX9Q9w4fjvqIeNv+RZWJQnb+HDAU4Llc7dQxS7MQGSOKn
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="456265159"
+  bh=E29YNzrF84l1UOqjyTDbLow2viU2yq8P0Bz6wCnBAm0=;
+  b=Xqi9cprQHoF7hxeVIezgGkWjR0LlrQHL45CosePxnOtR+2mBVXnXLpCt
+   LMg7Hf3glvV8Z3Sboe7Sv3PYM195n0AAYtB8QKIpin/bB7gQTJVGNeqFf
+   1afztxZATH9M6SqVqCubWb+yDXbKlfuQJKp/HSQOzSaHHkzPItmPVIoZt
+   VCa71GfXIbLxoo1jzZZPyPn4xvpJKvkSFhmIzzyajSoQ2aGZSzg2TKZ0U
+   VQIimmZU2nuuxKkgwyDWLSN0K7G9QG6xfsFx4blmU/ULSHJrpgtAjXaEO
+   SVxVI/upcaiGKUlHFlrBwE6iJTh320XSLpbBSdQyQKxx0SsmiFjKsGFGn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="382327463"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="456265159"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 13:26:04 -0800
+   d="scan'208";a="382327463"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 13:26:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="1098163043"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="884335083"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="1098163043"
+   d="scan'208";a="884335083"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Nov 2023 13:26:01 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2023 13:26:12 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5YFr-0008Gy-16;
-	Tue, 21 Nov 2023 21:25:59 +0000
-Date: Wed, 22 Nov 2023 05:25:47 +0800
+	id 1r5YG2-0008H4-2F;
+	Tue, 21 Nov 2023 21:26:10 +0000
+Date: Wed, 22 Nov 2023 05:25:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: fdmanana@kernel.org, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 7/8] btrfs: use a dedicated data structure for chunk maps
-Message-ID: <202311220419.PQxS7GUc-lkp@intel.com>
-References: <777320fd09dfc68a89180723bf5d7368dab06299.1700573314.git.fdmanana@suse.com>
+To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+	almasrymina@google.com, hawk@kernel.org,
+	ilias.apalodimas@linaro.org, dsahern@gmail.com, dtatulea@nvidia.com,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH net-next v2 07/15] eth: link netdev to page_pools in
+ drivers
+Message-ID: <202311220437.p7reesKP-lkp@intel.com>
+References: <20231121000048.789613-8-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,225 +55,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <777320fd09dfc68a89180723bf5d7368dab06299.1700573314.git.fdmanana@suse.com>
+In-Reply-To: <20231121000048.789613-8-kuba@kernel.org>
 
-Hi,
+Hi Jakub,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master v6.7-rc2 next-20231121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/fdmanana-kernel-org/btrfs-fix-off-by-one-when-checking-chunk-map-includes-logical-address/20231121-214139
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/777320fd09dfc68a89180723bf5d7368dab06299.1700573314.git.fdmanana%40suse.com
-patch subject: [PATCH 7/8] btrfs: use a dedicated data structure for chunk maps
-config: i386-randconfig-061-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220419.PQxS7GUc-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/net-page_pool-split-the-page_pool_params-into-fast-and-slow/20231121-092240
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231121000048.789613-8-kuba%40kernel.org
+patch subject: [PATCH net-next v2 07/15] eth: link netdev to page_pools in drivers
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231122/202311220437.p7reesKP-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220419.PQxS7GUc-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220437.p7reesKP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220419.PQxS7GUc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220437.p7reesKP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/btrfs/zoned.c:1293:12: warning: declaration of 'struct map_lookup' will not be visible outside of this function [-Wvisibility]
-                                   struct map_lookup *map)
-                                          ^
-   fs/btrfs/zoned.c:1296:35: error: incomplete definition of type 'struct map_lookup'
-           struct btrfs_device *device = map->stripes[zone_idx].dev;
-                                         ~~~^
-   fs/btrfs/zoned.c:1293:12: note: forward declaration of 'struct map_lookup'
-                                   struct map_lookup *map)
-                                          ^
-   fs/btrfs/zoned.c:1302:22: error: incomplete definition of type 'struct map_lookup'
-           info->physical = map->stripes[zone_idx].physical;
-                            ~~~^
-   fs/btrfs/zoned.c:1293:12: note: forward declaration of 'struct map_lookup'
-                                   struct map_lookup *map)
-                                          ^
-   fs/btrfs/zoned.c:1396:18: warning: declaration of 'struct map_lookup' will not be visible outside of this function [-Wvisibility]
-                                         struct map_lookup *map,
-                                                ^
-   fs/btrfs/zoned.c:1402:10: error: incomplete definition of type 'struct map_lookup'
-           if ((map->type & BTRFS_BLOCK_GROUP_DATA) && !fs_info->stripe_root) {
-                ~~~^
-   fs/btrfs/zoned.c:1396:18: note: forward declaration of 'struct map_lookup'
-                                         struct map_lookup *map,
-                                                ^
-   fs/btrfs/zoned.c:1438:13: warning: declaration of 'struct map_lookup' will not be visible outside of this function [-Wvisibility]
-                                           struct map_lookup *map,
-                                                  ^
-   fs/btrfs/zoned.c:1445:10: error: incomplete definition of type 'struct map_lookup'
-           if ((map->type & BTRFS_BLOCK_GROUP_DATA) && !fs_info->stripe_root) {
-                ~~~^
-   fs/btrfs/zoned.c:1438:13: note: forward declaration of 'struct map_lookup'
-                                           struct map_lookup *map,
-                                                  ^
-   fs/btrfs/zoned.c:1447:36: error: incomplete definition of type 'struct map_lookup'
-                             btrfs_bg_type_to_raid_name(map->type));
-                                                        ~~~^
-   fs/btrfs/messages.h:46:40: note: expanded from macro 'btrfs_err'
-           btrfs_printk(fs_info, KERN_ERR fmt, ##args)
-                                                 ^~~~
-   fs/btrfs/messages.h:27:32: note: expanded from macro 'btrfs_printk'
-           _btrfs_printk(fs_info, fmt, ##args)
-                                         ^~~~
-   fs/btrfs/zoned.c:1438:13: note: forward declaration of 'struct map_lookup'
-                                           struct map_lookup *map,
-                                                  ^
-   fs/btrfs/zoned.c:1451:21: error: incomplete definition of type 'struct map_lookup'
-           for (i = 0; i < map->num_stripes; i++) {
-                           ~~~^
-   fs/btrfs/zoned.c:1438:13: note: forward declaration of 'struct map_lookup'
-                                           struct map_lookup *map,
-                                                  ^
-   fs/btrfs/zoned.c:1460:37: error: incomplete definition of type 'struct map_lookup'
-                                     btrfs_bg_type_to_raid_name(map->type));
-                                                                ~~~^
-   fs/btrfs/messages.h:46:40: note: expanded from macro 'btrfs_err'
-           btrfs_printk(fs_info, KERN_ERR fmt, ##args)
-                                                 ^~~~
-   fs/btrfs/messages.h:27:32: note: expanded from macro 'btrfs_printk'
-           _btrfs_printk(fs_info, fmt, ##args)
-                                         ^~~~
-   fs/btrfs/zoned.c:1438:13: note: forward declaration of 'struct map_lookup'
-                                           struct map_lookup *map,
-                                                  ^
-   fs/btrfs/zoned.c:1486:13: warning: declaration of 'struct map_lookup' will not be visible outside of this function [-Wvisibility]
-                                           struct map_lookup *map,
-                                                  ^
-   fs/btrfs/zoned.c:1492:10: error: incomplete definition of type 'struct map_lookup'
-           if ((map->type & BTRFS_BLOCK_GROUP_DATA) && !fs_info->stripe_root) {
-                ~~~^
-   fs/btrfs/zoned.c:1486:13: note: forward declaration of 'struct map_lookup'
-                                           struct map_lookup *map,
-                                                  ^
-   fs/btrfs/zoned.c:1494:36: error: incomplete definition of type 'struct map_lookup'
-                             btrfs_bg_type_to_raid_name(map->type));
-                                                        ~~~^
-   fs/btrfs/messages.h:46:40: note: expanded from macro 'btrfs_err'
-           btrfs_printk(fs_info, KERN_ERR fmt, ##args)
-                                                 ^~~~
-   fs/btrfs/messages.h:27:32: note: expanded from macro 'btrfs_printk'
-           _btrfs_printk(fs_info, fmt, ##args)
-                                         ^~~~
-   fs/btrfs/zoned.c:1486:13: note: forward declaration of 'struct map_lookup'
-                                           struct map_lookup *map,
-                                                  ^
-   fs/btrfs/zoned.c:1498:25: error: incomplete definition of type 'struct map_lookup'
-           for (int i = 0; i < map->num_stripes; i++) {
-                               ~~~^
-   fs/btrfs/zoned.c:1486:13: note: forward declaration of 'struct map_lookup'
-                                           struct map_lookup *map,
-                                                  ^
-   fs/btrfs/zoned.c:1518:14: warning: declaration of 'struct map_lookup' will not be visible outside of this function [-Wvisibility]
-                                            struct map_lookup *map,
-                                                   ^
-   fs/btrfs/zoned.c:1524:10: error: incomplete definition of type 'struct map_lookup'
-           if ((map->type & BTRFS_BLOCK_GROUP_DATA) && !fs_info->stripe_root) {
-                ~~~^
-   fs/btrfs/zoned.c:1518:14: note: forward declaration of 'struct map_lookup'
-                                            struct map_lookup *map,
-                                                   ^
-   fs/btrfs/zoned.c:1526:36: error: incomplete definition of type 'struct map_lookup'
-                             btrfs_bg_type_to_raid_name(map->type));
+>> drivers/net/ethernet/socionext/netsec.c:1305:11: error: initializing 'struct napi_struct *' with an expression of incompatible type 'struct napi_struct'; take the address with &
+                   .napi = priv->napi,
+                           ^~~~~~~~~~
+                           &
+   1 error generated.
 
 
-vim +1293 fs/btrfs/zoned.c
+vim +1305 drivers/net/ethernet/socionext/netsec.c
 
-15c12fcc50a1b12 Christoph Hellwig 2023-06-05  1290  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1291  static int btrfs_load_zone_info(struct btrfs_fs_info *fs_info, int zone_idx,
-09a46725cc84165 Christoph Hellwig 2023-06-05  1292  				struct zone_info *info, unsigned long *active,
-09a46725cc84165 Christoph Hellwig 2023-06-05 @1293  				struct map_lookup *map)
-09a46725cc84165 Christoph Hellwig 2023-06-05  1294  {
-09a46725cc84165 Christoph Hellwig 2023-06-05  1295  	struct btrfs_dev_replace *dev_replace = &fs_info->dev_replace;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1296  	struct btrfs_device *device = map->stripes[zone_idx].dev;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1297  	int dev_replace_is_ongoing = 0;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1298  	unsigned int nofs_flag;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1299  	struct blk_zone zone;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1300  	int ret;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1301  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1302  	info->physical = map->stripes[zone_idx].physical;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1303  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1304  	if (!device->bdev) {
-09a46725cc84165 Christoph Hellwig 2023-06-05  1305  		info->alloc_offset = WP_MISSING_DEV;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1306  		return 0;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1307  	}
-09a46725cc84165 Christoph Hellwig 2023-06-05  1308  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1309  	/* Consider a zone as active if we can allow any number of active zones. */
-09a46725cc84165 Christoph Hellwig 2023-06-05  1310  	if (!device->zone_info->max_active_zones)
-09a46725cc84165 Christoph Hellwig 2023-06-05  1311  		__set_bit(zone_idx, active);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1312  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1313  	if (!btrfs_dev_is_sequential(device, info->physical)) {
-09a46725cc84165 Christoph Hellwig 2023-06-05  1314  		info->alloc_offset = WP_CONVENTIONAL;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1315  		return 0;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1316  	}
-09a46725cc84165 Christoph Hellwig 2023-06-05  1317  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1318  	/* This zone will be used for allocation, so mark this zone non-empty. */
-09a46725cc84165 Christoph Hellwig 2023-06-05  1319  	btrfs_dev_clear_zone_empty(device, info->physical);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1320  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1321  	down_read(&dev_replace->rwsem);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1322  	dev_replace_is_ongoing = btrfs_dev_replace_is_ongoing(dev_replace);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1323  	if (dev_replace_is_ongoing && dev_replace->tgtdev != NULL)
-09a46725cc84165 Christoph Hellwig 2023-06-05  1324  		btrfs_dev_clear_zone_empty(dev_replace->tgtdev, info->physical);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1325  	up_read(&dev_replace->rwsem);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1326  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1327  	/*
-09a46725cc84165 Christoph Hellwig 2023-06-05  1328  	 * The group is mapped to a sequential zone. Get the zone write pointer
-09a46725cc84165 Christoph Hellwig 2023-06-05  1329  	 * to determine the allocation offset within the zone.
-09a46725cc84165 Christoph Hellwig 2023-06-05  1330  	 */
-09a46725cc84165 Christoph Hellwig 2023-06-05  1331  	WARN_ON(!IS_ALIGNED(info->physical, fs_info->zone_size));
-09a46725cc84165 Christoph Hellwig 2023-06-05  1332  	nofs_flag = memalloc_nofs_save();
-09a46725cc84165 Christoph Hellwig 2023-06-05  1333  	ret = btrfs_get_dev_zone(device, info->physical, &zone);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1334  	memalloc_nofs_restore(nofs_flag);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1335  	if (ret) {
-09a46725cc84165 Christoph Hellwig 2023-06-05  1336  		if (ret != -EIO && ret != -EOPNOTSUPP)
-09a46725cc84165 Christoph Hellwig 2023-06-05  1337  			return ret;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1338  		info->alloc_offset = WP_MISSING_DEV;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1339  		return 0;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1340  	}
-09a46725cc84165 Christoph Hellwig 2023-06-05  1341  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1342  	if (zone.type == BLK_ZONE_TYPE_CONVENTIONAL) {
-09a46725cc84165 Christoph Hellwig 2023-06-05  1343  		btrfs_err_in_rcu(fs_info,
-09a46725cc84165 Christoph Hellwig 2023-06-05  1344  		"zoned: unexpected conventional zone %llu on device %s (devid %llu)",
-09a46725cc84165 Christoph Hellwig 2023-06-05  1345  			zone.start << SECTOR_SHIFT, rcu_str_deref(device->name),
-09a46725cc84165 Christoph Hellwig 2023-06-05  1346  			device->devid);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1347  		return -EIO;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1348  	}
-09a46725cc84165 Christoph Hellwig 2023-06-05  1349  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1350  	info->capacity = (zone.capacity << SECTOR_SHIFT);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1351  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1352  	switch (zone.cond) {
-09a46725cc84165 Christoph Hellwig 2023-06-05  1353  	case BLK_ZONE_COND_OFFLINE:
-09a46725cc84165 Christoph Hellwig 2023-06-05  1354  	case BLK_ZONE_COND_READONLY:
-09a46725cc84165 Christoph Hellwig 2023-06-05  1355  		btrfs_err(fs_info,
-09a46725cc84165 Christoph Hellwig 2023-06-05  1356  		"zoned: offline/readonly zone %llu on device %s (devid %llu)",
-09a46725cc84165 Christoph Hellwig 2023-06-05  1357  			  (info->physical >> device->zone_info->zone_size_shift),
-09a46725cc84165 Christoph Hellwig 2023-06-05  1358  			  rcu_str_deref(device->name), device->devid);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1359  		info->alloc_offset = WP_MISSING_DEV;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1360  		break;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1361  	case BLK_ZONE_COND_EMPTY:
-09a46725cc84165 Christoph Hellwig 2023-06-05  1362  		info->alloc_offset = 0;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1363  		break;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1364  	case BLK_ZONE_COND_FULL:
-09a46725cc84165 Christoph Hellwig 2023-06-05  1365  		info->alloc_offset = info->capacity;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1366  		break;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1367  	default:
-09a46725cc84165 Christoph Hellwig 2023-06-05  1368  		/* Partially used zone. */
-09a46725cc84165 Christoph Hellwig 2023-06-05  1369  		info->alloc_offset = ((zone.wp - zone.start) << SECTOR_SHIFT);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1370  		__set_bit(zone_idx, active);
-09a46725cc84165 Christoph Hellwig 2023-06-05  1371  		break;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1372  	}
-09a46725cc84165 Christoph Hellwig 2023-06-05  1373  
-09a46725cc84165 Christoph Hellwig 2023-06-05  1374  	return 0;
-09a46725cc84165 Christoph Hellwig 2023-06-05  1375  }
-09a46725cc84165 Christoph Hellwig 2023-06-05  1376  
+  1290	
+  1291	static int netsec_setup_rx_dring(struct netsec_priv *priv)
+  1292	{
+  1293		struct netsec_desc_ring *dring = &priv->desc_ring[NETSEC_RING_RX];
+  1294		struct bpf_prog *xdp_prog = READ_ONCE(priv->xdp_prog);
+  1295		struct page_pool_params pp_params = {
+  1296			.order = 0,
+  1297			/* internal DMA mapping in page_pool */
+  1298			.flags = PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV,
+  1299			.pool_size = DESC_NUM,
+  1300			.nid = NUMA_NO_NODE,
+  1301			.dev = priv->dev,
+  1302			.dma_dir = xdp_prog ? DMA_BIDIRECTIONAL : DMA_FROM_DEVICE,
+  1303			.offset = NETSEC_RXBUF_HEADROOM,
+  1304			.max_len = NETSEC_RX_BUF_SIZE,
+> 1305			.napi = priv->napi,
+  1306			.netdev = priv->ndev,
+  1307		};
+  1308		int i, err;
+  1309	
+  1310		dring->page_pool = page_pool_create(&pp_params);
+  1311		if (IS_ERR(dring->page_pool)) {
+  1312			err = PTR_ERR(dring->page_pool);
+  1313			dring->page_pool = NULL;
+  1314			goto err_out;
+  1315		}
+  1316	
+  1317		err = xdp_rxq_info_reg(&dring->xdp_rxq, priv->ndev, 0, priv->napi.napi_id);
+  1318		if (err)
+  1319			goto err_out;
+  1320	
+  1321		err = xdp_rxq_info_reg_mem_model(&dring->xdp_rxq, MEM_TYPE_PAGE_POOL,
+  1322						 dring->page_pool);
+  1323		if (err)
+  1324			goto err_out;
+  1325	
+  1326		for (i = 0; i < DESC_NUM; i++) {
+  1327			struct netsec_desc *desc = &dring->desc[i];
+  1328			dma_addr_t dma_handle;
+  1329			void *buf;
+  1330			u16 len;
+  1331	
+  1332			buf = netsec_alloc_rx_data(priv, &dma_handle, &len);
+  1333	
+  1334			if (!buf) {
+  1335				err = -ENOMEM;
+  1336				goto err_out;
+  1337			}
+  1338			desc->dma_addr = dma_handle;
+  1339			desc->addr = buf;
+  1340			desc->len = len;
+  1341		}
+  1342	
+  1343		netsec_rx_fill(priv, 0, DESC_NUM);
+  1344	
+  1345		return 0;
+  1346	
+  1347	err_out:
+  1348		netsec_uninit_pkt_dring(priv, NETSEC_RING_RX);
+  1349		return err;
+  1350	}
+  1351	
 
 -- 
 0-DAY CI Kernel Test Service
