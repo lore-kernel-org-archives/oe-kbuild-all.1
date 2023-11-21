@@ -1,46 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0927854FA2;
-	Tue, 21 Nov 2023 17:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EEC51C4A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 17:21:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I6VDx++u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E2Z+lWyJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700586592; x=1732122592;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IjIFoFy6HcwJ+HemyO4VxK0Byfq+CQ8SrdYszDMI/kM=;
-  b=I6VDx++u9nJD0ysQQyFi1cjsAVzGQnf5OVqDAg0uxMA1SHd9uYuqaJKT
-   ANKtzmWL7d4i4+Z/c/fwjunWV6JZl45kvKmm9viA4fYGrZ9N47i+UNa1X
-   vjvyA+Ic/RUfjwtPDnI0rodlWcHpUdB+fjH9dgIlMOAcKCt/Ay8geakzL
-   1tEw3BzhrxxCZqeN1X7oIc62M+absb+6gKTIwYrUvg9NsjT5t2Twujr2J
-   jBfCphkr+xJLMZypO/iawUHrm9JH3NNeSpExJo11VizYMe586gG4wAmdi
-   0W6yiW1FwvF4fPMhWn7srL5pH5UsAj8qKwj6UIQ/OGtFZBxA0IZW6PedI
+  t=1700587293; x=1732123293;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tPFNAp0rBeOeoHA+0LkUJewIhopjNxORZEBoCvlOfDA=;
+  b=E2Z+lWyJsYnEM9DU9SurtJr4HIUJC7MvALpkaE50kH5+ewX8YAoDzzPN
+   cKAR3kjaELKHwVsOwXL9XCpWGtNQ5U/pbY30Ri95ICDtkrE34nEvfD2fH
+   XPfBobH8IlPDMe3dLiqczFWeZBFKbmVgNkdBVqjfza+nDFdsAWZchaN8Y
+   YRkbZrh97A4LhCNQntF3fLyItZV8PRhhhi29iVbvqdTjKC2J75O691kNN
+   Xkt5d+B5L5Mrbjc3CmdJVqPXW9HCZmeLwv0MbTCEoMwl+Tc4INDIonC8N
+   N1zkbQeb5d10J0FxdMlI0P8V2VeclD26sIkLapSK6lFnPtMFgdD9vXBvh
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5010892"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="10555049"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="5010892"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 09:09:25 -0800
+   d="scan'208";a="10555049"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 09:21:33 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="1013974523"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="14570558"
+   d="scan'208";a="1013974523"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 21 Nov 2023 09:09:23 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 21 Nov 2023 09:21:30 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5UFP-00084c-0q;
-	Tue, 21 Nov 2023 17:09:15 +0000
-Date: Wed, 22 Nov 2023 01:08:52 +0800
+	id 1r5URD-000858-2i;
+	Tue, 21 Nov 2023 17:21:27 +0000
+Date: Wed, 22 Nov 2023 01:21:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/topology 30/73] arch/x86/hyperv/hv_vtl.c:29:19:
- error: no member named 'find_smp_config' in 'struct x86_init_mpparse'; did
- you mean 'get_smp_config'?
-Message-ID: <202311220123.GmPxx6VY-lkp@intel.com>
+To: Hermes Zhang <Hermes.Zhang@axis.com>, sre@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel@axis.com, Hermes Zhang <chenhuiz@axis.com>,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] power: supply: bq24190_charger: Add support for
+  BQ24296
+Message-ID: <202311220111.umAlhsjl-lkp@intel.com>
+References: <20231121070505.3061304-3-Hermes.Zhang@axis.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,64 +54,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231121070505.3061304-3-Hermes.Zhang@axis.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topology
-head:   4fe0e2152c0eca6ed0c790ace47809c2c9e62708
-commit: cde477ffc7d4bae2cefa239dddb4d2465b75edaa [30/73] x86/mpparse: Rename default_find_smp_config()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231122/202311220123.GmPxx6VY-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220123.GmPxx6VY-lkp@intel.com/reproduce)
+Hi Hermes,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on sre-power-supply/for-next]
+[also build test ERROR on linus/master v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hermes-Zhang/dt-bindings-power-supply-bq24190-Add-BQ24296-compatible/20231121-151103
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20231121070505.3061304-3-Hermes.Zhang%40axis.com
+patch subject: [PATCH v3 2/2] power: supply: bq24190_charger: Add support for  BQ24296
+config: powerpc64-randconfig-r071-20231121 (https://download.01.org/0day-ci/archive/20231122/202311220111.umAlhsjl-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220111.umAlhsjl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220123.GmPxx6VY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220111.umAlhsjl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/hyperv/hv_vtl.c:29:19: error: no member named 'find_smp_config' in 'struct x86_init_mpparse'; did you mean 'get_smp_config'?
-           x86_init.mpparse.find_smp_config = x86_init_noop;
-                            ^~~~~~~~~~~~~~~
-                            get_smp_config
-   arch/x86/include/asm/x86_init.h:24:9: note: 'get_smp_config' declared here
-           void (*get_smp_config)(unsigned int early);
-                  ^
-   1 error generated.
+>> drivers/power/supply/bq24190_charger.c:1975:16: error: use of undeclared identifier 'bq24190_vbus_desc'
+    1975 |                 .vbus_desc = bq24190_vbus_desc,
+         |                              ^
+   drivers/power/supply/bq24190_charger.c:1984:16: error: use of undeclared identifier 'bq24190_vbus_desc'
+    1984 |                 .vbus_desc = bq24190_vbus_desc,
+         |                              ^
+   drivers/power/supply/bq24190_charger.c:1993:16: error: use of undeclared identifier 'bq24190_vbus_desc'
+    1993 |                 .vbus_desc = bq24190_vbus_desc,
+         |                              ^
+   drivers/power/supply/bq24190_charger.c:2002:16: error: use of undeclared identifier 'bq24190_vbus_desc'
+    2002 |                 .vbus_desc = bq24190_vbus_desc,
+         |                              ^
+>> drivers/power/supply/bq24190_charger.c:2011:16: error: use of undeclared identifier 'bq24296_vbus_desc'
+    2011 |                 .vbus_desc = bq24296_vbus_desc,
+         |                              ^
+   5 errors generated.
 
 
-vim +29 arch/x86/hyperv/hv_vtl.c
+vim +/bq24190_vbus_desc +1975 drivers/power/supply/bq24190_charger.c
 
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  18  
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  19  void __init hv_vtl_init_platform(void)
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  20  {
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  21  	pr_info("Linux runs in Hyper-V Virtual Trust Level\n");
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  22  
-cb6aeeb69af06b Saurabh Sengar 2023-04-24  23  	x86_platform.realmode_reserve = x86_init_noop;
-cb6aeeb69af06b Saurabh Sengar 2023-04-24  24  	x86_platform.realmode_init = x86_init_noop;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  25  	x86_init.irqs.pre_vector_init = x86_init_noop;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  26  	x86_init.timers.timer_init = x86_init_noop;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  27  
-9e2d0c33652470 Saurabh Sengar 2023-06-23  28  	/* Avoid searching for BIOS MP tables */
-9e2d0c33652470 Saurabh Sengar 2023-06-23 @29  	x86_init.mpparse.find_smp_config = x86_init_noop;
-9e2d0c33652470 Saurabh Sengar 2023-06-23  30  	x86_init.mpparse.get_smp_config = x86_init_uint_noop;
-9e2d0c33652470 Saurabh Sengar 2023-06-23  31  
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  32  	x86_platform.get_wallclock = get_rtc_noop;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  33  	x86_platform.set_wallclock = set_rtc_noop;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  34  	x86_platform.get_nmi_reason = hv_get_nmi_reason;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  35  
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  36  	x86_platform.legacy.i8042 = X86_LEGACY_I8042_PLATFORM_ABSENT;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  37  	x86_platform.legacy.rtc = 0;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  38  	x86_platform.legacy.warm_reset = 0;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  39  	x86_platform.legacy.reserve_bios_regions = 0;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  40  	x86_platform.legacy.devices.pnpbios = 0;
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  41  }
-3be1bc2fe9d2e4 Saurabh Sengar 2023-04-10  42  
-
-:::::: The code at line 29 was first introduced by commit
-:::::: 9e2d0c336524706fb327e9b87477f5f3337ad7a6 x86/hyperv: add noop functions to x86_init mpparse functions
-
-:::::: TO: Saurabh Sengar <ssengar@linux.microsoft.com>
-:::::: CC: Wei Liu <wei.liu@kernel.org>
+  1971	
+  1972	static const struct bq24190_chip_info bq24190_chip_info_tbl[] = {
+  1973		[BQ24190] = {
+  1974			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
+> 1975			.vbus_desc = bq24190_vbus_desc,
+  1976			.check_chip = bq24190_check_chip,
+  1977			.set_chg_config = bq24190_battery_set_chg_config,
+  1978			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
+  1979			.get_ntc_status = bq24190_charger_get_ntc_status,
+  1980			.set_otg_vbus = bq24190_set_otg_vbus,
+  1981		},
+  1982		[BQ24192] = {
+  1983			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
+  1984			.vbus_desc = bq24190_vbus_desc,
+  1985			.check_chip = bq24190_check_chip,
+  1986			.set_chg_config = bq24190_battery_set_chg_config,
+  1987			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
+  1988			.get_ntc_status = bq24190_charger_get_ntc_status,
+  1989			.set_otg_vbus = bq24190_set_otg_vbus,
+  1990		},
+  1991		[BQ24192i] = {
+  1992			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
+  1993			.vbus_desc = bq24190_vbus_desc,
+  1994			.check_chip = bq24190_check_chip,
+  1995			.set_chg_config = bq24190_battery_set_chg_config,
+  1996			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
+  1997			.get_ntc_status = bq24190_charger_get_ntc_status,
+  1998			.set_otg_vbus = bq24190_set_otg_vbus,
+  1999		},
+  2000		[BQ24196] = {
+  2001			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
+  2002			.vbus_desc = bq24190_vbus_desc,
+  2003			.check_chip = bq24190_check_chip,
+  2004			.set_chg_config = bq24190_battery_set_chg_config,
+  2005			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
+  2006			.get_ntc_status = bq24190_charger_get_ntc_status,
+  2007			.set_otg_vbus = bq24190_set_otg_vbus,
+  2008		},
+  2009		[BQ24296] = {
+  2010			.ichg_array_size = BQ24296_CCC_ICHG_VALUES_LEN,
+> 2011			.vbus_desc = bq24296_vbus_desc,
+  2012			.check_chip = bq24296_check_chip,
+  2013			.set_chg_config = bq24296_battery_set_chg_config,
+  2014			.ntc_fault_mask = BQ24296_REG_F_NTC_FAULT_MASK,
+  2015			.get_ntc_status = bq24296_charger_get_ntc_status,
+  2016			.set_otg_vbus = bq24296_set_otg_vbus,
+  2017		},
+  2018	};
+  2019	
 
 -- 
 0-DAY CI Kernel Test Service
