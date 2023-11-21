@@ -1,45 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC043BB2B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 22:44:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978C73BB5D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 22:52:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/MGWp7v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+op/WUW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700606674; x=1732142674;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8yNISvLdZFalMlizDxMmo03wMv6hRosHjvlpanfTZ6k=;
-  b=c/MGWp7vMBfdzJfS6l/zio/r+2P6x+B48vaY4urF+1QbAJMTBFexQMF6
-   Nh11I+2a5qdEi2lHLnqVjVezYz1Oz7mAEeWM5JupQoSaq1yjqDvGzTROj
-   c14KWoR3f9cKcfTRy6YWZbtzoh7vYUm/ZfpXgR+Nrq8CPfmeCorjSQxiI
-   tKlovAgyhz9vSj1T4ZYnfSTR4yqALMqMviSh3PwUhfY7U+W7wroMzLSWy
-   CMSAsb9v7nnffR1DmyBI5wGM5o419bB+WesE6x345ur/QFkOrkKZMzJdL
-   nuTN22xSFG3ur+utXRpMdmolXaqUYjWn2rLS9B1Hr8ziqLEmXsZtGS0oq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="456274451"
+  t=1700607144; x=1732143144;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6+g96D1uXgJOhDkq1ma1Sy1l9Wrpt2ZIVG+Q/XijQcE=;
+  b=B+op/WUWZXh4ufALsjig62Kqf9QY8kH1ixlQm2jgfGGcbyRC8mhz6CiC
+   qrScJngHlUw6C+9k6HopYuYmwJGcLz6zn7FemGk/cQ+l5jyAElHZlHAJt
+   7sYMQz+FxxY17oNfRqrO19VxIH4vBVGiy+/D+8gQrQdQoN6flKzSHMEh5
+   /4fPtNlbogcz3s0Lk0IWO/ah8oiiicz/k64Jahp+h6tDrND60XZ1hIT1S
+   Cep9uDis0QqnAqlCACvw6kaU7hhHVXzNjiC665KJHFp4iDQVe73TEUOxh
+   pGlmgK+1cVCpn4bf1M1ymzPQatUs+mnnBxcohge5ZoMT4zX6QKNANmK1g
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="371290745"
 X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="456274451"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 14:44:33 -0800
+   d="scan'208";a="371290745"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 14:52:23 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="837191859"
 X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="8027988"
+   d="scan'208";a="837191859"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2023 14:44:33 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 21 Nov 2023 14:52:20 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5ZTq-0008ME-00;
-	Tue, 21 Nov 2023 22:44:30 +0000
-Date: Wed, 22 Nov 2023 06:43:35 +0800
+	id 1r5ZbO-0008Mo-1A;
+	Tue, 21 Nov 2023 22:52:18 +0000
+Date: Wed, 22 Nov 2023 06:52:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-defer-cleanups 2/2] fs/xfs/libxfs/xfs_defer.c:747:1:
- warning: no previous prototype for function 'xfs_defer_alloc'
-Message-ID: <202311220537.jgLkLYNQ-lkp@intel.com>
+To: Kim Seer Paller <kimseer.paller@analog.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: iio: frequency: add admfm2000
+Message-ID: <202311220624.J7Nqg5h1-lkp@intel.com>
+References: <20231121100012.112861-1-kimseer.paller@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,50 +58,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231121100012.112861-1-kimseer.paller@analog.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-defer-cleanups
-head:   e522e139829f885434ffcb789fd64b4f83af3a5e
-commit: e522e139829f885434ffcb789fd64b4f83af3a5e [2/2] xfs: share code between xfs_defer_add and xfs_defer_add_barrier
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231122/202311220537.jgLkLYNQ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220537.jgLkLYNQ-lkp@intel.com/reproduce)
+Hi Kim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 98b1cc82c4affc16f5598d4fa14b1858671b2263]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kim-Seer-Paller/iio-frequency-admfm2000-New-driver/20231121-180427
+base:   98b1cc82c4affc16f5598d4fa14b1858671b2263
+patch link:    https://lore.kernel.org/r/20231121100012.112861-1-kimseer.paller%40analog.com
+patch subject: [PATCH v2 1/2] dt-bindings: iio: frequency: add admfm2000
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220624.J7Nqg5h1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220537.jgLkLYNQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220624.J7Nqg5h1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/iio/frequency/adi,admfm2000.yaml:14:5: [warning] wrong indentation: expected 2 but found 4 (indentation)
 
->> fs/xfs/libxfs/xfs_defer.c:747:1: warning: no previous prototype for function 'xfs_defer_alloc' [-Wmissing-prototypes]
-   xfs_defer_alloc(
-   ^
-   fs/xfs/libxfs/xfs_defer.c:746:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   struct xfs_defer_pending *
-   ^
-   static 
-   1 warning generated.
+vim +14 Documentation/devicetree/bindings/iio/frequency/adi,admfm2000.yaml
 
-
-vim +/xfs_defer_alloc +747 fs/xfs/libxfs/xfs_defer.c
-
-   744	
-   745	/* Create a new pending item at the end of the intake list. */
-   746	struct xfs_defer_pending *
- > 747	xfs_defer_alloc(
-   748		struct xfs_trans		*tp,
-   749		const struct xfs_defer_op_type	*ops)
-   750	{
-   751		struct xfs_defer_pending	*dfp;
-   752	
-   753		dfp = kmem_cache_zalloc(xfs_defer_pending_cache,
-   754				GFP_NOFS | __GFP_NOFAIL);
-   755		dfp->dfp_ops = ops;
-   756		INIT_LIST_HEAD(&dfp->dfp_work);
-   757		list_add_tail(&dfp->dfp_list, &tp->t_dfops);
-   758		return dfp;
-   759	};
-   760	
+     9	
+    10	maintainers:
+    11	  - Kim Seer Paller <kimseer.paller@analog.com>
+    12	
+    13	description:
+  > 14	    Dual microwave down converter module with input RF and LO frequency ranges
+    15	    from 0.5 to 32 GHz and an output IF frequency range from 0.1 to 8 GHz.
+    16	    It consists of a LNA, mixer, IF filter, DSA, and IF amplifier for each down
+    17	    conversion path.
+    18	
+    19	properties:
+    20	  compatible:
+    21	    enum:
+    22	      - adi,admfm2000
+    23	
+    24	  switch1-gpios:
+    25	    description:
+    26	      Must contain an array of 2 GPIO specifiers, referring to the GPIO pins
+    27	      connected to the B15 and B16.
+    28	    minItems: 2
+    29	    maxItems: 2
+    30	
+    31	  switch2-gpios:
+    32	    description:
+    33	      Must contain an array of 2 GPIO specifiers, referring to the GPIO pins
+    34	      connected to the L14 and K14.
+    35	    minItems: 2
+    36	    maxItems: 2
+    37	
+    38	  attenuation1-gpios:
+    39	    description:
+    40	      Must contain an array of 5 GPIO specifiers, referring to the GPIO pins
+    41	      connected to the C14, C15, C16, D14, and D15.
+    42	    minItems: 5
+    43	    maxItems: 5
+    44	
+    45	  attenuation2-gpios:
+    46	    description:
+    47	      Must contain an array of 5 GPIO specifiers, referring to the GPIO pins
+    48	      connected to the L15, L16, M14, M15, and M16.
+    49	    minItems: 5
+    50	    maxItems: 5
+    51	
+    52	  '#address-cells':
+    53	    const: 1
+    54	
+    55	  '#size-cells':
+    56	    const: 0
+    57	
+    58	patternProperties:
+    59	  "^channel@[0-1]$":
+    60	    type: object
+    61	    description: Represents a channel of the device.
+    62	
+    63	    additionalProperties: false
+    64	
+    65	    properties:
+    66	      reg:
+    67	        description:
+    68	          The channel number.
+    69	        minimum: 0
+    70	        maximum: 1
+    71	
+    72	      adi,mode:
+    73	        description:
+    74	          RF path selected for the channel.
+    75	            0 - Direct IF mode
+    76	            1 - Mixer mode
+    77	        $ref: /schemas/types.yaml#/definitions/uint32
+    78	        enum: [0, 1]
+    79	
+    80	    required:
+    81	      - reg
+    82	      - adi,mode
+    83	
+    84	required:
+    85	  - compatible
+    86	  - switch1-gpios
+    87	  - switch2-gpios
+    88	  - attenuation1-gpios
+    89	  - attenuation2-gpios
+    90	
 
 -- 
 0-DAY CI Kernel Test Service
