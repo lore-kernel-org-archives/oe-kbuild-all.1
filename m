@@ -1,47 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48741EA84
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 08:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547A01CF89
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 08:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+Lrl0nj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BuH6sK79"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700556417; x=1732092417;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kml+T/2sj8uGVc60bEYWnm/igYw9snPTddalEQ7hbZ8=;
-  b=K+Lrl0njz7IV7mt5M98gUevmDFnGVSyyWT9cyM9KcGpPOPlBnkjL8L3q
-   4lxLfTzHpBup94j/gut/mnX1Iv6yNzCoSrhcO06f6H77MqMtFaI9aALvD
-   MpGIDRPQiaPW/am05P9FNaDqJkKx5zqHm0ylk7tEmUKpQmGE4W3bnMff9
-   SiT1vSEm6j677rqZffcP8K0vOAA81R2nmi75UYhxUzUdEU2nEy6gcPzDf
-   k68r0ZiVh33XF/9ywDmRKFX7UOiQxDX3NkD+AnXAoRUehfgex/nXAIHVt
-   v7JQpdsH9pvC7xUbiUr94aq27c8xvwnc4T+fCPo8lSY/zitUwBIOu+Yqc
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="382189973"
+  t=1700556445; x=1732092445;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HHXRgW9jtyyYucb3j55PPV8IpOiORDp9wIDflnAuoDA=;
+  b=BuH6sK79Pozw3dFvXm/YsAAIwekh3bnNl98lY2V4rn2NKiMQrd2BOWSW
+   eUxFEjf+fmgTnDTq2ZoHFFwq8UDbLJxE1tQwB25GP2yuyPfK0dUiVVy+4
+   VPJf+ptSXDQWcEBHh/K/jMRgzbzyjXyTKM70N70kLkOWPhhaIpKLoJAX/
+   W7RI8TPBuXGiZKh2vAiRCVuML8jk8L4jdD9TIr26MXGGZT7R0+j86oMxl
+   Hx93mC5e5C1p41KrCCFV/6mr9tcuPSBdjR1oq94Uf8YH2OwKsHnC2e5lU
+   OSkHEbq0Ettz7EnT38h13GxDZry3BVAB8imKVg6Mw2XywzpWd1apxJVwJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="4988630"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="382189973"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:46:55 -0800
+   d="scan'208";a="4988630"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:47:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="857273680"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="857273680"
+   d="scan'208";a="7834835"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Nov 2023 00:46:52 -0800
+  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2023 00:47:24 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5MP5-0007aH-2P;
-	Tue, 21 Nov 2023 08:46:46 +0000
-Date: Tue, 21 Nov 2023 16:45:45 +0800
+	id 1r5MPc-0007ah-2J;
+	Tue, 21 Nov 2023 08:47:17 +0000
+Date: Tue, 21 Nov 2023 16:45:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: kernel/scs.c:86:21: sparse: sparse: Using plain integer as NULL
- pointer
-Message-ID: <202311211604.nMVAanJQ-lkp@intel.com>
+To: Naresh Solanki <naresh.solanki@9elements.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Naresh Solanki <naresh.solanki@9elements.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] regulator: event: Add regulator netlink event support
+Message-ID: <202311211612.t2XcssHt-lkp@intel.com>
+References: <20231120194311.3581036-1-naresh.solanki@9elements.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,56 +53,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231120194311.3581036-1-naresh.solanki@9elements.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-commit: d1584d791a297aa8ed93503382a682a6ecfc4218 riscv: Implement Shadow Call Stack
-date:   3 weeks ago
-config: riscv-randconfig-r132-20231121 (https://download.01.org/0day-ci/archive/20231121/202311211604.nMVAanJQ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231121/202311211604.nMVAanJQ-lkp@intel.com/reproduce)
+Hi Naresh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 753e4d5c433da57da75dd4c3e1aececc8e874a62]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/regulator-event-Add-regulator-netlink-event-support/20231121-034604
+base:   753e4d5c433da57da75dd4c3e1aececc8e874a62
+patch link:    https://lore.kernel.org/r/20231120194311.3581036-1-naresh.solanki%409elements.com
+patch subject: [PATCH v1] regulator: event: Add regulator netlink event support
+config: loongarch-randconfig-r071-20231121 (https://download.01.org/0day-ci/archive/20231121/202311211612.t2XcssHt-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211612.t2XcssHt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311211604.nMVAanJQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211612.t2XcssHt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zihintpause'
->> kernel/scs.c:86:21: sparse: sparse: Using plain integer as NULL pointer
->> kernel/scs.c:86:21: sparse: sparse: Using plain integer as NULL pointer
->> kernel/scs.c:86:21: sparse: sparse: Using plain integer as NULL pointer
->> kernel/scs.c:86:21: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +86 kernel/scs.c
+>> drivers/regulator/event.c:110:5: error: conflicting types for 'reg_generate_netlink_event'; have 'int(const char *, const char *, u8,  int)' {aka 'int(const char *, const char *, unsigned char,  int)'}
+     110 | int reg_generate_netlink_event(const char *device_class, const char *bus_id, u8 type, int data)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/regulator/event.c:6:
+   drivers/regulator/regnl.h:6:5: note: previous declaration of 'reg_generate_netlink_event' with type 'int(const char *, u64)' {aka 'int(const char *, long long unsigned int)'}
+       6 | int reg_generate_netlink_event(const char *reg_name, u64 event);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:18,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/netlink.h:7,
+                    from include/net/netlink.h:6,
+                    from drivers/regulator/event.c:3:
+   drivers/regulator/event.c:114:15: error: conflicting types for 'reg_generate_netlink_event'; have 'int(const char *, const char *, u8,  int)' {aka 'int(const char *, const char *, unsigned char,  int)'}
+     114 | EXPORT_SYMBOL(reg_generate_netlink_event);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:86:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      86 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/regulator/event.c:114:1: note: in expansion of macro 'EXPORT_SYMBOL'
+     114 | EXPORT_SYMBOL(reg_generate_netlink_event);
+         | ^~~~~~~~~~~~~
+   drivers/regulator/regnl.h:6:5: note: previous declaration of 'reg_generate_netlink_event' with type 'int(const char *, u64)' {aka 'int(const char *, long long unsigned int)'}
+       6 | int reg_generate_netlink_event(const char *reg_name, u64 event);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-d08b9f0ca6605e Sami Tolvanen    2020-04-27  72  
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  73  void scs_free(void *s)
-d08b9f0ca6605e Sami Tolvanen    2020-04-27  74  {
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  75  	int i;
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  76  
-bee348fab099b0 Will Deacon      2020-05-15  77  	__scs_account(s, -1);
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  78  
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  79  	/*
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  80  	 * We cannot sleep as this can be called in interrupt context,
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  81  	 * so use this_cpu_cmpxchg to update the cache, and vfree_atomic
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  82  	 * to free the stack.
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  83  	 */
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  84  
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  85  	for (i = 0; i < NR_CACHED_SCS; i++)
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30 @86  		if (this_cpu_cmpxchg(scs_cache[i], 0, s) == NULL)
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  87  			return;
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  88  
-f6e39794f4b6da Andrey Konovalov 2022-03-24  89  	kasan_unpoison_vmalloc(s, SCS_SIZE, KASAN_VMALLOC_PROT_NORMAL);
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  90  	vfree_atomic(s);
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  91  }
-a2abe7cbd8fe2d Sami Tolvanen    2020-11-30  92  
 
-:::::: The code at line 86 was first introduced by commit
-:::::: a2abe7cbd8fe2db5ff386c968e2273d9dc6c468d scs: switch to vmapped shadow stacks
+vim +110 drivers/regulator/event.c
 
-:::::: TO: Sami Tolvanen <samitolvanen@google.com>
-:::::: CC: Will Deacon <will@kernel.org>
+   108	
+   109	#else
+ > 110	int reg_generate_netlink_event(const char *device_class, const char *bus_id, u8 type, int data)
+   111	{
+   112		return 0;
+   113	}
+   114	EXPORT_SYMBOL(reg_generate_netlink_event);
+   115	
 
 -- 
 0-DAY CI Kernel Test Service
