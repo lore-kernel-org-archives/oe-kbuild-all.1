@@ -1,48 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB47B2D60C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 09:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566C63C064;
+	Tue, 21 Nov 2023 10:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HvMS2M+p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISj07smN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700558127; x=1732094127;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ctb89/DHmfpjX4VccFpTj38fnlCWleZuMsgV3lfv0Cc=;
-  b=HvMS2M+pMdLXwiaZ1RikoR4shXElvQ5rz702Shu6blpFAX6YTteLRqXB
-   k2SoiXAwLketdRzh3pXuPluPwzcfbA9MilKv67BiHHzxuVW0DUz/f7Fhw
-   mRB+2nX1zEN6XV0CiOTQcghTnNLSbrbuvqowrdFuo00XFtKw2ugz6c8Yd
-   D70RUoYognIulwovTDMVaHcdR5l/9DWuJQCfHFNJFxJQzY2kWiINcM8Cd
-   hY0T48pqonCvUDTtBPyTpC5wpSNv5DPo3xAUvPXs1IbQPWcoGwG20Ao7p
-   UtqC0FDZ8TfGtXYyjjWXKhHbWAGFlLHEpmdr49rYYJTrFJ6VE9+2Sp2O6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="422897991"
+  t=1700561079; x=1732097079;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tM/dBdaQqRwyGzQe3I2S/GuZt02ZYBBRQTyGFOMoNS0=;
+  b=ISj07smNyHfJGaBtduVLQ92E5HhacWAVFbFTYKlM2RznzL+PzER6aK7o
+   ZkSajP6Jkt05o1HMsI8ZNXgHDcKOOQdrOwZv3cs4aaizXZ7FAWOJMU+Bo
+   0XC135CBQJXm30X4ahZ41+ECAGsdjqi7HFbnfZuLoRi/YKXSrqCerVXmP
+   0HyQpBM/5yV+6TrOIIscY1I+cXbFjoRZxysguLY+T44nXGkJY/MGifY9j
+   vXLujQVmWxOyoxghAisOwPyoA9bRfXwJ57zJCxnYpd+Czn30Rb7G/5L8i
+   //ZXVC5FpeUjnsV3Y/CXdBjVYu6XH1cn3rjCEXwm6pm7S3Nx3RjesBAg5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="13349943"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="422897991"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 01:15:26 -0800
+   d="scan'208";a="13349943"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 02:04:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="766581380"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="884154460"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="766581380"
+   d="scan'208";a="884154460"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 21 Nov 2023 01:15:25 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2023 02:04:34 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5Mqd-0007dg-1e;
-	Tue, 21 Nov 2023 09:15:17 +0000
-Date: Tue, 21 Nov 2023 17:12:48 +0800
+	id 1r5NcO-0007fo-0L;
+	Tue, 21 Nov 2023 10:04:32 +0000
+Date: Tue, 21 Nov 2023 18:00:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 1705/2217]
- fs/bcachefs/btree_write_buffer.c:216:25: error: implicit declaration of
- function 'prefetch'
-Message-ID: <202311211650.4gRNvqfL-lkp@intel.com>
+To: Justin Lai <justinlai0215@realtek.com>, kuba@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	andrew@lunn.ch, pkshih@realtek.com, larry.chiu@realtek.com,
+	Justin Lai <justinlai0215@realtek.com>
+Subject: Re: [PATCH net-next v11 12/13] net:ethernet:realtek: Update the
+ Makefile and Kconfig in the realtek folder
+Message-ID: <202311211750.4FwMt8rx-lkp@intel.com>
+References: <20231115133414.1221480-13-justinlai0215@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,194 +55,157 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231115133414.1221480-13-justinlai0215@realtek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   07b677953b9dca02928be323e2db853511305fa9
-commit: 9e5a6c7797b240f138b9bdd75d85d8f7c6f0e06d [1705/2217] bcachefs: btree write buffer now slurps keys from journal
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20231121/202311211650.4gRNvqfL-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211650.4gRNvqfL-lkp@intel.com/reproduce)
+Hi Justin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Lai/net-ethernet-realtek-rtase-Add-pci-table-supported-in-this-module/20231115-213811
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231115133414.1221480-13-justinlai0215%40realtek.com
+patch subject: [PATCH net-next v11 12/13] net:ethernet:realtek: Update the Makefile and Kconfig in the realtek folder
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231121/202311211750.4FwMt8rx-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211750.4FwMt8rx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311211650.4gRNvqfL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211750.4FwMt8rx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/bcachefs.h:206,
-                    from fs/bcachefs/btree_write_buffer.c:3:
-   fs/bcachefs/bcachefs_format.h:215:25: warning: 'p' offset 3 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     215 |         struct bpos     p;
+>> drivers/net/ethernet/realtek/rtase/rtase_main.c:1243:2: warning: variable 'csum_cmd' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+    1243 |         default:
+         |         ^~~~~~~
+   drivers/net/ethernet/realtek/rtase/rtase_main.c:1255:2: note: uninitialized use occurs here
+    1255 |         csum_cmd |= u32_encode_bits(skb_transport_offset(skb), TCPHO_MASK);
+         |         ^~~~~~~~
+   drivers/net/ethernet/realtek/rtase/rtase_main.c:1230:14: note: initialize the variable 'csum_cmd' to silence this warning
+    1230 |         u32 csum_cmd;
+         |                     ^
+         |                      = 0
+>> drivers/net/ethernet/realtek/rtase/rtase_main.c:1268:6: warning: variable 'pkt_len_cnt' set but not used [-Wunused-but-set-variable]
+    1268 |         u64 pkt_len_cnt = 0;
+         |             ^
+   In file included from drivers/net/ethernet/realtek/rtase/rtase_main.c:47:
+   In file included from include/linux/delay.h:23:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   In file included from include/linux/rculist.h:11:
+   In file included from include/linux/rcupdate.h:26:
+   In file included from include/linux/irqflags.h:17:
+   In file included from arch/arm64/include/asm/irqflags.h:10:
+   In file included from arch/arm64/include/asm/ptrace.h:11:
+   In file included from arch/arm64/include/asm/cpufeature.h:26:
+   In file included from include/linux/cpumask.h:12:
+   In file included from include/linux/bitmap.h:12:
+   In file included from include/linux/string.h:295:
+   include/linux/fortify-string.h:588:4: warning: call to '__read_overflow2_field' declared with 'warning' attribute: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Wattribute-warning]
+     588 |                         __read_overflow2_field(q_size_field, size);
          |                         ^
-   fs/bcachefs/bcachefs_format.h:217:25: warning: 'version' offset 27 in 'struct bkey' isn't aligned to 4 [-Wpacked-not-aligned]
-     217 |         struct bversion version;
-         |                         ^~~~~~~
-   In file included from fs/bcachefs/bcachefs.h:421:
-   fs/bcachefs/btree_write_buffer_types.h:23:9: warning: alignment 1 of 'struct <anonymous>' is less than 4 [-Wpacked-not-aligned]
-      23 |         } __packed;
-         |         ^
-   fs/bcachefs/btree_write_buffer_types.h:20:49: warning: 'pos' offset 1 in 'struct <anonymous>' isn't aligned to 4 [-Wpacked-not-aligned]
-      20 |                 struct bpos                     pos;
-         |                                                 ^~~
-   In file included from fs/bcachefs/btree_write_buffer.c:8:
-   fs/bcachefs/error.h: In function 'bch2_bkey_fsck_err':
-   fs/bcachefs/error.h:168:9: warning: function 'bch2_bkey_fsck_err' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     168 |         prt_vprintf(err_msg, fmt, args);
-         |         ^~~~~~~~~~~
-   fs/bcachefs/btree_write_buffer.c: In function 'bch2_btree_write_buffer_flush_locked':
->> fs/bcachefs/btree_write_buffer.c:216:25: error: implicit declaration of function 'prefetch' [-Werror=implicit-function-declaration]
-     216 |                         prefetch(&wb->flushing.keys.data[n->idx]);
-         |                         ^~~~~~~~
-   cc1: some warnings being treated as errors
+   3 warnings generated.
 
 
-vim +/prefetch +216 fs/bcachefs/btree_write_buffer.c
+vim +/csum_cmd +1243 drivers/net/ethernet/realtek/rtase/rtase_main.c
 
-   168	
-   169	static int bch2_btree_write_buffer_flush_locked(struct btree_trans *trans)
-   170	{
-   171		struct bch_fs *c = trans->c;
-   172		struct journal *j = &c->journal;
-   173		struct btree_write_buffer *wb = &c->btree_write_buffer;
-   174		struct wb_key_ref *i;
-   175		struct btree_iter iter = { NULL };
-   176		size_t skipped = 0, fast = 0, slowpath = 0;
-   177		bool write_locked = false;
-   178		int ret = 0;
-   179	
-   180		bch2_trans_unlock(trans);
-   181		bch2_trans_begin(trans);
-   182	
-   183		mutex_lock(&wb->inc.lock);
-   184		move_keys_from_inc_to_flushing(wb);
-   185		mutex_unlock(&wb->inc.lock);
-   186	
-   187		for (size_t i = 0; i < wb->flushing.keys.nr; i++) {
-   188			wb->sorted.data[i].idx = i;
-   189			wb->sorted.data[i].btree = wb->flushing.keys.data[i].btree;
-   190			wb->sorted.data[i].pos = wb->flushing.keys.data[i].k.k.p;
-   191		}
-   192		wb->sorted.nr = wb->flushing.keys.nr;
-   193	
-   194		/*
-   195		 * We first sort so that we can detect and skip redundant updates, and
-   196		 * then we attempt to flush in sorted btree order, as this is most
-   197		 * efficient.
-   198		 *
-   199		 * However, since we're not flushing in the order they appear in the
-   200		 * journal we won't be able to drop our journal pin until everything is
-   201		 * flushed - which means this could deadlock the journal if we weren't
-   202		 * passing BCH_TRANS_COMMIT_journal_reclaim. This causes the update to fail
-   203		 * if it would block taking a journal reservation.
-   204		 *
-   205		 * If that happens, simply skip the key so we can optimistically insert
-   206		 * as many keys as possible in the fast path.
-   207		 */
-   208		sort(wb->sorted.data, wb->sorted.nr,
-   209		     sizeof(wb->sorted.data[0]),
-   210		     wb_key_cmp, NULL);
-   211	
-   212		darray_for_each(wb->sorted, i) {
-   213			struct btree_write_buffered_key *k = &wb->flushing.keys.data[i->idx];
-   214	
-   215			for (struct wb_key_ref *n = i + 1; n < min(i + 4, &darray_top(wb->sorted)); n++)
- > 216				prefetch(&wb->flushing.keys.data[n->idx]);
-   217	
-   218			BUG_ON(!k->journal_seq);
-   219	
-   220			if (i + 1 < &darray_top(wb->sorted) &&
-   221			    i[0].btree == i[1].btree &&
-   222			    bpos_eq(i[0].pos, i[1].pos)) {
-   223				struct btree_write_buffered_key *n = &wb->flushing.keys.data[i[1].idx];
-   224	
-   225				skipped++;
-   226				n->journal_seq = min_t(u64, n->journal_seq, k->journal_seq);;
-   227				k->journal_seq = 0;
-   228				continue;
-   229			}
-   230	
-   231			if (write_locked &&
-   232			    (iter.path->btree_id != k->btree ||
-   233			     bpos_gt(k->k.k.p, iter.path->l[0].b->key.k.p))) {
-   234				bch2_btree_node_unlock_write(trans, iter.path, iter.path->l[0].b);
-   235				write_locked = false;
-   236			}
-   237	
-   238			if (!iter.path || iter.path->btree_id != k->btree) {
-   239				bch2_trans_iter_exit(trans, &iter);
-   240				bch2_trans_iter_init(trans, &iter, k->btree, k->k.k.p,
-   241						     BTREE_ITER_INTENT|BTREE_ITER_ALL_SNAPSHOTS);
-   242			}
-   243	
-   244			bch2_btree_iter_set_pos(&iter, k->k.k.p);
-   245			iter.path->preserve = false;
-   246	
-   247			do {
-   248				if (race_fault()) {
-   249					ret = -BCH_ERR_journal_reclaim_would_deadlock;
-   250					break;
-   251				}
-   252	
-   253				ret = wb_flush_one(trans, &iter, k, &write_locked, &fast);
-   254				if (!write_locked)
-   255					bch2_trans_begin(trans);
-   256			} while (bch2_err_matches(ret, BCH_ERR_transaction_restart));
-   257	
-   258			if (!ret) {
-   259				k->journal_seq = 0;
-   260			} else if (ret == -BCH_ERR_journal_reclaim_would_deadlock) {
-   261				slowpath++;
-   262				ret = 0;
-   263			} else
-   264				break;
-   265		}
-   266	
-   267		if (write_locked)
-   268			bch2_btree_node_unlock_write(trans, iter.path, iter.path->l[0].b);
-   269		bch2_trans_iter_exit(trans, &iter);
-   270	
-   271		if (ret)
-   272			goto err;
-   273	
-   274		if (slowpath) {
-   275			/*
-   276			 * Flush in the order they were present in the journal, so that
-   277			 * we can release journal pins:
-   278			 * The fastpath zapped the seq of keys that were successfully flushed so
-   279			 * we can skip those here.
-   280			 */
-   281			trace_write_buffer_flush_slowpath(trans, slowpath, wb->flushing.keys.nr);
-   282	
-   283			struct btree_write_buffered_key *i;
-   284			darray_for_each(wb->flushing.keys, i) {
-   285				if (!i->journal_seq)
-   286					continue;
-   287	
-   288				bch2_journal_pin_update(j, i->journal_seq, &wb->flushing.pin,
-   289							bch2_btree_write_buffer_journal_flush);
-   290	
-   291				bch2_trans_begin(trans);
-   292	
-   293				ret = commit_do(trans, NULL, NULL,
-   294						BCH_WATERMARK_reclaim|
-   295						BCH_TRANS_COMMIT_no_check_rw|
-   296						BCH_TRANS_COMMIT_no_enospc|
-   297						BCH_TRANS_COMMIT_no_journal_res|
-   298						BCH_TRANS_COMMIT_journal_reclaim,
-   299						btree_write_buffered_insert(trans, i));
-   300				if (ret)
-   301					goto err;
-   302			}
-   303		}
-   304	err:
-   305		bch2_fs_fatal_err_on(ret, c, "%s: insert error %s", __func__, bch2_err_str(ret));
-   306		trace_write_buffer_flush(trans, wb->flushing.keys.nr, skipped, fast, 0);
-   307		bch2_journal_pin_drop(j, &wb->flushing.pin);
-   308		wb->flushing.keys.nr = 0;
-   309		return ret;
-   310	}
-   311	
+7f5e83b995e2f8 Justin Lai 2023-11-15  1226  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1227  static u32 rtase_tx_csum(struct sk_buff *skb, const struct net_device *dev)
+7f5e83b995e2f8 Justin Lai 2023-11-15  1228  {
+7f5e83b995e2f8 Justin Lai 2023-11-15  1229  	u8 ip_protocol;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1230  	u32 csum_cmd;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1231  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1232  	switch (vlan_get_protocol(skb)) {
+7f5e83b995e2f8 Justin Lai 2023-11-15  1233  	case htons(ETH_P_IP):
+7f5e83b995e2f8 Justin Lai 2023-11-15  1234  		csum_cmd = TX_IPCS_C;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1235  		ip_protocol = ip_hdr(skb)->protocol;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1236  		break;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1237  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1238  	case htons(ETH_P_IPV6):
+7f5e83b995e2f8 Justin Lai 2023-11-15  1239  		csum_cmd = TX_IPV6F_C;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1240  		ip_protocol = ipv6_hdr(skb)->nexthdr;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1241  		break;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1242  
+7f5e83b995e2f8 Justin Lai 2023-11-15 @1243  	default:
+7f5e83b995e2f8 Justin Lai 2023-11-15  1244  		ip_protocol = IPPROTO_RAW;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1245  		break;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1246  	}
+7f5e83b995e2f8 Justin Lai 2023-11-15  1247  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1248  	if (ip_protocol == IPPROTO_TCP)
+7f5e83b995e2f8 Justin Lai 2023-11-15  1249  		csum_cmd |= TX_TCPCS_C;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1250  	else if (ip_protocol == IPPROTO_UDP)
+7f5e83b995e2f8 Justin Lai 2023-11-15  1251  		csum_cmd |= TX_UDPCS_C;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1252  	else
+7f5e83b995e2f8 Justin Lai 2023-11-15  1253  		WARN_ON_ONCE(1);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1254  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1255  	csum_cmd |= u32_encode_bits(skb_transport_offset(skb), TCPHO_MASK);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1256  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1257  	return csum_cmd;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1258  }
+7f5e83b995e2f8 Justin Lai 2023-11-15  1259  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1260  static int rtase_xmit_frags(struct rtase_ring *ring, struct sk_buff *skb,
+7f5e83b995e2f8 Justin Lai 2023-11-15  1261  			    u32 opts1, u32 opts2)
+7f5e83b995e2f8 Justin Lai 2023-11-15  1262  {
+7f5e83b995e2f8 Justin Lai 2023-11-15  1263  	const struct skb_shared_info *info = skb_shinfo(skb);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1264  	const struct rtase_private *tp = ring->ivec->tp;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1265  	const u8 nr_frags = info->nr_frags;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1266  	struct tx_desc *txd = NULL;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1267  	u32 cur_frag, entry;
+7f5e83b995e2f8 Justin Lai 2023-11-15 @1268  	u64 pkt_len_cnt = 0;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1269  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1270  	entry = ring->cur_idx;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1271  	for (cur_frag = 0; cur_frag < nr_frags; cur_frag++) {
+7f5e83b995e2f8 Justin Lai 2023-11-15  1272  		const skb_frag_t *frag = &info->frags[cur_frag];
+7f5e83b995e2f8 Justin Lai 2023-11-15  1273  		dma_addr_t mapping;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1274  		u32 status, len;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1275  		void *addr;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1276  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1277  		entry = (entry + 1) % NUM_DESC;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1278  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1279  		txd = ring->desc + sizeof(struct tx_desc) * entry;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1280  		len = skb_frag_size(frag);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1281  		addr = skb_frag_address(frag);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1282  		mapping = dma_map_single(&tp->pdev->dev, addr, len,
+7f5e83b995e2f8 Justin Lai 2023-11-15  1283  					 DMA_TO_DEVICE);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1284  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1285  		if (unlikely(dma_mapping_error(&tp->pdev->dev, mapping))) {
+7f5e83b995e2f8 Justin Lai 2023-11-15  1286  			if (unlikely(net_ratelimit()))
+7f5e83b995e2f8 Justin Lai 2023-11-15  1287  				netdev_err(tp->dev,
+7f5e83b995e2f8 Justin Lai 2023-11-15  1288  					   "Failed to map TX fragments DMA!\n");
+7f5e83b995e2f8 Justin Lai 2023-11-15  1289  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1290  			goto err_out;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1291  		}
+7f5e83b995e2f8 Justin Lai 2023-11-15  1292  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1293  		if (((entry + 1) % NUM_DESC) == 0)
+7f5e83b995e2f8 Justin Lai 2023-11-15  1294  			status = (opts1 | len | RING_END);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1295  		else
+7f5e83b995e2f8 Justin Lai 2023-11-15  1296  			status = opts1 | len;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1297  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1298  		if (cur_frag == (nr_frags - 1)) {
+7f5e83b995e2f8 Justin Lai 2023-11-15  1299  			ring->skbuff[entry] = skb;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1300  			status |= TX_LAST_FRAG;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1301  		}
+7f5e83b995e2f8 Justin Lai 2023-11-15  1302  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1303  		ring->mis.len[entry] = len;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1304  		txd->addr = cpu_to_le64(mapping);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1305  		txd->opts2 = cpu_to_le32(opts2);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1306  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1307  		/* make sure the operating fields have been updated */
+7f5e83b995e2f8 Justin Lai 2023-11-15  1308  		wmb();
+7f5e83b995e2f8 Justin Lai 2023-11-15  1309  		txd->opts1 = cpu_to_le32(status);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1310  		pkt_len_cnt += len;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1311  	}
+7f5e83b995e2f8 Justin Lai 2023-11-15  1312  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1313  	return cur_frag;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1314  
+7f5e83b995e2f8 Justin Lai 2023-11-15  1315  err_out:
+7f5e83b995e2f8 Justin Lai 2023-11-15  1316  	rtase_tx_clear_range(ring, ring->cur_idx + 1, cur_frag);
+7f5e83b995e2f8 Justin Lai 2023-11-15  1317  	return -EIO;
+7f5e83b995e2f8 Justin Lai 2023-11-15  1318  }
+7f5e83b995e2f8 Justin Lai 2023-11-15  1319  
 
 -- 
 0-DAY CI Kernel Test Service
