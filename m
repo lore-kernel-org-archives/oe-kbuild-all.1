@@ -1,54 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D795B1F6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 17:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAA820DCC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 18:12:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeYPK3B2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bo5jMta8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700589599; x=1732125599;
+  t=1700590369; x=1732126369;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HajNcANzS8KHjONWzavIj/4wpkVTaBzXzzIAQEqc5MU=;
-  b=ZeYPK3B2rCyHKvaY18CUngPQU1e6ssMc2x4xTs+f+q8dp6xjwNnP7nMZ
-   qAfANy6p5mtf4NYgOzJEGhTdYpPOFZRrEe0+c1XQpeatQQiPgjjZomF+g
-   JC0Df7XK3+Wzu2peJ5J3TBdVcppoTg29KmnH8rlmf4gm8N5hsfSsyq1Qq
-   ta3A+r9OSipFnBunXXzssgJh+AmLoU4o643xS1LAj2Zg15udufao2s8iT
-   hysaSVJVU44inOYVBtvqO51ayIQ+HATQvI1dqynwkYMFXK3BzhMq+sy/a
-   xFtnPuMAsqP9fb1KQiY+Pgh8/A2uY4lK42AaheUJMsEXFqwHBqY2gGMif
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="422990037"
+  bh=9PouWqQLxKRZD/js5Fh0MQNGfH4qTSbUBOOPCcqp9nc=;
+  b=bo5jMta8Pr6m1sr1u/me0cydyNh8Fozx8DWh+2JFQyemjwikZ3cElbDx
+   MAQIvrbPPCn+lAjaInE3YSaP1xGByrxyAr/xQdxiGZdvBS/GYADBhFm9/
+   6IADqFh9Mm3wEBan0Yq/NWCLE8cz/2Hf+ZjaFr/1c3zeEUsGMD5Bbisze
+   hBn3gtZQlpizKa8/xk+Z/QrcsNsE43pMJ/gUxdCX6GjkdATfa0A95HjHC
+   a2rID9E/E0fsPFgKPkXJRFrScx4eHddwarqkyf/0wrKpbEdoumIiwvvcR
+   vd1U8OQ03qIxK9DYKbDvpq/sLN/iq5z1N+GWh5CLBvyWMCUKTd/+VDvOw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="456235104"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="422990037"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 09:59:58 -0800
+   d="scan'208";a="456235104"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 10:12:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="760171994"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="770344823"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="760171994"
+   d="scan'208";a="770344823"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 21 Nov 2023 09:59:53 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2023 10:12:19 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5V2E-00086K-00;
-	Tue, 21 Nov 2023 17:59:45 +0000
-Date: Wed, 22 Nov 2023 01:58:12 +0800
+	id 1r5VDl-00086q-0n;
+	Tue, 21 Nov 2023 18:11:53 +0000
+Date: Wed, 22 Nov 2023 02:08:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jingbao Qiu <qiujingbao.dlmu@gmail.com>, a.zummo@towertech.it,
-	alexandre.belloni@bootlin.com, krzysztof.kozlowski+dt@linaro.org,
-	chao.wei@sophgo.com, unicorn_wang@outlook.com, conor+dt@kernel.org,
-	robh+dt@kernel.org, conor@kernel.org, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu
-Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jingbao Qiu <qiujingbao.dlmu@gmail.com>
-Subject: Re: [PATCH 2/3] rtc: add rtc controller support for Sophgo CV1800B
- SoC
-Message-ID: <202311220129.aOYelwJQ-lkp@intel.com>
-References: <20231121094642.2973795-3-qiujingbao.dlmu@gmail.com>
+To: Hermes Zhang <Hermes.Zhang@axis.com>, sre@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel@axis.com, Hermes Zhang <chenhuiz@axis.com>,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] power: supply: bq24190_charger: Add support for
+  BQ24296
+Message-ID: <202311220126.8UPRiJN0-lkp@intel.com>
+References: <20231121070505.3061304-3-Hermes.Zhang@axis.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,105 +54,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121094642.2973795-3-qiujingbao.dlmu@gmail.com>
+In-Reply-To: <20231121070505.3061304-3-Hermes.Zhang@axis.com>
 
-Hi Jingbao,
+Hi Hermes,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on abelloni/rtc-next]
+[auto build test ERROR on sre-power-supply/for-next]
 [also build test ERROR on linus/master v6.7-rc2 next-20231121]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingbao-Qiu/dt-bindings-rtc-add-binding-for-Sophgo-CV1800B-rtc-controller/20231121-174927
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20231121094642.2973795-3-qiujingbao.dlmu%40gmail.com
-patch subject: [PATCH 2/3] rtc: add rtc controller support for Sophgo CV1800B SoC
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20231122/202311220129.aOYelwJQ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220129.aOYelwJQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hermes-Zhang/dt-bindings-power-supply-bq24190-Add-BQ24296-compatible/20231121-151103
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20231121070505.3061304-3-Hermes.Zhang%40axis.com
+patch subject: [PATCH v3 2/2] power: supply: bq24190_charger: Add support for  BQ24296
+config: x86_64-buildonly-randconfig-004-20231121 (https://download.01.org/0day-ci/archive/20231122/202311220126.8UPRiJN0-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220126.8UPRiJN0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220129.aOYelwJQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220126.8UPRiJN0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/rtc/rtc-cv1800b.c: In function 'cv1800b_rtc_probe':
->> drivers/rtc/rtc-cv1800b.c:246:16: error: implicit declaration of function 'rtc_register_device'; did you mean 'devm_rtc_register_device'? [-Werror=implicit-function-declaration]
-     246 |         return rtc_register_device(rtc->rtc_dev);
-         |                ^~~~~~~~~~~~~~~~~~~
-         |                devm_rtc_register_device
-   cc1: some warnings being treated as errors
+>> drivers/power/supply/bq24190_charger.c:1975:16: error: initializer element is not constant
+      .vbus_desc = bq24190_vbus_desc,
+                   ^~~~~~~~~~~~~~~~~
+   drivers/power/supply/bq24190_charger.c:1975:16: note: (near initialization for 'bq24190_chip_info_tbl[0].vbus_desc')
+   drivers/power/supply/bq24190_charger.c:1984:16: error: initializer element is not constant
+      .vbus_desc = bq24190_vbus_desc,
+                   ^~~~~~~~~~~~~~~~~
+   drivers/power/supply/bq24190_charger.c:1984:16: note: (near initialization for 'bq24190_chip_info_tbl[1].vbus_desc')
+   drivers/power/supply/bq24190_charger.c:1993:16: error: initializer element is not constant
+      .vbus_desc = bq24190_vbus_desc,
+                   ^~~~~~~~~~~~~~~~~
+   drivers/power/supply/bq24190_charger.c:1993:16: note: (near initialization for 'bq24190_chip_info_tbl[2].vbus_desc')
+   drivers/power/supply/bq24190_charger.c:2002:16: error: initializer element is not constant
+      .vbus_desc = bq24190_vbus_desc,
+                   ^~~~~~~~~~~~~~~~~
+   drivers/power/supply/bq24190_charger.c:2002:16: note: (near initialization for 'bq24190_chip_info_tbl[3].vbus_desc')
+   drivers/power/supply/bq24190_charger.c:2011:16: error: initializer element is not constant
+      .vbus_desc = bq24296_vbus_desc,
+                   ^~~~~~~~~~~~~~~~~
+   drivers/power/supply/bq24190_charger.c:2011:16: note: (near initialization for 'bq24190_chip_info_tbl[4].vbus_desc')
 
 
-vim +246 drivers/rtc/rtc-cv1800b.c
+vim +1975 drivers/power/supply/bq24190_charger.c
 
-   189	
-   190	static int cv1800b_rtc_probe(struct platform_device *pdev)
-   191	{
-   192		struct cv1800b_rtc_priv *rtc;
-   193		struct resource *res;
-   194		int ret;
-   195	
-   196		rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
-   197		if (!rtc)
-   198			return -ENOMEM;
-   199	
-   200		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   201		if (!res) {
-   202			ret = -ENODEV;
-   203			goto err;
-   204		}
-   205	
-   206		rtc->core_map = devm_ioremap_resource(&pdev->dev, res);
-   207		if (IS_ERR(rtc->core_map)) {
-   208			ret = PTR_ERR(rtc->core_map);
-   209			goto err;
-   210		}
-   211	
-   212		rtc->irq = platform_get_irq(pdev, 0);
-   213		platform_set_drvdata(pdev, rtc);
-   214		if (rtc->irq < 0) {
-   215			ret = -EINVAL;
-   216			goto err;
-   217		}
-   218	
-   219		ret =
-   220		    devm_request_irq(&pdev->dev, rtc->irq, cv1800b_rtc_irq_handler,
-   221				     IRQF_SHARED, "rtc alarm", &pdev->dev);
-   222		if (ret)
-   223			goto err;
-   224	
-   225		rtc->clk = devm_clk_get(&pdev->dev, NULL);
-   226		if (IS_ERR(rtc->clk)) {
-   227			dev_err(&pdev->dev, "no clock");
-   228			ret = PTR_ERR(rtc->clk);
-   229			goto err;
-   230		}
-   231		ret = clk_prepare_enable(rtc->clk);
-   232		if (ret)
-   233			goto err;
-   234		ret = cv1800b_rtc_softinit(rtc);
-   235		if (ret)
-   236			goto err;
-   237		cv1800b_rtc_alarm_irq_enable(&pdev->dev, 1);
-   238		rtc->rtc_dev = devm_rtc_allocate_device(&pdev->dev);
-   239		if (IS_ERR(rtc->rtc_dev)) {
-   240			ret = PTR_ERR(rtc->rtc_dev);
-   241			goto err;
-   242		}
-   243		rtc->rtc_dev->range_max = U32_MAX;
-   244		rtc->rtc_dev->ops = &cv800b_rtc_ops;
-   245	
- > 246		return rtc_register_device(rtc->rtc_dev);
-   247	err:
-   248		return dev_err_probe(&pdev->dev, ret, "Failed to init cv1800b rtc\n");
-   249	}
-   250	
+  1971	
+  1972	static const struct bq24190_chip_info bq24190_chip_info_tbl[] = {
+  1973		[BQ24190] = {
+  1974			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
+> 1975			.vbus_desc = bq24190_vbus_desc,
+  1976			.check_chip = bq24190_check_chip,
+  1977			.set_chg_config = bq24190_battery_set_chg_config,
+  1978			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
+  1979			.get_ntc_status = bq24190_charger_get_ntc_status,
+  1980			.set_otg_vbus = bq24190_set_otg_vbus,
+  1981		},
+  1982		[BQ24192] = {
+  1983			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
+  1984			.vbus_desc = bq24190_vbus_desc,
+  1985			.check_chip = bq24190_check_chip,
+  1986			.set_chg_config = bq24190_battery_set_chg_config,
+  1987			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
+  1988			.get_ntc_status = bq24190_charger_get_ntc_status,
+  1989			.set_otg_vbus = bq24190_set_otg_vbus,
+  1990		},
+  1991		[BQ24192i] = {
+  1992			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
+  1993			.vbus_desc = bq24190_vbus_desc,
+  1994			.check_chip = bq24190_check_chip,
+  1995			.set_chg_config = bq24190_battery_set_chg_config,
+  1996			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
+  1997			.get_ntc_status = bq24190_charger_get_ntc_status,
+  1998			.set_otg_vbus = bq24190_set_otg_vbus,
+  1999		},
+  2000		[BQ24196] = {
+  2001			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
+  2002			.vbus_desc = bq24190_vbus_desc,
+  2003			.check_chip = bq24190_check_chip,
+  2004			.set_chg_config = bq24190_battery_set_chg_config,
+  2005			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
+  2006			.get_ntc_status = bq24190_charger_get_ntc_status,
+  2007			.set_otg_vbus = bq24190_set_otg_vbus,
+  2008		},
+  2009		[BQ24296] = {
+  2010			.ichg_array_size = BQ24296_CCC_ICHG_VALUES_LEN,
+  2011			.vbus_desc = bq24296_vbus_desc,
+  2012			.check_chip = bq24296_check_chip,
+  2013			.set_chg_config = bq24296_battery_set_chg_config,
+  2014			.ntc_fault_mask = BQ24296_REG_F_NTC_FAULT_MASK,
+  2015			.get_ntc_status = bq24296_charger_get_ntc_status,
+  2016			.set_otg_vbus = bq24296_set_otg_vbus,
+  2017		},
+  2018	};
+  2019	
 
 -- 
 0-DAY CI Kernel Test Service
