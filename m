@@ -1,64 +1,114 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CDD48796;
-	Tue, 21 Nov 2023 11:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB0D4A981
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 12:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Oxnot+Sy"
-Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 6A6066607286;
-	Tue, 21 Nov 2023 11:40:01 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1700566801;
-	bh=QN8sfdw9pnigmly++dHM3DUPO6tyeN0rwNsDLLFnGR8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Oxnot+Sy9mksXa2n3vPiHZ8pmFaTRp2nCaqFDjBqLfGsHAtFDNBKgFcd/PStdzanb
-	 tOo0S2KoUrTfEaPZwxERa/Dq8HAaWlskN5DqWq1/pasqOAhQWwJmhyDNgn+jUUdFee
-	 eCwHOTrEMhu9Bsj9AVRSdaVH8Wao6UBS4XA7F52MKzBZMYVQOCsykJLHYZmpFek+Hk
-	 b1i2pWPkLcXCQP6QZgvAflrEMCh3sG2rSiSUdBTTFY5nIB420tvt9HC3M/wlU+JDAl
-	 VYL/0Nt/NizwVUFrW+KV1b1jOGOa+jPtF6hGoHWjdZRz/Mk59M1LS5NXd+VBxwgSJD
-	 btUvhe65z/i8A==
-Message-ID: <060248c3-38c0-4896-b01a-59c19ff7c6d6@collabora.com>
-Date: Tue, 21 Nov 2023 12:39:58 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tn1aWYog"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700569144; x=1732105144;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SdXthQjnrrZo9AkzWMY7oGpGWTtB+tK49t5BJyhg9q4=;
+  b=Tn1aWYogqpxOXKcNTVl6DDDXG5gHJEfCNQjWJg97OMK/9GJqKljCq0cD
+   bfdDoZekPIuaj/jEPOjPbTKaSwQa/4YojGSyJkhsi1eJp1/rUwlooO/eI
+   Hs+AbMoFn15egmxQx2bvZa2f6Z0YEZZ1G0nW84s86HDlS6bhr+zVwO4oT
+   0GH1dlYS1qMqyOUuUS24xbR++luW8KCuA2zSNMCDvAE29wdUA497P21Bb
+   82XMEA0z6gfNclg0TcJ0WJBb5h4YJ7eDZaZPK7Kt4JujE12j+T/YrqPa3
+   Q69LzQ9tZPSHGH30pfTXpZxhE09MwxKmjLSPfpePLMPI+tE8yjxz8CfyP
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="10493425"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="10493425"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 04:19:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="8076113"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 21 Nov 2023 04:18:58 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5PiQ-0007mW-37;
+	Tue, 21 Nov 2023 12:18:55 +0000
+Date: Tue, 21 Nov 2023 20:18:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	ryder.lee@mediatek.com, jianjun.wang@mediatek.com,
+	lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+	bhelgaas@google.com, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, linux-pci@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] PCI: mediatek: Fix sparse warning caused to
+ virt_to_phys() prototype change
+Message-ID: <202311212050.Z3EDRIR3-lkp@intel.com>
+References: <170052491316.21557.13173111699965824301.stgit@skinsburskii.>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [mediatek:v6.7-tmp/soc 7/7]
- drivers/soc/mediatek/mt8188-mmsys.h:126:3: error: use of undeclared
- identifier 'MT8188_VDO0_RST_DISP_OVL0'
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Hsiao Chien Sung <shawn.sung@mediatek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-References: <202311211559.hXmHshEO-lkp@intel.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <202311211559.hXmHshEO-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <170052491316.21557.13173111699965824301.stgit@skinsburskii.>
 
-Il 21/11/23 08:21, kernel test robot ha scritto:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.7-tmp/soc
-> head:   c1b652b84e6a779e670bac250d80ef2f2d4a45d9
-> commit: c1b652b84e6a779e670bac250d80ef2f2d4a45d9 [7/7] soc: mediatek: Add MT8188 VDOSYS reset bit map
-> config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231121/202311211559.hXmHshEO-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211559.hXmHshEO-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311211559.hXmHshEO-lkp@intel.com/
-> 
+Hi Stanislav,
 
-No action required. This is because this branch needs commits from v6.7-tmp/dts64.
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Kinsburskii/PCI-mediatek-Fix-sparse-warning-caused-to-virt_to_phys-prototype-change/20231121-080253
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/170052491316.21557.13173111699965824301.stgit%40skinsburskii.
+patch subject: [PATCH v2] PCI: mediatek: Fix sparse warning caused to virt_to_phys() prototype change
+config: s390-randconfig-r113-20231121 (https://download.01.org/0day-ci/archive/20231121/202311212050.Z3EDRIR3-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231121/202311212050.Z3EDRIR3-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311212050.Z3EDRIR3-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/pci/controller/pcie-mediatek.c:400:62: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void volatile *address @@     got void const * @@
+   drivers/pci/controller/pcie-mediatek.c:400:62: sparse:     expected void volatile *address
+   drivers/pci/controller/pcie-mediatek.c:400:62: sparse:     got void const *
+   drivers/pci/controller/pcie-mediatek.c:523:66: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void volatile *address @@     got void const * @@
+   drivers/pci/controller/pcie-mediatek.c:523:66: sparse:     expected void volatile *address
+   drivers/pci/controller/pcie-mediatek.c:523:66: sparse:     got void const *
+
+vim +400 drivers/pci/controller/pcie-mediatek.c
+
+   393	
+   394	static void mtk_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+   395	{
+   396		struct mtk_pcie_port *port = irq_data_get_irq_chip_data(data);
+   397		phys_addr_t addr;
+   398	
+   399		/* MT2712/MT7622 only support 32-bit MSI addresses */
+ > 400		addr = virt_to_phys((__force const void *)port->base + PCIE_MSI_VECTOR);
+   401		msg->address_hi = 0;
+   402		msg->address_lo = lower_32_bits(addr);
+   403	
+   404		msg->data = data->hwirq;
+   405	
+   406		dev_dbg(port->pcie->dev, "msi#%d address_hi %#x address_lo %#x\n",
+   407			(int)data->hwirq, msg->address_hi, msg->address_lo);
+   408	}
+   409	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
