@@ -1,161 +1,259 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B011549C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 03:09:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C2A168AB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 03:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ku5SPnJl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORHcT4p/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700536177; x=1732072177;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9X5b+Pk5eRiTJicE7zj7f9b9Yatfsk5dDhy4zhgtkuQ=;
-  b=ku5SPnJlh1NQ573Rdo5UUrIefsNV0RKSrqXqUma9V6tjNp7vs0J68cq5
-   qo+q8WaL9Uf/wJlQQNvn//t8eElfkb5rGHQORx6GCjq04i67XcdldhuAC
-   9con2l5BoSTbEk8hJ4Ncsp/x9g17lUlzZh2BAl1s09E9zpzPjyX6kCz3J
-   +vMrg77O063K0wGCAbUGPlS/DSddL685evmqbYdbLFuzizrue8jE2NyT+
-   IP1DN2obVK2xBgAYmezN5ruBtRS4kB6o7xkhD8QlL2JtJ3bBQojPatBv5
-   vYdOaJNt4gKzH2MmKhcOvdM5q5upDX1dFjaRGiW7XD6hIb/QBRiOeMtHX
+  t=1700538494; x=1732074494;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=857oIuq2ljv3IEo8BGH4JiHu1HpPQme7iJ2C6peyXC4=;
+  b=ORHcT4p/kHEGEFpHZNmmVHl9wlPdOfH7qi+GmFo6HH9Arj6aUGnbVHWd
+   69BjYJ9fAea3UpnP+QDTmzNrAM11ub415bT4sEsLn0wCnB9qiDASTSZKk
+   DjD8yZy0F5L9ehMBEPIdDFGmTKpi/gD1Ci4ANFRlO4FgOJED+5aizEgyy
+   C2CPv+mplilYP1m9rnXsEroHKPwpRO4eT1euaDv8CY4mdvk2Nx6fEyuQN
+   hma1RB7ScNGgr9053XPyOJxQTZRG6Aln/AjIBjs3s7EeAj9W0qM8jV8yC
+   /0lq+EWpOk+YR13Hd3ugixz9o1b8NRG7CT9lnOWNszIILurKqi1zWU+5e
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="395683455"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="10426061"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="395683455"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 19:09:36 -0800
+   d="scan'208";a="10426061"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 19:48:14 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="857207899"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="7757699"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Nov 2023 19:09:36 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 20 Nov 2023 19:09:36 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Mon, 20 Nov 2023 19:09:36 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Mon, 20 Nov 2023 19:09:30 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EWPSG+DQaUVHHh/ikAr8miLlBPo+3IbZJ1YydqFeaN5yzhzV7Q8VBWgUIx/HJwciKNEuCGxVEjKhYr7HBrjv5ziBIYl0ML0vI3I4DoeUZnOLJGuVlvjnxOxbFBIsAsruHqkkPa29MiT3hu66RelK2jMtuQ0KInOIA0DXdsp2qZhgbuLO5Wnr5e4J2dQUYLQBbUCCZWT5YrwupKMEmD3H5K6J4WPVXS4Zzqm1Y6c7LWtLdLbCDeywlQj7QgAwk5N+WtLFv1cduHqb34l43g9dLhdbDgClL8Nt0yK99TU1GSEC+L1dxor6xORxVc4PDiki+MmjXNyHWJaVW9f6Egu6pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nYCIU0y+91fClGn3LTuNHrNNNGyW/doPW7jW3h9Sy9g=;
- b=axWrCyC/wZn05LALt6uU2RVJrKYTmws7Q4zjYYBtGyB3RkJ2oRbDa7mPTmGRYpRz89FEWWbdkmMM3bcG4LKbC9wYHM9MbC5Zl3nrx8Pfr7a8Bf1hW9psmE16cXM7h90dyypX+1Bv68KLqq9omLdVENkDIc7HhpP3t6CypJorE7X0Sf6z0PnemFErfu4S0+z+1RJujo/970bwny2vP/uJmShApUZQ/JzU76gIa/TAlnMFiqDmkNdD3f6HieXhTPX61/Q6SiwCcpwAw2706apsE2+16jxZmDA4JHuW8ckGP/lQYOVG6k4SeAGiV+Sjex8H3xVmU+9+0JiBKIAPqfs3SA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by PH7PR11MB6548.namprd11.prod.outlook.com (2603:10b6:510:210::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Tue, 21 Nov
- 2023 03:09:22 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7002.027; Tue, 21 Nov 2023
- 03:09:22 +0000
-Date: Tue, 21 Nov 2023 11:04:44 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Michael Ellerman <mpe@ellerman.id.au>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Makefile:63: warning: overriding recipe for target 'emit_tests'
-Message-ID: <202311202026.DPcREfHy-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SI2PR01CA0053.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::7) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="857207899"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 20 Nov 2023 19:48:10 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5Hk8-0007Fq-0p;
+	Tue, 21 Nov 2023 03:48:08 +0000
+Date: Tue, 21 Nov 2023 11:47:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [rft, PATCH v1 1/1] pinctrl: qcom: lpass-lpi: Remove unused
+ member in struct lpi_pingroup
+Message-ID: <202311211148.TRaoiPGX-lkp@intel.com>
+References: <20231120193353.1670732-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|PH7PR11MB6548:EE_
-X-MS-Office365-Filtering-Correlation-Id: f16c1adc-9299-48bc-8ff9-08dbea3f427d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BbB+WBo9vRZbytWmvOuYIXsN2ab9ejj/8rUKo0no4EikZEVG9+oQahXa29tdvN7r+8Pn831Zdklcm22mlNaLW9AaVBqGJbzKhvPjX+Lsl7z5cvfx+3hCNmX7DVP74aGoPtsiflAPfsD6UjKLbc3k5AlKPDapTJ643ybrEt0S7wkLjCxfcD99o5yZfqOts8XtH3jsgjMhPmAoOUHt13nPp75B7RqHFCaxZaWircs4DJ2un7lyhh58/IjzpGJWDbvGwSWbhspZ6oj7/xGZX9cn26c3JLcvi7JpOOHc3D52PCVD8x9qBeGvhTiCIIUCSD4uzMJs3VaGInl9ZmZ7Tn8zf6SZId29cTQeVqsHCaUa6LePY1n1zZdic9i4QvY0Wo7xjICHr1vytsCT1j7ipwX9AhC3YApdQaJa00ewMCgq0FaZkbVngKLBCTt3qXxc8ARC92XlXR/Af5FhKl9aNdU5aK66Paoja2KSDCsQeoWATZ0yXmcJHNiKNzYrUJId+cZPGpxjvaufHASgdoVV4z7t5n/z4iuLhGnRng7eqQdbtUhCEWUtwEWxwlGWVFYeyka8oNcM6IRBPA+NtCicEH3OuZnoKs3nHAxBd6mxjfVweTNaH0+NEF1JoRS8c38OFmqpw9koVdBodcy02rURKxHAng==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(39860400002)(136003)(376002)(366004)(230273577357003)(230173577357003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(41300700001)(36756003)(86362001)(5660300002)(2906002)(82960400001)(6666004)(83380400001)(6512007)(6506007)(478600001)(6486002)(966005)(26005)(1076003)(2616005)(38100700002)(8676002)(4326008)(8936002)(66556008)(316002)(66476007)(66946007)(6916009);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GjwcmRdsbEZhbS4Rpa79ow2uY3sN5+UIDYTlp6zAzeasIZl4B5MvhrU67esT?=
- =?us-ascii?Q?/qs44fnO81TY2SfuZnPI+7M5rt5LhfAOm32V/NKG6UyzlI6euHMAKDo6b6fj?=
- =?us-ascii?Q?TOJb70hiHMCCa3BV1TrHHF8GkCCqMapZqCJ7OIcU8jUOuTad6VVrBbObrVOr?=
- =?us-ascii?Q?Ql4RiuZSBxBS8rOGbux9PDoEFc1C/6d9rMf2mZRPZRfF1mKT0vZBgNhqZN/k?=
- =?us-ascii?Q?K0Z7jz1Qg+pIksBtrPsxLbcN+I3HTy/gfT72e5nYNNqSMaiqxFiCp77gErCn?=
- =?us-ascii?Q?FhJK0fvwh1Fu/wg0+MOydMBtxztUnimRT57tPu1xaFX4Ne5zGHBbTePzHzSg?=
- =?us-ascii?Q?WVYM5d+mVDlzrBfTXwzgfMwbO80orAaYxkUr2p899KH+6v27l/83t6Mu828v?=
- =?us-ascii?Q?F7cz7uXouTbFoegE/6vWA90tCN6yerW6TmRpn4C/9NDduQwwSmIEHJillzvd?=
- =?us-ascii?Q?BOtlp9nTOetmJ/j3OLTY/PVLQ2BgrLXMHPJcYsR0QjZRO2KG3pTX+AnH3PL8?=
- =?us-ascii?Q?jNlHfL2Tng0Xx91xQzUS1xBvSAsEnMu8tSb7z+l0n18vS0G8r5Z3+OHdaU+C?=
- =?us-ascii?Q?jWySW4z/gg7tkzkgSSkzYwUG/nLU86Q6qG2UsB7oTAP26VRqVeWjy3oAh64v?=
- =?us-ascii?Q?Q0GkN6ul2jlFCzv1QNbjiiT9HgtfAlHcLsFzDqPxH//rkWB0WyV3TUKaC6K2?=
- =?us-ascii?Q?CFzUDOG5MFJqW37RaSOpovKRQImEWsAFZhK8Jm3DHUvVoJXILXvnBmYdvhjY?=
- =?us-ascii?Q?DxGeApDj5EW/gcGxAvd7Jk2rDCpIubXmqDi6yqf1k1OafFpaG9eP4lf8n5Dm?=
- =?us-ascii?Q?C87XW1E9U81bN4HPC5QurQaE8d8HsXFAcEhwqQ6dWcXRS0AW6dEgrK4aYvTX?=
- =?us-ascii?Q?IRl00gWokPrHf0NQsfQ0e2sTxLlDzdAUKpmUWxN850Na6jyjHiXB0lC0vo7+?=
- =?us-ascii?Q?A29A83sjOoNryRiXmt9HLNyvWc1g2EgvmGfy3CjQo2+2ZMNDGCDLmgljIdrY?=
- =?us-ascii?Q?EmGj2axlSO8aFean589wKy+pb/YG1HyoTO+HKhlpepuer3U9OydcwCxMZbwg?=
- =?us-ascii?Q?GouTJ3hdoaYV4NdLxjSDipUiwn82akbFzKIlD6K+5bPjgSquTuAs7PeYOHaD?=
- =?us-ascii?Q?ps9raNrjpVhspkSZk6t34WkZd0+EKDV057TP0h51zJgMGxZksUiue3Ny7uU/?=
- =?us-ascii?Q?YB+XxO7eGjQ4l0eohcexIWXaEbn0LYyzzWF0a0sZJWWgQ0reBsEFmerU+uod?=
- =?us-ascii?Q?hwUSIjpWzLwUXQMMYzX9phIagqLqzvSKacDwFb/MoQMdQokt5DC/XGGaq+wc?=
- =?us-ascii?Q?qrW1BgvmekMl15Pp8KF3XxgC0CM/ASvRVmyfJNsrrza9+Qs6GPrJTR/eAFTC?=
- =?us-ascii?Q?k4lbV/lSOysv9r4Z2xaYvxeeEUyMmurMnT/e1IoMY9u1JbaI4RDsyb39csFN?=
- =?us-ascii?Q?4jlH5eymfY9GbiC0HNls+SZvJEiqLtqE/rUH1uAz5W3esODBdk3dXb/MXsw2?=
- =?us-ascii?Q?lMmT0F07Uj9l+jdIeJRknOmXL14QK9wRUfkrv0N1L98yDESjzGYteaoZKRwc?=
- =?us-ascii?Q?IWVn0oLpUdcYFgLXjR1WqGOOZY6HgwdCf6gtHnys?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f16c1adc-9299-48bc-8ff9-08dbea3f427d
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 03:09:22.3449
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /We6gWiV5ZxpudnouGFyJjjpgO1yQRtDzGraFMY0atbDtz/R5jgnpONsXzao3NJcGI4MNZzFm8LUBzv5UkSjmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6548
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231120193353.1670732-1-andriy.shevchenko@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-commit: 58b33e78a31782ffe25d404d5eba9a45fe636e27 selftests/powerpc: Fix emit_tests to work with run_kselftest.sh
-date:   8 weeks ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231120/202311202026.DPcREfHy-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next linus/master v6.7-rc2 next-20231120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-qcom-lpass-lpi-Remove-unused-member-in-struct-lpi_pingroup/20231121-034448
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20231120193353.1670732-1-andriy.shevchenko%40linux.intel.com
+patch subject: [rft, PATCH v1 1/1] pinctrl: qcom: lpass-lpi: Remove unused member in struct lpi_pingroup
+config: x86_64-buildonly-randconfig-001-20231121 (https://download.01.org/0day-ci/archive/20231121/202311211148.TRaoiPGX-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211148.TRaoiPGX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202311202026.DPcREfHy-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211148.TRaoiPGX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Makefile:63: warning: overriding recipe for target 'emit_tests'
-   ../lib.mk:145: warning: ignoring old recipe for target 'emit_tests'
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:77:12: warning: 'gpio22_pins' defined but not used [-Wunused-variable]
+      77 | static int gpio22_pins[] = { 22 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:76:12: warning: 'gpio21_pins' defined but not used [-Wunused-variable]
+      76 | static int gpio21_pins[] = { 21 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:75:12: warning: 'gpio20_pins' defined but not used [-Wunused-variable]
+      75 | static int gpio20_pins[] = { 20 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:74:12: warning: 'gpio19_pins' defined but not used [-Wunused-variable]
+      74 | static int gpio19_pins[] = { 19 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:73:12: warning: 'gpio18_pins' defined but not used [-Wunused-variable]
+      73 | static int gpio18_pins[] = { 18 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:72:12: warning: 'gpio17_pins' defined but not used [-Wunused-variable]
+      72 | static int gpio17_pins[] = { 17 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:71:12: warning: 'gpio16_pins' defined but not used [-Wunused-variable]
+      71 | static int gpio16_pins[] = { 16 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:70:12: warning: 'gpio15_pins' defined but not used [-Wunused-variable]
+      70 | static int gpio15_pins[] = { 15 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:69:12: warning: 'gpio14_pins' defined but not used [-Wunused-variable]
+      69 | static int gpio14_pins[] = { 14 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:68:12: warning: 'gpio13_pins' defined but not used [-Wunused-variable]
+      68 | static int gpio13_pins[] = { 13 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:67:12: warning: 'gpio12_pins' defined but not used [-Wunused-variable]
+      67 | static int gpio12_pins[] = { 12 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:66:12: warning: 'gpio11_pins' defined but not used [-Wunused-variable]
+      66 | static int gpio11_pins[] = { 11 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:65:12: warning: 'gpio10_pins' defined but not used [-Wunused-variable]
+      65 | static int gpio10_pins[] = { 10 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:64:12: warning: 'gpio9_pins' defined but not used [-Wunused-variable]
+      64 | static int gpio9_pins[] = { 9 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:63:12: warning: 'gpio8_pins' defined but not used [-Wunused-variable]
+      63 | static int gpio8_pins[] = { 8 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:62:12: warning: 'gpio7_pins' defined but not used [-Wunused-variable]
+      62 | static int gpio7_pins[] = { 7 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:61:12: warning: 'gpio6_pins' defined but not used [-Wunused-variable]
+      61 | static int gpio6_pins[] = { 6 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:60:12: warning: 'gpio5_pins' defined but not used [-Wunused-variable]
+      60 | static int gpio5_pins[] = { 5 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:59:12: warning: 'gpio4_pins' defined but not used [-Wunused-variable]
+      59 | static int gpio4_pins[] = { 4 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:58:12: warning: 'gpio3_pins' defined but not used [-Wunused-variable]
+      58 | static int gpio3_pins[] = { 3 };
+         |            ^~~~~~~~~~
+   drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:57:12: warning: 'gpio2_pins' defined but not used [-Wunused-variable]
+      57 | static int gpio2_pins[] = { 2 };
+         |            ^~~~~~~~~~
+   drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:56:12: warning: 'gpio1_pins' defined but not used [-Wunused-variable]
+      56 | static int gpio1_pins[] = { 1 };
+         |            ^~~~~~~~~~
+   drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c:55:12: warning: 'gpio0_pins' defined but not used [-Wunused-variable]
+      55 | static int gpio0_pins[] = { 0 };
+         |            ^~~~~~~~~~
+--
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:79:12: warning: 'gpio22_pins' defined but not used [-Wunused-variable]
+      79 | static int gpio22_pins[] = { 22 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:78:12: warning: 'gpio21_pins' defined but not used [-Wunused-variable]
+      78 | static int gpio21_pins[] = { 21 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:77:12: warning: 'gpio20_pins' defined but not used [-Wunused-variable]
+      77 | static int gpio20_pins[] = { 20 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:76:12: warning: 'gpio19_pins' defined but not used [-Wunused-variable]
+      76 | static int gpio19_pins[] = { 19 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:75:12: warning: 'gpio18_pins' defined but not used [-Wunused-variable]
+      75 | static int gpio18_pins[] = { 18 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:74:12: warning: 'gpio17_pins' defined but not used [-Wunused-variable]
+      74 | static int gpio17_pins[] = { 17 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:73:12: warning: 'gpio16_pins' defined but not used [-Wunused-variable]
+      73 | static int gpio16_pins[] = { 16 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:72:12: warning: 'gpio15_pins' defined but not used [-Wunused-variable]
+      72 | static int gpio15_pins[] = { 15 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:71:12: warning: 'gpio14_pins' defined but not used [-Wunused-variable]
+      71 | static int gpio14_pins[] = { 14 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:70:12: warning: 'gpio13_pins' defined but not used [-Wunused-variable]
+      70 | static int gpio13_pins[] = { 13 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:69:12: warning: 'gpio12_pins' defined but not used [-Wunused-variable]
+      69 | static int gpio12_pins[] = { 12 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:68:12: warning: 'gpio11_pins' defined but not used [-Wunused-variable]
+      68 | static int gpio11_pins[] = { 11 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:67:12: warning: 'gpio10_pins' defined but not used [-Wunused-variable]
+      67 | static int gpio10_pins[] = { 10 };
+         |            ^~~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:66:12: warning: 'gpio9_pins' defined but not used [-Wunused-variable]
+      66 | static int gpio9_pins[] = { 9 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:65:12: warning: 'gpio8_pins' defined but not used [-Wunused-variable]
+      65 | static int gpio8_pins[] = { 8 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:64:12: warning: 'gpio7_pins' defined but not used [-Wunused-variable]
+      64 | static int gpio7_pins[] = { 7 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:63:12: warning: 'gpio6_pins' defined but not used [-Wunused-variable]
+      63 | static int gpio6_pins[] = { 6 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:62:12: warning: 'gpio5_pins' defined but not used [-Wunused-variable]
+      62 | static int gpio5_pins[] = { 5 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:61:12: warning: 'gpio4_pins' defined but not used [-Wunused-variable]
+      61 | static int gpio4_pins[] = { 4 };
+         |            ^~~~~~~~~~
+>> drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:60:12: warning: 'gpio3_pins' defined but not used [-Wunused-variable]
+      60 | static int gpio3_pins[] = { 3 };
+         |            ^~~~~~~~~~
+   drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:59:12: warning: 'gpio2_pins' defined but not used [-Wunused-variable]
+      59 | static int gpio2_pins[] = { 2 };
+         |            ^~~~~~~~~~
+   drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:58:12: warning: 'gpio1_pins' defined but not used [-Wunused-variable]
+      58 | static int gpio1_pins[] = { 1 };
+         |            ^~~~~~~~~~
+   drivers/pinctrl/qcom/pinctrl-sm8650-lpass-lpi.c:57:12: warning: 'gpio0_pins' defined but not used [-Wunused-variable]
+      57 | static int gpio0_pins[] = { 0 };
+         |            ^~~~~~~~~~
 
 
-vim +/emit_tests +63 tools/testing/selftests/powerpc/Makefile
+vim +/gpio22_pins +77 drivers/pinctrl/qcom/pinctrl-sm8550-lpass-lpi.c
 
-6faeeea44b84c (Michael Ellerman            2015-03-11 15:06:01 +1100 61)
-58b33e78a3178 (Michael Ellerman            2023-09-21 17:26:10 +1000 62) emit_tests:
-4ecd0868c5138 (Benjamin Gray               2023-02-28 11:07:08 +1100 63)        +@for TARGET in $(SUB_DIRS); do \
-2db2c250dd3d1 (Michael Ellerman            2017-03-27 15:11:44 +1100 64)                BUILD_TARGET=$(OUTPUT)/$$TARGET;        \
-58b33e78a3178 (Michael Ellerman            2023-09-21 17:26:10 +1000 65)                $(MAKE) OUTPUT=$$BUILD_TARGET -s -C $$TARGET $@;\
-6faeeea44b84c (Michael Ellerman            2015-03-11 15:06:01 +1100 66)        done;
-0e56dacdda499 (Michael Ellerman            2013-08-06 17:42:35 +1000 67)
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03  54  
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @55  static int gpio0_pins[] = { 0 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @56  static int gpio1_pins[] = { 1 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @57  static int gpio2_pins[] = { 2 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @58  static int gpio3_pins[] = { 3 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @59  static int gpio4_pins[] = { 4 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @60  static int gpio5_pins[] = { 5 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @61  static int gpio6_pins[] = { 6 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @62  static int gpio7_pins[] = { 7 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @63  static int gpio8_pins[] = { 8 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @64  static int gpio9_pins[] = { 9 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @65  static int gpio10_pins[] = { 10 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @66  static int gpio11_pins[] = { 11 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @67  static int gpio12_pins[] = { 12 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @68  static int gpio13_pins[] = { 13 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @69  static int gpio14_pins[] = { 14 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @70  static int gpio15_pins[] = { 15 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @71  static int gpio16_pins[] = { 16 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @72  static int gpio17_pins[] = { 17 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @73  static int gpio18_pins[] = { 18 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @74  static int gpio19_pins[] = { 19 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @75  static int gpio20_pins[] = { 20 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @76  static int gpio21_pins[] = { 21 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03 @77  static int gpio22_pins[] = { 22 };
+5a6ca1f240d6a2 Krzysztof Kozlowski 2023-02-03  78  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
