@@ -1,59 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBA5584CF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 21:27:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC043BB2B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 22:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDvSRCoC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/MGWp7v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700602072; x=1732138072;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uEBVNeqKwVe2rty8DYNq8xTPRTe1IjjFFyd71FrkqFs=;
-  b=WDvSRCoCdDUmFa5DczjfJchQv20VV1gPyvO8WfZSVhgyUazk/gabLJFo
-   qDJD/wjfsoT+63S1+2857UlN3QXtYNJuo4zssCX6olgU70G3Tm2LlE8ca
-   5YMGSY+l9bQ2joIfxJbU+Tj6hMfTrLJss4+TE08pBXL/0gybNgQWJPp14
-   ykdeP0KhYF1m5G7QqT5k46EdUZqZZfHjohqj9FH6y9sKzXPTk6hBQTgvg
-   EJ/W0BcU6sOg+JJyFexl8YwszQAHTT+mb0K4Np+a2oYxLg+UEO3O27ouE
-   f8wrzBW1NUX9C1quQI1czsniQjbA561uYiOxIrf6et5k9jwroqO2HHHnV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="389080905"
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="389080905"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 13:27:51 -0800
+  t=1700606674; x=1732142674;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8yNISvLdZFalMlizDxMmo03wMv6hRosHjvlpanfTZ6k=;
+  b=c/MGWp7vMBfdzJfS6l/zio/r+2P6x+B48vaY4urF+1QbAJMTBFexQMF6
+   Nh11I+2a5qdEi2lHLnqVjVezYz1Oz7mAEeWM5JupQoSaq1yjqDvGzTROj
+   c14KWoR3f9cKcfTRy6YWZbtzoh7vYUm/ZfpXgR+Nrq8CPfmeCorjSQxiI
+   tKlovAgyhz9vSj1T4ZYnfSTR4yqALMqMviSh3PwUhfY7U+W7wroMzLSWy
+   CMSAsb9v7nnffR1DmyBI5wGM5o419bB+WesE6x345ur/QFkOrkKZMzJdL
+   nuTN22xSFG3ur+utXRpMdmolXaqUYjWn2rLS9B1Hr8ziqLEmXsZtGS0oq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="456274451"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="456274451"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 14:44:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="15029831"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="8027988"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2023 13:27:44 -0800
+  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2023 14:44:33 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5YHW-0008HO-14;
-	Tue, 21 Nov 2023 21:27:42 +0000
-Date: Wed, 22 Nov 2023 05:27:15 +0800
+	id 1r5ZTq-0008ME-00;
+	Tue, 21 Nov 2023 22:44:30 +0000
+Date: Wed, 22 Nov 2023 06:43:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-	dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, david@redhat.com,
-	Vilas.Sridharan@amd.com, leo.duran@amd.com, Yazen.Ghannam@amd.com,
-	rientjes@google.com, jiaqiyan@google.com, tony.luck@intel.com,
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, rafael@kernel.org,
-	lenb@kernel.org, naoya.horiguchi@nec.com, james.morse@arm.com,
-	jthoughton@google.com, somasundaram.a@hpe.com,
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
-	mike.malvestuto@intel.com
-Subject: Re: [PATCH v2 01/10] cxl/mbox: Add GET_SUPPORTED_FEATURES mailbox
- command
-Message-ID: <202311220525.o2AUzf97-lkp@intel.com>
-References: <20231121101844.1161-2-shiju.jose@huawei.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-defer-cleanups 2/2] fs/xfs/libxfs/xfs_defer.c:747:1:
+ warning: no previous prototype for function 'xfs_defer_alloc'
+Message-ID: <202311220537.jgLkLYNQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +48,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121101844.1161-2-shiju.jose@huawei.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc2 next-20231121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/cxl-mbox-Add-GET_SUPPORTED_FEATURES-mailbox-command/20231121-182247
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231121101844.1161-2-shiju.jose%40huawei.com
-patch subject: [PATCH v2 01/10] cxl/mbox: Add GET_SUPPORTED_FEATURES mailbox command
-config: arc-randconfig-r113-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220525.o2AUzf97-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220525.o2AUzf97-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-defer-cleanups
+head:   e522e139829f885434ffcb789fd64b4f83af3a5e
+commit: e522e139829f885434ffcb789fd64b4f83af3a5e [2/2] xfs: share code between xfs_defer_add and xfs_defer_add_barrier
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231122/202311220537.jgLkLYNQ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220537.jgLkLYNQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220525.o2AUzf97-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220537.jgLkLYNQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/cxl/core/mbox.c:1318:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] size_out @@     got restricted __le32 [usertype] count @@
-   drivers/cxl/core/mbox.c:1318:31: sparse:     expected unsigned int [usertype] size_out
-   drivers/cxl/core/mbox.c:1318:31: sparse:     got restricted __le32 [usertype] count
+All warnings (new ones prefixed by >>):
 
-vim +1318 drivers/cxl/core/mbox.c
+>> fs/xfs/libxfs/xfs_defer.c:747:1: warning: no previous prototype for function 'xfs_defer_alloc' [-Wmissing-prototypes]
+   xfs_defer_alloc(
+   ^
+   fs/xfs/libxfs/xfs_defer.c:746:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct xfs_defer_pending *
+   ^
+   static 
+   1 warning generated.
 
-  1306	
-  1307	int cxl_get_supported_features(struct cxl_memdev_state *mds,
-  1308							struct cxl_mbox_get_supp_feats_in *pi,
-  1309							void *feats_out)
-  1310	{
-  1311		struct cxl_mbox_cmd mbox_cmd;
-  1312		int rc;
-  1313	
-  1314		mbox_cmd = (struct cxl_mbox_cmd) {
-  1315			.opcode = CXL_MBOX_OP_GET_SUPPORTED_FEATURES,
-  1316			.size_in = sizeof(*pi),
-  1317			.payload_in = pi,
-> 1318			.size_out = pi->count,
-  1319			.payload_out = feats_out,
-  1320			.min_out = sizeof(struct cxl_mbox_get_supp_feats_out),
-  1321		};
-  1322		rc = cxl_internal_send_cmd(mds, &mbox_cmd);
-  1323		if (rc < 0)
-  1324			return rc;
-  1325	
-  1326		return 0;
-  1327	}
-  1328	EXPORT_SYMBOL_NS_GPL(cxl_get_supported_features, CXL);
-  1329	
+
+vim +/xfs_defer_alloc +747 fs/xfs/libxfs/xfs_defer.c
+
+   744	
+   745	/* Create a new pending item at the end of the intake list. */
+   746	struct xfs_defer_pending *
+ > 747	xfs_defer_alloc(
+   748		struct xfs_trans		*tp,
+   749		const struct xfs_defer_op_type	*ops)
+   750	{
+   751		struct xfs_defer_pending	*dfp;
+   752	
+   753		dfp = kmem_cache_zalloc(xfs_defer_pending_cache,
+   754				GFP_NOFS | __GFP_NOFAIL);
+   755		dfp->dfp_ops = ops;
+   756		INIT_LIST_HEAD(&dfp->dfp_work);
+   757		list_add_tail(&dfp->dfp_list, &tp->t_dfops);
+   758		return dfp;
+   759	};
+   760	
 
 -- 
 0-DAY CI Kernel Test Service
