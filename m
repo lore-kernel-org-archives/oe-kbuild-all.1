@@ -1,51 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAA820DCC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 18:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31616FDA;
+	Tue, 21 Nov 2023 18:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bo5jMta8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700590369; x=1732126369;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9PouWqQLxKRZD/js5Fh0MQNGfH4qTSbUBOOPCcqp9nc=;
-  b=bo5jMta8Pr6m1sr1u/me0cydyNh8Fozx8DWh+2JFQyemjwikZ3cElbDx
-   MAQIvrbPPCn+lAjaInE3YSaP1xGByrxyAr/xQdxiGZdvBS/GYADBhFm9/
-   6IADqFh9Mm3wEBan0Yq/NWCLE8cz/2Hf+ZjaFr/1c3zeEUsGMD5Bbisze
-   hBn3gtZQlpizKa8/xk+Z/QrcsNsE43pMJ/gUxdCX6GjkdATfa0A95HjHC
-   a2rID9E/E0fsPFgKPkXJRFrScx4eHddwarqkyf/0wrKpbEdoumIiwvvcR
-   vd1U8OQ03qIxK9DYKbDvpq/sLN/iq5z1N+GWh5CLBvyWMCUKTd/+VDvOw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="456235104"
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="456235104"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 10:12:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="770344823"
-X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="770344823"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2023 10:12:19 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5VDl-00086q-0n;
-	Tue, 21 Nov 2023 18:11:53 +0000
-Date: Wed, 22 Nov 2023 02:08:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hermes Zhang <Hermes.Zhang@axis.com>, sre@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel@axis.com, Hermes Zhang <chenhuiz@axis.com>,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] power: supply: bq24190_charger: Add support for
-  BQ24296
-Message-ID: <202311220126.8UPRiJN0-lkp@intel.com>
-References: <20231121070505.3061304-3-Hermes.Zhang@axis.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8v0psqV"
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-677a12f1362so21372946d6.1;
+        Tue, 21 Nov 2023 10:38:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700591889; x=1701196689; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ScTPp3sX0TUL7PQUCNo7NyPJe0CjkT3omGPMiA9YMj4=;
+        b=V8v0psqVaLYr2zjVFw+p3aAt3H3dtx0ZZV+UTv7gnnhx4hO/mkkr7Vef8YBcKjCcve
+         crekmUvrUnDlMxmFaLDeOXykY5eiHv/vTirsyD+xrILUoe7fpM2vBb+kR2w/y3TjMhxs
+         TxhUSDJIoTkIASJEeZ+r7I9PFbd92ZFa+kiUTKYaDLcoK0wuLvlYeYlJBMxvStx7U5eI
+         q6gO8yt5ijAy5GNvaWc9+KImXUmmONoBtmXdI0AhiavUcNKUECXf4C82T2obU+h4ddKo
+         6gNqRkxiM9HgWdRutZiM6CnpAsBJI+YQFtnEClq62Bp09V/60muvDtfF02gJM+5XREw7
+         vBDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700591889; x=1701196689;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ScTPp3sX0TUL7PQUCNo7NyPJe0CjkT3omGPMiA9YMj4=;
+        b=pJ/K67iRQPwCOQiJpcNbNrIoEjSXBfI1n6Yy82k+C/VoZ7l9JxZ9AHsX1KQcbH1wDN
+         PO6TI6ScEPT1ENX79y1+8J3Yi36K7DVJu+P0KhSXG3ZK3VpoWK+7UJgTALLWR8mmIXKi
+         eNnURsAwHMHAmJqUgAhRh2fKLfH90JR+HkCM8m7ux6YDW5Na189V30NXrv+wFgZlA8as
+         qth6ebfLCu87Zdnt/ePZ8PPPLiGF87I75En9B4htXH1juo4EPhWsEbd8RMZ06oMlvSAg
+         K4Kj41LQ1d23j78Ia5ezsv05TeUo+Y90hjtg6bIsrmuL9J12J74lX+3jOarRCNpa3iNr
+         40mQ==
+X-Gm-Message-State: AOJu0YznU++2kMWZgCl8FzjUqJ42dzNabdWS661U9u9/NU3S06QFZeBq
+	r7IWaTJeKDsDNePsaYxLphA=
+X-Google-Smtp-Source: AGHT+IHlP2gWQsqh9GhsUJISQv6hM6y/tzxbmUtD3EHUrZoXwsj/8zywC+R+i4JbLSuZsacFUWprNw==
+X-Received: by 2002:a05:6214:5018:b0:679:e783:92eb with SMTP id jo24-20020a056214501800b00679e78392ebmr5763157qvb.23.1700591888606;
+        Tue, 21 Nov 2023 10:38:08 -0800 (PST)
+Received: from erthalion.local (dslb-178-005-231-183.178.005.pools.vodafone-ip.de. [178.5.231.183])
+        by smtp.gmail.com with ESMTPSA id u6-20020a0562141c0600b00679d9324ff2sm2179791qvc.77.2023.11.21.10.38.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 10:38:08 -0800 (PST)
+Date: Tue, 21 Nov 2023 19:34:26 +0100
+From: Dmitry Dolgov <9erthalion6@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH bpf-next] bpf: Relax tracing prog recursive attach
+ rules
+Message-ID: <20231121183426.5odgh5q5aukpbdtw@erthalion.local>
+References: <20231114084118.11095-1-9erthalion6@gmail.com>
+ <f03d7ce6-e603-4ead-8a67-8d424a4420d6@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,107 +58,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121070505.3061304-3-Hermes.Zhang@axis.com>
+In-Reply-To: <f03d7ce6-e603-4ead-8a67-8d424a4420d6@suswa.mountain>
 
-Hi Hermes,
+> On Mon, Nov 20, 2023 at 08:41:10AM -0500, Dan Carpenter wrote:
+> Hi Dmitrii,
+>
+> kernel test robot noticed the following build warnings:
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Dmitrii-Dolgov/bpf-Relax-tracing-prog-recursive-attach-rules/20231114-164631
+> base:   100888fb6d8a185866b1520031ee7e3182b173de
+> patch link:    https://lore.kernel.org/r/20231114084118.11095-1-9erthalion6%40gmail.com
+> patch subject: [RFC PATCH bpf-next] bpf: Relax tracing prog recursive attach rules
+> config: i386-randconfig-141-20231119 (https://download.01.org/0day-ci/archive/20231119/202311191719.Pa8d0Ly9-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231119/202311191719.Pa8d0Ly9-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202311191719.Pa8d0Ly9-lkp@intel.com/
+>
+> smatch warnings:
+> kernel/bpf/syscall.c:3241 bpf_tracing_prog_attach() error: we previously assumed 'tgt_prog' could be null (see line 3186)
+>
+> vim +/tgt_prog +3241 kernel/bpf/syscall.c
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on sre-power-supply/for-next]
-[also build test ERROR on linus/master v6.7-rc2 next-20231121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hermes-Zhang/dt-bindings-power-supply-bq24190-Add-BQ24296-compatible/20231121-151103
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20231121070505.3061304-3-Hermes.Zhang%40axis.com
-patch subject: [PATCH v3 2/2] power: supply: bq24190_charger: Add support for  BQ24296
-config: x86_64-buildonly-randconfig-004-20231121 (https://download.01.org/0day-ci/archive/20231122/202311220126.8UPRiJN0-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220126.8UPRiJN0-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220126.8UPRiJN0-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/power/supply/bq24190_charger.c:1975:16: error: initializer element is not constant
-      .vbus_desc = bq24190_vbus_desc,
-                   ^~~~~~~~~~~~~~~~~
-   drivers/power/supply/bq24190_charger.c:1975:16: note: (near initialization for 'bq24190_chip_info_tbl[0].vbus_desc')
-   drivers/power/supply/bq24190_charger.c:1984:16: error: initializer element is not constant
-      .vbus_desc = bq24190_vbus_desc,
-                   ^~~~~~~~~~~~~~~~~
-   drivers/power/supply/bq24190_charger.c:1984:16: note: (near initialization for 'bq24190_chip_info_tbl[1].vbus_desc')
-   drivers/power/supply/bq24190_charger.c:1993:16: error: initializer element is not constant
-      .vbus_desc = bq24190_vbus_desc,
-                   ^~~~~~~~~~~~~~~~~
-   drivers/power/supply/bq24190_charger.c:1993:16: note: (near initialization for 'bq24190_chip_info_tbl[2].vbus_desc')
-   drivers/power/supply/bq24190_charger.c:2002:16: error: initializer element is not constant
-      .vbus_desc = bq24190_vbus_desc,
-                   ^~~~~~~~~~~~~~~~~
-   drivers/power/supply/bq24190_charger.c:2002:16: note: (near initialization for 'bq24190_chip_info_tbl[3].vbus_desc')
-   drivers/power/supply/bq24190_charger.c:2011:16: error: initializer element is not constant
-      .vbus_desc = bq24296_vbus_desc,
-                   ^~~~~~~~~~~~~~~~~
-   drivers/power/supply/bq24190_charger.c:2011:16: note: (near initialization for 'bq24190_chip_info_tbl[4].vbus_desc')
-
-
-vim +1975 drivers/power/supply/bq24190_charger.c
-
-  1971	
-  1972	static const struct bq24190_chip_info bq24190_chip_info_tbl[] = {
-  1973		[BQ24190] = {
-  1974			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
-> 1975			.vbus_desc = bq24190_vbus_desc,
-  1976			.check_chip = bq24190_check_chip,
-  1977			.set_chg_config = bq24190_battery_set_chg_config,
-  1978			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
-  1979			.get_ntc_status = bq24190_charger_get_ntc_status,
-  1980			.set_otg_vbus = bq24190_set_otg_vbus,
-  1981		},
-  1982		[BQ24192] = {
-  1983			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
-  1984			.vbus_desc = bq24190_vbus_desc,
-  1985			.check_chip = bq24190_check_chip,
-  1986			.set_chg_config = bq24190_battery_set_chg_config,
-  1987			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
-  1988			.get_ntc_status = bq24190_charger_get_ntc_status,
-  1989			.set_otg_vbus = bq24190_set_otg_vbus,
-  1990		},
-  1991		[BQ24192i] = {
-  1992			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
-  1993			.vbus_desc = bq24190_vbus_desc,
-  1994			.check_chip = bq24190_check_chip,
-  1995			.set_chg_config = bq24190_battery_set_chg_config,
-  1996			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
-  1997			.get_ntc_status = bq24190_charger_get_ntc_status,
-  1998			.set_otg_vbus = bq24190_set_otg_vbus,
-  1999		},
-  2000		[BQ24196] = {
-  2001			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
-  2002			.vbus_desc = bq24190_vbus_desc,
-  2003			.check_chip = bq24190_check_chip,
-  2004			.set_chg_config = bq24190_battery_set_chg_config,
-  2005			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
-  2006			.get_ntc_status = bq24190_charger_get_ntc_status,
-  2007			.set_otg_vbus = bq24190_set_otg_vbus,
-  2008		},
-  2009		[BQ24296] = {
-  2010			.ichg_array_size = BQ24296_CCC_ICHG_VALUES_LEN,
-  2011			.vbus_desc = bq24296_vbus_desc,
-  2012			.check_chip = bq24296_check_chip,
-  2013			.set_chg_config = bq24296_battery_set_chg_config,
-  2014			.ntc_fault_mask = BQ24296_REG_F_NTC_FAULT_MASK,
-  2015			.get_ntc_status = bq24296_charger_get_ntc_status,
-  2016			.set_otg_vbus = bq24296_set_otg_vbus,
-  2017		},
-  2018	};
-  2019	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Right, my mistake, thanks for letting me know. Looks like the condition
+branch where tgt_prog is assigned covers only reattachment, and it will
+blow when using old raw_tracepoint API. I'm going to send a new version
+of the patch soon.
