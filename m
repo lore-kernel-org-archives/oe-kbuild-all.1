@@ -1,103 +1,79 @@
-Received: from mx2.zhaoxin.com (mx2.zhaoxin.com [203.110.167.99])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9D638DCF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 08:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zhaoxin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zhaoxin.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-X-ASG-Debug-ID: 1700553863-1eb14e538c1b410001-VRTCNN
-Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx2.zhaoxin.com with ESMTP id mfwIhfALunJr26Ki (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Tue, 21 Nov 2023 16:04:23 +0800 (CST)
-X-Barracuda-Envelope-From: LeoLiu-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Received: from ZXBJMBX02.zhaoxin.com (10.29.252.6) by ZXSHMBX2.zhaoxin.com
- (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 21 Nov
- 2023 16:04:22 +0800
-Received: from [192.168.1.204] (125.76.214.122) by ZXBJMBX02.zhaoxin.com
- (10.29.252.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 21 Nov
- 2023 16:04:20 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Message-ID: <49da551d-a43c-48b8-af31-965103a390ec@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 192.168.1.204
-Date: Tue, 21 Nov 2023 16:04:19 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC8B1DFC3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 08:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0PWaFdJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700554455; x=1732090455;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=67EYm78L7rIU9WKwDqnevVP1mHFgFlt6brLmTQZsmZw=;
+  b=j0PWaFdJqkU79ZwsU59tisYW6o5nr4Kf3aXxaqX7dMeVLxdjLD+iTYTd
+   F78Gt0wswKDqnwwTz9DJacbMDKS6Z3nfHTqooy/625VOM6TNhBbAH5Rn3
+   v0n4xLc2sDwncyUETb/T4T535ExY1G21iGM1tqEmWdOXcdcwiTJ1MS9OU
+   HY/rej1vHwiUiuII0tmvRRGUHGAI0nGg2P1PjeulUGrfYIXrrRZP7sJgE
+   LrSXm+OZGgZv4C2FS5QYHvZPLVWvr1++f6mZy2m20e3UjOS5+ANtxO3++
+   YcoZP9/myiAWlbRt9tfavON4joT36UgwMjhuoH2GEeiWf8XFbKHSBvmYH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="422889727"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="422889727"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:14:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="760026348"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="760026348"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 21 Nov 2023 00:14:12 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5Lrc-0007Xt-2f;
+	Tue, 21 Nov 2023 08:12:31 +0000
+Date: Tue, 21 Nov 2023 16:08:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/050-nvme 1/3] drivers/nvme/host/apple.c:208:14:
+ sparse: sparse: symbol 'flush_interval' was not declared. Should it be
+ static?
+Message-ID: <202311211638.SrNAPRId-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] crypto: x86/sm2 -add Zhaoxin SM2 algorithm
- implementation
-To: Dave Hansen <dave.hansen@intel.com>, kernel test robot <lkp@intel.com>,
-	<herbert@gondor.apana.org.au>, <davem@davemloft.net>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <seanjc@google.com>,
-	<kim.phillips@amd.com>, <pbonzini@redhat.com>, <babu.moger@amd.com>,
-	<jiaxi.chen@linux.intel.com>, <jmattson@google.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <linux-crypto@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-X-ASG-Orig-Subj: Re: [PATCH v2] crypto: x86/sm2 -add Zhaoxin SM2 algorithm
- implementation
-CC: <oe-kbuild-all@lists.linux.dev>, <CobeChen@zhaoxin.com>,
-	<TonyWWang@zhaoxin.com>, <YunShen@zhaoxin.com>, <Leoliu@zhaoxin.com>
-References: <20231115071724.575356-1-LeoLiu-oc@zhaoxin.com>
- <202311160022.csCILGmA-lkp@intel.com>
- <541fff8a-ad8f-43f5-9a44-c64302698029@intel.com>
-From: LeoLiu-oc <leoliu-oc@zhaoxin.com>
-In-Reply-To: <541fff8a-ad8f-43f5-9a44-c64302698029@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [125.76.214.122]
-X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
- ZXBJMBX02.zhaoxin.com (10.29.252.6)
-X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
-X-Barracuda-Start-Time: 1700553863
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.36:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 973
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: -2.02
-X-Barracuda-Spam-Status: No, SCORE=-2.02 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.117045
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------------------------
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://github.com/AsahiLinux/linux bits/050-nvme
+head:   9aab2d5712b51bda0913044211406563da5eee5c
+commit: 257698a1cbe2189c52568a6ff5be74c700776c72 [1/3] apple-nvme: defer cache flushes by a specified amount
+config: arm64-randconfig-r121-20231121 (https://download.01.org/0day-ci/archive/20231121/202311211638.SrNAPRId-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231121/202311211638.SrNAPRId-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211638.SrNAPRId-lkp@intel.com/
 
-在 2023/11/16 3:21, Dave Hansen 写道:
-> 
->> vim +/asm +43 arch/x86/crypto/sm2-zhaoxin-gmi_glue.c
->>
->>      35	
->>      36	/* Zhaoxin sm2 verify function */
->>      37	static inline int zhaoxin_gmi_sm2_verify(unsigned char *key, unsigned char *hash, unsigned char *sig,
->>      38					unsigned char *scratch)
->>      39	{
->>      40		uint64_t cword, f_ok;
->>      41		cword = (uint64_t)0x8;
->>      42	
->>    > 43		asm(".byte 0xf2, 0x0f, 0xa6, 0xc0"
->>      44			:"=c"(f_ok), "+a"(hash), "+b"(key), "+d"(cword), "+S"(scratch), "+D"(sig));
->>      45	
->>      46		return f_ok;
->>      47	}
->>      48	
-> 
-> When you go fix your compile error, can you please look around the tree
-> and see what folks do for replacing .byte?  AS_SHA1_NI, for example.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/host/apple.c:208:14: sparse: sparse: symbol 'flush_interval' was not declared. Should it be static?
 
-Thank you for your advice. We have found the root cause of the compile 
-error and conducted detailed testing again. A corrected version will be 
-released soon.
+vim +/flush_interval +208 drivers/nvme/host/apple.c
 
-Sincerely.
-Leoliu-oc
+   207	
+ > 208	unsigned int flush_interval = 1000;
+   209	module_param(flush_interval, uint, 0644);
+   210	MODULE_PARM_DESC(flush_interval, "Grace period in msecs between flushes");
+   211	
 
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
