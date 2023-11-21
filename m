@@ -1,73 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236F743153;
-	Tue, 21 Nov 2023 17:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D795B1F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 17:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QACmDvwD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24474C433C7;
-	Tue, 21 Nov 2023 17:36:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700588164;
-	bh=aXXUsAbBtqc2m+2Cgi/uIS1tHSwLTPzPAbJEVpba3cA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QACmDvwDrSw9cGTMZwyyWquW+zerMzqCFdyc7ofmlMX/k7dJnPrDOh5InvxMg/8MP
-	 6K1gbNiVrSRyhlKoa3voQJm9eoTvRdpeP70lJFaJeKIT8WAiw6x9FdpbWN4JtsVXeu
-	 46JFs0r9H670wxLUoveti7z5zdt3MDmT0W3HCg/9Li2j/HurLz3CVpydZCKpU6corQ
-	 FzSYrJEM8sjQtlQB2MqK2hCwzemn8ecFxe+PIBICrhWu85z3FC4WZM8OsknAuDAmOh
-	 tKVwG+s2fm8urKY5n4RH5k56wyIK6+O6ulWDPkEXwQZVZg1PlLfiZIXuFGfMRSI7HB
-	 rMPuzTMDrK2Hw==
-From: SeongJae Park <sj@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,
-	SeongJae Park <sj@kernel.org>,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 32/42] mm/damon/core.c:1150 damos_set_effective_quota() error: uninitialized symbol 'esz'.
-Date: Tue, 21 Nov 2023 17:36:02 +0000
-Message-Id: <20231121173602.62313-1-sj@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <473b4c2e-863d-42ec-860a-bf8ec4385240@suswa.mountain>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZeYPK3B2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700589599; x=1732125599;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HajNcANzS8KHjONWzavIj/4wpkVTaBzXzzIAQEqc5MU=;
+  b=ZeYPK3B2rCyHKvaY18CUngPQU1e6ssMc2x4xTs+f+q8dp6xjwNnP7nMZ
+   qAfANy6p5mtf4NYgOzJEGhTdYpPOFZRrEe0+c1XQpeatQQiPgjjZomF+g
+   JC0Df7XK3+Wzu2peJ5J3TBdVcppoTg29KmnH8rlmf4gm8N5hsfSsyq1Qq
+   ta3A+r9OSipFnBunXXzssgJh+AmLoU4o643xS1LAj2Zg15udufao2s8iT
+   hysaSVJVU44inOYVBtvqO51ayIQ+HATQvI1dqynwkYMFXK3BzhMq+sy/a
+   xFtnPuMAsqP9fb1KQiY+Pgh8/A2uY4lK42AaheUJMsEXFqwHBqY2gGMif
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="422990037"
+X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
+   d="scan'208";a="422990037"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 09:59:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="760171994"
+X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
+   d="scan'208";a="760171994"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 21 Nov 2023 09:59:53 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5V2E-00086K-00;
+	Tue, 21 Nov 2023 17:59:45 +0000
+Date: Wed, 22 Nov 2023 01:58:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jingbao Qiu <qiujingbao.dlmu@gmail.com>, a.zummo@towertech.it,
+	alexandre.belloni@bootlin.com, krzysztof.kozlowski+dt@linaro.org,
+	chao.wei@sophgo.com, unicorn_wang@outlook.com, conor+dt@kernel.org,
+	robh+dt@kernel.org, conor@kernel.org, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu
+Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jingbao Qiu <qiujingbao.dlmu@gmail.com>
+Subject: Re: [PATCH 2/3] rtc: add rtc controller support for Sophgo CV1800B
+ SoC
+Message-ID: <202311220129.aOYelwJQ-lkp@intel.com>
+References: <20231121094642.2973795-3-qiujingbao.dlmu@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231121094642.2973795-3-qiujingbao.dlmu@gmail.com>
 
-Hi Dan,
+Hi Jingbao,
 
-On Tue, 21 Nov 2023 02:37:12 -0500 Dan Carpenter <dan.carpenter@linaro.org> wrote:
+kernel test robot noticed the following build errors:
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   54ffd8ae08121d8cbce1874fe46970cce643a2c7
-> commit: 28cef0e565adbb4175f12ffffce9d0680979de60 [32/42] mm/damon/core: implement goal-oriented feedback-driven quota auto-tuning
-> config: x86_64-randconfig-161-20231121 (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202311210420.URG3QSAS-lkp@intel.com/
-> 
-> smatch warnings:
-> mm/damon/core.c:1150 damos_set_effective_quota() error: uninitialized symbol 'esz'.
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on linus/master v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thank you for this nice report!
+url:    https://github.com/intel-lab-lkp/linux/commits/Jingbao-Qiu/dt-bindings-rtc-add-binding-for-Sophgo-CV1800B-rtc-controller/20231121-174927
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20231121094642.2973795-3-qiujingbao.dlmu%40gmail.com
+patch subject: [PATCH 2/3] rtc: add rtc controller support for Sophgo CV1800B SoC
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20231122/202311220129.aOYelwJQ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220129.aOYelwJQ-lkp@intel.com/reproduce)
 
-However, damos_set_effective_quota() is called from damos_adjust_quota(), which
-ensures at least one among quota->{ms,sz,get_score} is nonzero.  And
-damos_set_effective_quota() ensures quota->{ms,get_score} is non-zero at the
-beginning of the function.  Then the function sets esz anyway, for non-zero
-quota->ms and quota->get_score.  Hence the uninitialized variable usage cannot
-happen, if I understand correctly.  Please let me know if I'm missing
-something.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220129.aOYelwJQ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/rtc/rtc-cv1800b.c: In function 'cv1800b_rtc_probe':
+>> drivers/rtc/rtc-cv1800b.c:246:16: error: implicit declaration of function 'rtc_register_device'; did you mean 'devm_rtc_register_device'? [-Werror=implicit-function-declaration]
+     246 |         return rtc_register_device(rtc->rtc_dev);
+         |                ^~~~~~~~~~~~~~~~~~~
+         |                devm_rtc_register_device
+   cc1: some warnings being treated as errors
 
 
-Thanks,
-SJ
+vim +246 drivers/rtc/rtc-cv1800b.c
+
+   189	
+   190	static int cv1800b_rtc_probe(struct platform_device *pdev)
+   191	{
+   192		struct cv1800b_rtc_priv *rtc;
+   193		struct resource *res;
+   194		int ret;
+   195	
+   196		rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+   197		if (!rtc)
+   198			return -ENOMEM;
+   199	
+   200		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   201		if (!res) {
+   202			ret = -ENODEV;
+   203			goto err;
+   204		}
+   205	
+   206		rtc->core_map = devm_ioremap_resource(&pdev->dev, res);
+   207		if (IS_ERR(rtc->core_map)) {
+   208			ret = PTR_ERR(rtc->core_map);
+   209			goto err;
+   210		}
+   211	
+   212		rtc->irq = platform_get_irq(pdev, 0);
+   213		platform_set_drvdata(pdev, rtc);
+   214		if (rtc->irq < 0) {
+   215			ret = -EINVAL;
+   216			goto err;
+   217		}
+   218	
+   219		ret =
+   220		    devm_request_irq(&pdev->dev, rtc->irq, cv1800b_rtc_irq_handler,
+   221				     IRQF_SHARED, "rtc alarm", &pdev->dev);
+   222		if (ret)
+   223			goto err;
+   224	
+   225		rtc->clk = devm_clk_get(&pdev->dev, NULL);
+   226		if (IS_ERR(rtc->clk)) {
+   227			dev_err(&pdev->dev, "no clock");
+   228			ret = PTR_ERR(rtc->clk);
+   229			goto err;
+   230		}
+   231		ret = clk_prepare_enable(rtc->clk);
+   232		if (ret)
+   233			goto err;
+   234		ret = cv1800b_rtc_softinit(rtc);
+   235		if (ret)
+   236			goto err;
+   237		cv1800b_rtc_alarm_irq_enable(&pdev->dev, 1);
+   238		rtc->rtc_dev = devm_rtc_allocate_device(&pdev->dev);
+   239		if (IS_ERR(rtc->rtc_dev)) {
+   240			ret = PTR_ERR(rtc->rtc_dev);
+   241			goto err;
+   242		}
+   243		rtc->rtc_dev->range_max = U32_MAX;
+   244		rtc->rtc_dev->ops = &cv800b_rtc_ops;
+   245	
+ > 246		return rtc_register_device(rtc->rtc_dev);
+   247	err:
+   248		return dev_err_probe(&pdev->dev, ret, "Failed to init cv1800b rtc\n");
+   249	}
+   250	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
