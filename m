@@ -1,118 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C3E208B8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 07:22:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDAD21375
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 07:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XwFTu4qY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AB3DC433C9;
-	Tue, 21 Nov 2023 07:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700551375;
-	bh=rTUDuCw0+yacO1VkcLXeIh3RHyma9O/gexWOtY1atkE=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-	b=XwFTu4qY9DBc362+Wk/k2Jg0HlQU8sDtOvz1IOw4QM8jaukA6Jx9ml1HtZeXbl3YY
-	 abD6qPNLHoYci1OYBk9m2JayBZT5WbnrDgCaNY/hvrOF2lC/IuO6bPrPpJp6zvj5IS
-	 U17D9YXmJPUHbU2lvhxJHFk0U0TCdqmnVnQjApck5/8uVwoch+RACYnjjEj7F8ME1S
-	 2lwvStYbbfmznwtDhRi/RhGtvW6dnjA4QP26mciI6P4a73rbXwbTjw5bozycSZuqu5
-	 Vx7+h37aAXLZXZl+L8pGr+Ig7kR65PPVj/ZdC6JZKohbqSa2GZxaay3tireqTbCJuD
-	 pCtlJwXQUX/kg==
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailauth.nyi.internal (Postfix) with ESMTP id DF16A27C0054;
-	Tue, 21 Nov 2023 02:22:52 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 21 Nov 2023 02:22:52 -0500
-X-ME-Sender: <xms:ylpcZTWnurYmR8idzEPtriSzAnbz9nyGasSk6OlgWccnwLpyIffG_g>
-    <xme:ylpcZbnrhOLjpk0YqBDgIEllOEXndfk340hKfKLrCyshjl4k-jEgnXdfzZNGH0cMB
-    Ff6qeHVRXKRSLCXxdc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudegkedguddthecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtf
-    frrghtthgvrhhnpeelvefgudeiheefledttedthfffgfekudegkeelffdtiedvgfevieet
-    teekheffveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhguodhmvghsmhhtphgruhht
-    hhhpvghrshhonhgrlhhithihqdduvdekhedujedtvdegqddvkeejtddtvdeigedqrghrnh
-    gupeepkhgvrhhnvghlrdhorhhgsegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:ylpcZfbrTJL1Wj2Z7dzzyyRZDVZllpgQ2FtharPzmPcYaPq64dJf8w>
-    <xmx:ylpcZeXnaobuhvRmaDGaSf2W3r0E8GtXWYxnhLD8Y9DxhCQLJNNZiw>
-    <xmx:ylpcZdk-POFyxRFJ1f3uy81gSDJbHbtHGyDHyO6iuH5PYAdkKEq6ig>
-    <xmx:zFpcZR0B15GtGRA_MB4JMve6blPc_4ynSfvQlSJaOmIHmdl2FjUpEGkVBXIfEVT_>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 6A5E6B60089; Tue, 21 Nov 2023 02:22:50 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1178-geeaf0069a7-fm-20231114.001-geeaf0069
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9NKQaN6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700551770; x=1732087770;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=32jw/KIvtOE3RrphJxoAKT29G9A8pwFs1iDqvFgKt1A=;
+  b=Y9NKQaN6nr0pEZ3vncxEwU/Rl3nZRHzv8saHVtsbcHELZDhZn4vh812e
+   Z/ed/Q56prhhrzAt2+dFk7T3lIh+uzTwDnKEMD5+43c4lypHRRo8+Jzxx
+   3xrM2TgFdD1x2kZN11SyMKz8Vvvkao7kSDMjOsXKXa4+JWdSpEuxmB3oU
+   kBT29UI0JmCfD04bN4aIfRNiU3dpYNxUhutb3rMK3Wwjesjej8/3fzytC
+   KD95PON+nFnfCOo+PSqRCSolvBmAMNDC5yMybC5j/NiolOOlnHNDfBf1U
+   8l+a51+wPMxwmDt5tvXE4x7AQI+oZY/TyAxDra3KQU/p03y5M8l5LaF1Y
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="382176781"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="382176781"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 23:29:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="910372443"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="910372443"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 20 Nov 2023 23:29:07 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5L6s-0007V3-3C;
+	Tue, 21 Nov 2023 07:28:16 +0000
+Date: Tue, 21 Nov 2023 15:20:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sibi Sankar <quic_sibis@quicinc.com>, andersson@kernel.org,
+	konrad.dybcio@linaro.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, catalin.marinas@arm.com,
+	ulf.hansson@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, agross@kernel.org, conor+dt@kernel.org,
+	ayan.kumar.halder@amd.com, j@jannau.net,
+	dmitry.baryshkov@linaro.org, nfraprado@collabora.com,
+	m.szyprowski@samsung.com, u-kumar1@ti.com, peng.fan@nxp.com,
+	lpieralisi@kernel.org, quic_rjendra@quicinc.com,
+	abel.vesa@linaro.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, quic_tsoni@quicinc.com,
+	neil.armstrong@linaro.org, Sibi Sankar <quic_sibis@quicinc.com>
+Subject: Re: [PATCH V2 3/5] arm64: dts: qcom: Add base X1E80100 dtsi and the
+ QCP dts
+Message-ID: <202311211519.7IaZhocH-lkp@intel.com>
+References: <20231117113931.26660-4-quic_sibis@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <7f16795c-ec35-4fe5-86e7-6fb36b05cfc5@app.fastmail.com>
-In-Reply-To: <202311211441.4LgOiu32-lkp@intel.com>
-References: <20231120215945.52027-3-pstanner@redhat.com>
- <202311211441.4LgOiu32-lkp@intel.com>
-Date: Tue, 21 Nov 2023 08:22:29 +0100
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "kernel test robot" <lkp@intel.com>,
- "Philipp Stanner" <pstanner@redhat.com>,
- "Bjorn Helgaas" <helgaas@kernel.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Randy Dunlap" <rdunlap@infradead.org>, "Jason Gunthorpe" <jgg@ziepe.ca>,
- "Eric Auger" <eric.auger@redhat.com>, "Kent Overstreet" <kmo@daterainc.com>,
- "Niklas Schnelle" <schnelle@linux.ibm.com>, "Neil Brown" <neilb@suse.de>,
- "John Sanpe" <sanpeqf@gmail.com>, "Dave Jiang" <dave.jiang@intel.com>,
- "Yury Norov" <yury.norov@gmail.com>, "Kees Cook" <keescook@chromium.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>, "David Gow" <davidgow@google.com>,
- "Herbert Xu" <herbert@gondor.apana.org.au>,
- "Thomas Gleixner" <tglx@linutronix.de>,
- "wuqiang.matt" <wuqiang.matt@bytedance.com>,
- "Jason Baron" <jbaron@akamai.com>, "Ben Dooks" <ben.dooks@codethink.co.uk>,
- "Danilo Krummrich" <dakr@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- "Linux Memory Management List" <linux-mm@kvack.org>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231117113931.26660-4-quic_sibis@quicinc.com>
 
-On Tue, Nov 21, 2023, at 07:48, kernel test robot wrote:
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202311211441.4LgOiu32-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    drivers/pci/iomap.c:27:15: error: redefinition of 'pci_iomap_range'
->    void __iomem *pci_iomap_range(struct pci_dev *dev,
->                  ^
->    include/asm-generic/pci_iomap.h:44:29: note: previous definition is here
->    static inline void __iomem *pci_iomap_range(struct pci_dev *dev, int bar,
->                                ^
->>> drivers/pci/iomap.c:43:10: error: call to undeclared function '__pci_ioport_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->                    return __pci_ioport_map(dev, start, len);
+Hi Sibi,
 
-From what I can tell looking at the header, I think we can
-just remove the "#elif defined(CONFIG_GENERIC_PCI_IOMAP)"
-bit entirely, as it no longer serves the purpose it originally
-had.
+kernel test robot noticed the following build errors:
 
-It also looks like s390 is the only architecture that actually
-uses a custom implementation of pci_iomap*(), and this already has
+[auto build test ERROR on v6.7-rc1]
+[also build test ERROR on linus/master next-20231121]
+[cannot apply to robh/for-next arm64/for-next/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-#define pci_iomap pci_iomap
-#define pci_iomap_range pci_iomap_range
-#define pci_iounmap pci_iounmap
-#define pci_iomap_wc pci_iomap_wc
-#define pci_iomap_wc_range pci_iomap_wc_range
+url:    https://github.com/intel-lab-lkp/linux/commits/Sibi-Sankar/dt-bindings-arm-cpus-Add-qcom-oryon-compatible/20231117-194253
+base:   v6.7-rc1
+patch link:    https://lore.kernel.org/r/20231117113931.26660-4-quic_sibis%40quicinc.com
+patch subject: [PATCH V2 3/5] arm64: dts: qcom: Add base X1E80100 dtsi and the QCP dts
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231121/202311211519.7IaZhocH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211519.7IaZhocH-lkp@intel.com/reproduce)
 
-so the entire CONFIG_GENERIC_PCI_IOMAP symbol can probably
-be replaced with individual checks here, using CONFIG_PCI
-as the conditional in the Makefile.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211519.7IaZhocH-lkp@intel.com/
 
-    Arnd
+All errors (new ones prefixed by >>):
+
+   In file included from arch/arm64/boot/dts/qcom/x1e80100-qcp.dts:10:
+>> arch/arm64/boot/dts/qcom/x1e80100.dtsi:7:10: fatal error: dt-bindings/clock/qcom,x1e80100-gcc.h: No such file or directory
+       7 | #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +7 arch/arm64/boot/dts/qcom/x1e80100.dtsi
+
+   > 7	#include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+     8	#include <dt-bindings/dma/qcom-gpi.h>
+     9	#include <dt-bindings/interconnect/qcom,icc.h>
+    10	#include <dt-bindings/interconnect/qcom,x1e80100-rpmh.h>
+    11	#include <dt-bindings/interrupt-controller/arm-gic.h>
+    12	#include <dt-bindings/power/qcom,rpmhpd.h>
+    13	#include <dt-bindings/power/qcom-rpmpd.h>
+    14	#include <dt-bindings/soc/qcom,rpmh-rsc.h>
+    15	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
