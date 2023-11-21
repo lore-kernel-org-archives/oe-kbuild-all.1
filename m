@@ -1,47 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC8B1DFC3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 08:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2FE31A88;
+	Tue, 21 Nov 2023 08:21:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0PWaFdJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="miiEBTq5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700554455; x=1732090455;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=67EYm78L7rIU9WKwDqnevVP1mHFgFlt6brLmTQZsmZw=;
-  b=j0PWaFdJqkU79ZwsU59tisYW6o5nr4Kf3aXxaqX7dMeVLxdjLD+iTYTd
-   F78Gt0wswKDqnwwTz9DJacbMDKS6Z3nfHTqooy/625VOM6TNhBbAH5Rn3
-   v0n4xLc2sDwncyUETb/T4T535ExY1G21iGM1tqEmWdOXcdcwiTJ1MS9OU
-   HY/rej1vHwiUiuII0tmvRRGUHGAI0nGg2P1PjeulUGrfYIXrrRZP7sJgE
-   LrSXm+OZGgZv4C2FS5QYHvZPLVWvr1++f6mZy2m20e3UjOS5+ANtxO3++
-   YcoZP9/myiAWlbRt9tfavON4joT36UgwMjhuoH2GEeiWf8XFbKHSBvmYH
+  t=1700554919; x=1732090919;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=06kDnKoPPzGlmQ1ra8/q9Os8ll0YijwScIZDkJ+PJO8=;
+  b=miiEBTq5gRmMPcl2hah9ip/QE6eGGEP8p1JREmb/mpLatOzkLgGKmixE
+   N8vWgkLAoPonawxCcZrVBaKzFA1PBI+bgdRaw6KehirGTZWEjfKC/dKy9
+   Bja1Wy8GDREayv68Tbq4r/ITGEs+7JgvlfYQpmmGCCb2rjfcXKC5zra3q
+   0/SXVTK2I3LK8K5h8/HlFSrvjVnJzUy5aowu0NIU9ybhZ7N2yT2QXgGbp
+   qFUAbe4W2Afyck1yu/YbhaORo0BXnsvwH3erg1Lqs85bb+GubsWv849Iz
+   YuA6Iq2OSaoUgdR02lKUkkUqiFGg82vNREsDTLG7YV7w7dK2LMsgBJRIb
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="422889727"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="391568723"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="422889727"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:14:13 -0800
+   d="scan'208";a="391568723"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:21:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="760026348"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="770179025"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="760026348"
+   d="scan'208";a="770179025"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 21 Nov 2023 00:14:12 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2023 00:21:57 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5Lrc-0007Xt-2f;
-	Tue, 21 Nov 2023 08:12:31 +0000
-Date: Tue, 21 Nov 2023 16:08:38 +0800
+	id 1r5M0i-0007Yk-1G;
+	Tue, 21 Nov 2023 08:21:48 +0000
+Date: Tue, 21 Nov 2023 16:21:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/050-nvme 1/3] drivers/nvme/host/apple.c:208:14:
- sparse: sparse: symbol 'flush_interval' was not declared. Should it be
- static?
-Message-ID: <202311211638.SrNAPRId-lkp@intel.com>
+To: Jack Wang <jinpu.wang@ionos.com>, linux-rdma@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, leon@kernel.org,
+	jgg@ziepe.ca
+Subject: Re: [PATCH 2/2] ipoib: Add tx timeout work to recover queue stop
+ situation
+Message-ID: <202311211607.9eJYoznW-lkp@intel.com>
+References: <20231120203501.321587-3-jinpu.wang@ionos.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,29 +52,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231120203501.321587-3-jinpu.wang@ionos.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/050-nvme
-head:   9aab2d5712b51bda0913044211406563da5eee5c
-commit: 257698a1cbe2189c52568a6ff5be74c700776c72 [1/3] apple-nvme: defer cache flushes by a specified amount
-config: arm64-randconfig-r121-20231121 (https://download.01.org/0day-ci/archive/20231121/202311211638.SrNAPRId-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231121/202311211638.SrNAPRId-lkp@intel.com/reproduce)
+Hi Jack,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rdma/for-next]
+[also build test ERROR on linus/master v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Wang/ipoib-Fix-error-code-return-in-ipoib_mcast_join/20231121-044240
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+patch link:    https://lore.kernel.org/r/20231120203501.321587-3-jinpu.wang%40ionos.com
+patch subject: [PATCH 2/2] ipoib: Add tx timeout work to recover queue stop situation
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231121/202311211607.9eJYoznW-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211607.9eJYoznW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311211638.SrNAPRId-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211607.9eJYoznW-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/host/apple.c:208:14: sparse: sparse: symbol 'flush_interval' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/flush_interval +208 drivers/nvme/host/apple.c
+>> drivers/infiniband/ulp/ipoib/ipoib_ib.c:542:9: error: call to undeclared function 'napi_reschedule'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   ret = napi_reschedule(&priv->send_napi);
+                         ^
+   drivers/infiniband/ulp/ipoib/ipoib_ib.c:542:9: note: did you mean 'napi_schedule'?
+   include/linux/netdevice.h:520:20: note: 'napi_schedule' declared here
+   static inline bool napi_schedule(struct napi_struct *n)
+                      ^
+   drivers/infiniband/ulp/ipoib/ipoib_ib.c:554:8: error: call to undeclared function 'napi_reschedule'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ret = napi_reschedule(&priv->send_napi);
+                 ^
+   2 errors generated.
 
-   207	
- > 208	unsigned int flush_interval = 1000;
-   209	module_param(flush_interval, uint, 0644);
-   210	MODULE_PARM_DESC(flush_interval, "Grace period in msecs between flushes");
-   211	
+
+vim +/napi_reschedule +542 drivers/infiniband/ulp/ipoib/ipoib_ib.c
+
+   533	
+   534	/* The function will force napi_schedule */
+   535	void ipoib_napi_schedule_work(struct work_struct *work)
+   536	{
+   537		struct ipoib_dev_priv *priv =
+   538			container_of(work, struct ipoib_dev_priv, reschedule_napi_work);
+   539		bool ret;
+   540	
+   541		do {
+ > 542			ret = napi_reschedule(&priv->send_napi);
+   543			if (!ret)
+   544				msleep(3);
+   545		} while (!ret && netif_queue_stopped(priv->dev) &&
+   546			 test_bit(IPOIB_FLAG_INITIALIZED, &priv->flags));
+   547	}
+   548	
 
 -- 
 0-DAY CI Kernel Test Service
