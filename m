@@ -1,47 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735AC3717D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 07:59:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C52328D5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 08:00:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="liLVuqC6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aT3imNRg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700553581; x=1732089581;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cEG/sUCNe48thMIn2HOQWaEYYAm0KILQn7ampQCdmKc=;
-  b=liLVuqC6jO/DOIOUSzSrjwX16CZ3+mZp8sU+Mug9szjqBrY+N3h1Djgz
-   qIrRSPWaEMmZRtok4zyNeYJNsR606/+ISPoN8DcUy6zDs/PyutcanT13j
-   Wn0y96aufiSDmgo6qwJc7dLYQnZO9HCLsyV/ZZ/KA7ToW2y6FnO13vB0l
-   sR9CZCImi4i6WQU9SCbPu4vFLII+0H9NIWEyvOA8Ib6YBpakYkbXa7G4m
-   W6HIU7zf793n7PPLGhxGTifxOVapG3TYJdBM05BPAkpDAx3S82HECQj6+
-   iX/W6C3LFJ02bzFHSWU4/eOPPxCKY4r1l/U0sFji1jyBqb73g3V7TpST0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="376825090"
+  t=1700553602; x=1732089602;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kMwV7jsxrEx9CM0ItD3kahSzZsCWwnlf70O7Pt4hTqs=;
+  b=aT3imNRgUJUlxOgokvI+HHrc1Dv4XcMMbjUpwsAIFIszcVs1iB8U+bm8
+   8wkKxl5XI9PrE/DuftH6as6cvggf/HWtfxip/oVF5S+/eyGROvqBSnY43
+   TO/auulWmz8yj/h/R1oiDQrMwzxlCv6DGtOOqhXTsZPq1eUnAxhZOZXN8
+   YKtZTQvSWalmfOCR1eZeil3Vry50BjWCAHathlrt9h5RG3135KceUmKYj
+   loyDg3VLtC4944BmsDj4PVM+honFmmvLOAn7ya3HHcdmhgpDe7AnNBhiv
+   Mf3+MFBfJNftiewtDgaeWdlGBX5H7CbQDFcV1NN5k4v07J8V+93OAwOmG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="456123279"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="376825090"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 23:59:40 -0800
+   d="scan'208";a="456123279"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:00:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="884107571"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="742961627"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="884107571"
+   d="scan'208";a="742961627"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 20 Nov 2023 23:59:39 -0800
+  by orsmga006.jf.intel.com with ESMTP; 20 Nov 2023 23:59:54 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5LfI-0007XF-2f;
-	Tue, 21 Nov 2023 07:59:26 +0000
-Date: Tue, 21 Nov 2023 15:58:17 +0800
+	id 1r5Lfd-0007XM-1H;
+	Tue, 21 Nov 2023 07:59:47 +0000
+Date: Tue, 21 Nov 2023 15:58:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:dma-ops-cleanup 5/9] kernel/dma/internal.h:9:9: error:
- call to undeclared function 'get_arch_dma_ops'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202311211517.s1yjhkv2-lkp@intel.com>
+To: Philipp Stanner <pstanner@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Eric Auger <eric.auger@redhat.com>,
+	Kent Overstreet <kmo@daterainc.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>, NeilBrown <neilb@suse.de>,
+	John Sanpe <sanpeqf@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	David Gow <davidgow@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
+	Jason Baron <jbaron@akamai.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Danilo Krummrich <dakr@redhat.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+Message-ID: <202311211517.A890KomU-lkp@intel.com>
+References: <20231120215945.52027-3-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,52 +71,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231120215945.52027-3-pstanner@redhat.com>
 
-tree:   git://git.infradead.org/users/hch/misc.git dma-ops-cleanup
-head:   d8fcdc454323681baeaac55ec59813cf5cfeacd1
-commit: f4442615d8658cadb745cfb910e9a4ac6ad95df0 [5/9] dma-mapping: make get_dma_ops private
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231121/202311211517.s1yjhkv2-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211517.s1yjhkv2-lkp@intel.com/reproduce)
+Hi Philipp,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/lib-move-pci_iomap-c-to-drivers-pci/20231121-060258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231120215945.52027-3-pstanner%40redhat.com
+patch subject: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+config: arc-kismet-CONFIG_GENERIC_PCI_IOMAP-CONFIG_ARC-0-0 (https://download.01.org/0day-ci/archive/20231121/202311211517.A890KomU-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231121/202311211517.A890KomU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311211517.s1yjhkv2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211517.A890KomU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/dma/mapping.c:17:
->> kernel/dma/internal.h:9:9: error: call to undeclared function 'get_arch_dma_ops'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           return get_arch_dma_ops();
-                  ^
-   kernel/dma/internal.h:9:9: note: did you mean 'get_dma_ops'?
-   kernel/dma/internal.h:5:41: note: 'get_dma_ops' declared here
-   static inline const struct dma_map_ops *get_dma_ops(struct device *dev)
-                                           ^
->> kernel/dma/internal.h:9:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'const struct dma_map_ops *' [-Wint-conversion]
-           return get_arch_dma_ops();
-                  ^~~~~~~~~~~~~~~~~~
-   2 errors generated.
-
-
-vim +/get_arch_dma_ops +9 kernel/dma/internal.h
-
-     3	
-     4	#ifdef CONFIG_DMA_OPS
-     5	static inline const struct dma_map_ops *get_dma_ops(struct device *dev)
-     6	{
-     7		if (dev->dma_ops)
-     8			return dev->dma_ops;
-   > 9		return get_arch_dma_ops();
-    10	}
-    11	#else /* CONFIG_DMA_OPS */
-    12	static inline const struct dma_map_ops *get_dma_ops(struct device *dev)
-    13	{
-    14		return NULL;
-    15	}
-    16	#endif /* CONFIG_DMA_OPS */
-    17	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMAP when selected by ARC
+   
+   WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMAP
+     Depends on [n]: PCI [=n]
+     Selected by [y]:
+     - ARC [=y]
 
 -- 
 0-DAY CI Kernel Test Service
