@@ -1,68 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9187B321A7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 07:46:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356D330F80;
+	Tue, 21 Nov 2023 07:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EuQgwdU6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YGKAevVT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700552775; x=1732088775;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z0wc1vLjtHKihLtl7fSBsbQ9daWuQn5PzFdMUrABRYU=;
-  b=EuQgwdU68Zf9SXYth1zN+jfUmdOB0S4taE/2QWACLotXurlmN+tREDdy
-   8YkFWWcqI3AnmjiDoHOGJjiVWWSeOj7xcVBDx/nwtUoOIiAXE3QNLCwor
-   h53Nbo8EkNIYGT8Yuzox22tA0k2N/JUaOhEum/SukOFYCjBQWmHNw9rXP
-   +fpB9TnydigRkSAhQEyM+aNGpfcN5D0doJUt0ALOaXz+mQXKTbTa71ONe
-   qe0rSwqPhC+z3mns+mG0YhTZBFEC3yxNToZSPgj6uDrxGIZ8OpCIhoh1O
-   mAPvwNp/3iKdh+AufjjGHtJTdn9Z+dO27ppKqMnRlOreFTAGxaS7B0pRm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="4979071"
+  t=1700552778; x=1732088778;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+aa5zzAHi0i3nxd5Pc79trW6WgPcuvijQWFGQUmpMVE=;
+  b=YGKAevVTrK88qd//8dPIbdZyVtKHufFZSgXl1/wgqDWzSWdHuerCBimT
+   797uwQImgtkslLEXEV7GZ/fRCKXEX/2Ti9jf2OKlRbb8do8tRCl3tRGE3
+   X8960Vt1HCMkUdqfHf1s/tPwvJmP1Z+J4qaDcwPq6718w9fOpYDp5T+wL
+   62arTOrTXWS4626mhMnA+SSn2dcvQAS8Zxox+wZ3fyI2vdjtFuMYrvZ0K
+   lPbqz8SMH+gPTETnvP9U0wt2PoRHS5l4DIJveNnMiLoxgbf9s/RLUAh1d
+   0se+6yYQYXuOjb8P39aPD4kM+cE8Bndvq9/rqC1VSi3TrEAL+igXiS5RL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="376822784"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="4979071"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 23:46:14 -0800
+   d="scan'208";a="376822784"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 23:46:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="832555298"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="884102974"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="832555298"
+   d="scan'208";a="884102974"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 20 Nov 2023 23:46:06 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 20 Nov 2023 23:45:57 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5LSF-0007WP-0m;
-	Tue, 21 Nov 2023 07:45:57 +0000
-Date: Tue, 21 Nov 2023 15:45:16 +0800
+	id 1r5LRx-0007WM-2X;
+	Tue, 21 Nov 2023 07:45:49 +0000
+Date: Tue, 21 Nov 2023 15:44:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philipp Stanner <pstanner@redhat.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Eric Auger <eric.auger@redhat.com>,
-	Kent Overstreet <kmo@daterainc.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>, NeilBrown <neilb@suse.de>,
-	John Sanpe <sanpeqf@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Kees Cook <keescook@chromium.org>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	David Gow <davidgow@google.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
-	Jason Baron <jbaron@akamai.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Danilo Krummrich <dakr@redhat.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
+To: Daniel Hill <daniel@gluo.nz>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
-Message-ID: <202311211555.O02z7zPf-lkp@intel.com>
-References: <20231120215945.52027-3-pstanner@redhat.com>
+	Kent Overstreet <kmo@daterainc.com>
+Subject: [linux-next:master 1707/2217] fs/bcachefs/super-io.c:661:5: warning:
+ no previous prototype for function '__bch2_read_super'
+Message-ID: <202311211543.cJzjS2Ky-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,37 +51,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120215945.52027-3-pstanner@redhat.com>
 
-Hi Philipp,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.7-rc2 next-20231121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/lib-move-pci_iomap-c-to-drivers-pci/20231121-060258
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20231120215945.52027-3-pstanner%40redhat.com
-patch subject: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
-config: x86_64-kismet-CONFIG_GENERIC_PCI_IOMAP-CONFIG_GENERIC_IOMAP-0-0 (https://download.01.org/0day-ci/archive/20231121/202311211555.O02z7zPf-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20231121/202311211555.O02z7zPf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   07b677953b9dca02928be323e2db853511305fa9
+commit: 700b6aa33cac353aadde200e10391ec19905451c [1707/2217] bcachefs: add a quieter bch2_read_super
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231121/202311211543.cJzjS2Ky-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211543.cJzjS2Ky-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311211555.O02z7zPf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211543.cJzjS2Ky-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMAP when selected by GENERIC_IOMAP
-   
-   WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMAP
-     Depends on [n]: PCI [=n]
-     Selected by [y]:
-     - GENERIC_IOMAP [=y]
+All warnings (new ones prefixed by >>):
+
+>> fs/bcachefs/super-io.c:661:5: warning: no previous prototype for function '__bch2_read_super' [-Wmissing-prototypes]
+   int __bch2_read_super(const char *path, struct bch_opts *opts,
+       ^
+   fs/bcachefs/super-io.c:661:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int __bch2_read_super(const char *path, struct bch_opts *opts,
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/__bch2_read_super +661 fs/bcachefs/super-io.c
+
+   660	
+ > 661	int __bch2_read_super(const char *path, struct bch_opts *opts,
+   662			    struct bch_sb_handle *sb, bool ignore_notbchfs_msg)
+   663	{
+   664		u64 offset = opt_get(*opts, sb);
+   665		struct bch_sb_layout layout;
+   666		struct printbuf err = PRINTBUF;
+   667		struct printbuf err2 = PRINTBUF;
+   668		__le64 *i;
+   669		int ret;
+   670	#ifndef __KERNEL__
+   671	retry:
+   672	#endif
+   673		memset(sb, 0, sizeof(*sb));
+   674		sb->mode	= BLK_OPEN_READ;
+   675		sb->have_bio	= true;
+   676		sb->holder	= kmalloc(1, GFP_KERNEL);
+   677		if (!sb->holder)
+   678			return -ENOMEM;
+   679	
+   680		sb->sb_name = kstrdup(path, GFP_KERNEL);
+   681		if (!sb->sb_name)
+   682			return -ENOMEM;
+   683	
 
 -- 
 0-DAY CI Kernel Test Service
