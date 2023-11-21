@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA8C8479
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 06:42:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175AA19BD6;
+	Tue, 21 Nov 2023 06:50:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mi4InY3p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M0hc1KJT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700548935; x=1732084935;
+  t=1700549402; x=1732085402;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JmpHPcDR2GOkMATNC2UbhmrpWmY/FEs9q0VQCEmc49s=;
-  b=mi4InY3pJqGjm3KHJOuIk/v4DQO9jbsTy2qmtxfCzrQRdMro20j7BwaZ
-   61o3H9IqAYLVwQhMiCZ/mFDeAEXhcFpPhwFR6xdz43h4M71drYM8S0IUF
-   UGGz6qJbDBjHtPY77J7xO8Gv/RPWRYsz6TY59+bgVqmLicHtRnx7iuURP
-   51IN66mlLZCyDR6lLFGx3ifo3R7qSO0yTNwHflUlUcfXPevzF8mQOmcyA
-   ivUn7u/Sqtk17zI3NdSjz1szRjjyBiJQ4bDQqPUtDp/D7MSrBFOQ72maE
-   2abp7gLixPTD6OR67E6KvIPHblPzaFxYdvYL0/UIajhQlr3J4EDSvAZIa
+  bh=zTuF8S9vTdqe6P2IGLvWlRUqXHAtyYNpdM18PW8Zm1A=;
+  b=M0hc1KJT/C6XNTV+Wnia32gZngSkRhzAo3A+egJc92d81xzPC68RaLfP
+   hVUgEOXDM46Bq9azbZNbRl3XhXLGSZYfaXm7KiTNLWUYFqCyluOdZsyYf
+   tARxlgPNF9rJ64JnbyRqFF9sNRBgnMVBxlhElTHuFfefbgjDK01Bfxwg/
+   mQURB9hF335Ftm+xDmSpHi7mrF7zFkkwOGlDJFBXLfOdJUTPwhSFIptUF
+   75+M/1qniP7Fx/OrFPapb9qDnfMPSuugx9abwo/nePVS9efGr2r7NdVB1
+   P92m/aFy+S9/gY7Kw1+XwnkEKOU+nb6xhyex8LWduTcSRUTok71y02RLE
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="371948745"
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="382170553"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="371948745"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 22:42:12 -0800
+   d="scan'208";a="382170553"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 22:50:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="760012743"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="760012743"
+   d="scan'208";a="14807874"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 20 Nov 2023 22:42:04 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 20 Nov 2023 22:49:54 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5KSP-0007RI-2y;
-	Tue, 21 Nov 2023 06:42:01 +0000
-Date: Tue, 21 Nov 2023 14:23:42 +0800
+	id 1r5KZn-0007SY-2A;
+	Tue, 21 Nov 2023 06:49:45 +0000
+Date: Tue, 21 Nov 2023 14:48:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Griffin <peter.griffin@linaro.org>, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, mturquette@baylibre.com,
-	conor+dt@kernel.org, sboyd@kernel.org, tomasz.figa@gmail.com,
-	s.nawrocki@samsung.com, linus.walleij@linaro.org,
-	wim@linux-watchdog.org, linux@roeck-us.net, catalin.marinas@arm.com,
-	will@kernel.org, arnd@arndb.de, olof@lixom.net,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org,
-	cw00.choi@samsung.com, alim.akhtar@samsung.com
-Cc: oe-kbuild-all@lists.linux.dev, peter.griffin@linaro.org,
-	tudor.ambarus@linaro.org, andre.draszik@linaro.org,
-	semen.protsenko@linaro.org, saravanak@google.com,
-	willmcvicker@google.com, soc@kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 09/19] dt-bindings: serial: samsung: Make
- samsung,uart-fifosize required property
-Message-ID: <202311211435.CJVOACBE-lkp@intel.com>
-References: <20231120212037.911774-10-peter.griffin@linaro.org>
+To: Philipp Stanner <pstanner@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Eric Auger <eric.auger@redhat.com>,
+	Kent Overstreet <kmo@daterainc.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>, NeilBrown <neilb@suse.de>,
+	John Sanpe <sanpeqf@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	David Gow <davidgow@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
+	Jason Baron <jbaron@akamai.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Danilo Krummrich <dakr@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+Message-ID: <202311211441.4LgOiu32-lkp@intel.com>
+References: <20231120215945.52027-3-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,171 +68,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120212037.911774-10-peter.griffin@linaro.org>
+In-Reply-To: <20231120215945.52027-3-pstanner@redhat.com>
 
-Hi Peter,
+Hi Philipp,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on pinctrl-samsung/for-next]
-[also build test WARNING on next-20231120]
-[cannot apply to krzk/for-next robh/for-next linus/master v6.7-rc2]
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.7-rc2 next-20231120]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Griffin/dt-bindings-soc-samsung-exynos-pmu-Add-gs101-compatible/20231121-052449
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pinctrl/samsung.git for-next
-patch link:    https://lore.kernel.org/r/20231120212037.911774-10-peter.griffin%40linaro.org
-patch subject: [PATCH v4 09/19] dt-bindings: serial: samsung: Make samsung,uart-fifosize required property
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231121/202311211435.CJVOACBE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/lib-move-pci_iomap-c-to-drivers-pci/20231121-060258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231120215945.52027-3-pstanner%40redhat.com
+patch subject: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+config: arm-spear3xx_defconfig (https://download.01.org/0day-ci/archive/20231121/202311211441.4LgOiu32-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211441.4LgOiu32-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311211435.CJVOACBE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311211441.4LgOiu32-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/serial/samsung_uart.yaml:141:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
+All errors (new ones prefixed by >>):
 
-vim +141 Documentation/devicetree/bindings/serial/samsung_uart.yaml
+   drivers/pci/iomap.c:27:15: error: redefinition of 'pci_iomap_range'
+   void __iomem *pci_iomap_range(struct pci_dev *dev,
+                 ^
+   include/asm-generic/pci_iomap.h:44:29: note: previous definition is here
+   static inline void __iomem *pci_iomap_range(struct pci_dev *dev, int bar,
+                               ^
+>> drivers/pci/iomap.c:43:10: error: call to undeclared function '__pci_ioport_map'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   return __pci_ioport_map(dev, start, len);
+                          ^
+   drivers/pci/iomap.c:43:10: note: did you mean 'devm_ioport_map'?
+   include/linux/io.h:38:16: note: 'devm_ioport_map' declared here
+   void __iomem * devm_ioport_map(struct device *dev, unsigned long port,
+                  ^
+>> drivers/pci/iomap.c:43:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+                   return __pci_ioport_map(dev, start, len);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/iomap.c:67:15: error: redefinition of 'pci_iomap_wc_range'
+   void __iomem *pci_iomap_wc_range(struct pci_dev *dev,
+                 ^
+   include/asm-generic/pci_iomap.h:50:29: note: previous definition is here
+   static inline void __iomem *pci_iomap_wc_range(struct pci_dev *dev, int bar,
+                               ^
+   drivers/pci/iomap.c:110:15: error: redefinition of 'pci_iomap'
+   void __iomem *pci_iomap(struct pci_dev *dev, int bar, unsigned long maxlen)
+                 ^
+   include/asm-generic/pci_iomap.h:35:29: note: previous definition is here
+   static inline void __iomem *pci_iomap(struct pci_dev *dev, int bar, unsigned long max)
+                               ^
+   drivers/pci/iomap.c:131:15: error: redefinition of 'pci_iomap_wc'
+   void __iomem *pci_iomap_wc(struct pci_dev *dev, int bar, unsigned long maxlen)
+                 ^
+   include/asm-generic/pci_iomap.h:40:29: note: previous definition is here
+   static inline void __iomem *pci_iomap_wc(struct pci_dev *dev, int bar, unsigned long max)
+                               ^
+   6 errors generated.
 
-     8	
-     9	maintainers:
-    10	  - Krzysztof Kozlowski <krzk@kernel.org>
-    11	  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-    12	
-    13	description: |+
-    14	  Each Samsung UART should have an alias correctly numbered in the "aliases"
-    15	  node, according to serialN format, where N is the port number (non-negative
-    16	  decimal integer) as specified by User's Manual of respective SoC.
-    17	
-    18	properties:
-    19	  compatible:
-    20	    oneOf:
-    21	      - items:
-    22	          - const: samsung,exynosautov9-uart
-    23	          - const: samsung,exynos850-uart
-    24	      - enum:
-    25	          - apple,s5l-uart
-    26	          - axis,artpec8-uart
-    27	          - google,gs101-uart
-    28	          - samsung,s3c6400-uart
-    29	          - samsung,s5pv210-uart
-    30	          - samsung,exynos4210-uart
-    31	          - samsung,exynos5433-uart
-    32	          - samsung,exynos850-uart
-    33	
-    34	  reg:
-    35	    maxItems: 1
-    36	
-    37	  reg-io-width:
-    38	    description: |
-    39	      The size (in bytes) of the IO accesses that should be performed
-    40	      on the device.
-    41	    enum: [ 1, 4 ]
-    42	
-    43	  clocks:
-    44	    minItems: 2
-    45	    maxItems: 5
-    46	
-    47	  clock-names:
-    48	    description: N = 0 is allowed for SoCs without internal baud clock mux.
-    49	    minItems: 2
-    50	    items:
-    51	      - const: uart
-    52	      - pattern: '^clk_uart_baud[0-3]$'
-    53	      - pattern: '^clk_uart_baud[0-3]$'
-    54	      - pattern: '^clk_uart_baud[0-3]$'
-    55	      - pattern: '^clk_uart_baud[0-3]$'
-    56	
-    57	  dmas:
-    58	    items:
-    59	      - description: DMA controller phandle and request line for RX
-    60	      - description: DMA controller phandle and request line for TX
-    61	
-    62	  dma-names:
-    63	    items:
-    64	      - const: rx
-    65	      - const: tx
-    66	
-    67	  interrupts:
-    68	    description: RX interrupt and optionally TX interrupt.
-    69	    minItems: 1
-    70	    maxItems: 2
-    71	
-    72	  power-domains:
-    73	    maxItems: 1
-    74	
-    75	  samsung,uart-fifosize:
-    76	    description: The fifo size supported by the UART channel.
-    77	    $ref: /schemas/types.yaml#/definitions/uint32
-    78	    enum: [16, 64, 256]
-    79	
-    80	required:
-    81	  - compatible
-    82	  - clocks
-    83	  - clock-names
-    84	  - interrupts
-    85	  - reg
-    86	
-    87	allOf:
-    88	  - $ref: serial.yaml#
-    89	
-    90	  - if:
-    91	      properties:
-    92	        compatible:
-    93	          contains:
-    94	            enum:
-    95	              - samsung,s5pv210-uart
-    96	    then:
-    97	      properties:
-    98	        clocks:
-    99	          minItems: 2
-   100	          maxItems: 3
-   101	        clock-names:
-   102	          minItems: 2
-   103	          items:
-   104	            - const: uart
-   105	            - pattern: '^clk_uart_baud[0-1]$'
-   106	            - pattern: '^clk_uart_baud[0-1]$'
-   107	
-   108	  - if:
-   109	      properties:
-   110	        compatible:
-   111	          contains:
-   112	            enum:
-   113	              - apple,s5l-uart
-   114	              - axis,artpec8-uart
-   115	              - samsung,exynos4210-uart
-   116	              - samsung,exynos5433-uart
-   117	    then:
-   118	      properties:
-   119	        clocks:
-   120	          maxItems: 2
-   121	        clock-names:
-   122	          items:
-   123	            - const: uart
-   124	            - const: clk_uart_baud0
-   125	
-   126	  - if:
-   127	      properties:
-   128	        compatible:
-   129	          contains:
-   130	            enum:
-   131	              - google,gs101-uart
-   132	              - samsung,exynosautov9-uart
-   133	    then:
-   134	      properties:
-   135	        samsung,uart-fifosize:
-   136	          description: The fifo size supported by the UART channel.
-   137	          $ref: /schemas/types.yaml#/definitions/uint32
-   138	          enum: [16, 64, 256]
-   139	
-   140	      required:
- > 141	       - samsung,uart-fifosize
-   142	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMAP
+   Depends on [n]: PCI [=n]
+   Selected by [y]:
+   - ARM [=y]
+
+
+vim +/__pci_ioport_map +43 drivers/pci/iomap.c
+
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  11  
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  12  /**
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  13   * pci_iomap_range - create a virtual mapping cookie for a PCI BAR
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  14   * @dev: PCI device that owns the BAR
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  15   * @bar: BAR number
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  16   * @offset: map memory at the given offset in BAR
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  17   * @maxlen: max length of the memory to map
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  18   *
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  19   * Using this function you will get a __iomem address to your device BAR.
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  20   * You can access it using ioread*() and iowrite*(). These functions hide
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  21   * the details if this is a MMIO or PIO address space and will just do what
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  22   * you expect from them in the correct way.
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  23   *
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  24   * @maxlen specifies the maximum length to map. If you want to get access to
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  25   * the complete BAR from offset to the end, pass %0 here.
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  26   * */
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  27  void __iomem *pci_iomap_range(struct pci_dev *dev,
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  28  			      int bar,
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  29  			      unsigned long offset,
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  30  			      unsigned long maxlen)
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  31  {
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  32  	resource_size_t start = pci_resource_start(dev, bar);
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  33  	resource_size_t len = pci_resource_len(dev, bar);
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  34  	unsigned long flags = pci_resource_flags(dev, bar);
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  35  
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  36  	if (len <= offset || !start)
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  37  		return NULL;
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  38  	len -= offset;
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  39  	start += offset;
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  40  	if (maxlen && len > maxlen)
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  41  		len = maxlen;
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  42  	if (flags & IORESOURCE_IO)
+b923650b84068b lib/pci_iomap.c Michael S. Tsirkin 2012-01-30 @43  		return __pci_ioport_map(dev, start, len);
+92b19ff50e8f24 lib/pci_iomap.c Dan Williams       2015-08-10  44  	if (flags & IORESOURCE_MEM)
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  45  		return ioremap(start, len);
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  46  	/* What? */
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  47  	return NULL;
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  48  }
+eb29d8d2aad706 lib/pci_iomap.c Michael S. Tsirkin 2013-05-29  49  EXPORT_SYMBOL(pci_iomap_range);
+66eab4df288aae lib/pci_iomap.c Michael S. Tsirkin 2011-11-24  50  
 
 -- 
 0-DAY CI Kernel Test Service
