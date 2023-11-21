@@ -1,48 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F7453A1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 14:53:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A118848CD1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 15:05:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VvkYbCXy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGS851Qg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700578387; x=1732114387;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=//j1BpevxCdxEvuxbbYnFxlSm/E3VM8vnfUIZkGChV0=;
-  b=VvkYbCXyWGLmSf9QIMFe/A1zZ4M8jnWgM4mR1haSKwNp5YF+fLaqkY1C
-   /4gYVcSxnpuMAUD4hafgYhAkAhAcjre8vYrSKAJU3aCyi/+8744BmIr7Q
-   JytBTtyIM6h3Imf42HhbvzvdMLvCAQAxAPfOD/1a2rtHfJdWOPj4QsTAU
-   VRbED9Mn3e+KAwpeULGwXhKvXyeZwokBmprW7pGWuKq2VeYdvyJkOTsRO
-   tvs3wsgCwPRVYboQEQvp59EZ7ZMKjmV6J5eDt1ZqaijLYD6iiVdLRItzg
-   Xe533bfaM7+9EUXfqbo10HJpxT11p9ay7P1jgz2fzIZEpR1o7a2UXzofb
+  t=1700579123; x=1732115123;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=t9MvP0HrgzSz1+hzZlqpH7wn4wCX1V4mViZugNQKJF4=;
+  b=mGS851QgwJfSVwbxvTC5AFnWJ3+6tNMZpbtcH95iLYGURIsPkv79dOm8
+   Ih7pP0sbV3WqazAKV4o5PmdCjXClul7aD4oioS1uxZTm1o89KnI/saMi8
+   iIxHzx6yYrrOxSwW173/N8fFfqbHGkKTBDvT+hwYLE5arWhRsnZbGqcJ0
+   SRovdU5diRwvNolDhJehF7ncrISScpJqTKXqsWAi2NOJlg4kTGs/UNTAN
+   qQkI9cYRbnQuRwUpfp3s4Xpq4pB0JFS3y6kSjg5wGSbtOGOa5SMugseL7
+   JZ8gSK8XakaFaeCpmjI8HcCoxoTEajjbIKZve7rSYR4QewlYP1gv6DgXN
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="422945827"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="456190642"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="422945827"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 06:53:06 -0800
+   d="scan'208";a="456190642"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 07:05:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="884230877"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="940121721"
 X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="884230877"
+   d="scan'208";a="940121721"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2023 06:53:05 -0800
+  by orsmga005.jf.intel.com with ESMTP; 21 Nov 2023 07:05:14 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5S7V-0007w5-1c;
-	Tue, 21 Nov 2023 14:52:58 +0000
-Date: Tue, 21 Nov 2023 22:51:52 +0800
+	id 1r5SJM-0007wo-0V;
+	Tue, 21 Nov 2023 15:05:12 +0000
+Date: Tue, 21 Nov 2023 23:04:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 1705/2217]
- fs/bcachefs/btree_write_buffer_types.h:23:9: warning: alignment 1 of 'struct
- <anonymous>' is less than 4
-Message-ID: <202311212232.BHiGGdEF-lkp@intel.com>
+To: Philipp Stanner <pstanner@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Eric Auger <eric.auger@redhat.com>,
+	Kent Overstreet <kmo@daterainc.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>, NeilBrown <neilb@suse.de>,
+	John Sanpe <sanpeqf@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	David Gow <davidgow@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
+	Jason Baron <jbaron@akamai.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Danilo Krummrich <dakr@redhat.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+Message-ID: <202311212224.Qx83PUeQ-lkp@intel.com>
+References: <20231120215945.52027-3-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,105 +71,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231120215945.52027-3-pstanner@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   07b677953b9dca02928be323e2db853511305fa9
-commit: 9e5a6c7797b240f138b9bdd75d85d8f7c6f0e06d [1705/2217] bcachefs: btree write buffer now slurps keys from journal
-config: i386-randconfig-141-20231121 (https://download.01.org/0day-ci/archive/20231121/202311212232.BHiGGdEF-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311212232.BHiGGdEF-lkp@intel.com/reproduce)
+Hi Philipp,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.7-rc2 next-202311=
+21]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/lib-=
+move-pci_iomap-c-to-drivers-pci/20231121-060258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231120215945.52027-3-pstanner%40=
+redhat.com
+patch subject: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+config: xtensa-kismet-CONFIG_GENERIC_PCI_IOMAP-CONFIG_XTENSA-0-0 (https://d=
+ownload.01.org/0day-ci/archive/20231121/202311212224.Qx83PUeQ-lkp@intel.com=
+/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231121/202311212224.Q=
+x83PUeQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311212232.BHiGGdEF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311212224.Qx83PUeQ-lkp@i=
+ntel.com/
 
-All warnings (new ones prefixed by >>):
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMA=
+P when selected by XTENSA
+   /usr/bin/grep: /db/releases/20231121182703/kernel-tests/etc/kcflags: No =
+such file or directory
+   {"timestamp":"2023-11-21 22:03:27 +0800", "level":"WARN", "event":"kbuil=
+d.sh:3942:in `add_etc_kcflags': grep exit 2 (ShellError)", "detail":"cmd: '=
+/usr/bin/grep' '-v' '-e' '^#' '-e' '^$' '/db/releases/20231121182703/kernel=
+-tests/etc/kcflags' \nstderr: /usr/bin/grep: /db/releases/20231121182703/ke=
+rnel-tests/etc/kcflags: No such file or directory\n\n", "hostname":"communi=
+ty-kbuild-consumer-121", "host_hostname":"lkp-worker32", "call_stack":"/zda=
+y/kernel-tests/lib/kbuild.sh:3942:in `add_etc_kcflags': /usr/bin/grep: /db/=
+releases/20231121182703/kernel-tests/etc/kcflags: No such file or directory=
+ (ShellError 2)\n  from /zday/kernel-tests/lib/kbuild.sh:3971: setup_kcflag=
+s\n  from /zday/kernel-tests/lib/kbuild.sh:4016: invoke_make\n  from /zday/=
+kernel-tests/lib/kbuild.sh:4122: make\n  from /zday/kernel-tests/lib/kbuild=
+=2Esh:5623: make_config_allyes\n  from /zday/kernel-tests/common.sh:209: re=
+direct_error_to_screen\n  from /zday/kernel-tests/common.sh:217: redirect_c=
+ommand_errors\n  from /zday/kernel-tests/lib/kbuild.sh:5630: make_config\n =
+ from /zday/kernel-tests/lib/builder/kismet.sh:156: generate_make_olddefcon=
+fig_warnings\n  from /zday/kernel-tests/lib/builder/kismet.sh:297: builder_=
+compile\n  from /zday/kernel-tests/bisect-test-build-error.sh:94: main\n"}
+  =20
+   WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMAP
+     Depends on [n]: PCI [=3Dn]
+     Selected by [y]:
+     - XTENSA [=3Dy]
 
-   In file included from fs/bcachefs/bcachefs.h:421,
-                    from fs/bcachefs/acl.c:3:
->> fs/bcachefs/btree_write_buffer_types.h:23:9: warning: alignment 1 of 'struct <anonymous>' is less than 4 [-Wpacked-not-aligned]
-      23 |         } __packed;
-         |         ^
->> fs/bcachefs/btree_write_buffer_types.h:16:49: warning: 'pos' offset 3 in 'struct <anonymous>' isn't aligned to 4 [-Wpacked-not-aligned]
-      16 |                 struct bpos                     pos;
-         |                                                 ^~~
-   In file included from fs/bcachefs/str_hash.h:8,
-                    from fs/bcachefs/xattr.h:5,
-                    from fs/bcachefs/acl.c:6:
-   fs/bcachefs/error.h: In function 'bch2_bkey_fsck_err':
-   fs/bcachefs/error.h:168:9: warning: function 'bch2_bkey_fsck_err' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     168 |         prt_vprintf(err_msg, fmt, args);
-         |         ^~~~~~~~~~~
---
-   In file included from fs/bcachefs/bcachefs.h:421,
-                    from fs/bcachefs/bkey.c:3:
->> fs/bcachefs/btree_write_buffer_types.h:23:9: warning: alignment 1 of 'struct <anonymous>' is less than 4 [-Wpacked-not-aligned]
-      23 |         } __packed;
-         |         ^
->> fs/bcachefs/btree_write_buffer_types.h:16:49: warning: 'pos' offset 3 in 'struct <anonymous>' isn't aligned to 4 [-Wpacked-not-aligned]
-      16 |                 struct bpos                     pos;
-         |                                                 ^~~
---
-   In file included from fs/bcachefs/bcachefs.h:421,
-                    from fs/bcachefs/sb-errors.c:3:
->> fs/bcachefs/btree_write_buffer_types.h:23:9: warning: alignment 1 of 'struct <anonymous>' is less than 4 [-Wpacked-not-aligned]
-      23 |         } __packed;
-         |         ^
->> fs/bcachefs/btree_write_buffer_types.h:16:49: warning: 'pos' offset 3 in 'struct <anonymous>' isn't aligned to 4 [-Wpacked-not-aligned]
-      16 |                 struct bpos                     pos;
-         |                                                 ^~~
-   fs/bcachefs/sb-errors.c:9:21: warning: initialized field overwritten [-Woverride-init]
-       9 |         BCH_SB_ERRS()
-         |                     ^
-   fs/bcachefs/sb-errors.c:8:29: note: in definition of macro 'x'
-       8 | #define x(t, n, ...) [n] = #t,
-         |                             ^
-   fs/bcachefs/sb-errors.c:9:9: note: in expansion of macro 'BCH_SB_ERRS'
-       9 |         BCH_SB_ERRS()
-         |         ^~~~~~~~~~~
-   fs/bcachefs/sb-errors.c:9:21: note: (near initialization for 'bch2_sb_error_strs[50]')
-       9 |         BCH_SB_ERRS()
-         |                     ^
-   fs/bcachefs/sb-errors.c:8:29: note: in definition of macro 'x'
-       8 | #define x(t, n, ...) [n] = #t,
-         |                             ^
-   fs/bcachefs/sb-errors.c:9:9: note: in expansion of macro 'BCH_SB_ERRS'
-       9 |         BCH_SB_ERRS()
-         |         ^~~~~~~~~~~
-
-
-vim +23 fs/bcachefs/btree_write_buffer_types.h
-
-    10	
-    11	struct wb_key_ref {
-    12	union {
-    13		struct {
-    14	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-    15			unsigned			idx:24;
-  > 16			struct bpos			pos;
-    17			enum btree_id			btree:8;
-    18	#else
-    19			enum btree_id			btree:8;
-    20			struct bpos			pos;
-    21			unsigned			idx:24;
-    22	#endif
-  > 23		} __packed;
-    24		struct {
-    25	#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-    26			u64 lo;
-    27			u64 mi;
-    28			u64 hi;
-    29	#else
-    30			u64 hi;
-    31			u64 mi;
-    32			u64 lo;
-    33	#endif
-    34		};
-    35	};
-    36	};
-    37	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
