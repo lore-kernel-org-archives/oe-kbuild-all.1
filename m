@@ -1,59 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE5858129
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 22:52:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480335647D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 22:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a2/sX2SY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nf6Dsy0Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700607148; x=1732143148;
+  t=1700607149; x=1732143149;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LskDiBuvjSasPHzI3RZx0ZGahLutMUfdBedZf+vO8Fk=;
-  b=a2/sX2SYK6V+hOh0Tp/DHdnACIkgdfp+0/PhhYVoYunFhTjYAP+R+G4Z
-   DluBJThXiW8HqqGvitEqY87OMpwFPulVMmIBPusTZ/6cV5ESiuJSsiEZY
-   IWGHDhIcU2NYymmfXD0s2VA5pIhXBVx2LUx2QJDywVrIW0C6ZinCG0WQI
-   s9i2pWq+SLWr/ppRrXK+gPRvY1EMyRcyUvZqTrN5kUPfD30ZvN39YhMIR
-   FfZFgHGdXOozI5lP+Z4b5xCBOmhgxTqfKrojaUgEzr9hw5S7uTSrwB9Fj
-   yzBHQUyYTscsH/qyxKIX/GMCOinjtiLGr31ly5Db9rhpqXAlIZek/cVaS
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="371290763"
+  bh=4El9C1OtR2c7yuMuhHbcy9uKYS1ErYxb0i53zPctChc=;
+  b=nf6Dsy0Q/SV3KcO8cUp7c8Xd5jGigyWtCsRfGfEj/LL1HwtfeBRDAYiq
+   1v+Zl1TY6nFFDlqi7w2B4dkvXzsBo0AIAhcNwvlNLSuI0tRl3I0m8fBtG
+   PsjySmJvYcUxTrOyzuPwfSMZRunUXn83Zti7dGS+hvsPzzbbKjbyGjYG1
+   KQWuWGDpoTAUEMHp04f39Zb5g1UOnNuoeWZvsrzDAjxtcgo8uBjyJZCyI
+   cPfseh7GclJ83PbmFOtX8p825DS/Zzzw08Jdahld5Ti1DCgcH8QXsdWts
+   1AyGwlTUr+WhwYuBWdTs3JWgPRyOnCTNTrIImhwTBVZA5XoDMhcHZ3GW9
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="395860400"
 X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="371290763"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 14:52:28 -0800
+   d="scan'208";a="395860400"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 14:52:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="837191870"
 X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="837191870"
+   d="scan'208";a="15045295"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Nov 2023 14:52:20 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2023 14:52:20 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5ZbO-0008Mm-0k;
+	id 1r5ZbO-0008Mk-0R;
 	Tue, 21 Nov 2023 22:52:18 +0000
-Date: Wed, 22 Nov 2023 06:52:17 +0800
+Date: Wed, 22 Nov 2023 06:52:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-	dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, david@redhat.com,
-	Vilas.Sridharan@amd.com, leo.duran@amd.com, Yazen.Ghannam@amd.com,
-	rientjes@google.com, jiaqiyan@google.com, tony.luck@intel.com,
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, rafael@kernel.org,
-	lenb@kernel.org, naoya.horiguchi@nec.com, james.morse@arm.com,
-	jthoughton@google.com, somasundaram.a@hpe.com,
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
-	mike.malvestuto@intel.com
-Subject: Re: [PATCH v2 02/10] cxl/mbox: Add GET_FEATURE mailbox command
-Message-ID: <202311220635.mch7Y8LH-lkp@intel.com>
-References: <20231121101844.1161-3-shiju.jose@huawei.com>
+To: Jingbao Qiu <qiujingbao.dlmu@gmail.com>, a.zummo@towertech.it,
+	alexandre.belloni@bootlin.com, krzysztof.kozlowski+dt@linaro.org,
+	chao.wei@sophgo.com, unicorn_wang@outlook.com, conor+dt@kernel.org,
+	robh+dt@kernel.org, conor@kernel.org, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu
+Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jingbao Qiu <qiujingbao.dlmu@gmail.com>
+Subject: Re: [PATCH 2/3] rtc: add rtc controller support for Sophgo CV1800B
+ SoC
+Message-ID: <202311220645.2hOquYn6-lkp@intel.com>
+References: <20231121094642.2973795-3-qiujingbao.dlmu@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +56,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121101844.1161-3-shiju.jose@huawei.com>
+In-Reply-To: <20231121094642.2973795-3-qiujingbao.dlmu@gmail.com>
 
-Hi,
+Hi Jingbao,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc2 next-20231121]
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on linus/master v6.7-rc2 next-20231121]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/cxl-mbox-Add-GET_SUPPORTED_FEATURES-mailbox-command/20231121-182247
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231121101844.1161-3-shiju.jose%40huawei.com
-patch subject: [PATCH v2 02/10] cxl/mbox: Add GET_FEATURE mailbox command
-config: arc-randconfig-r113-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220635.mch7Y8LH-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220635.mch7Y8LH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jingbao-Qiu/dt-bindings-rtc-add-binding-for-Sophgo-CV1800B-rtc-controller/20231121-174927
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20231121094642.2973795-3-qiujingbao.dlmu%40gmail.com
+patch subject: [PATCH 2/3] rtc: add rtc controller support for Sophgo CV1800B SoC
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231122/202311220645.2hOquYn6-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220645.2hOquYn6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220635.mch7Y8LH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220645.2hOquYn6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/cxl/core/mbox.c:1319:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] size_out @@     got restricted __le32 [usertype] count @@
-   drivers/cxl/core/mbox.c:1319:31: sparse:     expected unsigned int [usertype] size_out
-   drivers/cxl/core/mbox.c:1319:31: sparse:     got restricted __le32 [usertype] count
->> drivers/cxl/core/mbox.c:1341:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] size_out @@     got restricted __le16 [usertype] count @@
-   drivers/cxl/core/mbox.c:1341:31: sparse:     expected unsigned int [usertype] size_out
-   drivers/cxl/core/mbox.c:1341:31: sparse:     got restricted __le16 [usertype] count
->> drivers/cxl/core/mbox.c:1343:30: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] min_out @@     got restricted __le16 [usertype] count @@
-   drivers/cxl/core/mbox.c:1343:30: sparse:     expected unsigned int [usertype] min_out
-   drivers/cxl/core/mbox.c:1343:30: sparse:     got restricted __le16 [usertype] count
+All errors (new ones prefixed by >>):
 
-vim +1341 drivers/cxl/core/mbox.c
+   drivers/rtc/rtc-cv1800b.c: In function 'cv1800b_rtc_alarm_irq_enable':
+>> drivers/rtc/rtc-cv1800b.c:90:17: error: implicit declaration of function 'writel_relaxed' [-Werror=implicit-function-declaration]
+      90 |                 writel_relaxed(REG_ENABLE_FUN, data->core_map + RTC_ALARM_ENABLE);
+         |                 ^~~~~~~~~~~~~~
+   drivers/rtc/rtc-cv1800b.c: In function 'cv1800b_rtc_read_alarm':
+>> drivers/rtc/rtc-cv1800b.c:115:21: error: implicit declaration of function 'readl' [-Werror=implicit-function-declaration]
+     115 |         alrm_time = readl(data->core_map + RTC_ALARM_TIME);
+         |                     ^~~~~
+   drivers/rtc/rtc-cv1800b.c: In function 'cv1800b_rtc_softinit':
+>> drivers/rtc/rtc-cv1800b.c:128:9: error: implicit declaration of function 'writel' [-Werror=implicit-function-declaration]
+     128 |         writel(ACTIVATE_RTC_POR_DB_MAGIC_KEY,
+         |         ^~~~~~
+   drivers/rtc/rtc-cv1800b.c: In function 'cv1800b_rtc_read_time':
+>> drivers/rtc/rtc-cv1800b.c:150:16: error: implicit declaration of function 'readl_relaxed' [-Werror=implicit-function-declaration]
+     150 |         time = readl_relaxed(data->core_map + RTC_SEC_CNTR_VALUE);
+         |                ^~~~~~~~~~~~~
+   drivers/rtc/rtc-cv1800b.c: In function 'cv1800b_rtc_probe':
+   drivers/rtc/rtc-cv1800b.c:246:16: error: implicit declaration of function 'rtc_register_device'; did you mean 'devm_rtc_register_device'? [-Werror=implicit-function-declaration]
+     246 |         return rtc_register_device(rtc->rtc_dev);
+         |                ^~~~~~~~~~~~~~~~~~~
+         |                devm_rtc_register_device
+   cc1: some warnings being treated as errors
 
-  1330	
-  1331	int cxl_get_feature(struct cxl_memdev_state *mds,
-  1332			    struct cxl_mbox_get_feat_in *pi, void *feat_out)
-  1333	{
-  1334		struct cxl_mbox_cmd mbox_cmd;
-  1335		int rc;
-  1336	
-  1337		mbox_cmd = (struct cxl_mbox_cmd) {
-  1338			.opcode = CXL_MBOX_OP_GET_FEATURE,
-  1339			.size_in = sizeof(*pi),
-  1340			.payload_in = pi,
-> 1341			.size_out = pi->count,
-  1342			.payload_out = feat_out,
-> 1343			.min_out = pi->count,
-  1344		};
-  1345		rc = cxl_internal_send_cmd(mds, &mbox_cmd);
-  1346		if (rc < 0)
-  1347			return rc;
-  1348	
-  1349		return 0;
-  1350	}
-  1351	EXPORT_SYMBOL_NS_GPL(cxl_get_feature, CXL);
-  1352	
+
+vim +/writel_relaxed +90 drivers/rtc/rtc-cv1800b.c
+
+    83	
+    84	static int cv1800b_rtc_alarm_irq_enable(struct device *dev,
+    85						unsigned int enabled)
+    86	{
+    87		struct cv1800b_rtc_priv *data = dev_get_drvdata(dev);
+    88	
+    89		if (enabled)
+  > 90			writel_relaxed(REG_ENABLE_FUN, data->core_map + RTC_ALARM_ENABLE);
+    91		else
+    92			writel_relaxed(REG_DISABLE_FUN,
+    93				       data->core_map + RTC_ALARM_ENABLE);
+    94	
+    95		return 0;
+    96	}
+    97	
+    98	static int cv1800b_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+    99	{
+   100		struct cv1800b_rtc_priv *data = dev_get_drvdata(dev);
+   101		unsigned long time = rtc_tm_to_time64(&alrm->time);
+   102	
+   103		writel_relaxed(time, data->core_map + RTC_ALARM_TIME);
+   104	
+   105		cv1800b_rtc_alarm_irq_enable(dev, 1);
+   106	
+   107		return 0;
+   108	}
+   109	
+   110	static int cv1800b_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+   111	{
+   112		u32 alrm_time, now_time;
+   113		struct cv1800b_rtc_priv *data = dev_get_drvdata(dev);
+   114	
+ > 115		alrm_time = readl(data->core_map + RTC_ALARM_TIME);
+   116		now_time = readl(data->core_map + RTC_SEC_CNTR_VALUE);
+   117		rtc_time64_to_tm(alrm_time, &alrm->time);
+   118		alrm->pending = now_time > alrm_time ? 1 : 0;
+   119		alrm->enabled = readl(data->core_map + RTC_ALARM_ENABLE);
+   120	
+   121		return 0;
+   122	}
+   123	
+   124	static int cv1800b_rtc_softinit(struct cv1800b_rtc_priv *dev)
+   125	{
+   126		u32 timeout = 20;
+   127	
+ > 128		writel(ACTIVATE_RTC_POR_DB_MAGIC_KEY,
+   129		       dev->core_map + RTC_POR_DB_MAGIC_KEY);
+   130		writel(INIT_LOAD_TIME, dev->core_map + RTC_SET_SEC_CNTR_VALUE);
+   131		writel(REG_DISABLE_FUN, dev->core_map + RTC_SET_SEC_CNTR_TRIG);
+   132	
+   133		while (readl(dev->core_map + RTC_SEC_CNTR_VALUE) == INIT_LOAD_TIME
+   134		       && timeout--)
+   135			udelay(5);
+   136	
+   137		if (!timeout)
+   138			return -1;
+   139		return 0;
+   140	}
+   141	
+   142	static int cv1800b_rtc_read_time(struct device *dev, struct rtc_time *tm)
+   143	{
+   144		struct cv1800b_rtc_priv *data = dev_get_drvdata(dev);
+   145		u32 time = 0;
+   146	
+   147		if (!data)
+   148			return -1;
+   149	
+ > 150		time = readl_relaxed(data->core_map + RTC_SEC_CNTR_VALUE);
+   151		rtc_time64_to_tm(time, tm);
+   152	
+   153		return 0;
+   154	}
+   155	
 
 -- 
 0-DAY CI Kernel Test Service
