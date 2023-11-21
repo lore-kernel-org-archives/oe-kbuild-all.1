@@ -1,51 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EEC51C4A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 17:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6F6495EA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 17:33:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E2Z+lWyJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lhzywHVT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700587293; x=1732123293;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tPFNAp0rBeOeoHA+0LkUJewIhopjNxORZEBoCvlOfDA=;
-  b=E2Z+lWyJsYnEM9DU9SurtJr4HIUJC7MvALpkaE50kH5+ewX8YAoDzzPN
-   cKAR3kjaELKHwVsOwXL9XCpWGtNQ5U/pbY30Ri95ICDtkrE34nEvfD2fH
-   XPfBobH8IlPDMe3dLiqczFWeZBFKbmVgNkdBVqjfza+nDFdsAWZchaN8Y
-   YRkbZrh97A4LhCNQntF3fLyItZV8PRhhhi29iVbvqdTjKC2J75O691kNN
-   Xkt5d+B5L5Mrbjc3CmdJVqPXW9HCZmeLwv0MbTCEoMwl+Tc4INDIonC8N
-   N1zkbQeb5d10J0FxdMlI0P8V2VeclD26sIkLapSK6lFnPtMFgdD9vXBvh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="10555049"
+  t=1700588013; x=1732124013;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OYanv+5lTPi2eNwGcNhRfKpcWpZhpcXv0NNhzmzR7BU=;
+  b=lhzywHVThsn9FVEZtTJyBCCgu+DaGApm6UzxAfE/GODgVM2DW++uGnW0
+   y4VwOpChiVaOI40M+a5I9geKxhAFtAmKeRcqBsG/DNU1I1vEKWot7asLW
+   +JdxOKU465Oqlo02pEeFvjq3NaXBw3ACA2ik+/A1U+d+E4olhP5HeXec/
+   UWD2Wu1lmrta4zaKPBrIiW77BWX+Go2W+RBfst9XYeYvIYldDdwlLpYAw
+   fzlpIAoby3Hkr3O1fKhozbzFN2Cy07KLaT7f1UeEOyDfIO1QQduzuOyTQ
+   mE/n7Q09OkCJPuz3Ea1QQVlFCZHQV3HN7sOnXKCE+pDoVq3KT0jRMSChe
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="10557394"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="10555049"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 09:21:33 -0800
+   d="scan'208";a="10557394"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 09:33:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="1013974523"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="766712754"
 X-IronPort-AV: E=Sophos;i="6.04,216,1695711600"; 
-   d="scan'208";a="1013974523"
+   d="scan'208";a="766712754"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 21 Nov 2023 09:21:30 -0800
+  by orsmga002.jf.intel.com with ESMTP; 21 Nov 2023 09:33:30 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5URD-000858-2i;
-	Tue, 21 Nov 2023 17:21:27 +0000
-Date: Wed, 22 Nov 2023 01:21:01 +0800
+	id 1r5Ucq-00085O-16;
+	Tue, 21 Nov 2023 17:33:28 +0000
+Date: Wed, 22 Nov 2023 01:33:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hermes Zhang <Hermes.Zhang@axis.com>, sre@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel@axis.com, Hermes Zhang <chenhuiz@axis.com>,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] power: supply: bq24190_charger: Add support for
-  BQ24296
-Message-ID: <202311220111.umAlhsjl-lkp@intel.com>
-References: <20231121070505.3061304-3-Hermes.Zhang@axis.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [viro-vfs:work.rename 10/10] htmldocs:
+ Documentation/filesystems/directory-locking.rst:33: WARNING: Enumerated list
+ ends without a blank line; unexpected unindent.
+Message-ID: <202311220106.QLlI24Qn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,102 +51,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121070505.3061304-3-Hermes.Zhang@axis.com>
 
-Hi Hermes,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on sre-power-supply/for-next]
-[also build test ERROR on linus/master v6.7-rc2 next-20231121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hermes-Zhang/dt-bindings-power-supply-bq24190-Add-BQ24296-compatible/20231121-151103
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20231121070505.3061304-3-Hermes.Zhang%40axis.com
-patch subject: [PATCH v3 2/2] power: supply: bq24190_charger: Add support for  BQ24296
-config: powerpc64-randconfig-r071-20231121 (https://download.01.org/0day-ci/archive/20231122/202311220111.umAlhsjl-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220111.umAlhsjl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.rename
+head:   450e4154067593d27f3bf7e4a19206e00e40b5e6
+commit: 450e4154067593d27f3bf7e4a19206e00e40b5e6 [10/10] rename(): avoid a deadlock in the case of parents having no common ancestor
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220106.QLlI24Qn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220111.umAlhsjl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220106.QLlI24Qn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/power/supply/bq24190_charger.c:1975:16: error: use of undeclared identifier 'bq24190_vbus_desc'
-    1975 |                 .vbus_desc = bq24190_vbus_desc,
-         |                              ^
-   drivers/power/supply/bq24190_charger.c:1984:16: error: use of undeclared identifier 'bq24190_vbus_desc'
-    1984 |                 .vbus_desc = bq24190_vbus_desc,
-         |                              ^
-   drivers/power/supply/bq24190_charger.c:1993:16: error: use of undeclared identifier 'bq24190_vbus_desc'
-    1993 |                 .vbus_desc = bq24190_vbus_desc,
-         |                              ^
-   drivers/power/supply/bq24190_charger.c:2002:16: error: use of undeclared identifier 'bq24190_vbus_desc'
-    2002 |                 .vbus_desc = bq24190_vbus_desc,
-         |                              ^
->> drivers/power/supply/bq24190_charger.c:2011:16: error: use of undeclared identifier 'bq24296_vbus_desc'
-    2011 |                 .vbus_desc = bq24296_vbus_desc,
-         |                              ^
-   5 errors generated.
+>> Documentation/filesystems/directory-locking.rst:33: WARNING: Enumerated list ends without a blank line; unexpected unindent.
+>> Documentation/filesystems/directory-locking.rst:46: WARNING: Unexpected indentation.
+>> Documentation/filesystems/directory-locking.rst:47: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/filesystems/directory-locking.rst:61: WARNING: Definition list ends without a blank line; unexpected unindent.
 
+vim +33 Documentation/filesystems/directory-locking.rst
 
-vim +/bq24190_vbus_desc +1975 drivers/power/supply/bq24190_charger.c
-
-  1971	
-  1972	static const struct bq24190_chip_info bq24190_chip_info_tbl[] = {
-  1973		[BQ24190] = {
-  1974			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
-> 1975			.vbus_desc = bq24190_vbus_desc,
-  1976			.check_chip = bq24190_check_chip,
-  1977			.set_chg_config = bq24190_battery_set_chg_config,
-  1978			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
-  1979			.get_ntc_status = bq24190_charger_get_ntc_status,
-  1980			.set_otg_vbus = bq24190_set_otg_vbus,
-  1981		},
-  1982		[BQ24192] = {
-  1983			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
-  1984			.vbus_desc = bq24190_vbus_desc,
-  1985			.check_chip = bq24190_check_chip,
-  1986			.set_chg_config = bq24190_battery_set_chg_config,
-  1987			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
-  1988			.get_ntc_status = bq24190_charger_get_ntc_status,
-  1989			.set_otg_vbus = bq24190_set_otg_vbus,
-  1990		},
-  1991		[BQ24192i] = {
-  1992			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
-  1993			.vbus_desc = bq24190_vbus_desc,
-  1994			.check_chip = bq24190_check_chip,
-  1995			.set_chg_config = bq24190_battery_set_chg_config,
-  1996			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
-  1997			.get_ntc_status = bq24190_charger_get_ntc_status,
-  1998			.set_otg_vbus = bq24190_set_otg_vbus,
-  1999		},
-  2000		[BQ24196] = {
-  2001			.ichg_array_size = ARRAY_SIZE(bq24190_ccc_ichg_values),
-  2002			.vbus_desc = bq24190_vbus_desc,
-  2003			.check_chip = bq24190_check_chip,
-  2004			.set_chg_config = bq24190_battery_set_chg_config,
-  2005			.ntc_fault_mask = BQ24190_REG_F_NTC_FAULT_MASK,
-  2006			.get_ntc_status = bq24190_charger_get_ntc_status,
-  2007			.set_otg_vbus = bq24190_set_otg_vbus,
-  2008		},
-  2009		[BQ24296] = {
-  2010			.ichg_array_size = BQ24296_CCC_ICHG_VALUES_LEN,
-> 2011			.vbus_desc = bq24296_vbus_desc,
-  2012			.check_chip = bq24296_check_chip,
-  2013			.set_chg_config = bq24296_battery_set_chg_config,
-  2014			.ntc_fault_mask = BQ24296_REG_F_NTC_FAULT_MASK,
-  2015			.get_ntc_status = bq24296_charger_get_ntc_status,
-  2016			.set_otg_vbus = bq24296_set_otg_vbus,
-  2017		},
-  2018	};
-  2019	
+    27	
+    28	4) link creation.  Locking rules:
+    29		* lock the parent
+    30		* check that the source is not a directory
+    31		* lock the source
+    32		* call the method.
+  > 33	All locks are exclusive.
+    34	
+    35	5) rename() that is _not_ cross-directory.  Locking rules:
+    36		* lock the parent
+    37		* find the source and target.
+    38		* decide which of the source and target need to be locked.
+    39	The source needs to be locked if it's a non-directory, target - if it's
+    40	a non-directory or about to be removed.  Take the locks that need to be
+    41	taken, in inode pointer order if need to take both (that can happen only
+    42	when both source and target are non-directories - the source because
+    43	it wouldn't need to be locked otherwise and the target because mixing
+    44	directory and non-directory is allowed only with RENAME_EXCHANGE, and
+    45	that won't be removing the target).
+  > 46		* call the method.
+  > 47	All locks are exclusive.
+    48	
+    49	6) cross-directory rename.  The trickiest in the whole bunch.  Locking
+    50	rules:
+    51		* lock the filesystem
+    52		* if the parents don't have a common ancestor, fail the operation.
+    53		* lock the parents in "ancestors first" order. If neither is an
+    54	ancestor of the other, lock the parent of source first.
+    55		* find the source and target.
+    56		* verify that the source is not a descendent of the target and
+    57	target is not a descendent of source; fail the operation otherwise.
+    58		* lock the subdirectories involved (source before target).
+    59		* lock the non-directories involved, in inode pointer order.
+    60		* call the method.
+  > 61	All ->i_rwsem are taken exclusive.
+    62	
 
 -- 
 0-DAY CI Kernel Test Service
