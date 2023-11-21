@@ -1,49 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747D9749D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 07:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D292D609
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 07:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFjkQ7vC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700552154; x=1732088154;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Zch1qjkK3eHp+5oW2JMhMRC8zOfxTgKFKjnTK6Du7/U=;
-  b=oFjkQ7vCy40GYwCTTqBl4yeUcDAqbxt8MJRFiDz1Bl/DmZOOl9a9jvBw
-   pUdU/kMW2lUcGTJUNF+uZDVDIjAt2ZshGto+mTGtoUh6KK1b9s+vUURWi
-   6exfm/cbOmavcXJnKfJBFwRzbJ+6dU/aosJPXfFfVWvhLityRVJOwr4w6
-   grYZ6+0GN+nhA7ApCbSdynjU09IfIwlKgywZTrGvsQulPI3Dinl9E2MFk
-   k+hO4862PyebX6LgmjfWI75aMeKaVyEyBUB5+sX2N5wmt96iqvg94tSYX
-   kFBxAfLJxaHwDADdvD1z41z95Fk2uQErBon8/In9wDHr9awYX2RKWgnzJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="458280807"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="458280807"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 23:35:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="760020779"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="760020779"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 20 Nov 2023 23:35:39 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5LHr-0007W2-01;
-	Tue, 21 Nov 2023 07:35:21 +0000
-Date: Tue, 21 Nov 2023 15:34:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/070-audio 11/105] kismet: WARNING: unmet direct
- dependencies detected for APPLE_ADMAC when selected by
- SND_SOC_APPLE_MACAUDIO
-Message-ID: <202311211526.66Aoymyu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pmJ4V6iH"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40859c464daso22392385e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 20 Nov 2023 23:37:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700552235; x=1701157035; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cd9Rn1+ErogMloc48Do85CnJ72DAEMXmsJgR783y+jM=;
+        b=pmJ4V6iHBFMU1Al5+noaTeUTNd7L9fX1eee7edbVFCtUO+vPlE+zu0e0SLvyB4u49A
+         HfwjX4JSDK13s9jPUOCE+LK72G5Hz26v6J7PJobr0iU1oo+bQuudX8EQbliDxfVyO8Jf
+         vbhEAxXBm5p3Ow6Xaoe1Fn+YpBVeVJMQYmYNWv8/cvSS/8HRWtjstJLpqoUorFvhVLME
+         lGSADuDcEEHh6euId3a/NO2doUdrzsUuTTpNUEr1ojr42/UG4BDB9vUXJvXAFA4SrVI8
+         CjaDLrOFWHc1vio7Yr+TV0bVpyFvFrLrOf+6lb/ml6oTdIvx/RNewObDQvbKQckbB+Bo
+         T0Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700552235; x=1701157035;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cd9Rn1+ErogMloc48Do85CnJ72DAEMXmsJgR783y+jM=;
+        b=o5J6xBOlWyXc+L8g2BNe0rE09Ps1sXnEjlu1OqjJRK4LqJeQV2HTXOcOLkkr7pQyud
+         Psb7KHAk+5041XtvUnpabxIQByZr/YtKx/1vbra1lqBGnobdahJql5OIEzbiNttq8G5q
+         kL9plvfOm5ZoIjK6b3exOdRHvRIjsXOiT3ZAdU3a+mIBc+nRCeig4sPFAaI9HVGcei10
+         c885ZLDH1fMzooCj84NOEXrVbX2UUFDzJe0NqPisedIdESBtXi2q2l78OZ9eRSLbermV
+         2XUCuJmJrvgiL42FO+a0W0yGhGSDoWEyWkt1dRGygpyS6Bqm+yoTIyWJvlFua4RW9KWa
+         zofg==
+X-Gm-Message-State: AOJu0Yyus9vA/e0BlmRo29csz4qJd418U7YzkdRs19j+Sg1wa8dc1rxB
+	RgiwW7tX56/FQ4YV1YqtJLceRQ==
+X-Google-Smtp-Source: AGHT+IHjC8M9p2kZJpL32Q2qwTmF42YcRaZvRtIVeyKJa4Yoz0Y0jAiQxSUx4K8v7Yb8AYJBVDII6g==
+X-Received: by 2002:a05:600c:1c85:b0:405:39b4:3145 with SMTP id k5-20020a05600c1c8500b0040539b43145mr7952845wms.2.1700552235292;
+        Mon, 20 Nov 2023 23:37:15 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q11-20020a05600c46cb00b00403b63e87f2sm16253949wmo.32.2023.11.20.23.37.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 23:37:15 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Tue, 21 Nov 2023 02:37:12 -0500
+To: oe-kbuild@lists.linux.dev, SeongJae Park <sj@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 32/42] mm/damon/core.c:1150
+ damos_set_effective_quota() error: uninitialized symbol 'esz'.
+Message-ID: <473b4c2e-863d-42ec-860a-bf8ec4385240@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,45 +57,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   1c71b1fa2c491cc29c94d29f1a450dba39f27557
-commit: c58ceb13a4c2cc59f093a06dfd9ce4804826264c [11/105] ASoC: apple: Add macaudio machine driver
-config: alpha-kismet-CONFIG_APPLE_ADMAC-CONFIG_SND_SOC_APPLE_MACAUDIO-0-0 (https://download.01.org/0day-ci/archive/20231121/202311211526.66Aoymyu-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20231121/202311211526.66Aoymyu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   54ffd8ae08121d8cbce1874fe46970cce643a2c7
+commit: 28cef0e565adbb4175f12ffffce9d0680979de60 [32/42] mm/damon/core: implement goal-oriented feedback-driven quota auto-tuning
+config: x86_64-randconfig-161-20231121 (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231121/202311210420.URG3QSAS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311211526.66Aoymyu-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311210420.URG3QSAS-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for APPLE_ADMAC when selected by SND_SOC_APPLE_MACAUDIO
-   
-   WARNING: unmet direct dependencies detected for SND_SOC_CS42L83
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && I2C [=n]
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
-   
-   WARNING: unmet direct dependencies detected for APPLE_ADMAC
-     Depends on [n]: DMADEVICES [=n] && (ARCH_APPLE || COMPILE_TEST [=y])
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
-   
-   WARNING: unmet direct dependencies detected for SND_SOC_TAS2770
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && I2C [=n]
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
-   
-   WARNING: unmet direct dependencies detected for SND_SOC_TAS2764
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && I2C [=n]
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
-   
-   WARNING: unmet direct dependencies detected for COMMON_CLK_APPLE_NCO
-     Depends on [n]: COMMON_CLK [=n] && (ARCH_APPLE || COMPILE_TEST [=y])
-     Selected by [y]:
-     - SND_SOC_APPLE_MACAUDIO [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && (ARCH_APPLE || COMPILE_TEST [=y])
+smatch warnings:
+mm/damon/core.c:1150 damos_set_effective_quota() error: uninitialized symbol 'esz'.
+
+vim +/esz +1150 mm/damon/core.c
+
+1cd2430300594a SeongJae Park 2021-11-05  1127  static void damos_set_effective_quota(struct damos_quota *quota)
+1cd2430300594a SeongJae Park 2021-11-05  1128  {
+1cd2430300594a SeongJae Park 2021-11-05  1129  	unsigned long throughput;
+1cd2430300594a SeongJae Park 2021-11-05  1130  	unsigned long esz;
+1cd2430300594a SeongJae Park 2021-11-05  1131  
+28cef0e565adbb SeongJae Park 2023-10-27  1132  	if (!quota->ms && !quota->get_score) {
+1cd2430300594a SeongJae Park 2021-11-05  1133  		quota->esz = quota->sz;
+1cd2430300594a SeongJae Park 2021-11-05  1134  		return;
+1cd2430300594a SeongJae Park 2021-11-05  1135  	}
+1cd2430300594a SeongJae Park 2021-11-05  1136  
+28cef0e565adbb SeongJae Park 2023-10-27  1137  	if (quota->get_score) {
+28cef0e565adbb SeongJae Park 2023-10-27  1138  		quota->esz_bp = damon_feed_loop_next_input(
+28cef0e565adbb SeongJae Park 2023-10-27  1139  				max(quota->esz_bp, 10000UL),
+28cef0e565adbb SeongJae Park 2023-10-27  1140  				quota->get_score(quota->get_score_arg));
+28cef0e565adbb SeongJae Park 2023-10-27  1141  		esz = quota->esz_bp / 10000;
+28cef0e565adbb SeongJae Park 2023-10-27  1142  	}
+
+esz uninitialized on else path.
+
+28cef0e565adbb SeongJae Park 2023-10-27  1143  
+28cef0e565adbb SeongJae Park 2023-10-27  1144  	if (quota->ms) {
+1cd2430300594a SeongJae Park 2021-11-05  1145  		if (quota->total_charged_ns)
+1cd2430300594a SeongJae Park 2021-11-05  1146  			throughput = quota->total_charged_sz * 1000000 /
+1cd2430300594a SeongJae Park 2021-11-05  1147  				quota->total_charged_ns;
+1cd2430300594a SeongJae Park 2021-11-05  1148  		else
+1cd2430300594a SeongJae Park 2021-11-05  1149  			throughput = PAGE_SIZE * 1024;
+28cef0e565adbb SeongJae Park 2023-10-27 @1150  		esz = min(throughput * quota->ms, esz);
+28cef0e565adbb SeongJae Park 2023-10-27  1151  	}
+1cd2430300594a SeongJae Park 2021-11-05  1152  
+1cd2430300594a SeongJae Park 2021-11-05  1153  	if (quota->sz && quota->sz < esz)
+1cd2430300594a SeongJae Park 2021-11-05  1154  		esz = quota->sz;
+28cef0e565adbb SeongJae Park 2023-10-27  1155  
+1cd2430300594a SeongJae Park 2021-11-05  1156  	quota->esz = esz;
+1cd2430300594a SeongJae Park 2021-11-05  1157  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
