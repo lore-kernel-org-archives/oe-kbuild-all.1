@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B83F56B84
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 15:46:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2AE56B7E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 15:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huWcwLz6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcx1R/O6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700667989; x=1732203989;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jR7nXrT/MznIEATtzqOZvdfyVsT5TGUuHhBxaf2q+AA=;
-  b=huWcwLz6V3mAMBm3N9ExAuiHEjFAyaFuqUZm4PQ9+LFumT7cznMdd6XX
-   HLuStaCCMFg6CnzvuMTh5/4hI4ZHdZ+kRk2lv+LLPgvmkrTahCsnSHElm
-   0OwkRhF9XwW9X7xqRAvlcxFB3L5JJimTYigR6qLRM9H5VC71Hw9xnchKJ
-   SQ0W7MRQRbuaEbIFvYVRfGdTA/ilKEHf4GhtpQJMv6ibuzwYM23rNiokA
-   s6zv+hRswR+4bTPtGa7V7ORkIqjhzpJgvMXRoF9Gi3ood4jtJsXHqkuA0
-   9npn2NcsQNRsD7pMeWXs8vQgOyXNR5Z2+85ALocmzxSs6Kftj9llWXOzM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13623158"
+  t=1700667988; x=1732203988;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=85wZv1X/UhJkJ2xfnh3X150OgDs1AY6/1M+ePL9r8mE=;
+  b=fcx1R/O6e5Iya9uB05lQ584vGe+6NCd+lWitMmJsMPpnz7HI8OIwnvR0
+   8ONdFoU2550hAwZqKCVNY/lEf6HvziAIbLK/7LOyauJ4iLwlE10df6OoD
+   k+ucUrdIQLNPUUHVN8kW02d7pdpulG/x1BJpTNECgTAYA9hWwDAB/2GEL
+   AZOlS50W/yRj0XK3BklQVYYxvLqVQCJbpM75PFWGnFlNm9qURSBRDogEE
+   awR0Usf5U3x8b2vO6dWd0k8qGwOXd4NtiKx0Ws1nWxQnkFoAElSP/79Lv
+   vB2OIPJifZCfaens3/j8mDQCDQeoqchZeEd42du51MZV5b7TAR6t/5LEe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="5279486"
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="13623158"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 07:46:25 -0800
+   d="scan'208";a="5279486"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 07:46:27 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="837464090"
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="8510496"
+   d="scan'208";a="837464090"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 07:46:23 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 22 Nov 2023 07:46:25 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5pQj-0000dK-0V;
-	Wed, 22 Nov 2023 15:46:21 +0000
-Date: Wed, 22 Nov 2023 23:45:43 +0800
+	id 1r5pQk-0000dQ-2r;
+	Wed, 22 Nov 2023 15:46:22 +0000
+Date: Wed, 22 Nov 2023 23:46:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>,
-	srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/5] misc: fastrpc: Add fastrpc multimode invoke
- request support
-Message-ID: <202311222004.ycVXExec-lkp@intel.com>
-References: <20231121094844.5764-2-quic_ekangupt@quicinc.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 24/30]
+ drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r0' in asm
+Message-ID: <202311222210.G5HvVSUn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,125 +49,289 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121094844.5764-2-quic_ekangupt@quicinc.com>
 
-Hi Ekansh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc2 next-20231122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Add-fastrpc-multimode-invoke-request-support/20231121-175147
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231121094844.5764-2-quic_ekangupt%40quicinc.com
-patch subject: [PATCH v7 1/5] misc: fastrpc: Add fastrpc multimode invoke request support
-config: mips-randconfig-r122-20231122 (https://download.01.org/0day-ci/archive/20231122/202311222004.ycVXExec-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311222004.ycVXExec-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   405b0c3781aa200f4b3bc1dc61d352f61544568d
+commit: adc2b4c6af434db264d6e58e740fca5ae876df86 [24/30] CHROMIUM: BACKPORT: FROMLIST: cpufreq: add kvm-cpufreq driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231122/202311222210.G5HvVSUn-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311222210.G5HvVSUn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311222004.ycVXExec-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311222210.G5HvVSUn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/misc/fastrpc.c:607:59: sparse: sparse: non size-preserving integer to pointer cast
->> drivers/misc/fastrpc.c:1318:33: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:1451:33: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:1515:33: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:1663:33: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:1694:33: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:1741:40: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:1771:33: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:1874:33: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:1972:33: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:2053:33: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/misc/fastrpc.c:2124:33: sparse: sparse: non size-preserving pointer to integer cast
+All errors (new ones prefixed by >>):
 
-vim +607 drivers/misc/fastrpc.c
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r0' in asm
+           arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CUR_CPUFREQ_FUNC_ID,
+           ^
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:387:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r0 asm("r0");                    \
+                                                 ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r1' in asm
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:388:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r1 asm("r1");                    \
+                                                 ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r2' in asm
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:389:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r2 asm("r2");                    \
+                                                 ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r3' in asm
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:390:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r3 asm("r3");                    \
+                                                 ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r0' in asm
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:391:3: note: expanded from macro '__arm_smccc_1_1'
+                   __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+                   ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/arm-smccc.h:372:37: note: expanded from macro '___declare_args'
+   #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+                                       ^
+   <scratch space>:226:1: note: expanded from here
+   __declare_arg_1
+   ^
+   include/linux/arm-smccc.h:331:34: note: expanded from macro '__declare_arg_1'
+           register unsigned long arg0 asm("r0") = (u32)a0;                        \
+                                           ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r1' in asm
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:391:3: note: expanded from macro '__arm_smccc_1_1'
+                   __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+                   ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/arm-smccc.h:372:37: note: expanded from macro '___declare_args'
+   #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+                                       ^
+   <scratch space>:226:1: note: expanded from here
+   __declare_arg_1
+   ^
+   include/linux/arm-smccc.h:332:31: note: expanded from macro '__declare_arg_1'
+           register typeof(a1) arg1 asm("r1") = __a1
+                                        ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: expected string literal in 'asm'
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:48: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                                   ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r0' in asm
+   include/linux/arm-smccc.h:466:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_smc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:413:32: note: expanded from macro 'arm_smccc_1_1_smc'
+   #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:387:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r0 asm("r0");                    \
+                                                 ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r1' in asm
+   include/linux/arm-smccc.h:466:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_smc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:413:32: note: expanded from macro 'arm_smccc_1_1_smc'
+   #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:388:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r1 asm("r1");                    \
+                                                 ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r2' in asm
+   include/linux/arm-smccc.h:466:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_smc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:413:32: note: expanded from macro 'arm_smccc_1_1_smc'
+   #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:389:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r2 asm("r2");                    \
+                                                 ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r3' in asm
+   include/linux/arm-smccc.h:466:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_smc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:413:32: note: expanded from macro 'arm_smccc_1_1_smc'
+   #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:390:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r3 asm("r3");                    \
+                                                 ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r0' in asm
+   include/linux/arm-smccc.h:466:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_smc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:413:32: note: expanded from macro 'arm_smccc_1_1_smc'
+   #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:391:3: note: expanded from macro '__arm_smccc_1_1'
+                   __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+                   ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/arm-smccc.h:372:37: note: expanded from macro '___declare_args'
+   #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+                                       ^
+   <scratch space>:228:1: note: expanded from here
+   __declare_arg_1
+   ^
+   include/linux/arm-smccc.h:331:34: note: expanded from macro '__declare_arg_1'
+           register unsigned long arg0 asm("r0") = (u32)a0;                        \
+                                           ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r1' in asm
+   include/linux/arm-smccc.h:466:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_smc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:413:32: note: expanded from macro 'arm_smccc_1_1_smc'
+   #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:391:3: note: expanded from macro '__arm_smccc_1_1'
+                   __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+                   ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/arm-smccc.h:372:37: note: expanded from macro '___declare_args'
+   #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+                                       ^
+   <scratch space>:228:1: note: expanded from here
+   __declare_arg_1
+   ^
+   include/linux/arm-smccc.h:332:31: note: expanded from macro '__declare_arg_1'
+           register typeof(a1) arg1 asm("r1") = __a1
+                                        ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: expected string literal in 'asm'
+   include/linux/arm-smccc.h:466:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_smc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:413:48: note: expanded from macro 'arm_smccc_1_1_smc'
+   #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+                                                   ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r0' in asm
+   include/linux/arm-smccc.h:469:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           __fail_smccc_1_1(__VA_ARGS__);                  \
+                           ^
+   include/linux/arm-smccc.h:438:3: note: expanded from macro '__fail_smccc_1_1'
+                   __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+                   ^
+   include/linux/arm-smccc.h:373:37: note: expanded from macro '__declare_args'
+   #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+                                       ^
+   include/linux/arm-smccc.h:372:37: note: expanded from macro '___declare_args'
+   #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+                                       ^
+   <scratch space>:230:1: note: expanded from here
+   __declare_arg_1
+   ^
+   include/linux/arm-smccc.h:331:34: note: expanded from macro '__declare_arg_1'
+           register unsigned long arg0 asm("r0") = (u32)a0;                        \
+                                           ^
+>> drivers/cpufreq/kvm-cpufreq.c:23:2: error: unknown register name 'r1' in asm
+   include/linux/arm-smccc.h:469:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           __fail_smccc_1_1(__VA_ARGS__);                  \
+                           ^
+   include/linux/arm-smccc.h:438:3: note: expanded from macro '__fail_smccc_1_1'
+                   __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+                   ^
+   include/linux/arm-smccc.h:373:37: note: expanded from macro '__declare_args'
+   #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+                                       ^
+   include/linux/arm-smccc.h:372:37: note: expanded from macro '___declare_args'
+   #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+                                       ^
+   <scratch space>:230:1: note: expanded from here
+   __declare_arg_1
+   ^
+   include/linux/arm-smccc.h:332:31: note: expanded from macro '__declare_arg_1'
+           register typeof(a1) arg1 asm("r1") = __a1
+                                        ^
+   drivers/cpufreq/kvm-cpufreq.c:50:3: error: unknown register name 'r0' in asm
+                   arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CPUFREQ_TBL_FUNC_ID,
+                   ^
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:387:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r0 asm("r0");                    \
+                                                 ^
+   drivers/cpufreq/kvm-cpufreq.c:50:3: error: unknown register name 'r1' in asm
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:388:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r1 asm("r1");                    \
+                                                 ^
+   drivers/cpufreq/kvm-cpufreq.c:50:3: error: unknown register name 'r2' in asm
+   include/linux/arm-smccc.h:463:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+                           arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+                           ^
+   include/linux/arm-smccc.h:429:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+   #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+                                   ^
+   include/linux/arm-smccc.h:389:33: note: expanded from macro '__arm_smccc_1_1'
+                   register unsigned long r2 asm("r2");                    \
+                                                 ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
-   573	
-   574	static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
-   575				struct fastrpc_user *user, u32 kernel, u32 sc,
-   576				struct fastrpc_enhanced_invoke *invoke)
-   577	{
-   578		struct fastrpc_channel_ctx *cctx = user->cctx;
-   579		struct fastrpc_invoke_ctx *ctx = NULL;
-   580		unsigned long flags;
-   581		int ret;
-   582	
-   583		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-   584		if (!ctx)
-   585			return ERR_PTR(-ENOMEM);
-   586	
-   587		INIT_LIST_HEAD(&ctx->node);
-   588		ctx->fl = user;
-   589		ctx->nscalars = REMOTE_SCALARS_LENGTH(sc);
-   590		ctx->nbufs = REMOTE_SCALARS_INBUFS(sc) +
-   591			     REMOTE_SCALARS_OUTBUFS(sc);
-   592	
-   593		if (ctx->nscalars) {
-   594			ctx->maps = kcalloc(ctx->nscalars,
-   595					    sizeof(*ctx->maps), GFP_KERNEL);
-   596			if (!ctx->maps) {
-   597				kfree(ctx);
-   598				return ERR_PTR(-ENOMEM);
-   599			}
-   600			ctx->olaps = kcalloc(ctx->nscalars,
-   601					    sizeof(*ctx->olaps), GFP_KERNEL);
-   602			if (!ctx->olaps) {
-   603				kfree(ctx->maps);
-   604				kfree(ctx);
-   605				return ERR_PTR(-ENOMEM);
-   606			}
- > 607			ctx->args = (struct fastrpc_invoke_args *)invoke->inv.args;
-   608			fastrpc_get_buff_overlaps(ctx);
-   609		}
-   610	
-   611		/* Released in fastrpc_context_put() */
-   612		fastrpc_channel_ctx_get(cctx);
-   613	
-   614		ctx->sc = sc;
-   615		ctx->retval = -1;
-   616		ctx->pid = current->pid;
-   617		ctx->tgid = user->tgid;
-   618		ctx->cctx = cctx;
-   619		init_completion(&ctx->work);
-   620		INIT_WORK(&ctx->put_work, fastrpc_context_put_wq);
-   621	
-   622		spin_lock(&user->lock);
-   623		list_add_tail(&ctx->node, &user->pending);
-   624		spin_unlock(&user->lock);
-   625	
-   626		spin_lock_irqsave(&cctx->lock, flags);
-   627		ret = idr_alloc_cyclic(&cctx->ctx_idr, ctx, 1,
-   628				       FASTRPC_CTX_MAX, GFP_ATOMIC);
-   629		if (ret < 0) {
-   630			spin_unlock_irqrestore(&cctx->lock, flags);
-   631			goto err_idr;
-   632		}
-   633		ctx->ctxid = ret << 4;
-   634		spin_unlock_irqrestore(&cctx->lock, flags);
-   635	
-   636		kref_init(&ctx->refcount);
-   637	
-   638		return ctx;
-   639	err_idr:
-   640		spin_lock(&user->lock);
-   641		list_del(&ctx->node);
-   642		spin_unlock(&user->lock);
-   643		fastrpc_channel_ctx_put(cctx);
-   644		kfree(ctx->maps);
-   645		kfree(ctx->olaps);
-   646		kfree(ctx);
-   647	
-   648		return ERR_PTR(ret);
-   649	}
-   650	
+
+vim +/r0 +23 drivers/cpufreq/kvm-cpufreq.c
+
+    17	
+    18	static void kvm_scale_freq_tick(void)
+    19	{
+    20		unsigned long scale, cur_freq, max_freq;
+    21		struct arm_smccc_res hvc_res;
+    22	
+  > 23		arm_smccc_1_1_invoke(ARM_SMCCC_VENDOR_HYP_KVM_GET_CUR_CPUFREQ_FUNC_ID,
+    24				0, &hvc_res);
+    25	
+    26		cur_freq = hvc_res.a0;
+    27		max_freq = cpufreq_get_hw_max_freq(task_cpu(current));
+    28		scale = (cur_freq << SCHED_CAPACITY_SHIFT) / max_freq;
+    29	
+    30		this_cpu_write(freq_scale, (unsigned long)scale);
+    31	}
+    32	
 
 -- 
 0-DAY CI Kernel Test Service
