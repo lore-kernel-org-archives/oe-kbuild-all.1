@@ -1,106 +1,125 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7714855C3D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 23:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7C4163
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 00:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SxEP/kXp"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6b5cac99cfdso5380721b3a.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 21 Nov 2023 15:37:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700609866; x=1701214666; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OBsM6IhveS+o7/r4qHHc1TgZJQzdQDusijV9f+awe9A=;
-        b=SxEP/kXpdyqh0UfrZATx1QZYf0sIY21/OZDGb8lWkA8O/mHx7Q4pA/bRnH1SYriSOV
-         Hw7+L2aohYqRa5elyEm6ZK1I7vg6elz3lz1X8XYZ5s3DxM6Cwdu0akdPfG6xwefA4465
-         gLTKWV1YvlBa2//RYW+3hO5ojOCgg82+dthWA2+rb9pwjHWHpPpjcUsQFs+ightnWpgK
-         7CORaBcGmKfZgt0zcSaxOV5GcbpDraplFDD8Dz78q2wY8sTn54Npr7YuopMHbHKibQ7V
-         xHeMNdf2TVu/MARa3JzMz+jhXBLl7rRIhYS72c0ydVroqQWA2GyPQGXSqwEwPmll/2L6
-         3Xtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700609866; x=1701214666;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OBsM6IhveS+o7/r4qHHc1TgZJQzdQDusijV9f+awe9A=;
-        b=pMVPxM4Tlg3OqcS/nlhvGIuqBK9mZ4VmfJDSau6GCfPj/gMK1am5mPjYdzXDVBUyHe
-         Nx1L51M17CPujZkwdS8RIBJFpvQU/fBSxr1Ag1Q2awpgbuY/nZF8m8AmogR725zxZygp
-         Hzk8XOVZgs/3PudwODfTo07olKr3tDm3qzNPyFqzVUMqfRvZd6uv8YA5SJNIfiz5LnKm
-         i7VL0gBdcZns0LkdGawU2te5UbWiKxZA2p6vR6E4WPO76z5hJGjJHdKGDiE/18AvDd0x
-         aAGtUFagYOjH+jOlbizZW/R6eAO4UIiXLPXZndyk1MLJLAgKM587gcFCMSntvhN8IV3j
-         3Fdw==
-X-Gm-Message-State: AOJu0YxvnZPatYZHpiOuD9MMEZj4f4vhD/yYeO5moyRlm2JHjnjXkrqE
-	+bnfmQuUhbdyzh6Pop8feTc=
-X-Google-Smtp-Source: AGHT+IHylfg1T9X6BkuN5KOiJNcmxEeJ+UQfaRy0xEGLUcLwjosLbiBRBajuiM8h90cVFePNrmnm0g==
-X-Received: by 2002:a05:6a20:3944:b0:189:c852:562e with SMTP id r4-20020a056a20394400b00189c852562emr636458pzg.38.1700609865663;
-        Tue, 21 Nov 2023 15:37:45 -0800 (PST)
-Received: from [192.168.0.106] ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id 5-20020a17090a19c500b0028098225450sm98849pjj.1.2023.11.21.15.37.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 15:37:45 -0800 (PST)
-Message-ID: <a9abc5ec-f3cd-4a1a-81b9-a6900124d38b@gmail.com>
-Date: Wed, 22 Nov 2023 06:37:39 +0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alQQBdn9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700611471; x=1732147471;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KtjrAbyXKalylP4mxnUfIL2egA57NGVYwHyA1wH+6zw=;
+  b=alQQBdn9zG/lE6+W4R2DYAf4UelmcuKs4eL8S2oyWTwNYPk5BzIO5g11
+   WuCMVKJItJFGI29nYQSwa1MU8apeoVpRkPLhVInXXnGmzFoMFmLAJYK5t
+   5/AK2NYCbtpRaV2mNRkihWF0CS8lGVb617O8Il0iWab4jgnnhe4DMPd/4
+   FgncHB54xN/gGBQ0szK2Vhk58Vu6bUFLB6xM16AXV3ORCccbVsBP09vfk
+   rVtJP6VIKH4EPlY/djuwRq9o+DF2JPzO6xy91yczAQtgmjjPuKTqHYIwz
+   qH8Hn3zOctyUYB7DRaRjoQt3T5BDZS1+cAbag0Ets8CSXLtRJbfIIxJIc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="13499721"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="13499721"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 16:04:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="716661035"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="716661035"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 21 Nov 2023 16:04:22 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5aj5-0008Q6-0y;
+	Wed, 22 Nov 2023 00:04:19 +0000
+Date: Wed, 22 Nov 2023 08:04:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
+	dave@stgolabs.net, jonathan.cameron@huawei.com,
+	dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com,
+	dan.j.williams@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, david@redhat.com,
+	Vilas.Sridharan@amd.com, leo.duran@amd.com, Yazen.Ghannam@amd.com,
+	rientjes@google.com, jiaqiyan@google.com, tony.luck@intel.com,
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, rafael@kernel.org,
+	lenb@kernel.org, naoya.horiguchi@nec.com, james.morse@arm.com,
+	jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	mike.malvestuto@intel.com
+Subject: Re: [PATCH v2 01/10] cxl/mbox: Add GET_SUPPORTED_FEATURES mailbox
+ command
+Message-ID: <202311220753.mm74Rat7-lkp@intel.com>
+References: <20231121101844.1161-2-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: xfs: consolidate XFS docs into its own
- subdirectory
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux XFS <linux-xfs@vger.kernel.org>,
- Linux Kernel Workflows <workflows@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
- Chandan Babu R <chandan.babu@oracle.com>, "Darrick J. Wong"
- <djwong@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>,
- Dave Chinner <dchinner@redhat.com>, Steve French <stfrench@microsoft.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Allison Henderson <allison.henderson@oracle.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Charles Han <hanchunchao@inspur.com>
-References: <20231121095658.28254-1-bagasdotme@gmail.com>
- <202311220333.acL7LwXY-lkp@intel.com>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <202311220333.acL7LwXY-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231121101844.1161-2-shiju.jose@huawei.com>
 
-On 11/22/23 03:04, kernel test robot wrote:
-> Hi Bagas,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 98b1cc82c4affc16f5598d4fa14b1858671b2263]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/Documentation-xfs-consolidate-XFS-docs-into-its-own-subdirectory/20231121-180057
-> base:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-> patch link:    https://lore.kernel.org/r/20231121095658.28254-1-bagasdotme%40gmail.com
-> patch subject: [PATCH] Documentation: xfs: consolidate XFS docs into its own subdirectory
-> reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220333.acL7LwXY-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311220333.acL7LwXY-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> Warning: Documentation/filesystems/xfs/xfs-online-fsck-design.rst references a file that doesn't exist: Documentation/filesystems/xfs-self-describing-metadata.rst
->>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-maintainer-entry-profile.rst
->>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/filesystems/xfs-*
->>> MAINTAINERS:53207: WARNING: unknown document: ../filesystems/xfs-maintainer-entry-profile
-> 
+Hi,
 
-Oh dear, I didn't catch them when building locally. Will fix anyway.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/cxl-mbox-Add-GET_SUPPORTED_FEATURES-mailbox-command/20231121-182247
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231121101844.1161-2-shiju.jose%40huawei.com
+patch subject: [PATCH v2 01/10] cxl/mbox: Add GET_SUPPORTED_FEATURES mailbox command
+config: alpha-randconfig-r112-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220753.mm74Rat7-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220753.mm74Rat7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220753.mm74Rat7-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/cxl/core/mbox.c:1318:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long [usertype] size_out @@     got restricted __le32 [usertype] count @@
+   drivers/cxl/core/mbox.c:1318:31: sparse:     expected unsigned long [usertype] size_out
+   drivers/cxl/core/mbox.c:1318:31: sparse:     got restricted __le32 [usertype] count
+
+vim +1318 drivers/cxl/core/mbox.c
+
+  1306	
+  1307	int cxl_get_supported_features(struct cxl_memdev_state *mds,
+  1308							struct cxl_mbox_get_supp_feats_in *pi,
+  1309							void *feats_out)
+  1310	{
+  1311		struct cxl_mbox_cmd mbox_cmd;
+  1312		int rc;
+  1313	
+  1314		mbox_cmd = (struct cxl_mbox_cmd) {
+  1315			.opcode = CXL_MBOX_OP_GET_SUPPORTED_FEATURES,
+  1316			.size_in = sizeof(*pi),
+  1317			.payload_in = pi,
+> 1318			.size_out = pi->count,
+  1319			.payload_out = feats_out,
+  1320			.min_out = sizeof(struct cxl_mbox_get_supp_feats_out),
+  1321		};
+  1322		rc = cxl_internal_send_cmd(mds, &mbox_cmd);
+  1323		if (rc < 0)
+  1324			return rc;
+  1325	
+  1326		return 0;
+  1327	}
+  1328	EXPORT_SYMBOL_NS_GPL(cxl_get_supported_features, CXL);
+  1329	
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
