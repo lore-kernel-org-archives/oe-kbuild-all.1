@@ -1,46 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9CB4E619;
-	Wed, 22 Nov 2023 14:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E7215ACF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 14:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P38f6vWD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f2ppgBo8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1700664552; x=1732200552;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iFSzHqUOze79culTr6M1JqqoU9r2kTO+0mYegO09R0Q=;
-  b=P38f6vWDZlrSyFnMYtfqMqZ97kgWSeqBsLCdnNPa6ykC+sXMMiem81D3
-   KSUkbFK0PsE/7/0qVlouluTX8/4l+E6aGo0I9HsZ6l6G+f0iD6KWREkHH
-   m4FQ1kYwDoohJdHdF0GSfUHrYrnICxOGUr3DLo12Rodb+zqST69v9UHXx
-   VgfeaEWA6q521sAV1rSM434Dm61KG5POcfuBt7+b1iUpXl/IFzaeOdhnY
-   tw5NwCWSwyHMBbqi8aqMvXvQlxpJdpt3yMzrHYZMUq0e66nWa2EZ4tUA6
-   RUBdi/2gk9EBv5ZYeEx3+hq3jqiu6QavSwNzialu+utX5iGLpyqm/St5z
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="478269619"
+  bh=/Ls0NLKTI6uklGgcRnnGSn4U4lHrlsphyjSjjVmva0U=;
+  b=f2ppgBo8WV/CQKu4kw8oOHNioJYHXGIxiZQEGWmrXC++ghF7powV9SHW
+   Pkx6TlUULugKEJ/k5WijQOpqcp+HOqBEMHAEoXNcO69qiRepMbs36SO2M
+   MD6MbPbrPCU91d/ngBSzel+TA7w+n14lsgV74pFAEBocotMox0WBGFiZo
+   RMv0CdJfQAO5H+wQFNIkGM1tfbnIkgVfA0/9Bu06GvT8oUmVs2S1uqYS5
+   leWQ/XV/UdL8gQ/J5Qu6u2sM9Mnm6NeQosCC5BhSw13IyRWt4FiZogwmN
+   ovKL2/V9+1jxkPWi8bJMEofDVPebZR7JaGaN/PS/mEeWATGohflbs2SBT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="478269623"
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="478269619"
+   d="scan'208";a="478269623"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 06:49:05 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 06:49:06 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="15284540"
+   d="scan'208";a="15284538"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 22 Nov 2023 06:49:04 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5oXG-0000Za-0q;
+	id 1r5oXG-0000ZO-0H;
 	Wed, 22 Nov 2023 14:49:02 +0000
-Date: Wed, 22 Nov 2023 22:48:45 +0800
+Date: Wed, 22 Nov 2023 22:48:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [net-next RFC PATCH 13/14] net: phy: add Qualcom QCA807x driver
-Message-ID: <202311221857.uKXhU81D-lkp@intel.com>
-References: <20231120135041.15259-14-ansuelsmth@gmail.com>
+To: Felix Kuehling <Felix.Kuehling@amd.com>,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, christian.koenig@amd.com,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 2/4] drm/prime: Helper to export dmabuf without fd
+Message-ID: <202311221810.IJ6ELH6c-lkp@intel.com>
+References: <20231121231114.703478-2-Felix.Kuehling@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,142 +51,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120135041.15259-14-ansuelsmth@gmail.com>
+In-Reply-To: <20231121231114.703478-2-Felix.Kuehling@amd.com>
 
-Hi Christian,
+Hi Felix,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc2 next-20231122]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-extend-PHY-package-API-to-support-multiple-global-address/20231120-220405
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231120135041.15259-14-ansuelsmth%40gmail.com
-patch subject: [net-next RFC PATCH 13/14] net: phy: add Qualcom QCA807x driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231122/202311221857.uKXhU81D-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311221857.uKXhU81D-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Kuehling/drm-prime-Helper-to-export-dmabuf-without-fd/20231122-071410
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231121231114.703478-2-Felix.Kuehling%40amd.com
+patch subject: [PATCH v2 2/4] drm/prime: Helper to export dmabuf without fd
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231122/202311221810.IJ6ELH6c-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311221810.IJ6ELH6c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311221857.uKXhU81D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311221810.IJ6ELH6c-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/phy/qca807x.c:342:46: warning: declaration of 'struct gpio_chip' will not be visible outside of this function [-Wvisibility]
-   static int qca807x_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
-                                                ^
-   drivers/net/phy/qca807x.c:344:9: error: use of undeclared identifier 'GPIO_LINE_DIRECTION_OUT'
-           return GPIO_LINE_DIRECTION_OUT;
-                  ^
-   drivers/net/phy/qca807x.c:352:36: warning: declaration of 'struct gpio_chip' will not be visible outside of this function [-Wvisibility]
-   static int qca807x_gpio_get(struct gpio_chip *gc, unsigned int offset)
-                                      ^
-   drivers/net/phy/qca807x.c:354:35: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct qca807x_gpio_priv *priv = gpiochip_get_data(gc);
-                                            ^
-   drivers/net/phy/qca807x.c:354:28: error: incompatible integer to pointer conversion initializing 'struct qca807x_gpio_priv *' with an expression of type 'int' [-Wint-conversion]
-           struct qca807x_gpio_priv *priv = gpiochip_get_data(gc);
-                                     ^      ~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/qca807x.c:362:37: warning: declaration of 'struct gpio_chip' will not be visible outside of this function [-Wvisibility]
-   static void qca807x_gpio_set(struct gpio_chip *gc, unsigned int offset, int value)
-                                       ^
-   drivers/net/phy/qca807x.c:364:35: error: call to undeclared function 'gpiochip_get_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           struct qca807x_gpio_priv *priv = gpiochip_get_data(gc);
-                                            ^
-   drivers/net/phy/qca807x.c:364:28: error: incompatible integer to pointer conversion initializing 'struct qca807x_gpio_priv *' with an expression of type 'int' [-Wint-conversion]
-           struct qca807x_gpio_priv *priv = gpiochip_get_data(gc);
-                                     ^      ~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/qca807x.c:375:40: warning: declaration of 'struct gpio_chip' will not be visible outside of this function [-Wvisibility]
-   static int qca807x_gpio_dir_out(struct gpio_chip *gc, unsigned int offset, int value)
-                                          ^
-   drivers/net/phy/qca807x.c:377:19: error: incompatible pointer types passing 'struct gpio_chip *' to parameter of type 'struct gpio_chip *' [-Werror,-Wincompatible-pointer-types]
-           qca807x_gpio_set(gc, offset, value);
-                            ^~
-   drivers/net/phy/qca807x.c:362:48: note: passing argument to parameter 'gc' here
-   static void qca807x_gpio_set(struct gpio_chip *gc, unsigned int offset, int value)
-                                                  ^
-   drivers/net/phy/qca807x.c:394:31: error: invalid application of 'sizeof' to an incomplete type 'struct gpio_chip'
-           gc = devm_kzalloc(dev, sizeof(*gc), GFP_KERNEL);
-                                        ^~~~~
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:398:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->label = dev_name(dev);
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:399:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->base = -1;
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:400:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->ngpio = 2;
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:401:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->parent = dev;
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:402:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->owner = THIS_MODULE;
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:403:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->can_sleep = true;
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:404:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->get_direction = qca807x_gpio_get_direction;
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:405:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->direction_output = qca807x_gpio_dir_out;
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:406:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->get = qca807x_gpio_get;
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:407:4: error: incomplete definition of type 'struct gpio_chip'
-           gc->set = qca807x_gpio_set;
-           ~~^
-   drivers/net/phy/qca807x.c:386:9: note: forward declaration of 'struct gpio_chip'
-           struct gpio_chip *gc;
-                  ^
-   drivers/net/phy/qca807x.c:409:9: error: call to undeclared function 'devm_gpiochip_add_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           return devm_gpiochip_add_data(dev, gc, priv);
+>> drivers/gpu/drm/drm_prime.c:428: warning: Excess function parameter 'dma_buf' description in 'drm_gem_prime_handle_to_dmabuf'
 
 
-vim +342 drivers/net/phy/qca807x.c
+vim +428 drivers/gpu/drm/drm_prime.c
 
-   340	
-   341	#ifdef CONFIG_GPIOLIB
- > 342	static int qca807x_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
-   343	{
-   344		return GPIO_LINE_DIRECTION_OUT;
-   345	}
-   346	
+319c933c71f3db Daniel Vetter     2013-08-15  411  
+d3977ac8e10a0b Felix Kuehling    2023-11-21  412  /**
+f3facd92ee25e0 Felix Kuehling    2023-11-21  413   * drm_gem_prime_handle_to_dmabuf - PRIME export function for GEM drivers
+39cc344acd414e Daniel Vetter     2014-01-22  414   * @dev: dev to export the buffer from
+39cc344acd414e Daniel Vetter     2014-01-22  415   * @file_priv: drm file-private structure
+39cc344acd414e Daniel Vetter     2014-01-22  416   * @handle: buffer handle to export
+39cc344acd414e Daniel Vetter     2014-01-22  417   * @flags: flags like DRM_CLOEXEC
+f3facd92ee25e0 Felix Kuehling    2023-11-21  418   * @dma_buf: pointer to storage for the dma-buf reference
+39cc344acd414e Daniel Vetter     2014-01-22  419   *
+39cc344acd414e Daniel Vetter     2014-01-22  420   * This is the PRIME export function which must be used mandatorily by GEM
+39cc344acd414e Daniel Vetter     2014-01-22  421   * drivers to ensure correct lifetime management of the underlying GEM object.
+39cc344acd414e Daniel Vetter     2014-01-22  422   * The actual exporting from GEM object to a dma-buf is done through the
+d693def4fd1c23 Thomas Zimmermann 2020-09-23  423   * &drm_gem_object_funcs.export callback.
+39cc344acd414e Daniel Vetter     2014-01-22  424   */
+f3facd92ee25e0 Felix Kuehling    2023-11-21  425  struct dma_buf *drm_gem_prime_handle_to_dmabuf(struct drm_device *dev,
+f3facd92ee25e0 Felix Kuehling    2023-11-21  426  					       struct drm_file *file_priv,
+f3facd92ee25e0 Felix Kuehling    2023-11-21  427  					       uint32_t handle, uint32_t flags)
+3248877ea17969 Dave Airlie       2011-11-25 @428  {
+3248877ea17969 Dave Airlie       2011-11-25  429  	struct drm_gem_object *obj;
+219b47339ced80 Dave Airlie       2013-04-22  430  	int ret = 0;
+f3facd92ee25e0 Felix Kuehling    2023-11-21  431  	struct dma_buf *dmabuf = NULL;
+3248877ea17969 Dave Airlie       2011-11-25  432  
+d0b2c5334f41bd Daniel Vetter     2013-08-15  433  	mutex_lock(&file_priv->prime.lock);
+a8ad0bd84f9860 Chris Wilson      2016-05-09  434  	obj = drm_gem_object_lookup(file_priv, handle);
+d0b2c5334f41bd Daniel Vetter     2013-08-15  435  	if (!obj)  {
+d0b2c5334f41bd Daniel Vetter     2013-08-15  436  		ret = -ENOENT;
+d0b2c5334f41bd Daniel Vetter     2013-08-15  437  		goto out_unlock;
+d0b2c5334f41bd Daniel Vetter     2013-08-15  438  	}
+d0b2c5334f41bd Daniel Vetter     2013-08-15  439  
+d0b2c5334f41bd Daniel Vetter     2013-08-15  440  	dmabuf = drm_prime_lookup_buf_by_handle(&file_priv->prime, handle);
+d0b2c5334f41bd Daniel Vetter     2013-08-15  441  	if (dmabuf) {
+d0b2c5334f41bd Daniel Vetter     2013-08-15  442  		get_dma_buf(dmabuf);
+f3facd92ee25e0 Felix Kuehling    2023-11-21  443  		goto out;
+d0b2c5334f41bd Daniel Vetter     2013-08-15  444  	}
+3248877ea17969 Dave Airlie       2011-11-25  445  
+d0b2c5334f41bd Daniel Vetter     2013-08-15  446  	mutex_lock(&dev->object_name_lock);
+3248877ea17969 Dave Airlie       2011-11-25  447  	/* re-export the original imported object */
+3248877ea17969 Dave Airlie       2011-11-25  448  	if (obj->import_attach) {
+219b47339ced80 Dave Airlie       2013-04-22  449  		dmabuf = obj->import_attach->dmabuf;
+319c933c71f3db Daniel Vetter     2013-08-15  450  		get_dma_buf(dmabuf);
+219b47339ced80 Dave Airlie       2013-04-22  451  		goto out_have_obj;
+3248877ea17969 Dave Airlie       2011-11-25  452  	}
+3248877ea17969 Dave Airlie       2011-11-25  453  
+319c933c71f3db Daniel Vetter     2013-08-15  454  	if (obj->dma_buf) {
+319c933c71f3db Daniel Vetter     2013-08-15  455  		get_dma_buf(obj->dma_buf);
+319c933c71f3db Daniel Vetter     2013-08-15  456  		dmabuf = obj->dma_buf;
+219b47339ced80 Dave Airlie       2013-04-22  457  		goto out_have_obj;
+219b47339ced80 Dave Airlie       2013-04-22  458  	}
+219b47339ced80 Dave Airlie       2013-04-22  459  
+319c933c71f3db Daniel Vetter     2013-08-15  460  	dmabuf = export_and_register_object(dev, obj, flags);
+4332bf438bbbc3 Daniel Vetter     2013-08-15  461  	if (IS_ERR(dmabuf)) {
+3248877ea17969 Dave Airlie       2011-11-25  462  		/* normally the created dma-buf takes ownership of the ref,
+3248877ea17969 Dave Airlie       2011-11-25  463  		 * but if that fails then drop the ref
+3248877ea17969 Dave Airlie       2011-11-25  464  		 */
+4332bf438bbbc3 Daniel Vetter     2013-08-15  465  		ret = PTR_ERR(dmabuf);
+d0b2c5334f41bd Daniel Vetter     2013-08-15  466  		mutex_unlock(&dev->object_name_lock);
+219b47339ced80 Dave Airlie       2013-04-22  467  		goto out;
+3248877ea17969 Dave Airlie       2011-11-25  468  	}
+219b47339ced80 Dave Airlie       2013-04-22  469  
+d0b2c5334f41bd Daniel Vetter     2013-08-15  470  out_have_obj:
+d0b2c5334f41bd Daniel Vetter     2013-08-15  471  	/*
+d0b2c5334f41bd Daniel Vetter     2013-08-15  472  	 * If we've exported this buffer then cheat and add it to the import list
+d0b2c5334f41bd Daniel Vetter     2013-08-15  473  	 * so we get the correct handle back. We must do this under the
+d0b2c5334f41bd Daniel Vetter     2013-08-15  474  	 * protection of dev->object_name_lock to ensure that a racing gem close
+d0b2c5334f41bd Daniel Vetter     2013-08-15  475  	 * ioctl doesn't miss to remove this buffer handle from the cache.
+0ff926c7d4f06f Dave Airlie       2012-05-20  476  	 */
+219b47339ced80 Dave Airlie       2013-04-22  477  	ret = drm_prime_add_buf_handle(&file_priv->prime,
+319c933c71f3db Daniel Vetter     2013-08-15  478  				       dmabuf, handle);
+d0b2c5334f41bd Daniel Vetter     2013-08-15  479  	mutex_unlock(&dev->object_name_lock);
+219b47339ced80 Dave Airlie       2013-04-22  480  	if (ret)
+4332bf438bbbc3 Daniel Vetter     2013-08-15  481  		dma_buf_put(dmabuf);
+219b47339ced80 Dave Airlie       2013-04-22  482  out:
+be6ee102341bc4 Emil Velikov      2020-05-15  483  	drm_gem_object_put(obj);
+d0b2c5334f41bd Daniel Vetter     2013-08-15  484  out_unlock:
+d0b2c5334f41bd Daniel Vetter     2013-08-15  485  	mutex_unlock(&file_priv->prime.lock);
+d0b2c5334f41bd Daniel Vetter     2013-08-15  486  
+f3facd92ee25e0 Felix Kuehling    2023-11-21  487  	return ret ? ERR_PTR(ret) : dmabuf;
+b283e92a2315f9 Daniel Vetter     2019-06-18  488  }
+f3facd92ee25e0 Felix Kuehling    2023-11-21  489  EXPORT_SYMBOL(drm_gem_prime_handle_to_dmabuf);
+b283e92a2315f9 Daniel Vetter     2019-06-18  490  
 
 -- 
 0-DAY CI Kernel Test Service
