@@ -1,95 +1,115 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098ED5786B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 16:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056664E624;
+	Wed, 22 Nov 2023 16:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Z1fdnTRr"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-daf4f0e3a0fso6812402276.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 08:10:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OFYNZMKG"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2c5039d4e88so88651961fa.3;
+        Wed, 22 Nov 2023 08:15:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1700669402; x=1701274202; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rdCGHGbzdbeaCYIJr9v4FCuZAi+3Ly0kgJz+OuU3/qE=;
-        b=Z1fdnTRrxd3rF+X8RWI265YZtCic1oZgzr4d7hqIYC0rJc54Xip+qxxs30MN4nuDUO
-         YPDvGUsDo6fjoLWA2diAgYCELavsfQzbGriI40E3dnLWIrj1Eu0GacRhu8qzysRkJ/bB
-         KOfs/hVBrBW5aZ1ORM5V/WD4oXqoar1XpQAC8QgFIAU2D+vT3OlHzeziVuSGaD81nG9C
-         40ftleh2IInPlQ5+m7ZokWTKX0Y7J0CLFQqBDEDfEpJyPePeoL55nOypdqmmgTF9sQf9
-         E9XBE5UsuvhzUgOq8KDepRj2L3Rr2ZOGTXCAx44PZA9AcwaLFz1Q7OV5DoUUUqhVLSoN
-         3LrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700669402; x=1701274202;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20230601; t=1700669751; x=1701274551; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rdCGHGbzdbeaCYIJr9v4FCuZAi+3Ly0kgJz+OuU3/qE=;
-        b=WitLi8c1orkwNy8AVzkcubah9faPZwQ6NFYTlspMIplp0wNjFVU4KXDg3M4Iu54ut1
-         b89N/ojp3ItLKaCFhif2XPkYmVi0GqoTHxpkWTHu7YoAi9powcGJovtlXa6fUUTJj96p
-         HyuO/6HXTp4XitQu374ROIF5OC+wD21G29RFyfOdTEsBTNWEkmRfttWs9o+irGA35x8p
-         YZuakPIEDJ32SU53Ecz+Fk40t1Q5H0cwaq0vLaSMbUC3h5AtNIg7VZJhKz0E/hAGn0nS
-         5v74A0iKfWar5Ikd6B0EYtK9MqXhz7KiDdPcElhMwZ2Ul2X6+Ij8jtP91rUMlElicy5k
-         4wlQ==
-X-Gm-Message-State: AOJu0Yy02jci5zrkG4kZX//ciT7b5rTnhdk8rYdC2UEQhmsgMn1YuJSz
-	UCSO22GJJSk3F2F4rF9obHMfPYRAEydhQlZtdCfJ
-X-Google-Smtp-Source: AGHT+IFZHnLHtkR/4LAcEVO6IHNfOs3NmopA5dFIkVuvNFNOUNH49hCmmHZpOXOtHn2IgEXm/4E3XkhYff4BoTL1oXI=
-X-Received: by 2002:a25:6645:0:b0:db0:33fe:4125 with SMTP id
- z5-20020a256645000000b00db033fe4125mr2616337ybm.57.1700669401902; Wed, 22 Nov
- 2023 08:10:01 -0800 (PST)
+        bh=HaNA+1kUhGp1TWlPIHpnCP3XDdAFKSdhNs80LYurPRo=;
+        b=OFYNZMKGHz3/KUmZLZkDEeUcgped9McHpe0RNUVaRMt2T1UaRB/ByGUIhOkjINLTAv
+         cvercr4SqZWJxAjhWcJKHS5lHsM1bFJQis300mDqD5pcyQBnvZ42tdNUXNShbIfiA5XS
+         Xh7Nxa7UekqiD4xak+3Pi0IiDe6fxIh91sb7wm8wXNo/L+l1nPqltrejnNysg19t7G65
+         s8Hdp95Y9Jj7heyzQe/8dpHb8nHOcOsO9ihH7lUIFaXNE2kvwoV4FuC+E/U3+xiS7M4k
+         cgnJAfdMUwflvHcmv1pIS6CQFSgyua7KzJo/VEkqrSYrjO/DDSKI77YcwKwSn4vXX1BT
+         8YqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700669751; x=1701274551;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HaNA+1kUhGp1TWlPIHpnCP3XDdAFKSdhNs80LYurPRo=;
+        b=S8dhKBSNXyw/JTEOWdg5DtuRD2PfyUpjvkBCZenSQLL50NQ9T5+9t+Sx0rFrUpHnsp
+         Awsfnzr42CM6HY2MD1G+SeqYvKQGvZ9Im1aa5O5BQCDQkORzWKgczADVonwOkTxo929K
+         6iHK10C5INXsDuhEym+Oj0sbxSbHjUxIu86mL6BSy1jCgG0W/lUbxOgUAlFEwxBqoWcj
+         ZmYwb7mx1GVNWRMhFusiXqOtVMap5RVi9QmBq679lKzfytuj+IXBRxvEhQnh4TxwaQQe
+         l3P9pRhucpU1LafvuFstg5902J3C4zBgWCNPZHmfJAPqO7Vch+NeVCmCsnH2HfAGWdoi
+         xksg==
+X-Gm-Message-State: AOJu0YwDNI/2Pus1CMioipdiakD43EYc9DqvemCqTjzTrdK6PnHZTtJZ
+	hvxajHN1v0uxLwvCFUa07Uc=
+X-Google-Smtp-Source: AGHT+IFN4P3XRSZ/At5FqUEE8wIqo3jMlcrSAt8vmgIza+s/70PuIihltvHjFK4RjasOXMgJPAr91w==
+X-Received: by 2002:a2e:3513:0:b0:2c7:b9b6:85ff with SMTP id z19-20020a2e3513000000b002c7b9b685ffmr1935778ljz.36.1700669750755;
+        Wed, 22 Nov 2023 08:15:50 -0800 (PST)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id d1-20020a5d5381000000b0032f7f4d008dsm17543459wrv.20.2023.11.22.08.15.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Nov 2023 08:15:50 -0800 (PST)
+Subject: Re: drivers/net/ethernet/sfc/selftest.c:48:16: warning: field ip
+ within 'struct efx_loopback_payload::(anonymous at
+ drivers/net/ethernet/sfc/selftest.c:46:2)' is less aligned than 'struct
+ iphdr' and is usually due to 'struct efx_loopback_payload::(anonymous a...
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ Andy Moreton <andy.moreton@amd.com>, Simon Horman <simon.horman@corigine.com>
+References: <202311220537.geMTr31W-lkp@intel.com>
+From: Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <3f42dee6-a6e2-1b35-674f-309aae042ae7@gmail.com>
+Date: Wed, 22 Nov 2023 16:15:49 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202311221047.a9Dww3vY-lkp@intel.com>
-In-Reply-To: <202311221047.a9Dww3vY-lkp@intel.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 22 Nov 2023 11:09:51 -0500
-Message-ID: <CAHC9VhQk=HP-tSxpmx=1ZaYWjjJoYt92_A7kJmZfUFyKkDoSPQ@mail.gmail.com>
-Subject: Re: [pcmoore-lsm:next 12/23] lsm_list_modules_test.c:104:22: error:
- 'LSM_ID_IMA' undeclared; did you mean 'LSM_ID_YAMA'?
-To: kernel test robot <yujie.liu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Roberto Sassu <roberto.sassu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <202311220537.geMTr31W-lkp@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 22, 2023 at 12:37=E2=80=AFAM kernel test robot <yujie.liu@intel=
-.com> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git n=
-ext
-> head:   afe576a62062cf944372fff2b6510b621ec454f2
-> commit: edd71f8e266c7ba15eedfec338864e53ddde1c25 [12/23] lsm: drop LSM_ID=
-_IMA
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20231122/202311221047.a9Dww3vY-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <yujie.liu@intel.com>
-> | Closes: https://lore.kernel.org/r/202311221047.a9Dww3vY-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    lsm_list_modules_test.c: In function 'correct_lsm_list_modules':
-> >> lsm_list_modules_test.c:104:22: error: 'LSM_ID_IMA' undeclared (first =
-use in this function); did you mean 'LSM_ID_YAMA'?
->      104 |                 case LSM_ID_IMA:
->          |                      ^~~~~~~~~~
->          |                      LSM_ID_YAMA
->    lsm_list_modules_test.c:104:22: note: each undeclared identifier is re=
-ported only once for each function it appears in
+On 21/11/2023 21:25, kernel test robot wrote:
+> Hi Edward,
+> 
+> FYI, the error/warning still remains.
 
-I just posted a patch for this, lore link below:
+As I've argued previously, this is a false positive / compiler bug,
+ and there is no way to resolve it without making the code strictly
+ worse.
 
-https://lore.kernel.org/linux-security-module/20231122160742.109270-2-paul@=
-paul-moore.com
+This:
+>>> drivers/net/ethernet/sfc/selftest.c:48:16: warning: field ip within 'struct efx_loopback_payload::(anonymous at drivers/net/ethernet/sfc/selftest.c:46:2)' is less aligned than 'struct iphdr' and is usually due to 'struct efx_loopback_payload::(anonymous at drivers/net/ethernet/sfc/selftest.c:46:2)' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+ is complaining about alignment within an anonymous struct, which
+ only ever appears embedded within a larger struct in a way which
+ maintains the correct alignment.
 
---=20
-paul-moore.com
+#ifdef RANT
+
+Indeed, the only way we even *could* create an unaligned access
+ out of this code would be via a declaration like
+    typeof(*(((struct efx_loopback_payload *)0)->packet)) bad;
+ because *the struct is anonymous*.  And if that happened, the
+ bad declaration would be the place to warn, both because it's
+ incredibly ugly and because it's the place that's actually
+ wrong.  The struct definition itself is entirely *fine*.
+The compiler should be able to detect that, and if it's not smart
+ enough to do so then it shouldn't be trying to warn in the first
+ place.  Quoth Linus[1]:
+
+ "And if the compiler isn't good enough to do it, then the compiler
+  shouldn't be warning about something that it hasn't got a clue about."
+
+The anonymous struct has to be there so that we can placate the
+ memcpy hardening, and it has to contain a struct iphdr at a
+ 4n+2 offset because that's what shape the on-the-wire packet
+ *is*.  To avoid the warning we would need to lose __packed and
+ memcpy all of the members in and out of the buffer individually
+ to explicitly-calculated offsets, which is worse code.
+
+#endif
+
+Either fix the compiler to not warn, or fix your automation to
+ ignore this instance of the warning.
+
+-ed
+
+[1]: https://yarchive.net/comp/linux/gcc.html#13
