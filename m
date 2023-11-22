@@ -1,60 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7C4163
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 00:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895E419A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 00:21:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alQQBdn9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d87s0G+L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700611471; x=1732147471;
+  t=1700612508; x=1732148508;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KtjrAbyXKalylP4mxnUfIL2egA57NGVYwHyA1wH+6zw=;
-  b=alQQBdn9zG/lE6+W4R2DYAf4UelmcuKs4eL8S2oyWTwNYPk5BzIO5g11
-   WuCMVKJItJFGI29nYQSwa1MU8apeoVpRkPLhVInXXnGmzFoMFmLAJYK5t
-   5/AK2NYCbtpRaV2mNRkihWF0CS8lGVb617O8Il0iWab4jgnnhe4DMPd/4
-   FgncHB54xN/gGBQ0szK2Vhk58Vu6bUFLB6xM16AXV3ORCccbVsBP09vfk
-   rVtJP6VIKH4EPlY/djuwRq9o+DF2JPzO6xy91yczAQtgmjjPuKTqHYIwz
-   qH8Hn3zOctyUYB7DRaRjoQt3T5BDZS1+cAbag0Ets8CSXLtRJbfIIxJIc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="13499721"
+  bh=35MXMAtl1zEwDSQjGXH277ubRGImPWuHHmupLDmIkU8=;
+  b=d87s0G+LO8r2CFjf4My1rAnhASOJUELiODD+gofq3z25PgTk0cCwpJ3K
+   3h2CD2/BTP8xIQ7C7Jhyrm6xnQf8SdKAQnAmuLR9JpCrH92s54QMFGwcM
+   bBeyv2BnHDMV6GP3NFrxlN/ZW51H4oQaMwKZ1GvapEYgipxSvHiIa87kP
+   ljJS420D6c/q/+ejPgu2MRI66MebJkF7DypR2aRqIJoEbkrDGc/Z1OfPz
+   LtNBveTkS9110JULuYLB13+CgwnIMVaELPqWw//Uhx2IA6pr53mJKr6mI
+   L5qs9fZv2QhtyzWOKxvcLCW4rCZmdwvq5MZeiqI8akmHUl0FWsL2z8N5q
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="13501188"
 X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="13499721"
+   d="scan'208";a="13501188"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 16:04:30 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 16:21:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="716661035"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="716666195"
 X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="716661035"
+   d="scan'208";a="716666195"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 21 Nov 2023 16:04:22 -0800
+  by orsmga003.jf.intel.com with ESMTP; 21 Nov 2023 16:21:42 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5aj5-0008Q6-0y;
-	Wed, 22 Nov 2023 00:04:19 +0000
-Date: Wed, 22 Nov 2023 08:04:05 +0800
+	id 1r5azs-0008RK-0l;
+	Wed, 22 Nov 2023 00:21:40 +0000
+Date: Wed, 22 Nov 2023 08:20:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-	dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, david@redhat.com,
-	Vilas.Sridharan@amd.com, leo.duran@amd.com, Yazen.Ghannam@amd.com,
-	rientjes@google.com, jiaqiyan@google.com, tony.luck@intel.com,
-	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, rafael@kernel.org,
-	lenb@kernel.org, naoya.horiguchi@nec.com, james.morse@arm.com,
-	jthoughton@google.com, somasundaram.a@hpe.com,
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
-	mike.malvestuto@intel.com
-Subject: Re: [PATCH v2 01/10] cxl/mbox: Add GET_SUPPORTED_FEATURES mailbox
- command
-Message-ID: <202311220753.mm74Rat7-lkp@intel.com>
-References: <20231121101844.1161-2-shiju.jose@huawei.com>
+To: Jyan Chou <jyanchou@realtek.com>, ulf.hansson@linaro.org,
+	adrian.hunter@intel.com, jh80.chung@samsung.com,
+	riteshh@codeaurora.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, conor+dt@kernel.org,
+	asutoshd@codeaurora.org, p.zabel@pengutronix.de,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, arnd@arndb.de,
+	briannorris@chromium.org, doug@schmorgal.com,
+	tonyhuang.sunplus@gmail.com, abel.vesa@linaro.org,
+	william.qiu@starfivetech.com, jyanchou@realtek.com
+Subject: Re: [PATCH v7][2/4] mmc: Add Synopsys DesignWare mmc cmdq host driver
+Message-ID: <202311220804.qUNiZLTb-lkp@intel.com>
+References: <20231121091101.5540-3-jyanchou@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,62 +59,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121101844.1161-2-shiju.jose@huawei.com>
+In-Reply-To: <20231121091101.5540-3-jyanchou@realtek.com>
 
-Hi,
+Hi Jyan,
 
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc2 next-20231121]
+[also build test WARNING on ulf-hansson-mmc-mirror/next v6.7-rc2 next-20231121]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/cxl-mbox-Add-GET_SUPPORTED_FEATURES-mailbox-command/20231121-182247
+url:    https://github.com/intel-lab-lkp/linux/commits/Jyan-Chou/mmc-Add-Synopsys-DesignWare-mmc-cmdq-host-driver/20231121-171551
 base:   linus/master
-patch link:    https://lore.kernel.org/r/20231121101844.1161-2-shiju.jose%40huawei.com
-patch subject: [PATCH v2 01/10] cxl/mbox: Add GET_SUPPORTED_FEATURES mailbox command
-config: alpha-randconfig-r112-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220753.mm74Rat7-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220753.mm74Rat7-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20231121091101.5540-3-jyanchou%40realtek.com
+patch subject: [PATCH v7][2/4] mmc: Add Synopsys DesignWare mmc cmdq host driver
+config: mips-randconfig-r133-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220804.qUNiZLTb-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220804.qUNiZLTb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220753.mm74Rat7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220804.qUNiZLTb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/cxl/core/mbox.c:1318:31: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long [usertype] size_out @@     got restricted __le32 [usertype] count @@
-   drivers/cxl/core/mbox.c:1318:31: sparse:     expected unsigned long [usertype] size_out
-   drivers/cxl/core/mbox.c:1318:31: sparse:     got restricted __le32 [usertype] count
+All warnings (new ones prefixed by >>):
 
-vim +1318 drivers/cxl/core/mbox.c
+   In file included from drivers/mmc/host/dw_mmc_cqe.c:39:
+>> drivers/mmc/host/dw_mmc_cqe.h:324:9: warning: 'END' macro redefined [-Wmacro-redefined]
+     324 | #define END(x)                          (((x) & 1) << 1)
+         |         ^
+   arch/mips/include/asm/asm.h:69:9: note: previous definition is here
+      69 | #define END(function)                                   \
+         |         ^
+   drivers/mmc/host/dw_mmc_cqe.c:174:3: error: field designator 'setup_tran_desc' does not refer to any field in type 'const struct cqhci_host_ops'
+     174 |         .setup_tran_desc = dw_mci_cqe_setup_tran_desc,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
-  1306	
-  1307	int cxl_get_supported_features(struct cxl_memdev_state *mds,
-  1308							struct cxl_mbox_get_supp_feats_in *pi,
-  1309							void *feats_out)
-  1310	{
-  1311		struct cxl_mbox_cmd mbox_cmd;
-  1312		int rc;
-  1313	
-  1314		mbox_cmd = (struct cxl_mbox_cmd) {
-  1315			.opcode = CXL_MBOX_OP_GET_SUPPORTED_FEATURES,
-  1316			.size_in = sizeof(*pi),
-  1317			.payload_in = pi,
-> 1318			.size_out = pi->count,
-  1319			.payload_out = feats_out,
-  1320			.min_out = sizeof(struct cxl_mbox_get_supp_feats_out),
-  1321		};
-  1322		rc = cxl_internal_send_cmd(mds, &mbox_cmd);
-  1323		if (rc < 0)
-  1324			return rc;
-  1325	
-  1326		return 0;
-  1327	}
-  1328	EXPORT_SYMBOL_NS_GPL(cxl_get_supported_features, CXL);
-  1329	
+
+vim +/END +324 drivers/mmc/host/dw_mmc_cqe.h
+
+   322	
+   323	#define VALID(x)			(((x) & 1) << 0)
+ > 324	#define END(x)				(((x) & 1) << 1)
+   325	#define INT(x)				(((x) & 1) << 2)
+   326	#define ACT(x)				(((x) & 0x7) << 3)
+   327	#define DAT_LENGTH(x)			(((x) & 0xFFFF) << 16)
+   328	
 
 -- 
 0-DAY CI Kernel Test Service
