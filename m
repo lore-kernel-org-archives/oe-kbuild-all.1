@@ -1,45 +1,49 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397E056B87
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 15:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B83F56B84
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 15:46:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuiQRGTc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huWcwLz6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1700667989; x=1732203989;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r8bzUxXMxg6vUGeb1UsGpKyD4dhmmcka548WtjpPa5k=;
-  b=CuiQRGTcz3G2jFidTb8WhpzCDdoyCEpgP01pTI8MBWCaMQQPvX6NnIKG
-   uW13rXwxFL3bFPwkvxZsTAobff/OOtMkpwT1lqy2W//LSM1KCJSo6EG23
-   YafKT0yHtY6BRFDB1JlWGda/GJ2cSWiICi/b3QUHn5DvtpPIw/q7lBc64
-   m4KnGjh+W6MXfXsmFu4JW/N1ncdZqXTQkDlL6wqm1PCPpJRPBPhVuq3po
-   QXk2wZRCvpVJch73Qgr1Bookpg1mXvJvATPZfXxcpQhzBflgbvR6+eMJK
-   8lcySl86qM0PZ7nksapIkFFgynmpwwcF/1w6VVO0RMFwRb5YxvMu66hWM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13623168"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jR7nXrT/MznIEATtzqOZvdfyVsT5TGUuHhBxaf2q+AA=;
+  b=huWcwLz6V3mAMBm3N9ExAuiHEjFAyaFuqUZm4PQ9+LFumT7cznMdd6XX
+   HLuStaCCMFg6CnzvuMTh5/4hI4ZHdZ+kRk2lv+LLPgvmkrTahCsnSHElm
+   0OwkRhF9XwW9X7xqRAvlcxFB3L5JJimTYigR6qLRM9H5VC71Hw9xnchKJ
+   SQ0W7MRQRbuaEbIFvYVRfGdTA/ilKEHf4GhtpQJMv6ibuzwYM23rNiokA
+   s6zv+hRswR+4bTPtGa7V7ORkIqjhzpJgvMXRoF9Gi3ood4jtJsXHqkuA0
+   9npn2NcsQNRsD7pMeWXs8vQgOyXNR5Z2+85ALocmzxSs6Kftj9llWXOzM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13623158"
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="13623168"
+   d="scan'208";a="13623158"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 07:46:26 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 07:46:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="8510502"
+   d="scan'208";a="8510496"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 07:46:25 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 07:46:23 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5pQl-0000dT-1Q;
-	Wed, 22 Nov 2023 15:46:23 +0000
-Date: Wed, 22 Nov 2023 23:45:57 +0800
+	id 1r5pQj-0000dK-0V;
+	Wed, 22 Nov 2023 15:46:21 +0000
+Date: Wed, 22 Nov 2023 23:45:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:data-lifetime 7/18] fs/direct-io.c:413:12: error:
- 'struct bio' has no member named 'bi_write_hint'
-Message-ID: <202311222137.1YcklUiH-lkp@intel.com>
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>,
+	srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 1/5] misc: fastrpc: Add fastrpc multimode invoke
+ request support
+Message-ID: <202311222004.ycVXExec-lkp@intel.com>
+References: <20231121094844.5764-2-quic_ekangupt@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,55 +52,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231121094844.5764-2-quic_ekangupt@quicinc.com>
 
-tree:   https://github.com/bvanassche/linux data-lifetime
-head:   47260901eff3c760da96059c71d8ac8dd4e81c54
-commit: 7cf24538b20e4bf0400d19e1e21e3fdd3ebdf735 [7/18] block: Restore the per-bio/request data lifetime fields
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231122/202311222137.1YcklUiH-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311222137.1YcklUiH-lkp@intel.com/reproduce)
+Hi Ekansh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7-rc2 next-20231122]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Add-fastrpc-multimode-invoke-request-support/20231121-175147
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231121094844.5764-2-quic_ekangupt%40quicinc.com
+patch subject: [PATCH v7 1/5] misc: fastrpc: Add fastrpc multimode invoke request support
+config: mips-randconfig-r122-20231122 (https://download.01.org/0day-ci/archive/20231122/202311222004.ycVXExec-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311222004.ycVXExec-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311222137.1YcklUiH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311222004.ycVXExec-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/misc/fastrpc.c:607:59: sparse: sparse: non size-preserving integer to pointer cast
+>> drivers/misc/fastrpc.c:1318:33: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:1451:33: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:1515:33: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:1663:33: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:1694:33: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:1741:40: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:1771:33: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:1874:33: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:1972:33: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:2053:33: sparse: sparse: non size-preserving pointer to integer cast
+   drivers/misc/fastrpc.c:2124:33: sparse: sparse: non size-preserving pointer to integer cast
 
-   fs/direct-io.c: In function 'dio_bio_alloc':
->> fs/direct-io.c:413:12: error: 'struct bio' has no member named 'bi_write_hint'
-     413 |         bio->bi_write_hint = dio->iocb->ki_hint;
-         |            ^~
+vim +607 drivers/misc/fastrpc.c
 
-
-vim +413 fs/direct-io.c
-
-   393	
-   394	static inline void
-   395	dio_bio_alloc(struct dio *dio, struct dio_submit *sdio,
-   396		      struct block_device *bdev,
-   397		      sector_t first_sector, int nr_vecs)
-   398	{
-   399		struct bio *bio;
-   400	
-   401		/*
-   402		 * bio_alloc() is guaranteed to return a bio when allowed to sleep and
-   403		 * we request a valid number of vectors.
-   404		 */
-   405		bio = bio_alloc(bdev, nr_vecs, dio->opf, GFP_KERNEL);
-   406		bio->bi_iter.bi_sector = first_sector;
-   407		if (dio->is_async)
-   408			bio->bi_end_io = dio_bio_end_aio;
-   409		else
-   410			bio->bi_end_io = dio_bio_end_io;
-   411		if (dio->is_pinned)
-   412			bio_set_flag(bio, BIO_PAGE_PINNED);
- > 413		bio->bi_write_hint = dio->iocb->ki_hint;
-   414	
-   415		sdio->bio = bio;
-   416		sdio->logical_offset_in_bio = sdio->cur_page_fs_offset;
-   417	}
-   418	
+   573	
+   574	static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+   575				struct fastrpc_user *user, u32 kernel, u32 sc,
+   576				struct fastrpc_enhanced_invoke *invoke)
+   577	{
+   578		struct fastrpc_channel_ctx *cctx = user->cctx;
+   579		struct fastrpc_invoke_ctx *ctx = NULL;
+   580		unsigned long flags;
+   581		int ret;
+   582	
+   583		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+   584		if (!ctx)
+   585			return ERR_PTR(-ENOMEM);
+   586	
+   587		INIT_LIST_HEAD(&ctx->node);
+   588		ctx->fl = user;
+   589		ctx->nscalars = REMOTE_SCALARS_LENGTH(sc);
+   590		ctx->nbufs = REMOTE_SCALARS_INBUFS(sc) +
+   591			     REMOTE_SCALARS_OUTBUFS(sc);
+   592	
+   593		if (ctx->nscalars) {
+   594			ctx->maps = kcalloc(ctx->nscalars,
+   595					    sizeof(*ctx->maps), GFP_KERNEL);
+   596			if (!ctx->maps) {
+   597				kfree(ctx);
+   598				return ERR_PTR(-ENOMEM);
+   599			}
+   600			ctx->olaps = kcalloc(ctx->nscalars,
+   601					    sizeof(*ctx->olaps), GFP_KERNEL);
+   602			if (!ctx->olaps) {
+   603				kfree(ctx->maps);
+   604				kfree(ctx);
+   605				return ERR_PTR(-ENOMEM);
+   606			}
+ > 607			ctx->args = (struct fastrpc_invoke_args *)invoke->inv.args;
+   608			fastrpc_get_buff_overlaps(ctx);
+   609		}
+   610	
+   611		/* Released in fastrpc_context_put() */
+   612		fastrpc_channel_ctx_get(cctx);
+   613	
+   614		ctx->sc = sc;
+   615		ctx->retval = -1;
+   616		ctx->pid = current->pid;
+   617		ctx->tgid = user->tgid;
+   618		ctx->cctx = cctx;
+   619		init_completion(&ctx->work);
+   620		INIT_WORK(&ctx->put_work, fastrpc_context_put_wq);
+   621	
+   622		spin_lock(&user->lock);
+   623		list_add_tail(&ctx->node, &user->pending);
+   624		spin_unlock(&user->lock);
+   625	
+   626		spin_lock_irqsave(&cctx->lock, flags);
+   627		ret = idr_alloc_cyclic(&cctx->ctx_idr, ctx, 1,
+   628				       FASTRPC_CTX_MAX, GFP_ATOMIC);
+   629		if (ret < 0) {
+   630			spin_unlock_irqrestore(&cctx->lock, flags);
+   631			goto err_idr;
+   632		}
+   633		ctx->ctxid = ret << 4;
+   634		spin_unlock_irqrestore(&cctx->lock, flags);
+   635	
+   636		kref_init(&ctx->refcount);
+   637	
+   638		return ctx;
+   639	err_idr:
+   640		spin_lock(&user->lock);
+   641		list_del(&ctx->node);
+   642		spin_unlock(&user->lock);
+   643		fastrpc_channel_ctx_put(cctx);
+   644		kfree(ctx->maps);
+   645		kfree(ctx->olaps);
+   646		kfree(ctx);
+   647	
+   648		return ERR_PTR(ret);
+   649	}
+   650	
 
 -- 
 0-DAY CI Kernel Test Service
