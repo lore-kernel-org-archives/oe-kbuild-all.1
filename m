@@ -1,95 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28A218E09
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB81B18E27
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 07:19:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xjm1Jmag"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nj7+mZeD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700637589; x=1732173589;
+  t=1700637590; x=1732173590;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=HQBneX5mihgVneYMkNvY4OGh3qZtIP48ic65rhciGh8=;
-  b=Xjm1Jmagoot0uw8Awn/TeVFT17SB+wW+qhO6meKPYiEWKM7BYp6OtPtP
-   5/UX9viZeFB9gfcdAqEBUXhbeo6YhX1R3KTls9167q8IVwZByKTRbIBFa
-   w8UIJYsr9um6tzEhGAy04X5zVCXZFLLYmToSM/Nx+pXR42QoEMU9OvB2a
-   JPbXXZ3LB559CPnhLLyMOAO1VpFbP9gxN7Hu8TYImlkidAKMzCBT2EffM
-   YMm7JNs+rpJ20SnTY0pxLrX9ryM9Yt6UfYhdYOseKms47ySdpo0lqv/H4
-   qkc1DpQtprJ6uDTDRK87OKiDYrVPO7gu/8F8VN0fuQN34K5z3SgZuXXKH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="382395294"
+   mime-version:in-reply-to;
+  bh=jR4qGpqNGr5N3SxGbPQmVUCK1n3af/eMYXsQ6k2UzVc=;
+  b=nj7+mZeDU2nhtnVLqCDuAHSSlrzOT34qUF5BZ45ozDDqYaW0HXNVjvnI
+   7mmbGo5KVQBX28S0yIpJsvqMakmBVQ4sUUzm9TlBpSnbfML5RwMmMUP6R
+   9mbthnrLB5TkxvgthuaKbeaqFTH4tQZRJkFlaLBQwmOLTjLPsm3HkRKb+
+   qfJxX4CztbZ73Q7VOrGcevCpZ+EorICNk5bVCtRydoVqf7u8ILdFAGL4z
+   CW1ik6XgJ4htdcXqRz7bnIH9JF5/PjsitzR2HrIs0z3Nq5t4CS6ROmTNL
+   Rbg+pMXUc2N2cwCWbKnVROzDPhEe/IK9+k3EbADPG8tfP7zraY+edK35f
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="371350481"
 X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
-   d="scan'208";a="382395294"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 23:19:49 -0800
+   d="scan'208";a="371350481"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 23:19:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="890469467"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="795997229"
 X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
-   d="scan'208";a="890469467"
+   d="scan'208";a="795997229"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 Nov 2023 23:19:48 -0800
+  by orsmga008.jf.intel.com with ESMTP; 21 Nov 2023 23:19:46 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5hWU-0000Bl-0C;
-	Wed, 22 Nov 2023 07:19:46 +0000
-Date: Wed, 22 Nov 2023 15:19:27 +0800
+	id 1r5hWS-0000Bh-04;
+	Wed, 22 Nov 2023 07:19:44 +0000
+Date: Wed, 22 Nov 2023 15:19:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 12/19] x86: Implement the Memory Table feature to
- store arbitrary per-page data
-Message-ID: <202311221345.9sPNLiAU-lkp@intel.com>
-References: <20231113022326.24388-13-mic@digikod.net>
+To: Lukas Funke <lukas.funke-oss@weidmueller.com>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Lukas Funke <Lukas.Funke@weidmueller.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] extcon: usbc-tusb320: Set interrupt polarity based on
+ device-tree
+Message-ID: <202311221355.yxYpTIw3-lkp@intel.com>
+References: <20231121124844.872238-1-lukas.funke-oss@weidmueller.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231113022326.24388-13-mic@digikod.net>
+In-Reply-To: <20231121124844.872238-1-lukas.funke-oss@weidmueller.com>
 
-Hi Mickaël,
+Hi Lukas,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 881375a408c0f4ea451ff14545b59216d2923881]
+[auto build test ERROR on chanwoo-extcon/extcon-next]
+[also build test ERROR on linus/master v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Micka-l-Sala-n/virt-Introduce-Hypervisor-Enforced-Kernel-Integrity-Heki/20231113-102847
-base:   881375a408c0f4ea451ff14545b59216d2923881
-patch link:    https://lore.kernel.org/r/20231113022326.24388-13-mic%40digikod.net
-patch subject: [RFC PATCH v2 12/19] x86: Implement the Memory Table feature to store arbitrary per-page data
-config: x86_64-randconfig-123-20231122 (https://download.01.org/0day-ci/archive/20231122/202311221345.9sPNLiAU-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311221345.9sPNLiAU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Funke/extcon-usbc-tusb320-Set-interrupt-polarity-based-on-device-tree/20231121-205141
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/extcon.git extcon-next
+patch link:    https://lore.kernel.org/r/20231121124844.872238-1-lukas.funke-oss%40weidmueller.com
+patch subject: [PATCH] extcon: usbc-tusb320: Set interrupt polarity based on device-tree
+config: x86_64-randconfig-121-20231122 (https://download.01.org/0day-ci/archive/20231122/202311221355.yxYpTIw3-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311221355.yxYpTIw3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311221345.9sPNLiAU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311221355.yxYpTIw3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/mem_table.c:47:14: sparse: sparse: symbol 'mem_table_base_level' was not declared. Should it be static?
->> kernel/mem_table.c:48:14: sparse: sparse: symbol 'mem_table_nlevels' was not declared. Should it be static?
->> kernel/mem_table.c:49:24: sparse: sparse: symbol 'mem_table_levels' was not declared. Should it be static?
+All error/warnings (new ones prefixed by >>):
 
-vim +/mem_table_base_level +47 kernel/mem_table.c
+   drivers/extcon/extcon-usbc-tusb320.c: In function 'tusb320_probe':
+>> drivers/extcon/extcon-usbc-tusb320.c:573:10: error: implicit declaration of function 'irq_get_irq_data'; did you mean 'irq_set_irq_wake'? [-Werror=implicit-function-declaration]
+     irq_d = irq_get_irq_data(client->irq);
+             ^~~~~~~~~~~~~~~~
+             irq_set_irq_wake
+>> drivers/extcon/extcon-usbc-tusb320.c:573:8: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     irq_d = irq_get_irq_data(client->irq);
+           ^
+>> drivers/extcon/extcon-usbc-tusb320.c:579:12: error: implicit declaration of function 'irqd_get_trigger_type'; did you mean 'irq_get_irqchip_state'? [-Werror=implicit-function-declaration]
+     irq_pol = irqd_get_trigger_type(irq_d);
+               ^~~~~~~~~~~~~~~~~~~~~
+               irq_get_irqchip_state
+   cc1: some warnings being treated as errors
 
-    42	
-    43	/*
-    44	 * Within this feature, the table levels start from 0. On X86, the base level
-    45	 * is not 0.
-    46	 */
-  > 47	unsigned int mem_table_base_level __ro_after_init;
-  > 48	unsigned int mem_table_nlevels __ro_after_init;
-  > 49	struct mem_table_level mem_table_levels[CONFIG_PGTABLE_LEVELS] __ro_after_init;
-    50	
+
+vim +573 drivers/extcon/extcon-usbc-tusb320.c
+
+   511	
+   512	static int tusb320_probe(struct i2c_client *client)
+   513	{
+   514		struct tusb320_priv *priv;
+   515		const void *match_data;
+   516		unsigned int revision;
+   517		int ret;
+   518		int irq_pol;
+   519		struct irq_data *irq_d;
+   520	
+   521		priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
+   522		if (!priv)
+   523			return -ENOMEM;
+   524	
+   525		priv->dev = &client->dev;
+   526		i2c_set_clientdata(client, priv);
+   527	
+   528		priv->regmap = devm_regmap_init_i2c(client, &tusb320_regmap_config);
+   529		if (IS_ERR(priv->regmap))
+   530			return PTR_ERR(priv->regmap);
+   531	
+   532		ret = tusb320_check_signature(priv);
+   533		if (ret)
+   534			return ret;
+   535	
+   536		match_data = device_get_match_data(&client->dev);
+   537		if (!match_data)
+   538			return -EINVAL;
+   539	
+   540		priv->ops = (struct tusb320_ops*)match_data;
+   541	
+   542		if (priv->ops->get_revision) {
+   543			ret = priv->ops->get_revision(priv, &revision);
+   544			if (ret)
+   545				dev_warn(priv->dev,
+   546					"failed to read revision register: %d\n", ret);
+   547			else
+   548				dev_info(priv->dev, "chip revision %d\n", revision);
+   549		}
+   550	
+   551		ret = tusb320_extcon_probe(priv);
+   552		if (ret)
+   553			return ret;
+   554	
+   555		ret = tusb320_typec_probe(client, priv);
+   556		if (ret)
+   557			return ret;
+   558	
+   559		/* update initial state */
+   560		tusb320_state_update_handler(priv, true);
+   561	
+   562		/* Reset chip to its default state */
+   563		ret = tusb320_reset(priv);
+   564		if (ret)
+   565			dev_warn(priv->dev, "failed to reset chip: %d\n", ret);
+   566		else
+   567			/*
+   568			 * State and polarity might change after a reset, so update
+   569			 * them again and make sure the interrupt status bit is cleared.
+   570			 */
+   571			tusb320_state_update_handler(priv, true);
+   572	
+ > 573		irq_d = irq_get_irq_data(client->irq);
+   574		if (!irq_d) {
+   575			dev_err(&client->dev, "Invalid IRQ: %d\n", client->irq);
+   576			return -ENODEV;
+   577		}
+   578	
+ > 579		irq_pol = irqd_get_trigger_type(irq_d);
+   580	
+   581		ret = devm_request_threaded_irq(priv->dev, client->irq, NULL,
+   582						tusb320_irq_handler,
+   583						IRQF_ONESHOT | irq_pol,
+   584						client->name, priv);
+   585		if (ret)
+   586			tusb320_typec_remove(priv);
+   587	
+   588		return ret;
+   589	}
+   590	
 
 -- 
 0-DAY CI Kernel Test Service
