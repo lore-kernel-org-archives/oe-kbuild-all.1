@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E7215ACF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 14:49:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B29E4C3B5;
+	Wed, 22 Nov 2023 14:49:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f2ppgBo8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQpH1rxi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700664552; x=1732200552;
+  t=1700664595; x=1732200595;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/Ls0NLKTI6uklGgcRnnGSn4U4lHrlsphyjSjjVmva0U=;
-  b=f2ppgBo8WV/CQKu4kw8oOHNioJYHXGIxiZQEGWmrXC++ghF7powV9SHW
-   Pkx6TlUULugKEJ/k5WijQOpqcp+HOqBEMHAEoXNcO69qiRepMbs36SO2M
-   MD6MbPbrPCU91d/ngBSzel+TA7w+n14lsgV74pFAEBocotMox0WBGFiZo
-   RMv0CdJfQAO5H+wQFNIkGM1tfbnIkgVfA0/9Bu06GvT8oUmVs2S1uqYS5
-   leWQ/XV/UdL8gQ/J5Qu6u2sM9Mnm6NeQosCC5BhSw13IyRWt4FiZogwmN
-   ovKL2/V9+1jxkPWi8bJMEofDVPebZR7JaGaN/PS/mEeWATGohflbs2SBT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="478269623"
+  bh=RJQSX1USk0jBKNT3bSTmVGeZ28ptI6qc3Rb36sSm4jU=;
+  b=mQpH1rxi8USdbTs6UlMNmyvl02DVEYu7xnWRZ4wVw3scetyatLU7aHag
+   H6qadZ25n1H35H62udCRSc05N+Dsrb3lNZbT6Cu067PHXx4dySI6uuuZr
+   STGZQ/zSthlU5Rwo2/97jsMziRc2cyqdRL2n0p90s8qGmbNv5qs1B1vGI
+   ruq80+h3WR3DIwMSZN+DwF0kbZd94NqJwS1C1dMF1g0qiBvJhUVoYvXCR
+   Vmbu3ho/OQGQGctTHt+ipjPGFQR+OGzXXFNjW2ciZybyAwePLctHwHWPg
+   0MbIDsYYUoSv89vqyxAm+HugjLsu/6LoF4zM+eJcTss3/6mmkJBbBPLHP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="395989829"
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="478269623"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 06:49:06 -0800
+   d="scan'208";a="395989829"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 06:49:05 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="884635675"
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="15284538"
+   d="scan'208";a="884635675"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Nov 2023 06:49:04 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2023 06:49:04 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5oXG-0000ZO-0H;
+	id 1r5oXG-0000ZQ-0P;
 	Wed, 22 Nov 2023 14:49:02 +0000
-Date: Wed, 22 Nov 2023 22:48:46 +0800
+Date: Wed, 22 Nov 2023 22:48:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>,
-	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, christian.koenig@amd.com,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 2/4] drm/prime: Helper to export dmabuf without fd
-Message-ID: <202311221810.IJ6ELH6c-lkp@intel.com>
-References: <20231121231114.703478-2-Felix.Kuehling@amd.com>
+To: Christian Seiler <c.seiler@luxflux.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] [RFC] gpio: adv-pcie-1761h: Add Advantech PCIe-1761H
+ support
+Message-ID: <202311221945.c0KQRyT3-lkp@intel.com>
+References: <b7e8e35fc4534a2c928853dfacd3d55d88f2033e.camel@luxflux.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,118 +51,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121231114.703478-2-Felix.Kuehling@amd.com>
+In-Reply-To: <b7e8e35fc4534a2c928853dfacd3d55d88f2033e.camel@luxflux.de>
 
-Hi Felix,
+Hi Christian,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc2 next-20231122]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7-rc2 next-20231122]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Kuehling/drm-prime-Helper-to-export-dmabuf-without-fd/20231122-071410
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231121231114.703478-2-Felix.Kuehling%40amd.com
-patch subject: [PATCH v2 2/4] drm/prime: Helper to export dmabuf without fd
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231122/202311221810.IJ6ELH6c-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311221810.IJ6ELH6c-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Seiler/gpio-adv-pcie-1761h-Add-Advantech-PCIe-1761H-support/20231120-232211
+base:   linus/master
+patch link:    https://lore.kernel.org/r/b7e8e35fc4534a2c928853dfacd3d55d88f2033e.camel%40luxflux.de
+patch subject: [PATCH] [RFC] gpio: adv-pcie-1761h: Add Advantech PCIe-1761H support
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231122/202311221945.c0KQRyT3-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311221945.c0KQRyT3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311221810.IJ6ELH6c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311221945.c0KQRyT3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_prime.c:428: warning: Excess function parameter 'dma_buf' description in 'drm_gem_prime_handle_to_dmabuf'
+>> drivers/gpio/gpio-adv-pcie-1761h.c:374:13: warning: no previous prototype for function 'adv_pcie_1761h_irq_handler' [-Wmissing-prototypes]
+   irqreturn_t adv_pcie_1761h_irq_handler(int irq, void *data)
+               ^
+   drivers/gpio/gpio-adv-pcie-1761h.c:374:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   irqreturn_t adv_pcie_1761h_irq_handler(int irq, void *data)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +428 drivers/gpu/drm/drm_prime.c
+vim +/adv_pcie_1761h_irq_handler +374 drivers/gpio/gpio-adv-pcie-1761h.c
 
-319c933c71f3db Daniel Vetter     2013-08-15  411  
-d3977ac8e10a0b Felix Kuehling    2023-11-21  412  /**
-f3facd92ee25e0 Felix Kuehling    2023-11-21  413   * drm_gem_prime_handle_to_dmabuf - PRIME export function for GEM drivers
-39cc344acd414e Daniel Vetter     2014-01-22  414   * @dev: dev to export the buffer from
-39cc344acd414e Daniel Vetter     2014-01-22  415   * @file_priv: drm file-private structure
-39cc344acd414e Daniel Vetter     2014-01-22  416   * @handle: buffer handle to export
-39cc344acd414e Daniel Vetter     2014-01-22  417   * @flags: flags like DRM_CLOEXEC
-f3facd92ee25e0 Felix Kuehling    2023-11-21  418   * @dma_buf: pointer to storage for the dma-buf reference
-39cc344acd414e Daniel Vetter     2014-01-22  419   *
-39cc344acd414e Daniel Vetter     2014-01-22  420   * This is the PRIME export function which must be used mandatorily by GEM
-39cc344acd414e Daniel Vetter     2014-01-22  421   * drivers to ensure correct lifetime management of the underlying GEM object.
-39cc344acd414e Daniel Vetter     2014-01-22  422   * The actual exporting from GEM object to a dma-buf is done through the
-d693def4fd1c23 Thomas Zimmermann 2020-09-23  423   * &drm_gem_object_funcs.export callback.
-39cc344acd414e Daniel Vetter     2014-01-22  424   */
-f3facd92ee25e0 Felix Kuehling    2023-11-21  425  struct dma_buf *drm_gem_prime_handle_to_dmabuf(struct drm_device *dev,
-f3facd92ee25e0 Felix Kuehling    2023-11-21  426  					       struct drm_file *file_priv,
-f3facd92ee25e0 Felix Kuehling    2023-11-21  427  					       uint32_t handle, uint32_t flags)
-3248877ea17969 Dave Airlie       2011-11-25 @428  {
-3248877ea17969 Dave Airlie       2011-11-25  429  	struct drm_gem_object *obj;
-219b47339ced80 Dave Airlie       2013-04-22  430  	int ret = 0;
-f3facd92ee25e0 Felix Kuehling    2023-11-21  431  	struct dma_buf *dmabuf = NULL;
-3248877ea17969 Dave Airlie       2011-11-25  432  
-d0b2c5334f41bd Daniel Vetter     2013-08-15  433  	mutex_lock(&file_priv->prime.lock);
-a8ad0bd84f9860 Chris Wilson      2016-05-09  434  	obj = drm_gem_object_lookup(file_priv, handle);
-d0b2c5334f41bd Daniel Vetter     2013-08-15  435  	if (!obj)  {
-d0b2c5334f41bd Daniel Vetter     2013-08-15  436  		ret = -ENOENT;
-d0b2c5334f41bd Daniel Vetter     2013-08-15  437  		goto out_unlock;
-d0b2c5334f41bd Daniel Vetter     2013-08-15  438  	}
-d0b2c5334f41bd Daniel Vetter     2013-08-15  439  
-d0b2c5334f41bd Daniel Vetter     2013-08-15  440  	dmabuf = drm_prime_lookup_buf_by_handle(&file_priv->prime, handle);
-d0b2c5334f41bd Daniel Vetter     2013-08-15  441  	if (dmabuf) {
-d0b2c5334f41bd Daniel Vetter     2013-08-15  442  		get_dma_buf(dmabuf);
-f3facd92ee25e0 Felix Kuehling    2023-11-21  443  		goto out;
-d0b2c5334f41bd Daniel Vetter     2013-08-15  444  	}
-3248877ea17969 Dave Airlie       2011-11-25  445  
-d0b2c5334f41bd Daniel Vetter     2013-08-15  446  	mutex_lock(&dev->object_name_lock);
-3248877ea17969 Dave Airlie       2011-11-25  447  	/* re-export the original imported object */
-3248877ea17969 Dave Airlie       2011-11-25  448  	if (obj->import_attach) {
-219b47339ced80 Dave Airlie       2013-04-22  449  		dmabuf = obj->import_attach->dmabuf;
-319c933c71f3db Daniel Vetter     2013-08-15  450  		get_dma_buf(dmabuf);
-219b47339ced80 Dave Airlie       2013-04-22  451  		goto out_have_obj;
-3248877ea17969 Dave Airlie       2011-11-25  452  	}
-3248877ea17969 Dave Airlie       2011-11-25  453  
-319c933c71f3db Daniel Vetter     2013-08-15  454  	if (obj->dma_buf) {
-319c933c71f3db Daniel Vetter     2013-08-15  455  		get_dma_buf(obj->dma_buf);
-319c933c71f3db Daniel Vetter     2013-08-15  456  		dmabuf = obj->dma_buf;
-219b47339ced80 Dave Airlie       2013-04-22  457  		goto out_have_obj;
-219b47339ced80 Dave Airlie       2013-04-22  458  	}
-219b47339ced80 Dave Airlie       2013-04-22  459  
-319c933c71f3db Daniel Vetter     2013-08-15  460  	dmabuf = export_and_register_object(dev, obj, flags);
-4332bf438bbbc3 Daniel Vetter     2013-08-15  461  	if (IS_ERR(dmabuf)) {
-3248877ea17969 Dave Airlie       2011-11-25  462  		/* normally the created dma-buf takes ownership of the ref,
-3248877ea17969 Dave Airlie       2011-11-25  463  		 * but if that fails then drop the ref
-3248877ea17969 Dave Airlie       2011-11-25  464  		 */
-4332bf438bbbc3 Daniel Vetter     2013-08-15  465  		ret = PTR_ERR(dmabuf);
-d0b2c5334f41bd Daniel Vetter     2013-08-15  466  		mutex_unlock(&dev->object_name_lock);
-219b47339ced80 Dave Airlie       2013-04-22  467  		goto out;
-3248877ea17969 Dave Airlie       2011-11-25  468  	}
-219b47339ced80 Dave Airlie       2013-04-22  469  
-d0b2c5334f41bd Daniel Vetter     2013-08-15  470  out_have_obj:
-d0b2c5334f41bd Daniel Vetter     2013-08-15  471  	/*
-d0b2c5334f41bd Daniel Vetter     2013-08-15  472  	 * If we've exported this buffer then cheat and add it to the import list
-d0b2c5334f41bd Daniel Vetter     2013-08-15  473  	 * so we get the correct handle back. We must do this under the
-d0b2c5334f41bd Daniel Vetter     2013-08-15  474  	 * protection of dev->object_name_lock to ensure that a racing gem close
-d0b2c5334f41bd Daniel Vetter     2013-08-15  475  	 * ioctl doesn't miss to remove this buffer handle from the cache.
-0ff926c7d4f06f Dave Airlie       2012-05-20  476  	 */
-219b47339ced80 Dave Airlie       2013-04-22  477  	ret = drm_prime_add_buf_handle(&file_priv->prime,
-319c933c71f3db Daniel Vetter     2013-08-15  478  				       dmabuf, handle);
-d0b2c5334f41bd Daniel Vetter     2013-08-15  479  	mutex_unlock(&dev->object_name_lock);
-219b47339ced80 Dave Airlie       2013-04-22  480  	if (ret)
-4332bf438bbbc3 Daniel Vetter     2013-08-15  481  		dma_buf_put(dmabuf);
-219b47339ced80 Dave Airlie       2013-04-22  482  out:
-be6ee102341bc4 Emil Velikov      2020-05-15  483  	drm_gem_object_put(obj);
-d0b2c5334f41bd Daniel Vetter     2013-08-15  484  out_unlock:
-d0b2c5334f41bd Daniel Vetter     2013-08-15  485  	mutex_unlock(&file_priv->prime.lock);
-d0b2c5334f41bd Daniel Vetter     2013-08-15  486  
-f3facd92ee25e0 Felix Kuehling    2023-11-21  487  	return ret ? ERR_PTR(ret) : dmabuf;
-b283e92a2315f9 Daniel Vetter     2019-06-18  488  }
-f3facd92ee25e0 Felix Kuehling    2023-11-21  489  EXPORT_SYMBOL(drm_gem_prime_handle_to_dmabuf);
-b283e92a2315f9 Daniel Vetter     2019-06-18  490  
+   373	
+ > 374	irqreturn_t adv_pcie_1761h_irq_handler(int irq, void *data)
+   375	{
+   376		struct adv_pcie_1761h_gpiochip *card = data;
+   377		unsigned long pending;
+   378	
+   379		if (card == NULL)
+   380			return IRQ_HANDLED;
+   381	
+   382		/* Read out which lines were set */
+   383		raw_spin_lock(&card->lock);
+   384		pending = ioread32(card->control_regs + PCIE1761H_OFFSET_IRQFLAG);
+   385		raw_spin_unlock(&card->lock);
+   386	
+   387		if (!pending)
+   388			return IRQ_NONE;
+   389	
+   390		for_each_set_bit(irq, &pending, card->chip.ngpio - 8)
+   391			generic_handle_domain_irq(card->chip.irq.domain, irq + 8);
+   392	
+   393		/* Reset the IRQ flags for those lines */
+   394		raw_spin_lock(&card->lock);
+   395		iowrite32(pending, card->control_regs + PCIE1761H_OFFSET_IRQFLAG);
+   396		raw_spin_unlock(&card->lock);
+   397	
+   398		return IRQ_HANDLED;
+   399	}
+   400	
 
 -- 
 0-DAY CI Kernel Test Service
