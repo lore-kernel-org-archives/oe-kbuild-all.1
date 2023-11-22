@@ -1,50 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4EE24B2F;
-	Wed, 22 Nov 2023 16:28:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82D424B45
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 16:29:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ijOQkT5v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHGuVvkM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700670528; x=1732206528;
+  t=1700670540; x=1732206540;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dVkBwGDQh0KTnGcPQwyuRgxpErlDOtTG1iq22743jm4=;
-  b=ijOQkT5vHSG9PlytsQn72OjtCpG2owvJazDDuSTqMMBw0kM4J4ZlDbJn
-   uQ7iKkRsXgjLOlGMqlHAcuxGy8QLkoD+Psito9MNWd4rANB8WwOiuM4bx
-   C8mp7VcHVG7RtxdfI3S++2bS3Aff6nkBJ3/JZSJfLFJn4WhOWYGjbpeI2
-   ZLxdXtiAuN8EiDMHVfsGVVPgMK9G/5pqPr/88dymrLgPkoGij638I4kVg
-   nyXIbEJhSC6L55w2qGZyqYseBE3jfAxcQvBdx+o4j/Y+Zj9r5pP8lRaR1
-   PtvmzW++eFINeImWcegO4+HLTKVyDPcnAmBwzxBAN96j9Fj77ciFjHnI5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="382491237"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=bagruS5CXrz6mOWB6COGHqS1jlKmltZBn+nUJ6YlRfc=;
+  b=CHGuVvkMltNsrvh0eAqgxIVDewD+WVIdJUZsJ2IkpO5lHrSn4UbwWPBX
+   bpxa/Zr5s20kbZw/hu9l381mf/cqIuKZjUNiVUCnsQmTSZejS4TnZBFTQ
+   ttIJrTDDZHKtxOQ+V/2lvL1rk2UCPDja4FhSw1qH6s7Ymxkwij4Fh8tBu
+   fftWG6kxgIQ4ms/eYgop0ppBYv6nI2xwF7vMoTFevna4yLtkqX/2K49NL
+   JonJpMCy3vy4/528RRPcPVxO3HaS5lY+cZ5feuz/TmIM0158y8gG2vKbq
+   eeg+oGvdzQkx67EEbg8Ty0K0VmE55njHwi5cGXff8aDrxGR2L/aVmxPqo
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="394921014"
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="382491237"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 08:27:49 -0800
+   d="scan'208";a="394921014"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 08:28:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="1098488560"
 X-IronPort-AV: E=Sophos;i="6.04,219,1695711600"; 
-   d="scan'208";a="1098488560"
+   d="scan'208";a="8531683"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 22 Nov 2023 08:27:46 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 08:28:53 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5q4l-0000gG-2y;
-	Wed, 22 Nov 2023 16:27:43 +0000
-Date: Thu, 23 Nov 2023 00:26:08 +0800
+	id 1r5q5r-0000gb-0J;
+	Wed, 22 Nov 2023 16:28:51 +0000
+Date: Thu, 23 Nov 2023 00:28:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raju Rangoju <Raju.Rangoju@amd.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, Shyam-sundar.S-k@amd.com,
-	Raju Rangoju <Raju.Rangoju@amd.com>
-Subject: Re: [PATCH v2 net-next 4/4] amd-xgbe: use smn functions to avoid race
-Message-ID: <202311222227.RtqixHxt-lkp@intel.com>
-References: <20231116135416.3371367-5-Raju.Rangoju@amd.com>
+To: Philipp Stanner <pstanner@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Eric Auger <eric.auger@redhat.com>,
+	Kent Overstreet <kmo@daterainc.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>, NeilBrown <neilb@suse.de>,
+	John Sanpe <sanpeqf@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Kees Cook <keescook@chromium.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	David Gow <davidgow@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
+	Jason Baron <jbaron@akamai.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Danilo Krummrich <dakr@redhat.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+Message-ID: <202311222251.miLTgMyd-lkp@intel.com>
+References: <20231120215945.52027-3-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,88 +70,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231116135416.3371367-5-Raju.Rangoju@amd.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231120215945.52027-3-pstanner@redhat.com>
 
-Hi Raju,
+Hi Philipp,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.7-rc2 next-202311=
+22]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raju-Rangoju/amd-xgbe-reorganize-the-code-of-XPCS-access/20231116-215630
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231116135416.3371367-5-Raju.Rangoju%40amd.com
-patch subject: [PATCH v2 net-next 4/4] amd-xgbe: use smn functions to avoid race
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231122/202311222227.RtqixHxt-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311222227.RtqixHxt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/lib-=
+move-pci_iomap-c-to-drivers-pci/20231121-060258
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231120215945.52027-3-pstanner%40=
+redhat.com
+patch subject: [PATCH 1/4] lib: move pci_iomap.c to drivers/pci/
+config: csky-kismet-CONFIG_GENERIC_PCI_IOMAP-CONFIG_CSKY-0-0 (https://downl=
+oad.01.org/0day-ci/archive/20231122/202311222251.miLTgMyd-lkp@intel.com/con=
+fig)
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311222251.m=
+iLTgMyd-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311222227.RtqixHxt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311222251.miLTgMyd-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMA=
+P when selected by CSKY
+   /usr/bin/grep: /db/releases/20231122101355/kernel-tests/etc/kcflags: No =
+such file or directory
+   {"timestamp":"2023-11-22 12:45:55 +0800", "level":"WARN", "event":"kbuil=
+d.sh:3942:in `add_etc_kcflags': grep exit 2 (ShellError)", "detail":"cmd: '=
+/usr/bin/grep' '-v' '-e' '^#' '-e' '^$' '/db/releases/20231122101355/kernel=
+-tests/etc/kcflags' \nstderr: /usr/bin/grep: /db/releases/20231122101355/ke=
+rnel-tests/etc/kcflags: No such file or directory\n\n", "hostname":"communi=
+ty-kbuild-consumer-56", "host_hostname":"lkp-worker31", "call_stack":"/zday=
+/kernel-tests/lib/kbuild.sh:3942:in `add_etc_kcflags': /usr/bin/grep: /db/r=
+eleases/20231122101355/kernel-tests/etc/kcflags: No such file or directory =
+(ShellError 2)\n  from /zday/kernel-tests/lib/kbuild.sh:3971: setup_kcflags=
+\n  from /zday/kernel-tests/lib/kbuild.sh:4016: invoke_make\n  from /zday/k=
+ernel-tests/lib/kbuild.sh:4122: make\n  from /zday/kernel-tests/lib/kbuild.=
+sh:5623: make_config_allyes\n  from /zday/kernel-tests/common.sh:209: redir=
+ect_error_to_screen\n  from /zday/kernel-tests/common.sh:217: redirect_comm=
+and_errors\n  from /zday/kernel-tests/lib/kbuild.sh:5630: make_config\n  fr=
+om /zday/kernel-tests/lib/builder/kismet.sh:156: generate_make_olddefconfig=
+_warnings\n  from /zday/kernel-tests/lib/builder/kismet.sh:297: builder_com=
+pile\n  from /zday/kernel-tests/bisect-test-build-error.sh:94: main\n"}
+  =20
+   WARNING: unmet direct dependencies detected for GENERIC_PCI_IOMAP
+     Depends on [n]: PCI [=3Dn]
+     Selected by [y]:
+     - CSKY [=3Dy]
 
->> drivers/net/ethernet/amd/xgbe/xgbe-dev.c:1194:2: error: call to undeclared function 'amd_smn_write'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1194 |         amd_smn_write(0, (pdata->smn_base + pdata->xpcs_window_sel_reg), index);
-         |         ^
-   drivers/net/ethernet/amd/xgbe/xgbe-dev.c:1194:2: note: did you mean 'pmd_mkwrite'?
-   include/linux/pgtable.h:610:21: note: 'pmd_mkwrite' declared here
-     610 | static inline pmd_t pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma)
-         |                     ^
->> drivers/net/ethernet/amd/xgbe/xgbe-dev.c:1195:2: error: call to undeclared function 'amd_smn_read'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1195 |         amd_smn_read(0, pdata->smn_base + offset, &mmd_data);
-         |         ^
-   drivers/net/ethernet/amd/xgbe/xgbe-dev.c:1224:2: error: call to undeclared function 'amd_smn_write'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1224 |         amd_smn_write(0, (pdata->smn_base + pdata->xpcs_window_sel_reg), index);
-         |         ^
-   drivers/net/ethernet/amd/xgbe/xgbe-dev.c:1225:2: error: call to undeclared function 'amd_smn_read'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1225 |         amd_smn_read(0, pdata->smn_base + offset, &ctr_mmd_data);
-         |         ^
-   4 errors generated.
---
->> drivers/net/ethernet/amd/xgbe/xgbe-pci.c:316:3: error: call to undeclared function 'amd_smn_read'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     316 |                 amd_smn_read(0, pdata->smn_base + (pdata->xpcs_window_def_reg), &reg);
-         |                 ^
-   1 error generated.
-
-
-vim +/amd_smn_write +1194 drivers/net/ethernet/amd/xgbe/xgbe-dev.c
-
-  1172	
-  1173	static int xgbe_read_mmd_regs_v3(struct xgbe_prv_data *pdata, int prtad,
-  1174					 int mmd_reg)
-  1175	{
-  1176		unsigned int mmd_address, index, offset;
-  1177		unsigned long flags;
-  1178		int mmd_data;
-  1179	
-  1180		mmd_address = get_mmd_address(pdata, mmd_reg);
-  1181	
-  1182		/* The PCS registers are accessed using mmio. The underlying
-  1183		 * management interface uses indirect addressing to access the MMD
-  1184		 * register sets. This requires accessing of the PCS register in two
-  1185		 * phases, an address phase and a data phase.
-  1186		 *
-  1187		 * The mmio interface is based on 16-bit offsets and values. All
-  1188		 * register offsets must therefore be adjusted by left shifting the
-  1189		 * offset 1 bit and reading 16 bits of data.
-  1190		 */
-  1191		offset = get_index_offset(pdata, mmd_address, &index);
-  1192	
-  1193		spin_lock_irqsave(&pdata->xpcs_lock, flags);
-> 1194		amd_smn_write(0, (pdata->smn_base + pdata->xpcs_window_sel_reg), index);
-> 1195		amd_smn_read(0, pdata->smn_base + offset, &mmd_data);
-  1196		mmd_data = (offset % 4) ? FIELD_GET(XGBE_GEN_HI_MASK, mmd_data) :
-  1197					  FIELD_GET(XGBE_GEN_LO_MASK, mmd_data);
-  1198	
-  1199		spin_unlock_irqrestore(&pdata->xpcs_lock, flags);
-  1200	
-  1201		return mmd_data;
-  1202	}
-  1203	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
