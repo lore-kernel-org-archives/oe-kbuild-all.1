@@ -1,225 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2078.outbound.protection.outlook.com [40.107.21.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1294718624;
-	Wed, 22 Nov 2023 07:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8683446BD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 08:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=weidmueller.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weidmueller.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LUWY748k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700637595; x=1732173595;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KvIjd3WcQUTAQZL0HXjLGHIwhv87e45Kod3du9RH8i4=;
-  b=LUWY748kgBXpFbtJLpZdZLz2TANBeyYyNjIdKJVGxHr4KkQeSGUbWTTk
-   gL+8hPT4V2Vc0TXxkr7Zf34AxdcsHESMJpj4CnSH4m9/NCY1Yx86IUide
-   Cxhy04QvQgWlwmW1Diaez+BkjZvH3ZOQEYvG9zngH1JkVu8qgm5FseASA
-   Ybuw8LSUYMcJaAaKgdDMM/MjxPirubiuiRRqMoWt0qW5Kr8lohYHtIMJ2
-   i3tPlgS/Bn4i34F7OGpDIluj4Ac5pe8XFjZmCKlnSRIUIS2gzJJRNeDN6
-   yXPMYn9aUWmBCWikcg4gnXvs069qomFP71lSW5VKc00rlsI0zB+nhKsP6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="371350512"
-X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
-   d="scan'208";a="371350512"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 23:19:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="795997236"
-X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
-   d="scan'208";a="795997236"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Nov 2023 23:19:46 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5hWR-0000Bf-2l;
-	Wed, 22 Nov 2023 07:19:43 +0000
-Date: Wed, 22 Nov 2023 15:19:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
-	dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	david@redhat.com, Vilas.Sridharan@amd.com, leo.duran@amd.com,
-	Yazen.Ghannam@amd.com, rientjes@google.com, jiaqiyan@google.com,
-	tony.luck@intel.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-	rafael@kernel.org, lenb@kernel.org, naoya.horiguchi@nec.com,
-	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
-	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
-	mike.malvestuto@intel.com
-Subject: Re: [PATCH v2 07/10] cxl/memscrub: Register CXL device patrol scrub
- with scrub configure driver
-Message-ID: <202311221316.CqzLVodA-lkp@intel.com>
-References: <20231121101844.1161-8-shiju.jose@huawei.com>
+	dkim=pass (1024-bit key) header.d=weidmueller.onmicrosoft.com header.i=@weidmueller.onmicrosoft.com header.b="QuzfArQy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XqyCjwHQG2mmVlyLQZMQIpSZAUIJG6xebZIpUfpvCzpKGKIzIdEK3Zddbv6WtCnu3zrhzRgD1U/p5Xxpcnlnbx4NR6JMj1ynpVChb5lIsljphSxqhIpOWXZqvMQmkRDOqHZcsAkHc6fVxqtHy+Fax+yZ8loBffdk1VMlU1Ct9lHoup9gm4xtlRQkV5kJIUvhBkLBLzJQcMAxKrCqz5/ahIm81Fnr0zAQGmCSmtIRsbQ5psIEyRVuB+Q2LVOOVWVH2WuK+M3dPGcTUBqI1Tb2BI6OjAXMZDnm/VwZj6LNj8SfJaYpzWKL0fNwPLTbxZREVdwyhDxHs6PuiXbMKEjUEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0bgcKP2Uky2Q9aNXIu8cXKfokRor5t7+MHyjeHc0D4w=;
+ b=lh49OT3e6ziCl+uFzR+LsA6v/YfdIkP4SFHo6WonFd21kPtBEw76pScELLmxbcLGFbSXhs70/AzVC2tWjwjOPaqce5VXfGP4CYfGJkp8Z/Nk141W4hpq5px3JqZACMcm9FJ1a8UWu3AhU2ogyJvgcSnuv2t3zIPWys+Q2AezjY/sLzKl01aMIxZRdzwMdqFUPudgtE55GgB2mzO5En+0AZGz8SXp+/xIv3EajUccXrMF966O3XvG5YWq3pScDE9vnMfGPyAB8CTAThm8M0Ff5Fh4YnSctlddtND2DGAaNP0k+l6T3dDaMU/e3QBW0Ru0rtLbVhyrfaZkWUKAiNLEqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0bgcKP2Uky2Q9aNXIu8cXKfokRor5t7+MHyjeHc0D4w=;
+ b=QuzfArQysLg3NhztHHSGLjmBcdUJCFhDxsDopFSV7kE52eqrQfFJIfYjy2tO9Gs07BScOEAWghz6IvjXGgly6rfnuYqpBagV2qz8QMH5BLstYSA1mNQtKEQ4eAF03FLX1XCRUfTJYqoo8XU8LbP0V1pNIzmmWZa9yPfdYTgSXHE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
+ by DB8PR08MB5433.eurprd08.prod.outlook.com (2603:10a6:10:118::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
+ 2023 08:07:56 +0000
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::b914:d9b5:6462:13b6]) by AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::b914:d9b5:6462:13b6%5]) with mapi id 15.20.7025.019; Wed, 22 Nov 2023
+ 08:07:56 +0000
+From: Lukas Funke <lukas.funke-oss@weidmueller.com>
+To: lkp@intel.com,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>
+Cc: Lukas.Funke@weidmueller.com,
+	linux-kernel@vger.kernel.org,
+	lukas.funke-oss@weidmueller.com,
+	oe-kbuild-all@lists.linux.dev,
+	Lukas Funke <lukas.funke@weidmueller.com>
+Subject: [PATCH v2] extcon: usbc-tusb320: Set interrupt polarity based on device-tree
+Date: Wed, 22 Nov 2023 09:07:48 +0100
+Message-Id: <20231122080749.947682-1-lukas.funke-oss@weidmueller.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <202311221355.yxYpTIw3-lkp@intel.com>
+References: <202311221355.yxYpTIw3-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR3P281CA0192.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a4::16) To AS2PR08MB8431.eurprd08.prod.outlook.com
+ (2603:10a6:20b:55a::18)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231121101844.1161-8-shiju.jose@huawei.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|DB8PR08MB5433:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed293e02-ab39-4bb7-7485-08dbeb322269
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	TABJDJGMMqDnrpFizx0F13ggdAU1DF8wTQCY4q052QtF42uciKImcuoe4sEkbixRieb4aNj5J7UJ7BnUqgUsJTokyeVrblrZqmMOzsQCwMSScsI3FpDusMVTzv/DQdMhfdA1HIKWF493lTyT6J9fP4F3Schm1+4Ubs6Z3KJHlSW7C3TZKdCFhct7tM26SsIxK6t3bxEXMX9nF0SBMEN/ApsCHUqKOeBw2Eas3FZZfczc/gKm2/OxH7U0oAEs+nUdxGibzicjLG2EsWtRjJ9w+LUFEHRBQmDjXatYP8wegF9J5cC40X6tAHUuvGtOlooXcotfJJikk/fi/sRmMjZweuFG33Zpk5P7JFUpwGRKqC2VydIJ4NPY2QXxrclCa1K+kk3+CC9IPhdxFsIYe/S0TdWcMmYynIqwnqbwF/dfr3blWCjYXXWfVY9miDUJ2XZUX7TYDsmS+becK+RQrsrRBClFNTEJEfWJXK4X3oGDS4zKt+QiMyWVrcDTqB6OFjc9O0yLfxL6LQBTE4Wse76TRcPCAv06TWkHd61qCrXNGYy6+iqlDU9IppSMmeDcXSwVwIMUYrp3ehou0ofgbinZw9NCrC9eVLyMS7i9s27LLfE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(136003)(396003)(366004)(376002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(38100700002)(41300700001)(6486002)(966005)(66946007)(110136005)(86362001)(36756003)(52116002)(5660300002)(8676002)(8936002)(4326008)(83380400001)(66476007)(66556008)(1076003)(2616005)(26005)(316002)(107886003)(2906002)(478600001)(6666004)(38350700005)(6512007)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?tZgo8f2amh8mHD+cqqodFL7V5sVS8Obg4+yB8dskvjwASE1vfSl5YW8yXWM8?=
+ =?us-ascii?Q?G0hY9g7kaFHlYaMOuTBVVIS5ndQUswyVYPkACTSfkaZbWo9vsJPCfSMIpgr/?=
+ =?us-ascii?Q?51dgvKLLKN1BgfXTdAgvsVcsl206hXIThaZOSbxZOzdp8O9lQphwXBbd8XJ3?=
+ =?us-ascii?Q?3LA7lQ24VVq854YJ2UXbA/TBYIyyDf4Y+8RRKerFAFBcRD53Lcj7wCGaA1mf?=
+ =?us-ascii?Q?Eszd+pSCLg5heOd4sMwfn4cXTB90yk4bszo8RAW9RtJ0nEXcl6e01G3wOUY+?=
+ =?us-ascii?Q?7HxjC+vox6Q1G614Fm4j8U30sheaHRww4dtiMI2WxE1KjNC6FT25JNeV9W6u?=
+ =?us-ascii?Q?KlzTr+FJKmDZOpVqMUsh7tPOTIAKdu6lk5jsejUOIPKmZ58iCrQ6tcHTB4+m?=
+ =?us-ascii?Q?qwl+W9uQSsSUxxiqa36oC5Vw9Q+zwyZFKVEBjn9K0AK5fQ643A7jKwgE7sEy?=
+ =?us-ascii?Q?VnNrBHZng1jtiW14+MS2ctxVjTD0D/Trqboamwsai8HOak8SESWAnsDmNT2L?=
+ =?us-ascii?Q?VWu9/oiTQDRDQlBd1BQqR95ixFZZ7f4UWR95qPHjbdmaMsqs51Q77NlZ97aM?=
+ =?us-ascii?Q?j9AHYKVrkFox5SiesKjj2LWHTksd2135KP5OATjpBGODzI9LRyObJnpM6TM4?=
+ =?us-ascii?Q?KeMsRSM/irzTomr3e7AcpDc3hwJifxwynSjh0ASz4xzCQA5qYezDdblsxX++?=
+ =?us-ascii?Q?9L7VGtbbPI279nm3pqc4vxUJIHw5Z33TFbdnpZt3KKMP/5LcSMhK+6G1Bn57?=
+ =?us-ascii?Q?hFl1rZ6/d/7WzEdkX/M+Ql5jCqLybvh1Y/flHsiG1hwc2SHN1IKvQBQS86JW?=
+ =?us-ascii?Q?50iuYbR+DpK0YXhAL6kNQSsFkZfxIJp2cs/vFxilGxrdsZMER12pwu7I2lk5?=
+ =?us-ascii?Q?Lq8tl+ZWLaQr00pq7b2MmZr5hZyCchV8I/5LfUSU9yoQz/zszYW+jEOnMtRS?=
+ =?us-ascii?Q?em+RtTtjSrlh2qjP08CN1Xx/EF96c1jnrEboZP8B6y3EPdaNtKV2+1gAxAPR?=
+ =?us-ascii?Q?pn7aDrUHW/vVJrmWvCJ71D+4HJXfaHNVtr7aNUhE4Z3dmSDWVmca5Fq37KmZ?=
+ =?us-ascii?Q?ILR9njdFj169CjPllWmusH/89gn29jgJhdgBs22mW70LkeFRdkrFBHsbSSyT?=
+ =?us-ascii?Q?Oc++eG26/YxbUZMhS5xpYmxQeq9GtGUU0+YbWEkhQT8CikL0cAC4KCDgB+DP?=
+ =?us-ascii?Q?zDm4E2z4ALnCV1yao10ZU6EwtsBx6ks+BAFLSWLruueL5xDEv4rnMFiQjacv?=
+ =?us-ascii?Q?CmgIF3zSvKdJr6ifgJtMLfSusMqAcr8vPq9x7geoi0awC6dRwKsuNDhcKPE1?=
+ =?us-ascii?Q?lnA5GiloS76tK7gPz7AZDKDPIOCQp/03Qhu1akBMNwTnnw9qVVIfzGBvyXCg?=
+ =?us-ascii?Q?EcrzxPgYO5owJBrcg4Rrf78VYBY5anzc1rBhKHYJhRvMIJt85TpJZMM2y3tM?=
+ =?us-ascii?Q?QLRXs8g+XOAKU6ec/UW/Tk+qLfK6SfPSRkjD4RW2KbHYFe8tKLclKy0bA3NQ?=
+ =?us-ascii?Q?L8AD/IYHof4oKmJivFkqFVIT2jh6JisAtCWfDy47V/rNPx9oyoaMu9M7VvGM?=
+ =?us-ascii?Q?hz+QjrML1EkacuqxfNE3IYwMW03u+wuXBaniZweKLLklXxYihtV1bqX/omBT?=
+ =?us-ascii?Q?IQ=3D=3D?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed293e02-ab39-4bb7-7485-08dbeb322269
+X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 08:07:56.2380
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ovd0La8H2BYozW7ithSBLx02MZGHNs/syws4Ung1NMs6gSzvQXoLyiNSOc3ac+XOTOTmEU3O7zzPBAMF9nQ8Eg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5433
 
-Hi,
+From: Lukas Funke <Lukas.Funke@weidmueller.com>
 
-kernel test robot noticed the following build warnings:
+Remove 'IRQF_TRIGGER_FALLING' request which is not allowed on
+every interrupt controller (i.e. arm64 GIC). Replace flag by a
+request that depends on the actual device-tree setting.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc2 next-20231121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202311221355.yxYpTIw3-lkp@intel.com/
+Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
+---
+ drivers/extcon/extcon-usbc-tusb320.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/cxl-mbox-Add-GET_SUPPORTED_FEATURES-mailbox-command/20231121-182247
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231121101844.1161-8-shiju.jose%40huawei.com
-patch subject: [PATCH v2 07/10] cxl/memscrub: Register CXL device patrol scrub with scrub configure driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231122/202311221316.CqzLVodA-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311221316.CqzLVodA-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311221316.CqzLVodA-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/cxl/core/memscrub.c:330:9: warning: no previous prototype for function 'cxl_mem_patrol_scrub_is_visible' [-Wmissing-prototypes]
-   umode_t cxl_mem_patrol_scrub_is_visible(const void *drv_data, u32 attr, int region_id)
-           ^
-   drivers/cxl/core/memscrub.c:330:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   umode_t cxl_mem_patrol_scrub_is_visible(const void *drv_data, u32 attr, int region_id)
-   ^
-   static 
->> drivers/cxl/core/memscrub.c:361:5: warning: no previous prototype for function 'cxl_mem_patrol_scrub_read' [-Wmissing-prototypes]
-   int cxl_mem_patrol_scrub_read(struct device *dev, u32 attr, int region_id, u64 *val)
-       ^
-   drivers/cxl/core/memscrub.c:361:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int cxl_mem_patrol_scrub_read(struct device *dev, u32 attr, int region_id, u64 *val)
-   ^
-   static 
->> drivers/cxl/core/memscrub.c:381:5: warning: no previous prototype for function 'cxl_mem_patrol_scrub_write' [-Wmissing-prototypes]
-   int cxl_mem_patrol_scrub_write(struct device *dev, u32 attr, int region_id, u64 val)
-       ^
-   drivers/cxl/core/memscrub.c:381:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int cxl_mem_patrol_scrub_write(struct device *dev, u32 attr, int region_id, u64 val)
-   ^
-   static 
->> drivers/cxl/core/memscrub.c:402:5: warning: no previous prototype for function 'cxl_mem_patrol_scrub_read_strings' [-Wmissing-prototypes]
-   int cxl_mem_patrol_scrub_read_strings(struct device *dev, u32 attr, int region_id,
-       ^
-   drivers/cxl/core/memscrub.c:402:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int cxl_mem_patrol_scrub_read_strings(struct device *dev, u32 attr, int region_id,
-   ^
-   static 
-   drivers/cxl/core/memscrub.c:584:12: warning: unused function 'cxl_mem_ecs_set_attrbs' [-Wunused-function]
-   static int cxl_mem_ecs_set_attrbs(struct device *dev, int fru_id,
-              ^
-   5 warnings generated.
-
-
-vim +/cxl_mem_patrol_scrub_is_visible +330 drivers/cxl/core/memscrub.c
-
-   320	
-   321	/**
-   322	 * cxl_mem_patrol_scrub_is_visible() - Callback to return attribute visibility
-   323	 * @drv_data: Pointer to driver-private data structure passed
-   324	 *	      as argument to devm_scrub_device_register().
-   325	 * @attr: Scrub attribute
-   326	 * @region_id: ID of the memory region
-   327	 *
-   328	 * Returns: 0 on success, an error otherwise
-   329	 */
- > 330	umode_t cxl_mem_patrol_scrub_is_visible(const void *drv_data, u32 attr, int region_id)
-   331	{
-   332		const struct cxl_patrol_scrub_context *cxl_ps_ctx = drv_data;
-   333	
-   334		if (attr == scrub_speed_available ||
-   335		    attr == scrub_speed) {
-   336			if (!cxl_ps_ctx->scrub_cycle_changable)
-   337				return 0;
-   338		}
-   339	
-   340		switch (attr) {
-   341		case scrub_speed_available:
-   342			return 0444;
-   343		case scrub_enable:
-   344			return 0200;
-   345		case scrub_speed:
-   346			return 0644;
-   347		default:
-   348			return 0;
-   349		}
-   350	}
-   351	
-   352	/**
-   353	 * cxl_mem_patrol_scrub_read() - Read callback for data attributes
-   354	 * @dev: Pointer to scrub device
-   355	 * @attr: Scrub attribute
-   356	 * @region_id: ID of the memory region
-   357	 * @val: Pointer to the returned data
-   358	 *
-   359	 * Returns: 0 on success, an error otherwise
-   360	 */
- > 361	int cxl_mem_patrol_scrub_read(struct device *dev, u32 attr, int region_id, u64 *val)
-   362	{
-   363	
-   364		switch (attr) {
-   365		case scrub_speed:
-   366			return cxl_mem_ps_speed_read(dev->parent, val);
-   367		default:
-   368			return -ENOTSUPP;
-   369		}
-   370	}
-   371	
-   372	/**
-   373	 * cxl_mem_patrol_scrub_write() - Write callback for data attributes
-   374	 * @dev: Pointer to scrub device
-   375	 * @attr: Scrub attribute
-   376	 * @region_id: ID of the memory region
-   377	 * @val: Value to write
-   378	 *
-   379	 * Returns: 0 on success, an error otherwise
-   380	 */
- > 381	int cxl_mem_patrol_scrub_write(struct device *dev, u32 attr, int region_id, u64 val)
-   382	{
-   383		switch (attr) {
-   384		case scrub_enable:
-   385			return cxl_mem_ps_enable_write(dev->parent, val);
-   386		case scrub_speed:
-   387			return cxl_mem_ps_speed_write(dev->parent, val);
-   388		default:
-   389			return -ENOTSUPP;
-   390		}
-   391	}
-   392	
-   393	/**
-   394	 * cxl_mem_patrol_scrub_read_strings() - Read callback for string attributes
-   395	 * @dev: Pointer to scrub device
-   396	 * @attr: Scrub attribute
-   397	 * @region_id: ID of the memory region
-   398	 * @buf: Pointer to the buffer for copying returned string
-   399	 *
-   400	 * Returns: 0 on success, an error otherwise
-   401	 */
- > 402	int cxl_mem_patrol_scrub_read_strings(struct device *dev, u32 attr, int region_id,
-   403					      char *buf)
-   404	{
-   405		switch (attr) {
-   406		case scrub_speed_available:
-   407			return cxl_mem_ps_speed_available_read(dev->parent, buf);
-   408		default:
-   409			return -ENOTSUPP;
-   410		}
-   411	}
-   412	
-
+diff --git a/drivers/extcon/extcon-usbc-tusb320.c b/drivers/extcon/extcon-usbc-tusb320.c
+index 4d08c2123e59..140ab28dbd36 100644
+--- a/drivers/extcon/extcon-usbc-tusb320.c
++++ b/drivers/extcon/extcon-usbc-tusb320.c
+@@ -17,6 +17,7 @@
+ #include <linux/usb/typec.h>
+ #include <linux/usb/typec_altmode.h>
+ #include <linux/usb/role.h>
++#include <linux/irq.h>
+ 
+ #define TUSB320_REG8				0x8
+ #define TUSB320_REG8_CURRENT_MODE_ADVERTISE	GENMASK(7, 6)
+@@ -515,6 +516,8 @@ static int tusb320_probe(struct i2c_client *client)
+ 	const void *match_data;
+ 	unsigned int revision;
+ 	int ret;
++	int irq_pol;
++	struct irq_data *irq_d;
+ 
+ 	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
+ 	if (!priv)
+@@ -568,9 +571,17 @@ static int tusb320_probe(struct i2c_client *client)
+ 		 */
+ 		tusb320_state_update_handler(priv, true);
+ 
++	irq_d = irq_get_irq_data(client->irq);
++	if (!irq_d) {
++		dev_err(&client->dev, "Invalid IRQ: %d\n", client->irq);
++		return -ENODEV;
++	}
++
++	irq_pol = irqd_get_trigger_type(irq_d);
++
+ 	ret = devm_request_threaded_irq(priv->dev, client->irq, NULL,
+ 					tusb320_irq_handler,
+-					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++					IRQF_ONESHOT | irq_pol,
+ 					client->name, priv);
+ 	if (ret)
+ 		tusb320_typec_remove(priv);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.30.2
+
