@@ -1,58 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0963D17CB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 00:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2761315C4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 00:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJ7tz2OK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GwXN5Mtm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700614507; x=1732150507;
+  t=1700614512; x=1732150512;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5v2P07ds92gacwG7jBUufrR4IYudUYskFFuQRoGYaSA=;
-  b=DJ7tz2OK7o+95BYnKLB8wEGlrZ9zo8I9c95GTh8iG6bjytjbX2Gn1llN
-   e3cfTQmiauNEH0BXrkTbAIN1BDS7Rxuoihs87VFiJd0XfihLwNWjTMtQe
-   tCY7IgsuIpUIh07mJlgOSJD0gsQ6tXZcApOiai0103PQ++UUPayPM4izI
-   AO1f8YNu7qSCsVP8yswJPjnGQvrNo1FQZblyS1l5vI+iiC6ZxRQcDmAUi
-   YyLU4CysNRlhlqihS7Wx6+VsOuwi3J91rbjYsvqgDRW6mPewTd34jH5hP
-   tirCIp/nNibhoJUf3zUVkWAyqanSouuyZR2RHBWXyB1QVkBHGhVRpx3VI
+  bh=0tp21xFPVhKH+WMacUV/bv2VAB+NkyzbNSfJwA7yecY=;
+  b=GwXN5MtmIR9L0dhr/tSn8e4+rhi5UE1iE+megksRWpr1ASUJ4Kldhaga
+   OUB8QTxp68T5W7yvAIlmlsSqkxBSSVukBywWJQ3vLcoCuotVeS9rlDKry
+   EkxpCteRNRKIty2rCC11X3yIHzwdEMjDfh+ecf9E00X5f/b3dFbZICnSq
+   E8AuxpS8Kfp+Hn8q+3AqF7YUdKQ9j+vNAWZeXQ5c5pN7hK4SElKx/45HN
+   nkNQP8gSxu8/XlukEU3QexUgcf1jAArbBXv9Ls2G2QDsoRQyWw5vwL1t/
+   40WYlY+QFXgWHkErKgHp1mv1YSgZpaVPk4rM497/+cL0C8yt9kmTGXpsL
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5088474"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="389105313"
 X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="5088474"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 16:55:06 -0800
+   d="scan'208";a="389105313"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 16:55:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="716674287"
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="770427297"
 X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="716674287"
+   d="scan'208";a="770427297"
 Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 21 Nov 2023 16:55:02 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2023 16:55:02 -0800
 Received: from kbuild by b8de5498638e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r5bW8-0008T4-0d;
+	id 1r5bW8-0008T6-0l;
 	Wed, 22 Nov 2023 00:55:00 +0000
-Date: Wed, 22 Nov 2023 08:54:57 +0800
+Date: Wed, 22 Nov 2023 08:54:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-iio@vger.kernel.org
+To: Lukas Funke <lukas.funke-oss@weidmueller.com>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Olivier MOYSAN <olivier.moysan@foss.st.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno Sa <nuno.sa@analog.com>
-Subject: Re: [PATCH 10/12] iio: adc: ad9467: convert to backend framework
-Message-ID: <202311220807.NUS4r7ML-lkp@intel.com>
-References: <20231121-dev-iio-backend-v1-10-6a3d542eba35@analog.com>
+	Lukas Funke <Lukas.Funke@weidmueller.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] extcon: usbc-tusb320: Set interrupt polarity based on
+ device-tree
+Message-ID: <202311220830.h2qNf15s-lkp@intel.com>
+References: <20231121124844.872238-1-lukas.funke-oss@weidmueller.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,60 +55,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121-dev-iio-backend-v1-10-6a3d542eba35@analog.com>
+In-Reply-To: <20231121124844.872238-1-lukas.funke-oss@weidmueller.com>
 
-Hi Nuno,
+Hi Lukas,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus robh/for-next linus/master v6.7-rc2 next-20231121]
+[auto build test WARNING on chanwoo-extcon/extcon-next]
+[also build test WARNING on linus/master v6.7-rc2 next-20231121]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa-via-B4-Relay/driver-core-allow-modifying-device_links-flags/20231121-182010
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20231121-dev-iio-backend-v1-10-6a3d542eba35%40analog.com
-patch subject: [PATCH 10/12] iio: adc: ad9467: convert to backend framework
-config: powerpc-randconfig-r071-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220807.NUS4r7ML-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220807.NUS4r7ML-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Funke/extcon-usbc-tusb320-Set-interrupt-polarity-based-on-device-tree/20231121-205141
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/extcon.git extcon-next
+patch link:    https://lore.kernel.org/r/20231121124844.872238-1-lukas.funke-oss%40weidmueller.com
+patch subject: [PATCH] extcon: usbc-tusb320: Set interrupt polarity based on device-tree
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231122/202311220830.h2qNf15s-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220830.h2qNf15s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220807.NUS4r7ML-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220830.h2qNf15s-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/ad9467.c:276 ad9467_get_scale() warn: unsigned 'vref_val' is never less than zero.
+All warnings (new ones prefixed by >>):
 
-vim +/vref_val +276 drivers/iio/adc/ad9467.c
+   drivers/extcon/extcon-usbc-tusb320.c: In function 'tusb320_probe':
+   drivers/extcon/extcon-usbc-tusb320.c:573:17: error: implicit declaration of function 'irq_get_irq_data'; did you mean 'irq_set_irq_wake'? [-Werror=implicit-function-declaration]
+     573 |         irq_d = irq_get_irq_data(client->irq);
+         |                 ^~~~~~~~~~~~~~~~
+         |                 irq_set_irq_wake
+>> drivers/extcon/extcon-usbc-tusb320.c:573:15: warning: assignment to 'struct irq_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     573 |         irq_d = irq_get_irq_data(client->irq);
+         |               ^
+   drivers/extcon/extcon-usbc-tusb320.c:579:19: error: implicit declaration of function 'irqd_get_trigger_type' [-Werror=implicit-function-declaration]
+     579 |         irq_pol = irqd_get_trigger_type(irq_d);
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-ad67971202381c Michael Hennerich  2020-03-24  270  
-a78b758afbce92 Nuno Sa            2023-11-21  271  static int ad9467_get_scale(struct ad9467_state *st, int *val, int *val2)
-ad67971202381c Michael Hennerich  2020-03-24  272  {
-337dbb6ec1acc2 Alexandru Ardelean 2020-09-24  273  	unsigned int i, vref_val;
-ad67971202381c Michael Hennerich  2020-03-24  274  
-ad67971202381c Michael Hennerich  2020-03-24  275  	vref_val = ad9467_spi_read(st->spi, AN877_ADC_REG_VREF);
-d1e957a3e7676f Nuno Sa            2023-11-21 @276  	if (vref_val < 0)
-d1e957a3e7676f Nuno Sa            2023-11-21  277  		return vref_val;
-ad67971202381c Michael Hennerich  2020-03-24  278  
-a78b758afbce92 Nuno Sa            2023-11-21  279  	vref_val &= st->info->vref_mask;
-ad67971202381c Michael Hennerich  2020-03-24  280  
-a78b758afbce92 Nuno Sa            2023-11-21  281  	for (i = 0; i < st->info->num_scales; i++) {
-a78b758afbce92 Nuno Sa            2023-11-21  282  		if (vref_val == st->info->scale_table[i][1])
-ad67971202381c Michael Hennerich  2020-03-24  283  			break;
-ad67971202381c Michael Hennerich  2020-03-24  284  	}
-ad67971202381c Michael Hennerich  2020-03-24  285  
-a78b758afbce92 Nuno Sa            2023-11-21  286  	if (i == st->info->num_scales)
-ad67971202381c Michael Hennerich  2020-03-24  287  		return -ERANGE;
-ad67971202381c Michael Hennerich  2020-03-24  288  
-a78b758afbce92 Nuno Sa            2023-11-21  289  	__ad9467_get_scale(st, i, val, val2);
-ad67971202381c Michael Hennerich  2020-03-24  290  
-ad67971202381c Michael Hennerich  2020-03-24  291  	return IIO_VAL_INT_PLUS_MICRO;
-ad67971202381c Michael Hennerich  2020-03-24  292  }
-ad67971202381c Michael Hennerich  2020-03-24  293  
+
+vim +573 drivers/extcon/extcon-usbc-tusb320.c
+
+   511	
+   512	static int tusb320_probe(struct i2c_client *client)
+   513	{
+   514		struct tusb320_priv *priv;
+   515		const void *match_data;
+   516		unsigned int revision;
+   517		int ret;
+   518		int irq_pol;
+   519		struct irq_data *irq_d;
+   520	
+   521		priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
+   522		if (!priv)
+   523			return -ENOMEM;
+   524	
+   525		priv->dev = &client->dev;
+   526		i2c_set_clientdata(client, priv);
+   527	
+   528		priv->regmap = devm_regmap_init_i2c(client, &tusb320_regmap_config);
+   529		if (IS_ERR(priv->regmap))
+   530			return PTR_ERR(priv->regmap);
+   531	
+   532		ret = tusb320_check_signature(priv);
+   533		if (ret)
+   534			return ret;
+   535	
+   536		match_data = device_get_match_data(&client->dev);
+   537		if (!match_data)
+   538			return -EINVAL;
+   539	
+   540		priv->ops = (struct tusb320_ops*)match_data;
+   541	
+   542		if (priv->ops->get_revision) {
+   543			ret = priv->ops->get_revision(priv, &revision);
+   544			if (ret)
+   545				dev_warn(priv->dev,
+   546					"failed to read revision register: %d\n", ret);
+   547			else
+   548				dev_info(priv->dev, "chip revision %d\n", revision);
+   549		}
+   550	
+   551		ret = tusb320_extcon_probe(priv);
+   552		if (ret)
+   553			return ret;
+   554	
+   555		ret = tusb320_typec_probe(client, priv);
+   556		if (ret)
+   557			return ret;
+   558	
+   559		/* update initial state */
+   560		tusb320_state_update_handler(priv, true);
+   561	
+   562		/* Reset chip to its default state */
+   563		ret = tusb320_reset(priv);
+   564		if (ret)
+   565			dev_warn(priv->dev, "failed to reset chip: %d\n", ret);
+   566		else
+   567			/*
+   568			 * State and polarity might change after a reset, so update
+   569			 * them again and make sure the interrupt status bit is cleared.
+   570			 */
+   571			tusb320_state_update_handler(priv, true);
+   572	
+ > 573		irq_d = irq_get_irq_data(client->irq);
+   574		if (!irq_d) {
+   575			dev_err(&client->dev, "Invalid IRQ: %d\n", client->irq);
+   576			return -ENODEV;
+   577		}
+   578	
+   579		irq_pol = irqd_get_trigger_type(irq_d);
+   580	
+   581		ret = devm_request_threaded_irq(priv->dev, client->irq, NULL,
+   582						tusb320_irq_handler,
+   583						IRQF_ONESHOT | irq_pol,
+   584						client->name, priv);
+   585		if (ret)
+   586			tusb320_typec_remove(priv);
+   587	
+   588		return ret;
+   589	}
+   590	
 
 -- 
 0-DAY CI Kernel Test Service
