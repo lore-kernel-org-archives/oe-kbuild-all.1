@@ -1,59 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F6F8BEB;
-	Thu, 23 Nov 2023 03:17:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2558BE7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 03:17:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxIWG4AP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6kxr5l9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700709439; x=1732245439;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1c3Mf56cspS0rK0V+e9p5p1VgJgFuCb7pZFxscw0f/Q=;
-  b=RxIWG4AP5nErNZ3whJsyLAYUN2FOpCs//PJq0eGYe9nX/XiR2ALvXf3I
-   BKaQMnd4ei3NPlvXDPIHb9xa2RwkxVm3yyJE5ZrLlhvUg755jevHK4h4w
-   R1d3O5Wyh/AHQ+EOg74bgOHLZAPV/BESrKmf+nPLyHFvF3n0D9FkVgu2W
-   x49ISnbwRBTTDSWHKfTh9VFt/se5laj7Tv8Fn/Ciq5c7wZ8VNfkSg9ZUR
-   XC+Pn1Y3c13/8n1B5dNsFGvy7I95QblrJxF5e1GAz8V7fR4xcr3gWqKig
-   Nk1GT3QVZR+KYo9BNdRihjjLOBCjo9UbNXfGG5aNLlQzEL130aq9a6TAH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="5380206"
+  t=1700709440; x=1732245440;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+pH4FjsZh+5O39EGt7OHKgShCkjLnULd0cHtYoNE36k=;
+  b=D6kxr5l9mleWYmtO9Oz8gm4BIrvRD9VU3QD+mIgiyzUcd+ZAoks1duGr
+   0zG0SRmFNjjxIIwuDkjeXGjCqFZuryM6AL6ypgIHTjNGjwxiIBrJIIDKy
+   f/an6esb9sWFSAghOyBVE2R0se/XhnHieZYthTqvZQejvladDEIgjGdAs
+   RedGPXUPtXsGfh630PrC6b+xG6VslGmFDGbRU+rxI3oNCXfsJZg+wKn+p
+   S2Ott42kvv8G9BXxpo5vY3bc8xUiE9tcpY05MkuL/i+U37jneNJrltgrV
+   vRyoRtLNal/U02la3jF9UT28eUhRTEeldx5/PFei3EILEcA+oTI0y9eD6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="372348535"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="5380206"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:17:19 -0800
+   d="scan'208";a="372348535"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:17:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="767083290"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="767083290"
+   d="scan'208";a="8521857"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 22 Nov 2023 19:17:14 -0800
+  by orviesa002.jf.intel.com with ESMTP; 22 Nov 2023 19:17:15 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r60DI-0001Ag-0H;
+	id 1r60DI-0001B1-1B;
 	Thu, 23 Nov 2023 03:17:12 +0000
-Date: Thu, 23 Nov 2023 11:16:43 +0800
+Date: Thu, 23 Nov 2023 11:16:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alain Volmat <alain.volmat@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Alain Volmat <alain.volmat@foss.st.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] media: i2c: gc2145: Galaxy Core GC2145 sensor
- support
-Message-ID: <202311231047.GzLUXA47-lkp@intel.com>
-References: <20231122075154.789431-4-alain.volmat@foss.st.com>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/070-audio 11/105] kismet: WARNING: unmet direct
+ dependencies detected for SND_SOC_CS42L83 when selected by
+ SND_SOC_APPLE_MACAUDIO
+Message-ID: <202311230916.GDul2gx8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,96 +52,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231122075154.789431-4-alain.volmat@foss.st.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alain,
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   1c71b1fa2c491cc29c94d29f1a450dba39f27557
+commit: c58ceb13a4c2cc59f093a06dfd9ce4804826264c [11/105] ASoC: apple: Add =
+macaudio machine driver
+config: alpha-kismet-CONFIG_SND_SOC_CS42L83-CONFIG_SND_SOC_APPLE_MACAUDIO-0=
+-0 (https://download.01.org/0day-ci/archive/20231123/202311230916.GDul2gx8-=
+lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231123/202311230916.G=
+Dul2gx8-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linuxtv-media-stage/master]
-[also build test ERROR on linus/master v6.7-rc2 next-20231122]
-[cannot apply to media-tree/master robh/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alain-Volmat/dt-bindings-vendor-prefixes-Add-prefix-for-GalaxyCore-Inc/20231122-155443
-base:   https://git.linuxtv.org/media_stage.git master
-patch link:    https://lore.kernel.org/r/20231122075154.789431-4-alain.volmat%40foss.st.com
-patch subject: [PATCH v5 3/3] media: i2c: gc2145: Galaxy Core GC2145 sensor support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231123/202311231047.GzLUXA47-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231123/202311231047.GzLUXA47-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311231047.GzLUXA47-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311230916.GDul2gx8-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for SND_SOC_CS42L83 =
+when selected by SND_SOC_APPLE_MACAUDIO
+   /usr/bin/grep: /db/releases/20231122101355/kernel-tests/etc/kcflags: No =
+such file or directory
+   {"timestamp":"2023-11-23 09:05:43 +0800", "level":"WARN", "event":"kbuil=
+d.sh:3942:in `add_etc_kcflags': grep exit 2 (ShellError)", "detail":"cmd: '=
+/usr/bin/grep' '-v' '-e' '^#' '-e' '^$' '/db/releases/20231122101355/kernel=
+-tests/etc/kcflags' \nstderr: /usr/bin/grep: /db/releases/20231122101355/ke=
+rnel-tests/etc/kcflags: No such file or directory\n\n", "hostname":"communi=
+ty-kbuild-consumer-148", "host_hostname":"lkp-worker55", "call_stack":"/zda=
+y/kernel-tests/lib/kbuild.sh:3942:in `add_etc_kcflags': /usr/bin/grep: /db/=
+releases/20231122101355/kernel-tests/etc/kcflags: No such file or directory=
+ (ShellError 2)\n  from /zday/kernel-tests/lib/kbuild.sh:3971: setup_kcflag=
+s\n  from /zday/kernel-tests/lib/kbuild.sh:4016: invoke_make\n  from /zday/=
+kernel-tests/lib/kbuild.sh:4122: make\n  from /zday/kernel-tests/lib/kbuild=
+=2Esh:5623: make_config_allyes\n  from /zday/kernel-tests/common.sh:209: re=
+direct_error_to_screen\n  from /zday/kernel-tests/common.sh:217: redirect_c=
+ommand_errors\n  from /zday/kernel-tests/lib/kbuild.sh:5630: make_config\n =
+ from /zday/kernel-tests/lib/builder/kismet.sh:156: generate_make_olddefcon=
+fig_warnings\n  from /zday/kernel-tests/lib/builder/kismet.sh:297: builder_=
+compile\n  from /zday/kernel-tests/bisect-test-build-error.sh:94: main\n"}
+  =20
+   WARNING: unmet direct dependencies detected for SND_SOC_CS42L83
+     Depends on [n]: SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SOC [=3Dy] &=
+& I2C [=3Dn]
+     Selected by [y]:
+     - SND_SOC_APPLE_MACAUDIO [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] =
+&& SND_SOC [=3Dy] && (ARCH_APPLE || COMPILE_TEST [=3Dy])
+  =20
+   WARNING: unmet direct dependencies detected for APPLE_ADMAC
+     Depends on [n]: DMADEVICES [=3Dn] && (ARCH_APPLE || COMPILE_TEST [=3Dy=
+])
+     Selected by [y]:
+     - SND_SOC_APPLE_MACAUDIO [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] =
+&& SND_SOC [=3Dy] && (ARCH_APPLE || COMPILE_TEST [=3Dy])
+  =20
+   WARNING: unmet direct dependencies detected for SND_SOC_TAS2770
+     Depends on [n]: SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SOC [=3Dy] &=
+& I2C [=3Dn]
+     Selected by [y]:
+     - SND_SOC_APPLE_MACAUDIO [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] =
+&& SND_SOC [=3Dy] && (ARCH_APPLE || COMPILE_TEST [=3Dy])
+  =20
+   WARNING: unmet direct dependencies detected for SND_SOC_TAS2764
+     Depends on [n]: SOUND [=3Dy] && !UML && SND [=3Dy] && SND_SOC [=3Dy] &=
+& I2C [=3Dn]
+     Selected by [y]:
+     - SND_SOC_APPLE_MACAUDIO [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] =
+&& SND_SOC [=3Dy] && (ARCH_APPLE || COMPILE_TEST [=3Dy])
+  =20
+   WARNING: unmet direct dependencies detected for COMMON_CLK_APPLE_NCO
+     Depends on [n]: COMMON_CLK [=3Dn] && (ARCH_APPLE || COMPILE_TEST [=3Dy=
+])
+     Selected by [y]:
+     - SND_SOC_APPLE_MACAUDIO [=3Dy] && SOUND [=3Dy] && !UML && SND [=3Dy] =
+&& SND_SOC [=3Dy] && (ARCH_APPLE || COMPILE_TEST [=3Dy])
 
->> drivers/media/i2c/gc2145.c:664:11: error: call to undeclared function 'v4l2_subdev_state_get_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           format = v4l2_subdev_state_get_format(state, 0);
-                    ^
-   drivers/media/i2c/gc2145.c:664:9: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
-           format = v4l2_subdev_state_get_format(state, 0);
-                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/gc2145.c:669:9: error: call to undeclared function 'v4l2_subdev_state_get_crop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           crop = v4l2_subdev_state_get_crop(state, 0);
-                  ^
-   drivers/media/i2c/gc2145.c:669:7: error: incompatible integer to pointer conversion assigning to 'struct v4l2_rect *' from 'int' [-Wint-conversion]
-           crop = v4l2_subdev_state_get_crop(state, 0);
-                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/gc2145.c:681:13: error: call to undeclared function 'v4l2_subdev_state_get_crop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
-                             ^
-   drivers/media/i2c/gc2145.c:681:12: error: indirection requires pointer operand ('int' invalid)
-                   sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/gc2145.c:758:13: error: call to undeclared function 'v4l2_subdev_state_get_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
-                      ^
-   drivers/media/i2c/gc2145.c:758:11: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
-           framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
-                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/gc2145.c:770:9: error: call to undeclared function 'v4l2_subdev_state_get_crop'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           crop = v4l2_subdev_state_get_crop(sd_state, fmt->pad);
-                  ^
-   drivers/media/i2c/gc2145.c:770:7: error: incompatible integer to pointer conversion assigning to 'struct v4l2_rect *' from 'int' [-Wint-conversion]
-           crop = v4l2_subdev_state_get_crop(sd_state, fmt->pad);
-                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/gc2145.c:874:8: error: call to undeclared function 'v4l2_subdev_state_get_format'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           fmt = v4l2_subdev_state_get_format(state, 0);
-                 ^
-   drivers/media/i2c/gc2145.c:874:6: error: incompatible integer to pointer conversion assigning to 'struct v4l2_mbus_framefmt *' from 'int' [-Wint-conversion]
-           fmt = v4l2_subdev_state_get_format(state, 0);
-               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   12 errors generated.
-
-
-vim +/v4l2_subdev_state_get_format +664 drivers/media/i2c/gc2145.c
-
-   655	
-   656	static int gc2145_init_cfg(struct v4l2_subdev *sd,
-   657				   struct v4l2_subdev_state *state)
-   658	{
-   659		struct gc2145 *gc2145 = to_gc2145(sd);
-   660		struct v4l2_mbus_framefmt *format;
-   661		struct v4l2_rect *crop;
-   662	
-   663		/* Initialize pad format */
- > 664		format = v4l2_subdev_state_get_format(state, 0);
-   665		gc2145_update_pad_format(gc2145, &supported_modes[0], format,
-   666					 MEDIA_BUS_FMT_RGB565_1X16);
-   667	
-   668		/* Initialize crop rectangle. */
- > 669		crop = v4l2_subdev_state_get_crop(state, 0);
-   670		*crop = supported_modes[0].crop;
-   671	
-   672		return 0;
-   673	}
-   674	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
