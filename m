@@ -1,72 +1,105 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CD7BE58
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 05:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C04F9CC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 06:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ajhItP5+"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3b842f16599so351041b6e.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 21:53:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bg8lLr0m"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-332ca7f95e1so338860f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 22 Nov 2023 22:10:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700718812; x=1701323612; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OdUNABR6Mifi2m+aoepA5AMZHmcuu2ymDmdpy19JJlA=;
-        b=ajhItP5+soOtLA54w04sX3DZTUMUg0sOuIik3bj6pzAaok/Lt5VPKCGTgDslcZpYme
-         t8YSicWOoC0A4e+xRb2ovq+BOPBR6+Psve/osXwcC5L2OYfYHAdLmV+JRUf0qAZ0aLaj
-         HcYj8fMA3DtJuuW9ZBs+KZG8mNAq4zVX+71O9U8gRjhrJ2Us8rx5MsTjDKxkS1IJINPy
-         ACGmex+4+gMkct9sUc+kXNy4czwQOeZpnSFEzsxyNAIRhXUyJsayaYSGYRvhjr5Poih6
-         ejMRV8mjPTJnJqdCCrwwRpuFwPNBCKAavJU6o4P7bH3Eyjpo7EeLXlapzuRKu17DycV9
-         j+gA==
+        d=linaro.org; s=google; t=1700719829; x=1701324629; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EhvG/cBSfaRPoasqLeuPzQWIXK6FL28oMwCUuCagJt0=;
+        b=bg8lLr0mbSQGKn4lQElHiV+QLWN6p1iubqaauWUrF6D0PDuDoy/etO2RUDoNhtN+3w
+         zjo4eg//NeF0O7y3dqotRiFJx7VFMWFZ8XFgKTIHY7yo+5I7b1EXpwT4iHPPXTSd8z59
+         ddhwk805ECVoj4HRMNrab8snw+Lr67xbTSkTxf52AOefr677T9u6L0kAtG1l9DJhsDME
+         pPKwfvrO8Fl4YSNHDKtHZgP3C4fJZCsQbUfD5y/x1PZ67jI0SaWkwv6ttAk/08s6mXrU
+         OUDehe8DOyAayTIZp2npYeYVw5wqKiADjiijv1YV6so8kjtaus0eyEoaiDLwJaghcV9B
+         fvpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700718812; x=1701323612;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OdUNABR6Mifi2m+aoepA5AMZHmcuu2ymDmdpy19JJlA=;
-        b=C8zb6Og6C0NSk3q5gi/VdGfHY+csvkcBlNANR8HtihWCX88Io2CUPeWT8LNcealbKe
-         mhlwpAOA/sVam/1z5LjNd4wyLeROBjJm83IsF3iHhSM7g4N/r7awbcfZ4wIx4fdK0CRm
-         3OrI7nsvWyv9iNzv3sDE1pVCtqwxU3DYAee8BZZ6cG4poIZ45e6eXH6a4OEToTiKFGpV
-         2ftspACv7h1EoS730NzVHD5FroKIYebpnsFPxqPw6odPffSIUl0ehFl3luMJCpRUCy3A
-         JupTK/hTA7mc0UNtyYAoz4pZCnePcgxyrLvU2TEXOwjKBL1jBRgnF9PSb+5EU32Wl3yE
-         GFRA==
-X-Gm-Message-State: AOJu0YzM1S7uzitP03H/OKOh0gdbMGQlpH+vmgBRV2pLWmS+uiTC1MPG
-	glvE445jecckPrJk4dR9TfA=
-X-Google-Smtp-Source: AGHT+IGn7QzG9DaCsRCcjqAPRW3yKy2dFCdW/Gzty+AL0RBIV+vk1a4EV6ImJUUWF7zaet1wZozNgQ==
-X-Received: by 2002:a05:6808:1915:b0:3b2:f275:18a8 with SMTP id bf21-20020a056808191500b003b2f27518a8mr6942617oib.22.1700718811822;
-        Wed, 22 Nov 2023 21:53:31 -0800 (PST)
-Received: from localhost.localdomain ([110.46.146.116])
-        by smtp.gmail.com with ESMTPSA id u26-20020a62ed1a000000b006cbcd08ed56sm429438pfh.56.2023.11.22.21.53.28
+        d=1e100.net; s=20230601; t=1700719829; x=1701324629;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EhvG/cBSfaRPoasqLeuPzQWIXK6FL28oMwCUuCagJt0=;
+        b=fy20wmyc3QzT2l3slj1jNdVvCFZUkQwFi9kJYZczgjQVVB729Pcy9pPoPh4WdMaN5J
+         A9xhbJQEuU1LDLHTriwZ2UQtiivoJtCvvZbclK3Bn3fsubj1epP+js0mB93fr86KW1rc
+         iEy+7dUsQAOv/i+Up5K38taYYv0dfuGSvMEv2cenhFz2FrJzID5/v3DrE9LJNf6DFq5u
+         rOUJTzWvO25MlIJRVFmP9QVRn17KftkAiE1kxgBtkcU3KnabPxgnHuI6v28oCRw86tzx
+         rxVNx5RgTsEO4OLnBJyLF3rUhho/YdNE8U5d1S3Hd3FW5ak+cZn29dfDalCo8vhY3Zkh
+         L3Rg==
+X-Gm-Message-State: AOJu0YzreBLW8YHnC7LDaQvUphl//G5lO2yVVpRRdZNBqfave9CIsLis
+	p6pFgNziUshDu4kt+49Vdrdh4w==
+X-Google-Smtp-Source: AGHT+IG5E0J+F3kI7IYUeGWwGwjyH+HM0RRgSN6O6Q9IxonmzR/N7zH+77peiECJsn59NOfrikGrWA==
+X-Received: by 2002:a5d:5987:0:b0:332:c585:400d with SMTP id n7-20020a5d5987000000b00332c585400dmr2890916wri.10.1700719828609;
+        Wed, 22 Nov 2023 22:10:28 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x12-20020adff64c000000b0032dcb08bf94sm602993wrp.60.2023.11.22.22.10.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 21:53:31 -0800 (PST)
-From: SungHwan Jung <onenowy@gmail.com>
-To: lkp@intel.com
-Cc: hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	jdelvare@suse.com,
-	jlee@suse.com,
-	linux-hwmon@vger.kernel.org,
+        Wed, 22 Nov 2023 22:10:28 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Thu, 23 Nov 2023 09:10:25 +0300
+To: oe-kbuild@lists.linux.dev, Umang Jain <umang.jain@ideasonboard.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	oe-kbuild-all@lists.linux.dev,
-	onenowy@gmail.com,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: Re: [PATCH v2 2/2] platform/x86: acer-wmi: add fan speed monitoring for Predator PHN16-71
-Date: Thu, 23 Nov 2023 14:53:23 +0900
-Message-ID: <20231123055323.417287-1-onenowy@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <202311230750.psygl1ot-lkp@intel.com>
-References: <202311230750.psygl1ot-lkp@intel.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:507
+ vchiq_ioc_await_completion() warn: inconsistent indenting
+Message-ID: <a4901693-b034-4a63-b97d-a6c2d9ddcb29@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-It is caused by dependency on hwmon. Setting both hwmon and acer-wmi as
-module (or in-kernel) in config fixes this error.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9b6de136b5f0158c60844f85286a593cb70fb364
+commit: 1d8915cf889932e085880f4bdbf7ae0f3d8605e5 staging: vc04: Convert vchiq_log_error() to use dynamic debug
+config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231123/202311230705.w4DPJjm0-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231123/202311230705.w4DPJjm0-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311230705.w4DPJjm0-lkp@intel.com/
+
+smatch warnings:
+drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:507 vchiq_ioc_await_completion() warn: inconsistent indenting
+
+vim +507 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+
+f05916281fd75db Ojaswin Mujoo   2021-07-21  496  		header = completion->header;
+f05916281fd75db Ojaswin Mujoo   2021-07-21  497  		if (header) {
+f05916281fd75db Ojaswin Mujoo   2021-07-21  498  			void __user *msgbuf;
+f05916281fd75db Ojaswin Mujoo   2021-07-21  499  			int msglen;
+f05916281fd75db Ojaswin Mujoo   2021-07-21  500  
+f05916281fd75db Ojaswin Mujoo   2021-07-21  501  			msglen = header->size + sizeof(struct vchiq_header);
+f05916281fd75db Ojaswin Mujoo   2021-07-21  502  			/* This must be a VCHIQ-style service */
+f05916281fd75db Ojaswin Mujoo   2021-07-21  503  			if (args->msgbufsize < msglen) {
+1d8915cf889932e Umang Jain      2023-10-24  504  				vchiq_log_error(service->state->dev, VCHIQ_ARM,
+f05916281fd75db Ojaswin Mujoo   2021-07-21  505  						"header %pK: msgbufsize %x < msglen %x",
+f05916281fd75db Ojaswin Mujoo   2021-07-21  506  						header, args->msgbufsize, msglen);
+f05916281fd75db Ojaswin Mujoo   2021-07-21 @507  						WARN(1, "invalid message size\n");
+
+WARN() is indented too far.
+
+f05916281fd75db Ojaswin Mujoo   2021-07-21  508  				if (ret == 0)
+f05916281fd75db Ojaswin Mujoo   2021-07-21  509  					ret = -EMSGSIZE;
+f05916281fd75db Ojaswin Mujoo   2021-07-21  510  				break;
+f05916281fd75db Ojaswin Mujoo   2021-07-21  511  			}
+f05916281fd75db Ojaswin Mujoo   2021-07-21  512  			if (msgbufcount <= 0)
+f05916281fd75db Ojaswin Mujoo   2021-07-21  513  				/* Stall here for lack of a buffer for the message. */
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
