@@ -1,50 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792298827
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 03:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A9717C4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 03:17:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9viqYvI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FQeAcqNw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700709437; x=1732245437;
+  t=1700709439; x=1732245439;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KwiMyloP3BOtD7RZzfS/9QrbbXi+bdvWaVOM2GzSc64=;
-  b=L9viqYvIFr4lcwW+B0+FTAlAbvsWeZCkdpTwyIxSnhOqUHjU2QCVhQV1
-   6jNJhmhx4EK90LlwhXhh4puijDa7dkTpXn/S8qnNqzED3gRNR78fjFtsF
-   urIyB41uOwjjzXsudTPtADvGE8V8kiuszUUYtwh2eT6i58uAAEGTOt5Qa
-   AQmsiU2NYEZD3+ifqXJw2P328d/sND5Q9xxMC6DuLGmKKulify53C155w
-   0rF3KRd7A/x8ODsBDSL94JTAj0WmO45oTjOwd7xLSElhtJKAWA4Li5zbg
-   /BZUMcnnGqVUUvQfAvUaahRBxf6rD4W68A79eO4DasUOhUn78vWbmuM36
+  bh=sJmQATWnZ/tTsmLmfHO3rRYbs5KYOsxU4c9+MxGZwzM=;
+  b=FQeAcqNwXHTHXy2+zjGB9CbjBxxQrgpIdtWwOUxQfrUithb+bCOUv0r9
+   +V/um41Vs7jIBEPAM3mDDhHyowiznC+w+wuB2+TxGzy2368/LFwGd8rxQ
+   FMVfcyIZ2c5bZBOJLoqHbpXsIhhHRNE1JFl+r03LwRDfjvNHs46ZCxLKe
+   T8MNm1hfnDorCzkiHPkiiUAIg+kF73AiNsDPl5rL/j6XjjQEkzcQ0MOc/
+   VHl83dKlJqw5L7VlJk2VnMCZuY54PRzTxIXTiBRc8n/FIkCYvVWAXvUEZ
+   ElMVbOdSVsG659+nJ3uaQBb+XmQDbxZJWH5s5oF1fcZLhlLusqw7KziFa
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="5380201"
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="5380202"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="5380201"
+   d="scan'208";a="5380202"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:17:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="767083292"
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="767083296"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="767083292"
+   d="scan'208";a="767083296"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 22 Nov 2023 19:17:14 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r60DI-0001Ao-0c;
+	id 1r60DI-0001B4-1I;
 	Thu, 23 Nov 2023 03:17:12 +0000
-Date: Thu, 23 Nov 2023 11:17:07 +0800
+Date: Thu, 23 Nov 2023 11:16:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/ttm: replace busy placement with flags v3
-Message-ID: <202311231106.FulSZizp-lkp@intel.com>
-References: <20231113110016.462621-1-Amaranath.Somalapuram@amd.com>
+To: Ben Dooks <ben.dooks@codethink.co.uk>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: Re: [PATCH] bpf: add __printf() to for printf fmt strings
+Message-ID: <202311231030.yBuPn92M-lkp@intel.com>
+References: <20231122133656.290475-1-ben.dooks@codethink.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,108 +51,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231113110016.462621-1-Amaranath.Somalapuram@amd.com>
+In-Reply-To: <20231122133656.290475-1-ben.dooks@codethink.co.uk>
 
-Hi Somalapuram,
+Hi Ben,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-tip/drm-tip]
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master linus/master v6.7-rc2 next-20231122]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Somalapuram-Amaranath/drm-ttm-replace-busy-placement-with-flags-v3/20231113-190252
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20231113110016.462621-1-Amaranath.Somalapuram%40amd.com
-patch subject: [Intel-gfx] [PATCH] drm/ttm: replace busy placement with flags v3
-config: i386-randconfig-061-20231123 (https://download.01.org/0day-ci/archive/20231123/202311231106.FulSZizp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231123/202311231106.FulSZizp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Dooks/bpf-add-__printf-to-for-printf-fmt-strings/20231122-231149
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231122133656.290475-1-ben.dooks%40codethink.co.uk
+patch subject: [PATCH] bpf: add __printf() to for printf fmt strings
+config: x86_64-randconfig-161-20231123 (https://download.01.org/0day-ci/archive/20231123/202311231030.yBuPn92M-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231123/202311231030.yBuPn92M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311231106.FulSZizp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311231030.yBuPn92M-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:77:22: sparse: sparse: symbol 'vmw_vram_sys_placement' was not declared. Should it be static?
-   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:101:22: sparse: sparse: symbol 'vmw_pt_sys_placement' was not declared. Should it be static?
->> drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:120:22: sparse: sparse: symbol 'vmw_srf_placement' was not declared. Should it be static?
->> drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:144:22: sparse: sparse: symbol 'vmw_nonfixed_placement' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/vmw_vram_sys_placement +77 drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+   kernel/bpf/btf.c: In function 'btf_type_seq_show_flags':
+>> kernel/bpf/btf.c:7100:14: warning: assignment left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
+    7100 |  sseq.showfn = btf_seq_show;
+         |              ^
+   kernel/bpf/btf.c: In function 'btf_type_snprintf_show':
+   kernel/bpf/btf.c:7151:24: warning: assignment left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
+    7151 |  ssnprintf.show.showfn = btf_snprintf_show;
+         |                        ^
 
-    76	
-  > 77	struct ttm_placement vmw_vram_sys_placement = {
-    78		.num_placement = 2,
-    79		.placement = vram_sys_placement_flags,
-    80	};
-    81	
-    82	static const struct ttm_place sys_placement_flags = {
-    83		.fpfn = 0,
-    84		.lpfn = 0,
-    85		.mem_type = TTM_PL_SYSTEM,
-    86		.flags = 0
-    87	};
-    88	
-    89	struct ttm_placement vmw_sys_placement = {
-    90		.num_placement = 1,
-    91		.placement = &sys_placement_flags,
-    92	};
-    93	
-    94	static const struct ttm_place vmw_sys_placement_flags = {
-    95		.fpfn = 0,
-    96		.lpfn = 0,
-    97		.mem_type = VMW_PL_SYSTEM,
-    98		.flags = 0
-    99	};
-   100	
-   101	struct ttm_placement vmw_pt_sys_placement = {
-   102		.num_placement = 1,
-   103		.placement = &vmw_sys_placement_flags,
-   104	};
-   105	
-   106	static const struct ttm_place gmr_vram_placement_flags[] = {
-   107		{
-   108			.fpfn = 0,
-   109			.lpfn = 0,
-   110			.mem_type = VMW_PL_GMR,
-   111			.flags = 0
-   112		}, {
-   113			.fpfn = 0,
-   114			.lpfn = 0,
-   115			.mem_type = TTM_PL_VRAM,
-   116			.flags = TTM_PL_FLAG_BUSY
-   117		}
-   118	};
-   119	
- > 120	struct ttm_placement vmw_srf_placement = {
-   121		.num_placement = 2,
-   122		.placement = gmr_vram_placement_flags
-   123	};
-   124	
-   125	static const struct ttm_place nonfixed_placement_flags[] = {
-   126		{
-   127			.fpfn = 0,
-   128			.lpfn = 0,
-   129			.mem_type = TTM_PL_SYSTEM,
-   130			.flags = 0
-   131		}, {
-   132			.fpfn = 0,
-   133			.lpfn = 0,
-   134			.mem_type = VMW_PL_GMR,
-   135			.flags = TTM_PL_FLAG_IDLE
-   136		}, {
-   137			.fpfn = 0,
-   138			.lpfn = 0,
-   139			.mem_type = VMW_PL_MOB,
-   140			.flags = TTM_PL_FLAG_IDLE
-   141		}
-   142	};
-   143	
- > 144	struct ttm_placement vmw_nonfixed_placement = {
-   145		.num_placement = 3,
-   146		.placement = nonfixed_placement_flags,
-   147	};
-   148	
+
+vim +7100 kernel/bpf/btf.c
+
+31d0bc81637d8d Alan Maguire 2020-09-28  7093  
+eb411377aed9e2 Alan Maguire 2020-09-28  7094  int btf_type_seq_show_flags(const struct btf *btf, u32 type_id,
+31d0bc81637d8d Alan Maguire 2020-09-28  7095  			    void *obj, struct seq_file *m, u64 flags)
+31d0bc81637d8d Alan Maguire 2020-09-28  7096  {
+31d0bc81637d8d Alan Maguire 2020-09-28  7097  	struct btf_show sseq;
+31d0bc81637d8d Alan Maguire 2020-09-28  7098  
+31d0bc81637d8d Alan Maguire 2020-09-28  7099  	sseq.target = m;
+31d0bc81637d8d Alan Maguire 2020-09-28 @7100  	sseq.showfn = btf_seq_show;
+31d0bc81637d8d Alan Maguire 2020-09-28  7101  	sseq.flags = flags;
+31d0bc81637d8d Alan Maguire 2020-09-28  7102  
+31d0bc81637d8d Alan Maguire 2020-09-28  7103  	btf_type_show(btf, type_id, obj, &sseq);
+31d0bc81637d8d Alan Maguire 2020-09-28  7104  
+31d0bc81637d8d Alan Maguire 2020-09-28  7105  	return sseq.state.status;
+31d0bc81637d8d Alan Maguire 2020-09-28  7106  }
+31d0bc81637d8d Alan Maguire 2020-09-28  7107  
 
 -- 
 0-DAY CI Kernel Test Service
