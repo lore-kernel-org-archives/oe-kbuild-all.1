@@ -1,79 +1,86 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D0B1775F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 08:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2971C2AF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 08:54:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQxKYUD7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HD5/YutB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700728966; x=1732264966;
+  t=1700729664; x=1732265664;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hEOvjwL4YXuWSu3HPkALJujBornOJYtNFhNVNzRUW3k=;
-  b=XQxKYUD7tY/YZoLV/0x+GMA0FPIoDcC6bTbRYz/6MSWxUrvGL9CWJlux
-   iHNweqVtWABorMCwyFNwpmKaJtKm+/AT34THx7MnkDOdzn2P7+1WYKSzk
-   vjqG39z3wjfnrxpveSuim6t+Bip70OV0iwGQXJqvOgyrQTcdvQg8NdCsp
-   37dqCYjq1S1iol0kVqeE29C3GumtaSt/EB3eOQel2NHwSePhYUCK56jQH
-   sPHRVEzvHXTQO4xgMUIn1dK4nObVzUNRB4yKGVvlKbHCjb02WzbBtApwE
-   NBUzKiZkAESgEXvq4MkuR7itjSfEmIh3w2n/Jp7C4HFunGsdCjozhVtA+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="372383425"
+  bh=VvCxKUO+lX/YishKqUdue6ePNL0Sq1V1DdU15aqP0DQ=;
+  b=HD5/YutBep4fHfO+7tOXkV5USLM1faKZJY7/RKaML7gNGQVYR/H/5Pow
+   NsYV08/K/ONc3M7lG/02m8yMwwzqBJ8OIOqVgDffdetkoSIpkDjDTo5hs
+   eVKaRh6LpD73acV6xQHKcCN7JePOaFQckjWOEMRyGPKkITe800G5sMeYT
+   90jmbpojr5Om1pr5FFelYJlZRd2ClB1NFH8XItiECQziVfiEuemGj3IvB
+   ad1vohSiAoJUNcq2mbxil6ju1p+gCLjUGH8YFY+++OmtcfZcA6SOfzN59
+   TPBoJbcSVgUl3cnKB6AMC1CZxP3+BbTnTr9UNO83LVEK1GKFzoEH8Y65l
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="372385036"
 X-IronPort-AV: E=Sophos;i="6.04,221,1695711600"; 
-   d="scan'208";a="372383425"
+   d="scan'208";a="372385036"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2023 00:42:45 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2023 00:54:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="716987671"
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="716988757"
 X-IronPort-AV: E=Sophos;i="6.04,221,1695711600"; 
-   d="scan'208";a="716987671"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Nov 2023 00:42:45 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+   d="scan'208";a="716988757"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga003.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Nov 2023 00:54:09 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 23 Nov 2023 00:42:45 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ 15.1.2507.34; Thu, 23 Nov 2023 00:54:08 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 23 Nov 2023 00:54:07 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
  fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 23 Nov 2023 00:42:45 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.34 via Frontend Transport; Thu, 23 Nov 2023 00:54:07 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 23 Nov 2023 00:42:44 -0800
+ 15.1.2507.34; Thu, 23 Nov 2023 00:54:07 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C+QArdQrUEMjguDnHaRHvdC925JhYAjU2a4ffmgA2UHUdDlhXAOjfr06m2P7o2VbTVCV0PptZCDtMyLpMgjj5lKxcM69/TTTMfW5mBow+YHkJbaYfNlje+5CYNl8s4CadqU6xEJn2caa8Ha/etFC9S4EMJmTLzPMIi608Zx0zOshUzmFDA3nBZgYHuqDn0plji8KAA7z4LUI9xLr+Kv5nHg4wBYVU6nHCB6a1pWTmfBykLf9f58t6Q37ST3rWJ2bMQcncWzQW5ZY1NDhCDRy2O0E++t0C/tJ9Epg8rzfwpjKGXsOcGQXRtqn3ciKLpeXMNf8JLUb1ykqO1VDpyeDGg==
+ b=iTkxUd/JQgodqUgunvcmys91wTxo2cb3uUC4Yez/xdc8x+9SmaTuWbHUQRc6wRjduC4u7mfSScYGUyyepQA48QuMJmlIz1aI30J8TjXxxIvOoLKwEfc0yflpptAuEBgzKizzRZOZAgay473fbko9Qj5bLyyAcHn4tsZQUNU5L6RR/u7+aFa6TXUpOo8sFG0PP+KCqyCL5hHYXJX1cMet/rnRU7L6agZSd7fIBtqz9sicVyu2VSx2Sc7pv3C3ABEgNELVEE8sNCk/Jn48snUMUPONKoI5Ml3llTPL8WzoSqnln1Zbg84AFZJKnykqAoyA4OIC6HPC1Gut4s85J46iow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8xacaS56OmlWA6B+pl2kFaUd490r5pcJY9nwju3z12w=;
- b=P6HOWNX7Fv5+m/apls5wv81wRagTjQcZX3wwlZiqRRf9UOy6H34ZwXTvNndH3e8qc3ZDS0LFhz4XtWhKIbaO/s8Le0hdsRvvkcMYWsKMh6WVhFn89bgy5vLrOp2ykM/BWxomTSUV8b5kO5hd5qqH4eXAhwABeKLjT/QMHKxui1rltb00CmPaMmc/fP5FftaOy3brOD5yoDvYtoCn06ddDb8Oi7aPVO2+yWDXMEoyyLVWrNXtMe12XraSx7nB06eSZvlBMClo68cRtRzZR66cfJeW0PDMe+5xL9LLtOGEXnGiZuJveRKdsO1XaejhwJZhHoIuJHj573OgzeUE25wmjQ==
+ bh=3oIeQ/1cca005u3pyhyAHuRNzQFZpkenSs+lHe4CYsE=;
+ b=bwcq68YnIzVUF4KM3fOVUkmFXexfWs83N+N5j+QN2uZCxn8Q7nV9uRZ6yrX12JeW0+afh2J1IbAlR/I2Tel7sDPDg9utAfIoMBTcuyrfC4wx1YokAzwhe0MrO45h7X+5j00Yz7AWww+SvZDA5NLYT7NBXRyx0h8bbENE07aTrflLoBHKOpPfjwQjTXyKzF6cxvTOR/MiBXFBrAxdgMQOHLZynB3HACOjpA0jdVPJ+TZOChU4W8+MhsElAqwEpEPrPwCI5B/bpBKnLB9sqerHSh4UHBNT++gNtbCLjkry5cUtqEMGWS5/RUkRnsk7WZweh2YisyTbY6cVrCMI33kVdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by IA1PR11MB7872.namprd11.prod.outlook.com (2603:10b6:208:3fe::6) with
+ by DM4PR11MB5440.namprd11.prod.outlook.com (2603:10b6:5:39c::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.20; Thu, 23 Nov
- 2023 08:42:37 +0000
+ 2023 08:54:06 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7025.017; Thu, 23 Nov 2023
- 08:42:37 +0000
-Date: Thu, 23 Nov 2023 16:38:01 +0800
+ 08:54:05 +0000
+Date: Thu, 23 Nov 2023 16:49:28 +0800
 From: kernel test robot <yujie.liu@intel.com>
-To: Sherry Yang <sherryy@android.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: drivers/android/binder_alloc.c:866: warning: No description found
- for parameter 'lru'
-Message-ID: <202311222244.3Znlb164-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, Christian Brauner
+	<christianvanbrauner@gmail.com>
+Subject: [brauner-vfs:b4/vfs-eventfd-signal 5/5] fs/eventfd.c:57: warning:
+ expecting prototype for eventfd_signal(). Prototype was for
+ eventfd_signal_mask() instead
+Message-ID: <202311230426.b0wY1x1o-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG3P274CA0009.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::21)
- To CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+X-ClientProxiedBy: SI1PR02CA0037.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::13) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,137 +88,113 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|IA1PR11MB7872:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59bbdca5-318a-437b-b146-08dbec00253e
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DM4PR11MB5440:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb302910-5a4c-4238-7523-08dbec01bf24
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qKrJTj0UVhxJ6bA8CHn6qlDbdQOeob9gHHox19xGudNo0Bc9JIP62AB7QqAjspluVMSND6EZ6fxij7loDosupIMbVLNusx3GcxwuZ2dLatSieIZWWGbjnDhWlyv0A03ZuHd3juAIw12eO80Oo8yKm9kL+qoImaEGaLRIE38wWX54RPR17FcI+h4OtG7bEBfWhH3Dk69lmu9avx28sVpSiZA1lCj5gx9lLMWITTtrYn1WcPwdfJGozObiF4bW6o/fjMSxe7koo1Is+Dbp7zVupJmnkdxqLAbUdi6Po83lXdMRoMfzoFeOy0W4J0Gahfd4HMgVevSr9D3BKRX919WtKUuGP80jekpTei6bxRZ9gqmwqu7ad3UHj+pcLww7v14xzD5Fv+lfzHlGaKw+ubYjHB3FGTlOY5rzy006ZdDvKm8uy3p/Nhmy6xyxRGcOrRo9i+hRS9hq1q3sE7AnUVxVOcapl9muQTDKDXBQjj8za0X12mOUz0cC7ZGgTse5Z4qa77Hy+tKHMdqyYNpH6AYMyvKqh4TtnSRldx2csKwlFwZWXTNctFCa3LSIhfQNkuiZtEg+IC8a2xU3z0eO49CdIGSx6VNl6tnrkhmK1qOB2hxXwpNkO6ZclNAZ/CHtbs8EJzK4e+jSI+dO3XlL/vb2lw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(346002)(376002)(39860400002)(136003)(230922051799003)(230173577357003)(230273577357003)(1800799012)(186009)(451199024)(64100799003)(86362001)(83380400001)(38100700002)(82960400001)(316002)(66946007)(6916009)(66476007)(66556008)(4326008)(8676002)(8936002)(6486002)(2906002)(41300700001)(5660300002)(2616005)(1076003)(6512007)(36756003)(26005)(6666004)(478600001)(966005)(6506007);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: SXVGnJLD5exSCUsrzRf/UZVEZBN0vUvb5BMjN7mv5rPJIob0C9PyYbTql8AwW52PQsU3jANNNd8N0lkH7VZlYVtUKQqJRTQ1k+UZ8P4mkp5ldBOlR4GJGA0NcktG4Nhf5ZrJdeQtUeoG+RgK/c6Wp8P1XKT/DF7iHiE0KWS4nQyQ3cgL9+tMIXUr5CLAxL2CK/QPoyvz4kO3dE1DkTBkyCoOxiSp5ujAPOJcVt9aWwV/qhO2EYQ78Lfgud0c1Igk/q71gm0xjRqiGe9eSiHYCYZ/ev6hq5wt0vM5ncVaITAJps81sDqKiN8W3qf32FkVpOn5OrTx6ktRUljslZQg+7DWLgdk+Q86/6jMrLhDgFEcejOXr+GA6Dj49onYUL8AlVQ7h687gFkXQhbvuECp414fF9xeE6egPPFHAlKz4r0ehInZY2afANrwlFXzV4oKkHL8WyzulyX5fU6BWRpcgBhxcla4GtZojAKtmkorun0ySJ6vHAtbrHVnhFswdV9682hnBmOSGZopEGnuKS3xsLaM0FT6nrQ7VPaImQfkdZReMv9fuG95VEjm0nGpbZba4eTi/zDLg42CGuAIaCRq1Jpj+rp8HvwcwWo/f+CrYl0erN1PbvG89RWROHjpW6eBaD6N6TYiwlGMyL4d1ZCNGQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(396003)(366004)(39860400002)(136003)(230922051799003)(230173577357003)(230273577357003)(1800799012)(64100799003)(186009)(451199024)(4001150100001)(6666004)(4326008)(36756003)(8676002)(8936002)(2906002)(86362001)(5660300002)(41300700001)(38100700002)(82960400001)(26005)(6916009)(83380400001)(6512007)(1076003)(2616005)(478600001)(6506007)(6486002)(966005)(66476007)(66556008)(316002)(66946007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VYI4QRxEZUH0yf/qbfpF3ToXbAKT1a6FwIMVy32gvGrL+3+cFzYifIcmJqjd?=
- =?us-ascii?Q?Qu7FFf/gK57TS0a4Qud/vr96rZw9mdX3RMFS/z/nhuymMtu+JQIcX7Tz64nY?=
- =?us-ascii?Q?aRGqpIrZZNkUoh/2fQBtMqB+USsR2cSjBFg3mbFXRSSwFrI17CmhchxW+nh8?=
- =?us-ascii?Q?2cUMcfYvc1llw/8sqOVFBiSegYRYX8P6B1GwWRYK0vRiPaiidQMsbmc8e6qL?=
- =?us-ascii?Q?vPCtxvYm2ONePC5AAqeJwx7vQfOI9NyiB/fMYo2qykfeq1Kzd5vodiChPy76?=
- =?us-ascii?Q?lev8c6xmIq23X8qArzor2qGP27S/M8Vv+4Ep6JGN2xi+LdJ+NAwCTFpeDNbR?=
- =?us-ascii?Q?Gu63KV0aW64PehzPei0YYUgbGbm0WmpDN2vETufhYDpDaO90SQ/p8hWH/iTQ?=
- =?us-ascii?Q?Jd8Ye2sesvNNTqN+w1rb9TprKfaPHKb8fkggMXcWgtdMcTi422sla00EI7o9?=
- =?us-ascii?Q?nc8BG5sEPByZaxQgM6roBkzlkITrhpKb85rQuE8Rmf3LCHg839jEAmxASknV?=
- =?us-ascii?Q?1IUWH0yb0w/gtwbBXP08YoaIT35qM80IBQoJCtAIY6vCk94ohy1jcZW6EOpe?=
- =?us-ascii?Q?4WZsBGVJ3QGkTfxFyj/azeBJ7+LHkpiGluZYZGGhNmqXmUyqx57Qjzmj+hxk?=
- =?us-ascii?Q?cZxeKA0RJw7TG0hckkBdCSnTKs9dlkxxDdwKIRD79jVRs3n5nOCLPfGXkFG7?=
- =?us-ascii?Q?do6hoND1QCwGTRZu62txoTuT4u37L6yx4SZ9vV2nvkTWJSpBVAzFdPEcmme4?=
- =?us-ascii?Q?YZ/rnPlkTnlHlP7BybSbnhcFgE8NtQHI9eyXXnD9wOyawvYcMQWF9ShLz/90?=
- =?us-ascii?Q?9cPOaypawTgpYOSNM7cNvIDFesN/pnNhRbo/Rp/IkwHPdpmNcEbZC5RQV7Mf?=
- =?us-ascii?Q?7y/Ue5Be6a6D82f++I+R5lLP6JTHYJM8jRpH5fc0xKzgptZiSnkgswyIiHpX?=
- =?us-ascii?Q?80baAn1KHJdR7JzDeLOimgQdf7Tsob194jXspJJ5+wxUHWsI4KhD+Z0OjyQa?=
- =?us-ascii?Q?MQ95cHyf+BnkVb2THz5dEYANjSZOhWbLrTfazHzPfYC/6E2Ak6iPuPeYpZo+?=
- =?us-ascii?Q?YLxOWmv6FycZWzdLCVntYjmOVwCkz+rzCd1QYG+1oDr9KoYnCEHXJYj7obTt?=
- =?us-ascii?Q?b9nkuMBJailbyRULd5gkzhnnHWMATjE13rVd1ChF0KuxGgWNyN8aWaP5LBUW?=
- =?us-ascii?Q?wk1ggGhljSagjT4T7B8kW2DGgeHXSYU6XYuUj7qVOrjxm5Y4z2dMOY55YJip?=
- =?us-ascii?Q?fZhsV17ogjaVAXp/piKmTqSEc5Ph3L6H6P7CJpjRjZ6XOVDujUuyg3mXrGs5?=
- =?us-ascii?Q?DH0G1lcuXBmE6Hu+d5YQESbAXUbGRWsblQ/wmhUP6Cl3c+fINkMhLvclPQn3?=
- =?us-ascii?Q?vp4uISL2FhTuRfNKyn0wACyUVPW7QswXeaRaChT9FaekZC+2nEOrNHwco0YB?=
- =?us-ascii?Q?/rtMnTttDd7pBLDaQvSxBc6c1Y2N45E9FzTb+jwdEClyHaxx+zFRpUlOrFBy?=
- =?us-ascii?Q?wcXJwXoCBdyteMclL6xJvCykJJ+gwyCRPFP+6QcjfwrD+QVZU7rWcw5Ko8ts?=
- =?us-ascii?Q?uGn6QUrFiwhwRXVQ9On0MHFdC12PbQMssgAY6X1g?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59bbdca5-318a-437b-b146-08dbec00253e
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DG79PbfHl36HHX3F/eM7DQAQHqQmqjgU1ZdVKlBjkK/9e3STvpaqg0+hT5ZF?=
+ =?us-ascii?Q?KvnU1QAWbAevFJHEGfIAMBZFuyR1E7fLd3O6Ex7fFRTQajntqNF2BjKhJbWQ?=
+ =?us-ascii?Q?8SUVDdEhs1FvRLLtshVTRkiwyafaphqyAWGYniL0viQ5R+1PGB9pArOJDCTP?=
+ =?us-ascii?Q?N+QscfbZ2CMY2i/wQkUXA82q7/NDWlhSKxrQHJYJmwlmvlQxO/QNscqkCMlu?=
+ =?us-ascii?Q?cP+kGU9Xjg3tBCFuBGNf22Gt0oNdZTqgS8fv3hR2G2XjhDwlk8MXyEn+vekb?=
+ =?us-ascii?Q?mz6/sRYphd67Jn/Pr6T7M16PpsIgqPcUL2JPXAgxgj8NryjEuPHZjgnZAnIJ?=
+ =?us-ascii?Q?VH66oft5biiLuWYzRV0TRgH3U5Bl00FKMr6IoDhUJiIaqS0uNY2a1kfTIeD/?=
+ =?us-ascii?Q?8Uwt+9eYEb/ZfnpCpSq0ub4LVMc93crF3nI68JD1VE7U20vzALf9W7yfoMZr?=
+ =?us-ascii?Q?POZROb5DO9bRxz70jaYaeMNbj+3Z55NC1vZtMw3wSnU1cr0eoyqRdUFRxKKR?=
+ =?us-ascii?Q?QMY10aFJNmZVu9JI73+tswhjrMPEDsVl9OiK3313w24h7K2Ps7suzKx3f9jh?=
+ =?us-ascii?Q?aFDCe5V5qF8K2fId17Z/rSyqpayvbwt1zhhMfvBYYxlYU+Nqa+HiFeG8AuGH?=
+ =?us-ascii?Q?WU0o9ehUudPfE3pmz8lbMkeSOEv8LjBUCUp7Y7/ZAnzb/tlV792JlmxvbIjX?=
+ =?us-ascii?Q?RnDHAobmdsizPZuIr2gwi4/TUtTZGbJoYMD2LYvMZTHhfmQn5nC5ILgBGKM4?=
+ =?us-ascii?Q?xBcl631vxRHTy2tUXFqe0dJmmh56ivRiLuqre4QEghSNO1oUTe/g9CYjNeah?=
+ =?us-ascii?Q?J+9ZpUMFGl3RW+wr/LSxjx7PTPl8trfypWBG1o6+m5FHjvcAFmTOXgcGHdoN?=
+ =?us-ascii?Q?++ofWvF2IF5iBddjefo+D0S3X8ygV4q0WZe6efZS0kXnd8uYD+woOdKdHNBx?=
+ =?us-ascii?Q?HDqE/vmgXmP7/EHl57u+sGluEpOchZpnT3kArk7/cvjl7DBmvjJl0PK+Xj6x?=
+ =?us-ascii?Q?43iqKJtvqjDsVjCwb0pTd4pnSJI4Amav09kXbRTNNyQsdMmndXT6lwbKySpz?=
+ =?us-ascii?Q?pFtCs4T3AXusek/2vM8Moe758NW0FkvHopTTthOg+5mwOXKmqov25CxKDz9M?=
+ =?us-ascii?Q?aIi4LwYdZ5lHIzrbrIzYlEPjyjU588Tluch6yV458XhChpzOkK4RFfnG5+YB?=
+ =?us-ascii?Q?nGNo7O7iI7rNx+r5jAgtEz4fZ+UtmIkFLEopRsE19w3dlgJ/lbMljUKmiAiN?=
+ =?us-ascii?Q?a/JLDZ+sPbxr7+N1FHjfw7DNm4pKcqh7Shj/dEJySkthQdVbTn1GR9CtSXzT?=
+ =?us-ascii?Q?nRpyKa17dOJAtirWHFL21Ebe3YjpsnMB4PPhcPwfnfwbCXKmApdEDyn+5joO?=
+ =?us-ascii?Q?bQadKINRrdO6wFbZ9IeSZlu2ilnMRwtCvxdMx3Xa5taz1Isbn04DwzyItDex?=
+ =?us-ascii?Q?YXsMVKOT9Cj2dMrJd+uxxu7nmnAGQOgn/1fEB3/ZaFc7x/XURXPy7DzlCVhv?=
+ =?us-ascii?Q?kcp2eKhHIG/z2sDo3lqPCUmvs9eCTjMm4HSLRGddhJYqnyWphgUFQh82e60A?=
+ =?us-ascii?Q?MlIQ6nmxNSDUJRy5GyawgryvtiMaCau7Gq2qp9g6?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb302910-5a4c-4238-7523-08dbec01bf24
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2023 08:42:37.4670
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2023 08:54:05.1778
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lvul8eFkJ7772MFIoUJr+drReNP4CpRIGiD/c0mjBWi68rvvAS85sPr/ZwL5XJqzMCDp5QW43rbmWMvGZf+A0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7872
+X-MS-Exchange-CrossTenant-UserPrincipalName: OpP9wm7zByDGih4zY13seCGkKDrygHsnHDHyeTOv26ixsvNeSFtzYvSkoHwYCZLMqJFftvooTdcJ/lW2yvQZwg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5440
 X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2d5304e6c648ebcf653bace7e51e0e6742e46c8
-commit: f2517eb76f1f2f7f89761f9db2b202e89931738c android: binder: Add global lru shrinker to binder
-config: x86_64-randconfig-003-20231122 (https://download.01.org/0day-ci/archive/20231122/202311222244.3Znlb164-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311222244.3Znlb164-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git b4/vfs-eventfd-signal
+head:   57ceaa6ec25fff4e0d916e587377a96ffa209507
+commit: 1e2d01f4ec1da4b0a16fc8c3b28f6db33c9672b0 [5/5] eventfd: make eventfd_signal{_mask}() void
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231123/202311230426.b0wY1x1o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202311222244.3Znlb164-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311230426.b0wY1x1o-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/android/binder_alloc.c:866: warning: No description found for parameter 'lru'
+>> fs/eventfd.c:57: warning: expecting prototype for eventfd_signal(). Prototype was for eventfd_signal_mask() instead
 
+vim +57 fs/eventfd.c
 
-vim +/lru +866 drivers/android/binder_alloc.c
+e1ad7468c77ddb9 Davide Libenzi    2007-05-10  45  
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  46  /**
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  47   * eventfd_signal - Adds @n to the eventfd counter.
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  48   * @ctx: [in] Pointer to the eventfd context.
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  49   * @mask: [in] poll mask
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  50   *
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  51   * This function is supposed to be called by the kernel in paths that do not
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  52   * allow sleeping. In this function we allow the counter to reach the ULLONG_MAX
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  53   * value, and we signal this as overflow condition by returning a EPOLLERR
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  54   * to poll(2).
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  55   */
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  56  void eventfd_signal_mask(struct eventfd_ctx *ctx, __poll_t mask)
+e1ad7468c77ddb9 Davide Libenzi    2007-05-10 @57  {
+e1ad7468c77ddb9 Davide Libenzi    2007-05-10  58  	unsigned long flags;
+e1ad7468c77ddb9 Davide Libenzi    2007-05-10  59  
+b5e683d5cab8cd4 Jens Axboe        2020-02-02  60  	/*
+b5e683d5cab8cd4 Jens Axboe        2020-02-02  61  	 * Deadlock or stack overflow issues can happen if we recurse here
+b5e683d5cab8cd4 Jens Axboe        2020-02-02  62  	 * through waitqueue wakeup handlers. If the caller users potentially
+b5e683d5cab8cd4 Jens Axboe        2020-02-02  63  	 * nested waitqueues with custom wakeup handlers, then it should
+b542e383d8c005f Thomas Gleixner   2021-07-29  64  	 * check eventfd_signal_allowed() before calling this function. If
+b542e383d8c005f Thomas Gleixner   2021-07-29  65  	 * it returns false, the eventfd_signal() call should be deferred to a
+b5e683d5cab8cd4 Jens Axboe        2020-02-02  66  	 * safe context.
+b5e683d5cab8cd4 Jens Axboe        2020-02-02  67  	 */
+9f0deaa12d832f4 Dylan Yudaken     2022-08-16  68  	if (WARN_ON_ONCE(current->in_eventfd))
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  69  		return;
+b5e683d5cab8cd4 Jens Axboe        2020-02-02  70  
+d48eb2331595224 Davide Libenzi    2007-05-18  71  	spin_lock_irqsave(&ctx->wqh.lock, flags);
+9f0deaa12d832f4 Dylan Yudaken     2022-08-16  72  	current->in_eventfd = 1;
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  73  	if (ctx->count < ULLONG_MAX)
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  74  		ctx->count++;
+e1ad7468c77ddb9 Davide Libenzi    2007-05-10  75  	if (waitqueue_active(&ctx->wqh))
+03e02acda8e267a Jens Axboe        2022-11-20  76  		wake_up_locked_poll(&ctx->wqh, EPOLLIN | mask);
+9f0deaa12d832f4 Dylan Yudaken     2022-08-16  77  	current->in_eventfd = 0;
+d48eb2331595224 Davide Libenzi    2007-05-18  78  	spin_unlock_irqrestore(&ctx->wqh.lock, flags);
+03e02acda8e267a Jens Axboe        2022-11-20  79  }
+1e2d01f4ec1da4b Christian Brauner 2023-11-22  80  EXPORT_SYMBOL_GPL(eventfd_signal_mask);
+e1ad7468c77ddb9 Davide Libenzi    2007-05-10  81  
 
-0c972a05cde66e Todd Kjos   2017-06-29  852  
-f2517eb76f1f2f Sherry Yang 2017-08-23  853  /**
-f2517eb76f1f2f Sherry Yang 2017-08-23  854   * binder_alloc_free_page() - shrinker callback to free pages
-f2517eb76f1f2f Sherry Yang 2017-08-23  855   * @item:   item to free
-f2517eb76f1f2f Sherry Yang 2017-08-23  856   * @lock:   lock protecting the item
-f2517eb76f1f2f Sherry Yang 2017-08-23  857   * @cb_arg: callback argument
-f2517eb76f1f2f Sherry Yang 2017-08-23  858   *
-f2517eb76f1f2f Sherry Yang 2017-08-23  859   * Called from list_lru_walk() in binder_shrink_scan() to free
-f2517eb76f1f2f Sherry Yang 2017-08-23  860   * up pages when the system is under memory pressure.
-f2517eb76f1f2f Sherry Yang 2017-08-23  861   */
-f2517eb76f1f2f Sherry Yang 2017-08-23  862  enum lru_status binder_alloc_free_page(struct list_head *item,
-f2517eb76f1f2f Sherry Yang 2017-08-23  863  				       struct list_lru_one *lru,
-f2517eb76f1f2f Sherry Yang 2017-08-23  864  				       spinlock_t *lock,
-f2517eb76f1f2f Sherry Yang 2017-08-23  865  				       void *cb_arg)
-f2517eb76f1f2f Sherry Yang 2017-08-23 @866  {
-f2517eb76f1f2f Sherry Yang 2017-08-23  867  	struct mm_struct *mm = NULL;
-f2517eb76f1f2f Sherry Yang 2017-08-23  868  	struct binder_lru_page *page = container_of(item,
-f2517eb76f1f2f Sherry Yang 2017-08-23  869  						    struct binder_lru_page,
-f2517eb76f1f2f Sherry Yang 2017-08-23  870  						    lru);
-f2517eb76f1f2f Sherry Yang 2017-08-23  871  	struct binder_alloc *alloc;
-f2517eb76f1f2f Sherry Yang 2017-08-23  872  	uintptr_t page_addr;
-f2517eb76f1f2f Sherry Yang 2017-08-23  873  	size_t index;
-f2517eb76f1f2f Sherry Yang 2017-08-23  874  
-f2517eb76f1f2f Sherry Yang 2017-08-23  875  	alloc = page->alloc;
-f2517eb76f1f2f Sherry Yang 2017-08-23  876  	if (!mutex_trylock(&alloc->mutex))
-f2517eb76f1f2f Sherry Yang 2017-08-23  877  		goto err_get_alloc_mutex_failed;
-f2517eb76f1f2f Sherry Yang 2017-08-23  878  
-f2517eb76f1f2f Sherry Yang 2017-08-23  879  	if (!page->page_ptr)
-f2517eb76f1f2f Sherry Yang 2017-08-23  880  		goto err_page_already_freed;
-f2517eb76f1f2f Sherry Yang 2017-08-23  881  
-f2517eb76f1f2f Sherry Yang 2017-08-23  882  	index = page - alloc->pages;
-f2517eb76f1f2f Sherry Yang 2017-08-23  883  	page_addr = (uintptr_t)alloc->buffer + index * PAGE_SIZE;
-f2517eb76f1f2f Sherry Yang 2017-08-23  884  	if (alloc->vma) {
-f2517eb76f1f2f Sherry Yang 2017-08-23  885  		mm = get_task_mm(alloc->tsk);
-f2517eb76f1f2f Sherry Yang 2017-08-23  886  		if (!mm)
-f2517eb76f1f2f Sherry Yang 2017-08-23  887  			goto err_get_task_mm_failed;
-f2517eb76f1f2f Sherry Yang 2017-08-23  888  		if (!down_write_trylock(&mm->mmap_sem))
-f2517eb76f1f2f Sherry Yang 2017-08-23  889  			goto err_down_write_mmap_sem_failed;
-f2517eb76f1f2f Sherry Yang 2017-08-23  890  
-f2517eb76f1f2f Sherry Yang 2017-08-23  891  		zap_page_range(alloc->vma,
-f2517eb76f1f2f Sherry Yang 2017-08-23  892  			       page_addr + alloc->user_buffer_offset,
-f2517eb76f1f2f Sherry Yang 2017-08-23  893  			       PAGE_SIZE);
-f2517eb76f1f2f Sherry Yang 2017-08-23  894  
-f2517eb76f1f2f Sherry Yang 2017-08-23  895  		up_write(&mm->mmap_sem);
-f2517eb76f1f2f Sherry Yang 2017-08-23  896  		mmput(mm);
-f2517eb76f1f2f Sherry Yang 2017-08-23  897  	}
-f2517eb76f1f2f Sherry Yang 2017-08-23  898  
-f2517eb76f1f2f Sherry Yang 2017-08-23  899  	unmap_kernel_range(page_addr, PAGE_SIZE);
-f2517eb76f1f2f Sherry Yang 2017-08-23  900  	__free_page(page->page_ptr);
-f2517eb76f1f2f Sherry Yang 2017-08-23  901  	page->page_ptr = NULL;
-f2517eb76f1f2f Sherry Yang 2017-08-23  902  
-f2517eb76f1f2f Sherry Yang 2017-08-23  903  	list_lru_isolate(lru, item);
-f2517eb76f1f2f Sherry Yang 2017-08-23  904  
-f2517eb76f1f2f Sherry Yang 2017-08-23  905  	mutex_unlock(&alloc->mutex);
-f2517eb76f1f2f Sherry Yang 2017-08-23  906  	return LRU_REMOVED;
-f2517eb76f1f2f Sherry Yang 2017-08-23  907  
-f2517eb76f1f2f Sherry Yang 2017-08-23  908  err_down_write_mmap_sem_failed:
-f2517eb76f1f2f Sherry Yang 2017-08-23  909  	mmput(mm);
-f2517eb76f1f2f Sherry Yang 2017-08-23  910  err_get_task_mm_failed:
-f2517eb76f1f2f Sherry Yang 2017-08-23  911  err_page_already_freed:
-f2517eb76f1f2f Sherry Yang 2017-08-23  912  	mutex_unlock(&alloc->mutex);
-f2517eb76f1f2f Sherry Yang 2017-08-23  913  err_get_alloc_mutex_failed:
-f2517eb76f1f2f Sherry Yang 2017-08-23  914  	return LRU_SKIP;
-f2517eb76f1f2f Sherry Yang 2017-08-23  915  }
-f2517eb76f1f2f Sherry Yang 2017-08-23  916  
+:::::: The code at line 57 was first introduced by commit
+:::::: e1ad7468c77ddb94b0615d5f50fa255525fde0f0 signal/timer/event: eventfd core
+
+:::::: TO: Davide Libenzi <davidel@xmailserver.org>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
