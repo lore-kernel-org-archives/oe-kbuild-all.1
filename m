@@ -1,71 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4C98828;
-	Thu, 23 Nov 2023 03:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792298827
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 03:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1yR1pwa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9viqYvI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700709142; x=1732245142;
+  t=1700709437; x=1732245437;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UnGQBf6lO2CjcsVhvS6vUPaT2j1YbZBexAjYz4DyprU=;
-  b=I1yR1pwaKdHVoXDejrbL6aHmyTeIuwTDb9hN8wdUdxBALB3QkxC8N3Xv
-   kCA+pSMcBBg/apLLIyX9G/fHgB220wbabaUdyDAuqwsCkTXZ/Taqxhlxb
-   885v2X3swhjOUeYnf0TsLq0K+pLNF67x19OMlvnINfAhA0tcbeXtlI1vT
-   xnJoLDymQe3rvQ4XFSSkhl71PFYpvY7RvYRd2Dafz6VUKQPIIkvP/Jgar
-   BdnD2NCoK8AMY+rvsHvkC76XlkjiEJ+1ii0TdL+I2SwcjmmRGFJzbgJTP
-   nwpQNygh7ZHtvC3EZ4RADxUqEkG40UhiO0jmFApIJSMSj9sFSf2CNlX5t
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="458685603"
+  bh=KwiMyloP3BOtD7RZzfS/9QrbbXi+bdvWaVOM2GzSc64=;
+  b=L9viqYvIFr4lcwW+B0+FTAlAbvsWeZCkdpTwyIxSnhOqUHjU2QCVhQV1
+   6jNJhmhx4EK90LlwhXhh4puijDa7dkTpXn/S8qnNqzED3gRNR78fjFtsF
+   urIyB41uOwjjzXsudTPtADvGE8V8kiuszUUYtwh2eT6i58uAAEGTOt5Qa
+   AQmsiU2NYEZD3+ifqXJw2P328d/sND5Q9xxMC6DuLGmKKulify53C155w
+   0rF3KRd7A/x8ODsBDSL94JTAj0WmO45oTjOwd7xLSElhtJKAWA4Li5zbg
+   /BZUMcnnGqVUUvQfAvUaahRBxf6rD4W68A79eO4DasUOhUn78vWbmuM36
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="5380201"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="458685603"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:12:20 -0800
+   d="scan'208";a="5380201"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:17:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="716933921"
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="767083292"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="716933921"
+   d="scan'208";a="767083292"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Nov 2023 19:12:12 -0800
+  by orsmga002.jf.intel.com with ESMTP; 22 Nov 2023 19:17:14 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r608Q-0001AC-0r;
-	Thu, 23 Nov 2023 03:12:10 +0000
-Date: Thu, 23 Nov 2023 11:11:21 +0800
+	id 1r60DI-0001Ao-0c;
+	Thu, 23 Nov 2023 03:17:12 +0000
+Date: Thu, 23 Nov 2023 11:17:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Jianlong Huang <jianlong.huang@starfivetech.com>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Sean Wang <sean.wang@kernel.org>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Subject: Re: [PATCH v1 01/17] pinctrl: equilibrium: Convert to use struct
- pingroup
-Message-ID: <202311230820.oBQop844-lkp@intel.com>
-References: <20231122164040.2262742-2-andriy.shevchenko@linux.intel.com>
+To: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/ttm: replace busy placement with flags v3
+Message-ID: <202311231106.FulSZizp-lkp@intel.com>
+References: <20231113110016.462621-1-Amaranath.Somalapuram@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,117 +53,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231122164040.2262742-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231113110016.462621-1-Amaranath.Somalapuram@amd.com>
 
-Hi Andy,
+Hi Somalapuram,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next geert-renesas-drivers/renesas-pinctrl pinctrl-samsung/for-next linus/master v6.7-rc2 next-20231122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on drm-tip/drm-tip]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-equilibrium-Convert-to-use-struct-pingroup/20231123-005932
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20231122164040.2262742-2-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 01/17] pinctrl: equilibrium: Convert to use struct pingroup
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231123/202311230820.oBQop844-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231123/202311230820.oBQop844-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Somalapuram-Amaranath/drm-ttm-replace-busy-placement-with-flags-v3/20231113-190252
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20231113110016.462621-1-Amaranath.Somalapuram%40amd.com
+patch subject: [Intel-gfx] [PATCH] drm/ttm: replace busy placement with flags v3
+config: i386-randconfig-061-20231123 (https://download.01.org/0day-ci/archive/20231123/202311231106.FulSZizp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231123/202311231106.FulSZizp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311230820.oBQop844-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311231106.FulSZizp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:77:22: sparse: sparse: symbol 'vmw_vram_sys_placement' was not declared. Should it be static?
+   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:101:22: sparse: sparse: symbol 'vmw_pt_sys_placement' was not declared. Should it be static?
+>> drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:120:22: sparse: sparse: symbol 'vmw_srf_placement' was not declared. Should it be static?
+>> drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c:144:22: sparse: sparse: symbol 'vmw_nonfixed_placement' was not declared. Should it be static?
 
->> drivers/pinctrl/pinctrl-equilibrium.c:750:17: error: read-only variable is not assignable
-                           grp->pins[j] = pin_id;
-                           ~~~~~~~~~~~~ ^
->> drivers/pinctrl/pinctrl-equilibrium.c:761:23: error: no member named 'num_pins' in 'struct pingroup'
-                                                   grp->pins, grp->num_pins,
-                                                              ~~~  ^
-   2 errors generated.
+vim +/vmw_vram_sys_placement +77 drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
 
-
-vim +750 drivers/pinctrl/pinctrl-equilibrium.c
-
-   702	
-   703	static int eqbr_build_groups(struct eqbr_pinctrl_drv_data *drvdata)
-   704	{
-   705		struct device *dev = drvdata->dev;
-   706		struct device_node *node = dev->of_node;
-   707		unsigned int *pinmux, pin_id, pinmux_id;
-   708		struct pingroup group, *grp = &group;
-   709		struct device_node *np;
-   710		struct property *prop;
-   711		int j, err;
-   712	
-   713		for_each_child_of_node(node, np) {
-   714			prop = of_find_property(np, "groups", NULL);
-   715			if (!prop)
-   716				continue;
-   717	
-   718			grp->npins = of_property_count_u32_elems(np, "pins");
-   719			if (grp->npins < 0) {
-   720				dev_err(dev, "No pins in the group: %s\n", prop->name);
-   721				of_node_put(np);
-   722				return -EINVAL;
-   723			}
-   724			grp->name = prop->value;
-   725			grp->pins = devm_kcalloc(dev, grp->npins, sizeof(*grp->pins), GFP_KERNEL);
-   726			if (!grp->pins) {
-   727				of_node_put(np);
-   728				return -ENOMEM;
-   729			}
-   730	
-   731			pinmux = devm_kcalloc(dev, grp->npins, sizeof(*pinmux), GFP_KERNEL);
-   732			if (!pinmux) {
-   733				of_node_put(np);
-   734				return -ENOMEM;
-   735			}
-   736	
-   737			for (j = 0; j < grp->npins; j++) {
-   738				if (of_property_read_u32_index(np, "pins", j, &pin_id)) {
-   739					dev_err(dev, "Group %s: Read intel pins id failed\n",
-   740						grp->name);
-   741					of_node_put(np);
-   742					return -EINVAL;
-   743				}
-   744				if (pin_id >= drvdata->pctl_desc.npins) {
-   745					dev_err(dev, "Group %s: Invalid pin ID, idx: %d, pin %u\n",
-   746						grp->name, j, pin_id);
-   747					of_node_put(np);
-   748					return -EINVAL;
-   749				}
- > 750				grp->pins[j] = pin_id;
-   751				if (of_property_read_u32_index(np, "pinmux", j, &pinmux_id)) {
-   752					dev_err(dev, "Group %s: Read intel pinmux id failed\n",
-   753						grp->name);
-   754					of_node_put(np);
-   755					return -EINVAL;
-   756				}
-   757				pinmux[j] = pinmux_id;
-   758			}
-   759	
-   760			err = pinctrl_generic_add_group(drvdata->pctl_dev, grp->name,
- > 761							grp->pins, grp->num_pins,
-   762							pinmux);
-   763			if (err < 0) {
-   764				dev_err(dev, "Failed to register group %s\n", grp->name);
-   765				of_node_put(np);
-   766				return err;
-   767			}
-   768			memset(&group, 0, sizeof(group));
-   769			pinmux = NULL;
-   770		}
-   771	
-   772		return 0;
-   773	}
-   774	
+    76	
+  > 77	struct ttm_placement vmw_vram_sys_placement = {
+    78		.num_placement = 2,
+    79		.placement = vram_sys_placement_flags,
+    80	};
+    81	
+    82	static const struct ttm_place sys_placement_flags = {
+    83		.fpfn = 0,
+    84		.lpfn = 0,
+    85		.mem_type = TTM_PL_SYSTEM,
+    86		.flags = 0
+    87	};
+    88	
+    89	struct ttm_placement vmw_sys_placement = {
+    90		.num_placement = 1,
+    91		.placement = &sys_placement_flags,
+    92	};
+    93	
+    94	static const struct ttm_place vmw_sys_placement_flags = {
+    95		.fpfn = 0,
+    96		.lpfn = 0,
+    97		.mem_type = VMW_PL_SYSTEM,
+    98		.flags = 0
+    99	};
+   100	
+   101	struct ttm_placement vmw_pt_sys_placement = {
+   102		.num_placement = 1,
+   103		.placement = &vmw_sys_placement_flags,
+   104	};
+   105	
+   106	static const struct ttm_place gmr_vram_placement_flags[] = {
+   107		{
+   108			.fpfn = 0,
+   109			.lpfn = 0,
+   110			.mem_type = VMW_PL_GMR,
+   111			.flags = 0
+   112		}, {
+   113			.fpfn = 0,
+   114			.lpfn = 0,
+   115			.mem_type = TTM_PL_VRAM,
+   116			.flags = TTM_PL_FLAG_BUSY
+   117		}
+   118	};
+   119	
+ > 120	struct ttm_placement vmw_srf_placement = {
+   121		.num_placement = 2,
+   122		.placement = gmr_vram_placement_flags
+   123	};
+   124	
+   125	static const struct ttm_place nonfixed_placement_flags[] = {
+   126		{
+   127			.fpfn = 0,
+   128			.lpfn = 0,
+   129			.mem_type = TTM_PL_SYSTEM,
+   130			.flags = 0
+   131		}, {
+   132			.fpfn = 0,
+   133			.lpfn = 0,
+   134			.mem_type = VMW_PL_GMR,
+   135			.flags = TTM_PL_FLAG_IDLE
+   136		}, {
+   137			.fpfn = 0,
+   138			.lpfn = 0,
+   139			.mem_type = VMW_PL_MOB,
+   140			.flags = TTM_PL_FLAG_IDLE
+   141		}
+   142	};
+   143	
+ > 144	struct ttm_placement vmw_nonfixed_placement = {
+   145		.num_placement = 3,
+   146		.placement = nonfixed_placement_flags,
+   147	};
+   148	
 
 -- 
 0-DAY CI Kernel Test Service
