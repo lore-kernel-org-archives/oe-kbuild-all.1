@@ -1,86 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E531C695
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 08:57:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99A820325
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 09:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQZL0enC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JoBZhgjP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700729866; x=1732265866;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=hYb+L9/0ObbT9a7FjwBoKSzRV1KYpKDCQH+fK8KoBbA=;
-  b=bQZL0enC86CBy+WVUc1Z5JgrREU4ifFxRGAaVkbcqndfh1zYkfZE9BSm
-   I5QpcZX2ZBopBR2gDm8K22dT7Hq+6CiIFxic/C9Qc+mixzAzD3ZOy7HNN
-   C0eG0MWPM+PaJ5wUuMpxfcyYn+KhTMDQcN53bDWzsewZtTzkZ4b5IjQsH
-   FKGXALzM9+Bm+J/4Hpym6h95hUbyG7OJveojnUFpD/gyG3ASmn6X6K4CZ
-   YFXG073CzyhJk6Q6W6caJ0YcWGzNMkmxDcIoxw9v+yfYFEjiJtbDHM7V1
-   ePy9DPCkbCdlFmfYbzbztrGxaP17/eUMZSj2bL4zHJoz9AzDIzGZu85Fy
+  t=1700730475; x=1732266475;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SqaDaKg3D+jkt9tkvZ0+rS4CxIodxvith7w9+ojroDY=;
+  b=JoBZhgjPOJImJFv+K9bjIwGvcCIVpJlS5L4kEc2xAswPXbdVQGdZqpdo
+   fUDwYawB+rH9FBSqPAHa5feot+qwHGBnXIGz/6pf0ewu1Mr9VIFjrdPvn
+   qoEdJyYaSyniThOVhXUIwh0LaIBaGPa8oY+rGkbO8zCEazPm7oY24NCTZ
+   RSWkosFB01Hk1Xh/NBTVWnB4T7S4iu07Gh2PfJFgTKOBgPGvT2ujAAYkA
+   FvtQABTY2Cod4sZQpfQx50UQoVZRTSIi+rdBzalXcxn316R+1lxZML56e
+   lnNneC6WBK1ME+yi754dF7stsIb1hRXF0VDIXXgb4iX0y6yP2NeVbNEnZ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="392002460"
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="456566797"
 X-IronPort-AV: E=Sophos;i="6.04,221,1695711600"; 
-   d="scan'208";a="392002460"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2023 00:57:43 -0800
+   d="scan'208";a="456566797"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2023 01:07:54 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="743553982"
 X-IronPort-AV: E=Sophos;i="6.04,221,1695711600"; 
-   d="scan'208";a="8597661"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Nov 2023 00:57:42 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+   d="scan'208";a="743553982"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Nov 2023 01:07:49 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 23 Nov 2023 01:07:48 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
  fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Thu, 23 Nov 2023 00:57:41 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Thu, 23 Nov 2023 00:57:41 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.100)
+ 15.1.2507.34 via Frontend Transport; Thu, 23 Nov 2023 01:07:48 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
  by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Thu, 23 Nov 2023 00:57:41 -0800
+ 15.1.2507.34; Thu, 23 Nov 2023 01:07:48 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SfH0j/jD06LSt8yeRLewxjUK/9vOo9NtpJKOw4crlmgYgxrfqGrAuM3jbS33GIRgTo8nAIHYgBqGIeD/l9ZEb2sFqM8fSkUThab+GYVZsRpgD3EQlVOBEylNw80kVJ3n0MF8oNnmEheFrGEU6v2iZ+ue8uPr26jgfnnfTmMyIp3hGEnm27/TxJsgTRsT4PQ5K31pCyXyeHDEt774pCJdz7dI08mwibEPm02IB9gpZxa2sBzUctLKtKd00TR259rO2dUetROQjwfkgDC4IaWVKZwL1NrEU5DXTi9b+adH1qMNaj/iTQJFX1+UewVR66ldDWEKRfWzQrSjvWeJ2isN1g==
+ b=ThbTJYQAFgVppiO2HDO+DNLtMR+5t3JNDGMqyDOkKGSujyKN3lx/e/482vEeJcljknd1yEwROmqRZZVm72G5ayVAuZW1StrzC7b+P6/r59SsXjI+sWzJejwUnHOpEso0rDRq5iaFiDQ0zQyIWfAHhONBajiCZIGKkNLNPDVz45lnKCH4+Hl8gi8FuLg9bpd817wDKrBA08tqkHbDL3sQ1M5h0xeIgQqwWYWNK4udp6Gi9Gf0YDq9b9DkCLKG5Zjh1DiwXXwLt1nx8lIvyoN9r11jhLuHvOUS+4bWNmIwb6bkNo4awauQdoEIIMJTQsgBaa+Kwx940G+PumZMWrKlww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pyRnAoNT6fjZs65wOH6Fe8Ms/0NpqYB9+NbRqTKEDO8=;
- b=Gvn3QIppcOJPdExFIxn9EwjboYBRbDc6JPUv4FNZCceQLWnPUR5kadMHwkwnLmn/zFHHc6k9jkhYsP6Rugv2DT2KxJmtyQGh9TVxDhnmbKtEjAPBI/NbJvJcAPy0Jr2MGXSnUeyZh4uRR3K7lePqrhGJVPuHXAjCbF0bjOTBGreooTgRqE+DsxQVcwkRbGKEWBAE3fc9doIYTgh9w/3frPztQrArySpzePJ1sBc6XAvWBFx6M3DrlVZ56B8pJpTD5bNakxYBWBmAHcPgBL9TjVXj3FEnJc0qokyC1wolCG+/GyUMBy29NG2DmyCbhK+pRp1eHOiO+RdQD85dysWi+A==
+ bh=5rrln17RaKnx6Oay6ow2SMB6jAB5CoVCkC/DlmAHbBs=;
+ b=RrS9JQAsmpgExvfwuB14R1y7GU409gzyWGHKi9lvwsbtuP3RYiDPqJSYCdv/uUjie1Z+0BUuggLjsw2jJ4LlgKBrNP+Cdid7VlfWAXfkUpfmt6deLZOXnVhxQt6S7CQ/0ZkOnkc9rY52XCQ6tqRLx/YgCKmkdbGksitjpxF2zHf2RcphxRzCWnusplJbLJ02pkiJ5NRoaAxGGvcE0+zRr/KUG80tL+u9+kTTrijICzdwlhVRaUMH52oALQXAFB00U7Xbzc9sMdxxCcOnHQ7JSjhMYFA8B8k94NhmEUz8+8zorRGeQafxXGTskNAZiynsafjSECjHlP6x9q+OBSUJmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DM4PR11MB5440.namprd11.prod.outlook.com (2603:10b6:5:39c::7) with
+ by DM4PR11MB5550.namprd11.prod.outlook.com (2603:10b6:5:38b::24) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.20; Thu, 23 Nov
- 2023 08:57:40 +0000
+ 2023 09:07:40 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7025.017; Thu, 23 Nov 2023
- 08:57:40 +0000
-Date: Thu, 23 Nov 2023 16:52:59 +0800
+ 09:07:40 +0000
+Date: Thu, 23 Nov 2023 17:03:03 +0800
 From: kernel test robot <yujie.liu@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <andrii@kernel.org>, <ast@kernel.org>,
-	<bpf@vger.kernel.org>, <daniel@iogearbox.net>, <davem@davemloft.net>,
-	<dsahern@kernel.org>, <edumazet@google.com>, <haoluo@google.com>,
-	<john.fastabend@gmail.com>, <jolsa@kernel.org>, <kpsingh@kernel.org>,
-	<kuba@kernel.org>, <kuni1840@gmail.com>, <martin.lau@linux.dev>,
-	<mykolal@fb.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
-	<sdf@google.com>, <song@kernel.org>, <yonghong.song@linux.dev>
-Subject: Re: [PATCH v3 bpf-next 11/11] selftest: bpf: Test
- bpf_sk_assign_tcp_reqsk().
-Message-ID: <202311222353.3MM8wxm0-lkp@intel.com>
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Palmer
+ Dabbelt" <palmer@rivosinc.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: drivers/net/ethernet/3com/3c589_cs.c:581:2: warning: performing
+ pointer arithmetic on a null pointer has undefined behavior
+Message-ID: <202311230749.rddGc0Js-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20231121190134.73447-1-kuniyu@amazon.com>
-X-ClientProxiedBy: SI1PR02CA0024.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::12) To CY5PR11MB6392.namprd11.prod.outlook.com
+X-ClientProxiedBy: SG2PR04CA0211.apcprd04.prod.outlook.com
+ (2603:1096:4:187::19) To CY5PR11MB6392.namprd11.prod.outlook.com
  (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -89,87 +83,346 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DM4PR11MB5440:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c77c87b-1a85-4ff9-aabe-08dbec023f35
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DM4PR11MB5550:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6da9b1e-948f-47d5-ee35-08dbec03a4ff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MO+r4WcoBxzUkHDv4kY6dst2RdMNAoIAyNxn9PhpRNNkmo8kS11QkIdvsNXZMTIkqMj2bocv3DNMbJXdRdXpa/m9IIeW7NgftRmehywp9jDMszPOXdlbEgE/+ILl/RfLekfLN2C3JxV3aO85PXbKmWdF32cnJvj2LEA+Ao0qycpmW4e/kkeT3fHWdCyCia6kQZK61uuEZLpoSZyIzCA+0YzDVScnexeC43Q5J2AMTqkRVOpEfnXe00tsrq1vfGK/x72aWlmVtd5mZ0AyesltAwrt5+U1xsG1bj40IhSMztEID3Jqw2PCQKy5jbRp/j3j7gvn0yRDdFzqeTxJbWGSrlwbOOKrtFMRwyK6NCLHgCGuM0x0i3jOgUPwR6d3D1bFZqUkj3RD3iKkMdaAkhgXj3Uj5CprSqBcwtBTI4Yxekkk5DtqsMEeaJmIoL9yie2SyN5Len2FiPD6ENc/WpSlkSJ+hBXD/EW1m/WQwYU+kSkXDViVuXoI4iyA/5JS6cpYfM2UUNLYZuHoWCorjuQ5oTyE5gpuud/FPs+VYgH0XyVyCX6yfjNV/mjx6ds18BgaN2CfFSgSgZY0yoQfOH1Fyw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(396003)(366004)(39860400002)(136003)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(7416002)(6666004)(4326008)(36756003)(8676002)(8936002)(2906002)(86362001)(5660300002)(41300700001)(38100700002)(82960400001)(26005)(6916009)(83380400001)(6512007)(1076003)(2616005)(478600001)(6506007)(6486002)(966005)(66476007)(66556008)(316002)(66946007);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: 4VTulC7K1cfVGLjHXQ3/dQCjfYvf6NA69okru1dJgGy38ecsJ3PAosP0X8gbRHmzEByf5BrjYaqaAyferP1PoGaTgsanIOr2e1Fjhozr+lOtTvvNRqD0O+itah4emKbkdHOhZacJiIDsHjZZ+vbrX2pPs/b+eTmjuNa2dp8VKNukl4p+Fkg+MiN5up6O1/6rIfRIp09Nk6tErQ8GrPXe34mtCuroeFVFAdi++VgyzyitVWnCapwCdB2FPiFaLpZw46p1QVxIt/CBAqUHCFoUH/g9HIAcVBa+fOe4UR+F6w5tO+h+lBBueTb+WPyxftjNrIzh3QVUrs6eyvwejMgp+mU7joEGuPpGIKmYZWOX2LKsprsHiNDRNdwf2QJnAUr1Au6lx7oAPpbkJGFQm0nZILHnMtVdL4OCUt5IarwRFjBWFcccLUisR58eIl7olzhKRFBrPNbjqSf2Fi6fEdmGXnjyWKzCpI4D0taiS1mkptm4WaEf6SiNkqvbj4byR8fje6x3Zn7iYpXW6Y2Aesz3l5qN6uGQToC/tWoQIfz/TLQ+gRP0dc/NF3aFi1naZgQUk3J7wn2CUGNM/jfB4wz1LlNzWHgBXgDO3V7yuwVLZJTuYkrLg213dR6E4JCG6hlWg9EqJ6+nU3G99bX8eixqsA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(376002)(136003)(366004)(39860400002)(230922051799003)(230273577357003)(230173577357003)(1800799012)(64100799003)(451199024)(186009)(6916009)(316002)(54906003)(66556008)(66476007)(66946007)(6512007)(6506007)(36756003)(6666004)(26005)(1076003)(2616005)(478600001)(38100700002)(82960400001)(83380400001)(86362001)(6486002)(966005)(30864003)(2906002)(5660300002)(8676002)(8936002)(41300700001)(4326008);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KAWJpmQOJYkGXOoYlwA1PYbiGFOvA61EfSRPAk2GT+zIJIybS9uMBi5TZN1U?=
- =?us-ascii?Q?yj2XmL9UNZJ3aBEFI81bx2sy3o+71n1rq1hXSJcECeZuay4yT87ZoH0/YC/P?=
- =?us-ascii?Q?Dx/MLKNbhG7ml8MrnHiywigphrYBDKjMvzrfj4Ncv8GK7eODB9x8RA8osybp?=
- =?us-ascii?Q?rJgMDczNar8D27aTEEzzbQcK1hOTbpPetR8f4hWJlAmc16xwFH8+YajTfygx?=
- =?us-ascii?Q?ckDpE6b2SOZvbCJmDw/MrO1Rk6ZqZEI9O7wC4UX7uChq0O/RjRcfyK4Zc45U?=
- =?us-ascii?Q?4cjFrtFMWg6n/zjPw42jB+EY+GCQ2UWzvwYfBESL61LAafRrtyw4Jk94dxpq?=
- =?us-ascii?Q?haQAziDbBtb1lW1YRG/LmGwjCJFlXUD+LaxTeMMBYiKWGsxnDfTjMZjU4//d?=
- =?us-ascii?Q?4WCT6qR5Vu7YTl8SD1cL6VAAhZy1Xd4pBSKDu2APX1gUJ962wTzqQhMy1W6q?=
- =?us-ascii?Q?6OKiRLLpw/Xu/EawrtAtspVFfrt74eGApOzlu/ktZRT/RFvV54fbFCULlR0/?=
- =?us-ascii?Q?0oBFasKnwiuHaKNC3wuS1f8nFUKTtgsZ9hPKG7J8zWWtZ+jy87mJpiUMlw0V?=
- =?us-ascii?Q?YgFTom0i8zVQDSESH4MJ7k6xSxM2+pwlAxbLqPCVra9jr06f9noEU8x5B2G+?=
- =?us-ascii?Q?JOuQ4DE77awVfanQpPsiYl7gtZDzksb0FQFOApNibqib0lDx97Uc6n9/UE1W?=
- =?us-ascii?Q?zLGXVOoCeGQxI6N5l0slekrh0NuVNA+R9Yv7JMePuYuvbf4qiyKe1SE5gL+Z?=
- =?us-ascii?Q?i8kr/cDmpFm5BJe/WvKPqM/Qp8bda2gDIhyqBC0ysNRsSwTLNeA9YI5N69HV?=
- =?us-ascii?Q?n/3lZ8zCrrhYNLok5wTEYJfIgx7WA4aHDdzzgC0SWUZnKHoU05OUZA7/u4xk?=
- =?us-ascii?Q?maTdkuTzHkUBpaAFF+bIEdCMyjIi3SBEVxTL68wHjzLFAG1KTxHcVQDQW3p8?=
- =?us-ascii?Q?FzNlrgQnyp6X9rprc2b7Dy0VBunLldrTsc24HHbfvqcUcMiXmtVxGKAJZqNz?=
- =?us-ascii?Q?ydwvKVBiwQdoTwpdDVJYq7V+MfwH6E6T1Ozaa+P5MyK/DGfXo/bW4qIOSSCV?=
- =?us-ascii?Q?tZz3tUwOYVM/zcHSwjxinQOUkPIbLnc0G9wZM1WSmOvkdm7JQV65wt7ozbkC?=
- =?us-ascii?Q?+gyxCksSGF5uDVHfQ/L6/JnBPJNazW8mLZl6O7SfVPNGEDDk0gPQ1cv7D2Co?=
- =?us-ascii?Q?lT8mWwNXGWRxSLhFedAq/gAFNbLylfJqa4RDM4EqGXkc+i7AEQnHL2GcVsZq?=
- =?us-ascii?Q?LaoCPESCWPr553UiS8fDWT1VPce7dzhBmcbzB5sdYpMywnX5zold1sJ1U3gt?=
- =?us-ascii?Q?0BGrB1e5IWrKe+/W/kfexWEFOswb085EslIiOmfkY7JxfImlLTm/Ppv/aMcx?=
- =?us-ascii?Q?U4UcIA8CExryVyvcjdZlTwLHd6xS3DL/RK7tMLB9xKc1lS72xq38EQHQ+uI4?=
- =?us-ascii?Q?somUcCqlt9UMH4L8sFdvzq8YIVTVVe34JAK4r3caXl4AiICSNgAwDgVEe+80?=
- =?us-ascii?Q?oUYr+Ef42eaZudqtxjj+vZcXBzcCx2T0Ji0wa7TckBGyWD0EgXiFwmK904pq?=
- =?us-ascii?Q?4//JWqBIOlcEMWlorhwWNCqqVF1u+OQJ53yOSgE9?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c77c87b-1a85-4ff9-aabe-08dbec023f35
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yafPVA/veNUSe1mhNS3pJ1GbIFLlYa9p6NpZeFFadM9zSqWsDYU0fC9a7ZTs?=
+ =?us-ascii?Q?LBkN4ze0fd6pjMRSPIgaIr7eD/oBXbFlDoLO+H7vdOgymoTX0V/TUBBvu7DR?=
+ =?us-ascii?Q?ovnfCk3EprxhXPV+oZzYC+1z1AnbrNHlVt2mIEzoqzLnDFW0yWoaL/Pcl0QB?=
+ =?us-ascii?Q?QKvFoxsxFucDwCavxWqadhOcsDaH8uYsvnlOL/6N7vDn/7hkktNa8dlSBNl7?=
+ =?us-ascii?Q?+PLPmHSadhC4xLp+PFsWGDACGX5Uj/GBXOppc7IQpx7SJgztoh2b+F67jRdq?=
+ =?us-ascii?Q?zS9Kq79LW3f3lfqKpwuHELZsg7BwJ0oxX9TLbcxGnZ61XLQkpX45hnpxzFf6?=
+ =?us-ascii?Q?mQsxgr/xTIUrwfWK9ASfxKDdi19yA5m3cZUuYG3TtaS6a5F5qu5IGx50D+DD?=
+ =?us-ascii?Q?YTwrJfhyzRoQGjXVHJf6L/mNgRMvhzK1L5wvHOLKjmWuNiMH/biUDJ+NttLO?=
+ =?us-ascii?Q?D/Pj632Pv7dXydO2oAVMGw1HQwIzzxdy/zzq3EoV1HBJBtJJHw++3GItvMjc?=
+ =?us-ascii?Q?0fqdNKgF2KixNzHNVJL8Y+AyqBcLlXBDsyNMmhDzXgmmaDEZlWFgrGfn4wjZ?=
+ =?us-ascii?Q?VkyOJtM2kBeAfrcApCKhS79UgTkz9OMH8nXacW0dgXtHerKayF/RfG2sVt4w?=
+ =?us-ascii?Q?Y1VzzhAxL0VuAEqDbJwQ01GINIvylnnjl2bs+wsaNbfT+6AMg5CbZpRdlF9D?=
+ =?us-ascii?Q?nmmrv3ROW3SCaJhP3TA38fA7Y1obQZMUOKCgRVqlQMp8DaKiXpz1ipCxj4bi?=
+ =?us-ascii?Q?xR4k/UVxGne7vc4e08k+iDv3AcuE28+szrtAPH5PejQoFcDmkZ/e9cjOSqlx?=
+ =?us-ascii?Q?PLOLQw/bORq5V/wFm/Dn1nXRXO0b/4NIvDE5kbF9YttCBfMcNm0pL+zmtCyi?=
+ =?us-ascii?Q?B99Xycz0jwp0wSUx2YKQgVLT+euNfIj58GbAtv+iVNu213thSvbok5R29Qxo?=
+ =?us-ascii?Q?DutPwWy6anLGIEcyFabMCTKSK9ZTdeJaHR17mKwMvgxRHmPF+ORgbRA3bB4T?=
+ =?us-ascii?Q?2ibF4iHXGrzZo++KuhE6FXWTgC7BzPgNmjZgpb6oMT3UJh0wypxHdmwS3Rfl?=
+ =?us-ascii?Q?nlRTOCdOeKLL1Hh5hGCA55AboJNc4t/rKn/GqB1cLr6ZSTkl6eJcvHMrZr6R?=
+ =?us-ascii?Q?qJ2vqgssiUzrBos2C0/z3KKUxNKkkLLED1qziQmupsP7gGV5HciW1wbeKq2s?=
+ =?us-ascii?Q?kE0eLy+D3aXdtHrWKbO3nxGxzElMQg/lD4OTfgmKJ5gRZlT1d2A2Qo+45hSl?=
+ =?us-ascii?Q?6kRLqbxUpzyrnfpPzpP4J71GDHOJ/RgKpCtkQJC2ADpDDg2KsewVpNpLL/p4?=
+ =?us-ascii?Q?syrI9mH5ULtF9IqOwPr2DpA8bp6wC1UNrGT5sJqvO/P1u6aPysmkYJmxxJiE?=
+ =?us-ascii?Q?jvbaViyUQ3/TrS9U/+SZzkvqOJVUEXTi1SZaPvgyMAbZTsBpiQkQKozPzLp3?=
+ =?us-ascii?Q?qzHkb5XW5dky/5sjwi/FuXb2vUDnc2Xz/6EiHT0C8S4l5Prm/xs5uwvyfYOM?=
+ =?us-ascii?Q?2Br9ZQvy0+VRLXhmqd8RNhn91EXgdzu5nIXlXYwEN0kLzu/LY9ohGrmd5B7F?=
+ =?us-ascii?Q?qccYYBnMbL3Sve1rJVc/Q/jaesZuWtbcVJ30fCgR?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6da9b1e-948f-47d5-ee35-08dbec03a4ff
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2023 08:57:39.9428
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2023 09:07:40.3059
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bSGximCflB79KDLMEv34ipUm17kMezFlkHcnO1t7Zmfjm2OO02vbOlM4HGOlKAAwZq+6qA8fNxsCtfLJN6XrPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5440
+X-MS-Exchange-CrossTenant-UserPrincipalName: yvHhvxSUNFgILJLtg43TlG4JDYNv7K7CNEaylLgEY5DbWAysTcoNUBhrCixw+O6BindscbTYNGf4UfSxpCtM6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5550
 X-OriginatorOrg: intel.com
 
-Hi Kuniyuki,
+Hi Maciej,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/tcp-Clean-up-reverse-xmas-tree-in-cookie_v-46-_check/20231122-030405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231121190134.73447-1-kuniyu%40amazon.com
-patch subject: [PATCH v3 bpf-next 11/11] selftest: bpf: Test bpf_sk_assign_tcp_reqsk().
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311222353.3MM8wxm0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9b6de136b5f0158c60844f85286a593cb70fb364
+commit: 9cc205e3c17d5716da7ebb7fa0c985555e95d009 RISC-V: Make port I/O string accessors actually work
+config: riscv-randconfig-r133-20231123 (https://download.01.org/0day-ci/archive/20231123/202311230749.rddGc0Js-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231123/202311230749.rddGc0Js-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202311222353.3MM8wxm0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202311230749.rddGc0Js-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> progs/test_tcp_custom_syncookie.c:63:31: error: field has incomplete type 'struct tcp_cookie_attributes'
-      63 |         struct tcp_cookie_attributes attr;
-         |                                      ^
-   tools/testing/selftests/bpf/bpf_kfuncs.h:60:8: note: forward declaration of 'struct tcp_cookie_attributes'
-      60 | struct tcp_cookie_attributes;
-         |        ^
->> progs/test_tcp_custom_syncookie.c:514:57: error: use of undeclared identifier 'BPF_F_CURRENT_NETNS'; did you mean 'BPF_F_CURRENT_CPU'?
-     514 |         skc = bpf_skc_lookup_tcp(ctx->skb, &tuple, tuple_size, BPF_F_CURRENT_NETNS, 0);
-         |                                                                ^~~~~~~~~~~~~~~~~~~
-         |                                                                BPF_F_CURRENT_CPU
-   /tools/include/vmlinux.h:104429:2: note: 'BPF_F_CURRENT_CPU' declared here
-    104429 |         BPF_F_CURRENT_CPU = 4294967295ULL,
-           |         ^
-   2 errors generated.
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     743 |         insb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     751 |         insw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     759 |         insl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     768 |         outsb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     777 |         outsw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     786 |         outsl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c589_cs.c:33:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/net/ethernet/3com/3c589_cs.c:581:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     581 |         outsl(ioaddr + TX_FIFO, skb->data, (skb->len + 3) >> 2);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/3com/3c589_cs.c:861:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     861 |                                 insl(ioaddr+RX_FIFO, skb_put(skb, pkt_len),
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     862 |                         (pkt_len+3)>>2);
+         |                         ~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   15 warnings generated.
+--
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     743 |         insb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     751 |         insw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     759 |         insl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     768 |         outsb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     777 |         outsw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     786 |         outsl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/net/ethernet/3com/3c574_cs.c:79:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/net/ethernet/3com/3c574_cs.c:748:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     748 |         outsl(ioaddr + TX_FIFO, skb->data, (skb->len+3)>>2);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   drivers/net/ethernet/3com/3c574_cs.c:1015:5: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1015 |                                 insl(ioaddr+RX_FIFO, skb_put(skb, pkt_len),
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1016 |                                                 ((pkt_len+3)>>2));
+         |                                                 ~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   15 warnings generated.
+
+
+vim +581 drivers/net/ethernet/3com/3c589_cs.c
+
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  562  
+dbf02fae406daf4 drivers/net/pcmcia/3c589_cs.c Stephen Hemminger 2009-08-31  563  static netdev_tx_t el3_start_xmit(struct sk_buff *skb,
+dbf02fae406daf4 drivers/net/pcmcia/3c589_cs.c Stephen Hemminger 2009-08-31  564  					struct net_device *dev)
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  565  {
+906da809c5be30b drivers/net/pcmcia/3c589_cs.c Olof Johansson    2008-02-04  566  	unsigned int ioaddr = dev->base_addr;
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  567  	struct el3_private *priv = netdev_priv(dev);
+d08d283974f96cb drivers/net/pcmcia/3c589_cs.c Komuro            2006-12-02  568  	unsigned long flags;
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  569  
+f64e96973a1fa88 drivers/net/pcmcia/3c589_cs.c Alexander Kurz    2010-03-31  570  	netdev_dbg(dev, "el3_start_xmit(length = %ld) called, status %4.4x.\n",
+f64e96973a1fa88 drivers/net/pcmcia/3c589_cs.c Alexander Kurz    2010-03-31  571  	       (long)skb->len, inw(ioaddr + EL3_STATUS));
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  572  
+d08d283974f96cb drivers/net/pcmcia/3c589_cs.c Komuro            2006-12-02  573  	spin_lock_irqsave(&priv->lock, flags);
+d08d283974f96cb drivers/net/pcmcia/3c589_cs.c Komuro            2006-12-02  574  
+cd65284f6ec4826 drivers/net/pcmcia/3c589_cs.c Paulius Zaleckas  2008-04-30  575  	dev->stats.tx_bytes += skb->len;
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  576  
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  577  	/* Put out the doubleword header... */
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  578  	outw(skb->len, ioaddr + TX_FIFO);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  579  	outw(0x00, ioaddr + TX_FIFO);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  580  	/* ... and the packet rounded to a doubleword. */
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16 @581  	outsl(ioaddr + TX_FIFO, skb->data, (skb->len + 3) >> 2);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  582  
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  583  	if (inw(ioaddr + TX_FREE) <= 1536) {
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  584  		netif_stop_queue(dev);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  585  		/* Interrupt us when the FIFO has room for max-sized packet. */
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  586  		outw(SetTxThreshold + 1536, ioaddr + EL3_CMD);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  587  	}
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  588  
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  589  	pop_tx_status(dev);
+d08d283974f96cb drivers/net/pcmcia/3c589_cs.c Komuro            2006-12-02  590  	spin_unlock_irqrestore(&priv->lock, flags);
+63ac9b915924d12 drivers/net/pcmcia/3c589_cs.c Patrick McHardy   2007-07-02  591  	dev_kfree_skb(skb);
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  592  
+6ed106549d17474 drivers/net/pcmcia/3c589_cs.c Patrick McHardy   2009-06-23  593  	return NETDEV_TX_OK;
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  594  }
+^1da177e4c3f415 drivers/net/pcmcia/3c589_cs.c Linus Torvalds    2005-04-16  595  
+
+:::::: The code at line 581 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
