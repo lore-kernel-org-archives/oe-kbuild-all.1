@@ -1,45 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE348749E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 03:12:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D20747B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 03:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dv+lMTHH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HkDkgejS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700709137; x=1732245137;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OiDMxB3bQEgdsJp2N79bUFKzqYIBqm0iM3z12IyUeOU=;
-  b=Dv+lMTHHnDwgkbqvSKcGtYNpPK2aRG0J7gwVqOAqqM+QWti0WkhjuafJ
-   dul25md3EMePImVEPhAIQN+aR6fI56xKL3RLZr50QFoRm2gwjiBk6s8Tb
-   UjMB6Mzl0m7hT/vzwQAhaqgSBUgvTE8nICLotgVxJdPD3tMveoaqH5G2W
-   ZhIiiScNmeH07u0CefizQuBFs9WT+o+f5Aop3pePLQoQ2d51y8y5Db3Up
-   VKhp2wp74vJsS3DnmlXP2NZRp/L296fQDezsOuvHdQqYiOaWMW3oGw4ul
-   WA/GoZvdQ+Nr0ZM0DhxXDJ7/0ELjITFO1DAkB2W8GSb0U9LbQ68wR5nHm
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13744890"
+  t=1700709139; x=1732245139;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3sBlfJImwRaqa6aryIZaVq3UckHfBRFnYA7tVrAvU28=;
+  b=HkDkgejSTaKHw0KrfZzucjWPtINUcXlHo85Zfuh6vyo0ndxkUvzr0UUI
+   q6qQACLh1E22hnbms7xxvohwvkPnC4Jl3RAgQTVRHwLjdWQPMlm1K14Cb
+   vmjD9ftI3+Wo6WTQB4W8aTwPfk3cu1QRXOYO8FsdPae/YErv9QmIgX0lG
+   x4ldtN1ReiTmF8MwEwMUM9WmpZ+yvcOzeFclFAfAw5D2UD8uIqTdNCuHS
+   Crahd8QZkX9ImMkXRN+4gDWby532nPkAEYHxcRyVvdXuQdEp9hRSdfvyl
+   Tm2L0Pq8ehsOSRhMsGK0jrbnnDw7fnM6u0AH5uheCHWVEosZmkCABYzjF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13744906"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="13744890"
+   d="scan'208";a="13744906"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:12:14 -0800
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:12:18 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="8712753"
+   d="scan'208";a="8712749"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 19:12:12 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 19:12:11 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r608Q-0001A9-0g;
-	Thu, 23 Nov 2023 03:12:10 +0000
-Date: Thu, 23 Nov 2023 11:11:16 +0800
+	id 1r608P-00019r-1j;
+	Thu, 23 Nov 2023 03:12:09 +0000
+Date: Thu, 23 Nov 2023 11:11:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilya Dryomov <idryomov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: net/ceph/crush/mapper.c:466: warning: No description found for
- parameter 'choose_args'
-Message-ID: <202311230726.PROfM0Z7-lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Jianlong Huang <jianlong.huang@starfivetech.com>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Sean Wang <sean.wang@kernel.org>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
+Subject: Re: [PATCH v1 01/17] pinctrl: equilibrium: Convert to use struct
+ pingroup
+Message-ID: <202311230820.MGDyVHJW-lkp@intel.com>
+References: <20231122164040.2262742-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,263 +73,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231122164040.2262742-2-andriy.shevchenko@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9b6de136b5f0158c60844f85286a593cb70fb364
-commit: 069f3222ca96acfe8c59937e98c401bda5475b48 crush: implement weight and id overrides for straw2
-date:   6 years ago
-config: i386-buildonly-randconfig-004-20231120 (https://download.01.org/0day-ci/archive/20231123/202311230726.PROfM0Z7-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231123/202311230726.PROfM0Z7-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next geert-renesas-drivers/renesas-pinctrl pinctrl-samsung/for-next linus/master v6.7-rc2 next-20231122]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-equilibrium-Convert-to-use-struct-pingroup/20231123-005932
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20231122164040.2262742-2-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 01/17] pinctrl: equilibrium: Convert to use struct pingroup
+config: i386-randconfig-001-20231123 (https://download.01.org/0day-ci/archive/20231123/202311230820.MGDyVHJW-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231123/202311230820.MGDyVHJW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311230726.PROfM0Z7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311230820.MGDyVHJW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/ceph/crush/mapper.c:466: warning: No description found for parameter 'work'
-   net/ceph/crush/mapper.c:466: warning: No description found for parameter 'weight'
-   net/ceph/crush/mapper.c:466: warning: No description found for parameter 'weight_max'
->> net/ceph/crush/mapper.c:466: warning: No description found for parameter 'choose_args'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'map'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'work'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'bucket'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'weight'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'weight_max'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'x'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'left'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'numrep'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'type'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'out'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'outpos'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'tries'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'recurse_tries'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'recurse_to_leaf'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'out2'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'parent_r'
-   net/ceph/crush/mapper.c:655: warning: No description found for parameter 'choose_args'
+   drivers/pinctrl/pinctrl-equilibrium.c: In function 'eqbr_build_groups':
+   drivers/pinctrl/pinctrl-equilibrium.c:750:17: error: assignment of read-only location '*(grp->pins + (sizetype)((unsigned int)j * 4))'
+     750 |    grp->pins[j] = pin_id;
+         |                 ^
+   drivers/pinctrl/pinctrl-equilibrium.c:761:23: error: 'struct pingroup' has no member named 'num_pins'; did you mean 'npins'?
+     761 |       grp->pins, grp->num_pins,
+         |                       ^~~~~~~~
+         |                       npins
+>> drivers/pinctrl/pinctrl-equilibrium.c:761:10: warning: passing argument 3 of 'pinctrl_generic_add_group' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     761 |       grp->pins, grp->num_pins,
+         |       ~~~^~~~~~
+   In file included from drivers/pinctrl/pinctrl-equilibrium.c:16:
+   drivers/pinctrl/core.h:225:15: note: expected 'int *' but argument is of type 'const unsigned int *'
+     225 |          int *gpins, int ngpins, void *data);
+         |          ~~~~~^~~~~
 
 
-vim +/choose_args +466 net/ceph/crush/mapper.c
+vim +761 drivers/pinctrl/pinctrl-equilibrium.c
 
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  428  
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  429  /**
-9fe07182827d99 net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  430   * crush_choose_firstn - choose numrep distinct items of given type
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  431   * @map: the crush_map
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  432   * @bucket: the bucket we are choose an item from
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  433   * @x: crush input value
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  434   * @numrep: the number of items to choose
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  435   * @type: the type of item to choose
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  436   * @out: pointer to output vector
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  437   * @outpos: our position in that vector
-45002267e8d269 net/ceph/crush/mapper.c Ilya Dryomov 2015-04-14  438   * @out_size: size of the out vector
-0e32d7126cdf30 net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  439   * @tries: number of attempts to make
-0e32d7126cdf30 net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  440   * @recurse_tries: number of attempts to have recursive chooseleaf make
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  441   * @local_retries: localized retries
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  442   * @local_fallback_retries: localized fallback retries
-0e32d7126cdf30 net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  443   * @recurse_to_leaf: true if we want one device under each item of given type (chooseleaf instead of choose)
-dc6ae6d8e7726b net/ceph/crush/mapper.c Ilya Dryomov 2016-01-31  444   * @stable: stable mode starts rep=0 in the recursive call for all replicas
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  445   * @vary_r: pass r to recursive calls
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  446   * @out2: second output vector for leaf items (if @recurse_to_leaf)
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  447   * @parent_r: r value passed from the parent
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  448   */
-9fe07182827d99 net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  449  static int crush_choose_firstn(const struct crush_map *map,
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  450  			       struct crush_work *work,
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  451  			       const struct crush_bucket *bucket,
-b3b33b0e43323a net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  452  			       const __u32 *weight, int weight_max,
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  453  			       int x, int numrep, int type,
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  454  			       int *out, int outpos,
-45002267e8d269 net/ceph/crush/mapper.c Ilya Dryomov 2015-04-14  455  			       int out_size,
-2d8be0bc8bc2dc net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  456  			       unsigned int tries,
-2d8be0bc8bc2dc net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  457  			       unsigned int recurse_tries,
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  458  			       unsigned int local_retries,
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  459  			       unsigned int local_fallback_retries,
-9fe07182827d99 net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  460  			       int recurse_to_leaf,
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  461  			       unsigned int vary_r,
-dc6ae6d8e7726b net/ceph/crush/mapper.c Ilya Dryomov 2016-01-31  462  			       unsigned int stable,
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  463  			       int *out2,
-069f3222ca96ac net/ceph/crush/mapper.c Ilya Dryomov 2017-06-22  464  			       int parent_r,
-069f3222ca96ac net/ceph/crush/mapper.c Ilya Dryomov 2017-06-22  465  			       const struct crush_choose_arg *choose_args)
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06 @466  {
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  467  	int rep;
-8b12d47b80c7a3 net/ceph/crush/mapper.c Sage Weil    2012-05-07  468  	unsigned int ftotal, flocal;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  469  	int retry_descent, retry_bucket, skip_rep;
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  470  	const struct crush_bucket *in = bucket;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  471  	int r;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  472  	int i;
-b28813a61d6ffe fs/ceph/crush/mapper.c  Sage Weil    2009-10-07  473  	int item = 0;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  474  	int itemtype;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  475  	int collide, reject;
-45002267e8d269 net/ceph/crush/mapper.c Ilya Dryomov 2015-04-14  476  	int count = out_size;
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  477  
-dc6ae6d8e7726b net/ceph/crush/mapper.c Ilya Dryomov 2016-01-31  478  	dprintk("CHOOSE%s bucket %d x %d outpos %d numrep %d tries %d recurse_tries %d local_retries %d local_fallback_retries %d parent_r %d stable %d\n",
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  479  		recurse_to_leaf ? "_LEAF" : "",
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  480  		bucket->id, x, outpos, numrep,
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  481  		tries, recurse_tries, local_retries, local_fallback_retries,
-dc6ae6d8e7726b net/ceph/crush/mapper.c Ilya Dryomov 2016-01-31  482  		parent_r, stable);
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  483  
-dc6ae6d8e7726b net/ceph/crush/mapper.c Ilya Dryomov 2016-01-31  484  	for (rep = stable ? 0 : outpos; rep < numrep && count > 0 ; rep++) {
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  485  		/* keep trying until we get a non-out, non-colliding item */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  486  		ftotal = 0;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  487  		skip_rep = 0;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  488  		do {
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  489  			retry_descent = 0;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  490  			in = bucket;               /* initial bucket */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  491  
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  492  			/* choose through intervening buckets */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  493  			flocal = 0;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  494  			do {
-b28813a61d6ffe fs/ceph/crush/mapper.c  Sage Weil    2009-10-07  495  				collide = 0;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  496  				retry_bucket = 0;
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  497  				r = rep + parent_r;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  498  				/* r' = r + f_total */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  499  				r += ftotal;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  500  
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  501  				/* bucket choose */
-b28813a61d6ffe fs/ceph/crush/mapper.c  Sage Weil    2009-10-07  502  				if (in->size == 0) {
-b28813a61d6ffe fs/ceph/crush/mapper.c  Sage Weil    2009-10-07  503  					reject = 1;
-b28813a61d6ffe fs/ceph/crush/mapper.c  Sage Weil    2009-10-07  504  					goto reject;
-b28813a61d6ffe fs/ceph/crush/mapper.c  Sage Weil    2009-10-07  505  				}
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  506  				if (local_fallback_retries > 0 &&
-546f04ef716dd4 net/ceph/crush/mapper.c Sage Weil    2012-07-30  507  				    flocal >= (in->size>>1) &&
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  508  				    flocal > local_fallback_retries)
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  509  					item = bucket_perm_choose(
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  510  						in, work->work[-1-in->id],
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  511  						x, r);
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  512  				else
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  513  					item = crush_bucket_choose(
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  514  						in, work->work[-1-in->id],
-069f3222ca96ac net/ceph/crush/mapper.c Ilya Dryomov 2017-06-22  515  						x, r,
-069f3222ca96ac net/ceph/crush/mapper.c Ilya Dryomov 2017-06-22  516  						(choose_args ?
-069f3222ca96ac net/ceph/crush/mapper.c Ilya Dryomov 2017-06-22  517  						 &choose_args[-1-in->id] : 0),
-069f3222ca96ac net/ceph/crush/mapper.c Ilya Dryomov 2017-06-22  518  						outpos);
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  519  				if (item >= map->max_devices) {
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  520  					dprintk("   bad item %d\n", item);
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  521  					skip_rep = 1;
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  522  					break;
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  523  				}
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  524  
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  525  				/* desired type? */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  526  				if (item < 0)
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  527  					itemtype = map->buckets[-1-item]->type;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  528  				else
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  529  					itemtype = 0;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  530  				dprintk("  item %d type %d\n", item, itemtype);
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  531  
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  532  				/* keep going? */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  533  				if (itemtype != type) {
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  534  					if (item >= 0 ||
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  535  					    (-1-item) >= map->max_buckets) {
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  536  						dprintk("   bad item type %d\n", type);
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  537  						skip_rep = 1;
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  538  						break;
-a1f4895be8bf1b net/ceph/crush/mapper.c Sage Weil    2012-05-07  539  					}
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  540  					in = map->buckets[-1-item];
-55bda7aacd13f5 fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  541  					retry_bucket = 1;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  542  					continue;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  543  				}
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  544  
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  545  				/* collision? */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  546  				for (i = 0; i < outpos; i++) {
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  547  					if (out[i] == item) {
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  548  						collide = 1;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  549  						break;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  550  					}
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  551  				}
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  552  
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  553  				reject = 0;
-7d7c1f6136bac0 net/ceph/crush/mapper.c Sage Weil    2013-01-15  554  				if (!collide && recurse_to_leaf) {
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  555  					if (item < 0) {
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  556  						int sub_r;
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  557  						if (vary_r)
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  558  							sub_r = r >> (vary_r-1);
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  559  						else
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  560  							sub_r = 0;
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  561  						if (crush_choose_firstn(
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  562  							    map,
-66a0e2d579dbec net/ceph/crush/mapper.c Ilya Dryomov 2017-01-31  563  							    work,
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  564  							    map->buckets[-1-item],
-b3b33b0e43323a net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  565  							    weight, weight_max,
-dc6ae6d8e7726b net/ceph/crush/mapper.c Ilya Dryomov 2016-01-31  566  							    x, stable ? 1 : outpos+1, 0,
-45002267e8d269 net/ceph/crush/mapper.c Ilya Dryomov 2015-04-14  567  							    out2, outpos, count,
-2d8be0bc8bc2dc net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  568  							    recurse_tries, 0,
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  569  							    local_retries,
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  570  							    local_fallback_retries,
-9fe07182827d99 net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  571  							    0,
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  572  							    vary_r,
-dc6ae6d8e7726b net/ceph/crush/mapper.c Ilya Dryomov 2016-01-31  573  							    stable,
-e2b149cc4ba007 net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  574  							    NULL,
-069f3222ca96ac net/ceph/crush/mapper.c Ilya Dryomov 2017-06-22  575  							    sub_r,
-069f3222ca96ac net/ceph/crush/mapper.c Ilya Dryomov 2017-06-22  576  							    choose_args) <= outpos)
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  577  							/* didn't get leaf */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  578  							reject = 1;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  579  					} else {
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  580  						/* we already have a leaf! */
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  581  						out2[outpos] = item;
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  582  					}
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  583  				}
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  584  
-98ba6af728de99 net/ceph/crush/mapper.c Ilya Dryomov 2017-02-16  585  				if (!reject && !collide) {
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  586  					/* out? */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  587  					if (itemtype == 0)
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  588  						reject = is_out(map, weight,
-b3b33b0e43323a net/ceph/crush/mapper.c Ilya Dryomov 2013-12-24  589  								weight_max,
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  590  								item, x);
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  591  				}
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  592  
-b28813a61d6ffe fs/ceph/crush/mapper.c  Sage Weil    2009-10-07  593  reject:
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  594  				if (reject || collide) {
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  595  					ftotal++;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  596  					flocal++;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  597  
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  598  					if (collide && flocal <= local_retries)
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  599  						/* retry locally a few times */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  600  						retry_bucket = 1;
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  601  					else if (local_fallback_retries > 0 &&
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  602  						 flocal <= in->size + local_fallback_retries)
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  603  						/* exhaustive bucket search */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  604  						retry_bucket = 1;
-48a163dbb517eb net/ceph/crush/mapper.c Ilya Dryomov 2014-03-19  605  					else if (ftotal < tries)
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  606  						/* then retry descent */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  607  						retry_descent = 1;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  608  					else
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  609  						/* else give up */
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  610  						skip_rep = 1;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  611  					dprintk("  reject %d  collide %d  "
-8b12d47b80c7a3 net/ceph/crush/mapper.c Sage Weil    2012-05-07  612  						"ftotal %u  flocal %u\n",
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  613  						reject, collide, ftotal,
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  614  						flocal);
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  615  				}
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  616  			} while (retry_bucket);
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  617  		} while (retry_descent);
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  618  
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  619  		if (skip_rep) {
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  620  			dprintk("skip rep\n");
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  621  			continue;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  622  		}
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  623  
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  624  		dprintk("CHOOSE got %d\n", item);
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  625  		out[outpos] = item;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  626  		outpos++;
-45002267e8d269 net/ceph/crush/mapper.c Ilya Dryomov 2015-04-14  627  		count--;
-b459be739f97e2 net/ceph/crush/mapper.c Ilya Dryomov 2015-06-12  628  #ifndef __KERNEL__
-b459be739f97e2 net/ceph/crush/mapper.c Ilya Dryomov 2015-06-12  629  		if (map->choose_tries && ftotal <= map->choose_total_tries)
-b459be739f97e2 net/ceph/crush/mapper.c Ilya Dryomov 2015-06-12  630  			map->choose_tries[ftotal]++;
-b459be739f97e2 net/ceph/crush/mapper.c Ilya Dryomov 2015-06-12  631  #endif
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  632  	}
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  633  
-a1a31e734241ae fs/ceph/crush/mapper.c  Sage Weil    2010-06-24  634  	dprintk("CHOOSE returns %d\n", outpos);
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  635  	return outpos;
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  636  }
-5ecc0a0f8128b1 fs/ceph/crush/mapper.c  Sage Weil    2009-10-06  637  
-
-:::::: The code at line 466 was first introduced by commit
-:::::: 5ecc0a0f8128b1876e8614638deaed49cc8b174c ceph: CRUSH mapping algorithm
-
-:::::: TO: Sage Weil <sage@newdream.net>
-:::::: CC: Sage Weil <sage@newdream.net>
+   702	
+   703	static int eqbr_build_groups(struct eqbr_pinctrl_drv_data *drvdata)
+   704	{
+   705		struct device *dev = drvdata->dev;
+   706		struct device_node *node = dev->of_node;
+   707		unsigned int *pinmux, pin_id, pinmux_id;
+   708		struct pingroup group, *grp = &group;
+   709		struct device_node *np;
+   710		struct property *prop;
+   711		int j, err;
+   712	
+   713		for_each_child_of_node(node, np) {
+   714			prop = of_find_property(np, "groups", NULL);
+   715			if (!prop)
+   716				continue;
+   717	
+   718			grp->npins = of_property_count_u32_elems(np, "pins");
+   719			if (grp->npins < 0) {
+   720				dev_err(dev, "No pins in the group: %s\n", prop->name);
+   721				of_node_put(np);
+   722				return -EINVAL;
+   723			}
+   724			grp->name = prop->value;
+   725			grp->pins = devm_kcalloc(dev, grp->npins, sizeof(*grp->pins), GFP_KERNEL);
+   726			if (!grp->pins) {
+   727				of_node_put(np);
+   728				return -ENOMEM;
+   729			}
+   730	
+   731			pinmux = devm_kcalloc(dev, grp->npins, sizeof(*pinmux), GFP_KERNEL);
+   732			if (!pinmux) {
+   733				of_node_put(np);
+   734				return -ENOMEM;
+   735			}
+   736	
+   737			for (j = 0; j < grp->npins; j++) {
+   738				if (of_property_read_u32_index(np, "pins", j, &pin_id)) {
+   739					dev_err(dev, "Group %s: Read intel pins id failed\n",
+   740						grp->name);
+   741					of_node_put(np);
+   742					return -EINVAL;
+   743				}
+   744				if (pin_id >= drvdata->pctl_desc.npins) {
+   745					dev_err(dev, "Group %s: Invalid pin ID, idx: %d, pin %u\n",
+   746						grp->name, j, pin_id);
+   747					of_node_put(np);
+   748					return -EINVAL;
+   749				}
+   750				grp->pins[j] = pin_id;
+   751				if (of_property_read_u32_index(np, "pinmux", j, &pinmux_id)) {
+   752					dev_err(dev, "Group %s: Read intel pinmux id failed\n",
+   753						grp->name);
+   754					of_node_put(np);
+   755					return -EINVAL;
+   756				}
+   757				pinmux[j] = pinmux_id;
+   758			}
+   759	
+   760			err = pinctrl_generic_add_group(drvdata->pctl_dev, grp->name,
+ > 761							grp->pins, grp->num_pins,
+   762							pinmux);
+   763			if (err < 0) {
+   764				dev_err(dev, "Failed to register group %s\n", grp->name);
+   765				of_node_put(np);
+   766				return err;
+   767			}
+   768			memset(&group, 0, sizeof(group));
+   769			pinmux = NULL;
+   770		}
+   771	
+   772		return 0;
+   773	}
+   774	
 
 -- 
 0-DAY CI Kernel Test Service
