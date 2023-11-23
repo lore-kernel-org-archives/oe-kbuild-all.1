@@ -1,70 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D20747B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CC779CC
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 23 Nov 2023 03:12:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HkDkgejS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QKg4GOry"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700709139; x=1732245139;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3sBlfJImwRaqa6aryIZaVq3UckHfBRFnYA7tVrAvU28=;
-  b=HkDkgejSTaKHw0KrfZzucjWPtINUcXlHo85Zfuh6vyo0ndxkUvzr0UUI
-   q6qQACLh1E22hnbms7xxvohwvkPnC4Jl3RAgQTVRHwLjdWQPMlm1K14Cb
-   vmjD9ftI3+Wo6WTQB4W8aTwPfk3cu1QRXOYO8FsdPae/YErv9QmIgX0lG
-   x4ldtN1ReiTmF8MwEwMUM9WmpZ+yvcOzeFclFAfAw5D2UD8uIqTdNCuHS
-   Crahd8QZkX9ImMkXRN+4gDWby532nPkAEYHxcRyVvdXuQdEp9hRSdfvyl
-   Tm2L0Pq8ehsOSRhMsGK0jrbnnDw7fnM6u0AH5uheCHWVEosZmkCABYzjF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="13744906"
+  t=1700709138; x=1732245138;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z5npNeiAJnuLy6/PfDtNxz3LZuCG8cxFrxkM6SAN8/M=;
+  b=QKg4GOry5KtsAVxl0wITsNMV8wTl8az09+oGP3pCXlhKExLCwGe8MSdb
+   sPO7uG3//aMpCJq2FYJ7Sj1dsngS4SnARAwfOCw5f2lrZZ6Ctl/+ufDUw
+   d5AfaqO4zkwMumh3ZJiLypdR4d2pDUUNlf/9zvZHpNHgG4yt3VQ9cSa+U
+   J6ZBNZAbwFGFXsy08wpWg+fwRzec4xvMp46mPJ9rdJFDEgt0qgv5/kZ+K
+   LdF292OHogcVqMhsltUrmU5scR0Dn9olxWzug/wkrHDrHvVldiHBCEYAK
+   FYp3Y3nYC7AE3U7e7tw/q+LDphfNTXjLcyZ3BEw4WxAZ7qtZhQPwI/wA/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="458685574"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="13744906"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:12:18 -0800
+   d="scan'208";a="458685574"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 19:12:14 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="716933920"
 X-IronPort-AV: E=Sophos;i="6.04,220,1695711600"; 
-   d="scan'208";a="8712749"
+   d="scan'208";a="716933920"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2023 19:12:11 -0800
+  by orsmga003.jf.intel.com with ESMTP; 22 Nov 2023 19:12:12 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r608P-00019r-1j;
-	Thu, 23 Nov 2023 03:12:09 +0000
-Date: Thu, 23 Nov 2023 11:11:25 +0800
+	id 1r608Q-0001AF-1B;
+	Thu, 23 Nov 2023 03:12:10 +0000
+Date: Thu, 23 Nov 2023 11:11:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Jianlong Huang <jianlong.huang@starfivetech.com>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Sean Wang <sean.wang@kernel.org>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Subject: Re: [PATCH v1 01/17] pinctrl: equilibrium: Convert to use struct
- pingroup
-Message-ID: <202311230820.MGDyVHJW-lkp@intel.com>
-References: <20231122164040.2262742-2-andriy.shevchenko@linux.intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10 2/26]
+ drivers/usb/gadget/function/u_audio.c:971 g_audio_setup() warn: inconsistent
+ indenting
+Message-ID: <202311230748.pyGLCax4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,125 +50,247 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231122164040.2262742-2-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next geert-renesas-drivers/renesas-pinctrl pinctrl-samsung/for-next linus/master v6.7-rc2 next-20231122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-equilibrium-Convert-to-use-struct-pingroup/20231123-005932
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20231122164040.2262742-2-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v1 01/17] pinctrl: equilibrium: Convert to use struct pingroup
-config: i386-randconfig-001-20231123 (https://download.01.org/0day-ci/archive/20231123/202311230820.MGDyVHJW-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231123/202311230820.MGDyVHJW-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   e6278ff4b708984f059d838b9c1a42b4cf739323
+commit: 8430eb02434d2e3cd2230b320ff32f43c2a8a9b1 [2/26] UPSTREAM: usb: gadget: u_audio: add bi-directional volume and mute support
+config: x86_64-randconfig-161-20231122 (https://download.01.org/0day-ci/archive/20231123/202311230748.pyGLCax4-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20231123/202311230748.pyGLCax4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311230820.MGDyVHJW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311230748.pyGLCax4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/usb/gadget/function/u_audio.c:971 g_audio_setup() warn: inconsistent indenting
 
-   drivers/pinctrl/pinctrl-equilibrium.c: In function 'eqbr_build_groups':
-   drivers/pinctrl/pinctrl-equilibrium.c:750:17: error: assignment of read-only location '*(grp->pins + (sizetype)((unsigned int)j * 4))'
-     750 |    grp->pins[j] = pin_id;
-         |                 ^
-   drivers/pinctrl/pinctrl-equilibrium.c:761:23: error: 'struct pingroup' has no member named 'num_pins'; did you mean 'npins'?
-     761 |       grp->pins, grp->num_pins,
-         |                       ^~~~~~~~
-         |                       npins
->> drivers/pinctrl/pinctrl-equilibrium.c:761:10: warning: passing argument 3 of 'pinctrl_generic_add_group' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     761 |       grp->pins, grp->num_pins,
-         |       ~~~^~~~~~
-   In file included from drivers/pinctrl/pinctrl-equilibrium.c:16:
-   drivers/pinctrl/core.h:225:15: note: expected 'int *' but argument is of type 'const unsigned int *'
-     225 |          int *gpins, int ngpins, void *data);
-         |          ~~~~~^~~~~
+vim +971 drivers/usb/gadget/function/u_audio.c
 
-
-vim +761 drivers/pinctrl/pinctrl-equilibrium.c
-
-   702	
-   703	static int eqbr_build_groups(struct eqbr_pinctrl_drv_data *drvdata)
-   704	{
-   705		struct device *dev = drvdata->dev;
-   706		struct device_node *node = dev->of_node;
-   707		unsigned int *pinmux, pin_id, pinmux_id;
-   708		struct pingroup group, *grp = &group;
-   709		struct device_node *np;
-   710		struct property *prop;
-   711		int j, err;
-   712	
-   713		for_each_child_of_node(node, np) {
-   714			prop = of_find_property(np, "groups", NULL);
-   715			if (!prop)
-   716				continue;
-   717	
-   718			grp->npins = of_property_count_u32_elems(np, "pins");
-   719			if (grp->npins < 0) {
-   720				dev_err(dev, "No pins in the group: %s\n", prop->name);
-   721				of_node_put(np);
-   722				return -EINVAL;
-   723			}
-   724			grp->name = prop->value;
-   725			grp->pins = devm_kcalloc(dev, grp->npins, sizeof(*grp->pins), GFP_KERNEL);
-   726			if (!grp->pins) {
-   727				of_node_put(np);
-   728				return -ENOMEM;
-   729			}
-   730	
-   731			pinmux = devm_kcalloc(dev, grp->npins, sizeof(*pinmux), GFP_KERNEL);
-   732			if (!pinmux) {
-   733				of_node_put(np);
-   734				return -ENOMEM;
-   735			}
-   736	
-   737			for (j = 0; j < grp->npins; j++) {
-   738				if (of_property_read_u32_index(np, "pins", j, &pin_id)) {
-   739					dev_err(dev, "Group %s: Read intel pins id failed\n",
-   740						grp->name);
-   741					of_node_put(np);
-   742					return -EINVAL;
-   743				}
-   744				if (pin_id >= drvdata->pctl_desc.npins) {
-   745					dev_err(dev, "Group %s: Invalid pin ID, idx: %d, pin %u\n",
-   746						grp->name, j, pin_id);
-   747					of_node_put(np);
-   748					return -EINVAL;
-   749				}
-   750				grp->pins[j] = pin_id;
-   751				if (of_property_read_u32_index(np, "pinmux", j, &pinmux_id)) {
-   752					dev_err(dev, "Group %s: Read intel pinmux id failed\n",
-   753						grp->name);
-   754					of_node_put(np);
-   755					return -EINVAL;
-   756				}
-   757				pinmux[j] = pinmux_id;
-   758			}
-   759	
-   760			err = pinctrl_generic_add_group(drvdata->pctl_dev, grp->name,
- > 761							grp->pins, grp->num_pins,
-   762							pinmux);
-   763			if (err < 0) {
-   764				dev_err(dev, "Failed to register group %s\n", grp->name);
-   765				of_node_put(np);
-   766				return err;
-   767			}
-   768			memset(&group, 0, sizeof(group));
-   769			pinmux = NULL;
-   770		}
-   771	
-   772		return 0;
-   773	}
-   774	
+   943	
+   944	int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
+   945						const char *card_name)
+   946	{
+   947		struct snd_uac_chip *uac;
+   948		struct snd_card *card;
+   949		struct snd_pcm *pcm;
+   950		struct snd_kcontrol *kctl;
+   951		struct uac_params *params;
+   952		int p_chmask, c_chmask;
+   953		int i, err;
+   954	
+   955		if (!g_audio)
+   956			return -EINVAL;
+   957	
+   958		uac = kzalloc(sizeof(*uac), GFP_KERNEL);
+   959		if (!uac)
+   960			return -ENOMEM;
+   961		g_audio->uac = uac;
+   962		uac->audio_dev = g_audio;
+   963	
+   964		params = &g_audio->params;
+   965		p_chmask = params->p_chmask;
+   966		c_chmask = params->c_chmask;
+   967	
+   968		if (c_chmask) {
+   969			struct uac_rtd_params *prm = &uac->c_prm;
+   970	
+ > 971	    spin_lock_init(&prm->lock);
+   972	    uac->c_prm.uac = uac;
+   973			prm->max_psize = g_audio->out_ep_maxpsize;
+   974	
+   975			prm->reqs = kcalloc(params->req_number,
+   976					    sizeof(struct usb_request *),
+   977					    GFP_KERNEL);
+   978			if (!prm->reqs) {
+   979				err = -ENOMEM;
+   980				goto fail;
+   981			}
+   982	
+   983			prm->rbuf = kcalloc(params->req_number, prm->max_psize,
+   984					GFP_KERNEL);
+   985			if (!prm->rbuf) {
+   986				prm->max_psize = 0;
+   987				err = -ENOMEM;
+   988				goto fail;
+   989			}
+   990		}
+   991	
+   992		if (p_chmask) {
+   993			struct uac_rtd_params *prm = &uac->p_prm;
+   994	
+   995			spin_lock_init(&prm->lock);
+   996			uac->p_prm.uac = uac;
+   997			prm->max_psize = g_audio->in_ep_maxpsize;
+   998	
+   999			prm->reqs = kcalloc(params->req_number,
+  1000					    sizeof(struct usb_request *),
+  1001					    GFP_KERNEL);
+  1002			if (!prm->reqs) {
+  1003				err = -ENOMEM;
+  1004				goto fail;
+  1005			}
+  1006	
+  1007			prm->rbuf = kcalloc(params->req_number, prm->max_psize,
+  1008					GFP_KERNEL);
+  1009			if (!prm->rbuf) {
+  1010				prm->max_psize = 0;
+  1011				err = -ENOMEM;
+  1012				goto fail;
+  1013			}
+  1014		}
+  1015	
+  1016		/* Choose any slot, with no id */
+  1017		err = snd_card_new(&g_audio->gadget->dev,
+  1018				-1, NULL, THIS_MODULE, 0, &card);
+  1019		if (err < 0)
+  1020			goto fail;
+  1021	
+  1022		uac->card = card;
+  1023	
+  1024		/*
+  1025		 * Create first PCM device
+  1026		 * Create a substream only for non-zero channel streams
+  1027		 */
+  1028		err = snd_pcm_new(uac->card, pcm_name, 0,
+  1029				       p_chmask ? 1 : 0, c_chmask ? 1 : 0, &pcm);
+  1030		if (err < 0)
+  1031			goto snd_fail;
+  1032	
+  1033		strscpy(pcm->name, pcm_name, sizeof(pcm->name));
+  1034		pcm->private_data = uac;
+  1035		uac->pcm = pcm;
+  1036	
+  1037		snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &uac_pcm_ops);
+  1038		snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &uac_pcm_ops);
+  1039	
+  1040		/*
+  1041		 * Create mixer and controls
+  1042		 * Create only if it's required on USB side
+  1043		 */
+  1044		if ((c_chmask && g_audio->in_ep_fback)
+  1045				|| (p_chmask && params->p_fu.id)
+  1046				|| (c_chmask && params->c_fu.id))
+  1047			strscpy(card->mixername, card_name, sizeof(card->driver));
+  1048	
+  1049		if (c_chmask && g_audio->in_ep_fback) {
+  1050			kctl = snd_ctl_new1(&u_audio_controls[UAC_FBACK_CTRL],
+  1051					    &uac->c_prm);
+  1052			if (!kctl) {
+  1053				err = -ENOMEM;
+  1054				goto snd_fail;
+  1055			}
+  1056	
+  1057			kctl->id.device = pcm->device;
+  1058			kctl->id.subdevice = 0;
+  1059	
+  1060			err = snd_ctl_add(card, kctl);
+  1061			if (err < 0)
+  1062				goto snd_fail;
+  1063		}
+  1064	
+  1065		for (i = 0; i <= SNDRV_PCM_STREAM_LAST; i++) {
+  1066			struct uac_rtd_params *prm;
+  1067			struct uac_fu_params *fu;
+  1068			char ctrl_name[24];
+  1069			char *direction;
+  1070	
+  1071			if (!pcm->streams[i].substream_count)
+  1072				continue;
+  1073	
+  1074			if (i == SNDRV_PCM_STREAM_PLAYBACK) {
+  1075				prm = &uac->p_prm;
+  1076				fu = &params->p_fu;
+  1077				direction = "Playback";
+  1078			} else {
+  1079				prm = &uac->c_prm;
+  1080				fu = &params->c_fu;
+  1081				direction = "Capture";
+  1082			}
+  1083	
+  1084			prm->fu_id = fu->id;
+  1085	
+  1086			if (fu->mute_present) {
+  1087				snprintf(ctrl_name, sizeof(ctrl_name),
+  1088						"PCM %s Switch", direction);
+  1089	
+  1090				u_audio_controls[UAC_MUTE_CTRL].name = ctrl_name;
+  1091	
+  1092				kctl = snd_ctl_new1(&u_audio_controls[UAC_MUTE_CTRL],
+  1093						    prm);
+  1094				if (!kctl) {
+  1095					err = -ENOMEM;
+  1096					goto snd_fail;
+  1097				}
+  1098	
+  1099				kctl->id.device = pcm->device;
+  1100				kctl->id.subdevice = i;
+  1101	
+  1102				err = snd_ctl_add(card, kctl);
+  1103				if (err < 0)
+  1104					goto snd_fail;
+  1105				prm->snd_kctl_mute = kctl;
+  1106				prm->mute = 0;
+  1107			}
+  1108	
+  1109			if (fu->volume_present) {
+  1110				snprintf(ctrl_name, sizeof(ctrl_name),
+  1111						"PCM %s Volume", direction);
+  1112	
+  1113				u_audio_controls[UAC_VOLUME_CTRL].name = ctrl_name;
+  1114	
+  1115				kctl = snd_ctl_new1(&u_audio_controls[UAC_VOLUME_CTRL],
+  1116						    prm);
+  1117				if (!kctl) {
+  1118					err = -ENOMEM;
+  1119					goto snd_fail;
+  1120				}
+  1121	
+  1122				kctl->id.device = pcm->device;
+  1123				kctl->id.subdevice = i;
+  1124	
+  1125	
+  1126				kctl->tlv.c = u_audio_volume_tlv;
+  1127				kctl->vd[0].access |= SNDRV_CTL_ELEM_ACCESS_TLV_READ |
+  1128						SNDRV_CTL_ELEM_ACCESS_TLV_CALLBACK;
+  1129	
+  1130				err = snd_ctl_add(card, kctl);
+  1131				if (err < 0)
+  1132					goto snd_fail;
+  1133				prm->snd_kctl_volume = kctl;
+  1134				prm->volume = fu->volume_max;
+  1135				prm->volume_max = fu->volume_max;
+  1136				prm->volume_min = fu->volume_min;
+  1137				prm->volume_res = fu->volume_res;
+  1138			}
+  1139		}
+  1140	
+  1141		strscpy(card->driver, card_name, sizeof(card->driver));
+  1142		strscpy(card->shortname, card_name, sizeof(card->shortname));
+  1143		sprintf(card->longname, "%s %i", card_name, card->dev->id);
+  1144	
+  1145		snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_CONTINUOUS,
+  1146					       NULL, 0, BUFF_SIZE_MAX);
+  1147	
+  1148		err = snd_card_register(card);
+  1149	
+  1150		if (!err)
+  1151			return 0;
+  1152	
+  1153	snd_fail:
+  1154		snd_card_free(card);
+  1155	fail:
+  1156		kfree(uac->p_prm.reqs);
+  1157		kfree(uac->c_prm.reqs);
+  1158		kfree(uac->p_prm.rbuf);
+  1159		kfree(uac->c_prm.rbuf);
+  1160		kfree(uac);
+  1161	
+  1162		return err;
+  1163	}
+  1164	EXPORT_SYMBOL_GPL(g_audio_setup);
+  1165	
 
 -- 
 0-DAY CI Kernel Test Service
