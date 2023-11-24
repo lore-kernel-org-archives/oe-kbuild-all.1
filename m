@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2D12E85B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 15:23:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65432EAF0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 15:23:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tv58esZa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+NaXP1y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700839439; x=1732375439;
+  t=1700839437; x=1732375437;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rxL2jk4MgQcXj8eN+mwhkKKDZzLlAvvuyE/DYYerPSo=;
-  b=Tv58esZanAkrUjApfYMuR4//jJB40lcHJAaB1BxYwycGxFyk0nSU15Gl
-   SUz96eJC9TL4ofdyawzRTT0p58Jyk6vVciQ2Z2f05l1RWFXFTk17W/bod
-   9qriShqAWI08MVcJ2/O6COivje+GFxRnYB0RAud52hP9cF4Qcrjr6K4Z6
-   X+OnVQJr40fJL2hilKX5dU+QDpf460pb77AqfNKeztTJ+wOS5VfwuMOOW
-   8CZB8MTTTVV7d3E2kbV6TjRo2c28uQoHkG4Upb2URG3xsfT9Mlb4sHbey
-   UjqpYS0pfd9i1FMAyxBl7unzyZuyoJbhQesCS9ctbHWvYflgcCGtu6qqq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5660696"
+  bh=gIA5DrBHGW7PORw0zQOQIR5B34JDQO/e3P43UiTAklk=;
+  b=Z+NaXP1ypefNrTZ0fBPji3wPwUrMj937ps2qI+YP2vsbetYo/vOIUfTt
+   /BTxTbxXomPA+sIRoVnDSWLNGDawmVi7Iuhi/TA1scnOig7RlxeuUV48u
+   i/o4h8whVUzqMMGMnfH0pTmCsv7i1I/KRZgfWqdARlnE8tAULaqJKWs7W
+   58M8iw/m6moNfAm2WAqfWD778v8qfF6zWCvKrp2CSMJEtLyDHpdTxcAMm
+   f73bX2y4HK2UdN0YYNP29/e6kXMyxAqeH/NoYyzmandsqm0aGqVcyHCcu
+   xqn7FFf/Kam9l69yOaPPNI+UDCx1fKdKI0zVhCeeM/jKGQtN/EHVw1bxb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5660680"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="5660696"
+   d="scan'208";a="5660680"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:23:59 -0800
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:23:57 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="16002353"
+   d="scan'208";a="16002367"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Nov 2023 07:23:55 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 24 Nov 2023 07:23:50 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6Y25-0002wq-09;
-	Fri, 24 Nov 2023 15:23:53 +0000
-Date: Fri, 24 Nov 2023 23:23:31 +0800
+	id 1r6Y20-0002wM-16;
+	Fri, 24 Nov 2023 15:23:48 +0000
+Date: Fri, 24 Nov 2023 23:23:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Elliot Berman <quic_eberman@quicinc.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Guru Das Srinagesh <quic_gurus@quicinc.com>,
-	Andrew Halaney <ahalaney@redhat.com>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Alex Elder <elder@linaro.org>,
-	Srini Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kernel@quicinc.com,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [RESEND PATCH v5 02/12] firmware: qcom: scm: enable the TZ mem
- allocator
-Message-ID: <202311241607.v3tvaLvH-lkp@intel.com>
-References: <20231120132118.30473-3-brgl@bgdev.pl>
+To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org, linux-mm@kvack.org,
+	dave@stgolabs.net, jonathan.cameron@huawei.com,
+	dave.jiang@intel.com, alison.schofield@intel.com,
+	vishal.l.verma@intel.com, ira.weiny@intel.com,
+	dan.j.williams@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, david@redhat.com,
+	Vilas.Sridharan@amd.com, leo.duran@amd.com, Yazen.Ghannam@amd.com,
+	rientjes@google.com, jiaqiyan@google.com, tony.luck@intel.com,
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, rafael@kernel.org,
+	lenb@kernel.org, naoya.horiguchi@nec.com, james.morse@arm.com,
+	jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	mike.malvestuto@intel.com
+Subject: Re: [PATCH v3 02/11] cxl/mbox: Add GET_FEATURE mailbox command
+Message-ID: <202311241607.cZbPFKOR-lkp@intel.com>
+References: <20231123174355.1176-3-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,108 +61,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231120132118.30473-3-brgl@bgdev.pl>
+In-Reply-To: <20231123174355.1176-3-shiju.jose@huawei.com>
 
-Hi Bartosz,
+Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.7-rc2 next-20231124]
+[auto build test WARNING on krzk-mem-ctrl/for-next]
+[also build test WARNING on linus/master v6.7-rc2 next-20231124]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/firmware-qcom-add-a-dedicated-TrustZone-buffer-allocator/20231120-213154
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231120132118.30473-3-brgl%40bgdev.pl
-patch subject: [RESEND PATCH v5 02/12] firmware: qcom: scm: enable the TZ mem allocator
-config: arm-randconfig-r071-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241607.v3tvaLvH-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241607.v3tvaLvH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/cxl-mbox-Add-GET_SUPPORTED_FEATURES-mailbox-command/20231124-014622
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
+patch link:    https://lore.kernel.org/r/20231123174355.1176-3-shiju.jose%40huawei.com
+patch subject: [PATCH v3 02/11] cxl/mbox: Add GET_FEATURE mailbox command
+config: i386-randconfig-061-20231124 (https://download.01.org/0day-ci/archive/20231124/202311241607.cZbPFKOR-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241607.cZbPFKOR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311241607.v3tvaLvH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241607.cZbPFKOR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/cxl/core/mbox.c:1317:30: sparse: sparse: cast from restricted __le32
+>> drivers/cxl/core/mbox.c:1339:30: sparse: sparse: cast from restricted __le16
+   drivers/cxl/core/mbox.c:1341:29: sparse: sparse: cast from restricted __le16
 
-   drivers/firmware/qcom/qcom_tzmem.c: In function 'qcom_tzmem_pool_new':
->> drivers/firmware/qcom/qcom_tzmem.c:87:64: error: passing argument 3 of 'dma_alloc_coherent' from incompatible pointer type [-Werror=incompatible-pointer-types]
-      87 |         pool->vbase = dma_alloc_coherent(qcom_tzmem_dev, size, &pool->pbase,
-         |                                                                ^~~~~~~~~~~~
-         |                                                                |
-         |                                                                phys_addr_t * {aka unsigned int *}
-   In file included from drivers/firmware/qcom/qcom_tzmem.c:10:
-   include/linux/dma-mapping.h:429:29: note: expected 'dma_addr_t *' {aka 'long long unsigned int *'} but argument is of type 'phys_addr_t *' {aka 'unsigned int *'}
-     429 |                 dma_addr_t *dma_handle, gfp_t gfp)
-         |                 ~~~~~~~~~~~~^~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +1339 drivers/cxl/core/mbox.c
 
-
-vim +/dma_alloc_coherent +87 drivers/firmware/qcom/qcom_tzmem.c
-
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   59  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   60  /**
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   61   * qcom_tzmem_pool_new() - Create a new TZ memory pool.
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   62   * @size: Size of the new pool in bytes.
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   63   *
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   64   * Create a new pool of memory suitable for sharing with the TrustZone.
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   65   *
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   66   * Must not be used in atomic context.
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   67   *
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   68   * Returns:
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   69   * New memory pool address or ERR_PTR() on error.
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   70   */
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   71  struct qcom_tzmem_pool *qcom_tzmem_pool_new(size_t size)
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   72  {
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   73  	struct qcom_tzmem_pool *pool;
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   74  	int ret = -ENOMEM;
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   75  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   76  	if (!size)
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   77  		return ERR_PTR(-EINVAL);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   78  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   79  	size = PAGE_ALIGN(size);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   80  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   81  	pool = kzalloc(sizeof(*pool), GFP_KERNEL);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   82  	if (!pool)
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   83  		return ERR_PTR(-ENOMEM);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   84  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   85  	pool->size = size;
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   86  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  @87  	pool->vbase = dma_alloc_coherent(qcom_tzmem_dev, size, &pool->pbase,
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   88  					 GFP_KERNEL);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   89  	if (!pool->vbase)
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   90  		goto err_kfree_pool;
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   91  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   92  	pool->pool = gen_pool_create(PAGE_SHIFT, -1);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   93  	if (!pool)
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   94  		goto err_dma_free;
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   95  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   96  	gen_pool_set_algo(pool->pool, gen_pool_best_fit, NULL);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   97  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   98  	ret = gen_pool_add_virt(pool->pool, (unsigned long)pool->vbase,
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20   99  				pool->pbase, size, -1);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  100  	if (ret)
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  101  		goto err_destroy_genpool;
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  102  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  103  	ret = qcom_tzmem_init_pool(pool);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  104  	if (ret)
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  105  		goto err_destroy_genpool;
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  106  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  107  	return pool;
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  108  
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  109  err_destroy_genpool:
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  110  	gen_pool_destroy(pool->pool);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  111  err_dma_free:
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  112  	dma_free_coherent(qcom_tzmem_dev, size, pool->vbase, pool->pbase);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  113  err_kfree_pool:
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  114  	kfree(pool);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  115  	return ERR_PTR(ret);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  116  }
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  117  EXPORT_SYMBOL_GPL(qcom_tzmem_pool_new);
-757fc9ecf8f244 Bartosz Golaszewski 2023-11-20  118  
+  1328	
+  1329	int cxl_get_feature(struct cxl_memdev_state *mds,
+  1330			    struct cxl_mbox_get_feat_in *pi, void *feat_out)
+  1331	{
+  1332		struct cxl_mbox_cmd mbox_cmd;
+  1333		int rc;
+  1334	
+  1335		mbox_cmd = (struct cxl_mbox_cmd) {
+  1336			.opcode = CXL_MBOX_OP_GET_FEATURE,
+  1337			.size_in = sizeof(*pi),
+  1338			.payload_in = pi,
+> 1339			.size_out = (size_t)pi->count,
+  1340			.payload_out = feat_out,
+  1341			.min_out = (size_t)pi->count,
+  1342		};
+  1343		rc = cxl_internal_send_cmd(mds, &mbox_cmd);
+  1344		if (rc < 0)
+  1345			return rc;
+  1346	
+  1347		return 0;
+  1348	}
+  1349	EXPORT_SYMBOL_NS_GPL(cxl_get_feature, CXL);
+  1350	
 
 -- 
 0-DAY CI Kernel Test Service
