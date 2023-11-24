@@ -1,49 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F25328DC4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 14:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E5028E3A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 14:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eu/d/HGM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gvG5tLog"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700836810; x=1732372810;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gXtrNk7qmb9HKWUJ2OdFj02KpJ3qMix92waD+ItrKSQ=;
-  b=eu/d/HGMqZnB6FBn4o5A2WOGw1ivb29SyjRHOE+Vna1U9iVlKjSG1TKn
-   TAzczBWqPEEfJYIKoiUqpvVNi/opWES2g/Laqp244AGug+KyfBfbO6Ex+
-   YggyaxVRVzubPQxLu1/XzQzuyaJZENvBJVdbo4bny+NnBTSVeKrGVvgsf
-   /y5UE8G7rEcaprk1LD6WTiAL4FzoB/cn+APAck7l5VzsE5GsDkxCyau3d
-   LpHQ+3Epamz7Wy0UNuboR69wBrgCa/VaLsbTzCLWxfGJCY37BLYrkMa0n
-   j/JiCYT1ewe9o6DMZrTtXcUFAEUSuv6mmlX8fRXRggjP1ev1UJLjOQvIN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="395248999"
+  t=1700836812; x=1732372812;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+IKWxJaXdZ0NkhgYhxR7peJrsUKpI63zLNacr8MZ6Pc=;
+  b=gvG5tLogJbpC9T/+2UZBqzg3bZAmGm8BMionjvZMHSAmrFaZeBpIDGHB
+   d+nY36HD6/W2BTlmkRMlg7aXtfIxpOXyp6vWtx2cftjxzGbR9iFHo1WZ7
+   GwLgu1TUUc1i7qh3BJ6G+/XPYQMNNxRhgmGLwdlYF/h9T9+d+465n74e0
+   RgHr622qiQOWxtFoRr+RzZaU5K29FnHC/MXD+KqC+1IfID0BxMdgTtupc
+   lh2rC+FD1x+dm1BR6JXNwlEqlaburgPlEwdomSnMBDCjGYq2d/FiZpr4p
+   TdMYKSxnBMQoqVWMHLVOT5lDJRoKF//5hOpxGvXaEOkAzjE+irQ/J/FwA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="11110372"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="395248999"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 06:40:09 -0800
+   d="scan'208";a="11110372"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 06:40:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="760975134"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="911464616"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="760975134"
+   d="scan'208";a="911464616"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Nov 2023 06:40:07 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 24 Nov 2023 06:40:09 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6XLg-0002tX-0t;
-	Fri, 24 Nov 2023 14:40:04 +0000
-Date: Fri, 24 Nov 2023 22:39:46 +0800
+	id 1r6XLj-0002ts-0O;
+	Fri, 24 Nov 2023 14:40:07 +0000
+Date: Fri, 24 Nov 2023 22:39:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Crt Mori <cmo@melexis.com>
-Subject: Re: [PATCH 1/2] iio: temperature: mlx90635 MLX90635 IR Temperature
- sensor
-Message-ID: <202311241512.ZG52ib9O-lkp@intel.com>
-References: <aa36393700ff783274894186366a152bb27e58ff.1700648165.git.cmo@melexis.com>
+To: Sarah Walker <sarah.walker@imgtec.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Matt Coster <matt.coster@imgtec.com>,
+	Donald Robson <donald.robson@imgtec.com>
+Subject: [linux-next:master 2539/2998] htmldocs:
+ ./include/uapi/drm/pvr_drm.h:1: warning: 'Flags for
+ DRM_PVR_DEV_QUERY_HEAP_INFO_GET.' not found
+Message-ID: <202311241526.Y2WZeUau-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,94 +54,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aa36393700ff783274894186366a152bb27e58ff.1700648165.git.cmo@melexis.com>
 
-Hi Crt,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.7-rc2 next-20231124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Crt-Mori/iio-temperature-mlx90635-MLX90635-IR-Temperature-sensor/20231122-202635
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/aa36393700ff783274894186366a152bb27e58ff.1700648165.git.cmo%40melexis.com
-patch subject: [PATCH 1/2] iio: temperature: mlx90635 MLX90635 IR Temperature sensor
-config: x86_64-randconfig-122-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241512.ZG52ib9O-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241512.ZG52ib9O-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8c9660f6515396aba78d1168d2e17951d653ebf2
+commit: 815d8b0425ad1164e45953ac3d56a9f6f63792cc [2539/2998] drm/imagination: Add driver documentation
+reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241526.Y2WZeUau-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311241512.ZG52ib9O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241526.Y2WZeUau-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/temperature/mlx90635.c:380:12: warning: logical not is only applied to the left hand side of this comparison [-Wlogical-not-parentheses]
-                                          !(reg_status & MLX90635_STAT_END_CONV) == 0,
-                                          ^                                      ~~
-   include/linux/regmap.h:124:58: note: expanded from macro 'regmap_read_poll_timeout'
-           __tmp = read_poll_timeout(regmap_read, __ret, __ret || (cond), \
-                                                                   ^~~~
-   include/linux/iopoll.h:47:7: note: expanded from macro 'read_poll_timeout'
-                   if (cond) \
-                       ^~~~
-   drivers/iio/temperature/mlx90635.c:380:12: note: add parentheses after the '!' to evaluate the comparison first
-   drivers/iio/temperature/mlx90635.c:380:12: note: add parentheses around left hand side expression to silence this warning
->> drivers/iio/temperature/mlx90635.c:380:12: warning: logical not is only applied to the left hand side of this comparison [-Wlogical-not-parentheses]
-                                          !(reg_status & MLX90635_STAT_END_CONV) == 0,
-                                          ^                                      ~~
-   include/linux/regmap.h:124:58: note: expanded from macro 'regmap_read_poll_timeout'
-           __tmp = read_poll_timeout(regmap_read, __ret, __ret || (cond), \
-                                                                   ^~~~
-   include/linux/iopoll.h:58:3: note: expanded from macro 'read_poll_timeout'
-           (cond) ? 0 : -ETIMEDOUT; \
-            ^~~~
-   drivers/iio/temperature/mlx90635.c:380:12: note: add parentheses after the '!' to evaluate the comparison first
-   drivers/iio/temperature/mlx90635.c:380:12: note: add parentheses around left hand side expression to silence this warning
-   2 warnings generated.
+>> ./drivers/gpu/drm/imagination/pvr_drv.c:1: warning: 'PowerVR Graphics Driver' not found
+>> ./include/uapi/drm/pvr_drm.h:1: warning: 'Flags for DRM_PVR_DEV_QUERY_HEAP_INFO_GET.' not found
+>> Documentation/gpu/imagination/uapi.rst:124: WARNING: Title underline too short.
 
+vim +1 ./include/uapi/drm/pvr_drm.h
 
-vim +380 drivers/iio/temperature/mlx90635.c
+1088d89e551530 Sarah Walker 2023-11-22 @1  /* SPDX-License-Identifier: (GPL-2.0-only WITH Linux-syscall-note) OR MIT */
+1088d89e551530 Sarah Walker 2023-11-22  2  /* Copyright (c) 2023 Imagination Technologies Ltd. */
+1088d89e551530 Sarah Walker 2023-11-22  3  
 
-   356	
-   357	static int mlx90635_perform_measurement_burst(struct mlx90635_data *data)
-   358	{
-   359		unsigned int reg_status;
-   360		int refresh_time;
-   361		int ret;
-   362	
-   363		ret = regmap_write_bits(data->regmap, MLX90635_REG_STATUS,
-   364					MLX90635_STAT_END_CONV, MLX90635_STAT_END_CONV);
-   365		if (ret < 0)
-   366			return ret;
-   367	
-   368		ret = mlx90635_calculate_dataset_ready_time(data, &refresh_time);
-   369		if (ret < 0)
-   370			return ret;
-   371	
-   372		ret = regmap_write_bits(data->regmap, MLX90635_REG_CTRL2,
-   373					MLX90635_CTRL2_SOB(1), MLX90635_CTRL2_SOB(1));
-   374		if (ret < 0)
-   375			return ret;
-   376	
-   377		msleep(refresh_time); /* Wait minimum time for dataset to be ready */
-   378	
-   379		ret = regmap_read_poll_timeout(data->regmap, MLX90635_REG_STATUS, reg_status,
- > 380					       !(reg_status & MLX90635_STAT_END_CONV) == 0,
-   381					       MLX90635_TIMING_POLLING, MLX90635_READ_RETRIES * 10000);
-   382		if (ret < 0) {
-   383			dev_err(&data->client->dev, "data not ready");
-   384			return -ETIMEDOUT;
-   385		}
-   386	
-   387		return ret;
-   388	}
-   389	
+:::::: The code at line 1 was first introduced by commit
+:::::: 1088d89e551530a9f5128770d74a1516090f1e41 drm/imagination/uapi: Add PowerVR driver UAPI
+
+:::::: TO: Sarah Walker <sarah.walker@imgtec.com>
+:::::: CC: Maxime Ripard <mripard@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
