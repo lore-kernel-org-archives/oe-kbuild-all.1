@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE72381D7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 17:51:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABFC34196
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 17:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SR34irpS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDcxXIJ3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700848277; x=1732384277;
+  t=1700848288; x=1732384288;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1gOSGqHr2oFSCkFY/LYbsCiRzMT+F9vwSVPP7+cOIJM=;
-  b=SR34irpSwZ7Sj3TETGLkHUbv5i0voGj+8vE8fjA5Z1Ho9nZe7LAV5WJG
-   v8xGNiTlRgNvvc7gPI14gbreIdZAf1/qgbJ7Mo23CwMtd2noGj0eHUtO3
-   SxHmhhgFWjFywMxshHkpYCMxlvxyzkdTke5u9jNyD0VmMvSjNicrNqJyv
-   NJoesaEBIRSMhs2Erj97MGHOTE8I0lliOi/qif9BjdPp+OO9DkabaZJHR
-   nE1imgay0ye5SQUf1yKaCH11JdK7ym1KZ1vSSE0V3NKJsLujLbrUbAS9B
-   8aP2kSqnUb+OPg59Cg+oLyuW+2XRVFqa6c3QmsyT5DRkfZid+Mvl51LRc
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="382853553"
+  bh=usNefngan+CH7n4eh0VAAgj9P0Yi+vkNmsOTjqq2faM=;
+  b=cDcxXIJ39xiNDFZ6B4lE8xeiB2IhqHlrydT0l1hs41VGKcYVAicc7ctL
+   /Pj/6Cly7pPfi/r1L2UNoOqw1mcQHPxk6q36NfKQYkRFL4qjTMB87WsqG
+   ZoncjY0lwRIWoScbdjLgLjjKsoc6R6hSjd6apDmMTvyy5HGsQH87Vp5jU
+   /NYaT4N0Wgup6eW9VAT3+sQEjtrD8DK1Ev+OK/K/Oo5ptjy1Pl8MssQqW
+   OHhPtunvZy4rI0nKzkYZbAr5WLoPt6ZtqOQX4Fatf33GPY24rUZw8rYkD
+   o1lUQ0gme2gMQK3ub0rSqQ4dnpQ7Ax+4UAWP8q6+CHaIonK7OSSWOOYDr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="423589542"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="382853553"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 09:51:17 -0800
+   d="scan'208";a="423589542"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 09:51:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="761011124"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="767540158"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="761011124"
+   d="scan'208";a="767540158"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Nov 2023 09:51:15 -0800
+  by orsmga002.jf.intel.com with ESMTP; 24 Nov 2023 09:51:21 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6aKf-00039H-1X;
-	Fri, 24 Nov 2023 17:51:13 +0000
-Date: Sat, 25 Nov 2023 01:50:33 +0800
+	id 1r6aKk-00039M-2q;
+	Fri, 24 Nov 2023 17:51:18 +0000
+Date: Sat, 25 Nov 2023 01:50:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Al Viro <viro@zeniv.linux.org.uk>
 Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.csum-x86 4/18] net/core/datagram.c:745:55: sparse:
- sparse: incorrect type in argument 1 (different base types)
-Message-ID: <202311250023.ySjyjo9L-lkp@intel.com>
+Subject: [viro-vfs:work.csum-x86 4/18]
+ arch/x86/include/asm/checksum_32.h:41:57: sparse: sparse: incorrect type in
+ argument 1 (different base types)
+Message-ID: <202311250010.dikaDI0D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,54 +54,72 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.csum-x86
 head:   f6c1313680f1d2319d2061c63abeb76f820319b8
 commit: 90c2bfd06916ac7c05129b36683bfd3424d8e0e4 [4/18] Fix the csum_and_copy_..._user() idiocy
-config: x86_64-randconfig-123-20231124 (https://download.01.org/0day-ci/archive/20231125/202311250023.ySjyjo9L-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311250023.ySjyjo9L-lkp@intel.com/reproduce)
+config: i386-randconfig-061-20231124 (https://download.01.org/0day-ci/archive/20231125/202311250010.dikaDI0D-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311250010.dikaDI0D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311250023.ySjyjo9L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311250010.dikaDI0D-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> net/core/datagram.c:745:55: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault [usertype] next @@
-   net/core/datagram.c:745:55: sparse:     expected restricted __wsum [usertype] v
-   net/core/datagram.c:745:55: sparse:     got restricted __wsum_fault [usertype] next
->> net/core/datagram.c:745:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] csum2 @@     got restricted __wsum_fault @@
-   net/core/datagram.c:745:54: sparse:     expected restricted __wsum [usertype] csum2
-   net/core/datagram.c:745:54: sparse:     got restricted __wsum_fault
-   net/core/datagram.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
+   net/ipv4/raw.c: note: in included file (through arch/x86/include/asm/checksum.h, include/net/checksum.h, include/linux/skbuff.h, ...):
+>> arch/x86/include/asm/checksum_32.h:41:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault @@
+   arch/x86/include/asm/checksum_32.h:41:57: sparse:     expected restricted __wsum [usertype] v
+   arch/x86/include/asm/checksum_32.h:41:57: sparse:     got restricted __wsum_fault
+>> arch/x86/include/asm/checksum_32.h:41:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum @@     got restricted __wsum_fault @@
+   arch/x86/include/asm/checksum_32.h:41:31: sparse:     expected restricted __wsum
+   arch/x86/include/asm/checksum_32.h:41:31: sparse:     got restricted __wsum_fault
+   net/ipv4/raw.c: note: in included file (through include/linux/skbuff.h, include/linux/pim.h, include/linux/mroute.h):
    include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
    include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
    include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
 --
->> net/core/skbuff.c:6971:55: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault [usertype] next @@
-   net/core/skbuff.c:6971:55: sparse:     expected restricted __wsum [usertype] v
-   net/core/skbuff.c:6971:55: sparse:     got restricted __wsum_fault [usertype] next
->> net/core/skbuff.c:6971:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] csum2 @@     got restricted __wsum_fault @@
-   net/core/skbuff.c:6971:54: sparse:     expected restricted __wsum [usertype] csum2
-   net/core/skbuff.c:6971:54: sparse:     got restricted __wsum_fault
-   net/core/skbuff.c: note: in included file (through include/net/net_namespace.h, include/linux/inet.h):
-   include/linux/skbuff.h:2703:28: sparse: sparse: self-comparison always evaluates to false
-   net/core/skbuff.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
+   net/ipv4/ip_output.c: note: in included file (through arch/x86/include/asm/checksum.h, include/net/checksum.h, include/linux/skbuff.h, ...):
+>> arch/x86/include/asm/checksum_32.h:41:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault @@
+   arch/x86/include/asm/checksum_32.h:41:57: sparse:     expected restricted __wsum [usertype] v
+   arch/x86/include/asm/checksum_32.h:41:57: sparse:     got restricted __wsum_fault
+>> arch/x86/include/asm/checksum_32.h:41:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum @@     got restricted __wsum_fault @@
+   arch/x86/include/asm/checksum_32.h:41:31: sparse:     expected restricted __wsum
+   arch/x86/include/asm/checksum_32.h:41:31: sparse:     got restricted __wsum_fault
+   net/ipv4/ip_output.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
    include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
    include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
    include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
+--
+   net/ipv4/icmp.c: note: in included file (through arch/x86/include/asm/checksum.h, include/net/checksum.h, include/linux/skbuff.h, ...):
+>> arch/x86/include/asm/checksum_32.h:41:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault @@
+   arch/x86/include/asm/checksum_32.h:41:57: sparse:     expected restricted __wsum [usertype] v
+   arch/x86/include/asm/checksum_32.h:41:57: sparse:     got restricted __wsum_fault
+>> arch/x86/include/asm/checksum_32.h:41:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum @@     got restricted __wsum_fault @@
+   arch/x86/include/asm/checksum_32.h:41:31: sparse:     expected restricted __wsum
+   arch/x86/include/asm/checksum_32.h:41:31: sparse:     got restricted __wsum_fault
+   net/ipv4/icmp.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
+   include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
+   include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
+   include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
+   net/ipv4/icmp.c: note: in included file (through include/linux/spinlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/bottom_half.h:33:30: sparse: sparse: context imbalance in 'icmp_reply' - different lock contexts for basic block
+   include/linux/bottom_half.h:33:30: sparse: sparse: context imbalance in '__icmp_send' - different lock contexts for basic block
+   net/ipv4/icmp.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
+   include/net/checksum.h:95:59: sparse: sparse: self-comparison always evaluates to false
 
-vim +745 net/core/datagram.c
+vim +41 arch/x86/include/asm/checksum_32.h
 
-   737	
-   738	static __always_inline
-   739	size_t copy_to_user_iter_csum(void __user *iter_to, size_t progress,
-   740				      size_t len, void *from, void *priv2)
-   741	{
-   742		__wsum *csum = priv2;
-   743		__wsum_fault next = csum_and_copy_to_user(from + progress, iter_to, len);
-   744	
- > 745		*csum = csum_block_add(*csum, from_wsum_fault(next), progress);
-   746		return !wsum_is_fault(next) ? 0 : len;
-   747	}
-   748	
+    31	
+    32	/*
+    33	 *	Note: when you get a NULL pointer exception here this means someone
+    34	 *	passed in an incorrect kernel address to one of these functions.
+    35	 *
+    36	 *	If you use these functions directly please don't forget the
+    37	 *	access_ok().
+    38	 */
+    39	static inline __wsum csum_partial_copy_nocheck(const void *src, void *dst, int len)
+    40	{
+  > 41		return from_wsum_fault(csum_partial_copy_generic(src, dst, len));
+    42	}
+    43	
 
 -- 
 0-DAY CI Kernel Test Service
