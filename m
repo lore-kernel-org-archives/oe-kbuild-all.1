@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF2E2E821
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3098C2E84D
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 15:23:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJHJApno"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bKERtnob"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700839434; x=1732375434;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aSMAd96UxnFLC2BcbLO42dfmEc4kLcDCRLdxbYcF6lk=;
-  b=aJHJApnoMnUnz9cUdDDHCApLVSWQkx6+a+NfzAsIS/vYW2CBhpakrKdU
-   o9wzyKEN6qkKZr/BUo/2k0KCp+N+GYoXUy+cT4vZFJsutDz/cl6Hh5e5M
-   8H9MjsWWuiqOsT93k2XDMfm4Uqhmgd62odAq11Wxl1vXisZ/cM2dJ5Emf
-   i74m2XT9YV2LKFXULQww2pvU6wdfqED/2G62yHSv+UXJB1zUzxQWbOozW
-   gHsh4Kqx+rXFgNGVMh2I4dKZHlyEm8CRQ6YERM/QkOIadHJYmHrHakXV9
-   fx3XQi7Ic1wJRQJMUhVLN7ZeDaT51hnUNqTS128kkXLn3grF1Z0mpZuaJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5660665"
+  t=1700839435; x=1732375435;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WU1Tg46XqbZ7qRHIPLDKZptDxegRWgVpYv0dolQhxgU=;
+  b=bKERtnobodeW6SoqUk8ArCwgAmpCu0WlzZ5giayvCYb3xuwsLFucdMbu
+   ZcBAFiShUDZF1oM1MR5j4aweINYtb/2YmfVW/rGl25h/lHfGSseCxGq3l
+   lUnxCQFWwnjgrI03RRKLebpHowbl1WEbuQ5kYjU0XgNckimDP0soNNG0V
+   A8XDrU8pRUI/FXsJdzp0wche2XMg2FcPvD/SwY3gxFzFDnagHH4aygHAH
+   PjC8oVAEvim6+hIcy+DKs76m+nb03jdHKyDjrkvRrH9fpuDtesxCyb2ZS
+   +5Lno4XSseukqDdQMTQposryY43GPqmKXc2fMIjFBslaxLKmpUO2STPJc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="456781768"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="5660665"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:23:54 -0800
+   d="scan'208";a="456781768"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:23:52 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="1014935599"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="16002341"
+   d="scan'208";a="1014935599"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Nov 2023 07:23:52 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 24 Nov 2023 07:23:51 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6Y21-0002wc-31;
+	id 1r6Y21-0002wZ-2g;
 	Fri, 24 Nov 2023 15:23:49 +0000
-Date: Fri, 24 Nov 2023 23:23:39 +0800
+Date: Fri, 24 Nov 2023 23:23:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@suse.de>, Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>
-Subject: Re: [PATCH 11/11] nfsd: allow layout state to be admin-revoked.
-Message-ID: <202311241708.t3tyrrzD-lkp@intel.com>
-References: <20231124002925.1816-12-neilb@suse.de>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-2023-07 8546/21395]
+ arch/arm64/kvm/hyp/nvhe/psci-relay.c:249:6: warning: no previous prototype
+ for function 'psci_mem_protect_inc'
+Message-ID: <202311241718.Ix9oyiCF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,54 +50,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231124002925.1816-12-neilb@suse.de>
 
-Hi NeilBrown,
+Hi Will,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc2 next-20231124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/nfsd-hold-cl_lock-for-hash_delegation_locked/20231124-123723
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231124002925.1816-12-neilb%40suse.de
-patch subject: [PATCH 11/11] nfsd: allow layout state to be admin-revoked.
-config: alpha-defconfig (https://download.01.org/0day-ci/archive/20231124/202311241708.t3tyrrzD-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241708.t3tyrrzD-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2023-07
+head:   8cf5cf8b918de8faf794b80f93bccd4c073abccf
+commit: 4347917056dadaf7856cce8312eb1c55e1372a2a [8546/21395] ANDROID: KVM: arm64: Use PSCI MEM_PROTECT to zap guest pages on reset
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231124/202311241718.Ix9oyiCF-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241718.Ix9oyiCF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311241708.t3tyrrzD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241718.Ix9oyiCF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/nfsd/export.c:24:
->> fs/nfsd/pnfs.h:94:46: warning: 'struct nfs4_layout_stateid' declared inside parameter list will not be visible outside of this definition or declaration
-      94 | static inline void nfsd4_close_layout(struct nfs4_layout_stateid *ls)
-         |                                              ^~~~~~~~~~~~~~~~~~~
-   fs/nfsd/export.c: In function 'exp_rootfh':
-   fs/nfsd/export.c:1016:34: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
-    1016 |         struct inode            *inode;
-         |                                  ^~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:204:28: warning: no previous prototype for function 'kvm_host_psci_cpu_entry' [-Wmissing-prototypes]
+     204 | asmlinkage void __noreturn kvm_host_psci_cpu_entry(bool is_cpu_on)
+         |                            ^
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:204:12: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     204 | asmlinkage void __noreturn kvm_host_psci_cpu_entry(bool is_cpu_on)
+         |            ^
+         |            static 
+>> arch/arm64/kvm/hyp/nvhe/psci-relay.c:249:6: warning: no previous prototype for function 'psci_mem_protect_inc' [-Wmissing-prototypes]
+     249 | void psci_mem_protect_inc(void)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:249:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     249 | void psci_mem_protect_inc(void)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/psci-relay.c:256:6: warning: no previous prototype for function 'psci_mem_protect_dec' [-Wmissing-prototypes]
+     256 | void psci_mem_protect_dec(void)
+         |      ^
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:256:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     256 | void psci_mem_protect_dec(void)
+         | ^
+         | static 
+   3 warnings generated.
 
 
-vim +94 fs/nfsd/pnfs.h
+vim +/psci_mem_protect_inc +249 arch/arm64/kvm/hyp/nvhe/psci-relay.c
 
-    86	
-    87	static inline void nfsd4_return_all_client_layouts(struct nfs4_client *clp)
-    88	{
-    89	}
-    90	static inline void nfsd4_return_all_file_layouts(struct nfs4_client *clp,
-    91			struct nfs4_file *fp)
-    92	{
-    93	}
-  > 94	static inline void nfsd4_close_layout(struct nfs4_layout_stateid *ls)
+   248	
+ > 249	void psci_mem_protect_inc(void)
+   250	{
+   251		hyp_spin_lock(&mem_protect_lock);
+   252		psci_mem_protect(1);
+   253		hyp_spin_unlock(&mem_protect_lock);
+   254	}
+   255	
+ > 256	void psci_mem_protect_dec(void)
+   257	{
+   258		hyp_spin_lock(&mem_protect_lock);
+   259		psci_mem_protect(-1);
+   260		hyp_spin_unlock(&mem_protect_lock);
+   261	}
+   262	
 
 -- 
 0-DAY CI Kernel Test Service
