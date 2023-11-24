@@ -1,54 +1,55 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D20324209
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 12:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A24286B1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 13:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N9lrxi6L"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40790b0a224so12513565e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 04:20:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700828449; x=1701433249; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dz9Kvhk0WvZWXvI6Q9ohDOYuHfgM65j1fXGm1MsIZXo=;
-        b=N9lrxi6LlVQaHN/d57363aSHoVyD9YHFJEcq/GDE4lP2qICHAwev7rHwDEwPVwPtVQ
-         Ff5nltp9wI7l7EkGxBShyX6PmmAvl/imZpXO/fQLW7p25UENPZdN5lSMmRH6/MrX96wN
-         NzPU4Nm5XZMk9AqZb784OpyosJSgJofph1bYIKvli/KZqiPF6O3cuZlktCt5cETw/w+d
-         7JsWK+hLokQe09P43+71kD3jbCbGkHRzBqAytRg///z+wGPWRQhlBgma0iTbTkIQ/CNS
-         xfw5WbF7oFRkvQx3mEUgc8XOEEhhOpR8KuNGP/EM9TbG65e6fxlAFo3e3l7M64q+XOog
-         B2Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700828449; x=1701433249;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dz9Kvhk0WvZWXvI6Q9ohDOYuHfgM65j1fXGm1MsIZXo=;
-        b=NN653HfBFl0d0OYMXRYIUfKzKTDEouO2eRrPRKRXyvlkhZzCkucYCivUMEQyPvEaEQ
-         fBndKv481G+nThGkFi8B3JIvu0oIOTUJS1Efjl8QYq7lI0TLqy75SdNhhdaRGqAU2axJ
-         ZVhmTdS/Ibb6TbAyh5Fd+XcMW63MDhEN4qN/FZZgs6NuVpIJui3iBkeszaBHXYeI+fvC
-         NSuGEo3W9wYgnP0jebQHpH8K5IatMbjsNF/rzunGCKVz7gJHZDXQDhNMVftkhcpfjn/U
-         rqAjMcI5BjhHuyN4eEKcSD9GkVBWHydcIidbJ4btCRwW17azSQr0Um3fbwXEoREeu0zo
-         2ORg==
-X-Gm-Message-State: AOJu0Ywe3MCB0JgsPTo/Ej2c9pultuxP5AH4Hy/cOEVrgYvBCyFOR1BJ
-	kYIZRgQfmUmGcuWHjwL7O2QrN2x3PECquR7f6Ko=
-X-Google-Smtp-Source: AGHT+IE5x4k9bSSLITYkRpQf1gVTOCmBkJIZa7GAJhU37exNagjnigg/whBNtlpYufQTJLATIP5rng==
-X-Received: by 2002:a05:600c:4ed3:b0:408:3c10:ad47 with SMTP id g19-20020a05600c4ed300b004083c10ad47mr1852667wmq.40.1700828447881;
-        Fri, 24 Nov 2023 04:20:47 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l15-20020a05600c4f0f00b00405959bbf4fsm4891253wmq.19.2023.11.24.04.20.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 04:20:39 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Fri, 24 Nov 2023 15:20:33 +0300
-To: oe-kbuild@lists.linux.dev, Paul Elder <paul.elder@ideasonboard.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [pinchartl:mtk/v6.7/thp7312/v7 4/4] drivers/media/i2c/thp7312.c:967
- thp7312_set_focus() error: uninitialized symbol 'new_state'.
-Message-ID: <feb6576d-132d-4860-80fc-71e64c77eaf1@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfmJ1M30"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700832004; x=1732368004;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=peRuZaBCZzr/v4C9Q1MvL6hloPYVyHK9MBs7TTjylkU=;
+  b=FfmJ1M30AnScMlYYLXf4c5B44Usi89tmrzsezpgUYObCi0IqVHS7Vg29
+   WqXYpJp+ruO1P5w+9NVMimV7KrSn6Zb+D/avMALgGVYlTiIsNBpoDn576
+   W86gc0PyxYbLKgD8W+Z+SY4pudi24GLvW5lxjdGuCmCOCJqqOOwnPXhxM
+   xv/Os3cPrIXZF6W6BnzaD9M7HQLDTi2p+HpsoqBKKg8XN8JQHmc8zTFmJ
+   HG+UFFerjThq0pxPcSGIMLisWTIRmb1ukT+P9q1IJVUqX67nk1dBARK/S
+   8lOcTw5YafoMOz3NTfabCgj8xpXIHRcq/Z7F56k+/mtjJ+nwAtKmeN5zs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="382823367"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="382823367"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:20:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="885274437"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="885274437"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 24 Nov 2023 05:20:00 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r6W69-0002nb-2u;
+	Fri, 24 Nov 2023 13:19:57 +0000
+Date: Fri, 24 Nov 2023 21:19:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Jeff LaBundy <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw
+ Gamepad
+Message-ID: <202311241512.0CL83yG6-lkp@intel.com>
+References: <20231121123409.2231115-2-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,100 +58,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231121123409.2231115-2-anshulusr@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git mtk/v6.7/thp7312/v7
-head:   362434bae3ce4547ea67e203cbbcb6211a619629
-commit: 362434bae3ce4547ea67e203cbbcb6211a619629 [4/4] media: i2c: Add driver for THine THP7312
-config: hexagon-randconfig-r081-20231124 (https://download.01.org/0day-ci/archive/20231124/202311241349.sqcJU6Rv-lkp@intel.com/config)
+Hi Anshul,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.7-rc2 next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/input-joystick-driver-for-Adafruit-Seesaw-Gamepad/20231121-204243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231121123409.2231115-2-anshulusr%40gmail.com
+patch subject: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw Gamepad
+config: hexagon-randconfig-r123-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241512.0CL83yG6-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241349.sqcJU6Rv-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241512.0CL83yG6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311241349.sqcJU6Rv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241512.0CL83yG6-lkp@intel.com/
 
-smatch warnings:
-drivers/media/i2c/thp7312.c:967 thp7312_set_focus() error: uninitialized symbol 'new_state'.
+All warnings (new ones prefixed by >>):
 
-vim +/new_state +967 drivers/media/i2c/thp7312.c
+   In file included from drivers/input/joystick/adafruit-seesaw.c:21:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/input/joystick/adafruit-seesaw.c:21:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/input/joystick/adafruit-seesaw.c:21:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/input/joystick/adafruit-seesaw.c:300:34: warning: unused variable 'seesaw_of_table' [-Wunused-const-variable]
+     300 | static const struct of_device_id seesaw_of_table[] = {
+         |                                  ^
+   7 warnings generated.
 
-362434bae3ce45 Paul Elder 2023-06-20   908  static int thp7312_set_focus(struct thp7312_device *thp7312)
-362434bae3ce45 Paul Elder 2023-06-20   909  {
-362434bae3ce45 Paul Elder 2023-06-20   910  	enum thp7312_focus_state new_state;
-362434bae3ce45 Paul Elder 2023-06-20   911  	bool continuous;
-362434bae3ce45 Paul Elder 2023-06-20   912  	u8 af_control;
-362434bae3ce45 Paul Elder 2023-06-20   913  	u8 af_setting;
-362434bae3ce45 Paul Elder 2023-06-20   914  	int ret = 0;
-362434bae3ce45 Paul Elder 2023-06-20   915  
-362434bae3ce45 Paul Elder 2023-06-20   916  	/* Start by programming the manual focus position if it has changed. */
-362434bae3ce45 Paul Elder 2023-06-20   917  	if (thp7312->focus_absolute->is_new) {
-362434bae3ce45 Paul Elder 2023-06-20   918  		unsigned int value;
-362434bae3ce45 Paul Elder 2023-06-20   919  
-362434bae3ce45 Paul Elder 2023-06-20   920  		value = thp7312_focus_values[thp7312->focus_absolute->val];
-362434bae3ce45 Paul Elder 2023-06-20   921  
-362434bae3ce45 Paul Elder 2023-06-20   922  		ret = cci_write(thp7312->regmap,
-362434bae3ce45 Paul Elder 2023-06-20   923  				THP7312_REG_MANUAL_FOCUS_POSITION, value, NULL);
-362434bae3ce45 Paul Elder 2023-06-20   924  		if (ret)
-362434bae3ce45 Paul Elder 2023-06-20   925  			return ret;
-362434bae3ce45 Paul Elder 2023-06-20   926  	}
-362434bae3ce45 Paul Elder 2023-06-20   927  
-362434bae3ce45 Paul Elder 2023-06-20   928  	/* Calculate the new focus state. */
-362434bae3ce45 Paul Elder 2023-06-20   929  	switch (thp7312->focus_state) {
-362434bae3ce45 Paul Elder 2023-06-20   930  	case THP7312_FOCUS_STATE_MANUAL:
-362434bae3ce45 Paul Elder 2023-06-20   931  	default:
-362434bae3ce45 Paul Elder 2023-06-20   932  		if (thp7312->focus_auto->val)
-362434bae3ce45 Paul Elder 2023-06-20   933  			new_state = THP7312_FOCUS_STATE_AUTO;
-362434bae3ce45 Paul Elder 2023-06-20   934  		else if (thp7312->focus_start->is_new)
-362434bae3ce45 Paul Elder 2023-06-20   935  			new_state = THP7312_FOCUS_STATE_ONESHOT;
 
-Not initialized on else path.  Obvoiusly I'm guessing the else paths
-can't happen for any of these, but you can see why the checker
-complains.
+vim +/seesaw_of_table +300 drivers/input/joystick/adafruit-seesaw.c
 
-362434bae3ce45 Paul Elder 2023-06-20   936  		break;
-362434bae3ce45 Paul Elder 2023-06-20   937  
-362434bae3ce45 Paul Elder 2023-06-20   938  	case THP7312_FOCUS_STATE_AUTO:
-362434bae3ce45 Paul Elder 2023-06-20   939  		if (!thp7312->focus_auto->val)
-362434bae3ce45 Paul Elder 2023-06-20   940  			new_state = THP7312_FOCUS_STATE_LOCKED;
-362434bae3ce45 Paul Elder 2023-06-20   941  		break;
-362434bae3ce45 Paul Elder 2023-06-20   942  
-362434bae3ce45 Paul Elder 2023-06-20   943  	case THP7312_FOCUS_STATE_LOCKED:
-362434bae3ce45 Paul Elder 2023-06-20   944  		if (thp7312->focus_auto->val)
-362434bae3ce45 Paul Elder 2023-06-20   945  			new_state = THP7312_FOCUS_STATE_AUTO;
-362434bae3ce45 Paul Elder 2023-06-20   946  		else if (thp7312->focus_start->is_new)
-362434bae3ce45 Paul Elder 2023-06-20   947  			new_state = THP7312_FOCUS_STATE_ONESHOT;
-362434bae3ce45 Paul Elder 2023-06-20   948  		else if (thp7312->focus_absolute->is_new)
-362434bae3ce45 Paul Elder 2023-06-20   949  			new_state = THP7312_FOCUS_STATE_MANUAL;
-362434bae3ce45 Paul Elder 2023-06-20   950  		break;
-362434bae3ce45 Paul Elder 2023-06-20   951  
-362434bae3ce45 Paul Elder 2023-06-20   952  	case THP7312_FOCUS_STATE_ONESHOT:
-362434bae3ce45 Paul Elder 2023-06-20   953  		if (thp7312->focus_auto->val)
-362434bae3ce45 Paul Elder 2023-06-20   954  			new_state = THP7312_FOCUS_STATE_AUTO;
-362434bae3ce45 Paul Elder 2023-06-20   955  		else if (thp7312->focus_start->is_new)
-362434bae3ce45 Paul Elder 2023-06-20   956  			new_state = THP7312_FOCUS_STATE_ONESHOT;
-362434bae3ce45 Paul Elder 2023-06-20   957  		else if (thp7312->focus_absolute->is_new)
-362434bae3ce45 Paul Elder 2023-06-20   958  			new_state = THP7312_FOCUS_STATE_MANUAL;
-362434bae3ce45 Paul Elder 2023-06-20   959  		break;
-362434bae3ce45 Paul Elder 2023-06-20   960  	}
-362434bae3ce45 Paul Elder 2023-06-20   961  
-362434bae3ce45 Paul Elder 2023-06-20   962  	/*
-362434bae3ce45 Paul Elder 2023-06-20   963  	 * If neither the state nor the focus method has changed, and no new
-362434bae3ce45 Paul Elder 2023-06-20   964  	 * one-shot focus is requested, there's nothing new to program to the
-362434bae3ce45 Paul Elder 2023-06-20   965  	 * hardware.
-362434bae3ce45 Paul Elder 2023-06-20   966  	 */
-362434bae3ce45 Paul Elder 2023-06-20  @967  	if (thp7312->focus_state == new_state &&
-                                                                            ^^^^^^^^^
-
-362434bae3ce45 Paul Elder 2023-06-20   968  	    !thp7312->focus_method->is_new && !thp7312->focus_start->is_new)
-362434bae3ce45 Paul Elder 2023-06-20   969  		return 0;
-362434bae3ce45 Paul Elder 2023-06-20   970  
-362434bae3ce45 Paul Elder 2023-06-20   971  	continuous = new_state == THP7312_FOCUS_STATE_MANUAL ||
-362434bae3ce45 Paul Elder 2023-06-20   972  		     new_state == THP7312_FOCUS_STATE_ONESHOT;
-362434bae3ce45 Paul Elder 2023-06-20   973  
+   299	
+ > 300	static const struct of_device_id seesaw_of_table[] = {
+   301		{ .compatible = "adafruit,seesaw-gamepad"},
+   302		{ /* Sentinel */ }
+   303	};
+   304	MODULE_DEVICE_TABLE(of, seesaw_of_table);
+   305	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
