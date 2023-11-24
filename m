@@ -1,50 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF9F33CFE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 17:51:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE72381D7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 17:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kq32I3sV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SR34irpS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700848276; x=1732384276;
+  t=1700848277; x=1732384277;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sqlsHcn2E8NnrTwYeQmQPuq6paFwSueZ6+HMI+FhcAE=;
-  b=kq32I3sVMojAtJpmt/vGz7EEy5iX6TK/6oH0vJ5Art6cK+qqr616byQz
-   6l85lIOozfQRVBck/GiWyQVctyH/xwpP01ZIzXn9Ab+w0I1oF3JRhuB5o
-   gTpPwWJ6F+UJKTbdKsXO+wyU/FEK5VJX9rcKgkTfXPkElbm7mo7ZXYC0v
-   /s9y89HsPLwZJnM8hxMkK7WYQuJ+1Q2uWkZiVsIXw61+zds2eJ9QVpAz0
-   GoIsZ/+wokBDAIa4j7IlBaLSLIwnQIHye2hwnTPk/uxZc6WlEsXmtTEkj
-   ebGcAyXcMzRL65u041W+RdDjDYMdBF6qILQFNRUpQD4Wtp1tBIw+YzKPx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="382853552"
+  bh=1gOSGqHr2oFSCkFY/LYbsCiRzMT+F9vwSVPP7+cOIJM=;
+  b=SR34irpSwZ7Sj3TETGLkHUbv5i0voGj+8vE8fjA5Z1Ho9nZe7LAV5WJG
+   v8xGNiTlRgNvvc7gPI14gbreIdZAf1/qgbJ7Mo23CwMtd2noGj0eHUtO3
+   SxHmhhgFWjFywMxshHkpYCMxlvxyzkdTke5u9jNyD0VmMvSjNicrNqJyv
+   NJoesaEBIRSMhs2Erj97MGHOTE8I0lliOi/qif9BjdPp+OO9DkabaZJHR
+   nE1imgay0ye5SQUf1yKaCH11JdK7ym1KZ1vSSE0V3NKJsLujLbrUbAS9B
+   8aP2kSqnUb+OPg59Cg+oLyuW+2XRVFqa6c3QmsyT5DRkfZid+Mvl51LRc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="382853553"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="382853552"
+   d="scan'208";a="382853553"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 09:51:14 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 09:51:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="761011108"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="761011124"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="761011108"
+   d="scan'208";a="761011124"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Nov 2023 09:51:12 -0800
+  by orsmga007.jf.intel.com with ESMTP; 24 Nov 2023 09:51:15 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6aKb-00039D-2U;
-	Fri, 24 Nov 2023 17:51:09 +0000
-Date: Sat, 25 Nov 2023 01:50:30 +0800
+	id 1r6aKf-00039H-1X;
+	Fri, 24 Nov 2023 17:51:13 +0000
+Date: Sat, 25 Nov 2023 01:50:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Mina Almasry <almasrymina@google.com>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Subject: [linux-next:master 2098/2998] htmldocs:
- ./include/net/page_pool/types.h:73: warning: Function parameter or member
- 'STRUCT_GROUP(' not described in 'page_pool_params'
-Message-ID: <202311250015.4rqAghbA-lkp@intel.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:work.csum-x86 4/18] net/core/datagram.c:745:55: sparse:
+ sparse: incorrect type in argument 1 (different base types)
+Message-ID: <202311250023.ySjyjo9L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,60 +50,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8c9660f6515396aba78d1168d2e17951d653ebf2
-commit: 5027ec19f1049a07df5b0a37b1f462514cf2724b [2098/2998] net: page_pool: split the page_pool_params into fast and slow
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250015.4rqAghbA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.csum-x86
+head:   f6c1313680f1d2319d2061c63abeb76f820319b8
+commit: 90c2bfd06916ac7c05129b36683bfd3424d8e0e4 [4/18] Fix the csum_and_copy_..._user() idiocy
+config: x86_64-randconfig-123-20231124 (https://download.01.org/0day-ci/archive/20231125/202311250023.ySjyjo9L-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311250023.ySjyjo9L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311250015.4rqAghbA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311250023.ySjyjo9L-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/core/datagram.c:745:55: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault [usertype] next @@
+   net/core/datagram.c:745:55: sparse:     expected restricted __wsum [usertype] v
+   net/core/datagram.c:745:55: sparse:     got restricted __wsum_fault [usertype] next
+>> net/core/datagram.c:745:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] csum2 @@     got restricted __wsum_fault @@
+   net/core/datagram.c:745:54: sparse:     expected restricted __wsum [usertype] csum2
+   net/core/datagram.c:745:54: sparse:     got restricted __wsum_fault
+   net/core/datagram.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
+   include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
+   include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
+   include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
+--
+>> net/core/skbuff.c:6971:55: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault [usertype] next @@
+   net/core/skbuff.c:6971:55: sparse:     expected restricted __wsum [usertype] v
+   net/core/skbuff.c:6971:55: sparse:     got restricted __wsum_fault [usertype] next
+>> net/core/skbuff.c:6971:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] csum2 @@     got restricted __wsum_fault @@
+   net/core/skbuff.c:6971:54: sparse:     expected restricted __wsum [usertype] csum2
+   net/core/skbuff.c:6971:54: sparse:     got restricted __wsum_fault
+   net/core/skbuff.c: note: in included file (through include/net/net_namespace.h, include/linux/inet.h):
+   include/linux/skbuff.h:2703:28: sparse: sparse: self-comparison always evaluates to false
+   net/core/skbuff.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
+   include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
+   include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
+   include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
 
->> ./include/net/page_pool/types.h:73: warning: Function parameter or member 'STRUCT_GROUP(' not described in 'page_pool_params'
+vim +745 net/core/datagram.c
 
-vim +73 ./include/net/page_pool/types.h
-
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  43  
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  44  /**
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  45   * struct page_pool_params - page pool parameters
-09d96ee5674a0ea Yunsheng Lin   2023-10-20  46   * @flags:	PP_FLAG_DMA_MAP, PP_FLAG_DMA_SYNC_DEV
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  47   * @order:	2^order pages on allocation
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  48   * @pool_size:	size of the ptr_ring
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  49   * @nid:	NUMA node id to allocate from pages from
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  50   * @dev:	device, for DMA pre-mapping purposes
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  51   * @napi:	NAPI which is the sole consumer of pages, otherwise NULL
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  52   * @dma_dir:	DMA mapping direction
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  53   * @max_len:	max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  54   * @offset:	DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  55   */
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  56  struct page_pool_params {
-5027ec19f1049a0 Jakub Kicinski 2023-11-20  57  	struct_group_tagged(page_pool_params_fast, fast,
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  58  		unsigned int	flags;
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  59  		unsigned int	order;
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  60  		unsigned int	pool_size;
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  61  		int		nid;
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  62  		struct device	*dev;
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  63  		struct napi_struct *napi;
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  64  		enum dma_data_direction dma_dir;
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  65  		unsigned int	max_len;
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  66  		unsigned int	offset;
-5027ec19f1049a0 Jakub Kicinski 2023-11-20  67  	);
-5027ec19f1049a0 Jakub Kicinski 2023-11-20  68  	struct_group_tagged(page_pool_params_slow, slow,
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  69  /* private: used by test code only */
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  70  		void (*init_callback)(struct page *page, void *arg);
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  71  		void *init_arg;
-5027ec19f1049a0 Jakub Kicinski 2023-11-20  72  	);
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04 @73  };
-a9ca9f9ceff382b Yunsheng Lin   2023-08-04  74  
-
-:::::: The code at line 73 was first introduced by commit
-:::::: a9ca9f9ceff382b58b488248f0c0da9e157f5d06 page_pool: split types and declarations from page_pool.h
-
-:::::: TO: Yunsheng Lin <linyunsheng@huawei.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+   737	
+   738	static __always_inline
+   739	size_t copy_to_user_iter_csum(void __user *iter_to, size_t progress,
+   740				      size_t len, void *from, void *priv2)
+   741	{
+   742		__wsum *csum = priv2;
+   743		__wsum_fault next = csum_and_copy_to_user(from + progress, iter_to, len);
+   744	
+ > 745		*csum = csum_block_add(*csum, from_wsum_fault(next), progress);
+   746		return !wsum_is_fault(next) ? 0 : len;
+   747	}
+   748	
 
 -- 
 0-DAY CI Kernel Test Service
