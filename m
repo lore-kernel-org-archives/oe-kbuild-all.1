@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E422511F;
-	Fri, 24 Nov 2023 20:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6062C1EB32
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 20:04:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gSt5g6mq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bB8ORiMw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1700856292; x=1732392292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=venqs9i+EXz9B0hcw1eandPiBlvI7OxlKZkne1epeAQ=;
-  b=gSt5g6mq8iooP2LmBXpEBoqdqm+YPgoB4qN7L2uYCHTrr6RUXGOwUkhZ
-   NZQf4KdtW1gV2qIOC2VyQFhmrKMPgx0/T7b6y6K+TgV4eM3/zXAEnDmPf
-   fwB5aZSEdLvZjAUWWI+YtLV6R7EdrYB/4eUOa89YCRJVGFzmH0dRTUzWE
-   T2tHwKd4deB6qz4XpQMU7YNIBGHjpQS7HYjK0lSOGqYpaCIBBpq50zddB
-   lMWKO93usfqf7RV6n4A4ii7kByM8t61ZXIIZP2SVvAHi1PK0vt7NDphBm
-   3BdPPqNtuY3cEQBx7h6yEm7mB6fM9CfxKjo82kSCSILLx1pofSMYx+jr+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="392225832"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6YrsduC7BxSi8XqGqziZewRNjlyKnLey0YuZmFxTuxQ=;
+  b=bB8ORiMwdvxa8OjccLUNmZ4iqQxZPFvRvoUHUyUgITgNiz1wOlPkY9Dq
+   xM9V4+lKXrjmDOnQeAxVSdb1HudDGpaPJStKHZ0QIbKBWwIWS+cS/mrwo
+   8IIPI4uTVHK7dYIKsNnQ33ZeBoxihwksBJJYUqQo167W/QkNWee8GKrAs
+   u3qEI1z/aoShZt/BkzPDRtdpLOxjFG3tpFJuBmIf5hoJjzSVIXupamGmX
+   xPVW6NExVZu+8e6g6X0JEUQZaeU/LYW7KbpasTlugX+bW2XDPRz3ZueSe
+   tJKUFlUyBe7y5efn84nTKH4748IU+1oRXlwOamiCiuhNKVurSOIfRYynq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5691028"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="392225832"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 12:04:50 -0800
+   d="scan'208";a="5691028"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 12:04:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="761031431"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="761031431"
+   d="scan'208";a="9219872"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Nov 2023 12:04:49 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 24 Nov 2023 12:04:49 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6cPu-0003F3-2V;
+	id 1r6cPu-0003F6-2o;
 	Fri, 24 Nov 2023 20:04:46 +0000
-Date: Sat, 25 Nov 2023 04:04:29 +0800
+Date: Sat, 25 Nov 2023 04:04:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Donald Robson <donald.robson@imgtec.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v9 13/20] drm/imagination: Implement firmware
- infrastructure and META FW support
-Message-ID: <202311250226.Da2yiSKp-lkp@intel.com>
-References: <bb52a8dc84f296b37dc6668dfe8fbaf2ba551139.1700668843.git.donald.robson@imgtec.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:work.csum-x86 4/18] net/core/datagram.c:754:23: sparse:
+ sparse: incorrect type in argument 1 (different base types)
+Message-ID: <202311250254.UC1kAFDI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,92 +48,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bb52a8dc84f296b37dc6668dfe8fbaf2ba551139.1700668843.git.donald.robson@imgtec.com>
 
-Hi Donald,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.7-rc2]
-[cannot apply to drm/drm-next drm-tip/drm-tip next-20231124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Donald-Robson/drm-gpuvm-Helper-to-get-range-of-unmap-from-a-remap-op/20231123-013514
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/bb52a8dc84f296b37dc6668dfe8fbaf2ba551139.1700668843.git.donald.robson%40imgtec.com
-patch subject: [PATCH v9 13/20] drm/imagination: Implement firmware infrastructure and META FW support
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231125/202311250226.Da2yiSKp-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.csum-x86
+head:   f6c1313680f1d2319d2061c63abeb76f820319b8
+commit: 90c2bfd06916ac7c05129b36683bfd3424d8e0e4 [4/18] Fix the csum_and_copy_..._user() idiocy
+config: powerpc64-randconfig-r121-20231124 (https://download.01.org/0day-ci/archive/20231125/202311250254.UC1kAFDI-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311250226.Da2yiSKp-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231125/202311250254.UC1kAFDI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311250226.Da2yiSKp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311250254.UC1kAFDI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/core/datagram.c:745:55: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault [usertype] next @@
+   net/core/datagram.c:745:55: sparse:     expected restricted __wsum [usertype] v
+   net/core/datagram.c:745:55: sparse:     got restricted __wsum_fault [usertype] next
+   net/core/datagram.c:745:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] csum2 @@     got restricted __wsum_fault @@
+   net/core/datagram.c:745:54: sparse:     expected restricted __wsum [usertype] csum2
+   net/core/datagram.c:745:54: sparse:     got restricted __wsum_fault
+>> net/core/datagram.c:754:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault @@
+   net/core/datagram.c:754:23: sparse:     expected restricted __wsum [usertype] v
+   net/core/datagram.c:754:23: sparse:     got restricted __wsum_fault
+>> net/core/datagram.c:754:23: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __wsum [usertype] next @@     got restricted __wsum_fault @@
+   net/core/datagram.c:754:23: sparse:     expected restricted __wsum [usertype] next
+   net/core/datagram.c:754:23: sparse:     got restricted __wsum_fault
+   net/core/datagram.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
+   include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
+   include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
+   include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
+   include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
+   include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
+   include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
+--
+>> net/core/skbuff.c:3385:24: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault @@
+   net/core/skbuff.c:3385:24: sparse:     expected restricted __wsum [usertype] v
+   net/core/skbuff.c:3385:24: sparse:     got restricted __wsum_fault
+>> net/core/skbuff.c:3385:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __wsum [usertype] csum @@     got restricted __wsum_fault @@
+   net/core/skbuff.c:3385:22: sparse:     expected restricted __wsum [usertype] csum
+   net/core/skbuff.c:3385:22: sparse:     got restricted __wsum_fault
+   net/core/skbuff.c:3414:41: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault @@
+   net/core/skbuff.c:3414:41: sparse:     expected restricted __wsum [usertype] v
+   net/core/skbuff.c:3414:41: sparse:     got restricted __wsum_fault
+>> net/core/skbuff.c:3414:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __wsum [usertype] csum2 @@     got restricted __wsum_fault @@
+   net/core/skbuff.c:3414:39: sparse:     expected restricted __wsum [usertype] csum2
+   net/core/skbuff.c:3414:39: sparse:     got restricted __wsum_fault
+   net/core/skbuff.c:6971:55: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault [usertype] next @@
+   net/core/skbuff.c:6971:55: sparse:     expected restricted __wsum [usertype] v
+   net/core/skbuff.c:6971:55: sparse:     got restricted __wsum_fault [usertype] next
+   net/core/skbuff.c:6971:54: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] csum2 @@     got restricted __wsum_fault @@
+   net/core/skbuff.c:6971:54: sparse:     expected restricted __wsum [usertype] csum2
+   net/core/skbuff.c:6971:54: sparse:     got restricted __wsum_fault
+   net/core/skbuff.c:6958:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault @@
+   net/core/skbuff.c:6958:23: sparse:     expected restricted __wsum [usertype] v
+   net/core/skbuff.c:6958:23: sparse:     got restricted __wsum_fault
+>> net/core/skbuff.c:6958:23: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __wsum [usertype] next @@     got restricted __wsum_fault @@
+   net/core/skbuff.c:6958:23: sparse:     expected restricted __wsum [usertype] next
+   net/core/skbuff.c:6958:23: sparse:     got restricted __wsum_fault
+   net/core/skbuff.c: note: in included file (through include/net/net_namespace.h, include/linux/inet.h):
+   include/linux/skbuff.h:2703:28: sparse: sparse: self-comparison always evaluates to false
+   net/core/skbuff.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/inet.h):
+   include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
+   include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
+   include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
+   include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
+   include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
+   include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
+--
+   drivers/net/ethernet/3com/typhoon.c:769:21: sparse: sparse: restricted __be16 degrades to integer
+>> drivers/net/ethernet/3com/typhoon.c:1418:42: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] v @@     got restricted __wsum_fault @@
+   drivers/net/ethernet/3com/typhoon.c:1418:42: sparse:     expected restricted __wsum [usertype] v
+   drivers/net/ethernet/3com/typhoon.c:1418:42: sparse:     got restricted __wsum_fault
+>> drivers/net/ethernet/3com/typhoon.c:1418:42: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __wsum [usertype] sum @@     got restricted __wsum_fault @@
+   drivers/net/ethernet/3com/typhoon.c:1418:42: sparse:     expected restricted __wsum [usertype] sum
+   drivers/net/ethernet/3com/typhoon.c:1418:42: sparse:     got restricted __wsum_fault
+   drivers/net/ethernet/3com/typhoon.c:525:39: sparse: sparse: context imbalance in 'typhoon_process_response' - different lock contexts for basic block
+   drivers/net/ethernet/3com/typhoon.c: note: in included file (through include/linux/skbuff.h, include/net/net_namespace.h, include/linux/netdevice.h):
+   include/net/checksum.h:36:17: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __wsum_fault @@     got restricted __wsum [usertype] @@
+   include/net/checksum.h:36:17: sparse:     expected restricted __wsum_fault
+   include/net/checksum.h:36:17: sparse:     got restricted __wsum [usertype]
 
->> drivers/gpu/drm/imagination/pvr_fw_meta.c:33:1: warning: no previous prototype for function 'pvr_meta_cr_read32' [-Wmissing-prototypes]
-      33 | pvr_meta_cr_read32(struct pvr_device *pvr_dev, u32 reg_addr, u32 *reg_value_out)
-         | ^
-   drivers/gpu/drm/imagination/pvr_fw_meta.c:32:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      32 | int
-         | ^
-         | static 
-   1 warning generated.
+vim +754 net/core/datagram.c
 
+6d0d419914286a David Howells 2023-09-25  748  
+6d0d419914286a David Howells 2023-09-25  749  static __always_inline
+6d0d419914286a David Howells 2023-09-25  750  size_t memcpy_to_iter_csum(void *iter_to, size_t progress,
+6d0d419914286a David Howells 2023-09-25  751  			   size_t len, void *from, void *priv2)
+6d0d419914286a David Howells 2023-09-25  752  {
+6d0d419914286a David Howells 2023-09-25  753  	__wsum *csum = priv2;
+dc32bff195b45e David Howells 2023-09-25 @754  	__wsum next = csum_partial_copy_nocheck(from, iter_to, len);
+6d0d419914286a David Howells 2023-09-25  755  
+dc32bff195b45e David Howells 2023-09-25  756  	*csum = csum_block_add(*csum, next, progress);
+6d0d419914286a David Howells 2023-09-25  757  	return 0;
+6d0d419914286a David Howells 2023-09-25  758  }
+6d0d419914286a David Howells 2023-09-25  759  
 
-vim +/pvr_meta_cr_read32 +33 drivers/gpu/drm/imagination/pvr_fw_meta.c
+:::::: The code at line 754 was first introduced by commit
+:::::: dc32bff195b45e8571c442954beee259e9500dac iov_iter, net: Fold in csum_and_memcpy()
 
-    21	
-    22	/**
-    23	 * pvr_meta_cr_read32() - Read a META register via the Slave Port
-    24	 * @pvr_dev: Device pointer.
-    25	 * @reg_addr: Address of register to read.
-    26	 * @reg_value_out: Pointer to location to store register value.
-    27	 *
-    28	 * Returns:
-    29	 *  * 0 on success, or
-    30	 *  * Any error returned by pvr_cr_poll_reg32().
-    31	 */
-    32	int
-  > 33	pvr_meta_cr_read32(struct pvr_device *pvr_dev, u32 reg_addr, u32 *reg_value_out)
-    34	{
-    35		int err;
-    36	
-    37		/* Wait for Slave Port to be Ready. */
-    38		err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_META_SP_MSLVCTRL1,
-    39					ROGUE_CR_META_SP_MSLVCTRL1_READY_EN |
-    40						ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_EN,
-    41					ROGUE_CR_META_SP_MSLVCTRL1_READY_EN |
-    42						ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_EN,
-    43					POLL_TIMEOUT_USEC);
-    44		if (err)
-    45			return err;
-    46	
-    47		/* Issue a Read. */
-    48		pvr_cr_write32(pvr_dev, ROGUE_CR_META_SP_MSLVCTRL0,
-    49			       reg_addr | ROGUE_CR_META_SP_MSLVCTRL0_RD_EN);
-    50		(void)pvr_cr_read32(pvr_dev, ROGUE_CR_META_SP_MSLVCTRL0); /* Fence write. */
-    51	
-    52		/* Wait for Slave Port to be Ready. */
-    53		err = pvr_cr_poll_reg32(pvr_dev, ROGUE_CR_META_SP_MSLVCTRL1,
-    54					ROGUE_CR_META_SP_MSLVCTRL1_READY_EN |
-    55						ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_EN,
-    56					ROGUE_CR_META_SP_MSLVCTRL1_READY_EN |
-    57						ROGUE_CR_META_SP_MSLVCTRL1_GBLPORT_IDLE_EN,
-    58					POLL_TIMEOUT_USEC);
-    59		if (err)
-    60			return err;
-    61	
-    62		*reg_value_out = pvr_cr_read32(pvr_dev, ROGUE_CR_META_SP_MSLVDATAX);
-    63	
-    64		return 0;
-    65	}
-    66	
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: Christian Brauner <brauner@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
