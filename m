@@ -1,48 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mail5.25mail.st (mail5.25mail.st [74.50.62.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17234404
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 05:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E70AD5C;
+	Fri, 24 Nov 2023 06:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomide.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=atomide.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZnyQ8Xq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700805502; x=1732341502;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=642D0/TUXn9Jf/dxehxWt9jFsLsmk8Qt9a6/nPWrcug=;
-  b=IZnyQ8XqL632hL8rmMZNoKbRQWt9reUtXPMK5OVlRzvmPKhB32kv2U1Q
-   sjn0OVIhoWRna4jalRImiwvRdEgnB5yDUSyHP/e3JFTlQjlS/c9jXrWD9
-   EqTeQDOUFeinrHxihHWA71DMWSAraDrEGnjygBSw0UQBljftxv/LbHmPr
-   c+hORsmnaiErtjp+eVJcNQ4nbSHZLFI8R5ahswm/kl84vay7erVRF8+bR
-   spw3XcoOKqZqHa6UHJPKxWVNyIyLEUh4pQgGC/zyUGS1/4sXBtHS8w8Yd
-   656ADK8DDPKYbs4/bxeRzoy09mbycR3yhDY3ZEahvilUPmfL9i3uFqsEi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="458860291"
-X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; 
-   d="scan'208";a="458860291"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2023 21:58:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="837983127"
-X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; 
-   d="scan'208";a="837983127"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Nov 2023 21:58:20 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r6PCk-00026q-14;
-	Fri, 24 Nov 2023 05:58:18 +0000
-Date: Fri, 24 Nov 2023 13:58:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm: Add Adaptive Sync SDP logging
-Message-ID: <202311241136.tl5STYqx-lkp@intel.com>
-References: <20231123140244.4183869-2-mitulkumar.ajitkumar.golani@intel.com>
+	dkim=pass (2048-bit key) header.d=atomide.com header.i=@atomide.com header.b="fOyeZFM3"
+Received: from localhost (91-158-86-216.elisa-laajakaista.fi [91.158.86.216])
+	by mail5.25mail.st (Postfix) with ESMTPSA id 1DB30603EE;
+	Fri, 24 Nov 2023 06:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=atomide.com;
+	s=25mailst; t=1700807571;
+	bh=+gS/X74h4UfVNPZhsitLFhRKfvXbk2HaAi+3m9/w4LA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fOyeZFM3XB/N1+TWPkAPihd+noaGWJronK71K0i3yOCY4UcLBv1uy0Mq2MrhaW5sw
+	 L4fWQqlSnNwNM4oVau/CDo1e6vK0+H9Sa1Qnal8PBAV9kQ1REiOgueHKoHaCb/3t2t
+	 yZntys8VgzYz07KKMJVtaV+czADccc7zutPFMiv2U1IAdF5JP2BH8MMUmHXvQ3WtHX
+	 NXIe/acjhZKOzAA2QpDnySk9I7tLMJYuaJmMh0hsENtiUIIBnGFACcoG4S3WXHXI2R
+	 H4BmW0ylNun2MKKfpeTN6NzDcA5hxRPfwA+u0B6d1pQF2SkROP87ijITBwdeXHIC+n
+	 xAapRrmmE8Viw==
+Date: Fri, 24 Nov 2023 08:32:10 +0200
+From: Tony Lindgren <tony@atomide.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	"David S . Miller" <davem@davemloft.net>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Dhruva Gole <d-gole@ti.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] serial: core: Move console character device
+ handling from printk
+Message-ID: <20231124063210.GI5169@atomide.com>
+References: <20231121113203.61341-4-tony@atomide.com>
+ <6933c98f-7f76-4955-ba0f-89ea340b672d@suswa.mountain>
+ <8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,71 +52,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231123140244.4183869-2-mitulkumar.ajitkumar.golani@intel.com>
+In-Reply-To: <8a4c0b43-cf63-400d-b33d-d9c447b7e0b9@suswa.mountain>
 
-Hi Mitul,
+* Dan Carpenter <dan.carpenter@linaro.org> [231123 07:29]:
+> On Thu, Nov 23, 2023 at 10:24:24AM +0300, Dan Carpenter wrote:
+> > Hi Tony,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Lindgren/printk-Save-console-options-for-add_preferred_console_match/20231121-193809
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> > patch link:    https://lore.kernel.org/r/20231121113203.61341-4-tony%40atomide.com
+> > patch subject: [PATCH v3 3/3] serial: core: Move console character device handling from printk
+> > config: parisc-randconfig-r081-20231122 (https://download.01.org/0day-ci/archive/20231122/202311221437.5Gil0Pml-lkp@intel.com/config)
+> > compiler: hppa-linux-gcc (GCC) 13.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20231122/202311221437.5Gil0Pml-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Closes: https://lore.kernel.org/r/202311221437.5Gil0Pml-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/tty/serial/serial_base_bus.c:266 serial_base_add_preferred_console() error: uninitialized symbol 'nmbr_match'.
+> > drivers/tty/serial/serial_base_bus.c:265 serial_base_add_preferred_console() error: uninitialized symbol 'char_match'.
+> > 
+> > vim +/nmbr_match +266 drivers/tty/serial/serial_base_bus.c
+> > 
+> > e4ebdcd790e0f3 Tony Lindgren 2023-11-21  261  int serial_base_add_preferred_console(struct uart_driver *drv,
+> > e4ebdcd790e0f3 Tony Lindgren 2023-11-21  262  				      struct uart_port *port)
+> > e4ebdcd790e0f3 Tony Lindgren 2023-11-21  263  {
+> > e4ebdcd790e0f3 Tony Lindgren 2023-11-21  264  	const char *port_match __free(kfree);
+> > b1b8726ec3f40b Tony Lindgren 2023-11-21 @265  	const char *char_match __free(kfree);
+> > b1b8726ec3f40b Tony Lindgren 2023-11-21 @266  	const char *nmbr_match __free(kfree);
+> > 
+> > These need to be initialized to NULL.
+> > 
+> > 	const char *char_match __free(kfree) = NULL;
+> > 
+> 
+> Let's add a todo to make checkpatch warn about this.
+> 
+> KTODO: make checkpatch warn about __free() functions without an initializer
 
-kernel test robot noticed the following build warnings:
+Yes good idea.
 
-[auto build test WARNING on drm-tip/drm-tip]
+Thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mitul-Golani/drm-Add-Adaptive-Sync-SDP-logging/20231123-220931
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20231123140244.4183869-2-mitulkumar.ajitkumar.golani%40intel.com
-patch subject: [Intel-gfx] [PATCH 1/3] drm: Add Adaptive Sync SDP logging
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231124/202311241136.tl5STYqx-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241136.tl5STYqx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311241136.tl5STYqx-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/backlight.h:12,
-                    from drivers/gpu/drm/display/drm_dp_helper.c:23:
-   drivers/gpu/drm/display/drm_dp_helper.c: In function 'drm_dp_as_sdp_log':
->> drivers/gpu/drm/display/drm_dp_helper.c:2927:20: warning: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Wformat=]
-    2927 |         DP_SDP_LOG("    target_rr: %s\n", async->target_rr);
-         |                    ^~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~~~~~~~~
-         |                                                |
-         |                                                int
-   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
-     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-         |                                         ^~~
-   drivers/gpu/drm/display/drm_dp_helper.c:2927:9: note: in expansion of macro 'DP_SDP_LOG'
-    2927 |         DP_SDP_LOG("    target_rr: %s\n", async->target_rr);
-         |         ^~~~~~~~~~
-   drivers/gpu/drm/display/drm_dp_helper.c:2927:37: note: format string is defined here
-    2927 |         DP_SDP_LOG("    target_rr: %s\n", async->target_rr);
-         |                                    ~^
-         |                                     |
-         |                                     char *
-         |                                    %d
-
-
-vim +2927 drivers/gpu/drm/display/drm_dp_helper.c
-
-  2919	
-  2920	void drm_dp_as_sdp_log(const char *level, struct device *dev,
-  2921			       const struct drm_dp_as_sdp *async)
-  2922	{
-  2923	#define DP_SDP_LOG(fmt, ...) dev_printk(level, dev, fmt, ##__VA_ARGS__)
-  2924		DP_SDP_LOG("DP SDP: %s, revision %u, length %u\n", "VSC",
-  2925			   async->revision, async->length);
-  2926		DP_SDP_LOG("	vmin: %d vmax: %d\n", async->vmin, async->vmax);
-> 2927		DP_SDP_LOG("    target_rr: %s\n", async->target_rr);
-  2928		DP_SDP_LOG("    duration_incr_ms: %u\n", async->duration_incr_ms);
-  2929		DP_SDP_LOG("    duration_decr_ms: %u\n", async->duration_decr_ms);
-  2930		DP_SDP_LOG("    operation_mode: %u\n", async->operation_mode);
-  2931	#undef DP_SDP_LOG
-  2932	}
-  2933	EXPORT_SYMBOL(drm_dp_as_sdp_log);
-  2934	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Tony
