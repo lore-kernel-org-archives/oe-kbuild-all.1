@@ -1,55 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A24286B1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 13:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9A1288D7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 13:20:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfmJ1M30"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDKGCLjq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700832004; x=1732368004;
+  t=1700832025; x=1732368025;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=peRuZaBCZzr/v4C9Q1MvL6hloPYVyHK9MBs7TTjylkU=;
-  b=FfmJ1M30AnScMlYYLXf4c5B44Usi89tmrzsezpgUYObCi0IqVHS7Vg29
-   WqXYpJp+ruO1P5w+9NVMimV7KrSn6Zb+D/avMALgGVYlTiIsNBpoDn576
-   W86gc0PyxYbLKgD8W+Z+SY4pudi24GLvW5lxjdGuCmCOCJqqOOwnPXhxM
-   xv/Os3cPrIXZF6W6BnzaD9M7HQLDTi2p+HpsoqBKKg8XN8JQHmc8zTFmJ
-   HG+UFFerjThq0pxPcSGIMLisWTIRmb1ukT+P9q1IJVUqX67nk1dBARK/S
-   8lOcTw5YafoMOz3NTfabCgj8xpXIHRcq/Z7F56k+/mtjJ+nwAtKmeN5zs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="382823367"
+  bh=/5khxxfaWaDrp+7xzbywroUSqPLt6PgF7RJxWSypS1M=;
+  b=bDKGCLjqkBHdy/exb3C2Az8/0LMVC3/gO0YtnTQtCDl9NEoab72zSLUd
+   F8PNq1TshHAvGFawK2BalTKa9mSJCL65ypyhHNBmWxnw5gTu7AJe7cLSL
+   Repiwi64ll6g3yrQMYLq01DllBoEJkR9iBDGnaF0G6bbkIC4uyk1fBWL3
+   jIj51Gj7jL0y/quSaEJ8pyAGQ5JNxZgl60/l0HAHW/TXlK0E5kd+8nNJW
+   lUnBNrtiw5o6PTs8xWRJeO9lF2Sa5NjNyU2J9pPOGODATFeozWkI6KGsz
+   M9OAvAT7j/0m+nKA72T1fIsTMU0nxZcJFlyYVm6J4mRyQbndzgNO3DS+6
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="382823494"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="382823367"
+   d="scan'208";a="382823494"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:20:02 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:20:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="885274437"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="885274546"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="885274437"
+   d="scan'208";a="885274546"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Nov 2023 05:20:00 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 24 Nov 2023 05:20:19 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6W69-0002nb-2u;
-	Fri, 24 Nov 2023 13:19:57 +0000
-Date: Fri, 24 Nov 2023 21:19:50 +0800
+	id 1r6W6T-0002nk-2M;
+	Fri, 24 Nov 2023 13:20:17 +0000
+Date: Fri, 24 Nov 2023 21:19:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
+To: Suraj Jaiswal <quic_jsuraj@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+	Bhupesh Sharma <bhupesh.sharma@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, Jeff LaBundy <jeff@labundy.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw
- Gamepad
-Message-ID: <202311241512.0CL83yG6-lkp@intel.com>
-References: <20231121123409.2231115-2-anshulusr@gmail.com>
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Prasad Sodagudi <psodagud@quicinc.com>,
+	Andrew Halaney <ahalaney@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	kernel@quicinc.com
+Subject: Re: [PATCH net-next v3 3/3] net: stmmac: Add driver support for
+ DWMAC5 fault IRQ Support
+Message-ID: <202311241444.wkNnpI5Q-lkp@intel.com>
+References: <62eaaace3713751cb1ecac3163e857737107ca0e.1700737841.git.quic_jsuraj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,117 +69,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121123409.2231115-2-anshulusr@gmail.com>
+In-Reply-To: <62eaaace3713751cb1ecac3163e857737107ca0e.1700737841.git.quic_jsuraj@quicinc.com>
 
-Hi Anshul,
+Hi Suraj,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.7-rc2 next-20231124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/input-joystick-driver-for-Adafruit-Seesaw-Gamepad/20231121-204243
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231121123409.2231115-2-anshulusr%40gmail.com
-patch subject: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw Gamepad
-config: hexagon-randconfig-r123-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241512.0CL83yG6-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241512.0CL83yG6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Jaiswal/dt-bindings-net-qcom-ethqos-add-binding-doc-for-fault-IRQ-for-sa8775p/20231123-202252
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/62eaaace3713751cb1ecac3163e857737107ca0e.1700737841.git.quic_jsuraj%40quicinc.com
+patch subject: [PATCH net-next v3 3/3] net: stmmac: Add driver support for DWMAC5 fault IRQ Support
+config: csky-randconfig-r081-20231124 (https://download.01.org/0day-ci/archive/20231124/202311241444.wkNnpI5Q-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241444.wkNnpI5Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311241512.0CL83yG6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241444.wkNnpI5Q-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/input/joystick/adafruit-seesaw.c:21:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/input/joystick/adafruit-seesaw.c:21:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/input/joystick/adafruit-seesaw.c:21:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/input/joystick/adafruit-seesaw.c:300:34: warning: unused variable 'seesaw_of_table' [-Wunused-const-variable]
-     300 | static const struct of_device_id seesaw_of_table[] = {
-         |                                  ^
-   7 warnings generated.
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c:693:5: warning: no previous prototype for 'stmmac_get_fault_intr_config' [-Wmissing-prototypes]
+     693 | int stmmac_get_fault_intr_config(struct platform_device *pdev, struct stmmac_resources *res)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/seesaw_of_table +300 drivers/input/joystick/adafruit-seesaw.c
+vim +/stmmac_get_fault_intr_config +693 drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
 
-   299	
- > 300	static const struct of_device_id seesaw_of_table[] = {
-   301		{ .compatible = "adafruit,seesaw-gamepad"},
-   302		{ /* Sentinel */ }
-   303	};
-   304	MODULE_DEVICE_TABLE(of, seesaw_of_table);
-   305	
+   692	
+ > 693	int stmmac_get_fault_intr_config(struct platform_device *pdev, struct stmmac_resources *res)
+   694	{
+   695		int ret = 0;
+   696	
+   697		res->safety_common_intr = platform_get_irq_byname(pdev, "safety");
+   698	
+   699		if (res->safety_common_intr < 0) {
+   700			if (res->safety_common_intr != -EPROBE_DEFER)
+   701				dev_err(&pdev->dev, "safety IRQ configuration information not found\n");
+   702			ret = 1;
+   703		}
+   704	
+   705		return ret;
+   706	}
+   707	
 
 -- 
 0-DAY CI Kernel Test Service
