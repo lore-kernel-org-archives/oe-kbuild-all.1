@@ -1,193 +1,148 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5A72FC44
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 15:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F7D2FE19
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 15:42:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5kFosdu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i0Eg8CKL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700840548; x=1732376548;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Zrv+ZY1SMHlKP5PjELK0lL117qBspp+i134AMTsQVQQ=;
-  b=F5kFosdu5P/a1mtPqLMXX3H4yYk4N/9onWT+8PrT8BrtZhmVMIe4pQqT
-   hnv2vYcgmut66dZS0NY7vbFhIsNQFWL47+C6EFg3F1cs+vVH6uc7Ss2oK
-   YgOSbRDQk82K3zhYlqgTKvXyqogK6FMHXYzznP4vAad9PKAd69S+IhwX5
-   /mYteHmbnQyrKtN4ulY6c0ix8i2431BzfF3aMKEmJtsNrmpvECt8J8KhG
-   KeTSM9SYDFd/jrZaoXu6LWYlMqqxCiIFf7JXwxQH8U1bhuXpl0hCmbzy6
-   io+KjPoy79l+UvqLcwuy+7K2+mHLZoX36w+KAX6dwMQxspIdHArgxvmKm
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="395257439"
+  t=1700840549; x=1732376549;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d1K5ptN5K9QpcRiN2JueXdfmL+/7oV7+775IhHq++xw=;
+  b=i0Eg8CKLWFs3gGHT9uo2tB9+1SKnF0q2qHQthbTlCooIGjr8gViS5XeQ
+   M5QOhycWr1OyC18vN5rOpkBBx2TuqymZeIRX+U1z8jT606ryl7t4pyqDS
+   H98dcjLWIcUqzLSjMHv7CbOJ/oQ/gQPE5xA6ej1fERP7dB29ELs6BKSSX
+   AecJ7INPsJWWGbyfi/WsyKeiusfvqOEb9omOTys0XscVa2o59+AWwF3RV
+   AeDqdxsTpDf7WKnm6U4lIrNR9DbI+wvw/X4n8LI4TQXCC5gx4IIWnbsXT
+   EyR7WaekFH3eBc5JyzQmhDvXnMbppP+5aBXR7lG0OUC6sVcZ+6TdIkGWH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="395257441"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="395257439"
+   d="scan'208";a="395257441"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 07:42:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="767510979"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="767510984"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="767510979"
+   d="scan'208";a="767510984"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 24 Nov 2023 07:42:24 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6YJy-0002yM-06;
+	id 1r6YJy-0002ye-0t;
 	Fri, 24 Nov 2023 15:42:22 +0000
-Date: Fri, 24 Nov 2023 23:42:10 +0800
+Date: Fri, 24 Nov 2023 23:41:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
+To: Zhang Yi <yi.zhang@huaweicloud.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:tpm-dt3 1/5] dtbs_check:
- Documentation/devicetree/bindings/tpm/tcg,tpm-tis-i2c.yaml:49:15: [warning]
- wrong indentation: expected 16 but found 14 (indentation)
-Message-ID: <202311242110.OsSK8KIy-lkp@intel.com>
+Subject: Re: [PATCH RFC 13/18] ext4: impliment writeback iomap path
+Message-ID: <202311241945.TOPPNdHa-lkp@intel.com>
+References: <20231123125121.4064694-14-yi.zhang@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231123125121.4064694-14-yi.zhang@huaweicloud.com>
 
-tree:   https://github.com/l1k/linux tpm-dt3
-head:   1fe3c7fd1f49799dfeb7a91e03f83d9d22068930
-commit: 6ae45663e714374c1810fbd4b611b7d0385d5fc2 [1/5] dt-bindings: tpm: Consolidate TCG TIS bindings
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231124/202311242110.OsSK8KIy-lkp@intel.com/reproduce)
+Hi Zhang,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.6]
+[cannot apply to tytso-ext4/dev linus/master v6.7-rc2 v6.7-rc1 next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Yi/ext4-make-ext4_es_lookup_extent-return-the-next-extent-if-not-found/20231124-005707
+base:   v6.6
+patch link:    https://lore.kernel.org/r/20231123125121.4064694-14-yi.zhang%40huaweicloud.com
+patch subject: [PATCH RFC 13/18] ext4: impliment writeback iomap path
+config: m68k-sun3x_defconfig (https://download.01.org/0day-ci/archive/20231124/202311241945.TOPPNdHa-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241945.TOPPNdHa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311242110.OsSK8KIy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241945.TOPPNdHa-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/tpm/tcg,tpm-tis-i2c.yaml:49:15: [warning] wrong indentation: expected 16 but found 14 (indentation)
---
->> Documentation/devicetree/bindings/tpm/tcg,tpm-tis-i2c.yaml: properties:compatible:items: 'oneOf' conditional failed, one must be fixed:
-   	{'oneOf': [{'items': [{'enum': ['infineon,slb9673', 'nuvoton,npct75x']}, {'const': ['tcg,tpm-tis-i2c']}]}, {'items': [{'enum': ['infineon,slb9635tt', 'infineon,slb9645tt', 'infineon,tpm_i2c_infineon']}]}, {'items': [{'enum': ['atmel,at97sc3204t', 'google,cr50', 'nuvoton,npct501', 'nuvoton,npct601', 'st,st33zp24-i2c', 'winbond,wpct301']}]}]} is not of type 'array'
->> 	Documentation/devicetree/bindings/tpm/tcg,tpm-tis-i2c.yaml: properties:compatible:items:oneOf:0:items: 'oneOf' conditional failed, one must be fixed:
-   		[{'enum': ['infineon,slb9673', 'nuvoton,npct75x']}, {'const': ['tcg,tpm-tis-i2c']}] is not of type 'object'
-   		['tcg,tpm-tis-i2c'] is not of type 'integer', 'string'
-   		from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
->> Documentation/devicetree/bindings/tpm/tcg,tpm-tis-i2c.yaml: properties:compatible:items: {'oneOf': [{'items': [{'enum': ['infineon,slb9673', 'nuvoton,npct75x']}, {'const': ['tcg,tpm-tis-i2c']}]}, {'items': [{'enum': ['infineon,slb9635tt', 'infineon,slb9645tt', 'infineon,tpm_i2c_infineon']}]}, {'items': [{'enum': ['atmel,at97sc3204t', 'google,cr50', 'nuvoton,npct501', 'nuvoton,npct601', 'st,st33zp24-i2c', 'winbond,wpct301']}]}]} is not of type 'array'
-   	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
->> Documentation/devicetree/bindings/tpm/tcg,tpm-tis-i2c.yaml: properties:compatible:items: 'oneOf' conditional failed, one must be fixed:
-   	{'oneOf': [{'items': [{'enum': ['infineon,slb9673', 'nuvoton,npct75x']}, {'const': ['tcg,tpm-tis-i2c']}]}, {'items': [{'enum': ['infineon,slb9635tt', 'infineon,slb9645tt', 'infineon,tpm_i2c_infineon']}]}, {'items': [{'enum': ['atmel,at97sc3204t', 'google,cr50', 'nuvoton,npct501', 'nuvoton,npct601', 'st,st33zp24-i2c', 'winbond,wpct301']}]}]} is not of type 'array'
->> 	Documentation/devicetree/bindings/tpm/tcg,tpm-tis-i2c.yaml: properties:compatible:items:oneOf:0:items: 'oneOf' conditional failed, one must be fixed:
-   		[{'enum': ['infineon,slb9673', 'nuvoton,npct75x']}, {'const': ['tcg,tpm-tis-i2c']}] is not of type 'object'
-   		['tcg,tpm-tis-i2c'] is not of type 'string'
-   		from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
-   	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
->> Documentation/devicetree/bindings/tpm/tcg,tpm_tis-spi.yaml: properties:compatible:items: 'oneOf' conditional failed, one must be fixed:
-   	{'oneOf': [{'items': [{'enum': ['infineon,slb9670', 'st,st33htpm-spi', 'st,st33zp24-spi']}, {'const': 'tcg,tpm_tis-spi'}]}, {'items': [{'const': ['google,cr50']}]}]} is not of type 'array'
->> 	Documentation/devicetree/bindings/tpm/tcg,tpm_tis-spi.yaml: properties:compatible:items:oneOf:1:items: 'oneOf' conditional failed, one must be fixed:
-   		[{'const': ['google,cr50']}] is not of type 'object'
-   		['google,cr50'] is not of type 'integer', 'string'
-   		from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-   	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
->> Documentation/devicetree/bindings/tpm/tcg,tpm_tis-spi.yaml: properties:compatible:items: {'oneOf': [{'items': [{'enum': ['infineon,slb9670', 'st,st33htpm-spi', 'st,st33zp24-spi']}, {'const': 'tcg,tpm_tis-spi'}]}, {'items': [{'const': ['google,cr50']}]}]} is not of type 'array'
-   	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
->> Documentation/devicetree/bindings/tpm/tcg,tpm_tis-spi.yaml: properties:compatible:items: 'oneOf' conditional failed, one must be fixed:
-   	{'oneOf': [{'items': [{'enum': ['infineon,slb9670', 'st,st33htpm-spi', 'st,st33zp24-spi']}, {'const': 'tcg,tpm_tis-spi'}]}, {'items': [{'const': ['google,cr50']}]}]} is not of type 'array'
->> 	Documentation/devicetree/bindings/tpm/tcg,tpm_tis-spi.yaml: properties:compatible:items:oneOf:1:items: 'oneOf' conditional failed, one must be fixed:
-   		[{'const': ['google,cr50']}] is not of type 'object'
-   		['google,cr50'] is not of type 'string'
-   		from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
-   	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
+All warnings (new ones prefixed by >>):
 
-vim +49 Documentation/devicetree/bindings/tpm/tcg,tpm-tis-i2c.yaml
+   In file included from fs/ext4/ext4_jbd2.h:17,
+                    from fs/ext4/inode.c:45:
+   fs/ext4/inode.c: In function 'ext4_iomap_prepare_ioend':
+>> fs/ext4/inode.c:3913:26: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    3913 |                          "%s: jbd2_start: %ld blocks, ino %lu; err %d\n",
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3914 |                          __func__, ioend->io_size >> inode->i_blkbits,
+         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                   |
+         |                                                   size_t {aka unsigned int}
+   fs/ext4/ext4.h:3162:31: note: in definition of macro 'ext4_msg'
+    3162 |         __ext4_msg(sb, level, fmt, ##__VA_ARGS__)
+         |                               ^~~
+   fs/ext4/inode.c:3913:45: note: format string is defined here
+    3913 |                          "%s: jbd2_start: %ld blocks, ino %lu; err %d\n",
+         |                                           ~~^
+         |                                             |
+         |                                             long int
+         |                                           %d
+   fs/ext4/inode.c: At top level:
+   fs/ext4/inode.c:4083:46: warning: 'ext4_iomap_aops' defined but not used [-Wunused-const-variable=]
+    4083 | static const struct address_space_operations ext4_iomap_aops = {
+         |                                              ^~~~~~~~~~~~~~~
 
-     1	# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-     2	%YAML 1.2
-     3	---
-     4	$id: http://devicetree.org/schemas/tpm/tcg,tpm-tis-i2c.yaml#
-     5	$schema: http://devicetree.org/meta-schemas/core.yaml#
-     6	
-     7	title: I²C-attached Trusted Platform Module conforming to TCG TIS specification
-     8	
-     9	maintainers:
-    10	  - Lukas Wunner <lukas@wunner.de>
-    11	
-    12	description: |
-    13	  The Trusted Computing Group (TCG) has defined a multi-vendor standard
-    14	  for accessing a TPM chip.  It can be transported over various buses,
-    15	  one of them being I²C.  The standard is named:
-    16	  TCG PC Client Specific TPM Interface Specification (TIS)
-    17	  https://trustedcomputinggroup.org/resource/pc-client-work-group-pc-client-specific-tpm-interface-specification-tis/
-    18	
-    19	  The I²C interface was not originally part of the standard, but added
-    20	  in 2017 with a separate document:
-    21	  TCG PC Client Platform TPM Profile Specification for TPM 2.0 (PTP)
-    22	  https://trustedcomputinggroup.org/wp-content/uploads/PC-Client-Specific-Platform-TPM-Profile-for-TPM-2p0-v1p05p_r14_pub.pdf
-    23	
-    24	  Recent TPM 2.0 chips conform to this generic standard, others use a
-    25	  vendor-specific I²C interface.
-    26	
-    27	properties:
-    28	  compatible:
-    29	    items:
-    30	      oneOf:
-    31	        # Generic TPM 2.0 chips
-    32	        - items:
-    33	            - enum:
-    34	                - infineon,slb9673
-    35	                - nuvoton,npct75x
-    36	            - const:
-    37	                - tcg,tpm-tis-i2c
-    38	
-    39	        # Infineon TPM 1.2 chips with vendor-specific I²C interface
-    40	        - items:
-    41	            - enum:
-    42	                - infineon,slb9635tt
-    43	                - infineon,slb9645tt
-    44	                - infineon,tpm_i2c_infineon
-    45	
-    46	        # Other TPM 1.2 and 2.0 chips with vendor-specific I²C interface
-    47	        - items:
-    48	            - enum:
-  > 49	              - atmel,at97sc3204t # TPM 1.2
-    50	              - google,cr50 # TPM 2.0 (Titan H1 running Cr50 firmware)
-    51	              - nuvoton,npct501 # TPM 1.2
-    52	              - nuvoton,npct601 # TPM 2.0
-    53	              - st,st33zp24-i2c # TPM 2.0
-    54	              - winbond,wpct301 # TPM 1.2
-    55	
-    56	  reg:
-    57	    description: address of TPM on the I²C bus
-    58	
-    59	  clock-frequency:
-    60	    description: clock frequency used to access TPM on the I²C bus
-    61	
-    62	allOf:
-    63	  - $ref: tpm-common.yaml#
-    64	  - if:
-    65	      properties:
-    66	        compatible:
-    67	          contains:
-    68	            const: infineon,slb9635tt
-    69	    then:
-    70	      properties:
-    71	        clock-frequency:
-    72	          maximum: 100000
-    73	  - if:
-    74	      properties:
-    75	        compatible:
-    76	          contains:
-    77	            const: infineon,slb9645tt
-    78	    then:
-    79	      properties:
-    80	        clock-frequency:
-    81	          maximum: 400000
-    82	
-    83	required:
-    84	  - compatible
-    85	  - reg
-    86	
+
+vim +3913 fs/ext4/inode.c
+
+  3889	
+  3890	static int ext4_iomap_prepare_ioend(struct iomap_ioend *ioend, int status)
+  3891	{
+  3892		handle_t *handle = NULL;
+  3893		struct inode *inode = ioend->io_inode;
+  3894		int rsv_blocks;
+  3895		int ret;
+  3896	
+  3897		if (ioend->io_type != IOMAP_UNWRITTEN)
+  3898			return status;
+  3899	
+  3900		ioend->io_bio->bi_end_io = ext4_iomap_end_bio;
+  3901	
+  3902		/*
+  3903		 * Reserve enough transaction credits for unwritten extent
+  3904		 * convert processing in end IO.
+  3905		 */
+  3906		rsv_blocks = 1 + ext4_chunk_trans_blocks(inode,
+  3907					ioend->io_size >> inode->i_blkbits);
+  3908		handle = ext4_journal_start_with_reserve(inode,
+  3909					EXT4_HT_WRITE_PAGE, 0, rsv_blocks);
+  3910		if (IS_ERR(handle)) {
+  3911			ret = PTR_ERR(handle);
+  3912			ext4_msg(inode->i_sb, KERN_CRIT,
+> 3913				 "%s: jbd2_start: %ld blocks, ino %lu; err %d\n",
+  3914				 __func__, ioend->io_size >> inode->i_blkbits,
+  3915				 inode->i_ino, ret);
+  3916			return status ? status : ret;
+  3917		}
+  3918		if (ext4_handle_valid(handle)) {
+  3919			ioend->io_private = handle->h_rsv_handle;
+  3920			handle->h_rsv_handle = NULL;
+  3921		}
+  3922		ext4_journal_stop(handle);
+  3923	
+  3924		return status;
+  3925	}
+  3926	
 
 -- 
 0-DAY CI Kernel Test Service
