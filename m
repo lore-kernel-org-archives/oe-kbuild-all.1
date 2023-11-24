@@ -1,71 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361C320B0D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 13:21:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8649320B0D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 13:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HYqx8wXc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWaLgv6G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700832080; x=1732368080;
+  t=1700832082; x=1732368082;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oS8G9RbkHOAGAKexG7oDoBknf5c2EZYgB9loDAbntcE=;
-  b=HYqx8wXcA92WquS+RiF+n51fUu4itig07M6YPyCGpUn1y+oBFQIkq5iC
-   1JSRbRV927sfR1H3RNgDTdKt8S29gqI4ou4vhUAkA4khdQQHPLXtwIYBu
-   P2rk4ZTjt9lFeZzdb7ziKoyFevMPJAQqpAD5XxckfDFUmLoUVRpBKnjhm
-   Dpsw2xDSwi6ZPITjGjQQrGgRcHnirX0AltBVb1lGGptzyyj9BSpXB2Ng4
-   6a6iZCyQ96Zfjho6hrGibL0xgIrjb+U6zFMWMxK0cnP4RRBnu+s407nt5
-   m1ltDBvnw8mMmT1wLwDVNBhKbDAC52ZZIMx0cK92PO63WLWva+xLMYmGJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="456765150"
+  bh=YBu33gyDzpFS19gtf1YvRqlEcr+xRwDlgCwrqg5C7xw=;
+  b=jWaLgv6GUSSstbfRSaCRKxDC495iuN9GsNU/pKbUWkClX/5Se8YTenSr
+   qe7cIHiv4JnOt/T14m7KBLjqa3KK6EDNoI2Fey3HsRsHuM9i94cfahcH1
+   5JudWLJEHnSJehpO1KTqz731iKyzG4aJl2bLe+Pmq48VeuqkwqIQvFhEo
+   3y7cJzMf7HUSNGgcDNAdJuVY/zpWPwlQbus43DbF7OIH+tPoJRRPnZpak
+   3GuD0BmDKr2G09bolm/3F7vEJGIzheWRpteiaIu6vi2VeQOfG4uOfQInH
+   n/eE2BtcVmI55c+v75gKvpqJgVfV2zcgQRw3LCG01l1xA06bkGgc2A8vo
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="456765169"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="456765150"
+   d="scan'208";a="456765169"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:20:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="767477118"
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="767477151"
 X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="767477118"
+   d="scan'208";a="767477151"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 24 Nov 2023 05:20:25 -0800
+  by orsmga002.jf.intel.com with ESMTP; 24 Nov 2023 05:20:30 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6W6Z-0002nt-14;
-	Fri, 24 Nov 2023 13:20:23 +0000
-Date: Fri, 24 Nov 2023 21:19:45 +0800
+	id 1r6W6e-0002o5-0N;
+	Fri, 24 Nov 2023 13:20:28 +0000
+Date: Fri, 24 Nov 2023 21:19:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Jianlong Huang <jianlong.huang@starfivetech.com>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Sean Wang <sean.wang@kernel.org>
-Subject: Re: [PATCH v2 06/21] pinctrl: equilibrium: Convert to use struct
- pingroup
-Message-ID: <202311241401.ZPILPdov-lkp@intel.com>
-References: <20231123193355.3400852-7-andriy.shevchenko@linux.intel.com>
+To: Wei Gao <wegao@suse.com>, tglx@linutronix.de, mingo@redhat.com,
+	peterz@infradead.org, dvhart@infradead.org, dave@stgolabs.net,
+	andrealmeid@igalia.com, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, wei gao <wegao@suse.com>
+Subject: Re: [PATCH v1] futex: Add compat_sys_futex_waitv for 32bit
+ compatibility
+Message-ID: <202311241440.BxBAsQ2i-lkp@intel.com>
+References: <20231123053140.16062-1-wegao@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,111 +53,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231123193355.3400852-7-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231123053140.16062-1-wegao@suse.com>
 
-Hi Andy,
+Hi Wei,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next next-20231124]
-[cannot apply to geert-renesas-drivers/renesas-pinctrl pinctrl-samsung/for-next linus/master v6.7-rc2]
+[auto build test ERROR on tip/x86/asm]
+[also build test ERROR on tip/locking/core linus/master v6.7-rc2 next-20231124]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-qcom-lpass-lpi-Remove-unused-member-in-struct-lpi_pingroup/20231124-043212
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20231123193355.3400852-7-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH v2 06/21] pinctrl: equilibrium: Convert to use struct pingroup
-config: i386-randconfig-141-20231124 (https://download.01.org/0day-ci/archive/20231124/202311241401.ZPILPdov-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241401.ZPILPdov-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Gao/futex-Add-compat_sys_futex_waitv-for-32bit-compatibility/20231123-133427
+base:   tip/x86/asm
+patch link:    https://lore.kernel.org/r/20231123053140.16062-1-wegao%40suse.com
+patch subject: [PATCH v1] futex: Add compat_sys_futex_waitv for 32bit compatibility
+config: x86_64-buildonly-randconfig-005-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241440.BxBAsQ2i-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241440.BxBAsQ2i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311241401.ZPILPdov-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241440.BxBAsQ2i-lkp@intel.com/
 
-smatch warnings:
-drivers/pinctrl/pinctrl-equilibrium.c:719 eqbr_build_groups() warn: unsigned 'grp->npins' is never less than zero.
+All errors (new ones prefixed by >>):
 
-vim +719 drivers/pinctrl/pinctrl-equilibrium.c
-
-   702	
-   703	static int eqbr_build_groups(struct eqbr_pinctrl_drv_data *drvdata)
-   704	{
-   705		struct device *dev = drvdata->dev;
-   706		struct device_node *node = dev->of_node;
-   707		unsigned int *pins, *pinmux, pin_id, pinmux_id;
-   708		struct pingroup group, *grp = &group;
-   709		struct device_node *np;
-   710		struct property *prop;
-   711		int j, err;
-   712	
-   713		for_each_child_of_node(node, np) {
-   714			prop = of_find_property(np, "groups", NULL);
-   715			if (!prop)
-   716				continue;
-   717	
-   718			grp->npins = of_property_count_u32_elems(np, "pins");
- > 719			if (grp->npins < 0) {
-   720				dev_err(dev, "No pins in the group: %s\n", prop->name);
-   721				of_node_put(np);
-   722				return -EINVAL;
-   723			}
-   724			grp->name = prop->value;
-   725			pins = devm_kcalloc(dev, grp->npins, sizeof(*pins), GFP_KERNEL);
-   726			if (!pins) {
-   727				of_node_put(np);
-   728				return -ENOMEM;
-   729			}
-   730			grp->pins = pins;
-   731	
-   732			pinmux = devm_kcalloc(dev, grp->npins, sizeof(*pinmux), GFP_KERNEL);
-   733			if (!pinmux) {
-   734				of_node_put(np);
-   735				return -ENOMEM;
-   736			}
-   737	
-   738			for (j = 0; j < grp->npins; j++) {
-   739				if (of_property_read_u32_index(np, "pins", j, &pin_id)) {
-   740					dev_err(dev, "Group %s: Read intel pins id failed\n",
-   741						grp->name);
-   742					of_node_put(np);
-   743					return -EINVAL;
-   744				}
-   745				if (pin_id >= drvdata->pctl_desc.npins) {
-   746					dev_err(dev, "Group %s: Invalid pin ID, idx: %d, pin %u\n",
-   747						grp->name, j, pin_id);
-   748					of_node_put(np);
-   749					return -EINVAL;
-   750				}
-   751				pins[j] = pin_id;
-   752				if (of_property_read_u32_index(np, "pinmux", j, &pinmux_id)) {
-   753					dev_err(dev, "Group %s: Read intel pinmux id failed\n",
-   754						grp->name);
-   755					of_node_put(np);
-   756					return -EINVAL;
-   757				}
-   758				pinmux[j] = pinmux_id;
-   759			}
-   760	
-   761			err = pinctrl_generic_add_group(drvdata->pctl_dev,
-   762							grp->name, grp->pins, grp->npins,
-   763							pinmux);
-   764			if (err < 0) {
-   765				dev_err(dev, "Failed to register group %s\n", grp->name);
-   766				of_node_put(np);
-   767				return err;
-   768			}
-   769			memset(&group, 0, sizeof(group));
-   770			pinmux = NULL;
-   771		}
-   772	
-   773		return 0;
-   774	}
-   775	
+>> ld: arch/x86/entry/syscall_32.o:(.rodata+0xe08): undefined reference to `__ia32_compat_sys_futex_waitv'
 
 -- 
 0-DAY CI Kernel Test Service
