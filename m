@@ -1,40 +1,40 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D715646
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 01:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893FA625
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 01:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GpAdDFUD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ClUeXIA5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700790974;
+	s=mimecast20190719; t=1700791084;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kwa+nrELWZT3YCayKL8lw8jcAr2lDX2wSVDUihgmA1A=;
-	b=GpAdDFUDBHztFjQQAV7J9m2HOA/W0ecR0WhRSU1UDOxq4V+zBcpWLOY06Ljp+uGDuh/r2p
-	5EJE51j+qyVofWbPg0jzFz4KUX90Kt5O0eaC1XgPQaRSkXGShs5alTaVwZ9JjqZJ2r6b+R
-	2iDnLOsVgKT18fl9IfhK2n4k/g5eCgk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-57-7n5sp70ZOb663DWE_NI99A-1; Thu, 23 Nov 2023 20:56:12 -0500
-X-MC-Unique: 7n5sp70ZOb663DWE_NI99A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	bh=SiHqBG5n3pSa5R94END0/8W0OBeOhpXL3D/OFSohC2M=;
+	b=ClUeXIA56WOXorjmrzixAbJzONeYt4rwaPXO0y1w3ABS/bZ0MfYpCSxgnCAy4e90MiaLUt
+	iq+tBddJUfa8TpVx/X+t7cGRDKrr6Kl1fOK6KscHJCvng0VaCXOZgw9NbzMiqX68YW5RhV
+	SLMkCe+TWiRBLb62Eg0oRYhBM0b0faw=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-9-_W8SERA3N_Gf5HeqVWenIA-1; Thu,
+ 23 Nov 2023 20:58:02 -0500
+X-MC-Unique: _W8SERA3N_Gf5HeqVWenIA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB66180C345;
-	Fri, 24 Nov 2023 01:56:11 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A870E28EC110;
+	Fri, 24 Nov 2023 01:58:01 +0000 (UTC)
 Received: from localhost (unknown [10.72.112.8])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7126236E2;
-	Fri, 24 Nov 2023 01:56:06 +0000 (UTC)
-Date: Fri, 24 Nov 2023 09:56:03 +0800
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 03C1B2166B2A;
+	Fri, 24 Nov 2023 01:58:00 +0000 (UTC)
+Date: Fri, 24 Nov 2023 09:57:57 +0800
 From: "bhe@redhat.com" <bhe@redhat.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: "Liu, Yujie" <yujie.liu@intel.com>, lkp <lkp@intel.com>,
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: lkp <lkp@intel.com>,
 	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
 	"kexec@lists.infradead.org" <kexec@lists.infradead.org>,
 	"x86@kernel.org" <x86@kernel.org>,
@@ -45,14 +45,14 @@ Cc: "Liu, Yujie" <yujie.liu@intel.com>, lkp <lkp@intel.com>,
 	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
 	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
 Subject: Re: [PATCH 2/7] kexec_file: print out debugging message if required
-Message-ID: <ZWACs8vMnTq+hOrE@MiWiFi-R3L-srv>
+Message-ID: <ZWADJcg5smQHZzMT@MiWiFi-R3L-srv>
 References: <20231114153253.241262-3-bhe@redhat.com>
  <202311160431.BXPc7NO9-lkp@intel.com>
  <ZVcvBft/T3cbRBWr@MiWiFi-R3L-srv>
  <39ccb4fda795a76996cf6d1c3b25909692358211.camel@intel.com>
  <ZVdyLdAzgNBXfjiW@MiWiFi-R3L-srv>
  <ZV9YYEK4L160ECQ+@MiWiFi-R3L-srv>
- <20231123154127.GA3487126@dev-arch.thelio-3990X>
+ <ZV/55OkN7bV02LY8@yujie-X299>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,10 +62,10 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231123154127.GA3487126@dev-arch.thelio-3990X>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+In-Reply-To: <ZV/55OkN7bV02LY8@yujie-X299>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 
-On 11/23/23 at 08:41am, Nathan Chancellor wrote:
+On 11/24/23 at 09:18am, Yujie Liu wrote:
 > On Thu, Nov 23, 2023 at 09:49:20PM +0800, bhe@redhat.com wrote:
 > > On 11/17/23 at 10:01pm, Baoquan He wrote:
 > > > On 11/17/23 at 09:37am, Liu, Yujie wrote:
@@ -107,31 +107,17 @@ On 11/23/23 at 08:41am, Nathan Chancellor wrote:
 > > doubt it's the same issue as another report on this patch, while not
 > > quite sure.
 > 
-> Shouldn't you be able to run
-> 
->   $ COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-16 ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash kernel/
-> 
+> Setting "COMPILER=clang-16" is exactly the correct fix and should
+> reproduce the issue in this report. We've fixed the steps of reproducer
+> but this will only take effect in future reports.
 
-Yes, I can reproduce it, it's the same issue as the one reported on
-arm64. I thought Yujie is using the clang-16 to debug. Thanks for help.
+Thanks, Yujie. I thought you were asking me to use "COMPILER=clang-16"
+to get information to debug. I have done the testing according to
+Nathan's suggestion and can confirm it's the same issue as the one on
+arm64. Will post v2.
 
-> after the command you just ran to reproduce this now? It is
-> essentially the same fix that they mention above but for the second
-> invocation of make.cross.
 > 
-> You can also not even bother with the wrapper altogether if you have the
-> compiler installed in the default path that they provide (W=1 is not
-> necessary to reproduce this issue):
-> 
->   $ mkdir -p build_dir
->   $ curl -LSso build_dir/.config https://download.01.org/0day-ci/archive/20231116/202311160431.BXPc7NO9-lkp@intel.com/config
->   $ make -skj"$(nproc)" ARCH=hexagon LLVM=$HOME/0day/llvm-16.0.6-x86_64/bin/ O=build_dir olddefconfig kernel/crash_core.o
->   ...
->   kernel/crash_core.c:554:3: error: call to undeclared function 'kexec_dprintk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->                   kexec_dprintk("Crash PT_LOAD ELF header. phdr=%p vaddr=0x%llx, paddr=0x%llx, "
->                   ^
->   1 error generated.
-> 
+> > > 
 > > > Here you are. Thanks for your quick response.
 > > > ------------------------------
 > > > [root@~ linux]# COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-16 ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
@@ -171,7 +157,6 @@ arm64. I thought Yujie is using the clang-16 to debug. Thanks for help.
 > > > > 
 > > > > 
 > > > 
-> > 
 > > 
 > 
 
