@@ -1,59 +1,46 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5469B17C3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 07:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970C53FF1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 07:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D4ksdnlK"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40839652b97so17596915e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 23:10:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700896225; x=1701501025; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XNICJpc4r6LblTrWTCdIMPSQfd/ZQpwwACbiJ1cgEKc=;
-        b=D4ksdnlK+Rp25iUtFjcII4GS2Q68jVb+6jxslgsOFYTQnHrmWX6q9r/eJz3ToxxF8Y
-         nbywjiYfxNLqpoyT7PTSvxL1WnMh1bQOugZtS8PMM5d05rF8xN+SzZs/pMxC7fTpZmCC
-         gwbppIY2c+XFD5KVVRpmibb8ldiZ9Q7jwU579eWn34weeTgCWWUyWDYM0wWHY/jnivjX
-         8FedbgR3NoWOVXCaUa5LneRBqIyMObGUtH2U4EhJpCllvSXrjJVZ5CQjRemIi3BmsXo/
-         jP+vhKPZpLkBkCaMVyoU56a2McJ2LVYi0YeakxiRwSi8e1Q0rPfqZAgkQu5Z+Q/2Hwap
-         mRRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700896225; x=1701501025;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XNICJpc4r6LblTrWTCdIMPSQfd/ZQpwwACbiJ1cgEKc=;
-        b=wwLnAKcGek4DB8FtmlOL1oKI5An4L1lKWxbTSP6/Bruvb9Jkddzb2XTpW0uWybj8Z1
-         ilU9ELWRbTOmMR9cDi9po99dXWoJooU4DD2umufOLYFivetEdrzsec/e6f7v78iYnVfd
-         uDr9C/w13QkM3a5Cbx1uOC18LkbNVusuf36AEHjtxI5eb+vnyfB0fnlkbwaSozk12jl8
-         GvItgRbKqvNY7TC0Y+uxRtK9ui7TNXZXtu4cSjYthhLma4enipUS/iaUud0+1gm+MWa0
-         7aTppVTtyIZyt6ceoQ6qcoCVLKWxpXKqT0jG8zivhA+9hNmT4sZlSmjVt51BSTxgRV0t
-         auew==
-X-Gm-Message-State: AOJu0YwK+io3ewpXWMHPQDVb+9MCmXLgUmPnnpV8FFiXhT8YIG2Velq1
-	/EFh7c4HciZiezirHeLtMfNf1Q==
-X-Google-Smtp-Source: AGHT+IG3aRFbV+p/718t8bopeYgOMMA73KlLymKurOaoTU365U9M+kCYVd8NEIZNVSrrMGbi5qVa1A==
-X-Received: by 2002:a05:600c:4507:b0:40b:338b:5f10 with SMTP id t7-20020a05600c450700b0040b338b5f10mr4374487wmo.32.1700896225412;
-        Fri, 24 Nov 2023 23:10:25 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id je19-20020a05600c1f9300b004083729fc14sm7647760wmb.20.2023.11.24.23.10.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 23:10:25 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Sat, 25 Nov 2023 10:10:22 +0300
-To: oe-kbuild@lists.linux.dev,
-	Luiz Angelo Daros de Luca <luizluca@gmail.com>,
-	netdev@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linus.walleij@linaro.org,
-	alsi@bang-olufsen.dk, andrew@lunn.ch, f.fainelli@gmail.com,
-	olteanv@gmail.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, arinc.unal@arinc9.com,
-	Luiz Angelo Daros de Luca <luizluca@gmail.com>
-Subject: Re: [net-next 2/2] net: dsa: realtek: load switch variants on demand
-Message-ID: <78a4a47d-cde1-4c2c-999c-6f76b5fa9c87@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KqLzU5a3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700897072; x=1732433072;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3pdSdmO5IKo7imulhWoatirNSkx4Z3/MSVv8M39Q6RA=;
+  b=KqLzU5a3wm7yBP/Edz6+KydUqV1I3iOOwAOwMSzIztvTC4aSkuo/zA3L
+   U4CiO6T2GvspHPq3z5ZDe/r4PXqFpvklFMZ6WzEYPv6hXbq/tJAYDJKH6
+   CFpciUvmCydRircEHL4E/3XOxjBkdPPp47RTiAG5HYymHrB5O+ZR7m1qm
+   ZGVA6f84lf6Y5O7vXVrjCgwAX0uV5JLDnJcpmW4Ge90e4ZIrM6SPNG9H/
+   tKI0VkDlM4DEyNnOxNcoQjO9rifPX8EIvasMYwoBb/u/yu0GFQR8vbBsx
+   0xCOBpSjQbW/SuVS/Wm73OGqDnW2qTwh0EymKrrZaottJVdBGjs4RyuMN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="372655161"
+X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
+   d="scan'208";a="372655161"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 23:24:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="1015075367"
+X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
+   d="scan'208";a="1015075367"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 24 Nov 2023 23:24:30 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r6n1g-0003iz-1d;
+	Sat, 25 Nov 2023 07:24:28 +0000
+Date: Sat, 25 Nov 2023 15:24:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_fwspec 15/41] include/linux/acpi_iort.h:71:6:
+ warning: 'iort_iommu_get_resv_regions' declared 'static' but never defined
+Message-ID: <202311251448.DRw3BFlk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +49,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231117235140.1178-3-luizluca@gmail.com>
 
-Hi Luiz,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Angelo-Daros-de-Luca/net-dsa-realtek-create-realtek-common/20231118-075444
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231117235140.1178-3-luizluca%40gmail.com
-patch subject: [net-next 2/2] net: dsa: realtek: load switch variants on demand
-config: mips-randconfig-r081-20231121 (https://download.01.org/0day-ci/archive/20231125/202311251132.QKdGl71R-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311251132.QKdGl71R-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_fwspec
+head:   c87a72108f7683a608ec2eb459ee92b3eeca7406
+commit: 1f761415430ba5ac67203383be9727e9a704c32e [15/41] ACPI: IORT: Remove fwspec from the reserved region code
+config: arc-randconfig-r071-20231125 (https://download.01.org/0day-ci/archive/20231125/202311251448.DRw3BFlk-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251448.DRw3BFlk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311251132.QKdGl71R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311251448.DRw3BFlk-lkp@intel.com/
 
-smatch warnings:
-drivers/net/dsa/realtek/realtek-smi.c:418 realtek_smi_probe() warn: passing zero to 'PTR_ERR'
+All warnings (new ones prefixed by >>):
 
-vim +/PTR_ERR +418 drivers/net/dsa/realtek/realtek-smi.c
+   In file included from drivers/pci/msi/irqdomain.c:5:
+   include/linux/acpi_iort.h:74:1: error: expected identifier or '(' before '{' token
+      74 | { }
+         | ^
+>> include/linux/acpi_iort.h:71:6: warning: 'iort_iommu_get_resv_regions' declared 'static' but never defined [-Wunused-function]
+      71 | void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  398  static int realtek_smi_probe(struct platform_device *pdev)
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  399  {
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  400  	struct device *dev = &pdev->dev;
-f5f119077b1cd6 drivers/net/dsa/realtek/realtek-smi-core.c Luiz Angelo Daros de Luca 2022-01-28  401  	struct realtek_priv *priv;
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  402  	int ret;
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  403  
-217d45f6e61f5d drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  404  	priv = realtek_common_probe(dev, realtek_smi_regmap_config,
-217d45f6e61f5d drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  405  				    realtek_smi_nolock_regmap_config);
-217d45f6e61f5d drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  406  	if (IS_ERR(priv))
-217d45f6e61f5d drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  407  		return PTR_ERR(priv);
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  408  
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  409  	/* Fetch MDIO pins */
-f5f119077b1cd6 drivers/net/dsa/realtek/realtek-smi-core.c Luiz Angelo Daros de Luca 2022-01-28  410  	priv->mdc = devm_gpiod_get_optional(dev, "mdc", GPIOD_OUT_LOW);
-7e61e799f3f92c drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  411  	if (IS_ERR(priv->mdc)) {
-7e61e799f3f92c drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  412  		ret = PTR_ERR(priv->mdc);
-7e61e799f3f92c drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  413  		goto err_variant_put;
-7e61e799f3f92c drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  414  	}
-217d45f6e61f5d drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  415  
-f5f119077b1cd6 drivers/net/dsa/realtek/realtek-smi-core.c Luiz Angelo Daros de Luca 2022-01-28  416  	priv->mdio = devm_gpiod_get_optional(dev, "mdio", GPIOD_OUT_LOW);
-7e61e799f3f92c drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  417  	if (IS_ERR(priv->mdio)) {
-7e61e799f3f92c drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17 @418  		ret = PTR_ERR(priv->mdc);
 
-s/mdc/mdio/.
+vim +71 include/linux/acpi_iort.h
 
-7e61e799f3f92c drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  419  		goto err_variant_put;
-7e61e799f3f92c drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  420  	}
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  421  
-217d45f6e61f5d drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  422  	priv->setup_interface = realtek_smi_setup_mdio;
-217d45f6e61f5d drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  423  	priv->write_reg_noack = realtek_smi_write_reg_noack;
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  424  
-f5f119077b1cd6 drivers/net/dsa/realtek/realtek-smi-core.c Luiz Angelo Daros de Luca 2022-01-28  425  	ret = priv->ops->detect(priv);
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  426  	if (ret) {
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  427  		dev_err(dev, "unable to detect switch\n");
-7e61e799f3f92c drivers/net/dsa/realtek/realtek-smi.c      Luiz Angelo Daros de Luca 2023-11-17  428  		goto err_variant_put;
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  429  	}
-d8652956cf37c5 drivers/net/dsa/realtek-smi.c              Linus Walleij             2018-07-14  430  
+    31	
+    32	typedef int (*iort_for_each_fn)(struct acpi_iort_node *iommu, u32 streamid,
+    33					void *info);
+    34	int iort_iommu_for_each_id(struct device *dev, const u32 *id_in,
+    35				   unsigned int *flags, iort_for_each_fn fn,
+    36				   void *info);
+    37	
+    38	#ifdef CONFIG_ACPI_IORT
+    39	u32 iort_msi_map_id(struct device *dev, u32 id);
+    40	struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
+    41						  enum irq_domain_bus_token bus_token);
+    42	void acpi_configure_pmsi_domain(struct device *dev);
+    43	void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode,
+    44			       struct list_head *head);
+    45	void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode,
+    46			       struct list_head *head);
+    47	/* IOMMU interface */
+    48	int iort_dma_get_ranges(struct device *dev, u64 *size);
+    49	int iort_iommu_configure_id(struct device *dev, const u32 *id_in);
+    50	void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head,
+    51					 struct fwnode_handle *iommu_fwnode,
+    52					 const u32 *fw_ids, unsigned int fw_num_ids);
+    53	phys_addr_t acpi_iort_dma_get_max_cpu_address(void);
+    54	#else
+    55	static inline u32 iort_msi_map_id(struct device *dev, u32 id)
+    56	{ return id; }
+    57	static inline struct irq_domain *iort_get_device_domain(
+    58		struct device *dev, u32 id, enum irq_domain_bus_token bus_token)
+    59	{ return NULL; }
+    60	static inline void acpi_configure_pmsi_domain(struct device *dev) { }
+    61	static inline
+    62	void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
+    63	static inline
+    64	void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
+    65	/* IOMMU interface */
+    66	static inline int iort_dma_get_ranges(struct device *dev, u64 *size)
+    67	{ return -ENODEV; }
+    68	static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
+    69	{ return -ENODEV; }
+    70	static inline
+  > 71	void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head,
+    72					 struct fwnode_handle *iommu_fwnode,
+    73					 const u32 *fw_ids, unsigned int fw_num_ids);
+    74	{ }
+    75	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
