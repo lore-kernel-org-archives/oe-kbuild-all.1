@@ -1,47 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85FB23B0;
-	Sat, 25 Nov 2023 06:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0C617C3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 06:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BPlr4Ov/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700893279; x=1732429279;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YHJFsRDZmGbTw/ab1NTnvNsGcBmbe3O7cYS67aw2GNE=;
-  b=BPlr4Ov/dGMHdR5hC06cHOme5yyssy3X5G2fyu3JsgUonUIiL3dV4HxM
-   9R6+qKU5xT2vKZ8koCXNAARznslRfpQyGIc+ssOMtCqRYKw23y1wT3gxD
-   lvWlkrVtut+ZnI26ypS8W0fC6t55hXypJHCWorOJyoG5lAN5AcJugUPo8
-   KXz9x4W6bgx0XioduIcL+alcA1IXBbz2nbWXPftujOBFJ8cHpKDUycqS8
-   lEIlFkLjfFLQGNMKiaFDQcMjWwKqNzLp6pi4eW6FOgrYGbuDndK1rCVzK
-   OTO07CieF8sQs867dWahy+QBEk7qbOVjXVlODBaFIUzvg02u+a6VSfOSB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="478702437"
-X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="478702437"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 22:21:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="911613422"
-X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="911613422"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Nov 2023 22:21:09 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r6m2M-0003gz-37;
-	Sat, 25 Nov 2023 06:21:06 +0000
-Date: Sat, 25 Nov 2023 14:20:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-vfs:vfs.mount 6/11] fs/namespace.c:4957:1: warning: stack
- frame size (1392) exceeds limit (1024) in 'sys_statmount'
-Message-ID: <202311251133.eWacwEik-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YXwg286o"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40b31232bf0so20342695e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 24 Nov 2023 22:58:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700895509; x=1701500309; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/uo5CibKeOkFUqJh16VzRlz/76V7/U2PLO3u/fe3CMk=;
+        b=YXwg286oJ0wuvg+FGNMKsaCX9K0/IiVOan8tk3nuzzdEHZUuKUPLsEMOvls8AuPxNN
+         4bh5Aqluq8gkVPj9Z1b91DIhXae5+YZmGYvn7JMtVv1Ovfh3NExO8BszpwjKHCqzTdj0
+         /VxoaFY5yGUr9fPgn5FrsfcmtdY8OI4n7Ir0tBOVVPGDrqu4LPb8ZcLwPgBQAPZFD0iB
+         yzrDYukWWtjjopgi8s+cRPdy34rGnsHiT6wWHDL/bI7wq5ex4UBRVGgxILAuWI5F2eeA
+         LCrusHgPm3S25awcv4MEk4gQmy5htx1NfxttU0f0sxYZmgaGEbGs+Ei3gXD0VXAObwf7
+         4rsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700895509; x=1701500309;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/uo5CibKeOkFUqJh16VzRlz/76V7/U2PLO3u/fe3CMk=;
+        b=JPA7r0tdo67Z6LyXvpUmDgkSjy91IZNrOW1yi95tO4PtKdowVJDmrZHRBZ0fwP+5Dw
+         99ynXCglueieCsNK1t2gzIMKJOG5899H2PM9huOnqIphkLs58Mi+zYMvhpzOL2OcXHrc
+         m7QtvvDQb84RIkmXk+CTvN5Upz07h6tldR5jN+aofhY/vcZnQ21Whxd+lcDaK061ZQUW
+         5s7zgNzwHy8zWUZDFskuaOVdS7KZxu4984BqVC9pcjWxyS17QqTAvXRkl90PPJMU8xC3
+         nSKq1AWvuXxyQivfCE6MZ+OgSe/AqrhF1UY8hWPkXdnIHo5FZup6uFtuIU6w08gfeLkd
+         dHZQ==
+X-Gm-Message-State: AOJu0Yxw7b1/Q+i1NjAo45QszELca54ZUoI+57OCXINevQGedoEmjF68
+	7aFv77PJ52FOshJtju7JrrdreQ==
+X-Google-Smtp-Source: AGHT+IHcl8uetpwlT1aQhBBy4T12VrQRvbvvD5MFmKhqnNwulmFELZnYn0ZzSJS+0YkIgBIw8ZLlag==
+X-Received: by 2002:a05:600c:31a9:b0:405:770b:e90a with SMTP id s41-20020a05600c31a900b00405770be90amr3938389wmp.34.1700895508601;
+        Fri, 24 Nov 2023 22:58:28 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n44-20020a05600c502c00b004083a105f27sm7737838wmr.26.2023.11.24.22.58.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 22:58:28 -0800 (PST)
+From: kernel test robot <dan.carpenter@linaro.org>
+X-Google-Original-From: kernel test robot <lkp@intel.com>
+Date: Sat, 25 Nov 2023 09:58:24 +0300
+To: oe-kbuild@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+	Iulia Tanasescu <iulia.tanasescu@nxp.com>,
+	Pauli Virtanen <pav@iki.fi>, Jakub Kicinski <kuba@kernel.org>,
+	"Lee, Chun-Yi" <jlee@suse.com>,
+	Claudia Draghicescu <claudia.rosu@nxp.com>,
+	Ziyang Xuan <william.xuanziyang@huawei.com>,
+	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Bluetooth: hci_event: shut up a false-positive warning
+Message-ID: <ZWGbEMgAuyPVtUZS@suswa>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,192 +67,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231122221805.3139482-1-arnd@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.mount
-head:   229dc17d71b0e6b647d2fe00278da6ec25e6aafe
-commit: 7a345f533f6c7ee7456e767b182ece39627f7c44 [6/11] statmount: simplify string option retrieval
-config: powerpc-gamecube_defconfig (https://download.01.org/0day-ci/archive/20231125/202311251133.eWacwEik-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251133.eWacwEik-lkp@intel.com/reproduce)
+Hi Arnd,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/Bluetooth-hci_event-shut-up-a-false-positive-warning/20231123-112143
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20231122221805.3139482-1-arnd%40kernel.org
+patch subject: [PATCH] Bluetooth: hci_event: shut up a false-positive warning
+config: i386-randconfig-141-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241707.qytKwxbE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241707.qytKwxbE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251133.eWacwEik-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311241707.qytKwxbE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+net/bluetooth/hci_event.c:520 hci_cc_read_class_of_dev() warn: signedness bug returning '(-6)'
 
-     669 |                 __do_##name al;                                 \
-         |                 ^~~~~~~~~~~~~~
-   <scratch space>:37:1: note: expanded from here
-      37 | __do_insw
-         | ^
-   arch/powerpc/include/asm/io.h:610:56: note: expanded from macro '__do_insw'
-     610 | #define __do_insw(p, b, n)      readsw((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
-         |                                        ~~~~~~~~~~~~~~~~~~~~~^
-   In file included from fs/namespace.c:11:
-   In file included from include/linux/syscalls.h:92:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:672:
-   arch/powerpc/include/asm/io-defs.h:47:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-      47 | DEF_PCI_AC_NORET(insl, (unsigned long p, void *b, unsigned long c),
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      48 |                  (p, b, c), pio, p)
-         |                  ~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
-     669 |                 __do_##name al;                                 \
-         |                 ^~~~~~~~~~~~~~
-   <scratch space>:39:1: note: expanded from here
-      39 | __do_insl
-         | ^
-   arch/powerpc/include/asm/io.h:611:56: note: expanded from macro '__do_insl'
-     611 | #define __do_insl(p, b, n)      readsl((PCI_IO_ADDR)_IO_BASE+(p), (b), (n))
-         |                                        ~~~~~~~~~~~~~~~~~~~~~^
-   In file included from fs/namespace.c:11:
-   In file included from include/linux/syscalls.h:92:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:672:
-   arch/powerpc/include/asm/io-defs.h:49:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-      49 | DEF_PCI_AC_NORET(outsb, (unsigned long p, const void *b, unsigned long c),
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      50 |                  (p, b, c), pio, p)
-         |                  ~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
-     669 |                 __do_##name al;                                 \
-         |                 ^~~~~~~~~~~~~~
-   <scratch space>:41:1: note: expanded from here
-      41 | __do_outsb
-         | ^
-   arch/powerpc/include/asm/io.h:612:58: note: expanded from macro '__do_outsb'
-     612 | #define __do_outsb(p, b, n)     writesb((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
-         |                                         ~~~~~~~~~~~~~~~~~~~~~^
-   In file included from fs/namespace.c:11:
-   In file included from include/linux/syscalls.h:92:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:672:
-   arch/powerpc/include/asm/io-defs.h:51:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-      51 | DEF_PCI_AC_NORET(outsw, (unsigned long p, const void *b, unsigned long c),
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      52 |                  (p, b, c), pio, p)
-         |                  ~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
-     669 |                 __do_##name al;                                 \
-         |                 ^~~~~~~~~~~~~~
-   <scratch space>:43:1: note: expanded from here
-      43 | __do_outsw
-         | ^
-   arch/powerpc/include/asm/io.h:613:58: note: expanded from macro '__do_outsw'
-     613 | #define __do_outsw(p, b, n)     writesw((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
-         |                                         ~~~~~~~~~~~~~~~~~~~~~^
-   In file included from fs/namespace.c:11:
-   In file included from include/linux/syscalls.h:92:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:672:
-   arch/powerpc/include/asm/io-defs.h:53:1: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-      53 | DEF_PCI_AC_NORET(outsl, (unsigned long p, const void *b, unsigned long c),
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      54 |                  (p, b, c), pio, p)
-         |                  ~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/io.h:669:3: note: expanded from macro 'DEF_PCI_AC_NORET'
-     669 |                 __do_##name al;                                 \
-         |                 ^~~~~~~~~~~~~~
-   <scratch space>:45:1: note: expanded from here
-      45 | __do_outsl
-         | ^
-   arch/powerpc/include/asm/io.h:614:58: note: expanded from macro '__do_outsl'
-     614 | #define __do_outsl(p, b, n)     writesl((PCI_IO_ADDR)_IO_BASE+(p),(b),(n))
-         |                                         ~~~~~~~~~~~~~~~~~~~~~^
->> fs/namespace.c:4957:1: warning: stack frame size (1392) exceeds limit (1024) in 'sys_statmount' [-Wframe-larger-than]
-    4957 | SYSCALL_DEFINE4(statmount, const struct mnt_id_req __user *, req,
-         | ^
-   include/linux/syscalls.h:224:36: note: expanded from macro 'SYSCALL_DEFINE4'
-     224 | #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:232:2: note: expanded from macro 'SYSCALL_DEFINEx'
-     232 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   arch/powerpc/include/asm/syscall_wrapper.h:23:7: note: expanded from macro '__SYSCALL_DEFINEx'
-      23 |         long sys##name(const struct pt_regs *regs)                      \
-         |              ^
-   <scratch space>:139:1: note: expanded from here
-     139 | sys_statmount
-         | ^
-   7 warnings generated.
+Old smatch warnings:
+net/bluetooth/hci_event.c:3278 hci_conn_request_evt() warn: variable dereferenced before check 'hdev' (see line 3268)
 
+vim +520 net/bluetooth/hci_event.c
 
-vim +/sys_statmount +4957 fs/namespace.c
+c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  514  static u8 hci_cc_read_class_of_dev(struct hci_dev *hdev, void *data,
+c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  515  				   struct sk_buff *skb)
+a9de9248064bfc Marcel Holtmann        2007-10-20  516  {
+c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  517  	struct hci_rp_read_class_of_dev *rp = data;
+e3f3a1aea8719a Luiz Augusto von Dentz 2021-12-01  518  
+5f3aa66f201253 Arnd Bergmann          2023-11-22  519  	if (WARN_ON(!hdev))
+5f3aa66f201253 Arnd Bergmann          2023-11-22 @520  		return -ENXIO;
 
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4956  
-e9b59e661906d7 Miklos Szeredi    2023-10-25 @4957  SYSCALL_DEFINE4(statmount, const struct mnt_id_req __user *, req,
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4958  		struct statmount __user *, buf, size_t, bufsize,
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4959  		unsigned int, flags)
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4960  {
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4961  	struct vfsmount *mnt;
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4962  	struct mnt_id_req kreq;
-7a345f533f6c7e Christian Brauner 2023-11-19  4963  	struct kstatmount ks;
-7a345f533f6c7e Christian Brauner 2023-11-19  4964  	/* We currently support retrieval of 3 strings. */
-7a345f533f6c7e Christian Brauner 2023-11-19  4965  	size_t seq_size = 3 * PATH_MAX;
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4966  	int ret;
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4967  
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4968  	if (flags)
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4969  		return -EINVAL;
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4970  
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4971  	if (copy_from_user(&kreq, req, sizeof(kreq)))
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4972  		return -EFAULT;
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4973  
-7a345f533f6c7e Christian Brauner 2023-11-19  4974  retry:
-7a345f533f6c7e Christian Brauner 2023-11-19  4975  	ret = prepare_kstatmount(&ks, &kreq, buf, bufsize, seq_size);
-7a345f533f6c7e Christian Brauner 2023-11-19  4976  	if (ret)
-7a345f533f6c7e Christian Brauner 2023-11-19  4977  		return ret;
-7a345f533f6c7e Christian Brauner 2023-11-19  4978  
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4979  	down_read(&namespace_sem);
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4980  	mnt = lookup_mnt_in_ns(kreq.mnt_id, current->nsproxy->mnt_ns);
-7a345f533f6c7e Christian Brauner 2023-11-19  4981  	if (!mnt) {
-7a345f533f6c7e Christian Brauner 2023-11-19  4982  		up_read(&namespace_sem);
-7a345f533f6c7e Christian Brauner 2023-11-19  4983  		kvfree(ks.seq.buf);
-7a345f533f6c7e Christian Brauner 2023-11-19  4984  		return -ENOENT;
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4985  	}
-7a345f533f6c7e Christian Brauner 2023-11-19  4986  
-7a345f533f6c7e Christian Brauner 2023-11-19  4987  	ks.mnt = mnt;
-7a345f533f6c7e Christian Brauner 2023-11-19  4988  	get_fs_root(current->fs, &ks.root);
-7a345f533f6c7e Christian Brauner 2023-11-19  4989  	ret = do_statmount(&ks);
-7a345f533f6c7e Christian Brauner 2023-11-19  4990  	path_put(&ks.root);
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4991  	up_read(&namespace_sem);
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4992  
-7a345f533f6c7e Christian Brauner 2023-11-19  4993  	if (!ret)
-7a345f533f6c7e Christian Brauner 2023-11-19  4994  		ret = copy_statmount_to_user(&ks);
-7a345f533f6c7e Christian Brauner 2023-11-19  4995  	kvfree(ks.seq.buf);
-7a345f533f6c7e Christian Brauner 2023-11-19  4996  	if (retry_statmount(ret, &seq_size))
-7a345f533f6c7e Christian Brauner 2023-11-19  4997  		goto retry;
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4998  	return ret;
-e9b59e661906d7 Miklos Szeredi    2023-10-25  4999  }
-e9b59e661906d7 Miklos Szeredi    2023-10-25  5000  
+This function returns u8.
 
-:::::: The code at line 4957 was first introduced by commit
-:::::: e9b59e661906d7565680cb9e2bbb3fa3360ab2ce add statmount(2) syscall
-
-:::::: TO: Miklos Szeredi <mszeredi@redhat.com>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+5f3aa66f201253 Arnd Bergmann          2023-11-22  521  
+e3f3a1aea8719a Luiz Augusto von Dentz 2021-12-01  522  	bt_dev_dbg(hdev, "status 0x%2.2x", rp->status);
+a9de9248064bfc Marcel Holtmann        2007-10-20  523  
+a9de9248064bfc Marcel Holtmann        2007-10-20  524  	if (rp->status)
+c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  525  		return rp->status;
+a9de9248064bfc Marcel Holtmann        2007-10-20  526  
+a9de9248064bfc Marcel Holtmann        2007-10-20  527  	memcpy(hdev->dev_class, rp->dev_class, 3);
+a9de9248064bfc Marcel Holtmann        2007-10-20  528  
+e3f3a1aea8719a Luiz Augusto von Dentz 2021-12-01  529  	bt_dev_dbg(hdev, "class 0x%.2x%.2x%.2x", hdev->dev_class[2],
+e3f3a1aea8719a Luiz Augusto von Dentz 2021-12-01  530  		   hdev->dev_class[1], hdev->dev_class[0]);
+c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  531  
+c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  532  	return rp->status;
+a9de9248064bfc Marcel Holtmann        2007-10-20  533  }
 
 -- 
 0-DAY CI Kernel Test Service
