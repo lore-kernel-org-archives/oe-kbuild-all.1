@@ -1,51 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7297FD53F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 21:05:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB7730643;
+	Sat, 25 Nov 2023 21:27:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MIP/eQ66"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h5MdFxkX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700946352; x=1732482352;
+  t=1700947629; x=1732483629;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NW76CWX73/hJcaUlP/qugyIO3Pjb3vwvquuSP5fkRTs=;
-  b=MIP/eQ66Fo0Ewd7Nc7EwsDbCr/bRnd3DHgnrQvCkONvRzLawIqudPtLi
-   7mHtd2ppgScDp2YncgiOaNPql6uAyMLyDzkQ2X2sqAwo2gUVkAnFHJ34q
-   /lZOMpEZqu2qKA4OhhP9H3K3gLPEgX2cMdz69GCzzvmutgrpXpzigGMq7
-   qrCRKhN4s7Oh0bOzEZElcayZB22GZJXhYRtjkfo6XzaAueGUbTpAwR729
-   HsEGe2/9FdF29mOQpWuQBkPvbdBs8kFbqOTykDKGHZVGrbfCqcX3E5gWx
-   yu7xW7s7LfcfbdjfBqZaWfsrIjhzfZz1j9yFqEphXQO3FZILTJ7bNLUnk
+  bh=2msMvypUB/fdSacdfq9Xd4cZCJy1Df5Vy8rcx7wAbvU=;
+  b=h5MdFxkXps8xxIIEmvAqNKS83qsdCj8x/2AgIa9dS8iTCdNIsmttHvkU
+   tQOX3JbiR3gC+BewDnsvd/CeqkpdRGcj20M9QGxa9aF6PQg9v/5Bznnkh
+   5+vmQb8ICobEpU7SIusv0Jcy6rBTae8gMrJWAv3t351Thr3G22kgQbkhr
+   Zim7NxRT4KEqULS0oF4ssQz9yO1DsTs4RgIwKH/P7ZuqNml6fW68+EaPj
+   5NL2tgAvm4hTX6cI0cw8VrTNYXtjZCMgr660S1RQTlrXAaff7wiqLZC2V
+   pF5qzw8OoIGEXe0JX/OCpeomWKsT3a1uzCOg4vCyxHcZODF4SjxiVLH2j
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="382934974"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="5698991"
 X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="382934974"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 13:05:51 -0800
+   d="scan'208";a="5698991"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 13:27:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="1015179469"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="761258825"
 X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="1015179469"
+   d="scan'208";a="761258825"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Nov 2023 13:05:48 -0800
+  by orsmga007.jf.intel.com with ESMTP; 25 Nov 2023 13:27:04 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6zqU-0004Qs-1Q;
-	Sat, 25 Nov 2023 21:05:46 +0000
-Date: Sun, 26 Nov 2023 05:05:04 +0800
+	id 1r70B3-0004RK-3B;
+	Sat, 25 Nov 2023 21:27:01 +0000
+Date: Sun, 26 Nov 2023 05:26:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuxi Wang <Yuxi.Wang@monolithicpower.com>, pavel@ucw.cz, lee@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	wyx137120466@gmail.com
-Subject: Re: [PATCH 2/2] leds: add mp3326 driver
-Message-ID: <202311260403.PyY8h5Dj-lkp@intel.com>
-References: <20231124093034.951-3-Yuxi.Wang@monolithicpower.com>
+To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kexec@lists.infradead.org, x86@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-parisc@vger.kernel.org, akpm@linux-foundation.org,
+	joe@perches.com, nathan@kernel.org, yujie.liu@intel.com,
+	Baoquan He <bhe@redhat.com>
+Subject: Re: [PATCH v2 4/7] kexec_file, arm64: print out debugging message if
+ required
+Message-ID: <202311260548.1HaxcDnE-lkp@intel.com>
+References: <20231124033642.520686-5-bhe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,62 +57,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231124093034.951-3-Yuxi.Wang@monolithicpower.com>
+In-Reply-To: <20231124033642.520686-5-bhe@redhat.com>
 
-Hi Yuxi,
+Hi Baoquan,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on robh/for-next linus/master v6.7-rc2 next-20231124]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on tip/x86/core powerpc/next powerpc/fixes linus/master v6.7-rc2 next-20231124]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuxi-Wang/dt-bindings-leds-add-mps-mp3326-LED/20231124-173610
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20231124093034.951-3-Yuxi.Wang%40monolithicpower.com
-patch subject: [PATCH 2/2] leds: add mp3326 driver
-config: x86_64-randconfig-123-20231126 (https://download.01.org/0day-ci/archive/20231126/202311260403.PyY8h5Dj-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311260403.PyY8h5Dj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/kexec_file-add-kexec_file-flag-to-control-debug-printing/20231124-113942
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20231124033642.520686-5-bhe%40redhat.com
+patch subject: [PATCH v2 4/7] kexec_file, arm64: print out debugging message if required
+config: arm64-randconfig-001-20231126 (https://download.01.org/0day-ci/archive/20231126/202311260548.1HaxcDnE-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311260548.1HaxcDnE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311260403.PyY8h5Dj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311260548.1HaxcDnE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/leds/leds-mp3326.c: In function 'mp3326_parse_dt':
-   drivers/leds/leds-mp3326.c:543:6: warning: unused variable 'val' [-Wunused-variable]
-     int val;
-         ^~~
-   drivers/leds/leds-mp3326.c: At top level:
-   drivers/leds/leds-mp3326.c:611:3: error: 'struct i2c_driver' has no member named 'probe_new'; did you mean 'probe'?
-     .probe_new = mp3326_leds_probe,
-      ^~~~~~~~~
-      probe
->> drivers/leds/leds-mp3326.c:611:15: warning: initialization makes integer from pointer without a cast [-Wint-conversion]
-     .probe_new = mp3326_leds_probe,
-                  ^~~~~~~~~~~~~~~~~
-   drivers/leds/leds-mp3326.c:611:15: note: (near initialization for 'mp3326_driver.class')
-   drivers/leds/leds-mp3326.c:611:15: error: initializer element is not computable at load time
-   drivers/leds/leds-mp3326.c:611:15: note: (near initialization for 'mp3326_driver.class')
+>> arch/arm64/kernel/machine_kexec.c:35:2: error: implicit declaration of function 'kexec_dprintk' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           kexec_dprintk("%s:%d:\n", func, line);
+           ^
+   1 error generated.
 
 
-vim +611 drivers/leds/leds-mp3326.c
+vim +/kexec_dprintk +35 arch/arm64/kernel/machine_kexec.c
 
-   609	
-   610	static struct i2c_driver mp3326_driver = {
- > 611		.probe_new = mp3326_leds_probe,
-   612		.driver = {
-   613				.name = "mp3326_led",
-   614				.of_match_table = mp3326_of_match,
-   615			   },
-   616		.id_table = mp3326_id,
-   617	};
-   618	
+    27	
+    28	/**
+    29	 * kexec_image_info - For debugging output.
+    30	 */
+    31	#define kexec_image_info(_i) _kexec_image_info(__func__, __LINE__, _i)
+    32	static void _kexec_image_info(const char *func, int line,
+    33		const struct kimage *kimage)
+    34	{
+  > 35		kexec_dprintk("%s:%d:\n", func, line);
+    36		kexec_dprintk("  kexec kimage info:\n");
+    37		kexec_dprintk("    type:        %d\n", kimage->type);
+    38		kexec_dprintk("    head:        %lx\n", kimage->head);
+    39		kexec_dprintk("    kern_reloc: %pa\n", &kimage->arch.kern_reloc);
+    40		kexec_dprintk("    el2_vectors: %pa\n", &kimage->arch.el2_vectors);
+    41	}
+    42	
 
 -- 
 0-DAY CI Kernel Test Service
