@@ -1,297 +1,150 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9295728E01
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 15:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F655946F;
+	Sat, 25 Nov 2023 15:17:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="idUvU/BW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LS1eX3o/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700925454; x=1732461454;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=034c8Cisu8pjj+Gw8F9T28LKdHFvzAgi0HjgyAdTgsY=;
-  b=idUvU/BWYgszTcy0Yq39zibQV0XMQTj1z6ffIttpzZywIBIWLY3xiCLI
-   Kc6wWrC23v+brQC66X1d3loZl8SSB9G0b6EuXaDZbx7JioG/1jJgJsgqn
-   9XtMgXDByoETbRtb/4tziOcPTq/gEJVnbHY6/Iy5Bl103X4f1m14S+IPj
-   36OtdbqO0Ab1L1HBC0PhQGLTkWLY25qjprxZZsNECL1iIyiVd7O2ImzD6
-   FH4LKRLbXfxKaDhBSiZ4+lBwNGgu8/pCh3DvnXPRAl7hE+Le15zHa6Yed
-   kiYVtklIexORjqFUZ4+c6STOaWcx2Eo+06owluSf3xgr3t4JmidDj761H
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="5678442"
+  t=1700925455; x=1732461455;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=139b8toziGYJ4TPz+C2NrbBA1ldTf5B8zRgPLW1YMts=;
+  b=LS1eX3o/rgE3k/jzLQoCQjd+qb09NnD5Gjob42X7pPpmnwEAdmJHucQ6
+   uIcrJHSjkBN20ZFXPz3bo3u88j10PhUd71Y3lA6F1x6qB8Qkw/J/IEFyR
+   EJH87R0re806m8Tp/CQEmyQpi1Veaqw0m5gNpPq5EQngRWQleVb3HmooK
+   LakKJerSn7/tyFlVeXBuEIUCOin3Av/pfoX8+T4oRoCf2MvYMvd3747F2
+   JQO/dWlMhizQuLAFZtub54pJ6RfMLpeFuQrf1iTacqcA/X/lXmHoyIf+L
+   4Hrt8jcvXOJXfFXO/5SGm3VMHq6d8lkfAKDNCEWlENJ7AUXyD7TJt/JiE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="5678447"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="5678442"
+   d="scan'208";a="5678447"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 07:17:33 -0800
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 07:17:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="838313058"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="838313048"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="838313058"
+   d="scan'208";a="838313048"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 25 Nov 2023 07:17:32 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6uPS-00047W-1V;
+	id 1r6uPS-00047b-1k;
 	Sat, 25 Nov 2023 15:17:30 +0000
-Date: Sat, 25 Nov 2023 23:17:10 +0800
+Date: Sat, 25 Nov 2023 23:17:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
-Subject: [intel-lts:6.1/linux 2290/2351] htmldocs:
- ./include/drm/drm_plane.h:257: warning: Function parameter or member
- 'degamma_lut' not described in 'drm_plane_state'
-Message-ID: <202311252326.VZ4K7wL5-lkp@intel.com>
+To: "mac.shen" <mac.shen@mediatek.com>, chunkuang.hu@kernel.org,
+	p.zabel@pengutronix.de, airlied@gmail.com, daniel@ffwll.ch,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	jitao.shi@mediatek.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	mac.shen@mediatek.com, shuijing.li@mediatek.com,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] drm/mediatek/dp: Add the HDCP feature for DisplayPort
+Message-ID: <202311252324.TTPd9IXz-lkp@intel.com>
+References: <20231124085346.26602-1-mac.shen@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231124085346.26602-1-mac.shen@mediatek.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.1/linux
-head:   b375c3f82247ffd48e5c37e98dafa086bc0eb81b
-commit: d533f37e420d6d7aa584c6720133dde3f5477f60 [2290/2351] drm: Add Plane Degamma Lut property
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311252326.VZ4K7wL5-lkp@intel.com/reproduce)
+Hi mac.shen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.7-rc2]
+[cannot apply to pza/reset/next pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mac-shen/drm-mediatek-dp-Add-the-HDCP-feature-for-DisplayPort/20231125-152640
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231124085346.26602-1-mac.shen%40mediatek.com
+patch subject: [PATCH] drm/mediatek/dp: Add the HDCP feature for DisplayPort
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231125/202311252324.TTPd9IXz-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311252324.TTPd9IXz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311252326.VZ4K7wL5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311252324.TTPd9IXz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> ./include/drm/drm_plane.h:257: warning: Function parameter or member 'degamma_lut' not described in 'drm_plane_state'
+>> drivers/gpu/drm/mediatek/mtk_dp.c:349:5: warning: no previous prototype for function 'mtk_dp_read' [-Wmissing-prototypes]
+     349 | u32 mtk_dp_read(struct mtk_dp *mtk_dp, u32 offset)
+         |     ^
+   drivers/gpu/drm/mediatek/mtk_dp.c:349:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     349 | u32 mtk_dp_read(struct mtk_dp *mtk_dp, u32 offset)
+         | ^
+         | static 
+>> drivers/gpu/drm/mediatek/mtk_dp.c:376:5: warning: no previous prototype for function 'mtk_dp_update_bits' [-Wmissing-prototypes]
+     376 | int mtk_dp_update_bits(struct mtk_dp *mtk_dp, u32 offset,
+         |     ^
+   drivers/gpu/drm/mediatek/mtk_dp.c:376:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     376 | int mtk_dp_update_bits(struct mtk_dp *mtk_dp, u32 offset,
+         | ^
+         | static 
+>> drivers/gpu/drm/mediatek/mtk_dp.c:2663:6: warning: no previous prototype for function 'mtk_dp_check_hdcp_version' [-Wmissing-prototypes]
+    2663 | void mtk_dp_check_hdcp_version(struct mtk_dp *mtk_dp, bool only_hdcp1x)
+         |      ^
+   drivers/gpu/drm/mediatek/mtk_dp.c:2663:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2663 | void mtk_dp_check_hdcp_version(struct mtk_dp *mtk_dp, bool only_hdcp1x)
+         | ^
+         | static 
+   3 warnings generated.
 
-vim +257 ./include/drm/drm_plane.h
 
-5c759eda9b04cd Pankaj Bharadiya  2020-10-20   42  
-43968d7b806d7a Daniel Vetter     2016-09-21   43  /**
-43968d7b806d7a Daniel Vetter     2016-09-21   44   * struct drm_plane_state - mutable plane state
-2e784a91424892 Daniel Vetter     2018-07-09   45   *
-4087d2fb286c85 Alyssa Rosenzweig 2021-08-29   46   * Please note that the destination coordinates @crtc_x, @crtc_y, @crtc_h and
-2e784a91424892 Daniel Vetter     2018-07-09   47   * @crtc_w and the source coordinates @src_x, @src_y, @src_h and @src_w are the
-2e784a91424892 Daniel Vetter     2018-07-09   48   * raw coordinates provided by userspace. Drivers should use
-2e784a91424892 Daniel Vetter     2018-07-09   49   * drm_atomic_helper_check_plane_state() and only use the derived rectangles in
-2e784a91424892 Daniel Vetter     2018-07-09   50   * @src and @dst to program the hardware.
-43968d7b806d7a Daniel Vetter     2016-09-21   51   */
-43968d7b806d7a Daniel Vetter     2016-09-21   52  struct drm_plane_state {
-2e784a91424892 Daniel Vetter     2018-07-09   53  	/** @plane: backpointer to the plane */
-43968d7b806d7a Daniel Vetter     2016-09-21   54  	struct drm_plane *plane;
-43968d7b806d7a Daniel Vetter     2016-09-21   55  
-3835b46e5535d9 Gustavo Padovan   2016-11-07   56  	/**
-3835b46e5535d9 Gustavo Padovan   2016-11-07   57  	 * @crtc:
-3835b46e5535d9 Gustavo Padovan   2016-11-07   58  	 *
-3835b46e5535d9 Gustavo Padovan   2016-11-07   59  	 * Currently bound CRTC, NULL if disabled. Do not this write directly,
-3835b46e5535d9 Gustavo Padovan   2016-11-07   60  	 * use drm_atomic_set_crtc_for_plane()
-3835b46e5535d9 Gustavo Padovan   2016-11-07   61  	 */
-3835b46e5535d9 Gustavo Padovan   2016-11-07   62  	struct drm_crtc *crtc;
-3835b46e5535d9 Gustavo Padovan   2016-11-07   63  
-3835b46e5535d9 Gustavo Padovan   2016-11-07   64  	/**
-3835b46e5535d9 Gustavo Padovan   2016-11-07   65  	 * @fb:
-3835b46e5535d9 Gustavo Padovan   2016-11-07   66  	 *
-3835b46e5535d9 Gustavo Padovan   2016-11-07   67  	 * Currently bound framebuffer. Do not write this directly, use
-3835b46e5535d9 Gustavo Padovan   2016-11-07   68  	 * drm_atomic_set_fb_for_plane()
-3835b46e5535d9 Gustavo Padovan   2016-11-07   69  	 */
-3835b46e5535d9 Gustavo Padovan   2016-11-07   70  	struct drm_framebuffer *fb;
-3835b46e5535d9 Gustavo Padovan   2016-11-07   71  
-3835b46e5535d9 Gustavo Padovan   2016-11-07   72  	/**
-3835b46e5535d9 Gustavo Padovan   2016-11-07   73  	 * @fence:
-3835b46e5535d9 Gustavo Padovan   2016-11-07   74  	 *
-30d23f220c75cf Daniel Vetter     2018-04-05   75  	 * Optional fence to wait for before scanning out @fb. The core atomic
-30d23f220c75cf Daniel Vetter     2018-04-05   76  	 * code will set this when userspace is using explicit fencing. Do not
-1ea28bc5542d60 Christian König   2022-04-21   77  	 * write this field directly for a driver's implicit fence.
-30d23f220c75cf Daniel Vetter     2018-04-05   78  	 *
-30d23f220c75cf Daniel Vetter     2018-04-05   79  	 * Drivers should store any implicit fence in this from their
-25d60a648bfa64 Thomas Zimmermann 2022-12-02   80  	 * &drm_plane_helper_funcs.prepare_fb callback. See
-25d60a648bfa64 Thomas Zimmermann 2022-12-02   81  	 * drm_gem_plane_helper_prepare_fb() for a suitable helper.
-3835b46e5535d9 Gustavo Padovan   2016-11-07   82  	 */
-f54d1867005c33 Chris Wilson      2016-10-25   83  	struct dma_fence *fence;
-43968d7b806d7a Daniel Vetter     2016-09-21   84  
-3835b46e5535d9 Gustavo Padovan   2016-11-07   85  	/**
-3835b46e5535d9 Gustavo Padovan   2016-11-07   86  	 * @crtc_x:
-3835b46e5535d9 Gustavo Padovan   2016-11-07   87  	 *
-3835b46e5535d9 Gustavo Padovan   2016-11-07   88  	 * Left position of visible portion of plane on crtc, signed dest
-3835b46e5535d9 Gustavo Padovan   2016-11-07   89  	 * location allows it to be partially off screen.
-3835b46e5535d9 Gustavo Padovan   2016-11-07   90  	 */
-3835b46e5535d9 Gustavo Padovan   2016-11-07   91  
-3835b46e5535d9 Gustavo Padovan   2016-11-07   92  	int32_t crtc_x;
-3835b46e5535d9 Gustavo Padovan   2016-11-07   93  	/**
-3835b46e5535d9 Gustavo Padovan   2016-11-07   94  	 * @crtc_y:
-3835b46e5535d9 Gustavo Padovan   2016-11-07   95  	 *
-3835b46e5535d9 Gustavo Padovan   2016-11-07   96  	 * Upper position of visible portion of plane on crtc, signed dest
-3835b46e5535d9 Gustavo Padovan   2016-11-07   97  	 * location allows it to be partially off screen.
-3835b46e5535d9 Gustavo Padovan   2016-11-07   98  	 */
-3835b46e5535d9 Gustavo Padovan   2016-11-07   99  	int32_t crtc_y;
-43968d7b806d7a Daniel Vetter     2016-09-21  100  
-2e784a91424892 Daniel Vetter     2018-07-09  101  	/** @crtc_w: width of visible portion of plane on crtc */
-2e784a91424892 Daniel Vetter     2018-07-09  102  	/** @crtc_h: height of visible portion of plane on crtc */
-43968d7b806d7a Daniel Vetter     2016-09-21  103  	uint32_t crtc_w, crtc_h;
-43968d7b806d7a Daniel Vetter     2016-09-21  104  
-2e784a91424892 Daniel Vetter     2018-07-09  105  	/**
-2e784a91424892 Daniel Vetter     2018-07-09  106  	 * @src_x: left position of visible portion of plane within plane (in
-2e784a91424892 Daniel Vetter     2018-07-09  107  	 * 16.16 fixed point).
-2e784a91424892 Daniel Vetter     2018-07-09  108  	 */
-2e784a91424892 Daniel Vetter     2018-07-09  109  	uint32_t src_x;
-2e784a91424892 Daniel Vetter     2018-07-09  110  	/**
-2e784a91424892 Daniel Vetter     2018-07-09  111  	 * @src_y: upper position of visible portion of plane within plane (in
-2e784a91424892 Daniel Vetter     2018-07-09  112  	 * 16.16 fixed point).
-2e784a91424892 Daniel Vetter     2018-07-09  113  	 */
-2e784a91424892 Daniel Vetter     2018-07-09  114  	uint32_t src_y;
-2e784a91424892 Daniel Vetter     2018-07-09  115  	/** @src_w: width of visible portion of plane (in 16.16) */
-2e784a91424892 Daniel Vetter     2018-07-09  116  	/** @src_h: height of visible portion of plane (in 16.16) */
-43968d7b806d7a Daniel Vetter     2016-09-21  117  	uint32_t src_h, src_w;
-43968d7b806d7a Daniel Vetter     2016-09-21  118  
-2e784a91424892 Daniel Vetter     2018-07-09  119  	/**
-2e784a91424892 Daniel Vetter     2018-07-09  120  	 * @alpha:
-2e784a91424892 Daniel Vetter     2018-07-09  121  	 * Opacity of the plane with 0 as completely transparent and 0xffff as
-2e784a91424892 Daniel Vetter     2018-07-09  122  	 * completely opaque. See drm_plane_create_alpha_property() for more
-2e784a91424892 Daniel Vetter     2018-07-09  123  	 * details.
-2e784a91424892 Daniel Vetter     2018-07-09  124  	 */
-ae0e28265e216d Maxime Ripard     2018-04-11  125  	u16 alpha;
-b972cece9448c5 Sean Paul         2018-08-31  126  
-b972cece9448c5 Sean Paul         2018-08-31  127  	/**
-b972cece9448c5 Sean Paul         2018-08-31  128  	 * @pixel_blend_mode:
-b972cece9448c5 Sean Paul         2018-08-31  129  	 * The alpha blending equation selection, describing how the pixels from
-b972cece9448c5 Sean Paul         2018-08-31  130  	 * the current plane are composited with the background. Value can be
-b972cece9448c5 Sean Paul         2018-08-31  131  	 * one of DRM_MODE_BLEND_*
-b972cece9448c5 Sean Paul         2018-08-31  132  	 */
-a5ec8332d42805 Lowry Li          2018-08-23  133  	uint16_t pixel_blend_mode;
-ae0e28265e216d Maxime Ripard     2018-04-11  134  
-2e784a91424892 Daniel Vetter     2018-07-09  135  	/**
-2e784a91424892 Daniel Vetter     2018-07-09  136  	 * @rotation:
-2e784a91424892 Daniel Vetter     2018-07-09  137  	 * Rotation of the plane. See drm_plane_create_rotation_property() for
-2e784a91424892 Daniel Vetter     2018-07-09  138  	 * more details.
-2e784a91424892 Daniel Vetter     2018-07-09  139  	 */
-43968d7b806d7a Daniel Vetter     2016-09-21  140  	unsigned int rotation;
-43968d7b806d7a Daniel Vetter     2016-09-21  141  
-2e784a91424892 Daniel Vetter     2018-07-09  142  	/**
-2e784a91424892 Daniel Vetter     2018-07-09  143  	 * @zpos:
-2e784a91424892 Daniel Vetter     2018-07-09  144  	 * Priority of the given plane on crtc (optional).
-2e784a91424892 Daniel Vetter     2018-07-09  145  	 *
-8f6ea27b2fefdf Simon Ser         2019-10-09  146  	 * User-space may set mutable zpos properties so that multiple active
-8f6ea27b2fefdf Simon Ser         2019-10-09  147  	 * planes on the same CRTC have identical zpos values. This is a
-8f6ea27b2fefdf Simon Ser         2019-10-09  148  	 * user-space bug, but drivers can solve the conflict by comparing the
-8f6ea27b2fefdf Simon Ser         2019-10-09  149  	 * plane object IDs; the plane with a higher ID is stacked on top of a
-8f6ea27b2fefdf Simon Ser         2019-10-09  150  	 * plane with a lower ID.
-2e784a91424892 Daniel Vetter     2018-07-09  151  	 *
-2e784a91424892 Daniel Vetter     2018-07-09  152  	 * See drm_plane_create_zpos_property() and
-2e784a91424892 Daniel Vetter     2018-07-09  153  	 * drm_plane_create_zpos_immutable_property() for more details.
-2e784a91424892 Daniel Vetter     2018-07-09  154  	 */
-43968d7b806d7a Daniel Vetter     2016-09-21  155  	unsigned int zpos;
-2e784a91424892 Daniel Vetter     2018-07-09  156  
-2e784a91424892 Daniel Vetter     2018-07-09  157  	/**
-2e784a91424892 Daniel Vetter     2018-07-09  158  	 * @normalized_zpos:
-2e784a91424892 Daniel Vetter     2018-07-09  159  	 * Normalized value of zpos: unique, range from 0 to N-1 where N is the
-2e784a91424892 Daniel Vetter     2018-07-09  160  	 * number of active planes for given crtc. Note that the driver must set
-2e784a91424892 Daniel Vetter     2018-07-09  161  	 * &drm_mode_config.normalize_zpos or call drm_atomic_normalize_zpos() to
-2e784a91424892 Daniel Vetter     2018-07-09  162  	 * update this before it can be trusted.
-2e784a91424892 Daniel Vetter     2018-07-09  163  	 */
-43968d7b806d7a Daniel Vetter     2016-09-21  164  	unsigned int normalized_zpos;
-43968d7b806d7a Daniel Vetter     2016-09-21  165  
-80f690e9e3a60f Jyri Sarha        2018-02-19  166  	/**
-80f690e9e3a60f Jyri Sarha        2018-02-19  167  	 * @color_encoding:
-80f690e9e3a60f Jyri Sarha        2018-02-19  168  	 *
-80f690e9e3a60f Jyri Sarha        2018-02-19  169  	 * Color encoding for non RGB formats
-80f690e9e3a60f Jyri Sarha        2018-02-19  170  	 */
-80f690e9e3a60f Jyri Sarha        2018-02-19  171  	enum drm_color_encoding color_encoding;
-80f690e9e3a60f Jyri Sarha        2018-02-19  172  
-80f690e9e3a60f Jyri Sarha        2018-02-19  173  	/**
-80f690e9e3a60f Jyri Sarha        2018-02-19  174  	 * @color_range:
-80f690e9e3a60f Jyri Sarha        2018-02-19  175  	 *
-80f690e9e3a60f Jyri Sarha        2018-02-19  176  	 * Color range for non RGB formats
-80f690e9e3a60f Jyri Sarha        2018-02-19  177  	 */
-80f690e9e3a60f Jyri Sarha        2018-02-19  178  	enum drm_color_range color_range;
-80f690e9e3a60f Jyri Sarha        2018-02-19  179  
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  180  	/**
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  181  	 * @fb_damage_clips:
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  182  	 *
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  183  	 * Blob representing damage (area in plane framebuffer that changed
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  184  	 * since last plane update) as an array of &drm_mode_rect in framebuffer
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  185  	 * coodinates of the attached framebuffer. Note that unlike plane src,
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  186  	 * damage clips are not in 16.16 fixed point.
-6f11f37459d8f9 Daniel Vetter     2021-07-23  187  	 *
-6f11f37459d8f9 Daniel Vetter     2021-07-23  188  	 * See drm_plane_get_damage_clips() and
-6f11f37459d8f9 Daniel Vetter     2021-07-23  189  	 * drm_plane_get_damage_clips_count() for accessing these.
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  190  	 */
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  191  	struct drm_property_blob *fb_damage_clips;
-d3b21767821ed3 Lukasz Spintzyk   2018-05-23  192  
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  193  	/**
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  194  	 * @src:
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  195  	 *
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  196  	 * source coordinates of the plane (in 16.16).
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  197  	 *
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  198  	 * When using drm_atomic_helper_check_plane_state(),
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  199  	 * the coordinates are clipped, but the driver may choose
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  200  	 * to use unclipped coordinates instead when the hardware
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  201  	 * performs the clipping automatically.
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  202  	 */
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  203  	/**
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  204  	 * @dst:
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  205  	 *
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  206  	 * clipped destination coordinates of the plane.
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  207  	 *
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  208  	 * When using drm_atomic_helper_check_plane_state(),
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  209  	 * the coordinates are clipped, but the driver may choose
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  210  	 * to use unclipped coordinates instead when the hardware
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  211  	 * performs the clipping automatically.
-fec748740c9ca3 Maarten Lankhorst 2019-10-10  212  	 */
-43968d7b806d7a Daniel Vetter     2016-09-21  213  	struct drm_rect src, dst;
-43968d7b806d7a Daniel Vetter     2016-09-21  214  
-3835b46e5535d9 Gustavo Padovan   2016-11-07  215  	/**
-3835b46e5535d9 Gustavo Padovan   2016-11-07  216  	 * @visible:
-3835b46e5535d9 Gustavo Padovan   2016-11-07  217  	 *
-3835b46e5535d9 Gustavo Padovan   2016-11-07  218  	 * Visibility of the plane. This can be false even if fb!=NULL and
-3835b46e5535d9 Gustavo Padovan   2016-11-07  219  	 * crtc!=NULL, due to clipping.
-43968d7b806d7a Daniel Vetter     2016-09-21  220  	 */
-43968d7b806d7a Daniel Vetter     2016-09-21  221  	bool visible;
-43968d7b806d7a Daniel Vetter     2016-09-21  222  
-5c759eda9b04cd Pankaj Bharadiya  2020-10-20  223  	/**
-5c759eda9b04cd Pankaj Bharadiya  2020-10-20  224  	 * @scaling_filter:
-5c759eda9b04cd Pankaj Bharadiya  2020-10-20  225  	 *
-5c759eda9b04cd Pankaj Bharadiya  2020-10-20  226  	 * Scaling filter to be applied
-5c759eda9b04cd Pankaj Bharadiya  2020-10-20  227  	 */
-5c759eda9b04cd Pankaj Bharadiya  2020-10-20  228  	enum drm_scaling_filter scaling_filter;
-5c759eda9b04cd Pankaj Bharadiya  2020-10-20  229  
-21a01abbe32a3c Maarten Lankhorst 2017-09-04  230  	/**
-669c9215afea4e Maarten Lankhorst 2017-09-04  231  	 * @commit: Tracks the pending commit to prevent use-after-free conditions,
-669c9215afea4e Maarten Lankhorst 2017-09-04  232  	 * and for async plane updates.
-21a01abbe32a3c Maarten Lankhorst 2017-09-04  233  	 *
-669c9215afea4e Maarten Lankhorst 2017-09-04  234  	 * May be NULL.
-21a01abbe32a3c Maarten Lankhorst 2017-09-04  235  	 */
-21a01abbe32a3c Maarten Lankhorst 2017-09-04  236  	struct drm_crtc_commit *commit;
-21a01abbe32a3c Maarten Lankhorst 2017-09-04  237  
-2e784a91424892 Daniel Vetter     2018-07-09  238  	/** @state: backpointer to global drm_atomic_state */
-43968d7b806d7a Daniel Vetter     2016-09-21  239  	struct drm_atomic_state *state;
-f526f2c449aa3f Uma Shankar       2023-04-18  240  
-f526f2c449aa3f Uma Shankar       2023-04-18  241  	/**
-f526f2c449aa3f Uma Shankar       2023-04-18  242  	 * @degamma_mode: This is a blob_id and exposes the platform capabilities
-f526f2c449aa3f Uma Shankar       2023-04-18  243  	 * wrt to various gamma modes and the respective lut ranges. This also
-f526f2c449aa3f Uma Shankar       2023-04-18  244  	 * helps user select a degamma mode amongst the supported ones.
-f526f2c449aa3f Uma Shankar       2023-04-18  245  	 */
-f526f2c449aa3f Uma Shankar       2023-04-18  246  	u32 degamma_mode;
-f526f2c449aa3f Uma Shankar       2023-04-18  247  
-d533f37e420d6d Uma Shankar       2023-04-18  248  	/* @degamma_lut:
-d533f37e420d6d Uma Shankar       2023-04-18  249  	 *
-d533f37e420d6d Uma Shankar       2023-04-18  250  	 * Lookup table for converting framebuffer pixel data before apply the
-d533f37e420d6d Uma Shankar       2023-04-18  251  	 * color conversion matrix @ctm. See drm_plane_enable_color_mgmt(). The
-d533f37e420d6d Uma Shankar       2023-04-18  252  	 * blob (if not NULL) is an array of &struct drm_color_lut_ext.
-d533f37e420d6d Uma Shankar       2023-04-18  253  	 */
-d533f37e420d6d Uma Shankar       2023-04-18  254  	struct drm_property_blob *degamma_lut;
-d533f37e420d6d Uma Shankar       2023-04-18  255  
-f526f2c449aa3f Uma Shankar       2023-04-18  256  	u8 color_mgmt_changed : 1;
-43968d7b806d7a Daniel Vetter     2016-09-21 @257  };
-43968d7b806d7a Daniel Vetter     2016-09-21  258  
+vim +/mtk_dp_read +349 drivers/gpu/drm/mediatek/mtk_dp.c
 
-:::::: The code at line 257 was first introduced by commit
-:::::: 43968d7b806d7a7e021261294c583a216fddf0e5 drm: Extract drm_plane.[hc]
-
-:::::: TO: Daniel Vetter <daniel.vetter@ffwll.ch>
-:::::: CC: Sean Paul <seanpaul@chromium.org>
+   348	
+ > 349	u32 mtk_dp_read(struct mtk_dp *mtk_dp, u32 offset)
+   350	{
+   351		return mtk_dp_reg_read(mtk_dp->regs, offset);
+   352	}
+   353	
+   354	static int mtk_dp_write(struct mtk_dp *mtk_dp, u32 offset, u32 val)
+   355	{
+   356		int ret = regmap_write(mtk_dp->regs, offset, val);
+   357	
+   358		if (ret)
+   359			dev_err(mtk_dp->dev,
+   360				"Failed to write register 0x%x with value 0x%x\n",
+   361				offset, val);
+   362		return ret;
+   363	}
+   364	
+   365	int mtk_dp_reg_update_bits(struct regmap *regs, u32 offset,
+   366				   u32 val, u32 mask)
+   367	{
+   368		int ret = regmap_update_bits(regs, offset, mask, val);
+   369	
+   370		if (ret)
+   371			pr_err("Failed to update register 0x%x with value 0x%x, mask 0x%x\n",
+   372			       offset, val, mask);
+   373		return ret;
+   374	}
+   375	
+ > 376	int mtk_dp_update_bits(struct mtk_dp *mtk_dp, u32 offset,
+   377			       u32 val, u32 mask)
+   378	{
+   379		return mtk_dp_reg_update_bits(mtk_dp->regs, offset, val, mask);
+   380	}
+   381	
 
 -- 
 0-DAY CI Kernel Test Service
