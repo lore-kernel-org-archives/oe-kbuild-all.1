@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970C53FF1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 07:24:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C725E4435;
+	Sat, 25 Nov 2023 07:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KqLzU5a3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kblRhXp6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1700897072; x=1732433072;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3pdSdmO5IKo7imulhWoatirNSkx4Z3/MSVv8M39Q6RA=;
-  b=KqLzU5a3wm7yBP/Edz6+KydUqV1I3iOOwAOwMSzIztvTC4aSkuo/zA3L
-   U4CiO6T2GvspHPq3z5ZDe/r4PXqFpvklFMZ6WzEYPv6hXbq/tJAYDJKH6
-   CFpciUvmCydRircEHL4E/3XOxjBkdPPp47RTiAG5HYymHrB5O+ZR7m1qm
-   ZGVA6f84lf6Y5O7vXVrjCgwAX0uV5JLDnJcpmW4Ge90e4ZIrM6SPNG9H/
-   tKI0VkDlM4DEyNnOxNcoQjO9rifPX8EIvasMYwoBb/u/yu0GFQR8vbBsx
-   0xCOBpSjQbW/SuVS/Wm73OGqDnW2qTwh0EymKrrZaottJVdBGjs4RyuMN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="372655161"
+  bh=6n6QMcaABgJpw1hUSOBou9L5RvyTT+BV3purB7lEEyM=;
+  b=kblRhXp6s6ETpR4WFmM1Xz0fOm9brwWRrtwgHwMKUqfnH70gLToOP0Py
+   OqMHc+TpTyMslry8ZXfrtiob+uomzb5GzDQbZl6fnf1U4mj/hqT2i7bFc
+   eqb+PrjUNuA0HOoRdjAKrMSxd4Z/MdqLLdiieosPbURs6mRd6wgqChkAy
+   +zj60xhYJjsyr9ViB43Vz6SNDa5fhByHY5NMW+F95I9Yxw2TmPfZ3Sdfj
+   V9dFoTxyXeC99c1RpEBB74wzsRrYFjICMCdGicvCbiGcEnjhZZuqwV1Pm
+   v0EQw1wLPYwKJnnpL5fErVdDZb2PEa0su4AW0zqj1EAngFV29RVmy13wy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="377546085"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="372655161"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 23:24:31 -0800
+   d="scan'208";a="377546085"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 23:24:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="1015075367"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="941093723"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="1015075367"
+   d="scan'208";a="941093723"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Nov 2023 23:24:30 -0800
+  by orsmga005.jf.intel.com with ESMTP; 24 Nov 2023 23:24:30 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6n1g-0003iz-1d;
+	id 1r6n1g-0003j2-1x;
 	Sat, 25 Nov 2023 07:24:28 +0000
-Date: Sat, 25 Nov 2023 15:24:27 +0800
+Date: Sat, 25 Nov 2023 15:24:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_fwspec 15/41] include/linux/acpi_iort.h:71:6:
- warning: 'iort_iommu_get_resv_regions' declared 'static' but never defined
-Message-ID: <202311251448.DRw3BFlk-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_fwspec 38/41]
+ drivers/iommu/arm/arm-smmu/arm-smmu.c:178:1: error: expected identifier or
+ '('
+Message-ID: <202311251407.uFSaCbCn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,74 +53,85 @@ Content-Disposition: inline
 
 tree:   https://github.com/jgunthorpe/linux iommu_fwspec
 head:   c87a72108f7683a608ec2eb459ee92b3eeca7406
-commit: 1f761415430ba5ac67203383be9727e9a704c32e [15/41] ACPI: IORT: Remove fwspec from the reserved region code
-config: arc-randconfig-r071-20231125 (https://download.01.org/0day-ci/archive/20231125/202311251448.DRw3BFlk-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251448.DRw3BFlk-lkp@intel.com/reproduce)
+commit: 1edf61c2267928bf8ca21acf257018342828b13b [38/41] iommu/arm-smmu: Move to iommu_of_xlate()
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231125/202311251407.uFSaCbCn-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251407.uFSaCbCn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251448.DRw3BFlk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311251407.uFSaCbCn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/pci/msi/irqdomain.c:5:
-   include/linux/acpi_iort.h:74:1: error: expected identifier or '(' before '{' token
-      74 | { }
-         | ^
->> include/linux/acpi_iort.h:71:6: warning: 'iort_iommu_get_resv_regions' declared 'static' but never defined [-Wunused-function]
-      71 | void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/arm/arm-smmu/arm-smmu.c:178:1: error: expected identifier or '('
+   {
+   ^
+   1 error generated.
 
 
-vim +71 include/linux/acpi_iort.h
+vim +178 drivers/iommu/arm/arm-smmu/arm-smmu.c
 
-    31	
-    32	typedef int (*iort_for_each_fn)(struct acpi_iort_node *iommu, u32 streamid,
-    33					void *info);
-    34	int iort_iommu_for_each_id(struct device *dev, const u32 *id_in,
-    35				   unsigned int *flags, iort_for_each_fn fn,
-    36				   void *info);
-    37	
-    38	#ifdef CONFIG_ACPI_IORT
-    39	u32 iort_msi_map_id(struct device *dev, u32 id);
-    40	struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
-    41						  enum irq_domain_bus_token bus_token);
-    42	void acpi_configure_pmsi_domain(struct device *dev);
-    43	void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode,
-    44			       struct list_head *head);
-    45	void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode,
-    46			       struct list_head *head);
-    47	/* IOMMU interface */
-    48	int iort_dma_get_ranges(struct device *dev, u64 *size);
-    49	int iort_iommu_configure_id(struct device *dev, const u32 *id_in);
-    50	void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head,
-    51					 struct fwnode_handle *iommu_fwnode,
-    52					 const u32 *fw_ids, unsigned int fw_num_ids);
-    53	phys_addr_t acpi_iort_dma_get_max_cpu_address(void);
-    54	#else
-    55	static inline u32 iort_msi_map_id(struct device *dev, u32 id)
-    56	{ return id; }
-    57	static inline struct irq_domain *iort_get_device_domain(
-    58		struct device *dev, u32 id, enum irq_domain_bus_token bus_token)
-    59	{ return NULL; }
-    60	static inline void acpi_configure_pmsi_domain(struct device *dev) { }
-    61	static inline
-    62	void iort_get_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
-    63	static inline
-    64	void iort_put_rmr_sids(struct fwnode_handle *iommu_fwnode, struct list_head *head) { }
-    65	/* IOMMU interface */
-    66	static inline int iort_dma_get_ranges(struct device *dev, u64 *size)
-    67	{ return -ENODEV; }
-    68	static inline int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
-    69	{ return -ENODEV; }
-    70	static inline
-  > 71	void iort_iommu_get_resv_regions(struct device *dev, struct list_head *head,
-    72					 struct fwnode_handle *iommu_fwnode,
-    73					 const u32 *fw_ids, unsigned int fw_num_ids);
-    74	{ }
-    75	
+a9a1b0b53d8b7c drivers/iommu/arm-smmu.c              Will Deacon     2014-05-01  130  
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  131  static struct arm_smmu_master_cfg *
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  132  arm_smmu_register_legacy_master(struct device *dev)
+45ae7cff3684ab drivers/iommu/arm-smmu.c              Will Deacon     2013-06-24  133  {
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  134  	struct arm_smmu_master_cfg *cfg;
+adfec2e709d2a4 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-12  135  	struct device *smmu_dev;
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  136  	struct device_node *np;
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  137  	struct of_phandle_iterator it;
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  138  	void *data = &it;
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  139  	__be32 pci_sid;
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  140  	int err;
+45ae7cff3684ab drivers/iommu/arm-smmu.c              Will Deacon     2013-06-24  141  
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  142  	np = dev_get_dev_node(dev);
+a6c9e3874e5759 drivers/iommu/arm/arm-smmu/arm-smmu.c Rob Herring     2023-03-10  143  	if (!np || !of_property_present(np, "#stream-id-cells")) {
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  144  		of_node_put(np);
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  145  		return ERR_PTR(-ENODEV);
+45ae7cff3684ab drivers/iommu/arm-smmu.c              Will Deacon     2013-06-24  146  	}
+45ae7cff3684ab drivers/iommu/arm-smmu.c              Will Deacon     2013-06-24  147  
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  148  	it.node = np;
+d6fc5d977671d1 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-12  149  	err = driver_for_each_device(&arm_smmu_driver.driver, NULL, &data,
+d6fc5d977671d1 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-12  150  				     __find_legacy_master_phandle);
+adfec2e709d2a4 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-12  151  	smmu_dev = data;
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  152  	of_node_put(np);
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  153  	if (err == 0)
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  154  		return ERR_PTR(-ENODEV);
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  155  	if (err < 0)
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  156  		return ERR_PTR(err);
+45ae7cff3684ab drivers/iommu/arm-smmu.c              Will Deacon     2013-06-24  157  
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  158  	if (dev_is_pci(dev)) {
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  159  		/* "mmu-masters" assumes Stream ID == Requester ID */
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  160  		pci_for_each_dma_alias(to_pci_dev(dev), __arm_smmu_get_pci_sid,
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  161  				       &pci_sid);
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  162  		it.cur = &pci_sid;
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  163  		it.cur_count = 1;
+f80cd885fcdd05 drivers/iommu/arm-smmu.c              Robin Murphy    2016-09-14  164  	}
+45ae7cff3684ab drivers/iommu/arm-smmu.c              Will Deacon     2013-06-24  165  
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  166  	cfg = kzalloc(struct_size(cfg, ids, it.cur_count), GFP_KERNEL);
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  167  	if (!cfg)
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  168  		return ERR_PTR(-ENOMEM);
+44680eedf9409d drivers/iommu/arm-smmu.c              Will Deacon     2014-06-25  169  
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  170  	cfg->num_ids = it.cur_count;
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  171  	cfg->smmu = dev_get_drvdata(smmu_dev);
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  172  	of_phandle_iterator_args(&it, cfg->ids, it.cur_count);
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  173  	return 0;
+45ae7cff3684ab drivers/iommu/arm-smmu.c              Will Deacon     2013-06-24  174  }
+cd221bd24ff556 drivers/iommu/arm-smmu.c              Will Deacon     2019-12-19  175  #else
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  176  static struct arm_smmu_master_cfg *
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  177  arm_smmu_register_legacy_master(struct device *dev);
+cd221bd24ff556 drivers/iommu/arm-smmu.c              Will Deacon     2019-12-19 @178  {
+1edf61c2267928 drivers/iommu/arm/arm-smmu/arm-smmu.c Jason Gunthorpe 2023-11-23  179  	return ERR_PTR(-ENODEV);
+cd221bd24ff556 drivers/iommu/arm-smmu.c              Will Deacon     2019-12-19  180  }
+cd221bd24ff556 drivers/iommu/arm-smmu.c              Will Deacon     2019-12-19  181  #endif /* CONFIG_ARM_SMMU_LEGACY_DT_BINDINGS */
+cd221bd24ff556 drivers/iommu/arm-smmu.c              Will Deacon     2019-12-19  182  
+
+:::::: The code at line 178 was first introduced by commit
+:::::: cd221bd24ff5567bbcc11ec0c303141a7c2b71bf iommu/arm-smmu: Allow building as a module
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
