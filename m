@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDC22E3FD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 18:23:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30522F535;
+	Sat, 25 Nov 2023 19:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NwwbUy6l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5byQSpS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700936638; x=1732472638;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ix/ZA2M2AcV+mEFiVP+jQf9Ly9wDAtJX8kkc6F1m/4E=;
-  b=NwwbUy6l+B1XhDDxnd5XaK6bw37ovjwxU1VademolwS3SS04tvShbM3J
-   Eolbk9JrMSice3SfSjcLAsycNU+YEFC9/c5KI92cYiSIHfRRUHh38DJwW
-   ZVX17QUguTV6j+nP/A6HnuqlZejuSnAGO0nlnmUQN8xEjzW0JlWnZy0KB
-   4k5zpgX/+EXoxXlp+zmqQVcl1NPXxOOTuXMSEIZAHyD3kF5IMbUP0HIpe
-   YVMJG3SaI633rsPvOZrsWU4xxsV5Sz+dDb0OBCMhZ+M7xh0X5jE9pxh2m
-   pcabIjF7qfNpx5IxZ68DXz4FaMVbuXYOCaOvx5JuN1/hhScwaCw95mTwj
+  t=1700940148; x=1732476148;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VZGLIOw6dLZ5Fua8ZAXrAyv+PxtlAMrrNMBtUOjqrJc=;
+  b=g5byQSpSnJ2cra5+GuTXEqqpXb2zaoCpNJJglJW5nZMZban+9D+XzY84
+   6T83EHBkrZIzH7GnNKS7XRDiiSEmcDsyLXUDxo4c/yzVl9lj5dJgi10yS
+   e5v4b8xvFV7sESaFvqUeDPJP4GSVIcwSbzPPBDrCkQGurEaQnlzetV8x/
+   1SzHgP0LsTQd6yh0I5G+8FwDeQp8DvyeuQa/tRnoOGIiYOEWz4wxMIkj2
+   IquZjjn/XQodfhXOxmFQVjXGAIOzmpMnJSMD7uQB7J+FyyD7ECV3WvKJm
+   xi/ua2IvPx33ICaIF4N3wQc7b/rOBgSbm5SRYvMatIB4+sOQ32P4Ut43y
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="389682701"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="5768309"
 X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="389682701"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 10:23:52 -0800
+   d="scan'208";a="5768309"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 11:22:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="885559548"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="941182314"
 X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="885559548"
+   d="scan'208";a="941182314"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Nov 2023 10:23:50 -0800
+  by orsmga005.jf.intel.com with ESMTP; 25 Nov 2023 11:22:26 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6xJk-0004Ik-2W;
-	Sat, 25 Nov 2023 18:23:48 +0000
-Date: Sun, 26 Nov 2023 02:22:57 +0800
+	id 1r6yES-0004Kw-1I;
+	Sat, 25 Nov 2023 19:22:24 +0000
+Date: Sun, 26 Nov 2023 03:21:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tero Kristo <t-kristo@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Tony Lindgren <tony@atomide.com>
-Subject: arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found
- for parameter 'xlate_clkctrl'
-Message-ID: <202311260151.b1ciS4X3-lkp@intel.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v11 09/10] mtd: spi-nor: Add parallel memories support in
+ spi-nor
+Message-ID: <202311260121.vexJyGHo-lkp@intel.com>
+References: <20231125092137.2948-10-amit.kumar-mahapatra@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,79 +51,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231125092137.2948-10-amit.kumar-mahapatra@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0f5cc96c367f2e780eb492cc9cab84e3b2ca88da
-commit: 70f05be3213393f20f01e4d59625df7ee49fe32f ARM: OMAP2+: hwmod: populate clkctrl clocks for hwmods if available
-date:   6 years ago
-config: arm-randconfig-001-20231123 (https://download.01.org/0day-ci/archive/20231126/202311260151.b1ciS4X3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311260151.b1ciS4X3-lkp@intel.com/reproduce)
+Hi Amit,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tiwai-sound/for-linus]
+[also build test WARNING on linus/master v6.7-rc2]
+[cannot apply to mtd/spi-nor/next lee-mfd/for-mfd-fixes next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amit-Kumar-Mahapatra/ALSA-hda-cs35l56-Use-set-get-APIs-to-access-spi-chip_select/20231125-182341
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-linus
+patch link:    https://lore.kernel.org/r/20231125092137.2948-10-amit.kumar-mahapatra%40amd.com
+patch subject: [PATCH v11 09/10] mtd: spi-nor: Add parallel memories support in spi-nor
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231126/202311260121.vexJyGHo-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311260121.vexJyGHo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311260151.b1ciS4X3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311260121.vexJyGHo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found for parameter 'wait_target_ready'
-   arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found for parameter 'assert_hardreset'
-   arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found for parameter 'deassert_hardreset'
-   arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found for parameter 'is_hardreset_asserted'
-   arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found for parameter 'init_clkdm'
-   arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found for parameter 'update_context_lost'
-   arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found for parameter 'get_context_lost'
-   arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found for parameter 'disable_direct_prcm'
->> arch/arm/mach-omap2/omap_hwmod.c:228: warning: No description found for parameter 'xlate_clkctrl'
-   arch/arm/mach-omap2/omap_hwmod.c:583: warning: No description found for parameter 'v'
-   arch/arm/mach-omap2/omap_hwmod.c:616: warning: No description found for parameter 'v'
-   arch/arm/mach-omap2/omap_hwmod.c:670: warning: No description found for parameter 'init_oh'
-   arch/arm/mach-omap2/omap_hwmod.c:699: warning: No description found for parameter 'init_oh'
-   arch/arm/mach-omap2/omap_hwmod.c:1128: warning: No description found for parameter 'os'
-   arch/arm/mach-omap2/omap_hwmod.c:1128: warning: Excess function parameter 'oh' description in '_count_ocp_if_addr_spaces'
-   arch/arm/mach-omap2/omap_hwmod.c:2446: warning: No description found for parameter 'data'
-   arch/arm/mach-omap2/omap_hwmod.c:2446: warning: Excess function parameter 'n' description in '_init'
-   arch/arm/mach-omap2/omap_hwmod.c:2644: warning: No description found for parameter 'data'
-   arch/arm/mach-omap2/omap_hwmod.c:2644: warning: Excess function parameter 'n' description in '_setup'
+   drivers/mtd/spi-nor/core.c:1974:14: warning: variable 'offset' is uninitialized when used here [-Wuninitialized]
+                           u64 aux = offset;
+                                     ^~~~~~
+   drivers/mtd/spi-nor/core.c:1837:23: note: initialize the variable 'offset' to silence this warning
+           u32 addr, len, offset, cur_cs_num = 0;
+                                ^
+                                 = 0
+>> drivers/mtd/spi-nor/core.c:3729:8: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+                           if (ret)
+                               ^~~
+   drivers/mtd/spi-nor/core.c:3713:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   2 warnings generated.
 
 
-vim +/xlate_clkctrl +228 arch/arm/mach-omap2/omap_hwmod.c
+vim +/ret +3729 drivers/mtd/spi-nor/core.c
 
-70f05be3213393 Tero Kristo    2017-05-31  202  
-9ebfd285371835 Kevin Hilman   2012-06-18  203  /**
-9ebfd285371835 Kevin Hilman   2012-06-18  204   * struct omap_hwmod_soc_ops - fn ptrs for some SoC-specific operations
-9ebfd285371835 Kevin Hilman   2012-06-18  205   * @enable_module: function to enable a module (via MODULEMODE)
-9ebfd285371835 Kevin Hilman   2012-06-18  206   * @disable_module: function to disable a module (via MODULEMODE)
-9ebfd285371835 Kevin Hilman   2012-06-18  207   *
-9ebfd285371835 Kevin Hilman   2012-06-18  208   * XXX Eventually this functionality will be hidden inside the PRM/CM
-9ebfd285371835 Kevin Hilman   2012-06-18  209   * device drivers.  Until then, this should avoid huge blocks of cpu_is_*()
-9ebfd285371835 Kevin Hilman   2012-06-18  210   * conditionals in this code.
-9ebfd285371835 Kevin Hilman   2012-06-18  211   */
-9ebfd285371835 Kevin Hilman   2012-06-18  212  struct omap_hwmod_soc_ops {
-9ebfd285371835 Kevin Hilman   2012-06-18  213  	void (*enable_module)(struct omap_hwmod *oh);
-9ebfd285371835 Kevin Hilman   2012-06-18  214  	int (*disable_module)(struct omap_hwmod *oh);
-8f6aa8ee114fb5 Kevin Hilman   2012-06-18  215  	int (*wait_target_ready)(struct omap_hwmod *oh);
-b8249cf2d2b16d Kevin Hilman   2012-06-18  216  	int (*assert_hardreset)(struct omap_hwmod *oh,
-b8249cf2d2b16d Kevin Hilman   2012-06-18  217  				struct omap_hwmod_rst_info *ohri);
-b8249cf2d2b16d Kevin Hilman   2012-06-18  218  	int (*deassert_hardreset)(struct omap_hwmod *oh,
-b8249cf2d2b16d Kevin Hilman   2012-06-18  219  				  struct omap_hwmod_rst_info *ohri);
-b8249cf2d2b16d Kevin Hilman   2012-06-18  220  	int (*is_hardreset_asserted)(struct omap_hwmod *oh,
-b8249cf2d2b16d Kevin Hilman   2012-06-18  221  				     struct omap_hwmod_rst_info *ohri);
-0a179eaa436e58 Kevin Hilman   2012-06-18  222  	int (*init_clkdm)(struct omap_hwmod *oh);
-e6d3a8b0bdcd8f Rajendra Nayak 2012-11-21  223  	void (*update_context_lost)(struct omap_hwmod *oh);
-e6d3a8b0bdcd8f Rajendra Nayak 2012-11-21  224  	int (*get_context_lost)(struct omap_hwmod *oh);
-9fabc1a26e37f8 Tero Kristo    2016-07-04  225  	int (*disable_direct_prcm)(struct omap_hwmod *oh);
-70f05be3213393 Tero Kristo    2017-05-31  226  	u32 (*xlate_clkctrl)(struct omap_hwmod *oh,
-70f05be3213393 Tero Kristo    2017-05-31  227  			     struct clkctrl_provider *provider);
-9ebfd285371835 Kevin Hilman   2012-06-18 @228  };
-9ebfd285371835 Kevin Hilman   2012-06-18  229  
-
-:::::: The code at line 228 was first introduced by commit
-:::::: 9ebfd285371835b1c0243d15aaacd72d5def76f8 ARM: OMAP2+: hwmod: use init-time function ptrs for enable/disable module
-
-:::::: TO: Kevin Hilman <khilman@ti.com>
-:::::: CC: Paul Walmsley <paul@pwsan.com>
+  3709	
+  3710	static void spi_nor_restore(struct spi_nor *nor)
+  3711	{
+  3712		u32 n_flash = 1;
+  3713		int ret;
+  3714		int idx;
+  3715	
+  3716		if (nor->num_flash)
+  3717			n_flash = nor->num_flash;
+  3718	
+  3719		/* restore the addressing mode */
+  3720		if (nor->addr_nbytes == 4 && !(nor->flags & SNOR_F_4B_OPCODES) &&
+  3721		    nor->flags & SNOR_F_BROKEN_RESET) {
+  3722			if (nor->flags & SNOR_F_HAS_PARALLEL) {
+  3723				/*
+  3724				 * In parallel mode both chip selects i.e., CS0 &
+  3725				 * CS1 need to be asserted simulatneously.
+  3726				 */
+  3727				nor->spimem->spi->cs_index_mask = SPI_NOR_ENABLE_MULTI_CS;
+  3728				spi_nor_set_4byte_addr_mode(nor, false);
+> 3729				if (ret)
+  3730					/*
+  3731					 * Do not stop the execution in the hope that the flash
+  3732					 * will default to the 3-byte address mode after the
+  3733					 * software reset.
+  3734					 */
+  3735					dev_err(nor->dev,
+  3736						"Failed to exit 4-byte address mode, err = %d\n",
+  3737						ret);
+  3738			} else {
+  3739				for (idx = 0; idx < n_flash; idx++) {
+  3740					/*
+  3741					 * Select the appropriate CS index before
+  3742					 * issuing the command.
+  3743					 */
+  3744					nor->spimem->spi->cs_index_mask = 1 << idx;
+  3745					ret = spi_nor_set_4byte_addr_mode(nor, false);
+  3746					if (ret)
+  3747						/*
+  3748						 * Do not stop the execution in the hope that the
+  3749						 * flash will default to the 3-byte address mode
+  3750						 * after the software reset.
+  3751						 */
+  3752						dev_err(nor->dev,
+  3753							"Failed to exit 4-byte address mode, err = %d\n",
+  3754							ret);
+  3755				}
+  3756			}
+  3757		}
+  3758	
+  3759		if (nor->flags & SNOR_F_SOFT_RESET)
+  3760			spi_nor_soft_reset(nor);
+  3761	}
+  3762	
 
 -- 
 0-DAY CI Kernel Test Service
