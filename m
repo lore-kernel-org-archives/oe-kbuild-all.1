@@ -1,46 +1,45 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489D78C19
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 07:43:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406A479E4;
+	Sat, 25 Nov 2023 07:43:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="irf9f2wY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PsnSvNNm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1700898228; x=1732434228;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HHBQQ9sAuAeDkffKPuCjV5Rjq/fSu1/PRBKJjxHnujY=;
-  b=irf9f2wY9BcKbHmzajG3z0bbz6LMb0LVBfYULQJxhpLMl3PAP+K98HO2
-   Yoegw8Nx8oZ8GIZbSGTIe1XOoK+CSSJpX/uxUkIDhy9aTmK/pVvUqa2vb
-   3OnSE4VnamJoAHeGbS0nt9a84z8QQG1RzjeidYODIU6IoMitOlKFsq/1E
-   J2gCtuxNmkGHoDuBnTT8WltOHflB3esyTdu+aeL13seNJx67GQBtW8KYj
-   np767sMHR/t4ebAY7zI3s8xWiQ8r585KR03JjcJwY92oPqLz//Sg29Ird
-   W/o21tyY8P7AT6XPmZ73m4QCasPy26/s4NTfRM+6h23N3HDuWVA9f9n5E
+  bh=N+1lsK9JYRgqwbWuguRK9UQNj/XktAIPgALMu5IKmno=;
+  b=PsnSvNNma0E7Woy+fxuBB6EJRm8AZH6Hh8nOIUIedJF38d4WXHG1oPBJ
+   pw+wYHff5Dct/mV0SM7f6qAiJ6Y8SW5G+LrYweA6YAQL51Uo0sTq9H4qm
+   /yIsgMXBAlQfuH6LdRiqWzI9x/s40tU1YgzCzTHhOulUuqEo/H0i4FeEB
+   IbO48tqcKdV0G7FfVihA1b+e1TZVyYgBMa8jbxQhR8Ef0fF458yojhXPt
+   2Ec/hau2IyYC/i7F6tjQKF00YWaCxWgqj+hL1mwxYltIbH6YhYhMshFs+
+   gu8Ksh63GF/G9pZXVn1IZy1pE2DqlszZnkS6/b8UmrsYQ4Vd5jqUQq9ec
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="395321543"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="395321544"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="395321543"
+   d="scan'208";a="395321544"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 23:43:42 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="9329668"
+   d="scan'208";a="9329661"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Nov 2023 23:43:41 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 24 Nov 2023 23:43:42 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6nKE-0003kT-3D;
-	Sat, 25 Nov 2023 07:43:38 +0000
-Date: Sat, 25 Nov 2023 15:42:39 +0800
+	id 1r6nKF-0003kW-1b;
+	Sat, 25 Nov 2023 07:43:39 +0000
+Date: Sat, 25 Nov 2023 15:42:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
-Subject: [intel-lts:6.1/linux 2284/2351] htmldocs:
- ./include/drm/drm_file.h:210: warning: Incorrect use of kernel-doc format:
-          * This is to enable advance gamma modes using
-Message-ID: <202311251426.zh2atk9d-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:x86/call-stuff 1/6] arch/x86/hyperv/ivm.c:329:19:
+ error: use of undeclared identifier 'secondary_startup_64_no_verify'
+Message-ID: <202311251428.ZyCst0xY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,256 +49,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.1/linux
-head:   b375c3f82247ffd48e5c37e98dafa086bc0eb81b
-commit: 696ae17877b16d2ba3232aaee4e455556c15ee62 [2284/2351] drm: Add Client Cap for advance gamma mode
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311251426.zh2atk9d-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/call-stuff
+head:   ac0f4d139bbe96e986974552a19dc7e4471ca955
+commit: 29a97db3b5ca8ca0a0519493e7dfa0c5c65ec181 [1/6] x86/boot: Remove verify_cpu() from secondary_startup_64()
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231125/202311251428.ZyCst0xY-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251428.ZyCst0xY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251426.zh2atk9d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311251428.ZyCst0xY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> ./include/drm/drm_file.h:210: warning: Incorrect use of kernel-doc format:          * This is to enable advance gamma modes using
->> ./include/drm/drm_file.h:385: warning: Function parameter or member 'advance_gamma_mode_active' not described in 'drm_file'
->> ./include/drm/drm_atomic.h:430: warning: Function parameter or member 'advance_gamma_mode_active' not described in 'drm_atomic_state'
->> ./include/drm/drm_crtc.h:161: warning: Incorrect use of kernel-doc format:          * This is to indicate advance gamma mode support
->> ./include/drm/drm_crtc.h:408: warning: Function parameter or member 'advance_gamma_mode_active' not described in 'drm_crtc_state'
->> ./include/drm/drm_crtc.h:1208: warning: Function parameter or member 'advance_gamma_mode_active' not described in 'drm_crtc'
+>> arch/x86/hyperv/ivm.c:329:19: error: use of undeclared identifier 'secondary_startup_64_no_verify'
+           vmsa->rip = (u64)secondary_startup_64_no_verify;
+                            ^
+   1 error generated.
 
-vim +210 ./include/drm/drm_file.h
 
-   158	
-   159	/**
-   160	 * struct drm_file - DRM file private data
-   161	 *
-   162	 * This structure tracks DRM state per open file descriptor.
-   163	 */
-   164	struct drm_file {
-   165		/**
-   166		 * @authenticated:
-   167		 *
-   168		 * Whether the client is allowed to submit rendering, which for legacy
-   169		 * nodes means it must be authenticated.
-   170		 *
-   171		 * See also the :ref:`section on primary nodes and authentication
-   172		 * <drm_primary_node>`.
-   173		 */
-   174		bool authenticated;
-   175	
-   176		/**
-   177		 * @stereo_allowed:
-   178		 *
-   179		 * True when the client has asked us to expose stereo 3D mode flags.
-   180		 */
-   181		bool stereo_allowed;
-   182	
-   183		/**
-   184		 * @universal_planes:
-   185		 *
-   186		 * True if client understands CRTC primary planes and cursor planes
-   187		 * in the plane list. Automatically set when @atomic is set.
-   188		 */
-   189		bool universal_planes;
-   190	
-   191		/** @atomic: True if client understands atomic properties. */
-   192		bool atomic;
-   193	
-   194		/**
-   195		 * @aspect_ratio_allowed:
-   196		 *
-   197		 * True, if client can handle picture aspect ratios, and has requested
-   198		 * to pass this information along with the mode.
-   199		 */
-   200		bool aspect_ratio_allowed;
-   201	
-   202		/**
-   203		 * @writeback_connectors:
-   204		 *
-   205		 * True if client understands writeback connectors
-   206		 */
-   207		bool writeback_connectors;
-   208	
-   209		/**
- > 210		 * This is to enable advance gamma modes using
-   211		 * gamma_mode property
-   212		 *
-   213		 * True if client understands advance gamma
-   214		 */
-   215		bool advance_gamma_mode_active : 1;
-   216	
-   217		/**
-   218		 * @was_master:
-   219		 *
-   220		 * This client has or had, master capability. Protected by struct
-   221		 * &drm_device.master_mutex.
-   222		 *
-   223		 * This is used to ensure that CAP_SYS_ADMIN is not enforced, if the
-   224		 * client is or was master in the past.
-   225		 */
-   226		bool was_master;
-   227	
-   228		/**
-   229		 * @is_master:
-   230		 *
-   231		 * This client is the creator of @master. Protected by struct
-   232		 * &drm_device.master_mutex.
-   233		 *
-   234		 * See also the :ref:`section on primary nodes and authentication
-   235		 * <drm_primary_node>`.
-   236		 */
-   237		bool is_master;
-   238	
-   239		/**
-   240		 * @master:
-   241		 *
-   242		 * Master this node is currently associated with. Protected by struct
-   243		 * &drm_device.master_mutex, and serialized by @master_lookup_lock.
-   244		 *
-   245		 * Only relevant if drm_is_primary_client() returns true. Note that
-   246		 * this only matches &drm_device.master if the master is the currently
-   247		 * active one.
-   248		 *
-   249		 * To update @master, both &drm_device.master_mutex and
-   250		 * @master_lookup_lock need to be held, therefore holding either of
-   251		 * them is safe and enough for the read side.
-   252		 *
-   253		 * When dereferencing this pointer, either hold struct
-   254		 * &drm_device.master_mutex for the duration of the pointer's use, or
-   255		 * use drm_file_get_master() if struct &drm_device.master_mutex is not
-   256		 * currently held and there is no other need to hold it. This prevents
-   257		 * @master from being freed during use.
-   258		 *
-   259		 * See also @authentication and @is_master and the :ref:`section on
-   260		 * primary nodes and authentication <drm_primary_node>`.
-   261		 */
-   262		struct drm_master *master;
-   263	
-   264		/** @master_lookup_lock: Serializes @master. */
-   265		spinlock_t master_lookup_lock;
-   266	
-   267		/** @pid: Process that opened this file. */
-   268		struct pid *pid;
-   269	
-   270		/** @client_id: A unique id for fdinfo */
-   271		u64 client_id;
-   272	
-   273		/** @magic: Authentication magic, see @authenticated. */
-   274		drm_magic_t magic;
-   275	
-   276		/**
-   277		 * @lhead:
-   278		 *
-   279		 * List of all open files of a DRM device, linked into
-   280		 * &drm_device.filelist. Protected by &drm_device.filelist_mutex.
-   281		 */
-   282		struct list_head lhead;
-   283	
-   284		/** @minor: &struct drm_minor for this file. */
-   285		struct drm_minor *minor;
-   286	
-   287		/**
-   288		 * @object_idr:
-   289		 *
-   290		 * Mapping of mm object handles to object pointers. Used by the GEM
-   291		 * subsystem. Protected by @table_lock.
-   292		 */
-   293		struct idr object_idr;
-   294	
-   295		/** @table_lock: Protects @object_idr. */
-   296		spinlock_t table_lock;
-   297	
-   298		/** @syncobj_idr: Mapping of sync object handles to object pointers. */
-   299		struct idr syncobj_idr;
-   300		/** @syncobj_table_lock: Protects @syncobj_idr. */
-   301		spinlock_t syncobj_table_lock;
-   302	
-   303		/** @filp: Pointer to the core file structure. */
-   304		struct file *filp;
-   305	
-   306		/**
-   307		 * @driver_priv:
-   308		 *
-   309		 * Optional pointer for driver private data. Can be allocated in
-   310		 * &drm_driver.open and should be freed in &drm_driver.postclose.
-   311		 */
-   312		void *driver_priv;
-   313	
-   314		/**
-   315		 * @fbs:
-   316		 *
-   317		 * List of &struct drm_framebuffer associated with this file, using the
-   318		 * &drm_framebuffer.filp_head entry.
-   319		 *
-   320		 * Protected by @fbs_lock. Note that the @fbs list holds a reference on
-   321		 * the framebuffer object to prevent it from untimely disappearing.
-   322		 */
-   323		struct list_head fbs;
-   324	
-   325		/** @fbs_lock: Protects @fbs. */
-   326		struct mutex fbs_lock;
-   327	
-   328		/**
-   329		 * @blobs:
-   330		 *
-   331		 * User-created blob properties; this retains a reference on the
-   332		 * property.
-   333		 *
-   334		 * Protected by @drm_mode_config.blob_lock;
-   335		 */
-   336		struct list_head blobs;
-   337	
-   338		/** @event_wait: Waitqueue for new events added to @event_list. */
-   339		wait_queue_head_t event_wait;
-   340	
-   341		/**
-   342		 * @pending_event_list:
-   343		 *
-   344		 * List of pending &struct drm_pending_event, used to clean up pending
-   345		 * events in case this file gets closed before the event is signalled.
-   346		 * Uses the &drm_pending_event.pending_link entry.
-   347		 *
-   348		 * Protect by &drm_device.event_lock.
-   349		 */
-   350		struct list_head pending_event_list;
-   351	
-   352		/**
-   353		 * @event_list:
-   354		 *
-   355		 * List of &struct drm_pending_event, ready for delivery to userspace
-   356		 * through drm_read(). Uses the &drm_pending_event.link entry.
-   357		 *
-   358		 * Protect by &drm_device.event_lock.
-   359		 */
-   360		struct list_head event_list;
-   361	
-   362		/**
-   363		 * @event_space:
-   364		 *
-   365		 * Available event space to prevent userspace from
-   366		 * exhausting kernel memory. Currently limited to the fairly arbitrary
-   367		 * value of 4KB.
-   368		 */
-   369		int event_space;
-   370	
-   371		/** @event_read_lock: Serializes drm_read(). */
-   372		struct mutex event_read_lock;
-   373	
-   374		/**
-   375		 * @prime:
-   376		 *
-   377		 * Per-file buffer caches used by the PRIME buffer sharing code.
-   378		 */
-   379		struct drm_prime_file_private prime;
-   380	
-   381		/* private: */
-   382	#if IS_ENABLED(CONFIG_DRM_LEGACY)
-   383		unsigned long lock_count; /* DRI1 legacy lock count */
-   384	#endif
- > 385	};
-   386	
+vim +/secondary_startup_64_no_verify +329 arch/x86/hyperv/ivm.c
+
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  290  
+92fe9bb77b0c9f Ingo Molnar 2023-10-13  291  int hv_snp_boot_ap(u32 cpu, unsigned long start_ip)
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  292  {
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  293  	struct sev_es_save_area *vmsa = (struct sev_es_save_area *)
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  294  		__get_free_page(GFP_KERNEL | __GFP_ZERO);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  295  	struct sev_es_save_area *cur_vmsa;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  296  	struct desc_ptr gdtr;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  297  	u64 ret, retry = 5;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  298  	struct hv_enable_vp_vtl *start_vp_input;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  299  	unsigned long flags;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  300  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  301  	if (!vmsa)
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  302  		return -ENOMEM;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  303  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  304  	native_store_gdt(&gdtr);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  305  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  306  	vmsa->gdtr.base = gdtr.address;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  307  	vmsa->gdtr.limit = gdtr.size;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  308  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  309  	asm volatile("movl %%es, %%eax;" : "=a" (vmsa->es.selector));
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  310  	hv_populate_vmcb_seg(vmsa->es, vmsa->gdtr.base);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  311  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  312  	asm volatile("movl %%cs, %%eax;" : "=a" (vmsa->cs.selector));
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  313  	hv_populate_vmcb_seg(vmsa->cs, vmsa->gdtr.base);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  314  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  315  	asm volatile("movl %%ss, %%eax;" : "=a" (vmsa->ss.selector));
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  316  	hv_populate_vmcb_seg(vmsa->ss, vmsa->gdtr.base);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  317  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  318  	asm volatile("movl %%ds, %%eax;" : "=a" (vmsa->ds.selector));
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  319  	hv_populate_vmcb_seg(vmsa->ds, vmsa->gdtr.base);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  320  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  321  	vmsa->efer = native_read_msr(MSR_EFER);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  322  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  323  	asm volatile("movq %%cr4, %%rax;" : "=a" (vmsa->cr4));
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  324  	asm volatile("movq %%cr3, %%rax;" : "=a" (vmsa->cr3));
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  325  	asm volatile("movq %%cr0, %%rax;" : "=a" (vmsa->cr0));
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  326  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  327  	vmsa->xcr0 = 1;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  328  	vmsa->g_pat = HV_AP_INIT_GPAT_DEFAULT;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24 @329  	vmsa->rip = (u64)secondary_startup_64_no_verify;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  330  	vmsa->rsp = (u64)&ap_start_stack[PAGE_SIZE];
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  331  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  332  	/*
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  333  	 * Set the SNP-specific fields for this VMSA:
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  334  	 *   VMPL level
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  335  	 *   SEV_FEATURES (matches the SEV STATUS MSR right shifted 2 bits)
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  336  	 */
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  337  	vmsa->vmpl = 0;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  338  	vmsa->sev_features = sev_status >> 2;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  339  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  340  	ret = snp_set_vmsa(vmsa, true);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  341  	if (!ret) {
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  342  		pr_err("RMPADJUST(%llx) failed: %llx\n", (u64)vmsa, ret);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  343  		free_page((u64)vmsa);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  344  		return ret;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  345  	}
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  346  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  347  	local_irq_save(flags);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  348  	start_vp_input = (struct hv_enable_vp_vtl *)ap_start_input_arg;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  349  	memset(start_vp_input, 0, sizeof(*start_vp_input));
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  350  	start_vp_input->partition_id = -1;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  351  	start_vp_input->vp_index = cpu;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  352  	start_vp_input->target_vtl.target_vtl = ms_hyperv.vtl;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  353  	*(u64 *)&start_vp_input->vp_context = __pa(vmsa) | 1;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  354  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  355  	do {
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  356  		ret = hv_do_hypercall(HVCALL_START_VP,
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  357  				      start_vp_input, NULL);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  358  	} while (hv_result(ret) == HV_STATUS_TIME_OUT && retry--);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  359  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  360  	local_irq_restore(flags);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  361  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  362  	if (!hv_result_success(ret)) {
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  363  		pr_err("HvCallStartVirtualProcessor failed: %llx\n", ret);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  364  		snp_cleanup_vmsa(vmsa);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  365  		vmsa = NULL;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  366  	}
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  367  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  368  	cur_vmsa = per_cpu(hv_sev_vmsa, cpu);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  369  	/* Free up any previous VMSA page */
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  370  	if (cur_vmsa)
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  371  		snp_cleanup_vmsa(cur_vmsa);
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  372  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  373  	/* Record the current VMSA page */
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  374  	per_cpu(hv_sev_vmsa, cpu) = vmsa;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  375  
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  376  	return ret;
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  377  }
+a67f6b60d6ed95 Dexuan Cui  2023-08-24  378  
+
+:::::: The code at line 329 was first introduced by commit
+:::::: a67f6b60d6ed953d5b23a22f26fc916aab630aaa x86/hyperv: Move the code in ivm.c around to avoid unnecessary ifdef's
+
+:::::: TO: Dexuan Cui <decui@microsoft.com>
+:::::: CC: Wei Liu <wei.liu@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
