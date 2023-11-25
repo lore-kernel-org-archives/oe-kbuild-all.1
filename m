@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C236211708
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 13:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0903CDDCB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 15:01:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6MnUOQY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YahqxB7b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700918946; x=1732454946;
+  t=1700924493; x=1732460493;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e0N3ww45C8WxHVExbEuFz/9TSndYLJkF2aAOKqOC12U=;
-  b=Y6MnUOQYS2av2Z1fqO/hYUMfvL1TkDseTJXJCsPbOeIxp03j6ron/iBg
-   +K+8fgv2d2l97gAt1vJ+exUKVZ+JiT1oPi55YlE/Lw9TBjcr7Wtzu4PV6
-   IaK8CjCcPG9a3/ENhjsd++PwOajDOi9nsuNOc71WhlapZl8fagcBlcp54
-   4JisIL9xpHpCE44Ty7y5bEQ1VkbG3853NczWDkuBbfddbM5nQ0fivViJu
-   V0lOeD3qBsGWDHBswF/Se+pecsoLMDxlBDjQf1GEpV8XSgZ2Q582IM+yS
-   CCph0E9WL7/5E2/swBK3Q6Hg9XkN/ZNS0jtPHIZMLPGW+/rc7Tlz4UM/+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="372667768"
+  bh=bR4/NLnAkxO/N2pV3HU+9K7s8T/yX3HbmvNxu1UjHyc=;
+  b=YahqxB7bU/onQJZmKcUktnqsL7BdpKhehXR3CJ+wh5TaVTNC0YMzTdhY
+   swZtL2xJpq22AgaQp3KtNmAyM2NFbpHfiB9De46xXRHLQyBUUExMpTcho
+   s+HPGStRzUN+j31FCFsw+lokZ2B6CbjfLrikYM2/GFONKD4VsW+EDAOy5
+   UvZTzyChmKhzLzIeBInFkNW+uYXdmlu18bmlqzcnGPFakmJG0SxqLknU4
+   VXquoiN9qTG50v8zJcBKeOczLTSz8bGeypnenM27xtskQtbwvF5dUnWN1
+   DgULbMK3eR+z3XfaUQMoSlQckVQBYQammGdTgqxUaKoJLEwAuUhgwqHMm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="377562197"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="372667768"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 05:29:02 -0800
+   d="scan'208";a="377562197"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 07:01:32 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="796829560"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="9369469"
+   d="scan'208";a="796829560"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Nov 2023 05:29:01 -0800
+  by orsmga008.jf.intel.com with ESMTP; 25 Nov 2023 07:01:30 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6siR-00043W-06;
-	Sat, 25 Nov 2023 13:28:59 +0000
-Date: Sat, 25 Nov 2023 21:28:56 +0800
+	id 1r6u9w-00046u-0u;
+	Sat, 25 Nov 2023 15:01:28 +0000
+Date: Sat, 25 Nov 2023 23:00:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 65/65] powerpc64-linux-ld: xfs_aops.c:undefined
- reference to `xfs_zone_alloc_blocks'
-Message-ID: <202311252006.0dIBxllQ-lkp@intel.com>
+To: Luben Tuikov <ltuikov89@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: [drm-misc:for-linux-next 2/3]
+ drivers/gpu/drm/nouveau/nouveau_sched.c:21:34: error: use of undeclared
+ identifier 'DRM_SCHED_PRIORITY_MIN'
+Message-ID: <202311252109.WgbJsSkG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,32 +52,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   f5b3c0ffa575a5035e6d607b616c05638ed48937
-commit: f5b3c0ffa575a5035e6d607b616c05638ed48937 [65/65] xfs: support zoned RT devices
-config: powerpc64-randconfig-001-20231125 (https://download.01.org/0day-ci/archive/20231125/202311252006.0dIBxllQ-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311252006.0dIBxllQ-lkp@intel.com/reproduce)
+Hi Luben,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   38f922a563aac3148ac73e73689805917f034cb5
+commit: fe375c74806dbd30b00ec038a80a5b7bf4653ab7 [2/3] drm/sched: Rename priority MIN to LOW
+config: x86_64-randconfig-123-20231125 (https://download.01.org/0day-ci/archive/20231125/202311252109.WgbJsSkG-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311252109.WgbJsSkG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311252006.0dIBxllQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311252109.WgbJsSkG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `xfs_zone_finish_alloc'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: fs/xfs/xfs_aops.o: in function `xfs_zoned_map_blocks':
-   xfs_aops.c:(.text+0x604): undefined reference to `xfs_zone_alloc_blocks'
->> powerpc64-linux-ld: xfs_aops.c:(.text+0x6d0): undefined reference to `xfs_zone_alloc_blocks'
-   powerpc64-linux-ld: fs/xfs/xfs_aops.o: in function `xfs_zoned_rewrite_range':
-   xfs_aops.c:(.text+0x2004): undefined reference to `xfs_zone_finish_alloc'
-   powerpc64-linux-ld: fs/xfs/xfs_super.o: in function `xfs_fs_show_stats':
-   xfs_super.c:(.text+0xb08): undefined reference to `xfs_zoned_show_stats'
+>> drivers/gpu/drm/nouveau/nouveau_sched.c:21:34: error: use of undeclared identifier 'DRM_SCHED_PRIORITY_MIN'
+           NOUVEAU_SCHED_PRIORITY_SINGLE = DRM_SCHED_PRIORITY_MIN,
+                                           ^
+   drivers/gpu/drm/nouveau/nouveau_sched.c:436:38: error: use of undeclared identifier 'DRM_SCHED_PRIORITY_MIN'
+           ret = drm_sched_entity_init(entity, DRM_SCHED_PRIORITY_MIN,
+                                               ^
+   2 errors generated.
+
+
+vim +/DRM_SCHED_PRIORITY_MIN +21 drivers/gpu/drm/nouveau/nouveau_sched.c
+
+b88baab828713c Danilo Krummrich 2023-08-04  16  
+5f03a507b29e44 Danilo Krummrich 2023-11-14  17  /* Starts at 0, since the DRM scheduler interprets those parameters as (initial)
+5f03a507b29e44 Danilo Krummrich 2023-11-14  18   * index to the run-queue array.
+5f03a507b29e44 Danilo Krummrich 2023-11-14  19   */
+5f03a507b29e44 Danilo Krummrich 2023-11-14  20  enum nouveau_sched_priority {
+5f03a507b29e44 Danilo Krummrich 2023-11-14 @21  	NOUVEAU_SCHED_PRIORITY_SINGLE = DRM_SCHED_PRIORITY_MIN,
+5f03a507b29e44 Danilo Krummrich 2023-11-14  22  	NOUVEAU_SCHED_PRIORITY_COUNT,
+5f03a507b29e44 Danilo Krummrich 2023-11-14  23  };
+5f03a507b29e44 Danilo Krummrich 2023-11-14  24  
+
+:::::: The code at line 21 was first introduced by commit
+:::::: 5f03a507b29e44a848f315c7240c19894dd8be4f drm/nouveau: implement 1:1 scheduler - entity relationship
+
+:::::: TO: Danilo Krummrich <dakr@redhat.com>
+:::::: CC: Danilo Krummrich <dakr@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
