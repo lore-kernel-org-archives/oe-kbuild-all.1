@@ -1,142 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB21D2FE3D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 20:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2225B1426C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 20:57:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDtNFE6l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700942453; x=1732478453;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mpJPZbnlB++0pfKcK61vyQxNXtYXyj1Pv2g2mZivN6w=;
-  b=kDtNFE6l6FOUUIeoEKsgWMgnvm0EelF7f6OIFa7ihsqjd75yCDQPQ0Zi
-   Wo1MsFUrhdfvkh83/kvQaO1AIPyr7uIzhFuODG/xmSuFawey2JeUDsl0X
-   6SaJbvGQ6SPK6Y91b84V2wjhYhzYlIi5+emH4AmRkSIb2jdfePDb6JzER
-   gsgfJmtqgP0OamKA4SxtU/FQakb5h+NEomnMBMHWC12gNjFf4udXMsac7
-   O35glkekNgkqmxskLd1oA7VdIABa3Z4EE46nDBsIIAwo1DBnlFzjgRa5g
-   UyURGrD/Yc6SjWJDF2L5ge2XrJEv0P9nvCo5UqmWboIZTfwEg2Y0X5Bf6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="391398665"
-X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="391398665"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 12:00:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="891332352"
-X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="891332352"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 25 Nov 2023 12:00:46 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r6ypY-0004Me-0y;
-	Sat, 25 Nov 2023 20:00:44 +0000
-Date: Sun, 26 Nov 2023 04:00:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rong Tao <rtoax@foxmail.com>, Andrew Morton <akpm@linux-foundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Florent Revest <revest@chromium.org>,
-	Kees Cook <keescook@chromium.org>,
-	David Hildenbrand <david@redhat.com>,
-	Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Joey Gouly <joey.gouly@arm.com>, Oleg Nesterov <oleg@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Ondrej Mosnacek <omosnace@redhat.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	rtoax@foxmail.com, rongtao@cestc.cn
-Subject: Re: [PATCH] prctl: Get private anonymous memory region name
-Message-ID: <202311260314.iuUprWJb-lkp@intel.com>
-References: <tencent_977CBF8E8CA6234A1B740A35655D5D7EAA0A@qq.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="USmjEayG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93962C433C9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 20:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700945860;
+	bh=s+qnZklBGeT9VCm9MJs9Q+c7IfNN7xWSaLeqJM6SF/w=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=USmjEayGlqLpla/6QxWFNKr2fAV/HSZYHKgi1Zs3jhRmLKN1S0b2WFvVfNCdirV9W
+	 n54gTeuNogyd0p+kfDTlLaq07vGnU0Teworo5IzieZJmOCVDrATPbZa6cTa+B+k/7f
+	 GYNjCIeKLJqEyR8i/msQSs6jfGIzYRK3irDETsS8/+js4l93smfN9noGsJaXFyhKfb
+	 9LLbw4B+y36GpqUk6CFwAKAoNmBZgOXjYm35IukCRQahhZfNhyqkR+iZI5Lq2PwOnk
+	 TentAVfH8jfdSmNL14buzR3gxf0wibXStxoHtnT9+3q2gaCoGBHJ1Iqi6DdVFKsbjy
+	 fIUP3I+GMV15g==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-507ad511315so4197954e87.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 12:57:40 -0800 (PST)
+X-Gm-Message-State: AOJu0YwiWUHKBfRG+A58JWeSDfAwhuwkljnov1Caczxx3q1imDF7H+kP
+	aVmhA0NjyeWvoealZJb70QBcjTfUtQCU3gIblFE=
+X-Google-Smtp-Source: AGHT+IF1rpkJd7U2JeXNRXi+biVamnrX0pSXbQXr+A5sQV0LaphEYc4jMdt9xh5zh8oTjgCNgNbT+qug3v6y5cENlko=
+X-Received: by 2002:ac2:5390:0:b0:509:4405:d5a8 with SMTP id
+ g16-20020ac25390000000b005094405d5a8mr4076274lfh.68.1700945858781; Sat, 25
+ Nov 2023 12:57:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_977CBF8E8CA6234A1B740A35655D5D7EAA0A@qq.com>
+References: <20231123233936.3079687-6-song@kernel.org> <202311242013.8tAOSgat-lkp@intel.com>
+In-Reply-To: <202311242013.8tAOSgat-lkp@intel.com>
+From: Song Liu <song@kernel.org>
+Date: Sat, 25 Nov 2023 12:57:26 -0800
+X-Gmail-Original-Message-ID: <CAPhsuW6NhihzM5h50yvU9pKtQ6PkWegFqG167rzWvhPa-cGdxA@mail.gmail.com>
+Message-ID: <CAPhsuW6NhihzM5h50yvU9pKtQ6PkWegFqG167rzWvhPa-cGdxA@mail.gmail.com>
+Subject: Re: [PATCH v13 bpf-next 5/6] selftests/bpf: Add tests for filesystem kfuncs
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rong,
+On Fri, Nov 24, 2023 at 7:42=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Song,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on bpf-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/bpf-Add-k=
+func-bpf_get_file_xattr/20231124-074239
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20231123233936.3079687-6-song%40=
+kernel.org
+> patch subject: [PATCH v13 bpf-next 5/6] selftests/bpf: Add tests for file=
+system kfuncs
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20231124/202311242013.8tAOSgat-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311242013.8tAOSgat-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> progs/test_fsverity.c:16:22: error: invalid application of 'sizeof' to=
+ an incomplete type 'struct fsverity_digest'
+>       16 | char expected_digest[sizeof(struct fsverity_digest) + SHA256_D=
+IGEST_SIZE];
+>          |                      ^     ~~~~~~~~~~~~~~~~~~~~~~~~
+>    progs/test_fsverity.c:16:36: note: forward declaration of 'struct fsve=
+rity_digest'
+>       16 | char expected_digest[sizeof(struct fsverity_digest) + SHA256_D=
+IGEST_SIZE];
+>          |                                    ^
+>    progs/test_fsverity.c:17:13: error: invalid application of 'sizeof' to=
+ an incomplete type 'struct fsverity_digest'
+>       17 | char digest[sizeof(struct fsverity_digest) + SHA256_DIGEST_SIZ=
+E];
+>          |             ^     ~~~~~~~~~~~~~~~~~~~~~~~~
+>    progs/test_fsverity.c:16:36: note: forward declaration of 'struct fsve=
+rity_digest'
+>       16 | char expected_digest[sizeof(struct fsverity_digest) + SHA256_D=
+IGEST_SIZE];
+>          |                                    ^
+>    2 errors generated.
 
-kernel test robot noticed the following build warnings:
+In the patch, I added CONFIG_FS_VERITY to the config
+(tools/testing/selftests/bpf/config). I guess the test robot didn't update
+the config accordingly?
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.7-rc2 next-20231124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Tao/prctl-Get-private-anonymous-memory-region-name/20231125-220925
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/tencent_977CBF8E8CA6234A1B740A35655D5D7EAA0A%40qq.com
-patch subject: [PATCH] prctl: Get private anonymous memory region name
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231126/202311260314.iuUprWJb-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311260314.iuUprWJb-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311260314.iuUprWJb-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   kernel/sys.c: In function 'prctl_get_vma':
->> kernel/sys.c:2389:35: warning: passing argument 1 of 'anon_vma_name_put' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    2389 |                 anon_vma_name_put(anon_name);
-         |                                   ^~~~~~~~~
-   In file included from kernel/sys.c:10:
-   include/linux/mm_inline.h:363:60: note: expected 'struct anon_vma_name *' but argument is of type 'const struct anon_vma_name *'
-     363 | static inline void anon_vma_name_put(struct anon_vma_name *anon_name)
-         |                                      ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-
-
-vim +2389 kernel/sys.c
-
-  2361	
-  2362	static int prctl_get_vma(unsigned long opt, unsigned long addr,
-  2363				 unsigned long buf, unsigned long arg)
-  2364	{
-  2365		struct mm_struct *mm = current->mm;
-  2366		const char __user *u_buf;
-  2367		int error;
-  2368	
-  2369		switch (opt) {
-  2370		case PR_GET_VMA_ANON_NAME:
-  2371			const struct anon_vma_name *anon_name = NULL;
-  2372	
-  2373			u_buf = (const char __user *)buf;
-  2374			error = 0;
-  2375	
-  2376			mmap_read_lock(mm);
-  2377			anon_name = madvise_get_anon_name(mm, addr);
-  2378			if (!anon_name) {
-  2379				mmap_read_unlock(mm);
-  2380				error = -EFAULT;
-  2381				break;
-  2382			}
-  2383	
-  2384			if (copy_to_user((char __user *)u_buf, anon_name->name,
-  2385					 strlen(anon_name->name) + 1))
-  2386				error = -EFAULT;
-  2387	
-  2388			mmap_read_unlock(mm);
-> 2389			anon_vma_name_put(anon_name);
-  2390			break;
-  2391		default:
-  2392			error = -EINVAL;
-  2393		}
-  2394		return error;
-  2395	}
-  2396	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Song
