@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C497B65F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 09:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE079460
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 09:11:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T9ao/kb9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JpqN0p7b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700903427; x=1732439427;
+  t=1700903483; x=1732439483;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yK9LU8ND1FXteKCwpoDe1RrR1gtxAZQDQP0gx0ikn3o=;
-  b=T9ao/kb9kWOmPas0r/kjZ5IX/zxb4btVwUpZIVRy1JsKhryM7TYiHypN
-   +8lF9scSDKkxCLL1k3WaBdHya0IcduoK6TBJjybxmNiElkUkegf5NGcZF
-   XKvqTa+JpVZfiIDdLs/+scpExlqg/ILKef9bLtlYEbQiv8wnmrsangM3/
-   xbXAj3JlnSDQaRFcK9hE5bPcFTxHG3yjAufTJvEoxFW/AZBg6XOkQt7Ti
-   8t9VTcKisjQOhPyqbLxEXFghS4Hn707RyzpZiWE1yo5i1Gv/oOKe7SnRL
-   bxZoAw4wdYHoHRC/Cyi//N0+5R/mZIQ3YpuCKgEsI4weINrYo+hToHC3l
+  bh=DGfDJ02Ox5wL4euJWKuZa5L2Clxu2bvup54WShmD53Q=;
+  b=JpqN0p7b/turL2kCFIiYP2pcA4kydLyOWStqieEx5TybCwHO8f6cG7nW
+   hW/1mD7urGMKteyvxtYngaeycbNTEUwA7AphTnDnCd/uvhN/LC/3NBdZC
+   526aNuOuIdtAMlm1J9alL5UzilrjKexrtNS2QtmqOnphoxUa5YuwXHkzP
+   1nT7FiF6mHhj+nIubR8sqg+xNTATBIG7bVJ9w7cTr3yL8n9wlXCbH8G5m
+   ND+nVaWlYtuJ90yxASGcgqXe+DvY1mkz2Rhn0DIt4M3TgPJR7K72QOIN9
+   vso/W/aiBX8sM3R/NF93F09G8xuKMbIcjsCFZCdzrZo7Q1A7ZZEI4leSL
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="392268724"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5659799"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="392268724"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 01:10:19 -0800
+   d="scan'208";a="5659799"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 01:11:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="1099303468"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="717565996"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="1099303468"
+   d="scan'208";a="717565996"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Nov 2023 01:10:18 -0800
+  by orsmga003.jf.intel.com with ESMTP; 25 Nov 2023 01:11:21 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6og4-0003p6-0g;
-	Sat, 25 Nov 2023 09:10:16 +0000
-Date: Sat, 25 Nov 2023 17:10:07 +0800
+	id 1r6oh5-0003pJ-0l;
+	Sat, 25 Nov 2023 09:11:19 +0000
+Date: Sat, 25 Nov 2023 17:10:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumit Saxena <sumit.saxena@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: [mkp-scsi:for-next 39/47]
- drivers/scsi/mpi3mr/mpi3mr_transport.c:1818:1: warning: the frame size of
- 1608 bytes is larger than 1024 bytes
-Message-ID: <202311251655.hEKB1f2y-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-zoned 22/65] mm/readahead.c:207: warning: expecting
+ prototype for page_cache_ra_unbounded(). Prototype was for
+ __page_cache_ra_unbounded() instead
+Message-ID: <202311251734.W7hOCgfW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,199 +51,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Sumit,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-head:   6bae38ddd3a8dffbc35d6c637f58c3710f65d54e
-commit: cb5b60894602b12a63d3e08be88eaf26b2603c19 [39/47] scsi: mpi3mr: Increase maximum number of PHYs to 64 from 32
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20231125/202311251655.hEKB1f2y-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251655.hEKB1f2y-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
+head:   f5b3c0ffa575a5035e6d607b616c05638ed48937
+commit: f6d545fc00300ddfd3e297d17e4f229ad2f15c3e [22/65] readahead: add an unlocked version of __page_cache_ra_unbounded
+config: arc-randconfig-002-20231125 (https://download.01.org/0day-ci/archive/20231125/202311251734.W7hOCgfW-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251734.W7hOCgfW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251655.hEKB1f2y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311251734.W7hOCgfW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/scsi/mpi3mr/mpi3mr_transport.c: In function 'mpi3mr_refresh_sas_ports':
->> drivers/scsi/mpi3mr/mpi3mr_transport.c:1818:1: warning: the frame size of 1608 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1818 | }
-         | ^
+>> mm/readahead.c:207: warning: expecting prototype for page_cache_ra_unbounded(). Prototype was for __page_cache_ra_unbounded() instead
 
 
-vim +1818 drivers/scsi/mpi3mr/mpi3mr_transport.c
+vim +207 mm/readahead.c
 
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1659  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1660  /**
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1661   * mpi3mr_refresh_sas_ports - update host's sas ports during reset
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1662   * @mrioc: Adapter instance reference
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1663   *
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1664   * Update the host's sas ports during reset by checking whether
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1665   * sas ports are still intact or not. Add/remove phys if any hba
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1666   * phys are (moved in)/(moved out) of sas port. Also update
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1667   * io_unit_port if it got changed during reset.
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1668   *
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1669   * Return: Nothing.
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1670   */
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1671  void
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1672  mpi3mr_refresh_sas_ports(struct mpi3mr_ioc *mrioc)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1673  {
-cb5b60894602b1 Sumit Saxena    2023-11-23  1674  	struct host_port h_port[64];
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1675  	int i, j, found, host_port_count = 0, port_idx;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1676  	u16 sz, attached_handle, ioc_status;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1677  	struct mpi3_sas_io_unit_page0 *sas_io_unit_pg0 = NULL;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1678  	struct mpi3_device_page0 dev_pg0;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1679  	struct mpi3_device0_sas_sata_format *sasinf;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1680  	struct mpi3mr_sas_port *mr_sas_port;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1681  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1682  	sz = offsetof(struct mpi3_sas_io_unit_page0, phy_data) +
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1683  		(mrioc->sas_hba.num_phys *
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1684  		 sizeof(struct mpi3_sas_io_unit0_phy_data));
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1685  	sas_io_unit_pg0 = kzalloc(sz, GFP_KERNEL);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1686  	if (!sas_io_unit_pg0)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1687  		return;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1688  	if (mpi3mr_cfg_get_sas_io_unit_pg0(mrioc, sas_io_unit_pg0, sz)) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1689  		ioc_err(mrioc, "failure at %s:%d/%s()!\n",
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1690  		    __FILE__, __LINE__, __func__);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1691  		goto out;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1692  	}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1693  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1694  	/* Create a new expander port table */
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1695  	for (i = 0; i < mrioc->sas_hba.num_phys; i++) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1696  		attached_handle = le16_to_cpu(
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1697  		    sas_io_unit_pg0->phy_data[i].attached_dev_handle);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1698  		if (!attached_handle)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1699  			continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1700  		found = 0;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1701  		for (j = 0; j < host_port_count; j++) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1702  			if (h_port[j].handle == attached_handle) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1703  				h_port[j].phy_mask |= (1 << i);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1704  				found = 1;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1705  				break;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1706  			}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1707  		}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1708  		if (found)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1709  			continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1710  		if ((mpi3mr_cfg_get_dev_pg0(mrioc, &ioc_status, &dev_pg0,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1711  		    sizeof(dev_pg0), MPI3_DEVICE_PGAD_FORM_HANDLE,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1712  		    attached_handle))) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1713  			dprint_reset(mrioc,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1714  			    "failed to read dev_pg0 for handle(0x%04x) at %s:%d/%s()!\n",
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1715  			    attached_handle, __FILE__, __LINE__, __func__);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1716  			continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1717  		}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1718  		if (ioc_status != MPI3_IOCSTATUS_SUCCESS) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1719  			dprint_reset(mrioc,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1720  			    "ioc_status(0x%x) while reading dev_pg0 for handle(0x%04x) at %s:%d/%s()!\n",
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1721  			    ioc_status, attached_handle,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1722  			    __FILE__, __LINE__, __func__);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1723  			continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1724  		}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1725  		sasinf = &dev_pg0.device_specific.sas_sata_format;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1726  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1727  		port_idx = host_port_count;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1728  		h_port[port_idx].sas_address = le64_to_cpu(sasinf->sas_address);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1729  		h_port[port_idx].handle = attached_handle;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1730  		h_port[port_idx].phy_mask = (1 << i);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1731  		h_port[port_idx].iounit_port_id = sas_io_unit_pg0->phy_data[i].io_unit_port;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1732  		h_port[port_idx].lowest_phy = sasinf->phy_num;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1733  		h_port[port_idx].used = 0;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1734  		host_port_count++;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1735  	}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1736  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1737  	if (!host_port_count)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1738  		goto out;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1739  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1740  	if (mrioc->logging_level & MPI3_DEBUG_RESET) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1741  		ioc_info(mrioc, "Host port details before reset\n");
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1742  		list_for_each_entry(mr_sas_port, &mrioc->sas_hba.sas_port_list,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1743  		    port_list) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1744  			ioc_info(mrioc,
-cb5b60894602b1 Sumit Saxena    2023-11-23  1745  			    "port_id:%d, sas_address:(0x%016llx), phy_mask:(0x%llx), lowest phy id:%d\n",
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1746  			    mr_sas_port->hba_port->port_id,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1747  			    mr_sas_port->remote_identify.sas_address,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1748  			    mr_sas_port->phy_mask, mr_sas_port->lowest_phy);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1749  		}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1750  		mr_sas_port = NULL;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1751  		ioc_info(mrioc, "Host port details after reset\n");
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1752  		for (i = 0; i < host_port_count; i++) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1753  			ioc_info(mrioc,
-cb5b60894602b1 Sumit Saxena    2023-11-23  1754  			    "port_id:%d, sas_address:(0x%016llx), phy_mask:(0x%llx), lowest phy id:%d\n",
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1755  			    h_port[i].iounit_port_id, h_port[i].sas_address,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1756  			    h_port[i].phy_mask, h_port[i].lowest_phy);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1757  		}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1758  	}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1759  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1760  	/* mark all host sas port entries as dirty */
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1761  	list_for_each_entry(mr_sas_port, &mrioc->sas_hba.sas_port_list,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1762  	    port_list) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1763  		mr_sas_port->marked_responding = 0;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1764  		mr_sas_port->hba_port->flags |= MPI3MR_HBA_PORT_FLAG_DIRTY;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1765  	}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1766  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1767  	/* First check for matching lowest phy */
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1768  	for (i = 0; i < host_port_count; i++) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1769  		mr_sas_port = NULL;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1770  		list_for_each_entry(mr_sas_port, &mrioc->sas_hba.sas_port_list,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1771  		    port_list) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1772  			if (mr_sas_port->marked_responding)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1773  				continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1774  			if (h_port[i].sas_address != mr_sas_port->remote_identify.sas_address)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1775  				continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1776  			if (h_port[i].lowest_phy == mr_sas_port->lowest_phy) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1777  				mpi3mr_update_mr_sas_port(mrioc, &h_port[i], mr_sas_port);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1778  				break;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1779  			}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1780  		}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1781  	}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1782  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1783  	/* In case if lowest phy is got enabled or disabled during reset */
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1784  	for (i = 0; i < host_port_count; i++) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1785  		if (h_port[i].used)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1786  			continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1787  		mr_sas_port = NULL;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1788  		list_for_each_entry(mr_sas_port, &mrioc->sas_hba.sas_port_list,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1789  		    port_list) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1790  			if (mr_sas_port->marked_responding)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1791  				continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1792  			if (h_port[i].sas_address != mr_sas_port->remote_identify.sas_address)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1793  				continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1794  			if (h_port[i].phy_mask & mr_sas_port->phy_mask) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1795  				mpi3mr_update_mr_sas_port(mrioc, &h_port[i], mr_sas_port);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1796  				break;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1797  			}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1798  		}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1799  	}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1800  
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1801  	/* In case if expander cable is removed & connected to another HBA port during reset */
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1802  	for (i = 0; i < host_port_count; i++) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1803  		if (h_port[i].used)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1804  			continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1805  		mr_sas_port = NULL;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1806  		list_for_each_entry(mr_sas_port, &mrioc->sas_hba.sas_port_list,
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1807  		    port_list) {
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1808  			if (mr_sas_port->marked_responding)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1809  				continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1810  			if (h_port[i].sas_address != mr_sas_port->remote_identify.sas_address)
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1811  				continue;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1812  			mpi3mr_update_mr_sas_port(mrioc, &h_port[i], mr_sas_port);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1813  			break;
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1814  		}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1815  	}
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1816  out:
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1817  	kfree(sas_io_unit_pg0);
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04 @1818  }
-2745ce0e6d30e6 Sreekanth Reddy 2022-08-04  1819  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  190  
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  191) /**
+73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  192)  * page_cache_ra_unbounded - Start unchecked readahead.
+73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  193)  * @ractl: Readahead control.
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  194)  * @nr_to_read: The number of pages to read.
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  195)  * @lookahead_size: Where to start the next readahead.
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  196)  *
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  197)  * This function is for filesystems to call when they want to start
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  198)  * readahead beyond a file's stated i_size.  This is almost certainly
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  199)  * not the function you want to call.  Use page_cache_async_readahead()
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  200)  * or page_cache_sync_readahead() instead.
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  201)  *
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  202)  * Context: File is referenced by caller.  Mutexes may be held by caller.
+2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  203)  * May sleep, but will not reenter filesystem to reclaim memory.
+^1da177e4c3f41 Linus Torvalds          2005-04-16  204   */
+f6d545fc00300d Christoph Hellwig       2023-11-24  205  void __page_cache_ra_unbounded(struct readahead_control *ractl,
+73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  206) 		unsigned long nr_to_read, unsigned long lookahead_size)
+^1da177e4c3f41 Linus Torvalds          2005-04-16 @207  {
+73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  208) 	struct address_space *mapping = ractl->mapping;
+73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  209) 	unsigned long index = readahead_index(ractl);
+8a5c743e308dd2 Michal Hocko            2016-07-26  210  	gfp_t gfp_mask = readahead_gfp_mask(mapping);
+c2c7ad74b16206 Matthew Wilcox (Oracle  2020-06-01  211) 	unsigned long i;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  212  
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  213) 	/*
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  214) 	 * Partway through the readahead operation, we will have added
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  215) 	 * locked pages to the page cache, but will not yet have submitted
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  216) 	 * them for I/O.  Adding another page may need to allocate memory,
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  217) 	 * which can trigger memory reclaim.  Telling the VM we're in
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  218) 	 * the middle of a filesystem operation will cause it to not
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  219) 	 * touch file-backed pages, preventing a deadlock.  Most (all?)
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  220) 	 * filesystems already specify __GFP_NOFS in their mapping's
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  221) 	 * gfp_mask, but let's be explicit here.
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  222) 	 */
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  223) 	unsigned int nofs = memalloc_nofs_save();
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  224) 
+f6d545fc00300d Christoph Hellwig       2023-11-24  225  	lockdep_assert_held(&mapping->invalidate_lock);
+f6d545fc00300d Christoph Hellwig       2023-11-24  226  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  227  	/*
+^1da177e4c3f41 Linus Torvalds          2005-04-16  228  	 * Preallocate as many pages as we will need.
+^1da177e4c3f41 Linus Torvalds          2005-04-16  229  	 */
+c2c7ad74b16206 Matthew Wilcox (Oracle  2020-06-01  230) 	for (i = 0; i < nr_to_read; i++) {
+0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  231) 		struct folio *folio = xa_load(&mapping->i_pages, index + i);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  232  
+0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  233) 		if (folio && !xa_is_value(folio)) {
+b3751e6ab45a3b Christoph Hellwig       2018-06-01  234  			/*
+2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  235) 			 * Page already present?  Kick off the current batch
+2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  236) 			 * of contiguous pages before continuing with the
+2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  237) 			 * next batch.  This page may be the one we would
+2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  238) 			 * have intended to mark as Readahead, but we don't
+2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  239) 			 * have a stable reference to this page, and it's
+2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  240) 			 * not worth getting one just for that.
+b3751e6ab45a3b Christoph Hellwig       2018-06-01  241  			 */
+b4e089d705eef8 Christoph Hellwig       2022-03-31  242  			read_pages(ractl);
+b4e089d705eef8 Christoph Hellwig       2022-03-31  243  			ractl->_index++;
+f615bd5c4725fd Matthew Wilcox (Oracle  2021-04-21  244) 			i = ractl->_index + ractl->_nr_pages - index - 1;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  245  			continue;
+b3751e6ab45a3b Christoph Hellwig       2018-06-01  246  		}
+^1da177e4c3f41 Linus Torvalds          2005-04-16  247  
+0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  248) 		folio = filemap_alloc_folio(gfp_mask, 0);
+0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  249) 		if (!folio)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  250  			break;
+704528d895dd3e Matthew Wilcox (Oracle  2022-03-23  251) 		if (filemap_add_folio(mapping, folio, index + i,
+c1f6925e10912c Matthew Wilcox (Oracle  2020-06-01  252) 					gfp_mask) < 0) {
+0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  253) 			folio_put(folio);
+b4e089d705eef8 Christoph Hellwig       2022-03-31  254  			read_pages(ractl);
+b4e089d705eef8 Christoph Hellwig       2022-03-31  255  			ractl->_index++;
+f615bd5c4725fd Matthew Wilcox (Oracle  2021-04-21  256) 			i = ractl->_index + ractl->_nr_pages - index - 1;
+c1f6925e10912c Matthew Wilcox (Oracle  2020-06-01  257) 			continue;
+c1f6925e10912c Matthew Wilcox (Oracle  2020-06-01  258) 		}
+c2c7ad74b16206 Matthew Wilcox (Oracle  2020-06-01  259) 		if (i == nr_to_read - lookahead_size)
+0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  260) 			folio_set_readahead(folio);
+176042404ee6a9 Christoph Hellwig       2022-09-15  261  		ractl->_workingset |= folio_test_workingset(folio);
+73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  262) 		ractl->_nr_pages++;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  263  	}
+^1da177e4c3f41 Linus Torvalds          2005-04-16  264  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  265  	/*
+7e0a126519b826 Matthew Wilcox (Oracle  2022-04-29  266) 	 * Now start the IO.  We ignore I/O errors - if the folio is not
+7e0a126519b826 Matthew Wilcox (Oracle  2022-04-29  267) 	 * uptodate then the caller will launch read_folio again, and
+^1da177e4c3f41 Linus Torvalds          2005-04-16  268  	 * will then handle the error.
+^1da177e4c3f41 Linus Torvalds          2005-04-16  269  	 */
+b4e089d705eef8 Christoph Hellwig       2022-03-31  270  	read_pages(ractl);
+f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  271) 	memalloc_nofs_restore(nofs);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  272  }
+f6d545fc00300d Christoph Hellwig       2023-11-24  273  
 
-:::::: The code at line 1818 was first introduced by commit
-:::::: 2745ce0e6d30e66a97bc6c236cde3356812a3496 scsi: mpi3mr: Refresh SAS ports during soft reset
+:::::: The code at line 207 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
