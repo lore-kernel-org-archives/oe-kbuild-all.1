@@ -1,41 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093539460
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 09:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63E09453
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 09:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j3gwkt87"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMgneKbM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700903486; x=1732439486;
+  t=1700905817; x=1732441817;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rNMSaxsjdkaCgXRadXq5vkklr92/6uV1TFJF/OoG9ek=;
-  b=j3gwkt87AALDlUGM8E+qWVgqA0NU1nn0Zb0xQV+x7pPDOkNNwkPvK/af
-   8iE+E2ULWFduIUj+EBgeFtY1Avl3g7a2VmhP2z0DVTQiryj+lqKMuk5RV
-   +wL1HA0l3OI5o1WQqvSIeDeBnZy8noM5IpJxw/NnAjWiMH+72DvHtNAUC
-   dXpy1soe1JiJEtOM7Ed1AiO0ssht+9Xz40+dqZqHkkgvxXBarRO1WBbJX
-   2CWPX/YQ47r4rVYjsgsgaZizze688hMYwZ0abYpY9+hZyMRWuoUPZcLvU
-   MS1fsDjPyz3+ex2dlnPRU1oubfftTvtXlw7J+ofrrkVR6BXjzwKGHRZTY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5659828"
+  bh=Aqc2go/1I5Lhzy1CTRLHUJ9I76KJLrgIOLwaPYI5Esw=;
+  b=DMgneKbMZGmDv8tPzAjWYoUOiHjbNyhtYp49mWD3tnChMxstfG6YhEJ4
+   16Zl7N4uaYBR54EgbbFHfvp+Uepa1d5V6Oj2T+OiPz1yqlSniCPWcCKOB
+   Yaj0tU74kGhSn99utlpLmnkj2RWFZd6pK/o57jqxpIVdykQY9biC+5oPI
+   KT+5Hjh7wftKchoIldT5WTedhhOaJXJPXHHsrwiN2Br/MBhJpOZPeucLF
+   Mz3lXyyjMI3OyIL1WDsu8tbJ9Y1KexbfZcjMZQfsc62M/FXmwV5Zub8Tq
+   MzJFdTeVNJnFZsvuPHegsKh2kNyvLcJOD5j+I21jdOG51tE9jw/NR0+3g
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="382908198"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="5659828"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 01:11:25 -0800
+   d="scan'208";a="382908198"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 01:50:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="761167332"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="891256779"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="761167332"
+   d="scan'208";a="891256779"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 25 Nov 2023 01:11:22 -0800
+  by orsmga004.jf.intel.com with ESMTP; 25 Nov 2023 01:50:13 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6oh6-0003pP-17;
-	Sat, 25 Nov 2023 09:11:20 +0000
-Date: Sat, 25 Nov 2023 17:10:31 +0800
+	id 1r6pIg-0003r8-2R;
+	Sat, 25 Nov 2023 09:50:10 +0000
+Date: Sat, 25 Nov 2023 17:49:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: guoren@kernel.org, mark.rutland@arm.com, peterz@infradead.org,
 	keescook@chromium.org, paulmck@kernel.org, ubizjak@gmail.com,
@@ -44,7 +44,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Guo Ren <guoren@linux.alibaba.com>
 Subject: Re: [PATCH V2] locking/atomic: scripts: Increase template priority
  in order variants
-Message-ID: <202311251711.9SeU47cN-lkp@intel.com>
+Message-ID: <202311251751.UOK2L2UW-lkp@intel.com>
 References: <20231125013025.3620560-1-guoren@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -71,66 +71,70 @@ url:    https://github.com/intel-lab-lkp/linux/commits/guoren-kernel-org/locking
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
 patch link:    https://lore.kernel.org/r/20231125013025.3620560-1-guoren%40kernel.org
 patch subject: [PATCH V2] locking/atomic: scripts: Increase template priority in order variants
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20231125/202311251711.9SeU47cN-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251711.9SeU47cN-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-002-20231125 (https://download.01.org/0day-ci/archive/20231125/202311251751.UOK2L2UW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251751.UOK2L2UW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251711.9SeU47cN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311251751.UOK2L2UW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/atomic.h:8:0,
+   In file included from arch/x86/include/asm/atomic.h:8,
                     from include/linux/atomic.h:7,
-                    from include/linux/cpumask.h:13,
-                    from arch/x86/include/asm/cpumask.h:5,
-                    from arch/x86/include/asm/msr.h:11,
-                    from arch/x86/include/asm/processor.h:23,
+                    from include/linux/jump_label.h:255,
+                    from include/linux/static_key.h:1,
+                    from arch/x86/include/asm/nospec-branch.h:6,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
                     from arch/x86/include/asm/timex.h:5,
                     from include/linux/timex.h:67,
                     from include/linux/time32.h:13,
                     from include/linux/time.h:60,
                     from include/linux/compat.h:10,
                     from kernel/futex/core.c:34:
-   kernel/futex/core.c: In function 'raw_atomic64_cmpxchg_relaxed':
->> arch/x86/include/asm/cmpxchg.h:130:2: warning: '__ret' is used uninitialized in this function [-Wuninitialized]
-     __ret;        \
-     ^~~~~
-   arch/x86/include/asm/cmpxchg.h:87:21: note: '__ret' was declared here
-     __typeof__(*(ptr)) __ret;     \
-                        ^
-   arch/x86/include/asm/cmpxchg.h:134:2: note: in expansion of macro '__raw_cmpxchg'
-     __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-     ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:2: note: in expansion of macro '__cmpxchg'
-     __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-     ^~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h: In function 'raw_atomic64_cmpxchg_relaxed':
+>> arch/x86/include/asm/cmpxchg.h:130:9: warning: '__ret' is used uninitialized [-Wuninitialized]
+     130 |         __ret;                                                          \
+         |         ^~~~~
+   arch/x86/include/asm/cmpxchg.h:87:28: note: '__ret' was declared here
+      87 |         __typeof__(*(ptr)) __ret;                                       \
+         |                            ^~~~~
+   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
+     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+         |         ^~~~~~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
+     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+         |         ^~~~~~~~~
    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion of macro 'arch_cmpxchg'
-    #define raw_cmpxchg_relaxed arch_cmpxchg
-                                ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:4107:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
-     return raw_cmpxchg_relaxed(&v->counter, old, new);
-            ^~~~~~~~~~~~~~~~~~~
+      91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+         |                             ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:4107:16: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4107 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+         |                ^~~~~~~~~~~~~~~~~~~
    In function 'raw_atomic64_cmpxchg_relaxed',
-       inlined from 'get_inode_sequence_number' at include/linux/atomic/atomic-instrumented.h:2817:9,
+       inlined from 'atomic64_cmpxchg_relaxed' at include/linux/atomic/atomic-instrumented.h:2817:9,
+       inlined from 'get_inode_sequence_number' at kernel/futex/core.c:186:9,
        inlined from 'get_futex_key' at kernel/futex/core.c:387:23:
-   arch/x86/include/asm/cmpxchg.h:128:3: error: call to '__cmpxchg_wrong_size' declared with attribute error: Bad argument size for cmpxchg
-      __cmpxchg_wrong_size();     \
-      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:134:2: note: in expansion of macro '__raw_cmpxchg'
-     __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
-     ^~~~~~~~~~~~~
-   arch/x86/include/asm/cmpxchg.h:149:2: note: in expansion of macro '__cmpxchg'
-     __cmpxchg(ptr, old, new, sizeof(*(ptr)))
-     ^~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h:128:17: error: call to '__cmpxchg_wrong_size' declared with attribute error: Bad argument size for cmpxchg
+     128 |                 __cmpxchg_wrong_size();                                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h:134:9: note: in expansion of macro '__raw_cmpxchg'
+     134 |         __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+         |         ^~~~~~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h:149:9: note: in expansion of macro '__cmpxchg'
+     149 |         __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+         |         ^~~~~~~~~
    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion of macro 'arch_cmpxchg'
-    #define raw_cmpxchg_relaxed arch_cmpxchg
-                                ^~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:4107:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
-     return raw_cmpxchg_relaxed(&v->counter, old, new);
-            ^~~~~~~~~~~~~~~~~~~
+      91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+         |                             ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:4107:16: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4107 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+         |                ^~~~~~~~~~~~~~~~~~~
 
 
 vim +/__ret +130 arch/x86/include/asm/cmpxchg.h
