@@ -1,50 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CEF663BD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 07:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E367763A7;
+	Sat, 25 Nov 2023 07:24:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X0+V0r74"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cu3AjvnP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700897075; x=1732433075;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EKXobDNAisJFES+aua3AQTfSzZ0E5+bKj+a4rhFGrPo=;
-  b=X0+V0r74mCGmAIXnEpWwxLojPNxlkAIDqFAO9Z3Lo0X3SqZPYVjOLNaW
-   /EndniDMmPCmtJFNVJpTMY06bxxdl7c/shw8El1Esg4GmOVFBzLisDNhG
-   BQmukSbJ6uoVTPmKNtGPQGvbYBLUXwKP3Z/zhZW9dvVjlY8vsWeA1eKfq
-   IoMplMTgVf/ZaqKDx83LQr/+f1OCalDJfZewU1Z6jsFrc5s99VzLwKv/M
-   Pe93IoompYUoskTdhF87KArmmXZnJOg4Jjg40eQebfJVXSay4HNvh3N/7
-   3dl/5zRtkav6fmptlU6TwGyCIUNJ4i896ziHg4HnLLbISRSGLQ6G2Xnah
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="372655166"
+  t=1700897073; x=1732433073;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=D603gzO8KuMgQz+2EtM1quS3lvYHGWWRpgLXGDHXI4w=;
+  b=cu3AjvnPqHZkaDPly+L+DEpoW15ng7oIlevBwayWK868EmDVglmDFKBu
+   tb3IegdvE7aSwzv0RjUUe6Cru1AUcl3C3RAGeIDEHBZsH2INWvqCZxOsk
+   kCyobH/1P7TtVP8sSUpERXcUPewqWg2sM/uFbESyvTC44f4itVD6YK6A/
+   aLvg/O/zVt7BsSzsgdwj+u9r+HwFatUft9bpKMKlZcDQaCTS8wEK/WEnu
+   F7cZd4wp/4BLdy28P6mH0xdeokUL09RIyo8FMzWx+JhJBAJt6witZXJ32
+   +YpLPhpWlJr3Y2MG05HhyNIbA1/6eB6vUI/klIGbUOHAJm9eGoMeq7TRf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="377546086"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="372655166"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 23:24:34 -0800
+   d="scan'208";a="377546086"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 23:24:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="1015075370"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="941093724"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="1015075370"
+   d="scan'208";a="941093724"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Nov 2023 23:24:31 -0800
+  by orsmga005.jf.intel.com with ESMTP; 24 Nov 2023 23:24:31 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6n1h-0003jB-2l;
-	Sat, 25 Nov 2023 07:24:29 +0000
-Date: Sat, 25 Nov 2023 15:24:22 +0800
+	id 1r6n1g-0003j5-2I;
+	Sat, 25 Nov 2023 07:24:28 +0000
+Date: Sat, 25 Nov 2023 15:24:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Bohac <jbohac@suse.cz>, Baoquan He <bhe@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
-	kexec@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	mhocko@suse.cz
-Subject: Re: [PATCH 1/4] kdump: add crashkernel cma suffix
-Message-ID: <202311251303.71yrbT6l-lkp@intel.com>
-References: <ZWEAPXiCCgAf1WrY@dwarf.suse.cz>
+To: Janne Grunau <j@jannau.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/200-dcp 153/158] drivers/gpu/drm/apple/dcp.c:413:6:
+ warning: no previous prototype for function 'dcp_sleep'
+Message-ID: <202311251327.AMkqJvnN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,105 +50,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZWEAPXiCCgAf1WrY@dwarf.suse.cz>
 
-Hi Jiri,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes s390/features linus/master v6.7-rc2 next-20231124]
-[cannot apply to tip/x86/core arm64/for-next/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Bohac/kdump-implement-reserve_crashkernel_cma/20231125-082724
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/ZWEAPXiCCgAf1WrY%40dwarf.suse.cz
-patch subject: [PATCH 1/4] kdump: add crashkernel cma suffix
-config: alpha-randconfig-r081-20231125 (https://download.01.org/0day-ci/archive/20231125/202311251303.71yrbT6l-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251303.71yrbT6l-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/200-dcp
+head:   0d53d6a4e78b8c3cd7d1d99920dbc7196e52fe8f
+commit: a9a37deb33077eed7a8b744481943e2a300b5273 [153/158] drm: apple: Disconnect dptx When the CRTC is powered down
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20231125/202311251327.AMkqJvnN-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251327.AMkqJvnN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251303.71yrbT6l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311251327.AMkqJvnN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/crash_core.c: In function 'parse_crashkernel':
->> kernel/crash_core.c:319:28: warning: unused variable 'cma_base' [-Wunused-variable]
-     319 |         unsigned long long cma_base;
-         |                            ^~~~~~~~
+>> drivers/gpu/drm/apple/dcp.c:413:6: warning: no previous prototype for function 'dcp_sleep' [-Wmissing-prototypes]
+     413 | void dcp_sleep(struct apple_dcp *dcp)
+         |      ^
+   drivers/gpu/drm/apple/dcp.c:413:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     413 | void dcp_sleep(struct apple_dcp *dcp)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/cma_base +319 kernel/crash_core.c
+vim +/dcp_sleep +413 drivers/gpu/drm/apple/dcp.c
 
-   302	
-   303	/*
-   304	 * That function is the entry point for command line parsing and should be
-   305	 * called from the arch-specific code.
-   306	 *
-   307	 * If crashkernel=,high|low is supported on architecture, non-NULL values
-   308	 * should be passed to parameters 'low_size' and 'high'.
-   309	 */
-   310	int __init parse_crashkernel(char *cmdline,
-   311				     unsigned long long system_ram,
-   312				     unsigned long long *crash_size,
-   313				     unsigned long long *crash_base,
-   314				     unsigned long long *low_size,
-   315				     unsigned long long *cma_size,
-   316				     bool *high)
-   317	{
-   318		int ret;
- > 319		unsigned long long cma_base;
-   320	
-   321		/* crashkernel=X[@offset] */
-   322		ret = __parse_crashkernel(cmdline, system_ram, crash_size,
-   323					crash_base, NULL);
-   324	#ifdef CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
-   325		/*
-   326		 * If non-NULL 'high' passed in and no normal crashkernel
-   327		 * setting detected, try parsing crashkernel=,high|low.
-   328		 */
-   329		if (high && ret == -ENOENT) {
-   330			ret = __parse_crashkernel(cmdline, 0, crash_size,
-   331					crash_base, suffix_tbl[SUFFIX_HIGH]);
-   332			if (ret || !*crash_size)
-   333				return -EINVAL;
-   334	
-   335			/*
-   336			 * crashkernel=Y,low can be specified or not, but invalid value
-   337			 * is not allowed.
-   338			 */
-   339			ret = __parse_crashkernel(cmdline, 0, low_size,
-   340					crash_base, suffix_tbl[SUFFIX_LOW]);
-   341			if (ret == -ENOENT) {
-   342				*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-   343				ret = 0;
-   344			} else if (ret) {
-   345				return ret;
-   346			}
-   347	
-   348			*high = true;
-   349		}
-   350	
-   351		/*
-   352		* optional CMA reservation
-   353		* cma_base is ignored
-   354		*/
-   355		if (cma_size)
-   356			__parse_crashkernel(cmdline, 0, cma_size,
-   357				&cma_base, suffix_tbl[SUFFIX_CMA]);
-   358	#endif
-   359		if (!*crash_size)
-   360			ret = -EINVAL;
-   361	
-   362		return ret;
-   363	}
-   364	
+   411	
+   412	
+ > 413	void dcp_sleep(struct apple_dcp *dcp)
+   414	{
+   415		switch (dcp->fw_compat) {
+   416		case DCP_FIRMWARE_V_12_3:
+   417			iomfb_sleep_v12_3(dcp);
+   418			break;
+   419		case DCP_FIRMWARE_V_13_5:
+   420			iomfb_sleep_v13_3(dcp);
+   421			break;
+   422		default:
+   423			WARN_ONCE(true, "Unexpected firmware version: %u\n", dcp->fw_compat);
+   424			break;
+   425		}
+   426	}
+   427	
 
 -- 
 0-DAY CI Kernel Test Service
