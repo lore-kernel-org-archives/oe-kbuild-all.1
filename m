@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3F038D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 04:48:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94245443D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 06:21:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LusMLcQc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jY7MaCnG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700887713; x=1732423713;
+  t=1700893275; x=1732429275;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4sqd5LvE3kR5OGhngd4IEtKzTZVLSznz5Qd7Etq5Uuo=;
-  b=LusMLcQcYdDO8rwJOcym5wUzF4DlWih3HqrPpQr87kmjUBs87T9rmVC5
-   Tgj6JWWHOn+ZgliVnAiGkxh+H03t5m/0wp60FxrWIiqYtS35X9WMrOKQa
-   ljHTuytGeFVq3uG++Jck/7K9ChBU6WTPpfx9pHnGHj/Ic4f4G9npxCd8i
-   euMVz18jQIiQlbL/Cx74XFeTtgHk0KdbE+ghWWwZMo8kdVnEiKRo144F3
-   nhD+TxJ+Sopjbkyiny3GuAS+MSAHQZyrLO44qiEdv5NsUh4W/LjAXnAye
-   AnERSfM2DcRG99lW2gRchqPYFJBFJMNkdaTJudNojc/vQhuATwnaopFpC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="389642185"
+  bh=a6SrTp5Vg7v/gQlv0cCJYMWURzgqKX9Z9l4NpMleOBc=;
+  b=jY7MaCnGeUwhRWms6w6iJs/6VKO2pXp8RvEigBfBAuFZnOcDjjeiHMhw
+   GnqBjP6SSBs7tcozDOomcIfpWWwVYl2YOMgLt420cpj8QWVSYeFVl/uKD
+   WMtVkeurx4ZXy0o9KI+YiCLY6raeNfbwFfxG7ENV/FvceMHb0daziENTd
+   KMHAqb4oej1QObhlqktSSGI/weCuqdGxETCY2ijpTt/krdEfVnR3h4eBs
+   zq6h8Im+dIyVlw1aGrBXGPYekH+hZU7rAZPVr3iv6Gd010NNn+9Jp1e2a
+   IIBP2kv7jf1/BVVJ7P1Tw/4A+3K5Z5kKhZIcWdrW+8g8jZmmCW52H5VWm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="382900930"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="389642185"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 20:48:26 -0800
+   d="scan'208";a="382900930"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 22:21:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="796735942"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="717542735"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="796735942"
+   d="scan'208";a="717542735"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 24 Nov 2023 20:48:25 -0800
+  by orsmga003.jf.intel.com with ESMTP; 24 Nov 2023 22:21:10 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6kac-0003dm-2e;
-	Sat, 25 Nov 2023 04:48:22 +0000
-Date: Sat, 25 Nov 2023 12:48:07 +0800
+	id 1r6m2N-0003hH-32;
+	Sat, 25 Nov 2023 06:21:07 +0000
+Date: Sat, 25 Nov 2023 14:20:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:dlink-dwl-8610ap 1/3] kernel/printk/printk.c:2250
- vprintk_store() warn: inconsistent indenting
-Message-ID: <202311251030.PYmtml7P-lkp@intel.com>
+Subject: [peterz-queue:x86/ibt 8/10] vmlinux.o: warning: objtool:
+ handle_bug+0x25: call to gen_endbr_poison() leaves .noinstr.text section
+Message-ID: <202311251213.fGVzQVHo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,151 +50,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git dlink-dwl-8610ap
-head:   7b9d31bec8621d72e1edc0070efcd40af09eb121
-commit: 9bcc75fa43a2b2e5fe5208d32e0e60657e8f8734 [1/3] Uglyhack for earlydebug printascii
-config: arm-randconfig-r081-20231123 (https://download.01.org/0day-ci/archive/20231125/202311251030.PYmtml7P-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311251030.PYmtml7P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/ibt
+head:   9ba52bc66d03d8fa986fb5a6d5a026702eb90747
+commit: 013b1c93e2c40153c063773026e0da673641626f [8/10] Prepare for ENDBR poison to become UD1 by making #UD recognise it as a valid BUG address so we get a nice BUG splat when we trip on one.
+config: x86_64-randconfig-016-20231125 (https://download.01.org/0day-ci/archive/20231125/202311251213.fGVzQVHo-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251213.fGVzQVHo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251030.PYmtml7P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311251213.fGVzQVHo-lkp@intel.com/
 
-smatch warnings:
-kernel/printk/printk.c:2250 vprintk_store() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +2250 kernel/printk/printk.c
+>> vmlinux.o: warning: objtool: handle_bug+0x25: call to gen_endbr_poison() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_ibrs+0x12: call to sched_smt_active() leaves .noinstr.text section
 
-  2147	
-  2148	__printf(4, 0)
-  2149	int vprintk_store(int facility, int level,
-  2150			  const struct dev_printk_info *dev_info,
-  2151			  const char *fmt, va_list args)
-  2152	{
-  2153		struct prb_reserved_entry e;
-  2154		enum printk_info_flags flags = 0;
-  2155		struct printk_record r;
-  2156		unsigned long irqflags;
-  2157		u16 trunc_msg_len = 0;
-  2158		char prefix_buf[8];
-  2159		u8 *recursion_ptr;
-  2160		u16 reserve_size;
-  2161		va_list args2;
-  2162		u32 caller_id;
-  2163		u16 text_len;
-  2164		int ret = 0;
-  2165		u64 ts_nsec;
-  2166	
-  2167		if (!printk_enter_irqsave(recursion_ptr, irqflags))
-  2168			return 0;
-  2169	
-  2170		/*
-  2171		 * Since the duration of printk() can vary depending on the message
-  2172		 * and state of the ringbuffer, grab the timestamp now so that it is
-  2173		 * close to the call of printk(). This provides a more deterministic
-  2174		 * timestamp with respect to the caller.
-  2175		 */
-  2176		ts_nsec = local_clock();
-  2177	
-  2178		caller_id = printk_caller_id();
-  2179	
-  2180		/*
-  2181		 * The sprintf needs to come first since the syslog prefix might be
-  2182		 * passed in as a parameter. An extra byte must be reserved so that
-  2183		 * later the vscnprintf() into the reserved buffer has room for the
-  2184		 * terminating '\0', which is not counted by vsnprintf().
-  2185		 */
-  2186		va_copy(args2, args);
-  2187		reserve_size = vsnprintf(&prefix_buf[0], sizeof(prefix_buf), fmt, args2) + 1;
-  2188		va_end(args2);
-  2189	
-  2190		if (reserve_size > PRINTKRB_RECORD_MAX)
-  2191			reserve_size = PRINTKRB_RECORD_MAX;
-  2192	
-  2193		/* Extract log level or control flags. */
-  2194		if (facility == 0)
-  2195			printk_parse_prefix(&prefix_buf[0], &level, &flags);
-  2196	
-  2197		if (level == LOGLEVEL_DEFAULT)
-  2198			level = default_message_loglevel;
-  2199	
-  2200		if (dev_info)
-  2201			flags |= LOG_NEWLINE;
-  2202	
-  2203		if (flags & LOG_CONT) {
-  2204			prb_rec_init_wr(&r, reserve_size);
-  2205			if (prb_reserve_in_last(&e, prb, &r, caller_id, PRINTKRB_RECORD_MAX)) {
-  2206				text_len = printk_sprint(&r.text_buf[r.info->text_len], reserve_size,
-  2207							 facility, &flags, fmt, args);
-  2208				r.info->text_len += text_len;
-  2209	
-  2210				if (flags & LOG_NEWLINE) {
-  2211					r.info->flags |= LOG_NEWLINE;
-  2212					prb_final_commit(&e);
-  2213				} else {
-  2214					prb_commit(&e);
-  2215				}
-  2216	
-  2217				ret = text_len;
-  2218				goto out;
-  2219			}
-  2220		}
-  2221	
-  2222		/*
-  2223		 * Explicitly initialize the record before every prb_reserve() call.
-  2224		 * prb_reserve_in_last() and prb_reserve() purposely invalidate the
-  2225		 * structure when they fail.
-  2226		 */
-  2227		prb_rec_init_wr(&r, reserve_size);
-  2228		if (!prb_reserve(&e, prb, &r)) {
-  2229			/* truncate the message if it is too long for empty buffer */
-  2230			truncate_msg(&reserve_size, &trunc_msg_len);
-  2231	
-  2232			prb_rec_init_wr(&r, reserve_size + trunc_msg_len);
-  2233			if (!prb_reserve(&e, prb, &r))
-  2234				goto out;
-  2235		}
-  2236	
-  2237		/* fill message */
-  2238		text_len = printk_sprint(&r.text_buf[0], reserve_size, facility, &flags, fmt, args);
-  2239		if (trunc_msg_len)
-  2240			memcpy(&r.text_buf[text_len], trunc_msg, trunc_msg_len);
-  2241		r.info->text_len = text_len + trunc_msg_len;
-  2242		r.info->facility = facility;
-  2243		r.info->level = level & 7;
-  2244		r.info->flags = flags & 0x1f;
-  2245		r.info->ts_nsec = ts_nsec;
-  2246		r.info->caller_id = caller_id;
-  2247		if (dev_info)
-  2248			memcpy(&r.info->dev_info, dev_info, sizeof(r.info->dev_info));
-  2249	#if defined(CONFIG_ARM) && defined(CONFIG_DEBUG_LL)
-> 2250				{
-  2251					static char foo[1024];
-  2252					extern void printascii(char *);
-  2253					int len;
-  2254	
-  2255					len = text_len + trunc_msg_len;
-  2256					memcpy(foo, &r.text_buf[0], len);
-  2257					foo[len] = '\n';
-  2258					foo[len+1] = '\0';
-  2259					printascii(foo);
-  2260				}
-  2261	#endif
-  2262	
-  2263		/* A message without a trailing newline can be continued. */
-  2264		if (!(flags & LOG_NEWLINE))
-  2265			prb_commit(&e);
-  2266		else
-  2267			prb_final_commit(&e);
-  2268	
-  2269		ret = text_len + trunc_msg_len;
-  2270	out:
-  2271		printk_exit_irqrestore(recursion_ptr, irqflags);
-  2272		return ret;
-  2273	}
-  2274	
+
+objdump-func vmlinux.o handle_bug:
+0000 0000000000000540 <handle_bug>:
+0000      540:	55                   	push   %rbp
+0001      541:	53                   	push   %rbx
+0002      542:	48 89 fb             	mov    %rdi,%rbx
+0005      545:	48 8b bf 80 00 00 00 	mov    0x80(%rdi),%rdi
+000c      54c:	48 b8 00 f0 ff ff ff 7f 00 00 	movabs $0x7ffffffff000,%rax
+0016      556:	45 31 c0             	xor    %r8d,%r8d
+0019      559:	48 39 c7             	cmp    %rax,%rdi
+001c      55c:	72 15                	jb     573 <handle_bug+0x33>
+001e      55e:	66 81 3f 0f 0b       	cmpw   $0xb0f,(%rdi)
+0023      563:	74 14                	je     579 <handle_bug+0x39>
+0025      565:	e8 00 00 00 00       	call   56a <handle_bug+0x2a>	566: R_X86_64_PC32	.text+0x70d7c
+002a      56a:	bd 04 00 00 00       	mov    $0x4,%ebp
+002f      56f:	39 07                	cmp    %eax,(%rdi)
+0031      571:	74 0b                	je     57e <handle_bug+0x3e>
+0033      573:	44 89 c0             	mov    %r8d,%eax
+0036      576:	5b                   	pop    %rbx
+0037      577:	5d                   	pop    %rbp
+0038      578:	c3                   	ret
+0039      579:	bd 02 00 00 00       	mov    $0x2,%ebp
+003e      57e:	90                   	nop
+003f      57f:	f6 83 91 00 00 00 02 	testb  $0x2,0x91(%rbx)
+0046      586:	74 08                	je     590 <handle_bug+0x50>
+0048      588:	fb                   	sti
+0049      589:	48 8b bb 80 00 00 00 	mov    0x80(%rbx),%rdi
+0050      590:	48 89 de             	mov    %rbx,%rsi
+0053      593:	e8 00 00 00 00       	call   598 <handle_bug+0x58>	594: R_X86_64_PLT32	report_bug-0x4
+0058      598:	83 f8 01             	cmp    $0x1,%eax
+005b      59b:	74 1e                	je     5bb <handle_bug+0x7b>
+005d      59d:	e8 00 00 00 00       	call   5a2 <handle_bug+0x62>	59e: R_X86_64_PC32	.text+0x7117c
+0062      5a2:	45 31 c0             	xor    %r8d,%r8d
+0065      5a5:	83 f8 01             	cmp    $0x1,%eax
+0068      5a8:	74 11                	je     5bb <handle_bug+0x7b>
+006a      5aa:	f6 83 91 00 00 00 02 	testb  $0x2,0x91(%rbx)
+0071      5b1:	74 01                	je     5b4 <handle_bug+0x74>
+0073      5b3:	fa                   	cli
+0074      5b4:	90                   	nop
+0075      5b5:	44 89 c0             	mov    %r8d,%eax
+0078      5b8:	5b                   	pop    %rbx
+0079      5b9:	5d                   	pop    %rbp
+007a      5ba:	c3                   	ret
+007b      5bb:	48 01 ab 80 00 00 00 	add    %rbp,0x80(%rbx)
+0082      5c2:	41 b8 01 00 00 00    	mov    $0x1,%r8d
+0088      5c8:	eb e0                	jmp    5aa <handle_bug+0x6a>
+008a      5ca:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+0095      5d5:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+00a0      5e0:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+00ab      5eb:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+00b6      5f6:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
 
 -- 
 0-DAY CI Kernel Test Service
