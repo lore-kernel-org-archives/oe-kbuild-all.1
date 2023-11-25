@@ -1,47 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE079460
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 09:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093539460
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 09:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JpqN0p7b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j3gwkt87"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700903483; x=1732439483;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DGfDJ02Ox5wL4euJWKuZa5L2Clxu2bvup54WShmD53Q=;
-  b=JpqN0p7b/turL2kCFIiYP2pcA4kydLyOWStqieEx5TybCwHO8f6cG7nW
-   hW/1mD7urGMKteyvxtYngaeycbNTEUwA7AphTnDnCd/uvhN/LC/3NBdZC
-   526aNuOuIdtAMlm1J9alL5UzilrjKexrtNS2QtmqOnphoxUa5YuwXHkzP
-   1nT7FiF6mHhj+nIubR8sqg+xNTATBIG7bVJ9w7cTr3yL8n9wlXCbH8G5m
-   ND+nVaWlYtuJ90yxASGcgqXe+DvY1mkz2Rhn0DIt4M3TgPJR7K72QOIN9
-   vso/W/aiBX8sM3R/NF93F09G8xuKMbIcjsCFZCdzrZo7Q1A7ZZEI4leSL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5659799"
+  t=1700903486; x=1732439486;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rNMSaxsjdkaCgXRadXq5vkklr92/6uV1TFJF/OoG9ek=;
+  b=j3gwkt87AALDlUGM8E+qWVgqA0NU1nn0Zb0xQV+x7pPDOkNNwkPvK/af
+   8iE+E2ULWFduIUj+EBgeFtY1Avl3g7a2VmhP2z0DVTQiryj+lqKMuk5RV
+   +wL1HA0l3OI5o1WQqvSIeDeBnZy8noM5IpJxw/NnAjWiMH+72DvHtNAUC
+   dXpy1soe1JiJEtOM7Ed1AiO0ssht+9Xz40+dqZqHkkgvxXBarRO1WBbJX
+   2CWPX/YQ47r4rVYjsgsgaZizze688hMYwZ0abYpY9+hZyMRWuoUPZcLvU
+   MS1fsDjPyz3+ex2dlnPRU1oubfftTvtXlw7J+ofrrkVR6BXjzwKGHRZTY
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="5659828"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="5659799"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 01:11:22 -0800
+   d="scan'208";a="5659828"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 01:11:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="717565996"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="761167332"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="717565996"
+   d="scan'208";a="761167332"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 25 Nov 2023 01:11:21 -0800
+  by orsmga007.jf.intel.com with ESMTP; 25 Nov 2023 01:11:22 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6oh5-0003pJ-0l;
-	Sat, 25 Nov 2023 09:11:19 +0000
-Date: Sat, 25 Nov 2023 17:10:30 +0800
+	id 1r6oh6-0003pP-17;
+	Sat, 25 Nov 2023 09:11:20 +0000
+Date: Sat, 25 Nov 2023 17:10:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 22/65] mm/readahead.c:207: warning: expecting
- prototype for page_cache_ra_unbounded(). Prototype was for
- __page_cache_ra_unbounded() instead
-Message-ID: <202311251734.W7hOCgfW-lkp@intel.com>
+To: guoren@kernel.org, mark.rutland@arm.com, peterz@infradead.org,
+	keescook@chromium.org, paulmck@kernel.org, ubizjak@gmail.com,
+	tglx@linutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Guo Ren <guoren@linux.alibaba.com>
+Subject: Re: [PATCH V2] locking/atomic: scripts: Increase template priority
+ in order variants
+Message-ID: <202311251711.9SeU47cN-lkp@intel.com>
+References: <20231125013025.3620560-1-guoren@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,116 +54,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231125013025.3620560-1-guoren@kernel.org>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   f5b3c0ffa575a5035e6d607b616c05638ed48937
-commit: f6d545fc00300ddfd3e297d17e4f229ad2f15c3e [22/65] readahead: add an unlocked version of __page_cache_ra_unbounded
-config: arc-randconfig-002-20231125 (https://download.01.org/0day-ci/archive/20231125/202311251734.W7hOCgfW-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251734.W7hOCgfW-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kees/for-next/pstore]
+[also build test WARNING on kees/for-next/kspp]
+[cannot apply to linus/master v6.7-rc2 next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/guoren-kernel-org/locking-atomic-scripts-Increase-template-priority-in-order-variants/20231125-093207
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
+patch link:    https://lore.kernel.org/r/20231125013025.3620560-1-guoren%40kernel.org
+patch subject: [PATCH V2] locking/atomic: scripts: Increase template priority in order variants
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20231125/202311251711.9SeU47cN-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251711.9SeU47cN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251734.W7hOCgfW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311251711.9SeU47cN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/readahead.c:207: warning: expecting prototype for page_cache_ra_unbounded(). Prototype was for __page_cache_ra_unbounded() instead
+   In file included from arch/x86/include/asm/atomic.h:8:0,
+                    from include/linux/atomic.h:7,
+                    from include/linux/cpumask.h:13,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/processor.h:23,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/compat.h:10,
+                    from kernel/futex/core.c:34:
+   kernel/futex/core.c: In function 'raw_atomic64_cmpxchg_relaxed':
+>> arch/x86/include/asm/cmpxchg.h:130:2: warning: '__ret' is used uninitialized in this function [-Wuninitialized]
+     __ret;        \
+     ^~~~~
+   arch/x86/include/asm/cmpxchg.h:87:21: note: '__ret' was declared here
+     __typeof__(*(ptr)) __ret;     \
+                        ^
+   arch/x86/include/asm/cmpxchg.h:134:2: note: in expansion of macro '__raw_cmpxchg'
+     __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+     ^~~~~~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h:149:2: note: in expansion of macro '__cmpxchg'
+     __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+     ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion of macro 'arch_cmpxchg'
+    #define raw_cmpxchg_relaxed arch_cmpxchg
+                                ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:4107:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+     return raw_cmpxchg_relaxed(&v->counter, old, new);
+            ^~~~~~~~~~~~~~~~~~~
+   In function 'raw_atomic64_cmpxchg_relaxed',
+       inlined from 'get_inode_sequence_number' at include/linux/atomic/atomic-instrumented.h:2817:9,
+       inlined from 'get_futex_key' at kernel/futex/core.c:387:23:
+   arch/x86/include/asm/cmpxchg.h:128:3: error: call to '__cmpxchg_wrong_size' declared with attribute error: Bad argument size for cmpxchg
+      __cmpxchg_wrong_size();     \
+      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h:134:2: note: in expansion of macro '__raw_cmpxchg'
+     __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+     ^~~~~~~~~~~~~
+   arch/x86/include/asm/cmpxchg.h:149:2: note: in expansion of macro '__cmpxchg'
+     __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+     ^~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion of macro 'arch_cmpxchg'
+    #define raw_cmpxchg_relaxed arch_cmpxchg
+                                ^~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:4107:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+     return raw_cmpxchg_relaxed(&v->counter, old, new);
+            ^~~~~~~~~~~~~~~~~~~
 
 
-vim +207 mm/readahead.c
+vim +/__ret +130 arch/x86/include/asm/cmpxchg.h
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  190  
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  191) /**
-73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  192)  * page_cache_ra_unbounded - Start unchecked readahead.
-73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  193)  * @ractl: Readahead control.
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  194)  * @nr_to_read: The number of pages to read.
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  195)  * @lookahead_size: Where to start the next readahead.
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  196)  *
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  197)  * This function is for filesystems to call when they want to start
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  198)  * readahead beyond a file's stated i_size.  This is almost certainly
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  199)  * not the function you want to call.  Use page_cache_async_readahead()
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  200)  * or page_cache_sync_readahead() instead.
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  201)  *
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  202)  * Context: File is referenced by caller.  Mutexes may be held by caller.
-2c684234d36f7e Matthew Wilcox (Oracle  2020-06-01  203)  * May sleep, but will not reenter filesystem to reclaim memory.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  204   */
-f6d545fc00300d Christoph Hellwig       2023-11-24  205  void __page_cache_ra_unbounded(struct readahead_control *ractl,
-73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  206) 		unsigned long nr_to_read, unsigned long lookahead_size)
-^1da177e4c3f41 Linus Torvalds          2005-04-16 @207  {
-73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  208) 	struct address_space *mapping = ractl->mapping;
-73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  209) 	unsigned long index = readahead_index(ractl);
-8a5c743e308dd2 Michal Hocko            2016-07-26  210  	gfp_t gfp_mask = readahead_gfp_mask(mapping);
-c2c7ad74b16206 Matthew Wilcox (Oracle  2020-06-01  211) 	unsigned long i;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  212  
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  213) 	/*
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  214) 	 * Partway through the readahead operation, we will have added
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  215) 	 * locked pages to the page cache, but will not yet have submitted
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  216) 	 * them for I/O.  Adding another page may need to allocate memory,
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  217) 	 * which can trigger memory reclaim.  Telling the VM we're in
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  218) 	 * the middle of a filesystem operation will cause it to not
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  219) 	 * touch file-backed pages, preventing a deadlock.  Most (all?)
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  220) 	 * filesystems already specify __GFP_NOFS in their mapping's
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  221) 	 * gfp_mask, but let's be explicit here.
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  222) 	 */
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  223) 	unsigned int nofs = memalloc_nofs_save();
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  224) 
-f6d545fc00300d Christoph Hellwig       2023-11-24  225  	lockdep_assert_held(&mapping->invalidate_lock);
-f6d545fc00300d Christoph Hellwig       2023-11-24  226  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  227  	/*
-^1da177e4c3f41 Linus Torvalds          2005-04-16  228  	 * Preallocate as many pages as we will need.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  229  	 */
-c2c7ad74b16206 Matthew Wilcox (Oracle  2020-06-01  230) 	for (i = 0; i < nr_to_read; i++) {
-0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  231) 		struct folio *folio = xa_load(&mapping->i_pages, index + i);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  232  
-0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  233) 		if (folio && !xa_is_value(folio)) {
-b3751e6ab45a3b Christoph Hellwig       2018-06-01  234  			/*
-2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  235) 			 * Page already present?  Kick off the current batch
-2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  236) 			 * of contiguous pages before continuing with the
-2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  237) 			 * next batch.  This page may be the one we would
-2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  238) 			 * have intended to mark as Readahead, but we don't
-2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  239) 			 * have a stable reference to this page, and it's
-2d8163e4899dad Matthew Wilcox (Oracle  2020-06-01  240) 			 * not worth getting one just for that.
-b3751e6ab45a3b Christoph Hellwig       2018-06-01  241  			 */
-b4e089d705eef8 Christoph Hellwig       2022-03-31  242  			read_pages(ractl);
-b4e089d705eef8 Christoph Hellwig       2022-03-31  243  			ractl->_index++;
-f615bd5c4725fd Matthew Wilcox (Oracle  2021-04-21  244) 			i = ractl->_index + ractl->_nr_pages - index - 1;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  245  			continue;
-b3751e6ab45a3b Christoph Hellwig       2018-06-01  246  		}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  247  
-0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  248) 		folio = filemap_alloc_folio(gfp_mask, 0);
-0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  249) 		if (!folio)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  250  			break;
-704528d895dd3e Matthew Wilcox (Oracle  2022-03-23  251) 		if (filemap_add_folio(mapping, folio, index + i,
-c1f6925e10912c Matthew Wilcox (Oracle  2020-06-01  252) 					gfp_mask) < 0) {
-0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  253) 			folio_put(folio);
-b4e089d705eef8 Christoph Hellwig       2022-03-31  254  			read_pages(ractl);
-b4e089d705eef8 Christoph Hellwig       2022-03-31  255  			ractl->_index++;
-f615bd5c4725fd Matthew Wilcox (Oracle  2021-04-21  256) 			i = ractl->_index + ractl->_nr_pages - index - 1;
-c1f6925e10912c Matthew Wilcox (Oracle  2020-06-01  257) 			continue;
-c1f6925e10912c Matthew Wilcox (Oracle  2020-06-01  258) 		}
-c2c7ad74b16206 Matthew Wilcox (Oracle  2020-06-01  259) 		if (i == nr_to_read - lookahead_size)
-0387df1d1fa7d6 Matthew Wilcox (Oracle  2021-03-10  260) 			folio_set_readahead(folio);
-176042404ee6a9 Christoph Hellwig       2022-09-15  261  		ractl->_workingset |= folio_test_workingset(folio);
-73bb49da50cd46 Matthew Wilcox (Oracle  2020-10-15  262) 		ractl->_nr_pages++;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  263  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  264  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  265  	/*
-7e0a126519b826 Matthew Wilcox (Oracle  2022-04-29  266) 	 * Now start the IO.  We ignore I/O errors - if the folio is not
-7e0a126519b826 Matthew Wilcox (Oracle  2022-04-29  267) 	 * uptodate then the caller will launch read_folio again, and
-^1da177e4c3f41 Linus Torvalds          2005-04-16  268  	 * will then handle the error.
-^1da177e4c3f41 Linus Torvalds          2005-04-16  269  	 */
-b4e089d705eef8 Christoph Hellwig       2022-03-31  270  	read_pages(ractl);
-f2c817bed58d9b Matthew Wilcox (Oracle  2020-06-01  271) 	memalloc_nofs_restore(nofs);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  272  }
-f6d545fc00300d Christoph Hellwig       2023-11-24  273  
-
-:::::: The code at line 207 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   79  
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   80  /*
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   81   * Atomic compare and exchange.  Compare OLD with MEM, if identical,
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   82   * store NEW in MEM.  Return the initial value in MEM.  Success is
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   83   * indicated by comparing RETURN with OLD.
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   84   */
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   85  #define __raw_cmpxchg(ptr, old, new, size, lock)			\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   86  ({									\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   87  	__typeof__(*(ptr)) __ret;					\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   88  	__typeof__(*(ptr)) __old = (old);				\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   89  	__typeof__(*(ptr)) __new = (new);				\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   90  	switch (size) {							\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   91  	case __X86_CASE_B:						\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   92  	{								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   93  		volatile u8 *__ptr = (volatile u8 *)(ptr);		\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   94  		asm volatile(lock "cmpxchgb %2,%1"			\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   95  			     : "=a" (__ret), "+m" (*__ptr)		\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   96  			     : "q" (__new), "0" (__old)			\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   97  			     : "memory");				\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   98  		break;							\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   99  	}								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  100  	case __X86_CASE_W:						\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  101  	{								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  102  		volatile u16 *__ptr = (volatile u16 *)(ptr);		\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  103  		asm volatile(lock "cmpxchgw %2,%1"			\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  104  			     : "=a" (__ret), "+m" (*__ptr)		\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  105  			     : "r" (__new), "0" (__old)			\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  106  			     : "memory");				\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  107  		break;							\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  108  	}								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  109  	case __X86_CASE_L:						\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  110  	{								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  111  		volatile u32 *__ptr = (volatile u32 *)(ptr);		\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  112  		asm volatile(lock "cmpxchgl %2,%1"			\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  113  			     : "=a" (__ret), "+m" (*__ptr)		\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  114  			     : "r" (__new), "0" (__old)			\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  115  			     : "memory");				\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  116  		break;							\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  117  	}								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  118  	case __X86_CASE_Q:						\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  119  	{								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  120  		volatile u64 *__ptr = (volatile u64 *)(ptr);		\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  121  		asm volatile(lock "cmpxchgq %2,%1"			\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  122  			     : "=a" (__ret), "+m" (*__ptr)		\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  123  			     : "r" (__new), "0" (__old)			\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  124  			     : "memory");				\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  125  		break;							\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  126  	}								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  127  	default:							\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  128  		__cmpxchg_wrong_size();					\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  129  	}								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18 @130  	__ret;								\
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  131  })
+e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  132  
 
 -- 
 0-DAY CI Kernel Test Service
