@@ -1,48 +1,49 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0903CDDCB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 15:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A2F28DD2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 15:01:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YahqxB7b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kuMYdWoL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700924493; x=1732460493;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bR4/NLnAkxO/N2pV3HU+9K7s8T/yX3HbmvNxu1UjHyc=;
-  b=YahqxB7bU/onQJZmKcUktnqsL7BdpKhehXR3CJ+wh5TaVTNC0YMzTdhY
-   swZtL2xJpq22AgaQp3KtNmAyM2NFbpHfiB9De46xXRHLQyBUUExMpTcho
-   s+HPGStRzUN+j31FCFsw+lokZ2B6CbjfLrikYM2/GFONKD4VsW+EDAOy5
-   UvZTzyChmKhzLzIeBInFkNW+uYXdmlu18bmlqzcnGPFakmJG0SxqLknU4
-   VXquoiN9qTG50v8zJcBKeOczLTSz8bGeypnenM27xtskQtbwvF5dUnWN1
-   DgULbMK3eR+z3XfaUQMoSlQckVQBYQammGdTgqxUaKoJLEwAuUhgwqHMm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="377562197"
+  t=1700924495; x=1732460495;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LGrjJaIkkh5RpqgA3aTrFEKAmizU9Ll5N3HfdhPU8z8=;
+  b=kuMYdWoLQc+He5hRBnXIm2Mc/Tfh0tQB24nUxpz7s8KD1F7FUvJ+edWm
+   OcXD63Swdfz2bjr4l5WPO8p8d8dbaXXc7dQIat0gu7XlubFYOQEsmawZA
+   flp3APZ/rqxa/1eqoDaVs9VwWKRiT4as8W6IPff4Ma3sUY7sRHTyTGgbT
+   e/R7mp3VAzvMwz9wIt+TvanFKzJWlxBKwhHOiPhn6v/1XD13teyLGKujb
+   IkkVAU70JObUw/NmyGSyL9idFIuYc9YHa2cx98HEyPP6x7YP0jXargLyF
+   24/na5KjPe17Jcim60qamhCxWN/PNwdN0VjiXfVejmq74jpz156FUUiGb
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="377562199"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="377562197"
+   d="scan'208";a="377562199"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 07:01:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="796829560"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="796829558"
 X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="796829560"
+   d="scan'208";a="796829558"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 25 Nov 2023 07:01:30 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6u9w-00046u-0u;
+	id 1r6u9w-00046s-0U;
 	Sat, 25 Nov 2023 15:01:28 +0000
-Date: Sat, 25 Nov 2023 23:00:30 +0800
+Date: Sat, 25 Nov 2023 23:00:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luben Tuikov <ltuikov89@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: [drm-misc:for-linux-next 2/3]
- drivers/gpu/drm/nouveau/nouveau_sched.c:21:34: error: use of undeclared
- identifier 'DRM_SCHED_PRIORITY_MIN'
-Message-ID: <202311252109.WgbJsSkG-lkp@intel.com>
+To: Kemeng Shi <shikemeng@huaweicloud.com>, tytso@mit.edu,
+	adilger.kernel@dilger.ca
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] ext4: Add unit test for ext4_mb_mark_diskspace_used
+Message-ID: <202311252009.Z6vrLAjg-lkp@intel.com>
+References: <20231125154144.3943442-6-shikemeng@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,51 +52,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231125154144.3943442-6-shikemeng@huaweicloud.com>
 
-Hi Luben,
+Hi Kemeng,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   38f922a563aac3148ac73e73689805917f034cb5
-commit: fe375c74806dbd30b00ec038a80a5b7bf4653ab7 [2/3] drm/sched: Rename priority MIN to LOW
-config: x86_64-randconfig-123-20231125 (https://download.01.org/0day-ci/archive/20231125/202311252109.WgbJsSkG-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311252109.WgbJsSkG-lkp@intel.com/reproduce)
+[auto build test WARNING on tytso-ext4/dev]
+[also build test WARNING on linus/master v6.7-rc2 next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/ext4-Add-unit-test-for-test_free_blocks_simple/20231125-154444
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20231125154144.3943442-6-shikemeng%40huaweicloud.com
+patch subject: [PATCH 5/5] ext4: Add unit test for ext4_mb_mark_diskspace_used
+config: i386-buildonly-randconfig-004-20231125 (https://download.01.org/0day-ci/archive/20231125/202311252009.Z6vrLAjg-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311252009.Z6vrLAjg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311252109.WgbJsSkG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311252009.Z6vrLAjg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/nouveau_sched.c:21:34: error: use of undeclared identifier 'DRM_SCHED_PRIORITY_MIN'
-           NOUVEAU_SCHED_PRIORITY_SINGLE = DRM_SCHED_PRIORITY_MIN,
-                                           ^
-   drivers/gpu/drm/nouveau/nouveau_sched.c:436:38: error: use of undeclared identifier 'DRM_SCHED_PRIORITY_MIN'
-           ret = drm_sched_entity_init(entity, DRM_SCHED_PRIORITY_MIN,
-                                               ^
-   2 errors generated.
+   In file included from fs/ext4/mballoc.c:6996:
+   fs/ext4/mballoc-test.c: In function 'test_mark_diskspace_used':
+>> fs/ext4/mballoc-test.c:510:23: warning: variable 'max' set but not used [-Wunused-but-set-variable]
+     510 |         ext4_grpblk_t max;
+         |                       ^~~
 
 
-vim +/DRM_SCHED_PRIORITY_MIN +21 drivers/gpu/drm/nouveau/nouveau_sched.c
+vim +/max +510 fs/ext4/mballoc-test.c
 
-b88baab828713c Danilo Krummrich 2023-08-04  16  
-5f03a507b29e44 Danilo Krummrich 2023-11-14  17  /* Starts at 0, since the DRM scheduler interprets those parameters as (initial)
-5f03a507b29e44 Danilo Krummrich 2023-11-14  18   * index to the run-queue array.
-5f03a507b29e44 Danilo Krummrich 2023-11-14  19   */
-5f03a507b29e44 Danilo Krummrich 2023-11-14  20  enum nouveau_sched_priority {
-5f03a507b29e44 Danilo Krummrich 2023-11-14 @21  	NOUVEAU_SCHED_PRIORITY_SINGLE = DRM_SCHED_PRIORITY_MIN,
-5f03a507b29e44 Danilo Krummrich 2023-11-14  22  	NOUVEAU_SCHED_PRIORITY_COUNT,
-5f03a507b29e44 Danilo Krummrich 2023-11-14  23  };
-5f03a507b29e44 Danilo Krummrich 2023-11-14  24  
-
-:::::: The code at line 21 was first introduced by commit
-:::::: 5f03a507b29e44a848f315c7240c19894dd8be4f drm/nouveau: implement 1:1 scheduler - entity relationship
-
-:::::: TO: Danilo Krummrich <dakr@redhat.com>
-:::::: CC: Danilo Krummrich <dakr@redhat.com>
+   505	
+   506	static void test_mark_diskspace_used(struct kunit *test)
+   507	{
+   508		struct super_block *sb = (struct super_block *)test->priv;
+   509		struct inode inode = { .i_sb = sb, };
+ > 510		ext4_grpblk_t max;
+   511		struct ext4_allocation_context ac;
+   512		struct test_range ranges[TEST_RANGE_COUNT];
+   513		int i;
+   514	
+   515		mbt_generate_test_ranges(sb, ranges, TEST_RANGE_COUNT);
+   516	
+   517		ac.ac_status = AC_STATUS_FOUND;
+   518		ac.ac_sb = sb;
+   519		ac.ac_inode = &inode;
+   520		max = EXT4_CLUSTERS_PER_GROUP(sb);
+   521		for (i = 0; i < TEST_RANGE_COUNT; i++)
+   522			test_mark_diskspace_used_range(test, &ac, ranges[i].start,
+   523						       ranges[i].len);
+   524	}
+   525	
 
 -- 
 0-DAY CI Kernel Test Service
