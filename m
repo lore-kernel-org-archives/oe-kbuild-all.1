@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961FF4435;
-	Sat, 25 Nov 2023 07:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8659079E4;
+	Sat, 25 Nov 2023 07:43:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wgz+FxhX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G03DLTJo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700897075; x=1732433075;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=akDnM2kZPFoKnotfTWpvEVHQ2FZN3itt1bPsrne+AfI=;
-  b=Wgz+FxhXF5GkSjzXOOYv14uMf1fTJ/UQUbfrnNKC/rGmqz3sh9E+Aafs
-   dnsJGb0Y5Ryo/uhEUDfsxczkPnZeThQvh+CAv+twDIBhwchTypHgicGKs
-   wDSCzsFgjry1gykkk4yl/7uFcduG8kHcLa0FbzMso0+G1CZCNuLh49Srv
-   SpX7HzUverSv2O3U2y8MAHfnrTlM+fAO9/qU6pnvNrIQ4oc70NS2oL98q
-   suf6KCNTQON77wlnS/yjRZMJZegx7laGSIXkc+HPqj7TFi30H/J/2eEF7
-   SsxTSlLV9rNgDK0aWgxn7IN9E41fndTNNILNLKjdODcOhn319oEtVKTY2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="377546090"
+  t=1700898225; x=1732434225;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Bb9FXwRuLyTWwaMz6jNEuebAer5qBwmm7TosoOJwHzk=;
+  b=G03DLTJozAzkodAmom+NQrdB/9yWA72GtBbl6c/W2cAwuag7mQi9M2bH
+   ccaymIWtq+zyKkx5JfDYwg0yJeJgROZbj5L74kAjIse0VIfP/ramuqIcl
+   45TYoDCRmjJINYDudygzP60Kpe+Cxsq0l5GiP+8AAqqf/qfDwHbryi+iL
+   ByP5YspETWeS9t/avYlLvQpCf2pfq0vlXuPoqVSA7yW7OHoAFQ9SJc/Mo
+   t8O+ltn4hLQALWsPYPht1I0321ktPjjkLwe/vXzWP4rtfiipeciMJK60k
+   9uJJeiNLvC2Mhfg9HSyRIuQWh70GDDeRJ+E7fJubtmkpx+SLh2uaBjPkU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="395321541"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="377546090"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 23:24:33 -0800
+   d="scan'208";a="395321541"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 23:43:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="941093726"
 X-IronPort-AV: E=Sophos;i="6.04,225,1695711600"; 
-   d="scan'208";a="941093726"
+   d="scan'208";a="9329657"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 24 Nov 2023 23:24:31 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 24 Nov 2023 23:43:41 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6n1h-0003j8-2M;
-	Sat, 25 Nov 2023 07:24:29 +0000
-Date: Sat, 25 Nov 2023 15:24:25 +0800
+	id 1r6nKE-0003kH-24;
+	Sat, 25 Nov 2023 07:43:38 +0000
+Date: Sat, 25 Nov 2023 15:42:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiqian Chen <Jiqian.Chen@amd.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC KERNEL PATCH v2 2/3] xen/pvh: Unmask irq for passthrough
- device in PVH dom0
-Message-ID: <202311251303.UOiJlP4m-lkp@intel.com>
-References: <20231124103123.3263471-3-Jiqian.Chen@amd.com>
+Subject: [jgunthorpe:iommu_fwspec 10/41] drivers/acpi/arm64/iort.c:2014:18:
+ warning: implicit conversion from 'unsigned long long' to 'phys_addr_t' (aka
+ 'unsigned int') changes value from 18446744073709551615 to 4294967295
+Message-ID: <202311251401.PhjhNVYJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,106 +49,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231124103123.3263471-3-Jiqian.Chen@amd.com>
 
-Hi Jiqian,
+Hi Jason,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on v6.7-rc1]
-[also build test ERROR on next-20231124]
-[cannot apply to xen-tip/linux-next tip/irq/core tip/x86/core linus/master v6.7-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiqian-Chen/xen-pci-Add-xen_reset_device_state-function/20231124-183607
-base:   v6.7-rc1
-patch link:    https://lore.kernel.org/r/20231124103123.3263471-3-Jiqian.Chen%40amd.com
-patch subject: [RFC KERNEL PATCH v2 2/3] xen/pvh: Unmask irq for passthrough device in PVH dom0
-config: hexagon-randconfig-001-20231125 (https://download.01.org/0day-ci/archive/20231125/202311251303.UOiJlP4m-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251303.UOiJlP4m-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_fwspec
+head:   c87a72108f7683a608ec2eb459ee92b3eeca7406
+commit: bee383fcba7cb2817bb5971e7e600ade21b0f096 [10/41] ACPI: IORT: Allow COMPILE_TEST of IORT
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231125/202311251401.PhjhNVYJ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231125/202311251401.PhjhNVYJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251303.UOiJlP4m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311251401.PhjhNVYJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/hexagon/kernel/irq_cpu.c:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from arch/hexagon/kernel/irq_cpu.c:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from arch/hexagon/kernel/irq_cpu.c:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   arch/hexagon/kernel/irq_cpu.c:22:13: error: static declaration of 'unmask_irq' follows non-static declaration
-   static void unmask_irq(struct irq_data *data)
-               ^
-   include/linux/irq.h:662:13: note: previous declaration is here
-   extern void unmask_irq(struct irq_desc *desc);
-               ^
->> arch/hexagon/kernel/irq_cpu.c:48:16: error: incompatible function pointer types initializing 'void (*)(struct irq_data *)' with an expression of type 'void (struct irq_desc *)' [-Werror,-Wincompatible-function-pointer-types]
-           .irq_unmask     = unmask_irq,
-                             ^~~~~~~~~~
-   6 warnings and 2 errors generated.
+>> drivers/acpi/arm64/iort.c:2014:18: warning: implicit conversion from 'unsigned long long' to 'phys_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+                           local_limit = DMA_BIT_MASK(ncomp->memory_address_limit);
+                                       ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:40: note: expanded from macro 'DMA_BIT_MASK'
+   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+                                          ^~~~~
+   drivers/acpi/arm64/iort.c:2023:18: warning: implicit conversion from 'unsigned long long' to 'phys_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+                           local_limit = DMA_BIT_MASK(rc->memory_address_limit);
+                                       ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:40: note: expanded from macro 'DMA_BIT_MASK'
+   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+                                          ^~~~~
+   2 warnings generated.
 
 
-vim +48 arch/hexagon/kernel/irq_cpu.c
+vim +2014 drivers/acpi/arm64/iort.c
 
-2ac211bc423a0e Richard Kuo 2011-10-31  44  
-2ac211bc423a0e Richard Kuo 2011-10-31  45  static struct irq_chip hexagon_irq_chip = {
-2ac211bc423a0e Richard Kuo 2011-10-31  46  	.name		= "HEXAGON",
-2ac211bc423a0e Richard Kuo 2011-10-31  47  	.irq_mask	= mask_irq,
-2ac211bc423a0e Richard Kuo 2011-10-31 @48  	.irq_unmask	= unmask_irq,
-2ac211bc423a0e Richard Kuo 2011-10-31  49  	.irq_set_wake	= set_wake,
-2ac211bc423a0e Richard Kuo 2011-10-31  50  	.irq_eoi	= eoi_irq
-2ac211bc423a0e Richard Kuo 2011-10-31  51  };
-2ac211bc423a0e Richard Kuo 2011-10-31  52  
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1978  
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1979  #ifdef CONFIG_ZONE_DMA
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1980  /*
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1981   * Extract the highest CPU physical address accessible to all DMA masters in
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1982   * the system. PHYS_ADDR_MAX is returned when no constrained device is found.
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1983   */
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1984  phys_addr_t __init acpi_iort_dma_get_max_cpu_address(void)
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1985  {
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1986  	phys_addr_t limit = PHYS_ADDR_MAX;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1987  	struct acpi_iort_node *node, *end;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1988  	struct acpi_table_iort *iort;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1989  	acpi_status status;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1990  	int i;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1991  
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1992  	if (acpi_disabled)
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1993  		return limit;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1994  
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1995  	status = acpi_get_table(ACPI_SIG_IORT, 0,
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1996  				(struct acpi_table_header **)&iort);
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1997  	if (ACPI_FAILURE(status))
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1998  		return limit;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  1999  
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2000  	node = ACPI_ADD_PTR(struct acpi_iort_node, iort, iort->node_offset);
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2001  	end = ACPI_ADD_PTR(struct acpi_iort_node, iort, iort->header.length);
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2002  
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2003  	for (i = 0; i < iort->node_count; i++) {
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2004  		if (node >= end)
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2005  			break;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2006  
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2007  		switch (node->type) {
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2008  			struct acpi_iort_named_component *ncomp;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2009  			struct acpi_iort_root_complex *rc;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2010  			phys_addr_t local_limit;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2011  
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2012  		case ACPI_IORT_NODE_NAMED_COMPONENT:
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19  2013  			ncomp = (struct acpi_iort_named_component *)node->node_data;
+2b8652936f0ca9 Ard Biesheuvel 2020-11-19 @2014  			local_limit = DMA_BIT_MASK(ncomp->memory_address_limit);
+
+:::::: The code at line 2014 was first introduced by commit
+:::::: 2b8652936f0ca9ca2e6c984ae76c7bfcda1b3f22 arm64: mm: Set ZONE_DMA size based on early IORT scan
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
