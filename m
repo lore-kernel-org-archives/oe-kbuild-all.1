@@ -1,46 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8FA320F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 07:34:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1B4802
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 10:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FUc6tqG8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eRLlMIep"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700984064; x=1732520064;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6qcwZKcvcTIEt1uUkv2p8fYANmQoguuWbKwyzsvmLEA=;
-  b=FUc6tqG8MywBGxO2zAvsPZfHVZOYpzsOctivROpN5uq4BnIURt+Tk2Iq
-   Z4t2v6KvmeDeJ+/Ea+1ZiiqhT/U/GjaFepuBoKF7G9aVCHiwrCXdbPJ2F
-   GDI7AU36AiIIJ5gaWdVE3YLe1NZU41+TocXoFdIbAPORXrbg2+Wg10syP
-   FCmTnmce0NGVYQgjrD7+HRmH89Wo/NyFxLhPIYNXyXSqY6H3/E56U2eF2
-   OSVJhf0VN3wdXbWu1ZCNXyLKOhWqNdpT+9pVjx+3U2oN4J4wZapVPWs6r
-   hssvdPYKfUnh+a9Z1axOLRhqN2ZGkIZlRLDANBgyliNa1DQRt/Pd9vTjn
+  t=1700993535; x=1732529535;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h/LLhdSvEk/cgSco2Zse5iLa8y9W4V/6wPojyS/oJBU=;
+  b=eRLlMIep3WmGXgcSw9W3mgU6/uVhxAevhQtlWv8Kpo9TAG97j5ht1vtc
+   UwmC3tAz7DHRu4Zug7tPb+fzoEq6ADN2KYikg5yWJ4HozCmALmQLhfEs6
+   LU0apDJUOTzdPt1jSW+x35JuzO9xIoWS6JEWDDTnqQUjjbpHjl24hL5Rm
+   lLd0axI1ae10uBC+DDI931YAlcvuAheybtKev3brsWALY+DgwJbT3X8GD
+   11R+T0XrC1PnmJOUHmToUbeX2JVmwT0U2AEtsJ9jWlW3f/S61kgLTyq9U
+   lvAi7RTkODnIP3AxZlDhv4wikiY3K74jlgLGMfRz85J6PS1JjJ1/S89Rt
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="11248161"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="5805303"
 X-IronPort-AV: E=Sophos;i="6.04,228,1695711600"; 
-   d="scan'208";a="11248161"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 23:34:23 -0800
+   d="scan'208";a="5805303"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 02:12:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="796946943"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="941294053"
 X-IronPort-AV: E=Sophos;i="6.04,228,1695711600"; 
-   d="scan'208";a="796946943"
+   d="scan'208";a="941294053"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 25 Nov 2023 23:34:21 -0800
+  by orsmga005.jf.intel.com with ESMTP; 26 Nov 2023 02:12:11 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r79el-0004wo-1c;
-	Sun, 26 Nov 2023 07:34:19 +0000
-Date: Sun, 26 Nov 2023 15:34:08 +0800
+	id 1r7C7V-00051W-05;
+	Sun, 26 Nov 2023 10:12:09 +0000
+Date: Sun, 26 Nov 2023 18:12:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/hwtracing/intel_th/core.c:795: warning: No description found
- for parameter 'drvdata'
-Message-ID: <202311261534.mYloP1GL-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] export.h: remove include/asm-generic/export.h
+Message-ID: <202311261737.dQEkPNHF-lkp@intel.com>
+References: <20231126054917.930324-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,96 +52,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231126054917.930324-1-masahiroy@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0f5cc96c367f2e780eb492cc9cab84e3b2ca88da
-commit: 3321371b5d648479058fa6f9441168abbc1467c9 intel_th: pci: Use drvdata for quirks
-date:   6 years ago
-config: i386-buildonly-randconfig-004-20231120 (https://download.01.org/0day-ci/archive/20231126/202311261534.mYloP1GL-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311261534.mYloP1GL-lkp@intel.com/reproduce)
+Hi Masahiro,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.7-rc2]
+[also build test ERROR on linus/master next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/export-h-remove-include-asm-generic-export-h/20231126-135120
+base:   v6.7-rc2
+patch link:    https://lore.kernel.org/r/20231126054917.930324-1-masahiroy%40kernel.org
+patch subject: [PATCH] export.h: remove include/asm-generic/export.h
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20231126/202311261737.dQEkPNHF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311261737.dQEkPNHF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311261534.mYloP1GL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311261737.dQEkPNHF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/hwtracing/intel_th/core.c:795: warning: No description found for parameter 'drvdata'
+   In file included from arch/arm64/kernel/vdso/note.S:15:
+>> arch/arm64/include/asm/assembler.h:15:10: fatal error: asm-generic/export.h: No such file or directory
+      15 | #include <asm-generic/export.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from arch/arm64/include/asm/linkage.h:5,
+                    from include/linux/linkage.h:8,
+                    from arch/arm64/kernel/vdso/sigreturn.S:15:
+>> arch/arm64/include/asm/assembler.h:15:10: fatal error: asm-generic/export.h: No such file or directory
+      15 | #include <asm-generic/export.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[3]: *** [scripts/Makefile.build:360: arch/arm64/kernel/vdso/note.o] Error 1
+   make[3]: *** [scripts/Makefile.build:360: arch/arm64/kernel/vdso/sigreturn.o] Error 1
+   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
+   make[3]: Target 'arch/arm64/kernel/vdso/vdso.so' not remade because of errors.
+   make[2]: *** [arch/arm64/Makefile:194: vdso_prepare] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/drvdata +795 drivers/hwtracing/intel_th/core.c
+vim +15 arch/arm64/include/asm/assembler.h
 
-39f4034693b7c7 Alexander Shishkin 2015-09-22  784  
-39f4034693b7c7 Alexander Shishkin 2015-09-22  785  /**
-39f4034693b7c7 Alexander Shishkin 2015-09-22  786   * intel_th_alloc() - allocate a new Intel TH device and its subdevices
-39f4034693b7c7 Alexander Shishkin 2015-09-22  787   * @dev:	parent device
-39f4034693b7c7 Alexander Shishkin 2015-09-22  788   * @devres:	parent's resources
-39f4034693b7c7 Alexander Shishkin 2015-09-22  789   * @ndevres:	number of resources
-39f4034693b7c7 Alexander Shishkin 2015-09-22  790   * @irq:	irq number
-39f4034693b7c7 Alexander Shishkin 2015-09-22  791   */
-39f4034693b7c7 Alexander Shishkin 2015-09-22  792  struct intel_th *
-3321371b5d6484 Alexander Shishkin 2017-08-18  793  intel_th_alloc(struct device *dev, struct intel_th_drvdata *drvdata,
-3321371b5d6484 Alexander Shishkin 2017-08-18  794  	       struct resource *devres, unsigned int ndevres, int irq)
-39f4034693b7c7 Alexander Shishkin 2015-09-22 @795  {
-39f4034693b7c7 Alexander Shishkin 2015-09-22  796  	struct intel_th *th;
-39f4034693b7c7 Alexander Shishkin 2015-09-22  797  	int err;
-39f4034693b7c7 Alexander Shishkin 2015-09-22  798  
-39f4034693b7c7 Alexander Shishkin 2015-09-22  799  	th = kzalloc(sizeof(*th), GFP_KERNEL);
-39f4034693b7c7 Alexander Shishkin 2015-09-22  800  	if (!th)
-39f4034693b7c7 Alexander Shishkin 2015-09-22  801  		return ERR_PTR(-ENOMEM);
-39f4034693b7c7 Alexander Shishkin 2015-09-22  802  
-39f4034693b7c7 Alexander Shishkin 2015-09-22  803  	th->id = ida_simple_get(&intel_th_ida, 0, 0, GFP_KERNEL);
-39f4034693b7c7 Alexander Shishkin 2015-09-22  804  	if (th->id < 0) {
-39f4034693b7c7 Alexander Shishkin 2015-09-22  805  		err = th->id;
-39f4034693b7c7 Alexander Shishkin 2015-09-22  806  		goto err_alloc;
-39f4034693b7c7 Alexander Shishkin 2015-09-22  807  	}
-39f4034693b7c7 Alexander Shishkin 2015-09-22  808  
-39f4034693b7c7 Alexander Shishkin 2015-09-22  809  	th->major = __register_chrdev(0, 0, TH_POSSIBLE_OUTPUTS,
-39f4034693b7c7 Alexander Shishkin 2015-09-22  810  				      "intel_th/output", &intel_th_output_fops);
-39f4034693b7c7 Alexander Shishkin 2015-09-22  811  	if (th->major < 0) {
-39f4034693b7c7 Alexander Shishkin 2015-09-22  812  		err = th->major;
-39f4034693b7c7 Alexander Shishkin 2015-09-22  813  		goto err_ida;
-39f4034693b7c7 Alexander Shishkin 2015-09-22  814  	}
-39f4034693b7c7 Alexander Shishkin 2015-09-22  815  	th->dev = dev;
-3321371b5d6484 Alexander Shishkin 2017-08-18  816  	th->drvdata = drvdata;
-39f4034693b7c7 Alexander Shishkin 2015-09-22  817  
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  818  	th->resource = devres;
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  819  	th->num_resources = ndevres;
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  820  	th->irq = irq;
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  821  
-d7b1787161b78a Alexander Shishkin 2016-02-15  822  	dev_set_drvdata(dev, th);
-d7b1787161b78a Alexander Shishkin 2016-02-15  823  
-142dfeb2020960 Alexander Shishkin 2016-06-22  824  	pm_runtime_no_callbacks(dev);
-142dfeb2020960 Alexander Shishkin 2016-06-22  825  	pm_runtime_put(dev);
-142dfeb2020960 Alexander Shishkin 2016-06-22  826  	pm_runtime_allow(dev);
-142dfeb2020960 Alexander Shishkin 2016-06-22  827  
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  828  	err = intel_th_populate(th);
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  829  	if (err) {
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  830  		/* free the subdevices and undo everything */
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  831  		intel_th_free(th);
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  832  		return ERR_PTR(err);
-a753bfcfdb1f31 Alexander Shishkin 2017-08-10  833  	}
-39f4034693b7c7 Alexander Shishkin 2015-09-22  834  
-39f4034693b7c7 Alexander Shishkin 2015-09-22  835  	return th;
-39f4034693b7c7 Alexander Shishkin 2015-09-22  836  
-39f4034693b7c7 Alexander Shishkin 2015-09-22  837  err_ida:
-39f4034693b7c7 Alexander Shishkin 2015-09-22  838  	ida_simple_remove(&intel_th_ida, th->id);
-39f4034693b7c7 Alexander Shishkin 2015-09-22  839  
-39f4034693b7c7 Alexander Shishkin 2015-09-22  840  err_alloc:
-39f4034693b7c7 Alexander Shishkin 2015-09-22  841  	kfree(th);
-39f4034693b7c7 Alexander Shishkin 2015-09-22  842  
-39f4034693b7c7 Alexander Shishkin 2015-09-22  843  	return ERR_PTR(err);
-39f4034693b7c7 Alexander Shishkin 2015-09-22  844  }
-39f4034693b7c7 Alexander Shishkin 2015-09-22  845  EXPORT_SYMBOL_GPL(intel_th_alloc);
-39f4034693b7c7 Alexander Shishkin 2015-09-22  846  
-
-:::::: The code at line 795 was first introduced by commit
-:::::: 39f4034693b7c7bd1fe4cb58c93259d600f55561 intel_th: Add driver infrastructure for Intel(R) Trace Hub devices
-
-:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+f3e39273e0a9a5 Marc Zyngier 2015-02-20  14  
+386b3c7bdafcc6 Mark Rutland 2018-12-07 @15  #include <asm-generic/export.h>
+386b3c7bdafcc6 Mark Rutland 2018-12-07  16  
 
 -- 
 0-DAY CI Kernel Test Service
