@@ -1,86 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9085DDDC2;
-	Sun, 26 Nov 2023 18:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CECCEAD6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 18:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KChUsiRX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51D10C433C8;
-	Sun, 26 Nov 2023 18:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701022005;
-	bh=p6pNrvNvpBYQrf6KyXpLpX8bFfn2jNLT6e4Wi7PEf04=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=KChUsiRXHl3vEPXtjrHXhvJwnz3eCN19O6H9V8Kw5H/LTNuOJZTpB8vbot6SfSXyf
-	 L254+AfwdIYObskHu0ji4rHe+gYnSyZfbn0nprzJYdOBAK/aFR9mEntxwyXquhNiS5
-	 sWyoPNjFx5xsZ5k9iI8NRO+0vZOrjATlb5Snqj7O/hbTMgmGgljLLQ03BMBRh6YPkp
-	 SQTi8dm2oLtKqaDQpXqfD8ABjVj+gUCTPOMuUOE/AH3Xv/wPXdZT+1+bxeWuSNd0CE
-	 7XBFb44H6ieAWdwUp8miQMME67c9Wy8ogOKtdFcAX0uJ9InLlQPS7nLsZV0VjzKbZw
-	 ajftHtjpRyysw==
-Date: Sun, 26 Nov 2023 18:06:37 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jagath Jog J <jagathjog1996@gmail.com>
-Cc: andriy.shevchenko@linux.intel.com, oe-kbuild-all@lists.linux.dev,
- lkp@intel.com, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iio: imu: bmi323: Make the local structures static
-Message-ID: <20231126180637.1a832574@jic23-huawei>
-In-Reply-To: <20231108035831.5889-1-jagathjog1996@gmail.com>
-References: <20231108035831.5889-1-jagathjog1996@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZ+o4EBT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701022630; x=1732558630;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ke2U1SsoTK2ah2q8nxSFcWuivPP36EMChIblZzoDwSA=;
+  b=gZ+o4EBTfSGNi1W58GThoIr2W4F+z3ICn0siD1llXSBNuZG03oNadcP5
+   X/ZPInz3uuTWL5LGjRHQH2ToSJ1V9O9dQQ4AkdBhgYAmjTw8cdX/qgybp
+   RLo0lPtEtRlsWhssOw9twzRnS+pkDfbgA0zO0KWSE0SHRBRv+Z8LKI9Q/
+   kSfa5Mp6HgIVGbDqoqUTEsEJpz6Yl28ukS+Pp6Rp7TS1rUl9W1cgiumj7
+   /l5j59pFB/NrayyzTRTCvM27wwvHqLmSJ29rS1dhFJt7NxXdUPPgKwgjn
+   /NBZyIvqVFum9nK/JnAIehh1ExU2UUa8hP9HWj/7RBRZtUQsHv8usslCr
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391460407"
+X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
+   d="scan'208";a="391460407"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 10:17:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
+   d="scan'208";a="16093317"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 26 Nov 2023 10:17:08 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r7Jgn-0005P8-2V;
+	Sun, 26 Nov 2023 18:17:05 +0000
+Date: Mon, 27 Nov 2023 02:16:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>
+Subject: [linux-next:master 2562/2998]
+ arch/csky/kernel/vdso/vgettimeofday.c:8:5: sparse: sparse: function
+ '__vdso_clock_gettime' with external linkage has definition
+Message-ID: <202311270050.DXxU8Pzu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed,  8 Nov 2023 09:28:31 +0530
-Jagath Jog J <jagathjog1996@gmail.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8c9660f6515396aba78d1168d2e17951d653ebf2
+commit: 42874e4eb35bdfc54f8514685e50434098ba4f6c [2562/2998] arch: vdso: consolidate gettime prototypes
+config: csky-randconfig-r131-20231126 (https://download.01.org/0day-ci/archive/20231127/202311270050.DXxU8Pzu-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231127/202311270050.DXxU8Pzu-lkp@intel.com/reproduce)
 
-> Make the local structures static within their respective driver files.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202311070530.qKhLTz1Y-lkp@intel.com/
-> Fixes: b512c767e7bc ("iio: imu: Add driver for BMI323 IMU")
-Applied to the togreg branch of iio.git but I dropped this fixes tag because
-it's already wrong due to a rebase and that may well happen again.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311270050.DXxU8Pzu-lkp@intel.com/
 
-Probably better to just not have one in this case :(
+sparse warnings: (new ones prefixed by >>)
+>> arch/csky/kernel/vdso/vgettimeofday.c:8:5: sparse: sparse: function '__vdso_clock_gettime' with external linkage has definition
 
-Jonathan
+vim +/__vdso_clock_gettime +8 arch/csky/kernel/vdso/vgettimeofday.c
 
-> Signed-off-by: Jagath Jog J <jagathjog1996@gmail.com>
-> ---
->  drivers/iio/imu/bmi323/bmi323_i2c.c | 2 +-
->  drivers/iio/imu/bmi323/bmi323_spi.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iio/imu/bmi323/bmi323_i2c.c b/drivers/iio/imu/bmi323/bmi323_i2c.c
-> index 0008e186367d..20a8001b9956 100644
-> --- a/drivers/iio/imu/bmi323/bmi323_i2c.c
-> +++ b/drivers/iio/imu/bmi323/bmi323_i2c.c
-> @@ -66,7 +66,7 @@ static struct regmap_bus bmi323_regmap_bus = {
->  	.write = bmi323_regmap_i2c_write,
->  };
->  
-> -const struct regmap_config bmi323_i2c_regmap_config = {
-> +static const struct regmap_config bmi323_i2c_regmap_config = {
->  	.reg_bits = 8,
->  	.val_bits = 16,
->  	.max_register = BMI323_CFG_RES_REG,
-> diff --git a/drivers/iio/imu/bmi323/bmi323_spi.c b/drivers/iio/imu/bmi323/bmi323_spi.c
-> index 6dc3352dd714..7b1e8127d0dd 100644
-> --- a/drivers/iio/imu/bmi323/bmi323_spi.c
-> +++ b/drivers/iio/imu/bmi323/bmi323_spi.c
-> @@ -41,7 +41,7 @@ static struct regmap_bus bmi323_regmap_bus = {
->  	.write = bmi323_regmap_spi_write,
->  };
->  
-> -const struct regmap_config bmi323_spi_regmap_config = {
-> +static const struct regmap_config bmi323_spi_regmap_config = {
->  	.reg_bits = 8,
->  	.val_bits = 16,
->  	.pad_bits = 8,
+0d3b051adbb72e Guo Ren 2021-01-17   6  
+c8171a86b27401 Guo Ren 2023-08-10   7  extern
+0d3b051adbb72e Guo Ren 2021-01-17  @8  int __vdso_clock_gettime(clockid_t clock,
+0d3b051adbb72e Guo Ren 2021-01-17   9  			 struct old_timespec32 *ts)
+0d3b051adbb72e Guo Ren 2021-01-17  10  {
+0d3b051adbb72e Guo Ren 2021-01-17  11  	return __cvdso_clock_gettime32(clock, ts);
+0d3b051adbb72e Guo Ren 2021-01-17  12  }
+0d3b051adbb72e Guo Ren 2021-01-17  13  
 
+:::::: The code at line 8 was first introduced by commit
+:::::: 0d3b051adbb72ed81956447d0d1e54d5943ee6f5 csky: Add VDSO with GENERIC_GETTIMEOFDAY, GENERIC_TIME_VSYSCALL, HAVE_GENERIC_VDSO
+
+:::::: TO: Guo Ren <guoren@linux.alibaba.com>
+:::::: CC: Guo Ren <guoren@linux.alibaba.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
