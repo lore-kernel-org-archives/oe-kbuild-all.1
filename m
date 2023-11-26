@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A37320F;
-	Sun, 26 Nov 2023 07:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EEC446B1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 07:08:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WlS6S74b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+LtXvP7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700982496; x=1732518496;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xXlmE9TWRuZQikYJmU21zyaBKy4gdUNengQPgFZe6Xk=;
-  b=WlS6S74bT0Hn+d1kmSEqcTvDskd0jZ6GoSv5hOwqGP1l8A7OooVLwAzJ
-   2Rh68dcM7jSfef54va0r3uPg4cqAblmdZQGmTV6LKYL5f3ou0Tt4oph+V
-   eOdc2gRbEznSQ+M0tl4AIfkjkHPGgZD+NR4mdPefRCprGzLl2SsTd9/vQ
-   TmObNv8cpJI44VfRJ8xVvNQtMyXi18qC6nHORthrjbWij5hNDtwuCljhx
-   pLGpkeYAJduJXnvWp1AJsp48MpzOZZJSqFQBipfNACjE9USp2DqXq01zo
-   OBVkGU05rjCGZWbHXckSNUEEv/1ysHo/UDsAd7zOeQso4jRxAm6GGox+j
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="14112972"
+  t=1700982497; x=1732518497;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dO79ApldYFLk6CUDjWqI+NhzWXRoWbAzEeSxGjb/+5M=;
+  b=F+LtXvP7zKkitHdsxgIOnrdqFLPSxaGw0Nejd/lBZNqetGS4GjrZct2/
+   7a2qMHd9cqnihHLnV9Kn1GhMd7Cbpd28GOsipZfUGvxUOgP3qN8U8Qepu
+   1+UgwZtJhFLOWUoIjrLzbQtNPcVU+12Uwnrx2UWN08xSheBxtd9nH/WHp
+   b9zgWBBCWW7sxswXIaqeZnjIK99aD9A+94hFcZ2PCFTyNvxYvfyWdRd88
+   jJINBmwl0UxSLsuoxiENOTvVrgYTPyw5yhTdRRmUy9akbOeI8mvgTietg
+   Y+1VUyCMMZDpDPFsNSufXWM7Cyk5ys3ofhfftjpHZ23vZ9glwAjXR2Vv+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="395375605"
 X-IronPort-AV: E=Sophos;i="6.04,228,1695711600"; 
-   d="scan'208";a="14112972"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 23:08:16 -0800
+   d="scan'208";a="395375605"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 23:08:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="885661404"
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="891409279"
 X-IronPort-AV: E=Sophos;i="6.04,228,1695711600"; 
-   d="scan'208";a="885661404"
+   d="scan'208";a="891409279"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Nov 2023 23:08:14 -0800
+  by orsmga004.jf.intel.com with ESMTP; 25 Nov 2023 23:08:14 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r79FU-0004vs-1m;
+	id 1r79FU-0004vv-26;
 	Sun, 26 Nov 2023 07:08:12 +0000
-Date: Sun, 26 Nov 2023 15:07:10 +0800
+Date: Sun, 26 Nov 2023 15:07:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_acpi_b2_v2 60/67] ld.lld: error: undefined symbol:
- pci_msi_register_fwnode_provider
-Message-ID: <202311261306.I2t3OhVU-lkp@intel.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC][PATCH] simpler way to get benefits of "vfs: shave work on
+ failed file open"
+Message-ID: <202311261322.8ip3vqTD-lkp@intel.com>
+References: <20231126020834.GC38156@ZenIV>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,24 +51,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231126020834.GC38156@ZenIV>
 
-tree:   https://github.com/avpatel/linux.git riscv_acpi_b2_v2
-head:   b1784362df37fa8f3f9ae8639df656623d268319
-commit: 7fe418be36099fd90cf18b243b30864413cf29bf [60/67] irqchip: riscv-imsic: Add ACPI support
-config: riscv-randconfig-002-20231126 (https://download.01.org/0day-ci/archive/20231126/202311261306.I2t3OhVU-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311261306.I2t3OhVU-lkp@intel.com/reproduce)
+Hi Al,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linux/master]
+[also build test ERROR on linus/master v6.7-rc2 next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Al-Viro/simpler-way-to-get-benefits-of-vfs-shave-work-on-failed-file-open/20231126-101216
+base:   linux/master
+patch link:    https://lore.kernel.org/r/20231126020834.GC38156%40ZenIV
+patch subject: [RFC][PATCH] simpler way to get benefits of "vfs: shave work on failed file open"
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231126/202311261322.8ip3vqTD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311261322.8ip3vqTD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311261306.I2t3OhVU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311261322.8ip3vqTD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: pci_msi_register_fwnode_provider
-   >>> referenced by irq-riscv-imsic-early.c
-   >>>               drivers/irqchip/irq-riscv-imsic-early.o:(imsic_early_acpi_init) in archive vmlinux.a
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/string.h:5,
+                    from fs/file_table.c:9:
+   fs/file_table.c: In function 'fput':
+>> fs/file_table.c:436:32: error: 'f' undeclared (first use in this function); did you mean 'fd'?
+     436 |                 if (unlikely(!(f->f_mode & (FMODE_BACKING | FMODE_OPENED)))) {
+         |                                ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   fs/file_table.c:436:32: note: each undeclared identifier is reported only once for each function it appears in
+     436 |                 if (unlikely(!(f->f_mode & (FMODE_BACKING | FMODE_OPENED)))) {
+         |                                ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+
+
+vim +436 fs/file_table.c
+
+   430	
+   431	void fput(struct file *file)
+   432	{
+   433		if (atomic_long_dec_and_test(&file->f_count)) {
+   434			struct task_struct *task = current;
+   435	
+ > 436			if (unlikely(!(f->f_mode & (FMODE_BACKING | FMODE_OPENED)))) {
+   437				file_free(f);
+   438				return;
+   439			}
+   440			if (likely(!in_interrupt() && !(task->flags & PF_KTHREAD))) {
+   441				init_task_work(&file->f_rcuhead, ____fput);
+   442				if (!task_work_add(task, &file->f_rcuhead, TWA_RESUME))
+   443					return;
+   444				/*
+   445				 * After this task has run exit_task_work(),
+   446				 * task_work_add() will fail.  Fall through to delayed
+   447				 * fput to avoid leaking *file.
+   448				 */
+   449			}
+   450	
+   451			if (llist_add(&file->f_llist, &delayed_fput_list))
+   452				schedule_delayed_work(&delayed_fput_work, 1);
+   453		}
+   454	}
+   455	
 
 -- 
 0-DAY CI Kernel Test Service
