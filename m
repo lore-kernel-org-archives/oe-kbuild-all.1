@@ -1,182 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B25381;
-	Sun, 26 Nov 2023 00:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CCC384
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 00:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDDDedsa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700957702; x=1732493702;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BxkeV4UVJIMT3JGg5wMp4/DRheO7sVldnNmLGPQGs4U=;
-  b=bDDDedsaY82QFb3x4RaLaQyT608bj14KMZSkamWWN3k54zuTAPQk48OO
-   ACE/vbpfoOa4HUcyuOwkiZ4yZvIukpOoCF5uSGkl2QX/N7ZNs6t0FooBA
-   rtzdc1XFXrUZSG/Zh9Uq4Gd2AMBaJ+syMARjOx8BTLdcalCtYIQk6VRW9
-   MO58YCdwb4lEuJWWY5/PFTS3ptwM2vE+mw57phSyKCO6RX3UG75VwMO3c
-   Q8ZAjqcKxyjgj6Br13XlOq3mlrLsS4NuDRnu77kpaCmPxwZF68eqT43xk
-   dCMN2M0dlqqrHK366m3mzkojqedD3MBFhmwSSoJc0EaQuPw8fArW1XNTu
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="423679236"
-X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="423679236"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 16:15:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="744198509"
-X-IronPort-AV: E=Sophos;i="6.04,227,1695711600"; 
-   d="scan'208";a="744198509"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 25 Nov 2023 16:15:00 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r72nZ-0004an-2l;
-	Sun, 26 Nov 2023 00:14:57 +0000
-Date: Sun, 26 Nov 2023 08:14:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paulo Alcantara <pc@manguebit.com>, smfrench@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-cifs@vger.kernel.org, Paulo Alcantara <pc@manguebit.com>
-Subject: Re: [PATCH 2/8] smb: client: allow creating special files via
- reparse points
-Message-ID: <202311260746.HOJ039BV-lkp@intel.com>
-References: <20231125220813.30538-3-pc@manguebit.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gnx4yu9W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2FCC433CD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 00:29:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700958564;
+	bh=QD1q6KK1C7lzvBeT+vzWvvKJ2ThbQAIXhMHqV30TTDk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Gnx4yu9WbdmNfGew5PiEqN/afohLku5RGr8NL0Rp0O8n8AC/CRL5ayyMabetcOSto
+	 DZUpnn/thnC0aFrtzg8pNtBL5ZxYi8tEeQyYcuS1DL0SzEOG/V67Ogr+Gck9lW7KW8
+	 HbfOoX61/Ls8wcHAGvtklymO8FHhCy0/PldqBawNsqBnuu2eTUwPCN09QrHnQsg/gg
+	 wc8dO5Gia3Y9VeZ7+kZfs4TzVsqWtWlOomgdDEY4Qms4/82cFLy0hlDwfdxKwcdCK7
+	 3aVlIQ0Q0kkOmQ61rFjEnu3bIg2BFHK1t6y0/p4z/wzESfWf+GEJLx4cMZs4AT+Kn6
+	 61sHfX/M7KvaQ==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c5b7764016so34405241fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 25 Nov 2023 16:29:24 -0800 (PST)
+X-Gm-Message-State: AOJu0YxfjzBOp3GjEPZJ1gEDu5JEQGkUQC6WOn5uizh4xQyLMVlBLeT9
+	8sUG84kGyfS0/SAYgOxU1/Z3oY7ji0e33gemdso=
+X-Google-Smtp-Source: AGHT+IEZPHaVURO2Y4180HzXfLU0Noee2Eb21b4cP6JX5WZAph6aSE67qeGcMXdz4GOSP1Sl5GbZoAq6tV1KNRG2xNw=
+X-Received: by 2002:a2e:93cf:0:b0:2c6:f276:34bf with SMTP id
+ p15-20020a2e93cf000000b002c6f27634bfmr4835321ljh.45.1700958562514; Sat, 25
+ Nov 2023 16:29:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231125220813.30538-3-pc@manguebit.com>
+References: <20231125013025.3620560-1-guoren@kernel.org> <202311251711.9SeU47cN-lkp@intel.com>
+In-Reply-To: <202311251711.9SeU47cN-lkp@intel.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Sun, 26 Nov 2023 08:29:08 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTShio6iaAKpy_rpnufp9hB54r+t_+0wPZy7eJUpcErY5Q@mail.gmail.com>
+Message-ID: <CAJF2gTShio6iaAKpy_rpnufp9hB54r+t_+0wPZy7eJUpcErY5Q@mail.gmail.com>
+Subject: Re: [PATCH V2] locking/atomic: scripts: Increase template priority in
+ order variants
+To: kernel test robot <lkp@intel.com>
+Cc: mark.rutland@arm.com, peterz@infradead.org, keescook@chromium.org, 
+	paulmck@kernel.org, ubizjak@gmail.com, tglx@linutronix.de, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Guo Ren <guoren@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paulo,
+On Sat, Nov 25, 2023 at 5:11=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on kees/for-next/pstore]
+> [also build test WARNING on kees/for-next/kspp]
+> [cannot apply to linus/master v6.7-rc2 next-20231124]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/guoren-kernel-org/=
+locking-atomic-scripts-Increase-template-priority-in-order-variants/2023112=
+5-093207
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git fo=
+r-next/pstore
+> patch link:    https://lore.kernel.org/r/20231125013025.3620560-1-guoren%=
+40kernel.org
+> patch subject: [PATCH V2] locking/atomic: scripts: Increase template prio=
+rity in order variants
+> config: i386-defconfig (https://download.01.org/0day-ci/archive/20231125/=
+202311251711.9SeU47cN-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20231125/202311251711.9SeU47cN-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311251711.9SeU47cN-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    In file included from arch/x86/include/asm/atomic.h:8:0,
+>                     from include/linux/atomic.h:7,
+>                     from include/linux/cpumask.h:13,
+>                     from arch/x86/include/asm/cpumask.h:5,
+>                     from arch/x86/include/asm/msr.h:11,
+>                     from arch/x86/include/asm/processor.h:23,
+>                     from arch/x86/include/asm/timex.h:5,
+>                     from include/linux/timex.h:67,
+>                     from include/linux/time32.h:13,
+>                     from include/linux/time.h:60,
+>                     from include/linux/compat.h:10,
+>                     from kernel/futex/core.c:34:
+>    kernel/futex/core.c: In function 'raw_atomic64_cmpxchg_relaxed':
+> >> arch/x86/include/asm/cmpxchg.h:130:2: warning: '__ret' is used uniniti=
+alized in this function [-Wuninitialized]
+>      __ret;        \
+>      ^~~~~
+>    arch/x86/include/asm/cmpxchg.h:87:21: note: '__ret' was declared here
+>      __typeof__(*(ptr)) __ret;     \
+>                         ^
+>    arch/x86/include/asm/cmpxchg.h:134:2: note: in expansion of macro '__r=
+aw_cmpxchg'
+>      __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+>      ^~~~~~~~~~~~~
+>    arch/x86/include/asm/cmpxchg.h:149:2: note: in expansion of macro '__c=
+mpxchg'
+>      __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+>      ^~~~~~~~~
+>    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion =
+of macro 'arch_cmpxchg'
+>     #define raw_cmpxchg_relaxed arch_cmpxchg
+>                                 ^~~~~~~~~~~~
+>    include/linux/atomic/atomic-arch-fallback.h:4107:9: note: in expansion=
+ of macro 'raw_cmpxchg_relaxed'
+>      return raw_cmpxchg_relaxed(&v->counter, old, new);
+>             ^~~~~~~~~~~~~~~~~~~
+>    In function 'raw_atomic64_cmpxchg_relaxed',
+>        inlined from 'get_inode_sequence_number' at include/linux/atomic/a=
+tomic-instrumented.h:2817:9,
+>        inlined from 'get_futex_key' at kernel/futex/core.c:387:23:
+>    arch/x86/include/asm/cmpxchg.h:128:3: error: call to '__cmpxchg_wrong_=
+size' declared with attribute error: Bad argument size for cmpxchg
+Gcc is okay, but Clang failed. I would dig it out.
 
-kernel test robot noticed the following build warnings:
+>       __cmpxchg_wrong_size();     \
+>       ^~~~~~~~~~~~~~~~~~~~~~
+>    arch/x86/include/asm/cmpxchg.h:134:2: note: in expansion of macro '__r=
+aw_cmpxchg'
+>      __raw_cmpxchg((ptr), (old), (new), (size), LOCK_PREFIX)
+>      ^~~~~~~~~~~~~
+>    arch/x86/include/asm/cmpxchg.h:149:2: note: in expansion of macro '__c=
+mpxchg'
+>      __cmpxchg(ptr, old, new, sizeof(*(ptr)))
+>      ^~~~~~~~~
+>    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion =
+of macro 'arch_cmpxchg'
+>     #define raw_cmpxchg_relaxed arch_cmpxchg
+>                                 ^~~~~~~~~~~~
+>    include/linux/atomic/atomic-arch-fallback.h:4107:9: note: in expansion=
+ of macro 'raw_cmpxchg_relaxed'
+>      return raw_cmpxchg_relaxed(&v->counter, old, new);
+>             ^~~~~~~~~~~~~~~~~~~
+>
+>
+> vim +/__ret +130 arch/x86/include/asm/cmpxchg.h
+>
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   79
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   80  /*
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   81   * Atomic compare and=
+ exchange.  Compare OLD with MEM, if identical,
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   82   * store NEW in MEM. =
+ Return the initial value in MEM.  Success is
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   83   * indicated by compa=
+ring RETURN with OLD.
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   84   */
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   85  #define __raw_cmpxchg=
+(ptr, old, new, size, lock)                    \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   86  ({                   =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   87      __typeof__(*(ptr)=
+) __ret;                                       \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   88      __typeof__(*(ptr)=
+) __old =3D (old);                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   89      __typeof__(*(ptr)=
+) __new =3D (new);                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   90      switch (size) {  =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   91      case __X86_CASE_B=
+:                                              \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   92      {                =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   93              volatile =
+u8 *__ptr =3D (volatile u8 *)(ptr);              \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   94              asm volat=
+ile(lock "cmpxchgb %2,%1"                      \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   95                       =
+    : "=3Da" (__ret), "+m" (*__ptr)              \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   96                       =
+    : "q" (__new), "0" (__old)                 \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   97                       =
+    : "memory");                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   98              break;   =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18   99      }                =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  100      case __X86_CASE_W=
+:                                              \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  101      {                =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  102              volatile =
+u16 *__ptr =3D (volatile u16 *)(ptr);            \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  103              asm volat=
+ile(lock "cmpxchgw %2,%1"                      \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  104                       =
+    : "=3Da" (__ret), "+m" (*__ptr)              \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  105                       =
+    : "r" (__new), "0" (__old)                 \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  106                       =
+    : "memory");                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  107              break;   =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  108      }                =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  109      case __X86_CASE_L=
+:                                              \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  110      {                =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  111              volatile =
+u32 *__ptr =3D (volatile u32 *)(ptr);            \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  112              asm volat=
+ile(lock "cmpxchgl %2,%1"                      \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  113                       =
+    : "=3Da" (__ret), "+m" (*__ptr)              \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  114                       =
+    : "r" (__new), "0" (__old)                 \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  115                       =
+    : "memory");                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  116              break;   =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  117      }                =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  118      case __X86_CASE_Q=
+:                                              \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  119      {                =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  120              volatile =
+u64 *__ptr =3D (volatile u64 *)(ptr);            \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  121              asm volat=
+ile(lock "cmpxchgq %2,%1"                      \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  122                       =
+    : "=3Da" (__ret), "+m" (*__ptr)              \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  123                       =
+    : "r" (__new), "0" (__old)                 \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  124                       =
+    : "memory");                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  125              break;   =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  126      }                =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  127      default:         =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  128              __cmpxchg=
+_wrong_size();                                 \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  129      }                =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18 @130      __ret;           =
+                                               \
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  131  })
+> e9826380d83d1b Jeremy Fitzhardinge 2011-08-18  132
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-[auto build test WARNING on cifs/for-next]
-[also build test WARNING on next-20231124]
-[cannot apply to linus/master v6.7-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paulo-Alcantara/smb-client-extend-smb2_compound_op-to-accept-more-commands/20231126-061137
-base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-patch link:    https://lore.kernel.org/r/20231125220813.30538-3-pc%40manguebit.com
-patch subject: [PATCH 2/8] smb: client: allow creating special files via reparse points
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231126/202311260746.HOJ039BV-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311260746.HOJ039BV-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311260746.HOJ039BV-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/smb/client/inode.c:1320:6: warning: variable 'rc' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (!data) {
-               ^~~~~
-   fs/smb/client/inode.c:1331:10: note: uninitialized use occurs here
-           switch (rc) {
-                   ^~
-   fs/smb/client/inode.c:1320:2: note: remove the 'if' if its condition is always true
-           if (!data) {
-           ^~~~~~~~~~~
-   fs/smb/client/inode.c:1310:8: note: initialize the variable 'rc' to silence this warning
-           int rc;
-                 ^
-                  = 0
-   1 warning generated.
 
 
-vim +1320 fs/smb/client/inode.c
-
-  1297	
-  1298	static int smb311_posix_get_fattr(struct cifs_open_info_data *data,
-  1299					  struct cifs_fattr *fattr,
-  1300					  const char *full_path,
-  1301					  struct super_block *sb,
-  1302					  const unsigned int xid)
-  1303	{
-  1304		struct cifs_open_info_data tmp_data = {};
-  1305		struct cifs_sb_info *cifs_sb = CIFS_SB(sb);
-  1306		struct cifs_tcon *tcon;
-  1307		struct tcon_link *tlink;
-  1308		struct cifs_sid owner, group;
-  1309		int tmprc;
-  1310		int rc;
-  1311	
-  1312		tlink = cifs_sb_tlink(cifs_sb);
-  1313		if (IS_ERR(tlink))
-  1314			return PTR_ERR(tlink);
-  1315		tcon = tlink_tcon(tlink);
-  1316	
-  1317		/*
-  1318		 * 1. Fetch file metadata if not provided (data)
-  1319		 */
-> 1320		if (!data) {
-  1321			rc = smb311_posix_query_path_info(xid, tcon, cifs_sb,
-  1322							  full_path, &tmp_data,
-  1323							  &owner, &group);
-  1324			data = &tmp_data;
-  1325		}
-  1326	
-  1327		/*
-  1328		 * 2. Convert it to internal cifs metadata (fattr)
-  1329		 */
-  1330	
-  1331		switch (rc) {
-  1332		case 0:
-  1333			if (cifs_open_data_reparse(data)) {
-  1334				rc = reparse_info_to_fattr(data, sb, xid, tcon,
-  1335							   full_path, fattr,
-  1336							   &owner, &group);
-  1337			} else {
-  1338				smb311_posix_info_to_fattr(fattr, data,
-  1339							   &owner, &group, sb);
-  1340			}
-  1341			break;
-  1342		case -EREMOTE:
-  1343			/* DFS link, no metadata available on this server */
-  1344			cifs_create_junction_fattr(fattr, sb);
-  1345			rc = 0;
-  1346			break;
-  1347		case -EACCES:
-  1348			/*
-  1349			 * For SMB2 and later the backup intent flag
-  1350			 * is already sent if needed on open and there
-  1351			 * is no path based FindFirst operation to use
-  1352			 * to retry with so nothing we can do, bail out
-  1353			 */
-  1354			goto out;
-  1355		default:
-  1356			cifs_dbg(FYI, "%s: unhandled err rc %d\n", __func__, rc);
-  1357			goto out;
-  1358		}
-  1359	
-  1360		/*
-  1361		 * 3. Tweak fattr based on mount options
-  1362		 */
-  1363		/* check for Minshall+French symlinks */
-  1364		if (cifs_sb->mnt_cifs_flags & CIFS_MOUNT_MF_SYMLINKS) {
-  1365			tmprc = check_mf_symlink(xid, tcon, cifs_sb, fattr, full_path);
-  1366			cifs_dbg(FYI, "check_mf_symlink: %d\n", tmprc);
-  1367		}
-  1368	
-  1369	out:
-  1370		cifs_put_tlink(tlink);
-  1371		cifs_free_open_info(data);
-  1372		return rc;
-  1373	}
-  1374	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Best Regards
+ Guo Ren
