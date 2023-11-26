@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC1216400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8F316411
 	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 23:32:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RdofOado"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGpvng5Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701041538; x=1732577538;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eSGOVDGOfF41McDYad4M0WERbduQ43MdkaHP+w2BF9U=;
-  b=RdofOadosAgGF/1f9hRAXwTuGH5rzj+NFs4dh9PDVo8/PMndH1MK/aeP
-   FvekwuDlCWQpxu9KioLjfVW5p16k/OPhiAckoEV1L3Lnj6WDF5EEVgGx9
-   a0mngZrspIPwfJDR96HTc49f0IsFHTaNR/ouj7Zw9F10xO0AsNN3aQOoO
-   5/eOcXbDyDq6zonRtsXUpwoWxLB3nU0LEAhg1UqRnoSfKA/+XVeVNhyXV
-   MREaCVkA/iip+xlUWdvpth1t3KdycWCLyAnOAjzKfNWpD48puXPcLDMre
-   eB4c7mWjmWAuDvNahEEB4pMVYm6KCPxZswgl3hY3wkz5hjQISBIZhmJDP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="395431135"
+  bh=2pVui+G9I/dffJqDuKsaP1MiEfJpPg3IlDWkIoq+PmI=;
+  b=EGpvng5QfitN3nOSC/+4qjJ7kKsuvm09KWWOSQ5POBCDvjAT/KJiVrDX
+   NVj6wePwInv63Y+weMSLBTMFgbaUlghgkjwJxqhCrpB/4L7klL4SsGyii
+   YuD76ZkjabHJ34GlbyH3m8xD+43iGKtzpqyXp7PgUhJ3KorJX3lrhEyaq
+   +9wHSdexiGe4hRM7NyBRPVfgYhIw7AZSxTd0zAE5TNFdMrtLn4SyI7C7V
+   D4DON/xsOoqFCuj9TFLtZPM4r2Xme/BmSbs+dphpqWoH5hSguSwWQdhMx
+   7LQMEVICKHH9YptTSX0hCEHLiYpQu8nq4l1HTX2Cg0WZKaFvnTwjr5W+b
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="372768302"
 X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
-   d="scan'208";a="395431135"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 15:32:18 -0800
+   d="scan'208";a="372768302"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 15:32:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="744397078"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="858862269"
 X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
-   d="scan'208";a="744397078"
+   d="scan'208";a="858862269"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 26 Nov 2023 15:32:16 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Nov 2023 15:32:17 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r7Obm-0005cz-1d;
+	id 1r7Obm-0005cw-1B;
 	Sun, 26 Nov 2023 23:32:14 +0000
-Date: Mon, 27 Nov 2023 07:32:01 +0800
+Date: Mon, 27 Nov 2023 07:32:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:test 19/20]
- drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:265:10:
- error: 'const struct v4l2_subdev_pad_ops' has no member named 'init_cfg'
-Message-ID: <202311270523.oY7F5QcG-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:find_and_bit 14/34] include/linux/find.h:859:9: warning:
+ statement with no effect
+Message-ID: <202311270643.5nYR7aHv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,64 +50,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git test
-head:   1c12986c58defb1d262ac0fa851066fc724e617e
-commit: 4c7fd566e013fd0ec5cfc3243b63bf2804c4e9fe [19/20] media: v4l2-subdev: Rename .init_cfg() operation to .init_state()
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231127/202311270523.oY7F5QcG-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311270523.oY7F5QcG-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux find_and_bit
+head:   0509c68d320cff2284c7fc39d37051e465c429ec
+commit: 82d8aa9f9c50fa8c7049ba295a413770eefb41c1 [14/34] scsi: core: XXXX use atomic find_bit() API where appropriate
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231127/202311270643.5nYR7aHv-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311270643.5nYR7aHv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311270523.oY7F5QcG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311270643.5nYR7aHv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:265:10: error: 'const struct v4l2_subdev_pad_ops' has no member named 'init_cfg'
-     265 |         .init_cfg               = dcmipp_par_init_cfg,
-         |          ^~~~~~~~
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:265:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *)' [-Werror=incompatible-pointer-types]
-     265 |         .init_cfg               = dcmipp_par_init_cfg,
-         |                                   ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:265:35: note: (near initialization for 'dcmipp_par_pad_ops.enum_mbus_code')
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:266:35: warning: initialized field overwritten [-Woverride-init]
-     266 |         .enum_mbus_code         = dcmipp_par_enum_mbus_code,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:266:35: note: (near initialization for 'dcmipp_par_pad_ops.enum_mbus_code')
-   cc1: some warnings being treated as errors
---
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:386:10: error: 'const struct v4l2_subdev_pad_ops' has no member named 'init_cfg'
-     386 |         .init_cfg               = dcmipp_byteproc_init_cfg,
-         |          ^~~~~~~~
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:386:35: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *)' [-Werror=incompatible-pointer-types]
-     386 |         .init_cfg               = dcmipp_byteproc_init_cfg,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:386:35: note: (near initialization for 'dcmipp_byteproc_pad_ops.enum_mbus_code')
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:387:35: warning: initialized field overwritten [-Woverride-init]
-     387 |         .enum_mbus_code         = dcmipp_byteproc_enum_mbus_code,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:387:35: note: (near initialization for 'dcmipp_byteproc_pad_ops.enum_mbus_code')
-   cc1: some warnings being treated as errors
+   In file included from include/linux/bitmap.h:10,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/processor.h:23,
+                    from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:53,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/mempool.h:8,
+                    from include/linux/bio.h:8,
+                    from drivers/scsi/scsi_lib.c:12:
+   drivers/scsi/scsi_lib.c: In function 'scsi_evt_thread':
+>> include/linux/find.h:859:9: warning: statement with no effect [-Wunused-value]
+     859 |         for ((bit); \
+         |         ^~~
+   drivers/scsi/scsi_lib.c:2502:9: note: in expansion of macro 'for_each_test_and_clear_bit_from'
+    2502 |         for_each_test_and_clear_bit_from(evt_type, sdev->pending_events, SDEV_EVT_LAST + 1)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +265 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c
+vim +859 include/linux/find.h
 
-634e86dc5acd3b Hugues Fruchet 2023-11-22  263  
-634e86dc5acd3b Hugues Fruchet 2023-11-22  264  static const struct v4l2_subdev_pad_ops dcmipp_par_pad_ops = {
-634e86dc5acd3b Hugues Fruchet 2023-11-22 @265  	.init_cfg		= dcmipp_par_init_cfg,
-634e86dc5acd3b Hugues Fruchet 2023-11-22  266  	.enum_mbus_code		= dcmipp_par_enum_mbus_code,
-634e86dc5acd3b Hugues Fruchet 2023-11-22  267  	.enum_frame_size	= dcmipp_par_enum_frame_size,
-634e86dc5acd3b Hugues Fruchet 2023-11-22  268  	.get_fmt		= v4l2_subdev_get_fmt,
-634e86dc5acd3b Hugues Fruchet 2023-11-22  269  	.set_fmt		= dcmipp_par_set_fmt,
-634e86dc5acd3b Hugues Fruchet 2023-11-22  270  };
-634e86dc5acd3b Hugues Fruchet 2023-11-22  271  
+6b8ecb84f8f640 include/asm-generic/bitops/find.h Yury Norov         2021-08-14  828  
+bc9d6635c293a2 include/linux/find.h              Yury Norov         2021-08-14  829  #define for_each_set_bit(bit, addr, size) \
+fdae96a3fc7f70 include/linux/find.h              Yury Norov         2022-09-19  830  	for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+bc9d6635c293a2 include/linux/find.h              Yury Norov         2021-08-14  831  
+33e67710beda78 include/linux/find.h              Yury Norov         2022-09-19  832  #define for_each_and_bit(bit, addr1, addr2, size) \
+fdae96a3fc7f70 include/linux/find.h              Yury Norov         2022-09-19  833  	for ((bit) = 0;									\
+fdae96a3fc7f70 include/linux/find.h              Yury Norov         2022-09-19  834  	     (bit) = find_next_and_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+fdae96a3fc7f70 include/linux/find.h              Yury Norov         2022-09-19  835  	     (bit)++)
+33e67710beda78 include/linux/find.h              Yury Norov         2022-09-19  836  
+5f75ff295c662c include/linux/find.h              Valentin Schneider 2022-10-03  837  #define for_each_andnot_bit(bit, addr1, addr2, size) \
+5f75ff295c662c include/linux/find.h              Valentin Schneider 2022-10-03  838  	for ((bit) = 0;									\
+5f75ff295c662c include/linux/find.h              Valentin Schneider 2022-10-03  839  	     (bit) = find_next_andnot_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+5f75ff295c662c include/linux/find.h              Valentin Schneider 2022-10-03  840  	     (bit)++)
+5f75ff295c662c include/linux/find.h              Valentin Schneider 2022-10-03  841  
+1470afefc3c42d include/linux/find.h              Dave Chinner       2023-03-15  842  #define for_each_or_bit(bit, addr1, addr2, size) \
+1470afefc3c42d include/linux/find.h              Dave Chinner       2023-03-15  843  	for ((bit) = 0;									\
+1470afefc3c42d include/linux/find.h              Dave Chinner       2023-03-15  844  	     (bit) = find_next_or_bit((addr1), (addr2), (size), (bit)), (bit) < (size);\
+1470afefc3c42d include/linux/find.h              Dave Chinner       2023-03-15  845  	     (bit)++)
+1470afefc3c42d include/linux/find.h              Dave Chinner       2023-03-15  846  
+bc9d6635c293a2 include/linux/find.h              Yury Norov         2021-08-14  847  /* same as for_each_set_bit() but use bit as value to start with */
+bc9d6635c293a2 include/linux/find.h              Yury Norov         2021-08-14  848  #define for_each_set_bit_from(bit, addr, size) \
+fdae96a3fc7f70 include/linux/find.h              Yury Norov         2022-09-19  849  	for (; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+bc9d6635c293a2 include/linux/find.h              Yury Norov         2021-08-14  850  
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  851  /* same as for_each_set_bit() but atomically clears each found bit */
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  852  #define for_each_test_and_clear_bit(bit, addr, size) \
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  853  	for ((bit) = 0; \
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  854  	     (bit) = find_and_clear_next_bit((addr), (size), (bit)), (bit) < (size); \
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  855  	     (bit)++)
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  856  
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  857  /* same as for_each_set_bit_from() but atomically clears each found bit */
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  858  #define for_each_test_and_clear_bit_from(bit, addr, size) \
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18 @859  	for ((bit); \
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  860  	     (bit) = find_and_clear_next_bit((addr), (size), (bit)), (bit) < (size); \
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  861  	     (bit)++)
+190bed278d94d3 include/linux/find.h              Yury Norov         2023-11-18  862  
 
-:::::: The code at line 265 was first introduced by commit
-:::::: 634e86dc5acd3bf25891b31a44dc128bdb9a3403 media: stm32-dcmipp: STM32 DCMIPP camera interface driver
+:::::: The code at line 859 was first introduced by commit
+:::::: 190bed278d94d37755ff6c1a6096536ff0c72e93 lib/find: add atomic find_bit() primitives
 
-:::::: TO: Hugues Fruchet <hugues.fruchet@foss.st.com>
-:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+:::::: TO: Yury Norov <yury.norov@gmail.com>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
