@@ -1,51 +1,49 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3D4171DB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 23:32:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB39171C6;
+	Sun, 26 Nov 2023 23:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LTxPKF/J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="istwF3Wo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701041543; x=1732577543;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DL1UZC6QXeMznGYKv4T6wrrF7fnm2ErIt+iYauhRjkk=;
-  b=LTxPKF/JDGiXjnMwEYAll5hsRihc+4HHBU7hdwRDkXbaH8o8SpIcWEEx
-   UOKfdv5AzQFK4XJofaE5LzifZPMDCSTYpl+KOKmavNmkffdToxMRyclsY
-   j38MPcsJtNOFTnny1Lj3HzOnC7yMy1llRaMj6nLu9xcRHpW02bBfKSPIv
-   U+GrCacjyuxLLs55mV5zni5sw1n7Knb7/fX8Wtqfme9+2oUkaioaaXVLx
-   AIUcs19+MMJuqdG52Q9G+nN51rFgRMsonhg8F3vbdqepv876LH1Ne9Ke8
-   rEyUyoWruO020jrzHAEIJgo8W14xMcsVWpgjN0xfT5MXbwK9LahrExXUM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="372768312"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sX5xVwqRXIsF6CBEM3D5DwfYSIWpXhFypi7fVenWT6s=;
+  b=istwF3WoHGtP0NAcbHoyvthPrn9r22ptCxpJ+KIimabhQ5HyuqQAnipr
+   1PgMrZN5zz8MqDZcggr1r/1zdKYSIZ6Hhjb27wk21uMyTTvsXX52ufeWk
+   Spu5hQxPF4/g4XpOGrBRkIP5U/28xucTsivgou1MTBN2telgEPjCVd5EV
+   3BHRaE1Uc6aJqJA5SqeBnGCcEPDKk0DLCP1k/2SG564M7p+z9U/axTRS8
+   L179Ot5jPvnK5xNuEcG/oj1ZYARI36TjzCvYfjf2tfCcupJ5x/uqXsWVu
+   ESIOPtugFnaFZs/t6FlKac/BaCpP9ogf4LUXxb8+OaSLVB7F8+wchja4A
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="372768308"
 X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
-   d="scan'208";a="372768312"
+   d="scan'208";a="372768308"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 15:32:20 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 15:32:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="858862273"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="858862275"
 X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
-   d="scan'208";a="858862273"
+   d="scan'208";a="858862275"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 26 Nov 2023 15:32:17 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r7Obn-0005dB-1V;
+	id 1r7Obn-0005d5-0p;
 	Sun, 26 Nov 2023 23:32:15 +0000
-Date: Mon, 27 Nov 2023 07:32:05 +0800
+Date: Mon, 27 Nov 2023 07:31:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Kemnade <andreas@kemnade.info>, lee@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, bcousson@baylibre.com, tony@atomide.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/6] twl-core: add power off implementation for twl603x
-Message-ID: <202311270558.j38P20an-lkp@intel.com>
-References: <20231125092938.16535-3-andreas@kemnade.info>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:test 19/20]
+ drivers/media/v4l2-core/v4l2-subdev.c:1473:6: warning: variable 'ret' is
+ uninitialized when used here
+Message-ID: <202311270412.AMfCcbby-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,62 +52,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231125092938.16535-3-andreas@kemnade.info>
 
-Hi Andreas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on lee-mfd/for-mfd-next linus/master v6.7-rc2 next-20231124]
-[cannot apply to tmlind-omap/for-next lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/dt-bindings-mfd-ti-twl-Document-system-power-controller/20231125-173426
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231125092938.16535-3-andreas%40kemnade.info
-patch subject: [PATCH 2/6] twl-core: add power off implementation for twl603x
-config: x86_64-randconfig-122-20231126 (https://download.01.org/0day-ci/archive/20231127/202311270558.j38P20an-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311270558.j38P20an-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git test
+head:   1c12986c58defb1d262ac0fa851066fc724e617e
+commit: 4c7fd566e013fd0ec5cfc3243b63bf2804c4e9fe [19/20] media: v4l2-subdev: Rename .init_cfg() operation to .init_state()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231127/202311270412.AMfCcbby-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311270412.AMfCcbby-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311270558.j38P20an-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311270412.AMfCcbby-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mfd/twl-core.c:690:6: sparse: sparse: symbol 'twl6030_power_off' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/twl6030_power_off +690 drivers/mfd/twl-core.c
+>> drivers/media/v4l2-core/v4l2-subdev.c:1473:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+           if (ret < 0 && ret != -ENOIOCTLCMD)
+               ^~~
+   drivers/media/v4l2-core/v4l2-subdev.c:1439:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   1 warning generated.
 
-   689	
- > 690	void twl6030_power_off(void)
-   691	{
-   692	#define APP_DEVOFF      (1<<0)
-   693	#define CON_DEVOFF      (1<<1)
-   694	#define MOD_DEVOFF      (1<<2)
-   695	
-   696		int err;
-   697		u8 val;
-   698	
-   699		err = twl_i2c_read_u8(TWL_MODULE_PM_MASTER, &val,
-   700				      TWL6030_PHOENIX_DEV_ON);
-   701		if (err) {
-   702			pr_err("I2C error %d reading PHOENIX_DEV_ON\n", err);
-   703			return;
-   704		}
-   705	
-   706		val |= APP_DEVOFF | CON_DEVOFF | MOD_DEVOFF;
-   707	
-   708		err = twl_i2c_write_u8(TWL_MODULE_PM_MASTER, val,
-   709				       TWL6030_PHOENIX_DEV_ON);
-   710		if (err)
-   711			pr_err("TWL6030 Unable to power off\n");
-   712	}
-   713	
+
+vim +/ret +1473 drivers/media/v4l2-core/v4l2-subdev.c
+
+33c0ddbe56905c Tomi Valkeinen   2021-07-15  1433  
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1434  struct v4l2_subdev_state *
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1435  __v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1436  			  struct lock_class_key *lock_key)
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1437  {
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1438  	struct v4l2_subdev_state *state;
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1439  	int ret;
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1440  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1441  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1442  	if (!state)
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1443  		return ERR_PTR(-ENOMEM);
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1444  
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1445  	__mutex_init(&state->_lock, lock_name, lock_key);
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1446  	if (sd->state_lock)
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1447  		state->lock = sd->state_lock;
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1448  	else
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1449  		state->lock = &state->_lock;
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1450  
+52c2575db8faa1 Sakari Ailus     2023-10-13  1451  	state->sd = sd;
+52c2575db8faa1 Sakari Ailus     2023-10-13  1452  
+2f91e10ee6fd4c Tomi Valkeinen   2021-12-21  1453  	/* Drivers that support streams do not need the legacy pad config */
+2f91e10ee6fd4c Tomi Valkeinen   2021-12-21  1454  	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS) && sd->entity.num_pads) {
+8af592e2ecbcd2 Hans Verkuil     2022-05-02  1455  		state->pads = kvcalloc(sd->entity.num_pads,
+8af592e2ecbcd2 Hans Verkuil     2022-05-02  1456  				       sizeof(*state->pads), GFP_KERNEL);
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1457  		if (!state->pads) {
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1458  			ret = -ENOMEM;
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1459  			goto err;
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1460  		}
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1461  	}
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1462  
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1463  	/*
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1464  	 * There can be no race at this point, but we lock the state anyway to
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1465  	 * satisfy lockdep checks.
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1466  	 */
+4c7fd566e013fd Laurent Pinchart 2023-11-26  1467  	if (sd->internal_ops && sd->internal_ops->init_state) {
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1468  		v4l2_subdev_lock_state(state);
+4c7fd566e013fd Laurent Pinchart 2023-11-26  1469  		sd->internal_ops->init_state(sd, state);
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1470  		v4l2_subdev_unlock_state(state);
+4c7fd566e013fd Laurent Pinchart 2023-11-26  1471  	}
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1472  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10 @1473  	if (ret < 0 && ret != -ENOIOCTLCMD)
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1474  		goto err;
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1475  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1476  	return state;
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1477  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1478  err:
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1479  	if (state && state->pads)
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1480  		kvfree(state->pads);
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1481  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1482  	kfree(state);
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1483  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1484  	return ERR_PTR(ret);
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1485  }
+40aaab9d773b07 Tomi Valkeinen   2022-04-12  1486  EXPORT_SYMBOL_GPL(__v4l2_subdev_state_alloc);
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1487  
+
+:::::: The code at line 1473 was first introduced by commit
+:::::: 0d346d2a6f54f06f36b224fd27cd6eafe8c83be9 media: v4l2-subdev: add subdev-wide state struct
+
+:::::: TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
