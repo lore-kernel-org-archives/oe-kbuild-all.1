@@ -1,151 +1,119 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBC6EBB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 08:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43CB2591
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 08:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Arp/sURa"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-333030a6537so190661f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 00:43:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M8jDh3TJ"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a0f49b31868so84266466b.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 00:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701074612; x=1701679412; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2xnOF1CxvID+dtjKdZtlw3NSe8y8zSJxuj2ZIPYY3uU=;
-        b=Arp/sURaJLAjfWuqOq8fmh8egfgl9RlVy27FFRqXUswubBp9kjjWIIJ3E0WfozR4Rv
-         1c6YSwYz1igCL3Ubfbyts731qTdQqC0nfSd7GXWBUTbyLEd/+SKvIgNtqIjnBF28Jxpm
-         d+Ie8xkAhpLMDL6srLfJTWZE19WVPg+pANQhQ3RXg56IRKxNywdGCUIACHKcjZyRdobF
-         4LAqW2Ybf1LAr2tYL4WHu2SI+zYQc9r46yeODsVufDaKQpHBbeuEyq0PUDt7VVLvllBw
-         mkyXjtqLGxchH41lj8qlqdarBGWqFpwbS9REw+9VPE9MyZv1ophd6FSXtWALKl0tZVKN
-         5qEQ==
+        d=gmail.com; s=20230601; t=1701074672; x=1701679472; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Ryw139IsJD5rUs7/wQF0rwLMirP5Sgaw6bKRYfTe/yA=;
+        b=M8jDh3TJrG4jsyqaLlZdLhq06TKHVfexi56KQNZgfZsYkLjsRAmVZHEF3rVqpdJcRk
+         t/gcikgI+8W50oFCA3jk1tFc34CzRpfjT6cnp1YrzhazoIgg5EeVXjMOKF6BtJxAS4mQ
+         NAQZE/7dCUHuX3SMLi/pRhg683kMGy/QWLa9bf8I29a/HLIYoARvU8N/zkJoDiV19ve9
+         JvTBe47+SLkK54aKtxpd2S5IpXYBi3tAaaD/T9n+ogViw5nvAcRHAfhjHus5wrA96VcW
+         Yap/G4rsm7GyzT6l5dlCDNiLK7DA55L1pAu2oDWOfr5guunY+N1XtW8mBzYd/ob5V/ye
+         KIFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701074612; x=1701679412;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2xnOF1CxvID+dtjKdZtlw3NSe8y8zSJxuj2ZIPYY3uU=;
-        b=mptxwum2KxlvuNb4auCcm/KZcQqSOoRMoLamR2GAlSUBWwEGfzDobyHa/HBhvI2Q+u
-         LPmKQrcadE7YywWPnkHrcbgrG4fA/nzxBAWRTJQge4t4ptgFZF8FgilTNuyLW+w0+C0W
-         NgZo2+eQBleGPjAZG0OJzRbL6G/5JAolWieoGpFtq2lKLv63zSrvGm1xNyJ2PgnuDdrP
-         f1TnOp993ZT4OHAj7TiFMbNEYejF7BqcBYh6kuwJCXvgcnyQ+g07QEwxLoQvpImMe/2v
-         9F6Nuu4tE3WBdnipF/dVdbFDkTcF21HyqsUsIHev+dLxZ+kcSpdZC0GL9CrNpwK9zNTP
-         TNbA==
-X-Gm-Message-State: AOJu0Yy/6gFcDUDctnaSgfdZx4x54CTCCPhhcB4hAxGBo3z5lhDhE0le
-	w3+8PwMD7aAcVniPCKGR5+zFLg==
-X-Google-Smtp-Source: AGHT+IEk54NjVWopu9izapGPvppfJzH7fiDJYjBKBIuzRtGaobPqV2lbJB4Y3jcA3sJh2RPzNIxL/A==
-X-Received: by 2002:a5d:4f8c:0:b0:332:ca1a:c3a0 with SMTP id d12-20020a5d4f8c000000b00332ca1ac3a0mr7700858wru.52.1701074612004;
-        Mon, 27 Nov 2023 00:43:32 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id e15-20020a5d594f000000b00332fda15055sm3362220wri.111.2023.11.27.00.43.31
+        d=1e100.net; s=20230601; t=1701074672; x=1701679472;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ryw139IsJD5rUs7/wQF0rwLMirP5Sgaw6bKRYfTe/yA=;
+        b=fpPILIQvBuMoF0fuFvPSZzt90BNRxgVuC4Y1qmbngkHJ3rNTViqC8NdmafiYPA0awp
+         z2Hqh7rYncaBwag0/MPK/yiaIM+il9fyC0PNx73OE4KyXpx8BJs7REDMJZfIplvlKS9+
+         +3iANbxkH/wrOiATFL1B5broMPJtzn7iszkg3M2kzTNLCVqUiYT7J4WuYsV+kGqSSvqX
+         7gps1p0E0hqbj+aYdOVgtEKf7qgQnaAtiNWZYZeHHnzVRzDFyp6t73okZ8FUpbsnvSK1
+         VfaFbdcxtvx9k9CmPc9ROUkwFVqb8b9O9nwlA+F7uyHBlsdhb3AW6aNdBBn0xMyFIbmG
+         cznA==
+X-Gm-Message-State: AOJu0YyMMOpHc5nTLIcojr3pIJIYcToP/MGEW/OptWWDXJANJ1jB4X72
+	4buWnG8UD++CF67m3iz1s/4=
+X-Google-Smtp-Source: AGHT+IHuqXI8TOxYld9vChZZAP7YKaEcWuQ7ETmVLdKwxFJhUpEdnEpOE7+ThFBXFjy++pE5f+wPUw==
+X-Received: by 2002:a17:906:2209:b0:a02:9891:29ba with SMTP id s9-20020a170906220900b00a02989129bamr7306878ejs.15.1701074671934;
+        Mon, 27 Nov 2023 00:44:31 -0800 (PST)
+Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
+        by smtp.gmail.com with ESMTPSA id g1-20020a170906348100b009de3641d538sm5429579ejb.134.2023.11.27.00.44.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 00:43:31 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 27 Nov 2023 11:43:29 +0300
-To: oe-kbuild@lists.linux.dev, Ivan Vecera <ivecera@redhat.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Wojciech Drewek <wojciech.drewek@intel.com>,
-	Simon Horman <horms@kernel.org>, mschmidt@redhat.com,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v5 4/5] i40e: Fix broken support for floating VEBs
-Message-ID: <25111205-a895-46a2-b53f-49e29ba41b16@suswa.mountain>
+        Mon, 27 Nov 2023 00:44:31 -0800 (PST)
+Message-ID: <5a4182806724fa96eab92e7224d11aec7aa39e20.camel@gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot
+ <lkp@intel.com>,  Nuno Sa via B4 Relay
+ <devnull+nuno.sa.analog.com@kernel.org>, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>, Guenter
+ Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,  Jonathan Corbet <corbet@lwn.net>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Linus Walleij <linus.walleij@linaro.org>, Andy
+ Shevchenko <andy@kernel.org>
+Date: Mon, 27 Nov 2023 09:44:31 +0100
+In-Reply-To: <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
+References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+	 <202311250548.lUn3bm1A-lkp@intel.com>
+	 <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
+	 <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
+	 <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231124150343.81520-5-ivecera@redhat.com>
 
-Hi Ivan,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/i40e-Use-existing-helper-to-find-flow-director-VSI/20231124-230616
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20231124150343.81520-5-ivecera%40redhat.com
-patch subject: [PATCH v5 4/5] i40e: Fix broken support for floating VEBs
-config: x86_64-randconfig-161-20231127 (https://download.01.org/0day-ci/archive/20231127/202311270851.Ie6aegcS-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231127/202311270851.Ie6aegcS-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311270851.Ie6aegcS-lkp@intel.com/
-
-New smatch warnings:
-drivers/net/ethernet/intel/i40e/i40e_main.c:14743 i40e_veb_release() error: potentially dereferencing uninitialized 'vsi'.
-
-Old smatch warnings:
-[ low confidence ]
-drivers/net/ethernet/intel/i40e/i40e_main.c:5966 i40e_set_bw_limit() warn: error code type promoted to positive: 'speed'
-drivers/net/ethernet/intel/i40e/i40e_main.c:13476 i40e_queue_pair_toggle_rings() warn: missing error code? 'ret'
-drivers/net/ethernet/intel/i40e/i40e_main.c:14272 i40e_vsi_setup_vectors() warn: missing error code? 'ret'
-drivers/net/ethernet/intel/i40e/i40e_main.c:15566 i40e_init_recovery_mode() warn: 'vsi->netdev' from register_netdev() not released on lines: 15566.
-
-vim +/vsi +14743 drivers/net/ethernet/intel/i40e/i40e_main.c
-
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14715  void i40e_veb_release(struct i40e_veb *veb)
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14716  {
-0aab77d67d37d09 Ivan Vecera      2023-11-24  14717  	struct i40e_vsi *vsi, *vsi_it;
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14718  	struct i40e_pf *pf;
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14719  	int i, n = 0;
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14720  
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14721  	pf = veb->pf;
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14722  
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14723  	/* find the remaining VSI and check for extras */
-0aab77d67d37d09 Ivan Vecera      2023-11-24  14724  	i40e_pf_for_each_vsi(pf, i, vsi_it)
-0aab77d67d37d09 Ivan Vecera      2023-11-24  14725  		if (vsi_it->uplink_seid == veb->seid) {
-93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14726  			if (vsi_it->flags & I40E_VSI_FLAG_VEB_OWNER)
-0aab77d67d37d09 Ivan Vecera      2023-11-24  14727  				vsi = vsi_it;
-
-Do we always find a vsi?  Presumably, yes, but it's not obvious just
-from reading this function.
-
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14728  			n++;
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14729  		}
-0aab77d67d37d09 Ivan Vecera      2023-11-24  14730  
-93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14731  	/* Floating VEB has to be empty and regular one must have
-93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14732  	 * single owner VSI.
-93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14733  	 */
-93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14734  	if ((veb->uplink_seid && n != 1) || (!veb->uplink_seid && n != 0)) {
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14735  		dev_info(&pf->pdev->dev,
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14736  			 "can't remove VEB %d with %d VSIs left\n",
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14737  			 veb->seid, n);
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14738  		return;
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14739  	}
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14740  
-93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14741  	/* For regular VEB move the owner VSI to uplink VEB */
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14742  	if (veb->uplink_seid) {
-93a1bc91a1ccc5a Ivan Vecera      2023-11-24 @14743  		vsi->flags &= ~I40E_VSI_FLAG_VEB_OWNER;
-                                                                ^^^^^^^^^^
-
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14744  		vsi->uplink_seid = veb->uplink_seid;
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14745  		if (veb->uplink_seid == pf->mac_seid)
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14746  			vsi->veb_idx = I40E_NO_VEB;
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14747  		else
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14748  			vsi->veb_idx = veb->veb_idx;
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14749  	}
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14750  
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14751  	i40e_aq_delete_element(&pf->hw, veb->seid, NULL);
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14752  	i40e_veb_clear(veb);
-41c445ff0f482bb Jesse Brandeburg 2013-09-11  14753  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+T24gTW9uLCAyMDIzLTExLTI3IGF0IDA5OjEyICswMTAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
+b3RlOgo+IE9uIDI3LzExLzIwMjMgMDk6MTAsIEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6Cj4g
+PiBPbiAyNy8xMS8yMDIzIDA4OjUzLCBOdW5vIFPDoSB3cm90ZToKPiA+ID4gPiDCoMKgIDM1NcKg
+wqAKPiA+ID4gPiDCoD4gMzU2wqDCoHVuc2lnbmVkIGxvbmcgbHRjNDI4Ml9yZWNhbGNfcmF0ZShz
+dHJ1Y3QgY2xrX2h3ICpodywgdW5zaWduZWQgbG9uZwo+ID4gPiA+IHBhcmVudCkKPiA+ID4gPiDC
+oMKgIDM1N8KgwqB7Cj4gPiA+ID4gwqDCoCAzNTjCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBs
+dGM0MjgyX3N0YXRlICpzdCA9IGNvbnRhaW5lcl9vZihodywgc3RydWN0Cj4gPiA+ID4gbHRjNDI4
+Ml9zdGF0ZSwKPiA+ID4gPiDCoMKgIDM1OcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqBjbGtfaHcpOwo+ID4gPiA+IMKgwqAgMzYwwqDCoMKgwqDCoMKgwqDCoMKgwqB1
+MzIgY2xrZGl2Owo+ID4gPiA+IMKgwqAgMzYxwqDCoMKgwqDCoMKgwqDCoMKgwqBpbnQgcmV0Owo+
+ID4gPiA+IMKgwqAgMzYywqDCoAo+ID4gPiA+IMKgwqAgMzYzwqDCoMKgwqDCoMKgwqDCoMKgwqBy
+ZXQgPSByZWdtYXBfcmVhZChzdC0+bWFwLCBMVEM0MjgyX0NMS19ESVYsICZjbGtkaXYpOwo+ID4g
+PiA+IMKgwqAgMzY0wqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocmV0KQo+ID4gPiA+IMKgwqAgMzY1
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4gPiA+ID4gwqDC
+oCAzNjbCoMKgCj4gPiA+ID4gwqDCoCAzNjfCoMKgwqDCoMKgwqDCoMKgwqDCoGNsa2RpdiA9IEZJ
+RUxEX0dFVChMVEM0MjgyX0NMS09VVF9NQVNLLCBjbGtkaXYpOwo+ID4gPiA+IMKgwqAgMzY4wqDC
+oMKgwqDCoMKgwqDCoMKgwqBpZiAoIWNsa2RpdikKPiA+ID4gPiDCoMKgIDM2OcKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAwOwo+ID4gPiA+IMKgwqAgMzcwwqDCoMKg
+wqDCoMKgwqDCoMKgwqBpZiAoY2xrZGl2ID09IExUQzQyODJfQ0xLT1VUX0lOVCkKPiA+ID4gPiDC
+oMKgIDM3McKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBMVEM0Mjgy
+X0NMS09VVF9TWVNURU07Cj4gPiA+ID4gwqDCoCAzNzLCoMKgCj4gPiA+ID4gwqDCoCAzNzPCoMKg
+wqDCoMKgwqDCoMKgwqDCoHJldHVybiBMVEM0MjgyX0NMS09VVF9DTlY7Cj4gPiA+ID4gwqDCoCAz
+NzTCoMKgfQo+ID4gPiA+IMKgwqAgMzc1wqDCoAo+ID4gPiA+IAo+ID4gPiAKPiA+ID4gQXJnaGgs
+IEkgZG8gbmVlZCB0byBzZWUgaWYgSSBjYW4gYWRkIHNvbWUgdGVzdCBicmFuY2ggb2YgbXkgb3du
+IHRvIHRoZSB0ZXN0Cj4gPiA+IHJvYm90IDovLgo+ID4gPiBBbnl3YXlzLCB3aWxsIHdhaXQgZm9y
+IHNvbWUgbW9yZSByZXZpZXdpbmcgYmVmb3JlIHNlbmRpbmcgdjMgdG8gYWRkcmVzcyB0aGlzLgo+
+ID4gCj4gPiBJdCdzIGVhc3kgdG8gdGVzdCB5b3VyIHBhdGNoZXMgb24geW91ciBvd24gbWFjaGlu
+ZXMuLi7CoCBKdXN0IGJ1aWxkIGZldwo+ID4gZGlmZmVyZW50IGNvbmZpZ3MuCj4gPiAKPiAKPiBX
+YWl0LCB0aGlzIHdhcyBub3QgZXZlbiB1bnVzdWFsIHRlc3QsIGp1c3Qgc3RhbmRhcmQgY29tcGls
+ZSwgd2hpY2ggbWVhbnMKPiB5b3UgZGlkIG5vdCBkbyBiYXNpYyB0ZXN0cyBvbiB5b3VyIGVuZC4g
+WW91IG11c3QgYnVpbGQgeW91ciBuZXcgZHJpdmVyCj4gd2l0aCBXPTEsIHNtYXRjaCwgc3BhcnNl
+IGFuZCBjb2NjaW5lbGxlIGJlZm9yZSBzZW5kaW5nIHVwc3RyZWFtLgo+IAo+IEJlc3QgcmVnYXJk
+cywKPiBLcnp5c3p0b2YKPiAKCldlbGwsIEkgZG8gYWdyZWUgdGhhdCBhIHNwYXJzZSBidWlsZCB3
+b3VsZCBlYXNpbHkgY2F1Z2h0IHRoaXMgYW5kIEknbSBtYWQgd2l0aCBteXNlbGYKYmVjYXVzZSB0
+aGF0IG11Y2ggKHRvZ2V0aGVyIHdpdGggY2hlY2twYXRjaCkgSSB1c3VhbGx5IHJ1biAoSSBjb25m
+ZXNzIHRoYXQgY29jY2luZWxsZQphbmQgc21hdGNoIGlzIHNvbWV0aGluZyB0aGF0IEkgZG9uJ3Qg
+dXN1YWxseSBkby4gCgoieW91IGRpZCBub3QgZG8gYmFzaWMgdGVzdHMgb24geW91ciBlbmQiCgpI
+b3dldmVyIEkgZG8gdGhpbmsgdGhpcyBpcyBhIGJpdCB1bmZhaXIuIEkgZGlkIGdvdCBhIGxvdCBv
+ZiB0aGluZ3MgdG8gZG8gaW4gdjIgd2l0aAptYWpvciByZWZhY3RvcnMgb24gc29tZSBvZiB0aGUg
+ZmVhdHVyZXMuIFNvICJiYXNpYyB0ZXN0IiB0byBtZSBpcyBhY3R1YWxseSBtYWtpbmcKc3VyZSB0
+aGF0IGFsbCBvZiB0aGVzZSBjaGFuZ2VzIGRvbid0IGJyZWFrIHRoZSBkcml2ZXIgYW5kIHRoZSBk
+ZXZpY2Ugc3RpbGwgd29ya3MgYXMKZXhwZWN0ZWQuCgpBbnl3YXlzLCBJIGRvbid0IHdhbnQgdG8g
+ZmluZCBhbnkgZXhlY3VzZXMgYW5kIHN0YXJ0IGFuIGFyZ3VtZW50LiBXaWxsIHRyeSB0byBkbwpi
+ZXR0ZXIgaW4gbmV4dCBpdGVyYXRpb25zLgoKLSBOdW5vIFPDoQo=
 
