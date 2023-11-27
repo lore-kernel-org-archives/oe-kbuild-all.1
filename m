@@ -1,51 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E195D179A2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 08:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE3117988
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 08:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="db++Bv4s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701074183; x=1732610183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OMiaSPz2lvh6rMJ9002RnlhoTiuoF3QujEVFdhr1e2Y=;
-  b=db++Bv4s22sRIpsvO4hzsoQ77e4dTY5i0CBrKvt98tu6q0T/TC7EOYQo
-   nROG3RT3kJOK6NnCd3iYJdCv0KmM8zjoDAmjSklEptcQ6lFgSpdaEEGFI
-   1UHDSWBZTT8gQf9a2MAi0Io4c43MC9HWlPmFkkYN2kNLGbkA5kfq/Z9yx
-   PPO5PYhRDlYBHQytDFdY42aWzSWK0N4KdMeUXQbvzEZcKq6tQkV2N1jfx
-   b8zsM6tSw7/ni2wEVGzyDjsDk67xnT5qo36gOAn/wrhwuTGAt1CaO+zQZ
-   nHdwHll/AgRsDiJwfQGaBc2ZucN1Z6MY6sua6wcrVpz3EMcRrBioCKred
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="396568151"
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="396568151"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 00:36:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="9564110"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Nov 2023 00:36:21 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r7X6H-00063z-2s;
-	Mon, 27 Nov 2023 08:36:17 +0000
-Date: Mon, 27 Nov 2023 16:35:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jisheng Zhang <jszhang@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] riscv: mm: still create swiotlb buffer for kmalloc()
- bouncing if required
-Message-ID: <202311271323.n71NKhJ5-lkp@intel.com>
-References: <20231126162528.2411-1-jszhang@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p/AFOldZ"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50baa1ca01cso2197712e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 00:38:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701074333; x=1701679133; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9+3L96NjIz2RWvf2gmLIvMPT1EB5fPTxOYm9b8qLDp0=;
+        b=p/AFOldZe+487Dtk61DqLj99JTsyrzMstwIELXYXpNc6FPWdUgGU8R9ehN6d6y3Wlg
+         2xoykrWKC/s9mCStT0gF0JRYrcSkz1Cktfnm8jJPEs3sDOs8hC5QQnI3a5DoL3SCz19c
+         bHOGfTEUacG5ei4u+nL/aTLNN38TnGplnB3CpVJCAJQpvRab7OruXownjjTonk2ALXP2
+         X2QJn2LVryzG104l9b+CyXa4mqIK2eu11kdXbm0t+9Y5/O+1SwdmjiptBedyZc4zsq9z
+         +fIemouIbgx1fEJ795eGTosbyGFxg2Kz7mkt6cVlkvWtq/eZJO7/w7s4Zk8E/vnasNiD
+         8Mgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701074333; x=1701679133;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9+3L96NjIz2RWvf2gmLIvMPT1EB5fPTxOYm9b8qLDp0=;
+        b=gdhMTTfD54bG+q3Vt9HWNfbmR4M7gL1ZUJ+52fBkpv+E67QrXjSgTmTENZ5m1RoPSI
+         MHWmC8yxtXEnEh63ilm3DkE/Bgs/GDRxvHejYNRfSUFVJ+/TJQ4Vo8qi8DOI/iw+VPaf
+         HiCYadsw+79XthmTqBRoNx8xYyc27BdKMuEa4Q1QjM7ImdbMl/LyuOYFLJ7Gq8U97iQm
+         YeFtCZSCa+4g+OQrns3R5Sp/PuJGsEKaa2fgKC3CRRKY0t5q8jGPNaJp3iJEXMYud5Ga
+         iP7y8NkM9MCveZdkXr+7rf2a/evAIUTjEF+iX91Ci5unlO4A8o9BQIvoMjZIE4AGPxBQ
+         /bnA==
+X-Gm-Message-State: AOJu0YyJuPez8tQ4zPYdtSXmlO+yZtzDH4dlAzFpXwrvP2O77EXMe7IE
+	RuOHjCjcTgkB4rQ4U5OqCXlvEw==
+X-Google-Smtp-Source: AGHT+IH1lV7fJUCBtxnjaOz/DUnKc8vizm037rCEh5sYL2qpZN9rN2jJ82wkap3SnCOBneVERtKuAA==
+X-Received: by 2002:a05:6512:2350:b0:507:9fc1:ca7a with SMTP id p16-20020a056512235000b005079fc1ca7amr5307062lfu.9.1701074333070;
+        Mon, 27 Nov 2023 00:38:53 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id i2-20020adffc02000000b00327de0173f6sm11370105wrr.115.2023.11.27.00.38.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 00:38:52 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Mon, 27 Nov 2023 11:38:49 +0300
+To: oe-kbuild@lists.linux.dev, Qi Hu <huqi@loongson.cn>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Huacai Chen <chenhuacai@kernel.org>
+Subject: arch/loongarch/kernel/traps.c:407 die() warn: variable dereferenced
+ before check 'regs' (see line 401)
+Message-ID: <90f50994-3cc7-4f35-9fab-a62ac129a93d@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,64 +57,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231126162528.2411-1-jszhang@kernel.org>
 
-Hi Jisheng,
+Hi Qi,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.7-rc3 next-20231127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/riscv-mm-still-create-swiotlb-buffer-for-kmalloc-bouncing-if-required/20231127-014531
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231126162528.2411-1-jszhang%40kernel.org
-patch subject: [PATCH] riscv: mm: still create swiotlb buffer for kmalloc() bouncing if required
-config: riscv-randconfig-002-20231127 (https://download.01.org/0day-ci/archive/20231127/202311271323.n71NKhJ5-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311271323.n71NKhJ5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d2da77f431ac49b5763b88751a75f70daa46296c
+commit: 346dc929623cef70ff7832a4fa0ffd1b696e312a LoongArch: Fix the write_fcsr() macro
+config: loongarch-randconfig-r071-20231126 (https://download.01.org/0day-ci/archive/20231127/202311270400.2cHw6Jsv-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231127/202311270400.2cHw6Jsv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311271323.n71NKhJ5-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311270400.2cHw6Jsv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+arch/loongarch/kernel/traps.c:407 die() warn: variable dereferenced before check 'regs' (see line 401)
 
-   arch/riscv/mm/init.c: In function 'mem_init':
->> arch/riscv/mm/init.c:171:13: error: 'dma_cache_alignment' undeclared (first use in this function); did you mean 'dma_get_cache_alignment'?
-     171 |             dma_cache_alignment != 1) {
-         |             ^~~~~~~~~~~~~~~~~~~
-         |             dma_get_cache_alignment
-   arch/riscv/mm/init.c:171:13: note: each undeclared identifier is reported only once for each function it appears in
+vim +/regs +407 arch/loongarch/kernel/traps.c
 
+0603839b18f4fb Huacai Chen  2022-05-31  385  void __noreturn die(const char *str, struct pt_regs *regs)
+0603839b18f4fb Huacai Chen  2022-05-31  386  {
+0603839b18f4fb Huacai Chen  2022-05-31  387  	static int die_counter;
+0603839b18f4fb Huacai Chen  2022-05-31  388  	int sig = SIGSEGV;
+0603839b18f4fb Huacai Chen  2022-05-31  389  
+0603839b18f4fb Huacai Chen  2022-05-31  390  	oops_enter();
+0603839b18f4fb Huacai Chen  2022-05-31  391  
+0603839b18f4fb Huacai Chen  2022-05-31  392  	if (notify_die(DIE_OOPS, str, regs, 0, current->thread.trap_nr,
+0603839b18f4fb Huacai Chen  2022-05-31  393  		       SIGSEGV) == NOTIFY_STOP)
+0603839b18f4fb Huacai Chen  2022-05-31  394  		sig = 0;
+0603839b18f4fb Huacai Chen  2022-05-31  395  
+0603839b18f4fb Huacai Chen  2022-05-31  396  	console_verbose();
+0603839b18f4fb Huacai Chen  2022-05-31  397  	raw_spin_lock_irq(&die_lock);
+0603839b18f4fb Huacai Chen  2022-05-31  398  	bust_spinlocks(1);
+0603839b18f4fb Huacai Chen  2022-05-31  399  
+0603839b18f4fb Huacai Chen  2022-05-31  400  	printk("%s[#%d]:\n", str, ++die_counter);
+0603839b18f4fb Huacai Chen  2022-05-31 @401  	show_registers(regs);
+                                                               ^^^^
+Dereferenced
 
-vim +171 arch/riscv/mm/init.c
+0603839b18f4fb Huacai Chen  2022-05-31  402  	add_taint(TAINT_DIE, LOCKDEP_NOW_UNRELIABLE);
+0603839b18f4fb Huacai Chen  2022-05-31  403  	raw_spin_unlock_irq(&die_lock);
+0603839b18f4fb Huacai Chen  2022-05-31  404  
+0603839b18f4fb Huacai Chen  2022-05-31  405  	oops_exit();
+0603839b18f4fb Huacai Chen  2022-05-31  406  
+4e62d1d86585e1 Youling Tang 2022-10-12 @407  	if (regs && kexec_should_crash(current))
+                                                    ^^^^
+Checked too late
 
-   169	
-   170		if (IS_ENABLED(CONFIG_DMA_BOUNCE_UNALIGNED_KMALLOC) && !swiotlb &&
- > 171		    dma_cache_alignment != 1) {
-   172			/*
-   173			 * If no bouncing needed for ZONE_DMA, allocate 1MB swiotlb
-   174			 * buffer per 1GB of RAM for kmalloc() bouncing on
-   175			 * non-coherent platforms.
-   176			 */
-   177			unsigned long size =
-   178				DIV_ROUND_UP(memblock_phys_mem_size(), 1024);
-   179			swiotlb_adjust_size(min(swiotlb_size_or_default(), size));
-   180			swiotlb = true;
-   181		}
-   182	
-   183		swiotlb_init(swiotlb, SWIOTLB_VERBOSE);
-   184		memblock_free_all();
-   185	
-   186		print_vm_layout();
-   187	}
-   188	
+4e62d1d86585e1 Youling Tang 2022-10-12  408  		crash_kexec(regs);
+4e62d1d86585e1 Youling Tang 2022-10-12  409  
+0603839b18f4fb Huacai Chen  2022-05-31  410  	if (in_interrupt())
+0603839b18f4fb Huacai Chen  2022-05-31  411  		panic("Fatal exception in interrupt");
+0603839b18f4fb Huacai Chen  2022-05-31  412  
+0603839b18f4fb Huacai Chen  2022-05-31  413  	if (panic_on_oops)
+0603839b18f4fb Huacai Chen  2022-05-31  414  		panic("Fatal exception");
+0603839b18f4fb Huacai Chen  2022-05-31  415  
+0603839b18f4fb Huacai Chen  2022-05-31  416  	make_task_dead(sig);
+0603839b18f4fb Huacai Chen  2022-05-31  417  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
