@@ -1,54 +1,46 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFF919BD2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 11:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B55FC14
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 11:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sjZOeUXO"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2c72e275d96so53962311fa.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 03:30:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701084626; x=1701689426; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s+MOXu27yPf3UCbViyAan00Rttoop53nJW7WCFKhbuw=;
-        b=sjZOeUXOC6b+Vg/ozE0CdsPTlekiBNvaFtMcuIpEzzjJpNdM//GRq2akSKquz8VRXU
-         1r+CxVjR0g66Qe0h01yAR4vm/ebljEo1j2rCI0PtQwdkDGznWSn13NvirLiItYf8p2vj
-         lz8AqvniDzQn9jQqI/dcJONzlRZHjm/GWIMxUfS9ekfVYHQ1pSGVEavyKBecE7TAIYV2
-         QsAVXn6sl2QHg9+93N3U4wSwMtGSz/3HohcUXGcLJ3bTfLUCYIP15fTDZTVCAarm1KTP
-         /t4R+Ehhp3XCyS1bVpYs6CCFOHgs1xwwrqDciMdpZXT/buQXIzUZWj6vxfL0NkqSYX/e
-         FLnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701084626; x=1701689426;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s+MOXu27yPf3UCbViyAan00Rttoop53nJW7WCFKhbuw=;
-        b=tRDqNF2vhzUfFHIeNRLkranEzYe4/4pK17jRgGyRxftk7Q7bpZsw+dtx9ZvAYB9Syz
-         7MHB6sSxnBEhrMKfCyVSla8E4ONHtN/0OFo7dEa21oeQ8La2U5Ar9FT6aV3cJmNRnEZw
-         Z3T9rbkpqbSv8AH3lDoGUlVNVvAWFe/2XCnyMK6b3DhQxvP3Z4TpnNg4TDOKG91pXQKk
-         db+5uHFoPW3D4RipgJ758lneyJWytUTmS9NHQlhKb7aH0El/nBYnj7Us5lA+i4orNU6H
-         ofFqH4/wAV/BYueVzIKtK8zWIiPFJI/U2Y5k/IMohnq6D6kZTJRawIDvSXoLcvjcRQ2b
-         eJvA==
-X-Gm-Message-State: AOJu0YzigzONz8DjANRSVoKwl+NVH80BcT20GD22Fy1n5DPPtw0bTjsU
-	e8o8BB/1IbSLmnfrQFGe8S0wWQ==
-X-Google-Smtp-Source: AGHT+IFpesgrucFxK9BK7DrkGXBppFhyx8Itht8iBNii1N4/k/umtQB5oNRbGEgX5WkH+SS3D5TC4g==
-X-Received: by 2002:a2e:9017:0:b0:2bd:1f83:8d4 with SMTP id h23-20020a2e9017000000b002bd1f8308d4mr4224636ljg.22.1701084625792;
-        Mon, 27 Nov 2023 03:30:25 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c37-20020a05600c4a2500b003fee6e170f9sm13371467wmp.45.2023.11.27.03.30.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 03:30:25 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 27 Nov 2023 14:30:21 +0300
-To: oe-kbuild@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/090-spi-hid 15/21]
- drivers/hid/dockchannel-hid/dockchannel-hid.c:1173 dockchannel_hid_probe()
- warn: passing zero to 'PTR_ERR'
-Message-ID: <4656a259-a21a-4847-9850-fa362550bc44@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wsph/4LT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701085219; x=1732621219;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9Wk4/k1bK8WfCBXncr0HmmGuqJBuxtkTdm8u/WFN4dk=;
+  b=Wsph/4LT/SVItMDigOVbmGvCWlJYPkcDY/u7CtHweo2DdiyPp3/taoUs
+   a5XGysVJjqDC+apMJGn8IxJlWL87e8l+g8lHyoDwp39hvfXyqU9sxAeUD
+   6jxk1hxyypjgeA8zVsHxx8BjrxWADhqsQGzWLe4t7Vm3Z9u04/zYJ0fsD
+   r3QjHbLj7TEbcQMl9icZdnlM1HXKDGgTYFqIr4CRGsulIcdZP6BZ+gBOw
+   sd4Ul3L2AQZcg/uRoczvJGJAhNKdqeqw0ZbApD9+zzYZjdjret9oez8fr
+   qxh6E9IyEDNR0bEEFu75CxyL3HGejI+BnDQtxILgHErURQlc7iA6SU9J3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="391556279"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="391556279"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 03:40:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="891720980"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="891720980"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 27 Nov 2023 03:40:16 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r7ZyI-0006DX-2S;
+	Mon, 27 Nov 2023 11:40:14 +0000
+Date: Mon, 27 Nov 2023 19:39:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.7-rc2-net-next-mv88e6xxx-leds 5/8] net/dsa/dsa.c:570:7:
+ error: 'struct led_classdev' has no member named 'hw_control_is_supported'
+Message-ID: <202311271806.lQvVfuQ9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,133 +50,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
-head:   16871bb3228eaf55cbdb1dfb81c1cecec4ee0d52
-commit: af53f3ff74f442fae36262bda9be6a94ad52925e [15/21] hid: Add Apple DockChannel HID transport driver
-config: parisc-randconfig-r071-20231127 (https://download.01.org/0day-ci/archive/20231127/202311271546.ImsRFnlZ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231127/202311271546.ImsRFnlZ-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.7-rc2-net-next-mv88e6xxx-leds
+head:   d67635694438025b12dfacb6990b641ed2a55633
+commit: 0e2c1c7ed1d6780406f9291e9d94848ac2e04740 [5/8] dsa: Plumb in LED calls needed for hardware offload
+config: x86_64-buildonly-randconfig-006-20231127 (https://download.01.org/0day-ci/archive/20231127/202311271806.lQvVfuQ9-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311271806.lQvVfuQ9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311271546.ImsRFnlZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311271806.lQvVfuQ9-lkp@intel.com/
 
-smatch warnings:
-drivers/hid/dockchannel-hid/dockchannel-hid.c:1173 dockchannel_hid_probe() warn: passing zero to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-vim +/PTR_ERR +1173 drivers/hid/dockchannel-hid/dockchannel-hid.c
-
-af53f3ff74f442 Hector Martin 2022-07-08  1094  static int dockchannel_hid_probe(struct platform_device *pdev)
-af53f3ff74f442 Hector Martin 2022-07-08  1095  {
-af53f3ff74f442 Hector Martin 2022-07-08  1096  	struct device *dev = &pdev->dev;
-af53f3ff74f442 Hector Martin 2022-07-08  1097  	struct dockchannel_hid *dchid;
-af53f3ff74f442 Hector Martin 2022-07-08  1098  	struct device_node *child, *helper;
-af53f3ff74f442 Hector Martin 2022-07-08  1099  	struct platform_device *helper_pdev;
-af53f3ff74f442 Hector Martin 2022-07-08  1100  	struct property *prop;
-af53f3ff74f442 Hector Martin 2022-07-08  1101  	int ret;
-af53f3ff74f442 Hector Martin 2022-07-08  1102  
-af53f3ff74f442 Hector Martin 2022-07-08  1103  	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-af53f3ff74f442 Hector Martin 2022-07-08  1104  	if (ret)
-af53f3ff74f442 Hector Martin 2022-07-08  1105  		return ret;
-af53f3ff74f442 Hector Martin 2022-07-08  1106  
-af53f3ff74f442 Hector Martin 2022-07-08  1107  	dchid = devm_kzalloc(dev, sizeof(*dchid), GFP_KERNEL);
-af53f3ff74f442 Hector Martin 2022-07-08  1108  	if (!dchid) {
-af53f3ff74f442 Hector Martin 2022-07-08  1109  		return -ENOMEM;
-af53f3ff74f442 Hector Martin 2022-07-08  1110  	}
-af53f3ff74f442 Hector Martin 2022-07-08  1111  
-af53f3ff74f442 Hector Martin 2022-07-08  1112  	dchid->dev = dev;
-af53f3ff74f442 Hector Martin 2022-07-08  1113  
-af53f3ff74f442 Hector Martin 2022-07-08  1114  	/*
-af53f3ff74f442 Hector Martin 2022-07-08  1115  	 * First make sure all the GPIOs are available, in cased we need to defer.
-af53f3ff74f442 Hector Martin 2022-07-08  1116  	 * This is necessary because MTP will request them by name later, and by then
-af53f3ff74f442 Hector Martin 2022-07-08  1117  	 * it's too late to defer the probe.
-af53f3ff74f442 Hector Martin 2022-07-08  1118  	 */
-af53f3ff74f442 Hector Martin 2022-07-08  1119  
-af53f3ff74f442 Hector Martin 2022-07-08  1120  	for_each_child_of_node(dev->of_node, child) {
-af53f3ff74f442 Hector Martin 2022-07-08  1121  		for_each_property_of_node(child, prop) {
-af53f3ff74f442 Hector Martin 2022-07-08  1122  			size_t len = strlen(prop->name);
-af53f3ff74f442 Hector Martin 2022-07-08  1123  			struct gpio_desc *gpio;
-af53f3ff74f442 Hector Martin 2022-07-08  1124  
-af53f3ff74f442 Hector Martin 2022-07-08  1125  			if (len < 12 || strncmp("apple,", prop->name, 6) ||
-af53f3ff74f442 Hector Martin 2022-07-08  1126  			    strcmp("-gpios", prop->name + len - 6))
-af53f3ff74f442 Hector Martin 2022-07-08  1127  				continue;
-af53f3ff74f442 Hector Martin 2022-07-08  1128  
-af53f3ff74f442 Hector Martin 2022-07-08  1129  			gpio = fwnode_gpiod_get_index(&child->fwnode, prop->name, 0, GPIOD_ASIS,
-af53f3ff74f442 Hector Martin 2022-07-08  1130  						      prop->name);
-af53f3ff74f442 Hector Martin 2022-07-08  1131  			if (IS_ERR_OR_NULL(gpio)) {
-af53f3ff74f442 Hector Martin 2022-07-08  1132  				if (PTR_ERR(gpio) == -EPROBE_DEFER) {
-af53f3ff74f442 Hector Martin 2022-07-08  1133  					of_node_put(child);
-af53f3ff74f442 Hector Martin 2022-07-08  1134  					return -EPROBE_DEFER;
-af53f3ff74f442 Hector Martin 2022-07-08  1135  				}
-af53f3ff74f442 Hector Martin 2022-07-08  1136  			} else {
-af53f3ff74f442 Hector Martin 2022-07-08  1137  				gpiod_put(gpio);
-af53f3ff74f442 Hector Martin 2022-07-08  1138  			}
-af53f3ff74f442 Hector Martin 2022-07-08  1139  		}
-af53f3ff74f442 Hector Martin 2022-07-08  1140  	}
-af53f3ff74f442 Hector Martin 2022-07-08  1141  
-af53f3ff74f442 Hector Martin 2022-07-08  1142  	/*
-af53f3ff74f442 Hector Martin 2022-07-08  1143  	 * Make sure we also have the MTP coprocessor available, and
-af53f3ff74f442 Hector Martin 2022-07-08  1144  	 * defer probe if the helper hasn't probed yet.
-af53f3ff74f442 Hector Martin 2022-07-08  1145  	 */
-af53f3ff74f442 Hector Martin 2022-07-08  1146  	helper = of_parse_phandle(dev->of_node, "apple,helper-cpu", 0);
-af53f3ff74f442 Hector Martin 2022-07-08  1147  	if (!helper) {
-af53f3ff74f442 Hector Martin 2022-07-08  1148  		dev_err(dev, "Missing apple,helper-cpu property");
-af53f3ff74f442 Hector Martin 2022-07-08  1149  		return -EINVAL;
-af53f3ff74f442 Hector Martin 2022-07-08  1150  	}
-af53f3ff74f442 Hector Martin 2022-07-08  1151  
-af53f3ff74f442 Hector Martin 2022-07-08  1152  	helper_pdev = of_find_device_by_node(helper);
-af53f3ff74f442 Hector Martin 2022-07-08  1153  	of_node_put(helper);
-af53f3ff74f442 Hector Martin 2022-07-08  1154  	if (!helper_pdev) {
-af53f3ff74f442 Hector Martin 2022-07-08  1155  		dev_err(dev, "Failed to find helper device");
-af53f3ff74f442 Hector Martin 2022-07-08  1156  		return -EINVAL;
-af53f3ff74f442 Hector Martin 2022-07-08  1157  	}
-af53f3ff74f442 Hector Martin 2022-07-08  1158  
-af53f3ff74f442 Hector Martin 2022-07-08  1159  	dchid->helper_link = device_link_add(dev, &helper_pdev->dev,
-af53f3ff74f442 Hector Martin 2022-07-08  1160  					     DL_FLAG_AUTOREMOVE_CONSUMER);
-af53f3ff74f442 Hector Martin 2022-07-08  1161  	put_device(&helper_pdev->dev);
-af53f3ff74f442 Hector Martin 2022-07-08  1162  	if (!dchid->helper_link) {
-af53f3ff74f442 Hector Martin 2022-07-08  1163  		dev_err(dev, "Failed to link to helper device");
-af53f3ff74f442 Hector Martin 2022-07-08  1164  		return -EINVAL;
-af53f3ff74f442 Hector Martin 2022-07-08  1165  	}
-af53f3ff74f442 Hector Martin 2022-07-08  1166  
-af53f3ff74f442 Hector Martin 2022-07-08  1167  	if (dchid->helper_link->supplier->links.status != DL_DEV_DRIVER_BOUND)
-af53f3ff74f442 Hector Martin 2022-07-08  1168  		return -EPROBE_DEFER;
-af53f3ff74f442 Hector Martin 2022-07-08  1169  
-af53f3ff74f442 Hector Martin 2022-07-08  1170  	/* Now it is safe to begin initializing */
-af53f3ff74f442 Hector Martin 2022-07-08  1171  	dchid->dc = dockchannel_init(pdev);
-af53f3ff74f442 Hector Martin 2022-07-08  1172  	if (IS_ERR_OR_NULL(dchid->dc)) {
-af53f3ff74f442 Hector Martin 2022-07-08 @1173  		return PTR_ERR(dchid->dc);
+   net/dsa/dsa.c: In function 'dsa_port_led_setup':
+>> net/dsa/dsa.c:570:7: error: 'struct led_classdev' has no member named 'hw_control_is_supported'
+     570 |   cdev->hw_control_is_supported = dsa_led_hw_control_is_supported;
+         |       ^~
+>> net/dsa/dsa.c:572:7: error: 'struct led_classdev' has no member named 'hw_control_set'
+     572 |   cdev->hw_control_set = dsa_led_hw_control_set;
+         |       ^~
+>> net/dsa/dsa.c:574:7: error: 'struct led_classdev' has no member named 'hw_control_get'
+     574 |   cdev->hw_control_get = dsa_led_hw_control_get;
+         |       ^~
+>> net/dsa/dsa.c:575:6: error: 'struct led_classdev' has no member named 'hw_control_get_device'
+     575 |  cdev->hw_control_get_device = dsa_led_hw_control_get_device;
+         |      ^~
+>> net/dsa/dsa.c:576:6: error: 'struct led_classdev' has no member named 'hw_control_trigger'
+     576 |  cdev->hw_control_trigger = "netdev";
+         |      ^~
 
 
-We are returning success if dockchannel_init() returns NULL.
+vim +570 net/dsa/dsa.c
 
-I only look at this email, but my guess without looking at the context
-is that the IS_ERR_OR_NULL() check should just be IS_ERR().  Otherwise
-it means that dockchannel_init() is optional.  See my blog for more
-details.
-
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
-
-af53f3ff74f442 Hector Martin 2022-07-08  1174  	}
-af53f3ff74f442 Hector Martin 2022-07-08  1175  	dchid->new_iface_wq = alloc_workqueue("dchid-new", WQ_MEM_RECLAIM, 0);
-af53f3ff74f442 Hector Martin 2022-07-08  1176  	if (!dchid->new_iface_wq)
-af53f3ff74f442 Hector Martin 2022-07-08  1177  		return -ENOMEM;
-af53f3ff74f442 Hector Martin 2022-07-08  1178  
-af53f3ff74f442 Hector Martin 2022-07-08  1179  	dchid->comm = dchid_get_interface(dchid, IFACE_COMM, "comm");
-af53f3ff74f442 Hector Martin 2022-07-08  1180  	if (!dchid->comm) {
-af53f3ff74f442 Hector Martin 2022-07-08  1181  		dev_err(dchid->dev, "Failed to initialize comm interface");
-af53f3ff74f442 Hector Martin 2022-07-08  1182  		return -EIO;
-af53f3ff74f442 Hector Martin 2022-07-08  1183  	}
-af53f3ff74f442 Hector Martin 2022-07-08  1184  
-af53f3ff74f442 Hector Martin 2022-07-08  1185  	dev_info(dchid->dev, "Initialized, awaiting packets\n");
-af53f3ff74f442 Hector Martin 2022-07-08  1186  	dockchannel_await(dchid->dc, dchid_handle_packet, dchid, sizeof(struct dchid_hdr));
-af53f3ff74f442 Hector Martin 2022-07-08  1187  
-af53f3ff74f442 Hector Martin 2022-07-08  1188  	return 0;
-af53f3ff74f442 Hector Martin 2022-07-08  1189  }
+   539	
+   540	static int dsa_port_led_setup(struct dsa_port *dp,
+   541				      struct device_node *led)
+   542	{
+   543		struct led_init_data init_data = {};
+   544		struct dsa_switch *ds = dp->ds;
+   545		struct led_classdev *cdev;
+   546		struct dsa_led *dsa_led;
+   547		u32 index;
+   548		int err;
+   549	
+   550		dsa_led = devm_kzalloc(ds->dev, sizeof(*dsa_led), GFP_KERNEL);
+   551		if (!dsa_led)
+   552			return -ENOMEM;
+   553	
+   554		dsa_led->dp = dp;
+   555		cdev = &dsa_led->led_cdev;
+   556	
+   557		err = of_property_read_u32(led, "reg", &index);
+   558		if (err)
+   559			return err;
+   560		if (index > 255)
+   561			return -EINVAL;
+   562	
+   563		dsa_led->index = index;
+   564	
+   565		if (ds->ops->led_brightness_set)
+   566			cdev->brightness_set_blocking = dsa_led_brightness_set;
+   567		if (ds->ops->led_blink_set)
+   568			cdev->blink_set = dsa_led_blink_set;
+   569		if (ds->ops->led_hw_control_is_supported)
+ > 570			cdev->hw_control_is_supported = dsa_led_hw_control_is_supported;
+   571		if (ds->ops->led_hw_control_set)
+ > 572			cdev->hw_control_set = dsa_led_hw_control_set;
+   573		if (ds->ops->led_hw_control_get)
+ > 574			cdev->hw_control_get = dsa_led_hw_control_get;
+ > 575		cdev->hw_control_get_device = dsa_led_hw_control_get_device;
+ > 576		cdev->hw_control_trigger = "netdev";
+   577		cdev->max_brightness = 1;
+   578	
+   579		init_data.fwnode = of_fwnode_handle(led);
+   580		if (dp->user) {
+   581			init_data.devicename = dev_name(&dp->user->dev);
+   582			err = devm_led_classdev_register_ext(&dp->user->dev, cdev,
+   583							     &init_data);
+   584		} else {
+   585			init_data.devicename = kasprintf(GFP_KERNEL, "%s:%d",
+   586							 dev_name(ds->dev), dp->index);
+   587			err = devm_led_classdev_register_ext(ds->dev, cdev, &init_data);
+   588		}
+   589		if (err)
+   590			return err;
+   591	
+   592		INIT_LIST_HEAD(&dsa_led->led_list);
+   593		list_add(&dsa_led->led_list, &dp->leds);
+   594	
+   595		if (!dp->user)
+   596			kfree(init_data.devicename);
+   597	
+   598		return 0;
+   599	}
+   600	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
