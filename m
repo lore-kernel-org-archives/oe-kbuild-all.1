@@ -1,54 +1,51 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFCC111B4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 08:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E195D179A2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 08:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qz/unXKD"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40b479b9c35so2714845e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 00:23:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701073392; x=1701678192; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b3xbW3m1wgZA7xHDhdSDuWfisCkTFnB8xotKZ/z6GNc=;
-        b=Qz/unXKDEDeINY3rfOpEtBlm8F3eiVD7blCkxKIsK6e7B6F/VwwRH1db2IiGCu8e6p
-         s/2UW+xk8WNEQs85DEkYlbSQXAT6nAinJyHcqV8zbGW+6AK8M8Jh6XvWW0Fz+inmaP3Z
-         HgvxX/+I+BAmbAxljzpVR6uMlNIF+LrXnE20F8hI3zfdzFZmlXxDWtt4WMm1L7JytlY1
-         AmvKDstH36NNM47pdszWGKJl1TT2SXDlSrPGsA43c7O+NDUioBmlfcGSysYvcQf5+Sjx
-         hdulQF/5YFLY1VfbahsLjYq3lJUBcytDSctWNO2aSU9xbzUp5ISzFr2HYVd2io3wiU6K
-         ImdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701073392; x=1701678192;
-        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b3xbW3m1wgZA7xHDhdSDuWfisCkTFnB8xotKZ/z6GNc=;
-        b=ZNpIMN/n/wR+BmEYVmzqcu4a2EHy45IY5hwIo/Vxx3XivCbbN0oTMUC0TKTJGwN5lU
-         nNltzgepEqd1wz2axObUcMKl0pxL4UbugZOdiyCgzOAeNdmu7Hm37M4Vts0M5pglal+1
-         jRzMasUldErk+R3qiTmiNFxDaophPSB/h6vywlbBeJgFb7Zg0ngGvcGc5LCubVwmSJ+X
-         1vEg9QtSlbCIG3d2gIUyhlC/j1wMFQLtlpuwRgTAcABvNrWoBH7thhuNFNJLfLyAaV0B
-         GNVAEJeNbQd2JI0UOndYdLdU/XQbapedSMzPhY22qO6IUTjiw52DAQqIVbleYL6EE4Kw
-         cUIQ==
-X-Gm-Message-State: AOJu0Yx11OIjTNwVdusc5WWYAOisYAALhJwPagKDxdOjSCz6a7vFReG3
-	vAGcWUozmhUz2m8WGVW4uV0puQ==
-X-Google-Smtp-Source: AGHT+IHcxku4GkYQFgIwY+TSykoWNFuj4qdFMkUSxrPkAZM1Qp+7FaN4DmjCB/qp3PcmYZrayxyb8g==
-X-Received: by 2002:a05:600c:1381:b0:405:3455:e1a3 with SMTP id u1-20020a05600c138100b004053455e1a3mr7241403wmf.17.1701073392005;
-        Mon, 27 Nov 2023 00:23:12 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id jg28-20020a05600ca01c00b004063cd8105csm13624785wmb.22.2023.11.27.00.23.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 00:23:11 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 27 Nov 2023 11:23:08 +0300
-To: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_fwspec 12/41] drivers/iommu/of_iommu.c:128
- of_iommu_for_each_id() error: we previously assumed 'id' could be null (see
- line 127)
-Message-ID: <7bbf49b2-4d51-4d4c-8014-57f9827cf247@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="db++Bv4s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701074183; x=1732610183;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OMiaSPz2lvh6rMJ9002RnlhoTiuoF3QujEVFdhr1e2Y=;
+  b=db++Bv4s22sRIpsvO4hzsoQ77e4dTY5i0CBrKvt98tu6q0T/TC7EOYQo
+   nROG3RT3kJOK6NnCd3iYJdCv0KmM8zjoDAmjSklEptcQ6lFgSpdaEEGFI
+   1UHDSWBZTT8gQf9a2MAi0Io4c43MC9HWlPmFkkYN2kNLGbkA5kfq/Z9yx
+   PPO5PYhRDlYBHQytDFdY42aWzSWK0N4KdMeUXQbvzEZcKq6tQkV2N1jfx
+   b8zsM6tSw7/ni2wEVGzyDjsDk67xnT5qo36gOAn/wrhwuTGAt1CaO+zQZ
+   nHdwHll/AgRsDiJwfQGaBc2ZucN1Z6MY6sua6wcrVpz3EMcRrBioCKred
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="396568151"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="396568151"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 00:36:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="9564110"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 27 Nov 2023 00:36:21 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r7X6H-00063z-2s;
+	Mon, 27 Nov 2023 08:36:17 +0000
+Date: Mon, 27 Nov 2023 16:35:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jisheng Zhang <jszhang@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] riscv: mm: still create swiotlb buffer for kmalloc()
+ bouncing if required
+Message-ID: <202311271323.n71NKhJ5-lkp@intel.com>
+References: <20231126162528.2411-1-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,60 +54,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231126162528.2411-1-jszhang@kernel.org>
 
-tree:   https://github.com/jgunthorpe/linux iommu_fwspec
-head:   49c7574491cc9c8e8f21a8e8acb635b0e0bdfd61
-commit: c7f276e38638a13299b4ded2ad6193f863534475 [12/41] iommu/of: Make a of_iommu_for_each_id()
-config: mips-randconfig-r071-20231126 (https://download.01.org/0day-ci/archive/20231126/202311260642.VkLE7lht-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20231126/202311260642.VkLE7lht-lkp@intel.com/reproduce)
+Hi Jisheng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7-rc3 next-20231127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/riscv-mm-still-create-swiotlb-buffer-for-kmalloc-bouncing-if-required/20231127-014531
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231126162528.2411-1-jszhang%40kernel.org
+patch subject: [PATCH] riscv: mm: still create swiotlb buffer for kmalloc() bouncing if required
+config: riscv-randconfig-002-20231127 (https://download.01.org/0day-ci/archive/20231127/202311271323.n71NKhJ5-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311271323.n71NKhJ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311260642.VkLE7lht-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311271323.n71NKhJ5-lkp@intel.com/
 
-smatch warnings:
-drivers/iommu/of_iommu.c:128 of_iommu_for_each_id() error: we previously assumed 'id' could be null (see line 127)
+All errors (new ones prefixed by >>):
 
-vim +/id +128 drivers/iommu/of_iommu.c
+   arch/riscv/mm/init.c: In function 'mem_init':
+>> arch/riscv/mm/init.c:171:13: error: 'dma_cache_alignment' undeclared (first use in this function); did you mean 'dma_get_cache_alignment'?
+     171 |             dma_cache_alignment != 1) {
+         |             ^~~~~~~~~~~~~~~~~~~
+         |             dma_get_cache_alignment
+   arch/riscv/mm/init.c:171:13: note: each undeclared identifier is reported only once for each function it appears in
 
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  103  static int of_iommu_for_each_id(struct device *dev,
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  104  				struct device_node *master_np, const u32 *id,
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  105  				of_for_each_fn fn, void *info)
-a081bd4af4ce80 Lorenzo Pieralisi 2020-06-19  106  {
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  107  	/*
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  108  	 * We don't currently walk up the tree looking for a parent IOMMU.
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  109  	 * See the `Notes:' section of
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  110  	 * Documentation/devicetree/bindings/iommu/iommu.txt
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  111  	 */
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  112  	if (dev_is_pci(dev)) {
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  113  		struct of_pci_iommu_alias_info pci_info = {
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  114  			.np = master_np,
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  115  			.fn = fn,
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  116  			.info = info,
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  117  		};
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  118  
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  119  		/* In PCI mode the ID comes from the RID */
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  120  		if (WARN_ON(id))
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  121  			return -EINVAL;
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  122  
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  123  		return pci_for_each_dma_alias(to_pci_dev(dev),
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  124  					     __for_each_map_pci, &pci_info);
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  125  	}
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  126  
-c7f276e38638a1 Jason Gunthorpe   2023-11-23 @127  	if (!id)
 
-Reversed if statement?
+vim +171 arch/riscv/mm/init.c
 
-c7f276e38638a1 Jason Gunthorpe   2023-11-23 @128  		return __for_each_map_id(master_np, *id, fn, info);
-                                                                                                    ^^^
-
-c7f276e38638a1 Jason Gunthorpe   2023-11-23  129  	return __for_each_iommus(master_np, fn, info);
-a081bd4af4ce80 Lorenzo Pieralisi 2020-06-19  130  }
+   169	
+   170		if (IS_ENABLED(CONFIG_DMA_BOUNCE_UNALIGNED_KMALLOC) && !swiotlb &&
+ > 171		    dma_cache_alignment != 1) {
+   172			/*
+   173			 * If no bouncing needed for ZONE_DMA, allocate 1MB swiotlb
+   174			 * buffer per 1GB of RAM for kmalloc() bouncing on
+   175			 * non-coherent platforms.
+   176			 */
+   177			unsigned long size =
+   178				DIV_ROUND_UP(memblock_phys_mem_size(), 1024);
+   179			swiotlb_adjust_size(min(swiotlb_size_or_default(), size));
+   180			swiotlb = true;
+   181		}
+   182	
+   183		swiotlb_init(swiotlb, SWIOTLB_VERBOSE);
+   184		memblock_free_all();
+   185	
+   186		print_vm_layout();
+   187	}
+   188	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
