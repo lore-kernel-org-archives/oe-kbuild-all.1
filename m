@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9429320F7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 03:33:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB38353A0;
+	Mon, 27 Nov 2023 05:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HlOGgG3P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iqhVS91b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701056005; x=1732592005;
+  t=1701064704; x=1732600704;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mNAyd9A5s8C/r1uiHHXwJxMmnoAk1aqcMGwadi6ajNs=;
-  b=HlOGgG3PB+UtlnBtqOFEboImh5fX+VIrHNLLx92AtMOsbCBhWtCzWv//
-   ODQv0pHbaYfacxJV1J5ucu3lrHv8BFFPgC6TTp1GR2ZuZYbUohNXqLStZ
-   HzRnaAYwMDd+DFNh7BjarYMH0UUYpPY4SHgPjokRV7z8AHSnD6LOcJKdB
-   9OdxTXoNbqFW4bWpFX+fHDzUa4kVNQnfDSPv/0UXUnxDHCn5blUbobw3E
-   rSOIUz1R4fYIH77ukkw/NzFbC9z49ELy7BTlo1qEdke2/oP4POYK90Q/b
-   jvsCXafN/g/SVTYq9Ocsgkcwo34O6xL4tPZ3mCOaPGdN0U0lt0ZIMJVT/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="377662647"
-X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
-   d="scan'208";a="377662647"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 19:33:24 -0800
+  bh=BlHboTApcORFphCUD4Y2/UqQozcpKRzgyLwXUvarxk4=;
+  b=iqhVS91byiyiM+06/sf5PJ3aOcRBZPUNZB6eq7xW/iK0EVjTszyN5wy/
+   xkPe8QBsOkdNfKcA86vIjg6ni7WCJqEIMzbGMt24oVqIJfmh0MOPNMolN
+   UxRk/eglnYqvHWjc1GJ8Vdp/bASjCexsOuW0ja0u4NAj+rt4Itno8BeTW
+   t6RKgqiXxCZKIrh5v3W9yqVzcSugUAt+k7B32bUuLFDj6nzOuaRYhnWNK
+   R+Gl23uAmLspr6vAAoPeWnr6hF00/F+Z4+9lU7zxDCXPFf3GbFelcW7Tp
+   8ve116tIJ3wSZKaWgG7UTZgzL9pmLYh6ZkdnxSgqZe4D9q0JXEDL9/EDc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="392393483"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="392393483"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 21:58:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="768036731"
-X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
-   d="scan'208";a="768036731"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="744459774"
+X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
+   d="scan'208";a="744459774"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 26 Nov 2023 19:33:24 -0800
+  by orsmga006.jf.intel.com with ESMTP; 26 Nov 2023 21:58:22 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r7SN7-0005nq-1Z;
-	Mon, 27 Nov 2023 03:33:21 +0000
-Date: Mon, 27 Nov 2023 11:33:15 +0800
+	id 1r7UdQ-0005rw-02;
+	Mon, 27 Nov 2023 05:58:20 +0000
+Date: Mon, 27 Nov 2023 13:57:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [ragnatech:next/net/tsn 4/5]
- drivers/net/ethernet/renesas/rtsn.c:270:9: error: implicit declaration of
- function '__iowmb'
-Message-ID: <202311271132.APTExKBp-lkp@intel.com>
+ drivers/net/ethernet/renesas/rtsn.c:270:2: error: call to undeclared
+ function '__iowmb'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202311271326.6QVRuNLT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,22 +55,21 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niklas/linux.git next/net/tsn
 head:   9929703c4bd6c8c37ff9c65353ea241101007b52
 commit: 2aec3957074d82d65a9df406a07631e6a81e7a98 [4/5] net: ethernet: rtsn: Add support for Renesas Ethernet-TSN
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231127/202311271132.APTExKBp-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311271132.APTExKBp-lkp@intel.com/reproduce)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231127/202311271326.6QVRuNLT-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311271326.6QVRuNLT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311271132.APTExKBp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311271326.6QVRuNLT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/renesas/rtsn.c: In function 'rtsn_poll':
->> drivers/net/ethernet/renesas/rtsn.c:270:9: error: implicit declaration of function '__iowmb' [-Werror=implicit-function-declaration]
-     270 |         __iowmb();
-         |         ^~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/net/ethernet/renesas/rtsn.c:270:2: error: call to undeclared function '__iowmb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           __iowmb();
+           ^
+   1 error generated.
 
 
 vim +/__iowmb +270 drivers/net/ethernet/renesas/rtsn.c
