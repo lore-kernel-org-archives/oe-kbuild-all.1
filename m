@@ -1,236 +1,138 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8336FBFF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 07:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF755D528
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 07:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rmvuqK5N"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-32f8441dfb5so2632834f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 23:20:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BuN5C/ma"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a02d91ab199so527411866b.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 23:53:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701069655; x=1701674455; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bn54vIAc0eYi0hKtOKMeiN8NU8DvZIYGdhZWAeybSRY=;
-        b=rmvuqK5NSO4jbwcUTXJlXgK8rwNPFscjHmWfxd78bD6E7pY7XVKCcZZH26PyiKb0Hx
-         HjLE/6RuNlw4S1/vDMeZaIjg4FWtjT94JYpUHK/DdKCof4+CRElpuhC5yGRgnvX6UGNH
-         iuWGl3NAaYnJ1dkL5OLWeEkOYLMRQm3XgRZlO7Nzty+Xn5mUXXgScF80uSPwAe3mEVDR
-         pfLXCRr+mbEjEgFZS2ZOaGebHtKdwHCVlX0Ea8n+zcq32SdoO6C3e/xioBCj43mLxPXF
-         xQ70Bl7wUkXqDdIsoZBvvjuC0fj9sU1FRikGPHz0MQ1IhF+MbHx5sS8iXht2V4CjLBm1
-         688g==
+        d=gmail.com; s=20230601; t=1701071609; x=1701676409; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=pwz92+GCoP7IYtIAj34kO+/kqYdpJOwmZboVL10/2TY=;
+        b=BuN5C/masNsClP6OE8cG3djjL6AcBNj4A4B0ZRzEHiLo72fvo0WKkey7bBgjRI4x4+
+         e6WZ+MZhhWckjgWba5PVheYel27KoQ2gUab5q9Hp+t2TDqn8fs21PoS7nBFX8r1gq0VI
+         F1+l4LdIm60JQCXuyNDcj6uwtwkSscjMGTCi/JdUX60bpMdRzhy1Fr6TGhtqNg82SkGK
+         yVZjj1EyiYyJ3bM4dF7lDwHqSgxORW0/sOYhPd5c+ijnK/ReLhw0E1P6S5I6WpPxFjmz
+         gBMiA+4VsIm3rL+eAzdfZwGYgTv5GENIeioJ/CAgtSZznyHGGrkhamlz6bMwBjT8wu4t
+         S8Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701069655; x=1701674455;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bn54vIAc0eYi0hKtOKMeiN8NU8DvZIYGdhZWAeybSRY=;
-        b=Q2ZX0+BoDyqDH6r/5xB7WYjP/ELy4aZmrSusROIf5X0ZQ5I0c5SllbsTLj9Z956vQu
-         272xvFgbSITQgdS8uc9J5l7wMkzm5M7tTDSX1jhPuhP7Le3SiEJAopVRT2pTWzqglL2J
-         KaNCMmolMu1WKMEj9fQk3GbRtrA8GGk6KYiXi27xu6TUBNOVHThJ/TopqaOa5xcBqIFM
-         QE+tI1ZnP9TnsItIeOBAY5WnJq4u4TnvMd+KMNvYNJt+wqMaNvtJ6TBUuWOviXXIJwdd
-         2kOdL4IsCPaSPJ/JamXR78vwZGg8Xo9mXiQZ+HtckEgcc3UgHIgRX99Jn7phYmbpimZe
-         5KFw==
-X-Gm-Message-State: AOJu0YxQzizJuzu5dbdlwfoqIGQgAgdeo9uW6iViy4ebaTU8AELMXfKf
-	tVH5HKImRDouTmJkLJ5ASY1r+g==
-X-Google-Smtp-Source: AGHT+IEJd/EQQmAPrTIQqwfTjo9nIa20Ri9WtqA2pzXHWQSQrwyw3hN0cLsczlXOMHTs5+QGncmLkA==
-X-Received: by 2002:a05:6000:178d:b0:333:6cf:2b5 with SMTP id e13-20020a056000178d00b0033306cf02b5mr333044wrg.46.1701069654878;
-        Sun, 26 Nov 2023 23:20:54 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v19-20020adfd053000000b0032f9688ea48sm10935730wrh.10.2023.11.26.23.20.54
+        d=1e100.net; s=20230601; t=1701071609; x=1701676409;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pwz92+GCoP7IYtIAj34kO+/kqYdpJOwmZboVL10/2TY=;
+        b=bmS0YOKajVYX2dKnGvrFCh5xZCZThmNdH99yKRQ9ad1/8z1aoWj+RsUBArvF+U7NOA
+         cY9+J28tDcTxQMIe41ctJLVW/aadgXP66Xq3/aCpabdtqAixomQIjGZjS0RFt6yzPQ2I
+         mOKEQRZ9sXFkeGE6PYgGqgJWmQk/4WbzzzN4Q5aM1VJj2V6rggtjsrgnhEiDylPC5M9k
+         xpsg07eqt6sFWfv0HrwWOjKIkcOQ+WN9wjHUlw9l8+UJGZU4onwMPelWzfE6TKbtKHDX
+         Tob7I7l4P99lfseW/aSQtCN16bOOqWi5Ek+vFrZnDGvh2kJEx3uNSyYC7+QvTMimrnSN
+         hu6w==
+X-Gm-Message-State: AOJu0YzpJPa+CgSflCi/eeE+7/lg+ePDsYMl+Ta1M2LKajJl0n2xjqk3
+	4bT2GI6jKGGiKtLPrjBIhK4=
+X-Google-Smtp-Source: AGHT+IFTaov1AQrdzc6u35auEEen+Od0UW+CZQjZ8usDEx66PY98iv4uKdf0k6y+TEBSRmGZr4OWrQ==
+X-Received: by 2002:a17:906:f0d1:b0:a11:4dc3:d0ce with SMTP id dk17-20020a170906f0d100b00a114dc3d0cemr229592ejb.63.1701071608873;
+        Sun, 26 Nov 2023 23:53:28 -0800 (PST)
+Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
+        by smtp.gmail.com with ESMTPSA id mm25-20020a170906cc5900b009fdaab907fbsm5395322ejb.188.2023.11.26.23.53.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Nov 2023 23:20:54 -0800 (PST)
-From: Dan Carpenter <dan.carpenter@linaro.org>
-X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
-Date: Mon, 27 Nov 2023 10:20:52 +0300
-To: oe-kbuild@lists.linux.dev, Mateusz Majewski <m.majewski2@samsung.com>,
-	linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mateusz Majewski <m.majewski2@samsung.com>,
-	Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Lukasz Luba <lukasz.luba@arm.com>
-Subject: Re: [PATCH v5 7/9] thermal: exynos: split initialization of TMU and
- the thermal zone
-Message-ID: <aeac4120-aa00-4e73-9a7a-fa04c9f4f59e@suswa.mountain>
+        Sun, 26 Nov 2023 23:53:28 -0800 (PST)
+Message-ID: <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: kernel test robot <lkp@intel.com>, Nuno Sa via B4 Relay
+	 <devnull+nuno.sa.analog.com@kernel.org>, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>, Guenter
+ Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij
+ <linus.walleij@linaro.org>, Andy Shevchenko <andy@kernel.org>
+Date: Mon, 27 Nov 2023 08:53:27 +0100
+In-Reply-To: <202311250548.lUn3bm1A-lkp@intel.com>
+References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+	 <202311250548.lUn3bm1A-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231120145049.310509-8-m.majewski2@samsung.com>
 
-Hi Mateusz,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Majewski/thermal-exynos-remove-an-unnecessary-field-description/20231120-230641
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20231120145049.310509-8-m.majewski2%40samsung.com
-patch subject: [PATCH v5 7/9] thermal: exynos: split initialization of TMU and the thermal zone
-config: arm-randconfig-r081-20231123 (https://download.01.org/0day-ci/archive/20231125/202311251257.Fjn3kQH6-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311251257.Fjn3kQH6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202311251257.Fjn3kQH6-lkp@intel.com/
-
-smatch warnings:
-drivers/thermal/samsung/exynos_tmu.c:1064 exynos_tmu_probe() warn: missing unwind goto?
-drivers/thermal/samsung/exynos_tmu.c:1103 exynos_tmu_probe() warn: 'data->clk' from clk_prepare() not released on lines: 1064.
-drivers/thermal/samsung/exynos_tmu.c:1103 exynos_tmu_probe() warn: 'data->clk_sec' from clk_prepare() not released on lines: 1064.
-drivers/thermal/samsung/exynos_tmu.c:1103 exynos_tmu_probe() warn: 'data->sclk' from clk_prepare_enable() not released on lines: 1064.
-
-vim +1064 drivers/thermal/samsung/exynos_tmu.c
-
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   980  static int exynos_tmu_probe(struct platform_device *pdev)
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   981  {
-3b6a1a805f3424 drivers/thermal/samsung/exynos_tmu.c Lukasz Majewski          2015-01-23   982  	struct exynos_tmu_data *data;
-3b6a1a805f3424 drivers/thermal/samsung/exynos_tmu.c Lukasz Majewski          2015-01-23   983  	int ret;
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   984  
-79e093c3fe9de9 drivers/thermal/exynos_thermal.c     Amit Daniel Kachhap      2012-08-16   985  	data = devm_kzalloc(&pdev->dev, sizeof(struct exynos_tmu_data),
-79e093c3fe9de9 drivers/thermal/exynos_thermal.c     Amit Daniel Kachhap      2012-08-16   986  					GFP_KERNEL);
-2a9675b39ad1af drivers/thermal/samsung/exynos_tmu.c Jingoo Han               2014-05-07   987  	if (!data)
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07   988  		return -ENOMEM;
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07   989  
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   990  	platform_set_drvdata(pdev, data);
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   991  	mutex_init(&data->lock);
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07   992  
-824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   993  	/*
-824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   994  	 * Try enabling the regulator if found
-824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   995  	 * TODO: Add regulator as an SOC feature, so that regulator enable
-824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   996  	 * is a compulsory call.
-824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   997  	 */
-ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20   998  	ret = devm_regulator_get_enable_optional(&pdev->dev, "vtmu");
-b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20   999  	switch (ret) {
-ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1000  	case 0:
-b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1001  	case -ENODEV:
-b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1002  		break;
-b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1003  	case -EPROBE_DEFER:
-ccb361d2fdda89 drivers/thermal/samsung/exynos_tmu.c Javier Martinez Canillas 2016-02-18  1004  		return -EPROBE_DEFER;
-b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1005  	default:
-ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1006  		dev_err(&pdev->dev, "Failed to get enabled regulator: %d\n",
-b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1007  			ret);
-b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1008  		return ret;
-b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1009  	}
-824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1010  
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1011  	ret = exynos_map_dt_data(pdev);
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1012  	if (ret)
-ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1013  		return ret;
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1014  
-2a16279c68bcfa drivers/thermal/exynos_thermal.c     Sachin Kamat             2013-04-18  1015  	data->clk = devm_clk_get(&pdev->dev, "tmu_apbif");
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1016  	if (IS_ERR(data->clk)) {
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1017  		dev_err(&pdev->dev, "Failed to get clock\n");
-ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1018  		return PTR_ERR(data->clk);
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1019  	}
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1020  
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1021  	data->clk_sec = devm_clk_get(&pdev->dev, "tmu_triminfo_apbif");
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1022  	if (IS_ERR(data->clk_sec)) {
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1023  		if (data->soc == SOC_ARCH_EXYNOS5420_TRIMINFO) {
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1024  			dev_err(&pdev->dev, "Failed to get triminfo clock\n");
-ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1025  			return PTR_ERR(data->clk_sec);
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1026  		}
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1027  	} else {
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1028  		ret = clk_prepare(data->clk_sec);
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1029  		if (ret) {
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1030  			dev_err(&pdev->dev, "Failed to get clock\n");
-ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1031  			return ret;
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1032  		}
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1033  	}
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1034  
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1035  	ret = clk_prepare(data->clk);
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1036  	if (ret) {
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1037  		dev_err(&pdev->dev, "Failed to get clock\n");
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1038  		goto err_clk_sec;
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1039  	}
-2a16279c68bcfa drivers/thermal/exynos_thermal.c     Sachin Kamat             2013-04-18  1040  
-488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1041  	switch (data->soc) {
-488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1042  	case SOC_ARCH_EXYNOS5433:
-488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1043  	case SOC_ARCH_EXYNOS7:
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1044  		data->sclk = devm_clk_get(&pdev->dev, "tmu_sclk");
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1045  		if (IS_ERR(data->sclk)) {
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1046  			dev_err(&pdev->dev, "Failed to get sclk\n");
-02d438f62c05f0 drivers/thermal/samsung/exynos_tmu.c Dan Carpenter            2021-08-10  1047  			ret = PTR_ERR(data->sclk);
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1048  			goto err_clk;
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1049  		} else {
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1050  			ret = clk_prepare_enable(data->sclk);
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1051  			if (ret) {
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1052  				dev_err(&pdev->dev, "Failed to enable sclk\n");
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1053  				goto err_clk;
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1054  			}
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1055  		}
-488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1056  		break;
-488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1057  	default:
-488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1058  		break;
-baba1ebb99ba1f drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1059  	}
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1060  
-9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1061  	ret = exynos_tmu_initialize(pdev);
-9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1062  	if (ret) {
-9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1063  		dev_err(&pdev->dev, "Failed to initialize TMU\n");
-9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20 @1064  		return ret;
-
-All these warnings are basically saying that this should be goto
-err_sclk;
-
-9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1065  	}
-9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1066  
-7ea98f70c73ea3 drivers/thermal/samsung/exynos_tmu.c Daniel Lezcano           2022-08-05  1067  	data->tzd = devm_thermal_of_zone_register(&pdev->dev, 0, data,
-9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1068  						  &exynos_sensor_ops);
-9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1069  	if (IS_ERR(data->tzd)) {
-9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1070  		ret = PTR_ERR(data->tzd);
-82bdde8ecdd7e5 drivers/thermal/samsung/exynos_tmu.c Marek Szyprowski         2020-02-28  1071  		if (ret != -EPROBE_DEFER)
-82bdde8ecdd7e5 drivers/thermal/samsung/exynos_tmu.c Marek Szyprowski         2020-02-28  1072  			dev_err(&pdev->dev, "Failed to register sensor: %d\n",
-82bdde8ecdd7e5 drivers/thermal/samsung/exynos_tmu.c Marek Szyprowski         2020-02-28  1073  				ret);
-9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1074  		goto err_sclk;
-9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1075  	}
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1076  
-9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1077  	ret = exynos_thermal_zone_configure(pdev);
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1078  	if (ret) {
-9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1079  		dev_err(&pdev->dev, "Failed to configure the thermal zone\n");
-7ea98f70c73ea3 drivers/thermal/samsung/exynos_tmu.c Daniel Lezcano           2022-08-05  1080  		goto err_sclk;
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1081  	}
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1082  
-4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1083  	ret = devm_request_threaded_irq(&pdev->dev, data->irq, NULL,
-4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1084  					exynos_tmu_threaded_irq,
-4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1085  					IRQF_TRIGGER_RISING
-4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1086  						| IRQF_SHARED | IRQF_ONESHOT,
-4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1087  					dev_name(&pdev->dev), data);
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1088  	if (ret) {
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1089  		dev_err(&pdev->dev, "Failed to request irq: %d\n", data->irq);
-7ea98f70c73ea3 drivers/thermal/samsung/exynos_tmu.c Daniel Lezcano           2022-08-05  1090  		goto err_sclk;
-cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1091  	}
-bbf63be4f33135 drivers/thermal/exynos_thermal.c     Jonghwa Lee              2012-11-21  1092  
-3b6a1a805f3424 drivers/thermal/samsung/exynos_tmu.c Lukasz Majewski          2015-01-23  1093  	exynos_tmu_control(pdev, true);
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1094  	return 0;
-9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1095  
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1096  err_sclk:
-6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1097  	clk_disable_unprepare(data->sclk);
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1098  err_clk:
-2a16279c68bcfa drivers/thermal/exynos_thermal.c     Sachin Kamat             2013-04-18  1099  	clk_unprepare(data->clk);
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1100  err_clk_sec:
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1101  	if (!IS_ERR(data->clk_sec))
-14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1102  		clk_unprepare(data->clk_sec);
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07 @1103  	return ret;
-9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1104  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+T24gU2F0LCAyMDIzLTExLTI1IGF0IDA3OjM5ICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
+ZToKPiBIaSBOdW5vLAo+IAo+IGtlcm5lbCB0ZXN0IHJvYm90IG5vdGljZWQgdGhlIGZvbGxvd2lu
+ZyBidWlsZCB3YXJuaW5nczoKPiAKPiBbYXV0byBidWlsZCB0ZXN0IFdBUk5JTkcgb24gZ3JvZWNr
+LXN0YWdpbmcvaHdtb24tbmV4dF0KPiBbYWxzbyBidWlsZCB0ZXN0IFdBUk5JTkcgb24gbGludXMv
+bWFzdGVyIHY2LjctcmMyIG5leHQtMjAyMzExMjRdCj4gW0lmIHlvdXIgcGF0Y2ggaXMgYXBwbGll
+ZCB0byB0aGUgd3JvbmcgZ2l0IHRyZWUsIGtpbmRseSBkcm9wIHVzIGEgbm90ZS4KPiBBbmQgd2hl
+biBzdWJtaXR0aW5nIHBhdGNoLCB3ZSBzdWdnZXN0IHRvIHVzZSAnLS1iYXNlJyBhcyBkb2N1bWVu
+dGVkIGluCj4gaHR0cHM6Ly9naXQtc2NtLmNvbS9kb2NzL2dpdC1mb3JtYXQtcGF0Y2gjX2Jhc2Vf
+dHJlZV9pbmZvcm1hdGlvbl0KPiAKPiB1cmw6wqDCoMKgCj4gaHR0cHM6Ly9naXRodWIuY29tL2lu
+dGVsLWxhYi1sa3AvbGludXgvY29tbWl0cy9OdW5vLVNhLXZpYS1CNC1SZWxheS9od21vbi1sdGM0
+MjgyLWFkZC1zdXBwb3J0LWZvci10aGUtTFRDNDI4Mi1jaGlwLzIwMjMxMTI0LTIzMTg0Mgo+IGJh
+c2U6wqDCoAo+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0
+L2dyb2Vjay9saW51eC1zdGFnaW5nLmdpdMKgaHdtb24tbmV4dAo+IHBhdGNoIGxpbms6wqDCoMKg
+Cj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDIzMTEyNC1sdGM0MjgyLXN1cHBvcnQtdjIt
+Mi05NTJiZjkyNmY4M2MlNDBhbmFsb2cuY29tCj4gcGF0Y2ggc3ViamVjdDogW1BBVENIIHYyIDIv
+Ml0gaHdtb246IGx0YzQyODI6IGFkZCBzdXBwb3J0IGZvciB0aGUgTFRDNDI4MiBjaGlwCj4gY29u
+ZmlnOiB4ODZfNjQtcmFuZGNvbmZpZy0xNjEtMjAyMzExMjUKPiAoaHR0cHM6Ly9kb3dubG9hZC4w
+MS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjMxMTI1LzIwMjMxMTI1MDU0OC5sVW4zYm0xQS1sa3BA
+aW50ZWwuYwo+IG9tL2NvbmZpZykKPiBjb21waWxlcjogZ2NjLTEyIChEZWJpYW4gMTIuMi4wLTE0
+KSAxMi4yLjAKPiByZXByb2R1Y2UgKHRoaXMgaXMgYSBXPTEgYnVpbGQpOgo+IChodHRwczovL2Rv
+d25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyMzExMjUvMjAyMzExMjUwNTQ4LmxVbjNi
+bTFBLWxrcEBpbnRlbC5jCj4gb20vcmVwcm9kdWNlKQo+IAo+IElmIHlvdSBmaXggdGhlIGlzc3Vl
+IGluIGEgc2VwYXJhdGUgcGF0Y2gvY29tbWl0IChpLmUuIG5vdCBqdXN0IGEgbmV3IHZlcnNpb24g
+b2YKPiB0aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWdzCj4g
+PiBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4gPiBDbG9z
+ZXM6Cj4gPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjMxMTI1MDU0
+OC5sVW4zYm0xQS1sa3BAaW50ZWwuY29tLwo+IAo+IEFsbCB3YXJuaW5ncyAobmV3IG9uZXMgcHJl
+Zml4ZWQgYnkgPj4pOgo+IAo+ID4gPiBkcml2ZXJzL2h3bW9uL2x0YzQyODIuYzozNDc6Njogd2Fy
+bmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvcgo+ID4gPiAnbHRjNDI4Ml9yb3VuZF9yYXRl
+JyBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCj4gwqDCoMKgwqAgMzQ3IHwgbG9uZyBsdGM0MjgyX3Jv
+dW5kX3JhdGUoc3RydWN0IGNsa19odyAqaHcsIHVuc2lnbmVkIGxvbmcgcmF0ZSwKPiDCoMKgwqDC
+oMKgwqDCoMKgIHzCoMKgwqDCoMKgIF5+fn5+fn5+fn5+fn5+fn5+fgo+ID4gPiBkcml2ZXJzL2h3
+bW9uL2x0YzQyODIuYzozNTY6MTU6IHdhcm5pbmc6IG5vIHByZXZpb3VzIHByb3RvdHlwZSBmb3IK
+PiA+ID4gJ2x0YzQyODJfcmVjYWxjX3JhdGUnIFstV21pc3NpbmctcHJvdG90eXBlc10KPiDCoMKg
+wqDCoCAzNTYgfCB1bnNpZ25lZCBsb25nIGx0YzQyODJfcmVjYWxjX3JhdGUoc3RydWN0IGNsa19o
+dyAqaHcsIHVuc2lnbmVkIGxvbmcKPiBwYXJlbnQpCj4gwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBefn5+fn5+fn5+fn5+fn5+fn5+Cj4gCj4gCj4gdmltICsv
+bHRjNDI4Ml9yb3VuZF9yYXRlICszNDcgZHJpdmVycy9od21vbi9sdGM0MjgyLmMKPiAKPiDCoMKg
+IDM0NsKgwqAKPiDCoD4gMzQ3wqDCoGxvbmcgbHRjNDI4Ml9yb3VuZF9yYXRlKHN0cnVjdCBjbGtf
+aHcgKmh3LCB1bnNpZ25lZCBsb25nIHJhdGUsCj4gwqDCoCAzNDjCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgdW5zaWduZWQgbG9uZyAqcGFyZW50X3Jh
+dGUpCj4gwqDCoCAzNDnCoMKgewo+IMKgwqAgMzUwwqDCoMKgwqDCoMKgwqDCoMKgwqBpbnQgaWR4
+ID0gZmluZF9jbG9zZXN0KHJhdGUsIGx0YzQyODJfb3V0X3JhdGVzLAo+IMKgwqAgMzUxwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBBUlJBWV9TSVpFKGx0YzQyODJfb3V0X3JhdGVzKSk7Cj4gwqDCoCAzNTLCoMKgCj4gwqDCoCAz
+NTPCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBsdGM0MjgyX291dF9yYXRlc1tpZHhdOwo+IMKg
+wqAgMzU0wqDCoH0KPiDCoMKgIDM1NcKgwqAKPiDCoD4gMzU2wqDCoHVuc2lnbmVkIGxvbmcgbHRj
+NDI4Ml9yZWNhbGNfcmF0ZShzdHJ1Y3QgY2xrX2h3ICpodywgdW5zaWduZWQgbG9uZyBwYXJlbnQp
+Cj4gwqDCoCAzNTfCoMKgewo+IMKgwqAgMzU4wqDCoMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgbHRj
+NDI4Ml9zdGF0ZSAqc3QgPSBjb250YWluZXJfb2YoaHcsIHN0cnVjdCBsdGM0MjgyX3N0YXRlLAo+
+IMKgwqAgMzU5wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGNsa19o
+dyk7Cj4gwqDCoCAzNjDCoMKgwqDCoMKgwqDCoMKgwqDCoHUzMiBjbGtkaXY7Cj4gwqDCoCAzNjHC
+oMKgwqDCoMKgwqDCoMKgwqDCoGludCByZXQ7Cj4gwqDCoCAzNjLCoMKgCj4gwqDCoCAzNjPCoMKg
+wqDCoMKgwqDCoMKgwqDCoHJldCA9IHJlZ21hcF9yZWFkKHN0LT5tYXAsIExUQzQyODJfQ0xLX0RJ
+ViwgJmNsa2Rpdik7Cj4gwqDCoCAzNjTCoMKgwqDCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gwqDC
+oCAzNjXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiDCoMKg
+IDM2NsKgwqAKPiDCoMKgIDM2N8KgwqDCoMKgwqDCoMKgwqDCoMKgY2xrZGl2ID0gRklFTERfR0VU
+KExUQzQyODJfQ0xLT1VUX01BU0ssIGNsa2Rpdik7Cj4gwqDCoCAzNjjCoMKgwqDCoMKgwqDCoMKg
+wqDCoGlmICghY2xrZGl2KQo+IMKgwqAgMzY5wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgcmV0dXJuIDA7Cj4gwqDCoCAzNzDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmIChjbGtkaXYg
+PT0gTFRDNDI4Ml9DTEtPVVRfSU5UKQo+IMKgwqAgMzcxwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgcmV0dXJuIExUQzQyODJfQ0xLT1VUX1NZU1RFTTsKPiDCoMKgIDM3MsKgwqAK
+PiDCoMKgIDM3M8KgwqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIExUQzQyODJfQ0xLT1VUX0NOVjsK
+PiDCoMKgIDM3NMKgwqB9Cj4gwqDCoCAzNzXCoMKgCj4gCgpBcmdoaCwgSSBkbyBuZWVkIHRvIHNl
+ZSBpZiBJIGNhbiBhZGQgc29tZSB0ZXN0IGJyYW5jaCBvZiBteSBvd24gdG8gdGhlIHRlc3Qgcm9i
+b3QgOi8uCkFueXdheXMsIHdpbGwgd2FpdCBmb3Igc29tZSBtb3JlIHJldmlld2luZyBiZWZvcmUg
+c2VuZGluZyB2MyB0byBhZGRyZXNzIHRoaXMuCgotIE51bm8gU8OhCg==
 
