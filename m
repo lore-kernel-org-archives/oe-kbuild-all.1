@@ -1,48 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23CB53A0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 05:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8336FBFF
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 07:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jlH9QajN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701064712; x=1732600712;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RhyW4+Mhi0cJL2MXZ/zTtjv+hnfL+CvGrjxiHhcx898=;
-  b=jlH9QajNLS/mmzOMDAoq2yWW9cD6E0iQE9l6OVOtJGCigviy+txKFMQ8
-   NXhy5ROYJAfZW18HpECnNb1h8TRWozFON45Rs97Cc+Sp6bWnZePbhryZX
-   d/1/2PZqbiyPVY1XGFE968+s12e6HgJsqh1Yg6s7MnXJzRvXsjX9z03Wh
-   +mnukkKtq7Orwn4pD/bxswwX0Jd+5ZLxgvNTztp/C/y/DWCCFsz60bkjT
-   dW1GfQ3xZd6z4mfEywmvw2YjEiJ8FUnUWRoNP+TAQj7Ss3L42DNx5loeu
-   RPibf732BU6WQH5v/d/U7OBZOdnJy1ZcrMYFW+/t+XP2shJkA7F74hvek
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="5824466"
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="5824466"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 21:58:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="834224092"
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="834224092"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 26 Nov 2023 21:58:23 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r7UdR-0005s2-1D;
-	Mon, 27 Nov 2023 05:58:21 +0000
-Date: Mon, 27 Nov 2023 13:57:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marco Elver <elver@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse: sparse:
- incorrect type in argument 2 (different address spaces)
-Message-ID: <202311271238.cLKdFm8M-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rmvuqK5N"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-32f8441dfb5so2632834f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 26 Nov 2023 23:20:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701069655; x=1701674455; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bn54vIAc0eYi0hKtOKMeiN8NU8DvZIYGdhZWAeybSRY=;
+        b=rmvuqK5NSO4jbwcUTXJlXgK8rwNPFscjHmWfxd78bD6E7pY7XVKCcZZH26PyiKb0Hx
+         HjLE/6RuNlw4S1/vDMeZaIjg4FWtjT94JYpUHK/DdKCof4+CRElpuhC5yGRgnvX6UGNH
+         iuWGl3NAaYnJ1dkL5OLWeEkOYLMRQm3XgRZlO7Nzty+Xn5mUXXgScF80uSPwAe3mEVDR
+         pfLXCRr+mbEjEgFZS2ZOaGebHtKdwHCVlX0Ea8n+zcq32SdoO6C3e/xioBCj43mLxPXF
+         xQ70Bl7wUkXqDdIsoZBvvjuC0fj9sU1FRikGPHz0MQ1IhF+MbHx5sS8iXht2V4CjLBm1
+         688g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701069655; x=1701674455;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bn54vIAc0eYi0hKtOKMeiN8NU8DvZIYGdhZWAeybSRY=;
+        b=Q2ZX0+BoDyqDH6r/5xB7WYjP/ELy4aZmrSusROIf5X0ZQ5I0c5SllbsTLj9Z956vQu
+         272xvFgbSITQgdS8uc9J5l7wMkzm5M7tTDSX1jhPuhP7Le3SiEJAopVRT2pTWzqglL2J
+         KaNCMmolMu1WKMEj9fQk3GbRtrA8GGk6KYiXi27xu6TUBNOVHThJ/TopqaOa5xcBqIFM
+         QE+tI1ZnP9TnsItIeOBAY5WnJq4u4TnvMd+KMNvYNJt+wqMaNvtJ6TBUuWOviXXIJwdd
+         2kOdL4IsCPaSPJ/JamXR78vwZGg8Xo9mXiQZ+HtckEgcc3UgHIgRX99Jn7phYmbpimZe
+         5KFw==
+X-Gm-Message-State: AOJu0YxQzizJuzu5dbdlwfoqIGQgAgdeo9uW6iViy4ebaTU8AELMXfKf
+	tVH5HKImRDouTmJkLJ5ASY1r+g==
+X-Google-Smtp-Source: AGHT+IEJd/EQQmAPrTIQqwfTjo9nIa20Ri9WtqA2pzXHWQSQrwyw3hN0cLsczlXOMHTs5+QGncmLkA==
+X-Received: by 2002:a05:6000:178d:b0:333:6cf:2b5 with SMTP id e13-20020a056000178d00b0033306cf02b5mr333044wrg.46.1701069654878;
+        Sun, 26 Nov 2023 23:20:54 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v19-20020adfd053000000b0032f9688ea48sm10935730wrh.10.2023.11.26.23.20.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Nov 2023 23:20:54 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Mon, 27 Nov 2023 10:20:52 +0300
+To: oe-kbuild@lists.linux.dev, Mateusz Majewski <m.majewski2@samsung.com>,
+	linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mateusz Majewski <m.majewski2@samsung.com>,
+	Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v5 7/9] thermal: exynos: split initialization of TMU and
+ the thermal zone
+Message-ID: <aeac4120-aa00-4e73-9a7a-fa04c9f4f59e@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,153 +70,167 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231120145049.310509-8-m.majewski2@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
-commit: 90db9dbedd26ce029f3a0f8d2cbd3a142f452408 kasan, powerpc: don't rename memintrinsics if compiler adds prefixes
-date:   8 months ago
-config: powerpc-randconfig-r131-20231127 (https://download.01.org/0day-ci/archive/20231127/202311271238.cLKdFm8M-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231127/202311271238.cLKdFm8M-lkp@intel.com/reproduce)
+Hi Mateusz,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Majewski/thermal-exynos-remove-an-unnecessary-field-description/20231120-230641
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20231120145049.310509-8-m.majewski2%40samsung.com
+patch subject: [PATCH v5 7/9] thermal: exynos: split initialization of TMU and the thermal zone
+config: arm-randconfig-r081-20231123 (https://download.01.org/0day-ci/archive/20231125/202311251257.Fjn3kQH6-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231125/202311251257.Fjn3kQH6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311271238.cLKdFm8M-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311251257.Fjn3kQH6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/powerpc/platforms/512x/mpc512x_shared.c:239:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:239:25: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:239:25: sparse:     got restricted __be32 [noderef] __iomem *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:245:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:245:38: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:245:38: sparse:     got restricted __be32 [noderef] __iomem *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *[assigned] vaddr @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     expected void const *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *[assigned] vaddr @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     expected void const *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
->> arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *q @@     got void [noderef] __iomem *[assigned] vaddr @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     expected void const *q
-   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:256:24: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:256:24: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:256:24: sparse:     got restricted __be32 [noderef] __iomem *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:264:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:264:25: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:264:25: sparse:     got restricted __be32 [noderef] __iomem *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *[assigned] vaddr @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     expected void const *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *[assigned] vaddr @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     expected void const *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *q @@     got void [noderef] __iomem *[assigned] vaddr @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     expected void const *q
-   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:277:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:277:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:277:19: sparse:     got restricted __be32 [noderef] __iomem *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:278:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:278:32: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:278:32: sparse:     got restricted __be32 [noderef] __iomem *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:279:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:279:32: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:279:32: sparse:     got restricted __be32 [noderef] __iomem *
-   arch/powerpc/platforms/512x/mpc512x_shared.c:280:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
-   arch/powerpc/platforms/512x/mpc512x_shared.c:280:32: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
-   arch/powerpc/platforms/512x/mpc512x_shared.c:280:32: sparse:     got restricted __be32 [noderef] __iomem *
-   arch/powerpc/platforms/512x/mpc512x_shared.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:246:46: sparse: sparse: self-comparison always evaluates to false
+smatch warnings:
+drivers/thermal/samsung/exynos_tmu.c:1064 exynos_tmu_probe() warn: missing unwind goto?
+drivers/thermal/samsung/exynos_tmu.c:1103 exynos_tmu_probe() warn: 'data->clk' from clk_prepare() not released on lines: 1064.
+drivers/thermal/samsung/exynos_tmu.c:1103 exynos_tmu_probe() warn: 'data->clk_sec' from clk_prepare() not released on lines: 1064.
+drivers/thermal/samsung/exynos_tmu.c:1103 exynos_tmu_probe() warn: 'data->sclk' from clk_prepare_enable() not released on lines: 1064.
 
-vim +251 arch/powerpc/platforms/512x/mpc512x_shared.c
+vim +1064 drivers/thermal/samsung/exynos_tmu.c
 
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  208  
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  209  /*
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  210   * Check if DIU was pre-initialized. If so, perform steps
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  211   * needed to continue displaying through the whole boot process.
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  212   * Move area descriptor and gamma table elsewhere, they are
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  213   * destroyed by bootmem allocator otherwise. The frame buffer
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  214   * address range will be reserved in setup_arch() after bootmem
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  215   * allocator is up.
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  216   */
-7e198197ec878c Brian Norris       2013-10-11  217  static void __init mpc512x_init_diu(void)
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  218  {
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  219  	struct device_node *np;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  220  	struct diu __iomem *diu_reg;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  221  	phys_addr_t desc;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  222  	void __iomem *vaddr;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  223  	unsigned long mode, pix_fmt, res, bpp;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  224  	unsigned long dst;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  225  
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  226  	np = of_find_compatible_node(NULL, NULL, "fsl,mpc5121-diu");
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  227  	if (!np) {
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  228  		pr_err("No DIU node\n");
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  229  		return;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  230  	}
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  231  
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  232  	diu_reg = of_iomap(np, 0);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  233  	of_node_put(np);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  234  	if (!diu_reg) {
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  235  		pr_err("Can't map DIU\n");
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  236  		return;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  237  	}
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  238  
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  239  	mode = in_be32(&diu_reg->diu_mode);
-c4e5a0232763db Timur Tabi         2011-09-28  240  	if (mode == MFB_MODE0) {
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  241  		pr_info("%s: DIU OFF\n", __func__);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  242  		goto out;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  243  	}
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  244  
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  245  	desc = in_be32(&diu_reg->desc[0]);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  246  	vaddr = ioremap(desc, sizeof(struct diu_ad));
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  247  	if (!vaddr) {
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  248  		pr_err("Can't map DIU area desc.\n");
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  249  		goto out;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  250  	}
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23 @251  	memcpy(&diu_shared_fb.ad0, vaddr, sizeof(struct diu_ad));
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  252  	/* flush fb area descriptor */
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  253  	dst = (unsigned long)&diu_shared_fb.ad0;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  254  	flush_dcache_range(dst, dst + sizeof(struct diu_ad) - 1);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  255  
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  256  	res = in_be32(&diu_reg->disp_size);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  257  	pix_fmt = in_le32(vaddr);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  258  	bpp = ((pix_fmt >> 16) & 0x3) + 1;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  259  	diu_shared_fb.fb_phys = in_le32(vaddr + 4);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  260  	diu_shared_fb.fb_len = ((res & 0xfff0000) >> 16) * (res & 0xfff) * bpp;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  261  	diu_shared_fb.in_use = true;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  262  	iounmap(vaddr);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  263  
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  264  	desc = in_be32(&diu_reg->gamma);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  265  	vaddr = ioremap(desc, sizeof(diu_shared_fb.gamma));
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  266  	if (!vaddr) {
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  267  		pr_err("Can't map DIU area desc.\n");
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  268  		diu_shared_fb.in_use = false;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  269  		goto out;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  270  	}
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  271  	memcpy(&diu_shared_fb.gamma, vaddr, sizeof(diu_shared_fb.gamma));
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  272  	/* flush gamma table */
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  273  	dst = (unsigned long)&diu_shared_fb.gamma;
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  274  	flush_dcache_range(dst, dst + sizeof(diu_shared_fb.gamma) - 1);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  275  
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  276  	iounmap(vaddr);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  277  	out_be32(&diu_reg->gamma, virt_to_phys(&diu_shared_fb.gamma));
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  278  	out_be32(&diu_reg->desc[1], 0);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  279  	out_be32(&diu_reg->desc[2], 0);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  280  	out_be32(&diu_reg->desc[0], virt_to_phys(&diu_shared_fb.ad0));
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  281  
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  282  out:
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  283  	iounmap(diu_reg);
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  284  }
-4b5006ec7bb73c Anatolij Gustschin 2010-07-23  285  
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   980  static int exynos_tmu_probe(struct platform_device *pdev)
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   981  {
+3b6a1a805f3424 drivers/thermal/samsung/exynos_tmu.c Lukasz Majewski          2015-01-23   982  	struct exynos_tmu_data *data;
+3b6a1a805f3424 drivers/thermal/samsung/exynos_tmu.c Lukasz Majewski          2015-01-23   983  	int ret;
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   984  
+79e093c3fe9de9 drivers/thermal/exynos_thermal.c     Amit Daniel Kachhap      2012-08-16   985  	data = devm_kzalloc(&pdev->dev, sizeof(struct exynos_tmu_data),
+79e093c3fe9de9 drivers/thermal/exynos_thermal.c     Amit Daniel Kachhap      2012-08-16   986  					GFP_KERNEL);
+2a9675b39ad1af drivers/thermal/samsung/exynos_tmu.c Jingoo Han               2014-05-07   987  	if (!data)
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07   988  		return -ENOMEM;
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07   989  
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   990  	platform_set_drvdata(pdev, data);
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24   991  	mutex_init(&data->lock);
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07   992  
+824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   993  	/*
+824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   994  	 * Try enabling the regulator if found
+824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   995  	 * TODO: Add regulator as an SOC feature, so that regulator enable
+824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   996  	 * is a compulsory call.
+824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08   997  	 */
+ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20   998  	ret = devm_regulator_get_enable_optional(&pdev->dev, "vtmu");
+b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20   999  	switch (ret) {
+ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1000  	case 0:
+b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1001  	case -ENODEV:
+b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1002  		break;
+b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1003  	case -EPROBE_DEFER:
+ccb361d2fdda89 drivers/thermal/samsung/exynos_tmu.c Javier Martinez Canillas 2016-02-18  1004  		return -EPROBE_DEFER;
+b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1005  	default:
+ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1006  		dev_err(&pdev->dev, "Failed to get enabled regulator: %d\n",
+b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1007  			ret);
+b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1008  		return ret;
+b2f20752180f71 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1009  	}
+824ead03b78403 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1010  
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1011  	ret = exynos_map_dt_data(pdev);
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1012  	if (ret)
+ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1013  		return ret;
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1014  
+2a16279c68bcfa drivers/thermal/exynos_thermal.c     Sachin Kamat             2013-04-18  1015  	data->clk = devm_clk_get(&pdev->dev, "tmu_apbif");
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1016  	if (IS_ERR(data->clk)) {
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1017  		dev_err(&pdev->dev, "Failed to get clock\n");
+ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1018  		return PTR_ERR(data->clk);
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1019  	}
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1020  
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1021  	data->clk_sec = devm_clk_get(&pdev->dev, "tmu_triminfo_apbif");
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1022  	if (IS_ERR(data->clk_sec)) {
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1023  		if (data->soc == SOC_ARCH_EXYNOS5420_TRIMINFO) {
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1024  			dev_err(&pdev->dev, "Failed to get triminfo clock\n");
+ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1025  			return PTR_ERR(data->clk_sec);
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1026  		}
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1027  	} else {
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1028  		ret = clk_prepare(data->clk_sec);
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1029  		if (ret) {
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1030  			dev_err(&pdev->dev, "Failed to get clock\n");
+ef1639e66e72af drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1031  			return ret;
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1032  		}
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1033  	}
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1034  
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1035  	ret = clk_prepare(data->clk);
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1036  	if (ret) {
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1037  		dev_err(&pdev->dev, "Failed to get clock\n");
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1038  		goto err_clk_sec;
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1039  	}
+2a16279c68bcfa drivers/thermal/exynos_thermal.c     Sachin Kamat             2013-04-18  1040  
+488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1041  	switch (data->soc) {
+488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1042  	case SOC_ARCH_EXYNOS5433:
+488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1043  	case SOC_ARCH_EXYNOS7:
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1044  		data->sclk = devm_clk_get(&pdev->dev, "tmu_sclk");
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1045  		if (IS_ERR(data->sclk)) {
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1046  			dev_err(&pdev->dev, "Failed to get sclk\n");
+02d438f62c05f0 drivers/thermal/samsung/exynos_tmu.c Dan Carpenter            2021-08-10  1047  			ret = PTR_ERR(data->sclk);
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1048  			goto err_clk;
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1049  		} else {
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1050  			ret = clk_prepare_enable(data->sclk);
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1051  			if (ret) {
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1052  				dev_err(&pdev->dev, "Failed to enable sclk\n");
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1053  				goto err_clk;
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1054  			}
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1055  		}
+488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1056  		break;
+488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1057  	default:
+488c7455d74ce0 drivers/thermal/samsung/exynos_tmu.c Chanwoo Choi             2015-03-10  1058  		break;
+baba1ebb99ba1f drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1059  	}
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1060  
+9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1061  	ret = exynos_tmu_initialize(pdev);
+9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1062  	if (ret) {
+9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1063  		dev_err(&pdev->dev, "Failed to initialize TMU\n");
+9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20 @1064  		return ret;
 
-:::::: The code at line 251 was first introduced by commit
-:::::: 4b5006ec7bb73cd9d4c8a723d484b4c87fad4123 powerpc/5121: shared DIU framebuffer support
+All these warnings are basically saying that this should be goto
+err_sclk;
 
-:::::: TO: Anatolij Gustschin <agust@denx.de>
-:::::: CC: Grant Likely <grant.likely@secretlab.ca>
+9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1065  	}
+9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1066  
+7ea98f70c73ea3 drivers/thermal/samsung/exynos_tmu.c Daniel Lezcano           2022-08-05  1067  	data->tzd = devm_thermal_of_zone_register(&pdev->dev, 0, data,
+9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1068  						  &exynos_sensor_ops);
+9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1069  	if (IS_ERR(data->tzd)) {
+9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1070  		ret = PTR_ERR(data->tzd);
+82bdde8ecdd7e5 drivers/thermal/samsung/exynos_tmu.c Marek Szyprowski         2020-02-28  1071  		if (ret != -EPROBE_DEFER)
+82bdde8ecdd7e5 drivers/thermal/samsung/exynos_tmu.c Marek Szyprowski         2020-02-28  1072  			dev_err(&pdev->dev, "Failed to register sensor: %d\n",
+82bdde8ecdd7e5 drivers/thermal/samsung/exynos_tmu.c Marek Szyprowski         2020-02-28  1073  				ret);
+9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1074  		goto err_sclk;
+9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1075  	}
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1076  
+9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1077  	ret = exynos_thermal_zone_configure(pdev);
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1078  	if (ret) {
+9f72236db6c75b drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1079  		dev_err(&pdev->dev, "Failed to configure the thermal zone\n");
+7ea98f70c73ea3 drivers/thermal/samsung/exynos_tmu.c Daniel Lezcano           2022-08-05  1080  		goto err_sclk;
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1081  	}
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1082  
+4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1083  	ret = devm_request_threaded_irq(&pdev->dev, data->irq, NULL,
+4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1084  					exynos_tmu_threaded_irq,
+4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1085  					IRQF_TRIGGER_RISING
+4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1086  						| IRQF_SHARED | IRQF_ONESHOT,
+4147281723b2e6 drivers/thermal/samsung/exynos_tmu.c Mateusz Majewski         2023-11-20  1087  					dev_name(&pdev->dev), data);
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1088  	if (ret) {
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1089  		dev_err(&pdev->dev, "Failed to request irq: %d\n", data->irq);
+7ea98f70c73ea3 drivers/thermal/samsung/exynos_tmu.c Daniel Lezcano           2022-08-05  1090  		goto err_sclk;
+cebe7373a7e659 drivers/thermal/samsung/exynos_tmu.c Amit Daniel Kachhap      2013-06-24  1091  	}
+bbf63be4f33135 drivers/thermal/exynos_thermal.c     Jonghwa Lee              2012-11-21  1092  
+3b6a1a805f3424 drivers/thermal/samsung/exynos_tmu.c Lukasz Majewski          2015-01-23  1093  	exynos_tmu_control(pdev, true);
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1094  	return 0;
+9e4249b4034090 drivers/thermal/samsung/exynos_tmu.c Krzysztof Kozlowski      2015-10-08  1095  
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1096  err_sclk:
+6c247393cfdd66 drivers/thermal/samsung/exynos_tmu.c Abhilash Kesavan         2015-01-27  1097  	clk_disable_unprepare(data->sclk);
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1098  err_clk:
+2a16279c68bcfa drivers/thermal/exynos_thermal.c     Sachin Kamat             2013-04-18  1099  	clk_unprepare(data->clk);
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1100  err_clk_sec:
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1101  	if (!IS_ERR(data->clk_sec))
+14a11dc7e0dbf4 drivers/thermal/samsung/exynos_tmu.c Naveen Krishna Chatradhi 2013-12-19  1102  		clk_unprepare(data->clk_sec);
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07 @1103  	return ret;
+9d97e5c81e15af drivers/hwmon/exynos4_tmu.c          Donggeun Kim             2011-09-07  1104  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
