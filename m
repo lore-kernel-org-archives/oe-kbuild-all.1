@@ -1,46 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE6D63B8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 05:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23CB53A0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 27 Nov 2023 05:58:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k4tkVPOr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jlH9QajN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701064711; x=1732600711;
+  t=1701064712; x=1732600712;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nJqnUtPwVRSsEKNNRvIXz056ABPHeo8YMTXk2lNpZA4=;
-  b=k4tkVPOrweVmgNkKSW/SUHXQNZv0Y5v/iL0SJGH0CHPuwpEaA6+tRrMX
-   RbAHvf7R0SpbHriF8SQhUH1UAirR/X8WIhtQpwUd78/3GaFB4DEPAqHqs
-   7NdkHMWB3F7GUPLf8gtrGcU5hzMMmDz4x+1M0O1IulobL6/cD4Y1LlD6H
-   fgLcQ6/f3bimk5U0IZQPrGNSjAhxE4KEESNjfHVogFLvJDJCuKX/pKIs1
-   LPPsY1WWHmTk8Layglu+jFsy9Nn/qoT5UWmN1bv5UOkxDfuXyXBSgETGw
-   FdW7nxYiTX/LqKhXTFtXI2/dqYoFdWzzJKnrp5dvlNd8ygvJq50We1h7/
+  bh=RhyW4+Mhi0cJL2MXZ/zTtjv+hnfL+CvGrjxiHhcx898=;
+  b=jlH9QajNLS/mmzOMDAoq2yWW9cD6E0iQE9l6OVOtJGCigviy+txKFMQ8
+   NXhy5ROYJAfZW18HpECnNb1h8TRWozFON45Rs97Cc+Sp6bWnZePbhryZX
+   d/1/2PZqbiyPVY1XGFE968+s12e6HgJsqh1Yg6s7MnXJzRvXsjX9z03Wh
+   +mnukkKtq7Orwn4pD/bxswwX0Jd+5ZLxgvNTztp/C/y/DWCCFsz60bkjT
+   dW1GfQ3xZd6z4mfEywmvw2YjEiJ8FUnUWRoNP+TAQj7Ss3L42DNx5loeu
+   RPibf732BU6WQH5v/d/U7OBZOdnJy1ZcrMYFW+/t+XP2shJkA7F74hvek
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="5824461"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="5824466"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="5824461"
+   d="scan'208";a="5824466"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 21:58:24 -0800
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 21:58:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="834224091"
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="834224092"
 X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="834224091"
+   d="scan'208";a="834224092"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
   by fmsmga008.fm.intel.com with ESMTP; 26 Nov 2023 21:58:23 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r7UdR-0005rz-0L;
+	id 1r7UdR-0005s2-1D;
 	Mon, 27 Nov 2023 05:58:21 +0000
-Date: Mon, 27 Nov 2023 13:57:49 +0800
+Date: Mon, 27 Nov 2023 13:57:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_fwspec 39/42] include/linux/iommu-driver.h:242:9:
- error: expected ';' before '}' token
-Message-ID: <202311271338.MKlKP7xV-lkp@intel.com>
+To: Marco Elver <elver@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse: sparse:
+ incorrect type in argument 2 (different address spaces)
+Message-ID: <202311271238.cLKdFm8M-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,86 +52,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux iommu_fwspec
-head:   9624604aaaa41adf3cb018da14da2744b69a5eee
-commit: 6b52c2ea5f140f23a5fa75f1fe32b595d170c27f [39/42] iommu/arm-smmu: Move to iommu_of_xlate()
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20231127/202311271338.MKlKP7xV-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311271338.MKlKP7xV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
+commit: 90db9dbedd26ce029f3a0f8d2cbd3a142f452408 kasan, powerpc: don't rename memintrinsics if compiler adds prefixes
+date:   8 months ago
+config: powerpc-randconfig-r131-20231127 (https://download.01.org/0day-ci/archive/20231127/202311271238.cLKdFm8M-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231127/202311271238.cLKdFm8M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311271338.MKlKP7xV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311271238.cLKdFm8M-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/powerpc/platforms/512x/mpc512x_shared.c:239:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:239:25: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:239:25: sparse:     got restricted __be32 [noderef] __iomem *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:245:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:245:38: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:245:38: sparse:     got restricted __be32 [noderef] __iomem *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *[assigned] vaddr @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     expected void const *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *[assigned] vaddr @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     expected void const *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
+>> arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *q @@     got void [noderef] __iomem *[assigned] vaddr @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     expected void const *q
+   arch/powerpc/platforms/512x/mpc512x_shared.c:251:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:256:24: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:256:24: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:256:24: sparse:     got restricted __be32 [noderef] __iomem *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:264:25: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:264:25: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:264:25: sparse:     got restricted __be32 [noderef] __iomem *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *[assigned] vaddr @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     expected void const *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *[assigned] vaddr @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     expected void const *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *q @@     got void [noderef] __iomem *[assigned] vaddr @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     expected void const *q
+   arch/powerpc/platforms/512x/mpc512x_shared.c:271:9: sparse:     got void [noderef] __iomem *[assigned] vaddr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:277:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:277:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:277:19: sparse:     got restricted __be32 [noderef] __iomem *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:278:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:278:32: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:278:32: sparse:     got restricted __be32 [noderef] __iomem *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:279:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:279:32: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:279:32: sparse:     got restricted __be32 [noderef] __iomem *
+   arch/powerpc/platforms/512x/mpc512x_shared.c:280:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   arch/powerpc/platforms/512x/mpc512x_shared.c:280:32: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/512x/mpc512x_shared.c:280:32: sparse:     got restricted __be32 [noderef] __iomem *
+   arch/powerpc/platforms/512x/mpc512x_shared.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:246:46: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from drivers/iommu/arm/arm-smmu/arm-smmu.c:37:
-   drivers/iommu/arm/arm-smmu/arm-smmu.c: In function 'arm_smmu_probe_new_master':
->> include/linux/iommu-driver.h:242:9: error: expected ';' before '}' token
-     242 |         })
-         |         ^
-   drivers/iommu/arm/arm-smmu/arm-smmu.c:1314:16: note: in expansion of macro 'iommu_iort_get_single_iommu'
-    1314 |         smmu = iommu_iort_get_single_iommu(pinf, &arm_smmu_ops, &flags,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +251 arch/powerpc/platforms/512x/mpc512x_shared.c
 
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  208  
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  209  /*
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  210   * Check if DIU was pre-initialized. If so, perform steps
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  211   * needed to continue displaying through the whole boot process.
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  212   * Move area descriptor and gamma table elsewhere, they are
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  213   * destroyed by bootmem allocator otherwise. The frame buffer
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  214   * address range will be reserved in setup_arch() after bootmem
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  215   * allocator is up.
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  216   */
+7e198197ec878c Brian Norris       2013-10-11  217  static void __init mpc512x_init_diu(void)
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  218  {
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  219  	struct device_node *np;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  220  	struct diu __iomem *diu_reg;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  221  	phys_addr_t desc;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  222  	void __iomem *vaddr;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  223  	unsigned long mode, pix_fmt, res, bpp;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  224  	unsigned long dst;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  225  
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  226  	np = of_find_compatible_node(NULL, NULL, "fsl,mpc5121-diu");
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  227  	if (!np) {
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  228  		pr_err("No DIU node\n");
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  229  		return;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  230  	}
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  231  
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  232  	diu_reg = of_iomap(np, 0);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  233  	of_node_put(np);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  234  	if (!diu_reg) {
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  235  		pr_err("Can't map DIU\n");
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  236  		return;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  237  	}
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  238  
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  239  	mode = in_be32(&diu_reg->diu_mode);
+c4e5a0232763db Timur Tabi         2011-09-28  240  	if (mode == MFB_MODE0) {
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  241  		pr_info("%s: DIU OFF\n", __func__);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  242  		goto out;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  243  	}
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  244  
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  245  	desc = in_be32(&diu_reg->desc[0]);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  246  	vaddr = ioremap(desc, sizeof(struct diu_ad));
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  247  	if (!vaddr) {
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  248  		pr_err("Can't map DIU area desc.\n");
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  249  		goto out;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  250  	}
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23 @251  	memcpy(&diu_shared_fb.ad0, vaddr, sizeof(struct diu_ad));
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  252  	/* flush fb area descriptor */
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  253  	dst = (unsigned long)&diu_shared_fb.ad0;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  254  	flush_dcache_range(dst, dst + sizeof(struct diu_ad) - 1);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  255  
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  256  	res = in_be32(&diu_reg->disp_size);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  257  	pix_fmt = in_le32(vaddr);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  258  	bpp = ((pix_fmt >> 16) & 0x3) + 1;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  259  	diu_shared_fb.fb_phys = in_le32(vaddr + 4);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  260  	diu_shared_fb.fb_len = ((res & 0xfff0000) >> 16) * (res & 0xfff) * bpp;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  261  	diu_shared_fb.in_use = true;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  262  	iounmap(vaddr);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  263  
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  264  	desc = in_be32(&diu_reg->gamma);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  265  	vaddr = ioremap(desc, sizeof(diu_shared_fb.gamma));
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  266  	if (!vaddr) {
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  267  		pr_err("Can't map DIU area desc.\n");
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  268  		diu_shared_fb.in_use = false;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  269  		goto out;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  270  	}
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  271  	memcpy(&diu_shared_fb.gamma, vaddr, sizeof(diu_shared_fb.gamma));
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  272  	/* flush gamma table */
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  273  	dst = (unsigned long)&diu_shared_fb.gamma;
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  274  	flush_dcache_range(dst, dst + sizeof(diu_shared_fb.gamma) - 1);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  275  
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  276  	iounmap(vaddr);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  277  	out_be32(&diu_reg->gamma, virt_to_phys(&diu_shared_fb.gamma));
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  278  	out_be32(&diu_reg->desc[1], 0);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  279  	out_be32(&diu_reg->desc[2], 0);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  280  	out_be32(&diu_reg->desc[0], virt_to_phys(&diu_shared_fb.ad0));
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  281  
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  282  out:
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  283  	iounmap(diu_reg);
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  284  }
+4b5006ec7bb73c Anatolij Gustschin 2010-07-23  285  
 
-vim +242 include/linux/iommu-driver.h
+:::::: The code at line 251 was first introduced by commit
+:::::: 4b5006ec7bb73cd9d4c8a723d484b4c87fad4123 powerpc/5121: shared DIU framebuffer support
 
-682d61a577200c Jason Gunthorpe 2023-11-23  195  
-788da91799fbcc Jason Gunthorpe 2023-11-23  196  #define __iommu_first(a, b)                              \
-788da91799fbcc Jason Gunthorpe 2023-11-23  197  	({                                               \
-788da91799fbcc Jason Gunthorpe 2023-11-23  198  		struct iommu_device *a_dev = a;          \
-788da91799fbcc Jason Gunthorpe 2023-11-23  199  		a_dev != ERR_PTR(-ENODEV) ? a_dev : (b); \
-788da91799fbcc Jason Gunthorpe 2023-11-23  200  	})
-788da91799fbcc Jason Gunthorpe 2023-11-23  201  
-788da91799fbcc Jason Gunthorpe 2023-11-23  202  #if IS_ENABLED(CONFIG_ACPI_VIOT)
-788da91799fbcc Jason Gunthorpe 2023-11-23  203  struct iommu_device *
-788da91799fbcc Jason Gunthorpe 2023-11-23  204  __iommu_viot_get_single_iommu(struct iommu_probe_info *pinf,
-788da91799fbcc Jason Gunthorpe 2023-11-23  205  			      const struct iommu_ops *ops);
-788da91799fbcc Jason Gunthorpe 2023-11-23  206  #else
-788da91799fbcc Jason Gunthorpe 2023-11-23  207  static inline struct iommu_device *
-788da91799fbcc Jason Gunthorpe 2023-11-23  208  __iommu_viot_get_single_iommu(struct iommu_probe_info *pinf,
-788da91799fbcc Jason Gunthorpe 2023-11-23  209  			      const struct iommu_ops *ops)
-788da91799fbcc Jason Gunthorpe 2023-11-23  210  {
-788da91799fbcc Jason Gunthorpe 2023-11-23  211  	return ERR_PTR(-ENODEV);
-788da91799fbcc Jason Gunthorpe 2023-11-23  212  }
-788da91799fbcc Jason Gunthorpe 2023-11-23  213  #endif
-788da91799fbcc Jason Gunthorpe 2023-11-23  214  #define iommu_viot_get_single_iommu(pinf, ops, drv_struct, member)         \
-788da91799fbcc Jason Gunthorpe 2023-11-23  215  	container_of_err(                                                  \
-788da91799fbcc Jason Gunthorpe 2023-11-23  216  		__iommu_first(__iommu_viot_get_single_iommu(pinf, ops),    \
-788da91799fbcc Jason Gunthorpe 2023-11-23  217  			      __iommu_of_get_single_iommu(pinf, ops, -1)), \
-788da91799fbcc Jason Gunthorpe 2023-11-23  218  		drv_struct, member)
-788da91799fbcc Jason Gunthorpe 2023-11-23  219  
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  220  #if IS_ENABLED(CONFIG_ACPI_IORT)
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  221  struct iommu_device *
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  222  __iommu_iort_get_single_iommu(struct iommu_probe_info *pinf,
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  223  			      const struct iommu_ops *ops,
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  224  			      unsigned int *fw_flags);
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  225  #else
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  226  static inline struct iommu_device *
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  227  __iommu_iort_get_single_iommu(struct iommu_probe_info *pinf,
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  228  			      const struct iommu_ops *ops,
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  229  			      unsigned int *fw_flags)
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  230  {
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  231  	return ERR_PTR(-ENODEV);
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  232  }
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  233  #endif
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  234  #define iommu_iort_get_single_iommu(pinf, ops, fw_flags, drv_struct, member)  \
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  235  	({                                                                    \
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  236  		*(fw_flags) = 0;                                              \
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  237  		container_of_err(__iommu_first(__iommu_iort_get_single_iommu( \
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  238  						       pinf, ops, fw_flags),  \
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  239  					       __iommu_of_get_single_iommu(   \
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  240  						       pinf, ops, -1)),       \
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24  241  				 drv_struct, member)                          \
-49e3aa39dc0edc Jason Gunthorpe 2023-11-24 @242  	})
-
-:::::: The code at line 242 was first introduced by commit
-:::::: 49e3aa39dc0edc8ba021f24922bb01540cd134b1 iommu/iort: Add iommu_iort_get_single_iommu()
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+:::::: TO: Anatolij Gustschin <agust@denx.de>
+:::::: CC: Grant Likely <grant.likely@secretlab.ca>
 
 -- 
 0-DAY CI Kernel Test Service
