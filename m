@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6CD5C090
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 15:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BAF5D49C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 15:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/HdM6ds"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVYvvJQD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701184197; x=1732720197;
+  t=1701184802; x=1732720802;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nvdfhRppHPvgPmo/5MgwGI+3i+GdaALUb1kC001PAWA=;
-  b=c/HdM6ds/svBhm89CukH55HbJd5zdEjXYjULs4Uwv+GqaPS4JgcvweDr
-   ++tCxAHewD9at3T7EqOMEglKyKTWa09YHQKiyTKhaCXpDhnmeruyv3jhV
-   uENrA0gJEZjfivLtOOGetOfd65RjM0HhIuYtJyGrg/ieclmaBLGeg6pY+
-   OdbNlhdb4749gKTZnO4PXApYmcd/y2eyW+o9dHLl69JA6XfuSA4D9Tc2f
-   5Q6OXmgKdLVlvqrr/qkBw9VGG849jqnhv6cI0gCCkIK7pzqDJEq9M5Azz
-   WFnSXTluLtPnRxFAXsO/7rf5vS7q7dL2Xm1952fBMIpE4eLTtrhGZXL9D
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="390092191"
+  bh=Yorjr+FLuEerjLFbmhRVD/zWcbcrZNeZNRN4NwLHaQc=;
+  b=hVYvvJQDbVCgluKbQHi3xhh+UmuNCqIZYtuxw4RdaJ6RG3u2PGZRCcjg
+   8+u5+DXE+btjvqLglae5KEroN7flJeHNVhJlNYayxjvv3mlk0u7iaW0C9
+   hJ3rvWaCYQQMilALtH1HVXsa8UIrWCA8fD/bdZJtltQ+6uSYgiEFJKbqA
+   NE6JzrtyrYjVVTAUdgIlYbeWTWbtBQ/OuepGcaZ3+JJzWUL1hu0FOwFA1
+   F/hUhRptHK4wWroK+MFM3KVKCifnDx44fb3RH5Km/ZujqNnF4HLqMP6/p
+   8gcIH+qhXMzc3jCfPXJsWe1bGBvw3jXgXRrjwjLSHlcC1N6s8ijBby5BL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="479140064"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="390092191"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 07:09:56 -0800
+   d="scan'208";a="479140064"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 07:20:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="802974973"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="886446732"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="802974973"
+   d="scan'208";a="886446732"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 28 Nov 2023 07:09:54 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 28 Nov 2023 07:20:00 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r7zii-0007fT-1m;
-	Tue, 28 Nov 2023 15:09:52 +0000
-Date: Tue, 28 Nov 2023 23:09:09 +0800
+	id 1r7zsT-0007fw-2s;
+	Tue, 28 Nov 2023 15:19:57 +0000
+Date: Tue, 28 Nov 2023 23:19:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alain Volmat <alain.volmat@foss.st.com>
+To: Maxime Ripard <mripard@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v9 3/5] media: stm32-dcmipp: STM32 DCMIPP camera
- interface driver
-Message-ID: <202311282323.TtRZT0pU-lkp@intel.com>
-References: <20231127170828.1426117-4-alain.volmat@foss.st.com>
+Subject: Re: [PATCH v4 17/45] drm/connector: hdmi: Add Infoframes generation
+Message-ID: <202311282351.oUjk98pi-lkp@intel.com>
+References: <20231128-kms-hdmi-connector-state-v4-17-c7602158306e@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,166 +50,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231127170828.1426117-4-alain.volmat@foss.st.com>
+In-Reply-To: <20231128-kms-hdmi-connector-state-v4-17-c7602158306e@kernel.org>
 
-Hi Alain,
+Hi Maxime,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on atorgue-stm32/stm32-next]
-[also build test ERROR on media-tree/master robh/for-next linus/master v6.7-rc3 next-20231128]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on sunxi/sunxi/for-next drm/drm-next linus/master v6.7-rc3 next-20231128]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alain-Volmat/dt-bindings-media-add-bindings-for-stm32-dcmipp/20231128-012530
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20231127170828.1426117-4-alain.volmat%40foss.st.com
-patch subject: [PATCH v9 3/5] media: stm32-dcmipp: STM32 DCMIPP camera interface driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231128/202311282323.TtRZT0pU-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311282323.TtRZT0pU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-helpers-Add-atomic-helpers/20231128-193409
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-17-c7602158306e%40kernel.org
+patch subject: [PATCH v4 17/45] drm/connector: hdmi: Add Infoframes generation
+config: arm-hisi_defconfig (https://download.01.org/0day-ci/archive/20231128/202311282351.oUjk98pi-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311282351.oUjk98pi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311282323.TtRZT0pU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311282351.oUjk98pi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c: In function 'dcmipp_par_init_state':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:154:22: error: implicit declaration of function 'v4l2_subdev_state_get_format'; did you mean 'v4l2_subdev_state_get_stream_format'? [-Werror=implicit-function-declaration]
-     154 |                 mf = v4l2_subdev_state_get_format(sd_state, i);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      v4l2_subdev_state_get_stream_format
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:154:20: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     154 |                 mf = v4l2_subdev_state_get_format(sd_state, i);
-         |                    ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c: In function 'dcmipp_par_set_fmt':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:236:12: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     236 |         mf = v4l2_subdev_state_get_format(sd_state, fmt->pad);
-         |            ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:256:20: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     256 |                 mf = v4l2_subdev_state_get_format(sd_state, 1);
-         |                    ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c: In function 'dcmipp_par_configure':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:310:18: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     310 |         sink_fmt = v4l2_subdev_state_get_format(state, 0);
-         |                  ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:311:17: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     311 |         src_fmt = v4l2_subdev_state_get_format(state, 1);
-         |                 ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c: At top level:
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:396:10: error: 'const struct v4l2_subdev_internal_ops' has no member named 'init_state'
-     396 |         .init_state = dcmipp_par_init_state,
-         |          ^~~~~~~~~~
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:396:23: error: initialization of 'int (*)(struct v4l2_subdev *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *)' [-Werror=incompatible-pointer-types]
-     396 |         .init_state = dcmipp_par_init_state,
-         |                       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c:396:23: note: (near initialization for 'dcmipp_par_int_ops.registered')
-   cc1: some warnings being treated as errors
---
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c: In function 'dcmipp_byteproc_init_state':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:171:22: error: implicit declaration of function 'v4l2_subdev_state_get_format'; did you mean 'v4l2_subdev_state_get_stream_format'? [-Werror=implicit-function-declaration]
-     171 |                 mf = v4l2_subdev_state_get_format(sd_state, i);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                      v4l2_subdev_state_get_stream_format
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:171:20: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     171 |                 mf = v4l2_subdev_state_get_format(sd_state, i);
-         |                    ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:175:29: error: implicit declaration of function 'v4l2_subdev_state_get_compose'; did you mean 'v4l2_subdev_state_get_stream_compose'? [-Werror=implicit-function-declaration]
-     175 |                         r = v4l2_subdev_state_get_compose(sd_state, i);
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                             v4l2_subdev_state_get_stream_compose
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:175:27: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     175 |                         r = v4l2_subdev_state_get_compose(sd_state, i);
-         |                           ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:177:29: error: implicit declaration of function 'v4l2_subdev_state_get_crop'; did you mean 'v4l2_subdev_state_get_stream_crop'? [-Werror=implicit-function-declaration]
-     177 |                         r = v4l2_subdev_state_get_crop(sd_state, i);
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                             v4l2_subdev_state_get_stream_crop
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:177:27: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     177 |                         r = v4l2_subdev_state_get_crop(sd_state, i);
-         |                           ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c: In function 'dcmipp_byteproc_enum_mbus_code':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:206:26: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     206 |                 sink_fmt = v4l2_subdev_state_get_format(sd_state, 0);
-         |                          ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c: In function 'dcmipp_byteproc_enum_frame_size':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:230:25: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     230 |                 compose = v4l2_subdev_state_get_compose(sd_state, 0);
-         |                         ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c: In function 'dcmipp_byteproc_set_fmt':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:249:12: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     249 |         mf = v4l2_subdev_state_get_format(sd_state, fmt->pad);
-         |            ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:251:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     251 |         crop = v4l2_subdev_state_get_crop(sd_state, 1);
-         |              ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:252:17: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     252 |         compose = v4l2_subdev_state_get_compose(sd_state, 0);
-         |                 ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:255:31: error: invalid type argument of unary '*' (have 'int')
-     255 |                 fmt->format = *v4l2_subdev_state_get_format(sd_state, 0);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:266:17: error: invalid type argument of unary '*' (have 'int')
-     266 |                 *v4l2_subdev_state_get_format(sd_state, 1) = fmt->format;
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c: In function 'dcmipp_byteproc_get_selection':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:297:18: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     297 |         sink_fmt = v4l2_subdev_state_get_format(sd_state, 0);
-         |                  ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:298:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     298 |         crop = v4l2_subdev_state_get_crop(sd_state, 1);
-         |              ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:299:17: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     299 |         compose = v4l2_subdev_state_get_compose(sd_state, 0);
-         |                 ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c: In function 'dcmipp_byteproc_set_selection':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:349:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     349 |         crop = v4l2_subdev_state_get_crop(sd_state, 1);
-         |              ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:350:17: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     350 |         compose = v4l2_subdev_state_get_compose(sd_state, 0);
-         |                 ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:357:20: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     357 |                 mf = v4l2_subdev_state_get_format(sd_state, 1);
-         |                    ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:365:20: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     365 |                 mf = v4l2_subdev_state_get_format(sd_state, 0);
-         |                    ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:370:20: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     370 |                 mf = v4l2_subdev_state_get_format(sd_state, 1);
-         |                    ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c: In function 'dcmipp_byteproc_configure_scale_crop':
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:405:18: warning: assignment to 'struct v4l2_mbus_framefmt *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     405 |         sink_fmt = v4l2_subdev_state_get_format(state, 0);
-         |                  ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:406:17: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     406 |         compose = v4l2_subdev_state_get_compose(state, 0);
-         |                 ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:407:14: warning: assignment to 'struct v4l2_rect *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     407 |         crop = v4l2_subdev_state_get_crop(state, 1);
-         |              ^
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c: At top level:
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:520:10: error: 'const struct v4l2_subdev_internal_ops' has no member named 'init_state'
-     520 |         .init_state = dcmipp_byteproc_init_state,
-         |          ^~~~~~~~~~
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:520:23: error: initialization of 'int (*)(struct v4l2_subdev *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *)' [-Werror=incompatible-pointer-types]
-     520 |         .init_state = dcmipp_byteproc_init_state,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c:520:23: note: (near initialization for 'dcmipp_byteproc_int_ops.registered')
-   cc1: some warnings being treated as errors
+   drivers/gpu/drm/drm_connector.c: In function 'drmm_connector_hdmi_init':
+>> drivers/gpu/drm/drm_connector.c:519:9: warning: 'strncpy' specified bound 8 equals destination size [-Wstringop-truncation]
+     519 |         strncpy(connector->hdmi.vendor, vendor, sizeof(connector->hdmi.vendor));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_connector.c:520:9: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
+     520 |         strncpy(connector->hdmi.product, product, sizeof(connector->hdmi.product));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +396 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c
+vim +/strncpy +519 drivers/gpu/drm/drm_connector.c
 
-   394	
-   395	static const struct v4l2_subdev_internal_ops dcmipp_par_int_ops = {
- > 396		.init_state = dcmipp_par_init_state,
-   397		.release = dcmipp_par_release,
-   398	};
-   399	
+   457	
+   458	/**
+   459	 * drmm_connector_hdmi_init - Init a preallocated HDMI connector
+   460	 * @dev: DRM device
+   461	 * @connector: A pointer to the HDMI connector to init
+   462	 * @vendor: HDMI Controller Vendor name
+   463	 * @product: HDMI Controller Product name
+   464	 * @funcs: callbacks for this connector
+   465	 * @hdmi_funcs: HDMI-related callbacks for this connector
+   466	 * @connector_type: user visible type of the connector
+   467	 * @ddc: optional pointer to the associated ddc adapter
+   468	 * @supported_formats: Bitmask of @hdmi_colorspace listing supported output formats
+   469	 * @max_bpc: Maximum bits per char the HDMI connector supports
+   470	 *
+   471	 * Initialises a preallocated HDMI connector. Connectors can be
+   472	 * subclassed as part of driver connector objects.
+   473	 *
+   474	 * Cleanup is automatically handled with a call to
+   475	 * drm_connector_cleanup() in a DRM-managed action.
+   476	 *
+   477	 * The connector structure should be allocated with drmm_kzalloc().
+   478	 *
+   479	 * Returns:
+   480	 * Zero on success, error code on failure.
+   481	 */
+   482	int drmm_connector_hdmi_init(struct drm_device *dev,
+   483				     struct drm_connector *connector,
+   484				     const char *vendor, const char *product,
+   485				     const struct drm_connector_funcs *funcs,
+   486				     const struct drm_connector_hdmi_funcs *hdmi_funcs,
+   487				     int connector_type,
+   488				     struct i2c_adapter *ddc,
+   489				     unsigned long supported_formats,
+   490				     unsigned int max_bpc)
+   491	{
+   492		int ret;
+   493	
+   494		if (!vendor || !product)
+   495			return -EINVAL;
+   496	
+   497		if ((strlen(vendor) > DRM_CONNECTOR_HDMI_VENDOR_LEN) ||
+   498		    (strlen(product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
+   499			return -EINVAL;
+   500	
+   501		if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+   502		      connector_type == DRM_MODE_CONNECTOR_HDMIB))
+   503			return -EINVAL;
+   504	
+   505		if (!hdmi_funcs)
+   506			return -EINVAL;
+   507	
+   508		if (!supported_formats || !(supported_formats & BIT(HDMI_COLORSPACE_RGB)))
+   509			return -EINVAL;
+   510	
+   511		if (!(max_bpc == 8 || max_bpc == 10 || max_bpc == 12))
+   512			return -EINVAL;
+   513	
+   514		ret = drmm_connector_init(dev, connector, funcs, connector_type, ddc);
+   515		if (ret)
+   516			return ret;
+   517	
+   518		connector->hdmi.supported_formats = supported_formats;
+ > 519		strncpy(connector->hdmi.vendor, vendor, sizeof(connector->hdmi.vendor));
+   520		strncpy(connector->hdmi.product, product, sizeof(connector->hdmi.product));
+   521	
+   522		ret = drmm_mutex_init(dev, &connector->hdmi.infoframes.lock);
+   523		if (ret)
+   524			return ret;
+   525	
+   526		/*
+   527		 * drm_connector_attach_max_bpc_property() requires the
+   528		 * connector to have a state.
+   529		 */
+   530		if (connector->funcs->reset)
+   531			connector->funcs->reset(connector);
+   532	
+   533		drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+   534		connector->max_bpc = max_bpc;
+   535	
+   536		if (max_bpc > 8)
+   537			drm_connector_attach_hdr_output_metadata_property(connector);
+   538	
+   539		connector->hdmi.funcs = hdmi_funcs;
+   540	
+   541		return 0;
+   542	}
+   543	EXPORT_SYMBOL(drmm_connector_hdmi_init);
+   544	
 
 -- 
 0-DAY CI Kernel Test Service
