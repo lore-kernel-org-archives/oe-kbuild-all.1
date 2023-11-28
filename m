@@ -1,162 +1,79 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D1B41C8B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 18:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7A741C67
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 18:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gosx8qW5"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1cfb83211b9so27404185ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 10:03:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701194629; x=1701799429; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=t34+zNByVczgqctyRV+yQUYE4kIPs4CYhcIOcWoRV/Y=;
-        b=Gosx8qW5sBPtFQzPt4lv6IvOCEMo1K6d+OvgOsxVxXwtMoF2g2zfCapeUSCt0zYBCu
-         BJvqmX/K3BdzoD3teMeKvngqAS3cCtJ3OJqYF8M/GbUJmBy51dkAe/QuCq8jRCCYjhD5
-         8orL1NM2WsxvDMG/9gwXff4e/rkujXXmMMr3sf3VsjKrWWGV3ODKVuxxIX0QDgzSFXA1
-         80Z9QQo13yr2NuaKkVR1ARjoByzmn4Jc2DJfSduvNTYEIJqssFOrqO37QQifJufg2Lav
-         bNvkmgKB3yahKAPjg0f0CZIJ0b8/bmIrbm5ng9lAGDuXE6VY+vfp5R6WaeH4v0qQCx6a
-         jJag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701194629; x=1701799429;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t34+zNByVczgqctyRV+yQUYE4kIPs4CYhcIOcWoRV/Y=;
-        b=r0BPPSCAEEnkTgqikt2j88Jw0TP+SmmJlaQyfGR5n7yPIcPmWnQ8fT8FserzM2bxo3
-         AXGavwqN2mgDqHIcZjc9ZW9UBQhMYXReHRN0qkN1YO/38D1kSDN9crSV0YX5bRcTsQCP
-         SpqW2FrRntfwPDcAo2TNVnWroRpTqY5xw4KrGG8/2jKHsfHF9Q2KDE/0fj34Py+ktBkI
-         rzX7YkwkhTtWLUIW6lXs43smxJmuCBjh/XJ/BmHnc6+KKa8hMRyYWmah9KbN6r9Wjnys
-         ZVoGIpvJSgPC5wv28sgJZHAB+pO0k8yEFN9cN/76BBp3Qp57UenMGVIHtiVu/Hxfb1MW
-         3l8w==
-X-Gm-Message-State: AOJu0Yx5YWa3H7CoeBHhuG0FMEP1GfAlsw58IKmqSsK0e26IAXlEsHIX
-	WPqQmYdiUPFXY86cxTfE2t8=
-X-Google-Smtp-Source: AGHT+IGizhYWi7d1Q8ggW+eEPShcC+V/3yGbM6htn5BsIkta4XVgm4DOPyxZLvQU6Zzxir+TJB53ew==
-X-Received: by 2002:a17:903:41c8:b0:1d0:955:b5d4 with SMTP id u8-20020a17090341c800b001d00955b5d4mr1464503ple.33.1701194628965;
-        Tue, 28 Nov 2023 10:03:48 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x19-20020a170902b41300b001c7283d3089sm10513428plr.273.2023.11.28.10.03.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Nov 2023 10:03:48 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
-Date: Tue, 28 Nov 2023 10:03:46 -0800
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="IKl5a6XW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=BCXc20s1plcFTytV/cegq28ifk8bqegXX0VUq1tziks=;
+	t=1701195802; x=1702405402; b=IKl5a6XWBjUA3EP3sy41LBrLNFIHz8UVRZjflJzTHqL3wSO
+	GdVaMEKRGHEHlCyUlpaiPrH/6cmrSLpDrRq9KLQYkZohYSzlgCSLo8niLRrcJbvj5PH4kqcdQoHPY
+	mpmyQNZ+s1AUdeS0pmUeEI4/3NTZkZwq3dgpZScggv10alpPhDWmo+seyi8z5GKP/IkwVWmsIVa4o
+	U4sfpt0qoULnfUvTLK+cfze7vFaL9/TsDiyFfSifjYiXlNAUbxx8rn48rMCAqUDmYeRAb16O2Gr3N
+	pygYlXp0txoWtoZeS9I5WwVLK76mXh8XT3mgpP3B20X/V84HXu9jbYcsbp9G9BXQ==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.97)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1r82jv-00000007bYl-2JEZ;
+	Tue, 28 Nov 2023 19:23:19 +0100
+Message-ID: <1c37d99f722f891a50c540853e54d4e36bdf0157.camel@sipsolutions.net>
+Subject: Re: [RFC PATCH] wifi: cfg80211: fix CQM for non-range use
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Michael Walle <mwalle@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	linux-wireless@vger.kernel.org, Max Schulze <max.schulze@online.de>
+Date: Tue, 28 Nov 2023 19:23:18 +0100
+In-Reply-To: <202311090752.hWcJWAHL-lkp@intel.com>
+References: <202311090752.hWcJWAHL-lkp@intel.com>
+	 <202311090752.hWcJWAHL-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>, Andy Shevchenko <andy@kernel.org>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- kernel test robot <lkp@intel.com>,
- Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linus.walleij@linaro.org>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
- <202311250548.lUn3bm1A-lkp@intel.com>
- <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
- <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
- <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
- <ZWS90GQTJWA7DrML@smile.fi.intel.com>
- <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 
-On 11/28/23 08:50, Krzysztof Kozlowski wrote:
-> On 27/11/2023 17:03, Andy Shevchenko wrote:
->> On Mon, Nov 27, 2023 at 09:12:14AM +0100, Krzysztof Kozlowski wrote:
->>> On 27/11/2023 09:10, Krzysztof Kozlowski wrote:
->>
->> ...
->>
->>> Wait, this was not even unusual test, just standard compile, which means
->>> you did not do basic tests on your end. You must build your new driver
->>> with W=1, smatch, sparse and coccinelle before sending upstream.
->>
->> Well, sparse is lagging in development, for the last year it's at least two
->> times it broke kernel builds because of being not ready for the new stuff used
->> in the kernel. Do we have anybody to sync this? I don't think so, hence
->> requiring this from developer is doubtful. Otherwise I agree, that basic
->> compilation with GCC/LLVM must be done.
-> 
-> Sparse still detects several issues and handles lock annotations, so it
-> is useful. But if you disagree with that part, I still insist on Smatch
-> (which is actively developed and works great) and Coccinelle (also
-> actively developed).
-> 
+On Tue, 2023-11-28 at 15:44 +0100, Michael Walle wrote:
+> Hi,
+>=20
+> > net/wireless/nl80211.c: In function 'nl80211_set_cqm_rssi.isra':
+> > net/wireless/nl80211.c:12892:17: warning: 'memcpy' specified bound
+> > 18446744073709551615 exceeds maximum object size 9223372036854775807
+> > [-Wstringop-overflow=3D]
+>=20
+> FWIW, I'm getting the same error with the current next (next-20231128).
+>=20
 
-Quite frankly, for my part I would be more than happy if people would read
-and follow Documentation/hwmon/submitting-patches.rst. Most submitters don't
-bother. That doesn't even mention building with W=1 (the much more optimistic
-me who wrote that document several years ago thought that would be obvious),
-much less running any source code analysis tools . Feel free to submit a patch
-to strengthen the wording there. If you do that, it would have to be more explicit
-then "run smatch" or "run coccinelle" because hardly anyone would know how
-to do that.
+I actually forgot about that, but does anyone actually know what this is
+trying to tell me?
 
-Until then, there isn't really anything to insist on. I even had submitters
-react angry when I asked them to follow the guidance in that document,
-so I won't insist on anything that isn't documented as requirement.
-Quite frankly, most of the time I'd probably fix up issues such as missing
-"static" myself because I am tired having to argue about it with submitters
-who don't care.
+The code seems to be
 
-Guenter
+        if (n_thresholds) {
+                cqm_config =3D kzalloc(struct_size(cqm_config, rssi_thresho=
+lds,
+                                                 n_thresholds),
+                                     GFP_KERNEL);
+                if (!cqm_config)
+                        return -ENOMEM;
 
+                cqm_config->rssi_hyst =3D hysteresis;
+                cqm_config->n_rssi_thresholds =3D n_thresholds;
+                memcpy(cqm_config->rssi_thresholds, thresholds,
+                       flex_array_size(cqm_config, rssi_thresholds,
+                                       n_thresholds));
+
+
+Or does it just want to say n_thresholds shouldn't be a signed variable?
+
+johannes
