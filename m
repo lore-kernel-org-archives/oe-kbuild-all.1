@@ -1,53 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1712950240
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 22:51:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33BB50268
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 22:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dhMAZEUE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aiDGLzP9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701211872; x=1732747872;
+  t=1701211874; x=1732747874;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6W77NMPWKSknRWM8nReLxQuR4biFLdG5sqgipoG+QAg=;
-  b=dhMAZEUEPDNk/+Hi5DWj646KXOd41797TEO6CTYmImw+TVaOranoLoPs
-   3QvQIgeDLFirdhdxiM4BWWy/LiX1x+lvhhJZNRaa5JTDMGlwcSsxEX86E
-   V5FzBg7+/qxPGf3pb/csLegjQYU72kEvC+jvYcC7zMRwjiNuQLzqwqjEX
-   vM4llEr1ba7ljoj8APG43xbOwnVYQp5Dc+m+4sSirXvucORTbJq6aNfd9
-   HEWPc0Lr/54JjW1elUwaZamHViebmmPW9HtclyeHeOxxbCNklHUZ3it93
-   LjKe2G6doqocSHY0L4rpxs3HmgOO1aTO4wVJE1WIR5bUZErYn8t7TQfag
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="6304153"
+  bh=8BfsQFqH8yTLhtbLWXXB3YNrz20Sdtdytf4Ae2smnkM=;
+  b=aiDGLzP9n69EQR20kPZnMMXaFyh4e4sGkX1rODkXcbFs2pdcPxaIkMg3
+   kDSZOurc7NnVEDBDnnjUGeroAgwWtpjuTurbFmtLxtxVa/8qfBtDMAIsd
+   WOazjsX0jSzsuUNTsaJ1XR6XumKN54neQs2fTJolExO2dV8Wowkagr8GO
+   /7wW43X74Wv+yn9u22eUp/5gJEHpB6GPMqUbr7B9HRT5EA9o4j95/wxIT
+   pZhBtZuA+Hi9aSIBH/0069tNxgwXKtdORBBYLHLTXEouvAbWWZVMWuVVW
+   fqPURVKpj9Yld95+MV8QFctMoMaMgYtOIvcHTujOPr0yUiST/8OzvYYB9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="392797074"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="6304153"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 14:51:09 -0800
+   d="scan'208";a="392797074"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 14:51:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="839215219"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="942106672"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="839215219"
+   d="scan'208";a="942106672"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Nov 2023 14:51:06 -0800
+  by orsmga005.jf.intel.com with ESMTP; 28 Nov 2023 14:51:09 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r86v2-0008Dz-06;
-	Tue, 28 Nov 2023 22:51:04 +0000
-Date: Wed, 29 Nov 2023 06:50:54 +0800
+	id 1r86v4-0008E8-2Q;
+	Tue, 28 Nov 2023 22:51:06 +0000
+Date: Wed, 29 Nov 2023 06:51:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Richard <thomas.richard@bootlin.com>, rafael@kernel.org,
-	daniel.lezcano@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, rui.zhang@intel.com, lukasz.luba@arm.com,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, gregory.clement@bootlin.com,
-	theo.lebrun@bootlin.com, u-kumar1@ti.com,
-	Thomas Richard <thomas.richard@bootlin.com>
-Subject: Re: [PATCH] thermal: k3_j72xx_bandgap: implement suspend/resume
- support
-Message-ID: <202311290333.AA0iLcWG-lkp@intel.com>
-References: <20231128130332.584127-1-thomas.richard@bootlin.com>
+To: David Lin <yu-hao.lin@nxp.com>, linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	briannorris@chromium.org, kvalo@kernel.org, francesco@dolcini.it,
+	tsung-hsien.hsieh@nxp.com, David Lin <yu-hao.lin@nxp.com>
+Subject: Re: [PATCH v7 01/12] wifi: mwifiex: added code to support host mlme.
+Message-ID: <202311290333.3zOCFRnN-lkp@intel.com>
+References: <20231128083115.613235-2-yu-hao.lin@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,67 +52,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231128130332.584127-1-thomas.richard@bootlin.com>
+In-Reply-To: <20231128083115.613235-2-yu-hao.lin@nxp.com>
 
-Hi Thomas,
+Hi David,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on linus/master v6.7-rc3 next-20231128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 783004b6dbda2cfe9a552a4cc9c1d168a2068f6c]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Richard/thermal-k3_j72xx_bandgap-implement-suspend-resume-support/20231128-211217
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20231128130332.584127-1-thomas.richard%40bootlin.com
-patch subject: [PATCH] thermal: k3_j72xx_bandgap: implement suspend/resume support
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231129/202311290333.AA0iLcWG-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311290333.AA0iLcWG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lin/wifi-mwifiex-added-code-to-support-host-mlme/20231128-165820
+base:   783004b6dbda2cfe9a552a4cc9c1d168a2068f6c
+patch link:    https://lore.kernel.org/r/20231128083115.613235-2-yu-hao.lin%40nxp.com
+patch subject: [PATCH v7 01/12] wifi: mwifiex: added code to support host mlme.
+config: parisc-randconfig-r112-20231128 (https://download.01.org/0day-ci/archive/20231129/202311290333.3zOCFRnN-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231129/202311290333.3zOCFRnN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311290333.AA0iLcWG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311290333.3zOCFRnN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/marvell/mwifiex/uap_cmd.c:754:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] size @@     got unsigned int @@
+   drivers/net/wireless/marvell/mwifiex/uap_cmd.c:754:19: sparse:     expected restricted __le16 [usertype] size
+   drivers/net/wireless/marvell/mwifiex/uap_cmd.c:754:19: sparse:     got unsigned int
+>> drivers/net/wireless/marvell/mwifiex/uap_cmd.c:757:76: sparse: sparse: restricted __le16 degrades to integer
+>> drivers/net/wireless/marvell/mwifiex/uap_cmd.c:761:27: sparse: sparse: bad assignment (+=) to restricted __le16
+>> drivers/net/wireless/marvell/mwifiex/uap_cmd.c:764:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [usertype] size @@
+   drivers/net/wireless/marvell/mwifiex/uap_cmd.c:764:21: sparse:     expected unsigned short [usertype] val
+   drivers/net/wireless/marvell/mwifiex/uap_cmd.c:764:21: sparse:     got restricted __le16 [usertype] size
+>> drivers/net/wireless/marvell/mwifiex/uap_cmd.c:764:21: sparse: sparse: cast from restricted __le16
+>> drivers/net/wireless/marvell/mwifiex/uap_cmd.c:764:21: sparse: sparse: cast from restricted __le16
 
-   In file included from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from drivers/thermal/k3_j72xx_bandgap.c:10:
->> drivers/thermal/k3_j72xx_bandgap.c:604:31: error: 'k3_j72xx_bandgap_pm_ops' undeclared here (not in a function); did you mean 'k3_j72xx_bandgap_probe'?
-     604 |                 .pm = pm_ptr(&k3_j72xx_bandgap_pm_ops),
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:54:44: note: in definition of macro 'PTR_IF'
-      54 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   drivers/thermal/k3_j72xx_bandgap.c:604:23: note: in expansion of macro 'pm_ptr'
-     604 |                 .pm = pm_ptr(&k3_j72xx_bandgap_pm_ops),
-         |                       ^~~~~~
+vim +754 drivers/net/wireless/marvell/mwifiex/uap_cmd.c
 
-
-vim +604 drivers/thermal/k3_j72xx_bandgap.c
-
-   597	
-   598	static struct platform_driver k3_j72xx_bandgap_sensor_driver = {
-   599		.probe = k3_j72xx_bandgap_probe,
-   600		.remove_new = k3_j72xx_bandgap_remove,
-   601		.driver = {
-   602			.name = "k3-j72xx-soc-thermal",
-   603			.of_match_table	= of_k3_j72xx_bandgap_match,
- > 604			.pm = pm_ptr(&k3_j72xx_bandgap_pm_ops),
-   605		},
-   606	};
-   607	
+   745	
+   746	/* This function prepares AP start up command with or without host MLME
+   747	 */
+   748	static int mwifiex_cmd_uap_bss_start(struct mwifiex_private *priv,
+   749					     struct host_cmd_ds_command *cmd)
+   750	{
+   751		struct mwifiex_ie_types_host_mlme *tlv;
+   752	
+   753		cmd->command = cpu_to_le16(HostCmd_CMD_UAP_BSS_START);
+ > 754		cmd->size = S_DS_GEN;
+   755	
+   756		if (priv->adapter->host_mlme) {
+ > 757			tlv = (struct mwifiex_ie_types_host_mlme *)((u8 *)cmd + cmd->size);
+   758			tlv->header.type = cpu_to_le16(TLV_TYPE_HOST_MLME);
+   759			tlv->header.len = cpu_to_le16(sizeof(tlv->host_mlme));
+   760			tlv->host_mlme = 1;
+ > 761			cmd->size += sizeof(struct mwifiex_ie_types_host_mlme);
+   762		}
+   763	
+ > 764		cmd->size = cpu_to_le16(cmd->size);
+   765	
+   766		return 0;
+   767	}
+   768	
 
 -- 
 0-DAY CI Kernel Test Service
