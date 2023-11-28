@@ -1,50 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F3946530;
-	Tue, 28 Nov 2023 11:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0993519460
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 12:09:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bSQmVb0/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4cxZUX+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701171919; x=1732707919;
+  t=1701173394; x=1732709394;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7qYyCP8MhKknRBAyUu6IhgiQV29YDWwg8zFyW7waXmY=;
-  b=bSQmVb0/3cpvk4V7HHQTF6hamO7VqaPIkOQETd7lYGClgtta4hO9uuqo
-   M1ip3gVosORg/OnkR4vdP2KrDOqR1ieH20NBFg9Y9kl+EaZA9Dnl3NbNf
-   pc3FlrfIDKWJ7riJP6Dt+btwRZy/DsE0QXOHblVp2ExXLzFYBA+dEiPFP
-   g4Szevva8vWm0LqxVNu6cTASAEje+e/V5nUmv8foM3zuj3v1dfRdJHxeE
-   /cwxC0dOOAA7av1ydk1WQWmYWJcQrAH+AChdxLWqcf9crRCJE6Oe7F1c4
-   qh0lgvGujKkcjdIchM+c5JOLOXY9A3dISCsnGwJ4Hk65VxwCNOhXzRjLf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="391777740"
+  bh=mtIu5f1hDVaKzrp3gZyRN6bomQimaf0cxFp5LllKoNg=;
+  b=G4cxZUX+cs9LJVDLleTOig/C6h0utVRhXpopvpjaPj6dzhYQQkUv9jsW
+   llkwJIN2jZNL84GwkRkTTIiQwxTrIkhdBA3GOKcoOIFaRRYGB/W64xdiz
+   6fVrsTdDEUzLeE0DzpoZE1mjzvsEHXVLyBQliTnbEdfZeEIhRBWjKzZVm
+   GfSf98xzNxp3783HjGoYxQzAlhlEsW0Bs2pyyfkpQuu5HP2JLl180X2W1
+   bI8LkPKHoMCz8Vp+NCq3NiHg2Yi/BA/nIL31UetSMLQmSGDkFKZU0cWsU
+   h+s5WDvY2xQYOhHa/W4n8KV5wem07xe5v9/39jqCf+WL5Id7VOn70X1Mw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="391783865"
 X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="391777740"
+   d="scan'208";a="391783865"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 03:45:17 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 04:09:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="772281741"
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="772294330"
 X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="772281741"
+   d="scan'208";a="772294330"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Nov 2023 03:45:15 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 28 Nov 2023 04:09:47 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r7wWe-0007WJ-3D;
-	Tue, 28 Nov 2023 11:45:13 +0000
-Date: Tue, 28 Nov 2023 19:45:04 +0800
+	id 1r7wuP-0007Xk-0i;
+	Tue, 28 Nov 2023 12:09:45 +0000
+Date: Tue, 28 Nov 2023 20:08:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sagi Maimon <maimon.sagi@gmail.com>, richardcochran@gmail.com,
-	reibax@gmail.com, davem@davemloft.net, rrameshbabu@nvidia.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	maheshb@google.com, maimon.sagi@gmail.com
-Subject: Re: [PATCH v2] posix-timers: add multi_clock_gettime system call
-Message-ID: <202311281817.puU0ujYG-lkp@intel.com>
-References: <20231127153901.6399-1-maimon.sagi@gmail.com>
+To: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Dave Chinner <dchinner@redhat.com>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Zhang Tianci <zhangtianci.1997@bytedance.com>,
+	Brian Foster <bfoster@redhat.com>, Ben Myers <bpm@sgi.com>,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	xieyongji@bytedance.com, me@jcix.top
+Subject: Re: [PATCH 2/2] xfs: update dir3 leaf block metadata after swap
+Message-ID: <202311281904.r45MkLJq-lkp@intel.com>
+References: <20231128053202.29007-3-zhangjiachen.jaycee@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,198 +57,277 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231127153901.6399-1-maimon.sagi@gmail.com>
+In-Reply-To: <20231128053202.29007-3-zhangjiachen.jaycee@bytedance.com>
 
-Hi Sagi,
+Hi Jiachen,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on arnd-asm-generic/master]
-[also build test WARNING on tip/timers/core linus/master v6.7-rc3]
-[cannot apply to tip/x86/asm next-20231128]
+[auto build test ERROR on xfs-linux/for-next]
+[also build test ERROR on linus/master v6.7-rc3 next-20231128]
+[cannot apply to djwong-xfs/djwong-devel]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sagi-Maimon/posix-timers-add-multi_clock_gettime-system-call/20231128-000215
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/20231127153901.6399-1-maimon.sagi%40gmail.com
-patch subject: [PATCH v2] posix-timers: add multi_clock_gettime system call
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20231128/202311281817.puU0ujYG-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311281817.puU0ujYG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiachen-Zhang/xfs-ensure-tmp_logflags-is-initialized-in-xfs_bmap_del_extent_real/20231128-135955
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20231128053202.29007-3-zhangjiachen.jaycee%40bytedance.com
+patch subject: [PATCH 2/2] xfs: update dir3 leaf block metadata after swap
+config: i386-randconfig-141-20231128 (https://download.01.org/0day-ci/archive/20231128/202311281904.r45MkLJq-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311281904.r45MkLJq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311281817.puU0ujYG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311281904.r45MkLJq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/time/posix-timers.c:13:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/time/posix-timers.c:13:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/time/posix-timers.c:13:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> kernel/time/posix-timers.c:1429:1: warning: stack frame size (2040) exceeds limit (1024) in '__se_sys_multi_clock_gettime' [-Wframe-larger-than]
-    1429 | SYSCALL_DEFINE1(multi_clock_gettime, struct __ptp_multi_clock_get __user *, ptp_multi_clk_get)
-         | ^
-   include/linux/syscalls.h:219:36: note: expanded from macro 'SYSCALL_DEFINE1'
-     219 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:230:2: note: expanded from macro 'SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:249:18: note: expanded from macro '__SYSCALL_DEFINEx'
-     249 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
-         |                         ^
-   <scratch space>:122:1: note: expanded from here
-     122 | __se_sys_multi_clock_gettime
-         | ^
->> kernel/time/posix-timers.c:1460:1: warning: stack frame size (2040) exceeds limit (1024) in '__se_sys_multi_clock_gettime32' [-Wframe-larger-than]
-    1460 | SYSCALL_DEFINE1(multi_clock_gettime32, struct __ptp_multi_clock_get32 __user *, ptp_multi_clk_get)
-         | ^
-   include/linux/syscalls.h:219:36: note: expanded from macro 'SYSCALL_DEFINE1'
-     219 | #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS__)
-         |                                    ^
-   include/linux/syscalls.h:230:2: note: expanded from macro 'SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^
-   include/linux/syscalls.h:249:18: note: expanded from macro '__SYSCALL_DEFINEx'
-     249 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
-         |                         ^
-   <scratch space>:147:1: note: expanded from here
-     147 | __se_sys_multi_clock_gettime32
-         | ^
-   14 warnings generated.
+>> fs/xfs/libxfs/xfs_da_btree.c:2330:38: error: no member named 'b_bn' in 'struct xfs_buf'
+                   dap->blkno = cpu_to_be64(dead_buf->b_bn);
+                                            ~~~~~~~~  ^
+   include/linux/byteorder/generic.h:92:21: note: expanded from macro 'cpu_to_be64'
+   #define cpu_to_be64 __cpu_to_be64
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:38:53: note: expanded from macro '__cpu_to_be64'
+   #define __cpu_to_be64(x) ((__force __be64)__swab64((x)))
+                                                       ^
+   include/uapi/linux/swab.h:128:54: note: expanded from macro '__swab64'
+   #define __swab64(x) (__u64)__builtin_bswap64((__u64)(x))
+                                                        ^
+   1 error generated.
 
 
-vim +/__se_sys_multi_clock_gettime +1429 kernel/time/posix-timers.c
+vim +2330 fs/xfs/libxfs/xfs_da_btree.c
 
-  1428	
-> 1429	SYSCALL_DEFINE1(multi_clock_gettime, struct __ptp_multi_clock_get __user *, ptp_multi_clk_get)
-  1430	{
-  1431		const struct k_clock *kc;
-  1432		struct timespec64 kernel_tp;
-  1433		struct __ptp_multi_clock_get multi_clk_get;
-  1434		int error;
-  1435		unsigned int i, j;
-  1436	
-  1437		if (copy_from_user(&multi_clk_get, ptp_multi_clk_get, sizeof(multi_clk_get)))
-  1438			return -EFAULT;
-  1439	
-  1440		if (multi_clk_get.n_samples > MULTI_PTP_MAX_SAMPLES)
-  1441			return -EINVAL;
-  1442		if (multi_clk_get.n_clocks > MULTI_PTP_MAX_CLOCKS)
-  1443			return -EINVAL;
-  1444	
-  1445		for (j = 0; j < multi_clk_get.n_samples; j++) {
-  1446			for (i = 0; i < multi_clk_get.n_clocks; i++) {
-  1447				kc = clockid_to_kclock(multi_clk_get.clkid_arr[i]);
-  1448				if (!kc)
-  1449					return -EINVAL;
-  1450				error = kc->clock_get_timespec(multi_clk_get.clkid_arr[i], &kernel_tp);
-  1451				if (!error && put_timespec64(&kernel_tp, (struct __kernel_timespec __user *)
-  1452							     &ptp_multi_clk_get->ts[j][i]))
-  1453					error = -EFAULT;
-  1454			}
-  1455		}
-  1456	
-  1457		return error;
-  1458	}
-  1459	
-> 1460	SYSCALL_DEFINE1(multi_clock_gettime32, struct __ptp_multi_clock_get32 __user *, ptp_multi_clk_get)
-  1461	{
-  1462		const struct k_clock *kc;
-  1463		struct timespec64 kernel_tp;
-  1464		struct __ptp_multi_clock_get multi_clk_get;
-  1465		int error;
-  1466		unsigned int i, j;
-  1467	
-  1468		if (copy_from_user(&multi_clk_get, ptp_multi_clk_get, sizeof(multi_clk_get)))
-  1469			return -EFAULT;
-  1470	
-  1471		if (multi_clk_get.n_samples > MULTI_PTP_MAX_SAMPLES)
-  1472			return -EINVAL;
-  1473		if (multi_clk_get.n_clocks > MULTI_PTP_MAX_CLOCKS)
-  1474			return -EINVAL;
-  1475	
-  1476		for (j = 0; j < multi_clk_get.n_samples; j++) {
-  1477			for (i = 0; i < multi_clk_get.n_clocks; i++) {
-  1478				kc = clockid_to_kclock(multi_clk_get.clkid_arr[i]);
-  1479				if (!kc)
-  1480					return -EINVAL;
-  1481				error = kc->clock_get_timespec(multi_clk_get.clkid_arr[i], &kernel_tp);
-  1482				if (!error && put_old_timespec32(&kernel_tp, (struct old_timespec32 __user *)
-  1483								&ptp_multi_clk_get->ts[j][i]))
-  1484					error = -EFAULT;
-  1485			}
-  1486		}
-  1487	
-  1488		return error;
-  1489	}
-  1490	
+  2254	
+  2255	/*
+  2256	 * Ick.  We need to always be able to remove a btree block, even
+  2257	 * if there's no space reservation because the filesystem is full.
+  2258	 * This is called if xfs_bunmapi on a btree block fails due to ENOSPC.
+  2259	 * It swaps the target block with the last block in the file.  The
+  2260	 * last block in the file can always be removed since it can't cause
+  2261	 * a bmap btree split to do that.
+  2262	 */
+  2263	STATIC int
+  2264	xfs_da3_swap_lastblock(
+  2265		struct xfs_da_args	*args,
+  2266		xfs_dablk_t		*dead_blknop,
+  2267		struct xfs_buf		**dead_bufp)
+  2268	{
+  2269		struct xfs_da_blkinfo	*dead_info;
+  2270		struct xfs_da_blkinfo	*sib_info;
+  2271		struct xfs_da_intnode	*par_node;
+  2272		struct xfs_da_intnode	*dead_node;
+  2273		struct xfs_dir2_leaf	*dead_leaf2;
+  2274		struct xfs_da_node_entry *btree;
+  2275		struct xfs_da3_icnode_hdr par_hdr;
+  2276		struct xfs_inode	*dp;
+  2277		struct xfs_trans	*tp;
+  2278		struct xfs_mount	*mp;
+  2279		struct xfs_buf		*dead_buf;
+  2280		struct xfs_buf		*last_buf;
+  2281		struct xfs_buf		*sib_buf;
+  2282		struct xfs_buf		*par_buf;
+  2283		xfs_dahash_t		dead_hash;
+  2284		xfs_fileoff_t		lastoff;
+  2285		xfs_dablk_t		dead_blkno;
+  2286		xfs_dablk_t		last_blkno;
+  2287		xfs_dablk_t		sib_blkno;
+  2288		xfs_dablk_t		par_blkno;
+  2289		int			error;
+  2290		int			w;
+  2291		int			entno;
+  2292		int			level;
+  2293		int			dead_level;
+  2294	
+  2295		trace_xfs_da_swap_lastblock(args);
+  2296	
+  2297		dead_buf = *dead_bufp;
+  2298		dead_blkno = *dead_blknop;
+  2299		tp = args->trans;
+  2300		dp = args->dp;
+  2301		w = args->whichfork;
+  2302		ASSERT(w == XFS_DATA_FORK);
+  2303		mp = dp->i_mount;
+  2304		lastoff = args->geo->freeblk;
+  2305		error = xfs_bmap_last_before(tp, dp, &lastoff, w);
+  2306		if (error)
+  2307			return error;
+  2308		if (XFS_IS_CORRUPT(mp, lastoff == 0))
+  2309			return -EFSCORRUPTED;
+  2310		/*
+  2311		 * Read the last block in the btree space.
+  2312		 */
+  2313		last_blkno = (xfs_dablk_t)lastoff - args->geo->fsbcount;
+  2314		error = xfs_da3_node_read(tp, dp, last_blkno, &last_buf, w);
+  2315		if (error)
+  2316			return error;
+  2317		/*
+  2318		 * Copy the last block into the dead buffer and log it.
+  2319		 */
+  2320		memcpy(dead_buf->b_addr, last_buf->b_addr, args->geo->blksize);
+  2321		dead_info = dead_buf->b_addr;
+  2322		/*
+  2323		 * Update the moved block's blkno if it's a dir3 leaf block
+  2324		 */
+  2325		if (dead_info->magic == cpu_to_be16(XFS_DIR3_LEAF1_MAGIC) ||
+  2326		    dead_info->magic == cpu_to_be16(XFS_DIR3_LEAFN_MAGIC) ||
+  2327		    dead_info->magic == cpu_to_be16(XFS_ATTR3_LEAF_MAGIC)) {
+  2328			struct xfs_da3_blkinfo *dap = (struct xfs_da3_blkinfo *)dead_info;
+  2329	
+> 2330			dap->blkno = cpu_to_be64(dead_buf->b_bn);
+  2331		}
+  2332		xfs_trans_log_buf(tp, dead_buf, 0, args->geo->blksize - 1);
+  2333		/*
+  2334		 * Get values from the moved block.
+  2335		 */
+  2336		if (dead_info->magic == cpu_to_be16(XFS_DIR2_LEAFN_MAGIC) ||
+  2337		    dead_info->magic == cpu_to_be16(XFS_DIR3_LEAFN_MAGIC)) {
+  2338			struct xfs_dir3_icleaf_hdr leafhdr;
+  2339			struct xfs_dir2_leaf_entry *ents;
+  2340	
+  2341			dead_leaf2 = (xfs_dir2_leaf_t *)dead_info;
+  2342			xfs_dir2_leaf_hdr_from_disk(dp->i_mount, &leafhdr,
+  2343						    dead_leaf2);
+  2344			ents = leafhdr.ents;
+  2345			dead_level = 0;
+  2346			dead_hash = be32_to_cpu(ents[leafhdr.count - 1].hashval);
+  2347		} else {
+  2348			struct xfs_da3_icnode_hdr deadhdr;
+  2349	
+  2350			dead_node = (xfs_da_intnode_t *)dead_info;
+  2351			xfs_da3_node_hdr_from_disk(dp->i_mount, &deadhdr, dead_node);
+  2352			btree = deadhdr.btree;
+  2353			dead_level = deadhdr.level;
+  2354			dead_hash = be32_to_cpu(btree[deadhdr.count - 1].hashval);
+  2355		}
+  2356		sib_buf = par_buf = NULL;
+  2357		/*
+  2358		 * If the moved block has a left sibling, fix up the pointers.
+  2359		 */
+  2360		if ((sib_blkno = be32_to_cpu(dead_info->back))) {
+  2361			error = xfs_da3_node_read(tp, dp, sib_blkno, &sib_buf, w);
+  2362			if (error)
+  2363				goto done;
+  2364			sib_info = sib_buf->b_addr;
+  2365			if (XFS_IS_CORRUPT(mp,
+  2366					   be32_to_cpu(sib_info->forw) != last_blkno ||
+  2367					   sib_info->magic != dead_info->magic)) {
+  2368				error = -EFSCORRUPTED;
+  2369				goto done;
+  2370			}
+  2371			sib_info->forw = cpu_to_be32(dead_blkno);
+  2372			xfs_trans_log_buf(tp, sib_buf,
+  2373				XFS_DA_LOGRANGE(sib_info, &sib_info->forw,
+  2374						sizeof(sib_info->forw)));
+  2375			sib_buf = NULL;
+  2376		}
+  2377		/*
+  2378		 * If the moved block has a right sibling, fix up the pointers.
+  2379		 */
+  2380		if ((sib_blkno = be32_to_cpu(dead_info->forw))) {
+  2381			error = xfs_da3_node_read(tp, dp, sib_blkno, &sib_buf, w);
+  2382			if (error)
+  2383				goto done;
+  2384			sib_info = sib_buf->b_addr;
+  2385			if (XFS_IS_CORRUPT(mp,
+  2386					   be32_to_cpu(sib_info->back) != last_blkno ||
+  2387					   sib_info->magic != dead_info->magic)) {
+  2388				error = -EFSCORRUPTED;
+  2389				goto done;
+  2390			}
+  2391			sib_info->back = cpu_to_be32(dead_blkno);
+  2392			xfs_trans_log_buf(tp, sib_buf,
+  2393				XFS_DA_LOGRANGE(sib_info, &sib_info->back,
+  2394						sizeof(sib_info->back)));
+  2395			sib_buf = NULL;
+  2396		}
+  2397		par_blkno = args->geo->leafblk;
+  2398		level = -1;
+  2399		/*
+  2400		 * Walk down the tree looking for the parent of the moved block.
+  2401		 */
+  2402		for (;;) {
+  2403			error = xfs_da3_node_read(tp, dp, par_blkno, &par_buf, w);
+  2404			if (error)
+  2405				goto done;
+  2406			par_node = par_buf->b_addr;
+  2407			xfs_da3_node_hdr_from_disk(dp->i_mount, &par_hdr, par_node);
+  2408			if (XFS_IS_CORRUPT(mp,
+  2409					   level >= 0 && level != par_hdr.level + 1)) {
+  2410				error = -EFSCORRUPTED;
+  2411				goto done;
+  2412			}
+  2413			level = par_hdr.level;
+  2414			btree = par_hdr.btree;
+  2415			for (entno = 0;
+  2416			     entno < par_hdr.count &&
+  2417			     be32_to_cpu(btree[entno].hashval) < dead_hash;
+  2418			     entno++)
+  2419				continue;
+  2420			if (XFS_IS_CORRUPT(mp, entno == par_hdr.count)) {
+  2421				error = -EFSCORRUPTED;
+  2422				goto done;
+  2423			}
+  2424			par_blkno = be32_to_cpu(btree[entno].before);
+  2425			if (level == dead_level + 1)
+  2426				break;
+  2427			xfs_trans_brelse(tp, par_buf);
+  2428			par_buf = NULL;
+  2429		}
+  2430		/*
+  2431		 * We're in the right parent block.
+  2432		 * Look for the right entry.
+  2433		 */
+  2434		for (;;) {
+  2435			for (;
+  2436			     entno < par_hdr.count &&
+  2437			     be32_to_cpu(btree[entno].before) != last_blkno;
+  2438			     entno++)
+  2439				continue;
+  2440			if (entno < par_hdr.count)
+  2441				break;
+  2442			par_blkno = par_hdr.forw;
+  2443			xfs_trans_brelse(tp, par_buf);
+  2444			par_buf = NULL;
+  2445			if (XFS_IS_CORRUPT(mp, par_blkno == 0)) {
+  2446				error = -EFSCORRUPTED;
+  2447				goto done;
+  2448			}
+  2449			error = xfs_da3_node_read(tp, dp, par_blkno, &par_buf, w);
+  2450			if (error)
+  2451				goto done;
+  2452			par_node = par_buf->b_addr;
+  2453			xfs_da3_node_hdr_from_disk(dp->i_mount, &par_hdr, par_node);
+  2454			if (XFS_IS_CORRUPT(mp, par_hdr.level != level)) {
+  2455				error = -EFSCORRUPTED;
+  2456				goto done;
+  2457			}
+  2458			btree = par_hdr.btree;
+  2459			entno = 0;
+  2460		}
+  2461		/*
+  2462		 * Update the parent entry pointing to the moved block.
+  2463		 */
+  2464		btree[entno].before = cpu_to_be32(dead_blkno);
+  2465		xfs_trans_log_buf(tp, par_buf,
+  2466			XFS_DA_LOGRANGE(par_node, &btree[entno].before,
+  2467					sizeof(btree[entno].before)));
+  2468		*dead_blknop = last_blkno;
+  2469		*dead_bufp = last_buf;
+  2470		return 0;
+  2471	done:
+  2472		if (par_buf)
+  2473			xfs_trans_brelse(tp, par_buf);
+  2474		if (sib_buf)
+  2475			xfs_trans_brelse(tp, sib_buf);
+  2476		xfs_trans_brelse(tp, last_buf);
+  2477		return error;
+  2478	}
+  2479	
 
 -- 
 0-DAY CI Kernel Test Service
