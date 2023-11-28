@@ -1,47 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DC946BA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 22:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A8F50254;
+	Tue, 28 Nov 2023 22:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fOxB0wu/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZsXKRquf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701211870; x=1732747870;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0di2lcK9OHjj4Y4Vf1GbUmYPfa1guoWLJyeYfxE8G90=;
-  b=fOxB0wu/QF9Wtf76Iu7lPDu9jLCnlko1Ye551wmHjOPGouvT27fJhC5x
-   dxCp/WbJMlktNxDPvHheiGGachKjT5w+mmuOiTOtu1Fy+0IdGbi8aEWpT
-   am61EC017jRc9Od6ldwQPcVfttAaIYne1Vqt/opUndoYY1BAXEmuBLHDf
-   vMtYIcWN7uGGT5s9bagT+m/ujq7T75WOK2JgrCUj99miq7TKTBGRj5zKX
-   ein6qKt26LoYg8+WlNHS/glyr/VF5M7FZLtpDHbYwa8HqkQWliTFW4pO5
-   2WdQ3t6JLfNbELg+BwrflAhQyIE53zSSSY4Tf2SbCgwAcfH8x5YslU75X
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="392797061"
+  t=1701211872; x=1732747872;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EIWKmpw10W2gy/QBlGnv98l25AschMZIIelg6y9oG0E=;
+  b=ZsXKRqufVkM1hSQdUfJXUSUT+Ik3WUEwJiHPYN0FBjtKXXxWHYhe/5am
+   Ba/0HkCnC4GaUGNszPnO5oA0pR3jDPc0FYUmvJlf9kolO0vqjS+BEfFfx
+   pvnCxfJNeR2Fy+o9PK2DLXcVF2vDbrJVQDM0E96arcE/mto4mtFjUxoBj
+   ixoacNp0xhqe3p5aUYzszt7bwUQpJOwPqTNU8iAEfLWPKlNP81YwEtLMR
+   uybOURVqV6L/rjpWMmYTUv3wvgnElEU6HCyeoSXISFR9+iAc3nYSt5mr6
+   4TmqDr7UmsoPMf+j39MAmDCRBOd430OGju1Uter1WhzU89RwkAv0maj4e
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="392797062"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="392797061"
+   d="scan'208";a="392797062"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 14:51:09 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 14:51:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="942106671"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="942106666"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="942106671"
+   d="scan'208";a="942106666"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 28 Nov 2023 14:51:08 -0800
+  by orsmga005.jf.intel.com with ESMTP; 28 Nov 2023 14:51:06 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r86v4-0008E5-0Q;
-	Tue, 28 Nov 2023 22:51:06 +0000
-Date: Wed, 29 Nov 2023 06:50:22 +0800
+	id 1r86v2-0008E2-10;
+	Tue, 28 Nov 2023 22:51:04 +0000
+Date: Wed, 29 Nov 2023 06:50:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/audio-sm8450-sm8550-on-next 36/40]
- drivers/soundwire/stream.c:749: warning: Function parameter or member
- 'multi_link' not described in 'sdw_ml_sync_bank_switch'
-Message-ID: <202311290304.cLvlkMCv-lkp@intel.com>
+To: Nikunj A Dadhania <nikunj@amd.com>, linux-kernel@vger.kernel.org,
+	thomas.lendacky@amd.com, x86@kernel.org, kvm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, bp@alien8.de,
+	mingo@redhat.com, tglx@linutronix.de, dave.hansen@linux.intel.com,
+	dionnaglaze@google.com, pgonda@google.com, seanjc@google.com,
+	pbonzini@redhat.com, nikunj@amd.com
+Subject: Re: [PATCH v6 07/16] x86/sev: Move and reorganize sev guest request
+ api
+Message-ID: <202311290340.dJ5EmU8J-lkp@intel.com>
+References: <20231128125959.1810039-8-nikunj@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,68 +55,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231128125959.1810039-8-nikunj@amd.com>
 
-tree:   https://github.com/krzk/linux n/audio-sm8450-sm8550-on-next
-head:   f85076039ced5f68e969ef04dc4059f1377475e7
-commit: bd040bf119f195584e9bab9fb2887e3ef9d65c68 [36/40] UPSTREAM: soundwire: stream: fix NULL pointer dereference for multi_link
-config: i386-randconfig-141-20231129 (https://download.01.org/0day-ci/archive/20231129/202311290304.cLvlkMCv-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311290304.cLvlkMCv-lkp@intel.com/reproduce)
+Hi Nikunj,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/x86/mm]
+[also build test WARNING on linus/master v6.7-rc3 next-20231128]
+[cannot apply to tip/x86/core kvm/queue kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikunj-A-Dadhania/virt-sev-guest-Move-mutex-to-SNP-guest-device-structure/20231128-220026
+base:   tip/x86/mm
+patch link:    https://lore.kernel.org/r/20231128125959.1810039-8-nikunj%40amd.com
+patch subject: [PATCH v6 07/16] x86/sev: Move and reorganize sev guest request api
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231129/202311290340.dJ5EmU8J-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311290340.dJ5EmU8J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311290304.cLvlkMCv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311290340.dJ5EmU8J-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/soundwire/stream.c:749: warning: Function parameter or member 'multi_link' not described in 'sdw_ml_sync_bank_switch'
+>> drivers/virt/coco/sev-guest/sev-guest.c:450:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!snp_dev->certs_data)
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/virt/coco/sev-guest/sev-guest.c:480:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   drivers/virt/coco/sev-guest/sev-guest.c:450:2: note: remove the 'if' if its condition is always false
+           if (!snp_dev->certs_data)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/virt/coco/sev-guest/sev-guest.c:424:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   1 warning generated.
 
 
-vim +749 drivers/soundwire/stream.c
+vim +450 drivers/virt/coco/sev-guest/sev-guest.c
 
-99b8a5d608a642 Sanyog Kale          2018-04-26  740  
-ce6e74d008ff5c Shreyas NC           2018-07-27  741  /**
-ce6e74d008ff5c Shreyas NC           2018-07-27  742   * sdw_ml_sync_bank_switch: Multilink register bank switch
-ce6e74d008ff5c Shreyas NC           2018-07-27  743   *
-ce6e74d008ff5c Shreyas NC           2018-07-27  744   * @bus: SDW bus instance
-ce6e74d008ff5c Shreyas NC           2018-07-27  745   *
-ce6e74d008ff5c Shreyas NC           2018-07-27  746   * Caller function should free the buffers on error
-ce6e74d008ff5c Shreyas NC           2018-07-27  747   */
-bd040bf119f195 Krzysztof Kozlowski  2023-11-24  748  static int sdw_ml_sync_bank_switch(struct sdw_bus *bus, bool multi_link)
-ce6e74d008ff5c Shreyas NC           2018-07-27 @749  {
-ce6e74d008ff5c Shreyas NC           2018-07-27  750  	unsigned long time_left;
-ce6e74d008ff5c Shreyas NC           2018-07-27  751  
-bd040bf119f195 Krzysztof Kozlowski  2023-11-24  752  	if (!multi_link)
-ce6e74d008ff5c Shreyas NC           2018-07-27  753  		return 0;
-ce6e74d008ff5c Shreyas NC           2018-07-27  754  
-ce6e74d008ff5c Shreyas NC           2018-07-27  755  	/* Wait for completion of transfer */
-ce6e74d008ff5c Shreyas NC           2018-07-27  756  	time_left = wait_for_completion_timeout(&bus->defer_msg.complete,
-ce6e74d008ff5c Shreyas NC           2018-07-27  757  						bus->bank_switch_timeout);
-ce6e74d008ff5c Shreyas NC           2018-07-27  758  
-ce6e74d008ff5c Shreyas NC           2018-07-27  759  	if (!time_left) {
-17ed5bef49f42e Pierre-Louis Bossart 2019-05-01  760  		dev_err(bus->dev, "Controller Timed out on bank switch\n");
-ce6e74d008ff5c Shreyas NC           2018-07-27  761  		return -ETIMEDOUT;
-ce6e74d008ff5c Shreyas NC           2018-07-27  762  	}
-ce6e74d008ff5c Shreyas NC           2018-07-27  763  
-ce6e74d008ff5c Shreyas NC           2018-07-27  764  	bus->params.curr_bank = !bus->params.curr_bank;
-ce6e74d008ff5c Shreyas NC           2018-07-27  765  	bus->params.next_bank = !bus->params.next_bank;
-ce6e74d008ff5c Shreyas NC           2018-07-27  766  
-ce6e74d008ff5c Shreyas NC           2018-07-27  767  	if (bus->defer_msg.msg) {
-ce6e74d008ff5c Shreyas NC           2018-07-27  768  		kfree(bus->defer_msg.msg->buf);
-ce6e74d008ff5c Shreyas NC           2018-07-27  769  		kfree(bus->defer_msg.msg);
-5ec0c8721c06fc Pierre-Louis Bossart 2023-01-19  770  		bus->defer_msg.msg = NULL;
-ce6e74d008ff5c Shreyas NC           2018-07-27  771  	}
-ce6e74d008ff5c Shreyas NC           2018-07-27  772  
-ce6e74d008ff5c Shreyas NC           2018-07-27  773  	return 0;
-ce6e74d008ff5c Shreyas NC           2018-07-27  774  }
-ce6e74d008ff5c Shreyas NC           2018-07-27  775  
-
-:::::: The code at line 749 was first introduced by commit
-:::::: ce6e74d008ff5c8b43e3bafaa7343bf7eb69593e soundwire: Add support for multi link bank switch
-
-:::::: TO: Shreyas NC <shreyas.nc@intel.com>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+f47906782c7629 drivers/virt/coco/sev-guest/sev-guest.c Dan Williams          2023-10-10  418  
+2bf93ffbb97e06 drivers/virt/coco/sevguest/sevguest.c   Tom Lendacky          2022-04-20  419  static int __init sev_guest_probe(struct platform_device *pdev)
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  420  {
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  421  	struct device *dev = &pdev->dev;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  422  	struct snp_guest_dev *snp_dev;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  423  	struct miscdevice *misc;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  424  	int ret;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  425  
+d6fd48eff7506b drivers/virt/coco/sev-guest/sev-guest.c Borislav Petkov (AMD  2023-02-15  426) 	if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
+d6fd48eff7506b drivers/virt/coco/sev-guest/sev-guest.c Borislav Petkov (AMD  2023-02-15  427) 		return -ENODEV;
+d6fd48eff7506b drivers/virt/coco/sev-guest/sev-guest.c Borislav Petkov (AMD  2023-02-15  428) 
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  429  	snp_dev = devm_kzalloc(&pdev->dev, sizeof(struct snp_guest_dev), GFP_KERNEL);
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  430  	if (!snp_dev)
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  431  		return -ENOMEM;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  432  
+523ae6405daace drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  433  	if (!snp_assign_vmpck(snp_dev, vmpck_id)) {
+523ae6405daace drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  434  		dev_err(dev, "invalid vmpck id %u\n", vmpck_id);
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  435  		ret = -EINVAL;
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  436  		goto e_free_snpdev;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  437  	}
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  438  
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  439  	if (snp_setup_psp_messaging(snp_dev)) {
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  440  		dev_err(dev, "Unable to setup PSP messaging vmpck id %u\n", snp_dev->vmpck_id);
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  441  		ret = -ENODEV;
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  442  		goto e_free_snpdev;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  443  	}
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  444  
+4ec0ddf1cc3c0c drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  445  	mutex_init(&snp_dev->cmd_mutex);
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  446  	platform_set_drvdata(pdev, snp_dev);
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  447  	snp_dev->dev = dev;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  448  
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  449  	snp_dev->certs_data = alloc_shared_pages(SEV_FW_BLOB_MAX_SIZE);
+d80b494f712317 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07 @450  	if (!snp_dev->certs_data)
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  451  		goto e_free_ctx;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  452  
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  453  	misc = &snp_dev->misc;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  454  	misc->minor = MISC_DYNAMIC_MINOR;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  455  	misc->name = DEVICE_NAME;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  456  	misc->fops = &snp_guest_fops;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  457  
+f47906782c7629 drivers/virt/coco/sev-guest/sev-guest.c Dan Williams          2023-10-10  458  	ret = tsm_register(&sev_tsm_ops, snp_dev, &tsm_report_extra_type);
+f47906782c7629 drivers/virt/coco/sev-guest/sev-guest.c Dan Williams          2023-10-10  459  	if (ret)
+f47906782c7629 drivers/virt/coco/sev-guest/sev-guest.c Dan Williams          2023-10-10  460  		goto e_free_cert_data;
+f47906782c7629 drivers/virt/coco/sev-guest/sev-guest.c Dan Williams          2023-10-10  461  
+f47906782c7629 drivers/virt/coco/sev-guest/sev-guest.c Dan Williams          2023-10-10  462  	ret = devm_add_action_or_reset(&pdev->dev, unregister_sev_tsm, NULL);
+f47906782c7629 drivers/virt/coco/sev-guest/sev-guest.c Dan Williams          2023-10-10  463  	if (ret)
+f47906782c7629 drivers/virt/coco/sev-guest/sev-guest.c Dan Williams          2023-10-10  464  		goto e_free_cert_data;
+f47906782c7629 drivers/virt/coco/sev-guest/sev-guest.c Dan Williams          2023-10-10  465  
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  466  	ret =  misc_register(misc);
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  467  	if (ret)
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  468  		goto e_free_cert_data;
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  469  
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  470  	dev_info(dev, "Initialized SEV guest driver (using vmpck_id %u)\n", snp_dev->vmpck_id);
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  471  
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  472  	return 0;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  473  
+d80b494f712317 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  474  e_free_cert_data:
+d80b494f712317 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  475  	free_shared_pages(snp_dev->certs_data, SEV_FW_BLOB_MAX_SIZE);
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  476  e_free_ctx:
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  477  	kfree(snp_dev->ctx);
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  478  e_free_snpdev:
+81b918a5844565 drivers/virt/coco/sev-guest/sev-guest.c Nikunj A Dadhania     2023-11-28  479  	kfree(snp_dev);
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  480  	return ret;
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  481  }
+fce96cf0443083 drivers/virt/coco/sevguest/sevguest.c   Brijesh Singh         2022-03-07  482  
 
 -- 
 0-DAY CI Kernel Test Service
