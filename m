@@ -1,126 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A235544364
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 20:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6574437A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 21:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MEu5hjsV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701205128; x=1732741128;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=svqXuknUfQN8QRePst9SzpFQ/sUKnYFfi2YT176P/kQ=;
-  b=MEu5hjsVWGopMdpcKQoV2AdsPQin1kICqrjYH7oO/25q1woMjJpM9apz
-   MXFdTXtbJ9DKeMGjJhGnIRIOZuhA64cwYChfPuPmlh3XA9hjBZnAh14vr
-   IUF/5VZWsDEgvNy5hbEXCI76iYHSuQiZe2Rgs83qgcNLVfN27JyJ7CWbv
-   ibxW8Gx9COPpExynNLI0F04/DROhZZW/veX7Y4gnEsE0CejTiW4QS6Dfo
-   uL/PAxa+uRk5/XAt+uhdsdRxtjdgXVrbYh4HypVPgWgQpy4n05cOjbSPU
-   ffcY8w+BI67gWSVh197xNcYSB5dIH8zEynMUUyCIixgQbvDHSWEQpMosj
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="424174869"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="424174869"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 12:58:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="797697434"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="797697434"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 28 Nov 2023 12:58:44 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r85AH-00084C-23;
-	Tue, 28 Nov 2023 20:58:41 +0000
-Date: Wed, 29 Nov 2023 04:49:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Richard <thomas.richard@bootlin.com>, rafael@kernel.org,
-	daniel.lezcano@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, rui.zhang@intel.com, lukasz.luba@arm.com,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, gregory.clement@bootlin.com,
-	theo.lebrun@bootlin.com, u-kumar1@ti.com,
-	Thomas Richard <thomas.richard@bootlin.com>
-Subject: Re: [PATCH] thermal: k3_j72xx_bandgap: implement suspend/resume
- support
-Message-ID: <202311290245.aUcGn8BT-lkp@intel.com>
-References: <20231128130332.584127-1-thomas.richard@bootlin.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UVqMdctB"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AS9xhE9014934;
+	Tue, 28 Nov 2023 21:01:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=paDe/iNFmsZdrFr+e8yTyjXKdqvtKJ5WsVGXHBzNBaA=;
+ b=UVqMdctBXsCsByODIMfUhIZhvpK1zvL41ztFv0H//3zhpFImcHc5I3bcwPAvOVS8RLCG
+ qz4eUHIWxoLlQzR/wUEnyZK9u4jMnHnoSvYxO0oO5Bh/AsWDj3oWNDX5VGzUZ7U26j7h
+ d/KcRN1AP04hDPizbKM0E2UOdHfHBEZFyvwp/EP4m0tMLxA8nBD9YbpXjUvfRLr7BNoG
+ B63M2s4CyaLRg4lPRBB+H9HcbKOz+ACUWsYIWo0KjzNaHRfP1tHyIBF5HhG9VLOjfShY
+ C7scWCnPc5dvj4yYJS7IP2g3PrNV/B0D/8NIqQNA9L/zUGzp0mj18uZtb5Adr0OZECgm aw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3un586u2ex-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Nov 2023 21:01:23 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ASL1LVX009692
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Nov 2023 21:01:21 GMT
+Received: from [10.110.63.243] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 28 Nov
+ 2023 13:01:21 -0800
+Message-ID: <fc1dbe4a-a810-445c-9398-60a5e55990a2@quicinc.com>
+Date: Tue, 28 Nov 2023 13:01:20 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128130332.584127-1-thomas.richard@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] wifi: cfg80211: fix CQM for non-range use
+Content-Language: en-US
+To: Johannes Berg <johannes@sipsolutions.net>,
+        Michael Walle
+	<mwalle@kernel.org>, Kees Cook <keescook@chromium.org>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+        <linux-wireless@vger.kernel.org>, Max Schulze <max.schulze@online.de>
+References: <202311090752.hWcJWAHL-lkp@intel.com>
+ <202311090752.hWcJWAHL-lkp@intel.com>
+ <1c37d99f722f891a50c540853e54d4e36bdf0157.camel@sipsolutions.net>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <1c37d99f722f891a50c540853e54d4e36bdf0157.camel@sipsolutions.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: WaQfPiCdTt_S4kE9z9lwCkMNtcsqI8Rw
+X-Proofpoint-GUID: WaQfPiCdTt_S4kE9z9lwCkMNtcsqI8Rw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-28_23,2023-11-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=520 priorityscore=1501 spamscore=0 impostorscore=0
+ adultscore=0 mlxscore=0 phishscore=0 suspectscore=0 clxscore=1011
+ bulkscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311060000 definitions=main-2311280167
 
-Hi Thomas,
+On 11/28/2023 10:23 AM, Johannes Berg wrote:
+> On Tue, 2023-11-28 at 15:44 +0100, Michael Walle wrote:
+>> Hi,
+>>
+>>> net/wireless/nl80211.c: In function 'nl80211_set_cqm_rssi.isra':
+>>> net/wireless/nl80211.c:12892:17: warning: 'memcpy' specified bound
+>>> 18446744073709551615 exceeds maximum object size 9223372036854775807
+>>> [-Wstringop-overflow=]
+>>
+>> FWIW, I'm getting the same error with the current next (next-20231128).
+>>
+> 
+> I actually forgot about that, but does anyone actually know what this is
+> trying to tell me?
+> 
+> The code seems to be
+> 
+>         if (n_thresholds) {
+>                 cqm_config = kzalloc(struct_size(cqm_config, rssi_thresholds,
+>                                                  n_thresholds),
+>                                      GFP_KERNEL);
+>                 if (!cqm_config)
+>                         return -ENOMEM;
+> 
+>                 cqm_config->rssi_hyst = hysteresis;
+>                 cqm_config->n_rssi_thresholds = n_thresholds;
+>                 memcpy(cqm_config->rssi_thresholds, thresholds,
+>                        flex_array_size(cqm_config, rssi_thresholds,
+>                                        n_thresholds));
+> 
+> 
+> Or does it just want to say n_thresholds shouldn't be a signed variable?
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/thermal]
-[also build test WARNING on linus/master v6.7-rc3 next-20231128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Richard/thermal-k3_j72xx_bandgap-implement-suspend-resume-support/20231128-211217
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20231128130332.584127-1-thomas.richard%40bootlin.com
-patch subject: [PATCH] thermal: k3_j72xx_bandgap: implement suspend/resume support
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231129/202311290245.aUcGn8BT-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311290245.aUcGn8BT-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311290245.aUcGn8BT-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/thermal/k3_j72xx_bandgap.c:554:12: warning: 'k3_j72xx_bandgap_resume' defined but not used [-Wunused-function]
-     554 | static int k3_j72xx_bandgap_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/thermal/k3_j72xx_bandgap.c:547:12: warning: 'k3_j72xx_bandgap_suspend' defined but not used [-Wunused-function]
-     547 | static int k3_j72xx_bandgap_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/k3_j72xx_bandgap_resume +554 drivers/thermal/k3_j72xx_bandgap.c
-
-   545	
-   546	#ifdef CONFIG_PM
- > 547	static int k3_j72xx_bandgap_suspend(struct device *dev)
-   548	{
-   549		pm_runtime_put_sync(dev);
-   550		pm_runtime_disable(dev);
-   551		return 0;
-   552	}
-   553	
- > 554	static int k3_j72xx_bandgap_resume(struct device *dev)
-   555	{
-   556		struct k3_j72xx_bandgap *bgp = dev_get_drvdata(dev);
-   557		int ret;
-   558	
-   559		pm_runtime_enable(dev);
-   560		ret = pm_runtime_get_sync(dev);
-   561		if (ret < 0) {
-   562			pm_runtime_put_noidle(dev);
-   563			pm_runtime_disable(dev);
-   564			return ret;
-   565		}
-   566	
-   567		k3_j72xx_bandgap_init_hw(bgp);
-   568	
-   569		return 0;
-   570	}
-   571	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
++Kees for flex array education :)
