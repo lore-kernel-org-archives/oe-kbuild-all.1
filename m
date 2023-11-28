@@ -1,47 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101EDD29A;
-	Tue, 28 Nov 2023 09:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7BF1C3C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 11:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N6SfYkpO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zms6n2vG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701164608; x=1732700608;
+  t=1701170416; x=1732706416;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=47Ej6yoMs5q0oT/KAkqfjhy0ayMFym0CVVhgfEHM5kA=;
-  b=N6SfYkpO692biSs1BbTNJ2ZGyqYfSBmV41R99wm347GhLC2ubxgId8oJ
-   bFjzGeZCGMvAYTyiQsViPlxGZ25lvGI+Q3/J5ZUfjCO14oHd0gR/wL/o3
-   OghuSE/YFxWHBHOjwK3DbNu24Y2LbJmXZGy8VBfhBWrwSW/Gcq5jO21si
-   FJv7jQ9FFRaTLqRWf65oxYT0LXSqhcvi+PD1slPwHU1mN4Ur9mAvcIKVT
-   mSyOHioiYjC23LTtj+PLFCA4GGw27DYxU9vRfZ2hF2SBlvA6c1RpniajX
-   965Sq3j9qv176P1YUMtXV1YWShKwz0IQVym/w/uzBowvUDAFQzSrwRZ6I
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="424041077"
+  bh=qSaDzPStYpOmYXay6eUAmLjv4q2mpAbM97NA9jiSQlw=;
+  b=Zms6n2vGmqxi041qnjVh6y5+IgMpdVi22QSdQSa4lQK91U+Y0tjN9QxJ
+   zHF70p7SlIYrCO+szOB4qBvnQDJBSwqN0DnJdDevF7U/j6tXXjUL2LMj6
+   OOwXHmRV3Lr+PA12sMZ9Sxzhl8UySyr6IPKkoMjhiw3KVqs3BupItByGM
+   7Mz742NuH4YaYU1RuFllozjrCxxYCBdLwYChZkSCDPM0XRDbzwuRvd/su
+   rTDg4U7QMBMP/S9IShg1Sb/2UZ/u2cSU2KZu65F+aNOGzR4wCMm/uFQGE
+   1Sc17QJsUt5LaWfHmhb88BH4SxDSkk7ZZ0emUuqlyxij+46+cZLOASHug
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="390055269"
 X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="424041077"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 01:43:27 -0800
+   d="scan'208";a="390055269"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 03:19:46 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="772274033"
 X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="10066780"
+   d="scan'208";a="772274033"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Nov 2023 01:43:26 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 28 Nov 2023 03:19:40 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r7ucm-0007Nb-0l;
-	Tue, 28 Nov 2023 09:43:24 +0000
-Date: Tue, 28 Nov 2023 17:43:17 +0800
+	id 1r7w7t-0007TE-39;
+	Tue, 28 Nov 2023 11:19:37 +0000
+Date: Tue, 28 Nov 2023 19:18:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC][PATCH] tracing: Allow creating instances with specified
- system events
-Message-ID: <202311281631.XZ2umoXl-lkp@intel.com>
-References: <20231127174108.3c331c9c@gandalf.local.home>
+To: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
+	Chandan Babu R <chandan.babu@oracle.com>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Dave Chinner <dchinner@redhat.com>,
+	Allison Henderson <allison.henderson@oracle.com>,
+	Zhang Tianci <zhangtianci.1997@bytedance.com>,
+	Brian Foster <bfoster@redhat.com>, Ben Myers <bpm@sgi.com>,
+	linux-xfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	xieyongji@bytedance.com, me@jcix.top
+Subject: Re: [PATCH 2/2] xfs: update dir3 leaf block metadata after swap
+Message-ID: <202311281800.GTI1cgFY-lkp@intel.com>
+References: <20231128053202.29007-3-zhangjiachen.jaycee@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,82 +57,290 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231127174108.3c331c9c@gandalf.local.home>
+In-Reply-To: <20231128053202.29007-3-zhangjiachen.jaycee@bytedance.com>
 
-Hi Steven,
+Hi Jiachen,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next linus/master v6.7-rc3 next-20231128]
+[auto build test ERROR on xfs-linux/for-next]
+[also build test ERROR on linus/master v6.7-rc3 next-20231128]
+[cannot apply to djwong-xfs/djwong-devel]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Allow-creating-instances-with-specified-system-events/20231128-064317
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20231127174108.3c331c9c%40gandalf.local.home
-patch subject: [RFC][PATCH] tracing: Allow creating instances with specified system events
-config: i386-buildonly-randconfig-005-20231128 (https://download.01.org/0day-ci/archive/20231128/202311281631.XZ2umoXl-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311281631.XZ2umoXl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiachen-Zhang/xfs-ensure-tmp_logflags-is-initialized-in-xfs_bmap_del_extent_real/20231128-135955
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20231128053202.29007-3-zhangjiachen.jaycee%40bytedance.com
+patch subject: [PATCH 2/2] xfs: update dir3 leaf block metadata after swap
+config: powerpc64-randconfig-r081-20231128 (https://download.01.org/0day-ci/archive/20231128/202311281800.GTI1cgFY-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311281800.GTI1cgFY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311281631.XZ2umoXl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311281800.GTI1cgFY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/trace/trace.c:9640: warning: Function parameter or member 'systems' not described in 'trace_array_get_by_name'
+   In file included from include/linux/byteorder/big_endian.h:5,
+                    from arch/powerpc/include/uapi/asm/byteorder.h:14,
+                    from arch/powerpc/include/asm/qspinlock_types.h:6,
+                    from arch/powerpc/include/asm/spinlock_types.h:10,
+                    from include/linux/spinlock_types_raw.h:7,
+                    from include/linux/ratelimit_types.h:7,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/powerpc/include/asm/bug.h:116,
+                    from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:5,
+                    from include/linux/string.h:295,
+                    from include/linux/uuid.h:11,
+                    from fs/xfs/xfs_linux.h:10,
+                    from fs/xfs/xfs.h:22,
+                    from fs/xfs/libxfs/xfs_da_btree.c:7:
+   fs/xfs/libxfs/xfs_da_btree.c: In function 'xfs_da3_swap_lastblock':
+>> fs/xfs/libxfs/xfs_da_btree.c:2330:50: error: 'struct xfs_buf' has no member named 'b_bn'
+    2330 |                 dap->blkno = cpu_to_be64(dead_buf->b_bn);
+         |                                                  ^~
+   include/uapi/linux/byteorder/big_endian.h:38:51: note: in definition of macro '__cpu_to_be64'
+      38 | #define __cpu_to_be64(x) ((__force __be64)(__u64)(x))
+         |                                                   ^
+   fs/xfs/libxfs/xfs_da_btree.c:2330:30: note: in expansion of macro 'cpu_to_be64'
+    2330 |                 dap->blkno = cpu_to_be64(dead_buf->b_bn);
+         |                              ^~~~~~~~~~~
 
 
-vim +9640 kernel/trace/trace.c
+vim +2330 fs/xfs/libxfs/xfs_da_btree.c
 
-277ba04461c274 Steven Rostedt          2012-08-03  9622  
-28879787147358 Divya Indi              2019-11-20  9623  /**
-28879787147358 Divya Indi              2019-11-20  9624   * trace_array_get_by_name - Create/Lookup a trace array, given its name.
-28879787147358 Divya Indi              2019-11-20  9625   * @name: The name of the trace array to be looked up/created.
-28879787147358 Divya Indi              2019-11-20  9626   *
-28879787147358 Divya Indi              2019-11-20  9627   * Returns pointer to trace array with given name.
-28879787147358 Divya Indi              2019-11-20  9628   * NULL, if it cannot be created.
-28879787147358 Divya Indi              2019-11-20  9629   *
-28879787147358 Divya Indi              2019-11-20  9630   * NOTE: This function increments the reference counter associated with the
-28879787147358 Divya Indi              2019-11-20  9631   * trace array returned. This makes sure it cannot be freed while in use.
-28879787147358 Divya Indi              2019-11-20  9632   * Use trace_array_put() once the trace array is no longer needed.
-28394da2588816 Steven Rostedt (VMware  2020-01-24  9633)  * If the trace_array is to be freed, trace_array_destroy() needs to
-28394da2588816 Steven Rostedt (VMware  2020-01-24  9634)  * be called after the trace_array_put(), or simply let user space delete
-28394da2588816 Steven Rostedt (VMware  2020-01-24  9635)  * it from the tracefs instances directory. But until the
-28394da2588816 Steven Rostedt (VMware  2020-01-24  9636)  * trace_array_put() is called, user space can not delete it.
-28879787147358 Divya Indi              2019-11-20  9637   *
-28879787147358 Divya Indi              2019-11-20  9638   */
-d0f64c321316b8 Steven Rostedt (Google  2023-11-27  9639) struct trace_array *trace_array_get_by_name(const char *name, const char *systems)
-f45d1225adb047 Divya Indi              2019-03-20 @9640  {
-28879787147358 Divya Indi              2019-11-20  9641  	struct trace_array *tr;
-28879787147358 Divya Indi              2019-11-20  9642  
-28879787147358 Divya Indi              2019-11-20  9643  	mutex_lock(&event_mutex);
-28879787147358 Divya Indi              2019-11-20  9644  	mutex_lock(&trace_types_lock);
-28879787147358 Divya Indi              2019-11-20  9645  
-28879787147358 Divya Indi              2019-11-20  9646  	list_for_each_entry(tr, &ftrace_trace_arrays, list) {
-28879787147358 Divya Indi              2019-11-20  9647  		if (tr->name && strcmp(tr->name, name) == 0)
-28879787147358 Divya Indi              2019-11-20  9648  			goto out_unlock;
-28879787147358 Divya Indi              2019-11-20  9649  	}
-28879787147358 Divya Indi              2019-11-20  9650  
-d0f64c321316b8 Steven Rostedt (Google  2023-11-27  9651) 	tr = trace_array_create_systems(name, systems);
-28879787147358 Divya Indi              2019-11-20  9652  
-28879787147358 Divya Indi              2019-11-20  9653  	if (IS_ERR(tr))
-28879787147358 Divya Indi              2019-11-20  9654  		tr = NULL;
-28879787147358 Divya Indi              2019-11-20  9655  out_unlock:
-28879787147358 Divya Indi              2019-11-20  9656  	if (tr)
-28879787147358 Divya Indi              2019-11-20  9657  		tr->ref++;
-28879787147358 Divya Indi              2019-11-20  9658  
-28879787147358 Divya Indi              2019-11-20  9659  	mutex_unlock(&trace_types_lock);
-28879787147358 Divya Indi              2019-11-20  9660  	mutex_unlock(&event_mutex);
-28879787147358 Divya Indi              2019-11-20  9661  	return tr;
-277ba04461c274 Steven Rostedt          2012-08-03  9662  }
-28879787147358 Divya Indi              2019-11-20  9663  EXPORT_SYMBOL_GPL(trace_array_get_by_name);
-277ba04461c274 Steven Rostedt          2012-08-03  9664  
+  2254	
+  2255	/*
+  2256	 * Ick.  We need to always be able to remove a btree block, even
+  2257	 * if there's no space reservation because the filesystem is full.
+  2258	 * This is called if xfs_bunmapi on a btree block fails due to ENOSPC.
+  2259	 * It swaps the target block with the last block in the file.  The
+  2260	 * last block in the file can always be removed since it can't cause
+  2261	 * a bmap btree split to do that.
+  2262	 */
+  2263	STATIC int
+  2264	xfs_da3_swap_lastblock(
+  2265		struct xfs_da_args	*args,
+  2266		xfs_dablk_t		*dead_blknop,
+  2267		struct xfs_buf		**dead_bufp)
+  2268	{
+  2269		struct xfs_da_blkinfo	*dead_info;
+  2270		struct xfs_da_blkinfo	*sib_info;
+  2271		struct xfs_da_intnode	*par_node;
+  2272		struct xfs_da_intnode	*dead_node;
+  2273		struct xfs_dir2_leaf	*dead_leaf2;
+  2274		struct xfs_da_node_entry *btree;
+  2275		struct xfs_da3_icnode_hdr par_hdr;
+  2276		struct xfs_inode	*dp;
+  2277		struct xfs_trans	*tp;
+  2278		struct xfs_mount	*mp;
+  2279		struct xfs_buf		*dead_buf;
+  2280		struct xfs_buf		*last_buf;
+  2281		struct xfs_buf		*sib_buf;
+  2282		struct xfs_buf		*par_buf;
+  2283		xfs_dahash_t		dead_hash;
+  2284		xfs_fileoff_t		lastoff;
+  2285		xfs_dablk_t		dead_blkno;
+  2286		xfs_dablk_t		last_blkno;
+  2287		xfs_dablk_t		sib_blkno;
+  2288		xfs_dablk_t		par_blkno;
+  2289		int			error;
+  2290		int			w;
+  2291		int			entno;
+  2292		int			level;
+  2293		int			dead_level;
+  2294	
+  2295		trace_xfs_da_swap_lastblock(args);
+  2296	
+  2297		dead_buf = *dead_bufp;
+  2298		dead_blkno = *dead_blknop;
+  2299		tp = args->trans;
+  2300		dp = args->dp;
+  2301		w = args->whichfork;
+  2302		ASSERT(w == XFS_DATA_FORK);
+  2303		mp = dp->i_mount;
+  2304		lastoff = args->geo->freeblk;
+  2305		error = xfs_bmap_last_before(tp, dp, &lastoff, w);
+  2306		if (error)
+  2307			return error;
+  2308		if (XFS_IS_CORRUPT(mp, lastoff == 0))
+  2309			return -EFSCORRUPTED;
+  2310		/*
+  2311		 * Read the last block in the btree space.
+  2312		 */
+  2313		last_blkno = (xfs_dablk_t)lastoff - args->geo->fsbcount;
+  2314		error = xfs_da3_node_read(tp, dp, last_blkno, &last_buf, w);
+  2315		if (error)
+  2316			return error;
+  2317		/*
+  2318		 * Copy the last block into the dead buffer and log it.
+  2319		 */
+  2320		memcpy(dead_buf->b_addr, last_buf->b_addr, args->geo->blksize);
+  2321		dead_info = dead_buf->b_addr;
+  2322		/*
+  2323		 * Update the moved block's blkno if it's a dir3 leaf block
+  2324		 */
+  2325		if (dead_info->magic == cpu_to_be16(XFS_DIR3_LEAF1_MAGIC) ||
+  2326		    dead_info->magic == cpu_to_be16(XFS_DIR3_LEAFN_MAGIC) ||
+  2327		    dead_info->magic == cpu_to_be16(XFS_ATTR3_LEAF_MAGIC)) {
+  2328			struct xfs_da3_blkinfo *dap = (struct xfs_da3_blkinfo *)dead_info;
+  2329	
+> 2330			dap->blkno = cpu_to_be64(dead_buf->b_bn);
+  2331		}
+  2332		xfs_trans_log_buf(tp, dead_buf, 0, args->geo->blksize - 1);
+  2333		/*
+  2334		 * Get values from the moved block.
+  2335		 */
+  2336		if (dead_info->magic == cpu_to_be16(XFS_DIR2_LEAFN_MAGIC) ||
+  2337		    dead_info->magic == cpu_to_be16(XFS_DIR3_LEAFN_MAGIC)) {
+  2338			struct xfs_dir3_icleaf_hdr leafhdr;
+  2339			struct xfs_dir2_leaf_entry *ents;
+  2340	
+  2341			dead_leaf2 = (xfs_dir2_leaf_t *)dead_info;
+  2342			xfs_dir2_leaf_hdr_from_disk(dp->i_mount, &leafhdr,
+  2343						    dead_leaf2);
+  2344			ents = leafhdr.ents;
+  2345			dead_level = 0;
+  2346			dead_hash = be32_to_cpu(ents[leafhdr.count - 1].hashval);
+  2347		} else {
+  2348			struct xfs_da3_icnode_hdr deadhdr;
+  2349	
+  2350			dead_node = (xfs_da_intnode_t *)dead_info;
+  2351			xfs_da3_node_hdr_from_disk(dp->i_mount, &deadhdr, dead_node);
+  2352			btree = deadhdr.btree;
+  2353			dead_level = deadhdr.level;
+  2354			dead_hash = be32_to_cpu(btree[deadhdr.count - 1].hashval);
+  2355		}
+  2356		sib_buf = par_buf = NULL;
+  2357		/*
+  2358		 * If the moved block has a left sibling, fix up the pointers.
+  2359		 */
+  2360		if ((sib_blkno = be32_to_cpu(dead_info->back))) {
+  2361			error = xfs_da3_node_read(tp, dp, sib_blkno, &sib_buf, w);
+  2362			if (error)
+  2363				goto done;
+  2364			sib_info = sib_buf->b_addr;
+  2365			if (XFS_IS_CORRUPT(mp,
+  2366					   be32_to_cpu(sib_info->forw) != last_blkno ||
+  2367					   sib_info->magic != dead_info->magic)) {
+  2368				error = -EFSCORRUPTED;
+  2369				goto done;
+  2370			}
+  2371			sib_info->forw = cpu_to_be32(dead_blkno);
+  2372			xfs_trans_log_buf(tp, sib_buf,
+  2373				XFS_DA_LOGRANGE(sib_info, &sib_info->forw,
+  2374						sizeof(sib_info->forw)));
+  2375			sib_buf = NULL;
+  2376		}
+  2377		/*
+  2378		 * If the moved block has a right sibling, fix up the pointers.
+  2379		 */
+  2380		if ((sib_blkno = be32_to_cpu(dead_info->forw))) {
+  2381			error = xfs_da3_node_read(tp, dp, sib_blkno, &sib_buf, w);
+  2382			if (error)
+  2383				goto done;
+  2384			sib_info = sib_buf->b_addr;
+  2385			if (XFS_IS_CORRUPT(mp,
+  2386					   be32_to_cpu(sib_info->back) != last_blkno ||
+  2387					   sib_info->magic != dead_info->magic)) {
+  2388				error = -EFSCORRUPTED;
+  2389				goto done;
+  2390			}
+  2391			sib_info->back = cpu_to_be32(dead_blkno);
+  2392			xfs_trans_log_buf(tp, sib_buf,
+  2393				XFS_DA_LOGRANGE(sib_info, &sib_info->back,
+  2394						sizeof(sib_info->back)));
+  2395			sib_buf = NULL;
+  2396		}
+  2397		par_blkno = args->geo->leafblk;
+  2398		level = -1;
+  2399		/*
+  2400		 * Walk down the tree looking for the parent of the moved block.
+  2401		 */
+  2402		for (;;) {
+  2403			error = xfs_da3_node_read(tp, dp, par_blkno, &par_buf, w);
+  2404			if (error)
+  2405				goto done;
+  2406			par_node = par_buf->b_addr;
+  2407			xfs_da3_node_hdr_from_disk(dp->i_mount, &par_hdr, par_node);
+  2408			if (XFS_IS_CORRUPT(mp,
+  2409					   level >= 0 && level != par_hdr.level + 1)) {
+  2410				error = -EFSCORRUPTED;
+  2411				goto done;
+  2412			}
+  2413			level = par_hdr.level;
+  2414			btree = par_hdr.btree;
+  2415			for (entno = 0;
+  2416			     entno < par_hdr.count &&
+  2417			     be32_to_cpu(btree[entno].hashval) < dead_hash;
+  2418			     entno++)
+  2419				continue;
+  2420			if (XFS_IS_CORRUPT(mp, entno == par_hdr.count)) {
+  2421				error = -EFSCORRUPTED;
+  2422				goto done;
+  2423			}
+  2424			par_blkno = be32_to_cpu(btree[entno].before);
+  2425			if (level == dead_level + 1)
+  2426				break;
+  2427			xfs_trans_brelse(tp, par_buf);
+  2428			par_buf = NULL;
+  2429		}
+  2430		/*
+  2431		 * We're in the right parent block.
+  2432		 * Look for the right entry.
+  2433		 */
+  2434		for (;;) {
+  2435			for (;
+  2436			     entno < par_hdr.count &&
+  2437			     be32_to_cpu(btree[entno].before) != last_blkno;
+  2438			     entno++)
+  2439				continue;
+  2440			if (entno < par_hdr.count)
+  2441				break;
+  2442			par_blkno = par_hdr.forw;
+  2443			xfs_trans_brelse(tp, par_buf);
+  2444			par_buf = NULL;
+  2445			if (XFS_IS_CORRUPT(mp, par_blkno == 0)) {
+  2446				error = -EFSCORRUPTED;
+  2447				goto done;
+  2448			}
+  2449			error = xfs_da3_node_read(tp, dp, par_blkno, &par_buf, w);
+  2450			if (error)
+  2451				goto done;
+  2452			par_node = par_buf->b_addr;
+  2453			xfs_da3_node_hdr_from_disk(dp->i_mount, &par_hdr, par_node);
+  2454			if (XFS_IS_CORRUPT(mp, par_hdr.level != level)) {
+  2455				error = -EFSCORRUPTED;
+  2456				goto done;
+  2457			}
+  2458			btree = par_hdr.btree;
+  2459			entno = 0;
+  2460		}
+  2461		/*
+  2462		 * Update the parent entry pointing to the moved block.
+  2463		 */
+  2464		btree[entno].before = cpu_to_be32(dead_blkno);
+  2465		xfs_trans_log_buf(tp, par_buf,
+  2466			XFS_DA_LOGRANGE(par_node, &btree[entno].before,
+  2467					sizeof(btree[entno].before)));
+  2468		*dead_blknop = last_blkno;
+  2469		*dead_bufp = last_buf;
+  2470		return 0;
+  2471	done:
+  2472		if (par_buf)
+  2473			xfs_trans_brelse(tp, par_buf);
+  2474		if (sib_buf)
+  2475			xfs_trans_brelse(tp, sib_buf);
+  2476		xfs_trans_brelse(tp, last_buf);
+  2477		return error;
+  2478	}
+  2479	
 
 -- 
 0-DAY CI Kernel Test Service
