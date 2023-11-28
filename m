@@ -1,107 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793A415BB;
-	Tue, 28 Nov 2023 07:24:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE6C15AEA;
+	Tue, 28 Nov 2023 08:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sto11whm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10D15C433C8;
-	Tue, 28 Nov 2023 07:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701156273;
-	bh=wHLpDRtlsJs4HepAIlsqx4TqaV8tZMOkNBJ09guFv/o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sto11whmosIJgJVF6UpSCqU4GgxplcN17T6I2Ft75kYbSXXtcT4NIBqYeG/k9dh7l
-	 0wJo5AePlq8xtkKemVs8rjk/QRgAWOrjgOC23mk/ptrJy5cxa/99YoPJ5tTB3n/sen
-	 WFRcPMedsenOOAYtlRhul94JxbjLCSrqVlBjNo6c8K4uHSY7JtrMuUct/gJlNVP676
-	 LcIvA5Sdh01VCtjrIEhqnX8bK40MSI3nwLlxJ3jcgPw4C9K1Gz2JK1PVElXuEV/bF1
-	 ck6rCI4ZWmWbUAhN01r6kgRypuZ2uRqG+j8oq1Uc9NjXCe3Y7W9iq5tg91I9e7pxxH
-	 vpTaVkee3uqXQ==
-Message-ID: <dae38777-0ac3-4881-a566-a0a8fce5e6ed@kernel.org>
-Date: Tue, 28 Nov 2023 08:24:27 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bt9gn6Cn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701159143; x=1732695143;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AGYpkcwM+QbY4uebWNvZsCySwRDqsGt8liWhbUR8B6M=;
+  b=Bt9gn6CnKQsuFZ0YoHimpm7PwJ3WiSbnxLvDwDbV7zonPzEQol9AUcUf
+   0hQ1URA4MyyyoNAVnR9oL4wUDJ9NAVK/3O8WWaIZvQmFO0Fni2r3VqPO6
+   c/vSg0kyXOyN0unBJD5uqpJp5dD06Rlq1aVRJpPWGWt7SKgea89WAamJW
+   70XQVofzOBy2e7NJjMGhj+qI/sWMa1279WIjcIdM6qXaOjBCE7/byx6ke
+   7OWih2yYBh2TtBiLtv1VHfjHqnbVgYLkIhqJm0BZpYc7EinyDjr7d2GJs
+   bTsfgXmZ9WCYplt46V7WojBf2uwAgLGJSrGFHV6XfJmDciCZt7diSQIRM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="377902491"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
+   d="scan'208";a="377902491"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 00:12:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="859344712"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
+   d="scan'208";a="859344712"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Nov 2023 00:12:08 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r7tCQ-0007I4-0L;
+	Tue, 28 Nov 2023 08:12:06 +0000
+Date: Tue, 28 Nov 2023 16:11:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [rt-devel:linux-6.5.y-rt 44/87] kernel/printk/printk.c:3361:6:
+ warning: no previous prototype for function 'console_bkl_kthread_create'
+Message-ID: <202311281428.tmjA6dLT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: dtbs_check:
- Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml:
- properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const':
- '$ref'}
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Andreas Klinger <ak@it-klinger.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-doc@vger.kernel.org
-References: <202311280502.L6YVZhv5-lkp@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <202311280502.L6YVZhv5-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 28/11/2023 01:19, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
-> commit: a765c985e69671054f397046b1d94d8c6e34149e dt-bindings: iio: pressure: Support Honeywell mprls0025pa sensor
-> date:   6 months ago
-> compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231128/202311280502.L6YVZhv5-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311280502.L6YVZhv5-lkp@intel.com/
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git linux-6.5.y-rt
+head:   7f033c046085109bf6044730509ba1395afc0230
+commit: 184530c511550e6ddeacb1d86df7b8c0b923e0bc [44/87] printk: Add threaded printing support for BKL consoles.
+config: i386-buildonly-randconfig-003-20231128 (https://download.01.org/0day-ci/archive/20231128/202311281428.tmjA6dLT-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311281428.tmjA6dLT-lkp@intel.com/reproduce)
 
-Entire report looks like result of running newer dtschema on old commit.
-That's not good approach, because we add new checks to dtschema, so such
-failures are expected (for 6 month old commit!). LKP should probably not
-test old commits with dtschema.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311281428.tmjA6dLT-lkp@intel.com/
 
-Best regards,
-Krzysztof
+All warnings (new ones prefixed by >>):
 
+>> kernel/printk/printk.c:3361:6: warning: no previous prototype for function 'console_bkl_kthread_create' [-Wmissing-prototypes]
+   void console_bkl_kthread_create(void)
+        ^
+   kernel/printk/printk.c:3361:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void console_bkl_kthread_create(void)
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/console_bkl_kthread_create +3361 kernel/printk/printk.c
+
+  3360	
+> 3361	void console_bkl_kthread_create(void)
+  3362	{
+  3363		struct task_struct *kt;
+  3364		struct console *c;
+  3365	
+  3366		lockdep_assert_held(&console_mutex);
+  3367	
+  3368		if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+  3369			return;
+  3370	
+  3371		if (!printk_threads_enabled || console_bkl_kthread)
+  3372			return;
+  3373	
+  3374		for_each_console(c) {
+  3375			if (c->flags & CON_BOOT)
+  3376				return;
+  3377		}
+  3378	
+  3379		kt = kthread_run(console_bkl_kthread_func, NULL, "pr/bkl");
+  3380		if (IS_ERR(kt)) {
+  3381			pr_err("unable to start BKL printing thread\n");
+  3382			return;
+  3383		}
+  3384	
+  3385		console_bkl_kthread = kt;
+  3386	
+  3387		/*
+  3388		 * It is important that console printing threads are scheduled
+  3389		 * shortly after a printk call and with generous runtime budgets.
+  3390		 */
+  3391		sched_set_normal(console_bkl_kthread, -20);
+  3392	}
+  3393	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
