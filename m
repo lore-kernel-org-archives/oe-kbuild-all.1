@@ -1,105 +1,72 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6574437A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 21:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7EA42A8B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 28 Nov 2023 22:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UVqMdctB"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AS9xhE9014934;
-	Tue, 28 Nov 2023 21:01:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=paDe/iNFmsZdrFr+e8yTyjXKdqvtKJ5WsVGXHBzNBaA=;
- b=UVqMdctBXsCsByODIMfUhIZhvpK1zvL41ztFv0H//3zhpFImcHc5I3bcwPAvOVS8RLCG
- qz4eUHIWxoLlQzR/wUEnyZK9u4jMnHnoSvYxO0oO5Bh/AsWDj3oWNDX5VGzUZ7U26j7h
- d/KcRN1AP04hDPizbKM0E2UOdHfHBEZFyvwp/EP4m0tMLxA8nBD9YbpXjUvfRLr7BNoG
- B63M2s4CyaLRg4lPRBB+H9HcbKOz+ACUWsYIWo0KjzNaHRfP1tHyIBF5HhG9VLOjfShY
- C7scWCnPc5dvj4yYJS7IP2g3PrNV/B0D/8NIqQNA9L/zUGzp0mj18uZtb5Adr0OZECgm aw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3un586u2ex-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Nov 2023 21:01:23 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ASL1LVX009692
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Nov 2023 21:01:21 GMT
-Received: from [10.110.63.243] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 28 Nov
- 2023 13:01:21 -0800
-Message-ID: <fc1dbe4a-a810-445c-9398-60a5e55990a2@quicinc.com>
-Date: Tue, 28 Nov 2023 13:01:20 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d6JXJw/F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701208895; x=1732744895;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=5KI3is8YLLHz1vFiO6Rb3+hK1YP9s0d+k3YCz6I9Rm0=;
+  b=d6JXJw/Fcwa6Fj2Vl83OweQOYN6lmXQI2wyreXD3ZpvDSDx3chR6k4ja
+   dJXaR8YEk+bQgem6Bdy/838LwBzMHFujT1w+R+0mnYbdheI0ucFAXfX+0
+   3TpbzAMbZEx8Erq2w7K0t4v3sbguYhqvOwasd97RBlY6B88ml2i0K4eHD
+   1tJ2jdOrLvm6DzEWE3jwlMi2dogkJXrjoWgBAlY4JucF8Taa27SvQ3CFi
+   adTralhvR5ec7NmfxH/N9iJJcgXUxxy9e7UjgiIjxE0l2vs75Lj2RC7Jq
+   Gewf3kuBLCV+iHkx5MP/pRJIeCACXx70MiI+ltlAprDpUvpszanukA+tI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="373221024"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
+   d="scan'208";a="373221024"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 14:01:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="718531332"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
+   d="scan'208";a="718531332"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 28 Nov 2023 14:01:33 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8694-0008Ae-2U;
+	Tue, 28 Nov 2023 22:01:30 +0000
+Date: Wed, 29 Nov 2023 05:59:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/2] NFSD: Fix "start of NFS reply" pointer passed to
+ nfsd_cache_update()
+Message-ID: <ZWZi2y1vDXZF9BBJ@520bc4c78bef>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] wifi: cfg80211: fix CQM for non-range use
-Content-Language: en-US
-To: Johannes Berg <johannes@sipsolutions.net>,
-        Michael Walle
-	<mwalle@kernel.org>, Kees Cook <keescook@chromium.org>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-        <linux-wireless@vger.kernel.org>, Max Schulze <max.schulze@online.de>
-References: <202311090752.hWcJWAHL-lkp@intel.com>
- <202311090752.hWcJWAHL-lkp@intel.com>
- <1c37d99f722f891a50c540853e54d4e36bdf0157.camel@sipsolutions.net>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <1c37d99f722f891a50c540853e54d4e36bdf0157.camel@sipsolutions.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: WaQfPiCdTt_S4kE9z9lwCkMNtcsqI8Rw
-X-Proofpoint-GUID: WaQfPiCdTt_S4kE9z9lwCkMNtcsqI8Rw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-28_23,2023-11-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=520 priorityscore=1501 spamscore=0 impostorscore=0
- adultscore=0 mlxscore=0 phishscore=0 suspectscore=0 clxscore=1011
- bulkscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2311060000 definitions=main-2311280167
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <170120871426.1376.10151990384789497254.stgit@klimt.1015granger.net>
 
-On 11/28/2023 10:23 AM, Johannes Berg wrote:
-> On Tue, 2023-11-28 at 15:44 +0100, Michael Walle wrote:
->> Hi,
->>
->>> net/wireless/nl80211.c: In function 'nl80211_set_cqm_rssi.isra':
->>> net/wireless/nl80211.c:12892:17: warning: 'memcpy' specified bound
->>> 18446744073709551615 exceeds maximum object size 9223372036854775807
->>> [-Wstringop-overflow=]
->>
->> FWIW, I'm getting the same error with the current next (next-20231128).
->>
-> 
-> I actually forgot about that, but does anyone actually know what this is
-> trying to tell me?
-> 
-> The code seems to be
-> 
->         if (n_thresholds) {
->                 cqm_config = kzalloc(struct_size(cqm_config, rssi_thresholds,
->                                                  n_thresholds),
->                                      GFP_KERNEL);
->                 if (!cqm_config)
->                         return -ENOMEM;
-> 
->                 cqm_config->rssi_hyst = hysteresis;
->                 cqm_config->n_rssi_thresholds = n_thresholds;
->                 memcpy(cqm_config->rssi_thresholds, thresholds,
->                        flex_array_size(cqm_config, rssi_thresholds,
->                                        n_thresholds));
-> 
-> 
-> Or does it just want to say n_thresholds shouldn't be a signed variable?
+Hi,
 
-+Kees for flex array education :)
+Thanks for your patch.
+
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH 1/2] NFSD: Fix "start of NFS reply" pointer passed to nfsd_cache_update()
+Link: https://lore.kernel.org/stable/170120871426.1376.10151990384789497254.stgit%40klimt.1015granger.net
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
