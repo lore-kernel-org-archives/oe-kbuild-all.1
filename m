@@ -1,141 +1,179 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A3D225DF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 14:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1997134CEB;
+	Wed, 29 Nov 2023 15:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YfysuSSu"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1cfcc9b3b5cso31048715ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 06:47:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701269264; x=1701874064; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=DUrfm+hJ/C2ZbOuQJAxDbljKLy14slrJogehrLVoRiE=;
-        b=YfysuSSu9Ovudz+ehzraQSF51VNCxLnEvF+1SzSFYIzppHI9O+Zzm3zxT5qvABj6DD
-         9Et0KyfbgyS0azFe1BN7V42gcWQVNIFr3F5yu5zXeEQ0PjgjARNyYlsVtQHZkNzxz8H/
-         Ebh/Z5MTiB5Rr9eb5SNHqmfEgSjVWhpXR8l0/CZbWN4vtB6RDAyXtVOjHHahPUlixNoj
-         ztMNNBIbCz9I52o4eJXzTdCX5cMU678dokES3i7jMXq42c2nOQElaob2VKj1M+Sd999r
-         mKPcmGhfknzia+O7PtpchTyvBPhorAv++uJvJD9CL7M0WmRmZ04Zu7AvxArZOIs88jt5
-         s6Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701269264; x=1701874064;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DUrfm+hJ/C2ZbOuQJAxDbljKLy14slrJogehrLVoRiE=;
-        b=M2guIcZGmCbRZoQt49xT4PiWt7PpMc7v9tR6JY8H7YTNn1mHyxMVONrx8/JV20/L5P
-         aXzp9daBzPNeu5N3bdJ/z3KdSH+gJY+MHmgGSzaoPu/3cleJcQDZQSjHgnGKdZp30rwU
-         lHs7lSkFFgdsaMofOi+wzOlDaR1H98hRaarMwm+kpYRKWaczX2/B3/JKds0QJEOdUIHP
-         AXRftPJPaglnOBrm79FtSyEVQvkfyHE+8ETOjsh58V1oi9JDqE5QM3rrAsHVfdnhpy6O
-         eSldeY78PKcFmgfEazQArsJxt6ThcCajEVUmg8b0rqz+uuHPWKp+0ul/6kCUdJj3pGG+
-         X87Q==
-X-Gm-Message-State: AOJu0YwQHiUkgRYG3M0T31ApcvkHOgwR5Exn/cZ7Qt3BQZ56V0XcAfDj
-	VrR2rjH5iizjS+ykpPp9jxo=
-X-Google-Smtp-Source: AGHT+IF9z2xPeFE/yrT/b+SYvchwUCKwkSPCvMTqxnpETGpUtS1n2kf4R0O3HDKJTz43Q09J+6oL1A==
-X-Received: by 2002:a17:902:ea05:b0:1cf:a70b:39cd with SMTP id s5-20020a170902ea0500b001cfa70b39cdmr20879830plg.39.1701269263889;
-        Wed, 29 Nov 2023 06:47:43 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u12-20020a17090341cc00b001cfb6bef8fesm8463767ple.186.2023.11.29.06.47.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 06:47:42 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <53ce752e-4292-479e-8c40-2a96f4c692dc@roeck-us.net>
-Date: Wed, 29 Nov 2023 06:47:41 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPB1OU2W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701272552; x=1732808552;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QiyXou6E8XmzV1Lkd+K2NH2kAgeGJ5XMMDCOjzZ30v8=;
+  b=gPB1OU2WoeqfzybsPBkA3CCtdZpOEPE5xzWgxVU9Lg8RuGspinMU3MtI
+   Jg0oaUTN7oGICOkzg0DzJpy+wanpnbWrY/lub2J9YySa/vOIZJ1KoBPT9
+   eoYS6eMV/70M3kqsQ/pa0byeW3+3mTGDFRqa82grhAWn6Egk712Z7FpOL
+   Ila3x3mZU1T9LMeZp41urEV0GK5R3oeuQFew9Kpx7PN/CC+3S7HOnTr1w
+   05fMpSsCBY1XlQyy4VIW1OoD1o4p//eMjYdriDlI9Plq5qCiMesY+rJQ7
+   HhTl+2BW8LqgEsM/0Ihic8/4z48luJ8l2PeyWsRfAtiuHfKZw0WXZZlum
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="392925318"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="392925318"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 07:42:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="772724283"
+X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
+   d="scan'208";a="772724283"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 29 Nov 2023 07:42:26 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8Mhb-0000OZ-1t;
+	Wed, 29 Nov 2023 15:42:17 +0000
+Date: Wed, 29 Nov 2023 23:42:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jorge Ramirez-Ortiz <jorge@foundries.io>, ulf.hansson@linaro.org,
+	adrian.hunter@intel.com, CLoehle@hyperstone.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, axboe@kernel.dk,
+	jinpu.wang@ionos.com, beanhuo@micron.com, yibin.ding@unisoc.com,
+	f.fainelli@gmail.com, asuk4.q@gmail.com,
+	victor.shih@genesyslogic.com.tw, marex@denx.de,
+	rafael.beims@toradex.com, robimarko@gmail.com, ricardo@foundries.io
+Subject: Re: [PATCH] mmc: rpmb: add quirk MMC_QUIRK_BROKEN_RPMB_RETUNE
+Message-ID: <202311292124.O8uscyp0-lkp@intel.com>
+References: <20231129094350.2605322-1-jorge@foundries.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-Content-Language: en-US
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Andy Shevchenko <andy@kernel.org>
-Cc: kernel test robot <lkp@intel.com>,
- Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linus.walleij@linaro.org>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
- <202311250548.lUn3bm1A-lkp@intel.com>
- <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
- <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
- <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
- <ZWS90GQTJWA7DrML@smile.fi.intel.com>
- <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
- <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
- <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231129094350.2605322-1-jorge@foundries.io>
 
-On 11/29/23 00:35, Nuno Sá wrote:
-[ ... ]
+Hi Jorge,
 
-> 
-> For the record, I do care about the code I submit and missing 'static' is quite
-> embarrassing, yes. The only reason why I still dind't send the v3 fixing that is
-> because I'm giving more time to see if you can review some of the other changes. I'm
-> pretty sure I'll be asked to change more things in v2 (as stated in the cover, there
-> are still some shady things in the driver).
-> 
+kernel test robot noticed the following build warnings:
 
-NP, but you (and others) will have to accept that your patches end up at the end
-of my lowest-priority review queue if 0-day or checkpatch or builds with W=1
-end up reporting problems. My time is limited, and I am extremely wary of having
-to keep telling people to run checkpatch or builds with W=1.
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7-rc3 next-20231129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Guenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Ramirez-Ortiz/mmc-rpmb-add-quirk-MMC_QUIRK_BROKEN_RPMB_RETUNE/20231129-181517
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231129094350.2605322-1-jorge%40foundries.io
+patch subject: [PATCH] mmc: rpmb: add quirk MMC_QUIRK_BROKEN_RPMB_RETUNE
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231129/202311292124.O8uscyp0-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311292124.O8uscyp0-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311292124.O8uscyp0-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/mmc/core/mmc.c:27:
+   drivers/mmc/core/quirks.h:137:22: error: use of undeclared identifier 'CIF_MANFID_SANDISK2'
+           MMC_FIXUP("DG4064", CIF_MANFID_SANDISK2, 0x100, add_quirk_mmc,
+                               ^
+>> drivers/mmc/core/mmc.c:115:22: warning: shift count >= width of type [-Wshift-count-overflow]
+                   card->cid.serial        = UNSTUFF_BITS(resp, 16, 32);
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mmc/core/mmc.c:57:39: note: expanded from macro 'UNSTUFF_BITS'
+                   const u32 __mask = (__size < 32 ? 1 << __size : 0) - 1; \
+                                                       ^  ~~~~~~
+   1 warning and 1 error generated.
+
+
+vim +115 drivers/mmc/core/mmc.c
+
+7ea239d9e6d699 Pierre Ossman      2006-12-31   53  
+7ea239d9e6d699 Pierre Ossman      2006-12-31   54  #define UNSTUFF_BITS(resp,start,size)					\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   55  	({								\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   56  		const int __size = size;				\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   57  		const u32 __mask = (__size < 32 ? 1 << __size : 0) - 1;	\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   58  		const int __off = 3 - ((start) / 32);			\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   59  		const int __shft = (start) & 31;			\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   60  		u32 __res;						\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   61  									\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   62  		__res = resp[__off] >> __shft;				\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   63  		if (__size + __shft > 32)				\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   64  			__res |= resp[__off-1] << ((32 - __shft) % 32);	\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   65  		__res & __mask;						\
+7ea239d9e6d699 Pierre Ossman      2006-12-31   66  	})
+7ea239d9e6d699 Pierre Ossman      2006-12-31   67  
+7ea239d9e6d699 Pierre Ossman      2006-12-31   68  /*
+7ea239d9e6d699 Pierre Ossman      2006-12-31   69   * Given the decoded CSD structure, decode the raw CID to our CID structure.
+7ea239d9e6d699 Pierre Ossman      2006-12-31   70   */
+bd766312618d2e Pierre Ossman      2007-05-01   71  static int mmc_decode_cid(struct mmc_card *card)
+7ea239d9e6d699 Pierre Ossman      2006-12-31   72  {
+7ea239d9e6d699 Pierre Ossman      2006-12-31   73  	u32 *resp = card->raw_cid;
+7ea239d9e6d699 Pierre Ossman      2006-12-31   74  
+ac9d25557dcc9f Linus Walleij      2022-04-25   75  	/*
+ac9d25557dcc9f Linus Walleij      2022-04-25   76  	 * Add the raw card ID (cid) data to the entropy pool. It doesn't
+ac9d25557dcc9f Linus Walleij      2022-04-25   77  	 * matter that not all of it is unique, it's just bonus entropy.
+ac9d25557dcc9f Linus Walleij      2022-04-25   78  	 */
+ac9d25557dcc9f Linus Walleij      2022-04-25   79  	add_device_randomness(&card->raw_cid, sizeof(card->raw_cid));
+ac9d25557dcc9f Linus Walleij      2022-04-25   80  
+7ea239d9e6d699 Pierre Ossman      2006-12-31   81  	/*
+7ea239d9e6d699 Pierre Ossman      2006-12-31   82  	 * The selection of the format here is based upon published
+7ea239d9e6d699 Pierre Ossman      2006-12-31   83  	 * specs from sandisk and from what people have reported.
+7ea239d9e6d699 Pierre Ossman      2006-12-31   84  	 */
+7ea239d9e6d699 Pierre Ossman      2006-12-31   85  	switch (card->csd.mmca_vsn) {
+7ea239d9e6d699 Pierre Ossman      2006-12-31   86  	case 0: /* MMC v1.0 - v1.2 */
+7ea239d9e6d699 Pierre Ossman      2006-12-31   87  	case 1: /* MMC v1.4 */
+7ea239d9e6d699 Pierre Ossman      2006-12-31   88  		card->cid.manfid	= UNSTUFF_BITS(resp, 104, 24);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   89  		card->cid.prod_name[0]	= UNSTUFF_BITS(resp, 96, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   90  		card->cid.prod_name[1]	= UNSTUFF_BITS(resp, 88, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   91  		card->cid.prod_name[2]	= UNSTUFF_BITS(resp, 80, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   92  		card->cid.prod_name[3]	= UNSTUFF_BITS(resp, 72, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   93  		card->cid.prod_name[4]	= UNSTUFF_BITS(resp, 64, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   94  		card->cid.prod_name[5]	= UNSTUFF_BITS(resp, 56, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   95  		card->cid.prod_name[6]	= UNSTUFF_BITS(resp, 48, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   96  		card->cid.hwrev		= UNSTUFF_BITS(resp, 44, 4);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   97  		card->cid.fwrev		= UNSTUFF_BITS(resp, 40, 4);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   98  		card->cid.serial	= UNSTUFF_BITS(resp, 16, 24);
+7ea239d9e6d699 Pierre Ossman      2006-12-31   99  		card->cid.month		= UNSTUFF_BITS(resp, 12, 4);
+7ea239d9e6d699 Pierre Ossman      2006-12-31  100  		card->cid.year		= UNSTUFF_BITS(resp, 8, 4) + 1997;
+7ea239d9e6d699 Pierre Ossman      2006-12-31  101  		break;
+7ea239d9e6d699 Pierre Ossman      2006-12-31  102  
+7ea239d9e6d699 Pierre Ossman      2006-12-31  103  	case 2: /* MMC v2.0 - v2.2 */
+7ea239d9e6d699 Pierre Ossman      2006-12-31  104  	case 3: /* MMC v3.1 - v3.3 */
+7ea239d9e6d699 Pierre Ossman      2006-12-31  105  	case 4: /* MMC v4 */
+7ea239d9e6d699 Pierre Ossman      2006-12-31  106  		card->cid.manfid	= UNSTUFF_BITS(resp, 120, 8);
+421b605edb1ce6 Dominique Martinet 2023-11-03  107  		card->cid.oemid		= UNSTUFF_BITS(resp, 104, 16);
+7ea239d9e6d699 Pierre Ossman      2006-12-31  108  		card->cid.prod_name[0]	= UNSTUFF_BITS(resp, 96, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31  109  		card->cid.prod_name[1]	= UNSTUFF_BITS(resp, 88, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31  110  		card->cid.prod_name[2]	= UNSTUFF_BITS(resp, 80, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31  111  		card->cid.prod_name[3]	= UNSTUFF_BITS(resp, 72, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31  112  		card->cid.prod_name[4]	= UNSTUFF_BITS(resp, 64, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31  113  		card->cid.prod_name[5]	= UNSTUFF_BITS(resp, 56, 8);
+51e7e8b632d8e5 Bernie Thompson    2013-02-27  114  		card->cid.prv		= UNSTUFF_BITS(resp, 48, 8);
+7ea239d9e6d699 Pierre Ossman      2006-12-31 @115  		card->cid.serial	= UNSTUFF_BITS(resp, 16, 32);
+7ea239d9e6d699 Pierre Ossman      2006-12-31  116  		card->cid.month		= UNSTUFF_BITS(resp, 12, 4);
+7ea239d9e6d699 Pierre Ossman      2006-12-31  117  		card->cid.year		= UNSTUFF_BITS(resp, 8, 4) + 1997;
+7ea239d9e6d699 Pierre Ossman      2006-12-31  118  		break;
+7ea239d9e6d699 Pierre Ossman      2006-12-31  119  
+7ea239d9e6d699 Pierre Ossman      2006-12-31  120  	default:
+a3c76eb9d4a1e6 Girish K S         2011-10-11  121  		pr_err("%s: card has unknown MMCA version %d\n",
+7ea239d9e6d699 Pierre Ossman      2006-12-31  122  			mmc_hostname(card->host), card->csd.mmca_vsn);
+bd766312618d2e Pierre Ossman      2007-05-01  123  		return -EINVAL;
+7ea239d9e6d699 Pierre Ossman      2006-12-31  124  	}
+bd766312618d2e Pierre Ossman      2007-05-01  125  
+bd766312618d2e Pierre Ossman      2007-05-01  126  	return 0;
+7ea239d9e6d699 Pierre Ossman      2006-12-31  127  }
+7ea239d9e6d699 Pierre Ossman      2006-12-31  128  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
