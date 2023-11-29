@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6862B2B9DF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 21:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E499B2B9DE;
+	Wed, 29 Nov 2023 21:36:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvzELzgb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fc77qZaA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701293817; x=1732829817;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mSEs3HiAXgJsTJA8AoIXbmQa5mt0fhUhQ01QHpqAShQ=;
-  b=IvzELzgbnj4cNdn2yE9ECzX9Qo2d+cL+jzNj3sFHy/wgkmEK+Xm/ZPAA
-   5ah3VauQXKQ14HfK6cM5g+eqMAZTszUr7d36MzBbBjuYjnSO0R2VsYb1e
-   i0bnWz6bPdPpWQ6/VyswbbyoCP+iHeK/mctBmCRv1vWJQk9ESVInUkTSa
-   7pm4gkEgs6xDFoDIPHRA8rL7TzNDxquM5NSuDzeCUZ5Hc1Zu4qDrA2Z9d
-   jaMyL60n0jKMynl6sH/dfqp01UDPel3an3rO8vRMcUHYQTf/X+yhKSJhH
-   tkp9D4rgY3WyWiTGgt4YLNcjzcjCE9sVy8j55R8Rb3HRfN3+KnPFK1oyM
+  t=1701293819; x=1732829819;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9du+o7Orcft7X4JWs+Jt4akoA0d8doppyw8jEXkw/t8=;
+  b=fc77qZaArjvgHUsBOh48z+XXXCOz1vdTF6Sa/ZLTdxTC0iGEFE62AZSL
+   mp/QTwRAu+zUvIKfJFPmBR+0F4IcjT1SRfKWHqM/pDxa8QXDxWOMQn9GG
+   FWVJ4YUZbfFfAaX9s/5wEm6s8PbkggpecAe5rX+RC1Y0WyoFoObdKMjWG
+   VBxZICdqIHXoqWSfpqVGU7asW4PzYiSARM1GHZ6UyzwtoEvE2U3LcpXRF
+   yGi97fC/tlgQJ4sPQ5C2Xi9i7UsXwtzx1h2WNU6L804edsrd9QACVYEvl
+   gO0tytiiZ8h8uEDo05qPuOAV8S5G60jEvbz9fCfy+n5z1AtWOKOPSOc4B
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="212734"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="11930815"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="212734"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 13:36:56 -0800
+   d="scan'208";a="11930815"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 13:36:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="839568516"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="772820647"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="839568516"
+   d="scan'208";a="772820647"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Nov 2023 13:36:55 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 29 Nov 2023 13:36:55 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8SEn-0000qz-02;
+	id 1r8SEn-0000rB-19;
 	Wed, 29 Nov 2023 21:36:53 +0000
-Date: Thu, 30 Nov 2023 05:36:09 +0800
+Date: Thu, 30 Nov 2023 05:36:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hauke Mehrtens <hauke@hauke-m.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/dsa/lantiq_gswip.c:907:44: warning: '%d' directive
- output may be truncated writing between 1 and 10 bytes into a region of size
- 6
-Message-ID: <202311300155.M0VzROAp-lkp@intel.com>
+To: Geliang Tang <geliang.tang@suse.com>, mptcp@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, Geliang Tang <geliang.tang@suse.com>
+Subject: Re: [PATCH mptcp-next v2 3/4] mptcp: add a ftrace callback for
+ tcp_set_state
+Message-ID: <202311300110.9kJQ1JjE-lkp@intel.com>
+References: <4323a04943500dce8c072c49ce50b21591357876.1701230012.git.geliang.tang@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,85 +51,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <4323a04943500dce8c072c49ce50b21591357876.1701230012.git.geliang.tang@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
-commit: 14fceff4771e51b23b4485b575cf9e5b3414b89b net: dsa: Add Lantiq / Intel DSA driver for vrx200
-date:   5 years ago
-config: x86_64-randconfig-r015-20230905 (https://download.01.org/0day-ci/archive/20231130/202311300155.M0VzROAp-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311300155.M0VzROAp-lkp@intel.com/reproduce)
+Hi Geliang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on mptcp/export]
+[also build test ERROR on mptcp/export-net linus/master v6.7-rc3 next-20231129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/mptcp-add-a-current-established-counter/20231129-131030
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+patch link:    https://lore.kernel.org/r/4323a04943500dce8c072c49ce50b21591357876.1701230012.git.geliang.tang%40suse.com
+patch subject: [PATCH mptcp-next v2 3/4] mptcp: add a ftrace callback for tcp_set_state
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20231130/202311300110.9kJQ1JjE-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311300110.9kJQ1JjE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311300155.M0VzROAp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311300110.9kJQ1JjE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/dsa/lantiq_gswip.c: In function 'gswip_probe':
->> drivers/net/dsa/lantiq_gswip.c:907:44: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
-     snprintf(gphyname, sizeof(gphyname), "gphy%d", i);
-                                               ^~
-   drivers/net/dsa/lantiq_gswip.c:907:39: note: directive argument in the range [0, 2147483647]
-     snprintf(gphyname, sizeof(gphyname), "gphy%d", i);
-                                          ^~~~~~~~
-   drivers/net/dsa/lantiq_gswip.c:907:2: note: 'snprintf' output between 6 and 15 bytes into a destination of size 10
-     snprintf(gphyname, sizeof(gphyname), "gphy%d", i);
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from net/mptcp/trace.c:11:
+   net/mptcp/trace.c: In function 'mptcp_state_callback':
+>> include/linux/ftrace.h:158:9: error: implicit declaration of function 'regs_get_kernel_argument'; did you mean 'regs_get_kernel_stack_nth'? [-Werror=implicit-function-declaration]
+     158 |         regs_get_kernel_argument(ftrace_get_regs(fregs), n)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/trace.c:39:29: note: in expansion of macro 'ftrace_regs_get_argument'
+      39 |         sk = (struct sock *)ftrace_regs_get_argument(fregs, 0);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +907 drivers/net/dsa/lantiq_gswip.c
+vim +158 include/linux/ftrace.h
 
-   897	
-   898	static int gswip_gphy_fw_probe(struct gswip_priv *priv,
-   899				       struct gswip_gphy_fw *gphy_fw,
-   900				       struct device_node *gphy_fw_np, int i)
-   901	{
-   902		struct device *dev = priv->dev;
-   903		u32 gphy_mode;
-   904		int ret;
-   905		char gphyname[10];
-   906	
- > 907		snprintf(gphyname, sizeof(gphyname), "gphy%d", i);
-   908	
-   909		gphy_fw->clk_gate = devm_clk_get(dev, gphyname);
-   910		if (IS_ERR(gphy_fw->clk_gate)) {
-   911			dev_err(dev, "Failed to lookup gate clock\n");
-   912			return PTR_ERR(gphy_fw->clk_gate);
-   913		}
-   914	
-   915		ret = of_property_read_u32(gphy_fw_np, "reg", &gphy_fw->fw_addr_offset);
-   916		if (ret)
-   917			return ret;
-   918	
-   919		ret = of_property_read_u32(gphy_fw_np, "lantiq,gphy-mode", &gphy_mode);
-   920		/* Default to GE mode */
-   921		if (ret)
-   922			gphy_mode = GPHY_MODE_GE;
-   923	
-   924		switch (gphy_mode) {
-   925		case GPHY_MODE_FE:
-   926			gphy_fw->fw_name = priv->gphy_fw_name_cfg->fe_firmware_name;
-   927			break;
-   928		case GPHY_MODE_GE:
-   929			gphy_fw->fw_name = priv->gphy_fw_name_cfg->ge_firmware_name;
-   930			break;
-   931		default:
-   932			dev_err(dev, "Unknown GPHY mode %d\n", gphy_mode);
-   933			return -EINVAL;
-   934		}
-   935	
-   936		gphy_fw->reset = of_reset_control_array_get_exclusive(gphy_fw_np);
-   937		if (IS_ERR(priv->gphy_fw)) {
-   938			if (PTR_ERR(priv->gphy_fw) != -EPROBE_DEFER)
-   939				dev_err(dev, "Failed to lookup gphy reset\n");
-   940			return PTR_ERR(priv->gphy_fw);
-   941		}
-   942	
-   943		return gswip_gphy_fw_load(priv, gphy_fw);
-   944	}
-   945	
+94d095ffa0e16b Mark Rutland 2022-11-03  153  
+94d095ffa0e16b Mark Rutland 2022-11-03  154  #ifndef CONFIG_HAVE_DYNAMIC_FTRACE_WITH_ARGS
+94d095ffa0e16b Mark Rutland 2022-11-03  155  #define ftrace_regs_get_instruction_pointer(fregs) \
+94d095ffa0e16b Mark Rutland 2022-11-03  156  	instruction_pointer(ftrace_get_regs(fregs))
+94d095ffa0e16b Mark Rutland 2022-11-03  157  #define ftrace_regs_get_argument(fregs, n) \
+94d095ffa0e16b Mark Rutland 2022-11-03 @158  	regs_get_kernel_argument(ftrace_get_regs(fregs), n)
+94d095ffa0e16b Mark Rutland 2022-11-03  159  #define ftrace_regs_get_stack_pointer(fregs) \
+94d095ffa0e16b Mark Rutland 2022-11-03  160  	kernel_stack_pointer(ftrace_get_regs(fregs))
+94d095ffa0e16b Mark Rutland 2022-11-03  161  #define ftrace_regs_return_value(fregs) \
+94d095ffa0e16b Mark Rutland 2022-11-03  162  	regs_return_value(ftrace_get_regs(fregs))
+94d095ffa0e16b Mark Rutland 2022-11-03  163  #define ftrace_regs_set_return_value(fregs, ret) \
+94d095ffa0e16b Mark Rutland 2022-11-03  164  	regs_set_return_value(ftrace_get_regs(fregs), ret)
+94d095ffa0e16b Mark Rutland 2022-11-03  165  #define ftrace_override_function_with_return(fregs) \
+94d095ffa0e16b Mark Rutland 2022-11-03  166  	override_function_with_return(ftrace_get_regs(fregs))
+94d095ffa0e16b Mark Rutland 2022-11-03  167  #define ftrace_regs_query_register_offset(name) \
+94d095ffa0e16b Mark Rutland 2022-11-03  168  	regs_query_register_offset(name)
+94d095ffa0e16b Mark Rutland 2022-11-03  169  #endif
+94d095ffa0e16b Mark Rutland 2022-11-03  170  
 
 -- 
 0-DAY CI Kernel Test Service
