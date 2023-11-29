@@ -1,51 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F8D38FB7;
-	Wed, 29 Nov 2023 15:43:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF4C38FB8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 15:43:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j+/aOngd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nXHJQF7x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701272623; x=1732808623;
+  t=1701272625; x=1732808625;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RWKqb7LPJnLALVL46qWANs+JrChdKL0G1J3UhxdaV7E=;
-  b=j+/aOngdo+CS0zidQ5Lr+PBvN+ix7KpWUeNy9oH7W9zx5wfSpnxRgiUR
-   nDBU8GldNL6siz05neExDx8GATzWyW+jik3u4ZgSqUrI+O2ZZDiZPIfFo
-   h+RIYCRNS+J8ZamvIzVSBcyfoONwjzXmNrsDJcxooNwFtjxPZw71FGvu5
-   3E+lnGavEn18ee8ADEXhHyrsIG+24/wBEEoMhZufBn0TlijWJ/UWK8GhH
-   vKDFcRKNZRNillPN9WCLtaXHSkEKGI34Pjyittv2mxU5M7wZyPdVrswVs
-   sd6+GUezlnUwCVjEQStPiRJSdOAO8sjfrx96BGmoGYQFKteP2AH42iJ/h
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="83297"
+  bh=3pIrGc7KzQUujCxHyhwUsxONbL222FB359HqzmQe4/0=;
+  b=nXHJQF7xAjDiOclJ7oZTLdW9ZeLkPfteDzPLjbECLKqElz5sTSzp8fNY
+   JTw7d0Ly8fQ2b3/Dk9/1I3qXyJKPJGWxclKJeJXGX6SQ3q6KqlY8cwxj4
+   VTaPBeBVqT+scxTR2CdH+LOKp5khoWY9O32N8FF+ppkW/m4qcC2q5asQj
+   wyF5WDAa9MH2Eg537/xC6Y56knedT3rRNTLJXSEE/DzUrx3VZtkkfSO+9
+   WgdzUymOe1NwkcqxuSp22hAkDyaN3wFM4JEGfNzWIEstkzkvjlvKfMWl9
+   xoUtxPf98zSkEmLoZoq2XncwnJL1w3EV5Ibn2/IPMUMRZxjX8pQByYNrU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="392925500"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="83297"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 07:43:41 -0800
+   d="scan'208";a="392925500"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 07:43:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="839470244"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="772724596"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="839470244"
+   d="scan'208";a="772724596"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Nov 2023 07:43:37 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 29 Nov 2023 07:43:37 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8Mis-0000Op-2y;
-	Wed, 29 Nov 2023 15:43:34 +0000
-Date: Wed, 29 Nov 2023 23:42:16 +0800
+	id 1r8Mit-0000P7-2e;
+	Wed, 29 Nov 2023 15:43:35 +0000
+Date: Wed, 29 Nov 2023 23:42:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jorge Ramirez-Ortiz <jorge@foundries.io>, ulf.hansson@linaro.org,
 	adrian.hunter@intel.com, CLoehle@hyperstone.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, axboe@kernel.dk,
-	jinpu.wang@ionos.com, beanhuo@micron.com, yibin.ding@unisoc.com,
-	f.fainelli@gmail.com, asuk4.q@gmail.com,
-	victor.shih@genesyslogic.com.tw, marex@denx.de,
+Cc: oe-kbuild-all@lists.linux.dev, axboe@kernel.dk, jinpu.wang@ionos.com,
+	beanhuo@micron.com, yibin.ding@unisoc.com, f.fainelli@gmail.com,
+	asuk4.q@gmail.com, victor.shih@genesyslogic.com.tw, marex@denx.de,
 	rafael.beims@toradex.com, robimarko@gmail.com, ricardo@foundries.io
 Subject: Re: [PATCH] mmc: rpmb: add quirk MMC_QUIRK_BROKEN_RPMB_RETUNE
-Message-ID: <202311292325.iWCDyrUn-lkp@intel.com>
+Message-ID: <202311292226.pQswy6hT-lkp@intel.com>
 References: <20231129094350.2605322-1-jorge@foundries.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -71,37 +70,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Ramirez-Ortiz/mmc-r
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20231129094350.2605322-1-jorge%40foundries.io
 patch subject: [PATCH] mmc: rpmb: add quirk MMC_QUIRK_BROKEN_RPMB_RETUNE
-config: x86_64-rhel-8.3-bpf (https://download.01.org/0day-ci/archive/20231129/202311292325.iWCDyrUn-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311292325.iWCDyrUn-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-002-20231129 (https://download.01.org/0day-ci/archive/20231129/202311292226.pQswy6hT-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311292226.pQswy6hT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311292325.iWCDyrUn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311292226.pQswy6hT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/mmc/core/mmc.c:27:
->> drivers/mmc/core/quirks.h:137:22: error: use of undeclared identifier 'CIF_MANFID_SANDISK2'
-           MMC_FIXUP("DG4064", CIF_MANFID_SANDISK2, 0x100, add_quirk_mmc,
-                               ^
-   drivers/mmc/core/mmc.c:115:22: warning: shift count >= width of type [-Wshift-count-overflow]
-                   card->cid.serial        = UNSTUFF_BITS(resp, 16, 32);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/core/mmc.c:57:39: note: expanded from macro 'UNSTUFF_BITS'
-                   const u32 __mask = (__size < 32 ? 1 << __size : 0) - 1; \
-                                                       ^  ~~~~~~
-   1 warning and 1 error generated.
---
-   In file included from drivers/mmc/core/sdio.c:23:
->> drivers/mmc/core/quirks.h:137:22: error: use of undeclared identifier 'CIF_MANFID_SANDISK2'
-           MMC_FIXUP("DG4064", CIF_MANFID_SANDISK2, 0x100, add_quirk_mmc,
-                               ^
-   1 error generated.
+   In file included from drivers/mmc/core/sdio.c:20:
+>> drivers/mmc/core/quirks.h:137:29: error: 'CIF_MANFID_SANDISK2' undeclared here (not in a function); did you mean 'CID_MANFID_SANDISK2'?
+     137 |         MMC_FIXUP("DG4064", CIF_MANFID_SANDISK2, 0x100, add_quirk_mmc,
+         |                             ^~~~~~~~~~~~~~~~~~~
+   drivers/mmc/core/card.h:102:28: note: in definition of macro '_FIXUP_EXT'
+     102 |                 .manfid = (_manfid),                    \
+         |                            ^~~~~~~
+   drivers/mmc/core/card.h:123:9: note: in expansion of macro 'MMC_FIXUP_REV'
+     123 |         MMC_FIXUP_REV(_name, _manfid, _oemid, 0, -1ull, _fixup, _data,  \
+         |         ^~~~~~~~~~~~~
+   drivers/mmc/core/quirks.h:137:9: note: in expansion of macro 'MMC_FIXUP'
+     137 |         MMC_FIXUP("DG4064", CIF_MANFID_SANDISK2, 0x100, add_quirk_mmc,
+         |         ^~~~~~~~~
 
 
-vim +/CIF_MANFID_SANDISK2 +137 drivers/mmc/core/quirks.h
+vim +137 drivers/mmc/core/quirks.h
 
     17	
     18	static const struct mmc_fixup __maybe_unused mmc_blk_fixups[] = {
