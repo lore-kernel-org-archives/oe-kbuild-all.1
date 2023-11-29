@@ -1,128 +1,141 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9B7C2D7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 14:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A3D225DF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 14:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B7q16iB6"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-544455a4b56so8890579a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 06:29:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YfysuSSu"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1cfcc9b3b5cso31048715ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 06:47:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701268197; x=1701872997; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qdoeeagOYLK4qbp2jjR1vPFPXFdVKef/9E1TVuVg+ZA=;
-        b=B7q16iB6is11wkqHJ02qdUVH7/qjiGhcCIzmMLZBNFh3YL9NVMvsXEgni218NQxGAY
-         LWKNOpXKYQdcc9akzVv+X7Ux7Z8enUxkfxPyox/KxwHGSYt9oR9k+BXF9M47ErZ3Tlly
-         s+Rtk99mCcF/iw4HlmjLwIHdkp18BwPgxhb7JBAUiH1k+D0Ol4W8Kyu59PqQ3FzSQfM4
-         I7OliplzE6r5plUhlzLq61bau/93ZKRsNtsqqGiv9rZiLnuvlVe0b0SROLf/QqvDXC8O
-         ih+noR/o1R8c/e+ufLATIzR5MV/9WFQQ4+bN1eLqeaMEmF5+gZLs9OiJfrz1afPrR4gl
-         fI8w==
+        d=gmail.com; s=20230601; t=1701269264; x=1701874064; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=DUrfm+hJ/C2ZbOuQJAxDbljKLy14slrJogehrLVoRiE=;
+        b=YfysuSSu9Ovudz+ehzraQSF51VNCxLnEvF+1SzSFYIzppHI9O+Zzm3zxT5qvABj6DD
+         9Et0KyfbgyS0azFe1BN7V42gcWQVNIFr3F5yu5zXeEQ0PjgjARNyYlsVtQHZkNzxz8H/
+         Ebh/Z5MTiB5Rr9eb5SNHqmfEgSjVWhpXR8l0/CZbWN4vtB6RDAyXtVOjHHahPUlixNoj
+         ztMNNBIbCz9I52o4eJXzTdCX5cMU678dokES3i7jMXq42c2nOQElaob2VKj1M+Sd999r
+         mKPcmGhfknzia+O7PtpchTyvBPhorAv++uJvJD9CL7M0WmRmZ04Zu7AvxArZOIs88jt5
+         s6Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701268197; x=1701872997;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qdoeeagOYLK4qbp2jjR1vPFPXFdVKef/9E1TVuVg+ZA=;
-        b=KWDzjOb28jDBqfvRZlbJELjGRifIEq7kcaZEM1D+kVMSHtMYsfJIVPyI10KRVJ5kfl
-         6HE6j2PWNUHNdfNY5WsaqvT8rYF0bL+fZSOpI8xb5dbexheOvIVEv38LeWOPn0pWKikD
-         oAbVVFom7+IVSvY3r+b2nkJTkB6DaFdW6TpuPzHVg9UEvI2UWOgHbS8hFNpaXwd4j6YH
-         S3K/Bl8hBl7IiRaydSDyeztJZn21dvY4hZSK7NVyCPICAJZm66FyRyAbWqxuUpKXLlVE
-         HDmf/UCsDEhi9Y5q/UDQBsREjlb3OnXvI34ZZuWqNm0NbtbUPuUD2VSDOKAPtzlzJiF/
-         yYcQ==
-X-Gm-Message-State: AOJu0YxX9eu4rHjlqY8/YbR63IkIRDQtWypPOK2W/vY2sI31c+zZnNFZ
-	Nilkzv6ldt9UPY98MzU4aBA=
-X-Google-Smtp-Source: AGHT+IF7cSLiOMTqE7T/VaCVfadmrV+/UtvqeemRHybJucvE20WQtPfgxrR7eCoAIrjjylrYew9etA==
-X-Received: by 2002:a05:6402:278e:b0:54a:f041:17d2 with SMTP id b14-20020a056402278e00b0054af04117d2mr14173200ede.35.1701268196697;
-        Wed, 29 Nov 2023 06:29:56 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id da7-20020a056402176700b0054afe3625a9sm6119108edb.43.2023.11.29.06.29.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 06:29:56 -0800 (PST)
-Message-ID: <5fbcaa21840c509c22024c8383dfe3e4ffbcc635.camel@gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Krzysztof Kozlowski
-	 <krzk@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Andy Shevchenko <andy@kernel.org>, 
- kernel test robot <lkp@intel.com>, Nuno Sa via B4 Relay
- <devnull+nuno.sa.analog.com@kernel.org>,  linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org,  linux-doc@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>, Rob
- Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 29 Nov 2023 15:29:55 +0100
-In-Reply-To: <CACRpkdaQ0=KduRoSOn+NKNOXvL2HqL_xeCR-LQZWh6CdRMf1Pw@mail.gmail.com>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
-	 <202311250548.lUn3bm1A-lkp@intel.com>
-	 <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
-	 <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
-	 <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
-	 <ZWS90GQTJWA7DrML@smile.fi.intel.com>
-	 <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
-	 <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
-	 <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
-	 <d4a9bd79-1cb6-4da6-9380-bb8085866533@kernel.org>
-	 <CACRpkdaQ0=KduRoSOn+NKNOXvL2HqL_xeCR-LQZWh6CdRMf1Pw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        d=1e100.net; s=20230601; t=1701269264; x=1701874064;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DUrfm+hJ/C2ZbOuQJAxDbljKLy14slrJogehrLVoRiE=;
+        b=M2guIcZGmCbRZoQt49xT4PiWt7PpMc7v9tR6JY8H7YTNn1mHyxMVONrx8/JV20/L5P
+         aXzp9daBzPNeu5N3bdJ/z3KdSH+gJY+MHmgGSzaoPu/3cleJcQDZQSjHgnGKdZp30rwU
+         lHs7lSkFFgdsaMofOi+wzOlDaR1H98hRaarMwm+kpYRKWaczX2/B3/JKds0QJEOdUIHP
+         AXRftPJPaglnOBrm79FtSyEVQvkfyHE+8ETOjsh58V1oi9JDqE5QM3rrAsHVfdnhpy6O
+         eSldeY78PKcFmgfEazQArsJxt6ThcCajEVUmg8b0rqz+uuHPWKp+0ul/6kCUdJj3pGG+
+         X87Q==
+X-Gm-Message-State: AOJu0YwQHiUkgRYG3M0T31ApcvkHOgwR5Exn/cZ7Qt3BQZ56V0XcAfDj
+	VrR2rjH5iizjS+ykpPp9jxo=
+X-Google-Smtp-Source: AGHT+IF9z2xPeFE/yrT/b+SYvchwUCKwkSPCvMTqxnpETGpUtS1n2kf4R0O3HDKJTz43Q09J+6oL1A==
+X-Received: by 2002:a17:902:ea05:b0:1cf:a70b:39cd with SMTP id s5-20020a170902ea0500b001cfa70b39cdmr20879830plg.39.1701269263889;
+        Wed, 29 Nov 2023 06:47:43 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u12-20020a17090341cc00b001cfb6bef8fesm8463767ple.186.2023.11.29.06.47.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 06:47:42 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <53ce752e-4292-479e-8c40-2a96f4c692dc@roeck-us.net>
+Date: Wed, 29 Nov 2023 06:47:41 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
+Content-Language: en-US
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Andy Shevchenko <andy@kernel.org>
+Cc: kernel test robot <lkp@intel.com>,
+ Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linus.walleij@linaro.org>
+References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
+ <202311250548.lUn3bm1A-lkp@intel.com>
+ <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
+ <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
+ <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
+ <ZWS90GQTJWA7DrML@smile.fi.intel.com>
+ <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
+ <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
+ <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2023-11-29 at 15:10 +0100, Linus Walleij wrote:
-> On Wed, Nov 29, 2023 at 9:45=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.=
-org> wrote:
-> > On 29/11/2023 09:35, Nuno S=C3=A1 wrote:
->=20
-> > > world. If we are now going to ask to run smatch, cocci, sparse and so=
- on, we
-> > > will
-> > > scare even more developers from the community... I mean, the bots are=
- also in
-> > > place
-> >=20
-> > This is not related to Linux at all.
->=20
-> Smatch, main author Dan Carpenter
-> Coccinelle, main author Julia Lawall
-> Sparse, main author Linus Torvalds
->=20
-> To be fair I think these tools has quite a lot to do with Linux, being de=
-veloped
-> for the kernel as the primary use case, by Linux kernel contributors.
->=20
-> > When you develop any C or C++ code,
-> > you run these tools. Upstream or downstream, does not matter. Why would
-> > you not use automated, free and easy tools to detect errors in your
-> > code? It's just a matter of professional approach to your code.
->=20
-> This I agree with. We just happen to have some especially
-> talented C developers who write some novel tooling.
->=20
-> (I think developers should be able to rely on robots to run them though,
-> we all seem to agree on that.)
->=20
-> Yours,
-> Linus Walleij
+On 11/29/23 00:35, Nuno Sá wrote:
+[ ... ]
 
-Hi Linus,
+> 
+> For the record, I do care about the code I submit and missing 'static' is quite
+> embarrassing, yes. The only reason why I still dind't send the v3 fixing that is
+> because I'm giving more time to see if you can review some of the other changes. I'm
+> pretty sure I'll be asked to change more things in v2 (as stated in the cover, there
+> are still some shady things in the driver).
+> 
 
-Since I have your attention, please give a look at the gpio stuff when you =
-have the
-time for it. On the v1 cover [1], I have there my concerns. I'm really not =
-sure if
-I'm providing the right interfaces for the device capabilities.
+NP, but you (and others) will have to accept that your patches end up at the end
+of my lowest-priority review queue if 0-day or checkpatch or builds with W=1
+end up reporting problems. My time is limited, and I am extremely wary of having
+to keep telling people to run checkpatch or builds with W=1.
 
-[1]: https://lore.kernel.org/linux-hwmon/20231110151905.1659873-1-nuno.sa@a=
-nalog.com/
+Guenter
 
-Thanks!
-- Nuno S=C3=A1
