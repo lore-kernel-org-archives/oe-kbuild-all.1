@@ -1,172 +1,169 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C028F12B61
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 08:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C18A17980
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 10:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ru3SeTcB"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-54b18dbf148so5718530a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 00:56:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Bl4y62dn"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40b40423df8so29881125e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 02:40:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701248179; x=1701852979; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UzC7u7XHPaOQqtUVRI8/zgc51khZ8nOUC/D9UTwFyWk=;
-        b=Ru3SeTcBXhygJ4DrEFDYaV4goEsfgu4leVRCATG5I2bNK4/67ZM9jt5b3mYB9m8B//
-         Io7X7lh3vrm90cH03v9c0nLdukjy5mRmKQ+lx/QoHEnSIF+cBzea0AHSCEQJFYaurmDD
-         Y8DCJghVOVIwjPyJ2r75dZlGarAaugAoL6S2G+PkIBsUcxLA/q4NpfHRFg7/LQD4B/kR
-         z4k0zv+o09WkWAYpRzU2p7fsHEY32Y/Unfsv2n9TwlRSKvxThucQ8Ydkluq8fqsYAitE
-         CcgZyksN/t9PnXjPWB3i9zdVvmq7OjqXetW4QwSHYBvKwoJlrEzk1VmYICp0OYT/hFUZ
-         fvRw==
+        d=linaro.org; s=google; t=1701254432; x=1701859232; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bm8nLBIkNCr+KZTfcQ7bTcLZdST9mCWQWpCA/O9wn8M=;
+        b=Bl4y62dnU2mqiZ15k1FaGYQOn4Kt010r6LUsNKZfD23Qseln6r78132tYoBFR4Dwvz
+         Z7L4g0QTKTYHGEsecmJO8231FfhDZVHTCioAEFaPoqB5T/VhvE1JGH8D5A3HTd+QFGXf
+         oSBu9uGAlujIXt9Xg4QP+UNW4+ftp/votSrZHWns49BWUimBRsWfndwfGOxG65DFV8sd
+         u7Fh539wGdYWLauHCvrmTEh5DOl+KJINQxd6zq/u/K823dpsolYtbTliYMFSm8erWqim
+         b931rpIDnlv48dme8+uOk2z76tM7D8+1CcnBjejqik4M77k+xwLJ9tA1EPB7UkeA/5oj
+         +I7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701248179; x=1701852979;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UzC7u7XHPaOQqtUVRI8/zgc51khZ8nOUC/D9UTwFyWk=;
-        b=LLlbRXQSb/fdfR87uMPQ+AFd0CJ3B67ENszDAPofYtBN3/nENWSz1qKVZ95c1zX7AF
-         pPs0oLEQC+YYe/ZbENaPHm598I4f7SHDznLRsEQLHPPcylL2UQ0HUFwVa+pN0NroKhPj
-         1plHKxLNN2/PYNjDt3L+jtP2bjlzEBt8BxrTzjIpxhe8+v3wmhxxsIxB3L/kltCIcRll
-         CXtPHqBeKGG8ovCFaK25pc5mi82RnmXoClZBt3y9qCfRMzYZLytudSFzSUC+1Pj9/0yD
-         VDXvpIW2INEiLdsmclrTUsSOutP1701u7H3ju1nrjTjGMpJWfco1PuiCTUI1ZsowHatu
-         0btw==
-X-Gm-Message-State: AOJu0YyVCTCuOGhZbwtc60Xizx6wU8G0w1Q48M8iqKnoQi643jWH88ZB
-	JY3wM13N6zNRiVGD+NLgrOnYBc6U+QfFS3w9dyo=
-X-Google-Smtp-Source: AGHT+IExjvaOkUK2FbCLNi1a2wfzeXF8TuA05XOy41Zpy+2YJf6EPwUMDERCJj1MJ0WGUTor4fDgQw==
-X-Received: by 2002:aa7:d805:0:b0:548:7a28:4df4 with SMTP id v5-20020aa7d805000000b005487a284df4mr10958769edq.15.1701248178697;
-        Wed, 29 Nov 2023 00:56:18 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id f11-20020a056402354b00b0054b59096da4sm3377724edd.13.2023.11.29.00.56.18
+        d=1e100.net; s=20230601; t=1701254432; x=1701859232;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Bm8nLBIkNCr+KZTfcQ7bTcLZdST9mCWQWpCA/O9wn8M=;
+        b=amk63XsUWjrpB3NxDz2hOiPx0zdSzUy11pMTtgBPSRtv60lWGuZQVvo8EA81I9HvGn
+         o5Ut3MExCbokOteD/198Ru0aBDwwmixXe6hpYa/pH1hEIoY18OvkLfViefq/AsNYHcsw
+         0Y9vAEVIGeTrtcRvleZNlw5sEwrjNlCXr8Y6J2kLQizOP3ib7ufckyZpahZm7xPtRNwa
+         EMTFlpf7H61zMlGzmoNRTfAMOCRF5j10Yfu6HaeNREL8UWnpTDsW92+taCvP/RaOOO8x
+         b0gJ5ft32wqFHsw5BYhg60cfIAkLE+5/eQ7gQpRWkY4uYvarzCyaY/HpvPjSAdZmebnF
+         UaUA==
+X-Gm-Message-State: AOJu0Yxb2H+moRf4iZXyRL+KkkxL5TadII3C40cMvHTcjVamkUV988ji
+	6BJbOpP9iLbBTZXZ1vN07dj8zA==
+X-Google-Smtp-Source: AGHT+IFTmNOn74uSS7KDtgmuHlJSu0eJS/zzswEYkBd3glEdfzje6WSaTZeQIc5qwPDxMRLLBKynXA==
+X-Received: by 2002:a05:600c:3583:b0:401:b6f6:d90c with SMTP id p3-20020a05600c358300b00401b6f6d90cmr13516868wmq.35.1701254432319;
+        Wed, 29 Nov 2023 02:40:32 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id az25-20020a05600c601900b0040b2b9bf321sm1778375wmb.9.2023.11.29.02.40.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 00:56:18 -0800 (PST)
-Message-ID: <aa9d45b7c7a21fa818f79d249536c461b2dcac9c.camel@gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Guenter Roeck
- <linux@roeck-us.net>,  Andy Shevchenko <andy@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Nuno Sa via B4 Relay
- <devnull+nuno.sa.analog.com@kernel.org>, linux-hwmon@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>, Rob
- Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij
- <linus.walleij@linaro.org>
-Date: Wed, 29 Nov 2023 09:56:17 +0100
-In-Reply-To: <d4a9bd79-1cb6-4da6-9380-bb8085866533@kernel.org>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
-	 <202311250548.lUn3bm1A-lkp@intel.com>
-	 <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
-	 <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
-	 <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
-	 <ZWS90GQTJWA7DrML@smile.fi.intel.com>
-	 <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
-	 <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
-	 <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
-	 <d4a9bd79-1cb6-4da6-9380-bb8085866533@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Wed, 29 Nov 2023 02:40:31 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Wed, 29 Nov 2023 13:40:28 +0300
+To: oe-kbuild@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 20/45] drm/vc4: hdmi: Switch to HDMI connector
+Message-ID: <72609a09-57ed-45a0-bbba-b51a78ae6718@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231128-kms-hdmi-connector-state-v4-20-c7602158306e@kernel.org>
 
-On Wed, 2023-11-29 at 09:45 +0100, Krzysztof Kozlowski wrote:
-> On 29/11/2023 09:35, Nuno S=C3=A1 wrote:
-> > On Tue, 2023-11-28 at 10:03 -0800, Guenter Roeck wrote:
-> > > On 11/28/23 08:50, Krzysztof Kozlowski wrote:
-> > > > On 27/11/2023 17:03, Andy Shevchenko wrote:
-> > > > > On Mon, Nov 27, 2023 at 09:12:14AM +0100, Krzysztof Kozlowski wro=
-te:
-> > > > > > On 27/11/2023 09:10, Krzysztof Kozlowski wrote:
-> > > > >=20
-> > > > > ...
-> > > > >=20
-> > > > > > Wait, this was not even unusual test, just standard compile, wh=
-ich means
-> > > > > > you did not do basic tests on your end. You must build your new=
- driver
-> > > > > > with W=3D1, smatch, sparse and coccinelle before sending upstre=
-am.
-> > > > >=20
-> > > > > Well, sparse is lagging in development, for the last year it's at=
- least two
-> > > > > times it broke kernel builds because of being not ready for the n=
-ew stuff
-> > > > > used
-> > > > > in the kernel. Do we have anybody to sync this? I don't think so,=
- hence
-> > > > > requiring this from developer is doubtful. Otherwise I agree, tha=
-t basic
-> > > > > compilation with GCC/LLVM must be done.
-> > > >=20
-> > > > Sparse still detects several issues and handles lock annotations, s=
-o it
-> > > > is useful. But if you disagree with that part, I still insist on Sm=
-atch
-> > > > (which is actively developed and works great) and Coccinelle (also
-> > > > actively developed).
-> > > >=20
-> > >=20
-> > > Quite frankly, for my part I would be more than happy if people would=
- read
-> > > and follow Documentation/hwmon/submitting-patches.rst. Most submitter=
-s don't
-> > > bother. That doesn't even mention building with W=3D1 (the much more =
-optimistic
-> > > me who wrote that document several years ago thought that would be ob=
-vious),
-> > > much less running any source code analysis tools . Feel free to submi=
-t a patch
-> > > to strengthen the wording there. If you do that, it would have to be =
-more
-> > > explicit
-> > > then "run smatch" or "run coccinelle" because hardly anyone would kno=
-w how
-> > > to do that.
-> > >=20
-> >=20
-> > IMO, submitting patches to linux is already not the most straightforwar=
-d thing in
-> > the
->=20
-> True...
->=20
-> > world. If we are now going to ask to run smatch, cocci, sparse and so o=
-n, we will
-> > scare even more developers from the community... I mean, the bots are a=
-lso in
-> > place
->=20
-> This is not related to Linux at all. When you develop any C or C++ code,
-> you run these tools. Upstream or downstream, does not matter. Why would
-> you not use automated, free and easy tools to detect errors in your
-> code? It's just a matter of professional approach to your code.
->=20
+Hi Maxime,
 
-That's true but still are too many things to remember for every single chan=
-ge/driver
-one sends upstream. Yeah, I might just wrap b4 in a script to run more adva=
-nced
-checks on my patches before 'send'.
+kernel test robot noticed the following build warnings:
 
-> > to help with these kind of more advanced analysis, right?
->=20
-> They do not come for free (someone is paying for them even if they are
-> for free to you) and they have delays in responses.
->=20
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Yeah, but actually thanks to you, I discovered I can have my private branch=
-es covered
-by lkp (and I got the PR merged already) and I do not mind having 1/2 day d=
-elay for
-sending patches. So maybe that will help me avoid these kind of mistakes.
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-helpers-Add-atomic-helpers/20231128-193409
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-20-c7602158306e%40kernel.org
+patch subject: [PATCH v4 20/45] drm/vc4: hdmi: Switch to HDMI connector
+config: riscv-randconfig-r071-20231129 (https://download.01.org/0day-ci/archive/20231129/202311291447.R4I3Miat-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231129/202311291447.R4I3Miat-lkp@intel.com/reproduce)
 
-- Nuno S=C3=A1
->=20
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311291447.R4I3Miat-lkp@intel.com/
+
+New smatch warnings:
+drivers/gpu/drm/vc4/vc4_hdmi.c:729 vc4_hdmi_write_infoframe() error: uninitialized symbol 'ret'.
+
+vim +/ret +729 drivers/gpu/drm/vc4/vc4_hdmi.c
+
+05f440faa3b81a Maxime Ripard 2023-11-28  655  static int vc4_hdmi_write_infoframe(struct drm_connector *connector,
+05f440faa3b81a Maxime Ripard 2023-11-28  656  				    enum hdmi_infoframe_type type,
+05f440faa3b81a Maxime Ripard 2023-11-28  657  				    const u8 *infoframe, size_t len)
+21317b3fba5428 Eric Anholt   2016-09-29  658  {
+05f440faa3b81a Maxime Ripard 2023-11-28  659  	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+05f440faa3b81a Maxime Ripard 2023-11-28  660  	struct drm_device *drm = connector->dev;
+05f440faa3b81a Maxime Ripard 2023-11-28  661  	u32 packet_id = type - 0x80;
+311e305fdb4e82 Maxime Ripard 2020-09-03  662  	const struct vc4_hdmi_register *ram_packet_start =
+311e305fdb4e82 Maxime Ripard 2020-09-03  663  		&vc4_hdmi->variant->registers[HDMI_RAM_PACKET_START];
+311e305fdb4e82 Maxime Ripard 2020-09-03  664  	u32 packet_reg = ram_packet_start->offset + VC4_HDMI_PACKET_STRIDE * packet_id;
+b6079d1578dc4b Dom Cobley    2022-06-13  665  	u32 packet_reg_next = ram_packet_start->offset +
+b6079d1578dc4b Dom Cobley    2022-06-13  666  		VC4_HDMI_PACKET_STRIDE * (packet_id + 1);
+311e305fdb4e82 Maxime Ripard 2020-09-03  667  	void __iomem *base = __vc4_hdmi_get_field_base(vc4_hdmi,
+311e305fdb4e82 Maxime Ripard 2020-09-03  668  						       ram_packet_start->reg);
+b6079d1578dc4b Dom Cobley    2022-06-13  669  	uint8_t buffer[VC4_HDMI_PACKET_STRIDE] = {};
+81fb55e500a82a Maxime Ripard 2021-10-25  670  	unsigned long flags;
+05f440faa3b81a Maxime Ripard 2023-11-28  671  	ssize_t i;
+21317b3fba5428 Eric Anholt   2016-09-29  672  	int ret;
+cd00ed5187bff0 Maxime Ripard 2022-07-11  673  	int idx;
+cd00ed5187bff0 Maxime Ripard 2022-07-11  674  
+cd00ed5187bff0 Maxime Ripard 2022-07-11  675  	if (!drm_dev_enter(drm, &idx))
+05f440faa3b81a Maxime Ripard 2023-11-28  676  		return 0;
+05f440faa3b81a Maxime Ripard 2023-11-28  677  
+05f440faa3b81a Maxime Ripard 2023-11-28  678  	if (len > sizeof(buffer))
+05f440faa3b81a Maxime Ripard 2023-11-28  679  		goto out;
+
+ret = -EINVAL;
+
+05f440faa3b81a Maxime Ripard 2023-11-28  680  
+05f440faa3b81a Maxime Ripard 2023-11-28  681  	memcpy(buffer, infoframe, len);
+21317b3fba5428 Eric Anholt   2016-09-29  682  
+311e305fdb4e82 Maxime Ripard 2020-09-03  683  	WARN_ONCE(!(HDMI_READ(HDMI_RAM_PACKET_CONFIG) &
+21317b3fba5428 Eric Anholt   2016-09-29  684  		    VC4_HDMI_RAM_PACKET_ENABLE),
+21317b3fba5428 Eric Anholt   2016-09-29  685  		  "Packet RAM has to be on to store the packet.");
+21317b3fba5428 Eric Anholt   2016-09-29  686  
+05f440faa3b81a Maxime Ripard 2023-11-28  687  	ret = vc4_hdmi_stop_packet(vc4_hdmi, type, true);
+21317b3fba5428 Eric Anholt   2016-09-29  688  	if (ret) {
+21317b3fba5428 Eric Anholt   2016-09-29  689  		DRM_ERROR("Failed to wait for infoframe to go idle: %d\n", ret);
+cd00ed5187bff0 Maxime Ripard 2022-07-11  690  		goto out;
+21317b3fba5428 Eric Anholt   2016-09-29  691  	}
+21317b3fba5428 Eric Anholt   2016-09-29  692  
+81fb55e500a82a Maxime Ripard 2021-10-25  693  	spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
+81fb55e500a82a Maxime Ripard 2021-10-25  694  
+21317b3fba5428 Eric Anholt   2016-09-29  695  	for (i = 0; i < len; i += 7) {
+311e305fdb4e82 Maxime Ripard 2020-09-03  696  		writel(buffer[i + 0] << 0 |
+21317b3fba5428 Eric Anholt   2016-09-29  697  		       buffer[i + 1] << 8 |
+311e305fdb4e82 Maxime Ripard 2020-09-03  698  		       buffer[i + 2] << 16,
+311e305fdb4e82 Maxime Ripard 2020-09-03  699  		       base + packet_reg);
+21317b3fba5428 Eric Anholt   2016-09-29  700  		packet_reg += 4;
+21317b3fba5428 Eric Anholt   2016-09-29  701  
+311e305fdb4e82 Maxime Ripard 2020-09-03  702  		writel(buffer[i + 3] << 0 |
+21317b3fba5428 Eric Anholt   2016-09-29  703  		       buffer[i + 4] << 8 |
+21317b3fba5428 Eric Anholt   2016-09-29  704  		       buffer[i + 5] << 16 |
+311e305fdb4e82 Maxime Ripard 2020-09-03  705  		       buffer[i + 6] << 24,
+311e305fdb4e82 Maxime Ripard 2020-09-03  706  		       base + packet_reg);
+21317b3fba5428 Eric Anholt   2016-09-29  707  		packet_reg += 4;
+21317b3fba5428 Eric Anholt   2016-09-29  708  	}
+21317b3fba5428 Eric Anholt   2016-09-29  709  
+b6079d1578dc4b Dom Cobley    2022-06-13  710  	/*
+b6079d1578dc4b Dom Cobley    2022-06-13  711  	 * clear remainder of packet ram as it's included in the
+b6079d1578dc4b Dom Cobley    2022-06-13  712  	 * infoframe and triggers a checksum error on hdmi analyser
+b6079d1578dc4b Dom Cobley    2022-06-13  713  	 */
+b6079d1578dc4b Dom Cobley    2022-06-13  714  	for (; packet_reg < packet_reg_next; packet_reg += 4)
+b6079d1578dc4b Dom Cobley    2022-06-13  715  		writel(0, base + packet_reg);
+b6079d1578dc4b Dom Cobley    2022-06-13  716  
+311e305fdb4e82 Maxime Ripard 2020-09-03  717  	HDMI_WRITE(HDMI_RAM_PACKET_CONFIG,
+311e305fdb4e82 Maxime Ripard 2020-09-03  718  		   HDMI_READ(HDMI_RAM_PACKET_CONFIG) | BIT(packet_id));
+81fb55e500a82a Maxime Ripard 2021-10-25  719  
+81fb55e500a82a Maxime Ripard 2021-10-25  720  	spin_unlock_irqrestore(&vc4_hdmi->hw_lock, flags);
+81fb55e500a82a Maxime Ripard 2021-10-25  721  
+311e305fdb4e82 Maxime Ripard 2020-09-03  722  	ret = wait_for((HDMI_READ(HDMI_RAM_PACKET_STATUS) &
+21317b3fba5428 Eric Anholt   2016-09-29  723  			BIT(packet_id)), 100);
+21317b3fba5428 Eric Anholt   2016-09-29  724  	if (ret)
+21317b3fba5428 Eric Anholt   2016-09-29  725  		DRM_ERROR("Failed to wait for infoframe to start: %d\n", ret);
+cd00ed5187bff0 Maxime Ripard 2022-07-11  726  
+cd00ed5187bff0 Maxime Ripard 2022-07-11  727  out:
+cd00ed5187bff0 Maxime Ripard 2022-07-11  728  	drm_dev_exit(idx);
+05f440faa3b81a Maxime Ripard 2023-11-28 @729  	return ret;
+21317b3fba5428 Eric Anholt   2016-09-29  730  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
