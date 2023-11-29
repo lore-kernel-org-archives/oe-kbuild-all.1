@@ -1,113 +1,124 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE68C249F4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 16:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA4E3B7AA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 17:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JyiCIe+r"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c9c03dac8aso8785921fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 08:10:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xVAMt53r"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40b5155e154so10222845e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 09:17:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701274201; x=1701879001; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0gVwtVEOP0F6ww9pRY3J7jQpFumQUStnI1asdXzYxfo=;
-        b=JyiCIe+robjMS/YO0Jje9TNtD/5D8OEj8SyGxTZNpXRag2jih7x0nmXH3uc0y2XPrK
-         uzMKoFKgpC5oF+EPd5ELWynkCKnOmCWnf9cGPUB8zUcBayHo8CfzEIwUa5uFpS1dy6nW
-         AEXe8cRlIGNPGbJlXRLaSwQjZJREoo9uorODYz5n0F+WlXlo4wVgkcrGzUtcJinFpXGn
-         RxQNjx+b6Ng5Sc6dBN+cVahorjLxc2Rgt7jvcUUaFk5BDoNkwsM1VrgC2K/9SJbBdua4
-         D6IRH84WRjVlZZRxIcZ8S8ORyT52DU5vEvN532C5MxL5L8xNTafELNKA+diw5wkNwp+8
-         6yrg==
+        d=linaro.org; s=google; t=1701278235; x=1701883035; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pQjYLlkvdy9WsOfefeV5jPzAVy1sCma1k4+24riX/0E=;
+        b=xVAMt53rxslpnMx4WQ1runsi6Rg8iYo70pFNSFnla3A6W6dma62AkPU66jCX3yDGtd
+         1a2F17USfIDYD5nA2NytVhmiPrMPCpcRhVE7nm8PVUg6ftxKuNjrCMnrq8KMHGPDlmsY
+         aC+EgYR3axPCAcVmTSFiM61p9x8zSI+cwRK0RVUo5LjNgIuS+hptipgTdBGI3JEGVhSA
+         HTTLAy18fLc83v9gtqXB3CxVzCNEpoQYeLo1deSMF2JyCB6cSIXFvvhaGzhjp0OB8R1B
+         LATq+C8wvmi0uWQgxJXbE6zJuzqxFZ/t1h9xTvzuaMBG/coLoasx+KHsB9VpmaQI0rzA
+         1ORg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701274201; x=1701879001;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0gVwtVEOP0F6ww9pRY3J7jQpFumQUStnI1asdXzYxfo=;
-        b=rAkIPjM2qExz4iWCtPe5gPXutOVNdzjqgTpqS91y238h4tdhL4WSDSdusU0jFHUfak
-         rXok0E15vnyt16ZatDrNW4twxuVTSf/mFRbFgKoTFL4Nd5WHfhP5vaATJnkpqQtkCYt6
-         B6SxBITOZadf1hPIfAvYAH6TDuvhLno8c/9ZJKcTQGSs95Fg79fviUN96ZzxY1TBiMgv
-         KOZE48dQr12vKZKxdhmCD3x9HO8TJWYvpSm0T/PTwYGibL6kYr20gRRiVtO6gUFqVTC7
-         SqMpnc7Hw88s7wKmV0nyBVfyqlVX9aCID53b/8bZYlcWb+TENuKqOj0BUTBU18P6ZBQf
-         nLKA==
-X-Gm-Message-State: AOJu0YwrlJLovqbYq/m1Q2iDhmFezldCjgTd5TvX9Co5aZhRMyp1mhtc
-	+0DAKtmFBW7FB9/EyM25tg8=
-X-Google-Smtp-Source: AGHT+IFNqCQICTcgkfZf93dr7jAtb3Xl5vrjI3kQ4p2Rj/gReXYF32JunlQQf7VmLrKGPTXBU/NW6A==
-X-Received: by 2002:a05:651c:1a06:b0:2c9:9953:30ec with SMTP id by6-20020a05651c1a0600b002c9995330ecmr11490543ljb.20.1701274200474;
-        Wed, 29 Nov 2023 08:10:00 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id cr18-20020a05600004f200b0033304787251sm7876350wrb.17.2023.11.29.08.09.59
+        d=1e100.net; s=20230601; t=1701278235; x=1701883035;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pQjYLlkvdy9WsOfefeV5jPzAVy1sCma1k4+24riX/0E=;
+        b=A7ahfC40/1W/mRNPC5M3Qm9kbj/lc7k+EuvP6C84ZqkHblzG3L5zcKghT3rPNm/AdU
+         od8W7n78jGDSIFP9VGdTy8H2Z5ADulh0lGyxAwZLehoDpGj2/DWT22G9I650xWpa07UW
+         f7EMCKIFqPumEhyw+fj8eynVMb09Tcf9RP29cteSXyaVy0c1csyyIZbRx/yBCbhOLnhB
+         zMk4/BCO/KQqCJzmUKdMt2pL5MWTbdcnrzdEkEC9mwugIx+FlHW7cfZ94DuoWr3NrHmf
+         ZXBtBT5LpbiregGTpG3c3SA+XSlCypMkD0Fd/gLEEOuELfiu/fLTEGkSyPG536lVCOFP
+         WCiw==
+X-Gm-Message-State: AOJu0YwoLDFuKXtjGwP70OSh+Pq3LAcuGvo+G/lTJxnjKXtETry/4oas
+	TyNsHbjUBzP4+KJpQiTJ+pLP2Q==
+X-Google-Smtp-Source: AGHT+IFiGMtcc/w6A0g2PQpHuJr2aGoT/Qk6jsvbe4KFeQcAp1sf/PVRvdbL95OFk1itqG+rJAP3cg==
+X-Received: by 2002:a05:6000:c12:b0:332:ffcc:861b with SMTP id dn18-20020a0560000c1200b00332ffcc861bmr8160569wrb.1.1701278235435;
+        Wed, 29 Nov 2023 09:17:15 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j1-20020adfe501000000b003331b0e30e6sm1763724wrm.32.2023.11.29.09.17.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 08:10:00 -0800 (PST)
-Message-ID: <3e709b197c6131cc9bbc324dc19f007de5914ad5.camel@gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, Krzysztof Kozlowski
- <krzk@kernel.org>,  Andy Shevchenko <andy@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Nuno Sa via B4 Relay
- <devnull+nuno.sa.analog.com@kernel.org>, linux-hwmon@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>, Rob
- Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij
- <linus.walleij@linaro.org>
-Date: Wed, 29 Nov 2023 17:09:59 +0100
-In-Reply-To: <53ce752e-4292-479e-8c40-2a96f4c692dc@roeck-us.net>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
-	 <202311250548.lUn3bm1A-lkp@intel.com>
-	 <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
-	 <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
-	 <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
-	 <ZWS90GQTJWA7DrML@smile.fi.intel.com>
-	 <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
-	 <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
-	 <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
-	 <53ce752e-4292-479e-8c40-2a96f4c692dc@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Wed, 29 Nov 2023 09:17:15 -0800 (PST)
+From: Dan Carpenter <dan.carpenter@linaro.org>
+X-Google-Original-From: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Wed, 29 Nov 2023 20:17:11 +0300
+To: oe-kbuild@lists.linux.dev, Meng Li <li.meng@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH V11 5/7] cpufreq: amd-pstate: Update amd-pstate preferred
+ core ranking dynamically
+Message-ID: <0c9be646-1687-4ea1-9736-345714619b2b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231129065437.290183-6-li.meng@amd.com>
 
-On Wed, 2023-11-29 at 06:47 -0800, Guenter Roeck wrote:
-> On 11/29/23 00:35, Nuno S=C3=A1 wrote:
-> [ ... ]
->=20
-> >=20
-> > For the record, I do care about the code I submit and missing 'static' =
-is quite
-> > embarrassing, yes. The only reason why I still dind't send the v3 fixin=
-g that is
-> > because I'm giving more time to see if you can review some of the other=
- changes.
-> > I'm
-> > pretty sure I'll be asked to change more things in v2 (as stated in the=
- cover,
-> > there
-> > are still some shady things in the driver).
-> >=20
->=20
-> NP, but you (and others) will have to accept that your patches end up at =
-the end
-> of my lowest-priority review queue if 0-day or checkpatch or builds with =
-W=3D1
-> end up reporting problems. My time is limited, and I am extremely wary of=
- having
-> to keep telling people to run checkpatch or builds with W=3D1.
->=20
-> Guenter
->=20
+Hi Meng,
 
-Hmm I see... So I might just send a v3 with the feedback I got so far plus =
-getting 0-
-day fixed. That way, I might get out of the lowest-priority queue :)
+kernel test robot noticed the following build warnings:
 
-- Nuno S=C3=A1
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Meng-Li/x86-Drop-CPU_SUP_INTEL-from-SCHED_MC_PRIO-for-the-expansion/20231129-160700
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20231129065437.290183-6-li.meng%40amd.com
+patch subject: [PATCH V11 5/7] cpufreq: amd-pstate: Update amd-pstate preferred core ranking dynamically
+config: i386-randconfig-141-20231129 (https://download.01.org/0day-ci/archive/20231130/202311300033.L6FNuSrE-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231130/202311300033.L6FNuSrE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202311300033.L6FNuSrE-lkp@intel.com/
+
+smatch warnings:
+drivers/cpufreq/amd-pstate.c:763 amd_pstate_update_highest_perf() error: potentially dereferencing uninitialized 'cpudata'.
+
+vim +/cpudata +763 drivers/cpufreq/amd-pstate.c
+
+b631665e8af8a7 Meng Li 2023-11-29  756  static void amd_pstate_update_highest_perf(unsigned int cpu)
+b631665e8af8a7 Meng Li 2023-11-29  757  {
+b631665e8af8a7 Meng Li 2023-11-29  758  	struct cpufreq_policy *policy;
+b631665e8af8a7 Meng Li 2023-11-29  759  	struct amd_cpudata *cpudata;
+b631665e8af8a7 Meng Li 2023-11-29  760  	u32 prev_high = 0, cur_high = 0;
+b631665e8af8a7 Meng Li 2023-11-29  761  	int ret;
+b631665e8af8a7 Meng Li 2023-11-29  762  
+b631665e8af8a7 Meng Li 2023-11-29 @763  	if ((!amd_pstate_prefcore) || (!cpudata->hw_prefcore))
+                                                                                ^^^^^^^^^^^^^^^^^^^^
+Uninitialized.
+
+Normally the Clang devs would be the first to report this but they're
+sleeping on the ball this time.  :P  #FRISTPOST #LOL
+
+b631665e8af8a7 Meng Li 2023-11-29  764  		return;
+b631665e8af8a7 Meng Li 2023-11-29  765  
+b631665e8af8a7 Meng Li 2023-11-29  766  	ret = amd_pstate_get_highest_perf(cpu, &cur_high);
+b631665e8af8a7 Meng Li 2023-11-29  767  	if (ret)
+b631665e8af8a7 Meng Li 2023-11-29  768  		return;
+b631665e8af8a7 Meng Li 2023-11-29  769  
+b631665e8af8a7 Meng Li 2023-11-29  770  	policy = cpufreq_cpu_get(cpu);
+b631665e8af8a7 Meng Li 2023-11-29  771  	cpudata = policy->driver_data;
+b631665e8af8a7 Meng Li 2023-11-29  772  	prev_high = READ_ONCE(cpudata->prefcore_ranking);
+b631665e8af8a7 Meng Li 2023-11-29  773  
+b631665e8af8a7 Meng Li 2023-11-29  774  	if (prev_high != cur_high) {
+b631665e8af8a7 Meng Li 2023-11-29  775  		WRITE_ONCE(cpudata->prefcore_ranking, cur_high);
+b631665e8af8a7 Meng Li 2023-11-29  776  
+b631665e8af8a7 Meng Li 2023-11-29  777  		if (cur_high < CPPC_MAX_PERF)
+b631665e8af8a7 Meng Li 2023-11-29  778  			sched_set_itmt_core_prio((int)cur_high, cpu);
+b631665e8af8a7 Meng Li 2023-11-29  779  	}
+b631665e8af8a7 Meng Li 2023-11-29  780  
+b631665e8af8a7 Meng Li 2023-11-29  781  	cpufreq_cpu_put(policy);
+b631665e8af8a7 Meng Li 2023-11-29  782  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
