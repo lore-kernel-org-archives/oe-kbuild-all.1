@@ -1,154 +1,111 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDB8125AF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 08:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC427125A1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 08:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rpw4BJN2"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a03a900956dso122188566b.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 00:35:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701246907; x=1701851707; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cA14jHG61e0KGqj1Ve4QFXbJJfNMDY5MU0/yKOooMVo=;
-        b=Rpw4BJN2ftRquXW6Oc5KoCi640ovw8m5pi32ZYBo4AHR+LpTmk1NopGxAPRsPe6mXB
-         q3Z2zAbJfntA1l6cdO6pJKrVrHNNgmPjp3qBo0SEoKwMM4SLzq5feXLLNkoxMZQs40Vw
-         MLqDZILYdEjv7SObM2F17Ef3m1RVj8TUdfIw9jgbT+t2XRX5NZ04anYp5mI+ZkvbSK/O
-         rB7MQvTzmQ9NNNLjGMGwemR0pjX4mnJOJGGa7bdRQAwg1FVyD7qUEkQnqlXDgW1Zdcu6
-         cWpiivi0ME9+H5WhaHezYitTYJosMzhozFQhsbrnlj5jMZvXDq8Gy4XakcemVsfY8zgb
-         ZyrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701246907; x=1701851707;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cA14jHG61e0KGqj1Ve4QFXbJJfNMDY5MU0/yKOooMVo=;
-        b=Ym77QjOE0tWizrAgDcxp1WtExeu1MY5JdbIDNAZa3ZTXvFNNi+3Xq6767/tdCzSUZ/
-         XvwfxUZdIbqRLxxmdrPOjhwZaLyoy1Z+EldVwE56kHvnDM++YLwsB59yLluuSm7DTmP1
-         ePeliX5cmxgdDcBL7KyqXUa2li8taHw65zsfV3ymbFIKCkhP2Suq3c8oDNWmVCvwfOH2
-         hK6yCU58Fi5H1qE5BZ8XoLHVw2i0yjDScS5lfu6LZBNRXH8bcd8I1fEXuOt6OmycILRs
-         ZPSENAIyoreF5w/u3pmoWFMIa3J+NUUwoNDoIAjtQ2Xe+rxLBYY4IpeW8IiP99haUvAb
-         lq7A==
-X-Gm-Message-State: AOJu0Yxvnps7hsRoT1PABrKO+sR46Nk4hOw6qf03pRVTmDDti9j9u4NY
-	OoCOfncc4U6Pd8D1HjB8GLE=
-X-Google-Smtp-Source: AGHT+IEE6I9n61Xm1Iz80V1aFTp6aYbe+xjhdNzzLS9CFM4DqBZUgnD6kwJlhDE+5KvGvUof24ydHQ==
-X-Received: by 2002:a17:906:2dc:b0:a0f:c538:4612 with SMTP id 28-20020a17090602dc00b00a0fc5384612mr6422237ejk.28.1701246906447;
-        Wed, 29 Nov 2023 00:35:06 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id t17-20020a170906a11100b00a015eac52dcsm7615127ejy.108.2023.11.29.00.35.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 00:35:05 -0800 (PST)
-Message-ID: <c7e7b7bedd5b016a29cc86f767cbec533d727ff4.camel@gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: ltc4282: add support for the LTC4282 chip
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, Krzysztof Kozlowski
- <krzk@kernel.org>,  Andy Shevchenko <andy@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Nuno Sa via B4 Relay
- <devnull+nuno.sa.analog.com@kernel.org>, linux-hwmon@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>, Rob
- Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij
- <linus.walleij@linaro.org>
-Date: Wed, 29 Nov 2023 09:35:05 +0100
-In-Reply-To: <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
-References: <20231124-ltc4282-support-v2-2-952bf926f83c@analog.com>
-	 <202311250548.lUn3bm1A-lkp@intel.com>
-	 <fb2aaa4c69c88738499dfbf46ef93e3b81ca93cb.camel@gmail.com>
-	 <76957975-56e7-489e-9c79-086b6c1ffe89@kernel.org>
-	 <ac950d01-d9aa-4fb7-810d-b21335e4cc94@kernel.org>
-	 <ZWS90GQTJWA7DrML@smile.fi.intel.com>
-	 <bcc5da24-7243-42fa-a82b-48851ce17c0c@kernel.org>
-	 <cacce41f-f1c0-4f76-ab24-c6ea8bb0303f@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JdGbhASt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701247141;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xJX93Tpg94woqfZUkMv1QEDU9HKHF+FZ0rIOC151TyA=;
+	b=JdGbhASt5LrObJHdVU6rFbocBnUonQIwoFChyt+dT9FiqIffPg2FCFupsQMW7+MK41pIve
+	KXCHjAYh4V+7nypOB0/50wxLDBXsYoG+E39vHnkFQ3EqZbif/ivfeuJGjP5BpUWk3jKmsC
+	090HWuvXksMHTXWFpH2fcQXnkbW8U2Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-594-N3n6YeDTM3eGVsVLDaEKmQ-1; Wed, 29 Nov 2023 03:39:00 -0500
+X-MC-Unique: N3n6YeDTM3eGVsVLDaEKmQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6287C852ACB;
+	Wed, 29 Nov 2023 08:38:59 +0000 (UTC)
+Received: from [10.45.225.216] (unknown [10.45.225.216])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 89F9D36E4;
+	Wed, 29 Nov 2023 08:38:41 +0000 (UTC)
+Message-ID: <63bd858a-fe07-4eda-9835-d999e2905860@redhat.com>
+Date: Wed, 29 Nov 2023 09:38:40 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/5] i40e: Fix broken support for floating VEBs
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ intel-wired-lan@lists.osuosl.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
+ Jacob Keller <jacob.e.keller@intel.com>,
+ Wojciech Drewek <wojciech.drewek@intel.com>, Simon Horman
+ <horms@kernel.org>, mschmidt@redhat.com, netdev@vger.kernel.org
+References: <25111205-a895-46a2-b53f-49e29ba41b16@suswa.mountain>
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <25111205-a895-46a2-b53f-49e29ba41b16@suswa.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 
-On Tue, 2023-11-28 at 10:03 -0800, Guenter Roeck wrote:
-> On 11/28/23 08:50, Krzysztof Kozlowski wrote:
-> > On 27/11/2023 17:03, Andy Shevchenko wrote:
-> > > On Mon, Nov 27, 2023 at 09:12:14AM +0100, Krzysztof Kozlowski wrote:
-> > > > On 27/11/2023 09:10, Krzysztof Kozlowski wrote:
-> > >=20
-> > > ...
-> > >=20
-> > > > Wait, this was not even unusual test, just standard compile, which =
-means
-> > > > you did not do basic tests on your end. You must build your new dri=
-ver
-> > > > with W=3D1, smatch, sparse and coccinelle before sending upstream.
-> > >=20
-> > > Well, sparse is lagging in development, for the last year it's at lea=
-st two
-> > > times it broke kernel builds because of being not ready for the new s=
-tuff used
-> > > in the kernel. Do we have anybody to sync this? I don't think so, hen=
-ce
-> > > requiring this from developer is doubtful. Otherwise I agree, that ba=
-sic
-> > > compilation with GCC/LLVM must be done.
-> >=20
-> > Sparse still detects several issues and handles lock annotations, so it
-> > is useful. But if you disagree with that part, I still insist on Smatch
-> > (which is actively developed and works great) and Coccinelle (also
-> > actively developed).
-> >=20
->=20
-> Quite frankly, for my part I would be more than happy if people would rea=
-d
-> and follow Documentation/hwmon/submitting-patches.rst. Most submitters do=
-n't
-> bother. That doesn't even mention building with W=3D1 (the much more opti=
-mistic
-> me who wrote that document several years ago thought that would be obviou=
-s),
-> much less running any source code analysis tools . Feel free to submit a =
-patch
-> to strengthen the wording there. If you do that, it would have to be more=
- explicit
-> then "run smatch" or "run coccinelle" because hardly anyone would know ho=
-w
-> to do that.
->=20
+On 27. 11. 23 9:43, Dan Carpenter wrote:
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14720
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14721  	pf = veb->pf;
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14722
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14723  	/* find the
+> remaining VSI and check for extras */
+> 0aab77d67d37d09 Ivan Vecera      2023-11-24  14724  	
+> i40e_pf_for_each_vsi(pf, i, vsi_it)
+> 0aab77d67d37d09 Ivan Vecera      2023-11-24  14725  		if
+> (vsi_it->uplink_seid == veb->seid) {
+> 93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14726  			if
+> (vsi_it->flags & I40E_VSI_FLAG_VEB_OWNER)
+> 0aab77d67d37d09 Ivan Vecera      2023-11-24  14727  				vsi = vsi_it;
+> 
+> Do we always find a vsi?  Presumably, yes, but it's not obvious just
+> from reading this function.
 
-IMO, submitting patches to linux is already not the most straightforward th=
-ing in the
-world. If we are now going to ask to run smatch, cocci, sparse and so on, w=
-e will
-scare even more developers from the community... I mean, the bots are also =
-in place
-to help with these kind of more advanced analysis, right?
+Yes, if the VEB has uplink (veb->uplink_seid != 0) then it has to have a 
+downlink VSI that owns it (vsi->flags has I40E_VSI_FLAG_VEB_OWNER set)
 
-> Until then, there isn't really anything to insist on. I even had submitte=
-rs
-> react angry when I asked them to follow the guidance in that document,
-> so I won't insist on anything that isn't documented as requirement.
-> Quite frankly, most of the time I'd probably fix up issues such as missin=
-g
-> "static" myself because I am tired having to argue about it with submitte=
-rs
-> who don't care.
->=20
+Ivan
 
-For the record, I do care about the code I submit and missing 'static' is q=
-uite
-embarrassing, yes. The only reason why I still dind't send the v3 fixing th=
-at is
-because I'm giving more time to see if you can review some of the other cha=
-nges. I'm
-pretty sure I'll be asked to change more things in v2 (as stated in the cov=
-er, there
-are still some shady things in the driver).
-
-- Nuno S=C3=A1
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14728  			n++;
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14729  		}
+> 0aab77d67d37d09 Ivan Vecera      2023-11-24  14730
+> 93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14731  	/* Floating VEB has
+>   to be empty and regular one must have
+> 93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14732  	 * single owner
+> VSI.
+> 93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14733  	 */
+> 93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14734  	if
+> ((veb->uplink_seid && n != 1) || (!veb->uplink_seid
+> && n != 0)) {
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14735  		
+> dev_info(&pf->pdev->dev,
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14736  			 "can't remove
+> VEB %d with %d VSIs left\n",
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14737  			 veb->seid,
+> n);
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14738  		return;
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14739  	}
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14740
+> 93a1bc91a1ccc5a Ivan Vecera      2023-11-24  14741  	/* For regular VEB
+> move the owner VSI to uplink VEB */
+> 41c445ff0f482bb Jesse Brandeburg 2013-09-11  14742  	if
+> (veb->uplink_seid) {
+> 93a1bc91a1ccc5a Ivan Vecera      2023-11-24 @14743  		vsi->flags
+> &= ~I40E_VSI_FLAG_VEB_OWNER;
 
