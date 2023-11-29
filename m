@@ -1,122 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60174C9B;
-	Wed, 29 Nov 2023 02:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C971FC1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 03:01:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apjJAVYE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LzTPXDdl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701225796; x=1732761796;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3gB2cUnTontjyqwLxbuWUMvI9LjLu8A8kf0ACND0gc8=;
-  b=apjJAVYE8rYfmE1p4r9ciEjOjUejh+DNeHcAOOT5AbddWDDdwozbZl/F
-   k5nz4AZplxlWicwvf+aGi+Gw0+2RewDuTfczN4LHAe+3dIdPPqvP1Mc5F
-   Veniz2tmCkns21O7IGjxr42mE2u3UkHc4u4SHTU4p2Z/6tw+Mu/P0dLvR
-   XRhcXBLRdnpjXpyjEtrpd1bHJPpEs85eXKhc8rTupw+9sK7g5V6thCndf
-   b3kG5LuO97zAwUkfsDE6m5TV6p24XOZW15hLCw0gnhxN8DbwgkDK9rzZQ
-   H5P46qqBR3/A47xtDEGTZjZm4g5ibT5IzTlruhhLsdrSfFxDtVwcIXKCG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="373263238"
+  t=1701226871; x=1732762871;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KaJWSgiyxrF7M919R1YlXCenbY/HxHr0t7zHD2jq3Lw=;
+  b=LzTPXDdlsznU+AzRFL6ZK9CRu6U/QfVpRLgS+1e+kMMSuSuSM4yaAIOS
+   u+xFdDEHlzPzN2WkZmsN50iJVAVTYEZPie96ff1Wz80YxFJJ4rrbGryUY
+   rB1UDQolTza+YuJ6QomCKDlN65Sj8ATl4Pkifde9Z49zwunwNwZ9XAaL2
+   DcdLwor+SF9o0LBW85sYGXHNzktZAafNnD9yGD537CkGYtoqtvb39Jgei
+   sXitHzPWt0NMmSbCEyKQqzgOxpRr1YS9GTfnOdWQnx3k94Y3EXABjOeM3
+   gLJosM8jk9W9etbU6pPkmOHyA/BfZpaF+1pyz7ecgUQY34N0yHuhZML5s
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="459582209"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="373263238"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 18:43:10 -0800
+   d="scan'208";a="459582209"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 19:01:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="762137750"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="797768978"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="762137750"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 Nov 2023 18:43:08 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r8AXa-0008Ss-22;
-	Wed, 29 Nov 2023 02:43:06 +0000
-Date: Wed, 29 Nov 2023 10:40:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geliang Tang <geliang.tang@suse.com>, mptcp@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Geliang Tang <geliang.tang@suse.com>
-Subject: Re: [PATCH mptcp-next 3/4] mptcp: add ftrace callback of
- tcp_set_state
-Message-ID: <202311290855.aEWX2Ohy-lkp@intel.com>
-References: <6f4baef54a7631cdc1460138bc7e52f2c432c69b.1701180777.git.geliang.tang@suse.com>
+   d="scan'208";a="797768978"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Nov 2023 19:01:11 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 28 Nov 2023 19:01:10 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Tue, 28 Nov 2023 19:01:10 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Tue, 28 Nov 2023 19:01:10 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XerofnvFBKS1pCOHpqsfuCDTRUBOqMzNsenje6sX1Mo6bNsffhgfH1B27oNxvvHwnePr2UIZ9Ss2FkbC+t6k5qC64FxY++pbf/m/YRyjv0X3Bk3ABw/dD9DChRCSOX2XZ7BVSrJimbk1+4y2U4KvjAVwFbeBV4dXcipFPX4CUN66e21cu6lBsJbGtolPAqgsD0a6UBQJliDN7ep+BrTxjILu2um78ZmqOcYqhM9XOqXOB7nEk7YjODwGULzmjorJMSxIvRALKm7gr4zvXBMSL7CJgqTNuuZhFA6BqVuSzaxLIlYtyBicOaP1ZVXV3qpTGUiUreDRzxkMPw0ePuqYoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8D0zodcePSkMDFuwAivmKMVwxp0llF8EcY1W9BQk73w=;
+ b=FJKA5eRSpcm+pzbuz4QzWVhMZVH9DrjJ6Mvc33jgKZyUSlwBGyG7eRTP0mSw+65IKd6fbRdWnEvsp7vgTWIuqnDmH+U+D/CZMscYWiNGG3L5l+LtogEVfuDPNlislPDtZ3LCA0K2HRrxNOC5Nukr8Y6/Rk3IdRkDmlm+k2sgte2U9HbaHi58ZKaAuqA7S5iNP2U0oowDN3eXDACITsQzuNtV1JN6nxdW4v8QMPSGlKDgwBxV8+gNU+uF8Wy4BBXNujmkZY1aYEkYsPjLzTHspfwMBcqK+OmdSn7ragFhBfYKmIkXPivHi+6ZKtCHA5AqVhjxHEQOY3Iy2yZQKtPPWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by CO1PR11MB4996.namprd11.prod.outlook.com (2603:10b6:303:90::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.22; Wed, 29 Nov
+ 2023 03:01:09 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7025.022; Wed, 29 Nov 2023
+ 03:01:08 +0000
+Date: Wed, 29 Nov 2023 10:56:32 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-media@vger.kernel.org>
+Subject: [sailus-media-tree:metadata 59/72] drivers/media/i2c/ccs/ccs-core.c:
+ media/v4l2-fwnode.h is included more than once.
+Message-ID: <202311290754.2apI277B-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR03CA0111.apcprd03.prod.outlook.com
+ (2603:1096:4:91::15) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f4baef54a7631cdc1460138bc7e52f2c432c69b.1701180777.git.geliang.tang@suse.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|CO1PR11MB4996:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c083ca0-0c9d-48f1-f12f-08dbf0876f81
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IXoXEa7nU4XKasqoYon4CtHjVEI+kt7qjJDMeX0USvh0KYj4Gx5Wbo30pAw0Bb8BWnMrHnmjSbExa3dmBOFUQunguyqRHOb4olOjwA3VjfmtmXaGt21Hsn3OJbH18kfVpr2XNv/t3FRuVv26f+KRq0MOdy1kJMjwPFa8mvDIIIp60Zea6MOodo/XYgoS/5a/mn9f43uq0sKJwbRHy+iw3+Zs4peFL3sBcxuXGhoC6QjUqZnWa9tpec05CdubkMuQHXEG2Ddd+eYy5M9qs24nBTpARdnIpLIyc4dJ/bROTYBpbyAhSyICT4CWwr1KHfzmBukpfROUmx6XMYYhkeqpv8vExpIe2sgfS7VriiCcdM1KBhqz2tL1Uh1jq7Um8udhemAmMVFPx+o2zed0oPBY67ev4PfUvr/5JjY6OmQBt+8XwK1dUdb2tJhSSMlSzAJPv28WuSit2j9TTUcbsX5E6A+bDNnxD0RIOqggP0fpfkj2q/XMadVY0BPbK/5/MbkDcr9P+27D8Inn2TBP+34x9J27IwuQx3JqumFli99TwrqA7s0hPVRh2JEzEuB0JD1HB1+RSzovtnfHtKNA1TJpLBDB7qTRFrVia8jzWp271+XZk8+SegGkWRlmg5YjkEvXY3+1KxlLgrUGSMfufA3Usw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(136003)(366004)(376002)(346002)(230273577357003)(230922051799003)(230173577357003)(451199024)(186009)(64100799003)(1800799012)(66556008)(66946007)(316002)(966005)(6486002)(66476007)(6916009)(6506007)(478600001)(6512007)(82960400001)(83380400001)(36756003)(86362001)(38100700002)(2616005)(4326008)(5660300002)(8936002)(8676002)(1076003)(6666004)(41300700001)(2906002)(26005)(4744005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?V8EmA9EGfBGNzjcJh7jJUJFO+lpjWIqR75GnSRbE5izC6e6HPwDK0cTj4vV0?=
+ =?us-ascii?Q?SBHlTRS3Oq33veWtGn2mZROmCH0m4Omj0ebYPEsq9CNl7sIo67TobZFRr03h?=
+ =?us-ascii?Q?o/y4BeMo8Hzw5arAxEgxEJx1ebQIvYOck3G18KTcifqXhCQQmI294+aalNaH?=
+ =?us-ascii?Q?Q3Kj0uryk2FUbFxOlWGjjn2kRUWWSoq+1epjhbEpVu1H7Qhha6v9SX7BqQM4?=
+ =?us-ascii?Q?TpcuvsRdcjrEqAPfyfqYgnhqHMfNN1obnlCrAlJ9WoVB2H6VBufD/F0pzQzz?=
+ =?us-ascii?Q?fLzY4sa+Uw6dIKcXPiaG5BrQcrELnhj6E+alyaGzDTVCgeRoJfFOkr3EHT84?=
+ =?us-ascii?Q?dNKhzez5/eo2oQ0R2s8vt0a7fcaQQxi4e6TTLkBepL58z15LyJsulZqszQ72?=
+ =?us-ascii?Q?zy2OB1gppYxzGBCC689aSbZYS27IB2AHgeF376xKrpHzPPHu1wrBRpPTgS/J?=
+ =?us-ascii?Q?BdxR7enJ10P2mduIUrZrR3z5oXxq58JUbNMzMAn1bUVlSTzdOdSSNHD1GQ/a?=
+ =?us-ascii?Q?5cTTdUBJaort7WuuRPyMsuyHCiiapekBhywuKr+u8BsFGv1ODdavVEI4g25r?=
+ =?us-ascii?Q?kdeJ798XUFpl/UgtPS9SKARAnCjAMaO0LxigYd9NvorRvY60qK+1W7dRGTVa?=
+ =?us-ascii?Q?okeNPoIxLO9w2SUMQuVeGzbj9oUxaMRWYqHglrGL07rVA3dqTrUKJFy31h6C?=
+ =?us-ascii?Q?PQMLCm1ngVmoSRsiwxoTl2LUFcNOJ7RY8Dxy62kaKWy75jixJc4vkq/pGkRJ?=
+ =?us-ascii?Q?jgpixIjitYYe406v0SfQpy9NLqPKjLpxlWFWUqAwjcJGyB3IPT8YXx2wlYyn?=
+ =?us-ascii?Q?55djJgZb2aqZQ9msi3EJXE0uTgFAZneGO5ovkZums1fwg1c8JjDXPqbn3ceu?=
+ =?us-ascii?Q?J0KtX6j6Hh3Nao8MhRtYG5pomTaPzlgeHzmMOvN9vX5Q3U2oz2XV5Vg8GXLI?=
+ =?us-ascii?Q?etG5PMnSPMenPQZsyGas64N6395TJ7+7Um0vswUJocpU+Ox5Di9sgjsSyX6u?=
+ =?us-ascii?Q?p4ShicfSG5Q8nqGfaeVfXv3dIXLWJGgmYVNdL1/pxDi/trwbME+niz1Ix7zb?=
+ =?us-ascii?Q?n5USpTEi7ne3v3FUoghuifT7Ai70M7/H1Blg2AyL66lw4Iipsb5j6M3QKfNg?=
+ =?us-ascii?Q?MVyohcizo7dJzS+/J8WfiMLLHzpkLJegA1RVVeXPLHIPko4FDkxd1drPoGMS?=
+ =?us-ascii?Q?oBgD7qom9ByMDL9REEC4hiS9ZKGIZT5KzeXuDeThBFB6xqWnLZTFaKW5lB5U?=
+ =?us-ascii?Q?zaZqYmhtozm5+0u7kX9isVDA/hw03IlrVkPuyfoWqpm2Whx1vIxD2AT9pnt3?=
+ =?us-ascii?Q?MjFK844PHZMFu/AKJBOuyFzULsRX7W/qzo+VOA2aEe/BJrMlwYqr2AInfdsv?=
+ =?us-ascii?Q?eb289k64w+HYJLgBX2MCWZkymDARPzDAkr5ddVkc4HM7N4BJH0NLr8qnhZrc?=
+ =?us-ascii?Q?qxigwtyCSLOIMKcvqDfm0sg5lMWIGwYF4npGb/2t/zr7dWqzHeUhRPcHtGfG?=
+ =?us-ascii?Q?m0symh3uNNlSJhPBC7oDuHhoIVMNNIbscKAFSIh1I09PabCXYY1LWdforEdE?=
+ =?us-ascii?Q?mfJ52mcK7c/jHVgfh85EeYpUhmjEbuapd+qR8JKz?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c083ca0-0c9d-48f1-f12f-08dbf0876f81
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2023 03:01:08.5768
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HW3zN0PeQaFSHdaU9rMZDCwDyndiGSXQdZRIYo7vv/kkCbI1sq4DUYj5O1ppiKS5irQovDogdU7xqapkxV82OQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4996
+X-OriginatorOrg: intel.com
 
-Hi Geliang,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mptcp/export]
-[also build test WARNING on mptcp/export-net linus/master v6.7-rc3 next-20231128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/mptcp-add-mib-counter-dec-helper/20231128-221604
-base:   https://github.com/multipath-tcp/mptcp_net-next.git export
-patch link:    https://lore.kernel.org/r/6f4baef54a7631cdc1460138bc7e52f2c432c69b.1701180777.git.geliang.tang%40suse.com
-patch subject: [PATCH mptcp-next 3/4] mptcp: add ftrace callback of tcp_set_state
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231129/202311290855.aEWX2Ohy-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311290855.aEWX2Ohy-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   d7f1e9eefb0ffe8ed37933b2dbd1806401f5beaf
+commit: 4fb0cc41147989b09a86c615141abfd6b9e6a953 [59/72] media: ccs: Support frame descriptors
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231129/202311290754.2apI277B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311290855.aEWX2Ohy-lkp@intel.com/
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202311290754.2apI277B-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/media/i2c/ccs/ccs-core.c: media/v4l2-fwnode.h is included more than once.
 
-   net/mptcp/trace.c: In function 'mptcp_state_callback':
-   net/mptcp/trace.c:44:29: error: implicit declaration of function 'regs_get_kernel_argument'; did you mean 'regs_get_kernel_stack_nth'? [-Werror=implicit-function-declaration]
-      44 |         sk = (struct sock *)regs_get_kernel_argument(regs, 0);
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                             regs_get_kernel_stack_nth
->> net/mptcp/trace.c:44:14: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      44 |         sk = (struct sock *)regs_get_kernel_argument(regs, 0);
-         |              ^
-   cc1: some warnings being treated as errors
+vim +30 drivers/media/i2c/ccs/ccs-core.c
 
-
-vim +44 net/mptcp/trace.c
-
-    30	
-    31	static void notrace mptcp_state_callback(unsigned long ip,
-    32						 unsigned long parent_ip,
-    33						 struct ftrace_ops *op,
-    34						 struct ftrace_regs *fregs)
-    35	{
-    36		struct pt_regs *regs;
-    37		int oldstate, state;
-    38		struct sock *sk;
-    39	
-    40		regs = ftrace_get_regs(fregs);
-    41		if (!regs)
-    42			return;
-    43	
-  > 44		sk = (struct sock *)regs_get_kernel_argument(regs, 0);
-    45		if (!sk)
-    46			return;
-    47	
-    48		oldstate = sk->sk_state;
-    49		state = regs_get_kernel_argument(regs, 1);
-    50	
-    51		if (sk_is_mptcp(sk))
-    52			mptcp_check_state(sk, oldstate, state);
-    53	}
-    54	
+  > 30	#include <media/v4l2-fwnode.h>
+    31	#include <media/v4l2-device.h>
+  > 32	#include <media/v4l2-fwnode.h>
+    33	#include <uapi/linux/ccs.h>
+    34	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
