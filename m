@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0998C5D4AD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 21:36:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6862B2B9DF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 21:36:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="av0DIJwH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvzELzgb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701293817; x=1732829817;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UpNsvUCGLD73ME02jn33M2CFxP0egA1U319rLmRiftM=;
-  b=av0DIJwH7gXeviIsgUzzOPKeSZG+rLb/EWMF6rjns4UFmZsOPnhFmBrZ
-   VnXmFU2XMA0ns68jY9j0iodIxlGOZ2SpwDe2NMgccGsJHalMM/2KZz/tb
-   P1nqPwEtimsDC1TSeTCiOIzjRSXi2aXclUtzpSTMkEchfVCVV5ACUkX0Y
-   3+3hQ1RtN13o0VS7tGOEbAPN0HyUGj76lHD31CxkXZwGPVKRmBWr9sivz
-   FJtnJEIcT9YwUm+2FfMCum3Thp1/KNPVvyUQTuOPp23mmWw1EGB6HufIZ
-   BKA8D6JekTw5AQSdO0Hhe9hd8xKdqZKMVHJTLW1m1AXWm/ow/ySzXRJeV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="11930814"
+  bh=mSEs3HiAXgJsTJA8AoIXbmQa5mt0fhUhQ01QHpqAShQ=;
+  b=IvzELzgbnj4cNdn2yE9ECzX9Qo2d+cL+jzNj3sFHy/wgkmEK+Xm/ZPAA
+   5ah3VauQXKQ14HfK6cM5g+eqMAZTszUr7d36MzBbBjuYjnSO0R2VsYb1e
+   i0bnWz6bPdPpWQ6/VyswbbyoCP+iHeK/mctBmCRv1vWJQk9ESVInUkTSa
+   7pm4gkEgs6xDFoDIPHRA8rL7TzNDxquM5NSuDzeCUZ5Hc1Zu4qDrA2Z9d
+   jaMyL60n0jKMynl6sH/dfqp01UDPel3an3rO8vRMcUHYQTf/X+yhKSJhH
+   tkp9D4rgY3WyWiTGgt4YLNcjzcjCE9sVy8j55R8Rb3HRfN3+KnPFK1oyM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="212734"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="11930814"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 13:36:56 -0800
+   d="scan'208";a="212734"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 13:36:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="772820649"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="839568516"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="772820649"
+   d="scan'208";a="839568516"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Nov 2023 13:36:55 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 29 Nov 2023 13:36:55 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8SEn-0000r1-0E;
+	id 1r8SEn-0000qz-02;
 	Wed, 29 Nov 2023 21:36:53 +0000
-Date: Thu, 30 Nov 2023 05:36:10 +0800
+Date: Thu, 30 Nov 2023 05:36:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alobakin:idpf-libie 9/18] drivers/net/ethernet/intel/libie/rx.c:18:
- warning: Function parameter or member 'pp' not described in
- 'libie_rx_hw_len'
-Message-ID: <202311300213.f55howeK-lkp@intel.com>
+To: Hauke Mehrtens <hauke@hauke-m.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/dsa/lantiq_gswip.c:907:44: warning: '%d' directive
+ output may be truncated writing between 1 and 10 bytes into a region of size
+ 6
+Message-ID: <202311300155.M0VzROAp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,48 +51,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alobakin/linux idpf-libie
-head:   06e16df156eea0862b47e50485e17c70c3d8ea8f
-commit: 58f0ab910da24eae9c4021b2ebac59d8cc8cc905 [9/18] libie: add Rx buffer management (via Page Pool)
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20231130/202311300213.f55howeK-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311300213.f55howeK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
+commit: 14fceff4771e51b23b4485b575cf9e5b3414b89b net: dsa: Add Lantiq / Intel DSA driver for vrx200
+date:   5 years ago
+config: x86_64-randconfig-r015-20230905 (https://download.01.org/0day-ci/archive/20231130/202311300155.M0VzROAp-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311300155.M0VzROAp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311300213.f55howeK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311300155.M0VzROAp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/libie/rx.c:18: warning: Function parameter or member 'pp' not described in 'libie_rx_hw_len'
->> drivers/net/ethernet/intel/libie/rx.c:18: warning: Excess function parameter 'dev' description in 'libie_rx_hw_len'
->> drivers/net/ethernet/intel/libie/rx.c:18: warning: Excess function parameter 'max_len' description in 'libie_rx_hw_len'
+   drivers/net/dsa/lantiq_gswip.c: In function 'gswip_probe':
+>> drivers/net/dsa/lantiq_gswip.c:907:44: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
+     snprintf(gphyname, sizeof(gphyname), "gphy%d", i);
+                                               ^~
+   drivers/net/dsa/lantiq_gswip.c:907:39: note: directive argument in the range [0, 2147483647]
+     snprintf(gphyname, sizeof(gphyname), "gphy%d", i);
+                                          ^~~~~~~~
+   drivers/net/dsa/lantiq_gswip.c:907:2: note: 'snprintf' output between 6 and 15 bytes into a destination of size 10
+     snprintf(gphyname, sizeof(gphyname), "gphy%d", i);
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +18 drivers/net/ethernet/intel/libie/rx.c
+vim +907 drivers/net/dsa/lantiq_gswip.c
 
-     7	
-     8	/**
-     9	 * libie_rx_hw_len - get the actual buffer size to be passed to HW
-    10	 * @dev: &net_device to calculate the size for
-    11	 * @max_len: maximum length for the given page size
-    12	 *
-    13	 * Return: HW-writeable length per one buffer to pass it to the HW accounting:
-    14	 * MTU the @dev has, HW required alignment, minimum and maximum allowed values,
-    15	 * and system's page size.
-    16	 */
-    17	static u32 libie_rx_hw_len(const struct page_pool_params *pp)
-  > 18	{
-    19		u32 len;
-    20	
-    21		len = READ_ONCE(pp->netdev->mtu) + LIBIE_RX_LL_LEN;
-    22		len = ALIGN(len, LIBIE_RX_BUF_LEN_ALIGN);
-    23		len = clamp(len, LIBIE_MIN_RX_BUF_LEN, pp->max_len);
-    24	
-    25		return len;
-    26	}
-    27	
+   897	
+   898	static int gswip_gphy_fw_probe(struct gswip_priv *priv,
+   899				       struct gswip_gphy_fw *gphy_fw,
+   900				       struct device_node *gphy_fw_np, int i)
+   901	{
+   902		struct device *dev = priv->dev;
+   903		u32 gphy_mode;
+   904		int ret;
+   905		char gphyname[10];
+   906	
+ > 907		snprintf(gphyname, sizeof(gphyname), "gphy%d", i);
+   908	
+   909		gphy_fw->clk_gate = devm_clk_get(dev, gphyname);
+   910		if (IS_ERR(gphy_fw->clk_gate)) {
+   911			dev_err(dev, "Failed to lookup gate clock\n");
+   912			return PTR_ERR(gphy_fw->clk_gate);
+   913		}
+   914	
+   915		ret = of_property_read_u32(gphy_fw_np, "reg", &gphy_fw->fw_addr_offset);
+   916		if (ret)
+   917			return ret;
+   918	
+   919		ret = of_property_read_u32(gphy_fw_np, "lantiq,gphy-mode", &gphy_mode);
+   920		/* Default to GE mode */
+   921		if (ret)
+   922			gphy_mode = GPHY_MODE_GE;
+   923	
+   924		switch (gphy_mode) {
+   925		case GPHY_MODE_FE:
+   926			gphy_fw->fw_name = priv->gphy_fw_name_cfg->fe_firmware_name;
+   927			break;
+   928		case GPHY_MODE_GE:
+   929			gphy_fw->fw_name = priv->gphy_fw_name_cfg->ge_firmware_name;
+   930			break;
+   931		default:
+   932			dev_err(dev, "Unknown GPHY mode %d\n", gphy_mode);
+   933			return -EINVAL;
+   934		}
+   935	
+   936		gphy_fw->reset = of_reset_control_array_get_exclusive(gphy_fw_np);
+   937		if (IS_ERR(priv->gphy_fw)) {
+   938			if (PTR_ERR(priv->gphy_fw) != -EPROBE_DEFER)
+   939				dev_err(dev, "Failed to lookup gphy reset\n");
+   940			return PTR_ERR(priv->gphy_fw);
+   941		}
+   942	
+   943		return gswip_gphy_fw_load(priv, gphy_fw);
+   944	}
+   945	
 
 -- 
 0-DAY CI Kernel Test Service
