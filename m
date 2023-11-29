@@ -1,46 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4586963AE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 04:13:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CBB44397;
+	Wed, 29 Nov 2023 04:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P0pjMOYI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J9uzGQx+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701231221; x=1732767221;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OHNuW+WrbH53UJyzOrD8yt7glE+smDlWN1tZK6Xp8Gc=;
-  b=P0pjMOYIhDyerz1GOWbg4aUuHdobab3zfADtioh7F1GGZU50A9WVeNjb
-   I7swJvk8W3hmPPbawNDb9N/4wJeHtncQ7q70osB0X0wsT4IOjTlOQCr5I
-   IpY4DDh33De2bpriEEL0MvlcuUejaNYu15XIkvbbjIal7VVTVC41uhiv1
-   B4g/OHqXD1Hxr8vcoiQ936z+FaUKhU8cffbE7Jf+uDXPwRNNAC2stDSq8
-   uemyw+mCofT7a7R4qXw+P/kWmbKr/4S0c3IXaGHVsxp8r/MN8bXCNJz9G
-   Tbjos6f+z7Q0SY7i4tmIFWucFCyIZ0IWx9qKfrkNyKvX3f30mQOCRDs1T
+  t=1701231285; x=1732767285;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YIvS4LQS2PhkCaZ4Tm+YeCL2w5fycapLbYdyhJloM5U=;
+  b=J9uzGQx+hmJ8aEANUYc5BNRzvdyGgjtEoFqZHd7tu856txYS9HJVS+Cj
+   vrxBrE5ZIhiBg9pvfEie5O0yodYQXIxStxHN16PMN+Hz4qvzkFeFt5lIT
+   Jm7zTwTczkrEBGU5uHOhZKVj9riSgoJZfm+UNYRUdST/NFB05Yxio7N32
+   Wk5gfyz8H+1D7xabVsOO8NPptT/Gn8+x8CycARBsVk9nWXLLwOiq33oub
+   sJYduCWw4MwbrWRbLa8V212dKrZOaw20LQ8rAMA7OlCuFUJOrtt40kw2J
+   m5lEROFyt94LMQ2VsF7zrJlJNDRDeGlLEvKSnKk1M0uZRRUfI+SWffU48
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="383483159"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="383483242"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="383483159"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 20:13:40 -0800
+   d="scan'208";a="383483242"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 20:14:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="762155528"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="892314394"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="762155528"
+   d="scan'208";a="892314394"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 Nov 2023 20:13:39 -0800
+  by orsmga004.jf.intel.com with ESMTP; 28 Nov 2023 20:14:41 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8BxB-0008Xb-0K;
-	Wed, 29 Nov 2023 04:13:37 +0000
-Date: Wed, 29 Nov 2023 12:08:26 +0800
+	id 1r8ByA-0008Xk-24;
+	Wed, 29 Nov 2023 04:14:38 +0000
+Date: Wed, 29 Nov 2023 12:13:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:reconstruct-defer-work-6.7 7/7]
- fs/xfs/xfs_log_recover.c:2570:42: warning: unused variable 'lip'
-Message-ID: <202311291023.sohqo3Xg-lkp@intel.com>
+To: Thomas Richard <thomas.richard@bootlin.com>, rafael@kernel.org,
+	daniel.lezcano@linaro.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	rui.zhang@intel.com, lukasz.luba@arm.com, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	gregory.clement@bootlin.com, theo.lebrun@bootlin.com,
+	u-kumar1@ti.com, Thomas Richard <thomas.richard@bootlin.com>
+Subject: Re: [PATCH] thermal: k3_j72xx_bandgap: implement suspend/resume
+ support
+Message-ID: <202311291148.HMS1dKk0-lkp@intel.com>
+References: <20231128130332.584127-1-thomas.richard@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,74 +56,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231128130332.584127-1-thomas.richard@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git reconstruct-defer-work-6.7
-head:   6b40cbdb0348d7c82b1729fba6d5352da1b949d3
-commit: 6b40cbdb0348d7c82b1729fba6d5352da1b949d3 [7/7] xfs: move ->iop_recover to xfs_defer_op_type
-config: arm64-randconfig-001-20231129 (https://download.01.org/0day-ci/archive/20231129/202311291023.sohqo3Xg-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311291023.sohqo3Xg-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/thermal]
+[also build test ERROR on linus/master v6.7-rc3 next-20231128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Richard/thermal-k3_j72xx_bandgap-implement-suspend-resume-support/20231128-211217
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20231128130332.584127-1-thomas.richard%40bootlin.com
+patch subject: [PATCH] thermal: k3_j72xx_bandgap: implement suspend/resume support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20231129/202311291148.HMS1dKk0-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311291148.HMS1dKk0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311291023.sohqo3Xg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311291148.HMS1dKk0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/xfs/xfs_log_recover.c: In function 'xlog_recover_process_intents':
->> fs/xfs/xfs_log_recover.c:2570:42: warning: unused variable 'lip' [-Wunused-variable]
-    2570 |                 struct xfs_log_item     *lip = dfp->dfp_intent;
-         |                                          ^~~
+   In file included from drivers/thermal/k3_j72xx_bandgap.c:17:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/thermal/k3_j72xx_bandgap.c:17:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/thermal/k3_j72xx_bandgap.c:17:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/thermal/k3_j72xx_bandgap.c:604:17: error: use of undeclared identifier 'k3_j72xx_bandgap_pm_ops'; did you mean 'k3_j72xx_bandgap_probe'?
+     604 |                 .pm = pm_ptr(&k3_j72xx_bandgap_pm_ops),
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~
+         |                               k3_j72xx_bandgap_probe
+   include/linux/pm.h:475:53: note: expanded from macro 'pm_ptr'
+     475 | #define pm_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM), (_ptr))
+         |                                                     ^
+   include/linux/kernel.h:54:38: note: expanded from macro 'PTR_IF'
+      54 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^
+   drivers/thermal/k3_j72xx_bandgap.c:376:12: note: 'k3_j72xx_bandgap_probe' declared here
+     376 | static int k3_j72xx_bandgap_probe(struct platform_device *pdev)
+         |            ^
+>> drivers/thermal/k3_j72xx_bandgap.c:604:9: error: incompatible pointer types initializing 'const struct dev_pm_ops *' with an expression of type 'int (*)(struct platform_device *)' [-Werror,-Wincompatible-pointer-types]
+     604 |                 .pm = pm_ptr(&k3_j72xx_bandgap_pm_ops),
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm.h:475:22: note: expanded from macro 'pm_ptr'
+     475 | #define pm_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM), (_ptr))
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:54:27: note: expanded from macro 'PTR_IF'
+      54 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   6 warnings and 2 errors generated.
 
 
-vim +/lip +2570 fs/xfs/xfs_log_recover.c
+vim +604 drivers/thermal/k3_j72xx_bandgap.c
 
-97cf79677ecb50 Darrick J. Wong 2022-10-16  2568  
-2c9d8d0539d46a Darrick J. Wong 2023-11-22  2569  	list_for_each_entry_safe(dfp, n, &log->l_dfops, dfp_list) {
-2c9d8d0539d46a Darrick J. Wong 2023-11-22 @2570  		struct xfs_log_item	*lip = dfp->dfp_intent;
-2c9d8d0539d46a Darrick J. Wong 2023-11-22  2571  
-2c9d8d0539d46a Darrick J. Wong 2023-11-22  2572  		ASSERT(xlog_item_is_intent(lip));
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2573  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2574  		/*
-dc42375d5f55d2 Darrick J. Wong 2016-08-03  2575  		 * We should never see a redo item with a LSN higher than
-dc42375d5f55d2 Darrick J. Wong 2016-08-03  2576  		 * the last transaction we found in the log at the start
-dc42375d5f55d2 Darrick J. Wong 2016-08-03  2577  		 * of recovery.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2578  		 */
-dc42375d5f55d2 Darrick J. Wong 2016-08-03  2579  		ASSERT(XFS_LSN_CMP(last_lsn, lip->li_lsn) >= 0);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2580  
-509955823cc9cc Darrick J. Wong 2017-11-21  2581  		/*
-509955823cc9cc Darrick J. Wong 2017-11-21  2582  		 * NOTE: If your intent processing routine can create more
-e6fff81e487089 Darrick J. Wong 2020-09-25  2583  		 * deferred ops, you /must/ attach them to the capture list in
-e6fff81e487089 Darrick J. Wong 2020-09-25  2584  		 * the recover routine or else those subsequent intents will be
-509955823cc9cc Darrick J. Wong 2017-11-21  2585  		 * replayed in the wrong order!
-97cf79677ecb50 Darrick J. Wong 2022-10-16  2586  		 *
-b5376f3f0ac5d9 Darrick J. Wong 2023-11-22  2587  		 * The recovery function can free @dfp.
-509955823cc9cc Darrick J. Wong 2017-11-21  2588  		 */
-6b40cbdb0348d7 Darrick J. Wong 2023-11-22  2589  		error = xfs_defer_finish_recovery(log->l_mp, dfp,
-6b40cbdb0348d7 Darrick J. Wong 2023-11-22  2590  				&capture_list);
-6b40cbdb0348d7 Darrick J. Wong 2023-11-22  2591  		if (error)
-e6fff81e487089 Darrick J. Wong 2020-09-25  2592  			break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2593  	}
-e6fff81e487089 Darrick J. Wong 2020-09-25  2594  	if (error)
-e6fff81e487089 Darrick J. Wong 2020-09-25  2595  		goto err;
-e6fff81e487089 Darrick J. Wong 2020-09-25  2596  
-e6fff81e487089 Darrick J. Wong 2020-09-25  2597  	error = xlog_finish_defer_ops(log->l_mp, &capture_list);
-e6fff81e487089 Darrick J. Wong 2020-09-25  2598  	if (error)
-e6fff81e487089 Darrick J. Wong 2020-09-25  2599  		goto err;
-509955823cc9cc Darrick J. Wong 2017-11-21  2600  
-e6fff81e487089 Darrick J. Wong 2020-09-25  2601  	return 0;
-e6fff81e487089 Darrick J. Wong 2020-09-25  2602  err:
-e6fff81e487089 Darrick J. Wong 2020-09-25  2603  	xlog_abort_defer_ops(log->l_mp, &capture_list);
-3c1e2bbe5bcdcd David Chinner   2008-04-10  2604  	return error;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2605  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2606  
-
-:::::: The code at line 2570 was first introduced by commit
-:::::: 2c9d8d0539d46aaef01ce12c66839929a145c0fa xfs: use xfs_defer_pending objects to recover intent items
-
-:::::: TO: Darrick J. Wong <djwong@kernel.org>
-:::::: CC: Darrick J. Wong <djwong@kernel.org>
+   597	
+   598	static struct platform_driver k3_j72xx_bandgap_sensor_driver = {
+   599		.probe = k3_j72xx_bandgap_probe,
+   600		.remove_new = k3_j72xx_bandgap_remove,
+   601		.driver = {
+   602			.name = "k3-j72xx-soc-thermal",
+   603			.of_match_table	= of_k3_j72xx_bandgap_match,
+ > 604			.pm = pm_ptr(&k3_j72xx_bandgap_pm_ops),
+   605		},
+   606	};
+   607	
 
 -- 
 0-DAY CI Kernel Test Service
