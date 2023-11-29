@@ -1,52 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1997134CEB;
-	Wed, 29 Nov 2023 15:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7891538F87
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 15:42:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPB1OU2W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B50DuVYy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701272552; x=1732808552;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QiyXou6E8XmzV1Lkd+K2NH2kAgeGJ5XMMDCOjzZ30v8=;
-  b=gPB1OU2WoeqfzybsPBkA3CCtdZpOEPE5xzWgxVU9Lg8RuGspinMU3MtI
-   Jg0oaUTN7oGICOkzg0DzJpy+wanpnbWrY/lub2J9YySa/vOIZJ1KoBPT9
-   eoYS6eMV/70M3kqsQ/pa0byeW3+3mTGDFRqa82grhAWn6Egk712Z7FpOL
-   Ila3x3mZU1T9LMeZp41urEV0GK5R3oeuQFew9Kpx7PN/CC+3S7HOnTr1w
-   05fMpSsCBY1XlQyy4VIW1OoD1o4p//eMjYdriDlI9Plq5qCiMesY+rJQ7
-   HhTl+2BW8LqgEsM/0Ihic8/4z48luJ8l2PeyWsRfAtiuHfKZw0WXZZlum
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="392925318"
+  t=1701272554; x=1732808554;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=APaWSwz5I7OxVC+NmWSeIaqYRiFHKuAnOFaJzL8Exw0=;
+  b=B50DuVYyltdROnEYSl8r0/YilKMrrJuv69W4aXpRH0onJOKHn7am6LSV
+   hEl9GM7Q/9nO9spx0Tv3HzfRhHapog0SLifEZ0KpXbgVNtJyGwEGEG/yr
+   +d665T3fVTA7RjGKvKBK9xnViAtyG6Naq2EuQzduL6IzN0Xep6PcD3R3Z
+   cfpj/1Kbp9/4mwuHBeJgoX2khQhWcVnh2ACbWkftkMxSIQnS3ZAip1rMD
+   tayfK37Sg+jSYXSm0/EFVX+tdCERaJ6NLFQf/NYnV5lsH8z2dNUGqJM7n
+   JZ9w47TEDJnTX6o+IMe1hm1kQS/V8gcD3FMtirFDbiTBctuGC1oaInjvZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="424331092"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="392925318"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 07:42:30 -0800
+   d="scan'208";a="424331092"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 07:42:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="772724283"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="718788658"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="772724283"
+   d="scan'208";a="718788658"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Nov 2023 07:42:26 -0800
+  by orsmga003.jf.intel.com with ESMTP; 29 Nov 2023 07:42:31 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8Mhb-0000OZ-1t;
-	Wed, 29 Nov 2023 15:42:17 +0000
-Date: Wed, 29 Nov 2023 23:42:00 +0800
+	id 1r8Mhk-0000Od-0s;
+	Wed, 29 Nov 2023 15:42:26 +0000
+Date: Wed, 29 Nov 2023 23:42:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jorge Ramirez-Ortiz <jorge@foundries.io>, ulf.hansson@linaro.org,
-	adrian.hunter@intel.com, CLoehle@hyperstone.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, axboe@kernel.dk,
-	jinpu.wang@ionos.com, beanhuo@micron.com, yibin.ding@unisoc.com,
-	f.fainelli@gmail.com, asuk4.q@gmail.com,
-	victor.shih@genesyslogic.com.tw, marex@denx.de,
-	rafael.beims@toradex.com, robimarko@gmail.com, ricardo@foundries.io
-Subject: Re: [PATCH] mmc: rpmb: add quirk MMC_QUIRK_BROKEN_RPMB_RETUNE
-Message-ID: <202311292124.O8uscyp0-lkp@intel.com>
-References: <20231129094350.2605322-1-jorge@foundries.io>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jun Yi <yijun@loongson.cn>
+Subject: kernel/fork.c:1647:36: sparse: sparse: incorrect type in argument 2
+ (different address spaces)
+Message-ID: <202311292218.LfF2vCN0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,124 +50,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231129094350.2605322-1-jorge@foundries.io>
 
-Hi Jorge,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc3 next-20231129]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Ramirez-Ortiz/mmc-rpmb-add-quirk-MMC_QUIRK_BROKEN_RPMB_RETUNE/20231129-181517
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231129094350.2605322-1-jorge%40foundries.io
-patch subject: [PATCH] mmc: rpmb: add quirk MMC_QUIRK_BROKEN_RPMB_RETUNE
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20231129/202311292124.O8uscyp0-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231129/202311292124.O8uscyp0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18d46e76d7c2eedd8577fae67e3f1d4db25018b0
+commit: a275a82dcd4024c75337db15d59ed039c31e21da LoongArch: Use alternative to optimize libraries
+date:   12 months ago
+config: loongarch-randconfig-r034-20230511 (https://download.01.org/0day-ci/archive/20231129/202311292218.LfF2vCN0-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231129/202311292218.LfF2vCN0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311292124.O8uscyp0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311292218.LfF2vCN0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/fork.c:1310:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct file *[assigned] old_exe_file @@     got struct file [noderef] __rcu *[assigned] __res @@
+   kernel/fork.c:1310:22: sparse:     expected struct file *[assigned] old_exe_file
+   kernel/fork.c:1310:22: sparse:     got struct file [noderef] __rcu *[assigned] __res
+   kernel/fork.c:1637:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
+   kernel/fork.c:1637:38: sparse:     expected struct refcount_struct [usertype] *r
+   kernel/fork.c:1637:38: sparse:     got struct refcount_struct [noderef] __rcu *
+   kernel/fork.c:1646:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:1646:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:1646:31: sparse:     got struct spinlock [noderef] __rcu *
+>> kernel/fork.c:1647:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *__from @@     got struct k_sigaction [noderef] __rcu * @@
+   kernel/fork.c:1647:36: sparse:     expected void const *__from
+   kernel/fork.c:1647:36: sparse:     got struct k_sigaction [noderef] __rcu *
+   kernel/fork.c:1648:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:1648:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:1648:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2074:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2074:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2074:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2078:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2078:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2078:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2109:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/fork.c:2109:9: sparse:     expected void *ptr
+   kernel/fork.c:2109:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/fork.c:2109:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/fork.c:2109:9: sparse:     expected void *ptr
+   kernel/fork.c:2109:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/fork.c:2109:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/fork.c:2109:9: sparse:     expected void *ptr
+   kernel/fork.c:2109:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/fork.c:2109:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
+   kernel/fork.c:2109:9: sparse:     expected void *ptr
+   kernel/fork.c:2109:9: sparse:     got unsigned int [noderef] __percpu *
+   kernel/fork.c:2109:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/fork.c:2109:9: sparse:     expected void *ptr
+   kernel/fork.c:2109:9: sparse:     got int [noderef] __percpu *
+   kernel/fork.c:2109:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/fork.c:2109:9: sparse:     expected void *ptr
+   kernel/fork.c:2109:9: sparse:     got int [noderef] __percpu *
+   kernel/fork.c:2109:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/fork.c:2109:9: sparse:     expected void *ptr
+   kernel/fork.c:2109:9: sparse:     got int [noderef] __percpu *
+   kernel/fork.c:2109:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
+   kernel/fork.c:2109:9: sparse:     expected void *ptr
+   kernel/fork.c:2109:9: sparse:     got int [noderef] __percpu *
+   kernel/fork.c:2398:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *real_parent @@     got struct task_struct *task @@
+   kernel/fork.c:2398:32: sparse:     expected struct task_struct [noderef] __rcu *real_parent
+   kernel/fork.c:2398:32: sparse:     got struct task_struct *task
+   kernel/fork.c:2407:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2407:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2407:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2454:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct list_head *head @@     got struct list_head [noderef] __rcu * @@
+   kernel/fork.c:2454:54: sparse:     expected struct list_head *head
+   kernel/fork.c:2454:54: sparse:     got struct list_head [noderef] __rcu *
+   kernel/fork.c:2476:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2476:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2476:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2497:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2497:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2497:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2524:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   kernel/fork.c:2524:28: sparse:     expected struct sighand_struct *sighand
+   kernel/fork.c:2524:28: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   kernel/fork.c:2553:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2553:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2553:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2555:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/fork.c:2555:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/fork.c:2555:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/fork.c:2998:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *[assigned] parent @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/fork.c:2998:24: sparse:     expected struct task_struct *[assigned] parent
+   kernel/fork.c:2998:24: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/fork.c:3079:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct const [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
+   kernel/fork.c:3079:43: sparse:     expected struct refcount_struct const [usertype] *r
+   kernel/fork.c:3079:43: sparse:     got struct refcount_struct [noderef] __rcu *
+   kernel/fork.c:2119:22: sparse: sparse: dereference of noderef expression
+   kernel/fork.c: note: in included file (through arch/loongarch/include/uapi/asm/bpf_perf_event.h, include/uapi/linux/bpf_perf_event.h, ...):
+   include/linux/ptrace.h:210:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *new_parent @@     got struct task_struct [noderef] __rcu *parent @@
+   include/linux/ptrace.h:210:45: sparse:     expected struct task_struct *new_parent
+   include/linux/ptrace.h:210:45: sparse:     got struct task_struct [noderef] __rcu *parent
+   include/linux/ptrace.h:210:62: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct cred const *ptracer_cred @@     got struct cred const [noderef] __rcu *ptracer_cred @@
+   include/linux/ptrace.h:210:62: sparse:     expected struct cred const *ptracer_cred
+   include/linux/ptrace.h:210:62: sparse:     got struct cred const [noderef] __rcu *ptracer_cred
+   kernel/fork.c:2452:59: sparse: sparse: dereference of noderef expression
+   kernel/fork.c:2453:59: sparse: sparse: dereference of noderef expression
 
-   In file included from drivers/mmc/core/mmc.c:27:
-   drivers/mmc/core/quirks.h:137:22: error: use of undeclared identifier 'CIF_MANFID_SANDISK2'
-           MMC_FIXUP("DG4064", CIF_MANFID_SANDISK2, 0x100, add_quirk_mmc,
-                               ^
->> drivers/mmc/core/mmc.c:115:22: warning: shift count >= width of type [-Wshift-count-overflow]
-                   card->cid.serial        = UNSTUFF_BITS(resp, 16, 32);
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/core/mmc.c:57:39: note: expanded from macro 'UNSTUFF_BITS'
-                   const u32 __mask = (__size < 32 ? 1 << __size : 0) - 1; \
-                                                       ^  ~~~~~~
-   1 warning and 1 error generated.
+vim +1647 kernel/fork.c
 
+a016f3389c0660 JANAK DESAI        2006-02-07  1631  
+a39bc51691a0c8 Alexey Dobriyan    2007-10-18  1632  static int copy_sighand(unsigned long clone_flags, struct task_struct *tsk)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1633  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1634  	struct sighand_struct *sig;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1635  
+60348802e9cb13 Zhaolei            2009-01-06  1636  	if (clone_flags & CLONE_SIGHAND) {
+d036bda7d0e726 Elena Reshetova    2019-01-18  1637  		refcount_inc(&current->sighand->count);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1638  		return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1639  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1640  	sig = kmem_cache_alloc(sighand_cachep, GFP_KERNEL);
+0c282b068eb26d Madhuparna Bhowmik 2020-01-27  1641  	RCU_INIT_POINTER(tsk->sighand, sig);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1642  	if (!sig)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1643  		return -ENOMEM;
+9d7fb04276481c Peter Zijlstra     2015-06-30  1644  
+d036bda7d0e726 Elena Reshetova    2019-01-18  1645  	refcount_set(&sig->count, 1);
+06e62a46bbba20 Jann Horn          2018-08-21  1646  	spin_lock_irq(&current->sighand->siglock);
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @1647  	memcpy(sig->action, current->sighand->action, sizeof(sig->action));
+06e62a46bbba20 Jann Horn          2018-08-21  1648  	spin_unlock_irq(&current->sighand->siglock);
+b612e5df4587c9 Christian Brauner  2019-10-14  1649  
+b612e5df4587c9 Christian Brauner  2019-10-14  1650  	/* Reset all signal handler not set to SIG_IGN to SIG_DFL. */
+b612e5df4587c9 Christian Brauner  2019-10-14  1651  	if (clone_flags & CLONE_CLEAR_SIGHAND)
+b612e5df4587c9 Christian Brauner  2019-10-14  1652  		flush_signal_handlers(tsk, 0);
+b612e5df4587c9 Christian Brauner  2019-10-14  1653  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1654  	return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1655  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1656  
 
-vim +115 drivers/mmc/core/mmc.c
+:::::: The code at line 1647 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-7ea239d9e6d699 Pierre Ossman      2006-12-31   53  
-7ea239d9e6d699 Pierre Ossman      2006-12-31   54  #define UNSTUFF_BITS(resp,start,size)					\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   55  	({								\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   56  		const int __size = size;				\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   57  		const u32 __mask = (__size < 32 ? 1 << __size : 0) - 1;	\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   58  		const int __off = 3 - ((start) / 32);			\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   59  		const int __shft = (start) & 31;			\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   60  		u32 __res;						\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   61  									\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   62  		__res = resp[__off] >> __shft;				\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   63  		if (__size + __shft > 32)				\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   64  			__res |= resp[__off-1] << ((32 - __shft) % 32);	\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   65  		__res & __mask;						\
-7ea239d9e6d699 Pierre Ossman      2006-12-31   66  	})
-7ea239d9e6d699 Pierre Ossman      2006-12-31   67  
-7ea239d9e6d699 Pierre Ossman      2006-12-31   68  /*
-7ea239d9e6d699 Pierre Ossman      2006-12-31   69   * Given the decoded CSD structure, decode the raw CID to our CID structure.
-7ea239d9e6d699 Pierre Ossman      2006-12-31   70   */
-bd766312618d2e Pierre Ossman      2007-05-01   71  static int mmc_decode_cid(struct mmc_card *card)
-7ea239d9e6d699 Pierre Ossman      2006-12-31   72  {
-7ea239d9e6d699 Pierre Ossman      2006-12-31   73  	u32 *resp = card->raw_cid;
-7ea239d9e6d699 Pierre Ossman      2006-12-31   74  
-ac9d25557dcc9f Linus Walleij      2022-04-25   75  	/*
-ac9d25557dcc9f Linus Walleij      2022-04-25   76  	 * Add the raw card ID (cid) data to the entropy pool. It doesn't
-ac9d25557dcc9f Linus Walleij      2022-04-25   77  	 * matter that not all of it is unique, it's just bonus entropy.
-ac9d25557dcc9f Linus Walleij      2022-04-25   78  	 */
-ac9d25557dcc9f Linus Walleij      2022-04-25   79  	add_device_randomness(&card->raw_cid, sizeof(card->raw_cid));
-ac9d25557dcc9f Linus Walleij      2022-04-25   80  
-7ea239d9e6d699 Pierre Ossman      2006-12-31   81  	/*
-7ea239d9e6d699 Pierre Ossman      2006-12-31   82  	 * The selection of the format here is based upon published
-7ea239d9e6d699 Pierre Ossman      2006-12-31   83  	 * specs from sandisk and from what people have reported.
-7ea239d9e6d699 Pierre Ossman      2006-12-31   84  	 */
-7ea239d9e6d699 Pierre Ossman      2006-12-31   85  	switch (card->csd.mmca_vsn) {
-7ea239d9e6d699 Pierre Ossman      2006-12-31   86  	case 0: /* MMC v1.0 - v1.2 */
-7ea239d9e6d699 Pierre Ossman      2006-12-31   87  	case 1: /* MMC v1.4 */
-7ea239d9e6d699 Pierre Ossman      2006-12-31   88  		card->cid.manfid	= UNSTUFF_BITS(resp, 104, 24);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   89  		card->cid.prod_name[0]	= UNSTUFF_BITS(resp, 96, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   90  		card->cid.prod_name[1]	= UNSTUFF_BITS(resp, 88, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   91  		card->cid.prod_name[2]	= UNSTUFF_BITS(resp, 80, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   92  		card->cid.prod_name[3]	= UNSTUFF_BITS(resp, 72, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   93  		card->cid.prod_name[4]	= UNSTUFF_BITS(resp, 64, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   94  		card->cid.prod_name[5]	= UNSTUFF_BITS(resp, 56, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   95  		card->cid.prod_name[6]	= UNSTUFF_BITS(resp, 48, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   96  		card->cid.hwrev		= UNSTUFF_BITS(resp, 44, 4);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   97  		card->cid.fwrev		= UNSTUFF_BITS(resp, 40, 4);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   98  		card->cid.serial	= UNSTUFF_BITS(resp, 16, 24);
-7ea239d9e6d699 Pierre Ossman      2006-12-31   99  		card->cid.month		= UNSTUFF_BITS(resp, 12, 4);
-7ea239d9e6d699 Pierre Ossman      2006-12-31  100  		card->cid.year		= UNSTUFF_BITS(resp, 8, 4) + 1997;
-7ea239d9e6d699 Pierre Ossman      2006-12-31  101  		break;
-7ea239d9e6d699 Pierre Ossman      2006-12-31  102  
-7ea239d9e6d699 Pierre Ossman      2006-12-31  103  	case 2: /* MMC v2.0 - v2.2 */
-7ea239d9e6d699 Pierre Ossman      2006-12-31  104  	case 3: /* MMC v3.1 - v3.3 */
-7ea239d9e6d699 Pierre Ossman      2006-12-31  105  	case 4: /* MMC v4 */
-7ea239d9e6d699 Pierre Ossman      2006-12-31  106  		card->cid.manfid	= UNSTUFF_BITS(resp, 120, 8);
-421b605edb1ce6 Dominique Martinet 2023-11-03  107  		card->cid.oemid		= UNSTUFF_BITS(resp, 104, 16);
-7ea239d9e6d699 Pierre Ossman      2006-12-31  108  		card->cid.prod_name[0]	= UNSTUFF_BITS(resp, 96, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31  109  		card->cid.prod_name[1]	= UNSTUFF_BITS(resp, 88, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31  110  		card->cid.prod_name[2]	= UNSTUFF_BITS(resp, 80, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31  111  		card->cid.prod_name[3]	= UNSTUFF_BITS(resp, 72, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31  112  		card->cid.prod_name[4]	= UNSTUFF_BITS(resp, 64, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31  113  		card->cid.prod_name[5]	= UNSTUFF_BITS(resp, 56, 8);
-51e7e8b632d8e5 Bernie Thompson    2013-02-27  114  		card->cid.prv		= UNSTUFF_BITS(resp, 48, 8);
-7ea239d9e6d699 Pierre Ossman      2006-12-31 @115  		card->cid.serial	= UNSTUFF_BITS(resp, 16, 32);
-7ea239d9e6d699 Pierre Ossman      2006-12-31  116  		card->cid.month		= UNSTUFF_BITS(resp, 12, 4);
-7ea239d9e6d699 Pierre Ossman      2006-12-31  117  		card->cid.year		= UNSTUFF_BITS(resp, 8, 4) + 1997;
-7ea239d9e6d699 Pierre Ossman      2006-12-31  118  		break;
-7ea239d9e6d699 Pierre Ossman      2006-12-31  119  
-7ea239d9e6d699 Pierre Ossman      2006-12-31  120  	default:
-a3c76eb9d4a1e6 Girish K S         2011-10-11  121  		pr_err("%s: card has unknown MMCA version %d\n",
-7ea239d9e6d699 Pierre Ossman      2006-12-31  122  			mmc_hostname(card->host), card->csd.mmca_vsn);
-bd766312618d2e Pierre Ossman      2007-05-01  123  		return -EINVAL;
-7ea239d9e6d699 Pierre Ossman      2006-12-31  124  	}
-bd766312618d2e Pierre Ossman      2007-05-01  125  
-bd766312618d2e Pierre Ossman      2007-05-01  126  	return 0;
-7ea239d9e6d699 Pierre Ossman      2006-12-31  127  }
-7ea239d9e6d699 Pierre Ossman      2006-12-31  128  
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
