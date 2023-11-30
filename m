@@ -1,53 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E61448CF7;
-	Thu, 30 Nov 2023 15:05:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264F51DA41;
+	Thu, 30 Nov 2023 15:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VIY9u2fc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B61AC433C7;
-	Thu, 30 Nov 2023 15:05:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701356742;
-	bh=E8R3+0hXLh0qc5ZynnQNCLMHS7lZrhkDk9GDBZI56nU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VIY9u2fcuqy0jrFeWhhU8p0XhEkQMIjwTpWZC+7jpQeLBZEDal2SeIYsWPznDgIes
-	 QcaO6cOTqKK2Qoc/JKYF8hMobtCpNhR+2/8iEIGC6tldR55nJK0FuYezPq77+M5gUJ
-	 GelD/c1LEeXrNQXwiLBKn46GW0cd8IdSEZV9/vzqDLsVP6s2IPRW+MSdnVzXFo4jm3
-	 gDq0+o6Qzj2dfZlADSgeXPXMLAiat+AQzKETkS25lomecmFMyhxd0Uk8nOTw4pgE8l
-	 s23l1TdElKfehE2dIqhlxoGpt2reWkbdR8XdWkecZ/8dWj8Z1v/HtbqoCAGsXVaFb2
-	 T4KDiN0HIA2Iw==
-Date: Thu, 30 Nov 2023 07:05:41 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: kernel test robot <lkp@intel.com>, <davem@davemloft.net>,
- <oe-kbuild-all@lists.linux.dev>, <netdev@vger.kernel.org>,
- <edumazet@google.com>, <pabeni@redhat.com>, <corbet@lwn.net>,
- <leitao@debian.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH net-next] docs: netlink: link to family documentations
- from spec info
-Message-ID: <20231130070541.105b9e34@kernel.org>
-In-Reply-To: <ZWhNOvnxSMAudjXM@yujie-X299>
-References: <20231127205642.2293153-1-kuba@kernel.org>
-	<202311280834.lYzXIFc4-lkp@intel.com>
-	<20231127190611.37a94d4c@kernel.org>
-	<ZWhNOvnxSMAudjXM@yujie-X299>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0HB61pV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701357573; x=1732893573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U1czIfNA4D3gx8gU9pJKm9VcLb9EwJu5hgmJqa8H1ug=;
+  b=W0HB61pViFbUFO8k54aiXDCV6ZAVhckQzuRzwGjtaQs383sLGgiSAyAA
+   SiRZgLw1K15NbZbHhe1oL5VkfzdGL6YcAJEa0fJrSu2epzRP2MNgkntTf
+   QDZ/kCbs9a0aLsdd3cA5BI9p/ayNOm/qVblk0+hGeaGqtXVuz/Sw7gZwn
+   ml5WcasThMdcvSQVJrb98FskLWobV4pZ7pZtuQlcFVQhtP+YBbiF7oohE
+   LyX9n2cMz10RsuQ8sLTY4jD6cyVRRa8ainnizS8nF3LAg37bfp0SI6tY9
+   wi33u3jZVuqjlAvyYC/LFoG/aLft5umYZ50M565Tsx7xmJMm/TYP1/98G
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="383734233"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="383734233"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 07:19:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="860229613"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="860229613"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 30 Nov 2023 07:19:26 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8ip2-0002AP-2I;
+	Thu, 30 Nov 2023 15:19:24 +0000
+Date: Thu, 30 Nov 2023 23:18:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+	robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+	dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
+	airlied@gmail.com, agross@kernel.org, dmitry.baryshkov@linaro.org,
+	andersson@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+	quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+	marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] drm/msm/dpu: improve DSC allocation
+Message-ID: <202311302309.NPRFDAWm-lkp@intel.com>
+References: <1701289898-12235-1-git-send-email-quic_khsieh@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1701289898-12235-1-git-send-email-quic_khsieh@quicinc.com>
 
-On Thu, 30 Nov 2023 16:52:10 +0800 Yujie Liu wrote:
-> > Is it possible that the build bot is missing python-yaml support and
-> > the generation of Documentation/networking/netlink_spec/index.rst
-> > fails?  
-> 
-> Hi Jakub, this is indeed due to missing pyyaml module in the bot so the
-> doc file is not generated. We've installed it now and the warning is
-> gone. Sorry for the noise and please ignore this report.
+Hi Kuogee,
 
-No worries at all, thanks for confirming!
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc3 next-20231130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/drm-msm-dpu-improve-DSC-allocation/20231130-064646
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/1701289898-12235-1-git-send-email-quic_khsieh%40quicinc.com
+patch subject: [PATCH v1] drm/msm/dpu: improve DSC allocation
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231130/202311302309.NPRFDAWm-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311302309.NPRFDAWm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311302309.NPRFDAWm-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:537:24: error: incompatible pointer to integer conversion assigning to 'uint32_t' (aka 'unsigned int') from 'void *' [-Wint-conversion]
+     537 |                 pp_to_enc_id[pp_idx] = NULL;
+         |                                      ^ ~~~~
+   1 error generated.
+
+
+vim +537 drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+
+   463	
+   464	static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
+   465				       struct dpu_global_state *global_state,
+   466				       struct drm_encoder *enc,
+   467				       const struct msm_display_topology *top)
+   468	{
+   469		int num_dsc = 0;
+   470		int i, pp_idx;
+   471		bool pair = false;
+   472		int dsc_idx[DSC_MAX - DSC_0];
+   473		uint32_t pp_to_enc_id[PINGPONG_MAX - PINGPONG_0];
+   474		int pp_max = PINGPONG_MAX - PINGPONG_0;
+   475	
+   476		if (!top->num_dsc || !top->num_intf)
+   477			return 0;
+   478	
+   479		/*
+   480		 * Truth:
+   481		 * 1) every layer mixer only connects to one pingpong
+   482		 * 2) no pingpong split -- two layer mixers shared one pingpong
+   483		 * 3) each DSC engine contains two dsc encoders
+   484		 *    -- index(0,1), index (2,3),... etc
+   485		 * 4) dsc pair can only happens with same DSC engine except 4 dsc
+   486		 *    merge mode application (8k) which need two DSC engines
+   487		 * 5) odd pingpong connect to odd dsc
+   488		 * 6) even pingpong connect even dsc
+   489		 */
+   490	
+   491		/* num_dsc should be either 1, 2 or 4 */
+   492		if (top->num_dsc > top->num_intf)	/* merge mode */
+   493			pair = true;
+   494	
+   495		/* fill working copy with pingpong list */
+   496		memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id, sizeof(pp_to_enc_id));
+   497	
+   498		for (i = 0; i < ARRAY_SIZE(rm->dsc_blks); i++) {
+   499			if (!rm->dsc_blks[i])	/* end of dsc list */
+   500				break;
+   501	
+   502			if (global_state->dsc_to_enc_id[i]) {	/* used */
+   503				/* consective dsc index to be paired */
+   504				if (pair && num_dsc) {	/* already start pairing, re start */
+   505					num_dsc = 0;
+   506					/* fill working copy with pingpong list */
+   507					memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id,
+   508									sizeof(pp_to_enc_id));
+   509				}
+   510				continue;
+   511			}
+   512	
+   513			/* odd index can not become start of pairing */
+   514			if (pair && (i & 0x01) && !num_dsc)
+   515				continue;
+   516	
+   517			/*
+   518			 * find the pingpong index which had been reserved
+   519			 * previously at layer mixer allocation
+   520			 */
+   521			for (pp_idx = 0; pp_idx < pp_max; pp_idx++) {
+   522				if (pp_to_enc_id[pp_idx] == enc->base.id)
+   523					break;
+   524			}
+   525	
+   526			/*
+   527			 * dsc even index must map to pingpong even index
+   528			 * dsc odd index must map to pingpong odd index
+   529			 */
+   530			if ((i & 0x01) != (pp_idx & 0x01))
+   531				continue;
+   532	
+   533			/*
+   534			 * delete pp_idx so that it can not be found at next search
+   535			 * in the case of pairing
+   536			 */
+ > 537			pp_to_enc_id[pp_idx] = NULL;
+   538	
+   539			dsc_idx[num_dsc++] = i;
+   540			if (num_dsc >= top->num_dsc)
+   541				break;
+   542		}
+   543	
+   544		if (num_dsc < top->num_dsc) {
+   545			DPU_ERROR("DSC allocation failed num_dsc=%d required=%d\n",
+   546							num_dsc, top->num_dsc );
+   547			return -ENAVAIL;
+   548		}
+   549	
+   550		/* reserve dsc */
+   551		for (i = 0; i < top->num_dsc; i++) {
+   552			int j;
+   553	
+   554			j = dsc_idx[i];
+   555			global_state->dsc_to_enc_id[j] = enc->base.id;
+   556		}
+   557	
+   558		return 0;
+   559	}
+   560	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
