@@ -1,54 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4946154BF;
-	Thu, 30 Nov 2023 04:03:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880AB4CB2E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 05:04:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QsnyDU+A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WVE75lPS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701317025; x=1732853025;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cR5Izo2xklzJNmbee5XWcMhiPrBrVwOZxtcbWhIh74g=;
-  b=QsnyDU+ABOYa9voRxI/LQJHF4WIF5cHZ5otSoPHF2ARTDaM40Eq90kdR
-   ervyKVMs595tSL5G9rDUi1aQako1aOMpVQX4h3cl0fZceeHiPiHhGftEp
-   5PtzDw7wm2q5tt9YJACua/7QUNke/naL57zxYtA+Vhwas9uMDM1e0/7M+
-   VpIrHcoI+CNDWX6++4H8Y9iPgoWVtww2QcalJlNecPQQTkJeYxpEOCaUc
-   4EFi6OUMo0binhplJa+g85GhRlS0OVul1JMprL4gfP7/1jAJ0S3K+l+L9
-   ojSmjiItK21Cgdz4N4rRd5v5g8fYiZaa6nQv0oCCwf9vhwOe++teXyN0Q
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="14819196"
+  t=1701320690; x=1732856690;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YFovUzAK/1X615RUH6MDlgAHZSILM8GrgwzPxIyJFtw=;
+  b=WVE75lPSbL+OLHTOnvvuzhbKpfA2R35j/3k0FwFzIFFyFytYDcwtg9v/
+   rGz3YpABFi/eQjayfV7I1a9Ea3kkZdeeCFtu68aUZHBjgd1Msq5OwYi8V
+   trf0j8Ry62If0C/koF1NBuBgfG0XPiAy5b0BDMs60PUmyvazTY4g7Ieh6
+   bUmRtSDsQ97/WeTLip4xkorFJFiVTGLK3w5Y600UfhqJX2hzJxw2x280X
+   ZguagvYHWwUMr0BwOVsi4JKwbAFH8TUNuAtCpdyhiIyW6FJbmRCZ9LsnA
+   s902TyyjNl4HRJCtZZZNxSHB2tNH8pHpcUVLDCRTxj3n+ifUoqIKTkyuS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="396078913"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="14819196"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 20:03:11 -0800
+   d="scan'208";a="396078913"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 21:04:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="1016502568"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="745503684"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="1016502568"
+   d="scan'208";a="745503684"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 29 Nov 2023 20:03:06 -0800
+  by orsmga006.jf.intel.com with ESMTP; 29 Nov 2023 21:04:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8YGW-0001KE-26;
-	Thu, 30 Nov 2023 04:03:04 +0000
-Date: Thu, 30 Nov 2023 12:02:53 +0800
+	id 1r8ZED-0001OO-2v;
+	Thu, 30 Nov 2023 05:04:45 +0000
+Date: Thu, 30 Nov 2023 13:03:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, fsverity@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, ebiggers@kernel.org, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, casey@schaufler-ca.com,
-	amir73il@gmail.com, kpsingh@kernel.org, roberto.sassu@huawei.com,
-	kernel-team@meta.com, Song Liu <song@kernel.org>
-Subject: Re: [PATCH v14 bpf-next 6/6] selftests/bpf: Add test that uses
- fsverity and xattr to sign a file
-Message-ID: <202311301002.mGJ2mc2v-lkp@intel.com>
-References: <20231129003656.1165061-7-song@kernel.org>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: drivers/platform/mips/rs780e-acpi.c:47:6: warning: no previous
+ prototype for 'pm2_iowrite'
+Message-ID: <202311301354.Ga1imV7I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,35 +50,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231129003656.1165061-7-song@kernel.org>
 
-Hi Song,
+Hi Jiaxun,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/bpf-Add-kfunc-bpf_get_file_xattr/20231129-084133
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231129003656.1165061-7-song%40kernel.org
-patch subject: [PATCH v14 bpf-next 6/6] selftests/bpf: Add test that uses fsverity and xattr to sign a file
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301002.mGJ2mc2v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
+commit: 0cfd2440aa03ea3d4b04cc2565561cecadcb1257 MIPS: Loongson64: Make RS780E ACPI as a platform driver
+date:   3 years, 7 months ago
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20231130/202311301354.Ga1imV7I-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301354.Ga1imV7I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311301002.mGJ2mc2v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311301354.Ga1imV7I-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> progs/test_sig_in_xattr.c:36:26: error: invalid application of 'sizeof' to an incomplete type 'struct fsverity_digest'
-      36 | char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGEST_SIZE];
-         |                          ^     ~~~~~~~~~~~~~~~~~~~~~~~~
-   progs/test_sig_in_xattr.c:36:40: note: forward declaration of 'struct fsverity_digest'
-      36 | char digest[MAGIC_SIZE + sizeof(struct fsverity_digest) + SHA256_DIGEST_SIZE];
-         |                                        ^
-   1 error generated.
+   drivers/platform/mips/rs780e-acpi.c:35:6: warning: no previous prototype for 'pm_iowrite' [-Wmissing-prototypes]
+      35 | void pm_iowrite(u8 reg, u8 value)
+         |      ^~~~~~~~~~
+   drivers/platform/mips/rs780e-acpi.c:41:4: warning: no previous prototype for 'pm_ioread' [-Wmissing-prototypes]
+      41 | u8 pm_ioread(u8 reg)
+         |    ^~~~~~~~~
+>> drivers/platform/mips/rs780e-acpi.c:47:6: warning: no previous prototype for 'pm2_iowrite' [-Wmissing-prototypes]
+      47 | void pm2_iowrite(u8 reg, u8 value)
+         |      ^~~~~~~~~~~
+>> drivers/platform/mips/rs780e-acpi.c:53:4: warning: no previous prototype for 'pm2_ioread' [-Wmissing-prototypes]
+      53 | u8 pm2_ioread(u8 reg)
+         |    ^~~~~~~~~~
+   drivers/platform/mips/rs780e-acpi.c:72:6: warning: no previous prototype for 'acpi_registers_setup' [-Wmissing-prototypes]
+      72 | void acpi_registers_setup(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/pm2_iowrite +47 drivers/platform/mips/rs780e-acpi.c
+
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  46  
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29 @47  void pm2_iowrite(u8 reg, u8 value)
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  48  {
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  49  	pmio_write_index(PM2_INDEX, reg, value);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  50  }
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  51  EXPORT_SYMBOL(pm2_iowrite);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  52  
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29 @53  u8 pm2_ioread(u8 reg)
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  54  {
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  55  	return pmio_read_index(PM2_INDEX, reg);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  56  }
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  57  EXPORT_SYMBOL(pm2_ioread);
+9c057b3e02184b drivers/platform/mips/acpi_init.c Huacai Chen 2015-03-29  58  
+
+:::::: The code at line 47 was first introduced by commit
+:::::: 9c057b3e02184b111d3392be75efc7c94f0fdf20 MIPS: Loongson-3: Add chipset ACPI platform driver
+
+:::::: TO: Huacai Chen <chenhc@lemote.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
