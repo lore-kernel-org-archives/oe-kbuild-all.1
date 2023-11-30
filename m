@@ -1,50 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC1013FE6;
-	Thu, 30 Nov 2023 03:55:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7DE13AC7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 03:55:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7Z3IFLg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a2Srnxy2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701316504; x=1732852504;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ko+KnnNR5xJSMUoC6K+lQ0mnuMOhszyEdMuVH3KwCmY=;
-  b=a7Z3IFLgDmoex3fGUICccwBuGb7DJC4FM0EU6rMOgjyHl75NOQZyWtxM
-   Hb0RifKAfqAtkiHSzdRkJBhTtvJ8wt+fpsGj8asvWkOdtgqnXoYJd5kVc
-   xSZ3E3SX9qI/FxKd2RaUk7e6YrlXkDJl1qc3gcJe02SpwogrBgUDdStUQ
-   eEgwqWwLDBGYsOyIltnMHADCY4zQLVQmxpj+Qv3MA0pAuT99o7KSNAjLt
-   RwlJoDMzeaEoGAjtpQxmthPNVmOUTQNqG5RsIq9OU8j4/6CYOeZu5wuQ1
-   Sm5dqi7kVN7AicD+2daoMyzlAV6mN86Is8bvXeNE/GgSvJSY4XW9h3RDi
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="459757287"
+  bh=/z4YIK8oMfbarK8nux1ot1qBf6TXHp394tG9cuMHxHM=;
+  b=a2Srnxy2UZnLHuGHJb+ydznZKoOr95gtsiTXnELan91piAqK2jZSO0ic
+   rlgVzZnoe6tkc5zJRNaFCB21GrMjQlzFT5I9jkAT0d0cHm9AII1PYy209
+   yVHe23ToBZbG/DZoYU/++DbAiQyYScWXEG7r40msVG2fHkmeOJjKQ8n/r
+   ZiZdgYJCSApXbc28lMhNRAWP9HM3RHgf7jOnTVMZJK2rhyfQfdSn8XBp0
+   mw71+0QRGwLkuuRWBBDTZo9SoJYVfTZkJOsJndOYYjyIv+xVI4pv65naq
+   WvNZlHCY+JMFVi+iFC9Xem9YfjjC7lmu2owCcRoBoVVvHB7T7PsjsPmVI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="396072725"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="459757287"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 19:55:03 -0800
+   d="scan'208";a="396072725"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 19:55:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="745488152"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="860054042"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="745488152"
+   d="scan'208";a="860054042"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 29 Nov 2023 19:55:00 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Nov 2023 19:55:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8Y8g-0001J8-16;
+	id 1r8Y8g-0001JB-1Q;
 	Thu, 30 Nov 2023 03:54:58 +0000
-Date: Thu, 30 Nov 2023 11:54:50 +0800
+Date: Thu, 30 Nov 2023 11:54:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Haoran Liu <liuhaoran14@163.com>, geert+renesas@glider.be
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Haoran Liu <liuhaoran14@163.com>
-Subject: Re: [PATCH] [soc/renesas] renesas-soc: Add error handling in
- renesas_soc_init
-Message-ID: <202311300814.9jXQLQEU-lkp@intel.com>
-References: <20231129143431.34459-1-liuhaoran14@163.com>
+To: Vadim Fedorenko <vadfed@meta.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-crypto@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next v6 1/3] bpf: make common crypto API for TC/XDP
+ programs
+Message-ID: <202311300742.fDSG2vce-lkp@intel.com>
+References: <20231129173312.31008-1-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,87 +59,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231129143431.34459-1-liuhaoran14@163.com>
+In-Reply-To: <20231129173312.31008-1-vadfed@meta.com>
 
-Hi Haoran,
+Hi Vadim,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on geert-renesas-devel/next]
-[also build test ERROR on linus/master v6.7-rc3 next-20231129]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haoran-Liu/renesas-soc-Add-error-handling-in-renesas_soc_init/20231129-225113
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-patch link:    https://lore.kernel.org/r/20231129143431.34459-1-liuhaoran14%40163.com
-patch subject: [PATCH] [soc/renesas] renesas-soc: Add error handling in renesas_soc_init
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231130/202311300814.9jXQLQEU-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-crypto-add-skcipher-to-bpf-crypto/20231130-014813
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231129173312.31008-1-vadfed%40meta.com
+patch subject: [PATCH bpf-next v6 1/3] bpf: make common crypto API for TC/XDP programs
+config: arm64-randconfig-r081-20231130 (https://download.01.org/0day-ci/archive/20231130/202311300742.fDSG2vce-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311300814.9jXQLQEU-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311300742.fDSG2vce-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311300814.9jXQLQEU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311300742.fDSG2vce-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/soc/renesas/renesas-soc.c:492:11: error: use of undeclared identifier 'dev'
-     492 |                 dev_err(dev, "Failed to read model property: %d\n", ret);
-         |                         ^
+>> kernel/bpf/crypto.c:179:46: error: expected ')'
+     179 |                 *err = type->setauthsize(ctx->tfm, authsize;
+         |                                                            ^
+   kernel/bpf/crypto.c:179:27: note: to match this '('
+     179 |                 *err = type->setauthsize(ctx->tfm, authsize;
+         |                                         ^
    1 error generated.
 
 
-vim +/dev +492 drivers/soc/renesas/renesas-soc.c
+vim +179 kernel/bpf/crypto.c
 
-   447	
-   448	static int __init renesas_soc_init(void)
-   449	{
-   450		struct soc_device_attribute *soc_dev_attr;
-   451		unsigned int product, eshi = 0, eslo;
-   452		const struct renesas_family *family;
-   453		const struct of_device_id *match;
-   454		const struct renesas_soc *soc;
-   455		const struct renesas_id *id;
-   456		void __iomem *chipid = NULL;
-   457		const char *rev_prefix = "";
-   458		struct soc_device *soc_dev;
-   459		struct device_node *np;
-   460		const char *soc_id;
-   461		int ret;
-   462	
-   463		match = of_match_node(renesas_socs, of_root);
-   464		if (!match)
-   465			return -ENODEV;
-   466	
-   467		soc_id = strchr(match->compatible, ',') + 1;
-   468		soc = match->data;
-   469		family = soc->family;
-   470	
-   471		np = of_find_matching_node_and_match(NULL, renesas_ids, &match);
-   472		if (np) {
-   473			id = match->data;
-   474			chipid = of_iomap(np, 0);
-   475			of_node_put(np);
-   476		} else if (soc->id && family->reg) {
-   477			/* Try hardcoded CCCR/PRR fallback */
-   478			id = &id_prr;
-   479			chipid = ioremap(family->reg, 4);
-   480		}
-   481	
-   482		soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
-   483		if (!soc_dev_attr) {
-   484			if (chipid)
-   485				iounmap(chipid);
-   486			return -ENOMEM;
-   487		}
-   488	
-   489		np = of_find_node_by_path("/");
-   490		ret = of_property_read_string(np, "model", &soc_dev_attr->machine);
-   491		if (ret) {
- > 492			dev_err(dev, "Failed to read model property: %d\n", ret);
+   105	
+   106	/**
+   107	 * bpf_crypto_ctx_create() - Create a mutable BPF crypto context.
+   108	 *
+   109	 * Allocates a crypto context that can be used, acquired, and released by
+   110	 * a BPF program. The crypto context returned by this function must either
+   111	 * be embedded in a map as a kptr, or freed with bpf_crypto_ctx_release().
+   112	 * As crypto API functions use GFP_KERNEL allocations, this function can
+   113	 * only be used in sleepable BPF programs.
+   114	 *
+   115	 * bpf_crypto_ctx_create() allocates memory for crypto context.
+   116	 * It may return NULL if no memory is available.
+   117	 * @type__str: pointer to string representation of crypto type.
+   118	 * @algo__str: pointer to string representation of algorithm.
+   119	 * @pkey:      bpf_dynptr which holds cipher key to do crypto.
+   120	 * @err:       integer to store error code when NULL is returned
+   121	 */
+   122	__bpf_kfunc struct bpf_crypto_ctx *
+   123	bpf_crypto_ctx_create(const char *type__str, const char *algo__str,
+   124			      const struct bpf_dynptr_kern *pkey,
+   125			      unsigned int authsize, int *err)
+   126	{
+   127		const struct bpf_crypto_type *type = bpf_crypto_get_type(type__str);
+   128		struct bpf_crypto_ctx *ctx;
+   129		const u8 *key;
+   130		u32 key_len;
+   131	
+   132		//type = bpf_crypto_get_type(type__str);
+   133		if (IS_ERR(type)) {
+   134			*err = PTR_ERR(type);
+   135			return NULL;
+   136		}
+   137	
+   138		if (!type->has_algo(algo__str)) {
+   139			*err = -EOPNOTSUPP;
+   140			goto err;
+   141		}
+   142	
+   143		if (!authsize && type->setauthsize) {
+   144			*err = -EOPNOTSUPP;
+   145			goto err;
+   146		}
+   147	
+   148		if (authsize && !type->setauthsize) {
+   149			*err = -EOPNOTSUPP;
+   150			goto err;
+   151		}
+   152	
+   153		key_len = __bpf_dynptr_size(pkey);
+   154		if (!key_len) {
+   155			*err = -EINVAL;
+   156			goto err;
+   157		}
+   158		key = __bpf_dynptr_data(pkey, key_len);
+   159		if (!key) {
+   160			*err = -EINVAL;
+   161			goto err;
+   162		}
+   163	
+   164		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+   165		if (!ctx) {
+   166			*err = -ENOMEM;
+   167			goto err;
+   168		}
+   169	
+   170		ctx->type = type;
+   171		ctx->tfm = type->alloc_tfm(algo__str);
+   172		if (IS_ERR(ctx->tfm)) {
+   173			*err = PTR_ERR(ctx->tfm);
+   174			ctx->tfm = NULL;
+   175			goto err;
+   176		}
+   177	
+   178		if (authsize) {
+ > 179			*err = type->setauthsize(ctx->tfm, authsize;
+   180			if (*err)
+   181				goto err;
+   182		}
+   183	
+   184		*err = type->setkey(ctx->tfm, key, key_len);
+   185		if (*err)
+   186			goto err;
+   187	
+   188		refcount_set(&ctx->usage, 1);
+   189	
+   190		return ctx;
+   191	err:
+   192		if (ctx->tfm)
+   193			type->free_tfm(ctx->tfm);
+   194		kfree(ctx);
+   195		module_put(type->owner);
+   196	
+   197		return NULL;
+   198	}
+   199	
 
 -- 
 0-DAY CI Kernel Test Service
