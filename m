@@ -1,119 +1,148 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B7664E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 01:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B3AC8C6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 02:19:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KAKRyy5x"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6cd0963c61cso314286a34.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 29 Nov 2023 17:53:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701309206; x=1701914006; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I8qVK9GAx0H0665gMp4/XaEH2mFpe/0oyKDd4JFknoA=;
-        b=KAKRyy5xGqrIqk1ChHwxhRVN8odS05NLzDESlRLTW2NNrGfejgo/lA2vGMpvZkXR8K
-         rc98sTj45G/vfWo3ktX1g2MaiOpuzm/MSLaaPwhNtTwSlV7LB0GXO61NtvLiOfdrVoG2
-         68W3EiXg/IVS1X8+DmMmql7sSj2xppqHNG1+hrcXStXn5llFEnlDYmTsJzKcZ5RFBfcS
-         3QtXvDvf2UTFZYFk7W77ygPxtXbstrLQTLYsb2bWB06v0UtxKNttQCgStKmf6DTlG4c5
-         Ldbsxn1rX1PcSCRQv8xK1uFXOLxGyQcwkKgpZbmR/hgrYQlHNvUWpsbRFBQsYUh55tYo
-         5/Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701309206; x=1701914006;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I8qVK9GAx0H0665gMp4/XaEH2mFpe/0oyKDd4JFknoA=;
-        b=Wspb1WQ2ZiL3Cs00koQWg6s1/QMhuj2z1dWKKK+KQ7uC6pI+oLLNiMM5LwEth70Qfp
-         Cg2mmP7OkUeT11cNTumSKrz0cQSWwEHDZlrcRNfaDHuJIEOfUkDpFNjQGbjnBImWB/gm
-         NFrgXKyNs5+E7TmR7X4pAOv3bwEnm5oDqY9ilEO/SrZCS0a1sYuoNljpUkcTDON1ObLg
-         MZkbNZo+KnAMHsCJKfXtarIcToiHINaw5k0FeB1vDZwxwACUHdaMVIgOVkDOUYRdmctE
-         PFzxvlakXzQ2C8qZiL8xZwpjzEP8lpH+JnNNK6EwbCordwOz7Qg3sgVV7lP9dmiFnu4C
-         JI7g==
-X-Gm-Message-State: AOJu0YzxSehWy5ktxadVkF2Ppw2bSmVeOr1KckKl4aVP89SunsIojyUy
-	DFNuu4/yTh4d7bbpG6nigLtxdW2xp7JSWZnmJuo=
-X-Google-Smtp-Source: AGHT+IEOKxVDBmFp8Gax7e+6/3Xpm9wFFIta8ZNQ1zGpU0q8pPtB1GfxxJmjAzk02CUnHcILxV1rRm8Zt7Jk3nJ96cA=
-X-Received: by 2002:a05:6870:9a98:b0:1fa:2d7e:f67a with SMTP id
- hp24-20020a0568709a9800b001fa2d7ef67amr19389875oab.31.1701309206203; Wed, 29
- Nov 2023 17:53:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3NC5RWC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701310741; x=1732846741;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=byRkLg7cLRaRvq6OSMZrA87/Agu7TXJbj07YZC1yHzI=;
+  b=T3NC5RWCQHP6vg13gxyPyGyGyCXGfmKSXhUJPrab0CWlNMxOqaHq4qoa
+   whDtXgwgqltLpNw+c+pflz2fDnZjliVSf3v9mKVGNGfumuOcuNll9Z2gG
+   MhxuAJYnxmhB1XWNG+6vmeY/l92uIi/8q1Fd++gDXRm8pO2WG491IEZry
+   vpjJy/5MvXWd/6nKegzvOyY/JtNeO0b//WEeTFzPIXg7jILwTyxAaYPqB
+   aKZiMafe7rAU7K1EDC6PjBgOXvozf/dN0BpTECPBmDx+E/juJ7zisCxOz
+   13Z/rY84i1U5OgkLpQu8NaRWgc8Igu4FUb71e+VhXHBhAp5/ebfrBGY8O
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="378281156"
+X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
+   d="scan'208";a="378281156"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 18:19:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="887069379"
+X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
+   d="scan'208";a="887069379"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 29 Nov 2023 18:18:59 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8Wdl-0001Ez-0i;
+	Thu, 30 Nov 2023 02:18:57 +0000
+Date: Thu, 30 Nov 2023 10:18:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>
+Subject: kernel/kprobes.c:145: warning: Function parameter or member 'c' not
+ described in '__get_insn_slot'
+Message-ID: <202311300504.zYicjFKi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202311292305.43bnw55s-lkp@intel.com> <20231129133431.73512e280e870efaa17f9f4d@linux-foundation.org>
-In-Reply-To: <20231129133431.73512e280e870efaa17f9f4d@linux-foundation.org>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 29 Nov 2023 17:53:15 -0800
-Message-ID: <CAKEwX=NUZb44XR_sHB8z9wa-DwwQbqEi_k54AtKo_oJ4u4MYXA@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-unstable 179/192] mm/zswap.c:298:24: error: call to
- undeclared function 'obj_cgroup_memcg'; ISO C99 and later do not support
- implicit function declarations
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, Domenico Cerasuolo <cerasuolodomenico@gmail.com>, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Nov 29, 2023 at 1:34=E2=80=AFPM Andrew Morton <akpm@linux-foundatio=
-n.org> wrote:
->
-> On Wed, 29 Nov 2023 23:42:15 +0800 kernel test robot <lkp@intel.com> wrot=
-e:
->
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-=
-unstable
-> > head:   cb1d236cb1038fa1bbae9913803f1c655b86d931
-> > commit: 70dd375afcfe1839321ea8a65749404a99f0e773 [179/192] zswap: make =
-shrinking memcg-aware
-> > config: s390-randconfig-r071-20231129 (https://download.01.org/0day-ci/=
-archive/20231129/202311292305.43bnw55s-lkp@intel.com/config)
-> > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.gi=
-t ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20231129/202311292305.43bnw55s-lkp@intel.com/reproduce)
-> >
-> > ...
-> >
-> > >> mm/zswap.c:298:24: error: call to undeclared function 'obj_cgroup_me=
-mcg'; ISO C99 and later do not support implicit function declarations [-Wim=
-plicit-function-declaration]
-> >            return entry->objcg ? obj_cgroup_memcg(entry->objcg) : NULL;
-> >                                  ^
-> >    mm/zswap.c:298:24: note: did you mean 'obj_cgroup_put'?
-> >    include/linux/memcontrol.h:1352:20: note: 'obj_cgroup_put' declared =
-here
->
-> Well I'm going to assume it's this:
->
-> --- a/mm/zswap.c~zswap-make-shrinking-memcg-aware-fix
-> +++ a/mm/zswap.c
-> @@ -29,6 +29,7 @@
->  #include <linux/zpool.h>
->  #include <crypto/acompress.h>
->  #include <linux/zswap.h>
-> +#include <linux/memcontrol.h>
->  #include <linux/mm_types.h>
->  #include <linux/page-flags.h>
->  #include <linux/swapops.h>
-> _
->
-> Can't test because my gcc plugins have gone stupid yet again.
->
-> cc1: error: cannot load plugin ./scripts/gcc-plugins/stackleak_plugin.so:=
- ./scripts/gcc-plugins/stackleak_plugin.so: undefined symbol: _ZNK6frange6a=
-cceptERK14vrange_visitor
-> cc1: error: cannot load plugin ./scripts/gcc-plugins/randomize_layout_plu=
-gin.so: ./scripts/gcc-plugins/randomize_layout_plugin.so: undefined symbol:=
- _ZNK6frange6acceptERK14vrange_visitor
->
-> help.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
+commit: 6d4cc40fb5f58147defc6c0e9d86e6232fe31616 LoongArch: Add kprobes support
+date:   9 months ago
+config: loongarch-randconfig-r034-20230511 (https://download.01.org/0day-ci/archive/20231130/202311300504.zYicjFKi-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231130/202311300504.zYicjFKi-lkp@intel.com/reproduce)
 
-Hmm I tried including memcontrol.h, and it still screams at me the
-same way with !CONFIG_MEMCG. I think obj_cgroup_memcg() is just not
-defined in this case. Let's just return NULL here when !CONFIG_MEMCG.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311300504.zYicjFKi-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> kernel/kprobes.c:145: warning: Function parameter or member 'c' not described in '__get_insn_slot'
+
+
+vim +145 kernel/kprobes.c
+
+b4c6c34a530b4d1 Masami Hiramatsu           2006-12-06  139  
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  140  /**
+129415607845d4d Masami Hiramatsu           2009-01-06  141   * __get_insn_slot() - Find a slot on an executable page for an instruction.
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  142   * We allocate an executable page if there's no room on existing ones.
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  143   */
+55479f64756fc50 Masami Hiramatsu           2014-04-17  144  kprobe_opcode_t *__get_insn_slot(struct kprobe_insn_cache *c)
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27 @145  {
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  146  	struct kprobe_insn_page *kip;
+c802d64a356b5cf Heiko Carstens             2013-09-11  147  	kprobe_opcode_t *slot = NULL;
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  148  
+5b485629ba0d5d0 Masami Hiramatsu           2017-01-08  149  	/* Since the slot array is not protected by rcu, we need a mutex */
+c802d64a356b5cf Heiko Carstens             2013-09-11  150  	mutex_lock(&c->mutex);
+b4c6c34a530b4d1 Masami Hiramatsu           2006-12-06  151   retry:
+5b485629ba0d5d0 Masami Hiramatsu           2017-01-08  152  	rcu_read_lock();
+5b485629ba0d5d0 Masami Hiramatsu           2017-01-08  153  	list_for_each_entry_rcu(kip, &c->pages, list) {
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  154  		if (kip->nused < slots_per_page(c)) {
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  155  			int i;
+223a76b268c9cfa Masami Hiramatsu           2021-09-14  156  
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  157  			for (i = 0; i < slots_per_page(c); i++) {
+ab40c5c6b6861ee Masami Hiramatsu           2007-01-30  158  				if (kip->slot_used[i] == SLOT_CLEAN) {
+ab40c5c6b6861ee Masami Hiramatsu           2007-01-30  159  					kip->slot_used[i] = SLOT_USED;
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  160  					kip->nused++;
+c802d64a356b5cf Heiko Carstens             2013-09-11  161  					slot = kip->insns + (i * c->insn_size);
+5b485629ba0d5d0 Masami Hiramatsu           2017-01-08  162  					rcu_read_unlock();
+c802d64a356b5cf Heiko Carstens             2013-09-11  163  					goto out;
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  164  				}
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  165  			}
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  166  			/* kip->nused is broken. Fix it. */
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  167  			kip->nused = slots_per_page(c);
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  168  			WARN_ON(1);
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  169  		}
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  170  	}
+5b485629ba0d5d0 Masami Hiramatsu           2017-01-08  171  	rcu_read_unlock();
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  172  
+b4c6c34a530b4d1 Masami Hiramatsu           2006-12-06  173  	/* If there are any garbage slots, collect it and try again. */
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  174  	if (c->nr_garbage && collect_garbage_slots(c) == 0)
+b4c6c34a530b4d1 Masami Hiramatsu           2006-12-06  175  		goto retry;
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  176  
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  177  	/* All out of space.  Need to allocate a new page. */
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  178  	kip = kmalloc(KPROBE_INSN_PAGE_SIZE(slots_per_page(c)), GFP_KERNEL);
+6f716acd5fa20ae Christoph Hellwig          2007-05-08  179  	if (!kip)
+c802d64a356b5cf Heiko Carstens             2013-09-11  180  		goto out;
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  181  
+af96397de860023 Heiko Carstens             2013-09-11  182  	kip->insns = c->alloc();
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  183  	if (!kip->insns) {
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  184  		kfree(kip);
+c802d64a356b5cf Heiko Carstens             2013-09-11  185  		goto out;
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  186  	}
+c5cb5a2d8d7dc87 Masami Hiramatsu           2009-06-30  187  	INIT_LIST_HEAD(&kip->list);
+4610ee1d3638fa0 Masami Hiramatsu           2010-02-25  188  	memset(kip->slot_used, SLOT_CLEAN, slots_per_page(c));
+ab40c5c6b6861ee Masami Hiramatsu           2007-01-30  189  	kip->slot_used[0] = SLOT_USED;
+9ec4b1f356b3bad Ananth N Mavinakayanahalli 2005-06-27  190  	kip->nused = 1;
+b4c6c34a530b4d1 Masami Hiramatsu           2006-12-06  191  	kip->ngarbage = 0;
+af96397de860023 Heiko Carstens             2013-09-11  192  	kip->cache = c;
+5b485629ba0d5d0 Masami Hiramatsu           2017-01-08  193  	list_add_rcu(&kip->list, &c->pages);
+c802d64a356b5cf Heiko Carstens             2013-09-11  194  	slot = kip->insns;
+69e49088692899d Adrian Hunter              2020-05-12  195  
+69e49088692899d Adrian Hunter              2020-05-12  196  	/* Record the perf ksymbol register event after adding the page */
+69e49088692899d Adrian Hunter              2020-05-12  197  	perf_event_ksymbol(PERF_RECORD_KSYMBOL_TYPE_OOL, (unsigned long)kip->insns,
+69e49088692899d Adrian Hunter              2020-05-12  198  			   PAGE_SIZE, false, c->sym);
+c802d64a356b5cf Heiko Carstens             2013-09-11  199  out:
+c802d64a356b5cf Heiko Carstens             2013-09-11  200  	mutex_unlock(&c->mutex);
+c802d64a356b5cf Heiko Carstens             2013-09-11  201  	return slot;
+129415607845d4d Masami Hiramatsu           2009-01-06  202  }
+129415607845d4d Masami Hiramatsu           2009-01-06  203  
+
+:::::: The code at line 145 was first introduced by commit
+:::::: 9ec4b1f356b3bad928ae8e2aa9caebfa737d52df [PATCH] kprobes: fix single-step out of line - take2
+
+:::::: TO: Ananth N Mavinakayanahalli <ananth@in.ibm.com>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
