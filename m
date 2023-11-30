@@ -1,56 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7DE13AC7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 03:55:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6738CF51F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 03:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a2Srnxy2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFsp8Rqo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701316504; x=1732852504;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/z4YIK8oMfbarK8nux1ot1qBf6TXHp394tG9cuMHxHM=;
-  b=a2Srnxy2UZnLHuGHJb+ydznZKoOr95gtsiTXnELan91piAqK2jZSO0ic
-   rlgVzZnoe6tkc5zJRNaFCB21GrMjQlzFT5I9jkAT0d0cHm9AII1PYy209
-   yVHe23ToBZbG/DZoYU/++DbAiQyYScWXEG7r40msVG2fHkmeOJjKQ8n/r
-   ZiZdgYJCSApXbc28lMhNRAWP9HM3RHgf7jOnTVMZJK2rhyfQfdSn8XBp0
-   mw71+0QRGwLkuuRWBBDTZo9SoJYVfTZkJOsJndOYYjyIv+xVI4pv65naq
-   WvNZlHCY+JMFVi+iFC9Xem9YfjjC7lmu2owCcRoBoVVvHB7T7PsjsPmVI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="396072725"
+  t=1701316563; x=1732852563;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FlQQXvhtqKR6h+8yDPyEXyPJbrApH81uyv8Gt8Zk1d4=;
+  b=KFsp8RqoOQV5afrsjWpRABAb+9o812TEQuJPhkDmIubuLVPqU4DpV+2+
+   oUG3ddz3PmT2lNa5Hioy4UoiAdH33EEJEgJtIhfRFTtRTPZoiDnbf9i6Y
+   HBdf0NF/gZ7+V6Jnehwz7sOxlflMCysia3q7feQN1qj9LsIBdORwCyu0o
+   +tgGIKum0usCN7r4Sbiq96iEIgPl9HvPyTqQJKoh4LvOJ62806Gr4YJZi
+   a5wTQ56IaQEmbHm1IdIL4H5r8dGkQMVaqVzcurUvPyaIWVAyfQ4X/cWdQ
+   nbKYqRPLC27jpz6PGrJibBFnrRHUloGhIGM3M8StFhOPAExofldRKIZdO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="163215"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="396072725"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 19:55:03 -0800
+   d="scan'208";a="163215"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 19:56:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="860054042"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="892678700"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="860054042"
+   d="scan'208";a="892678700"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Nov 2023 19:55:00 -0800
+  by orsmga004.jf.intel.com with ESMTP; 29 Nov 2023 19:56:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8Y8g-0001JB-1Q;
-	Thu, 30 Nov 2023 03:54:58 +0000
-Date: Thu, 30 Nov 2023 11:54:43 +0800
+	id 1r8Y9e-0001JS-2E;
+	Thu, 30 Nov 2023 03:55:58 +0000
+Date: Thu, 30 Nov 2023 11:54:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-crypto@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next v6 1/3] bpf: make common crypto API for TC/XDP
- programs
-Message-ID: <202311300742.fDSG2vce-lkp@intel.com>
-References: <20231129173312.31008-1-vadfed@meta.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-vfs:b4/vfs-files-fixes 21/23] fs/file.c:817: warning:
+ Excess function parameter 'files' description in 'file_close_fd'
+Message-ID: <202311300937.RS3wXofz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,135 +50,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231129173312.31008-1-vadfed@meta.com>
 
-Hi Vadim,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-crypto-add-skcipher-to-bpf-crypto/20231130-014813
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231129173312.31008-1-vadfed%40meta.com
-patch subject: [PATCH bpf-next v6 1/3] bpf: make common crypto API for TC/XDP programs
-config: arm64-randconfig-r081-20231130 (https://download.01.org/0day-ci/archive/20231130/202311300742.fDSG2vce-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311300742.fDSG2vce-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git b4/vfs-files-fixes
+head:   4d65958ca3ca38c59eda57f6f37d49a9bc7500fe
+commit: 42a009c9d56e156ffb8f93ff36d481cb6b3faf81 [21/23] file: s/close_fd_get_file()/file_close_fd()/g
+config: x86_64-randconfig-161-20231130 (https://download.01.org/0day-ci/archive/20231130/202311300937.RS3wXofz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311300937.RS3wXofz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311300742.fDSG2vce-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311300937.RS3wXofz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/bpf/crypto.c:179:46: error: expected ')'
-     179 |                 *err = type->setauthsize(ctx->tfm, authsize;
-         |                                                            ^
-   kernel/bpf/crypto.c:179:27: note: to match this '('
-     179 |                 *err = type->setauthsize(ctx->tfm, authsize;
-         |                                         ^
-   1 error generated.
+>> fs/file.c:817: warning: Excess function parameter 'files' description in 'file_close_fd'
 
 
-vim +179 kernel/bpf/crypto.c
+vim +817 fs/file.c
 
-   105	
-   106	/**
-   107	 * bpf_crypto_ctx_create() - Create a mutable BPF crypto context.
-   108	 *
-   109	 * Allocates a crypto context that can be used, acquired, and released by
-   110	 * a BPF program. The crypto context returned by this function must either
-   111	 * be embedded in a map as a kptr, or freed with bpf_crypto_ctx_release().
-   112	 * As crypto API functions use GFP_KERNEL allocations, this function can
-   113	 * only be used in sleepable BPF programs.
-   114	 *
-   115	 * bpf_crypto_ctx_create() allocates memory for crypto context.
-   116	 * It may return NULL if no memory is available.
-   117	 * @type__str: pointer to string representation of crypto type.
-   118	 * @algo__str: pointer to string representation of algorithm.
-   119	 * @pkey:      bpf_dynptr which holds cipher key to do crypto.
-   120	 * @err:       integer to store error code when NULL is returned
-   121	 */
-   122	__bpf_kfunc struct bpf_crypto_ctx *
-   123	bpf_crypto_ctx_create(const char *type__str, const char *algo__str,
-   124			      const struct bpf_dynptr_kern *pkey,
-   125			      unsigned int authsize, int *err)
-   126	{
-   127		const struct bpf_crypto_type *type = bpf_crypto_get_type(type__str);
-   128		struct bpf_crypto_ctx *ctx;
-   129		const u8 *key;
-   130		u32 key_len;
-   131	
-   132		//type = bpf_crypto_get_type(type__str);
-   133		if (IS_ERR(type)) {
-   134			*err = PTR_ERR(type);
-   135			return NULL;
-   136		}
-   137	
-   138		if (!type->has_algo(algo__str)) {
-   139			*err = -EOPNOTSUPP;
-   140			goto err;
-   141		}
-   142	
-   143		if (!authsize && type->setauthsize) {
-   144			*err = -EOPNOTSUPP;
-   145			goto err;
-   146		}
-   147	
-   148		if (authsize && !type->setauthsize) {
-   149			*err = -EOPNOTSUPP;
-   150			goto err;
-   151		}
-   152	
-   153		key_len = __bpf_dynptr_size(pkey);
-   154		if (!key_len) {
-   155			*err = -EINVAL;
-   156			goto err;
-   157		}
-   158		key = __bpf_dynptr_data(pkey, key_len);
-   159		if (!key) {
-   160			*err = -EINVAL;
-   161			goto err;
-   162		}
-   163	
-   164		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-   165		if (!ctx) {
-   166			*err = -ENOMEM;
-   167			goto err;
-   168		}
-   169	
-   170		ctx->type = type;
-   171		ctx->tfm = type->alloc_tfm(algo__str);
-   172		if (IS_ERR(ctx->tfm)) {
-   173			*err = PTR_ERR(ctx->tfm);
-   174			ctx->tfm = NULL;
-   175			goto err;
-   176		}
-   177	
-   178		if (authsize) {
- > 179			*err = type->setauthsize(ctx->tfm, authsize;
-   180			if (*err)
-   181				goto err;
-   182		}
-   183	
-   184		*err = type->setkey(ctx->tfm, key, key_len);
-   185		if (*err)
-   186			goto err;
-   187	
-   188		refcount_set(&ctx->usage, 1);
-   189	
-   190		return ctx;
-   191	err:
-   192		if (ctx->tfm)
-   193			type->free_tfm(ctx->tfm);
-   194		kfree(ctx);
-   195		module_put(type->owner);
-   196	
-   197		return NULL;
-   198	}
-   199	
+80cd795630d652 Todd Kjos         2018-12-14  806  
+42a009c9d56e15 Christian Brauner 2023-11-29  807  /**
+42a009c9d56e15 Christian Brauner 2023-11-29  808   * file_close_fd - return file associated with fd
+42a009c9d56e15 Christian Brauner 2023-11-29  809   * @files: file struct to retrieve file from
+42a009c9d56e15 Christian Brauner 2023-11-29  810   * @fd: file descriptor to retrieve file for
+42a009c9d56e15 Christian Brauner 2023-11-29  811   *
+42a009c9d56e15 Christian Brauner 2023-11-29  812   * Doesn't take a separate reference count.
+42a009c9d56e15 Christian Brauner 2023-11-29  813   *
+42a009c9d56e15 Christian Brauner 2023-11-29  814   * Returns: The file associated with @fd (NULL if @fd is not open)
+53dec2ea74f2ef Jens Axboe        2021-01-19  815   */
+42a009c9d56e15 Christian Brauner 2023-11-29  816  struct file *file_close_fd(unsigned int fd)
+53dec2ea74f2ef Jens Axboe        2021-01-19 @817  {
+53dec2ea74f2ef Jens Axboe        2021-01-19  818  	struct files_struct *files = current->files;
+6319194ec57b04 Al Viro           2022-05-12  819  	struct file *file;
+53dec2ea74f2ef Jens Axboe        2021-01-19  820  
+53dec2ea74f2ef Jens Axboe        2021-01-19  821  	spin_lock(&files->file_lock);
+6319194ec57b04 Al Viro           2022-05-12  822  	file = pick_file(files, fd);
+53dec2ea74f2ef Jens Axboe        2021-01-19  823  	spin_unlock(&files->file_lock);
+53dec2ea74f2ef Jens Axboe        2021-01-19  824  
+6319194ec57b04 Al Viro           2022-05-12  825  	return file;
+53dec2ea74f2ef Jens Axboe        2021-01-19  826  }
+53dec2ea74f2ef Jens Axboe        2021-01-19  827  
+
+:::::: The code at line 817 was first introduced by commit
+:::::: 53dec2ea74f2ef360e8455439be96a780baa6097 fs: provide locked helper variant of close_fd_get_file()
+
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
