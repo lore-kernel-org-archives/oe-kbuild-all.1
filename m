@@ -1,46 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36B53D39D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503633D398
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 11:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHNczaEu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPwggr2R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701345182; x=1732881182;
+  t=1701345183; x=1732881183;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RXaKAqQSgOji/yUcRWUmbwrqsb82gz3o1OBbAGRUpHA=;
-  b=kHNczaEuOg4j13DZETNX3hBAcvdq98c9XOEWPwP0IktB1qh+6r+olg4V
-   4kLdSRjSt3EFqO2qesUKb7zZFD2vESzqplhezc8je5mEoKlEeHpzzo96t
-   IzdU3CwBY5fdW47ZkITE9UClz4TtAFUxO3nTCI2jK5zseFT6b5NKwKR1o
-   HndJE86eK18ptJoQbZ2CwWKn7fhQvdjC4PooPypQAwMrc0nDaQUEouf5J
-   5WQ0WtM/dOWwQ3ucwR0kNNfoseViRcuR0UHdwVCtpDI4wn22zvzzf/MrM
-   MZKyS0jSfEvEurIaukESYRb7sH/JywSm4grxAxvY9UVJfVIeRW/5TuMor
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="372691989"
+  bh=/D0nP31y+BNUImC7h5CDgKynd/wZk76Z+YgWlhGsLuc=;
+  b=nPwggr2RbOT8mmyd9DbXarDX8Dzx6bewBOefHlb11ORSAK0XneGT5nRU
+   QYm1RQTpuXDjdwUMBQUCZwj7mMy4sP6GeqObMSCQ/O0r6xkWrFKoQOESI
+   6KOUaCL5/AmYWDyp5CTuyOrnqxLW1kam/CiCC7+SOzrfOXTBqELNSLtEH
+   92ksIuxNUl0Vlqyq4NQXwysN952Lmq+AkVmWsO77V9Lcu1DitpdQNl3UH
+   sMZy6KYwCLBDh1qatNGSy5cPu4yId0+2MCO0ooIKT6/i4D7ZY2uku78s1
+   BGyBjokmmR52DRQLIphWZVL4vjIiDxTxxMBbmEDy9cCAymy7NOH+Z/ar7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="372691991"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="372691989"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
+   d="scan'208";a="372691991"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 03:53:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="719104971"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="1100918760"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="719104971"
+   d="scan'208";a="1100918760"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 30 Nov 2023 03:52:59 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 30 Nov 2023 03:53:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8fbE-0001o7-19;
-	Thu, 30 Nov 2023 11:52:56 +0000
-Date: Thu, 30 Nov 2023 19:52:00 +0800
+	id 1r8fbF-0001oB-1U;
+	Thu, 30 Nov 2023 11:52:57 +0000
+Date: Thu, 30 Nov 2023 19:51:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_fwspec 38/42] include/linux/iommu-driver.h:250:17:
- warning: argument 1 null where non-null expected
-Message-ID: <202311301910.MVTzrEVT-lkp@intel.com>
+Subject: [alobakin:idpf-libie 15/17]
+ drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:718: warning: Function
+ parameter or member 'parsed' not described in 'idpf_rx_singleq_base_csum'
+Message-ID: <202311301936.oImJWAf8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,98 +51,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux iommu_fwspec
-head:   ce7d68fa9f538ed4b9c8097e7f1b822ff7301876
-commit: f2b38914e20dbb088201ca774735be83294006bd [38/42] iommu/arm-smmu: Move to iommu_of_xlate()
-config: x86_64-buildonly-randconfig-003-20231130 (https://download.01.org/0day-ci/archive/20231130/202311301910.MVTzrEVT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301910.MVTzrEVT-lkp@intel.com/reproduce)
+tree:   https://github.com/alobakin/linux idpf-libie
+head:   1b1f16c230ce8b25207b3f807bd386fa564a3dec
+commit: 3eb3222ace7950d8c3a2cc849fe73816d07c8a3a [15/17] idpf: reuse libie's definitions of parsed ptype structures
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20231130/202311301936.oImJWAf8-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301936.oImJWAf8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311301910.MVTzrEVT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311301936.oImJWAf8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iommu/arm/arm-smmu/arm-smmu.c:37:
-   drivers/iommu/arm/arm-smmu/arm-smmu.c: In function 'arm_smmu_probe_new_master':
->> include/linux/iommu-driver.h:250:17: warning: argument 1 null where non-null expected [-Wnonnull]
-     250 |                 memset(params, 0, sizeof(*(params)));                         \
-         |                 ^~~~~~
-   drivers/iommu/arm/arm-smmu/arm-smmu.c:1313:16: note: in expansion of macro 'iommu_iort_get_single_iommu'
-    1313 |         smmu = iommu_iort_get_single_iommu(pinf, &arm_smmu_ops, NULL,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/string.h:5,
-                    from arch/x86/include/asm/cpuid.h:9,
-                    from arch/x86/include/asm/processor.h:19,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/iommu/arm/arm-smmu/arm-smmu.c:20:
-   arch/x86/include/asm/string_64.h:22:7: note: in a call to function 'memset' declared 'nonnull'
-      22 | void *memset(void *s, int c, size_t n);
-         |       ^~~~~~
+>> drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:718: warning: Function parameter or member 'parsed' not described in 'idpf_rx_singleq_base_csum'
+>> drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:718: warning: Excess function parameter 'ptype' description in 'idpf_rx_singleq_base_csum'
+>> drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:758: warning: Function parameter or member 'parsed' not described in 'idpf_rx_singleq_flex_csum'
+>> drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:758: warning: Excess function parameter 'ptype' description in 'idpf_rx_singleq_flex_csum'
+--
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.c:2835: warning: Function parameter or member 'parsed' not described in 'idpf_rx_rsc'
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.c:2835: warning: Excess function parameter 'decoded' description in 'idpf_rx_rsc'
 
 
-vim +250 include/linux/iommu-driver.h
+vim +718 drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c
 
-fffe0dd50c02d1 Jason Gunthorpe 2023-11-23  209  
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  210  #define __iommu_first(a, b)                              \
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  211  	({                                               \
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  212  		struct iommu_device *a_dev = a;          \
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  213  		a_dev != ERR_PTR(-ENODEV) ? a_dev : (b); \
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  214  	})
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  215  
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  216  #if IS_ENABLED(CONFIG_ACPI_VIOT)
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  217  struct iommu_device *
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  218  __iommu_viot_get_single_iommu(struct iommu_probe_info *pinf,
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  219  			      const struct iommu_ops *ops);
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  220  #else
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  221  static inline struct iommu_device *
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  222  __iommu_viot_get_single_iommu(struct iommu_probe_info *pinf,
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  223  			      const struct iommu_ops *ops)
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  224  {
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  225  	return ERR_PTR(-ENODEV);
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  226  }
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  227  #endif
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  228  #define iommu_viot_get_single_iommu(pinf, ops, drv_struct, member)         \
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  229  	container_of_err(                                                  \
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  230  		__iommu_first(__iommu_viot_get_single_iommu(pinf, ops),    \
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  231  			      __iommu_of_get_single_iommu(pinf, ops, -1)), \
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  232  		drv_struct, member)
-8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  233  
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  234  #if IS_ENABLED(CONFIG_ACPI_IORT)
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  235  struct iommu_device *
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  236  __iommu_iort_get_single_iommu(struct iommu_probe_info *pinf,
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  237  			      const struct iommu_ops *ops,
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  238  			      struct iort_params *params);
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  239  #else
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  240  static inline struct iommu_device *
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  241  __iommu_iort_get_single_iommu(struct iommu_probe_info *pinf,
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  242  			      const struct iommu_ops *ops,
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  243  			      struct iort_params *params)
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  244  {
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  245  	return ERR_PTR(-ENODEV);
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  246  }
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  247  #endif
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  248  #define iommu_iort_get_single_iommu(pinf, ops, params, drv_struct, member)    \
-eb6348b72e7452 Jason Gunthorpe 2023-11-24  249  	({                                                                    \
-eb6348b72e7452 Jason Gunthorpe 2023-11-24 @250  		memset(params, 0, sizeof(*(params)));                         \
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  703  
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  704  /**
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  705   * idpf_rx_singleq_base_csum - Indicate in skb if hw indicated a good cksum
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  706   * @rx_q: Rx completion queue
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  707   * @skb: skb currently being received and modified
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  708   * @rx_desc: the receive descriptor
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  709   * @ptype: Rx packet type
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  710   *
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  711   * This function only operates on the VIRTCHNL2_RXDID_1_32B_BASE_M base 32byte
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  712   * descriptor writeback format.
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  713   **/
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  714  static void idpf_rx_singleq_base_csum(struct idpf_queue *rx_q,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  715  				      struct sk_buff *skb,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  716  				      union virtchnl2_rx_desc *rx_desc,
+3eb3222ace7950 Alexander Lobakin 2023-11-29  717  				      struct libie_rx_ptype_parsed parsed)
+a5ab9ee0df0be8 Joshua Hay        2023-08-07 @718  {
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  719  	struct idpf_rx_csum_decoded csum_bits;
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  720  	u32 rx_error, rx_status;
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  721  	u64 qword;
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  722  
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  723  	qword = le64_to_cpu(rx_desc->base_wb.qword1.status_error_ptype_len);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  724  
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  725  	rx_status = FIELD_GET(VIRTCHNL2_RX_BASE_DESC_QW1_STATUS_M, qword);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  726  	rx_error = FIELD_GET(VIRTCHNL2_RX_BASE_DESC_QW1_ERROR_M, qword);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  727  
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  728  	csum_bits.ipe = FIELD_GET(VIRTCHNL2_RX_BASE_DESC_ERROR_IPE_M, rx_error);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  729  	csum_bits.eipe = FIELD_GET(VIRTCHNL2_RX_BASE_DESC_ERROR_EIPE_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  730  				   rx_error);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  731  	csum_bits.l4e = FIELD_GET(VIRTCHNL2_RX_BASE_DESC_ERROR_L4E_M, rx_error);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  732  	csum_bits.pprs = FIELD_GET(VIRTCHNL2_RX_BASE_DESC_ERROR_PPRS_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  733  				   rx_error);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  734  	csum_bits.l3l4p = FIELD_GET(VIRTCHNL2_RX_BASE_DESC_STATUS_L3L4P_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  735  				    rx_status);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  736  	csum_bits.ipv6exadd = FIELD_GET(VIRTCHNL2_RX_BASE_DESC_STATUS_IPV6EXADD_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  737  					rx_status);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  738  	csum_bits.nat = 0;
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  739  	csum_bits.eudpe = 0;
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  740  
+3eb3222ace7950 Alexander Lobakin 2023-11-29  741  	idpf_rx_singleq_csum(rx_q, skb, &csum_bits, parsed);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  742  }
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  743  
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  744  /**
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  745   * idpf_rx_singleq_flex_csum - Indicate in skb if hw indicated a good cksum
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  746   * @rx_q: Rx completion queue
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  747   * @skb: skb currently being received and modified
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  748   * @rx_desc: the receive descriptor
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  749   * @ptype: Rx packet type
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  750   *
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  751   * This function only operates on the VIRTCHNL2_RXDID_2_FLEX_SQ_NIC flexible
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  752   * descriptor writeback format.
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  753   **/
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  754  static void idpf_rx_singleq_flex_csum(struct idpf_queue *rx_q,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  755  				      struct sk_buff *skb,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  756  				      union virtchnl2_rx_desc *rx_desc,
+3eb3222ace7950 Alexander Lobakin 2023-11-29  757  				      struct libie_rx_ptype_parsed parsed)
+a5ab9ee0df0be8 Joshua Hay        2023-08-07 @758  {
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  759  	struct idpf_rx_csum_decoded csum_bits;
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  760  	u16 rx_status0, rx_status1;
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  761  
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  762  	rx_status0 = le16_to_cpu(rx_desc->flex_nic_wb.status_error0);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  763  	rx_status1 = le16_to_cpu(rx_desc->flex_nic_wb.status_error1);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  764  
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  765  	csum_bits.ipe = FIELD_GET(VIRTCHNL2_RX_FLEX_DESC_STATUS0_XSUM_IPE_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  766  				  rx_status0);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  767  	csum_bits.eipe = FIELD_GET(VIRTCHNL2_RX_FLEX_DESC_STATUS0_XSUM_EIPE_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  768  				   rx_status0);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  769  	csum_bits.l4e = FIELD_GET(VIRTCHNL2_RX_FLEX_DESC_STATUS0_XSUM_L4E_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  770  				  rx_status0);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  771  	csum_bits.eudpe = FIELD_GET(VIRTCHNL2_RX_FLEX_DESC_STATUS0_XSUM_EUDPE_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  772  				    rx_status0);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  773  	csum_bits.l3l4p = FIELD_GET(VIRTCHNL2_RX_FLEX_DESC_STATUS0_L3L4P_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  774  				    rx_status0);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  775  	csum_bits.ipv6exadd = FIELD_GET(VIRTCHNL2_RX_FLEX_DESC_STATUS0_IPV6EXADD_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  776  					rx_status0);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  777  	csum_bits.nat = FIELD_GET(VIRTCHNL2_RX_FLEX_DESC_STATUS1_NAT_M,
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  778  				  rx_status1);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  779  	csum_bits.pprs = 0;
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  780  
+3eb3222ace7950 Alexander Lobakin 2023-11-29  781  	idpf_rx_singleq_csum(rx_q, skb, &csum_bits, parsed);
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  782  }
+a5ab9ee0df0be8 Joshua Hay        2023-08-07  783  
 
-:::::: The code at line 250 was first introduced by commit
-:::::: eb6348b72e74523d94a16048f46743207c995a5e iommu/iort: Add iommu_iort_get_single_iommu()
+:::::: The code at line 718 was first introduced by commit
+:::::: a5ab9ee0df0be82aefb099d29b707d2b106e1c87 idpf: add singleq start_xmit and napi poll
 
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+:::::: TO: Joshua Hay <joshua.a.hay@intel.com>
+:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
