@@ -1,73 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B1F4CB2D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 05:26:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808C34CB53
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 05:37:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fgWDCnFq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IcRwOvo+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701321998; x=1732857998;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1pfuaVaJXXHknOZUHqwXl7ka+grol/z6qZ6PMZFDF28=;
-  b=fgWDCnFqNVoXLggVaGS9/uNJcI9Q0HHLgd9xb5YsiG9UC7P/3VWT1bto
-   bTun2CHHDT7apTYcj51SBBUTin3zqrblyP9AECZPsWEW0cmUkJdFHepVg
-   y92ctu9eQ/ecKDnIiKrius++C49Gg0MdNUEo7Omj2VXqI0C+OTMGJEwtn
-   HCtIIVUts2w2f/zkx4yt7Grp5t3lnle1fEM8BLZoofjx5s9M9dVHtyKEI
-   CHnCrXqGw8A+sW4o1iFd4s8SXzSrZf+CApGg2c1JLFtg/mSyWV2arQjU0
-   XZtajlRQurWtSyVtxGYFztf1PKfPFJEeBIWBOhxyrGELlLxilT1L/LInk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="459763414"
+  t=1701322623; x=1732858623;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n3MzewBM3NFg89gGXF89UmX8TotomqxOTzXry13y1V4=;
+  b=IcRwOvo+OFSLMnImX/1kndP81yyCRQRfCooQmU6p49nL+OlrzumMPwvT
+   t1WziigWYyer5/hj09qF6aBmwbEbMIgzus1P2BKsWutBzVh0Qb590mNf4
+   PMReApbRB56tKYmhfEBSsFer6oG7KIDQw+3YwE/VwabHT+I8x+8u9uc68
+   2rtlgftsoqKjIUhXAuGTwg2Qpphc7AkjIKz7lba4BIbDpER0twmbrrkMh
+   KUc61b+lyYfFuZEEpsZZSGMxXjy+iTYs1eyB+qJwm5B8VD2IpFZTOGcxh
+   kC42aBPAahNGs3iXpYnziCPh5UzwpBH1M+iAFdi7fr9V12fUNnYEpXPzL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="14825407"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="459763414"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 21:26:37 -0800
+   d="scan'208";a="14825407"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 21:37:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="839689041"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="798166081"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="839689041"
+   d="scan'208";a="798166081"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Nov 2023 21:26:30 -0800
+  by orsmga008.jf.intel.com with ESMTP; 29 Nov 2023 21:36:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8ZXm-0001PS-28;
-	Thu, 30 Nov 2023 05:25:42 +0000
-Date: Thu, 30 Nov 2023 13:23:59 +0800
+	id 1r8Zhr-0001Pe-24;
+	Thu, 30 Nov 2023 05:35:55 +0000
+Date: Thu, 30 Nov 2023 13:34:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Matthew Rosato <mjrosato@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 7/7] dma-mapping: Simplify arch_setup_dma_ops()
-Message-ID: <202311301328.28ULuBXT-lkp@intel.com>
-References: <590a4a1b7d10fb9bb1c42ca6cd438e98e6cc94a7.1701268753.git.robin.murphy@arm.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Frederic Weisbecker <frederic@kernel.org>
+Subject: kernel/time/tick-broadcast.c:1026: warning: Function parameter or
+ member 'from_periodic' not described in 'tick_broadcast_setup_oneshot'
+Message-ID: <202311301352.fxkaJoHu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,90 +50,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <590a4a1b7d10fb9bb1c42ca6cd438e98e6cc94a7.1701268753.git.robin.murphy@arm.com>
 
-Hi Robin,
+Hi Thomas,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on linus/master v6.7-rc3 next-20231129]
-[cannot apply to joro-iommu/next rafael-pm/acpi-bus rafael-pm/devprop]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/OF-Simplify-DMA-range-calculations/20231130-024624
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/590a4a1b7d10fb9bb1c42ca6cd438e98e6cc94a7.1701268753.git.robin.murphy%40arm.com
-patch subject: [PATCH 7/7] dma-mapping: Simplify arch_setup_dma_ops()
-config: arm-aspeed_g5_defconfig (https://download.01.org/0day-ci/archive/20231130/202311301328.28ULuBXT-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301328.28ULuBXT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
+commit: f9d36cf445ffff0b913ba187a3eff78028f9b1fb tick/broadcast: Make broadcast device replacement work correctly
+date:   7 months ago
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20231130/202311301352.fxkaJoHu-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301352.fxkaJoHu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311301328.28ULuBXT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311301352.fxkaJoHu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/thread_info.h:12,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from arch/arm/mm/dma-mapping.c:9:
-   include/linux/dma-direct.h: In function 'dma_range_map_min':
-   include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'dma_addr_t' {aka 'unsigned int'} changes value from '18446744073709551615' to '4294967295' [-Woverflow]
-      25 | #define U64_MAX         ((u64)~0ULL)
-         |                         ^
-   include/linux/dma-direct.h:54:26: note: in expansion of macro 'U64_MAX'
-      54 |         dma_addr_t ret = U64_MAX;
-         |                          ^~~~~~~
-   arch/arm/mm/dma-mapping.c: In function 'arch_setup_dma_ops':
->> arch/arm/mm/dma-mapping.c:1784:17: error: too few arguments to function 'arm_setup_iommu_dma_ops'
-    1784 |                 arm_setup_iommu_dma_ops(dev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mm/dma-mapping.c:1755:13: note: declared here
-    1755 | static void arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/tick-broadcast.c:1026: warning: Function parameter or member 'bc' not described in 'tick_broadcast_setup_oneshot'
+>> kernel/time/tick-broadcast.c:1026: warning: Function parameter or member 'from_periodic' not described in 'tick_broadcast_setup_oneshot'
 
 
-vim +/arm_setup_iommu_dma_ops +1784 arch/arm/mm/dma-mapping.c
+vim +1026 kernel/time/tick-broadcast.c
 
-  1763	
-  1764	void arch_setup_dma_ops(struct device *dev, bool coherent)
-  1765	{
-  1766		/*
-  1767		 * Due to legacy code that sets the ->dma_coherent flag from a bus
-  1768		 * notifier we can't just assign coherent to the ->dma_coherent flag
-  1769		 * here, but instead have to make sure we only set but never clear it
-  1770		 * for now.
-  1771		 */
-  1772		if (coherent)
-  1773			dev->dma_coherent = true;
-  1774	
-  1775		/*
-  1776		 * Don't override the dma_ops if they have already been set. Ideally
-  1777		 * this should be the only location where dma_ops are set, remove this
-  1778		 * check when all other callers of set_dma_ops will have disappeared.
-  1779		 */
-  1780		if (dev->dma_ops)
-  1781			return;
-  1782	
-  1783		if (device_iommu_mapped(dev))
-> 1784			arm_setup_iommu_dma_ops(dev);
-  1785	
-  1786		xen_setup_dma_ops(dev);
-  1787		dev->archdata.dma_ops_setup = true;
-  1788	}
-  1789	
+f73f64d5687192 Thomas Gleixner 2020-11-17  1020  
+79bf2bb335b85d Thomas Gleixner 2007-02-16  1021  /**
+8dce39c231af55 Li Zefan        2007-11-05  1022   * tick_broadcast_setup_oneshot - setup the broadcast device
+79bf2bb335b85d Thomas Gleixner 2007-02-16  1023   */
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1024  static void tick_broadcast_setup_oneshot(struct clock_event_device *bc,
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1025  					 bool from_periodic)
+79bf2bb335b85d Thomas Gleixner 2007-02-16 @1026  {
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1027  	int cpu = smp_processor_id();
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1028  	ktime_t nexttick = 0;
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1029  
+c1a9eeb938b543 Thomas Gleixner 2016-12-15  1030  	if (!bc)
+c1a9eeb938b543 Thomas Gleixner 2016-12-15  1031  		return;
+c1a9eeb938b543 Thomas Gleixner 2016-12-15  1032  
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1033  	/*
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1034  	 * When the broadcast device was switched to oneshot by the first
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1035  	 * CPU handling the NOHZ change, the other CPUs will reach this
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1036  	 * code via hrtimer_run_queues() -> tick_check_oneshot_change()
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1037  	 * too. Set up the broadcast device only once!
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1038  	 */
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1039  	if (bc->event_handler == tick_handle_oneshot_broadcast) {
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1040  		/*
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1041  		 * The CPU which switched from periodic to oneshot mode
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1042  		 * set the broadcast oneshot bit for all other CPUs which
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1043  		 * are in the general (periodic) broadcast mask to ensure
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1044  		 * that CPUs which wait for the periodic broadcast are
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1045  		 * woken up.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1046  		 *
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1047  		 * Clear the bit for the local CPU as the set bit would
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1048  		 * prevent the first tick_broadcast_enter() after this CPU
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1049  		 * switched to oneshot state to program the broadcast
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1050  		 * device.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1051  		 *
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1052  		 * This code can also be reached via tick_broadcast_control(),
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1053  		 * but this cannot avoid the tick_broadcast_clear_oneshot()
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1054  		 * as that would break the periodic to oneshot transition of
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1055  		 * secondary CPUs. But that's harmless as the below only
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1056  		 * clears already cleared bits.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1057  		 */
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1058  		tick_broadcast_clear_oneshot(cpu);
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1059  		return;
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1060  	}
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1061  
+7300711e8c6824 Thomas Gleixner 2008-09-06  1062  
+79bf2bb335b85d Thomas Gleixner 2007-02-16  1063  	bc->event_handler = tick_handle_oneshot_broadcast;
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1064  	bc->next_event = KTIME_MAX;
+7300711e8c6824 Thomas Gleixner 2008-09-06  1065  
+7300711e8c6824 Thomas Gleixner 2008-09-06  1066  	/*
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1067  	 * When the tick mode is switched from periodic to oneshot it must
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1068  	 * be ensured that CPUs which are waiting for periodic broadcast
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1069  	 * get their wake-up at the next tick.  This is achieved by ORing
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1070  	 * tick_broadcast_mask into tick_broadcast_oneshot_mask.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1071  	 *
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1072  	 * For other callers, e.g. broadcast device replacement,
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1073  	 * tick_broadcast_oneshot_mask must not be touched as this would
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1074  	 * set bits for CPUs which are already NOHZ, but not idle. Their
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1075  	 * next tick_broadcast_enter() would observe the bit set and fail
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1076  	 * to update the expiry time and the broadcast event device.
+7300711e8c6824 Thomas Gleixner 2008-09-06  1077  	 */
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1078  	if (from_periodic) {
+b352bc1cbc2913 Thomas Gleixner 2013-03-05  1079  		cpumask_copy(tmpmask, tick_broadcast_mask);
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1080  		/* Remove the local CPU as it is obviously not idle */
+b352bc1cbc2913 Thomas Gleixner 2013-03-05  1081  		cpumask_clear_cpu(cpu, tmpmask);
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1082  		cpumask_or(tick_broadcast_oneshot_mask, tick_broadcast_oneshot_mask, tmpmask);
+7300711e8c6824 Thomas Gleixner 2008-09-06  1083  
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1084  		/*
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1085  		 * Ensure that the oneshot broadcast handler will wake the
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1086  		 * CPUs which are still waiting for periodic broadcast.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1087  		 */
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1088  		nexttick = tick_get_next_period();
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1089  		tick_broadcast_init_next_event(tmpmask, nexttick);
+f73f64d5687192 Thomas Gleixner 2020-11-17  1090  
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1091  		/*
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1092  		 * If the underlying broadcast clock event device is
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1093  		 * already in oneshot state, then there is nothing to do.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1094  		 * The device was already armed for the next tick
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1095  		 * in tick_handle_broadcast_periodic()
+07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1096  		 */
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1097  		if (clockevent_state_oneshot(bc))
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1098  			return;
+79bf2bb335b85d Thomas Gleixner 2007-02-16  1099  	}
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1100  
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1101  	/*
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1102  	 * When switching from periodic to oneshot mode arm the broadcast
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1103  	 * device for the next tick.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1104  	 *
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1105  	 * If the broadcast device has been replaced in oneshot mode and
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1106  	 * the oneshot broadcast mask is not empty, then arm it to expire
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1107  	 * immediately in order to reevaluate the next expiring timer.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1108  	 * @nexttick is 0 and therefore in the past which will cause the
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1109  	 * clockevent code to force an event.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1110  	 *
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1111  	 * For both cases the programming can be avoided when the oneshot
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1112  	 * broadcast mask is empty.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1113  	 *
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1114  	 * tick_broadcast_set_event() implicitly switches the broadcast
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1115  	 * device to oneshot state.
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1116  	 */
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1117  	if (!cpumask_empty(tick_broadcast_oneshot_mask))
+f9d36cf445ffff Thomas Gleixner 2023-05-06  1118  		tick_broadcast_set_event(bc, cpu, nexttick);
+9c17bcda991000 Thomas Gleixner 2008-09-03  1119  }
+79bf2bb335b85d Thomas Gleixner 2007-02-16  1120  
+
+:::::: The code at line 1026 was first introduced by commit
+:::::: 79bf2bb335b85db25d27421c798595a2fa2a0e82 [PATCH] tick-management: dyntick / highres functionality
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
