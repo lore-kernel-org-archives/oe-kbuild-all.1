@@ -1,125 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946E852F85
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 19:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564F55FEE6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 19:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGOXyIjZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701373238; x=1732909238;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gQ2UE11wBd/LBU4Kdwpbb2ruH9FFZeD78KufthodecQ=;
-  b=EGOXyIjZMAX/xJCDFaWe4x9dRNppKJelWaGEk0wq64MSFpnEad6wW1Ih
-   rPj02rZXl0CG6Aof37RFmOoJE+30tM77c0KomXnKanPN7SowMc4HhRUd7
-   Nd39Nf3xnhyvSZxOWxhLdgtvyPKw01OfWg9oEfaHy2ktJ9M3MQFjpTmGT
-   cYYGoH5AfjA4aA9CrG4SaW0bCR5Qw/Pw7+xRUCDhBmS15DS3rTfrvXjSO
-   TxPLWYG+RwjGwg7OkBX1nozp/e5XgOVhkmk06nl2XBhjIqVx0XH8LA7F9
-   6zSBy9kljbPhaHJyUyLcibew3YutzVwJ2jjYpIxuQ+f3i0pbxZWO4f//t
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="14932908"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="14932908"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 11:40:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="839910495"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="839910495"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 30 Nov 2023 11:40:35 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r8mtk-0002bk-2w;
-	Thu, 30 Nov 2023 19:40:32 +0000
-Date: Fri, 1 Dec 2023 03:39:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from
- restricted pci_channel_state_t
-Message-ID: <202312010320.jjetWPe9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L4sUpTei"
+Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-7ad501cb1f9so39075639f.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 11:46:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701373599; x=1701978399; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9rufcR4lX+RrlOWOmJM9CdkzmFM5TZdyS+jKScEzDUI=;
+        b=L4sUpTei760fjLwJAr9jJe3eYaodhsqT2zdjySuxpYY9LKwXvz7C3wb8rL8LarFjNp
+         ct3Y573PEf9JfnbRqOvPTYsEXEZG+yOUxLfXiRaVJ4V2Pcr8Yj/trDgmhtE32VjiAnsg
+         /s7Mi0wtggGE0wf4gW/7frzDrDK6C4bwUQas2RbOvpQhcqBJvEOxh///rxs/+yjWN5Sm
+         1jE1Dn8BGX3RnpxcqxllqyHLIaJ4Za8ED9qwxA23d3FPU3qOIz1HNkxNox7ogaBLonW+
+         IOty8VDqEnVWer1Cy5jKpik2PdAQlw6mfRhEkDPsLJ7360Kr0mQYCpi4BxYaK3SPkwSs
+         zVXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701373599; x=1701978399;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9rufcR4lX+RrlOWOmJM9CdkzmFM5TZdyS+jKScEzDUI=;
+        b=rzVSP48N4PMqI+8B8/37Ew9FhGU8YViQhZM9CNkQFuYdbX/b+lWH2uk7epMi/TO5y9
+         +orWTbkPWv2OeHuJ0XXgI1ebQXGsbDd+Q55CQsZ2y+zpn34h5g/0VrponLC/RF0jWAB8
+         LDrnQPU9LcU/7a9S4nwmsl5EMFC0JCXvjfC6d3IabJ3sbIl4f6TNtm4RBBMHEAObG3AB
+         YYkz1vA3pSlR7khh5D01Mxtrc3Bc5OP1y01028Rxvga5x8YogoNylwkoIrYWoBFITLNC
+         rv2NnCjja/TfExZHuw75SYwZ1vMhh7gUMOaUtrrav/GGS+KtOMQK8HA7GWl/zSWhxrMQ
+         3e7g==
+X-Gm-Message-State: AOJu0YyE+gVh6oUza/8I6IPLDcRFzSBofXZWaDQQR28d3fuHa1f+U9JF
+	Hi8eS4ioUCuHxe3nhFwgabt+s/J0ze8tq8S1JJk=
+X-Google-Smtp-Source: AGHT+IHIBObiFw8rrVdvdA4iKUTr2wPZcnBTXQGRu58bspBp+ehLKMRKF274kg8dWwRwtDY8B7MH14X/iJ3nN3Di2bU=
+X-Received: by 2002:a05:6602:3705:b0:7b3:9597:fab1 with SMTP id
+ bh5-20020a056602370500b007b39597fab1mr20488639iob.20.1701373599166; Thu, 30
+ Nov 2023 11:46:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202311292250.RUfWGNgx-lkp@intel.com> <20231129134313.656e76c2e3fec1361007633b@linux-foundation.org>
+ <20231129135342.5697165df1adfff04c749082@linux-foundation.org>
+ <CAJD7tkaVpM6DU9Dra6VO_rsDB-6sHejTY7jGWTqCX2do0i3HAQ@mail.gmail.com>
+ <20231129142935.d9c76a2fe35efd9a4c7b4087@linux-foundation.org>
+ <CAJD7tkZVRPfR6jN3ymuD3Ae2h4tZ3ga6un2ieFKoKrb7YE2JRg@mail.gmail.com>
+ <CAKEwX=O63CqcBs=Ayc6VhJ4DLEw=YQitRKDM7odBsJqBgS6Pnw@mail.gmail.com>
+ <CAJD7tkYspRTdZyczcHYpeKbR8Q8E3NEejaO3NzHEAi=5cVFp3A@mail.gmail.com> <CAKEwX=NcgASfJR49DCzUTev+RNUa5_-PBahvErPi6vij6CgRuQ@mail.gmail.com>
+In-Reply-To: <CAKEwX=NcgASfJR49DCzUTev+RNUa5_-PBahvErPi6vij6CgRuQ@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Thu, 30 Nov 2023 11:46:28 -0800
+Message-ID: <CAKEwX=Ph0OQ4uP2jQXVFQ=OQcYBwOCPCKT_Xy-DrQUhrYTmC-g@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-unstable 179/192] mm/zswap.c:825:17: error:
+ dereferencing pointer to incomplete type 'struct mem_cgroup'
+To: Yosry Ahmed <yosryahmed@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kernel test robot <lkp@intel.com>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
-commit: 74ff8864cc842be994853095dba6db48e716400a PCI: hotplug: Allow marking devices as disconnected during bind/unbind
-date:   10 months ago
-config: alpha-randconfig-r034-20230903 (https://download.01.org/0day-ci/archive/20231201/202312010320.jjetWPe9-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231201/202312010320.jjetWPe9-lkp@intel.com/reproduce)
+Ok I just sent out v8. I've tried to build the kernel with 4
+combinations of CONFIG_ZSWAP and CONFIG_MEMCG - hopefully there is no
+further build error.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312010320.jjetWPe9-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/pcie/err.c: note: in included file:
->> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from restricted pci_channel_state_t
->> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast to restricted pci_channel_state_t
->> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from restricted pci_channel_state_t
->> drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:328:23: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pcie/../pci.h:332:23: sparse: sparse: cast to restricted pci_channel_state_t
-
-vim +325 drivers/pci/pcie/../pci.h
-
-   306	
-   307	/**
-   308	 * pci_dev_set_io_state - Set the new error state if possible.
-   309	 *
-   310	 * @dev: PCI device to set new error_state
-   311	 * @new: the state we want dev to be in
-   312	 *
-   313	 * If the device is experiencing perm_failure, it has to remain in that state.
-   314	 * Any other transition is allowed.
-   315	 *
-   316	 * Returns true if state has been changed to the requested state.
-   317	 */
-   318	static inline bool pci_dev_set_io_state(struct pci_dev *dev,
-   319						pci_channel_state_t new)
-   320	{
-   321		pci_channel_state_t old;
-   322	
-   323		switch (new) {
-   324		case pci_channel_io_perm_failure:
- > 325			xchg(&dev->error_state, pci_channel_io_perm_failure);
-   326			return true;
-   327		case pci_channel_io_frozen:
-   328			old = cmpxchg(&dev->error_state, pci_channel_io_normal,
-   329				      pci_channel_io_frozen);
-   330			return old != pci_channel_io_perm_failure;
-   331		case pci_channel_io_normal:
-   332			old = cmpxchg(&dev->error_state, pci_channel_io_frozen,
-   333				      pci_channel_io_normal);
-   334			return old != pci_channel_io_perm_failure;
-   335		default:
-   336			return false;
-   337		}
-   338	}
-   339	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Wed, Nov 29, 2023 at 4:18=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
+:
+>
+> On Wed, Nov 29, 2023 at 4:13=E2=80=AFPM Yosry Ahmed <yosryahmed@google.co=
+m> wrote:
+> >
+> > On Wed, Nov 29, 2023 at 4:02=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> w=
+rote:
+> > >
+> > > On Wed, Nov 29, 2023 at 2:31=E2=80=AFPM Yosry Ahmed <yosryahmed@googl=
+e.com> wrote:
+> > > >
+> > > > On Wed, Nov 29, 2023 at 2:29=E2=80=AFPM Andrew Morton <akpm@linux-f=
+oundation.org> wrote:
+> > > > >
+> > > > > On Wed, 29 Nov 2023 14:18:15 -0800 Yosry Ahmed <yosryahmed@google=
+.com> wrote:
+> > > > >
+> > > > > > On Wed, Nov 29, 2023 at 1:53=E2=80=AFPM Andrew Morton <akpm@lin=
+ux-foundation.org> wrote:
+> > > > > > >
+> > > > > > > On Wed, 29 Nov 2023 13:43:13 -0800 Andrew Morton <akpm@linux-=
+foundation.org> wrote:
+> > > > > > >
+> > > > > > > > On Wed, 29 Nov 2023 23:42:11 +0800 kernel test robot <lkp@i=
+ntel.com> wrote:
+> > > > > > > >
+> > > > > > > > > >> mm/zswap.c:825:17: error: dereferencing pointer to inc=
+omplete type 'struct mem_cgroup'
+> > > > > > > > >       css_get(&memcg->css);
+> > > > > > > > >                     ^~
+> > > > > > > >
+> > > > > > > > OK, thanks, patchset needs work for CONFIG_MEMCG=3Dn.  I'll=
+ drop this version.
+> > > > > > >
+> > > > > > > Well that's annoying - the "mm: memcg: subtree stats flushing=
+ and
+> > > > > > > thresholds" series had lots of dependencies on this series.
+> > > > > >
+> > > > > > FWIW, the "mm: memcg: subtree stats flushing and thresholds" se=
+ries
+> > > > > > has no actual dependency on the zswap series. The conflicts com=
+e from
+> > > > > > patch 2, which moves some code in mm/memcontrol.c, which happen=
+s to be
+> > > > > > touched by the zswap series. The first 2 patches of the stats s=
+eries
+> > > > > > are just refactoring with no functional changes, so if those tw=
+o can
+> > > > > > remain in mm-unstable, independent of the remaining of the seri=
+es or
+> > > > > > the zswap series, then either Nhat or I could easily rebased ou=
+r
+> > > > > > patches on top of them, and you can easily move the series in &=
+ out of
+> > > > > > mm-unstable without conflicts.
+> > > > > >
+> > > > > > Another thing is, the only difference between v3 & v4 of the "m=
+m:
+> > > > > > memcg: subtree stats flushing and thresholds" series is the reb=
+ase on
+> > > > > > top of the zswap series. So if you want, you can take both seri=
+es out,
+> > > > > > and add in v3 of the stats series instead of v4. If you need to=
+ remove
+> > > > > > the stast series again in the future, you can leave the first t=
+wo
+> > > > > > patches to avoid conflicts with the zswap series.
+> > > > > >
+> > > > >
+> > > > > Ok, thanks.  I prefer not to make what is in mm.git too different=
+ from
+> > > > > what was sent.
+> > > > >
+> > > > > I've left everything in place:
+> > > > >
+> > > > > list_lru-allows-explicit-memcg-and-numa-node-selection.patch
+> > > > > memcontrol-add-a-new-function-to-traverse-online-only-memcg-hiera=
+rchy.patch
+> > > > > zswap-make-shrinking-memcg-aware.patch
+> > > > > zswap-make-shrinking-memcg-aware-fix.patch
+> > > > > mm-memcg-add-per-memcg-zswap-writeback-stat.patch
+> > > > > selftests-cgroup-update-per-memcg-zswap-writeback-selftest.patch
+> > > > > zswap-shrinks-zswap-pool-based-on-memory-pressure.patch
+> > > > > #
+> > > > > ...
+> > > > > #
+> > > > > mm-memcg-change-flush_next_time-to-flush_last_time.patch
+> > > > > mm-memcg-move-vmstats-structs-definition-above-flushing-code.patc=
+h
+> > > > > mm-memcg-make-stats-flushing-threshold-per-memcg.patch
+> > > > > mm-workingset-move-the-stats-flush-into-workingset_test_recent.pa=
+tch
+> > > > > mm-memcg-restore-subtree-stats-flushing.patch
+> > > > >
+> > > > > in the hope that a new version of the first series ("workload-spe=
+cific
+> > > > > and memory pressure-driven zswap writeback") can be dropped in pl=
+ace of
+> > > > > the old version.
+> > > > >
+> > > >
+> > > > I see. So Nhat needs to *not* rebase his patches on top of the curr=
+ent
+> > > > mm-unstable, right?
+> > >
+> > > FWIW, I'll have to re-send a v8 to fix the kernel test robots/build
+> > > issues that I've missed and incorporate the comments/suggestions from
+> > > Michal and Johannes. IIUC, your series is ready right? Then we can
+> > > have your v3 in mm-unstable first, then I can rebase my patch's v8 on
+> > > top of that (fixing any merge conflicts along the way), then send out
+> > > the whole thing again.
+> > >
+> > > Does this sound good?
+> >
+> > Andrew said he expects a new version to be dropped in place of the old
+> > version, and my v4 is already in mm-unstable on top of your series. So
+> > I guess you should send v8 against Linus's tree (or mm-unstable at the
+> > same base as your v7), and Andrew will replace v7 with v8 in place.
+>
+> Ohhh I totally misunderstood this email chain then. Woopsies. Ok cool wil=
+l do.
