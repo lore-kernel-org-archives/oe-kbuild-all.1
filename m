@@ -1,69 +1,74 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDD55FEE3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 23:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FCC5FEE3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 23:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IBq75RWa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701385748;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aQW6NFCdl2OA3vb3Gc76vsXxYecvpMBt+ToO9QFH90Y=;
-	b=IBq75RWa4x4PAmO78/YPBPET6tCOzN0p16GrJzBFYh0o8wTwOnSaYO600GVkhiLmtu7UE7
-	ZE6jdkhkYLMupiYTYNYZPZUtaUXf+TArcSsNOfOxPIC0tL429m5fEp4GaA0rCgBqFaqumn
-	FOWV36wpeGsq8owMvPs/DISDDcbxfMw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-678-S2sy7vr6Py-2CV54Xhxbxg-1; Thu, 30 Nov 2023 18:09:06 -0500
-X-MC-Unique: S2sy7vr6Py-2CV54Xhxbxg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C93D101AA44;
-	Thu, 30 Nov 2023 23:09:06 +0000 (UTC)
-Received: from localhost (unknown [10.72.113.121])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B081940C6EBA;
-	Thu, 30 Nov 2023 23:09:05 +0000 (UTC)
-Date: Fri, 1 Dec 2023 07:09:02 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Eric DeVolder <eric_devolder@yahoo.com>,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [akpm-mm:mm-unstable 25/192] loongarch64-linux-ld:
- kexec_core.c:undefined reference to `machine_kexec'
-Message-ID: <ZWkWDg41Q5eGuNU4@MiWiFi-R3L-srv>
-References: <202311300946.kHE9Iu71-lkp@intel.com>
- <ZWhLFDC6vHsxNCpY@MiWiFi-R3L-srv>
- <20231130085335.09e1db227e3a99e1f70e7748@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JbXUmKtT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701385880; x=1732921880;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/zDZebRP6kR5XTNYVFXpj/IyiWSswjE1F2gXupX/vpg=;
+  b=JbXUmKtTF3fGlru18PAdF5bZXzK4Me32TX7+6GANpFWrmWdN7wwUQb3K
+   nN11qCCzYaPt4o2HDleRzk8aCUFwaABVacUEJTia1wLKXWJwyO91naSaz
+   Fdfucj/mSsOUfFmItkNLl3EX6lu12+AKoJ8m4qhApGH7UQtG7NH2yBQS/
+   wvcuHvk4/nMEZHcJ/JJcdlKbonf+H6O4QR+IIFCCgGZH1o5f0524Ewwh9
+   7vAeXvBqVGWhITZ/JgmQhRlDwzoudltyv9xSFQeWVCTJP/eF8w1mWF81j
+   nCgpbJPWOQD7P/bhR2lZlbSN6OykL1kfVP1IHsZS8AUPJrROQcdTh+McB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="392274283"
+X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
+   d="scan'208";a="392274283"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 15:11:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="942878253"
+X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
+   d="scan'208";a="942878253"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 30 Nov 2023 15:11:17 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8qBa-0002mk-1L;
+	Thu, 30 Nov 2023 23:11:14 +0000
+Date: Fri, 1 Dec 2023 07:10:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vincent-guittot:scmi/ffa-transport 1/2] ffa.c:undefined reference
+ to `tee_shm_get_va'
+Message-ID: <202312010756.zpLgaNem-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20231130085335.09e1db227e3a99e1f70e7748@linux-foundation.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 11/30/23 at 08:53am, Andrew Morton wrote:
-> On Thu, 30 Nov 2023 16:43:00 +0800 Baoquan He <bhe@redhat.com> wrote:
-> 
-> > There are several places in m68k, mips, sh architecture which have the
-> > similar issue. Would you prefer one patch to contain them all or
-> > separate patches for each architecture's fix?
-> 
-> Doesn't matter much.  I guess a single patch would save some electrons.
+tree:   https://git.linaro.org/people/vincent.guittot/kernel.git scmi/ffa-transport
+head:   58f815a694fe99b6067c8e74a23f7ef193a7f76e
+commit: 4e6e5543e62399d3e18c26257137593114fb63cc [1/2] scmi/ffa: add a new scmi transport layer based on ffa
+config: arm64-randconfig-001-20231130 (https://download.01.org/0day-ci/archive/20231201/202312010756.zpLgaNem-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231201/202312010756.zpLgaNem-lkp@intel.com/reproduce)
 
-Sure, will post one patch to include them all. Thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312010756.zpLgaNem-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/firmware/arm_scmi/ffa.o: in function `ffa_shm_alloc_kernel_buf':
+>> ffa.c:(.text+0x974): undefined reference to `tee_shm_get_va'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
