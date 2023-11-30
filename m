@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120372D606;
-	Thu, 30 Nov 2023 08:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163E71C299
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 08:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+2oiEFj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eqrgX3/t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701333298; x=1732869298;
+  t=1701333297; x=1732869297;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a2emFW/pYIZT22CzuAF7ilu2Gp7hHYy2RbRZGPMx4AQ=;
-  b=n+2oiEFjpVBfi7ILc9T5CS+MaZcH+vXnwtuHFRz/YyM0QybToXgvWL5m
-   f87Wjlvd7hzO+Tz9njmhWl1U5xvHbOTQHputsgdwxclh24lrBc8L2N92O
-   oULQ3XUa08jJ5aPxCJne6kt68eHpM1rAcP3vTq8IPKQuj3jtOG0iMF+qA
-   hKzW7DnnAfkEDYazi5an/LJV5JGhal6qwcoGZurZ9iHFOxSMQuP2QjC3Y
-   6cSLStlaCplc5U5AZmwB6b1wyIlaKyJ1j2aT0c1ljAw+FHUGA1Qqh91RX
-   gUelHIHN5rrZNV8DnR7wmicQoM0IGZkkB8Q1I5+GT2fIgWmsdrFSg972Y
+  bh=3Y2TBDVwQOzIxmpcXdwryCSZlupkhhoBTOPxm1mMjoc=;
+  b=eqrgX3/t4cDOCli3jYSaDiKe8l64YHcMhzasxaKbIzIIuCI2501R0XCZ
+   KIGLiVidqkJ0chepu4CCmDy8jKr4n6cQ+GotKTaO6D2xkDIlTYDvWQA5A
+   s/9Xnv+aTWljA2p0CA+S5KfE4DhLz07oRtUycKYk8d7yHNn2gXwg9lgI9
+   Qfu8uVPPLjWipFBaC1VorGb4e0UkeU9PPwD0euEAKW70HkppcKFXwEkM/
+   RXRxu40jZg6mC/9YaiuKGrRqZAomXYKC/eN5sgSJV6R6Wlc62sZ/k7/yr
+   6yoONwoNDxuVrlfDz1zLLvHCYcRahUdBYsatc/RV4XWAv0IIvtEpVUyHS
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="390451528"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="6562153"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="390451528"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 00:34:57 -0800
+   d="scan'208";a="6562153"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 00:34:57 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="803601501"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="17314277"
+   d="scan'208";a="803601501"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 30 Nov 2023 00:34:56 -0800
+  by orsmga001.jf.intel.com with ESMTP; 30 Nov 2023 00:34:56 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8cVZ-0001aC-1M;
+	id 1r8cVZ-0001aF-2S;
 	Thu, 30 Nov 2023 08:34:53 +0000
-Date: Thu, 30 Nov 2023 16:34:18 +0800
+Date: Thu, 30 Nov 2023 16:34:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahisa Kojima <masahisa.kojima@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Subject: [linux-next:master 3754/4102]
- drivers/firmware/efi/stmm/tee_stmm_efi.c:524:6: warning: no previous
- prototype for function 'tee_stmm_restore_efivars_generic_ops'
-Message-ID: <202311301520.nKnDVxjA-lkp@intel.com>
+To: Leon Huang <Leon.Huang1@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:253:63:
+ sparse: sparse: cast truncates bits from constant value (ffff becomes ff)
+Message-ID: <202311301656.jZFH7af7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,39 +52,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3cd3fe06ff81cfb3a969acb12a56796cff5af23d
-commit: 8ffb9a25b9d5947cb4a2442754cbaee82d98f8a0 [3754/4102] efi: Add tee-based EFI variable driver
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231130/202311301520.nKnDVxjA-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301520.nKnDVxjA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
+commit: b8fe56375f78835db47565d91ea9d21767fe3c08 drm/amd/display: Refactor ABM feature
+date:   8 months ago
+config: sparc64-randconfig-r036-20230708 (https://download.01.org/0day-ci/archive/20231130/202311301656.jZFH7af7-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231130/202311301656.jZFH7af7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311301520.nKnDVxjA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311301656.jZFH7af7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:83:6: sparse: sparse: symbol 'dmub_abm_init' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:124:14: sparse: sparse: symbol 'dmub_abm_get_current_backlight' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:135:14: sparse: sparse: symbol 'dmub_abm_get_target_backlight' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:146:6: sparse: sparse: symbol 'dmub_abm_set_level' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:167:6: sparse: sparse: symbol 'dmub_abm_set_ambient_level' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:189:6: sparse: sparse: symbol 'dmub_abm_init_config' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:221:6: sparse: sparse: symbol 'dmub_abm_set_pause' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:241:6: sparse: sparse: symbol 'dmub_abm_set_pipe' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:263:6: sparse: sparse: symbol 'dmub_abm_set_backlight_level' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:246:46: sparse: sparse: self-comparison always evaluates to false
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c:253:63: sparse: sparse: cast truncates bits from constant value (ffff becomes ff)
 
->> drivers/firmware/efi/stmm/tee_stmm_efi.c:524:6: warning: no previous prototype for function 'tee_stmm_restore_efivars_generic_ops' [-Wmissing-prototypes]
-     524 | void tee_stmm_restore_efivars_generic_ops(void)
-         |      ^
-   drivers/firmware/efi/stmm/tee_stmm_efi.c:524:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     524 | void tee_stmm_restore_efivars_generic_ops(void)
-         | ^
-         | static 
-   1 warning generated.
+vim +253 drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dmub_abm_lcd.c
 
-
-vim +/tee_stmm_restore_efivars_generic_ops +524 drivers/firmware/efi/stmm/tee_stmm_efi.c
-
-   523	
- > 524	void tee_stmm_restore_efivars_generic_ops(void)
-   525	{
-   526		efivars_unregister(&tee_efivars);
-   527		efivars_generic_ops_register();
-   528	}
-   529	
+   240	
+   241	bool dmub_abm_set_pipe(struct abm *abm, uint32_t otg_inst, uint32_t option, uint32_t panel_inst)
+   242	{
+   243		union dmub_rb_cmd cmd;
+   244		struct dc_context *dc = abm->ctx;
+   245		uint32_t ramping_boundary = 0xFFFF;
+   246	
+   247		memset(&cmd, 0, sizeof(cmd));
+   248		cmd.abm_set_pipe.header.type = DMUB_CMD__ABM;
+   249		cmd.abm_set_pipe.header.sub_type = DMUB_CMD__ABM_SET_PIPE;
+   250		cmd.abm_set_pipe.abm_set_pipe_data.otg_inst = otg_inst;
+   251		cmd.abm_set_pipe.abm_set_pipe_data.set_pipe_option = option;
+   252		cmd.abm_set_pipe.abm_set_pipe_data.panel_inst = panel_inst;
+ > 253		cmd.abm_set_pipe.abm_set_pipe_data.ramping_boundary = ramping_boundary;
+   254		cmd.abm_set_pipe.header.payload_bytes = sizeof(struct dmub_cmd_abm_set_pipe_data);
+   255	
+   256		dc_dmub_srv_cmd_queue(dc->dmub_srv, &cmd);
+   257		dc_dmub_srv_cmd_execute(dc->dmub_srv);
+   258		dc_dmub_srv_wait_idle(dc->dmub_srv);
+   259	
+   260		return true;
+   261	}
+   262	
 
 -- 
 0-DAY CI Kernel Test Service
