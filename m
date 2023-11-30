@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808C34CB53
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 05:37:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8181DA22
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 06:12:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IcRwOvo+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gYs//dcQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701322623; x=1732858623;
+  t=1701324750; x=1732860750;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n3MzewBM3NFg89gGXF89UmX8TotomqxOTzXry13y1V4=;
-  b=IcRwOvo+OFSLMnImX/1kndP81yyCRQRfCooQmU6p49nL+OlrzumMPwvT
-   t1WziigWYyer5/hj09qF6aBmwbEbMIgzus1P2BKsWutBzVh0Qb590mNf4
-   PMReApbRB56tKYmhfEBSsFer6oG7KIDQw+3YwE/VwabHT+I8x+8u9uc68
-   2rtlgftsoqKjIUhXAuGTwg2Qpphc7AkjIKz7lba4BIbDpER0twmbrrkMh
-   KUc61b+lyYfFuZEEpsZZSGMxXjy+iTYs1eyB+qJwm5B8VD2IpFZTOGcxh
-   kC42aBPAahNGs3iXpYnziCPh5UzwpBH1M+iAFdi7fr9V12fUNnYEpXPzL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="14825407"
+  bh=LQ+Sf3M4Ee5GekbzNrVdx4Rbxrs3SAlcJ9NMQZloQn4=;
+  b=gYs//dcQbFlmLPmuJMngW5VlAbtsc6uhnKrWHWwfbUkMW6tScJUYhpGl
+   TTI4wjVBJ/Fkz/5y/c9QbOZnDxm7hRpHLCXDSvu8ydXPin+ChAMcz4Czp
+   N3VeoNI0N9RK5KjZVsk44BQqsV7G9EXfEH7SSDV0c7GUvx5zLyNz2QANM
+   pmsEj/KAezdH/xa99y+EtU98BiU2lucrGM5eKxipPMd2toVhnoX0FTWKZ
+   4irzlk+fHH791+hs2rIjGrDwdcxutCz06xf/ZvxZ3ZN2hyR5ZquGqc9Zo
+   9vtzdhlL22AmVZKE5NFd0Ed90Gps2PDJNVfsQ2ULdQWUmsn272jKABdHW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="479474818"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="14825407"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 21:37:02 -0800
+   d="scan'208";a="479474818"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 22:12:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="798166081"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="798166081"
+   d="scan'208";a="17274939"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 29 Nov 2023 21:36:59 -0800
+  by orviesa001.jf.intel.com with ESMTP; 29 Nov 2023 22:12:28 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8Zhr-0001Pe-24;
-	Thu, 30 Nov 2023 05:35:55 +0000
-Date: Thu, 30 Nov 2023 13:34:57 +0800
+	id 1r8aHi-0001QS-0J;
+	Thu, 30 Nov 2023 06:12:26 +0000
+Date: Thu, 30 Nov 2023 14:11:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>
-Subject: kernel/time/tick-broadcast.c:1026: warning: Function parameter or
- member 'from_periodic' not described in 'tick_broadcast_setup_oneshot'
-Message-ID: <202311301352.fxkaJoHu-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/642 2487/30000]
+ drivers/soc/fsl/dpio/qbman-portal.c:340: Error: no such instruction: `dc
+ cvac,%r13'
+Message-ID: <202311301412.oCq6PaJk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,138 +50,229 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thomas,
+Hi Haiying,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
-commit: f9d36cf445ffff0b913ba187a3eff78028f9b1fb tick/broadcast: Make broadcast device replacement work correctly
-date:   7 months ago
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20231130/202311301352.fxkaJoHu-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301352.fxkaJoHu-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc pr/642
+head:   c8b7cf62c7fea8456dec789d550b8006d73b8f04
+commit: 166290c21079e1ae6c20592d3a252df0ece8588e [2487/30000] soc: fsl: dpio: enable qbman CENA portal memory access
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231130/202311301412.oCq6PaJk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301412.oCq6PaJk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311301352.fxkaJoHu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311301412.oCq6PaJk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/time/tick-broadcast.c:1026: warning: Function parameter or member 'bc' not described in 'tick_broadcast_setup_oneshot'
->> kernel/time/tick-broadcast.c:1026: warning: Function parameter or member 'from_periodic' not described in 'tick_broadcast_setup_oneshot'
+   drivers/soc/fsl/dpio/qbman-portal.c: Assembler messages:
+>> drivers/soc/fsl/dpio/qbman-portal.c:340: Error: no such instruction: `dc cvac,%r13'
+>> drivers/soc/fsl/dpio/qbman-portal.c:97: Error: no such instruction: `dc ivac,%r12'
+>> drivers/soc/fsl/dpio/qbman-portal.c:494: Error: no such instruction: `dc cvac,%rbx'
+>> drivers/soc/fsl/dpio/qbman-portal.c:691: Error: no such instruction: `dc cvac,%rbp'
+>> drivers/soc/fsl/dpio/qbman-portal.c:97: Error: no such instruction: `dc ivac,%r13'
+>> drivers/soc/fsl/dpio/qbman-portal.c:97: Error: no such instruction: `dc ivac,%r13'
+>> drivers/soc/fsl/dpio/qbman-portal.c:97: Error: no such instruction: `dc ivac,%rax'
+   drivers/soc/fsl/dpio/qbman-portal.c:924: Error: no such instruction: `dc cvac,%r14'
+   drivers/soc/fsl/dpio/qbman-portal.c:340: Error: no such instruction: `dc cvac,%rbx'
+>> drivers/soc/fsl/dpio/qbman-portal.c:97: Error: no such instruction: `dc ivac,%r13'
+>> drivers/soc/fsl/dpio/qbman-portal.c:97: Error: no such instruction: `dc ivac,%r13'
+   drivers/soc/fsl/dpio/qbman-portal.c:340: Error: no such instruction: `dc cvac,%rbp'
+>> drivers/soc/fsl/dpio/qbman-portal.c:97: Error: no such instruction: `dc ivac,%r13'
+   drivers/soc/fsl/dpio/qbman-portal.c:340: Error: no such instruction: `dc cvac,%rbp'
+>> drivers/soc/fsl/dpio/qbman-portal.c:97: Error: no such instruction: `dc ivac,%r13'
+>> drivers/soc/fsl/dpio/qbman-portal.c:340: Error: no such instruction: `dc cvac,%r15'
+>> drivers/soc/fsl/dpio/qbman-portal.c:97: Error: no such instruction: `dc ivac,%r13'
+   drivers/soc/fsl/dpio/qbman-portal.c:340: Error: no such instruction: `dc cvac,%rbp'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GPIO_MXC
+   Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && ARCH_MXC
+   Selected by [y]:
+   - GPIO_MXC_PAD_WAKEUP [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && IMX_SCU [=y]
 
 
-vim +1026 kernel/time/tick-broadcast.c
+vim +340 drivers/soc/fsl/dpio/qbman-portal.c
 
-f73f64d5687192 Thomas Gleixner 2020-11-17  1020  
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1021  /**
-8dce39c231af55 Li Zefan        2007-11-05  1022   * tick_broadcast_setup_oneshot - setup the broadcast device
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1023   */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1024  static void tick_broadcast_setup_oneshot(struct clock_event_device *bc,
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1025  					 bool from_periodic)
-79bf2bb335b85d Thomas Gleixner 2007-02-16 @1026  {
-07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1027  	int cpu = smp_processor_id();
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1028  	ktime_t nexttick = 0;
-07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1029  
-c1a9eeb938b543 Thomas Gleixner 2016-12-15  1030  	if (!bc)
-c1a9eeb938b543 Thomas Gleixner 2016-12-15  1031  		return;
-c1a9eeb938b543 Thomas Gleixner 2016-12-15  1032  
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1033  	/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1034  	 * When the broadcast device was switched to oneshot by the first
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1035  	 * CPU handling the NOHZ change, the other CPUs will reach this
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1036  	 * code via hrtimer_run_queues() -> tick_check_oneshot_change()
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1037  	 * too. Set up the broadcast device only once!
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1038  	 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1039  	if (bc->event_handler == tick_handle_oneshot_broadcast) {
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1040  		/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1041  		 * The CPU which switched from periodic to oneshot mode
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1042  		 * set the broadcast oneshot bit for all other CPUs which
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1043  		 * are in the general (periodic) broadcast mask to ensure
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1044  		 * that CPUs which wait for the periodic broadcast are
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1045  		 * woken up.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1046  		 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1047  		 * Clear the bit for the local CPU as the set bit would
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1048  		 * prevent the first tick_broadcast_enter() after this CPU
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1049  		 * switched to oneshot state to program the broadcast
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1050  		 * device.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1051  		 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1052  		 * This code can also be reached via tick_broadcast_control(),
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1053  		 * but this cannot avoid the tick_broadcast_clear_oneshot()
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1054  		 * as that would break the periodic to oneshot transition of
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1055  		 * secondary CPUs. But that's harmless as the below only
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1056  		 * clears already cleared bits.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1057  		 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1058  		tick_broadcast_clear_oneshot(cpu);
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1059  		return;
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1060  	}
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1061  
-7300711e8c6824 Thomas Gleixner 2008-09-06  1062  
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1063  	bc->event_handler = tick_handle_oneshot_broadcast;
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1064  	bc->next_event = KTIME_MAX;
-7300711e8c6824 Thomas Gleixner 2008-09-06  1065  
-7300711e8c6824 Thomas Gleixner 2008-09-06  1066  	/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1067  	 * When the tick mode is switched from periodic to oneshot it must
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1068  	 * be ensured that CPUs which are waiting for periodic broadcast
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1069  	 * get their wake-up at the next tick.  This is achieved by ORing
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1070  	 * tick_broadcast_mask into tick_broadcast_oneshot_mask.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1071  	 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1072  	 * For other callers, e.g. broadcast device replacement,
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1073  	 * tick_broadcast_oneshot_mask must not be touched as this would
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1074  	 * set bits for CPUs which are already NOHZ, but not idle. Their
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1075  	 * next tick_broadcast_enter() would observe the bit set and fail
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1076  	 * to update the expiry time and the broadcast event device.
-7300711e8c6824 Thomas Gleixner 2008-09-06  1077  	 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1078  	if (from_periodic) {
-b352bc1cbc2913 Thomas Gleixner 2013-03-05  1079  		cpumask_copy(tmpmask, tick_broadcast_mask);
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1080  		/* Remove the local CPU as it is obviously not idle */
-b352bc1cbc2913 Thomas Gleixner 2013-03-05  1081  		cpumask_clear_cpu(cpu, tmpmask);
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1082  		cpumask_or(tick_broadcast_oneshot_mask, tick_broadcast_oneshot_mask, tmpmask);
-7300711e8c6824 Thomas Gleixner 2008-09-06  1083  
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1084  		/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1085  		 * Ensure that the oneshot broadcast handler will wake the
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1086  		 * CPUs which are still waiting for periodic broadcast.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1087  		 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1088  		nexttick = tick_get_next_period();
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1089  		tick_broadcast_init_next_event(tmpmask, nexttick);
-f73f64d5687192 Thomas Gleixner 2020-11-17  1090  
-07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1091  		/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1092  		 * If the underlying broadcast clock event device is
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1093  		 * already in oneshot state, then there is nothing to do.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1094  		 * The device was already armed for the next tick
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1095  		 * in tick_handle_broadcast_periodic()
-07f4beb0b5bbfa Thomas Gleixner 2011-05-16  1096  		 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1097  		if (clockevent_state_oneshot(bc))
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1098  			return;
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1099  	}
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1100  
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1101  	/*
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1102  	 * When switching from periodic to oneshot mode arm the broadcast
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1103  	 * device for the next tick.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1104  	 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1105  	 * If the broadcast device has been replaced in oneshot mode and
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1106  	 * the oneshot broadcast mask is not empty, then arm it to expire
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1107  	 * immediately in order to reevaluate the next expiring timer.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1108  	 * @nexttick is 0 and therefore in the past which will cause the
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1109  	 * clockevent code to force an event.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1110  	 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1111  	 * For both cases the programming can be avoided when the oneshot
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1112  	 * broadcast mask is empty.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1113  	 *
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1114  	 * tick_broadcast_set_event() implicitly switches the broadcast
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1115  	 * device to oneshot state.
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1116  	 */
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1117  	if (!cpumask_empty(tick_broadcast_oneshot_mask))
-f9d36cf445ffff Thomas Gleixner 2023-05-06  1118  		tick_broadcast_set_event(bc, cpu, nexttick);
-9c17bcda991000 Thomas Gleixner 2008-09-03  1119  }
-79bf2bb335b85d Thomas Gleixner 2007-02-16  1120  
-
-:::::: The code at line 1026 was first introduced by commit
-:::::: 79bf2bb335b85db25d27421c798595a2fa2a0e82 [PATCH] tick-management: dyntick / highres functionality
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+   328	
+   329	/*
+   330	 * Commits merges in the caller-supplied command verb (which should not include
+   331	 * the valid-bit) and submits the command to hardware
+   332	 */
+   333	void qbman_swp_mc_submit(struct qbman_swp *p, void *cmd, u8 cmd_verb)
+   334	{
+   335		u8 *v = cmd;
+   336	
+   337		if ((p->desc->qman_version & QMAN_REV_MASK) < QMAN_REV_5000) {
+   338			dma_wmb();
+   339			*v = cmd_verb | p->mc.valid_bit;
+ > 340			dccvac(cmd);
+   341		} else {
+   342			*v = cmd_verb | p->mc.valid_bit;
+   343			dma_wmb();
+   344			qbman_write_register(p, QBMAN_CINH_SWP_CR_RT, QMAN_RT_MODE);
+   345		}
+   346	}
+   347	
+   348	/*
+   349	 * Checks for a completed response (returns non-NULL if only if the response
+   350	 * is complete).
+   351	 */
+   352	void *qbman_swp_mc_result(struct qbman_swp *p)
+   353	{
+   354		u32 *ret, verb;
+   355	
+   356		if ((p->desc->qman_version & QMAN_REV_MASK) < QMAN_REV_5000) {
+   357			qbman_inval_prefetch(p, QBMAN_CENA_SWP_RR(p->mc.valid_bit));
+   358			ret = qbman_get_cmd(p, QBMAN_CENA_SWP_RR(p->mc.valid_bit));
+   359			/* Remove the valid-bit - command completed if the rest
+   360			 * is non-zero.
+   361			 */
+   362			verb = ret[0] & ~QB_VALID_BIT;
+   363			if (!verb)
+   364				return NULL;
+   365			p->mc.valid_bit ^= QB_VALID_BIT;
+   366		} else {
+   367			ret = qbman_get_cmd(p, QBMAN_CENA_SWP_RR_MEM);
+   368			/* Command completed if the valid bit is toggled */
+   369			if (p->mr.valid_bit != (ret[0] & QB_VALID_BIT))
+   370				return NULL;
+   371			/* Command completed if the rest is non-zero */
+   372			verb = ret[0] & ~QB_VALID_BIT;
+   373			if (!verb)
+   374				return NULL;
+   375			p->mr.valid_bit ^= QB_VALID_BIT;
+   376		}
+   377	
+   378		return ret;
+   379	}
+   380	
+   381	#define QB_ENQUEUE_CMD_OPTIONS_SHIFT    0
+   382	enum qb_enqueue_commands {
+   383		enqueue_empty = 0,
+   384		enqueue_response_always = 1,
+   385		enqueue_rejects_to_fq = 2
+   386	};
+   387	
+   388	#define QB_ENQUEUE_CMD_ORP_ENABLE_SHIFT      2
+   389	#define QB_ENQUEUE_CMD_IRQ_ON_DISPATCH_SHIFT 3
+   390	#define QB_ENQUEUE_CMD_TARGET_TYPE_SHIFT     4
+   391	
+   392	/**
+   393	 * qbman_eq_desc_clear() - Clear the contents of a descriptor to
+   394	 *                         default/starting state.
+   395	 */
+   396	void qbman_eq_desc_clear(struct qbman_eq_desc *d)
+   397	{
+   398		memset(d, 0, sizeof(*d));
+   399	}
+   400	
+   401	/**
+   402	 * qbman_eq_desc_set_no_orp() - Set enqueue descriptor without orp
+   403	 * @d:                the enqueue descriptor.
+   404	 * @response_success: 1 = enqueue with response always; 0 = enqueue with
+   405	 *                    rejections returned on a FQ.
+   406	 */
+   407	void qbman_eq_desc_set_no_orp(struct qbman_eq_desc *d, int respond_success)
+   408	{
+   409		d->verb &= ~(1 << QB_ENQUEUE_CMD_ORP_ENABLE_SHIFT);
+   410		if (respond_success)
+   411			d->verb |= enqueue_response_always;
+   412		else
+   413			d->verb |= enqueue_rejects_to_fq;
+   414	}
+   415	
+   416	/*
+   417	 * Exactly one of the following descriptor "targets" should be set. (Calling any
+   418	 * one of these will replace the effect of any prior call to one of these.)
+   419	 *   -enqueue to a frame queue
+   420	 *   -enqueue to a queuing destination
+   421	 */
+   422	
+   423	/**
+   424	 * qbman_eq_desc_set_fq() - set the FQ for the enqueue command
+   425	 * @d:    the enqueue descriptor
+   426	 * @fqid: the id of the frame queue to be enqueued
+   427	 */
+   428	void qbman_eq_desc_set_fq(struct qbman_eq_desc *d, u32 fqid)
+   429	{
+   430		d->verb &= ~(1 << QB_ENQUEUE_CMD_TARGET_TYPE_SHIFT);
+   431		d->tgtid = cpu_to_le32(fqid);
+   432	}
+   433	
+   434	/**
+   435	 * qbman_eq_desc_set_qd() - Set Queuing Destination for the enqueue command
+   436	 * @d:       the enqueue descriptor
+   437	 * @qdid:    the id of the queuing destination to be enqueued
+   438	 * @qd_bin:  the queuing destination bin
+   439	 * @qd_prio: the queuing destination priority
+   440	 */
+   441	void qbman_eq_desc_set_qd(struct qbman_eq_desc *d, u32 qdid,
+   442				  u32 qd_bin, u32 qd_prio)
+   443	{
+   444		d->verb |= 1 << QB_ENQUEUE_CMD_TARGET_TYPE_SHIFT;
+   445		d->tgtid = cpu_to_le32(qdid);
+   446		d->qdbin = cpu_to_le16(qd_bin);
+   447		d->qpri = qd_prio;
+   448	}
+   449	
+   450	#define EQAR_IDX(eqar)     ((eqar) & 0x7)
+   451	#define EQAR_VB(eqar)      ((eqar) & 0x80)
+   452	#define EQAR_SUCCESS(eqar) ((eqar) & 0x100)
+   453	
+   454	static inline void qbman_write_eqcr_am_rt_register(struct qbman_swp *p,
+   455							   u8 idx)
+   456	{
+   457		if (idx < 16)
+   458			qbman_write_register(p, QBMAN_CINH_SWP_EQCR_AM_RT + idx * 4,
+   459					     QMAN_RT_MODE);
+   460		else
+   461			qbman_write_register(p, QBMAN_CINH_SWP_EQCR_AM_RT2 +
+   462					     (idx - 16) * 4,
+   463					     QMAN_RT_MODE);
+   464	}
+   465	
+   466	/**
+   467	 * qbman_swp_enqueue() - Issue an enqueue command
+   468	 * @s:  the software portal used for enqueue
+   469	 * @d:  the enqueue descriptor
+   470	 * @fd: the frame descriptor to be enqueued
+   471	 *
+   472	 * Please note that 'fd' should only be NULL if the "action" of the
+   473	 * descriptor is "orp_hole" or "orp_nesn".
+   474	 *
+   475	 * Return 0 for successful enqueue, -EBUSY if the EQCR is not ready.
+   476	 */
+   477	int qbman_swp_enqueue(struct qbman_swp *s, const struct qbman_eq_desc *d,
+   478			      const struct dpaa2_fd *fd)
+   479	{
+   480		struct qbman_eq_desc *p;
+   481		u32 eqar = qbman_read_register(s, QBMAN_CINH_SWP_EQAR);
+   482	
+   483		if (!EQAR_SUCCESS(eqar))
+   484			return -EBUSY;
+   485	
+   486		p = qbman_get_cmd(s, QBMAN_CENA_SWP_EQCR(EQAR_IDX(eqar)));
+   487		memcpy(&p->dca, &d->dca, 31);
+   488		memcpy(&p->fd, fd, sizeof(*fd));
+   489	
+   490		if ((s->desc->qman_version & QMAN_REV_MASK) < QMAN_REV_5000) {
+   491			/* Set the verb byte, have to substitute in the valid-bit */
+   492			dma_wmb();
+   493			p->verb = d->verb | EQAR_VB(eqar);
+ > 494			dccvac(p);
+   495		} else {
+   496			p->verb = d->verb | EQAR_VB(eqar);
+   497			dma_wmb();
+   498			qbman_write_eqcr_am_rt_register(s, EQAR_IDX(eqar));
+   499		}
+   500	
+   501		return 0;
+   502	}
+   503	
 
 -- 
 0-DAY CI Kernel Test Service
