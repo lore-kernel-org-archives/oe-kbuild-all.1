@@ -1,120 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF3F58122;
-	Thu, 30 Nov 2023 17:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1288854663
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 17:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gkKmhJ1z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701366266; x=1732902266;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uvH5VFX0m1gxBorXJAqbuyVq5YilEb/v7wojfNAD9c8=;
-  b=gkKmhJ1ztI2noGwIAHwpuaGvfgx1l2RF6kN1s517rlEMCvL1xg5wuznT
-   V8LUfvm747mZzcQ8/87RsuRL6VwwJd+Z5WtY5X45GuQbfHRJi9+Pd69uI
-   xQ4SHquvPfW9nd32l1pZokPwz5ymWqBjdGSm7sSDI+M2qxsbvHK5ZzzYs
-   jCvT2klcJ0gVuEMHvmYE9+pe6JO5LQlXYlxC/9I4d6AojDswQjhWDWBLC
-   JqnY/9PN4H9kvitjtLCYcJm2HlNahKMqSBD7+rLwxBmW0t/fGU2IOH8Jk
-   s1MreBhdlRX6tnrq0RJBtDZlDGPWpejIIemse0TAGuI3YJj69bhP2lOZI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="353893"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="353893"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 09:44:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="1016719392"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="1016719392"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 30 Nov 2023 09:44:24 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r8l5K-0002TG-1y;
-	Thu, 30 Nov 2023 17:44:22 +0000
-Date: Fri, 1 Dec 2023 01:43:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-lib 60/61] fs/9p/vfs_inode.c:379:2: error: call
- to undeclared function 'fscache_clear_inode_writeback'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202312010113.lL6Lpwt9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dy4Ayyqa"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-5d0c4ba7081so21194337b3.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 09:49:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701366585; x=1701971385; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=poBE260KekrwVAOgg+M3fF5Kt/ICZ7GAjNWMaWtdSzg=;
+        b=dy4AyyqaCgBiHfyYKJJfkbdGSUHwKxn6TnBCgcpde0no2hjYBEa/okheaQ2QwLiQYC
+         EuHBRGH5LwMQ1o70kJTwz1llStB7BxfPexrGFq2nFlbHdFV7pym1kgZoxlMhIAnxpSjy
+         9u+lBiTQjih4C3kSZX1VqXsgetrZK4A+I2qv38T8CvEJuZLeiIV5ENv51D4NIstMnz07
+         YRplOHlgHpYISNEWWxqBRcoAaTd5sE8R9f8X7NUqacDYEehyk7K09lxwdqVl8r3AATzk
+         h2e7pbZlAEpPilk5jgLhAa/HXSDZPZMvtqHG26zqFq8wMLBl+suAFSpXwH1/HbvajHh8
+         In2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701366585; x=1701971385;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=poBE260KekrwVAOgg+M3fF5Kt/ICZ7GAjNWMaWtdSzg=;
+        b=Hw2gXhKQ63zE5eHdf2ZEW6gFdZ5zIJTcmVnwtbjecAnWKbhsUl8Szig5kjD2IiyHew
+         27gs0N0hb5LrIawqd/kY/vWNONdaBB9ALYesfKHGNMNrs1dSkI6a7gGckpBXo2GIwOjh
+         FMX54hQt3buovkJQhvrj8AjECJvnpIw3TIxC2joJHGoX6fwyOdrJP4zVB+VLnNcoFIIC
+         oSgIllK3Ge+YCum0ZgFLLgMZ3LVl+yY3xPNMqPv9ArnY7cmF9E1KQ+dI0hwgm4elki8r
+         RnW4n+7PBEs42rmjrqVWr0d5fSuwRG66gN223v8epBcmODPV+c7Itd4Ucn2EqdSKNU0r
+         OrDQ==
+X-Gm-Message-State: AOJu0YxGOvYMDZNJvR1VcrqrKQW38Kaif3FVlc+K8FmpW/GC+jBEKh26
+	Y2kK0CBdvpbC37JVRApfMeS9gU19iZY=
+X-Google-Smtp-Source: AGHT+IFKIQiSFMhY9qIDegdCeGs56VhwQM1SLPMyPsnHTxpb4uIQIzrRqUJpJKjBsiy/h0VKitgvRRcgueU=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:3383:0:b0:da0:c6d7:8231 with SMTP id
+ z125-20020a253383000000b00da0c6d78231mr749060ybz.0.1701366584635; Thu, 30 Nov
+ 2023 09:49:44 -0800 (PST)
+Date: Thu, 30 Nov 2023 09:49:43 -0800
+In-Reply-To: <87v89jmc3q.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+References: <202311302231.sinLrAig-lkp@intel.com> <87v89jmc3q.fsf@redhat.com>
+Message-ID: <ZWjLN3As3vz5lXcK@google.com>
+Subject: Re: arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates
+ bits from constant value (1b009b becomes 9b)
+From: Sean Christopherson <seanjc@google.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-lib
-head:   ed72c33e807046e9a09965dba2d3524f5bc90ae9
-commit: 0455c3240d311ab544e4669de9392af791fb6ee1 [60/61] netfs: Move pinning-for-writeback from fscache to netfs
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231201/202312010113.lL6Lpwt9-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231201/202312010113.lL6Lpwt9-lkp@intel.com/reproduce)
+On Thu, Nov 30, 2023, Vitaly Kuznetsov wrote:
+> kernel test robot <lkp@intel.com> writes:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
+> > commit: a789aeba419647c44d7e7320de20fea037c211d0 KVM: VMX: Rename "vmx/evmcs.{ch}" to "vmx/hyperv.{ch}"
+> > date:   1 year ago
+> > config: x86_64-randconfig-123-20231130 (https://download.01.org/0day-ci/archive/20231130/202311302231.sinLrAig-lkp@intel.com/config)
+> > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311302231.sinLrAig-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202311302231.sinLrAig-lkp@intel.com/
+> >
+> > sparse warnings: (new ones prefixed by >>)
+> >    arch/x86/kvm/vmx/hyperv.h:79:30: sparse: sparse: cast truncates bits from constant value (a000a becomes a)
+> 
+> This is what ROL16() macro does but the thing is: we actually want to
+> truncate bits by doing an explicit (u16) cast. We can probably replace
+> this with '& 0xffff':
+> 
+> #define ROL16(val, n) ((((u16)(val) << (n)) | ((u16)(val) >> (16 - (n)))) & 0xffff)
+> 
+> but honestly I don't see much point...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312010113.lL6Lpwt9-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/9p/vfs_inode.c:379:2: error: call to undeclared function 'fscache_clear_inode_writeback'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           fscache_clear_inode_writeback(v9fs_inode_cookie(v9inode), inode,
-           ^
-   fs/9p/vfs_inode.c:379:2: note: did you mean 'sb_clear_inode_writeback'?
-   include/linux/writeback.h:381:6: note: 'sb_clear_inode_writeback' declared here
-   void sb_clear_inode_writeback(struct inode *inode);
-        ^
-   1 error generated.
---
->> fs/9p/vfs_addr.c:300:9: error: call to undeclared function 'fscache_dirty_folio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           return fscache_dirty_folio(mapping, folio, v9fs_inode_cookie(v9inode));
-                  ^
-   fs/9p/vfs_addr.c:300:9: note: did you mean 'filemap_dirty_folio'?
-   include/linux/writeback.h:376:6: note: 'filemap_dirty_folio' declared here
-   bool filemap_dirty_folio(struct address_space *mapping, struct folio *folio);
-        ^
-   1 error generated.
-
-
-vim +/fscache_clear_inode_writeback +379 fs/9p/vfs_inode.c
-
-2bad8471511ce5 Eric Van Hensbergen 2005-09-09  364  
-60e78d2c993e58 Abhishek Kulkarni   2009-09-23  365  /**
-bc868036569e1d David Howells       2021-10-04  366   * v9fs_evict_inode - Remove an inode from the inode cache
-60e78d2c993e58 Abhishek Kulkarni   2009-09-23  367   * @inode: inode to release
-60e78d2c993e58 Abhishek Kulkarni   2009-09-23  368   *
-60e78d2c993e58 Abhishek Kulkarni   2009-09-23  369   */
-b57922d97fd6f7 Al Viro             2010-06-07  370  void v9fs_evict_inode(struct inode *inode)
-60e78d2c993e58 Abhishek Kulkarni   2009-09-23  371  {
-4eb3117888a923 Eric Van Hensbergen 2023-03-27  372  	struct v9fs_inode __maybe_unused *v9inode = V9FS_I(inode);
-4eb3117888a923 Eric Van Hensbergen 2023-03-27  373  	__le32 __maybe_unused version;
-6b39f6d22fbf67 Aneesh Kumar K.V    2011-02-28  374  
-4ad78628445d26 Al Viro             2015-12-08  375  	truncate_inode_pages_final(&inode->i_data);
-4eb3117888a923 Eric Van Hensbergen 2023-03-27  376  
-4eb3117888a923 Eric Van Hensbergen 2023-03-27  377  #ifdef CONFIG_9P_FSCACHE
-93c846143d8630 David Howells       2020-11-18  378  	version = cpu_to_le32(v9inode->qid.version);
-93c846143d8630 David Howells       2020-11-18 @379  	fscache_clear_inode_writeback(v9fs_inode_cookie(v9inode), inode,
-93c846143d8630 David Howells       2020-11-18  380  				      &version);
-4eb3117888a923 Eric Van Hensbergen 2023-03-27  381  #endif
-4eb3117888a923 Eric Van Hensbergen 2023-03-27  382  
-dbd5768f87ff6f Jan Kara            2012-05-03  383  	clear_inode(inode);
-4ad78628445d26 Al Viro             2015-12-08  384  	filemap_fdatawrite(&inode->i_data);
-60e78d2c993e58 Abhishek Kulkarni   2009-09-23  385  
-
-:::::: The code at line 379 was first introduced by commit
-:::::: 93c846143d8630d1fd465b69703b0f0021a543dc 9p: Copy local writes to the cache when writing to the server
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yeah, just ignore 'em, we get the exact same sparse complaints in vmcs12.c and
+have had great success ignoring those too :-)
