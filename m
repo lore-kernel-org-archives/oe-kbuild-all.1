@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FBD3C696
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 11:53:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36B53D39D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 11:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kz1w6gqs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHNczaEu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701345182; x=1732881182;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0Gt2UZAjEwYmWwiumaNgxcRIzmBls0in7o8ASJS1fEA=;
-  b=Kz1w6gqs50a1kD5RoxPyUwFLqJt38wW91UV5eriMMfiKHUD8rCGk+JWN
-   nXL9bbhhYlCRUJt/aQfNPKLM7aQMAoiDGfsRQl7fuBn31YqFu5QQHFl5t
-   e9016P42UZmM5Vr3SWHCP3iraV9biW1wAK++Vt2VXO3jkw4KrN5umVvlL
-   NAUL2Qt80zvWxGZfR8JSCYiyi/dh1H9YGQjM5lUDxF3i26r8hzCQIdAZN
-   FEn0zG8VyciJFvgfemHeoLXH+b/9xQeOvvWI3lRdEexdVchkU86SDOm13
-   7Yjb/rLSlGSRo5fJg2i1WJ8IT7PMZpS6AgD4oijMDfMp1gMBiVhemiOqW
+  bh=RXaKAqQSgOji/yUcRWUmbwrqsb82gz3o1OBbAGRUpHA=;
+  b=kHNczaEuOg4j13DZETNX3hBAcvdq98c9XOEWPwP0IktB1qh+6r+olg4V
+   4kLdSRjSt3EFqO2qesUKb7zZFD2vESzqplhezc8je5mEoKlEeHpzzo96t
+   IzdU3CwBY5fdW47ZkITE9UClz4TtAFUxO3nTCI2jK5zseFT6b5NKwKR1o
+   HndJE86eK18ptJoQbZ2CwWKn7fhQvdjC4PooPypQAwMrc0nDaQUEouf5J
+   5WQ0WtM/dOWwQ3ucwR0kNNfoseViRcuR0UHdwVCtpDI4wn22zvzzf/MrM
+   MZKyS0jSfEvEurIaukESYRb7sH/JywSm4grxAxvY9UVJfVIeRW/5TuMor
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="372691977"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="372691989"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="372691977"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 03:52:59 -0800
+   d="scan'208";a="372691989"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 03:53:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="1100918757"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="719104971"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="1100918757"
+   d="scan'208";a="719104971"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 30 Nov 2023 03:52:58 -0800
+  by orsmga003.jf.intel.com with ESMTP; 30 Nov 2023 03:52:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8fbD-0001o5-0r;
-	Thu, 30 Nov 2023 11:52:55 +0000
-Date: Thu, 30 Nov 2023 19:51:59 +0800
+	id 1r8fbE-0001o7-19;
+	Thu, 30 Nov 2023 11:52:56 +0000
+Date: Thu, 30 Nov 2023 19:52:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:rcu/dev 2/5] kernel/rcu/tree.c:2715: undefined
- reference to `call_rcu_nocb'
-Message-ID: <202311301912.uoJ3yQUe-lkp@intel.com>
+Subject: [jgunthorpe:iommu_fwspec 38/42] include/linux/iommu-driver.h:250:17:
+ warning: argument 1 null where non-null expected
+Message-ID: <202311301910.MVTzrEVT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,78 +50,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git rcu/dev
-head:   747bcee76f689e850284b297c4174b9303445d1a
-commit: cae6d648e4b784e345810ceb21dfdb9f9b5e7841 [2/5] rcu/nocb: Re-arrange call_rcu() NOCB specific code
-config: x86_64-buildonly-randconfig-002-20231130 (https://download.01.org/0day-ci/archive/20231130/202311301912.uoJ3yQUe-lkp@intel.com/config)
+tree:   https://github.com/jgunthorpe/linux iommu_fwspec
+head:   ce7d68fa9f538ed4b9c8097e7f1b822ff7301876
+commit: f2b38914e20dbb088201ca774735be83294006bd [38/42] iommu/arm-smmu: Move to iommu_of_xlate()
+config: x86_64-buildonly-randconfig-003-20231130 (https://download.01.org/0day-ci/archive/20231130/202311301910.MVTzrEVT-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301912.uoJ3yQUe-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301910.MVTzrEVT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311301912.uoJ3yQUe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311301910.MVTzrEVT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: kernel/rcu/tree.o: in function `__call_rcu_common':
->> kernel/rcu/tree.c:2715: undefined reference to `call_rcu_nocb'
+   In file included from drivers/iommu/arm/arm-smmu/arm-smmu.c:37:
+   drivers/iommu/arm/arm-smmu/arm-smmu.c: In function 'arm_smmu_probe_new_master':
+>> include/linux/iommu-driver.h:250:17: warning: argument 1 null where non-null expected [-Wnonnull]
+     250 |                 memset(params, 0, sizeof(*(params)));                         \
+         |                 ^~~~~~
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1313:16: note: in expansion of macro 'iommu_iort_get_single_iommu'
+    1313 |         smmu = iommu_iort_get_single_iommu(pinf, &arm_smmu_ops, NULL,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/string.h:5,
+                    from arch/x86/include/asm/cpuid.h:9,
+                    from arch/x86/include/asm/processor.h:19,
+                    from arch/x86/include/asm/cpufeature.h:5,
+                    from arch/x86/include/asm/thread_info.h:53,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/iommu/arm/arm-smmu/arm-smmu.c:20:
+   arch/x86/include/asm/string_64.h:22:7: note: in a call to function 'memset' declared 'nonnull'
+      22 | void *memset(void *s, int c, size_t n);
+         |       ^~~~~~
 
 
-vim +2715 kernel/rcu/tree.c
+vim +250 include/linux/iommu-driver.h
 
-  2669	
-  2670	static void
-  2671	__call_rcu_common(struct rcu_head *head, rcu_callback_t func, bool lazy_in)
-  2672	{
-  2673		static atomic_t doublefrees;
-  2674		unsigned long flags;
-  2675		bool lazy;
-  2676		struct rcu_data *rdp;
-  2677	
-  2678		/* Misaligned rcu_head! */
-  2679		WARN_ON_ONCE((unsigned long)head & (sizeof(void *) - 1));
-  2680	
-  2681		if (debug_rcu_head_queue(head)) {
-  2682			/*
-  2683			 * Probable double call_rcu(), so leak the callback.
-  2684			 * Use rcu:rcu_callback trace event to find the previous
-  2685			 * time callback was passed to call_rcu().
-  2686			 */
-  2687			if (atomic_inc_return(&doublefrees) < 4) {
-  2688				pr_err("%s(): Double-freed CB %p->%pS()!!!  ", __func__, head, head->func);
-  2689				mem_dump_obj(head);
-  2690			}
-  2691			WRITE_ONCE(head->func, rcu_leak_callback);
-  2692			return;
-  2693		}
-  2694		head->func = func;
-  2695		head->next = NULL;
-  2696		kasan_record_aux_stack_noalloc(head);
-  2697		local_irq_save(flags);
-  2698		rdp = this_cpu_ptr(&rcu_data);
-  2699		lazy = lazy_in && !rcu_async_should_hurry();
-  2700	
-  2701		/* Add the callback to our list. */
-  2702		if (unlikely(!rcu_segcblist_is_enabled(&rdp->cblist))) {
-  2703			// This can trigger due to call_rcu() from offline CPU:
-  2704			WARN_ON_ONCE(rcu_scheduler_active != RCU_SCHEDULER_INACTIVE);
-  2705			WARN_ON_ONCE(!rcu_is_watching());
-  2706			// Very early boot, before rcu_init().  Initialize if needed
-  2707			// and then drop through to queue the callback.
-  2708			if (rcu_segcblist_empty(&rdp->cblist))
-  2709				rcu_segcblist_init(&rdp->cblist);
-  2710		}
-  2711	
-  2712		check_cb_ovld(rdp);
-  2713	
-  2714		if (unlikely(rcu_rdp_is_offloaded(rdp)))
-> 2715			call_rcu_nocb(rdp, head, func, flags, lazy);
-  2716		else
-  2717			call_rcu_core(rdp, head, func, flags);
-  2718		local_irq_restore(flags);
-  2719	}
-  2720	
+fffe0dd50c02d1 Jason Gunthorpe 2023-11-23  209  
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  210  #define __iommu_first(a, b)                              \
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  211  	({                                               \
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  212  		struct iommu_device *a_dev = a;          \
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  213  		a_dev != ERR_PTR(-ENODEV) ? a_dev : (b); \
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  214  	})
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  215  
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  216  #if IS_ENABLED(CONFIG_ACPI_VIOT)
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  217  struct iommu_device *
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  218  __iommu_viot_get_single_iommu(struct iommu_probe_info *pinf,
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  219  			      const struct iommu_ops *ops);
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  220  #else
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  221  static inline struct iommu_device *
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  222  __iommu_viot_get_single_iommu(struct iommu_probe_info *pinf,
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  223  			      const struct iommu_ops *ops)
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  224  {
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  225  	return ERR_PTR(-ENODEV);
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  226  }
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  227  #endif
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  228  #define iommu_viot_get_single_iommu(pinf, ops, drv_struct, member)         \
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  229  	container_of_err(                                                  \
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  230  		__iommu_first(__iommu_viot_get_single_iommu(pinf, ops),    \
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  231  			      __iommu_of_get_single_iommu(pinf, ops, -1)), \
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  232  		drv_struct, member)
+8c0cb0c6f13792 Jason Gunthorpe 2023-11-23  233  
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  234  #if IS_ENABLED(CONFIG_ACPI_IORT)
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  235  struct iommu_device *
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  236  __iommu_iort_get_single_iommu(struct iommu_probe_info *pinf,
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  237  			      const struct iommu_ops *ops,
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  238  			      struct iort_params *params);
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  239  #else
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  240  static inline struct iommu_device *
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  241  __iommu_iort_get_single_iommu(struct iommu_probe_info *pinf,
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  242  			      const struct iommu_ops *ops,
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  243  			      struct iort_params *params)
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  244  {
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  245  	return ERR_PTR(-ENODEV);
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  246  }
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  247  #endif
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  248  #define iommu_iort_get_single_iommu(pinf, ops, params, drv_struct, member)    \
+eb6348b72e7452 Jason Gunthorpe 2023-11-24  249  	({                                                                    \
+eb6348b72e7452 Jason Gunthorpe 2023-11-24 @250  		memset(params, 0, sizeof(*(params)));                         \
+
+:::::: The code at line 250 was first introduced by commit
+:::::: eb6348b72e74523d94a16048f46743207c995a5e iommu/iort: Add iommu_iort_get_single_iommu()
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
