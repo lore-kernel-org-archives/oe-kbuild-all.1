@@ -1,47 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750CF14282
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450421548F
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 04:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e78bA0jz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fsxmiy7f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701316988; x=1732852988;
+  t=1701316989; x=1732852989;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pKHhqwS3mmBA8Y0FdVpxR06g+qa/ow+/aq6D0mhEFSg=;
-  b=e78bA0jzAjScXfMMjHMuo0TTJkDbr2D7b1O9Qa1VHkf5IX+nRoEQcTky
-   kGTetwnU0EbASeUmUa7ngaZrU0l0mIh3FWeUdVsDd1pAFyWT0butSbYI3
-   BEeo4DfEJIv0566d6YY8cY0hHjlpxGVkdLVGYnmf2mM0gvPYtgy/BA/iy
-   EhBE5d+hQjg5Fo1MP3yKsLf7gf07IjuxJfXtIlZUxVq8GIr+Gu0CFW7oh
-   mP5N5FVu/18mNueqeDcaQVQGBfT7lcJR4CSkYrcu3NnJSnZWfim+SW6y8
-   ecb/ZoaqyE769zchXuQTL8N5hED/u3q8kIbkF3B15JI03hv/cDSvAZb7r
+  bh=NjdZ4kLBSyYim0sU7gi4YD8EFiD3k7wIQMCyczyZ9oM=;
+  b=Fsxmiy7fSJGI+bxsdMuwaAOz3m42gfx4S1lQto8bvkgPBrqTDi2mbodB
+   evWQudz9GCtdQys9nXLqJMaEsKEQd/PtjFcHa0bEt0bbbc/q2segB6caT
+   h5t34h1lNWLO9BnJS3tgnLYLMs8uWoOYhPsvkAV6qw9izAEVoSse/Wprr
+   rx1y0QFIsVPwbSQA5tG+AlPGN8tprFKeixV8rPDjh394ehdj3iKwq6WE6
+   5CeGksrtdWpU2H7LlNp1ey6qeGgVlrn/XwIANseyCkDWlDrqRFUiECmjL
+   f/jpYKA6RUDXTPGmIz4NqkabDeh2X2uwCMrzdaRu5O9NvV9rsoBoPfK6h
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="393009055"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="393009060"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="393009055"
+   d="scan'208";a="393009060"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 20:03:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="913063265"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="913063273"
 X-IronPort-AV: E=Sophos;i="6.04,237,1695711600"; 
-   d="scan'208";a="913063265"
+   d="scan'208";a="913063273"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2023 20:03:06 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8YGW-0001Jq-08;
+	id 1r8YGW-0001K8-1Z;
 	Thu, 30 Nov 2023 04:03:04 +0000
-Date: Thu, 30 Nov 2023 12:02:55 +0800
+Date: Thu, 30 Nov 2023 12:02:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/639 11/24603]
- drivers/iio/adc/imx8qxp_adc.c:669:12: warning: 'imx8qxp_adc_runtime_resume'
- defined but not used
-Message-ID: <202311301110.tXCe0zjt-lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/fortify-string.h:52:29: warning: '__builtin_strcpy'
+ source argument is the same as destination
+Message-ID: <202311301039.7i51bZCz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,84 +50,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Haibo,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc pr/639
-head:   857fbf7cebaba3b1ffccc558deee1d13ac0e11d7
-commit: ccbb6aa6401a61cdb5f3741b9eb66d2d0656ecdf [11/24603] iio: adc: Add imx8qxp adc driver support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231130/202311301110.tXCe0zjt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301110.tXCe0zjt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
+commit: ba38961a069b0d8d03b53218a6c29d737577d448 um: Enable FORTIFY_SOURCE
+date:   1 year, 3 months ago
+config: um-randconfig-r034-20230830 (https://download.01.org/0day-ci/archive/20231130/202311301039.7i51bZCz-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311301039.7i51bZCz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311301110.tXCe0zjt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311301039.7i51bZCz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/adc/imx8qxp_adc.c:669:12: warning: 'imx8qxp_adc_runtime_resume' defined but not used [-Wunused-function]
-     669 | static int imx8qxp_adc_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/imx8qxp_adc.c:655:12: warning: 'imx8qxp_adc_runtime_suspend' defined but not used [-Wunused-function]
-     655 | static int imx8qxp_adc_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kallsyms.c:570:12: warning: no previous prototype for 'arch_get_kallsym' [-Wmissing-prototypes]
+     570 | int __weak arch_get_kallsym(unsigned int symnum, unsigned long *value,
+         |            ^~~~~~~~~~~~~~~~
+   In file included from include/linux/string.h:253,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/kallsyms.h:10,
+                    from kernel/kallsyms.c:15:
+   kernel/kallsyms.c: In function '__sprint_symbol.isra.0':
+>> include/linux/fortify-string.h:52:29: warning: '__builtin_strcpy' source argument is the same as destination [-Wrestrict]
+      52 | #define __underlying_strcpy __builtin_strcpy
+         |                             ^
+   include/linux/fortify-string.h:567:10: note: in expansion of macro '__underlying_strcpy'
+     567 |   return __underlying_strcpy(p, q);
+         |          ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/imx8qxp_adc_runtime_resume +669 drivers/iio/adc/imx8qxp_adc.c
+vim +/__builtin_strcpy +52 include/linux/fortify-string.h
 
-   654	
- > 655	static int imx8qxp_adc_runtime_suspend(struct device *dev)
-   656	{
-   657		struct iio_dev *indio_dev = dev_get_drvdata(dev);
-   658		struct imx8qxp_adc *adc = iio_priv(indio_dev);
-   659	
-   660		imx8qxp_adc_disable(adc);
-   661	
-   662		clk_disable_unprepare(adc->clk);
-   663		clk_disable_unprepare(adc->ipg_clk);
-   664		regulator_disable(adc->vref);
-   665	
-   666		return 0;
-   667	}
-   668	
- > 669	static int imx8qxp_adc_runtime_resume(struct device *dev)
-   670	{
-   671		struct iio_dev *indio_dev = dev_get_drvdata(dev);
-   672		struct imx8qxp_adc *adc = iio_priv(indio_dev);
-   673		int ret;
-   674	
-   675		ret = regulator_enable(adc->vref);
-   676		if (ret) {
-   677			dev_err(adc->dev,
-   678				"Can't enable adc reference top voltage, err = %d\n",
-   679				ret);
-   680			return ret;
-   681		}
-   682	
-   683		ret = clk_prepare_enable(adc->clk);
-   684		if (ret) {
-   685			dev_err(adc->dev,
-   686				"Could not prepare or enable clock.\n");
-   687			regulator_disable(adc->vref);
-   688			return ret;
-   689		}
-   690	
-   691		ret = clk_prepare_enable(adc->ipg_clk);
-   692		if (ret) {
-   693			dev_err(adc->dev,
-   694				"Could not prepare or enable clock.\n");
-   695			clk_disable_unprepare(adc->clk);
-   696			regulator_disable(adc->vref);
-   697			return ret;
-   698		}
-   699		imx8qxp_adc_reset(adc);
-   700	
-   701		return 0;
-   702	}
-   703	
+3009f891bb9f32 Kees Cook      2021-08-02  33  
+a28a6e860c6cf2 Francis Laniel 2021-02-25  34  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+a28a6e860c6cf2 Francis Laniel 2021-02-25  35  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  36  extern int __underlying_memcmp(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  37  extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  38  extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  39  extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(memset);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  40  extern char *__underlying_strcat(char *p, const char *q) __RENAME(strcat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  41  extern char *__underlying_strcpy(char *p, const char *q) __RENAME(strcpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  42  extern __kernel_size_t __underlying_strlen(const char *p) __RENAME(strlen);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  43  extern char *__underlying_strncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  44  extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
+a28a6e860c6cf2 Francis Laniel 2021-02-25  45  #else
+a28a6e860c6cf2 Francis Laniel 2021-02-25  46  #define __underlying_memchr	__builtin_memchr
+a28a6e860c6cf2 Francis Laniel 2021-02-25  47  #define __underlying_memcmp	__builtin_memcmp
+a28a6e860c6cf2 Francis Laniel 2021-02-25  48  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  49  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel 2021-02-25  50  #define __underlying_memset	__builtin_memset
+a28a6e860c6cf2 Francis Laniel 2021-02-25  51  #define __underlying_strcat	__builtin_strcat
+a28a6e860c6cf2 Francis Laniel 2021-02-25 @52  #define __underlying_strcpy	__builtin_strcpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  53  #define __underlying_strlen	__builtin_strlen
+a28a6e860c6cf2 Francis Laniel 2021-02-25  54  #define __underlying_strncat	__builtin_strncat
+a28a6e860c6cf2 Francis Laniel 2021-02-25  55  #define __underlying_strncpy	__builtin_strncpy
+a28a6e860c6cf2 Francis Laniel 2021-02-25  56  #endif
+a28a6e860c6cf2 Francis Laniel 2021-02-25  57  
+
+:::::: The code at line 52 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
+
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
