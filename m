@@ -1,46 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9A018E00
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 15:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3353524A3;
+	Thu, 30 Nov 2023 15:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A049aUWz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwYn3fWZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701359071; x=1732895071;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tDKyg18QDqbeRwDqLoYT+qYLkE3XEEOUMpHKEsp2dlE=;
-  b=A049aUWzwAWVRh1qPTJRzMUcA+sSf7pV0bJ/TLL/ilP+I+Ne1APdigHW
-   DQrWfp3ht3NyeYRpbknXH4UeleeIwcr/iw3yiTVnMGGZpnucP0OA3fPkS
-   /5/pTpMox2/TlSUqkNBIsvAqz2SVTekOFCuH1W6TMq2i9+F17qd7Him3r
-   9lSdrg1e4X0WhUFWc5vquPqrizF84OUzQE5x9FMd8xu8BpTJviVb5tm8d
-   HZq2jGkAY5roZESgZxu4JrBinbd6HYcBVu/ouuWw2F4Iio4XzMWk9aldT
-   OlNZAd+uB5nnyaTk8xvXHfS83Kky8jwxImXSMzySHzYUv13T1UqrC8ddH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="242118"
+  t=1701359075; x=1732895075;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZzJQww8gCfXPFKpB1djUtfiz73/yfE52SVZo3S21BQ8=;
+  b=lwYn3fWZfDNIU1Uji6Nlmrlmwpd5gmPoJ2f5gN4ODloUGKiCh0rgvL/S
+   kZ61ms1lzJhT4qDYJAT4NMhSHZT/ZYgvtI/l3x7e6XsVB4L8bFEALnmSQ
+   jPxcpVDWKHrEPfkNn+NHMI3iF0N44zIbfbZN6dn+qUV4ddOzSt5my+cNh
+   cFet/satpKmBIWd+fvm/UST3kcCymc47mohwcd9Tmqte1ATeMmRB46U7O
+   cb5ckyM73z90J1ClFIdU1QOFCqLlNtqNOc5hgEIV4893jz7c5FETQkiwy
+   7dVRXziB/vrj44+sTWAo2gN/3Dm+N4HNRNJ4q18qoxI0mLJHChNQ5DVkT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="242130"
 X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="242118"
+   d="scan'208";a="242130"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 07:44:30 -0800
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 07:44:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="769344632"
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="769344631"
 X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="769344632"
+   d="scan'208";a="769344631"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga002.jf.intel.com with ESMTP; 30 Nov 2023 07:44:28 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8jDG-0002Fa-1d;
+	id 1r8jDG-0002FY-1V;
 	Thu, 30 Nov 2023 15:44:26 +0000
-Date: Thu, 30 Nov 2023 23:43:52 +0800
+Date: Thu, 30 Nov 2023 23:43:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 5502/28619] mm/page_alloc.c:137:40:
- sparse: sparse: restricted gfp_t degrades to integer
-Message-ID: <202311302338.tXh3uRX4-lkp@intel.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+	robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+	dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
+	airlied@gmail.com, agross@kernel.org, dmitry.baryshkov@linaro.org,
+	andersson@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+	quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+	marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] drm/msm/dpu: improve DSC allocation
+Message-ID: <202311302343.3lXKkLxR-lkp@intel.com>
+References: <1701289898-12235-1-git-send-email-quic_khsieh@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,258 +58,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1701289898-12235-1-git-send-email-quic_khsieh@quicinc.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   b7ba0d931efd5d4229257d103e47f5319e8ee80c
-commit: b9d3d8f1e991052edb89b0537b8f2e8b2aa941ac [5502/28619] ANDROID: GKI: cma: redirect page allocation to CMA
-config: arm-randconfig-r131-20231130 (https://download.01.org/0day-ci/archive/20231130/202311302338.tXh3uRX4-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231130/202311302338.tXh3uRX4-lkp@intel.com/reproduce)
+Hi Kuogee,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc3 next-20231130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/drm-msm-dpu-improve-DSC-allocation/20231130-064646
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/1701289898-12235-1-git-send-email-quic_khsieh%40quicinc.com
+patch subject: [PATCH v1] drm/msm/dpu: improve DSC allocation
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231130/202311302343.3lXKkLxR-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311302343.3lXKkLxR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311302338.tXh3uRX4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311302343.3lXKkLxR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> init/main.c:1167:28: sparse: sparse: restricted gfp_t degrades to integer
->> init/main.c:1167:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted gfp_t extern [addressable] [toplevel] [usertype] gfp_allowed_mask @@     got unsigned int @@
-   init/main.c:1167:26: sparse:     expected restricted gfp_t extern [addressable] [toplevel] [usertype] gfp_allowed_mask
-   init/main.c:1167:26: sparse:     got unsigned int
---
-   mm/page_alloc.c:106:1: sparse: sparse: symbol 'pcpu_drain_mutex' was not declared. Should it be static?
-   mm/page_alloc.c:107:1: sparse: sparse: symbol '__pcpu_scope_pcpu_drain' was not declared. Should it be static?
->> mm/page_alloc.c:137:40: sparse: sparse: restricted gfp_t degrades to integer
->> mm/page_alloc.c:137:40: sparse: sparse: restricted gfp_t degrades to integer
->> mm/page_alloc.c:137:40: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t [addressable] [toplevel] [usertype] gfp_allowed_mask @@     got unsigned int @@
-   mm/page_alloc.c:137:40: sparse:     expected restricted gfp_t [addressable] [toplevel] [usertype] gfp_allowed_mask
-   mm/page_alloc.c:137:40: sparse:     got unsigned int
-   mm/page_alloc.c:2741:29: sparse: sparse: Using plain integer as NULL pointer
-   mm/page_alloc.c:3252:51: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected int cma @@     got restricted gfp_t @@
-   mm/page_alloc.c:3252:51: sparse:     expected int cma
-   mm/page_alloc.c:3252:51: sparse:     got restricted gfp_t
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
-   include/linux/gfp.h:325:27: sparse: sparse: restricted gfp_t degrades to integer
---
->> mm/slub.c:1698:13: sparse: sparse: restricted gfp_t degrades to integer
->> mm/slub.c:1698:13: sparse: sparse: restricted gfp_t degrades to integer
->> mm/slub.c:1698:13: sparse: sparse: restricted gfp_t degrades to integer
-   mm/slub.c:1699:46: sparse: sparse: restricted gfp_t degrades to integer
-   mm/slub.c:1699:46: sparse: sparse: restricted gfp_t degrades to integer
-   mm/slub.c:1699:38: sparse: sparse: restricted gfp_t degrades to integer
->> mm/slub.c:1699:44: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t [usertype] invalid_mask @@     got unsigned int @@
-   mm/slub.c:1699:44: sparse:     expected restricted gfp_t [usertype] invalid_mask
-   mm/slub.c:1699:44: sparse:     got unsigned int
-   mm/slub.c:1700:27: sparse: sparse: restricted gfp_t degrades to integer
-   mm/slub.c:1700:27: sparse: sparse: restricted gfp_t degrades to integer
->> mm/slub.c:1700:23: sparse: sparse: invalid assignment: &=
->> mm/slub.c:1700:23: sparse:    left side has type restricted gfp_t
->> mm/slub.c:1700:23: sparse:    right side has type unsigned int
-   mm/slub.c:2158:28: sparse: sparse: context imbalance in 'deactivate_slab' - unexpected unlock
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2749:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2749:21: sparse:     got void ***
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2749:21: sparse:     got unsigned long *
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2749:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2749:21: sparse:     got void ***
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2749:21: sparse:     got unsigned long *
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2749:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2749:21: sparse:     got void ***
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2749:21: sparse:     got unsigned long *
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2749:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2749:21: sparse:     got void ***
-   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2749:21: sparse:     got unsigned long *
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2749:21: sparse: sparse: self-comparison always evaluates to false
-   mm/slub.c:2856:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
-   mm/slub.c:2992:21: sparse: sparse: self-comparison always evaluates to false
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
-   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] <asn:3> *__p2
-   mm/slub.c:2992:21: sparse:     got unsigned long *
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] <asn:3> *__p1 @@     got void *** @@
-   mm/slub.c:2992:21: sparse:     expected void **[noderef] <asn:3> *__p1
-   mm/slub.c:2992:21: sparse:     got void ***
-   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] <asn:3> *__p2 @@     got unsigned long * @@
---
-   lib/radix-tree.c:275:36: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *nodes @@     got struct xa_node [noderef] <asn:4> *parent @@
-   lib/radix-tree.c:275:36: sparse:     expected struct xa_node *nodes
-   lib/radix-tree.c:275:36: sparse:     got struct xa_node [noderef] <asn:4> *parent
-   lib/radix-tree.c:293:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] <asn:4> *parent @@     got struct xa_node *parent @@
-   lib/radix-tree.c:293:29: sparse:     expected struct xa_node [noderef] <asn:4> *parent
-   lib/radix-tree.c:293:29: sparse:     got struct xa_node *parent
-   lib/radix-tree.c:353:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] <asn:4> *parent @@     got struct xa_node *nodes @@
-   lib/radix-tree.c:353:38: sparse:     expected struct xa_node [noderef] <asn:4> *parent
-   lib/radix-tree.c:353:38: sparse:     got struct xa_node *nodes
-   lib/radix-tree.c:455:54: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] <asn:4> *parent @@     got struct xa_node *node @@
-   lib/radix-tree.c:455:54: sparse:     expected struct xa_node [noderef] <asn:4> *parent
-   lib/radix-tree.c:455:54: sparse:     got struct xa_node *node
-   lib/radix-tree.c:567:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *parent @@     got struct xa_node [noderef] <asn:4> *parent @@
-   lib/radix-tree.c:567:24: sparse:     expected struct xa_node *parent
-   lib/radix-tree.c:567:24: sparse:     got struct xa_node [noderef] <asn:4> *parent
-   lib/radix-tree.c:681:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *[assigned] child @@     got struct xa_node [noderef] <asn:4> *parent @@
-   lib/radix-tree.c:681:31: sparse:     expected struct xa_node *[assigned] child
-   lib/radix-tree.c:681:31: sparse:     got struct xa_node [noderef] <asn:4> *parent
-   lib/radix-tree.c:955:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *node @@     got struct xa_node [noderef] <asn:4> *parent @@
-   lib/radix-tree.c:955:22: sparse:     expected struct xa_node *node
-   lib/radix-tree.c:955:22: sparse:     got struct xa_node [noderef] <asn:4> *parent
-   lib/radix-tree.c:1015:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *node @@     got struct xa_node [noderef] <asn:4> *parent @@
-   lib/radix-tree.c:1015:22: sparse:     expected struct xa_node *node
-   lib/radix-tree.c:1015:22: sparse:     got struct xa_node [noderef] <asn:4> *parent
-   lib/radix-tree.c:1536:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *[assigned] node @@     got struct xa_node [noderef] <asn:4> *parent @@
-   lib/radix-tree.c:1536:38: sparse:     expected struct xa_node *[assigned] node
-   lib/radix-tree.c:1536:38: sparse:     got struct xa_node [noderef] <asn:4> *parent
-   lib/radix-tree.c:1596:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *nodes @@     got struct xa_node [noderef] <asn:4> *parent @@
-   lib/radix-tree.c:1596:28: sparse:     expected struct xa_node *nodes
-   lib/radix-tree.c:1596:28: sparse:     got struct xa_node [noderef] <asn:4> *parent
->> lib/radix-tree.c:106:34: sparse: sparse: restricted gfp_t degrades to integer
-   lib/radix-tree.c:106:52: sparse: sparse: restricted gfp_t degrades to integer
-   lib/radix-tree.c:106:20: sparse: sparse: restricted gfp_t degrades to integer
->> lib/radix-tree.c:106:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted gfp_t @@     got unsigned int @@
-   lib/radix-tree.c:106:31: sparse:     expected restricted gfp_t
-   lib/radix-tree.c:106:31: sparse:     got unsigned int
+All warnings (new ones prefixed by >>):
 
-vim +137 mm/page_alloc.c
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:537:24: warning: incompatible pointer to integer conversion assigning to 'uint32_t' (aka 'unsigned int') from 'void *' [-Wint-conversion]
+                   pp_to_enc_id[pp_idx] = NULL;
+                                        ^ ~~~~
+   1 warning generated.
 
-7281201922a006 Lee Schermerhorn       2010-05-26   86  
-4518085e127dff Kemi Wang              2017-11-15  @87  DEFINE_STATIC_KEY_TRUE(vm_numa_stat_key);
-4518085e127dff Kemi Wang              2017-11-15   88  
-7aac7898855123 Lee Schermerhorn       2010-05-26   89  #ifdef CONFIG_HAVE_MEMORYLESS_NODES
-7aac7898855123 Lee Schermerhorn       2010-05-26   90  /*
-7aac7898855123 Lee Schermerhorn       2010-05-26   91   * N.B., Do NOT reference the '_numa_mem_' per cpu variable directly.
-7aac7898855123 Lee Schermerhorn       2010-05-26   92   * It will not be defined when CONFIG_HAVE_MEMORYLESS_NODES is not defined.
-7aac7898855123 Lee Schermerhorn       2010-05-26   93   * Use the accessor functions set_numa_mem(), numa_mem_id() and cpu_to_mem()
-7aac7898855123 Lee Schermerhorn       2010-05-26   94   * defined in <linux/topology.h>.
-7aac7898855123 Lee Schermerhorn       2010-05-26   95   */
-7aac7898855123 Lee Schermerhorn       2010-05-26   96  DEFINE_PER_CPU(int, _numa_mem_);		/* Kernel "local memory" node */
-7aac7898855123 Lee Schermerhorn       2010-05-26   97  EXPORT_PER_CPU_SYMBOL(_numa_mem_);
-ad2c8144418c6a Joonsoo Kim            2014-10-09   98  int _node_numa_mem_[MAX_NUMNODES];
-7aac7898855123 Lee Schermerhorn       2010-05-26   99  #endif
-7aac7898855123 Lee Schermerhorn       2010-05-26  100  
-bd233f538d51c2 Mel Gorman             2017-02-24  101  /* work_structs for global per-cpu drains */
-d9367bd06faa1b Wei Yang               2018-12-28  102  struct pcpu_drain {
-d9367bd06faa1b Wei Yang               2018-12-28  103  	struct zone *zone;
-d9367bd06faa1b Wei Yang               2018-12-28  104  	struct work_struct work;
-d9367bd06faa1b Wei Yang               2018-12-28  105  };
-bd233f538d51c2 Mel Gorman             2017-02-24  106  DEFINE_MUTEX(pcpu_drain_mutex);
-d9367bd06faa1b Wei Yang               2018-12-28  107  DEFINE_PER_CPU(struct pcpu_drain, pcpu_drain);
-bd233f538d51c2 Mel Gorman             2017-02-24  108  
-38addce8b600ca Emese Revfy            2016-06-20  109  #ifdef CONFIG_GCC_PLUGIN_LATENT_ENTROPY
-58bea4144d235c Kees Cook              2016-10-19  110  volatile unsigned long latent_entropy __latent_entropy;
-38addce8b600ca Emese Revfy            2016-06-20  111  EXPORT_SYMBOL(latent_entropy);
-38addce8b600ca Emese Revfy            2016-06-20  112  #endif
-38addce8b600ca Emese Revfy            2016-06-20  113  
-^1da177e4c3f41 Linus Torvalds         2005-04-16  114  /*
-13808910713a98 Christoph Lameter      2007-10-16  115   * Array of node states.
-^1da177e4c3f41 Linus Torvalds         2005-04-16  116   */
-13808910713a98 Christoph Lameter      2007-10-16  117  nodemask_t node_states[NR_NODE_STATES] __read_mostly = {
-13808910713a98 Christoph Lameter      2007-10-16  118  	[N_POSSIBLE] = NODE_MASK_ALL,
-13808910713a98 Christoph Lameter      2007-10-16  119  	[N_ONLINE] = { { [0] = 1UL } },
-13808910713a98 Christoph Lameter      2007-10-16  120  #ifndef CONFIG_NUMA
-13808910713a98 Christoph Lameter      2007-10-16  121  	[N_NORMAL_MEMORY] = { { [0] = 1UL } },
-13808910713a98 Christoph Lameter      2007-10-16  122  #ifdef CONFIG_HIGHMEM
-13808910713a98 Christoph Lameter      2007-10-16  123  	[N_HIGH_MEMORY] = { { [0] = 1UL } },
-20b2f52b73febc Lai Jiangshan          2012-12-12  124  #endif
-20b2f52b73febc Lai Jiangshan          2012-12-12  125  	[N_MEMORY] = { { [0] = 1UL } },
-13808910713a98 Christoph Lameter      2007-10-16  126  	[N_CPU] = { { [0] = 1UL } },
-13808910713a98 Christoph Lameter      2007-10-16  127  #endif	/* NUMA */
-13808910713a98 Christoph Lameter      2007-10-16  128  };
-13808910713a98 Christoph Lameter      2007-10-16  129  EXPORT_SYMBOL(node_states);
-13808910713a98 Christoph Lameter      2007-10-16  130  
-ca79b0c211af63 Arun KS                2018-12-28  131  atomic_long_t _totalram_pages __read_mostly;
-ca79b0c211af63 Arun KS                2018-12-28  132  EXPORT_SYMBOL(_totalram_pages);
-cb45b0e966cbe7 Hideo AOKI             2006-04-10  133  unsigned long totalreserve_pages __read_mostly;
-e48322abb061d7 Pintu Kumar            2014-12-18  134  unsigned long totalcma_pages __read_mostly;
-ab8fabd46f811d Johannes Weiner        2012-01-10  135  
-1b76b02f15c70d Hugh Dickins           2012-05-11  136  int percpu_pagelist_fraction;
-dcce284a259373 Benjamin Herrenschmidt 2009-06-18 @137  gfp_t gfp_allowed_mask __read_mostly = GFP_BOOT_MASK;
-6471384af2a653 Alexander Potapenko    2019-07-11  138  #ifdef CONFIG_INIT_ON_ALLOC_DEFAULT_ON
-6471384af2a653 Alexander Potapenko    2019-07-11  139  DEFINE_STATIC_KEY_TRUE(init_on_alloc);
-6471384af2a653 Alexander Potapenko    2019-07-11  140  #else
-6471384af2a653 Alexander Potapenko    2019-07-11  141  DEFINE_STATIC_KEY_FALSE(init_on_alloc);
-6471384af2a653 Alexander Potapenko    2019-07-11  142  #endif
-6471384af2a653 Alexander Potapenko    2019-07-11  143  EXPORT_SYMBOL(init_on_alloc);
-6471384af2a653 Alexander Potapenko    2019-07-11  144  
 
-:::::: The code at line 137 was first introduced by commit
-:::::: dcce284a259373f9e5570f2e33f79eca84fcf565 mm: Extend gfp masking to the page allocator
+vim +537 drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
 
-:::::: TO: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   463	
+   464	static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
+   465				       struct dpu_global_state *global_state,
+   466				       struct drm_encoder *enc,
+   467				       const struct msm_display_topology *top)
+   468	{
+   469		int num_dsc = 0;
+   470		int i, pp_idx;
+   471		bool pair = false;
+   472		int dsc_idx[DSC_MAX - DSC_0];
+   473		uint32_t pp_to_enc_id[PINGPONG_MAX - PINGPONG_0];
+   474		int pp_max = PINGPONG_MAX - PINGPONG_0;
+   475	
+   476		if (!top->num_dsc || !top->num_intf)
+   477			return 0;
+   478	
+   479		/*
+   480		 * Truth:
+   481		 * 1) every layer mixer only connects to one pingpong
+   482		 * 2) no pingpong split -- two layer mixers shared one pingpong
+   483		 * 3) each DSC engine contains two dsc encoders
+   484		 *    -- index(0,1), index (2,3),... etc
+   485		 * 4) dsc pair can only happens with same DSC engine except 4 dsc
+   486		 *    merge mode application (8k) which need two DSC engines
+   487		 * 5) odd pingpong connect to odd dsc
+   488		 * 6) even pingpong connect even dsc
+   489		 */
+   490	
+   491		/* num_dsc should be either 1, 2 or 4 */
+   492		if (top->num_dsc > top->num_intf)	/* merge mode */
+   493			pair = true;
+   494	
+   495		/* fill working copy with pingpong list */
+   496		memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id, sizeof(pp_to_enc_id));
+   497	
+   498		for (i = 0; i < ARRAY_SIZE(rm->dsc_blks); i++) {
+   499			if (!rm->dsc_blks[i])	/* end of dsc list */
+   500				break;
+   501	
+   502			if (global_state->dsc_to_enc_id[i]) {	/* used */
+   503				/* consective dsc index to be paired */
+   504				if (pair && num_dsc) {	/* already start pairing, re start */
+   505					num_dsc = 0;
+   506					/* fill working copy with pingpong list */
+   507					memcpy(pp_to_enc_id, global_state->pingpong_to_enc_id,
+   508									sizeof(pp_to_enc_id));
+   509				}
+   510				continue;
+   511			}
+   512	
+   513			/* odd index can not become start of pairing */
+   514			if (pair && (i & 0x01) && !num_dsc)
+   515				continue;
+   516	
+   517			/*
+   518			 * find the pingpong index which had been reserved
+   519			 * previously at layer mixer allocation
+   520			 */
+   521			for (pp_idx = 0; pp_idx < pp_max; pp_idx++) {
+   522				if (pp_to_enc_id[pp_idx] == enc->base.id)
+   523					break;
+   524			}
+   525	
+   526			/*
+   527			 * dsc even index must map to pingpong even index
+   528			 * dsc odd index must map to pingpong odd index
+   529			 */
+   530			if ((i & 0x01) != (pp_idx & 0x01))
+   531				continue;
+   532	
+   533			/*
+   534			 * delete pp_idx so that it can not be found at next search
+   535			 * in the case of pairing
+   536			 */
+ > 537			pp_to_enc_id[pp_idx] = NULL;
+   538	
+   539			dsc_idx[num_dsc++] = i;
+   540			if (num_dsc >= top->num_dsc)
+   541				break;
+   542		}
+   543	
+   544		if (num_dsc < top->num_dsc) {
+   545			DPU_ERROR("DSC allocation failed num_dsc=%d required=%d\n",
+   546							num_dsc, top->num_dsc );
+   547			return -ENAVAIL;
+   548		}
+   549	
+   550		/* reserve dsc */
+   551		for (i = 0; i < top->num_dsc; i++) {
+   552			int j;
+   553	
+   554			j = dsc_idx[i];
+   555			global_state->dsc_to_enc_id[j] = enc->base.id;
+   556		}
+   557	
+   558		return 0;
+   559	}
+   560	
 
 -- 
 0-DAY CI Kernel Test Service
