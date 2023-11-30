@@ -1,50 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6341138FB4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 12:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAE53C695
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 30 Nov 2023 13:18:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CfucZq6L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RiaVNey7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701348978; x=1732884978;
+  t=1701350303; x=1732886303;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LWQYYfmjwqFNb5WRwg7F4v/wSE+Uuad5ZCZbzFgrdig=;
-  b=CfucZq6L1okc2XR6XQsuiXBBOQt5UV0eJqwWJQfh9SxVGOJ5QlU05rXM
-   wurh9rXNLA2k6PeG528nc7QRdG8rLfnEDnpYe/jm4uT7Tubi614IPoQ46
-   nQrmI3JDKHbvrHJShjSMnb7+SaspCNNezwhfkRd3PyRgcxWTX1/Dbp/+N
-   M67eLswFmiTGDTd4wPUmc6VjMW7Dzs2U9xS2xdrEMZrrtj2ltoPcJT1Oq
-   d5KVAPDIHsqn16Pqd3185ik+e6QbjmO9h/xd0WHek6ZHHeVmrIib5Hdet
-   OrEh4QDO5JX5rdGqJussWWjWhP9IelQ7ktGwOlx+goWXNrz2BM5eNRWoR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="219224"
+  bh=0qlRR7N0+2e0S8xGouwc9AZ2fQrA04FeYYpEN5AtZY4=;
+  b=RiaVNey71IhraiBdQga3wr4Jm6oUy/6bMT0yeqDaaULn608c3zzJD38W
+   FwFVU3wqhHmys8OFezlwqpi6DJLO5Bw6A9TJq5ks4ZS6/Cr7e54QD2VvY
+   GTEf2wD3ay+gNH9Au0sTUxWJlBkbVvvwOyL58HoxGNbTF2VGow2j8NETD
+   MyoZVgSRi8N1fb94GzyoZ/pFk8VOpDSxQ6dvj8lqddYsydq1icK1xuglq
+   FzB6TyiI/TQVhAlKwyIBQDCgl9LQvwhEmjdbjYn71i9BZnHC3Hl8G+/4g
+   iRknmFRo8M2I6nQqL4Q8oQmOK/dLqGrwFOJKm1WJpSf+Nit5lzkg8BUHq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="201546"
 X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="219224"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 04:56:14 -0800
+   d="scan'208";a="201546"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 05:18:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="892799798"
 X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="892799798"
+   d="scan'208";a="17396274"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 30 Nov 2023 04:56:11 -0800
+  by orviesa001.jf.intel.com with ESMTP; 30 Nov 2023 05:18:20 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8gaP-0001xI-0A;
-	Thu, 30 Nov 2023 12:56:09 +0000
-Date: Thu, 30 Nov 2023 20:55:37 +0800
+	id 1r8gvn-00020f-2O;
+	Thu, 30 Nov 2023 13:18:16 +0000
+Date: Thu, 30 Nov 2023 21:17:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christoph Hellwig <hch@lst.de>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>
-Subject: drivers/video/fbdev/imsttfb.c:1561:20: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202311302054.loV1YuMw-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_fwspec 38/42]
+ arch/sparc/include/asm/string.h:18:29: warning: argument 1 null where
+ non-null expected
+Message-ID: <202311302155.gbhJkaJb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,59 +50,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
-commit: 426b313f356a314af335899c51250dc0f49cd4a7 parisc: mm: convert to GENERIC_IOREMAP
-date:   3 months ago
-config: parisc-randconfig-m041-20230821 (https://download.01.org/0day-ci/archive/20231130/202311302054.loV1YuMw-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231130/202311302054.loV1YuMw-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_fwspec
+head:   ce7d68fa9f538ed4b9c8097e7f1b822ff7301876
+commit: f2b38914e20dbb088201ca774735be83294006bd [38/42] iommu/arm-smmu: Move to iommu_of_xlate()
+config: sparc64-randconfig-002-20231130 (https://download.01.org/0day-ci/archive/20231130/202311302155.gbhJkaJb-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311302155.gbhJkaJb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311302054.loV1YuMw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311302155.gbhJkaJb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/imsttfb.c:1524:30: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/imsttfb.c:1524:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got unsigned char [usertype] * @@
-   drivers/video/fbdev/imsttfb.c:1524:27: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/imsttfb.c:1524:27: sparse:     got unsigned char [usertype] *
-   drivers/video/fbdev/imsttfb.c:1533:27: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/video/fbdev/imsttfb.c:1561:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *cmap_regs @@
-   drivers/video/fbdev/imsttfb.c:1561:20: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/video/fbdev/imsttfb.c:1561:20: sparse:     got unsigned char [usertype] *cmap_regs
-   drivers/video/fbdev/imsttfb.c:1361:15: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/imsttfb.c:1362:16: sparse: sparse: cast removes address space '__iomem' of expression
---
->> drivers/video/fbdev/aty/atyfb_base.c:3734:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *addr @@
-   drivers/video/fbdev/aty/atyfb_base.c:3734:37: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/video/fbdev/aty/atyfb_base.c:3734:37: sparse:     got unsigned char [usertype] *addr
-   drivers/video/fbdev/aty/atyfb_base.c:1787:15: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +1561 drivers/video/fbdev/imsttfb.c
+   In file included from include/linux/string.h:61,
+                    from include/linux/bitmap.h:12,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/iommu/arm/arm-smmu/arm-smmu.c:20:
+   drivers/iommu/arm/arm-smmu/arm-smmu.c: In function 'arm_smmu_probe_new_master':
+>> arch/sparc/include/asm/string.h:18:29: warning: argument 1 null where non-null expected [-Wnonnull]
+      18 | #define memset(s, c, count) __builtin_memset(s, c, count)
+         |                             ^~~~~~~~~~~~~~~~
+   include/linux/iommu-driver.h:250:17: note: in expansion of macro 'memset'
+     250 |                 memset(params, 0, sizeof(*(params)));                         \
+         |                 ^~~~~~
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1313:16: note: in expansion of macro 'iommu_iort_get_single_iommu'
+    1313 |         smmu = iommu_iort_get_single_iommu(pinf, &arm_smmu_ops, NULL,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   <built-in>: note: in a call to function '__builtin_memset' declared 'nonnull'
 
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1553  
-48c68c4f1b5424 drivers/video/imsttfb.c Greg Kroah-Hartman 2012-12-21  1554  static void imsttfb_remove(struct pci_dev *pdev)
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1555  {
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1556  	struct fb_info *info = pci_get_drvdata(pdev);
-94f9e09ce531d4 drivers/video/imsttfb.c Antonino A. Daplas 2006-01-09  1557  	struct imstt_par *par = info->par;
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1558  	int size = pci_resource_len(pdev, 0);
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1559  
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1560  	unregister_framebuffer(info);
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16 @1561  	iounmap(par->cmap_regs);
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1562  	iounmap(par->dc_regs);
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1563  	iounmap(info->screen_base);
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1564  	release_mem_region(info->fix.smem_start, size);
-94f9e09ce531d4 drivers/video/imsttfb.c Antonino A. Daplas 2006-01-09  1565  	framebuffer_release(info);
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1566  }
-^1da177e4c3f41 drivers/video/imsttfb.c Linus Torvalds     2005-04-16  1567  
 
-:::::: The code at line 1561 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+vim +18 arch/sparc/include/asm/string.h
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+70a6fcf3283a0a Al Viro 2016-01-17  16  
+70a6fcf3283a0a Al Viro 2016-01-17  17  #define __HAVE_ARCH_MEMSET
+70a6fcf3283a0a Al Viro 2016-01-17 @18  #define memset(s, c, count) __builtin_memset(s, c, count)
+70a6fcf3283a0a Al Viro 2016-01-17  19  
+
+:::::: The code at line 18 was first introduced by commit
+:::::: 70a6fcf3283a0ac1e11737c6d90c0753f9824e9d [sparc] unify 32bit and 64bit string.h
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
