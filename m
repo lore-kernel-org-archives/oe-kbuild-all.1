@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B347F4684
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Dec 2023 03:50:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17604684
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Dec 2023 03:50:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RHoSYg8P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OcImX9py"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701402638; x=1732938638;
+  t=1701402655; x=1732938655;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lbEHEkxbv4ZTp1XNjS7lvN+6oiAJvUPU+Gq9patZc6E=;
-  b=RHoSYg8PPSaLBcNQx5vPqIemPIlk1HrKGYCvWbkyQCetN/QJYxtplzS+
-   q1n1hjj3bi/mnBLofmTaKibnBek50SfELQ9Tfe0ODLbPPXwZvElSU1O0x
-   SAEYi70byVTjMPIRrZwYmM9juhQ+5vve+vPJwnQ8eBCH55Smcc0POa4M2
-   sCv25DeFBzNpPRy3JNPzTHKRQgaKc1iwNTTuNz0klQvKXcLNpxWGTpJeZ
-   XVluVboE9an8YUfUOZHg7xiFrPuSUVWK1RLrww7k40RtBliQTs80pMebt
-   1Uju8InDn9dzXXGhNyVP3K9AuFA2v7iodnAwP5+Lag7KbWnjJYj5lLMpB
+  bh=2/VhruWOk2iUKfGZqr/5FxPBE8hoTlTxdKpGUpBfdSw=;
+  b=OcImX9pyCKYYmYWFobzAi4XbEcfR14yy/7rpJ4cjX6JzdTU2kTMWlmf9
+   rkrSiQvj3vPEpmWFzkgFyMcr0pvxkGFRvLoUKCM2v00ioaNXrxakwcaLA
+   Gy0u9nvCJgbazoNVPggoSEdGkLLHN3skqACrwmNtKWkfPS5J7T8b++XxW
+   G3hB3pCmdfbpMUi0NcY5BkNZ+B4oee+FiKEZXxEmPrEQkuT3icMwfhEaU
+   0InEc3Vs9ogjVZVO2g/7ekyLmrym4Rw0pqojWqwIoUIagn8bpoVsqcnd/
+   TslPs2D58Ve3n2TtSYnVK8nTwUc+7gPApGsDuql+en4DHf5FYECxinxr0
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="392299163"
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="392299183"
 X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
-   d="scan'208";a="392299163"
+   d="scan'208";a="392299183"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 19:50:37 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 19:50:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="887478286"
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="887478458"
 X-IronPort-AV: E=Sophos;i="6.04,240,1695711600"; 
-   d="scan'208";a="887478286"
+   d="scan'208";a="887478458"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 30 Nov 2023 19:50:37 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 30 Nov 2023 19:50:54 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8uXq-00034u-1i;
-	Fri, 01 Dec 2023 03:50:31 +0000
+	id 1r8uY7-000351-23;
+	Fri, 01 Dec 2023 03:50:46 +0000
 Date: Fri, 1 Dec 2023 11:50:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:sframe 9/10] kernel/unwind/user.c:40:30: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <202312011113.8PrIagwQ-lkp@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/mtd/nand/raw/sh_flctl.c:512:17: sparse: sparse: cast from
+ restricted __be32
+Message-ID: <202312011129.WKO5RkaC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,78 +50,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
-head:   ec004e900e02c9c85cf8c89d4c26d4168a6c5d18
-commit: 09460e60dd1c2f8ea1abb8d9188195db699ce76f [9/10] unwind: Introduce SFrame user space unwinding
-config: x86_64-randconfig-121-20231111 (https://download.01.org/0day-ci/archive/20231201/202312011113.8PrIagwQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231201/202312011113.8PrIagwQ-lkp@intel.com/reproduce)
+Hi Miquel,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2594faafeee2f4406ff82790604e4e3f55037d60
+commit: 72c5af00272339af6bbed6fe7275cd731f57be2d mtd: rawnand: Clarify Kconfig entry MTD_NAND
+date:   4 years, 7 months ago
+config: arm-randconfig-r123-20231107 (https://download.01.org/0day-ci/archive/20231201/202312011129.WKO5RkaC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231201/202312011129.WKO5RkaC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312011113.8PrIagwQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312011129.WKO5RkaC-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> kernel/unwind/user.c:40:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long * @@
-   kernel/unwind/user.c:40:30: sparse:     expected void const volatile [noderef] __user *ptr
-   kernel/unwind/user.c:40:30: sparse:     got unsigned long *
-   kernel/unwind/user.c:43:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned long * @@
-   kernel/unwind/user.c:43:30: sparse:     expected void const volatile [noderef] __user *ptr
-   kernel/unwind/user.c:43:30: sparse:     got unsigned long *
+   drivers/mtd/nand/raw/sh_flctl.c:458:16: sparse: sparse: cast to restricted __le32
+   drivers/mtd/nand/raw/sh_flctl.c:481:26: sparse: sparse: cast to restricted __be32
+   drivers/mtd/nand/raw/sh_flctl.c:496:38: sparse: sparse: cast to restricted __be32
+>> drivers/mtd/nand/raw/sh_flctl.c:512:17: sparse: sparse: cast from restricted __be32
+   drivers/mtd/nand/raw/sh_flctl.c:525:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __be32 [usertype] @@
+   drivers/mtd/nand/raw/sh_flctl.c:525:24: sparse:     expected unsigned long
+   drivers/mtd/nand/raw/sh_flctl.c:525:24: sparse:     got restricted __be32 [usertype]
 
-vim +40 kernel/unwind/user.c
+vim +512 drivers/mtd/nand/raw/sh_flctl.c
 
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  14  
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  15  int user_unwind_next(struct user_unwind_state *state)
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  16  {
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  17  	struct user_unwind_frame _frame;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  18  	struct user_unwind_frame *frame = &_frame;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  19  	unsigned long cfa, fp, ra;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  20  	int ret = -EINVAL;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  21  
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  22  	if (state->done)
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  23  		return -EINVAL;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  24  
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  25  	switch (state->type) {
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  26  	case USER_UNWIND_TYPE_FP:
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  27  		frame = &fp_frame;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  28  		break;
-09460e60dd1c2f Josh Poimboeuf 2023-11-08  29  	case USER_UNWIND_TYPE_SFRAME:
-09460e60dd1c2f Josh Poimboeuf 2023-11-08  30  		ret = sframe_find(state->ip, frame);
-09460e60dd1c2f Josh Poimboeuf 2023-11-08  31  		if (ret)
-09460e60dd1c2f Josh Poimboeuf 2023-11-08  32  			goto the_end;
-09460e60dd1c2f Josh Poimboeuf 2023-11-08  33  		break;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  34  	default:
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  35  		BUG();
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  36  	}
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  37  
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  38  	cfa = (frame->use_fp ? state->fp : state->sp) + frame->cfa_off;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  39  
-bd5cff471e67cf Josh Poimboeuf 2023-11-07 @40  	if (frame->ra_off && get_user(ra, (unsigned long *)(cfa + frame->ra_off)))
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  41  		goto the_end;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  42  
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  43  	if (frame->fp_off && get_user(fp, (unsigned long *)(cfa + frame->fp_off)))
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  44  		goto the_end;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  45  
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  46  	state->sp = cfa;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  47  	state->ip = ra;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  48  	if (frame->fp_off)
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  49  		state->fp = fp;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  50  
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  51  	return 0;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  52  
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  53  the_end:
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  54  	state->done = true;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  55  	return ret;
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  56  }
-bd5cff471e67cf Josh Poimboeuf 2023-11-07  57  
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  502  
+e8a9d8f31c592e drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  503  static void write_fiforeg(struct sh_flctl *flctl, int rlen,
+e8a9d8f31c592e drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  504  						unsigned int offset)
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  505  {
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  506  	int i, len_4align;
+e8a9d8f31c592e drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  507  	unsigned long *buf = (unsigned long *)&flctl->done_buff[offset];
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  508  
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  509  	len_4align = (rlen + 3) / 4;
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  510  	for (i = 0; i < len_4align; i++) {
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  511  		wait_wfifo_ready(flctl);
+e8a9d8f31c592e drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19 @512  		writel(cpu_to_be32(buf[i]), FLDTFIFO(flctl));
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  513  	}
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  514  }
+6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  515  
 
-:::::: The code at line 40 was first introduced by commit
-:::::: bd5cff471e67cf8d2b2d3bd8db35007ccc86f6a4 unwind: Introduce generic user space unwinding interfaces
+:::::: The code at line 512 was first introduced by commit
+:::::: e8a9d8f31c592eea89f1b0d3fd425e7a96944e88 mtd: sh_flctl: Minor cleanups
 
-:::::: TO: Josh Poimboeuf <jpoimboe@kernel.org>
-:::::: CC: Josh Poimboeuf <jpoimboe@kernel.org>
+:::::: TO: Bastian Hecht <hechtb@googlemail.com>
+:::::: CC: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
