@@ -1,149 +1,89 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9CB171DF
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Dec 2023 08:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A631C2BA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Dec 2023 08:35:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O186PMca"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-32fdc5be26dso1306405f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 01 Dec 2023 00:29:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701419385; x=1702024185; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F6gXHpNx+PkCBMhTqUU2Gt6us/auY/RnP3BapVW8urA=;
-        b=O186PMca63Alv+yNIlSx1oX5hkYmvBKzvUVZZcdUWUMd9GGJ4Oq4nt4CHApUo09fpZ
-         ABrQRc+RMIRBKG4XYww8PB8dpCYESbYAJrwmPZb7yGSSkSa2u0XlEenl8B2ErgZHIlUD
-         WAU+X5vLkOAiHbycgPD1nfUOQfMCwTgGI7AfqyPLtry88v541kjEKLMt0fxvndQGcoqm
-         U8ImXSd2SBA5Hh83aGySlPzJeRT1qiJyVSKtexDE+i1PYBYN0xPeRM40W2kE5JOLFC6T
-         MFru1/GiNdq80f+tntyyU9pIBC3jWER5NqnxLdqwZ5PJfc/hc9nAvGq4564aiQS8lH4C
-         dAdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701419385; x=1702024185;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F6gXHpNx+PkCBMhTqUU2Gt6us/auY/RnP3BapVW8urA=;
-        b=dEOOne7Lgb8RwgbziLHGhSA+MSAL/LWI+U7tDFLmrduYRgNrlN8maAEw9+6Z6Fe4T1
-         Cq8gnEw1mGcs+V1tiKmlO6gQNDZWd2GnfGt7WIAP5RtRwZYEhuqYhEUU830tQYqLfjfk
-         k3fuJP2rc7enRlxlqVC7GFxVJq0TurBFtwqYOzkjyFQ3KOcKH415WF0Ravyx1bMaXwq4
-         CqirTjk2MNhrrnEGvpM6wrW3x+zp8pgz5V/ggSBw1V/s/Tfxw5smjzy9dgejiz1JxidT
-         myKWqo+jAD2BsA6tb377YKJsjxKJajCuAtiojTnTbr6vqTwJs73gPOgEtyZf0/1zzix5
-         mdKw==
-X-Gm-Message-State: AOJu0YwZm26xuU6wwjFJ9wDazcMII0uFoP1SqnVNjb3KXrsTs4w5nKAw
-	6EgOilsd9Gk1SENSAVTHMbYY5A==
-X-Google-Smtp-Source: AGHT+IG7Z9E6bM65aRDTHTzyOLkphb4DBCEpAlIP/e0W+vdlWBx5h9150tj/aopIboeccIuVQh3bRw==
-X-Received: by 2002:a5d:4488:0:b0:332:ca0b:5793 with SMTP id j8-20020a5d4488000000b00332ca0b5793mr530324wrq.19.1701419385016;
-        Fri, 01 Dec 2023 00:29:45 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id r13-20020adfe68d000000b00333040a4752sm3577547wrm.114.2023.12.01.00.29.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 00:29:44 -0800 (PST)
-Date: Fri, 1 Dec 2023 11:29:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	"Yuezhang.Mo@sony.com" <Yuezhang.Mo@sony.com>,
-	"linkinjeon@kernel.org" <linkinjeon@kernel.org>,
-	"sj1557.seo@samsung.com" <sj1557.seo@samsung.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"Andy.Wu@sony.com" <Andy.Wu@sony.com>,
-	"Wataru.Aoyama@sony.com" <Wataru.Aoyama@sony.com>,
-	"cpgs@samsung.com" <cpgs@samsung.com>
-Subject: Re: [PATCH v5 1/2] exfat: change to get file size from DataLength
-Message-ID: <4308b820-7d69-42e6-8b07-205e81add314@suswa.mountain>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YvO1DNJd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701419705;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4q0AdlI8u70+zcHRqNWhCtdPcn5B6eukPMIDGuDzozc=;
+	b=YvO1DNJd7h0rRQ4RV+ssnBvR7s9QFm9ilx7Vve8k+OKQ2Es9n9gunWdcyuyV+0RePrXOgo
+	hj3qofmu4d6VQrts4pYBNO5P2QX1y90aWA0jotwA4hXrTpNWCFZZY3rwa0Cv4iLVzzhdXZ
+	pv3eOuYBKvSPS/GtDcJ+KJTkV40P4+Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-480-nnWLiuzrMG29QwrDxG-L-w-1; Fri, 01 Dec 2023 03:35:04 -0500
+X-MC-Unique: nnWLiuzrMG29QwrDxG-L-w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 039B0101AA50;
+	Fri,  1 Dec 2023 08:35:04 +0000 (UTC)
+Received: from localhost (unknown [10.72.113.121])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6715F36E2;
+	Fri,  1 Dec 2023 08:34:49 +0000 (UTC)
+Date: Fri, 1 Dec 2023 16:34:46 +0800
+From: Baoquan He <bhe@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Eric DeVolder <eric_devolder@yahoo.com>
+Subject: Re: [linux-next:pending-fixes 239/291] mipsel-linux-ld:
+ kernel/kexec_core.c:undefined reference to `machine_kexec'
+Message-ID: <ZWmapoLqHA6Gad8c@MiWiFi-R3L-srv>
+References: <202311302042.sn8cDPIX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <202311302042.sn8cDPIX-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PUZPR04MB6316F0640983B00CC55D903F8182A@PUZPR04MB6316.apcprd04.prod.outlook.com>
 
 Hi,
 
-kernel test robot noticed the following build warnings:
+On 11/30/23 at 08:35pm, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
+> head:   1867b4f140ac1336fdc9f7989171e230ab3cea6a
+> commit: f8ff23429c625c2b2a134d87f490a89a98c544ce [239/291] kernel/Kconfig.kexec: drop select of KEXEC for CRASH_DUMP
+> config: mips-randconfig-r015-20211216 (https://download.01.org/0day-ci/archive/20231130/202311302042.sn8cDPIX-lkp@intel.com/config)
+> compiler: mipsel-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231130/202311302042.sn8cDPIX-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311302042.sn8cDPIX-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    mipsel-linux-ld: kernel/kexec_core.o: in function `kimage_free':
+> >> kernel/kexec_core.c:(.text+0x2200): undefined reference to `machine_kexec_cleanup'
+>    mipsel-linux-ld: kernel/kexec_core.o: in function `__crash_kexec':
+> >> kernel/kexec_core.c:(.text+0x2480): undefined reference to `machine_crash_shutdown'
+> >> mipsel-linux-ld: kernel/kexec_core.c:(.text+0x2488): undefined reference to `machine_kexec'
+>    mipsel-linux-ld: kernel/kexec_core.o: in function `kernel_kexec':
+> >> kernel/kexec_core.c:(.text+0x29b8): undefined reference to `machine_shutdown'
+>    mipsel-linux-ld: kernel/kexec_core.c:(.text+0x29c0): undefined reference to `machine_kexec'
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks for reporting this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuezhang-Mo-sony-com/exfat-do-not-zero-the-extended-part/20231130-164222
-base:   linus/master
-patch link:    https://lore.kernel.org/r/PUZPR04MB6316F0640983B00CC55D903F8182A%40PUZPR04MB6316.apcprd04.prod.outlook.com
-patch subject: [PATCH v5 1/2] exfat: change to get file size from DataLength
-config: x86_64-randconfig-r081-20231130 (https://download.01.org/0day-ci/archive/20231201/202312010428.73gtRyvj-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231201/202312010428.73gtRyvj-lkp@intel.com/reproduce)
+The fix for this issue has been included in below patch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312010428.73gtRyvj-lkp@intel.com/
-
-smatch warnings:
-fs/exfat/inode.c:525 exfat_direct_IO() warn: bitwise AND condition is false here
-
-vim +525 fs/exfat/inode.c
-
-5f2aa075070cf5b Namjae Jeon          2020-03-02  486  static ssize_t exfat_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
-5f2aa075070cf5b Namjae Jeon          2020-03-02  487  {
-5f2aa075070cf5b Namjae Jeon          2020-03-02  488  	struct address_space *mapping = iocb->ki_filp->f_mapping;
-5f2aa075070cf5b Namjae Jeon          2020-03-02  489  	struct inode *inode = mapping->host;
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  490  	struct exfat_inode_info *ei = EXFAT_I(inode);
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  491  	loff_t pos = iocb->ki_pos;
-5f2aa075070cf5b Namjae Jeon          2020-03-02  492  	loff_t size = iocb->ki_pos + iov_iter_count(iter);
-5f2aa075070cf5b Namjae Jeon          2020-03-02  493  	int rw = iov_iter_rw(iter);
-5f2aa075070cf5b Namjae Jeon          2020-03-02  494  	ssize_t ret;
-5f2aa075070cf5b Namjae Jeon          2020-03-02  495  
-5f2aa075070cf5b Namjae Jeon          2020-03-02  496  	if (rw == WRITE) {
-5f2aa075070cf5b Namjae Jeon          2020-03-02  497  		/*
-5f2aa075070cf5b Namjae Jeon          2020-03-02  498  		 * FIXME: blockdev_direct_IO() doesn't use ->write_begin(),
-5f2aa075070cf5b Namjae Jeon          2020-03-02  499  		 * so we need to update the ->i_size_aligned to block boundary.
-5f2aa075070cf5b Namjae Jeon          2020-03-02  500  		 *
-5f2aa075070cf5b Namjae Jeon          2020-03-02  501  		 * But we must fill the remaining area or hole by nul for
-5f2aa075070cf5b Namjae Jeon          2020-03-02  502  		 * updating ->i_size_aligned
-5f2aa075070cf5b Namjae Jeon          2020-03-02  503  		 *
-5f2aa075070cf5b Namjae Jeon          2020-03-02  504  		 * Return 0, and fallback to normal buffered write.
-5f2aa075070cf5b Namjae Jeon          2020-03-02  505  		 */
-5f2aa075070cf5b Namjae Jeon          2020-03-02  506  		if (EXFAT_I(inode)->i_size_aligned < size)
-5f2aa075070cf5b Namjae Jeon          2020-03-02  507  			return 0;
-5f2aa075070cf5b Namjae Jeon          2020-03-02  508  	}
-5f2aa075070cf5b Namjae Jeon          2020-03-02  509  
-5f2aa075070cf5b Namjae Jeon          2020-03-02  510  	/*
-5f2aa075070cf5b Namjae Jeon          2020-03-02  511  	 * Need to use the DIO_LOCKING for avoiding the race
-5f2aa075070cf5b Namjae Jeon          2020-03-02  512  	 * condition of exfat_get_block() and ->truncate().
-5f2aa075070cf5b Namjae Jeon          2020-03-02  513  	 */
-5f2aa075070cf5b Namjae Jeon          2020-03-02  514  	ret = blockdev_direct_IO(iocb, inode, iter, exfat_get_block);
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  515  	if (ret < 0) {
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  516  		if (rw & WRITE)
-
-This code works and the checker doesn't complain about it, but for
-consistency I think it should be if (rw == WRITE).
-
-5f2aa075070cf5b Namjae Jeon          2020-03-02  517  			exfat_write_failed(mapping, size);
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  518  
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  519  		if (ret != -EIOCBQUEUED)
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  520  			return ret;
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  521  	} else
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  522  		size = pos + ret;
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  523  
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  524  	/* zero the unwritten part in the partially written block */
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30 @525  	if ((rw & READ) && pos < ei->valid_size && ei->valid_size < size) {
-
-I think this should be rw == READ.
-
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  526  		iov_iter_revert(iter, size - ei->valid_size);
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  527  		iov_iter_zero(size - ei->valid_size, iter);
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  528  	}
-6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  529  
-5f2aa075070cf5b Namjae Jeon          2020-03-02  530  	return ret;
-5f2aa075070cf5b Namjae Jeon          2020-03-02  531  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[PATCH v2] kexec_core: change dependency of object files
+https://lore.kernel.org/all/20231201060325.26940-1-bhe@redhat.com/T/#u
 
