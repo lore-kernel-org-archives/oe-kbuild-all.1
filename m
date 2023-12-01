@@ -1,131 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDA8F9F8
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Dec 2023 08:55:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6AB171A2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Dec 2023 09:04:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MtpEaZ/5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d2Ts74PS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701420910; x=1732956910;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Zq2JyovdTPVP8+E6/fyP4PAwwIEJgpwn3QAAzGl7DJ8=;
-  b=MtpEaZ/5MxhdVinCkSXe1ULjN601TsC0l/H5Ez0ZsztuTml8lyPJk8Gi
-   VKl/678tVj5Ecq9XduP3J7Zww+Wf2Dl/Kha0znkVADEEaDuzriBGu5Ait
-   bwns3xfdPb2xi6c+KHUnE+oWO8XbLZEnmoOn8MDMp0K+hyz5VamL1tBGT
-   dXaVBq/qoExs4QtNGqRrI89MBZXH9ic71pCenzSevKTgPJPMDHkrPHWQO
-   A8zOB6/PQ6khXSs9Uc0tfsvlI6ofKxTx8VOfej0PCaBitdwEMK3eNQQts
-   pF4/r6illKO5j3JC8bA93qDeDkGUZnxMET2o5y9jJq9WLJihxzuh9nUxY
+  t=1701421451; x=1732957451;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WCLNj8svC4av8QeeiaxxaFGMBsZIKM1ZQh1Rtc0PVbA=;
+  b=d2Ts74PSo8Cf1HkeexsBh21Zz7GRCiQirMFnev4ZRH6fiTGWHqac7BpL
+   EJHaVgnSUn0NmMMn7kHwQKHlPPaEE+Jx8c/gK8CvKfBhpFAwVyQDPXS/a
+   ++aOOGb2On8U/14fSx3c88mny+T1lQsp7wvAQEIDT+wHbIzdJEkBf0TF/
+   mi7PAg24DpWuBcDSRaXgAG+D5c6cLQqRZ1nIa14X8ay0km8DeWTSyEtAP
+   u/OYV45eVtG/9ev+SnMihh70C/gEX/I32Cc6kbFzOrkv1T9xk/H3ZbRMs
+   x2luiaY5DO3qhHyzprf//RZ/dc24LtIDC06vTzcHXKy6OKSkIgBHXARnL
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="378494963"
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="397357256"
 X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="378494963"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 00:55:10 -0800
+   d="scan'208";a="397357256"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 01:04:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="913516123"
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="887571281"
 X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="913516123"
+   d="scan'208";a="887571281"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 01 Dec 2023 00:55:08 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 01 Dec 2023 01:04:08 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r8zIg-0003M5-1G;
-	Fri, 01 Dec 2023 08:55:06 +0000
-Date: Fri, 1 Dec 2023 16:52:59 +0800
+	id 1r8zRO-0003N6-2l;
+	Fri, 01 Dec 2023 09:04:06 +0000
+Date: Fri, 1 Dec 2023 17:03:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Tim Bird <tim.bird@sonymobile.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>, Lukas Wunner <lukas@wunner.de>
-Subject: drivers/pci/pci.h:343:17: sparse: sparse: cast from restricted
- pci_channel_state_t
-Message-ID: <202312011656.e05BXvlx-lkp@intel.com>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Josh Triplett <josh@joshtriplett.org>
+Subject: undefined reference to `_init'
+Message-ID: <202312011721.kLbSzwWM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   994d5c58e50e91bb02c7be4a91d5186292a895c8
-commit: c82458101d5490230d735caecce14c9c27b1010c PCI/PM: Mark devices disconnected if upstream PCIe link is down on resume
-date:   9 weeks ago
-config: loongarch-randconfig-r025-20230627 (https://download.01.org/0day-ci/archive/20231201/202312011656.e05BXvlx-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231201/202312011656.e05BXvlx-lkp@intel.com/reproduce)
+commit: 3ce51050fadd63737c03627293ca2dc4be238891 selftest: size: Add size test for Linux kernel
+date:   9 years ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231201/202312011721.kLbSzwWM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312011656.e05BXvlx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312011721.kLbSzwWM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/pci-driver.c:522:42: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci-driver.c:522:61: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci-driver.c:757:28: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci-driver.c:757:46: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci-driver.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   drivers/pci/pci-driver.c:389:19: sparse: sparse: self-comparison always evaluates to false
-   drivers/pci/pci-driver.c: note: in included file:
->> drivers/pci/pci.h:343:17: sparse: sparse: cast from restricted pci_channel_state_t
->> drivers/pci/pci.h:343:17: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/pci.h:346:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pci.h:346:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pci.h:346:23: sparse: sparse: cast to restricted pci_channel_state_t
-   drivers/pci/pci.h:350:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pci.h:350:23: sparse: sparse: cast from restricted pci_channel_state_t
-   drivers/pci/pci.h:350:23: sparse: sparse: cast to restricted pci_channel_state_t
+All errors (new ones prefixed by >>):
 
-vim +343 drivers/pci/pci.h
-
-ac04840350e2c2 Lukas Wunner         2023-03-11  324  
-a6bd101b8f84f9 Keith Busch          2018-09-20  325  /**
-a6bd101b8f84f9 Keith Busch          2018-09-20  326   * pci_dev_set_io_state - Set the new error state if possible.
-a6bd101b8f84f9 Keith Busch          2018-09-20  327   *
-347269c113f10f Krzysztof Wilczyński 2021-07-03  328   * @dev: PCI device to set new error_state
-347269c113f10f Krzysztof Wilczyński 2021-07-03  329   * @new: the state we want dev to be in
-a6bd101b8f84f9 Keith Busch          2018-09-20  330   *
-74ff8864cc842b Lukas Wunner         2023-01-20  331   * If the device is experiencing perm_failure, it has to remain in that state.
-74ff8864cc842b Lukas Wunner         2023-01-20  332   * Any other transition is allowed.
-a6bd101b8f84f9 Keith Busch          2018-09-20  333   *
-a6bd101b8f84f9 Keith Busch          2018-09-20  334   * Returns true if state has been changed to the requested state.
-a6bd101b8f84f9 Keith Busch          2018-09-20  335   */
-a6bd101b8f84f9 Keith Busch          2018-09-20  336  static inline bool pci_dev_set_io_state(struct pci_dev *dev,
-a6bd101b8f84f9 Keith Busch          2018-09-20  337  					pci_channel_state_t new)
-a6bd101b8f84f9 Keith Busch          2018-09-20  338  {
-74ff8864cc842b Lukas Wunner         2023-01-20  339  	pci_channel_state_t old;
-a6bd101b8f84f9 Keith Busch          2018-09-20  340  
-a6bd101b8f84f9 Keith Busch          2018-09-20  341  	switch (new) {
-a6bd101b8f84f9 Keith Busch          2018-09-20  342  	case pci_channel_io_perm_failure:
-74ff8864cc842b Lukas Wunner         2023-01-20 @343  		xchg(&dev->error_state, pci_channel_io_perm_failure);
-74ff8864cc842b Lukas Wunner         2023-01-20  344  		return true;
-a6bd101b8f84f9 Keith Busch          2018-09-20  345  	case pci_channel_io_frozen:
-74ff8864cc842b Lukas Wunner         2023-01-20  346  		old = cmpxchg(&dev->error_state, pci_channel_io_normal,
-74ff8864cc842b Lukas Wunner         2023-01-20  347  			      pci_channel_io_frozen);
-74ff8864cc842b Lukas Wunner         2023-01-20  348  		return old != pci_channel_io_perm_failure;
-a6bd101b8f84f9 Keith Busch          2018-09-20  349  	case pci_channel_io_normal:
-74ff8864cc842b Lukas Wunner         2023-01-20  350  		old = cmpxchg(&dev->error_state, pci_channel_io_frozen,
-74ff8864cc842b Lukas Wunner         2023-01-20  351  			      pci_channel_io_normal);
-74ff8864cc842b Lukas Wunner         2023-01-20  352  		return old != pci_channel_io_perm_failure;
-74ff8864cc842b Lukas Wunner         2023-01-20  353  	default:
-74ff8864cc842b Lukas Wunner         2023-01-20  354  		return false;
-a6bd101b8f84f9 Keith Busch          2018-09-20  355  	}
-a6bd101b8f84f9 Keith Busch          2018-09-20  356  }
-89ee9f7680031d Keith Busch          2017-03-29  357  
-
-:::::: The code at line 343 was first introduced by commit
-:::::: 74ff8864cc842be994853095dba6db48e716400a PCI: hotplug: Allow marking devices as disconnected during bind/unbind
-
-:::::: TO: Lukas Wunner <lukas@wunner.de>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+   /usr/bin/ld: /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/libc.a(libc-start.o): in function `__libc_start_main_impl':
+>> (.text+0x1938): undefined reference to `_init'
+   /usr/bin/ld: /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/libc.a(libc-start.o): in function `call_fini':
+>> (.text+0x39): undefined reference to `_fini'
+   /usr/bin/ld: /usr/lib/gcc/x86_64-linux-gnu/12/../../../x86_64-linux-gnu/libc.a(dl-reloc-static-pie.o): in function `_dl_relocate_static_pie':
+>> (.text+0x2d): undefined reference to `_DYNAMIC'
+   /usr/bin/ld: (.text+0x89): undefined reference to `_DYNAMIC'
+   /usr/bin/ld: (.text+0x94): undefined reference to `_DYNAMIC'
+>> collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
