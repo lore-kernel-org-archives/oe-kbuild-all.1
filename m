@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FEB55C18
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Dec 2023 20:10:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F70758AA0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Dec 2023 21:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BexK3NX+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIqaXKfB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701461405; x=1732997405;
+  t=1701464466; x=1733000466;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ekETfT6yloJAYS4ADW7GfipxxrW9w4UX+/1WxVPCns4=;
-  b=BexK3NX+IXIP7OYuYdUFJf29mfTeYMy0NuiPV6Oe/lKCRiOaG3DBSr16
-   o91xecUwnV03eFnXIVkvMmKdxOgkC6DEadjx13hoDrjHv/h2fuw9VzQXG
-   rapRaq0IZ9IEp/rOI+/8yICruuT4VrJb59mOBI6ZoRLYS8HsDBU3+cg8M
-   H0OAhNp3/Xj0CPX7R/Lur8xXMdJwPKtAa460t9aPHKLoDnKYLL0oEHFu2
-   VojkTG2/lGttFYp5gqh2eXQFqm5/mX1EKVJl6Y+4E8rQ2YDMVZz5zcv/f
-   ooOwy979HCKizUhA5Myqnu7QiFm6DDJllzNxc6XELTzdM/jey8MvSr7F2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="397151"
+  bh=ZozaDRt68zXNnZN9a/btRfD4BevuIgf3falrmZsis1E=;
+  b=QIqaXKfBONqFYXiJyosLyK8QEd+GawgAlcGfNYu6PgInPRArudEFuhn1
+   A3ir5QsXFTIDmiBWqeBKwWsZTRfpUThwyQmPPw0BaXN3Yvnq44Xh8Nj9G
+   ATI2FY6CbEyPAyqUhAF+KeWT/L88uMrFLjWGtrVVtr4mPA13ulZygRogs
+   7PmX77Bx3giW/HPfiHd3macebIwAw+ewisMe4nsrcMvhfmDpTLMz3LnF0
+   SBGt//23T63dZJPXhG2W4J4XFb30BQkGy7ypLgXzrn7USFmFroxZLsc6L
+   2Gz8VEoaQaByv/DWRZHbglHaoNuHeFeu/nP1H764PLdEeCmg17JZ4EX5W
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="424710590"
 X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="397151"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 12:10:02 -0800
+   d="scan'208";a="424710590"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 13:01:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763246779"
 X-IronPort-AV: E=Sophos;i="6.04,242,1695711600"; 
-   d="scan'208";a="763246779"
+   d="scan'208";a="17892899"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 01 Dec 2023 12:10:00 -0800
+  by orviesa001.jf.intel.com with ESMTP; 01 Dec 2023 13:01:02 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r99pm-0004FG-1K;
-	Fri, 01 Dec 2023 20:09:58 +0000
-Date: Sat, 2 Dec 2023 04:09:26 +0800
+	id 1r9AdA-0004Ho-0i;
+	Fri, 01 Dec 2023 21:01:00 +0000
+Date: Sat, 2 Dec 2023 05:00:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: thermometer.c:21:10: fatal error: libconfig.h: No such file or
- directory
-Message-ID: <202312020401.EaIsKfof-lkp@intel.com>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kees Cook <keescook@chromium.org>
+Subject: lib/overflow_kunit.c:728:38: sparse: sparse: undefined preprocessor
+ identifier '__clang_major__'
+Message-ID: <202312020406.V5RUTSeC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,29 +50,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Daniel,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   994d5c58e50e91bb02c7be4a91d5186292a895c8
-commit: 110acbc6a4518145db3a1a9c0686d730bb258bf1 tools/thermal: Add a temperature capture tool
-date:   1 year, 6 months ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231202/202312020401.EaIsKfof-lkp@intel.com/reproduce)
+commit: 0e5b9f25b27a7a92880f88f5dba3edf726ec5f61 overflow: disable failing tests for older clang versions
+date:   1 year, 1 month ago
+config: hexagon-randconfig-r121-20231119 (https://download.01.org/0day-ci/archive/20231202/202312020406.V5RUTSeC-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231202/202312020406.V5RUTSeC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312020401.EaIsKfof-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312020406.V5RUTSeC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/overflow_kunit.c:728:38: sparse: sparse: undefined preprocessor identifier '__clang_major__'
+   lib/overflow_kunit.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:248:46: sparse: sparse: self-comparison always evaluates to false
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:270:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:271:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:272:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:273:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:274:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:275:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:286:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:292:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:299:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:306:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:306:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:306:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:306:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:306:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:306:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:306:1: sparse: sparse: self-comparison always evaluates to true
+   lib/overflow_kunit.c:306:1: sparse: sparse: self-comparison always evaluates to true
 
->> thermometer.c:21:10: fatal error: libconfig.h: No such file or directory
-      21 | #include <libconfig.h>
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
-   make[2]: *** [Makefile:23: thermometer] Error 1
+vim +/__clang_major__ +728 lib/overflow_kunit.c
+
+   711	
+   712	static struct kunit_case overflow_test_cases[] = {
+   713		KUNIT_CASE(u8_u8__u8_overflow_test),
+   714		KUNIT_CASE(s8_s8__s8_overflow_test),
+   715		KUNIT_CASE(u16_u16__u16_overflow_test),
+   716		KUNIT_CASE(s16_s16__s16_overflow_test),
+   717		KUNIT_CASE(u32_u32__u32_overflow_test),
+   718		KUNIT_CASE(s32_s32__s32_overflow_test),
+   719	/* Clang 13 and earlier generate unwanted libcalls on 32-bit. */
+   720	#if BITS_PER_LONG == 64
+   721		KUNIT_CASE(u64_u64__u64_overflow_test),
+   722		KUNIT_CASE(s64_s64__s64_overflow_test),
+   723	#endif
+   724	/*
+   725	 * Clang 11 and earlier generate unwanted libcalls for signed output, unsigned
+   726	 * input.
+   727	 */
+ > 728	#if !(defined(CONFIG_CC_IS_CLANG) && __clang_major__ <= 11)
+   729		KUNIT_CASE(u32_u32__int_overflow_test),
+   730	#endif
+   731		KUNIT_CASE(u32_u32__u8_overflow_test),
+   732		KUNIT_CASE(u8_u8__int_overflow_test),
+   733		KUNIT_CASE(int_int__u8_overflow_test),
+   734		KUNIT_CASE(shift_sane_test),
+   735		KUNIT_CASE(shift_overflow_test),
+   736		KUNIT_CASE(shift_truncate_test),
+   737		KUNIT_CASE(shift_nonsense_test),
+   738		KUNIT_CASE(overflow_allocation_test),
+   739		KUNIT_CASE(overflow_size_helpers_test),
+   740		{}
+   741	};
+   742	
 
 -- 
 0-DAY CI Kernel Test Service
