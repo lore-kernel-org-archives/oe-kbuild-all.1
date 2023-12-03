@@ -1,174 +1,99 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E3F18B0C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 20:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D730C16438
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 22:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JfRHNnL8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701635226;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pYTrpCRDHy3pVYrmuekoON7KTgLSFaRDili/ZX0QPtg=;
-	b=JfRHNnL8wyly2EKdnDjOuj4NmYmlvA5x6RnA85dQXgYtym8zfKeolmW6KQ4O6VI3EcHoWN
-	DOBpBO/fCHoKuo3dWPca6x3BeTYlLiz0njzG0dXgor+IoM3eYj+/n8D3ajdYSzBacRUEEs
-	sZOA9Ipclao1xWQBWhxdu7OXsdZ/hDU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-681-nFs8iZrDPY6Jn56XO9G8wQ-1; Sun, 03 Dec 2023 15:27:04 -0500
-X-MC-Unique: nFs8iZrDPY6Jn56XO9G8wQ-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-40b23aef363so32445295e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 12:27:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701635223; x=1702240023;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pYTrpCRDHy3pVYrmuekoON7KTgLSFaRDili/ZX0QPtg=;
-        b=r0xmhykd8it7+CimY5LCW0D3TgRDZVA7epiFGNPe4mtcsQRrdfteMOwGtMYTIT2zwF
-         6D+vocJVxDFMysUyH82+RsFI5v/HKS8Bi+qByIvIM/Wnu5GfZOVh3E+vC7+RYCxS1Hwk
-         T+31gIvy0WoCS4CH04pDm8t0y68m/SCo7KNFdIm+eRYC6MBJgX/tbJfzzQlwz72+dAM8
-         EhFPHZOwqb43onK1aeKoT1LFCiNCOmevfYot8T5DEb34TYqW6xUnJYG2wtHGitRu3E3y
-         xJoZPBwfPmWAoXk7+WAcUQQADbqmwyWFTC48z60xZuxsyFT0hGZhJ/IyEqPw5vkMfWML
-         Soig==
-X-Gm-Message-State: AOJu0YxN4c+VFTxpIMMJlon+d1peXeHQoz8Tt1i/svMabuepAOQ4StIl
-	a5qA04cMooE9MJwIk5sZ5BGCtNLJl8JC+GC0BbJKdAvrkMyGnYR9V0BYiTHR/s2IGO0CU1T43Ex
-	WZUCsxNZjq3ztuHKdQ58AJt3rZQ==
-X-Received: by 2002:a05:600c:2218:b0:40c:9a7:5253 with SMTP id z24-20020a05600c221800b0040c09a75253mr579773wml.127.1701635223367;
-        Sun, 03 Dec 2023 12:27:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEGAC1lOWZDli3AMMFaxArgBcn7hOengWBWj6AEgPzfyNKh9vOJsJOrQiMQn4CXrHnXOLSBIQ==
-X-Received: by 2002:a05:600c:2218:b0:40c:9a7:5253 with SMTP id z24-20020a05600c221800b0040c09a75253mr579767wml.127.1701635222966;
-        Sun, 03 Dec 2023 12:27:02 -0800 (PST)
-Received: from redhat.com ([2.55.57.48])
-        by smtp.gmail.com with ESMTPSA id x10-20020a5d490a000000b003333c06fa79sm4270161wrq.71.2023.12.03.12.27.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 12:27:02 -0800 (PST)
-Date: Sun, 3 Dec 2023 15:26:59 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Gonglei <arei.gonglei@huawei.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: drivers/crypto/virtio/virtio_crypto_common.h:116:13: warning:
- variable 'cpu' set but not used
-Message-ID: <20231203152646-mutt-send-email-mst@kernel.org>
-References: <202312040315.kPrI1OCE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ks7aUCkS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701641180; x=1733177180;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yQfDWJWHn1Fx7wFk/bbK5kb6fL66cUGrV+bJloSJsEc=;
+  b=Ks7aUCkSN2Iy3vRYDlLH2WM5OLa2zdUm4Gp3xnu7IopXZpmNKP4mJ9/T
+   abmErAJXRxfQoJxZYS4Ji0ZElSwVNBye7TrrUQC1RiNDFcblDCFN3pziP
+   2G6W0MeuSpBotozCiaurqozcD8zAIs74Fcua14U1INlY4W7yN2UMmsgMI
+   4g9qRyesWNZechzG7K34owHtVynY2vY3UCBfcz3W7fIofFRHE6SosUot1
+   3thbuM37HAWVQVdCwNC2i1eseXiz0eXkTKVCOlSHeSZrnLl3Vd6nEq0jX
+   JPiiuZJITr/o1NJedfY0feuYTg3KFjH4wQupyVJmhRUSl8jZvYy+IKgzy
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="563352"
+X-IronPort-AV: E=Sophos;i="6.04,248,1695711600"; 
+   d="scan'208";a="563352"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 14:06:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="799396609"
+X-IronPort-AV: E=Sophos;i="6.04,248,1695711600"; 
+   d="scan'208";a="799396609"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 03 Dec 2023 14:06:17 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r9ubO-0007A0-2P;
+	Sun, 03 Dec 2023 22:06:14 +0000
+Date: Mon, 4 Dec 2023 06:05:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ondrej Zary <linux@zary.sk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Subject: drivers/ata/pata_parport/frpw.c:210 frpw_test_pnp() warn:
+ inconsistent indenting
+Message-ID: <202312040519.osHxpP8A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202312040315.kPrI1OCE-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, Dec 04, 2023 at 03:55:43AM +0800, kernel test robot wrote:
-> Hi Gonglei,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-> commit: dbaf0624ffa57ae6e7d87a823185ccd9a7852d3c crypto: add virtio-crypto driver
-> date:   7 years ago
-> config: x86_64-randconfig-015-20231011 (https://download.01.org/0day-ci/archive/20231204/202312040315.kPrI1OCE-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312040315.kPrI1OCE-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312040315.kPrI1OCE-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/crypto/virtio/virtio_crypto_algs.c:28:
->    drivers/crypto/virtio/virtio_crypto_common.h: In function 'virtio_crypto_get_current_node':
-> >> drivers/crypto/virtio/virtio_crypto_common.h:116:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
->      116 |         int cpu, node;
->          |             ^~~
-> --
->    In file included from drivers/crypto/virtio/virtio_crypto_core.c:25:
->    drivers/crypto/virtio/virtio_crypto_common.h: In function 'virtio_crypto_get_current_node':
-> >> drivers/crypto/virtio/virtio_crypto_common.h:116:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
->      116 |         int cpu, node;
->          |             ^~~
->    In file included from drivers/crypto/virtio/virtio_crypto_core.c:20:
->    drivers/crypto/virtio/virtio_crypto_core.c: At top level:
->    include/linux/module.h:132:13: warning: 'init_module' specifies less restrictive attribute than its target 'virtio_crypto_driver_init': 'cold' [-Wmissing-attributes]
->      132 |         int init_module(void) __attribute__((alias(#initfn)));
->          |             ^~~~~~~~~~~
->    include/linux/device.h:1463:1: note: in expansion of macro 'module_init'
->     1463 | module_init(__driver##_init); \
->          | ^~~~~~~~~~~
->    include/linux/virtio.h:190:9: note: in expansion of macro 'module_driver'
->      190 |         module_driver(__virtio_driver, register_virtio_driver, \
->          |         ^~~~~~~~~~~~~
->    drivers/crypto/virtio/virtio_crypto_core.c:471:1: note: in expansion of macro 'module_virtio_driver'
->      471 | module_virtio_driver(virtio_crypto_driver);
->          | ^~~~~~~~~~~~~~~~~~~~
->    In file included from include/linux/virtio.h:8,
->                     from include/linux/virtio_config.h:6,
->                     from drivers/crypto/virtio/virtio_crypto_core.c:21:
->    drivers/crypto/virtio/virtio_crypto_core.c:471:22: note: 'init_module' target declared here
->      471 | module_virtio_driver(virtio_crypto_driver);
->          |                      ^~~~~~~~~~~~~~~~~~~~
->    include/linux/device.h:1459:19: note: in definition of macro 'module_driver'
->     1459 | static int __init __driver##_init(void) \
->          |                   ^~~~~~~~
->    drivers/crypto/virtio/virtio_crypto_core.c:471:1: note: in expansion of macro 'module_virtio_driver'
->      471 | module_virtio_driver(virtio_crypto_driver);
->          | ^~~~~~~~~~~~~~~~~~~~
->    include/linux/module.h:138:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'virtio_crypto_driver_exit': 'cold' [-Wmissing-attributes]
->      138 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
->          |              ^~~~~~~~~~~~~~
->    include/linux/device.h:1468:1: note: in expansion of macro 'module_exit'
->     1468 | module_exit(__driver##_exit);
->          | ^~~~~~~~~~~
->    include/linux/virtio.h:190:9: note: in expansion of macro 'module_driver'
->      190 |         module_driver(__virtio_driver, register_virtio_driver, \
->          |         ^~~~~~~~~~~~~
->    drivers/crypto/virtio/virtio_crypto_core.c:471:1: note: in expansion of macro 'module_virtio_driver'
->      471 | module_virtio_driver(virtio_crypto_driver);
->          | ^~~~~~~~~~~~~~~~~~~~
->    drivers/crypto/virtio/virtio_crypto_core.c:471:22: note: 'cleanup_module' target declared here
->      471 | module_virtio_driver(virtio_crypto_driver);
->          |                      ^~~~~~~~~~~~~~~~~~~~
->    include/linux/device.h:1464:20: note: in definition of macro 'module_driver'
->     1464 | static void __exit __driver##_exit(void) \
->          |                    ^~~~~~~~
->    drivers/crypto/virtio/virtio_crypto_core.c:471:1: note: in expansion of macro 'module_virtio_driver'
->      471 | module_virtio_driver(virtio_crypto_driver);
->          | ^~~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/cpu +116 drivers/crypto/virtio/virtio_crypto_common.h
-> 
->    113	
->    114	static inline int virtio_crypto_get_current_node(void)
->    115	{
->  > 116		int cpu, node;
->    117	
->    118		cpu = get_cpu();
->    119		node = topology_physical_package_id(cpu);
->    120		put_cpu();
->    121	
->    122		return node;
->    123	}
->    124	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
+commit: 72f2b0b2185099dce354c805009f591dda3ab73d drivers/block: Move PARIDE protocol modules to drivers/ata/pata_parport
+date:   10 months ago
+config: arm-randconfig-r071-20231130 (https://download.01.org/0day-ci/archive/20231204/202312040519.osHxpP8A-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231204/202312040519.osHxpP8A-lkp@intel.com/reproduce)
 
-Seems easy to fix. Gonglei?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312040519.osHxpP8A-lkp@intel.com/
+
+smatch warnings:
+drivers/ata/pata_parport/frpw.c:210 frpw_test_pnp() warn: inconsistent indenting
+
+vim +210 drivers/ata/pata_parport/frpw.c
+
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  201  
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  202  	olddelay = pi->delay;
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  203  	pi->delay = 10;
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  204  
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  205  	pi->saved_r0 = r0();
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  206          pi->saved_r2 = r2();
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  207  	
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  208  	w2(4); w0(4); w2(6); w2(7);
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  209  	a = r1() & 0xff; w2(4); b = r1() & 0xff;
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16 @210  	w2(0xc); w2(0xe); w2(4);
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  211  
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  212  	pi->delay = olddelay;
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  213          w0(pi->saved_r0);
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  214          w2(pi->saved_r2);
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  215  
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  216  	return ((~a&0x40) && (b&0x40));
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  217  } 
+^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  218  
+
+:::::: The code at line 210 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
-MST
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
