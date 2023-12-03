@@ -1,84 +1,73 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F5C2F44
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 18:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035BD2F44
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 19:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GVoZOwzS"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d076ebf79cso2016985ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 10:35:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701628518; x=1702233318; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XofiGJnHsU0gR6jHZzAR0X0zZqTCu60EVqYYZjegzVc=;
-        b=GVoZOwzSxpUNGdJF8JGpNazA5GsFKk4BqrmQ929yW7pLAOu7qV928vAlWCUI/MGWJG
-         qPrlEJ5UqMxzM68hshLf2N9U+n64iyP0IY6MC5e0RJuBPT0EO+danyn1L7PmCfdLJV0d
-         YCqSr5vIebatBqGfDjgJJw2AsERJEOi8qJy+Qcf//v9hjT36Kxs7iq2p1Is593R4LPYz
-         BPmfJjsCghERV1tJ0QfVit/6wyrNAinznD/yOAs/ELLXj0QNvXcxZtbVZmWHulNdhCS0
-         STs8t0P8Yu5mFjv1h8BBD4G22cMyroucTs1OEJ/uxIZOW2f92Td8IZn4lGTH7NB0vmhA
-         JuAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701628518; x=1702233318;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XofiGJnHsU0gR6jHZzAR0X0zZqTCu60EVqYYZjegzVc=;
-        b=Qsnh1NaMooELQJ1R0OdaOHyaaZ9WxZWlxxWLY78BAo2VM4t7UF+VBUs4c5+wCVUnda
-         n74CX8TjsB2o3lauBAQGa7b+W3XLtkNMo9nuGMlrMbaKsYWNAzX/wF+mm13mTbeo2yjA
-         ohdpW5w4PiLN/twrQfskV3Ta852S4aXQ1nJ6CCbhe3Pp37/3GzdR8cr90EL/rxzV1Zy/
-         4KH87RDF8vjhWLSMsbSd6y1PrT8AJVJ6uNG4ufgq0EUpZ9KGHKr9b88LJTiOUfBieQor
-         b2JYlcczH1ThplnwUSMIM9N1TY7+Syg4Ret/VEt/zHAT1M+t7SBsxBc620jHH+U7ezby
-         gH7A==
-X-Gm-Message-State: AOJu0YzUCCUNBafNK0bXGhijSShFqX18vOMQRBfFiBeTjT+88nGIz61E
-	0miU31r/X3VbS0aD0YdNAMM=
-X-Google-Smtp-Source: AGHT+IFcNTCqvliU8fIDZ1fl1Z6Yf/A/136fsYOotxzDpoq9vEcM3vxIB3DL+nn4B5WGbeGOTr5q8Q==
-X-Received: by 2002:a17:903:2285:b0:1d0:71db:d427 with SMTP id b5-20020a170903228500b001d071dbd427mr761317plh.134.1701628518472;
-        Sun, 03 Dec 2023 10:35:18 -0800 (PST)
-Received: from google.com ([205.220.129.26])
-        by smtp.gmail.com with ESMTPSA id l19-20020a170902f69300b001cfa91a0570sm6935117plg.155.2023.12.03.10.35.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 10:35:18 -0800 (PST)
-Date: Sun, 3 Dec 2023 18:35:00 +0000
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: =?iso-8859-1?B?Wm9sdOFuIEL2c3r2cm3pbnlp?= <zboszor@gmail.com>
-Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	zboszormenyi@sicom.com, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] egalax_ts_serial: Fix potential buffer overflow
-Message-ID: <ZWzHv7X1UKgJJYTy@google.com>
-References: <202312021646.cwwvptuB-lkp@intel.com>
- <20231203090600.85890-1-zboszor@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ECuFZvJE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701630726; x=1733166726;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=AwLIK8J5ESG9AHU+Ow4GlsB1m9qs/3Fj4qZzX2C1AjY=;
+  b=ECuFZvJE1WExL4CrlQfIRApcKOmmryV1ETaJA2jnTnpJP61zqDBS/7H2
+   2+edAFCdpikqyYq0t2IU1XP9gtgHb7umnqmPEQN7ef93Hg0g91Z8KTnU4
+   nLmFpJ9x+6FIRW7GgC9jS8n/joWpkiAGuCQK97u7eR1P4eAUujKT+64bx
+   m1McfkHZo2BLwkqnnPO1o7maw7YjNnTV1hTudjU2W8eR+dpr++F0duj40
+   FBFP+NSBcA4AyNJ7W3HufbcOQWlBjQDufjnWU3jhD6OMNaYZGMNpp6Uhs
+   Jy6n4O9j85ZkWYRQrJ92zZWndUURhoMSDEhvjWLybP/nt+UxoWkRvl0Vx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="479858834"
+X-IronPort-AV: E=Sophos;i="6.04,248,1695711600"; 
+   d="scan'208";a="479858834"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 11:12:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="720098799"
+X-IronPort-AV: E=Sophos;i="6.04,248,1695711600"; 
+   d="scan'208";a="720098799"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 03 Dec 2023 11:12:04 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r9rso-0006zs-0w;
+	Sun, 03 Dec 2023 19:12:02 +0000
+Date: Mon, 4 Dec 2023 03:11:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6.1,6.6] wifi: cfg80211: fix CQM for non-range use
+Message-ID: <ZWzS5yuKKYCVIxz9@520bc4c78bef>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231203090600.85890-1-zboszor@gmail.com>
+In-Reply-To: <20231203190842.25478-2-johannes@sipsolutions.net>
 
-Hi Zoltán,
+Hi,
 
-On Sun, Dec 03, 2023 at 10:06:00AM +0100, Zoltán Böszörményi wrote:
-> @@ -42,7 +42,7 @@ struct egalax {
->  	struct serio *serio;
->  	int idx;
->  	u8 data[EGALAX_FORMAT_MAX_LENGTH];
-> -	char phys[32];
-> +	char phys[NAME_MAX];
+Thanks for your patch.
 
-This simply wastes 200+ bytes for no good reason. It is perfectly fine
-to truncate phys string (which does not happen in practice).
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you feel strongly about it then maybe use devm_kasprintf() to
-allocate the needed buffer.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-Thanks.
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 6.1,6.6] wifi: cfg80211: fix CQM for non-range use
+Link: https://lore.kernel.org/stable/20231203190842.25478-2-johannes%40sipsolutions.net
+
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
