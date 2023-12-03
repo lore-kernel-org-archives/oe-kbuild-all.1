@@ -1,47 +1,47 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C6733CD
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 09:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5AF28FE
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 09:06:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDg2XdOi"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-54b8276361cso4207745a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 01:05:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elHhz4LK"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a1b68ae40ffso19865966b.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 01:06:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701594330; x=1702199130; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1701594364; x=1702199164; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
         bh=kX+3yDbq4orl3F1IwroT1JgXwfqK8BBsS1e+lWobZFk=;
-        b=kDg2XdOiKmy5h9z01Nv95/Qc08lrNtf4n316ayzaUPC8FZNCElFvtamsPTS5YnEF6i
-         xx1AF3iYfr8d2QNsqHaGcs0gfeift4IUBGIIadTLev1BNcHuDHQD4PLZ13QrsPVmL7kY
-         jGaG7MXl8WRbl2W/oiU8R7J3NoYAl2MXhrVs9xn3BJtwD9vqyISuLfHzFH0/AkD5eQRC
-         9qYxogwTJFdPgQg1lPQrl4xt9gVwyD6fdZnqc/iJ6odx1FrI6G/ZzNPmz5uCzlTo1V3G
-         PjHSKFLFrSA9Lo/Z1zoSsRiMvjxCDrho199nf8ROgcJcVm48kfan1Pbq1E9xqR3pQFsg
-         fVfA==
+        b=elHhz4LKaZKNgCaYQxvtyWFHWQ+Q45wNAhmjz+RbXQbRr97NI7pmbwQ/F6C0H98FmD
+         zmhZKSGFE7KixyGUXYwpJ0xzSeAsTLb0n8lP7VI818/2BUSaNTDWcGFlUqwdr5V37Ysy
+         YkDY8+3Cxs/T/lc2SKhtCqau5JpDoeGTK9+spVGKtHU0ElS2MvVHnJxrYDMHrGkWF5RV
+         5ky7DBV7O9DyzJWfnF+H1HkHw4rydPB9Cmk+gbLFHlfBomJow+ycLuxMLgE3f83JdFew
+         8afQDcVoKY9x2xqYIcPV4kR0Y8dZSsAnSlkbq73FINJ5qgHguSkGufGEG6gAO7eCimdU
+         khnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701594330; x=1702199130;
+        d=1e100.net; s=20230601; t=1701594364; x=1702199164;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
         bh=kX+3yDbq4orl3F1IwroT1JgXwfqK8BBsS1e+lWobZFk=;
-        b=RfymaEqAjWH2751IEPFY6RwY53/ZOj3uE6T3rlKJBT+Yl3yDECADwvGSMGS0yQAcfd
-         AOFWHGE/7DfMDbvQZSlNYmykkr/KRbWoz0qUeA0p29W7VYR4wW6hvAov/gCnnKOYCbdf
-         TycgnZQ80N0WZJmn2xU9jGMCMWrQCuRekKdQF/zihw9vyUJclL5bL8EvAO5xBqQr5cs6
-         pCR0Yz6iYUkbJS8uLCaXEN6XRYemlvnMYKxHGWwxYrEWBNJlz6ZHRk8qnF6/Vh4daCTg
-         H0a/tU7sUDC/wE8OYGZ99rzfUBXyA3iCcjU8ttfhqQneeVsVyLHNt3m2ybkjsCM3aSNm
-         QHFQ==
-X-Gm-Message-State: AOJu0Yw1Gjjk13n/n+zrRIy074jhJ1zlLgyez24TqV/rJTXIa+6Tb2e7
-	898EqbhKyEAJGxNBeRqa0Ng5zkpfEVg=
-X-Google-Smtp-Source: AGHT+IFelLFC9Wmf5qutqU6BLAdo89LLEfLZ/g5BD1L7jnm3uHJOdp/XMSIfuCU4C7Ys/gtNcIqg5Q==
-X-Received: by 2002:a50:a444:0:b0:54c:67c0:831f with SMTP id v4-20020a50a444000000b0054c67c0831fmr1682569edb.13.1701594329818;
-        Sun, 03 Dec 2023 01:05:29 -0800 (PST)
+        b=p2OPbcYw7ZAAKCGie2QipEBeUzlv16cmNQEijnNyiFLb8Uck44idHO1YFeMqJBTbT2
+         nbljggmu4JpxoRnCwxn4RzKDBSUZeai25cX42y2blH/Ayk93R6CKjC7gf7qIY2Zv6Sxz
+         bzSXz4j7kt4eufGIkQK61BQZSMdt9YkDs9r+8cpJIKWPwsnMC9JU4Do+wjHvJ+NlGCjN
+         I0VMDZgPntGDgzxOiOVoqn2XEsWxr3KH5CQDmBE5nlgn/lWPaA3mvQb6LaB2iXYtZcAp
+         cQGDHuObnT9qu3ER0hB7g3Tosqo57z3Hk3XL2cimOrwK+U0BsMWVw4eF1jVqx7hVIdSY
+         LDHw==
+X-Gm-Message-State: AOJu0YyP44PRaIItuJNhtOYU/rb8Emi1U18WGubZCqcQJ1+YgjXBYAiN
+	XLbG4VThX9BjNPQZUjcoj1A=
+X-Google-Smtp-Source: AGHT+IFpTykt5g6ytZ04cyAdHNtbWrSm8cg2twxsPVBHbwUSML/8XczZs9/JKQt/ZLMTG9/KCs1Ipw==
+X-Received: by 2002:a17:906:b302:b0:a0f:f117:e2aa with SMTP id n2-20020a170906b30200b00a0ff117e2aamr1292476ejz.42.1701594364281;
+        Sun, 03 Dec 2023 01:06:04 -0800 (PST)
 Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id r23-20020a056402019700b0054b2040ea46sm3468888edv.61.2023.12.03.01.05.29
+        by smtp.gmail.com with ESMTPSA id la26-20020a170906ad9a00b009bd9ac83a9fsm3939717ejb.152.2023.12.03.01.06.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 01:05:29 -0800 (PST)
+        Sun, 03 Dec 2023 01:06:04 -0800 (PST)
 From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev,
@@ -50,11 +50,11 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>,
 	kernel test robot <lkp@intel.com>
 Subject: [PATCH] egalax_ts_serial: Fix potential buffer overflow
-Date: Sun,  3 Dec 2023 10:05:20 +0100
-Message-ID: <20231203090520.85855-1-zboszor@gmail.com>
+Date: Sun,  3 Dec 2023 10:06:00 +0100
+Message-ID: <20231203090600.85890-1-zboszor@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <202311171716.uIQY5rT4-lkp@intel.com>
-References: <202311171716.uIQY5rT4-lkp@intel.com>
+In-Reply-To: <202312021646.cwwvptuB-lkp@intel.com>
+References: <202312021646.cwwvptuB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
