@@ -1,48 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDC51C0F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F032E20EA
 	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 08:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nudF18iF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJXRR6xU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701592557; x=1733128557;
+  t=1701592558; x=1733128558;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gSMU2FQlm2+St91NP3OUgy1xk1Vg7ZXNywakvkMeU0Y=;
-  b=nudF18iF7BEsr2h5aB4RY70x9mB6qBoc6g4AKLGdOcLz8yDR7u43861N
-   MITnAD48zp0Z32Bspnu3eBFL3o2jH6ucgUR5S9gShRSEPrMa22SpDHzED
-   Op4CDV0Cmx5iCwSHDpcwRvFIibqFUVmsVuzLkXUd1IU/HXvPup/ugXDgu
-   RJP3zxfJTiZlLAxVJX2FzBUzd4E86QD3a3gPOnr8lRWhWrbAiEwZfjbaZ
-   syoqCRHhp49qE8IEDGtjTT4c3G6fYPVNgv1CL3FvvFFZi3tA6r2joC14G
-   nX5eYJmh5WwLkjoTBfxArE5n80Kz1u8XkBdwkSZ0j2smwer48iwameCvh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="392509076"
+  bh=E3I73M/VgrkDIRpt+r6UOwWES8qJCXRmPCTx82HkOTc=;
+  b=DJXRR6xUatpZAuT3ag5MKPzgBJQRjmHfJmpngcFMDIVMz/cFI+xCXR70
+   MjA1J8eg3fE9Up5aW+mMUbuI/7H48gEQkvU3OvcQGH3vasqYWnYdiVKc9
+   PAuxZYo4p8IvNxRwXkLBDYhMRptZtEaJgQnStEOvWilDVbaeN7Z7F80i1
+   UqxSOpiAfwDMeiNGuomPAjRtTQRd/T/D7OrYAUPDw8hi/AnYVDvfKOA8V
+   qhYte/hOG5DQ4YLfaBE4hH4B8CaSGkTZ0oqhp9tSz43sS+ODe0dKKtAND
+   9XkI3y9QTmlsEvFoz02G17Qh8wEGyAY8/0wAR9v5BYzLMMlASnVpPVYqn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="392509080"
 X-IronPort-AV: E=Sophos;i="6.04,247,1695711600"; 
-   d="scan'208";a="392509076"
+   d="scan'208";a="392509080"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 00:35:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="888193128"
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="888193127"
 X-IronPort-AV: E=Sophos;i="6.04,247,1695711600"; 
-   d="scan'208";a="888193128"
+   d="scan'208";a="888193127"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2023 00:35:53 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9hx8-0006SY-31;
+	id 1r9hx8-0006Se-3A;
 	Sun, 03 Dec 2023 08:35:50 +0000
-Date: Sun, 3 Dec 2023 16:35:01 +0800
+Date: Sun, 3 Dec 2023 16:35:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: Alan Mizrahi <alan@mizrahi.com.ve>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Felipe Balbi <balbi@ti.com>
-Subject: drivers/usb/gadget/udc/renesas_usb3.c:1797:73: warning: '%d'
- directive output may be truncated writing between 1 and 10 bytes into a
- region of size 6
-Message-ID: <202312031600.vNmAvMAC-lkp@intel.com>
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Subject: drivers/leds/leds-apu.c:105:35: warning: 'apu_led_dmi_table' defined
+ but not used
+Message-ID: <202312031626.TICxZCaC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,121 +51,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yoshihiro,
+Hi Alan,
 
 FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   968f35f4ab1c0966ceb39af3c89f2e24afedf878
-commit: 746bfe63bba37ad55956b7377c9af494e7e28929 usb: gadget: renesas_usb3: add support for Renesas USB3.0 peripheral controller
-date:   8 years ago
-config: x86_64-buildonly-randconfig-006-20230906 (https://download.01.org/0day-ci/archive/20231203/202312031600.vNmAvMAC-lkp@intel.com/config)
+commit: 3faee9423ce07186fc9dcec2981d4eb8af8872bb leds: Add driver for PC Engines APU/APU2 LEDs
+date:   6 years ago
+config: i386-buildonly-randconfig-001-20231102 (https://download.01.org/0day-ci/archive/20231203/202312031626.TICxZCaC-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231203/202312031600.vNmAvMAC-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231203/202312031626.TICxZCaC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312031600.vNmAvMAC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312031626.TICxZCaC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kobject.h:21,
-                    from include/linux/module.h:17,
-                    from drivers/usb/gadget/udc/renesas_usb3.c:15:
-   include/linux/sysfs.h: In function 'sysfs_get_dirent':
-   include/linux/sysfs.h:517:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
-     517 |         return kernfs_find_and_get(parent, name);
-         |                                            ^~~~
-         |                                            |
-         |                                            const unsigned char *
-   In file included from include/linux/sysfs.h:15:
-   include/linux/kernfs.h:428:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
-     428 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
-         |                                             ~~~~~~~~~~~~^~~~
-   drivers/usb/gadget/udc/renesas_usb3.c: In function 'usb3_get_setup_data':
-   drivers/usb/gadget/udc/renesas_usb3.c:718:9: warning: converting a packed 'struct usb_ctrlrequest' pointer (alignment 1) to a 'u32' {aka 'unsigned int'} pointer (alignment 4) may result in an unaligned pointer value [-Waddress-of-packed-member]
-     718 |         u32 *data = (u32 *)ctrl;
-         |         ^~~
-   In file included from include/linux/usb/ch9.h:36,
-                    from drivers/usb/gadget/udc/renesas_usb3.c:21:
-   include/uapi/linux/usb/ch9.h:185:8: note: defined here
-     185 | struct usb_ctrlrequest {
-         |        ^~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c: In function 'renesas_usb3_probe':
->> drivers/usb/gadget/udc/renesas_usb3.c:1797:73: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
-    1797 |                 snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep%d", i);
-         |                                                                         ^~
-   In function 'renesas_usb3_init_ep',
-       inlined from 'renesas_usb3_probe' at drivers/usb/gadget/udc/renesas_usb3.c:1928:8:
-   drivers/usb/gadget/udc/renesas_usb3.c:1797:70: note: directive argument in the range [0, 2147483646]
-    1797 |                 snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep%d", i);
-         |                                                                      ^~~~~~
-   drivers/usb/gadget/udc/renesas_usb3.c:1797:17: note: 'snprintf' output between 4 and 13 bytes into a destination of size 8
-    1797 |                 snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep%d", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/workqueue.h:8,
+                    from include/linux/srcu.h:34,
+                    from include/linux/notifier.h:15,
+                    from include/linux/memory_hotplug.h:6,
+                    from include/linux/mmzone.h:779,
+                    from include/linux/gfp.h:5,
+                    from include/linux/idr.h:16,
+                    from include/linux/kernfs.h:14,
+                    from include/linux/sysfs.h:15,
+                    from include/linux/kobject.h:21,
+                    from include/linux/dmi.h:5,
+                    from drivers/leds/leds-apu.c:34:
+   include/linux/timer.h: In function 'timer_setup':
+   include/linux/timer.h:178:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
+     178 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
+         |                              ^
+   include/linux/timer.h:143:39: note: in definition of macro '__setup_timer'
+     143 |                 (_timer)->function = (_fn);                             \
+         |                                       ^~~
+   drivers/leds/leds-apu.c: At top level:
+>> drivers/leds/leds-apu.c:105:35: warning: 'apu_led_dmi_table' defined but not used [-Wunused-const-variable=]
+     105 | static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
+         |                                   ^~~~~~~~~~~~~~~~~
 
 
-vim +1797 drivers/usb/gadget/udc/renesas_usb3.c
+vim +/apu_led_dmi_table +105 drivers/leds/leds-apu.c
 
-  1771	
-  1772	static int renesas_usb3_init_ep(struct renesas_usb3 *usb3, struct device *dev,
-  1773					const struct renesas_usb3_priv *priv)
-  1774	{
-  1775		struct renesas_usb3_ep *usb3_ep;
-  1776		int i;
-  1777	
-  1778		/* calculate num_usb3_eps from renesas_usb3_priv */
-  1779		usb3->num_usb3_eps = priv->ramsize_per_ramif * priv->num_ramif * 2 /
-  1780				     priv->ramsize_per_pipe + 1;
-  1781	
-  1782		if (usb3->num_usb3_eps > USB3_MAX_NUM_PIPES)
-  1783			usb3->num_usb3_eps = USB3_MAX_NUM_PIPES;
-  1784	
-  1785		usb3->usb3_ep = devm_kzalloc(dev, sizeof(*usb3_ep) * usb3->num_usb3_eps,
-  1786					     GFP_KERNEL);
-  1787		if (!usb3->usb3_ep)
-  1788			return -ENOMEM;
-  1789	
-  1790		dev_dbg(dev, "%s: num_usb3_eps = %d\n", __func__, usb3->num_usb3_eps);
-  1791		/*
-  1792		 * This driver prepares pipes as the followings:
-  1793		 *  - odd pipes = IN pipe
-  1794		 *  - even pipes = OUT pipe (except pipe 0)
-  1795		 */
-  1796		usb3_for_each_ep(usb3_ep, usb3, i) {
-> 1797			snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep%d", i);
-  1798			usb3_ep->usb3 = usb3;
-  1799			usb3_ep->num = i;
-  1800			usb3_ep->ep.name = usb3_ep->ep_name;
-  1801			usb3_ep->ep.ops = &renesas_usb3_ep_ops;
-  1802			INIT_LIST_HEAD(&usb3_ep->queue);
-  1803			INIT_LIST_HEAD(&usb3_ep->ep.ep_list);
-  1804			if (!i) {
-  1805				/* for control pipe */
-  1806				usb3->gadget.ep0 = &usb3_ep->ep;
-  1807				usb_ep_set_maxpacket_limit(&usb3_ep->ep,
-  1808							USB3_EP0_HSFS_MAX_PACKET_SIZE);
-  1809				usb3_ep->ep.caps.type_control = true;
-  1810				usb3_ep->ep.caps.dir_in = true;
-  1811				usb3_ep->ep.caps.dir_out = true;
-  1812				continue;
-  1813			}
-  1814	
-  1815			/* for bulk or interrupt pipe */
-  1816			usb_ep_set_maxpacket_limit(&usb3_ep->ep, ~0);
-  1817			list_add_tail(&usb3_ep->ep.ep_list, &usb3->gadget.ep_list);
-  1818			usb3_ep->ep.caps.type_bulk = true;
-  1819			usb3_ep->ep.caps.type_int = true;
-  1820			if (i & 1)
-  1821				usb3_ep->ep.caps.dir_in = true;
-  1822			else
-  1823				usb3_ep->ep.caps.dir_out = true;
-  1824		}
-  1825	
-  1826		return 0;
-  1827	}
-  1828	
+   104	
+ > 105	static const struct dmi_system_id apu_led_dmi_table[] __initconst = {
+   106		{
+   107			.ident = "apu",
+   108			.matches = {
+   109				DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
+   110				DMI_MATCH(DMI_PRODUCT_NAME, "APU")
+   111			}
+   112		},
+   113		{
+   114			.ident = "apu2",
+   115			.matches = {
+   116				DMI_MATCH(DMI_SYS_VENDOR, "PC Engines"),
+   117				DMI_MATCH(DMI_BOARD_NAME, "APU2")
+   118			}
+   119		},
+   120		{}
+   121	};
+   122	MODULE_DEVICE_TABLE(dmi, apu_led_dmi_table);
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
