@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329A6A34
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 06:31:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A28A3B
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 06:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTLs5een"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lfvca4kh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701585112; x=1733121112;
+  t=1701585111; x=1733121111;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HkToBunISyj5JMG7HEqZU79bB4Zu9OidjjTuWFNXMNs=;
-  b=BTLs5eenjs1+a7Jv6FpFYnPca4PymcLr2A2t1OtyVYnQystYKDBkYveW
-   tlOqUCttrUrGrhTZjJU4iHVVFnT8vbQrLkexA5+bd34R7gDa8ri450gu+
-   bKzF370B3p1nwQwTqSyUhsooJbKLkANyOwok5/5EwGmVpZmOqqXymmofQ
-   l/zI2NXxfJDM6kLjQy8Vyo2qs84BtYhNVH4We0u2loXEO/O9DqbSlS14a
-   JvEBEAjoKGWBKDJE/BhzKDOq4MhP5vGZ/Etvg9i6xQkRTCXR0UJSLYYdv
-   e2u4hoTEAEJjtWbsg9MlFXkhrdqPYBAykpNKe9ofxQh8ezHQeaNYumBqV
+  bh=dHR3EALZjsqZQiaGWALjzsgNprKOOg4pyrAb0YFzZgQ=;
+  b=lfvca4khA/hMOywW+xDCx0t5UMb//YzyMSO6lL0dUWy+rfkkA80Ftqhf
+   CEpDoPnBexNt7oHGQ8fv9lQKtnq5t/5vQoUx7QhiOjL+5sA6xV+MXYNMY
+   0xgRy897+ywep53/0qrMCOP9E1uj88IO9S+qjaF2swaaSQCsAWiVVqusm
+   zi6XbPlNNJvMrGAedoGwXf+jJZ3g8MXp+iqEa5KKGWD9Mc9bfhn54ihMr
+   9gI6EJoXdNbSbtkcvQsD8pPv0dUPK8WHGtArRipBVbIBoFnkZTlGglIZ+
+   MxU0jBR5QvWvZsTYH+Uz9zne0UPcj3fxsHkwOslbmHbLhjPxnJEGkFHF7
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="15180370"
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="6942670"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="15180370"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:31:49 -0800
+   d="scan'208";a="6942670"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:31:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="943556087"
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="893652716"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="943556087"
+   d="scan'208";a="893652716"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 02 Dec 2023 22:31:46 -0800
+  by orsmga004.jf.intel.com with ESMTP; 02 Dec 2023 22:31:44 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9g11-0006KZ-31;
-	Sun, 03 Dec 2023 06:31:43 +0000
-Date: Sun, 3 Dec 2023 14:31:35 +0800
+	id 1r9g10-0006Jc-0D;
+	Sun, 03 Dec 2023 06:31:42 +0000
+Date: Sun, 3 Dec 2023 14:31:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tomas Winkler <tomas.winkler@intel.com>
+To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Alexander Usyskin <alexander.usyskin@intel.com>
-Subject: drivers/mtd/maps/vmu-flash.c:722:24: error: 'struct mtd_info' has no
- member named 'usecount'
-Message-ID: <202312022315.79twVRZw-lkp@intel.com>
+	Ingo Molnar <mingo@kernel.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>
+Subject: kernel/events/core.c:8288:1: sparse: sparse: symbol
+ 'dev_attr_nr_addr_filters' was not declared. Should it be static?
+Message-ID: <202312022055.x0lPITvL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,123 +52,167 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tomas,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   815fb87b753055df2d9e50f6cd80eb10235fe3e9
-commit: 19bfa9ebebb5ec0695def57eb1d80de7e9cab369 mtd: use refcount to prevent corruption
-date:   5 months ago
-config: sh-randconfig-c034-20221009 (https://download.01.org/0day-ci/archive/20231202/202312022315.79twVRZw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231202/202312022315.79twVRZw-lkp@intel.com/reproduce)
+commit: 6e855cd4f4b5258016cf707f94f96bfa51c32f32 perf/core: Let userspace know if the PMU supports address filters
+date:   8 years ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231202/202312022055.x0lPITvL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231202/202312022055.x0lPITvL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312022315.79twVRZw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312022055.x0lPITvL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/events/core.c:518:26: sparse: sparse: function 'perf_pmu_name' with external linkage has definition
+   kernel/events/core.c:891:1: sparse: sparse: symbol 'perf_cgroup_switch' was not declared. Should it be static?
+   kernel/events/core.c:993:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got int * @@
+   kernel/events/core.c:993:22: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:993:22: sparse:     got int *
+   kernel/events/core.c:1000:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got int * @@
+   kernel/events/core.c:1000:22: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:1000:22: sparse:     got int *
+   kernel/events/core.c:2783:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:2783:34: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:2783:34: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:3571:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:3571:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:3571:26: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:5913:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:5913:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:5913:26: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:6012:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:6012:43: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:6012:43: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:8237:35: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_context [noderef] <asn:3> * @@     got struct perf_cpu_context *[noderef] pmu_cpu_context @@
+   kernel/events/core.c:8237:35: sparse:     expected struct perf_cpu_context [noderef] <asn:3> *
+   kernel/events/core.c:8237:35: sparse:     got struct perf_cpu_context *[noderef] pmu_cpu_context
+   kernel/events/core.c:8250:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:8250:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:8250:26: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:8272:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:3> *__pdata @@     got struct perf_cpu_context *[noderef] pmu_cpu_context @@
+   kernel/events/core.c:8272:24: sparse:     expected void [noderef] <asn:3> *__pdata
+   kernel/events/core.c:8272:24: sparse:     got struct perf_cpu_context *[noderef] pmu_cpu_context
+>> kernel/events/core.c:8288:1: sparse: sparse: symbol 'dev_attr_nr_addr_filters' was not declared. Should it be static?
+   kernel/events/core.c:8339:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:8339:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:8339:26: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:8418:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected int *[noderef] pmu_disable_count @@     got int [noderef] <asn:3> * @@
+   kernel/events/core.c:8418:32: sparse:     expected int *[noderef] pmu_disable_count
+   kernel/events/core.c:8418:32: sparse:     got int [noderef] <asn:3> *
+   kernel/events/core.c:8452:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_cpu_context *[noderef] pmu_cpu_context @@     got struct perf_cpu_context [noderef] <asn:3> * @@
+   kernel/events/core.c:8452:30: sparse:     expected struct perf_cpu_context *[noderef] pmu_cpu_context
+   kernel/events/core.c:8452:30: sparse:     got struct perf_cpu_context [noderef] <asn:3> *
+   kernel/events/core.c:8457:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_cpu_context *[noderef] pmu_cpu_context @@     got struct perf_cpu_context [noderef] <asn:3> * @@
+   kernel/events/core.c:8457:30: sparse:     expected struct perf_cpu_context *[noderef] pmu_cpu_context
+   kernel/events/core.c:8457:30: sparse:     got struct perf_cpu_context [noderef] <asn:3> *
+   kernel/events/core.c:8464:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:8464:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:8464:26: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:8518:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:3> *__pdata @@     got int *[noderef] pmu_disable_count @@
+   kernel/events/core.c:8518:24: sparse:     expected void [noderef] <asn:3> *__pdata
+   kernel/events/core.c:8518:24: sparse:     got int *[noderef] pmu_disable_count
+   kernel/events/core.c:8536:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:3> *__pdata @@     got int *[noderef] pmu_disable_count @@
+   kernel/events/core.c:8536:24: sparse:     expected void [noderef] <asn:3> *__pdata
+   kernel/events/core.c:8536:24: sparse:     got int *[noderef] pmu_disable_count
+   kernel/events/core.c:9587:20: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:9587:20: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:9587:20: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:9588:20: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:9588:20: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:9588:20: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:152:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
+   kernel/events/core.c:160:17: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
+   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:993:22: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:1000:22: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
+   include/linux/rcupdate.h:924:9: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
+   kernel/events/core.c:1281:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
+   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:2191:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
+   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:2783:34: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:3571:26: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:3602:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
+   kernel/events/core.c: note: in included file:
+   kernel/events/internal.h:188:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] <asn:1> *from @@     got void const *buf @@
+   kernel/events/internal.h:188:1: sparse:     expected void const [noderef] <asn:1> *from
+   kernel/events/internal.h:188:1: sparse:     got void const *buf
+   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/core.c:5913:26: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:5924:17: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:6012:43: sparse: sparse: dereference of noderef expression
+   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/core.c:8237:32: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8250:26: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8266:21: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8266:43: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8272:21: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8339:26: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8419:14: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8453:13: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8458:14: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8464:26: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8518:21: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:8536:21: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:9587:20: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:9588:20: sparse: sparse: dereference of noderef expression
+   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
+   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
+   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
+   In file included from include/linux/kobject.h:21,
 
-   In file included from drivers/mtd/maps/vmu-flash.c:12:
-   include/linux/maple.h:81:23: error: field 'dev' has incomplete type
-      81 |         struct device dev;
-         |                       ^~~
-   include/linux/maple.h:86:30: error: field 'drv' has incomplete type
-      86 |         struct device_driver drv;
-         |                              ^~~
-   drivers/mtd/maps/vmu-flash.c: In function 'vmu_can_unload':
->> drivers/mtd/maps/vmu-flash.c:722:24: error: 'struct mtd_info' has no member named 'usecount'
-     722 |                 if (mtd->usecount > 0)
-         |                        ^~
-   In file included from include/linux/init.h:5,
-                    from drivers/mtd/maps/vmu-flash.c:8:
-   drivers/mtd/maps/vmu-flash.c: In function 'probe_maple_vmu':
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/maple.h:100:25: note: in expansion of macro 'container_of'
-     100 | #define to_maple_dev(n) container_of(n, struct maple_device, dev)
-         |                         ^~~~~~~~~~~~
-   drivers/mtd/maps/vmu-flash.c:775:37: note: in expansion of macro 'to_maple_dev'
-     775 |         struct maple_device *mdev = to_maple_dev(dev);
-         |                                     ^~~~~~~~~~~~
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/maple.h:101:28: note: in expansion of macro 'container_of'
-     101 | #define to_maple_driver(n) container_of(n, struct maple_driver, drv)
-         |                            ^~~~~~~~~~~~
-   drivers/mtd/maps/vmu-flash.c:776:37: note: in expansion of macro 'to_maple_driver'
-     776 |         struct maple_driver *mdrv = to_maple_driver(dev->driver);
-         |                                     ^~~~~~~~~~~~~~~
-   drivers/mtd/maps/vmu-flash.c: In function 'remove_maple_vmu':
-   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
-     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/maple.h:100:25: note: in expansion of macro 'container_of'
-     100 | #define to_maple_dev(n) container_of(n, struct maple_device, dev)
-         |                         ^~~~~~~~~~~~
-   drivers/mtd/maps/vmu-flash.c:787:37: note: in expansion of macro 'to_maple_dev'
-     787 |         struct maple_device *mdev = to_maple_dev(dev);
-         |                                     ^~~~~~~~~~~~
+vim +/dev_attr_nr_addr_filters +8288 kernel/events/core.c
 
-
-vim +722 drivers/mtd/maps/vmu-flash.c
-
-47a72688fae729 Adrian McMenamin 2009-03-04  709  
-47a72688fae729 Adrian McMenamin 2009-03-04  710  /* Callback to handle eccentricities of both mtd subsystem
-47a72688fae729 Adrian McMenamin 2009-03-04  711   * and general flakyness of Dreamcast VMUs
-47a72688fae729 Adrian McMenamin 2009-03-04  712   */
-47a72688fae729 Adrian McMenamin 2009-03-04  713  static int vmu_can_unload(struct maple_device *mdev)
-47a72688fae729 Adrian McMenamin 2009-03-04  714  {
-47a72688fae729 Adrian McMenamin 2009-03-04  715  	struct memcard *card;
-47a72688fae729 Adrian McMenamin 2009-03-04  716  	int x;
-47a72688fae729 Adrian McMenamin 2009-03-04  717  	struct mtd_info *mtd;
-47a72688fae729 Adrian McMenamin 2009-03-04  718  
-47a72688fae729 Adrian McMenamin 2009-03-04  719  	card = maple_get_drvdata(mdev);
-47a72688fae729 Adrian McMenamin 2009-03-04  720  	for (x = 0; x < card->partitions; x++) {
-47a72688fae729 Adrian McMenamin 2009-03-04  721  		mtd = &((card->mtd)[x]);
-47a72688fae729 Adrian McMenamin 2009-03-04 @722  		if (mtd->usecount > 0)
-47a72688fae729 Adrian McMenamin 2009-03-04  723  			return 0;
-47a72688fae729 Adrian McMenamin 2009-03-04  724  	}
-47a72688fae729 Adrian McMenamin 2009-03-04  725  	return 1;
-47a72688fae729 Adrian McMenamin 2009-03-04  726  }
-47a72688fae729 Adrian McMenamin 2009-03-04  727  
-
-:::::: The code at line 722 was first introduced by commit
-:::::: 47a72688fae7298e1ad5fdc9bff7e04b6a549620 mtd: flash mapping support for Dreamcast VMU.
-
-:::::: TO: Adrian McMenamin <adrian@newgolddream.dyndns.info>
-:::::: CC: Paul Mundt <lethal@linux-sh.org>
+  8276	
+  8277	/*
+  8278	 * Let userspace know that this PMU supports address range filtering:
+  8279	 */
+  8280	static ssize_t nr_addr_filters_show(struct device *dev,
+  8281					    struct device_attribute *attr,
+  8282					    char *page)
+  8283	{
+  8284		struct pmu *pmu = dev_get_drvdata(dev);
+  8285	
+  8286		return snprintf(page, PAGE_SIZE - 1, "%d\n", pmu->nr_addr_filters);
+  8287	}
+> 8288	DEVICE_ATTR_RO(nr_addr_filters);
+  8289	
 
 -- 
 0-DAY CI Kernel Test Service
