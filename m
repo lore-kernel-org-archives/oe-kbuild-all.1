@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A7D1843
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 06:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F18138E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 06:33:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2Xq9LHa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6Vo8XoB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701585182; x=1733121182;
+  t=1701585183; x=1733121183;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wrk0Kl1e7I/Z18YrZdNfSmGgEaEzZ5BwY6VdYRlgZNs=;
-  b=K2Xq9LHa2VxLFytRNgx03r53F4t3RYE0Rr7Fn2KgxmeDgdR1XNZgLy1e
-   CAvtOHTBHJ111gH6IfqEVEr1Wc6G3NZbvgLtHW+zaumKY71hsj2Yvtfe2
-   r1Gu47QGMBO9zt60MFSnDyOfSWuodYWHszs2MFBESU+pwrsE9bsGfcLkv
-   8oPJHsWDOuk4/Bf1/SeQAXcSgthr9GZCTlgLszv6XBQ3D4OTctyboUFZz
-   xXWuFfYTpEnJS8CxrsrmZmM4tHlR/x10HQiJLMJb9cZRGhQsPaP9TJNyL
-   KU+A2a/oe6j2Jb9JzjRJuUpYBmuN1MDekHCo8ND75bcxeZYiRYCvPUXdN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="15180440"
+  bh=PdSZvTWOsgnLqAmy0wUew8zktWnmi9+byJvOUyraLuA=;
+  b=D6Vo8XoBc+UOAiadPZmrjp0XIZUQI6WMEKC2355GagjdHkSvL23p7tVY
+   FFQ/3IZKqrnLqWSm5t0IqZwAMYeza9tqioNZifootOEvzHGzIiMUTojDM
+   ZSeZo2gHRSd8TqZsp3sPD3zIMjaXebolJnGyci99KaTKek3kkxDreId3+
+   4hNtn4UqkJAfBFOgaa9vKrVNrMKjsihG3CSVNQ0RHVlpnDEN56rFay8sj
+   2+Lx/ZiTuTw59kxdEaoCsJtsCJhPT5WE2ox9STlO3Vcb8LGxnUnyZ6bYk
+   c1C51AdrZydTqk+NGtOK0XYkkpUU8TCnazVLISZHPly/JZK1UibEBFJwC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="6906539"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="15180440"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:32:49 -0800
+   d="scan'208";a="6906539"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:32:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="914081651"
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="770191168"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="914081651"
+   d="scan'208";a="770191168"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Dec 2023 22:32:47 -0800
+  by orsmga002.jf.intel.com with ESMTP; 02 Dec 2023 22:32:47 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9g20-0006Lz-2c;
-	Sun, 03 Dec 2023 06:32:44 +0000
-Date: Sun, 3 Dec 2023 14:31:51 +0800
+	id 1r9g21-0006MQ-0I;
+	Sun, 03 Dec 2023 06:32:45 +0000
+Date: Sun, 3 Dec 2023 14:31:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>
-Subject: kernel/events/core.c:8288:1: sparse: sparse: symbol
- 'dev_attr_nr_addr_filters' was not declared. Should it be static?
-Message-ID: <202312030617.SdoSYtcc-lkp@intel.com>
+	Richard Weinberger <richard@nod.at>
+Subject: fs/ubifs/auth.c:30: warning: expecting prototype for
+ ubifs_node_calc_hash(). Prototype was for __ubifs_node_calc_hash() instead
+Message-ID: <202312030417.66c5PwHj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,167 +51,197 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Sascha,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   815fb87b753055df2d9e50f6cd80eb10235fe3e9
-commit: 6e855cd4f4b5258016cf707f94f96bfa51c32f32 perf/core: Let userspace know if the PMU supports address filters
-date:   8 years ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231203/202312030617.SdoSYtcc-lkp@intel.com/config)
+commit: d8a22773a12c6d78ee758c9e530f3a488bb7cb29 ubifs: Enable authentication support
+date:   5 years ago
+config: x86_64-randconfig-x051-20230728 (https://download.01.org/0day-ci/archive/20231203/202312030417.66c5PwHj-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231203/202312030617.SdoSYtcc-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231203/202312030417.66c5PwHj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312030617.SdoSYtcc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312030417.66c5PwHj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/events/core.c:518:26: sparse: sparse: function 'perf_pmu_name' with external linkage has definition
-   kernel/events/core.c:891:1: sparse: sparse: symbol 'perf_cgroup_switch' was not declared. Should it be static?
-   kernel/events/core.c:993:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got int * @@
-   kernel/events/core.c:993:22: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:993:22: sparse:     got int *
-   kernel/events/core.c:1000:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got int * @@
-   kernel/events/core.c:1000:22: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:1000:22: sparse:     got int *
-   kernel/events/core.c:2783:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:2783:34: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:2783:34: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:3571:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:3571:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:3571:26: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:5913:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:5913:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:5913:26: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:6012:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:6012:43: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:6012:43: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:8237:35: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct perf_cpu_context [noderef] <asn:3> * @@     got struct perf_cpu_context *[noderef] pmu_cpu_context @@
-   kernel/events/core.c:8237:35: sparse:     expected struct perf_cpu_context [noderef] <asn:3> *
-   kernel/events/core.c:8237:35: sparse:     got struct perf_cpu_context *[noderef] pmu_cpu_context
-   kernel/events/core.c:8250:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:8250:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:8250:26: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:8272:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:3> *__pdata @@     got struct perf_cpu_context *[noderef] pmu_cpu_context @@
-   kernel/events/core.c:8272:24: sparse:     expected void [noderef] <asn:3> *__pdata
-   kernel/events/core.c:8272:24: sparse:     got struct perf_cpu_context *[noderef] pmu_cpu_context
->> kernel/events/core.c:8288:1: sparse: sparse: symbol 'dev_attr_nr_addr_filters' was not declared. Should it be static?
-   kernel/events/core.c:8339:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:8339:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:8339:26: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:8418:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected int *[noderef] pmu_disable_count @@     got int [noderef] <asn:3> * @@
-   kernel/events/core.c:8418:32: sparse:     expected int *[noderef] pmu_disable_count
-   kernel/events/core.c:8418:32: sparse:     got int [noderef] <asn:3> *
-   kernel/events/core.c:8452:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_cpu_context *[noderef] pmu_cpu_context @@     got struct perf_cpu_context [noderef] <asn:3> * @@
-   kernel/events/core.c:8452:30: sparse:     expected struct perf_cpu_context *[noderef] pmu_cpu_context
-   kernel/events/core.c:8452:30: sparse:     got struct perf_cpu_context [noderef] <asn:3> *
-   kernel/events/core.c:8457:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_cpu_context *[noderef] pmu_cpu_context @@     got struct perf_cpu_context [noderef] <asn:3> * @@
-   kernel/events/core.c:8457:30: sparse:     expected struct perf_cpu_context *[noderef] pmu_cpu_context
-   kernel/events/core.c:8457:30: sparse:     got struct perf_cpu_context [noderef] <asn:3> *
-   kernel/events/core.c:8464:26: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:8464:26: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:8464:26: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:8518:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:3> *__pdata @@     got int *[noderef] pmu_disable_count @@
-   kernel/events/core.c:8518:24: sparse:     expected void [noderef] <asn:3> *__pdata
-   kernel/events/core.c:8518:24: sparse:     got int *[noderef] pmu_disable_count
-   kernel/events/core.c:8536:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:3> *__pdata @@     got int *[noderef] pmu_disable_count @@
-   kernel/events/core.c:8536:24: sparse:     expected void [noderef] <asn:3> *__pdata
-   kernel/events/core.c:8536:24: sparse:     got int *[noderef] pmu_disable_count
-   kernel/events/core.c:9587:20: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:9587:20: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:9587:20: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:9588:20: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:9588:20: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:9588:20: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:152:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
-   kernel/events/core.c:160:17: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
-   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:993:22: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:1000:22: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
-   include/linux/rcupdate.h:924:9: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
-   kernel/events/core.c:1281:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
-   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:2191:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
-   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:2783:34: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:3571:26: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:3602:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
-   kernel/events/core.c: note: in included file:
-   kernel/events/internal.h:188:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] <asn:1> *from @@     got void const *buf @@
-   kernel/events/internal.h:188:1: sparse:     expected void const [noderef] <asn:1> *from
-   kernel/events/internal.h:188:1: sparse:     got void const *buf
-   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/core.c:5913:26: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:5924:17: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:6012:43: sparse: sparse: dereference of noderef expression
-   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/internal.h:162:1: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/core.c:8237:32: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8250:26: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8266:21: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8266:43: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8272:21: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8339:26: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8419:14: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8453:13: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8458:14: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8464:26: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8518:21: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:8536:21: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:9587:20: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:9588:20: sparse: sparse: dereference of noderef expression
-   kernel/events/core.c:145:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct perf_cpu_context * @@
-   kernel/events/core.c:145:16: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
-   kernel/events/core.c:145:16: sparse:     got struct perf_cpu_context *
-   kernel/events/core.c:145:16: sparse: sparse: dereference of noderef expression
-   In file included from include/linux/kobject.h:21,
+All warnings (new ones prefixed by >>):
 
-vim +/dev_attr_nr_addr_filters +8288 kernel/events/core.c
+   fs/ubifs/auth.c:158:5: warning: no previous prototype for '__ubifs_shash_final' [-Wmissing-prototypes]
+     158 | int __ubifs_shash_final(const struct ubifs_info *c, struct shash_desc *desc,
+         |     ^~~~~~~~~~~~~~~~~~~
+>> fs/ubifs/auth.c:30: warning: expecting prototype for ubifs_node_calc_hash(). Prototype was for __ubifs_node_calc_hash() instead
+   fs/ubifs/auth.c:80: warning: Function parameter or member 'inhash' not described in 'ubifs_prepare_auth_node'
+   fs/ubifs/auth.c:80: warning: Excess function parameter 'hash' description in 'ubifs_prepare_auth_node'
+   fs/ubifs/auth.o: warning: objtool: ubifs_init_authentication()+0x219: sibling call from callable instruction with modified stack frame
 
-  8276	
-  8277	/*
-  8278	 * Let userspace know that this PMU supports address range filtering:
-  8279	 */
-  8280	static ssize_t nr_addr_filters_show(struct device *dev,
-  8281					    struct device_attribute *attr,
-  8282					    char *page)
-  8283	{
-  8284		struct pmu *pmu = dev_get_drvdata(dev);
-  8285	
-  8286		return snprintf(page, PAGE_SIZE - 1, "%d\n", pmu->nr_addr_filters);
-  8287	}
-> 8288	DEVICE_ATTR_RO(nr_addr_filters);
-  8289	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for BACKLIGHT_CLASS_DEVICE
+   Depends on [n]: HAS_IOMEM [=y] && BACKLIGHT_LCD_SUPPORT [=n]
+   Selected by [y]:
+   - ACPI_CMPC [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && INPUT [=y] && (RFKILL [=n] || RFKILL [=n]=n)
+   - SAMSUNG_Q10 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y]
+
+
+vim +30 fs/ubifs/auth.c
+
+49525e5eecca5e Sascha Hauer 2018-09-07   19  
+49525e5eecca5e Sascha Hauer 2018-09-07   20  /**
+49525e5eecca5e Sascha Hauer 2018-09-07   21   * ubifs_node_calc_hash - calculate the hash of a UBIFS node
+49525e5eecca5e Sascha Hauer 2018-09-07   22   * @c: UBIFS file-system description object
+49525e5eecca5e Sascha Hauer 2018-09-07   23   * @node: the node to calculate a hash for
+49525e5eecca5e Sascha Hauer 2018-09-07   24   * @hash: the returned hash
+49525e5eecca5e Sascha Hauer 2018-09-07   25   *
+49525e5eecca5e Sascha Hauer 2018-09-07   26   * Returns 0 for success or a negative error code otherwise.
+49525e5eecca5e Sascha Hauer 2018-09-07   27   */
+49525e5eecca5e Sascha Hauer 2018-09-07   28  int __ubifs_node_calc_hash(const struct ubifs_info *c, const void *node,
+49525e5eecca5e Sascha Hauer 2018-09-07   29  			    u8 *hash)
+49525e5eecca5e Sascha Hauer 2018-09-07  @30  {
+49525e5eecca5e Sascha Hauer 2018-09-07   31  	const struct ubifs_ch *ch = node;
+49525e5eecca5e Sascha Hauer 2018-09-07   32  	SHASH_DESC_ON_STACK(shash, c->hash_tfm);
+49525e5eecca5e Sascha Hauer 2018-09-07   33  	int err;
+49525e5eecca5e Sascha Hauer 2018-09-07   34  
+49525e5eecca5e Sascha Hauer 2018-09-07   35  	shash->tfm = c->hash_tfm;
+49525e5eecca5e Sascha Hauer 2018-09-07   36  	shash->flags = CRYPTO_TFM_REQ_MAY_SLEEP;
+49525e5eecca5e Sascha Hauer 2018-09-07   37  
+49525e5eecca5e Sascha Hauer 2018-09-07   38  	err = crypto_shash_digest(shash, node, le32_to_cpu(ch->len), hash);
+49525e5eecca5e Sascha Hauer 2018-09-07   39  	if (err < 0)
+49525e5eecca5e Sascha Hauer 2018-09-07   40  		return err;
+49525e5eecca5e Sascha Hauer 2018-09-07   41  	return 0;
+49525e5eecca5e Sascha Hauer 2018-09-07   42  }
+49525e5eecca5e Sascha Hauer 2018-09-07   43  
+49525e5eecca5e Sascha Hauer 2018-09-07   44  /**
+49525e5eecca5e Sascha Hauer 2018-09-07   45   * ubifs_hash_calc_hmac - calculate a HMAC from a hash
+49525e5eecca5e Sascha Hauer 2018-09-07   46   * @c: UBIFS file-system description object
+49525e5eecca5e Sascha Hauer 2018-09-07   47   * @hash: the node to calculate a HMAC for
+49525e5eecca5e Sascha Hauer 2018-09-07   48   * @hmac: the returned HMAC
+49525e5eecca5e Sascha Hauer 2018-09-07   49   *
+49525e5eecca5e Sascha Hauer 2018-09-07   50   * Returns 0 for success or a negative error code otherwise.
+49525e5eecca5e Sascha Hauer 2018-09-07   51   */
+49525e5eecca5e Sascha Hauer 2018-09-07   52  static int ubifs_hash_calc_hmac(const struct ubifs_info *c, const u8 *hash,
+49525e5eecca5e Sascha Hauer 2018-09-07   53  				 u8 *hmac)
+49525e5eecca5e Sascha Hauer 2018-09-07   54  {
+49525e5eecca5e Sascha Hauer 2018-09-07   55  	SHASH_DESC_ON_STACK(shash, c->hmac_tfm);
+49525e5eecca5e Sascha Hauer 2018-09-07   56  	int err;
+49525e5eecca5e Sascha Hauer 2018-09-07   57  
+49525e5eecca5e Sascha Hauer 2018-09-07   58  	shash->tfm = c->hmac_tfm;
+49525e5eecca5e Sascha Hauer 2018-09-07   59  	shash->flags = CRYPTO_TFM_REQ_MAY_SLEEP;
+49525e5eecca5e Sascha Hauer 2018-09-07   60  
+49525e5eecca5e Sascha Hauer 2018-09-07   61  	err = crypto_shash_digest(shash, hash, c->hash_len, hmac);
+49525e5eecca5e Sascha Hauer 2018-09-07   62  	if (err < 0)
+49525e5eecca5e Sascha Hauer 2018-09-07   63  		return err;
+49525e5eecca5e Sascha Hauer 2018-09-07   64  	return 0;
+49525e5eecca5e Sascha Hauer 2018-09-07   65  }
+49525e5eecca5e Sascha Hauer 2018-09-07   66  
+49525e5eecca5e Sascha Hauer 2018-09-07   67  /**
+49525e5eecca5e Sascha Hauer 2018-09-07   68   * ubifs_prepare_auth_node - Prepare an authentication node
+49525e5eecca5e Sascha Hauer 2018-09-07   69   * @c: UBIFS file-system description object
+49525e5eecca5e Sascha Hauer 2018-09-07   70   * @node: the node to calculate a hash for
+49525e5eecca5e Sascha Hauer 2018-09-07   71   * @hash: input hash of previous nodes
+49525e5eecca5e Sascha Hauer 2018-09-07   72   *
+49525e5eecca5e Sascha Hauer 2018-09-07   73   * This function prepares an authentication node for writing onto flash.
+49525e5eecca5e Sascha Hauer 2018-09-07   74   * It creates a HMAC from the given input hash and writes it to the node.
+49525e5eecca5e Sascha Hauer 2018-09-07   75   *
+49525e5eecca5e Sascha Hauer 2018-09-07   76   * Returns 0 for success or a negative error code otherwise.
+49525e5eecca5e Sascha Hauer 2018-09-07   77   */
+49525e5eecca5e Sascha Hauer 2018-09-07   78  int ubifs_prepare_auth_node(struct ubifs_info *c, void *node,
+49525e5eecca5e Sascha Hauer 2018-09-07   79  			     struct shash_desc *inhash)
+49525e5eecca5e Sascha Hauer 2018-09-07   80  {
+49525e5eecca5e Sascha Hauer 2018-09-07   81  	SHASH_DESC_ON_STACK(hash_desc, c->hash_tfm);
+49525e5eecca5e Sascha Hauer 2018-09-07   82  	struct ubifs_auth_node *auth = node;
+49525e5eecca5e Sascha Hauer 2018-09-07   83  	u8 *hash;
+49525e5eecca5e Sascha Hauer 2018-09-07   84  	int err;
+49525e5eecca5e Sascha Hauer 2018-09-07   85  
+49525e5eecca5e Sascha Hauer 2018-09-07   86  	hash = kmalloc(crypto_shash_descsize(c->hash_tfm), GFP_NOFS);
+49525e5eecca5e Sascha Hauer 2018-09-07   87  	if (!hash)
+49525e5eecca5e Sascha Hauer 2018-09-07   88  		return -ENOMEM;
+49525e5eecca5e Sascha Hauer 2018-09-07   89  
+49525e5eecca5e Sascha Hauer 2018-09-07   90  	hash_desc->tfm = c->hash_tfm;
+49525e5eecca5e Sascha Hauer 2018-09-07   91  	hash_desc->flags = CRYPTO_TFM_REQ_MAY_SLEEP;
+49525e5eecca5e Sascha Hauer 2018-09-07   92  	ubifs_shash_copy_state(c, inhash, hash_desc);
+49525e5eecca5e Sascha Hauer 2018-09-07   93  
+49525e5eecca5e Sascha Hauer 2018-09-07   94  	err = crypto_shash_final(hash_desc, hash);
+49525e5eecca5e Sascha Hauer 2018-09-07   95  	if (err)
+49525e5eecca5e Sascha Hauer 2018-09-07   96  		goto out;
+49525e5eecca5e Sascha Hauer 2018-09-07   97  
+49525e5eecca5e Sascha Hauer 2018-09-07   98  	err = ubifs_hash_calc_hmac(c, hash, auth->hmac);
+49525e5eecca5e Sascha Hauer 2018-09-07   99  	if (err)
+49525e5eecca5e Sascha Hauer 2018-09-07  100  		goto out;
+49525e5eecca5e Sascha Hauer 2018-09-07  101  
+49525e5eecca5e Sascha Hauer 2018-09-07  102  	auth->ch.node_type = UBIFS_AUTH_NODE;
+49525e5eecca5e Sascha Hauer 2018-09-07  103  	ubifs_prepare_node(c, auth, ubifs_auth_node_sz(c), 0);
+49525e5eecca5e Sascha Hauer 2018-09-07  104  
+49525e5eecca5e Sascha Hauer 2018-09-07  105  	err = 0;
+49525e5eecca5e Sascha Hauer 2018-09-07  106  out:
+49525e5eecca5e Sascha Hauer 2018-09-07  107  	kfree(hash);
+49525e5eecca5e Sascha Hauer 2018-09-07  108  
+49525e5eecca5e Sascha Hauer 2018-09-07  109  	return err;
+49525e5eecca5e Sascha Hauer 2018-09-07  110  }
+49525e5eecca5e Sascha Hauer 2018-09-07  111  
+49525e5eecca5e Sascha Hauer 2018-09-07  112  static struct shash_desc *ubifs_get_desc(const struct ubifs_info *c,
+49525e5eecca5e Sascha Hauer 2018-09-07  113  					 struct crypto_shash *tfm)
+49525e5eecca5e Sascha Hauer 2018-09-07  114  {
+49525e5eecca5e Sascha Hauer 2018-09-07  115  	struct shash_desc *desc;
+49525e5eecca5e Sascha Hauer 2018-09-07  116  	int err;
+49525e5eecca5e Sascha Hauer 2018-09-07  117  
+49525e5eecca5e Sascha Hauer 2018-09-07  118  	if (!ubifs_authenticated(c))
+49525e5eecca5e Sascha Hauer 2018-09-07  119  		return NULL;
+49525e5eecca5e Sascha Hauer 2018-09-07  120  
+49525e5eecca5e Sascha Hauer 2018-09-07  121  	desc = kmalloc(sizeof(*desc) + crypto_shash_descsize(tfm), GFP_KERNEL);
+49525e5eecca5e Sascha Hauer 2018-09-07  122  	if (!desc)
+49525e5eecca5e Sascha Hauer 2018-09-07  123  		return ERR_PTR(-ENOMEM);
+49525e5eecca5e Sascha Hauer 2018-09-07  124  
+49525e5eecca5e Sascha Hauer 2018-09-07  125  	desc->tfm = tfm;
+49525e5eecca5e Sascha Hauer 2018-09-07  126  	desc->flags = CRYPTO_TFM_REQ_MAY_SLEEP;
+49525e5eecca5e Sascha Hauer 2018-09-07  127  
+49525e5eecca5e Sascha Hauer 2018-09-07  128  	err = crypto_shash_init(desc);
+49525e5eecca5e Sascha Hauer 2018-09-07  129  	if (err) {
+49525e5eecca5e Sascha Hauer 2018-09-07  130  		kfree(desc);
+49525e5eecca5e Sascha Hauer 2018-09-07  131  		return ERR_PTR(err);
+49525e5eecca5e Sascha Hauer 2018-09-07  132  	}
+49525e5eecca5e Sascha Hauer 2018-09-07  133  
+49525e5eecca5e Sascha Hauer 2018-09-07  134  	return desc;
+49525e5eecca5e Sascha Hauer 2018-09-07  135  }
+49525e5eecca5e Sascha Hauer 2018-09-07  136  
+49525e5eecca5e Sascha Hauer 2018-09-07  137  /**
+49525e5eecca5e Sascha Hauer 2018-09-07  138   * __ubifs_hash_get_desc - get a descriptor suitable for hashing a node
+49525e5eecca5e Sascha Hauer 2018-09-07  139   * @c: UBIFS file-system description object
+49525e5eecca5e Sascha Hauer 2018-09-07  140   *
+49525e5eecca5e Sascha Hauer 2018-09-07  141   * This function returns a descriptor suitable for hashing a node. Free after use
+49525e5eecca5e Sascha Hauer 2018-09-07  142   * with kfree.
+49525e5eecca5e Sascha Hauer 2018-09-07  143   */
+49525e5eecca5e Sascha Hauer 2018-09-07  144  struct shash_desc *__ubifs_hash_get_desc(const struct ubifs_info *c)
+49525e5eecca5e Sascha Hauer 2018-09-07  145  {
+49525e5eecca5e Sascha Hauer 2018-09-07  146  	return ubifs_get_desc(c, c->hash_tfm);
+49525e5eecca5e Sascha Hauer 2018-09-07  147  }
+49525e5eecca5e Sascha Hauer 2018-09-07  148  
+49525e5eecca5e Sascha Hauer 2018-09-07  149  /**
+49525e5eecca5e Sascha Hauer 2018-09-07  150   * __ubifs_shash_final - finalize shash
+49525e5eecca5e Sascha Hauer 2018-09-07  151   * @c: UBIFS file-system description object
+49525e5eecca5e Sascha Hauer 2018-09-07  152   * @desc: the descriptor
+49525e5eecca5e Sascha Hauer 2018-09-07  153   * @out: the output hash
+49525e5eecca5e Sascha Hauer 2018-09-07  154   *
+49525e5eecca5e Sascha Hauer 2018-09-07  155   * Simple wrapper around crypto_shash_final(), safe to be called with
+49525e5eecca5e Sascha Hauer 2018-09-07  156   * disabled authentication.
+49525e5eecca5e Sascha Hauer 2018-09-07  157   */
+49525e5eecca5e Sascha Hauer 2018-09-07 @158  int __ubifs_shash_final(const struct ubifs_info *c, struct shash_desc *desc,
+49525e5eecca5e Sascha Hauer 2018-09-07  159  			u8 *out)
+49525e5eecca5e Sascha Hauer 2018-09-07  160  {
+49525e5eecca5e Sascha Hauer 2018-09-07  161  	if (ubifs_authenticated(c))
+49525e5eecca5e Sascha Hauer 2018-09-07  162  		return crypto_shash_final(desc, out);
+49525e5eecca5e Sascha Hauer 2018-09-07  163  
+49525e5eecca5e Sascha Hauer 2018-09-07  164  	return 0;
+49525e5eecca5e Sascha Hauer 2018-09-07  165  }
+49525e5eecca5e Sascha Hauer 2018-09-07  166  
+
+:::::: The code at line 30 was first introduced by commit
+:::::: 49525e5eecca5e1b4a83ac217868e8d8b843539f ubifs: Add helper functions for authentication support
+
+:::::: TO: Sascha Hauer <s.hauer@pengutronix.de>
+:::::: CC: Richard Weinberger <richard@nod.at>
 
 -- 
 0-DAY CI Kernel Test Service
