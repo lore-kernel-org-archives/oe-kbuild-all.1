@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BC31843
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 06:31:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329A6A34
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 06:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WAVJrjWo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTLs5een"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701585110; x=1733121110;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9pyeKySCWgAMJx4cEp2OguCvvpR71LA+ugGj8qgipmA=;
-  b=WAVJrjWobDS1JUELBwv2DV0y2/kQ2x6VmdAplrC3zr8aGsRdLu6E8jI5
-   UNkIt2mUflWPptfYHhADQKhHm1bH+oxZ+iDY5ZvCoe7Yk5tMFEuuh0PVP
-   +C0/zSICULAFvnhecjHGNbsoqRfB9yYuedzQN/Q3WJq0A4W+c/zivdtjC
-   PaNI1Pjo+ULOpVT2qgJxrbt1x1+bnAuQP+S77ARyrxtRJxDTnRu8GKS0N
-   2WfHykh9Q0bJ/HNhiP8MZQgdxWAXQs7L6Eb0EFJkaiN4j/pS6TWYsR0hG
-   wvi5iDCYS0KoNnOnl/eA5JWgcxneGzlkLxc0KSNlQv9MObkvU/7vHxCTB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="6942666"
+  t=1701585112; x=1733121112;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HkToBunISyj5JMG7HEqZU79bB4Zu9OidjjTuWFNXMNs=;
+  b=BTLs5eenjs1+a7Jv6FpFYnPca4PymcLr2A2t1OtyVYnQystYKDBkYveW
+   tlOqUCttrUrGrhTZjJU4iHVVFnT8vbQrLkexA5+bd34R7gDa8ri450gu+
+   bKzF370B3p1nwQwTqSyUhsooJbKLkANyOwok5/5EwGmVpZmOqqXymmofQ
+   l/zI2NXxfJDM6kLjQy8Vyo2qs84BtYhNVH4We0u2loXEO/O9DqbSlS14a
+   JvEBEAjoKGWBKDJE/BhzKDOq4MhP5vGZ/Etvg9i6xQkRTCXR0UJSLYYdv
+   e2u4hoTEAEJjtWbsg9MlFXkhrdqPYBAykpNKe9ofxQh8ezHQeaNYumBqV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="15180370"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="6942666"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:31:46 -0800
+   d="scan'208";a="15180370"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:31:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="893652726"
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="943556087"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="893652726"
+   d="scan'208";a="943556087"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 02 Dec 2023 22:31:45 -0800
+  by orsmga005.jf.intel.com with ESMTP; 02 Dec 2023 22:31:46 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9g10-0006KB-25;
-	Sun, 03 Dec 2023 06:31:42 +0000
-Date: Sun, 3 Dec 2023 14:31:30 +0800
+	id 1r9g11-0006KZ-31;
+	Sun, 03 Dec 2023 06:31:43 +0000
+Date: Sun, 3 Dec 2023 14:31:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/4] xfs: clean up the XFS_IOC_FSCOUNTS handler
-Message-ID: <202312022209.TrhJqh0l-lkp@intel.com>
-References: <20231126130124.1251467-3-hch@lst.de>
+To: Tomas Winkler <tomas.winkler@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Alexander Usyskin <alexander.usyskin@intel.com>
+Subject: drivers/mtd/maps/vmu-flash.c:722:24: error: 'struct mtd_info' has no
+ member named 'usecount'
+Message-ID: <202312022315.79twVRZw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,199 +51,124 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231126130124.1251467-3-hch@lst.de>
 
-Hi Christoph,
+Hi Tomas,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on xfs-linux/for-next]
-[also build test WARNING on linus/master v6.7-rc3 next-20231201]
-[cannot apply to djwong-xfs/djwong-devel]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/xfs-clean-up-the-XFS_IOC_FSCOUNTS-handler/20231126-220129
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-patch link:    https://lore.kernel.org/r/20231126130124.1251467-3-hch%40lst.de
-patch subject: [PATCH 2/4] xfs: clean up the XFS_IOC_FSCOUNTS handler
-config: i386-randconfig-062-20231126 (https://download.01.org/0day-ci/archive/20231202/202312022209.TrhJqh0l-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231202/202312022209.TrhJqh0l-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   815fb87b753055df2d9e50f6cd80eb10235fe3e9
+commit: 19bfa9ebebb5ec0695def57eb1d80de7e9cab369 mtd: use refcount to prevent corruption
+date:   5 months ago
+config: sh-randconfig-c034-20221009 (https://download.01.org/0day-ci/archive/20231202/202312022315.79twVRZw-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231202/202312022315.79twVRZw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312022209.TrhJqh0l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312022315.79twVRZw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_ioctl.c:1918:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct xfs_fsop_counts *uarg @@
-   fs/xfs/xfs_ioctl.c:1918:26: sparse:     expected void [noderef] __user *to
-   fs/xfs/xfs_ioctl.c:1918:26: sparse:     got struct xfs_fsop_counts *uarg
->> fs/xfs/xfs_ioctl.c:2060:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct xfs_fsop_counts *uarg @@     got void [noderef] __user *arg @@
-   fs/xfs/xfs_ioctl.c:2060:48: sparse:     expected struct xfs_fsop_counts *uarg
-   fs/xfs/xfs_ioctl.c:2060:48: sparse:     got void [noderef] __user *arg
+All errors (new ones prefixed by >>):
 
-vim +1918 fs/xfs/xfs_ioctl.c
+   In file included from drivers/mtd/maps/vmu-flash.c:12:
+   include/linux/maple.h:81:23: error: field 'dev' has incomplete type
+      81 |         struct device dev;
+         |                       ^~~
+   include/linux/maple.h:86:30: error: field 'drv' has incomplete type
+      86 |         struct device_driver drv;
+         |                              ^~~
+   drivers/mtd/maps/vmu-flash.c: In function 'vmu_can_unload':
+>> drivers/mtd/maps/vmu-flash.c:722:24: error: 'struct mtd_info' has no member named 'usecount'
+     722 |                 if (mtd->usecount > 0)
+         |                        ^~
+   In file included from include/linux/init.h:5,
+                    from drivers/mtd/maps/vmu-flash.c:8:
+   drivers/mtd/maps/vmu-flash.c: In function 'probe_maple_vmu':
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/maple.h:100:25: note: in expansion of macro 'container_of'
+     100 | #define to_maple_dev(n) container_of(n, struct maple_device, dev)
+         |                         ^~~~~~~~~~~~
+   drivers/mtd/maps/vmu-flash.c:775:37: note: in expansion of macro 'to_maple_dev'
+     775 |         struct maple_device *mdev = to_maple_dev(dev);
+         |                                     ^~~~~~~~~~~~
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/maple.h:101:28: note: in expansion of macro 'container_of'
+     101 | #define to_maple_driver(n) container_of(n, struct maple_driver, drv)
+         |                            ^~~~~~~~~~~~
+   drivers/mtd/maps/vmu-flash.c:776:37: note: in expansion of macro 'to_maple_driver'
+     776 |         struct maple_driver *mdrv = to_maple_driver(dev->driver);
+         |                                     ^~~~~~~~~~~~~~~
+   drivers/mtd/maps/vmu-flash.c: In function 'remove_maple_vmu':
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/maple.h:100:25: note: in expansion of macro 'container_of'
+     100 | #define to_maple_dev(n) container_of(n, struct maple_device, dev)
+         |                         ^~~~~~~~~~~~
+   drivers/mtd/maps/vmu-flash.c:787:37: note: in expansion of macro 'to_maple_dev'
+     787 |         struct maple_device *mdev = to_maple_dev(dev);
+         |                                     ^~~~~~~~~~~~
 
-  1904	
-  1905	static int
-  1906	xfs_ioctl_fs_counts(
-  1907		struct xfs_mount	*mp,
-  1908		struct xfs_fsop_counts	*uarg)
-  1909	{
-  1910		struct xfs_fsop_counts	out = {
-  1911			.allocino = percpu_counter_read_positive(&mp->m_icount),
-  1912			.freeino = percpu_counter_read_positive(&mp->m_ifree),
-  1913			.freedata = percpu_counter_read_positive(&mp->m_fdblocks) -
-  1914					xfs_fdblocks_unavailable(mp),
-  1915			.freertx = percpu_counter_read_positive(&mp->m_frextents),
-  1916		};
-  1917	
-> 1918		if (copy_to_user(uarg, &out, sizeof(out)))
-  1919			return -EFAULT;
-  1920		return 0;
-  1921	}
-  1922	
-  1923	/*
-  1924	 * These long-unused ioctls were removed from the official ioctl API in 5.17,
-  1925	 * but retain these definitions so that we can log warnings about them.
-  1926	 */
-  1927	#define XFS_IOC_ALLOCSP		_IOW ('X', 10, struct xfs_flock64)
-  1928	#define XFS_IOC_FREESP		_IOW ('X', 11, struct xfs_flock64)
-  1929	#define XFS_IOC_ALLOCSP64	_IOW ('X', 36, struct xfs_flock64)
-  1930	#define XFS_IOC_FREESP64	_IOW ('X', 37, struct xfs_flock64)
-  1931	
-  1932	/*
-  1933	 * Note: some of the ioctl's return positive numbers as a
-  1934	 * byte count indicating success, such as readlink_by_handle.
-  1935	 * So we don't "sign flip" like most other routines.  This means
-  1936	 * true errors need to be returned as a negative value.
-  1937	 */
-  1938	long
-  1939	xfs_file_ioctl(
-  1940		struct file		*filp,
-  1941		unsigned int		cmd,
-  1942		unsigned long		p)
-  1943	{
-  1944		struct inode		*inode = file_inode(filp);
-  1945		struct xfs_inode	*ip = XFS_I(inode);
-  1946		struct xfs_mount	*mp = ip->i_mount;
-  1947		void			__user *arg = (void __user *)p;
-  1948		int			error;
-  1949	
-  1950		trace_xfs_file_ioctl(ip);
-  1951	
-  1952		switch (cmd) {
-  1953		case FITRIM:
-  1954			return xfs_ioc_trim(mp, arg);
-  1955		case FS_IOC_GETFSLABEL:
-  1956			return xfs_ioc_getlabel(mp, arg);
-  1957		case FS_IOC_SETFSLABEL:
-  1958			return xfs_ioc_setlabel(filp, mp, arg);
-  1959		case XFS_IOC_ALLOCSP:
-  1960		case XFS_IOC_FREESP:
-  1961		case XFS_IOC_ALLOCSP64:
-  1962		case XFS_IOC_FREESP64:
-  1963			xfs_warn_once(mp,
-  1964		"%s should use fallocate; XFS_IOC_{ALLOC,FREE}SP ioctl unsupported",
-  1965					current->comm);
-  1966			return -ENOTTY;
-  1967		case XFS_IOC_DIOINFO: {
-  1968			struct xfs_buftarg	*target = xfs_inode_buftarg(ip);
-  1969			struct dioattr		da;
-  1970	
-  1971			da.d_mem =  da.d_miniosz = target->bt_logical_sectorsize;
-  1972			da.d_maxiosz = INT_MAX & ~(da.d_miniosz - 1);
-  1973	
-  1974			if (copy_to_user(arg, &da, sizeof(da)))
-  1975				return -EFAULT;
-  1976			return 0;
-  1977		}
-  1978	
-  1979		case XFS_IOC_FSBULKSTAT_SINGLE:
-  1980		case XFS_IOC_FSBULKSTAT:
-  1981		case XFS_IOC_FSINUMBERS:
-  1982			return xfs_ioc_fsbulkstat(filp, cmd, arg);
-  1983	
-  1984		case XFS_IOC_BULKSTAT:
-  1985			return xfs_ioc_bulkstat(filp, cmd, arg);
-  1986		case XFS_IOC_INUMBERS:
-  1987			return xfs_ioc_inumbers(mp, cmd, arg);
-  1988	
-  1989		case XFS_IOC_FSGEOMETRY_V1:
-  1990			return xfs_ioc_fsgeometry(mp, arg, 3);
-  1991		case XFS_IOC_FSGEOMETRY_V4:
-  1992			return xfs_ioc_fsgeometry(mp, arg, 4);
-  1993		case XFS_IOC_FSGEOMETRY:
-  1994			return xfs_ioc_fsgeometry(mp, arg, 5);
-  1995	
-  1996		case XFS_IOC_AG_GEOMETRY:
-  1997			return xfs_ioc_ag_geometry(mp, arg);
-  1998	
-  1999		case XFS_IOC_GETVERSION:
-  2000			return put_user(inode->i_generation, (int __user *)arg);
-  2001	
-  2002		case XFS_IOC_FSGETXATTRA:
-  2003			return xfs_ioc_fsgetxattra(ip, arg);
-  2004	
-  2005		case XFS_IOC_GETBMAP:
-  2006		case XFS_IOC_GETBMAPA:
-  2007		case XFS_IOC_GETBMAPX:
-  2008			return xfs_ioc_getbmap(filp, cmd, arg);
-  2009	
-  2010		case FS_IOC_GETFSMAP:
-  2011			return xfs_ioc_getfsmap(ip, arg);
-  2012	
-  2013		case XFS_IOC_SCRUB_METADATA:
-  2014			return xfs_ioc_scrub_metadata(filp, arg);
-  2015	
-  2016		case XFS_IOC_FD_TO_HANDLE:
-  2017		case XFS_IOC_PATH_TO_HANDLE:
-  2018		case XFS_IOC_PATH_TO_FSHANDLE: {
-  2019			xfs_fsop_handlereq_t	hreq;
-  2020	
-  2021			if (copy_from_user(&hreq, arg, sizeof(hreq)))
-  2022				return -EFAULT;
-  2023			return xfs_find_handle(cmd, &hreq);
-  2024		}
-  2025		case XFS_IOC_OPEN_BY_HANDLE: {
-  2026			xfs_fsop_handlereq_t	hreq;
-  2027	
-  2028			if (copy_from_user(&hreq, arg, sizeof(xfs_fsop_handlereq_t)))
-  2029				return -EFAULT;
-  2030			return xfs_open_by_handle(filp, &hreq);
-  2031		}
-  2032	
-  2033		case XFS_IOC_READLINK_BY_HANDLE: {
-  2034			xfs_fsop_handlereq_t	hreq;
-  2035	
-  2036			if (copy_from_user(&hreq, arg, sizeof(xfs_fsop_handlereq_t)))
-  2037				return -EFAULT;
-  2038			return xfs_readlink_by_handle(filp, &hreq);
-  2039		}
-  2040		case XFS_IOC_ATTRLIST_BY_HANDLE:
-  2041			return xfs_attrlist_by_handle(filp, arg);
-  2042	
-  2043		case XFS_IOC_ATTRMULTI_BY_HANDLE:
-  2044			return xfs_attrmulti_by_handle(filp, arg);
-  2045	
-  2046		case XFS_IOC_SWAPEXT: {
-  2047			struct xfs_swapext	sxp;
-  2048	
-  2049			if (copy_from_user(&sxp, arg, sizeof(xfs_swapext_t)))
-  2050				return -EFAULT;
-  2051			error = mnt_want_write_file(filp);
-  2052			if (error)
-  2053				return error;
-  2054			error = xfs_ioc_swapext(&sxp);
-  2055			mnt_drop_write_file(filp);
-  2056			return error;
-  2057		}
-  2058	
-  2059		case XFS_IOC_FSCOUNTS:
-> 2060			return xfs_ioctl_fs_counts(mp, arg);
+
+vim +722 drivers/mtd/maps/vmu-flash.c
+
+47a72688fae729 Adrian McMenamin 2009-03-04  709  
+47a72688fae729 Adrian McMenamin 2009-03-04  710  /* Callback to handle eccentricities of both mtd subsystem
+47a72688fae729 Adrian McMenamin 2009-03-04  711   * and general flakyness of Dreamcast VMUs
+47a72688fae729 Adrian McMenamin 2009-03-04  712   */
+47a72688fae729 Adrian McMenamin 2009-03-04  713  static int vmu_can_unload(struct maple_device *mdev)
+47a72688fae729 Adrian McMenamin 2009-03-04  714  {
+47a72688fae729 Adrian McMenamin 2009-03-04  715  	struct memcard *card;
+47a72688fae729 Adrian McMenamin 2009-03-04  716  	int x;
+47a72688fae729 Adrian McMenamin 2009-03-04  717  	struct mtd_info *mtd;
+47a72688fae729 Adrian McMenamin 2009-03-04  718  
+47a72688fae729 Adrian McMenamin 2009-03-04  719  	card = maple_get_drvdata(mdev);
+47a72688fae729 Adrian McMenamin 2009-03-04  720  	for (x = 0; x < card->partitions; x++) {
+47a72688fae729 Adrian McMenamin 2009-03-04  721  		mtd = &((card->mtd)[x]);
+47a72688fae729 Adrian McMenamin 2009-03-04 @722  		if (mtd->usecount > 0)
+47a72688fae729 Adrian McMenamin 2009-03-04  723  			return 0;
+47a72688fae729 Adrian McMenamin 2009-03-04  724  	}
+47a72688fae729 Adrian McMenamin 2009-03-04  725  	return 1;
+47a72688fae729 Adrian McMenamin 2009-03-04  726  }
+47a72688fae729 Adrian McMenamin 2009-03-04  727  
+
+:::::: The code at line 722 was first introduced by commit
+:::::: 47a72688fae7298e1ad5fdc9bff7e04b6a549620 mtd: flash mapping support for Dreamcast VMU.
+
+:::::: TO: Adrian McMenamin <adrian@newgolddream.dyndns.info>
+:::::: CC: Paul Mundt <lethal@linux-sh.org>
 
 -- 
 0-DAY CI Kernel Test Service
