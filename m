@@ -1,135 +1,130 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26CE317FD
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 06:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F30315BF
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 06:31:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvxYa0h4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LwkgQx1A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701585109; x=1733121109;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xmxC3k/P0iHegTjeOHL9XhKrrous5xwLqIeHn99xdCI=;
-  b=TvxYa0h4g7fsaUSXYy7bl8Ju6txAnKyQZ3qlpxL8Lay7glMcT+nSDiET
-   PJV0a1kEmnaFy2TWj2LOm+jduwwRXLKIlKNYK8w8F6Af2+aIzUGAKpjVm
-   fpTvQMH3ODqOu0ryB9RVD+QuOVXuPT3Qaf+5lb9LZcYWyWRwQ4fLElJXS
-   F49lGCEfjlZ0KEQseerfOB/6+cboeghLllDNh/eQ9xu5RBW6e5X979ex/
-   ybCWFZRz2DNePX5Db423IE782m0kg0dCZGXzMvwLqvUj3c/hV4fhxapP5
-   0yJlHcEovUOTkuZ+u4lTuNwkP1N0/h7RqlabJ/9/RTsAQnkYE51eVz/XG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="15180359"
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=W4tIP09mPlWOArsHCXMP1hV5cz4sLQya8ACuH/hjgtk=;
+  b=LwkgQx1AWM2BT/fcp00LvufG3mmfhpqScP7Pp/zpPNKZuZ3zJfdZzg1x
+   1iVLcqRRxCpWKevtNbhnB+nCUcbvU0SBmYrqTraxrirEtcoAJRRXW0sWa
+   OBZY8WGDOuqSZlRoTPd2tzVJixY0TRbbwtKYkRFVuAnsr2A/RvTxb9rBr
+   FeGJHn2SoWdihGKvkM94/cE/jh+mU9D1P4ET6YDVnAc1n/PaY+xo0Q1O3
+   QUMNs7VvSR0R1RyZOfjxzq1F/TlHzK0AwqT59NDXgjmtGpi2Rq9Pk/5Em
+   UJE0jsLRi851UtMWnFbD4bn+5vfqp6wUw9pVMuggdR2yEurCVb3jLC3Vn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="15180355"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="15180359"
+   d="scan'208";a="15180355"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 22:31:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="943556078"
+X-IronPort-AV: E=McAfee;i="6600,9927,10912"; a="943556076"
 X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
-   d="scan'208";a="943556078"
+   d="scan'208";a="943556076"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga005.jf.intel.com with ESMTP; 02 Dec 2023 22:31:45 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9g11-0006KK-1L;
-	Sun, 03 Dec 2023 06:31:43 +0000
-Date: Sun, 3 Dec 2023 14:31:24 +0800
+	id 1r9g10-0006KH-2S;
+	Sun, 03 Dec 2023 06:31:42 +0000
+Date: Sun, 3 Dec 2023 14:31:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>
-Subject: fs/ubifs/replay.c:71: warning: Function parameter or member 'hash'
- not described in 'replay_entry'
-Message-ID: <202312021908.EFRz3PAP-lkp@intel.com>
+	Bjorn Helgaas <helgaas@kernel.org>, Lukas Wunner <lukas@wunner.de>
+Subject: drivers/pci/pci.h:343:17: sparse: sparse: cast from restricted
+ pci_channel_state_t
+Message-ID: <202312022235.tbbtU1lj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-Hi Sascha,
-
-FYI, the error/warning still remains.
+Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   815fb87b753055df2d9e50f6cd80eb10235fe3e9
-commit: 16a26b20d2afd0cf063816725b45b12e78d5bb31 ubifs: authentication: Add hashes to index nodes
-date:   5 years ago
-config: x86_64-randconfig-x051-20230728 (https://download.01.org/0day-ci/archive/20231202/202312021908.EFRz3PAP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231202/202312021908.EFRz3PAP-lkp@intel.com/reproduce)
+commit: c82458101d5490230d735caecce14c9c27b1010c PCI/PM: Mark devices disconnected if upstream PCIe link is down on resume
+date:   9 weeks ago
+config: sparc64-randconfig-r036-20230708 (https://download.01.org/0day-ci/archive/20231202/202312022235.tbbtU1lj-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231202/202312022235.tbbtU1lj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312021908.EFRz3PAP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312022235.tbbtU1lj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/pci/pci-driver.c:522:42: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci-driver.c:522:61: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci-driver.c:757:28: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci-driver.c:757:46: sparse: sparse: restricted pci_power_t degrades to integer
+   drivers/pci/pci-driver.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   drivers/pci/pci-driver.c: note: in included file:
+>> drivers/pci/pci.h:343:17: sparse: sparse: cast from restricted pci_channel_state_t
+>> drivers/pci/pci.h:343:17: sparse: sparse: cast to restricted pci_channel_state_t
+   drivers/pci/pci.h:346:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/pci.h:346:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/pci.h:346:23: sparse: sparse: cast to restricted pci_channel_state_t
+   drivers/pci/pci.h:350:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/pci.h:350:23: sparse: sparse: cast from restricted pci_channel_state_t
+   drivers/pci/pci.h:350:23: sparse: sparse: cast to restricted pci_channel_state_t
 
->> fs/ubifs/replay.c:71: warning: Function parameter or member 'hash' not described in 'replay_entry'
->> fs/ubifs/replay.c:359: warning: Function parameter or member 'hash' not described in 'insert_node'
->> fs/ubifs/replay.c:408: warning: Function parameter or member 'hash' not described in 'insert_dent'
-   fs/ubifs/replay.c:792: warning: Excess function parameter 'ref_lnum' description in 'validate_ref'
-   fs/ubifs/replay.c:792: warning: Excess function parameter 'ref_offs' description in 'validate_ref'
-   fs/ubifs/replay.o: warning: objtool: ubifs_validate_entry()+0x225: sibling call from callable instruction with modified stack frame
-   fs/ubifs/replay.o: warning: objtool: replay_bud()+0x4dc: sibling call from callable instruction with modified stack frame
+vim +343 drivers/pci/pci.h
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for BACKLIGHT_CLASS_DEVICE
-   Depends on [n]: HAS_IOMEM [=y] && BACKLIGHT_LCD_SUPPORT [=n]
-   Selected by [y]:
-   - ACPI_CMPC [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && INPUT [=y] && (RFKILL [=n] || RFKILL [=n]=n)
-   - SAMSUNG_Q10 [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y]
+ac04840350e2c2 Lukas Wunner         2023-03-11  324  
+a6bd101b8f84f9 Keith Busch          2018-09-20  325  /**
+a6bd101b8f84f9 Keith Busch          2018-09-20  326   * pci_dev_set_io_state - Set the new error state if possible.
+a6bd101b8f84f9 Keith Busch          2018-09-20  327   *
+347269c113f10f Krzysztof Wilczyński 2021-07-03  328   * @dev: PCI device to set new error_state
+347269c113f10f Krzysztof Wilczyński 2021-07-03  329   * @new: the state we want dev to be in
+a6bd101b8f84f9 Keith Busch          2018-09-20  330   *
+74ff8864cc842b Lukas Wunner         2023-01-20  331   * If the device is experiencing perm_failure, it has to remain in that state.
+74ff8864cc842b Lukas Wunner         2023-01-20  332   * Any other transition is allowed.
+a6bd101b8f84f9 Keith Busch          2018-09-20  333   *
+a6bd101b8f84f9 Keith Busch          2018-09-20  334   * Returns true if state has been changed to the requested state.
+a6bd101b8f84f9 Keith Busch          2018-09-20  335   */
+a6bd101b8f84f9 Keith Busch          2018-09-20  336  static inline bool pci_dev_set_io_state(struct pci_dev *dev,
+a6bd101b8f84f9 Keith Busch          2018-09-20  337  					pci_channel_state_t new)
+a6bd101b8f84f9 Keith Busch          2018-09-20  338  {
+74ff8864cc842b Lukas Wunner         2023-01-20  339  	pci_channel_state_t old;
+a6bd101b8f84f9 Keith Busch          2018-09-20  340  
+a6bd101b8f84f9 Keith Busch          2018-09-20  341  	switch (new) {
+a6bd101b8f84f9 Keith Busch          2018-09-20  342  	case pci_channel_io_perm_failure:
+74ff8864cc842b Lukas Wunner         2023-01-20 @343  		xchg(&dev->error_state, pci_channel_io_perm_failure);
+74ff8864cc842b Lukas Wunner         2023-01-20  344  		return true;
+a6bd101b8f84f9 Keith Busch          2018-09-20  345  	case pci_channel_io_frozen:
+74ff8864cc842b Lukas Wunner         2023-01-20  346  		old = cmpxchg(&dev->error_state, pci_channel_io_normal,
+74ff8864cc842b Lukas Wunner         2023-01-20  347  			      pci_channel_io_frozen);
+74ff8864cc842b Lukas Wunner         2023-01-20  348  		return old != pci_channel_io_perm_failure;
+a6bd101b8f84f9 Keith Busch          2018-09-20  349  	case pci_channel_io_normal:
+74ff8864cc842b Lukas Wunner         2023-01-20  350  		old = cmpxchg(&dev->error_state, pci_channel_io_frozen,
+74ff8864cc842b Lukas Wunner         2023-01-20  351  			      pci_channel_io_normal);
+74ff8864cc842b Lukas Wunner         2023-01-20  352  		return old != pci_channel_io_perm_failure;
+74ff8864cc842b Lukas Wunner         2023-01-20  353  	default:
+74ff8864cc842b Lukas Wunner         2023-01-20  354  		return false;
+a6bd101b8f84f9 Keith Busch          2018-09-20  355  	}
+a6bd101b8f84f9 Keith Busch          2018-09-20  356  }
+89ee9f7680031d Keith Busch          2017-03-29  357  
 
+:::::: The code at line 343 was first introduced by commit
+:::::: 74ff8864cc842be994853095dba6db48e716400a PCI: hotplug: Allow marking devices as disconnected during bind/unbind
 
-vim +71 fs/ubifs/replay.c
-
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  37  
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  38  /**
-debf12d54182b3 Artem Bityutskiy   2011-05-15  39   * struct replay_entry - replay list entry.
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  40   * @lnum: logical eraseblock number of the node
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  41   * @offs: node offset
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  42   * @len: node length
-074bcb9b5ce698 Artem Bityutskiy   2011-05-15  43   * @deletion: non-zero if this entry corresponds to a node deletion
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  44   * @sqnum: node sequence number
-debf12d54182b3 Artem Bityutskiy   2011-05-15  45   * @list: links the replay list
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  46   * @key: node key
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  47   * @nm: directory entry name
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  48   * @old_size: truncation old size
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  49   * @new_size: truncation new size
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  50   *
-debf12d54182b3 Artem Bityutskiy   2011-05-15  51   * The replay process first scans all buds and builds the replay list, then
-debf12d54182b3 Artem Bityutskiy   2011-05-15  52   * sorts the replay list in nodes sequence number order, and then inserts all
-debf12d54182b3 Artem Bityutskiy   2011-05-15  53   * the replay entries to the TNC.
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  54   */
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  55  struct replay_entry {
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  56  	int lnum;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  57  	int offs;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  58  	int len;
-16a26b20d2afd0 Sascha Hauer       2018-09-07  59  	u8 hash[UBIFS_HASH_ARR_SZ];
-074bcb9b5ce698 Artem Bityutskiy   2011-05-15  60  	unsigned int deletion:1;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  61  	unsigned long long sqnum;
-debf12d54182b3 Artem Bityutskiy   2011-05-15  62  	struct list_head list;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  63  	union ubifs_key key;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  64  	union {
-f4f61d2cc6d878 Richard Weinberger 2016-11-11  65  		struct fscrypt_name nm;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  66  		struct {
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  67  			loff_t old_size;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  68  			loff_t new_size;
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  69  		};
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  70  	};
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14 @71  };
-1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  72  
-
-:::::: The code at line 71 was first introduced by commit
-:::::: 1e51764a3c2ac05a23a22b2a95ddee4d9bffb16d UBIFS: add new flash file system
-
-:::::: TO: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
-:::::: CC: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
+:::::: TO: Lukas Wunner <lukas@wunner.de>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
