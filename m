@@ -1,196 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F431772D
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 17:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F5C2F44
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 18:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EZXa0/yd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701625975; x=1733161975;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nWBvlusC98EktzBDstT5ilLk6AvLsU6nXk4xGMIjfSs=;
-  b=EZXa0/ydlAq7Ti6YK3dsW6MrM2H17eFI5EAIml30XV8BxX1af/DFmGCW
-   5WohKhPM9LhvlZ6LDjtnpgntnIPxIBT3Lh1NyAb0qhBdIbsLlGhlLA56M
-   rvdKUrk0qBCzLEBQsdunUmg9ZnaLifCoFaBKf4vDvmij5rLcb7HRX7xCL
-   TrygBXiWvMY7FamLQ9i6KN314rjCEDrAGWe8fYzr+TK72NfrTuikI8jGT
-   J3iSygl7OK99kBZaCdIwsW2EwyiKL0LXEGqQ718KdIGKjmudvlsdHLb0+
-   Gk60XK4UHETEQaz/p1Sfji4jOrz8nKjIwdc0Rit7IK9PmI3WQ03u5QdNU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="397540394"
-X-IronPort-AV: E=Sophos;i="6.04,248,1695711600"; 
-   d="scan'208";a="397540394"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 09:52:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="943650367"
-X-IronPort-AV: E=Sophos;i="6.04,248,1695711600"; 
-   d="scan'208";a="943650367"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 03 Dec 2023 09:52:50 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r9qe8-0006wJ-0V;
-	Sun, 03 Dec 2023 17:52:48 +0000
-Date: Mon, 4 Dec 2023 01:52:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Markus Pargmann <mpa@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: drivers/iio/accel/bmc150-accel-i2c.c:64:36: warning:
- 'bmc150_accel_acpi_match' defined but not used
-Message-ID: <202312040109.Csnmqnb2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GVoZOwzS"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d076ebf79cso2016985ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 10:35:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701628518; x=1702233318; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XofiGJnHsU0gR6jHZzAR0X0zZqTCu60EVqYYZjegzVc=;
+        b=GVoZOwzSxpUNGdJF8JGpNazA5GsFKk4BqrmQ929yW7pLAOu7qV928vAlWCUI/MGWJG
+         qPrlEJ5UqMxzM68hshLf2N9U+n64iyP0IY6MC5e0RJuBPT0EO+danyn1L7PmCfdLJV0d
+         YCqSr5vIebatBqGfDjgJJw2AsERJEOi8qJy+Qcf//v9hjT36Kxs7iq2p1Is593R4LPYz
+         BPmfJjsCghERV1tJ0QfVit/6wyrNAinznD/yOAs/ELLXj0QNvXcxZtbVZmWHulNdhCS0
+         STs8t0P8Yu5mFjv1h8BBD4G22cMyroucTs1OEJ/uxIZOW2f92Td8IZn4lGTH7NB0vmhA
+         JuAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701628518; x=1702233318;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XofiGJnHsU0gR6jHZzAR0X0zZqTCu60EVqYYZjegzVc=;
+        b=Qsnh1NaMooELQJ1R0OdaOHyaaZ9WxZWlxxWLY78BAo2VM4t7UF+VBUs4c5+wCVUnda
+         n74CX8TjsB2o3lauBAQGa7b+W3XLtkNMo9nuGMlrMbaKsYWNAzX/wF+mm13mTbeo2yjA
+         ohdpW5w4PiLN/twrQfskV3Ta852S4aXQ1nJ6CCbhe3Pp37/3GzdR8cr90EL/rxzV1Zy/
+         4KH87RDF8vjhWLSMsbSd6y1PrT8AJVJ6uNG4ufgq0EUpZ9KGHKr9b88LJTiOUfBieQor
+         b2JYlcczH1ThplnwUSMIM9N1TY7+Syg4Ret/VEt/zHAT1M+t7SBsxBc620jHH+U7ezby
+         gH7A==
+X-Gm-Message-State: AOJu0YzUCCUNBafNK0bXGhijSShFqX18vOMQRBfFiBeTjT+88nGIz61E
+	0miU31r/X3VbS0aD0YdNAMM=
+X-Google-Smtp-Source: AGHT+IFcNTCqvliU8fIDZ1fl1Z6Yf/A/136fsYOotxzDpoq9vEcM3vxIB3DL+nn4B5WGbeGOTr5q8Q==
+X-Received: by 2002:a17:903:2285:b0:1d0:71db:d427 with SMTP id b5-20020a170903228500b001d071dbd427mr761317plh.134.1701628518472;
+        Sun, 03 Dec 2023 10:35:18 -0800 (PST)
+Received: from google.com ([205.220.129.26])
+        by smtp.gmail.com with ESMTPSA id l19-20020a170902f69300b001cfa91a0570sm6935117plg.155.2023.12.03.10.35.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Dec 2023 10:35:18 -0800 (PST)
+Date: Sun, 3 Dec 2023 18:35:00 +0000
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: =?iso-8859-1?B?Wm9sdOFuIEL2c3r2cm3pbnlp?= <zboszor@gmail.com>
+Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	zboszormenyi@sicom.com, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] egalax_ts_serial: Fix potential buffer overflow
+Message-ID: <ZWzHv7X1UKgJJYTy@google.com>
+References: <202312021646.cwwvptuB-lkp@intel.com>
+ <20231203090600.85890-1-zboszor@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231203090600.85890-1-zboszor@gmail.com>
 
-Hi Markus,
+Hi Zoltán,
 
-FYI, the error/warning still remains.
+On Sun, Dec 03, 2023 at 10:06:00AM +0100, Zoltán Böszörményi wrote:
+> @@ -42,7 +42,7 @@ struct egalax {
+>  	struct serio *serio;
+>  	int idx;
+>  	u8 data[EGALAX_FORMAT_MAX_LENGTH];
+> -	char phys[32];
+> +	char phys[NAME_MAX];
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: 55637c38377a301cd0768cee73021e43d05de543 iio: bmc150: Split the driver into core and i2c
-date:   8 years ago
-config: x86_64-buildonly-randconfig-004-20230906 (https://download.01.org/0day-ci/archive/20231204/202312040109.Csnmqnb2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312040109.Csnmqnb2-lkp@intel.com/reproduce)
+This simply wastes 200+ bytes for no good reason. It is perfectly fine
+to truncate phys string (which does not happen in practice).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312040109.Csnmqnb2-lkp@intel.com/
+If you feel strongly about it then maybe use devm_kasprintf() to
+allocate the needed buffer.
 
-All warnings (new ones prefixed by >>):
-
-     806 |         PVOP_VCALLEE1(pv_irq_ops.restore_fl, f);
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h: In function 'arch_local_irq_disable':
-   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
-         |                                               ^
-   arch/x86/include/asm/paravirt_types.h:542:33: note: in expansion of macro 'BUG_ON'
-     542 | #define PVOP_TEST_NULL(op)      BUG_ON(op == NULL)
-         |                                 ^~~~~~
-   arch/x86/include/asm/paravirt_types.h:592:17: note: in expansion of macro 'PVOP_TEST_NULL'
-     592 |                 PVOP_TEST_NULL(op);                                     \
-         |                 ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:609:9: note: in expansion of macro '____PVOP_VCALL'
-     609 |         ____PVOP_VCALL(op.func, CLBR_RET_REG,                           \
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:623:9: note: in expansion of macro '__PVOP_VCALLEESAVE'
-     623 |         __PVOP_VCALLEESAVE(op, "", "")
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:811:9: note: in expansion of macro 'PVOP_VCALLEE0'
-     811 |         PVOP_VCALLEE0(pv_irq_ops.irq_disable);
-         |         ^~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h: In function 'arch_local_irq_enable':
-   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
-         |                                               ^
-   arch/x86/include/asm/paravirt_types.h:542:33: note: in expansion of macro 'BUG_ON'
-     542 | #define PVOP_TEST_NULL(op)      BUG_ON(op == NULL)
-         |                                 ^~~~~~
-   arch/x86/include/asm/paravirt_types.h:592:17: note: in expansion of macro 'PVOP_TEST_NULL'
-     592 |                 PVOP_TEST_NULL(op);                                     \
-         |                 ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:609:9: note: in expansion of macro '____PVOP_VCALL'
-     609 |         ____PVOP_VCALL(op.func, CLBR_RET_REG,                           \
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:623:9: note: in expansion of macro '__PVOP_VCALLEESAVE'
-     623 |         __PVOP_VCALLEESAVE(op, "", "")
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:816:9: note: in expansion of macro 'PVOP_VCALLEE0'
-     816 |         PVOP_VCALLEE0(pv_irq_ops.irq_enable);
-         |         ^~~~~~~~~~~~~
-   include/linux/sysfs.h: In function 'sysfs_get_dirent':
-   include/linux/sysfs.h:496:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
-     496 |         return kernfs_find_and_get(parent, name);
-         |                                            ^~~~
-         |                                            |
-         |                                            const unsigned char *
-   include/linux/kernfs.h:428:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
-     428 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
-         |                                             ~~~~~~~~~~~~^~~~
-   include/asm-generic/fixmap.h: In function 'virt_to_fix':
-   include/asm-generic/bug.h:145:47: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     145 | #define BUG_ON(condition) do { if (condition) ; } while (0)
-         |                                               ^
-   include/asm-generic/fixmap.h:37:9: note: in expansion of macro 'BUG_ON'
-      37 |         BUG_ON(vaddr >= FIXADDR_TOP || vaddr < FIXADDR_START);
-         |         ^~~~~~
-   drivers/iio/accel/bmc150-accel-i2c.c: At top level:
-   drivers/iio/accel/bmc150-accel-i2c.c:65:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
-      65 |         {"BSBA0150",    bmc150},
-         |         ^
-   In file included from drivers/iio/accel/bmc150-accel-i2c.c:23:
-   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
-     192 |         __u32 cls;
-         |               ^~~
-   drivers/iio/accel/bmc150-accel-i2c.c:66:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
-      66 |         {"BMC150A",     bmc150},
-         |         ^
-   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
-     192 |         __u32 cls;
-         |               ^~~
-   drivers/iio/accel/bmc150-accel-i2c.c:67:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
-      67 |         {"BMI055A",     bmi055},
-         |         ^
-   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
-     192 |         __u32 cls;
-         |               ^~~
-   drivers/iio/accel/bmc150-accel-i2c.c:68:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
-      68 |         {"BMA0255",     bma255},
-         |         ^
-   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
-     192 |         __u32 cls;
-         |               ^~~
-   drivers/iio/accel/bmc150-accel-i2c.c:69:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
-      69 |         {"BMA250E",     bma250e},
-         |         ^
-   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
-     192 |         __u32 cls;
-         |               ^~~
-   drivers/iio/accel/bmc150-accel-i2c.c:70:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
-      70 |         {"BMA222E",     bma222e},
-         |         ^
-   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
-     192 |         __u32 cls;
-         |               ^~~
-   drivers/iio/accel/bmc150-accel-i2c.c:71:9: warning: missing initializer for field 'cls' of 'const struct acpi_device_id' [-Wmissing-field-initializers]
-      71 |         {"BMA0280",     bma280},
-         |         ^
-   include/linux/mod_devicetable.h:192:15: note: 'cls' declared here
-     192 |         __u32 cls;
-         |               ^~~
->> drivers/iio/accel/bmc150-accel-i2c.c:64:36: warning: 'bmc150_accel_acpi_match' defined but not used [-Wunused-const-variable=]
-      64 | static const struct acpi_device_id bmc150_accel_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/bmc150_accel_acpi_match +64 drivers/iio/accel/bmc150-accel-i2c.c
-
-    63	
-  > 64	static const struct acpi_device_id bmc150_accel_acpi_match[] = {
-    65		{"BSBA0150",	bmc150},
-    66		{"BMC150A",	bmc150},
-    67		{"BMI055A",	bmi055},
-    68		{"BMA0255",	bma255},
-    69		{"BMA250E",	bma250e},
-    70		{"BMA222E",	bma222e},
-    71		{"BMA0280",	bma280},
-    72		{ },
-    73	};
-    74	MODULE_DEVICE_TABLE(acpi, bmc150_accel_acpi_match);
-    75	
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dmitry
