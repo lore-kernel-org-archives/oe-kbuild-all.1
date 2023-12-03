@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D65154BB
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 15:48:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420D6156D4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Dec 2023 15:48:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mq0awlP6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vr3xqxb/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701618537; x=1733154537;
+  t=1701618539; x=1733154539;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rTXkXe84fKCKWIgjxlTWsd7qjtszTAoU0qEs/cHZZbM=;
-  b=mq0awlP6K+qAm+SzUXr7mvuYofnsWqtBrDuR0f5oU5n+5KL8TKf2lJ9a
-   2z+VuGxU2r+TE1BNfjsd0GWw0+jfc62gUoHb+/qstdWGpGd1z5AZuMQ9S
-   gzst8CkUscBm70QA/shNPWjssapte9XRfU3VH/qkqUEYzxoQjvE32HVPN
-   dB3AZhki7qEegwVntKut2fWni1l/yL4stmh2aP4p1gFoJCl/EWYaCwAKI
-   iqUc7tUTwxtcXkL149tGvBOVb1rB0T/a0cauxEn16JrlMayE7xzncdXaG
-   nbhd3fwt+EMcs84IXzJONtfOpRZijaAVEy9yNmGZVc0DLOCpbJkiio7W8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="378683559"
+  bh=HTifXAT4eCqiavmvvLk91KGer2ZgFrOrc5l9rPnlkIE=;
+  b=Vr3xqxb/v948l01/cL1aojEmhgeeT0h1g0iSZ4s3ZwWLGFl9c1YLkems
+   dkYNdWGQxhuLfhIcPAR0amFwQXzHOhx8gr0EjkaebeIvBJuGh/YxHskLx
+   eYxMhAJ2owsGTGhhO3QAnpeCCqrllrVX3zie9KwQj5wQdSTujQr1JodqR
+   34R4axv2KfUcewRFznmImHJWWk/bKVwlREndndAg67HI/igughjE5LNS3
+   3bElX8RfZbs7j/g58d76hjeFU8aXcF4e/IhZkYKNSGZbq/SQeVtH6EXWt
+   DOqEWHObm1LmNIm83zpRqlLyecGP7pUsFS8PBP8Ey2/tJZqQ4OxItKZAy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="378683564"
 X-IronPort-AV: E=Sophos;i="6.04,247,1695711600"; 
-   d="scan'208";a="378683559"
+   d="scan'208";a="378683564"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2023 07:48:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="893737728"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="893737730"
 X-IronPort-AV: E=Sophos;i="6.04,247,1695711600"; 
-   d="scan'208";a="893737728"
+   d="scan'208";a="893737730"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 03 Dec 2023 07:48:52 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r9oi9-0006nU-1P;
+	id 1r9oi9-0006nY-1i;
 	Sun, 03 Dec 2023 15:48:49 +0000
-Date: Sun, 3 Dec 2023 23:48:44 +0800
+Date: Sun, 3 Dec 2023 23:48:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
+To: Marcelo Tosatti <mtosatti@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: kernel/irq/irqdomain.c:70: warning: Function parameter or member
- 'fwnode' not described in 'irq_domain_free_fwnode'
-Message-ID: <202312032328.bQoJiekV-lkp@intel.com>
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: drivers/cpuidle/governors/ladder.c:54: warning: Function parameter
+ or member 'dev' not described in 'ladder_do_selection'
+Message-ID: <202312032330.fMc5ODUJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,80 +51,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Marcelo,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: b145dcc45a6af0abfcf9b4de8006d40559c50fc6 irqdomain: Add a fwnode_handle allocator
-date:   8 years ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231203/202312032328.bQoJiekV-lkp@intel.com/config)
+commit: 7d4daeedd575bbc3c40c87fc6708a8b88c50fe7e governors: unify last_state_idx
+date:   4 years, 4 months ago
+config: x86_64-randconfig-r015-20230805 (https://download.01.org/0day-ci/archive/20231203/202312032330.fMc5ODUJ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231203/202312032328.bQoJiekV-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231203/202312032330.fMc5ODUJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312032328.bQoJiekV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312032330.fMc5ODUJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kobject.h:21,
-                    from include/linux/of.h:21,
-                    from include/linux/irqdomain.h:37,
-                    from kernel/irq/irqdomain.c:8:
-   include/linux/sysfs.h: In function 'sysfs_get_dirent':
-   include/linux/sysfs.h:496:44: warning: pointer targets in passing argument 2 of 'kernfs_find_and_get' differ in signedness [-Wpointer-sign]
-     496 |         return kernfs_find_and_get(parent, name);
-         |                                            ^~~~
-         |                                            |
-         |                                            const unsigned char *
-   In file included from include/linux/sysfs.h:15:
-   include/linux/kernfs.h:428:57: note: expected 'const char *' but argument is of type 'const unsigned char *'
-     428 | kernfs_find_and_get(struct kernfs_node *kn, const char *name)
-         |                                             ~~~~~~~~~~~~^~~~
->> kernel/irq/irqdomain.c:70: warning: Function parameter or member 'fwnode' not described in 'irq_domain_free_fwnode'
-   kernel/irq/irqdomain.c:98: warning: Function parameter or member 'fwnode' not described in '__irq_domain_add'
-   kernel/irq/irqdomain.c:98: warning: Excess function parameter 'of_node' description in '__irq_domain_add'
-   kernel/irq/irqdomain.c:779: warning: Function parameter or member 'd' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:779: warning: Function parameter or member 'ctrlr' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:779: warning: Function parameter or member 'intspec' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:779: warning: Function parameter or member 'intsize' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:779: warning: Function parameter or member 'out_hwirq' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:779: warning: Function parameter or member 'out_type' not described in 'irq_domain_xlate_onecell'
-   kernel/irq/irqdomain.c:798: warning: Function parameter or member 'd' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:798: warning: Function parameter or member 'ctrlr' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:798: warning: Function parameter or member 'intspec' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:798: warning: Function parameter or member 'intsize' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:798: warning: Function parameter or member 'out_hwirq' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:798: warning: Function parameter or member 'out_type' not described in 'irq_domain_xlate_twocell'
-   kernel/irq/irqdomain.c:822: warning: Function parameter or member 'd' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:822: warning: Function parameter or member 'ctrlr' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:822: warning: Function parameter or member 'intspec' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:822: warning: Function parameter or member 'intsize' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:822: warning: Function parameter or member 'out_hwirq' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:822: warning: Function parameter or member 'out_type' not described in 'irq_domain_xlate_onetwocell'
-   kernel/irq/irqdomain.c:1258: warning: Function parameter or member 'domain' not described in 'irq_domain_alloc_irqs_parent'
-   kernel/irq/irqdomain.c:1280: warning: Function parameter or member 'domain' not described in 'irq_domain_free_irqs_parent'
+>> drivers/cpuidle/governors/ladder.c:54: warning: Function parameter or member 'dev' not described in 'ladder_do_selection'
 
 
-vim +70 kernel/irq/irqdomain.c
+vim +54 drivers/cpuidle/governors/ladder.c
 
-    63	
-    64	/**
-    65	 * irq_domain_free_fwnode - Free a non-OF-backed fwnode_handle
-    66	 *
-    67	 * Free a fwnode_handle allocated with irq_domain_alloc_fwnode.
-    68	 */
-    69	void irq_domain_free_fwnode(struct fwnode_handle *fwnode)
-  > 70	{
-    71		struct irqchip_fwid *fwid;
-    72	
-    73		if (WARN_ON(fwnode->type != FWNODE_IRQCHIP))
-    74			return;
-    75	
-    76		fwid = container_of(fwnode, struct irqchip_fwid, fwnode);
-    77		kfree(fwid->name);
-    78		kfree(fwid);
-    79	}
-    80	
+4f86d3a8e29720 Len Brown       2007-10-03  44  
+4f86d3a8e29720 Len Brown       2007-10-03  45  /**
+4f86d3a8e29720 Len Brown       2007-10-03  46   * ladder_do_selection - prepares private data for a state change
+4f86d3a8e29720 Len Brown       2007-10-03  47   * @ldev: the ladder device
+4f86d3a8e29720 Len Brown       2007-10-03  48   * @old_idx: the current state index
+4f86d3a8e29720 Len Brown       2007-10-03  49   * @new_idx: the new target state index
+4f86d3a8e29720 Len Brown       2007-10-03  50   */
+7d4daeedd575bb Marcelo Tosatti 2019-07-03  51  static inline void ladder_do_selection(struct cpuidle_device *dev,
+7d4daeedd575bb Marcelo Tosatti 2019-07-03  52  				       struct ladder_device *ldev,
+4f86d3a8e29720 Len Brown       2007-10-03  53  				       int old_idx, int new_idx)
+4f86d3a8e29720 Len Brown       2007-10-03 @54  {
+4f86d3a8e29720 Len Brown       2007-10-03  55  	ldev->states[old_idx].stats.promotion_count = 0;
+4f86d3a8e29720 Len Brown       2007-10-03  56  	ldev->states[old_idx].stats.demotion_count = 0;
+7d4daeedd575bb Marcelo Tosatti 2019-07-03  57  	dev->last_state_idx = new_idx;
+4f86d3a8e29720 Len Brown       2007-10-03  58  }
+4f86d3a8e29720 Len Brown       2007-10-03  59  
+
+:::::: The code at line 54 was first introduced by commit
+:::::: 4f86d3a8e297205780cca027e974fd5f81064780 cpuidle: consolidate 2.6.22 cpuidle branch into one patch
+
+:::::: TO: Len Brown <len.brown@intel.com>
+:::::: CC: Len Brown <len.brown@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
