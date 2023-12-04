@@ -1,120 +1,90 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4111844
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 05:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF23A21
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 06:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nXVSFdMe"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40b27726369so41521445e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 21:00:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZHeS1yQr"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a1b7b6bf098so64287466b.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 22:38:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701666033; x=1702270833; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ru/NPj09V1ASiEGDCszqcY2Rb4Q+L/jQQ4h1Ot3L8XU=;
-        b=nXVSFdMea6ZqPVd6tSigFQq4FcBvsYaiZeJ5X0YqRcLrwEELRdmF4sYMzVMfoOQOo6
-         HPqxB9y5GWYGd16X8l6rXPtQa2Dygd5toCGp5nJ1k38sk96Gh/zZpXLhUgcqT/9knid9
-         5zuyQKWFP3HlcBEaLChNCiJ4bm5Ue1uq1D63NOSpNax0OnS7hIzDxhMosM8OE+4vBpRE
-         3DKQwH2ZqXb4oe/0SCEHwIMNp3QmaGAgrzOWN6sO4X87xRIR1oMmBjaqTDXr5DoV45U4
-         HH3K6KM4tKOMBnvNnpr7i3vT0eU6ATK5BBfNyYpdmKje7ISlAh0Y+5WomNDjGsis8oQa
-         hzqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701666033; x=1702270833;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+        d=gmail.com; s=20230601; t=1701671895; x=1702276695; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ru/NPj09V1ASiEGDCszqcY2Rb4Q+L/jQQ4h1Ot3L8XU=;
-        b=RQv2SfZ5ZUlfcyNKL9A7ZELARfms6CYK2520FQ0WYVoPUIDx95qWZ+Q7yocCq2ALkl
-         dA/0yivj3uywDNZpNozyTdZeYsFF8FRMuhJ7heWwQOxlkgR0+6/ZltB5bodgRh56OBWz
-         hyMZZ1fHBgRaPk63/RwZwDbY2GQ/6q3zC8Q4seEVY6XYvtjmfKfHeYXIoriM8iB64IDx
-         wjgH4pO4iKd1bbChAcOmM9yulFkWy7UXs6L0GjxZ0zgT+zFNzvlondQL5oPhuzLWfMpm
-         whKq3NKeoW6pkz8pHRz88uITZk+74bx2V6lfdk5dSWdXXtp7p+Si2GLcIhdQoSg8RF+r
-         otmw==
-X-Gm-Message-State: AOJu0YyZ+aPY1EQqQepRr5j81h1kd+rDMzHRIh7rXR4Bv0L0oh5fZHXt
-	3albs34K42nOzkpvNCdoa1YRwsm2Z2VT6X544Ek=
-X-Google-Smtp-Source: AGHT+IEkXJrUkXJJogule3Vldy+8qcSDhRA/unZzuiLtfHzdZ3i9H6s6WVRZBg9D6M0qgUEnPEOnng==
-X-Received: by 2002:a7b:ce8b:0:b0:40b:5e59:daa3 with SMTP id q11-20020a7bce8b000000b0040b5e59daa3mr1958418wmj.182.1701666033441;
-        Sun, 03 Dec 2023 21:00:33 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o15-20020a05600c510f00b004064cd71aa8sm12143279wms.34.2023.12.03.21.00.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 21:00:32 -0800 (PST)
-Date: Mon, 4 Dec 2023 08:00:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH 2/2] serial: core: implement support for rs485-mux-gpios
-Message-ID: <bb7376cd-27b9-4585-9c98-140a29808b0f@suswa.mountain>
+        bh=YYkuRI2m7gXvcv1On4oJWW4OK0PwVwiAqFsMBy1aG3o=;
+        b=ZHeS1yQrZA4pQ8XWfZIYp51iHqSovGI7H4IyvRhyapGdFB2OWrgyovmi+6MCbrAlJc
+         sA1w6wSTeebjPCJJDrzdD5uGLOcrT8nZJlbujbL1DSurFqPM96ZZelbJ17daNZ0C5Cqr
+         Rlug5t0Yg2OYwcuwJDn1rThWYpfeSwYYxf1rNmYPHTJkPRTfVAqp/5+X49dItVKt+d+4
+         t9jTMtovPf6db1jrYKsuICcztr/sD6r0xuOyOWU6hcPp5mG6pKZU27OYQxCd3IScLR9O
+         jlZSy1M9WXt0zs5l9jFsLOk63La0rmUyIPgyCRHoPQogJs6aaazOMDbMUNdl0yz2E0Ve
+         ZS3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701671895; x=1702276695;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YYkuRI2m7gXvcv1On4oJWW4OK0PwVwiAqFsMBy1aG3o=;
+        b=Wiw0lXYlcxjQu51pkv0AlUNZ9lIXnwAoQTdlcV1NVX5lR4agaMCBnEivZUHNGVL7rn
+         GwzFv/fkZv+fs+8yvcf7uYZLtVgyWICWlUuaui1kLrq+bNuDVgxXTWWf9CvVVIyDNnpB
+         iiRHY3TU4cfspIpkota5bmIMXX+LQBVla2obOtRLyfECi/Lyg7aPDMI85fEKk1TWKQON
+         KEHlQugm+N62WT7vyZWpkXo7cr5mVG8RTjSFYTCeajfnqI5hl0SSGbJgc7RtAyi3hOlF
+         yY0q/2tYsjH3S9UWku8ktzeQdCN9b8eeMYPw85MJJYkmcDZslmJzCUaeHMnjqrKr2+yc
+         UpDA==
+X-Gm-Message-State: AOJu0Yzw8moa25NqNyS/So8eBPLGD5/9RWL5qPVwUjKFNg/GqEGG6WdU
+	Z0MXJ+DujOa6wKTWcLplU6U=
+X-Google-Smtp-Source: AGHT+IG2Dnzu8wpudFdNimHjIwtnoLtfFrOKx2kVghmCSKdW92/o+Is4OyJwD3zNKDLmhR9iZkt35A==
+X-Received: by 2002:a17:907:2443:b0:a19:a409:37d7 with SMTP id yw3-20020a170907244300b00a19a40937d7mr1350485ejb.48.1701671895028;
+        Sun, 03 Dec 2023 22:38:15 -0800 (PST)
+Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id kg6-20020a17090776e600b009bf7a4d591csm4965910ejc.11.2023.12.03.22.38.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Dec 2023 22:38:14 -0800 (PST)
+Message-ID: <c825b030-1520-426e-a6ad-7df0c276b3ea@gmail.com>
+Date: Mon, 4 Dec 2023 07:38:13 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] egalax_ts_serial: Fix potential buffer overflow
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ zboszormenyi@sicom.com, kernel test robot <lkp@intel.com>
+References: <202312021646.cwwvptuB-lkp@intel.com>
+ <20231203090600.85890-1-zboszor@gmail.com> <ZWzHv7X1UKgJJYTy@google.com>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <ZWzHv7X1UKgJJYTy@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231120151056.148450-3-linux@rasmusvillemoes.dk>
 
-Hi Rasmus,
+2023. 12. 03. 19:35 keltezéssel, Dmitry Torokhov írta:
+> Hi Zoltán,
+>
+> On Sun, Dec 03, 2023 at 10:06:00AM +0100, Zoltán Böszörményi wrote:
+>> @@ -42,7 +42,7 @@ struct egalax {
+>>   	struct serio *serio;
+>>   	int idx;
+>>   	u8 data[EGALAX_FORMAT_MAX_LENGTH];
+>> -	char phys[32];
+>> +	char phys[NAME_MAX];
+> This simply wastes 200+ bytes for no good reason. It is perfectly fine
+> to truncate phys string (which does not happen in practice).
 
-kernel test robot noticed the following build warnings:
+Okay, I modified the phys[] array to just be 40 bytes.
+That's not that wasteful and still avoids the warning.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I noticed that other TS drivers emit the same warning.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rasmus-Villemoes/dt-bindings-serial-rs485-add-rs485-mux-gpios-binding/20231120-231551
-base:   v6.7-rc2
-patch link:    https://lore.kernel.org/r/20231120151056.148450-3-linux%40rasmusvillemoes.dk
-patch subject: [PATCH 2/2] serial: core: implement support for rs485-mux-gpios
-config: hexagon-randconfig-r071-20231121 (https://download.01.org/0day-ci/archive/20231203/202312031811.pmLZJIf5-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231203/202312031811.pmLZJIf5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312031811.pmLZJIf5-lkp@intel.com/
-
-New smatch warnings:
-drivers/tty/serial/serial_core.c:3651 uart_get_rs485_mode() warn: passing zero to 'PTR_ERR'
-
-Old smatch warnings:
-drivers/tty/serial/serial_core.c:2996 iomem_base_show() warn: argument 3 to %lX specifier is cast from pointer
-
-vim +/PTR_ERR +3651 drivers/tty/serial/serial_core.c
-
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3641  	dflags = (rs485conf->flags & SER_RS485_RX_DURING_TX) ?
-163f080eb717d2 Christoph Niedermaier 2022-12-02  3642  		 GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3643  	desc = devm_gpiod_get_optional(dev, "rs485-rx-during-tx", dflags);
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3644  	if (IS_ERR(desc))
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3645  		return dev_err_probe(dev, PTR_ERR(desc), "Cannot get rs485-rx-during-tx-gpios\n");
-7cda0b9eb6eb9e Andy Shevchenko       2023-10-03  3646  	port->rs485_rx_during_tx_gpio = desc;
-163f080eb717d2 Christoph Niedermaier 2022-12-02  3647  
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3648  	dflags = (rs485conf->flags & SER_RS485_ENABLED) ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3649  	desc = devm_gpiod_get_optional(dev, "rs485-mux", dflags);
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3650  	if (IS_ERR(desc))
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20 @3651  		return dev_err_probe(dev, PTR_ERR(port->rs485_mux_gpio),
-                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-s/port->rs485_mux_gpio/desc/
-
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3652  				     "Cannot get rs485-mux-gpios\n");
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3653  	port->rs485_mux_gpio = desc;
-da0ccd117da1e4 Rasmus Villemoes      2023-11-20  3654  
-c150c0f362c1e5 Lukas Wunner          2020-05-12  3655  	return 0;
-ef838a81dd4de1 Uwe Kleine-K�nig      2017-09-13  3656  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> If you feel strongly about it then maybe use devm_kasprintf() to
+> allocate the needed buffer.
+>
+> Thanks.
+>
 
