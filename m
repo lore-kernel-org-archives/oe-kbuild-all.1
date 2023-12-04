@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F63822F0F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F8E23741
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 12:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hd4wCfNT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPAN1r3I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701691373; x=1733227373;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=89GACn/arX/JrxwPM0BPJdLmhfMyAEIrs1vDiwO02oY=;
-  b=hd4wCfNTmwnwEAb6JgQWavVT/8rg4E//MDqbkzzcKMYwUO96LalyW1qv
-   wK/SpskYoPCXjyTT1FiynpSRrrDZTO9G/1YeOOpwMBN+bYxVary27OeP5
-   WPhCWOSMJ8qXqGVc6JKOxVTx9HSlKZcdtYNrjB0HrDwD+PXSNwKd53qD1
-   cRc7Ppl4qUcOcMwiCNXwl1DqVQuZNoj+Ce9xkbiub8n8iyJFcIlK51lPu
-   Y3x+LzQDD3kFDL7qtN6mHOg179Ed0EYajAAJ4YICX36rPWrANkdI7SSva
-   IAsZ7ds9MA/57qFy1OIi3KkoC1Tra2PSWvaourwobstsxk6zoGltLLDQ/
+  bh=iap4ZTFSpn/FsRg4pF+EFKebnBz9wjEd5NG/ftOdyvc=;
+  b=KPAN1r3IbDwYmJ58RUy/eMoLBO+sq6TiwWeuTGlSeABeqC03t4me0qYi
+   B5YZmVRspU5Sjf9yy4GC855dRS7LDWNJfMFluxGFbA/sQp2DwzXBM5GmF
+   TsOA7yA1RfsbrAUkSaMhSX/HYid/IOgdVpEq9R+9YK21YxYb/pUv2WPJX
+   Nk7TSTj9m5JGezRwpXvITxw+UiSpukaVrOCglgBt6VVwc6uTIExEwmX1v
+   uHnd2JDVx2m8NqbecX1U3ickFKuwca3f+Gr3s6l5ouE0sdkrACoGoaRYX
+   7t4AvLGHbIsYbakwm/H4Txuz01cFqj61HHtBVGXBVahJ3cZTeDCwUzV26
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="620872"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="373154158"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="620872"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 04:02:52 -0800
+   d="scan'208";a="373154158"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 04:02:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="770515226"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="1017826172"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="770515226"
+   d="scan'208";a="1017826172"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 04 Dec 2023 04:02:50 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 04 Dec 2023 04:02:50 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rA7ey-0007hy-1E;
+	id 1rA7ey-0007iA-29;
 	Mon, 04 Dec 2023 12:02:48 +0000
-Date: Mon, 4 Dec 2023 20:02:34 +0800
+Date: Mon, 4 Dec 2023 20:02:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vineet Gupta <vgupta@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org
-Subject: net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202312041926.tEYYQdAT-lkp@intel.com>
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: pm.c:undefined reference to `i8042_command'
+Message-ID: <202312041909.lwhcU35R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,64 +52,22 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: e188f3330a13df904d77003846eafd3edf99009d ARC: cmpxchg/xchg: rewrite as macros to make type safe
-date:   2 years, 3 months ago
-config: arc-randconfig-r123-20231117 (https://download.01.org/0day-ci/archive/20231204/202312041926.tEYYQdAT-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231204/202312041926.tEYYQdAT-lkp@intel.com/reproduce)
+commit: 7b4537199a4a8480b8c3ba37a2d44765ce76cd9b kbuild: link symbol CRCs at final link, removing CONFIG_MODULE_REL_CRCS
+date:   1 year, 6 months ago
+config: mips-randconfig-r001-20211012 (https://download.01.org/0day-ci/archive/20231204/202312041909.lwhcU35R-lkp@intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312041909.lwhcU35R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312041926.tEYYQdAT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312041909.lwhcU35R-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/ipv4/tcp_cong.c:238:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct tcp_congestion_ops const [noderef] __rcu *_val_ @@     got struct tcp_congestion_ops *[assigned] ca @@
-   net/ipv4/tcp_cong.c:238:24: sparse:     expected struct tcp_congestion_ops const [noderef] __rcu *_val_
-   net/ipv4/tcp_cong.c:238:24: sparse:     got struct tcp_congestion_ops *[assigned] ca
-   net/ipv4/tcp_cong.c:238:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tcp_congestion_ops const *prev @@     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_ @@
-   net/ipv4/tcp_cong.c:238:22: sparse:     expected struct tcp_congestion_ops const *prev
-   net/ipv4/tcp_cong.c:238:22: sparse:     got struct tcp_congestion_ops const [noderef] __rcu *[assigned] _val_
+All errors (new ones prefixed by >>):
 
-vim +238 net/ipv4/tcp_cong.c
-
-317a76f9a44b43 Stephen Hemminger 2005-06-23  219  
-317a76f9a44b43 Stephen Hemminger 2005-06-23  220  /* Used by sysctl to change default congestion control */
-6670e152447732 Stephen Hemminger 2017-11-14  221  int tcp_set_default_congestion_control(struct net *net, const char *name)
-317a76f9a44b43 Stephen Hemminger 2005-06-23  222  {
-317a76f9a44b43 Stephen Hemminger 2005-06-23  223  	struct tcp_congestion_ops *ca;
-6670e152447732 Stephen Hemminger 2017-11-14  224  	const struct tcp_congestion_ops *prev;
-6670e152447732 Stephen Hemminger 2017-11-14  225  	int ret;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  226  
-6670e152447732 Stephen Hemminger 2017-11-14  227  	rcu_read_lock();
-6670e152447732 Stephen Hemminger 2017-11-14  228  	ca = tcp_ca_find_autoload(net, name);
-6670e152447732 Stephen Hemminger 2017-11-14  229  	if (!ca) {
-6670e152447732 Stephen Hemminger 2017-11-14  230  		ret = -ENOENT;
-0baf26b0fcd74b Martin KaFai Lau  2020-01-08  231  	} else if (!bpf_try_module_get(ca, ca->owner)) {
-6670e152447732 Stephen Hemminger 2017-11-14  232  		ret = -EBUSY;
-8d432592f30fcc Jonathon Reinhart 2021-05-01  233  	} else if (!net_eq(net, &init_net) &&
-8d432592f30fcc Jonathon Reinhart 2021-05-01  234  			!(ca->flags & TCP_CONG_NON_RESTRICTED)) {
-8d432592f30fcc Jonathon Reinhart 2021-05-01  235  		/* Only init netns can set default to a restricted algorithm */
-8d432592f30fcc Jonathon Reinhart 2021-05-01  236  		ret = -EPERM;
-6670e152447732 Stephen Hemminger 2017-11-14  237  	} else {
-6670e152447732 Stephen Hemminger 2017-11-14 @238  		prev = xchg(&net->ipv4.tcp_congestion_control, ca);
-6670e152447732 Stephen Hemminger 2017-11-14  239  		if (prev)
-0baf26b0fcd74b Martin KaFai Lau  2020-01-08  240  			bpf_module_put(prev, prev->owner);
-317a76f9a44b43 Stephen Hemminger 2005-06-23  241  
-6670e152447732 Stephen Hemminger 2017-11-14  242  		ca->flags |= TCP_CONG_NON_RESTRICTED;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  243  		ret = 0;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  244  	}
-6670e152447732 Stephen Hemminger 2017-11-14  245  	rcu_read_unlock();
-317a76f9a44b43 Stephen Hemminger 2005-06-23  246  
-317a76f9a44b43 Stephen Hemminger 2005-06-23  247  	return ret;
-317a76f9a44b43 Stephen Hemminger 2005-06-23  248  }
-317a76f9a44b43 Stephen Hemminger 2005-06-23  249  
-
-:::::: The code at line 238 was first introduced by commit
-:::::: 6670e152447732ba90626f36dfc015a13fbf150e tcp: Namespace-ify sysctl_tcp_default_congestion_control
-
-:::::: TO: Stephen Hemminger <stephen@networkplumber.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   mips64el-linux-ld: arch/mips/loongson2ef/lemote-2f/pm.o: in function `setup_wakeup_events':
+>> pm.c:(.text+0x118): undefined reference to `i8042_command'
+>> mips64el-linux-ld: pm.c:(.text+0x154): undefined reference to `i8042_command'
 
 -- 
 0-DAY CI Kernel Test Service
