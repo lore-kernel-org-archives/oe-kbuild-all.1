@@ -1,40 +1,40 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA412209F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 12:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8C623755
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 12:02:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MeP+3wj9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJ2TlREL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701691376; x=1733227376;
+  t=1701691377; x=1733227377;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AfoyPVRgdnYgARogzQH6MmY+YxG4vVbRFMl7FitYhUk=;
-  b=MeP+3wj9y8p3zvduMASgH2gmxlKItIaJvaIWK6B1Rtn9+/eB2V1Ht/Ui
-   wHjKR99cpNdjtiziK2Jb9B4w++Ykt/isN6isaUbbZPMVNE5vxgyE8osg0
-   4PEX1bF+2/db+P92rs7d40GqZ9sDLiHdiklw6jjKL6dWFExqv/3vCVj1w
-   aSYejDc4QFN6LmmEhzoxn+LfSl2Ar1zSw4g3WKtgOfpvYbUpBghNTn3TU
-   HFX7VvdY/PaxSgA9gs6EC9CZJA0UfZWhDsIdHyy/tdovd3NRjlxAsb1yJ
-   KuGu2lixGQctQT8Ed+Eog4JWVlgfHLa7Cg0r66C1yshQYEf/FCPRMbXrR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="373154178"
+  bh=a1jjXXoLUFd7zsXOiIKzk39zBd56oD+C0S/M+VltldI=;
+  b=lJ2TlRELZM+R/tI6tZQ+gbIKSTYe7+ICplXNsjhDbaEl9AfPwUoXk+EH
+   hzgsJxIr/EnEhCpPk2iz1yJa2464j84wtDHt2hr34tMbbUSLfNSWuHRGm
+   jTXs3kY0lo1wNQMR2c4sEO2QbRUMorz4Lb/eGe4563OgkhoKRjdNaQGbx
+   Ixb+AAKn0/IsPWfyo/rbBd9emEmFtTdzyrfQ8mX4J8pcIPrik62H0an6s
+   +Q35nUj443GBCkZkK/oGHUUMUPeK9jEYgFodYWtudaYg6ftNL+i/BVd6a
+   yTSaVtvArZmSZNtdu0w/tRc9hbr0/Ayf9GEcQ9CS4oiY275tH1021eY84
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="373154194"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="373154178"
+   d="scan'208";a="373154194"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 04:02:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="1017826170"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="1017826174"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="1017826170"
+   d="scan'208";a="1017826174"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by fmsmga006.fm.intel.com with ESMTP; 04 Dec 2023 04:02:50 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rA7ey-0007i4-1e;
+	id 1rA7ey-0007iG-2a;
 	Mon, 04 Dec 2023 12:02:48 +0000
-Date: Mon, 4 Dec 2023 20:02:33 +0800
+Date: Mon, 4 Dec 2023 20:02:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Frederic Weisbecker <frederic@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -42,7 +42,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Nicolas Saenz Julienne <nsaenzju@redhat.com>
 Subject: kernel/context_tracking.c:80: warning: Function parameter or member
  'state' not described in '__ct_user_enter'
-Message-ID: <202312041922.YZCcEPYD-lkp@intel.com>
+Message-ID: <202312041910.LfOZgZi8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,14 +60,14 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
 commit: e67198cc05b8ecbb7b8e2d8ef9fb5c8d26821873 context_tracking: Take idle eqs entrypoints over RCU
 date:   1 year, 5 months ago
-config: x86_64-buildonly-randconfig-006-20230906 (https://download.01.org/0day-ci/archive/20231204/202312041922.YZCcEPYD-lkp@intel.com/config)
+config: x86_64-buildonly-randconfig-004-20230906 (https://download.01.org/0day-ci/archive/20231204/202312041910.LfOZgZi8-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312041922.YZCcEPYD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312041910.LfOZgZi8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312041922.YZCcEPYD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312041910.LfOZgZi8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
