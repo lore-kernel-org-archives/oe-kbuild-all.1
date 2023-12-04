@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27CB0FBF6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 08:56:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478E710A0D;
+	Mon,  4 Dec 2023 08:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gTGVaz8p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ETDPOKFh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701680207; x=1733216207;
+  t=1701680263; x=1733216263;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=07h+TDIWco35hMrY5+69QIXmLUkGTeXbwUV8MFxI21o=;
-  b=gTGVaz8pUGn9HmiHZpmutwnq8UTQnu0OV9/8WAd6dVEVteuvKoHhGJ01
-   OHzn/fDSJvHAEYFphZByjhfJkrBvj5TSEEapMV9q0BbZPHglz5dUCfx2W
-   TRr+GLf4ApeCQmJXjWqkKVgUg+IOo5xe+2MupP6g1DSLVu7mAWhn4Aykp
-   b0VvTYASi+/cr50BH+5eoBpRaUmEXTJ69he3XBlT2FvfUxlpdoGRklPcM
-   P9UDMNYKT+4fU+mjz5bEZ7zzqSx5H4iuo1nVy2SB+E1LyrdJ/pGGkzpWz
-   zRPIUzwxnl21eKHQAHWkFOXpBYPWNYqTtWl2feB2ahXFr3RnFwufFIju+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="373136605"
+  bh=GxySVDxuiGHiIKw4W+PxgpWkeVuDjpKSSOyOdyQHQFo=;
+  b=ETDPOKFhJfqd+CBwilab7RrX2oELryAwDPATAC8VS307M6CyWBjw1yXE
+   Nbcmm6pSqAieg5ySrps1iEsjgtY453pwTIAxCGh4O3z6rUUrbc84IvPRY
+   O9gfrQkpQkUJhp3XNk164gtWcmbR2B8mjUCI1kAyPRVvxw6/cil1L/8gh
+   BIUOwLj7TtCmnkYA24gK31xv/sD6T8WoyO7EysAsaK4Roh7tCUIQkgtki
+   LRsZPqWJ5BSRzbhhcP0GdwAHGYyOgdFTuomVFfej1uMGzPN4gLuITjwr5
+   u0f3HIpphZDE9MqPwillKMzVz3Xq7xAvRYCMxDwM8al1g1kf0zfUBitay
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="390863368"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="373136605"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 00:56:42 -0800
+   d="scan'208";a="390863368"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 00:57:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="746769743"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="774190999"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="746769743"
+   d="scan'208";a="774190999"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 04 Dec 2023 00:56:40 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 04 Dec 2023 00:57:39 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rA4kn-0007bs-1a;
-	Mon, 04 Dec 2023 08:56:37 +0000
-Date: Mon, 4 Dec 2023 16:56:35 +0800
+	id 1rA4ll-0007c6-1v;
+	Mon, 04 Dec 2023 08:57:37 +0000
+Date: Mon, 4 Dec 2023 16:56:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suwan Kim <suwan.kim027@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Christoph Hellwig <hch@lst.de>, Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: drivers/block/virtio_blk.c:570:68: warning: '%d' directive output
- may be truncated writing between 1 and 11 bytes into a region of size 7
-Message-ID: <202312041509.DIyvEt9h-lkp@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Maximilian Luz <luzmaximilian@gmail.com>
+Subject: drivers/firmware/qcom/qcom_scm.c:1652:34: warning: unused variable
+ 'qcom_scm_qseecom_allowlist'
+Message-ID: <202312041607.kGqDrfpq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,118 +54,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Bartosz,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: 4e0400525691d0e676dbe002641f9a61261f1e1b virtio-blk: support polling I/O
-date:   1 year, 6 months ago
-config: x86_64-buildonly-randconfig-006-20230906 (https://download.01.org/0day-ci/archive/20231204/202312041509.DIyvEt9h-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312041509.DIyvEt9h-lkp@intel.com/reproduce)
+commit: bdac188ec3c71800dd8419620224ee74ef37732a firmware: qcom: move Qualcomm code into its own directory
+date:   6 weeks ago
+config: s390-randconfig-002-20231119 (https://download.01.org/0day-ci/archive/20231204/202312041607.kGqDrfpq-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312041607.kGqDrfpq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312041509.DIyvEt9h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312041607.kGqDrfpq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/block/virtio_blk.c: In function 'init_vq':
->> drivers/block/virtio_blk.c:570:68: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 7 [-Wformat-truncation=]
-     570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
-         |                                                                    ^~
-   drivers/block/virtio_blk.c:570:58: note: directive argument in the range [-2147483648, 65534]
-     570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
-         |                                                          ^~~~~~~~~~~~~
-   drivers/block/virtio_blk.c:570:17: note: 'snprintf' output between 11 and 21 bytes into a destination of size 16
-     570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/firmware/qcom/qcom_scm.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/firmware/qcom/qcom_scm.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/firmware/qcom/qcom_scm.c:10:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/firmware/qcom/qcom_scm.c:1652:34: warning: unused variable 'qcom_scm_qseecom_allowlist' [-Wunused-const-variable]
+    1652 | static const struct of_device_id qcom_scm_qseecom_allowlist[] = {
+         |                                  ^
+   13 warnings generated.
 
 
-vim +570 drivers/block/virtio_blk.c
+vim +/qcom_scm_qseecom_allowlist +1652 drivers/firmware/qcom/qcom_scm.c
 
-   511	
-   512	static int init_vq(struct virtio_blk *vblk)
-   513	{
-   514		int err;
-   515		int i;
-   516		vq_callback_t **callbacks;
-   517		const char **names;
-   518		struct virtqueue **vqs;
-   519		unsigned short num_vqs;
-   520		unsigned int num_poll_vqs;
-   521		struct virtio_device *vdev = vblk->vdev;
-   522		struct irq_affinity desc = { 0, };
-   523	
-   524		err = virtio_cread_feature(vdev, VIRTIO_BLK_F_MQ,
-   525					   struct virtio_blk_config, num_queues,
-   526					   &num_vqs);
-   527		if (err)
-   528			num_vqs = 1;
-   529	
-   530		if (!err && !num_vqs) {
-   531			dev_err(&vdev->dev, "MQ advertised but zero queues reported\n");
-   532			return -EINVAL;
-   533		}
-   534	
-   535		num_vqs = min_t(unsigned int,
-   536				min_not_zero(num_request_queues, nr_cpu_ids),
-   537				num_vqs);
-   538	
-   539		num_poll_vqs = min_t(unsigned int, poll_queues, num_vqs - 1);
-   540	
-   541		vblk->io_queues[HCTX_TYPE_DEFAULT] = num_vqs - num_poll_vqs;
-   542		vblk->io_queues[HCTX_TYPE_READ] = 0;
-   543		vblk->io_queues[HCTX_TYPE_POLL] = num_poll_vqs;
-   544	
-   545		dev_info(&vdev->dev, "%d/%d/%d default/read/poll queues\n",
-   546					vblk->io_queues[HCTX_TYPE_DEFAULT],
-   547					vblk->io_queues[HCTX_TYPE_READ],
-   548					vblk->io_queues[HCTX_TYPE_POLL]);
-   549	
-   550		vblk->vqs = kmalloc_array(num_vqs, sizeof(*vblk->vqs), GFP_KERNEL);
-   551		if (!vblk->vqs)
-   552			return -ENOMEM;
-   553	
-   554		names = kmalloc_array(num_vqs, sizeof(*names), GFP_KERNEL);
-   555		callbacks = kmalloc_array(num_vqs, sizeof(*callbacks), GFP_KERNEL);
-   556		vqs = kmalloc_array(num_vqs, sizeof(*vqs), GFP_KERNEL);
-   557		if (!names || !callbacks || !vqs) {
-   558			err = -ENOMEM;
-   559			goto out;
-   560		}
-   561	
-   562		for (i = 0; i < num_vqs - num_poll_vqs; i++) {
-   563			callbacks[i] = virtblk_done;
-   564			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req.%d", i);
-   565			names[i] = vblk->vqs[i].name;
-   566		}
-   567	
-   568		for (; i < num_vqs; i++) {
-   569			callbacks[i] = NULL;
- > 570			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
-   571			names[i] = vblk->vqs[i].name;
-   572		}
-   573	
-   574		/* Discover virtqueues and write information to configuration.  */
-   575		err = virtio_find_vqs(vdev, num_vqs, vqs, callbacks, names, &desc);
-   576		if (err)
-   577			goto out;
-   578	
-   579		for (i = 0; i < num_vqs; i++) {
-   580			spin_lock_init(&vblk->vqs[i].lock);
-   581			vblk->vqs[i].vq = vqs[i];
-   582		}
-   583		vblk->num_vqs = num_vqs;
-   584	
-   585	out:
-   586		kfree(vqs);
-   587		kfree(callbacks);
-   588		kfree(names);
-   589		if (err)
-   590			kfree(vblk->vqs);
-   591		return err;
-   592	}
-   593	
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27  1647  
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27  1648  /*
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27  1649   * We do not yet support re-entrant calls via the qseecom interface. To prevent
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27  1650   + any potential issues with this, only allow validated machines for now.
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27  1651   */
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27 @1652  static const struct of_device_id qcom_scm_qseecom_allowlist[] = {
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27  1653  	{ .compatible = "lenovo,thinkpad-x13s", },
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27  1654  	{ }
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27  1655  };
+00b1248606ba39 drivers/firmware/qcom_scm.c Maximilian Luz 2023-08-27  1656  
+
+:::::: The code at line 1652 was first introduced by commit
+:::::: 00b1248606ba3979ccae30ed11df8cdc1a84245a firmware: qcom_scm: Add support for Qualcomm Secure Execution Environment SCM interface
+
+:::::: TO: Maximilian Luz <luzmaximilian@gmail.com>
+:::::: CC: Bjorn Andersson <andersson@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
