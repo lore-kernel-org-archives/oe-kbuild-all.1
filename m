@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22C22511D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007A42E41A
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 17:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WpwTGu6w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpuieT3+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701711214; x=1733247214;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=62A83eWohW7/AOVF2AGilZpwv8IYTtYFbq8Wxq7aQrM=;
-  b=WpwTGu6wd4qTuukIHxiimhYxurgHZVBSTcjsyFmRKenm4AoEO5cuTc2K
-   XUGwFDsXchk4Et51Ek3BA87mzwAzL9lP/45CTaSYR6WeDnVsEHtz0ZMW6
-   f6DRCorZqFDZT5ekoePhDPVugdp0UdT++c4vyzNh2qtE9EmpTDnlXZroL
-   B7f+ZxvsKVaPtE8P5qmnf1TALfhoO+Q2VzYyq0U9ki3G7HPDJUn06MWz9
-   4PYEII6SEHGIXlYjH56cpn3oMoUpLw8CXuzNdl7Zhqln0Cl8akOLETokl
-   PM1eROEaYxqJdAagFjZ6QZk0D1WD1pk+KcYv5YvkstKanP8KgyEhVLZw/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="373948944"
+  bh=tm472bhj1mgn39K6p4g1VDzuW05DNjEf6P3PlSrfgaE=;
+  b=cpuieT3+Z7J3MNUi9CUqy4PUg7NNOv+4vJpOiYFb25iAU0hGxf5/UdZU
+   xsJx80o6LrYpmrAVNZJm50Rae/2b5JycZphO9MTgyrtZG8hXLHtg/JsIb
+   MiRJ9x0ftG3AuNnpeQ7BFNc49oLh0DstPArKmGZI3VRDqtGVjM6WtZdzq
+   Q+JvbI7Kx4Qh2ZHrG4+KpMXF2GgUJXmhlrzKuAISpOba4fbG4oXx8Jv4C
+   BNEVjKzgd6Fqt8UayXBBG159bLzi0XpCZvvRSVCMRUbvsuNpT1IUcOQZx
+   qLuYTg490MylojyFZerCI5BzjX7JAGnczQ1hQ3hVpxnFgPmUYpogi+CC0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="384174442"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="373948944"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 09:33:33 -0800
+   d="scan'208";a="384174442"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 09:33:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="720384989"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764027146"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="720384989"
+   d="scan'208";a="764027146"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 04 Dec 2023 09:33:31 -0800
+  by orsmga007.jf.intel.com with ESMTP; 04 Dec 2023 09:33:31 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rACoy-0007xL-2U;
+	id 1rACoy-0007xR-2k;
 	Mon, 04 Dec 2023 17:33:28 +0000
-Date: Tue, 5 Dec 2023 01:32:32 +0800
+Date: Tue, 5 Dec 2023 01:32:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stafford Horne <shorne@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/video/fbdev/cirrusfb.c:1852:28: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202312050006.oLjPS9Ju-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: drivers/gpu/drm/nouveau/nouveau_ioc32.c:2: warning: Cannot
+ understand  * \file mga_ioc32.c
+Message-ID: <202312050000.EAJuyFfY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,88 +54,93 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
-date:   1 year, 4 months ago
-config: openrisc-randconfig-r112-20231116 (https://download.01.org/0day-ci/archive/20231205/202312050006.oLjPS9Ju-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231205/202312050006.oLjPS9Ju-lkp@intel.com/reproduce)
+commit: 83a44a4f47ad20997aebb311fc678a13cde391d7 x86: Remove toolchain check for X32 ABI capability
+date:   1 year, 9 months ago
+config: x86_64-buildonly-randconfig-005-20230918 (https://download.01.org/0day-ci/archive/20231205/202312050000.EAJuyFfY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312050000.EAJuyFfY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312050006.oLjPS9Ju-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312050000.EAJuyFfY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/cirrusfb.c:866:30: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:867:38: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:871:40: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:873:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:876:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:877:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:878:27: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:879:29: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:1245:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:1246:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:1247:17: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/video/fbdev/cirrusfb.c:1852:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dest @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/cirrusfb.c:1852:28: sparse:     expected void *dest
-   drivers/video/fbdev/cirrusfb.c:1852:28: sparse:     got char [noderef] __iomem *screen_base
+All warnings (new ones prefixed by >>):
 
-vim +1852 drivers/video/fbdev/cirrusfb.c
+>> drivers/gpu/drm/nouveau/nouveau_ioc32.c:2: warning: Cannot understand  * \file mga_ioc32.c
+    on line 2 - I thought it was a doc line
+>> drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'filp' not described in 'nouveau_compat_ioctl'
+>> drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'cmd' not described in 'nouveau_compat_ioctl'
+>> drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: Function parameter or member 'arg' not described in 'nouveau_compat_ioctl'
+>> drivers/gpu/drm/nouveau/nouveau_ioc32.c:52: warning: expecting prototype for Called whenever a 32-bit process running under a 64(). Prototype was for nouveau_compat_ioctl() instead
 
-^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1809  
-8503df65976d0f drivers/video/cirrusfb.c Krzysztof Helt 2007-10-16  1810  static void cirrusfb_imageblit(struct fb_info *info,
-8503df65976d0f drivers/video/cirrusfb.c Krzysztof Helt 2007-10-16  1811  			       const struct fb_image *image)
-^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1812  {
-^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1813  	struct cirrusfb_info *cinfo = info->par;
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1814  	unsigned char op = (info->var.bits_per_pixel == 24) ? 0xc : 0x4;
-^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1815  
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1816  	if (info->state != FBINFO_STATE_RUNNING)
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1817  		return;
-df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1818  	/* Alpine/SD64 does not work at 24bpp ??? */
-df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1819  	if (info->flags & FBINFO_HWACCEL_DISABLED || image->depth != 1)
-df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1820  		cfb_imageblit(info, image);
-df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1821  	else if ((cinfo->btype == BT_ALPINE || cinfo->btype == BT_SD64) &&
-df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1822  		  op == 0xc)
-^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1823  		cfb_imageblit(info, image);
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1824  	else {
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1825  		unsigned size = ((image->width + 7) >> 3) * image->height;
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1826  		int m = info->var.bits_per_pixel;
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1827  		u32 fg, bg;
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1828  
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1829  		if (info->var.bits_per_pixel == 8) {
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1830  			fg = image->fg_color;
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1831  			bg = image->bg_color;
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1832  		} else {
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1833  			fg = ((u32 *)(info->pseudo_palette))[image->fg_color];
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1834  			bg = ((u32 *)(info->pseudo_palette))[image->bg_color];
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1835  		}
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1836  		if (info->var.bits_per_pixel == 24) {
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1837  			/* clear background first */
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1838  			cirrusfb_RectFill(cinfo->regbase,
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1839  					  info->var.bits_per_pixel,
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1840  					  (image->dx * m) / 8, image->dy,
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1841  					  (image->width * m) / 8,
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1842  					  image->height,
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1843  					  bg, bg,
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1844  					  info->fix.line_length, 0x40);
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1845  		}
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1846  		cirrusfb_RectFill(cinfo->regbase,
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1847  				  info->var.bits_per_pixel,
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1848  				  (image->dx * m) / 8, image->dy,
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1849  				  (image->width * m) / 8, image->height,
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1850  				  fg, bg,
-7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1851  				  info->fix.line_length, op);
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31 @1852  		memcpy(info->screen_base, image->data, size);
-9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1853  	}
-^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1854  }
-^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1855  
 
-:::::: The code at line 1852 was first introduced by commit
-:::::: 9e848062533207130667f6eaa748549367ccbedf cirrusfb: add imageblit function
+vim +2 drivers/gpu/drm/nouveau/nouveau_ioc32.c
 
-:::::: TO: Krzysztof Helt <krzysztof.h1@wp.pl>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+6ee738610f41b5 Ben Skeggs   2009-12-11  @2   * \file mga_ioc32.c
+6ee738610f41b5 Ben Skeggs   2009-12-11   3   *
+6ee738610f41b5 Ben Skeggs   2009-12-11   4   * 32-bit ioctl compatibility routines for the MGA DRM.
+6ee738610f41b5 Ben Skeggs   2009-12-11   5   *
+6ee738610f41b5 Ben Skeggs   2009-12-11   6   * \author Dave Airlie <airlied@linux.ie> with code from patches by Egbert Eich
+6ee738610f41b5 Ben Skeggs   2009-12-11   7   *
+6ee738610f41b5 Ben Skeggs   2009-12-11   8   *
+6ee738610f41b5 Ben Skeggs   2009-12-11   9   * Copyright (C) Paul Mackerras 2005
+6ee738610f41b5 Ben Skeggs   2009-12-11  10   * Copyright (C) Egbert Eich 2003,2004
+6ee738610f41b5 Ben Skeggs   2009-12-11  11   * Copyright (C) Dave Airlie 2005
+6ee738610f41b5 Ben Skeggs   2009-12-11  12   * All Rights Reserved.
+6ee738610f41b5 Ben Skeggs   2009-12-11  13   *
+6ee738610f41b5 Ben Skeggs   2009-12-11  14   * Permission is hereby granted, free of charge, to any person obtaining a
+6ee738610f41b5 Ben Skeggs   2009-12-11  15   * copy of this software and associated documentation files (the "Software"),
+6ee738610f41b5 Ben Skeggs   2009-12-11  16   * to deal in the Software without restriction, including without limitation
+6ee738610f41b5 Ben Skeggs   2009-12-11  17   * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+6ee738610f41b5 Ben Skeggs   2009-12-11  18   * and/or sell copies of the Software, and to permit persons to whom the
+6ee738610f41b5 Ben Skeggs   2009-12-11  19   * Software is furnished to do so, subject to the following conditions:
+6ee738610f41b5 Ben Skeggs   2009-12-11  20   *
+6ee738610f41b5 Ben Skeggs   2009-12-11  21   * The above copyright notice and this permission notice (including the next
+6ee738610f41b5 Ben Skeggs   2009-12-11  22   * paragraph) shall be included in all copies or substantial portions of the
+6ee738610f41b5 Ben Skeggs   2009-12-11  23   * Software.
+6ee738610f41b5 Ben Skeggs   2009-12-11  24   *
+6ee738610f41b5 Ben Skeggs   2009-12-11  25   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+6ee738610f41b5 Ben Skeggs   2009-12-11  26   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+6ee738610f41b5 Ben Skeggs   2009-12-11  27   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+6ee738610f41b5 Ben Skeggs   2009-12-11  28   * THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+6ee738610f41b5 Ben Skeggs   2009-12-11  29   * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+6ee738610f41b5 Ben Skeggs   2009-12-11  30   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+6ee738610f41b5 Ben Skeggs   2009-12-11  31   * IN THE SOFTWARE.
+6ee738610f41b5 Ben Skeggs   2009-12-11  32   */
+6ee738610f41b5 Ben Skeggs   2009-12-11  33  
+6ee738610f41b5 Ben Skeggs   2009-12-11  34  #include <linux/compat.h>
+6ee738610f41b5 Ben Skeggs   2009-12-11  35  
+690ae20c0426f8 Sam Ravnborg 2019-05-19  36  #include <drm/drm.h>
+690ae20c0426f8 Sam Ravnborg 2019-05-19  37  #include <drm/drm_ioctl.h>
+6ee738610f41b5 Ben Skeggs   2009-12-11  38  
+fce875d647171f Ben Skeggs   2012-07-26  39  #include "nouveau_ioctl.h"
+6ee738610f41b5 Ben Skeggs   2009-12-11  40  
+6ee738610f41b5 Ben Skeggs   2009-12-11  41  /**
+6ee738610f41b5 Ben Skeggs   2009-12-11  42   * Called whenever a 32-bit process running under a 64-bit kernel
+6ee738610f41b5 Ben Skeggs   2009-12-11  43   * performs an ioctl on /dev/dri/card<n>.
+6ee738610f41b5 Ben Skeggs   2009-12-11  44   *
+6ee738610f41b5 Ben Skeggs   2009-12-11  45   * \param filp file pointer.
+6ee738610f41b5 Ben Skeggs   2009-12-11  46   * \param cmd command.
+6ee738610f41b5 Ben Skeggs   2009-12-11  47   * \param arg user argument.
+6ee738610f41b5 Ben Skeggs   2009-12-11  48   * \return zero on success or negative number on failure.
+6ee738610f41b5 Ben Skeggs   2009-12-11  49   */
+6ee738610f41b5 Ben Skeggs   2009-12-11  50  long nouveau_compat_ioctl(struct file *filp, unsigned int cmd,
+6ee738610f41b5 Ben Skeggs   2009-12-11  51  			 unsigned long arg)
+6ee738610f41b5 Ben Skeggs   2009-12-11 @52  {
+6ee738610f41b5 Ben Skeggs   2009-12-11  53  	unsigned int nr = DRM_IOCTL_NR(cmd);
+6ee738610f41b5 Ben Skeggs   2009-12-11  54  	drm_ioctl_compat_t *fn = NULL;
+6ee738610f41b5 Ben Skeggs   2009-12-11  55  	int ret;
+6ee738610f41b5 Ben Skeggs   2009-12-11  56  
+6ee738610f41b5 Ben Skeggs   2009-12-11  57  	if (nr < DRM_COMMAND_BASE)
+6ee738610f41b5 Ben Skeggs   2009-12-11  58  		return drm_compat_ioctl(filp, cmd, arg);
+6ee738610f41b5 Ben Skeggs   2009-12-11  59  
+
+:::::: The code at line 2 was first introduced by commit
+:::::: 6ee738610f41b59733f63718f0bdbcba7d3a3f12 drm/nouveau: Add DRM driver for NVIDIA GPUs
+
+:::::: TO: Ben Skeggs <bskeggs@redhat.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
