@@ -1,147 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C2D3BB28
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 22:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72143C470
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 22:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KZhqyPR3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701729944; x=1733265944;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bOiAPgJ6UUeg0EVVF/4cIAQhHZbYPMzWYd6hguMwvQk=;
-  b=KZhqyPR3xv5tsb3zvUjsRehLgQGFM8KEXEy0EG/Onbx+vOz3R6DdrZD6
-   5n886P6t+neYxNrscbVqJ3VENJb6D8OwadjSzFddOluk6D56HfBm5TlVD
-   cH+R7ikKp1oqsBVstWc0lgKNRtleX4UVhsKbDMPsOq8JDTUokkic+3wiT
-   4QFPaWExTN/FroDRGzo3f4N9R37KSvpyiaQ9PadmDy1JdbjzH91ByBaYW
-   5nT0DUzF2B2D8j1bC4i1esNrMqdfINeYe+NAl4UjCrDuRopzgyooG4HM+
-   5FzyvzPYYYbQY4xAFJPzjj2lNv5XQ4nEI2Z/ABzm5kO7IfNw0iIlMXfs9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="378834887"
-X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="378834887"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 14:45:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="894149118"
-X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="894149118"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 04 Dec 2023 14:45:41 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAHh4-00089E-2V;
-	Mon, 04 Dec 2023 22:45:38 +0000
-Date: Tue, 5 Dec 2023 06:45:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Schmitz <schmitzmic@gmail.com>
-Subject: drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202312050650.CCViprhz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kpP98aY7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=1SvhhogXKYPRX45z1KqNA56S/+FRW1MivpZ9wWcaoxw=; b=kpP98aY7s6WDXYPI2nX5SHAdAS
+	RHYgMOYMafV75SVtyBASxGo/27LmR+bD8xV/nlv6ir/Ofw8ZyA7HW7p5F1tSkQkhGzu2gyOYFGhS4
+	rPPV0JzEeZ9SAxPp4ifTBxfhb3eZ8nT4REp/oF2vkLER+NIf9bGBanhzYgJPxcAIcgKcTVrGXYLi9
+	ZH8sx8rFBbK4P2t9EAgAqv/Hx4F+0Nc821cCaQZijkAxh9f5KjbIpS497Kq/6lSO2I0RhFsbk2qQN
+	ZNlIC/S/2NXyGIoIzaxyO5glmEKTLJ+xp3cVDA9qZ0/fYaYKOn9f+9byFBIAOA1h8jg7j6VB+4pE5
+	5BjCkmhw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rAHi6-005jdv-1L;
+	Mon, 04 Dec 2023 22:46:42 +0000
+Message-ID: <61f2de49-131f-4619-b62e-dfe2f5b6bf3c@infradead.org>
+Date: Mon, 4 Dec 2023 14:46:41 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/usb/gadget/function/f_uac1_legacy.c:1: warning: no
+ structured comments found
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>,
+ Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Felipe Balbi <felipe.balbi@linux.intel.com>
+References: <202311211052.RsFuk4Gr-lkp@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202311211052.RsFuk4Gr-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: 30b5e6ef4a32ea4985b99200e06d6660a69f9246 m68k: atari: Make Atari ROM port I/O write macros return void
-date:   1 year, 6 months ago
-config: m68k-randconfig-r131-20231119 (https://download.01.org/0day-ci/archive/20231205/202312050650.CCViprhz-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231205/202312050650.CCViprhz-lkp@intel.com/reproduce)
+Hi ktr,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312050650.CCViprhz-lkp@intel.com/
+On 11/20/23 18:31, kernel test robot wrote:
+> Hi Ruslan,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   98b1cc82c4affc16f5598d4fa14b1858671b2263
+> commit: d355339eecd986648420e05f8c958fbc78dbb382 usb: gadget: function: make current f_uac1 implementation legacy
+> date:   6 years ago
+> config: i386-randconfig-002-20231120 (https://download.01.org/0day-ci/archive/20231121/202311211052.RsFuk4Gr-lkp@intel.com/config)
+> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311211052.RsFuk4Gr-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311211052.RsFuk4Gr-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
->> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
->> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
->> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
-   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
+I can't reproduce any of these warnings.
 
-vim +163 drivers/comedi/drivers/ni_daq_700.c
+I think that you should reevaluate something here.
 
-a9f9d8314541144 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  129  
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  130  static int daq700_ai_rinsn(struct comedi_device *dev,
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  131  			   struct comedi_subdevice *s,
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  132  			   struct comedi_insn *insn, unsigned int *data)
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  133  {
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  134  	int n;
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  135  	int d;
-a9f9d8314541144 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  136  	int ret;
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  137  	unsigned int chan	= CR_CHAN(insn->chanspec);
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  138  	unsigned int aref	= CR_AREF(insn->chanspec);
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  139  	unsigned int range	= CR_RANGE(insn->chanspec);
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  140  	unsigned int r3_bits	= 0;
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  141  
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  142  	/* set channel input modes */
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  143  	if (aref == AREF_DIFF)
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  144  		r3_bits |= CMD_R3_DIFF;
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  145  	/* write channel mode/range */
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  146  	if (range >= 1)
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  147  		range++;        /* convert range to hardware value */
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  148  	outb(r3_bits | (range & 0x03), dev->iobase + CMD_R3);
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  149  
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  150  	/* write channel to multiplexer */
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  151  	/* set mask scan bit high to disable scanning */
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  152  	outb(chan | 0x80, dev->iobase + CMD_R1);
-ffed54dced86723 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2014-05-19  153  	/* mux needs 2us to really settle [Fred Brooks]. */
-ffed54dced86723 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2014-05-19  154  	udelay(2);
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  155  
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  156  	/* convert n samples */
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  157  	for (n = 0; n < insn->n; n++) {
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  158  		/* trigger conversion with out0 L to H */
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  159  		outb(0x00, dev->iobase + CMD_R2); /* enable ADC conversions */
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  160  		outb(0x30, dev->iobase + CMO_R); /* mode 0 out0 L, from H */
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  161  		outb(0x00, dev->iobase + ADCLEAR_R);	/* clear the ADC FIFO */
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  162  		/* read 16bit junk from FIFO to clear */
-cf695df834efc71 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20 @163  		inw(dev->iobase + ADFIFO_R);
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  164  		/* mode 1 out0 H, L to H, start conversion */
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  165  		outb(0x32, dev->iobase + CMO_R);
-a9f9d8314541144 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  166  
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  167  		/* wait for conversion to end */
-a9f9d8314541144 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  168  		ret = comedi_timeout(dev, s, insn, daq700_ai_eoc, 0);
-22ca19d93d92c79 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  169  		if (ret)
-a9f9d8314541144 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  170  			return ret;
-a9f9d8314541144 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  171  
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  172  		/* read data */
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  173  		d = inw(dev->iobase + ADFIFO_R);
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  174  		/* mangle the data as necessary */
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  175  		/* Bipolar Offset Binary: 0 to 4095 for -10 to +10 */
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  176  		d &= 0x0fff;
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  177  		d ^= 0x0800;
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  178  		data[n] = d;
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  179  	}
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  180  	return n;
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  181  }
-198b0fa48b25b60 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  182  
 
-:::::: The code at line 163 was first introduced by commit
-:::::: cf695df834efc718b2ed17e9c83e127fd63c9033 staging: comedi: ni_daq_700: add AI range and input mode switching
-
-:::::: TO: Fred Brooks <frederick.brooks@microchip.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>> drivers/usb/gadget/function/f_uac1_legacy.c:1: warning: no structured comments found
+> --
+>>> drivers/usb/gadget/function/u_uac1_legacy.c:33: warning: No description found for parameter 'i'
+>>> drivers/usb/gadget/function/u_uac1_legacy.c:33: warning: No description found for parameter 'val'
+>>> drivers/usb/gadget/function/u_uac1_legacy.c:96: warning: No description found for parameter 'snd'
+>>> drivers/usb/gadget/function/u_uac1_legacy.c:156: warning: No description found for parameter 'card'
+>>> drivers/usb/gadget/function/u_uac1_legacy.c:156: warning: No description found for parameter 'buf'
+>>> drivers/usb/gadget/function/u_uac1_legacy.c:156: warning: No description found for parameter 'count'
+>    drivers/usb/gadget/function/u_uac1_legacy.c:205: warning: No description found for parameter 'card'
+>>> drivers/usb/gadget/function/u_uac1_legacy.c:265: warning: No description found for parameter 'gau'
+>    drivers/usb/gadget/function/u_uac1_legacy.c:294: warning: No description found for parameter 'card'
+>>> drivers/usb/gadget/function/u_uac1_legacy.c:311: warning: No description found for parameter 'the_card'
+> 
+> 
+> vim +1 drivers/usb/gadget/function/f_uac1_legacy.c
+> 
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03  @1  /*
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03   2   * f_audio.c -- USB Audio class function driver
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03   3    *
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03   4   * Copyright (C) 2008 Bryan Wu <cooloney@kernel.org>
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03   5   * Copyright (C) 2008 Analog Devices, Inc
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03   6   *
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03   7   * Enter bugs at http://blackfin.uclinux.org/
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03   8   *
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03   9   * Licensed under the GPL-2 or later.
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03  10   */
+> c6994e6f067cf0 drivers/usb/gadget/f_audio.c Bryan Wu 2009-06-03  11  
+> 
+> :::::: The code at line 1 was first introduced by commit
+> :::::: c6994e6f067cf0fc4c6cca3d164018b1150916f8 USB: gadget: add USB Audio Gadget driver
+> 
+> :::::: TO: Bryan Wu <cooloney@kernel.org>
+> :::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
