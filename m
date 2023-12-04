@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61A623752
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 12:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA412209F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 12:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GrupPjLG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MeP+3wj9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701691375; x=1733227375;
+  t=1701691376; x=1733227376;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KpUQ4MIma331oQDolzRO9J+5xk5AIoP7gr/tMoelzjw=;
-  b=GrupPjLGIDeL8sz2bNysRUMBWuDqOoEGsJGepqte0lfQ1KVJ83iqwMdS
-   FfdTlqgbVKTQsFHnEcjVXtUAangTNnfPlOZLjpZOidNIP3yZ3y8HFJEZj
-   ZoZCyTfAb11ROIuK6ArqbhO2tQbIhh9cUIpZfnMHRL+jKT+ylgbt2vSbL
-   zJ5TrB7hOSdRPddh60eljnsILsykLqynp3J7g4iEGJ59F9BC7UfRwLnnF
-   a5Bx4MjAj3HWc6BrZK2XQmBTtLkcFE4CXADdcQvY4+lG5M+IavvB/UChD
-   FiHKsSgSI9ieYWkh9BGPMHVewJIvompPMWt97b7sLmK9sivFAKJSZBWuK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="373154173"
+  bh=AfoyPVRgdnYgARogzQH6MmY+YxG4vVbRFMl7FitYhUk=;
+  b=MeP+3wj9y8p3zvduMASgH2gmxlKItIaJvaIWK6B1Rtn9+/eB2V1Ht/Ui
+   wHjKR99cpNdjtiziK2Jb9B4w++Ykt/isN6isaUbbZPMVNE5vxgyE8osg0
+   4PEX1bF+2/db+P92rs7d40GqZ9sDLiHdiklw6jjKL6dWFExqv/3vCVj1w
+   aSYejDc4QFN6LmmEhzoxn+LfSl2Ar1zSw4g3WKtgOfpvYbUpBghNTn3TU
+   HFX7VvdY/PaxSgA9gs6EC9CZJA0UfZWhDsIdHyy/tdovd3NRjlxAsb1yJ
+   KuGu2lixGQctQT8Ed+Eog4JWVlgfHLa7Cg0r66C1yshQYEf/FCPRMbXrR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="373154178"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="373154173"
+   d="scan'208";a="373154178"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 04:02:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="1017826173"
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="1017826170"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="1017826173"
+   d="scan'208";a="1017826170"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by fmsmga006.fm.intel.com with ESMTP; 04 Dec 2023 04:02:50 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rA7ey-0007iD-2P;
+	id 1rA7ey-0007i4-1e;
 	Mon, 04 Dec 2023 12:02:48 +0000
-Date: Mon, 4 Dec 2023 20:02:36 +0800
+Date: Mon, 4 Dec 2023 20:02:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ondrej Zary <linux@zary.sk>
+To: Frederic Weisbecker <frederic@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Subject: drivers/ata/pata_parport/frpw.c:210 frpw_test_pnp() warn:
- inconsistent indenting
-Message-ID: <202312041906.kuP0zVZH-lkp@intel.com>
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nicolas Saenz Julienne <nsaenzju@redhat.com>
+Subject: kernel/context_tracking.c:80: warning: Function parameter or member
+ 'state' not described in '__ct_user_enter'
+Message-ID: <202312041922.YZCcEPYD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,48 +52,176 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Frederic,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: 72f2b0b2185099dce354c805009f591dda3ab73d drivers/block: Move PARIDE protocol modules to drivers/ata/pata_parport
-date:   10 months ago
-config: arm-randconfig-r071-20231130 (https://download.01.org/0day-ci/archive/20231204/202312041906.kuP0zVZH-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231204/202312041906.kuP0zVZH-lkp@intel.com/reproduce)
+commit: e67198cc05b8ecbb7b8e2d8ef9fb5c8d26821873 context_tracking: Take idle eqs entrypoints over RCU
+date:   1 year, 5 months ago
+config: x86_64-buildonly-randconfig-006-20230906 (https://download.01.org/0day-ci/archive/20231204/202312041922.YZCcEPYD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312041922.YZCcEPYD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312041906.kuP0zVZH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312041922.YZCcEPYD-lkp@intel.com/
 
-smatch warnings:
-drivers/ata/pata_parport/frpw.c:210 frpw_test_pnp() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-vim +210 drivers/ata/pata_parport/frpw.c
+>> kernel/context_tracking.c:80: warning: Function parameter or member 'state' not described in '__ct_user_enter'
+>> kernel/context_tracking.c:184: warning: Function parameter or member 'state' not described in '__ct_user_exit'
 
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  201  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  202  	olddelay = pi->delay;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  203  	pi->delay = 10;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  204  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  205  	pi->saved_r0 = r0();
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  206          pi->saved_r2 = r2();
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  207  	
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  208  	w2(4); w0(4); w2(6); w2(7);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  209  	a = r1() & 0xff; w2(4); b = r1() & 0xff;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16 @210  	w2(0xc); w2(0xe); w2(4);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  211  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  212  	pi->delay = olddelay;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  213          w0(pi->saved_r0);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  214          w2(pi->saved_r2);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  215  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  216  	return ((~a&0x40) && (b&0x40));
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  217  } 
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  218  
 
-:::::: The code at line 210 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+vim +80 kernel/context_tracking.c
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+aed5ed47724f6a Frederic Weisbecker 2015-05-06   69  
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   70  /**
+0ffc781a19ed30 Frederic Weisbecker 2022-06-08   71   * __ct_user_enter - Inform the context tracking that the CPU is going
+0ffc781a19ed30 Frederic Weisbecker 2022-06-08   72   *		     to enter user or guest space mode.
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   73   *
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   74   * This function must be called right before we switch from the kernel
+3aab4f50bff89b Rik van Riel        2015-02-10   75   * to user or guest space, when it's guaranteed the remaining kernel
+3aab4f50bff89b Rik van Riel        2015-02-10   76   * instructions to execute won't use any RCU read side critical section
+3aab4f50bff89b Rik van Riel        2015-02-10   77   * because this function sets RCU in extended quiescent state.
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   78   */
+0ffc781a19ed30 Frederic Weisbecker 2022-06-08   79  void noinstr __ct_user_enter(enum ctx_state state)
+91d1aa43d30505 Frederic Weisbecker 2012-11-27  @80  {
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   81  	/* Kernel threads aren't supposed to go to userspace */
+91d1aa43d30505 Frederic Weisbecker 2012-11-27   82  	WARN_ON_ONCE(!current->mm);
+91d1aa43d30505 Frederic Weisbecker 2012-11-27   83  
+aed5ed47724f6a Frederic Weisbecker 2015-05-06   84  	if (!context_tracking_recursion_enter())
+d0e536d89395ec Paolo Bonzini       2015-10-28   85  		return;
+aed5ed47724f6a Frederic Weisbecker 2015-05-06   86  
+3aab4f50bff89b Rik van Riel        2015-02-10   87  	if ( __this_cpu_read(context_tracking.state) != state) {
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11   88  		if (__this_cpu_read(context_tracking.active)) {
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   89  			/*
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   90  			 * At this stage, only low level arch entry code remains and
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   91  			 * then we'll run in userspace. We can assume there won't be
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   92  			 * any RCU read-side critical section until the next call to
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   93  			 * user_exit() or rcu_irq_enter(). Let's remove RCU's dependency
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   94  			 * on the tick.
+4eacdf18374e5d Frederic Weisbecker 2013-01-16   95  			 */
+19fdd98b625340 Rik van Riel        2015-02-10   96  			if (state == CONTEXT_USER) {
+0372007f5a79d6 Thomas Gleixner     2020-03-04   97  				instrumentation_begin();
+19fdd98b625340 Rik van Riel        2015-02-10   98  				trace_user_enter(0);
+abf917cd91cbb7 Frederic Weisbecker 2012-07-25   99  				vtime_user_enter(current);
+0372007f5a79d6 Thomas Gleixner     2020-03-04  100  				instrumentation_end();
+19fdd98b625340 Rik van Riel        2015-02-10  101  			}
+91d1aa43d30505 Frederic Weisbecker 2012-11-27  102  			rcu_user_enter();
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  103  		}
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  104  		/*
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  105  		 * Even if context tracking is disabled on this CPU, because it's outside
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  106  		 * the full dynticks mask for example, we still have to keep track of the
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  107  		 * context transitions and states to prevent inconsistency on those of
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  108  		 * other CPUs.
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  109  		 * If a task triggers an exception in userspace, sleep on the exception
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  110  		 * handler and then migrate to another CPU, that new CPU must know where
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  111  		 * the exception returns by the time we call exception_exit().
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  112  		 * This information can only be provided by the previous CPU when it called
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  113  		 * exception_enter().
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  114  		 * OTOH we can spare the calls to vtime and RCU when context_tracking.active
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  115  		 * is false because we know that CPU is not tickless.
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  116  		 */
+3aab4f50bff89b Rik van Riel        2015-02-10  117  		__this_cpu_write(context_tracking.state, state);
+91d1aa43d30505 Frederic Weisbecker 2012-11-27  118  	}
+aed5ed47724f6a Frederic Weisbecker 2015-05-06  119  	context_tracking_recursion_exit();
+d0e536d89395ec Paolo Bonzini       2015-10-28  120  }
+0ffc781a19ed30 Frederic Weisbecker 2022-06-08  121  EXPORT_SYMBOL_GPL(__ct_user_enter);
+d0e536d89395ec Paolo Bonzini       2015-10-28  122  
+f67671baadf6db Frederic Weisbecker 2022-06-08  123  /*
+f67671baadf6db Frederic Weisbecker 2022-06-08  124   * OBSOLETE:
+f67671baadf6db Frederic Weisbecker 2022-06-08  125   * This function should be noinstr but the below local_irq_restore() is
+f67671baadf6db Frederic Weisbecker 2022-06-08  126   * unsafe because it involves illegal RCU uses through tracing and lockdep.
+f67671baadf6db Frederic Weisbecker 2022-06-08  127   * This is unlikely to be fixed as this function is obsolete. The preferred
+f67671baadf6db Frederic Weisbecker 2022-06-08  128   * way is to call __context_tracking_enter() through user_enter_irqoff()
+f67671baadf6db Frederic Weisbecker 2022-06-08  129   * or context_tracking_guest_enter(). It should be the arch entry code
+f67671baadf6db Frederic Weisbecker 2022-06-08  130   * responsibility to call into context tracking with IRQs disabled.
+f67671baadf6db Frederic Weisbecker 2022-06-08  131   */
+fe98db1c6d1ad7 Frederic Weisbecker 2022-06-08  132  void ct_user_enter(enum ctx_state state)
+d0e536d89395ec Paolo Bonzini       2015-10-28  133  {
+d0e536d89395ec Paolo Bonzini       2015-10-28  134  	unsigned long flags;
+d0e536d89395ec Paolo Bonzini       2015-10-28  135  
+d0e536d89395ec Paolo Bonzini       2015-10-28  136  	/*
+d0e536d89395ec Paolo Bonzini       2015-10-28  137  	 * Some contexts may involve an exception occuring in an irq,
+d0e536d89395ec Paolo Bonzini       2015-10-28  138  	 * leading to that nesting:
+d0e536d89395ec Paolo Bonzini       2015-10-28  139  	 * rcu_irq_enter() rcu_user_exit() rcu_user_exit() rcu_irq_exit()
+d0e536d89395ec Paolo Bonzini       2015-10-28  140  	 * This would mess up the dyntick_nesting count though. And rcu_irq_*()
+d0e536d89395ec Paolo Bonzini       2015-10-28  141  	 * helpers are enough to protect RCU uses inside the exception. So
+d0e536d89395ec Paolo Bonzini       2015-10-28  142  	 * just return immediately if we detect we are in an IRQ.
+d0e536d89395ec Paolo Bonzini       2015-10-28  143  	 */
+d0e536d89395ec Paolo Bonzini       2015-10-28  144  	if (in_interrupt())
+d0e536d89395ec Paolo Bonzini       2015-10-28  145  		return;
+d0e536d89395ec Paolo Bonzini       2015-10-28  146  
+d0e536d89395ec Paolo Bonzini       2015-10-28  147  	local_irq_save(flags);
+0ffc781a19ed30 Frederic Weisbecker 2022-06-08  148  	__ct_user_enter(state);
+91d1aa43d30505 Frederic Weisbecker 2012-11-27  149  	local_irq_restore(flags);
+91d1aa43d30505 Frederic Weisbecker 2012-11-27  150  }
+fe98db1c6d1ad7 Frederic Weisbecker 2022-06-08  151  NOKPROBE_SYMBOL(ct_user_enter);
+fe98db1c6d1ad7 Frederic Weisbecker 2022-06-08  152  EXPORT_SYMBOL_GPL(ct_user_enter);
+3aab4f50bff89b Rik van Riel        2015-02-10  153  
+f163f0302ab697 Frederic Weisbecker 2022-06-08  154  /**
+f163f0302ab697 Frederic Weisbecker 2022-06-08  155   * user_enter_callable() - Unfortunate ASM callable version of user_enter() for
+f163f0302ab697 Frederic Weisbecker 2022-06-08  156   *			   archs that didn't manage to check the context tracking
+f163f0302ab697 Frederic Weisbecker 2022-06-08  157   *			   static key from low level code.
+f163f0302ab697 Frederic Weisbecker 2022-06-08  158   *
+f163f0302ab697 Frederic Weisbecker 2022-06-08  159   * This OBSOLETE function should be noinstr but it unsafely calls
+f163f0302ab697 Frederic Weisbecker 2022-06-08  160   * local_irq_restore(), involving illegal RCU uses through tracing and lockdep.
+f67671baadf6db Frederic Weisbecker 2022-06-08  161   * This is unlikely to be fixed as this function is obsolete. The preferred
+f67671baadf6db Frederic Weisbecker 2022-06-08  162   * way is to call user_enter_irqoff(). It should be the arch entry code
+f67671baadf6db Frederic Weisbecker 2022-06-08  163   * responsibility to call into context tracking with IRQs disabled.
+f67671baadf6db Frederic Weisbecker 2022-06-08  164   */
+f163f0302ab697 Frederic Weisbecker 2022-06-08  165  void user_enter_callable(void)
+3aab4f50bff89b Rik van Riel        2015-02-10  166  {
+f70cd6b07e629f Paolo Bonzini       2015-10-28  167  	user_enter();
+3aab4f50bff89b Rik van Riel        2015-02-10  168  }
+f163f0302ab697 Frederic Weisbecker 2022-06-08  169  NOKPROBE_SYMBOL(user_enter_callable);
+91d1aa43d30505 Frederic Weisbecker 2012-11-27  170  
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  171  /**
+0ffc781a19ed30 Frederic Weisbecker 2022-06-08  172   * __ct_user_exit - Inform the context tracking that the CPU is
+3aab4f50bff89b Rik van Riel        2015-02-10  173   *		    exiting user or guest mode and entering the kernel.
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  174   *
+3aab4f50bff89b Rik van Riel        2015-02-10  175   * This function must be called after we entered the kernel from user or
+3aab4f50bff89b Rik van Riel        2015-02-10  176   * guest space before any use of RCU read side critical section. This
+3aab4f50bff89b Rik van Riel        2015-02-10  177   * potentially include any high level kernel code like syscalls, exceptions,
+3aab4f50bff89b Rik van Riel        2015-02-10  178   * signal handling, etc...
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  179   *
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  180   * This call supports re-entrancy. This way it can be called from any exception
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  181   * handler without needing to know if we came from userspace or not.
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  182   */
+0ffc781a19ed30 Frederic Weisbecker 2022-06-08  183  void noinstr __ct_user_exit(enum ctx_state state)
+91d1aa43d30505 Frederic Weisbecker 2012-11-27 @184  {
+aed5ed47724f6a Frederic Weisbecker 2015-05-06  185  	if (!context_tracking_recursion_enter())
+d0e536d89395ec Paolo Bonzini       2015-10-28  186  		return;
+aed5ed47724f6a Frederic Weisbecker 2015-05-06  187  
+3aab4f50bff89b Rik van Riel        2015-02-10  188  	if (__this_cpu_read(context_tracking.state) == state) {
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  189  		if (__this_cpu_read(context_tracking.active)) {
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  190  			/*
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  191  			 * We are going to run code that may use RCU. Inform
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  192  			 * RCU core about that (ie: we may need the tick again).
+4eacdf18374e5d Frederic Weisbecker 2013-01-16  193  			 */
+91d1aa43d30505 Frederic Weisbecker 2012-11-27  194  			rcu_user_exit();
+19fdd98b625340 Rik van Riel        2015-02-10  195  			if (state == CONTEXT_USER) {
+0372007f5a79d6 Thomas Gleixner     2020-03-04  196  				instrumentation_begin();
+abf917cd91cbb7 Frederic Weisbecker 2012-07-25  197  				vtime_user_exit(current);
+1b6a259aa5ab16 Frederic Weisbecker 2013-07-11  198  				trace_user_exit(0);
+0372007f5a79d6 Thomas Gleixner     2020-03-04  199  				instrumentation_end();
+d65ec12127a5b6 Frederic Weisbecker 2013-07-11  200  			}
+19fdd98b625340 Rik van Riel        2015-02-10  201  		}
+c467ea763fd5d8 Frederic Weisbecker 2015-03-04  202  		__this_cpu_write(context_tracking.state, CONTEXT_KERNEL);
+91d1aa43d30505 Frederic Weisbecker 2012-11-27  203  	}
+aed5ed47724f6a Frederic Weisbecker 2015-05-06  204  	context_tracking_recursion_exit();
+d0e536d89395ec Paolo Bonzini       2015-10-28  205  }
+0ffc781a19ed30 Frederic Weisbecker 2022-06-08  206  EXPORT_SYMBOL_GPL(__ct_user_exit);
+d0e536d89395ec Paolo Bonzini       2015-10-28  207  
+
+:::::: The code at line 80 was first introduced by commit
+:::::: 91d1aa43d30505b0b825db8898ffc80a8eca96c7 context_tracking: New context tracking susbsystem
+
+:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
+:::::: CC: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
