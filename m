@@ -1,59 +1,47 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0832837F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 14:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0AD28695
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 14:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EyN0FeGa"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-548f853fc9eso5852402a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Dec 2023 06:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701698974; x=1702303774; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=C7YWLKYL+TZy0FDvwaUZBqPs1GQRI/NVi7Z/lE5VeVA=;
-        b=EyN0FeGaZDibIHtlURniCS8bb0IYdkox67hbibFeCNafbHaJSbADGYXIUf+Cbh36jb
-         xWFFpyy4ZXe/QquglWeCdAnspuJQzbeA60S2CFOk6b9iVJKy1LsoCtLEzMyjell5p6Uo
-         l9/aZbMw+3Bvum0e9aZcCd7NwZg2HlzWT9dQZjujq+ArAaVUpLbu+rPGoFNQjsgusTFC
-         nKlliRKYFssVDa2DGNTPWP31ZSftxMRKhZHbAr28J1UqPeq6w7YY0ID8mM0LRyRdqbNV
-         P7Un4AYeow3mSjEgjO+wVtdTx2f0qUi91PaWX6TaHUrub/nWG9xA5KNuQC3KEcD0KF82
-         YgQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701698974; x=1702303774;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C7YWLKYL+TZy0FDvwaUZBqPs1GQRI/NVi7Z/lE5VeVA=;
-        b=Ym+YlRdFrAAz0Z/GWxZFTxKxJyMWJx2rWKem3WEezL2TuBnCdgMTJSwyLM03dKMCCl
-         IEaM4b3cZsZlpw5GuyxjL30N+/ErGwXimsHhztpPNa2Coi4JHyLhhJD/BPJL/kMVVeM+
-         6/3WOtn70YLA3VQRLYaIA1gC0xCXxq7/Y9D4CXuH/yi6wwiKUF8uB07fxxVHXhn/2wSa
-         tM9f1EfMldm3zLEafhTQ2xba6Ao81nAN1iUTqioY3oTaTar2Xy+vYFQEbHp/qdl2Z9cL
-         5bc2DhBmAGEFPT/RDOUOhQrDDZj1BEHrjMOXnyrvye7RCVKGTIDMnDTEqmjD+le747DB
-         4JcA==
-X-Gm-Message-State: AOJu0Yx9B9AdLxVf+fabokEda/KrkU6VI6JGOZwEjdXbWufZWdGcpC9F
-	wn1kDlJBy7wKg03gEXg6l7I=
-X-Google-Smtp-Source: AGHT+IEKL6I3Me3IGNDzZQExj7E7RsatGLFgDyXh3e3OviqfoXTTEGQeOZ/7ee3tEg3WaSqPC9bDzw==
-X-Received: by 2002:a17:906:73c2:b0:a19:d40a:d1e8 with SMTP id n2-20020a17090673c200b00a19d40ad1e8mr1648024ejl.180.1701698973692;
-        Mon, 04 Dec 2023 06:09:33 -0800 (PST)
-Received: from mail ([87.66.46.106])
-        by smtp.gmail.com with ESMTPSA id gq18-20020a170906e25200b009ad89697c86sm5416098ejb.144.2023.12.04.06.09.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 06:09:33 -0800 (PST)
-Date: Mon, 4 Dec 2023 15:09:32 +0100
-From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>, 
-	kernel test robot <lkp@intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	linux-sparse@vger.kernel.org
-Subject: Re: drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from
- restricted pci_channel_state_t
-Message-ID: <ilupya2l2yaseiokhgal65alkzbubylgz3nkdabqipi3xhbzxi@dkbofpqmuwdn>
-References: <Y/7ZzYyisv1ylrho@kadam>
- <Y/7YN7U9Q2iqNDFo@kadam>
- <20231203165932.GA6480@wunner.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLJxvH3K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701699178; x=1733235178;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HFdzMqrzwqNZHvZ+q8qF6HBIGZqzbdaSOeOSLhTPCN4=;
+  b=eLJxvH3K5SqO7/Jt5f3tLSFYgNlvfSSNLeJG1Rg8MsB6JAUirvDnSFG0
+   lQukD95sInFdyXXiR6DX6k119J4pN8IyyOw+st4uW0A2dy23/gFeqQpAR
+   DqktijTEl/7D3sxsliuSpOQd7t5sKlG7D/5X/Ry4PhjR6NTJZenZTJ41/
+   EwuWRU2V6UhEdbRT7rzbbK8ICpsF5xdiSDIYEehjGsqWPUWLCIXREr+PH
+   V46OZ0AsGPOG37jaCRaHvZL2FLHkgYbepDHL2nRVSK9R0Vufw46pDDNT9
+   cK5SBVmWeaNp3KYR7B7dTqte9Slhe0bi+ys2xjTRQBuhulzhGdwOvnVrM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="458059589"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="458059589"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 06:12:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888540358"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="888540358"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 04 Dec 2023 06:12:55 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rA9gr-0007na-1l;
+	Mon, 04 Dec 2023 14:12:53 +0000
+Date: Mon, 4 Dec 2023 22:12:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Subject: drivers/spi/spi-lp8841-rtc.c:112:17: sparse: sparse: incorrect type
+ in argument 1 (different address spaces)
+Message-ID: <202312042226.NQmCRdOG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +50,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231203165932.GA6480@wunner.de>
 
-On Sun, Dec 03, 2023 at 05:59:32PM +0100, Lukas Wunner wrote:
-> Hi Dan,
-> 
-> > > Please advise whether these sparse warnings are false positives which
-> > > can be ignored and if they aren't, how to resolve them.  If you happen
-> > > to know the rationale for the cast, I'd be grateful if you could shed
-> > > some light on it.  Thanks a lot!
-> > 
-> > The question is more why is pci_channel_state_t declared as __bit_wise.
-> > __bit_wise data can only be used through accessor functions, like user
-> > pointers have to go through copy_from_user() and endian data has to go
-> > through le32_to_cpu() etc.
-> 
-> __bitwise is not only to ensure endian correctness.  It can be used to
-> define data types which are integer-based, but treated as a distinct
-> data type by sparse.  A pci_channel_state_t value cannot be assigned
-> to an integer variable of a different type, for example.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
+commit: e5fc436f06eef54ef512ea55a9db8eb9f2e76959 sparse: use static inline for __chk_{user,io}_ptr()
+date:   3 years, 3 months ago
+config: sh-randconfig-r133-20231118 (https://download.01.org/0day-ci/archive/20231204/202312042226.NQmCRdOG-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231204/202312042226.NQmCRdOG-lkp@intel.com/reproduce)
 
-Correct. It was done on purpose to make a sort of 'strong' enum type,
-and thus warn if pci_channel_state_t values are mixed with some other types.
- 
-> A few arches define arch_xchg() and arch_cmpxchg() as pure macros.
-> The sparse warning for pci_channel_state_t does not appear on those
-> arches.  (These are:  arc csky riscv x86)
-> 
-> All other arches use a mix of macros and static inlines to define
-> arch_xchg() and arch_cmpxchg().  The static inlines use unsigned long
-> as argument and return types and the macros cast the argument type to
-> unsigned long.
->
-> Why are the casts necessary?  Because there are callers of xchg() and
-> cmpxchg() which pass pointers instead of integers as arguments.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312042226.NQmCRdOG-lkp@intel.com/
 
-Hmmm, I'm missing the precise context but it make me wonder what's happening
-on 64-bit archs where enums are usually only 32-bit ...
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-lp8841-rtc.c:112:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:112:17: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:112:17: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:121:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:121:17: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:121:17: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:143:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:143:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:143:9: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:147:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:147:17: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:147:17: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:209:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *iomem @@     got void [noderef] __iomem * @@
+   drivers/spi/spi-lp8841-rtc.c:209:21: sparse:     expected void *iomem
+   drivers/spi/spi-lp8841-rtc.c:209:21: sparse:     got void [noderef] __iomem *
+   drivers/spi/spi-lp8841-rtc.c:57:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:57:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:57:9: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:63:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:63:28: sparse:     expected void const [noderef] __iomem *
+   drivers/spi/spi-lp8841-rtc.c:63:28: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:57:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:57:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:57:9: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:63:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:63:28: sparse:     expected void const [noderef] __iomem *
+   drivers/spi/spi-lp8841-rtc.c:63:28: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse:     got void *iomem
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got void *iomem @@
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/spi/spi-lp8841-rtc.c:47:9: sparse:     got void *iomem
 
-> Examples include llist_del_all(), __wake_q_add(), mark_oom_victim(),
-> fsnotify_attach_connector_to_object().  (Note that NULL is defined as
-> "(void *)0".)
-> 
-> When using xchg() or cmpxchg() with __bitwise arguments (as is done
-> by commit 74ff8864cc84 in pci_dev_set_io_state()), the arches which
-> define arch_xchg() and arch_cmpxchg() with static inlines see sparse
-> warnings because the __bitwise arguments are cast to unsigned long.
-> Those arches are:  alpha arm arm64 hexagon loongarch m68k mips openrisc
-> parisc powerpc s390 sh sparc xtensa
+vim +112 drivers/spi/spi-lp8841-rtc.c
 
-OK, if the underlying macros do as:
-	switch (size) {
-	case 1: ...
-then things are ok there (but only if the size is given by a sizeof() of
-the correct type (not casted to long or something).
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23   97  
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23   98  static int
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23   99  spi_lp8841_rtc_transfer_one(struct spi_master *master,
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  100  			    struct spi_device *spi,
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  101  			    struct spi_transfer *t)
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  102  {
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  103  	struct spi_lp8841_rtc	*data = spi_master_get_devdata(master);
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  104  	unsigned		count = t->len;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  105  	const u8		*tx = t->tx_buf;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  106  	u8			*rx = t->rx_buf;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  107  	u8			word = 0;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  108  	int			ret = 0;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  109  
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  110  	if (tx) {
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  111  		data->state &= ~SPI_LP8841_RTC_nWE;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23 @112  		writeb(data->state, data->iomem);
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  113  		while (likely(count > 0)) {
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  114  			word = *tx++;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  115  			bitbang_txrx_be_cpha0_lsb(data, 1, 0,
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  116  					SPI_MASTER_NO_RX, word, 8);
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  117  			count--;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  118  		}
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  119  	} else if (rx) {
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  120  		data->state |= SPI_LP8841_RTC_nWE;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  121  		writeb(data->state, data->iomem);
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  122  		while (likely(count > 0)) {
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  123  			word = bitbang_txrx_be_cpha0_lsb(data, 1, 0,
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  124  					SPI_MASTER_NO_TX, word, 8);
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  125  			*rx++ = word;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  126  			count--;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  127  		}
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  128  	} else {
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  129  		ret = -EINVAL;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  130  	}
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  131  
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  132  	spi_finalize_current_transfer(master);
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  133  
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  134  	return ret;
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  135  }
+7ecbfff6711fb3 Sergei Ianovich 2016-02-23  136  
 
-> Indeed adding __force to the cast, as you suggest, should avoid the
-> issue.  sparse cannot parse the inline assembler, so it does not
-> understand that arch_xchg() and arch_cmpxchg() internally perform a
-> comparison and/or assignment.  By adding __force, we therefore do not
-> lose any validation coverage.
+:::::: The code at line 112 was first introduced by commit
+:::::: 7ecbfff6711fb331591003ac32c002ce55a0758f spi: master driver to enable RTC on ICPDAS LP-8841
 
-Yes, indeed, using __force inside specific accessors or any low-level macros,
-like here these arch_xchg(), is OK. It's done in plenty of similar cases.
+:::::: TO: Sergei Ianovich <ynvich@gmail.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
-> A better approach might be to teach sparse that arch_xchg() and
-> arch_cmpxchg() internally perform a comparison and/or assignment.
-> Then sparse could validate the argument and return value types.
-> 
-> builtin.c in the sparse source code already contains functions
-> to handle __atomic_exchange() and __atomic_compare_exchange(),
-> so I think xchg() and cmpxchg() should be handled there as well.
-
-I don't agree. Sparse shouldn't know about the semantics of functions
-in the kernel. Sparse offers some tools (annotations like the __bitwise,
-noderef or address_space attributes for __user, __iomem, ... and type
-checking stricter than standard/GCC C). By using these annotations, the
-kernel can define a stricter semantic, that better suits its needs,
-Sparse should know nothing about this, it's not its job.
-
-Best regards,
--- Luc
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
