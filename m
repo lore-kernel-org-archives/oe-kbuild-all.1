@@ -1,53 +1,53 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256031109
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 04:38:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681FF138A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 04:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wbrhvSA0"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-32f8441dfb5so3283305f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 20:38:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yaSzWmAp"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33330305372so2387063f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 20:40:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701664700; x=1702269500; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1701664812; x=1702269612; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XVQn0i2hfX92sEXFDpbefnTwnACZ1HnUoqi+/6j93j8=;
-        b=wbrhvSA0US0El8swsD0rKhbcC28pHaRzUr4yRwpv+8EEzlt/gZEJ6tRfnTJwmHxCw8
-         aYObclV42hwfT+H3t3E4/iPrR5Ss0MHgs217PLHsnVLvM2DvJEN/cx3sboGTLWuaW8Z1
-         BpSa0FgJG26meeAtZvwCBWLC3gTLdy2zmckVWS9U6Jw64prTzKqUXY4LPtbmZ2x22fN9
-         oT7XceO9/F+d4H9nk8zijWHvvXim+JxqQrQ1O6/PP9/Fi8ECYzzBFWv1DwBrJ33zk0lU
-         Q0T5mEBTOkMQOiIiZEscq/4YEDLCqo8w6mZ++/7fzqaUWx3TcfakWeXWOWssH1Uqf360
-         Lveg==
+        bh=7q5G2KknbcCBX38jRrjfi6bGriuiAOVeE6vCr3ghSGw=;
+        b=yaSzWmAprtZLqjva2pFN9r7yhXvJCcuMdeZhcyIcPoCZhfWFLdvQCvbKPu/YVYmTNF
+         6yOcZ8T2+edVOsWTnkJeDz7ZtJ/OH7vr0AiH1ZyDcVGUuF3pcQ5g1NfDdxvm8VD7vqZ/
+         zfcZCdQwtfRyNk0pso+bq7ja15B/sJDs+qQhm1Km+fHVj8ZWpJrRXI12cOXdwz35a13E
+         bjlKigUvIcQ391pPML1jW6xljepj6BK8Hd7gMytfacwKFXlXVGKHCSs/IhVPfC0WuiuG
+         hrtXyQ0YNMS07lGTQO2drH7KTT90cjz0Km6cktoG2jZTGgGcTJ6Q5+r6yF+3QcbmwYqD
+         F27w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701664700; x=1702269500;
+        d=1e100.net; s=20230601; t=1701664812; x=1702269612;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XVQn0i2hfX92sEXFDpbefnTwnACZ1HnUoqi+/6j93j8=;
-        b=d+HbXQ3tT1aE/3CrZw+/MKZ0kiee+JmJZMTdNn+FRPFUyPgAaJFCUozNpY1lUjdb2j
-         hamWPYv15OeYmnd2APfJEbj3d4FDngj7Bin3B7eD4AYi48s6x6nnDs44rHxujaLOWGAZ
-         2FBwp1Xb9QxvddobRE2GyjxYaSq2qlVhXJ4m/B+2PZ9bMnMi4ncCdSSWDDoPEKasxge0
-         XJQ2ti7zT43IlGOpBm28Vq9AV/RJ2356H7cUMeAE12+6ihrLbQFm9PrBpVKCYlj/Fu9A
-         MNqCxotJPjugdW2cQHhf45AXM9/X8gbJ8iNhnPGrtxdrLV5a6FHSKlYTuXCGxDb33c5T
-         JQIQ==
-X-Gm-Message-State: AOJu0Yxfmy95/jt0Y+AMNOlFyzVtFvCEP35TgeY8ljW/Gh1qM/U2TnCo
-	xykZTxYczBdl8vWig0SiLf6so822Cbpm/qJZSeo=
-X-Google-Smtp-Source: AGHT+IELbIovpSTTHbjvjBC+0p6JC2qnWO3TVU8MRU19xKwPNO0iWFc//mgnvGbqB+waFxweUaauQQ==
-X-Received: by 2002:a05:6000:12ca:b0:333:2fd2:6f59 with SMTP id l10-20020a05600012ca00b003332fd26f59mr3133348wrx.99.1701664700336;
-        Sun, 03 Dec 2023 20:38:20 -0800 (PST)
+        bh=7q5G2KknbcCBX38jRrjfi6bGriuiAOVeE6vCr3ghSGw=;
+        b=jhdZlOu9NrjuYESb2dCCEw9bI6p1MOFX15atdhU6h5F46/ITZOxb5hFxvgJIgxR2UN
+         rpdEfM4zrB4TPPrMhn1Zqiq3cuvWIg5sx38+xlStaSHLRFo4K0ndngEUu/Qx4cCYVwkY
+         nqdqnNdVvI7TKBYoQ8C0hsXSTGDh2XnFB3vub/vGdWHCcTmj5R34Q4MqgqhHY6Rz9+JV
+         Rs6cj6H9ZnVCZAALA0ziioe3L5z4w3N+4hb4cY5cNEzXIMW3Uv1mbG2mmG0LtSDC2c74
+         ClfNigCbKaOfDUNT0grIo5lUHHg+YOhL14lJf/086QBIL82armWuLOzfXz/ul1VjtMSg
+         5REA==
+X-Gm-Message-State: AOJu0YzvWjWAVoOLLK+VPDexOdYQeibjI0391OIT8NQ7Bj23QI+WyrxQ
+	x0tH9up49FQtKdJp/lwgEnRCXQ==
+X-Google-Smtp-Source: AGHT+IGIPkjX0Mimhpi7bOnIb6Uggha41uqwpjIgxyxM9rwGZZxxzeMtmpsZ8E/b0f+bDXZ1sm0UcQ==
+X-Received: by 2002:a05:6000:4f0:b0:333:3f5d:63d2 with SMTP id cr16-20020a05600004f000b003333f5d63d2mr1265974wrb.3.1701664812619;
+        Sun, 03 Dec 2023 20:40:12 -0800 (PST)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k3-20020a5d6283000000b0033335cabb9csm6139719wru.28.2023.12.03.20.38.19
+        by smtp.gmail.com with ESMTPSA id l13-20020adffe8d000000b0033342978c93sm3083094wrr.30.2023.12.03.20.40.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 20:38:20 -0800 (PST)
-Date: Mon, 4 Dec 2023 07:38:17 +0300
+        Sun, 03 Dec 2023 20:40:12 -0800 (PST)
+Date: Mon, 4 Dec 2023 07:40:09 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev
+To: oe-kbuild@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Lyude Paul <lyude@redhat.com>
-Subject: drivers/gpu/drm/nouveau/nouveau_dp.c:237 nouveau_dp_irq() warn:
- variable dereferenced before check 'outp' (see line 232)
-Message-ID: <18b847e9-a8ab-455f-a293-a3ac5fba2653@suswa.mountain>
+	linux-kernel@vger.kernel.org
+Subject: drivers/net/dsa/mv88e6xxx/chip.c:245 mv88e6xxx_default_mdio_bus()
+ warn: can 'mdio_bus' even be NULL?
+Message-ID: <80166d2f-d877-4db8-ab55-d7d7243969b7@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,51 +59,37 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   815fb87b753055df2d9e50f6cd80eb10235fe3e9
-commit: 773eb04d14a11552b2c3953097ed09cde2ab4831 drm/nouveau/disp: expose conn event class
-config: i386-randconfig-141-20231105 (https://download.01.org/0day-ci/archive/20231202/202312021916.U9nxtVaD-lkp@intel.com/config)
+commit: a3c53be55c955b7150cda17874c3fcb4eeb97a89 net: dsa: mv88e6xxx: Support multiple MDIO busses
+config: i386-randconfig-141-20231010 (https://download.01.org/0day-ci/archive/20231203/202312030131.Vl3CGtDZ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231202/202312021916.U9nxtVaD-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231203/202312030131.Vl3CGtDZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312021916.U9nxtVaD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312030131.Vl3CGtDZ-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/nouveau/nouveau_dp.c:237 nouveau_dp_irq() warn: variable dereferenced before check 'outp' (see line 232)
+New smatch warnings:
+drivers/net/dsa/mv88e6xxx/chip.c:245 mv88e6xxx_default_mdio_bus() warn: can 'mdio_bus' even be NULL?
 
-vim +/outp +237 drivers/gpu/drm/nouveau/nouveau_dp.c
+vim +/mdio_bus +245 drivers/net/dsa/mv88e6xxx/chip.c
 
-773eb04d14a115 Ben Skeggs 2022-06-01  225  void
-773eb04d14a115 Ben Skeggs 2022-06-01  226  nouveau_dp_irq(struct work_struct *work)
-a0922278f83eae Lyude Paul 2020-08-26  227  {
-773eb04d14a115 Ben Skeggs 2022-06-01  228  	struct nouveau_connector *nv_connector =
-773eb04d14a115 Ben Skeggs 2022-06-01  229  		container_of(work, typeof(*nv_connector), irq_work);
-a0922278f83eae Lyude Paul 2020-08-26  230  	struct drm_connector *connector = &nv_connector->base;
-a0922278f83eae Lyude Paul 2020-08-26  231  	struct nouveau_encoder *outp = find_encoder(connector, DCB_OUTPUT_DP);
-773eb04d14a115 Ben Skeggs 2022-06-01 @232  	struct nouveau_drm *drm = nouveau_drm(outp->base.base.dev);
-                                                                                      ^^^^^^
-Dereference
+a3c53be55c955b Andrew Lunn 2017-01-24  239  static struct mii_bus *mv88e6xxx_default_mdio_bus(struct mv88e6xxx_chip *chip)
+a3c53be55c955b Andrew Lunn 2017-01-24  240  {
+a3c53be55c955b Andrew Lunn 2017-01-24  241  	struct mv88e6xxx_mdio_bus *mdio_bus;
+a3c53be55c955b Andrew Lunn 2017-01-24  242  
+a3c53be55c955b Andrew Lunn 2017-01-24  243  	mdio_bus = list_first_entry(&chip->mdios, struct mv88e6xxx_mdio_bus,
+a3c53be55c955b Andrew Lunn 2017-01-24  244  				    list);
+a3c53be55c955b Andrew Lunn 2017-01-24 @245  	if (!mdio_bus)
 
-a0922278f83eae Lyude Paul 2020-08-26  233  	struct nv50_mstm *mstm;
-016dacb60e6d4b Ben Skeggs 2022-06-01  234  	u64 hpd = 0;
-a4efad354cf1b9 Lyude Paul 2020-08-26  235  	int ret;
-a0922278f83eae Lyude Paul 2020-08-26  236  
-a0922278f83eae Lyude Paul 2020-08-26 @237  	if (!outp)
-                                                    ^^^^^
-Too late.
+Why is kbuild-bot complaining about 7 year old code?  Anyway, the check
+is wrong.  Was list_first_entry_or_null() intended?
 
-a0922278f83eae Lyude Paul 2020-08-26  238  		return;
-a0922278f83eae Lyude Paul 2020-08-26  239  
-a0922278f83eae Lyude Paul 2020-08-26  240  	mstm = outp->dp.mstm;
-a0922278f83eae Lyude Paul 2020-08-26  241  	NV_DEBUG(drm, "service %s\n", connector->name);
-a0922278f83eae Lyude Paul 2020-08-26  242  
-a0922278f83eae Lyude Paul 2020-08-26  243  	mutex_lock(&outp->dp.hpd_irq_lock);
-a0922278f83eae Lyude Paul 2020-08-26  244  
-a0922278f83eae Lyude Paul 2020-08-26  245  	if (mstm && mstm->is_mst) {
-a0922278f83eae Lyude Paul 2020-08-26  246  		if (!nv50_mstm_service(drm, nv_connector, mstm))
-773eb04d14a115 Ben Skeggs 2022-06-01  247  			hpd |= NVIF_CONN_EVENT_V0_UNPLUG;
+a3c53be55c955b Andrew Lunn 2017-01-24  246  		return NULL;
+a3c53be55c955b Andrew Lunn 2017-01-24  247  
+a3c53be55c955b Andrew Lunn 2017-01-24  248  	return mdio_bus->bus;
+a3c53be55c955b Andrew Lunn 2017-01-24  249  }
 
 -- 
 0-DAY CI Kernel Test Service
