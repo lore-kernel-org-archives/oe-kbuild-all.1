@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FB639843
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 21:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F9E39FCD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 21:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TuNZot1W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9lkzF6k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701726276; x=1733262276;
+  t=1701726278; x=1733262278;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kKGUmmwabAyOevMTlTTwgAfUCm9eXnQjD7WjK1/CEo8=;
-  b=TuNZot1WixKC3wRmyW3DpHua7zxJJO1Ms6Kdn4MigasLtCZ5Xw1iseP1
-   SKj99eKaTK5XLWYgvcPgGdiIqQpkYoN4yADbaPxxLFuUDARb1xLs+fGzx
-   figoEwVkKS26r4mg/Iq9oFjy/cioDvsIVFhq0dLhUBmBd3mUXnkh4G7qQ
-   2KuFo+cnjm+FkuRpGxSX15q8er+VrcbJiXc7mCNaNXoW8kivSL3m9vclV
-   6Aq/fjzBkSxoRf8GGrI473TINsmiLa+DcExRMpNKVUvn8k3r7Qn9nN2NQ
-   Ia95cDEw+maVc63YIiiXNYQj4vKrcvcxMsYByTFMWmh2SDZ58ozU5nAj0
+  bh=hb0FnfC2VZ5UsdsmGvmo5jMt8lUxoOZJ8ZvO3FiOiCk=;
+  b=E9lkzF6kxhfb4As1ELdsmJAQsENgYoNgAy8aOrheUj56fKkzGDBqKiBC
+   kQ0VwUk+bwj2a4LZ4g2RVclkXi5Kh3B6cMl6qd3jcck6IxPam6ax+iwwn
+   Bb4NxgfkFNFYElYs0ORGJZLnr/uY4XcVMQ9yMqF5liREMb/m962Rf4LBn
+   F9pUPi5AIIb4lecrGtmh1kAeHXEEXqoNGYZiM3LKoHbjJ/ZFEX1JRnUHl
+   KONVwhTfpOdsVlk4UNAHlLhz9BbZ5gf6Dlci/csPv/yPuzHMGnUIq8x1M
+   HwuViknCGcvRH/465YRl828SZJ8faatSqF0K1MKOtuth23QLp9jMFLZTn
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="460296261"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="460296265"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="460296261"
+   d="scan'208";a="460296265"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:44:32 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:44:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="914575943"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="914575944"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="914575943"
+   d="scan'208";a="914575944"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by fmsmga001.fm.intel.com with ESMTP; 04 Dec 2023 13:44:31 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAGjs-00086d-2i;
+	id 1rAGjs-00086f-31;
 	Mon, 04 Dec 2023 21:44:28 +0000
-Date: Tue, 5 Dec 2023 05:44:17 +0800
+Date: Tue, 5 Dec 2023 05:44:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Vesa <abel.vesa@linaro.org>
+To: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or
- member 'stale_en' not described in 'llcc_slice_config'
-Message-ID: <202312050519.mup4Q8mD-lkp@intel.com>
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202312050445.sUkSCUIl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,96 +51,219 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Abel,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: c72ca343f911c3ba1b10163399f891ddb86ad109 soc: qcom: llcc: Add v4.1 HW version support
-date:   12 months ago
-config: x86_64-buildonly-randconfig-006-20230906 (https://download.01.org/0day-ci/archive/20231205/202312050519.mup4Q8mD-lkp@intel.com/config)
+commit: e362359ace6f87c201531872486ff295df306d13 posix-cpu-timers: Cleanup CPU timers before freeing them during exec
+date:   1 year, 4 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231205/202312050445.sUkSCUIl-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312050519.mup4Q8mD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312050445.sUkSCUIl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312050519.mup4Q8mD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312050445.sUkSCUIl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/exec.c:422:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __user * @@     got void * @@
+   fs/exec.c:422:31: sparse:     expected char const [noderef] __user *
+   fs/exec.c:422:31: sparse:     got void *
+   fs/exec.c:1051:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   fs/exec.c:1051:48: sparse:     expected struct sighand_struct *oldsighand
+   fs/exec.c:1051:48: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   fs/exec.c:1158:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/exec.c:1158:56: sparse:     expected struct task_struct *parent
+   fs/exec.c:1158:56: sparse:     got struct task_struct [noderef] __rcu *parent
+   fs/exec.c:1193:47: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   fs/exec.c:1193:47: sparse:     expected struct sighand_struct *oldsighand
+   fs/exec.c:1193:47: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+>> fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   fs/exec.c:1307:26: sparse:     expected struct spinlock [usertype] *lock
+   fs/exec.c:1307:26: sparse:     got struct spinlock [noderef] __rcu *
+   fs/exec.c:1309:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   fs/exec.c:1309:28: sparse:     expected struct spinlock [usertype] *lock
+   fs/exec.c:1309:28: sparse:     got struct spinlock [noderef] __rcu *
+   fs/exec.c:1766:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/exec.c:1766:70: sparse:     expected struct task_struct *tsk
+   fs/exec.c:1766:70: sparse:     got struct task_struct [noderef] __rcu *parent
 
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'stale_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'stale_cap_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'mru_uncap_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'mru_rollover' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'alloc_oneway_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'ovcap_en' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'ovcap_prio' not described in 'llcc_slice_config'
->> drivers/soc/qcom/llcc-qcom.c:121: warning: Function parameter or member 'vict_prio' not described in 'llcc_slice_config'
+vim +1307 fs/exec.c
 
-
-vim +121 drivers/soc/qcom/llcc-qcom.c
-
-8008e7902f28eb9 Sai Prakash Ranjan    2022-01-28   70  
-99356b03b431f95 Vivek Gautam          2019-07-18   71  /**
-171c03171a4cdf2 Lee Jones             2020-11-03   72   * struct llcc_slice_config - Data associated with the llcc slice
-99356b03b431f95 Vivek Gautam          2019-07-18   73   * @usecase_id: Unique id for the client's use case
-99356b03b431f95 Vivek Gautam          2019-07-18   74   * @slice_id: llcc slice id for each client
-99356b03b431f95 Vivek Gautam          2019-07-18   75   * @max_cap: The maximum capacity of the cache slice provided in KB
-99356b03b431f95 Vivek Gautam          2019-07-18   76   * @priority: Priority of the client used to select victim line for replacement
-99356b03b431f95 Vivek Gautam          2019-07-18   77   * @fixed_size: Boolean indicating if the slice has a fixed capacity
-99356b03b431f95 Vivek Gautam          2019-07-18   78   * @bonus_ways: Bonus ways are additional ways to be used for any slice,
-99356b03b431f95 Vivek Gautam          2019-07-18   79   *		if client ends up using more than reserved cache ways. Bonus
-99356b03b431f95 Vivek Gautam          2019-07-18   80   *		ways are allocated only if they are not reserved for some
-99356b03b431f95 Vivek Gautam          2019-07-18   81   *		other client.
-99356b03b431f95 Vivek Gautam          2019-07-18   82   * @res_ways: Reserved ways for the cache slice, the reserved ways cannot
-99356b03b431f95 Vivek Gautam          2019-07-18   83   *		be used by any other client than the one its assigned to.
-99356b03b431f95 Vivek Gautam          2019-07-18   84   * @cache_mode: Each slice operates as a cache, this controls the mode of the
-99356b03b431f95 Vivek Gautam          2019-07-18   85   *             slice: normal or TCM(Tightly Coupled Memory)
-99356b03b431f95 Vivek Gautam          2019-07-18   86   * @probe_target_ways: Determines what ways to probe for access hit. When
-99356b03b431f95 Vivek Gautam          2019-07-18   87   *                    configured to 1 only bonus and reserved ways are probed.
-99356b03b431f95 Vivek Gautam          2019-07-18   88   *                    When configured to 0 all ways in llcc are probed.
-99356b03b431f95 Vivek Gautam          2019-07-18   89   * @dis_cap_alloc: Disable capacity based allocation for a client
-99356b03b431f95 Vivek Gautam          2019-07-18   90   * @retain_on_pc: If this bit is set and client has maintained active vote
-99356b03b431f95 Vivek Gautam          2019-07-18   91   *               then the ways assigned to this client are not flushed on power
-99356b03b431f95 Vivek Gautam          2019-07-18   92   *               collapse.
-99356b03b431f95 Vivek Gautam          2019-07-18   93   * @activate_on_init: Activate the slice immediately after it is programmed
-c4df37fe186de4d Manivannan Sadhasivam 2020-11-30   94   * @write_scid_en: Bit enables write cache support for a given scid.
-2b8175a1f108361 Sai Prakash Ranjan    2022-01-28   95   * @write_scid_cacheable_en: Enables write cache cacheable support for a
-2b8175a1f108361 Sai Prakash Ranjan    2022-01-28   96   *			     given scid (not supported on v2 or older hardware).
-99356b03b431f95 Vivek Gautam          2019-07-18   97   */
-99356b03b431f95 Vivek Gautam          2019-07-18   98  struct llcc_slice_config {
-99356b03b431f95 Vivek Gautam          2019-07-18   99  	u32 usecase_id;
-99356b03b431f95 Vivek Gautam          2019-07-18  100  	u32 slice_id;
-99356b03b431f95 Vivek Gautam          2019-07-18  101  	u32 max_cap;
-99356b03b431f95 Vivek Gautam          2019-07-18  102  	u32 priority;
-99356b03b431f95 Vivek Gautam          2019-07-18  103  	bool fixed_size;
-99356b03b431f95 Vivek Gautam          2019-07-18  104  	u32 bonus_ways;
-99356b03b431f95 Vivek Gautam          2019-07-18  105  	u32 res_ways;
-99356b03b431f95 Vivek Gautam          2019-07-18  106  	u32 cache_mode;
-99356b03b431f95 Vivek Gautam          2019-07-18  107  	u32 probe_target_ways;
-99356b03b431f95 Vivek Gautam          2019-07-18  108  	bool dis_cap_alloc;
-99356b03b431f95 Vivek Gautam          2019-07-18  109  	bool retain_on_pc;
-99356b03b431f95 Vivek Gautam          2019-07-18  110  	bool activate_on_init;
-c4df37fe186de4d Manivannan Sadhasivam 2020-11-30  111  	bool write_scid_en;
-2b8175a1f108361 Sai Prakash Ranjan    2022-01-28  112  	bool write_scid_cacheable_en;
-c72ca343f911c3b Abel Vesa             2022-11-16  113  	bool stale_en;
-c72ca343f911c3b Abel Vesa             2022-11-16  114  	bool stale_cap_en;
-c72ca343f911c3b Abel Vesa             2022-11-16  115  	bool mru_uncap_en;
-c72ca343f911c3b Abel Vesa             2022-11-16  116  	bool mru_rollover;
-c72ca343f911c3b Abel Vesa             2022-11-16  117  	bool alloc_oneway_en;
-c72ca343f911c3b Abel Vesa             2022-11-16  118  	bool ovcap_en;
-c72ca343f911c3b Abel Vesa             2022-11-16  119  	bool ovcap_prio;
-c72ca343f911c3b Abel Vesa             2022-11-16  120  	bool vict_prio;
-99356b03b431f95 Vivek Gautam          2019-07-18 @121  };
-99356b03b431f95 Vivek Gautam          2019-07-18  122  
-
-:::::: The code at line 121 was first introduced by commit
-:::::: 99356b03b431f9589bbaec2bc5bacceccb3dd99a soc: qcom: Make llcc-qcom a generic driver
-
-:::::: TO: Vivek Gautam <vivek.gautam@codeaurora.org>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+  1243	
+  1244	/*
+  1245	 * Calling this is the point of no return. None of the failures will be
+  1246	 * seen by userspace since either the process is already taking a fatal
+  1247	 * signal (via de_thread() or coredump), or will have SEGV raised
+  1248	 * (after exec_mmap()) by search_binary_handler (see below).
+  1249	 */
+  1250	int begin_new_exec(struct linux_binprm * bprm)
+  1251	{
+  1252		struct task_struct *me = current;
+  1253		int retval;
+  1254	
+  1255		/* Once we are committed compute the creds */
+  1256		retval = bprm_creds_from_file(bprm);
+  1257		if (retval)
+  1258			return retval;
+  1259	
+  1260		/*
+  1261		 * Ensure all future errors are fatal.
+  1262		 */
+  1263		bprm->point_of_no_return = true;
+  1264	
+  1265		/*
+  1266		 * Make this the only thread in the thread group.
+  1267		 */
+  1268		retval = de_thread(me);
+  1269		if (retval)
+  1270			goto out;
+  1271	
+  1272		/*
+  1273		 * Cancel any io_uring activity across execve
+  1274		 */
+  1275		io_uring_task_cancel();
+  1276	
+  1277		/* Ensure the files table is not shared. */
+  1278		retval = unshare_files();
+  1279		if (retval)
+  1280			goto out;
+  1281	
+  1282		/*
+  1283		 * Must be called _before_ exec_mmap() as bprm->mm is
+  1284		 * not visible until then. This also enables the update
+  1285		 * to be lockless.
+  1286		 */
+  1287		retval = set_mm_exe_file(bprm->mm, bprm->file);
+  1288		if (retval)
+  1289			goto out;
+  1290	
+  1291		/* If the binary is not readable then enforce mm->dumpable=0 */
+  1292		would_dump(bprm, bprm->file);
+  1293		if (bprm->have_execfd)
+  1294			would_dump(bprm, bprm->executable);
+  1295	
+  1296		/*
+  1297		 * Release all of the old mmap stuff
+  1298		 */
+  1299		acct_arg_size(bprm, 0);
+  1300		retval = exec_mmap(bprm->mm);
+  1301		if (retval)
+  1302			goto out;
+  1303	
+  1304		bprm->mm = NULL;
+  1305	
+  1306	#ifdef CONFIG_POSIX_TIMERS
+> 1307		spin_lock_irq(&me->sighand->siglock);
+  1308		posix_cpu_timers_exit(me);
+  1309		spin_unlock_irq(&me->sighand->siglock);
+  1310		exit_itimers(me);
+  1311		flush_itimer_signals();
+  1312	#endif
+  1313	
+  1314		/*
+  1315		 * Make the signal table private.
+  1316		 */
+  1317		retval = unshare_sighand(me);
+  1318		if (retval)
+  1319			goto out_unlock;
+  1320	
+  1321		me->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC |
+  1322						PF_NOFREEZE | PF_NO_SETAFFINITY);
+  1323		flush_thread();
+  1324		me->personality &= ~bprm->per_clear;
+  1325	
+  1326		clear_syscall_work_syscall_user_dispatch(me);
+  1327	
+  1328		/*
+  1329		 * We have to apply CLOEXEC before we change whether the process is
+  1330		 * dumpable (in setup_new_exec) to avoid a race with a process in userspace
+  1331		 * trying to access the should-be-closed file descriptors of a process
+  1332		 * undergoing exec(2).
+  1333		 */
+  1334		do_close_on_exec(me->files);
+  1335	
+  1336		if (bprm->secureexec) {
+  1337			/* Make sure parent cannot signal privileged process. */
+  1338			me->pdeath_signal = 0;
+  1339	
+  1340			/*
+  1341			 * For secureexec, reset the stack limit to sane default to
+  1342			 * avoid bad behavior from the prior rlimits. This has to
+  1343			 * happen before arch_pick_mmap_layout(), which examines
+  1344			 * RLIMIT_STACK, but after the point of no return to avoid
+  1345			 * needing to clean up the change on failure.
+  1346			 */
+  1347			if (bprm->rlim_stack.rlim_cur > _STK_LIM)
+  1348				bprm->rlim_stack.rlim_cur = _STK_LIM;
+  1349		}
+  1350	
+  1351		me->sas_ss_sp = me->sas_ss_size = 0;
+  1352	
+  1353		/*
+  1354		 * Figure out dumpability. Note that this checking only of current
+  1355		 * is wrong, but userspace depends on it. This should be testing
+  1356		 * bprm->secureexec instead.
+  1357		 */
+  1358		if (bprm->interp_flags & BINPRM_FLAGS_ENFORCE_NONDUMP ||
+  1359		    !(uid_eq(current_euid(), current_uid()) &&
+  1360		      gid_eq(current_egid(), current_gid())))
+  1361			set_dumpable(current->mm, suid_dumpable);
+  1362		else
+  1363			set_dumpable(current->mm, SUID_DUMP_USER);
+  1364	
+  1365		perf_event_exec();
+  1366		__set_task_comm(me, kbasename(bprm->filename), true);
+  1367	
+  1368		/* An exec changes our domain. We are no longer part of the thread
+  1369		   group */
+  1370		WRITE_ONCE(me->self_exec_id, me->self_exec_id + 1);
+  1371		flush_signal_handlers(me, 0);
+  1372	
+  1373		retval = set_cred_ucounts(bprm->cred);
+  1374		if (retval < 0)
+  1375			goto out_unlock;
+  1376	
+  1377		/*
+  1378		 * install the new credentials for this executable
+  1379		 */
+  1380		security_bprm_committing_creds(bprm);
+  1381	
+  1382		commit_creds(bprm->cred);
+  1383		bprm->cred = NULL;
+  1384	
+  1385		/*
+  1386		 * Disable monitoring for regular users
+  1387		 * when executing setuid binaries. Must
+  1388		 * wait until new credentials are committed
+  1389		 * by commit_creds() above
+  1390		 */
+  1391		if (get_dumpable(me->mm) != SUID_DUMP_USER)
+  1392			perf_event_exit_task(me);
+  1393		/*
+  1394		 * cred_guard_mutex must be held at least to this point to prevent
+  1395		 * ptrace_attach() from altering our determination of the task's
+  1396		 * credentials; any time after this it may be unlocked.
+  1397		 */
+  1398		security_bprm_committed_creds(bprm);
+  1399	
+  1400		/* Pass the opened binary to the interpreter. */
+  1401		if (bprm->have_execfd) {
+  1402			retval = get_unused_fd_flags(0);
+  1403			if (retval < 0)
+  1404				goto out_unlock;
+  1405			fd_install(retval, bprm->executable);
+  1406			bprm->executable = NULL;
+  1407			bprm->execfd = retval;
+  1408		}
+  1409		return 0;
+  1410	
+  1411	out_unlock:
+  1412		up_write(&me->signal->exec_update_lock);
+  1413	out:
+  1414		return retval;
+  1415	}
+  1416	EXPORT_SYMBOL(begin_new_exec);
+  1417	
 
 -- 
 0-DAY CI Kernel Test Service
