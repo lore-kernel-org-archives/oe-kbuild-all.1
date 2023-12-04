@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430AE364CB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6693F39843
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 21:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZfPEyM4/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+zIgYYp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701726273; x=1733262273;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fbufUyl04oUebM6FbmZxCeKqoWYqrUHsWmhLIUrPjVk=;
-  b=ZfPEyM4/XMu/2dblBjwBpqpEgEpsKraQYX8fprCLMb5EKrdbOvoTrswn
-   MBZr+MiQmZlokY6dm9vqzBW3DtRSof02M1lpYrI0JqQhNtWWhFX5P55b9
-   OHLPoyh1jmIgeixfdg3I5JizqqXuGfCDIi51zf1y7V/ftSN4PP3zXFi2X
-   +EMVKFTiz36Ek+k/pzJ+q72YETQrXe3B5CBtjJ4lnpDMcaDmsQknBPrP0
-   eGu2OslqBNxaN26yab3eb76tCsxbvOakiBIKnNGkkyGs7tyO3VMqKSGdv
-   n+Ky+PJuuZcAWLOXzLF+AWGiwsCNUORxTum3nIZjH+eOJj1TorlocsGpD
+  bh=iNJZGm91Ibr6J8esVUNzX4TuaPkqF6V07nw5A9qII8Y=;
+  b=N+zIgYYpSlINx3j04mpCcTt0zfvKm8wQ3r42R07KIRgOLiUR30PQk9q7
+   dsNjmqzsdmJWSC/c4/OsD7grpkwPpAVL3HTMwdjyFSC4kzamXzHT2sGV8
+   uljo7ByVX+cUjfuO+sJLiC4Ncjwede9Wq9AgxaimRTyO+O9vi6A7bXtMG
+   i8M9kb9eEuod0CRt0IGI6KYiiBPKMTNfehpom9eYxzz/9aJ9VL67bm0Ul
+   Z0GpfBEthvq6vhPejCbp//z4y7MjFJpi7O3uBa+PB0AvObZT06/SM8oAH
+   p7UYv6Jd3OHpC7nLKYkL0Rcr1VY787aG6uw9r/975/hdTVPHVbsAvJ1b4
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="460296251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="378829578"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="460296251"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:44:32 -0800
+   d="scan'208";a="378829578"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 13:44:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="914575942"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="841205965"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="914575942"
+   d="scan'208";a="841205965"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Dec 2023 13:44:30 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 04 Dec 2023 13:44:31 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAGjs-00086Y-1s;
-	Mon, 04 Dec 2023 21:44:28 +0000
-Date: Tue, 5 Dec 2023 05:44:14 +0800
+	id 1rAGjt-00086h-00;
+	Mon, 04 Dec 2023 21:44:29 +0000
+Date: Tue, 5 Dec 2023 05:44:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: io_uring/poll.c:480:43: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202312050531.k063Lttm-lkp@intel.com>
+To: Jeff LaBundy <jeff@labundy.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: drivers/input/misc/iqs626a.c:780:61: warning: '%d' directive output
+ may be truncated writing between 1 and 10 bytes into a region of size 2
+Message-ID: <202312050442.h4TNpY9h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,323 +51,207 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Jeff,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: b9ba8a4463cd78d0aee520c4bf2569820ac29929 io_uring: add support for level triggered poll
-date:   1 year, 4 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231205/202312050531.k063Lttm-lkp@intel.com/config)
+commit: 4d3d2694e168c542b088eef5059d31498f679020 Input: iqs626a - drop unused device node references
+date:   10 months ago
+config: x86_64-buildonly-randconfig-004-20230906 (https://download.01.org/0day-ci/archive/20231205/202312050442.h4TNpY9h-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312050531.k063Lttm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312050442.h4TNpY9h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312050531.k063Lttm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312050442.h4TNpY9h-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   io_uring/poll.c:165:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t @@
-   io_uring/poll.c:165:38: sparse:     expected signed int [usertype] res
-   io_uring/poll.c:165:38: sparse:     got restricted __poll_t
-   io_uring/poll.c:176:56: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:175:66: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
-   io_uring/poll.c:175:66: sparse:     expected restricted __poll_t [usertype] val
-   io_uring/poll.c:175:66: sparse:     got unsigned int
-   io_uring/poll.c:175:52: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned short @@
-   io_uring/poll.c:175:52: sparse:     expected restricted __poll_t [usertype] mask
-   io_uring/poll.c:175:52: sparse:     got unsigned short
-   io_uring/poll.c:181:50: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
-   io_uring/poll.c:181:50: sparse:     expected signed int [usertype] res
-   io_uring/poll.c:181:50: sparse:     got restricted __poll_t [usertype] mask
-   io_uring/poll.c:216:63: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:216:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
-   io_uring/poll.c:216:57: sparse:     expected restricted __poll_t [usertype] val
-   io_uring/poll.c:216:57: sparse:     got unsigned int
-   io_uring/poll.c:334:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [usertype] mask @@
-   io_uring/poll.c:334:40: sparse:     expected int mask
-   io_uring/poll.c:334:40: sparse:     got restricted __poll_t [usertype] mask
-   io_uring/poll.c:430:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:430:24: sparse:     expected int
-   io_uring/poll.c:430:24: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:451:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:451:40: sparse:     expected int mask
-   io_uring/poll.c:451:40: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:480:45: sparse: sparse: restricted __poll_t degrades to integer
->> io_uring/poll.c:480:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned int @@
-   io_uring/poll.c:480:43: sparse:     expected restricted __poll_t [usertype] mask
-   io_uring/poll.c:480:43: sparse:     got unsigned int
-   io_uring/poll.c:528:33: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:528:33: sparse:     expected int mask
-   io_uring/poll.c:528:33: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:528:50: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected int events @@     got restricted __poll_t [usertype] events @@
-   io_uring/poll.c:528:50: sparse:     expected int events
-   io_uring/poll.c:528:50: sparse:     got restricted __poll_t [usertype] events
-   io_uring/poll.c:642:24: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:642:24: sparse:    left side has type unsigned int
-   io_uring/poll.c:642:24: sparse:    right side has type restricted __poll_t
-   io_uring/poll.c:644:24: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:644:24: sparse:    left side has type unsigned int
-   io_uring/poll.c:644:24: sparse:    right side has type restricted __poll_t
-   io_uring/poll.c:646:55: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:645:29: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:645:38: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int @@
-   io_uring/poll.c:645:38: sparse:     expected restricted __poll_t
-   io_uring/poll.c:645:38: sparse:     got unsigned int
-   io_uring/poll.c:741:38: sparse: sparse: invalid assignment: &=
-   io_uring/poll.c:741:38: sparse:    left side has type restricted __poll_t
-   io_uring/poll.c:741:38: sparse:    right side has type int
-   io_uring/poll.c:742:52: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:742:38: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:742:38: sparse:    left side has type restricted __poll_t
-   io_uring/poll.c:742:38: sparse:    right side has type unsigned int
-   io_uring/poll.c: note: in included file:
-   io_uring/io_uring_types.h:92:37: sparse: sparse: array of flexible structures
+All warnings (new ones prefixed by >>):
 
-vim +480 io_uring/poll.c
+   drivers/input/misc/iqs626a.c: In function 'iqs626_parse_trackpad':
+>> drivers/input/misc/iqs626a.c:780:61: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+     780 |                 snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
+         |                                                             ^~
+   drivers/input/misc/iqs626a.c:780:52: note: directive argument in the range [0, 2147483646]
+     780 |                 snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
+         |                                                    ^~~~~~~~~~~~
+   drivers/input/misc/iqs626a.c:780:17: note: 'snprintf' output between 10 and 19 bytes into a destination of size 10
+     780 |                 snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   288	
-   289	static int io_poll_wake(struct wait_queue_entry *wait, unsigned mode, int sync,
-   290				void *key)
-   291	{
-   292		struct io_kiocb *req = wqe_to_req(wait);
-   293		struct io_poll *poll = container_of(wait, struct io_poll, wait);
-   294		__poll_t mask = key_to_poll(key);
-   295	
-   296		if (unlikely(mask & POLLFREE)) {
-   297			io_poll_mark_cancelled(req);
-   298			/* we have to kick tw in case it's not already */
-   299			io_poll_execute(req, 0, poll->events);
-   300	
-   301			/*
-   302			 * If the waitqueue is being freed early but someone is already
-   303			 * holds ownership over it, we have to tear down the request as
-   304			 * best we can. That means immediately removing the request from
-   305			 * its waitqueue and preventing all further accesses to the
-   306			 * waitqueue via the request.
-   307			 */
-   308			list_del_init(&poll->wait.entry);
-   309	
-   310			/*
-   311			 * Careful: this *must* be the last step, since as soon
-   312			 * as req->head is NULL'ed out, the request can be
-   313			 * completed and freed, since aio_poll_complete_work()
-   314			 * will no longer need to take the waitqueue lock.
-   315			 */
-   316			smp_store_release(&poll->head, NULL);
-   317			return 1;
-   318		}
-   319	
-   320		/* for instances that support it check for an event match first */
-   321		if (mask && !(mask & (poll->events & ~IO_ASYNC_POLL_COMMON)))
-   322			return 0;
-   323	
-   324		if (io_poll_get_ownership(req)) {
-   325			/* optional, saves extra locking for removal in tw handler */
-   326			if (mask && poll->events & EPOLLONESHOT) {
-   327				list_del_init(&poll->wait.entry);
-   328				poll->head = NULL;
-   329				if (wqe_is_double(wait))
-   330					req->flags &= ~REQ_F_DOUBLE_POLL;
-   331				else
-   332					req->flags &= ~REQ_F_SINGLE_POLL;
-   333			}
- > 334			__io_poll_execute(req, mask, poll->events);
-   335		}
-   336		return 1;
-   337	}
-   338	
-   339	static void __io_queue_proc(struct io_poll *poll, struct io_poll_table *pt,
-   340				    struct wait_queue_head *head,
-   341				    struct io_poll **poll_ptr)
-   342	{
-   343		struct io_kiocb *req = pt->req;
-   344		unsigned long wqe_private = (unsigned long) req;
-   345	
-   346		/*
-   347		 * The file being polled uses multiple waitqueues for poll handling
-   348		 * (e.g. one for read, one for write). Setup a separate io_poll
-   349		 * if this happens.
-   350		 */
-   351		if (unlikely(pt->nr_entries)) {
-   352			struct io_poll *first = poll;
-   353	
-   354			/* double add on the same waitqueue head, ignore */
-   355			if (first->head == head)
-   356				return;
-   357			/* already have a 2nd entry, fail a third attempt */
-   358			if (*poll_ptr) {
-   359				if ((*poll_ptr)->head == head)
-   360					return;
-   361				pt->error = -EINVAL;
-   362				return;
-   363			}
-   364	
-   365			poll = kmalloc(sizeof(*poll), GFP_ATOMIC);
-   366			if (!poll) {
-   367				pt->error = -ENOMEM;
-   368				return;
-   369			}
-   370			/* mark as double wq entry */
-   371			wqe_private |= 1;
-   372			req->flags |= REQ_F_DOUBLE_POLL;
-   373			io_init_poll_iocb(poll, first->events, first->wait.func);
-   374			*poll_ptr = poll;
-   375			if (req->opcode == IORING_OP_POLL_ADD)
-   376				req->flags |= REQ_F_ASYNC_DATA;
-   377		}
-   378	
-   379		req->flags |= REQ_F_SINGLE_POLL;
-   380		pt->nr_entries++;
-   381		poll->head = head;
-   382		poll->wait.private = (void *) wqe_private;
-   383	
-   384		if (poll->events & EPOLLEXCLUSIVE)
-   385			add_wait_queue_exclusive(head, &poll->wait);
-   386		else
-   387			add_wait_queue(head, &poll->wait);
-   388	}
-   389	
-   390	static void io_poll_queue_proc(struct file *file, struct wait_queue_head *head,
-   391				       struct poll_table_struct *p)
-   392	{
-   393		struct io_poll_table *pt = container_of(p, struct io_poll_table, pt);
-   394		struct io_poll *poll = io_kiocb_to_cmd(pt->req);
-   395	
-   396		__io_queue_proc(poll, pt, head,
-   397				(struct io_poll **) &pt->req->async_data);
-   398	}
-   399	
-   400	static int __io_arm_poll_handler(struct io_kiocb *req,
-   401					 struct io_poll *poll,
-   402					 struct io_poll_table *ipt, __poll_t mask)
-   403	{
-   404		struct io_ring_ctx *ctx = req->ctx;
-   405		int v;
-   406	
-   407		INIT_HLIST_NODE(&req->hash_node);
-   408		req->work.cancel_seq = atomic_read(&ctx->cancel_seq);
-   409		io_init_poll_iocb(poll, mask, io_poll_wake);
-   410		poll->file = req->file;
-   411	
-   412		req->apoll_events = poll->events;
-   413	
-   414		ipt->pt._key = mask;
-   415		ipt->req = req;
-   416		ipt->error = 0;
-   417		ipt->nr_entries = 0;
-   418	
-   419		/*
-   420		 * Take the ownership to delay any tw execution up until we're done
-   421		 * with poll arming. see io_poll_get_ownership().
-   422		 */
-   423		atomic_set(&req->poll_refs, 1);
-   424		mask = vfs_poll(req->file, &ipt->pt) & poll->events;
-   425	
-   426		if (mask &&
-   427		   ((poll->events & (EPOLLET|EPOLLONESHOT)) == (EPOLLET|EPOLLONESHOT))) {
-   428			io_poll_remove_entries(req);
-   429			/* no one else has access to the req, forget about the ref */
-   430			return mask;
-   431		}
-   432	
-   433		if (!mask && unlikely(ipt->error || !ipt->nr_entries)) {
-   434			io_poll_remove_entries(req);
-   435			if (!ipt->error)
-   436				ipt->error = -EINVAL;
-   437			return 0;
-   438		}
-   439	
-   440		spin_lock(&ctx->completion_lock);
-   441		io_poll_req_insert(req);
-   442		spin_unlock(&ctx->completion_lock);
-   443	
-   444		if (mask && (poll->events & EPOLLET)) {
-   445			/* can't multishot if failed, just queue the event we've got */
-   446			if (unlikely(ipt->error || !ipt->nr_entries)) {
-   447				poll->events |= EPOLLONESHOT;
-   448				req->apoll_events |= EPOLLONESHOT;
-   449				ipt->error = 0;
-   450			}
-   451			__io_poll_execute(req, mask, poll->events);
-   452			return 0;
-   453		}
-   454	
-   455		/*
-   456		 * Release ownership. If someone tried to queue a tw while it was
-   457		 * locked, kick it off for them.
-   458		 */
-   459		v = atomic_dec_return(&req->poll_refs);
-   460		if (unlikely(v & IO_POLL_REF_MASK))
-   461			__io_poll_execute(req, 0, poll->events);
-   462		return 0;
-   463	}
-   464	
-   465	static void io_async_queue_proc(struct file *file, struct wait_queue_head *head,
-   466				       struct poll_table_struct *p)
-   467	{
-   468		struct io_poll_table *pt = container_of(p, struct io_poll_table, pt);
-   469		struct async_poll *apoll = pt->req->apoll;
-   470	
-   471		__io_queue_proc(&apoll->poll, pt, head, &apoll->double_poll);
-   472	}
-   473	
-   474	int io_arm_poll_handler(struct io_kiocb *req, unsigned issue_flags)
-   475	{
-   476		const struct io_op_def *def = &io_op_defs[req->opcode];
-   477		struct io_ring_ctx *ctx = req->ctx;
-   478		struct async_poll *apoll;
-   479		struct io_poll_table ipt;
- > 480		__poll_t mask = POLLPRI | POLLERR | EPOLLET;
-   481		int ret;
-   482	
-   483		if (!def->pollin && !def->pollout)
-   484			return IO_APOLL_ABORTED;
-   485		if (!file_can_poll(req->file))
-   486			return IO_APOLL_ABORTED;
-   487		if ((req->flags & (REQ_F_POLLED|REQ_F_PARTIAL_IO)) == REQ_F_POLLED)
-   488			return IO_APOLL_ABORTED;
-   489		if (!(req->flags & REQ_F_APOLL_MULTISHOT))
-   490			mask |= EPOLLONESHOT;
-   491	
-   492		if (def->pollin) {
-   493			mask |= EPOLLIN | EPOLLRDNORM;
-   494	
-   495			/* If reading from MSG_ERRQUEUE using recvmsg, ignore POLLIN */
-   496			if (req->flags & REQ_F_CLEAR_POLLIN)
-   497				mask &= ~EPOLLIN;
-   498		} else {
-   499			mask |= EPOLLOUT | EPOLLWRNORM;
-   500		}
-   501		if (def->poll_exclusive)
-   502			mask |= EPOLLEXCLUSIVE;
-   503		if (req->flags & REQ_F_POLLED) {
-   504			apoll = req->apoll;
-   505			kfree(apoll->double_poll);
-   506		} else if (!(issue_flags & IO_URING_F_UNLOCKED) &&
-   507			   !list_empty(&ctx->apoll_cache)) {
-   508			apoll = list_first_entry(&ctx->apoll_cache, struct async_poll,
-   509							poll.wait.entry);
-   510			list_del_init(&apoll->poll.wait.entry);
-   511		} else {
-   512			apoll = kmalloc(sizeof(*apoll), GFP_ATOMIC);
-   513			if (unlikely(!apoll))
-   514				return IO_APOLL_ABORTED;
-   515		}
-   516		apoll->double_poll = NULL;
-   517		req->apoll = apoll;
-   518		req->flags |= REQ_F_POLLED;
-   519		ipt.pt._qproc = io_async_queue_proc;
-   520	
-   521		io_kbuf_recycle(req, issue_flags);
-   522	
-   523		ret = __io_arm_poll_handler(req, &apoll->poll, &ipt, mask);
-   524		if (ret || ipt.error)
-   525			return ret ? IO_APOLL_READY : IO_APOLL_ABORTED;
-   526	
-   527		trace_io_uring_poll_arm(ctx, req, req->cqe.user_data, req->opcode,
-   528					mask, apoll->poll.events);
-   529		return IO_APOLL_OK;
-   530	}
-   531	
+
+vim +780 drivers/input/misc/iqs626a.c
+
+   712	
+   713	static int iqs626_parse_trackpad(struct iqs626_private *iqs626,
+   714					 struct fwnode_handle *ch_node,
+   715					 enum iqs626_ch_id ch_id)
+   716	{
+   717		struct iqs626_sys_reg *sys_reg = &iqs626->sys_reg;
+   718		struct i2c_client *client = iqs626->client;
+   719		u8 *hyst = &sys_reg->tp_grp_reg.hyst;
+   720		int error, count, i;
+   721		unsigned int val;
+   722	
+   723		if (!fwnode_property_read_u32(ch_node, "azoteq,lta-update", &val)) {
+   724			if (val > IQS626_MISC_A_TPx_LTA_UPDATE_MAX) {
+   725				dev_err(&client->dev,
+   726					"Invalid %s channel update rate: %u\n",
+   727					fwnode_get_name(ch_node), val);
+   728				return -EINVAL;
+   729			}
+   730	
+   731			sys_reg->misc_a &= ~IQS626_MISC_A_TPx_LTA_UPDATE_MASK;
+   732			sys_reg->misc_a |= (val << IQS626_MISC_A_TPx_LTA_UPDATE_SHIFT);
+   733		}
+   734	
+   735		if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-trackpad",
+   736					      &val)) {
+   737			if (val > IQS626_FILT_STR_MAX) {
+   738				dev_err(&client->dev,
+   739					"Invalid %s channel filter strength: %u\n",
+   740					fwnode_get_name(ch_node), val);
+   741				return -EINVAL;
+   742			}
+   743	
+   744			sys_reg->misc_b &= ~IQS626_MISC_B_FILT_STR_TPx;
+   745			sys_reg->misc_b |= val;
+   746		}
+   747	
+   748		if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-np-cnt",
+   749					      &val)) {
+   750			if (val > IQS626_FILT_STR_MAX) {
+   751				dev_err(&client->dev,
+   752					"Invalid %s channel filter strength: %u\n",
+   753					fwnode_get_name(ch_node), val);
+   754				return -EINVAL;
+   755			}
+   756	
+   757			*hyst &= ~IQS626_FILT_STR_NP_TPx_MASK;
+   758			*hyst |= (val << IQS626_FILT_STR_NP_TPx_SHIFT);
+   759		}
+   760	
+   761		if (!fwnode_property_read_u32(ch_node, "azoteq,filt-str-lp-cnt",
+   762					      &val)) {
+   763			if (val > IQS626_FILT_STR_MAX) {
+   764				dev_err(&client->dev,
+   765					"Invalid %s channel filter strength: %u\n",
+   766					fwnode_get_name(ch_node), val);
+   767				return -EINVAL;
+   768			}
+   769	
+   770			*hyst &= ~IQS626_FILT_STR_LP_TPx_MASK;
+   771			*hyst |= (val << IQS626_FILT_STR_LP_TPx_SHIFT);
+   772		}
+   773	
+   774		for (i = 0; i < iqs626_channels[ch_id].num_ch; i++) {
+   775			u8 *ati_base = &sys_reg->tp_grp_reg.ch_reg_tp[i].ati_base;
+   776			u8 *thresh = &sys_reg->tp_grp_reg.ch_reg_tp[i].thresh;
+   777			struct fwnode_handle *tc_node;
+   778			char tc_name[10];
+   779	
+ > 780			snprintf(tc_name, sizeof(tc_name), "channel-%d", i);
+   781	
+   782			tc_node = fwnode_get_named_child_node(ch_node, tc_name);
+   783			if (!tc_node)
+   784				continue;
+   785	
+   786			if (!fwnode_property_read_u32(tc_node, "azoteq,ati-base",
+   787						      &val)) {
+   788				if (val < IQS626_TPx_ATI_BASE_MIN ||
+   789				    val > IQS626_TPx_ATI_BASE_MAX) {
+   790					dev_err(&client->dev,
+   791						"Invalid %s %s ATI base: %u\n",
+   792						fwnode_get_name(ch_node), tc_name, val);
+   793					fwnode_handle_put(tc_node);
+   794					return -EINVAL;
+   795				}
+   796	
+   797				*ati_base = val - IQS626_TPx_ATI_BASE_MIN;
+   798			}
+   799	
+   800			if (!fwnode_property_read_u32(tc_node, "azoteq,thresh",
+   801						      &val)) {
+   802				if (val > IQS626_CHx_THRESH_MAX) {
+   803					dev_err(&client->dev,
+   804						"Invalid %s %s threshold: %u\n",
+   805						fwnode_get_name(ch_node), tc_name, val);
+   806					fwnode_handle_put(tc_node);
+   807					return -EINVAL;
+   808				}
+   809	
+   810				*thresh = val;
+   811			}
+   812	
+   813			fwnode_handle_put(tc_node);
+   814		}
+   815	
+   816		if (!fwnode_property_present(ch_node, "linux,keycodes"))
+   817			return 0;
+   818	
+   819		count = fwnode_property_count_u32(ch_node, "linux,keycodes");
+   820		if (count > IQS626_NUM_GESTURES) {
+   821			dev_err(&client->dev, "Too many keycodes present\n");
+   822			return -EINVAL;
+   823		} else if (count < 0) {
+   824			dev_err(&client->dev, "Failed to count keycodes: %d\n", count);
+   825			return count;
+   826		}
+   827	
+   828		error = fwnode_property_read_u32_array(ch_node, "linux,keycodes",
+   829						       iqs626->tp_code, count);
+   830		if (error) {
+   831			dev_err(&client->dev, "Failed to read keycodes: %d\n", error);
+   832			return error;
+   833		}
+   834	
+   835		sys_reg->misc_b &= ~IQS626_MISC_B_TPx_SWIPE;
+   836		if (fwnode_property_present(ch_node, "azoteq,gesture-swipe"))
+   837			sys_reg->misc_b |= IQS626_MISC_B_TPx_SWIPE;
+   838	
+   839		if (!fwnode_property_read_u32(ch_node, "azoteq,timeout-tap-ms",
+   840					      &val)) {
+   841			if (val > IQS626_TIMEOUT_TAP_MS_MAX) {
+   842				dev_err(&client->dev,
+   843					"Invalid %s channel timeout: %u\n",
+   844					fwnode_get_name(ch_node), val);
+   845				return -EINVAL;
+   846			}
+   847	
+   848			sys_reg->timeout_tap = val / 16;
+   849		}
+   850	
+   851		if (!fwnode_property_read_u32(ch_node, "azoteq,timeout-swipe-ms",
+   852					      &val)) {
+   853			if (val > IQS626_TIMEOUT_SWIPE_MS_MAX) {
+   854				dev_err(&client->dev,
+   855					"Invalid %s channel timeout: %u\n",
+   856					fwnode_get_name(ch_node), val);
+   857				return -EINVAL;
+   858			}
+   859	
+   860			sys_reg->timeout_swipe = val / 16;
+   861		}
+   862	
+   863		if (!fwnode_property_read_u32(ch_node, "azoteq,thresh-swipe",
+   864					      &val)) {
+   865			if (val > IQS626_THRESH_SWIPE_MAX) {
+   866				dev_err(&client->dev,
+   867					"Invalid %s channel threshold: %u\n",
+   868					fwnode_get_name(ch_node), val);
+   869				return -EINVAL;
+   870			}
+   871	
+   872			sys_reg->thresh_swipe = val;
+   873		}
+   874	
+   875		sys_reg->event_mask &= ~IQS626_EVENT_MASK_GESTURE;
+   876	
+   877		return 0;
+   878	}
+   879	
 
 -- 
 0-DAY CI Kernel Test Service
