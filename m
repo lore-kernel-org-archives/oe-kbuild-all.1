@@ -1,197 +1,130 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD72EADA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 09:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E6F2231B;
+	Mon,  4 Dec 2023 10:32:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LtmjNi39"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701680535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=klUlZafuD5fySdh0flPq8If8aOTjdsGX9L5Pty3/G5Y=;
-	b=LtmjNi39Fa9HAYx3ATVFimE/WUAiLoVv4kyxeCx98EZK58UV2lc5Vyi+r6IHOlZYk57Ap8
-	nyq06avqO5M56baGVKgxzdavgcworkd3MzC4v9pcJo9bbyw8+2K0fKJI+ppDld5I+DAUi0
-	rjClqLLR5SiOccGwVZoDlRxZdcyDjFU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-658-Iu8tiCVvPt2uT_G_1ABR_w-1; Mon, 04 Dec 2023 04:02:14 -0500
-X-MC-Unique: Iu8tiCVvPt2uT_G_1ABR_w-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3333c3b6519so1299930f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Dec 2023 01:02:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701680532; x=1702285332;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=klUlZafuD5fySdh0flPq8If8aOTjdsGX9L5Pty3/G5Y=;
-        b=IWl91qXhFCRPMqJB3njXZt1ylOmC5m1B977zrLugMjfm5PcZJTRvsz+Bobh1cX/2t3
-         MFqXBZP6YhFMPEh641Hi3EIUTr7CHM3ysguw3G3IVZZr7WT4fWDjh9HBnein5KeS6DOu
-         Li0YuZudUnt0M6mZOSGPlBKBrxcTtOZv2R5xavoafLQzndvFwlVLMapqWShk1hWbiOx9
-         Opyu0i8C716LnEdZZ/74VaLmh54ACjteiryL3BmXtI0sys2EP4dl7EuyeyfLNrXRG5cp
-         zD4fATLZT/TZpuMmVNY7lcpfbQtSiQbMRpu4vY9/DUex4VLjFzqblwZMvsWz1+J0JFPY
-         mZ2w==
-X-Gm-Message-State: AOJu0YxsSf5ZZ9Loj/g7SzG8qlugq7HDUKK40ucBAE2WsWHeDapmfRVu
-	QyTlMVLHeBftkw5bBzl1sTR8oGHVCmiUIhIj7aYftXM5Ff7VUAVcr4asuP4FjnjQKtxSE7fToU3
-	or11VMz251IfjKbvIOX//S0JFMw==
-X-Received: by 2002:a5d:570c:0:b0:333:2fd2:68de with SMTP id a12-20020a5d570c000000b003332fd268demr2993306wrv.113.1701680532072;
-        Mon, 04 Dec 2023 01:02:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE0ZQVyyx/zbTsZL1jvUz7Lg2aDNjkx9I4PA83zE9UwNtmP49rfhCh0xG6pgtoc8yUb5PljQw==
-X-Received: by 2002:a5d:570c:0:b0:333:2fd2:68de with SMTP id a12-20020a5d570c000000b003332fd268demr2993302wrv.113.1701680531755;
-        Mon, 04 Dec 2023 01:02:11 -0800 (PST)
-Received: from redhat.com ([2.55.11.133])
-        by smtp.gmail.com with ESMTPSA id o3-20020a5d6843000000b0033340d2b127sm4131457wrw.89.2023.12.04.01.02.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 01:02:11 -0800 (PST)
-Date: Mon, 4 Dec 2023 04:02:07 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Suwan Kim <suwan.kim027@gmail.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
-	Christoph Hellwig <hch@lst.de>, Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>, pbonzini@redhat.com
-Subject: Re: drivers/block/virtio_blk.c:570:68: warning: '%d' directive
- output may be truncated writing between 1 and 11 bytes into a region of size
- 7
-Message-ID: <20231204040038-mutt-send-email-mst@kernel.org>
-References: <202312041509.DIyvEt9h-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pR4UKGGb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2CBCC433C7;
+	Mon,  4 Dec 2023 10:32:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701685968;
+	bh=qQRqlLYA9dPMt/BbzGDjPG6Jt5NxZKiMKNZTytCaDjI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pR4UKGGbgY6QYeHdtzuVcE6pM8uG9tLbw/y5knT7890/i9249Vz1PEnEYvTCGZKxp
+	 rvye4Id0n1x3vgFiDJ/TnCEM8SFfN7aE0yCkUR7Xti16TdBqbXAw7kxznUCQa4POrF
+	 l2udMvYnyXhfWnNZQgK99IwiwHCz9MWJTgd9fzvd9ldQlIXmBtLvNfdRkdMOozvyAl
+	 A9zOqEEao18T1k54IEaVDdNaDhr3GgijEX8IuWSLpbVneGOrF6GNyk9Bvifd/+W9/L
+	 7MGBJiSOv/kNDXZ9X7fjV0GF1gUFT2rSNt6wA7kFamLEiSRpRZ0+qSnuVDsvjrN6y4
+	 XdTo/msmuMlsA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1rA6Fp-001BUY-Gk;
+	Mon, 04 Dec 2023 10:32:45 +0000
+Date: Mon, 04 Dec 2023 10:32:45 +0000
+Message-ID: <86leaab6lu.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: drivers/irqchip/irq-apple-aic.c:941 aic_of_ic_init() error: uninitialized symbol 'off'.
+In-Reply-To: <ec3c78c4-6d16-4e42-b9b3-a1ba709dc991@suswa.mountain>
+References: <ec3c78c4-6d16-4e42-b9b3-a1ba709dc991@suswa.mountain>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <202312041509.DIyvEt9h-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: dan.carpenter@linaro.org, oe-kbuild@lists.linux.dev, marcan@marcan.st, lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Mon, Dec 04, 2023 at 04:56:35PM +0800, kernel test robot wrote:
+On Mon, 04 Dec 2023 06:41:46 +0000,
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> 
 > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 > head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-> commit: 4e0400525691d0e676dbe002641f9a61261f1e1b virtio-blk: support polling I/O
-> date:   1 year, 6 months ago
-> config: x86_64-buildonly-randconfig-006-20230906 (https://download.01.org/0day-ci/archive/20231204/202312041509.DIyvEt9h-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312041509.DIyvEt9h-lkp@intel.com/reproduce)
+> commit: dc97fd6fec009957e81026055fc99a03877ff3b8 irqchip/apple-aic: Dynamically compute register offsets
+> config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231203/202312032327.J915WcaL-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce: (https://download.01.org/0day-ci/archive/20231203/202312032327.J915WcaL-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312041509.DIyvEt9h-lkp@intel.com/
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202312032327.J915WcaL-lkp@intel.com/
 > 
-> All warnings (new ones prefixed by >>):
+> New smatch warnings:
+> drivers/irqchip/irq-apple-aic.c:941 aic_of_ic_init() error: uninitialized symbol 'off'.
 > 
->    drivers/block/virtio_blk.c: In function 'init_vq':
-> >> drivers/block/virtio_blk.c:570:68: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 7 [-Wformat-truncation=]
->      570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
->          |                                                                    ^~
->    drivers/block/virtio_blk.c:570:58: note: directive argument in the range [-2147483648, 65534]
->      570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
->          |                                                          ^~~~~~~~~~~~~
->    drivers/block/virtio_blk.c:570:17: note: 'snprintf' output between 11 and 21 bytes into a destination of size 16
->      570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
->          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Old smatch warnings:
+> drivers/irqchip/irq-apple-aic.c:920 aic_of_ic_init() warn: possible memory leak of 'irqc'
+> drivers/irqchip/irq-apple-aic.c:998 aic_of_ic_init() warn: 'regs' from of_iomap() not released on lines: 914,920.
 > 
+> vim +/off +941 drivers/irqchip/irq-apple-aic.c
 > 
-> vim +570 drivers/block/virtio_blk.c
+> 76cde26394114f Hector Martin 2021-01-21   900  static int __init aic_of_ic_init(struct device_node *node, struct device_node *parent)
+> 76cde26394114f Hector Martin 2021-01-21   901  {
+> 76cde26394114f Hector Martin 2021-01-21   902  	int i;
+> dc97fd6fec0099 Hector Martin 2022-03-10   903  	u32 off;
+> 76cde26394114f Hector Martin 2021-01-21   904  	void __iomem *regs;
+> 76cde26394114f Hector Martin 2021-01-21   905  	struct aic_irq_chip *irqc;
+> 2cf68211664acd Hector Martin 2022-03-10   906  	const struct of_device_id *match;
+> 76cde26394114f Hector Martin 2021-01-21   907  
+> 76cde26394114f Hector Martin 2021-01-21   908  	regs = of_iomap(node, 0);
+> 76cde26394114f Hector Martin 2021-01-21   909  	if (WARN_ON(!regs))
+> 76cde26394114f Hector Martin 2021-01-21   910  		return -EIO;
+> 76cde26394114f Hector Martin 2021-01-21   911  
+> 76cde26394114f Hector Martin 2021-01-21   912  	irqc = kzalloc(sizeof(*irqc), GFP_KERNEL);
+> 76cde26394114f Hector Martin 2021-01-21   913  	if (!irqc)
+> 76cde26394114f Hector Martin 2021-01-21   914  		return -ENOMEM;
+> 76cde26394114f Hector Martin 2021-01-21   915  
+> 76cde26394114f Hector Martin 2021-01-21   916  	irqc->base = regs;
+> 76cde26394114f Hector Martin 2021-01-21   917  
+> 2cf68211664acd Hector Martin 2022-03-10   918  	match = of_match_node(aic_info_match, node);
+> 2cf68211664acd Hector Martin 2022-03-10   919  	if (!match)
+> 2cf68211664acd Hector Martin 2022-03-10   920  		return -ENODEV;
+> 2cf68211664acd Hector Martin 2022-03-10   921  
+> 2cf68211664acd Hector Martin 2022-03-10   922  	irqc->info = *(struct aic_info *)match->data;
+> 2cf68211664acd Hector Martin 2022-03-10   923  
+> 2cf68211664acd Hector Martin 2022-03-10   924  	aic_irqc = irqc;
+> 2cf68211664acd Hector Martin 2022-03-10   925  
+> dc97fd6fec0099 Hector Martin 2022-03-10   926  	switch (irqc->info.version) {
+> dc97fd6fec0099 Hector Martin 2022-03-10   927  	case 1: {
+> dc97fd6fec0099 Hector Martin 2022-03-10   928  		u32 info;
+> dc97fd6fec0099 Hector Martin 2022-03-10   929  
+> 76cde26394114f Hector Martin 2021-01-21   930  		info = aic_ic_read(irqc, AIC_INFO);
+> 7c841f5f6fa3f9 Hector Martin 2022-03-10   931  		irqc->nr_irq = FIELD_GET(AIC_INFO_NR_IRQ, info);
+> dc97fd6fec0099 Hector Martin 2022-03-10   932  		irqc->max_irq = AIC_MAX_IRQ;
+> dc97fd6fec0099 Hector Martin 2022-03-10   933  
+> dc97fd6fec0099 Hector Martin 2022-03-10   934  		off = irqc->info.target_cpu;
+> dc97fd6fec0099 Hector Martin 2022-03-10   935  		off += sizeof(u32) * irqc->max_irq; /* TARGET_CPU */
+> dc97fd6fec0099 Hector Martin 2022-03-10   936  
+> dc97fd6fec0099 Hector Martin 2022-03-10   937  		break;
+> dc97fd6fec0099 Hector Martin 2022-03-10   938  	}
 > 
->    511	
->    512	static int init_vq(struct virtio_blk *vblk)
->    513	{
->    514		int err;
->    515		int i;
->    516		vq_callback_t **callbacks;
->    517		const char **names;
->    518		struct virtqueue **vqs;
->    519		unsigned short num_vqs;
->    520		unsigned int num_poll_vqs;
->    521		struct virtio_device *vdev = vblk->vdev;
->    522		struct irq_affinity desc = { 0, };
->    523	
->    524		err = virtio_cread_feature(vdev, VIRTIO_BLK_F_MQ,
->    525					   struct virtio_blk_config, num_queues,
->    526					   &num_vqs);
->    527		if (err)
->    528			num_vqs = 1;
->    529	
->    530		if (!err && !num_vqs) {
->    531			dev_err(&vdev->dev, "MQ advertised but zero queues reported\n");
->    532			return -EINVAL;
->    533		}
->    534	
->    535		num_vqs = min_t(unsigned int,
->    536				min_not_zero(num_request_queues, nr_cpu_ids),
->    537				num_vqs);
->    538	
->    539		num_poll_vqs = min_t(unsigned int, poll_queues, num_vqs - 1);
->    540	
->    541		vblk->io_queues[HCTX_TYPE_DEFAULT] = num_vqs - num_poll_vqs;
->    542		vblk->io_queues[HCTX_TYPE_READ] = 0;
->    543		vblk->io_queues[HCTX_TYPE_POLL] = num_poll_vqs;
->    544	
->    545		dev_info(&vdev->dev, "%d/%d/%d default/read/poll queues\n",
->    546					vblk->io_queues[HCTX_TYPE_DEFAULT],
->    547					vblk->io_queues[HCTX_TYPE_READ],
->    548					vblk->io_queues[HCTX_TYPE_POLL]);
->    549	
->    550		vblk->vqs = kmalloc_array(num_vqs, sizeof(*vblk->vqs), GFP_KERNEL);
->    551		if (!vblk->vqs)
->    552			return -ENOMEM;
->    553	
->    554		names = kmalloc_array(num_vqs, sizeof(*names), GFP_KERNEL);
->    555		callbacks = kmalloc_array(num_vqs, sizeof(*callbacks), GFP_KERNEL);
->    556		vqs = kmalloc_array(num_vqs, sizeof(*vqs), GFP_KERNEL);
->    557		if (!names || !callbacks || !vqs) {
->    558			err = -ENOMEM;
->    559			goto out;
->    560		}
->    561	
->    562		for (i = 0; i < num_vqs - num_poll_vqs; i++) {
->    563			callbacks[i] = virtblk_done;
->    564			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req.%d", i);
->    565			names[i] = vblk->vqs[i].name;
->    566		}
->    567	
->    568		for (; i < num_vqs; i++) {
->    569			callbacks[i] = NULL;
->  > 570			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
->    571			names[i] = vblk->vqs[i].name;
->    572		}
->    573	
->    574		/* Discover virtqueues and write information to configuration.  */
->    575		err = virtio_find_vqs(vdev, num_vqs, vqs, callbacks, names, &desc);
->    576		if (err)
->    577			goto out;
->    578	
->    579		for (i = 0; i < num_vqs; i++) {
->    580			spin_lock_init(&vblk->vqs[i].lock);
->    581			vblk->vqs[i].vq = vqs[i];
->    582		}
->    583		vblk->num_vqs = num_vqs;
->    584	
->    585	out:
->    586		kfree(vqs);
->    587		kfree(callbacks);
->    588		kfree(names);
->    589		if (err)
->    590			kfree(vblk->vqs);
->    591		return err;
->    592	}
->    593	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> not default statement.
 
-Stefan, Paolo,
-It's a false positive but do we want to fix it? Make i unsigned?
+This is yet another case of data-driven dependency that smatch cannot
+infer easily. info.version is statically set in aic_info_match[]. 1
+and 2 are the only values provided by this array, so off is never left
+uninitialised.
+
+Thanks,
+
+	M.
 
 -- 
-MST
-
+Without deviation from the norm, progress is not possible.
