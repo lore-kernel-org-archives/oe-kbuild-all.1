@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E4428695
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 14:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE642375B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 15:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fOQ8AnQd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V1RNqtgc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701699181; x=1733235181;
+  t=1701703156; x=1733239156;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=awc1REfBwrq2T81STEDe/D8/udsliGFa3mgONgLqqO8=;
-  b=fOQ8AnQdPh0QKdno6n0ntmGQDJeogFk0jl6yCOkamcQVgeOV5pUPh/jo
-   Ixhtll5jju/HLefr+v3u6zhYssAsmBm9uv+Nrqpy4ApZdK52StRBp7R/1
-   d/vyAVtZwJapqmu0W25q58DdgCv6g2p7usghtIwLgn3edkqv2hwgAXpNL
-   Ds1JmdRKpNAu4N/4SJD6HKp2WWNZ1JK5gpYmUByUFmKv35Lx7VNti1JmI
-   obBj/rRRy+oTlkPui1LOIJ0sqEjK1gNHjuGlUZTWvgF8kyafAFqs5OLge
-   BOnI214c6Atu7DgB40+i2x5bY87w3eNJ4PcmfUYYmOYS44XWrIKXHvqw5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="458059601"
+  bh=HrPuf3RtcFKj+a3zVlizOd1McaTeRaEp1C41H0DqCdo=;
+  b=V1RNqtgc+TVrOmBOJz+7/eLESC8TGXARyap7AAoYRCV3C+DMrJHhTjUv
+   GSxHGq5LFjNuujnGONEiRZpykO3QL4BMV3f4E36M77Bu+2PcZn4xDS1bW
+   nTQUKcP2v308AzztNxAxgf867Xuyq5Oh9kYE33T1UX50IJwNEX7gO+EJv
+   2eZ4m6D1do4B/XUKVqCjpP0/DKVpiTw/P12gawXEScRB55PlnBkRZvWbc
+   58X35zV3wdXZn8NxxRulAakmQl94CNQKQgiJIlPbsgAO+tHVIuK/f7dHD
+   tESxJCw0mMkqXtpldTRyEK3ay7G00bjKpkN8FBQFxS86hZPwBLmf7i5kL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="801138"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="458059601"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 06:12:57 -0800
+   d="scan'208";a="801138"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 07:19:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888540357"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="861405026"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="888540357"
+   d="scan'208";a="861405026"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Dec 2023 06:12:55 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Dec 2023 07:19:13 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rA9gr-0007nc-1z;
-	Mon, 04 Dec 2023 14:12:53 +0000
-Date: Mon, 4 Dec 2023 22:12:31 +0800
+	id 1rAAj1-0007pu-0i;
+	Mon, 04 Dec 2023 15:19:11 +0000
+Date: Mon, 4 Dec 2023 23:18:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: drivers/soc/qcom/smsm.c:152:22: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202312042157.f0dFTXW4-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect
+ type in assignment (different address spaces)
+Message-ID: <202312042207.lG7YN0oe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,165 +52,70 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: e5fc436f06eef54ef512ea55a9db8eb9f2e76959 sparse: use static inline for __chk_{user,io}_ptr()
-date:   3 years, 3 months ago
-config: sh-randconfig-r111-20231116 (https://download.01.org/0day-ci/archive/20231204/202312042157.f0dFTXW4-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231204/202312042157.f0dFTXW4-lkp@intel.com/reproduce)
+commit: 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b fbdev: omap: avoid using mach/*.h files
+date:   1 year, 7 months ago
+config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231204/202312042207.lG7YN0oe-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231204/202312042207.lG7YN0oe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312042157.f0dFTXW4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312042207.lG7YN0oe-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/soc/qcom/smsm.c:152:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *local_state @@
-   drivers/soc/qcom/smsm.c:152:22: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:152:22: sparse:     got unsigned int [usertype] *local_state
-   drivers/soc/qcom/smsm.c:164:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *local_state @@
-   drivers/soc/qcom/smsm.c:164:9: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:164:9: sparse:     got unsigned int [usertype] *local_state
->> drivers/soc/qcom/smsm.c:174:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:174:23: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:174:23: sparse:     got unsigned int [usertype] *
->> drivers/soc/qcom/smsm.c:206:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *remote_state @@
-   drivers/soc/qcom/smsm.c:206:15: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:206:15: sparse:     got unsigned int [usertype] *remote_state
-   drivers/soc/qcom/smsm.c:245:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:245:23: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:245:23: sparse:     got unsigned int [usertype] *
-   drivers/soc/qcom/smsm.c:247:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:247:17: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:247:17: sparse:     got unsigned int [usertype] *
-   drivers/soc/qcom/smsm.c:272:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:272:23: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:272:23: sparse:     got unsigned int [usertype] *
-   drivers/soc/qcom/smsm.c:274:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:274:17: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:274:17: sparse:     got unsigned int [usertype] *
-   drivers/soc/qcom/smsm.c:569:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] * @@
-   drivers/soc/qcom/smsm.c:569:17: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smsm.c:569:17: sparse:     got unsigned int [usertype] *
+>> drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void *static [addressable] [assigned] [toplevel] vram_virt @@
+   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     expected void [noderef] __iomem *vaddr
+   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     got void *static [addressable] [assigned] [toplevel] vram_virt
+   drivers/video/fbdev/omap/lcdc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
 --
->> drivers/soc/qcom/smp2p.c:218:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *value @@
-   drivers/soc/qcom/smp2p.c:218:23: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smp2p.c:218:23: sparse:     got unsigned int [usertype] *value
-   drivers/soc/qcom/smp2p.c:325:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *value @@
-   drivers/soc/qcom/smp2p.c:325:22: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smp2p.c:325:22: sparse:     got unsigned int [usertype] *value
-   drivers/soc/qcom/smp2p.c:328:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int [usertype] *value @@
-   drivers/soc/qcom/smp2p.c:328:9: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smp2p.c:328:9: sparse:     got unsigned int [usertype] *value
+>> drivers/video/fbdev/omap/omapfb_main.c:1027:11: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/omap/omapfb_main.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/radix-tree.h, ...):
+   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/video/fbdev/omap/lcd_mipid.c:451:23: sparse: sparse: cast to restricted __be32
+   drivers/video/fbdev/omap/lcd_mipid.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/radix-tree.h, ...):
+   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +152 drivers/soc/qcom/smsm.c
+vim +642 drivers/video/fbdev/omap/lcdc.c
 
-c97c4090ff7229 Bjorn Andersson 2015-09-24  129  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  130  /**
-c97c4090ff7229 Bjorn Andersson 2015-09-24  131   * smsm_update_bits() - change bit in outgoing entry and inform subscribers
-c97c4090ff7229 Bjorn Andersson 2015-09-24  132   * @data:	smsm context pointer
-c97c4090ff7229 Bjorn Andersson 2015-09-24  133   * @offset:	bit in the entry
-c97c4090ff7229 Bjorn Andersson 2015-09-24  134   * @value:	new value
-c97c4090ff7229 Bjorn Andersson 2015-09-24  135   *
-c97c4090ff7229 Bjorn Andersson 2015-09-24  136   * Used to set and clear the bits in the outgoing/local entry and inform
-c97c4090ff7229 Bjorn Andersson 2015-09-24  137   * subscribers about the change.
-c97c4090ff7229 Bjorn Andersson 2015-09-24  138   */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  139  static int smsm_update_bits(void *data, u32 mask, u32 value)
-c97c4090ff7229 Bjorn Andersson 2015-09-24  140  {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  141  	struct qcom_smsm *smsm = data;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  142  	struct smsm_host *hostp;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  143  	unsigned long flags;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  144  	u32 changes;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  145  	u32 host;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  146  	u32 orig;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  147  	u32 val;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  148  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  149  	spin_lock_irqsave(&smsm->lock, flags);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  150  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  151  	/* Update the entry */
-c97c4090ff7229 Bjorn Andersson 2015-09-24 @152  	val = orig = readl(smsm->local_state);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  153  	val &= ~mask;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  154  	val |= value;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  155  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  156  	/* Don't signal if we didn't change the value */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  157  	changes = val ^ orig;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  158  	if (!changes) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  159  		spin_unlock_irqrestore(&smsm->lock, flags);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  160  		goto done;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  161  	}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  162  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  163  	/* Write out the new value */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  164  	writel(val, smsm->local_state);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  165  	spin_unlock_irqrestore(&smsm->lock, flags);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  166  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  167  	/* Make sure the value update is ordered before any kicks */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  168  	wmb();
-c97c4090ff7229 Bjorn Andersson 2015-09-24  169  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  170  	/* Iterate over all hosts to check whom wants a kick */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  171  	for (host = 0; host < smsm->num_hosts; host++) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  172  		hostp = &smsm->hosts[host];
-c97c4090ff7229 Bjorn Andersson 2015-09-24  173  
-c97c4090ff7229 Bjorn Andersson 2015-09-24 @174  		val = readl(smsm->subscription + host);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  175  		if (val & changes && hostp->ipc_regmap) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  176  			regmap_write(hostp->ipc_regmap,
-c97c4090ff7229 Bjorn Andersson 2015-09-24  177  				     hostp->ipc_offset,
-c97c4090ff7229 Bjorn Andersson 2015-09-24  178  				     BIT(hostp->ipc_bit));
-c97c4090ff7229 Bjorn Andersson 2015-09-24  179  		}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  180  	}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  181  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  182  done:
-c97c4090ff7229 Bjorn Andersson 2015-09-24  183  	return 0;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  184  }
-c97c4090ff7229 Bjorn Andersson 2015-09-24  185  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  186  static const struct qcom_smem_state_ops smsm_state_ops = {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  187  	.update_bits = smsm_update_bits,
-c97c4090ff7229 Bjorn Andersson 2015-09-24  188  };
-c97c4090ff7229 Bjorn Andersson 2015-09-24  189  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  190  /**
-c97c4090ff7229 Bjorn Andersson 2015-09-24  191   * smsm_intr() - cascading IRQ handler for SMSM
-c97c4090ff7229 Bjorn Andersson 2015-09-24  192   * @irq:	unused
-c97c4090ff7229 Bjorn Andersson 2015-09-24  193   * @data:	entry related to this IRQ
-c97c4090ff7229 Bjorn Andersson 2015-09-24  194   *
-c97c4090ff7229 Bjorn Andersson 2015-09-24  195   * This function cascades an incoming interrupt from a remote system, based on
-c97c4090ff7229 Bjorn Andersson 2015-09-24  196   * the state bits and configuration.
-c97c4090ff7229 Bjorn Andersson 2015-09-24  197   */
-c97c4090ff7229 Bjorn Andersson 2015-09-24  198  static irqreturn_t smsm_intr(int irq, void *data)
-c97c4090ff7229 Bjorn Andersson 2015-09-24  199  {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  200  	struct smsm_entry *entry = data;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  201  	unsigned i;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  202  	int irq_pin;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  203  	u32 changed;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  204  	u32 val;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  205  
-c97c4090ff7229 Bjorn Andersson 2015-09-24 @206  	val = readl(entry->remote_state);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  207  	changed = val ^ entry->last_value;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  208  	entry->last_value = val;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  209  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  210  	for_each_set_bit(i, entry->irq_enabled, 32) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  211  		if (!(changed & BIT(i)))
-c97c4090ff7229 Bjorn Andersson 2015-09-24  212  			continue;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  213  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  214  		if (val & BIT(i)) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  215  			if (test_bit(i, entry->irq_rising)) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  216  				irq_pin = irq_find_mapping(entry->domain, i);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  217  				handle_nested_irq(irq_pin);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  218  			}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  219  		} else {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  220  			if (test_bit(i, entry->irq_falling)) {
-c97c4090ff7229 Bjorn Andersson 2015-09-24  221  				irq_pin = irq_find_mapping(entry->domain, i);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  222  				handle_nested_irq(irq_pin);
-c97c4090ff7229 Bjorn Andersson 2015-09-24  223  			}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  224  		}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  225  	}
-c97c4090ff7229 Bjorn Andersson 2015-09-24  226  
-c97c4090ff7229 Bjorn Andersson 2015-09-24  227  	return IRQ_HANDLED;
-c97c4090ff7229 Bjorn Andersson 2015-09-24  228  }
-c97c4090ff7229 Bjorn Andersson 2015-09-24  229  
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  620  
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  621  static int alloc_fbmem(struct omapfb_mem_region *region)
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  622  {
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  623  	int bpp;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  624  	int frame_size;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  625  	struct lcd_panel *panel = lcdc.fbdev->panel;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  626  
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  627  	bpp = panel->bpp;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  628  	if (bpp == 12)
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  629  		bpp = 16;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  630  	frame_size = PAGE_ALIGN(panel->x_res * bpp / 8 * panel->y_res);
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  631  	if (region->size > frame_size)
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  632  		frame_size = region->size;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  633  	lcdc.vram_size = frame_size;
+f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  634  	lcdc.vram_virt = dma_alloc_wc(lcdc.fbdev->dev, lcdc.vram_size,
+f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  635  				      &lcdc.vram_phys, GFP_KERNEL);
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  636  	if (lcdc.vram_virt == NULL) {
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  637  		dev_err(lcdc.fbdev->dev, "unable to allocate FB DMA memory\n");
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  638  		return -ENOMEM;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  639  	}
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  640  	region->size = frame_size;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  641  	region->paddr = lcdc.vram_phys;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17 @642  	region->vaddr = lcdc.vram_virt;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  643  	region->alloc = 1;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  644  
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  645  	memset(lcdc.vram_virt, 0, lcdc.vram_size);
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  646  
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  647  	return 0;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  648  }
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  649  
 
-:::::: The code at line 152 was first introduced by commit
-:::::: c97c4090ff72297a878a37715bd301624b71c885 soc: qcom: smsm: Add driver for Qualcomm SMSM
+:::::: The code at line 642 was first introduced by commit
+:::::: 569755c706f0f94409edd2ae60b9878cb420844f OMAP: add TI OMAP1 internal LCD controller
 
-:::::: TO: Bjorn Andersson <bjorn.andersson@sonymobile.com>
-:::::: CC: Andy Gross <agross@codeaurora.org>
+:::::: TO: Imre Deak <imre.deak@solidboot.com>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
