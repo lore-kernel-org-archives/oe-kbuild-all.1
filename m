@@ -1,257 +1,145 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE1FD53E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 13:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0832837F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 14:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ikGDSC18"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701696640;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dxoqRDgdXk5Yr1EiBpyguZ5lcj/kgoCW2/8o6Ow1dEg=;
-	b=ikGDSC18/HqnXOgAeVIRYxkARn13FqIsC5jSusEYJQCpAXV0PNXq8HrW8Nu+aj7TvFNVzT
-	pjhZNykA97yLqkozOuaazdL3bZzdP2SvV+9xfKkD5+70pk8rzDppP0d8hRP9gniqfekPEt
-	ovT6bdBscY4IKWnJtbCOgc030Mm1dm0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-595-EhQep9JEO_COc-NdK34F1A-1; Mon, 04 Dec 2023 08:30:36 -0500
-X-MC-Unique: EhQep9JEO_COc-NdK34F1A-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C36F185A78E;
-	Mon,  4 Dec 2023 13:30:36 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.49])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D0B73492BFC;
-	Mon,  4 Dec 2023 13:30:35 +0000 (UTC)
-Date: Mon, 4 Dec 2023 08:30:32 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, Suwan Kim <suwan.kim027@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>, Max Gurtovoy <mgurtovoy@nvidia.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>, pbonzini@redhat.com
-Subject: Re: drivers/block/virtio_blk.c:570:68: warning: '%d' directive
- output may be truncated writing between 1 and 11 bytes into a region of size
- 7
-Message-ID: <20231204133032.GA1469867@fedora>
-References: <202312041509.DIyvEt9h-lkp@intel.com>
- <20231204040038-mutt-send-email-mst@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EyN0FeGa"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-548f853fc9eso5852402a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Dec 2023 06:09:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701698974; x=1702303774; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C7YWLKYL+TZy0FDvwaUZBqPs1GQRI/NVi7Z/lE5VeVA=;
+        b=EyN0FeGaZDibIHtlURniCS8bb0IYdkox67hbibFeCNafbHaJSbADGYXIUf+Cbh36jb
+         xWFFpyy4ZXe/QquglWeCdAnspuJQzbeA60S2CFOk6b9iVJKy1LsoCtLEzMyjell5p6Uo
+         l9/aZbMw+3Bvum0e9aZcCd7NwZg2HlzWT9dQZjujq+ArAaVUpLbu+rPGoFNQjsgusTFC
+         nKlliRKYFssVDa2DGNTPWP31ZSftxMRKhZHbAr28J1UqPeq6w7YY0ID8mM0LRyRdqbNV
+         P7Un4AYeow3mSjEgjO+wVtdTx2f0qUi91PaWX6TaHUrub/nWG9xA5KNuQC3KEcD0KF82
+         YgQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701698974; x=1702303774;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C7YWLKYL+TZy0FDvwaUZBqPs1GQRI/NVi7Z/lE5VeVA=;
+        b=Ym+YlRdFrAAz0Z/GWxZFTxKxJyMWJx2rWKem3WEezL2TuBnCdgMTJSwyLM03dKMCCl
+         IEaM4b3cZsZlpw5GuyxjL30N+/ErGwXimsHhztpPNa2Coi4JHyLhhJD/BPJL/kMVVeM+
+         6/3WOtn70YLA3VQRLYaIA1gC0xCXxq7/Y9D4CXuH/yi6wwiKUF8uB07fxxVHXhn/2wSa
+         tM9f1EfMldm3zLEafhTQ2xba6Ao81nAN1iUTqioY3oTaTar2Xy+vYFQEbHp/qdl2Z9cL
+         5bc2DhBmAGEFPT/RDOUOhQrDDZj1BEHrjMOXnyrvye7RCVKGTIDMnDTEqmjD+le747DB
+         4JcA==
+X-Gm-Message-State: AOJu0Yx9B9AdLxVf+fabokEda/KrkU6VI6JGOZwEjdXbWufZWdGcpC9F
+	wn1kDlJBy7wKg03gEXg6l7I=
+X-Google-Smtp-Source: AGHT+IEKL6I3Me3IGNDzZQExj7E7RsatGLFgDyXh3e3OviqfoXTTEGQeOZ/7ee3tEg3WaSqPC9bDzw==
+X-Received: by 2002:a17:906:73c2:b0:a19:d40a:d1e8 with SMTP id n2-20020a17090673c200b00a19d40ad1e8mr1648024ejl.180.1701698973692;
+        Mon, 04 Dec 2023 06:09:33 -0800 (PST)
+Received: from mail ([87.66.46.106])
+        by smtp.gmail.com with ESMTPSA id gq18-20020a170906e25200b009ad89697c86sm5416098ejb.144.2023.12.04.06.09.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Dec 2023 06:09:33 -0800 (PST)
+Date: Mon, 4 Dec 2023 15:09:32 +0100
+From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>, 
+	kernel test robot <lkp@intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	linux-sparse@vger.kernel.org
+Subject: Re: drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from
+ restricted pci_channel_state_t
+Message-ID: <ilupya2l2yaseiokhgal65alkzbubylgz3nkdabqipi3xhbzxi@dkbofpqmuwdn>
+References: <Y/7ZzYyisv1ylrho@kadam>
+ <Y/7YN7U9Q2iqNDFo@kadam>
+ <20231203165932.GA6480@wunner.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fTQDD8oZaQ/Bt8qL"
-Content-Disposition: inline
-In-Reply-To: <20231204040038-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
-
-
---fTQDD8oZaQ/Bt8qL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231203165932.GA6480@wunner.de>
 
-On Mon, Dec 04, 2023 at 04:02:07AM -0500, Michael S. Tsirkin wrote:
-> On Mon, Dec 04, 2023 at 04:56:35PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git master
-> > head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-> > commit: 4e0400525691d0e676dbe002641f9a61261f1e1b virtio-blk: support po=
-lling I/O
-> > date:   1 year, 6 months ago
-> > config: x86_64-buildonly-randconfig-006-20230906 (https://download.01.o=
-rg/0day-ci/archive/20231204/202312041509.DIyvEt9h-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20231204/202312041509.DIyvEt9h-lkp@intel.com/reproduce)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202312041509.DIyvEt9h-l=
-kp@intel.com/
-> >=20
-> > All warnings (new ones prefixed by >>):
-> >=20
-> >    drivers/block/virtio_blk.c: In function 'init_vq':
-> > >> drivers/block/virtio_blk.c:570:68: warning: '%d' directive output ma=
-y be truncated writing between 1 and 11 bytes into a region of size 7 [-Wfo=
-rmat-truncation=3D]
-> >      570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "re=
-q_poll.%d", i);
-> >          |                                                             =
-       ^~
-> >    drivers/block/virtio_blk.c:570:58: note: directive argument in the r=
-ange [-2147483648, 65534]
-> >      570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "re=
-q_poll.%d", i);
-> >          |                                                          ^~~=
-~~~~~~~~~~
-> >    drivers/block/virtio_blk.c:570:17: note: 'snprintf' output between 1=
-1 and 21 bytes into a destination of size 16
-> >      570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "re=
-q_poll.%d", i);
-> >          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~
-> >=20
-> >=20
-> > vim +570 drivers/block/virtio_blk.c
-> >=20
-> >    511=09
-> >    512	static int init_vq(struct virtio_blk *vblk)
-> >    513	{
-> >    514		int err;
-> >    515		int i;
-> >    516		vq_callback_t **callbacks;
-> >    517		const char **names;
-> >    518		struct virtqueue **vqs;
-> >    519		unsigned short num_vqs;
-> >    520		unsigned int num_poll_vqs;
-> >    521		struct virtio_device *vdev =3D vblk->vdev;
-> >    522		struct irq_affinity desc =3D { 0, };
-> >    523=09
-> >    524		err =3D virtio_cread_feature(vdev, VIRTIO_BLK_F_MQ,
-> >    525					   struct virtio_blk_config, num_queues,
-> >    526					   &num_vqs);
-> >    527		if (err)
-> >    528			num_vqs =3D 1;
-> >    529=09
-> >    530		if (!err && !num_vqs) {
-> >    531			dev_err(&vdev->dev, "MQ advertised but zero queues reported\n"=
-);
-> >    532			return -EINVAL;
-> >    533		}
-> >    534=09
-> >    535		num_vqs =3D min_t(unsigned int,
-> >    536				min_not_zero(num_request_queues, nr_cpu_ids),
-> >    537				num_vqs);
-> >    538=09
-> >    539		num_poll_vqs =3D min_t(unsigned int, poll_queues, num_vqs - 1);
-> >    540=09
-> >    541		vblk->io_queues[HCTX_TYPE_DEFAULT] =3D num_vqs - num_poll_vqs;
-> >    542		vblk->io_queues[HCTX_TYPE_READ] =3D 0;
-> >    543		vblk->io_queues[HCTX_TYPE_POLL] =3D num_poll_vqs;
-> >    544=09
-> >    545		dev_info(&vdev->dev, "%d/%d/%d default/read/poll queues\n",
-> >    546					vblk->io_queues[HCTX_TYPE_DEFAULT],
-> >    547					vblk->io_queues[HCTX_TYPE_READ],
-> >    548					vblk->io_queues[HCTX_TYPE_POLL]);
-> >    549=09
-> >    550		vblk->vqs =3D kmalloc_array(num_vqs, sizeof(*vblk->vqs), GFP_KE=
-RNEL);
-> >    551		if (!vblk->vqs)
-> >    552			return -ENOMEM;
-> >    553=09
-> >    554		names =3D kmalloc_array(num_vqs, sizeof(*names), GFP_KERNEL);
-> >    555		callbacks =3D kmalloc_array(num_vqs, sizeof(*callbacks), GFP_KE=
-RNEL);
-> >    556		vqs =3D kmalloc_array(num_vqs, sizeof(*vqs), GFP_KERNEL);
-> >    557		if (!names || !callbacks || !vqs) {
-> >    558			err =3D -ENOMEM;
-> >    559			goto out;
-> >    560		}
-> >    561=09
-> >    562		for (i =3D 0; i < num_vqs - num_poll_vqs; i++) {
-> >    563			callbacks[i] =3D virtblk_done;
-> >    564			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req.%d", i);
-> >    565			names[i] =3D vblk->vqs[i].name;
-> >    566		}
-> >    567=09
-> >    568		for (; i < num_vqs; i++) {
-> >    569			callbacks[i] =3D NULL;
-> >  > 570			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
-> >    571			names[i] =3D vblk->vqs[i].name;
-> >    572		}
-> >    573=09
-> >    574		/* Discover virtqueues and write information to configuration. =
- */
-> >    575		err =3D virtio_find_vqs(vdev, num_vqs, vqs, callbacks, names, &=
-desc);
-> >    576		if (err)
-> >    577			goto out;
-> >    578=09
-> >    579		for (i =3D 0; i < num_vqs; i++) {
-> >    580			spin_lock_init(&vblk->vqs[i].lock);
-> >    581			vblk->vqs[i].vq =3D vqs[i];
-> >    582		}
-> >    583		vblk->num_vqs =3D num_vqs;
-> >    584=09
-> >    585	out:
-> >    586		kfree(vqs);
-> >    587		kfree(callbacks);
-> >    588		kfree(names);
-> >    589		if (err)
-> >    590			kfree(vblk->vqs);
-> >    591		return err;
-> >    592	}
-> >    593=09
-> >=20
-> > --=20
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
->=20
-> Stefan, Paolo,
-> It's a false positive but do we want to fix it? Make i unsigned?
+On Sun, Dec 03, 2023 at 05:59:32PM +0100, Lukas Wunner wrote:
+> Hi Dan,
+> 
+> > > Please advise whether these sparse warnings are false positives which
+> > > can be ignored and if they aren't, how to resolve them.  If you happen
+> > > to know the rationale for the cast, I'd be grateful if you could shed
+> > > some light on it.  Thanks a lot!
+> > 
+> > The question is more why is pci_channel_state_t declared as __bit_wise.
+> > __bit_wise data can only be used through accessor functions, like user
+> > pointers have to go through copy_from_user() and endian data has to go
+> > through le32_to_cpu() etc.
+> 
+> __bitwise is not only to ensure endian correctness.  It can be used to
+> define data types which are integer-based, but treated as a distinct
+> data type by sparse.  A pci_channel_state_t value cannot be assigned
+> to an integer variable of a different type, for example.
 
-It's a false positive:
+Correct. It was done on purpose to make a sort of 'strong' enum type,
+and thus warn if pci_channel_state_t values are mixed with some other types.
+ 
+> A few arches define arch_xchg() and arch_cmpxchg() as pure macros.
+> The sparse warning for pci_channel_state_t does not appear on those
+> arches.  (These are:  arc csky riscv x86)
+> 
+> All other arches use a mix of macros and static inlines to define
+> arch_xchg() and arch_cmpxchg().  The static inlines use unsigned long
+> as argument and return types and the macros cast the argument type to
+> unsigned long.
+>
+> Why are the casts necessary?  Because there are callers of xchg() and
+> cmpxchg() which pass pointers instead of integers as arguments.
 
-That maximum number of virtqueues is 65535. That's 5 characters. The
-maximum value of num_poll_vqs is actually 65534 because it's capped at
-num_vqs - 1.
+Hmmm, I'm missing the precise context but it make me wonder what's happening
+on 64-bit archs where enums are usually only 32-bit ...
 
-The warning reveals that the analysis thinks i can be negative:
+> Examples include llist_del_all(), __wake_q_add(), mark_oom_victim(),
+> fsnotify_attach_connector_to_object().  (Note that NULL is defined as
+> "(void *)0".)
+> 
+> When using xchg() or cmpxchg() with __bitwise arguments (as is done
+> by commit 74ff8864cc84 in pci_dev_set_io_state()), the arches which
+> define arch_xchg() and arch_cmpxchg() with static inlines see sparse
+> warnings because the __bitwise arguments are cast to unsigned long.
+> Those arches are:  alpha arm arm64 hexagon loongarch m68k mips openrisc
+> parisc powerpc s390 sh sparc xtensa
 
-  drivers/block/virtio_blk.c:570:58: note: directive argument in the range =
-[-2147483648, 65534]
+OK, if the underlying macros do as:
+	switch (size) {
+	case 1: ...
+then things are ok there (but only if the size is given by a sizeof() of
+the correct type (not casted to long or something).
 
-It can't because of num_poll_vqs =3D min_t(unsigned int, poll_queues,
-num_vqs - 1).
+> Indeed adding __force to the cast, as you suggest, should avoid the
+> issue.  sparse cannot parse the inline assembler, so it does not
+> understand that arch_xchg() and arch_cmpxchg() internally perform a
+> comparison and/or assignment.  By adding __force, we therefore do not
+> lose any validation coverage.
 
-VQ_NAME_LEN is 16, so 9 bytes are used for "req_poll." and the NUL
-terminator:
+Yes, indeed, using __force inside specific accessors or any low-level macros,
+like here these arch_xchg(), is OK. It's done in plenty of similar cases.
 
-  snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
+> A better approach might be to teach sparse that arch_xchg() and
+> arch_cmpxchg() internally perform a comparison and/or assignment.
+> Then sparse could validate the argument and return value types.
+> 
+> builtin.c in the sparse source code already contains functions
+> to handle __atomic_exchange() and __atomic_compare_exchange(),
+> so I think xchg() and cmpxchg() should be handled there as well.
 
-9 + 5 =3D 14 is always less than VQ_NAME_LEN (16), so it looks like a
-false positive.
+I don't agree. Sparse shouldn't know about the semantics of functions
+in the kernel. Sparse offers some tools (annotations like the __bitwise,
+noderef or address_space attributes for __user, __iomem, ... and type
+checking stricter than standard/GCC C). By using these annotations, the
+kernel can define a stricter semantic, that better suits its needs,
+Sparse should know nothing about this, it's not its job.
 
-That said, it's still worth cleaning up the types because they are
-inconsistent:
-
-  unsigned short num_vqs;
-  unsigned int num_poll_vqs;
-
-and using "%d" for an unsigned value also contributes to the problem.
-
-I'll send a patch.
-
-Stefan
-
---fTQDD8oZaQ/Bt8qL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmVt1HgACgkQnKSrs4Gr
-c8hQGQgAvC3ypf09nxspqWWmTwKQ5WPNuYK6tbKgobVobv/Nt4xTgQrwfPqw8t18
-m9ULsVX8BnDdbsfub1kpMubgs4+FPA8mISHgJ1SbLpZgOnL15FXIisvAt8qvmnJx
-0YjALwS45322iYDa/Dm7VBQhxWw+hXjME+LCu2Qo3EKQ7lNjutfB7cU47KiE2wyT
-nH+toBH87ogKD0xvFg+Ste2A6mt129e2Ci1ed1ORwhbcWCXqGlurjDTF7RpGqmlS
-DF2rw9PNHjcNEYWKx84liDFJ/6x3l1/pEtjzaYHn8MZlSJ31UrgUyUKaz1z2U7Gl
-iatD64or1r4StlZmOBtZlMHrhsrIWw==
-=aXtt
------END PGP SIGNATURE-----
-
---fTQDD8oZaQ/Bt8qL--
-
+Best regards,
+-- Luc
