@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88F4286AE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 14:13:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5247D286AF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 14:13:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NlCPRfIh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VibcrqWE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701699180; x=1733235180;
+  t=1701699181; x=1733235181;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PbGY3aZDcKu1LvR2aqPiB2HKppVgN9FbB4UMnBHZKF0=;
-  b=NlCPRfIh1lgVrzK+3BkD5eFOL0upeDavneLqG3efzqPI56Hf01/7pRvH
-   0xKIE2cS1wlzHbVNOuypcJ1LNHxcBuwVOcIdNzSEf6OmzFvelwTdQ4gxv
-   5S/gz1nNn/7CLIgkQbYGJhMEsZex2dYOF63+1GVidU/34Qltky9RSoPy1
-   orr6iO8TKqXhwo0hXgyG3Ir2B5qZIXpvpVwP79YCnGn+78wPgBqriFo24
-   3nZvwk+302JQPdBf+ImBatuX/VgKW2j41pXwa7HbUzBDoNfqdocJ6HZL8
-   0ue6kAS9e16iWXaG5PaT7DgOGjvSaXQiyCbgOs0ezqZ//wQGMUyCTXRgw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="373169365"
+  bh=MXhTUKskcobwCrPLD/euScyvX+4fETPObP25ded9Org=;
+  b=VibcrqWEhXNz3dX7PGcVe/WcPGJhgu5Yh0pppQ9J35QVDWZAlKFo1qhZ
+   XHoD6xT4Z31pUEVHYMDHIohvQ674zWisaecbPp1/tAxJURPAeBOYY8uxO
+   uJEdfjOdpPXCOZNbeO4ID16AI76sIhXYnPfUku5OLNwnP3soPhNCHg09q
+   hKB6XHuaOo5yH8UJ19ie20dtaZg02cjKuhRyiR+f8n5SuLMcL1T3T03LB
+   xsjZ21EpvKKUseSESpUesleP46NE2ugpmRaklSdQ82ShSi0Oqq6Rj+SZw
+   hBUaYECj847tJqf58bV6z8lIZ8m3Epd9PWMXhmr0NrrXL9ckU+XxIBOcT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="458059597"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="373169365"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 06:12:57 -0800
+   d="scan'208";a="458059597"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 06:12:57 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888540359"
 X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
-   d="scan'208";a="11983369"
+   d="scan'208";a="888540359"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 04 Dec 2023 06:12:56 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 04 Dec 2023 06:12:55 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rA9gr-0007nY-1W;
+	id 1rA9gr-0007ni-29;
 	Mon, 04 Dec 2023 14:12:53 +0000
-Date: Mon, 4 Dec 2023 22:12:33 +0800
+Date: Mon, 4 Dec 2023 22:12:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shravan Kumar Ramani <shravankr@nvidia.com>
+To: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>,
-	Vadim Pasternak <vadimp@nvidia.com>,
-	David Thompson <davthompson@nvidia.com>
-Subject: drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse: sparse:
- incorrect type in assignment (different address spaces)
-Message-ID: <202312042213.OMFwdhWO-lkp@intel.com>
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Subject: arch/sh/include/cpu-sh2/cpu/watchdog.h:44:16: sparse: sparse:
+ incorrect type in argument 1 (different base types)
+Message-ID: <202312042150.BH4sJFe4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,68 +53,80 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: 423c3361855c1e81f1cb91728a2ac5ddfd2cbf16 platform/mellanox: mlxbf-pmc: Add support for BlueField-3
-date:   3 months ago
-config: arm64-randconfig-r121-20231116 (https://download.01.org/0day-ci/archive/20231204/202312042213.OMFwdhWO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231204/202312042213.OMFwdhWO-lkp@intel.com/reproduce)
+commit: e5fc436f06eef54ef512ea55a9db8eb9f2e76959 sparse: use static inline for __chk_{user,io}_ptr()
+date:   3 years, 3 months ago
+config: sh-randconfig-r111-20231117 (https://download.01.org/0day-ci/archive/20231204/202312042150.BH4sJFe4-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231204/202312042150.BH4sJFe4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312042213.OMFwdhWO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312042150.BH4sJFe4-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
-   drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse:     expected void *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse:     got void [noderef] __iomem *
->> drivers/platform/mellanox/mlxbf-pmc.c:1174:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
-   drivers/platform/mellanox/mlxbf-pmc.c:1174:31: sparse:     expected void [noderef] __iomem *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1174:31: sparse:     got void *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1186:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
-   drivers/platform/mellanox/mlxbf-pmc.c:1186:32: sparse:     expected void [noderef] __iomem *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1186:32: sparse:     got void *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1194:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
-   drivers/platform/mellanox/mlxbf-pmc.c:1194:14: sparse:     expected void *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1194:14: sparse:     got void [noderef] __iomem *
-   drivers/platform/mellanox/mlxbf-pmc.c:1198:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
-   drivers/platform/mellanox/mlxbf-pmc.c:1198:32: sparse:     expected void [noderef] __iomem *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1198:32: sparse:     got void *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1415:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
-   drivers/platform/mellanox/mlxbf-pmc.c:1415:14: sparse:     expected void *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1415:14: sparse:     got void [noderef] __iomem *
-   drivers/platform/mellanox/mlxbf-pmc.c:1417:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
-   drivers/platform/mellanox/mlxbf-pmc.c:1417:31: sparse:     expected void [noderef] __iomem *addr
-   drivers/platform/mellanox/mlxbf-pmc.c:1417:31: sparse:     got void *addr
+   drivers/watchdog/shwdt.c: note: in included file:
+   arch/sh/include/asm/watchdog.h:144:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:144:16: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:144:16: sparse:     got unsigned int
+   arch/sh/include/asm/watchdog.h:156:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:156:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:156:9: sparse:     got unsigned int
+   arch/sh/include/asm/watchdog.h:134:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:134:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:134:9: sparse:     got unsigned int
+   arch/sh/include/asm/watchdog.h:144:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:144:16: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:144:16: sparse:     got unsigned int
+   arch/sh/include/asm/watchdog.h:156:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:156:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:156:9: sparse:     got unsigned int
+   drivers/watchdog/shwdt.c: note: in included file (through arch/sh/include/asm/watchdog.h):
+>> arch/sh/include/cpu-sh2/cpu/watchdog.h:44:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/cpu-sh2/cpu/watchdog.h:44:16: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/cpu-sh2/cpu/watchdog.h:44:16: sparse:     got unsigned int
+   arch/sh/include/cpu-sh2/cpu/watchdog.h:62:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/cpu-sh2/cpu/watchdog.h:62:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/cpu-sh2/cpu/watchdog.h:62:9: sparse:     got unsigned int
+   drivers/watchdog/shwdt.c: note: in included file:
+   arch/sh/include/asm/watchdog.h:144:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:144:16: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:144:16: sparse:     got unsigned int
+   arch/sh/include/asm/watchdog.h:156:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:156:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:156:9: sparse:     got unsigned int
+   arch/sh/include/asm/watchdog.h:144:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:144:16: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:144:16: sparse:     got unsigned int
+   arch/sh/include/asm/watchdog.h:156:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:156:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:156:9: sparse:     got unsigned int
+   arch/sh/include/asm/watchdog.h:134:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/asm/watchdog.h:134:9: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/asm/watchdog.h:134:9: sparse:     got unsigned int
 
-vim +1172 drivers/platform/mellanox/mlxbf-pmc.c
+vim +44 arch/sh/include/cpu-sh2/cpu/watchdog.h
 
-  1163	
-  1164	/* Method to handle crspace counter programming */
-  1165	static int mlxbf_pmc_program_crspace_counter(int blk_num, uint32_t cnt_num,
-  1166						     uint32_t evt)
-  1167	{
-  1168		uint32_t word;
-  1169		void *addr;
-  1170		int ret;
-  1171	
-> 1172		addr = pmc->block[blk_num].mmio_base +
-  1173			(rounddown(cnt_num, 2) * MLXBF_PMC_CRSPACE_PERFSEL_SZ);
-> 1174		ret = mlxbf_pmc_readl(addr, &word);
-  1175		if (ret)
-  1176			return ret;
-  1177	
-  1178		if (cnt_num % 2) {
-  1179			word &= ~MLXBF_PMC_CRSPACE_PERFSEL1;
-  1180			word |= FIELD_PREP(MLXBF_PMC_CRSPACE_PERFSEL1, evt);
-  1181		} else {
-  1182			word &= ~MLXBF_PMC_CRSPACE_PERFSEL0;
-  1183			word |= FIELD_PREP(MLXBF_PMC_CRSPACE_PERFSEL0, evt);
-  1184		}
-  1185	
-  1186		return mlxbf_pmc_write(addr, MLXBF_PMC_WRITE_REG_32, word);
-  1187	}
-  1188	
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  33  
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  34  /**
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  35   * 	sh_wdt_read_rstcsr - Read from Reset Control/Status Register
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  36   *
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  37   *	Reads back the RSTCSR value.
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  38   */
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  39  static inline __u8 sh_wdt_read_rstcsr(void)
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  40  {
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  41  	/*
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  42  	 * Same read/write brain-damage as for WTCNT here..
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  43  	 */
+9d56dd3b083a3b arch/sh/include/cpu-sh2/cpu/watchdog.h Paul Mundt     2010-01-26 @44  	return __raw_readb(RSTCSR_R);
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  45  }
+^1da177e4c3f41 include/asm-sh/cpu-sh2/watchdog.h      Linus Torvalds 2005-04-16  46  
+
+:::::: The code at line 44 was first introduced by commit
+:::::: 9d56dd3b083a3bec56e9da35ce07baca81030b03 sh: Mass ctrl_in/outX to __raw_read/writeX conversion.
+
+:::::: TO: Paul Mundt <lethal@linux-sh.org>
+:::::: CC: Paul Mundt <lethal@linux-sh.org>
 
 -- 
 0-DAY CI Kernel Test Service
