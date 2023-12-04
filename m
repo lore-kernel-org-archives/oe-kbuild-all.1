@@ -1,291 +1,328 @@
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA277A20
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 12:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBC4249EF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 13:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="btD4rzb6"
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231204124931epoutp025241ca7686e3efd362010f6a096cbcb0~dodU_MiqX1826418264epoutp02Z
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 12:49:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231204124931epoutp025241ca7686e3efd362010f6a096cbcb0~dodU_MiqX1826418264epoutp02Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1701694171;
-	bh=VNCGx9Dl6MbdG/gjE2tknXBaXkzBoUBtvrgH9+9Pj4c=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=btD4rzb6T31jq2jejx/HzcRJyUZO38/g3VmtetlMR5qAcSuDFpqrQdM+3kdos8akK
-	 FmIALffr58sq5IEhZwaO8Rxy+BXlL96dopcMSkWapW397d5PGVV2LGxbNAyEE4wzPP
-	 aX6GS2ofYHL2kQsbKrQwslYB+gemgfH/62DMLPS0=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20231204124931epcas1p1258b14dd988d4e06b9058eb47b4b0872~dodUtz_WP1149311493epcas1p1D;
-	Mon,  4 Dec 2023 12:49:31 +0000 (GMT)
-Received: from epsmges1p4.samsung.com (unknown [182.195.36.144]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4SkNlt2WQBz4x9Pr; Mon,  4 Dec
-	2023 12:49:30 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-	epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-	75.77.10211.ADACD656; Mon,  4 Dec 2023 21:49:30 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
-	20231204124930epcas1p41e9244b89fc3d74c74d89173dcef792a~dodToYRov2681826818epcas1p4r;
-	Mon,  4 Dec 2023 12:49:30 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20231204124930epsmtrp15dc5f01dd1c718ca7896692aed64fdd6~dodTnqf192720727207epsmtrp1J;
-	Mon,  4 Dec 2023 12:49:30 +0000 (GMT)
-X-AuditID: b6c32a38-6d3fd700000027e3-fd-656dcada76e0
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	33.02.08817.9DACD656; Mon,  4 Dec 2023 21:49:29 +0900 (KST)
-Received: from cw00choi03 (unknown [10.113.111.106]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20231204124929epsmtip14352414354501438a15357e7d9c7dcff~dodTXuaPO0534705347epsmtip1f;
-	Mon,  4 Dec 2023 12:49:29 +0000 (GMT)
-From: "Chanwoo Choi" <cw00.choi@samsung.com>
-To: "'Lukas Funke'" <lukas.funke-oss@weidmueller.com>, <lkp@intel.com>,
-	"'MyungJoo Ham'" <myungjoo.ham@samsung.com>
-Cc: <Lukas.Funke@weidmueller.com>, <linux-kernel@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, "'Lukas Funke'"
-	<lukas.funke@weidmueller.com>
-In-Reply-To: 
-Subject: RE: [PATCH v2] extcon: usbc-tusb320: Set interrupt polarity based
- on device-tree
-Date: Mon, 4 Dec 2023 21:49:29 +0900
-Message-ID: <002e01da26b0$52582960$f7087c20$@samsung.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SMYtCWJA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701695337; x=1733231337;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jt4dG0Ax5B7mam+phBzdeLlKM4K2Uj3vLvGvw7F0WMY=;
+  b=SMYtCWJALs7W0tD1JS3VQdKocS79jTxa5fANhh4PMuxvwEk28cZGYBrg
+   bmGIE+xMqF7vUvjDp0i6b94TnSPkXkjo1VxFzOokRgrydUtco4Juj8Qm8
+   xv5l1OxDpCn245tqm3WulpLVqcmOzTdg8bXyULAtlnPBbgVXMsX9XO9b0
+   jS0WhsV1M2sesEII4smPqO4IJemAo5Qly3P1dGjW6j+hv5tNJWcqlCKTC
+   I55zIdsGi3iRJPehHnXnvwpUH5UL5aKCd1aiOOIDMlFmzyThcLvYdIdzr
+   HAkoF4UHFt3+679ax6o/ClswnepVrBVLADNM5Y7iLkvWC+2WnJ/KBqTSX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="775052"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="775052"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 05:08:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="720316249"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="720316249"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 04 Dec 2023 05:08:54 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rA8gt-0007ko-1H;
+	Mon, 04 Dec 2023 13:08:51 +0000
+Date: Mon, 4 Dec 2023 21:07:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: io_uring/poll.c:164:38: sparse: sparse: incorrect type in assignment
+ (different base types)
+Message-ID: <202312042139.BmQd4R0y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIM5zhv5YhESJxix+B2YaYbT/bXQwBbQ2wPAnvXN6ewHM4PUIAABmJQgAACYWA=
-Content-Language: ko
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprIJsWRmVeSWpSXmKPExsWy7bCmnu6tU7mpBtfahCwu75rDZvGq+RGb
-	xfZPt1ktpk9ZyGxxu3EFm8WhlVeYHNg8Fu95yeTxYvNMRo++LasYPT5vkvPYsmoRWwBrVLZN
-	RmpiSmqRQmpecn5KZl66rZJ3cLxzvKmZgaGuoaWFuZJCXmJuqq2Si0+ArltmDtAFSgpliTml
-	QKGAxOJiJX07m6L80pJUhYz84hJbpdSClJwC0wK94sTc4tK8dL281BIrQwMDI1OgwoTsjCPT
-	bjAXfDKoWHHSp4HxoXoXIyeHhICJxI6FZxi7GLk4hAR2MErc2XASyvnEKLGpdw8LhPONUeLK
-	1jcsMC3HdhxlBLGFBPYyStx7bA5R9JJR4uy7LuYuRg4ONgEdiQU/QkFqRARKJc6tncQKUsMs
-	MJVR4tCFFawgNZwCvBIT/lmD1AgLREt8fvKNGcRmEVCRaHlwDmw+r4ClRNfTRWwQtqDEyZlP
-	wG5gFpCX2P52DjPEPQoSP58uAxspIuAncabbBqJERGJ2ZxszyFoJgV4OiXVXJ0Hd7yLRuOg2
-	E4QtLPHq+BZ2CFtK4mV/GztEw2RGiYuvX0N1r2eU2LiyBWqbscT+pZOZQLYxC2hKrN+lDxFW
-	lNj5ey4jxGY+iXdfe8AOkgD6saNNCKJEWeLyg7tQeyUlFrd3sk1gVJqF5LVZSF6bheSHWQjL
-	FjCyrGIUSy0ozk1PLTYsMIHHdXJ+7iZGcNrUstjBOPftB71DjEwcjIcYJTiYlUR4593KThXi
-	TUmsrEotyo8vKs1JLT7EaAoM7InMUqLJ+cDEnVcSb2hiaWBiZmRsYmFoZqgkznvsVW+KkEB6
-	YklqdmpqQWoRTB8TB6dUA5PMkYthFn/+JcW3+QiwZns+mR5dZlUbeSn6TkitzsMpS/dVdgSe
-	lNCQ/2CaMMdSpX5lhskU3kUGsjfzRU4nXDIWebLhkydXrMt9yV+JXcd8LeJyym0LtgUXztap
-	MXQSm+xwo1/ybEt8QF+z6Qd9+UnzN0/yf7DP55kZA4t7VPjsxT+jDZ6nHTJ9EsiX5bR3jeDy
-	tF3zqw5pSTd7J6Smt/OIKvZNbLJqfeJ3/e6ES3++PJ1yUM/nrnevhtGyvp/bFRN+XrNtCjwd
-	yKS/WtKpzfDZtAU3FyzdFbzpd+TXkhMHzLmSz+gsCSo94Xv1nPkSr7A0T6XtV5x+PJ6u322X
-	3vNj41yxNp0ko/OXl4qvVWIpzkg01GIuKk4EAHvFcqYkBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJLMWRmVeSWpSXmKPExsWy7bCSnO7NU7mpBsv7TS0u75rDZvGq+RGb
-	xfZPt1ktpk9ZyGxxu3EFm8WhlVeYHNg8Fu95yeTxYvNMRo++LasYPT5vkvPYsmoRWwBrFJdN
-	SmpOZllqkb5dAlfGkWk3mAs+GVSsOOnTwPhQvYuRk0NCwETi2I6jjF2MXBxCArsZJe5vPMkM
-	kZCUmHbxKJDNAWQLSxw+XAxR85xRYtmKpewgcTYBHYkFP0JBykUEyiXe93eygdQwC0xnlLh1
-	/R7U0P2MEi+3v2YDaeAU4JWY8M8apEFYIFJi7+MbjCA2i4CKRMuDc2A2r4ClRNfTRWwQtqDE
-	yZlPWEBamQX0JNo2gpUwC8hLbH87B+pMBYmfT5exgpSICPhJnOm2gSgRkZjd2cY8gVF4FpJB
-	sxAGzUIyaBaSjgWMLKsYJVMLinPTc4sNC4zyUsv1ihNzi0vz0vWS83M3MYJjR0trB+OeVR/0
-	DjEycTAeYpTgYFYS4Z13KztViDclsbIqtSg/vqg0J7X4EKM0B4uSOO+3170pQgLpiSWp2amp
-	BalFMFkmDk6pBibJ+V+UxHTfRxkFPHrNpdAY0H+B3fJ/xM0/SfLLNDbek7u1dqZXW2BFWkxB
-	iWaZ4Y+3jRMeLVGeML+kUqn1NNPaxV+vB85zZT+9ckHJndppimcO6E/kLs54lu2pJxcYU7l7
-	3q9iyaV6N9+G/7wZZ7v//tK9IWnmu2Qib2YfP7I4s7VhmftJxqn9M/euZDiqzBokLyO32FBx
-	ad2KO3rPdbPllhztn8R793jzjfAF5vGpjbfCcsxNk3OFJ2ZnPWE/HdFqcN9chPNeyvr8omV8
-	2nkPlrD5bDQWzWzhODdPd8HZqGmWeUvD5974PmFdl+Hq1XY7dCOrfGUEXTfdl0kQ5xcs0Pie
-	e7wxW7au5u4LIyWW4oxEQy3mouJEAL5/4mgMAwAA
-X-CMS-MailID: 20231204124930epcas1p41e9244b89fc3d74c74d89173dcef792a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231122080822epcas1p23e2e80d3db305229f9d611d79b667a2f
-References: <202311221355.yxYpTIw3-lkp@intel.com>
-	<CGME20231122080822epcas1p23e2e80d3db305229f9d611d79b667a2f@epcas1p2.samsung.com>
-	<20231122080749.947682-1-lukas.funke-oss@weidmueller.com>  
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
+commit: 329061d3e2f9a0082a097e9558bd5497098586c6 io_uring: move poll handling into its own file
+date:   1 year, 4 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231204/202312042139.BmQd4R0y-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312042139.BmQd4R0y-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312042139.BmQd4R0y-lkp@intel.com/
 
-> -----Original Message-----
-> From: Chanwoo Choi <cw00.choi@samsung.com>
-> Sent: Monday, December 4, 2023 9:33 PM
-> To: 'Lukas Funke' <lukas.funke-oss@weidmueller.com>; 'lkp@intel.com'
-> <lkp@intel.com>; 'MyungJoo Ham' <myungjoo.ham@samsung.com>
-> Cc: 'Lukas.Funke@weidmueller.com' <Lukas.Funke@weidmueller.com>; 'linux-
-> kernel@vger.kernel.org' <linux-kernel@vger.kernel.org>; 'oe-kbuild-
-> all@lists.linux.dev' <oe-kbuild-all@lists.linux.dev>; 'Lukas Funke'
-> <lukas.funke@weidmueller.com>
-> Subject: RE: [PATCH v2] extcon: usbc-tusb320: Set interrupt polarity based
-> on device-tree
-> 
-> 
-> 
-> > -----Original Message-----
-> > From: Chanwoo Choi <cw00.choi@samsung.com>
-> > Sent: Monday, December 4, 2023 9:09 PM
-> > To: 'Lukas Funke' <lukas.funke-oss@weidmueller.com>; 'lkp@intel.com'
-> > <lkp@intel.com>; 'MyungJoo Ham' <myungjoo.ham@samsung.com>
-> > Cc: 'Lukas.Funke@weidmueller.com' <Lukas.Funke@weidmueller.com>;
-> > 'linux- kernel@vger.kernel.org' <linux-kernel@vger.kernel.org>;
-> > 'oe-kbuild- all@lists.linux.dev' <oe-kbuild-all@lists.linux.dev>; 'Lukas
-> Funke'
-> > <lukas.funke@weidmueller.com>
-> > Subject: RE: [PATCH v2] extcon: usbc-tusb320: Set interrupt polarity
-> > based on device-tree
-> >
-> >
-> >
-> > > -----Original Message-----
-> > > From: Lukas Funke <lukas.funke-oss@weidmueller.com>
-> > > Sent: Wednesday, November 22, 2023 5:08 PM
-> > > To: lkp@intel.com; MyungJoo Ham <myungjoo.ham@samsung.com>; Chanwoo
-> > > Choi <cw00.choi@samsung.com>
-> > > Cc: Lukas.Funke@weidmueller.com; linux-kernel@vger.kernel.org;
-> > > lukas.funke- oss@weidmueller.com; oe-kbuild-all@lists.linux.dev;
-> > > Lukas Funke <lukas.funke@weidmueller.com>
-> > > Subject: [PATCH v2] extcon: usbc-tusb320: Set interrupt polarity
-> > > based on device-tree
-> > >
-> > > From: Lukas Funke <Lukas.Funke@weidmueller.com>
-> > >
-> > > Remove 'IRQF_TRIGGER_FALLING' request which is not allowed on every
-> > > interrupt controller (i.e. arm64 GIC). Replace flag by a request
-> > > that depends on the actual device-tree setting.
-> > >
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes: https://lore.kernel.org/oe-kbuild-all/202311221355.yxYpTIw3-
-> > > lkp@intel.com/
-> > > Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
-> > > ---
-> > >  drivers/extcon/extcon-usbc-tusb320.c | 13 ++++++++++++-
-> > >  1 file changed, 12 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/extcon/extcon-usbc-tusb320.c
-> > > b/drivers/extcon/extcon- usbc-tusb320.c index
-> > > 4d08c2123e59..140ab28dbd36 100644
-> > > --- a/drivers/extcon/extcon-usbc-tusb320.c
-> > > +++ b/drivers/extcon/extcon-usbc-tusb320.c
-> > > @@ -17,6 +17,7 @@
-> > >  #include <linux/usb/typec.h>
-> > >  #include <linux/usb/typec_altmode.h>  #include <linux/usb/role.h>
-> > > +#include <linux/irq.h>
-> > >
-> > >  #define TUSB320_REG8				0x8
-> > >  #define TUSB320_REG8_CURRENT_MODE_ADVERTISE	GENMASK(7, 6)
-> > > @@ -515,6 +516,8 @@ static int tusb320_probe(struct i2c_client
-*client)
-> > >  	const void *match_data;
-> > >  	unsigned int revision;
-> > >  	int ret;
-> > > +	int irq_pol;
-> > > +	struct irq_data *irq_d;
-> > >
-> > >  	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
-> > >  	if (!priv)
-> > > @@ -568,9 +571,17 @@ static int tusb320_probe(struct i2c_client
-*client)
-> > >  		 */
-> > >  		tusb320_state_update_handler(priv, true);
-> > >
-> > > +	irq_d = irq_get_irq_data(client->irq);
-> > > +	if (!irq_d) {
-> > > +		dev_err(&client->dev, "Invalid IRQ: %d\n", client->irq);
-> > > +		return -ENODEV;
-> > > +	}
-> > > +
-> > > +	irq_pol = irqd_get_trigger_type(irq_d);
-> > > +
-> > >  	ret = devm_request_threaded_irq(priv->dev, client->irq, NULL,
-> > >  					tusb320_irq_handler,
-> > > -					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> > > +					IRQF_ONESHOT | irq_pol,
-> > >  					client->name, priv);
-> > >  	if (ret)
-> > >  		tusb320_typec_remove(priv);
-> > > --
-> > > 2.30.2
-> >
-> >
-> > Applied it. Thanks.
-> >
-> >
-> > Best Regards,
-> > Chanwoo Choi
-> 
-> 
-> In order to remove the build warning, I changed the variable type
-> of 'irq_pol' as following:
-> 
-> 
-> index 140ab28dbd36..cec1889549a6 100644
-> --- a/drivers/extcon/extcon-usbc-tusb320.c
-> +++ b/drivers/extcon/extcon-usbc-tusb320.c
-> @@ -516,7 +516,7 @@ static int tusb320_probe(struct i2c_client *client)
->         const void *match_data;
->         unsigned int revision;
->         int ret;
-> -       int irq_pol;
-> +       u32 irq_pol;
->         struct irq_data *irq_d;
-> 
->         priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
-> 
-> Best Regards,
-> Chanwoo Choi
+sparse warnings: (new ones prefixed by >>)
+>> io_uring/poll.c:164:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t @@
+   io_uring/poll.c:164:38: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:164:38: sparse:     got restricted __poll_t
+>> io_uring/poll.c:175:56: sparse: sparse: restricted __poll_t degrades to integer
+>> io_uring/poll.c:174:66: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:174:66: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:174:66: sparse:     got unsigned int
+>> io_uring/poll.c:174:52: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned short @@
+   io_uring/poll.c:174:52: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:174:52: sparse:     got unsigned short
+>> io_uring/poll.c:180:50: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:180:50: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:180:50: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:215:63: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:215:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:215:57: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:215:57: sparse:     got unsigned int
+>> io_uring/poll.c:333:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:333:40: sparse:     expected int mask
+   io_uring/poll.c:333:40: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:428:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:428:24: sparse:     expected int
+   io_uring/poll.c:428:24: sparse:     got restricted __poll_t [assigned] [usertype] mask
+>> io_uring/poll.c:448:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:448:40: sparse:     expected int mask
+   io_uring/poll.c:448:40: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:477:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got int @@
+   io_uring/poll.c:477:33: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:477:33: sparse:     got int
+   io_uring/poll.c:525:33: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:525:33: sparse:     expected int mask
+   io_uring/poll.c:525:33: sparse:     got restricted __poll_t [assigned] [usertype] mask
+>> io_uring/poll.c:525:50: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected int events @@     got restricted __poll_t [usertype] events @@
+   io_uring/poll.c:525:50: sparse:     expected int events
+   io_uring/poll.c:525:50: sparse:     got restricted __poll_t [usertype] events
+>> io_uring/poll.c:639:24: sparse: sparse: invalid assignment: |=
+>> io_uring/poll.c:639:24: sparse:    left side has type unsigned int
+>> io_uring/poll.c:639:24: sparse:    right side has type restricted __poll_t
+   io_uring/poll.c:640:65: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:640:29: sparse: sparse: restricted __poll_t degrades to integer
+>> io_uring/poll.c:640:38: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int @@
+   io_uring/poll.c:640:38: sparse:     expected restricted __poll_t
+   io_uring/poll.c:640:38: sparse:     got unsigned int
+   io_uring/poll.c:735:38: sparse: sparse: invalid assignment: &=
+>> io_uring/poll.c:735:38: sparse:    left side has type restricted __poll_t
+>> io_uring/poll.c:735:38: sparse:    right side has type int
+   io_uring/poll.c:736:52: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:736:38: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:736:38: sparse:    left side has type restricted __poll_t
+>> io_uring/poll.c:736:38: sparse:    right side has type unsigned int
+   io_uring/poll.c: note: in included file:
+   io_uring/io_uring_types.h:90:37: sparse: sparse: array of flexible structures
 
+vim +164 io_uring/poll.c
 
-How about changing this patch as following?
-When irq_getg_irq_data returns NULL, just use the IRQF_TRIGGER_FALLING flag
-to support previous version. Because I didn't' check the all use-case
-of this driver on DT. I think that better to keep the IRQF_TRIGGER_FALLING
-flag
-when irq_d is NULL.
+   135	
+   136	/*
+   137	 * All poll tw should go through this. Checks for poll events, manages
+   138	 * references, does rewait, etc.
+   139	 *
+   140	 * Returns a negative error on failure. >0 when no action require, which is
+   141	 * either spurious wakeup or multishot CQE is served. 0 when it's done with
+   142	 * the request, then the mask is stored in req->cqe.res.
+   143	 */
+   144	static int io_poll_check_events(struct io_kiocb *req, bool *locked)
+   145	{
+   146		struct io_ring_ctx *ctx = req->ctx;
+   147		int v, ret;
+   148	
+   149		/* req->task == current here, checking PF_EXITING is safe */
+   150		if (unlikely(req->task->flags & PF_EXITING))
+   151			return -ECANCELED;
+   152	
+   153		do {
+   154			v = atomic_read(&req->poll_refs);
+   155	
+   156			/* tw handler should be the owner, and so have some references */
+   157			if (WARN_ON_ONCE(!(v & IO_POLL_REF_MASK)))
+   158				return 0;
+   159			if (v & IO_POLL_CANCEL_FLAG)
+   160				return -ECANCELED;
+   161	
+   162			if (!req->cqe.res) {
+   163				struct poll_table_struct pt = { ._key = req->apoll_events };
+ > 164				req->cqe.res = vfs_poll(req->file, &pt) & req->apoll_events;
+   165			}
+   166	
+   167			if ((unlikely(!req->cqe.res)))
+   168				continue;
+   169			if (req->apoll_events & EPOLLONESHOT)
+   170				return 0;
+   171	
+   172			/* multishot, just fill a CQE and proceed */
+   173			if (!(req->flags & REQ_F_APOLL_MULTISHOT)) {
+ > 174				__poll_t mask = mangle_poll(req->cqe.res &
+ > 175							    req->apoll_events);
+   176				bool filled;
+   177	
+   178				spin_lock(&ctx->completion_lock);
+   179				filled = io_fill_cqe_aux(ctx, req->cqe.user_data,
+ > 180							 mask, IORING_CQE_F_MORE);
+   181				io_commit_cqring(ctx);
+   182				spin_unlock(&ctx->completion_lock);
+   183				if (filled) {
+   184					io_cqring_ev_posted(ctx);
+   185					continue;
+   186				}
+   187				return -ECANCELED;
+   188			}
+   189	
+   190			ret = io_poll_issue(req, locked);
+   191			if (ret)
+   192				return ret;
+   193	
+   194			/*
+   195			 * Release all references, retry if someone tried to restart
+   196			 * task_work while we were executing it.
+   197			 */
+   198		} while (atomic_sub_return(v & IO_POLL_REF_MASK, &req->poll_refs));
+   199	
+   200		return 1;
+   201	}
+   202	
+   203	static void io_poll_task_func(struct io_kiocb *req, bool *locked)
+   204	{
+   205		struct io_ring_ctx *ctx = req->ctx;
+   206		int ret;
+   207	
+   208		ret = io_poll_check_events(req, locked);
+   209		if (ret > 0)
+   210			return;
+   211	
+   212		if (!ret) {
+   213			struct io_poll *poll = io_kiocb_to_cmd(req);
+   214	
+   215			req->cqe.res = mangle_poll(req->cqe.res & poll->events);
+   216		} else {
+   217			req->cqe.res = ret;
+   218			req_set_fail(req);
+   219		}
+   220	
+   221		io_poll_remove_entries(req);
+   222		spin_lock(&ctx->completion_lock);
+   223		hash_del(&req->hash_node);
+   224		req->cqe.flags = 0;
+   225		__io_req_complete_post(req);
+   226		io_commit_cqring(ctx);
+   227		spin_unlock(&ctx->completion_lock);
+   228		io_cqring_ev_posted(ctx);
+   229	}
+   230	
+   231	static void io_apoll_task_func(struct io_kiocb *req, bool *locked)
+   232	{
+   233		struct io_ring_ctx *ctx = req->ctx;
+   234		int ret;
+   235	
+   236		ret = io_poll_check_events(req, locked);
+   237		if (ret > 0)
+   238			return;
+   239	
+   240		io_poll_remove_entries(req);
+   241		spin_lock(&ctx->completion_lock);
+   242		hash_del(&req->hash_node);
+   243		spin_unlock(&ctx->completion_lock);
+   244	
+   245		if (!ret)
+   246			io_req_task_submit(req, locked);
+   247		else
+   248			io_req_complete_failed(req, ret);
+   249	}
+   250	
+   251	static void __io_poll_execute(struct io_kiocb *req, int mask,
+   252				      __poll_t __maybe_unused events)
+   253	{
+   254		io_req_set_res(req, mask, 0);
+   255		/*
+   256		 * This is useful for poll that is armed on behalf of another
+   257		 * request, and where the wakeup path could be on a different
+   258		 * CPU. We want to avoid pulling in req->apoll->events for that
+   259		 * case.
+   260		 */
+   261		if (req->opcode == IORING_OP_POLL_ADD)
+   262			req->io_task_work.func = io_poll_task_func;
+   263		else
+   264			req->io_task_work.func = io_apoll_task_func;
+   265	
+   266		trace_io_uring_task_add(req->ctx, req, req->cqe.user_data, req->opcode, mask);
+   267		io_req_task_work_add(req);
+   268	}
+   269	
+   270	static inline void io_poll_execute(struct io_kiocb *req, int res,
+   271			__poll_t events)
+   272	{
+   273		if (io_poll_get_ownership(req))
+   274			__io_poll_execute(req, res, events);
+   275	}
+   276	
+   277	static void io_poll_cancel_req(struct io_kiocb *req)
+   278	{
+   279		io_poll_mark_cancelled(req);
+   280		/* kick tw, which should complete the request */
+   281		io_poll_execute(req, 0, 0);
+   282	}
+   283	
+   284	#define wqe_to_req(wait)	((void *)((unsigned long) (wait)->private & ~1))
+   285	#define wqe_is_double(wait)	((unsigned long) (wait)->private & 1)
+   286	#define IO_ASYNC_POLL_COMMON	(EPOLLONESHOT | EPOLLPRI)
+   287	
+   288	static int io_poll_wake(struct wait_queue_entry *wait, unsigned mode, int sync,
+   289				void *key)
+   290	{
+   291		struct io_kiocb *req = wqe_to_req(wait);
+   292		struct io_poll *poll = container_of(wait, struct io_poll, wait);
+   293		__poll_t mask = key_to_poll(key);
+   294	
+   295		if (unlikely(mask & POLLFREE)) {
+   296			io_poll_mark_cancelled(req);
+   297			/* we have to kick tw in case it's not already */
+   298			io_poll_execute(req, 0, poll->events);
+   299	
+   300			/*
+   301			 * If the waitqueue is being freed early but someone is already
+   302			 * holds ownership over it, we have to tear down the request as
+   303			 * best we can. That means immediately removing the request from
+   304			 * its waitqueue and preventing all further accesses to the
+   305			 * waitqueue via the request.
+   306			 */
+   307			list_del_init(&poll->wait.entry);
+   308	
+   309			/*
+   310			 * Careful: this *must* be the last step, since as soon
+   311			 * as req->head is NULL'ed out, the request can be
+   312			 * completed and freed, since aio_poll_complete_work()
+   313			 * will no longer need to take the waitqueue lock.
+   314			 */
+   315			smp_store_release(&poll->head, NULL);
+   316			return 1;
+   317		}
+   318	
+   319		/* for instances that support it check for an event match first */
+   320		if (mask && !(mask & (poll->events & ~IO_ASYNC_POLL_COMMON)))
+   321			return 0;
+   322	
+   323		if (io_poll_get_ownership(req)) {
+   324			/* optional, saves extra locking for removal in tw handler */
+   325			if (mask && poll->events & EPOLLONESHOT) {
+   326				list_del_init(&poll->wait.entry);
+   327				poll->head = NULL;
+   328				if (wqe_is_double(wait))
+   329					req->flags &= ~REQ_F_DOUBLE_POLL;
+   330				else
+   331					req->flags &= ~REQ_F_SINGLE_POLL;
+   332			}
+ > 333			__io_poll_execute(req, mask, poll->events);
+   334		}
+   335		return 1;
+   336	}
+   337	
 
-
-diff --git a/drivers/extcon/extcon-usbc-tusb320.c
-b/drivers/extcon/extcon-usbc-tusb320.c
-index 4d08c2123e59..bd5ed8dd8fdd 100644
---- a/drivers/extcon/extcon-usbc-tusb320.c
-+++ b/drivers/extcon/extcon-usbc-tusb320.c
-@@ -17,6 +17,7 @@
- #include <linux/usb/typec.h>
- #include <linux/usb/typec_altmode.h>
- #include <linux/usb/role.h>
-+#include <linux/irq.h>
- 
- #define TUSB320_REG8				0x8
- #define TUSB320_REG8_CURRENT_MODE_ADVERTISE	GENMASK(7, 6)
-@@ -515,6 +516,8 @@ static int tusb320_probe(struct i2c_client *client)
- 	const void *match_data;
- 	unsigned int revision;
- 	int ret;
-+	u32 irq_trigger_type;
-+	struct irq_data *irq_d;
- 
- 	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
-@@ -568,9 +571,15 @@ static int tusb320_probe(struct i2c_client *client)
- 		 */
- 		tusb320_state_update_handler(priv, true);
- 
-+	irq_d = irq_get_irq_data(client->irq);
-+	if (irq_d)
-+		irq_trigger_type = irqd_get_trigger_type(irq_d);
-+	else
-+		irq_trigger_type = IRQF_TRIGGER_FALLING;
-+
- 	ret = devm_request_threaded_irq(priv->dev, client->irq, NULL,
- 					tusb320_irq_handler,
--					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+					IRQF_ONESHOT | irq_trigger_type,
- 					client->name, priv);
- 	if (ret)
- 		tusb320_typec_remove(priv);
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
