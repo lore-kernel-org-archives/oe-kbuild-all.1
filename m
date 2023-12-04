@@ -1,307 +1,257 @@
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2086.outbound.protection.outlook.com [40.107.247.86])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1183A23771
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 13:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=weidmueller.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weidmueller.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE1FD53E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 13:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weidmueller.onmicrosoft.com header.i=@weidmueller.onmicrosoft.com header.b="s+KU69i9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aIPoWU5V0wc17hlaanLNmVBKhMIVe5D/h6MReH4X1mTFerp7SDxQxkCWJ+DomFCg9xA6YUcRhsSAgDMVgDIQHFt8aQeYsGhKg5aAphT0K4WexR9VfsMnA3ElSThYiC91uWmDJPFw5gKuTm7RFdhzMLuZW1aIyv17HsM/Vc+EUsDoRzZPhxE8hOAw5Vgkz6SKgQuaXfrZFHOxOJRvLlXqxqNXjl0vpjInXQR3erJJ7dODyha5lZNBEPt1+mpVxpOdcwnVks314MxRbesfdaCW5CAOatemKjgsfJRU73eJWJA5iJtjD2qoDPZ35JovjdJf5LuL3qHwzjOhkFUfukCFzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/XEOfVzTuqeXLiZxQhpiK868SlwmtXKguqmiNWpwPMQ=;
- b=Lt9QXX2JDH3NNkl36FrkI4Cl+thSUtEYB7Q1TJMINQ05vl29K241YBCjeipV/2jLguBZJpnW8yqqBr7AHdQmj4U0fvUDtlenssFRapMsi3lPwD7RTc0KGjB28Cf/X7+nx5JTqR//YNXQvtfwPFsT89/zMIfcTrIcUyN2QbjfRqOnK/0lbZHQuR8sr6EMr72nRSsEx1omiFq/3wx3zQXbpSo9EuRYSWdZxyEAwwnyH/AuRSdcpjvb1YnjyDdFT141KPQelqTNCl4VTIurCSrmd10GAsqHKNFVNSqSA1rxrC9WO2tyZfCdd0RTzHh4mgSTlVr30IqBkZ0oqzvtVKqj9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/XEOfVzTuqeXLiZxQhpiK868SlwmtXKguqmiNWpwPMQ=;
- b=s+KU69i9fkFha91CP9Iiw2PbMkdA5Fqtu6MfG67ot+h9NxRXk36SHgTcHi97UmwxUcqFYNTll5nEvbGcgxwxoYGHDVqu4aH63yAb8WGt8hkRLC3j6rrZ9KFhIG/+rN8ZLpfyAOhKg8bvoeuiCwB5z0GypHhAij7UXPnSRNqKT1E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
- by DU0PR08MB8205.eurprd08.prod.outlook.com (2603:10a6:10:3b9::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Mon, 4 Dec
- 2023 13:22:58 +0000
-Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
- ([fe80::b914:d9b5:6462:13b6]) by AS2PR08MB8431.eurprd08.prod.outlook.com
- ([fe80::b914:d9b5:6462:13b6%5]) with mapi id 15.20.7025.022; Mon, 4 Dec 2023
- 13:22:58 +0000
-Message-ID: <750c2c64-4fd6-437b-bb14-100f6941d2c4@weidmueller.com>
-Date: Mon, 4 Dec 2023 14:22:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] extcon: usbc-tusb320: Set interrupt polarity based on
- device-tree
-To: Chanwoo Choi <cw00.choi@samsung.com>, lkp@intel.com,
- 'MyungJoo Ham' <myungjoo.ham@samsung.com>
-Cc: Lukas.Funke@weidmueller.com, linux-kernel@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev
-References: <202311221355.yxYpTIw3-lkp@intel.com>
- <CGME20231122080822epcas1p23e2e80d3db305229f9d611d79b667a2f@epcas1p2.samsung.com>
- <20231122080749.947682-1-lukas.funke-oss@weidmueller.com>
- <002e01da26b0$52582960$f7087c20$@samsung.com>
-From: Lukas Funke <lukas.funke-oss@weidmueller.com>
-In-Reply-To: <002e01da26b0$52582960$f7087c20$@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0442.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c6::14) To AS2PR08MB8431.eurprd08.prod.outlook.com
- (2603:10a6:20b:55a::18)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ikGDSC18"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701696640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dxoqRDgdXk5Yr1EiBpyguZ5lcj/kgoCW2/8o6Ow1dEg=;
+	b=ikGDSC18/HqnXOgAeVIRYxkARn13FqIsC5jSusEYJQCpAXV0PNXq8HrW8Nu+aj7TvFNVzT
+	pjhZNykA97yLqkozOuaazdL3bZzdP2SvV+9xfKkD5+70pk8rzDppP0d8hRP9gniqfekPEt
+	ovT6bdBscY4IKWnJtbCOgc030Mm1dm0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-595-EhQep9JEO_COc-NdK34F1A-1; Mon, 04 Dec 2023 08:30:36 -0500
+X-MC-Unique: EhQep9JEO_COc-NdK34F1A-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C36F185A78E;
+	Mon,  4 Dec 2023 13:30:36 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.49])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D0B73492BFC;
+	Mon,  4 Dec 2023 13:30:35 +0000 (UTC)
+Date: Mon, 4 Dec 2023 08:30:32 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, Suwan Kim <suwan.kim027@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>, Max Gurtovoy <mgurtovoy@nvidia.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>, pbonzini@redhat.com
+Subject: Re: drivers/block/virtio_blk.c:570:68: warning: '%d' directive
+ output may be truncated writing between 1 and 11 bytes into a region of size
+ 7
+Message-ID: <20231204133032.GA1469867@fedora>
+References: <202312041509.DIyvEt9h-lkp@intel.com>
+ <20231204040038-mutt-send-email-mst@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|DU0PR08MB8205:EE_
-X-MS-Office365-Filtering-Correlation-Id: c92ce9dd-bfe4-4cb2-3138-08dbf4cc21cf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	GiJABFleejVgTUOWW2bWk5BKSPLYGsAJEW42vLEf0Uphahxc/Bm3L8Ht4vgY5C2OlryRbZq+6jofmpkmB1fQxRdZ+zsYEtBV9ObV9twdPsV8xj5Dcf3miEDnkdgsHzcFMbYv2k8PKIYhU6r+MdC2l6JrH1+ZzPqEVDAcBN1kAXM0OScENZTHCTeAY6VqbK8ao5kgleNgueVOooYb65pGugKu/pDd1ktA748qzSAkOwtm2jD7mbkh3BCO47ll7M0YnI7f2+5Bh2FLbZmIBe4sSC/UHSPKOTF+pYrS2FISCLcSKHhJQyIihZZsgWdT7ARtTHwgd6PiOotK+19cBfEQBio9qwJxYOXgAcZVKQ+3ZGHsLlfkD22/GhZjL6zgLdWSUhOZiFQDHtUf9Qm5gbyNeTdKCYTpdE+/IfPb/5K/NNyBrbY6//TDJ2JNrt7Ld+JUfMTE4U7RyybpR1TnMW4/YZujO/mXtRgYzCtcaraHShsSAsu2ASqiHj9rIxBfi26UsRq8ovRljg0PrxAmFZnLKmQTC/gFvnliHGYmTb+o+WybuYYMsOVXCm93VQ7u9ez/HWjBYcJ4AWa+rVacFkqCoGqQrIskXlKzk8TwWqOQFauVQ29e4zPhwN+W9wAyu0NRUHfrNtSmA2/ZUEcY+uTbdrSOKeK9oTlYqnOypRFOCDP2oLQpiCBhwAbznoajrr/+
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(376002)(396003)(136003)(366004)(230922051799003)(230273577357003)(230173577357003)(1800799012)(186009)(451199024)(64100799003)(31686004)(2616005)(8676002)(4326008)(8936002)(6512007)(6506007)(53546011)(83380400001)(26005)(6486002)(966005)(478600001)(66476007)(66946007)(66556008)(110136005)(316002)(2906002)(36756003)(41300700001)(38100700002)(86362001)(31696002)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d1d4bm1CcWp6THNFVUZnam5qa2V4elJDenZHU09aeFRHVlV1RXZYNTZOVFpU?=
- =?utf-8?B?QWVKdS95S2dvam00OGxZTUNKTVAySUlHZ2tHRkJWWExyeVQzYUdqZVozV2ND?=
- =?utf-8?B?MW5qWHdZaVRscVc0b25mZzc0eUtXejFUYlJudHpDZW54YzJPOWhJRnl2Zjdn?=
- =?utf-8?B?MEhLdWEzUXVlNGYwMVR0NUFlR25YQThNZjNENlM4VjRRL0ZpYnNPWE1IcVpv?=
- =?utf-8?B?R3VBdXB3by9aZGRjUVZNQXlxMFk1eHRBNlA4Y1l2b0ZMaUVROE5iWUtMMFM5?=
- =?utf-8?B?dnhyV0FnMVlsbS9Ibmdpb05rcGlMQS9qT2JpMXNtWXRvbTZtSTlMSHdIaXlz?=
- =?utf-8?B?bnFLamtoOEhtYlEvQ1YvTW56RFl6cDV2NWQvcG8zc010aTEyS00relFYTUw2?=
- =?utf-8?B?b1BVRXRXSStmbWhCTXBZUm0vZmNabi9MT3JZSmw4aUlTaEpuYlJ3Q0JXZmIx?=
- =?utf-8?B?bVcwU2xrbTRrVzJXa2FzdEFhZUZnT0lxb1FUMS9uclJ3NFhoMGFrNTZGaHBH?=
- =?utf-8?B?eFRTSVlFN0pWdmM2N1NXVk9CbHpvYkdPaFpUbGN4emhwd3gzYmhBMDZaeWUr?=
- =?utf-8?B?cWQ5UXdFL3FLSWZIcTdvcngvN29DYjNETUJTRlI3Vnk0L1liQ2l6VnFBQVRl?=
- =?utf-8?B?c0RwRGYyMnZpdCtyaUJwUUdqRlNaaXR2bFhDbzB1TzZXT21XbFFCUUNra2dL?=
- =?utf-8?B?UG1VU05XNUQ5VkRld2ljNVVBcU5zei8xTEkxN0tveHBDcXppUnVHMFRpVmlP?=
- =?utf-8?B?RzJZaExEcThKV1hQVXRqeVRlMjAvMERqZnNTM0VPRkRyWGRRSjhyck1TQUox?=
- =?utf-8?B?VzVCYmFheDdpWkp5QWFtclhSQTlFaW15ZGtsSURNWVRHclF5KzBINnlUUzhX?=
- =?utf-8?B?b3JreXNYb2l4UFJ2Q3prbFl6bDhDWFlCZW9Hd2RkTzBQZkZOV1R6L1JhSGRR?=
- =?utf-8?B?UW1oWDlGZk16SGVOWjVONXo1UjFZZDM4S2txUk8zd1o5NDJqVFMzdy8rS3Er?=
- =?utf-8?B?d0NiMy84NldFLzVCODIyZlhiL2YwZUR4M0pUVDhvOUhRUktkM2c2TzFiMW1I?=
- =?utf-8?B?QmhHWmxWbEdNTXorU09ZUElvenF5SHZLN0hpT0xvQmh4UDhwYTQ5RS9qKy91?=
- =?utf-8?B?TVZ3ZDdXa0NBeEd2dFcwRHJnOFJFSnBtdDBaUU9sM0ZFbDhKb05uazlTQU1s?=
- =?utf-8?B?Zm1wMmtWdVlIcEZIZHZPV1hIazlod2lRamdqM21jaFg5eElYdlptUlgzV1dJ?=
- =?utf-8?B?VHdza2FDdnAzbzZ0VFZ5c2xHRDZrcTNZaW5YaVpkRTgvakNib0VuQzNDdTJQ?=
- =?utf-8?B?OE8wVTlZM1RUSFNwMHNJZEZCUW5qTGlIMHhjRlpWZmx5NzBuSlMzQUYvVlpp?=
- =?utf-8?B?K0JJMHhmV25VZlUwalZ4T081UWIzUnJWMVRvR01mN092RXlEM1d3Vzk2VUdD?=
- =?utf-8?B?ZGdUV0FteE1sYmRPdklsRWRac2ZyTUFiRVZaK0FWMzdIaGJYd3BIb3dWa2R4?=
- =?utf-8?B?cXI2TEhSNnNoL29sQ3dyOFBKTHg0YTZmb0hsWlVBZjJIZzVuNk5aT0Z2SkxR?=
- =?utf-8?B?UTV4L0JEczlOMXZjeWpaMXBZNTNiU056TDUxYkU1TXVtM2t1L1dlTlQ2SStx?=
- =?utf-8?B?YXRQZ2pRTWRKTmF5R1hqZmcyL1BjaDdCUHlVT0VTNEwrS0VHK0VFNTAvQWo2?=
- =?utf-8?B?VDJJWDNIVm04ZCt5REY5WXN5NTdMaWZ6TmlRQmViV3R6UjZma0ZmZGhUbDNw?=
- =?utf-8?B?NXpuN3N1ekZXVmRpeVh4dE9HQWlWUitFYXZaSm5xeVRnMUQ5T1Z1US84TTRJ?=
- =?utf-8?B?Y3BZYmg2UXRVMUtxY21ReTFFM2xhL1lNNWRhaUpDcEJKR1RkSHNTM2RsUFFi?=
- =?utf-8?B?MmRFKzQ5dDBIbE9PeEs5bC82bW5Ya3JWYXVERENJRitTN2pmSDdLaElERjZ6?=
- =?utf-8?B?TkQ4OE1LYTFaK1VVU1lPaUwwYjdlb3E2Qi9VU0drTW01ajNBT3lrWnJRK3Rr?=
- =?utf-8?B?d21iblJOWFNtZXFDcEwrZUttaElGbldXYnorNmk2OTZnOTgzczFZQ0szWUUv?=
- =?utf-8?B?bWQyL1RoTUpqYk0wZEprVVNuUnJ5V1g4NUM3Y2VUUk5ic2FheFB1S2MzbG1a?=
- =?utf-8?B?dEhKNTFTWlp5SlNpU2VOVG9hTm1nbkhQcURsR0t0Z3NZY2h5QVRVaDJjNldQ?=
- =?utf-8?B?dFE9PQ==?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c92ce9dd-bfe4-4cb2-3138-08dbf4cc21cf
-X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2023 13:22:58.1791
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pYaLFASqHUQG1bA1oCbPlnGtamRCO5cETNj/6LXSmQmjdR6snzMAfsBa37qTC7vl4krlqW9s9Xfzwq4kVVbT/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8205
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="fTQDD8oZaQ/Bt8qL"
+Content-Disposition: inline
+In-Reply-To: <20231204040038-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 
-Hi Chanwoo,
 
-On 04.12.2023 13:49, Chanwoo Choi wrote:
-> 
-> 
->> -----Original Message-----
->> From: Chanwoo Choi <cw00.choi@samsung.com>
->> Sent: Monday, December 4, 2023 9:33 PM
->> To: 'Lukas Funke' <lukas.funke-oss@weidmueller.com>; 'lkp@intel.com'
->> <lkp@intel.com>; 'MyungJoo Ham' <myungjoo.ham@samsung.com>
->> Cc: 'Lukas.Funke@weidmueller.com' <Lukas.Funke@weidmueller.com>; 'linux-
->> kernel@vger.kernel.org' <linux-kernel@vger.kernel.org>; 'oe-kbuild-
->> all@lists.linux.dev' <oe-kbuild-all@lists.linux.dev>; 'Lukas Funke'
->> <lukas.funke@weidmueller.com>
->> Subject: RE: [PATCH v2] extcon: usbc-tusb320: Set interrupt polarity based
->> on device-tree
->>
->>
->>
->>> -----Original Message-----
->>> From: Chanwoo Choi <cw00.choi@samsung.com>
->>> Sent: Monday, December 4, 2023 9:09 PM
->>> To: 'Lukas Funke' <lukas.funke-oss@weidmueller.com>; 'lkp@intel.com'
->>> <lkp@intel.com>; 'MyungJoo Ham' <myungjoo.ham@samsung.com>
->>> Cc: 'Lukas.Funke@weidmueller.com' <Lukas.Funke@weidmueller.com>;
->>> 'linux- kernel@vger.kernel.org' <linux-kernel@vger.kernel.org>;
->>> 'oe-kbuild- all@lists.linux.dev' <oe-kbuild-all@lists.linux.dev>; 'Lukas
->> Funke'
->>> <lukas.funke@weidmueller.com>
->>> Subject: RE: [PATCH v2] extcon: usbc-tusb320: Set interrupt polarity
->>> based on device-tree
->>>
->>>
->>>
->>>> -----Original Message-----
->>>> From: Lukas Funke <lukas.funke-oss@weidmueller.com>
->>>> Sent: Wednesday, November 22, 2023 5:08 PM
->>>> To: lkp@intel.com; MyungJoo Ham <myungjoo.ham@samsung.com>; Chanwoo
->>>> Choi <cw00.choi@samsung.com>
->>>> Cc: Lukas.Funke@weidmueller.com; linux-kernel@vger.kernel.org;
->>>> lukas.funke- oss@weidmueller.com; oe-kbuild-all@lists.linux.dev;
->>>> Lukas Funke <lukas.funke@weidmueller.com>
->>>> Subject: [PATCH v2] extcon: usbc-tusb320: Set interrupt polarity
->>>> based on device-tree
->>>>
->>>> From: Lukas Funke <Lukas.Funke@weidmueller.com>
->>>>
->>>> Remove 'IRQF_TRIGGER_FALLING' request which is not allowed on every
->>>> interrupt controller (i.e. arm64 GIC). Replace flag by a request
->>>> that depends on the actual device-tree setting.
->>>>
->>>> Reported-by: kernel test robot <lkp@intel.com>
->>>> Closes: https://lore.kernel.org/oe-kbuild-all/202311221355.yxYpTIw3-
->>>> lkp@intel.com/
->>>> Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
->>>> ---
->>>>   drivers/extcon/extcon-usbc-tusb320.c | 13 ++++++++++++-
->>>>   1 file changed, 12 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/extcon/extcon-usbc-tusb320.c
->>>> b/drivers/extcon/extcon- usbc-tusb320.c index
->>>> 4d08c2123e59..140ab28dbd36 100644
->>>> --- a/drivers/extcon/extcon-usbc-tusb320.c
->>>> +++ b/drivers/extcon/extcon-usbc-tusb320.c
->>>> @@ -17,6 +17,7 @@
->>>>   #include <linux/usb/typec.h>
->>>>   #include <linux/usb/typec_altmode.h>  #include <linux/usb/role.h>
->>>> +#include <linux/irq.h>
->>>>
->>>>   #define TUSB320_REG8				0x8
->>>>   #define TUSB320_REG8_CURRENT_MODE_ADVERTISE	GENMASK(7, 6)
->>>> @@ -515,6 +516,8 @@ static int tusb320_probe(struct i2c_client
-> *client)
->>>>   	const void *match_data;
->>>>   	unsigned int revision;
->>>>   	int ret;
->>>> +	int irq_pol;
->>>> +	struct irq_data *irq_d;
->>>>
->>>>   	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
->>>>   	if (!priv)
->>>> @@ -568,9 +571,17 @@ static int tusb320_probe(struct i2c_client
-> *client)
->>>>   		 */
->>>>   		tusb320_state_update_handler(priv, true);
->>>>
->>>> +	irq_d = irq_get_irq_data(client->irq);
->>>> +	if (!irq_d) {
->>>> +		dev_err(&client->dev, "Invalid IRQ: %d\n", client->irq);
->>>> +		return -ENODEV;
->>>> +	}
->>>> +
->>>> +	irq_pol = irqd_get_trigger_type(irq_d);
->>>> +
->>>>   	ret = devm_request_threaded_irq(priv->dev, client->irq, NULL,
->>>>   					tusb320_irq_handler,
->>>> -					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
->>>> +					IRQF_ONESHOT | irq_pol,
->>>>   					client->name, priv);
->>>>   	if (ret)
->>>>   		tusb320_typec_remove(priv);
->>>> --
->>>> 2.30.2
->>>
->>>
->>> Applied it. Thanks.
->>>
->>>
->>> Best Regards,
->>> Chanwoo Choi
->>
->>
->> In order to remove the build warning, I changed the variable type
->> of 'irq_pol' as following:
->>
->>
->> index 140ab28dbd36..cec1889549a6 100644
->> --- a/drivers/extcon/extcon-usbc-tusb320.c
->> +++ b/drivers/extcon/extcon-usbc-tusb320.c
->> @@ -516,7 +516,7 @@ static int tusb320_probe(struct i2c_client *client)
->>          const void *match_data;
->>          unsigned int revision;
->>          int ret;
->> -       int irq_pol;
->> +       u32 irq_pol;
->>          struct irq_data *irq_d;
->>
->>          priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
->>
->> Best Regards,
->> Chanwoo Choi
-> 
-> 
-> How about changing this patch as following?
-> When irq_getg_irq_data returns NULL, just use the IRQF_TRIGGER_FALLING flag
-> to support previous version. Because I didn't' check the all use-case
-> of this driver on DT. I think that better to keep the IRQF_TRIGGER_FALLING
-> flag
-> when irq_d is NULL.
+--fTQDD8oZaQ/Bt8qL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Good call. Just one minor change to make the 'else' obsolete (see below).
+On Mon, Dec 04, 2023 at 04:02:07AM -0500, Michael S. Tsirkin wrote:
+> On Mon, Dec 04, 2023 at 04:56:35PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
+> > commit: 4e0400525691d0e676dbe002641f9a61261f1e1b virtio-blk: support po=
+lling I/O
+> > date:   1 year, 6 months ago
+> > config: x86_64-buildonly-randconfig-006-20230906 (https://download.01.o=
+rg/0day-ci/archive/20231204/202312041509.DIyvEt9h-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20231204/202312041509.DIyvEt9h-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202312041509.DIyvEt9h-l=
+kp@intel.com/
+> >=20
+> > All warnings (new ones prefixed by >>):
+> >=20
+> >    drivers/block/virtio_blk.c: In function 'init_vq':
+> > >> drivers/block/virtio_blk.c:570:68: warning: '%d' directive output ma=
+y be truncated writing between 1 and 11 bytes into a region of size 7 [-Wfo=
+rmat-truncation=3D]
+> >      570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "re=
+q_poll.%d", i);
+> >          |                                                             =
+       ^~
+> >    drivers/block/virtio_blk.c:570:58: note: directive argument in the r=
+ange [-2147483648, 65534]
+> >      570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "re=
+q_poll.%d", i);
+> >          |                                                          ^~~=
+~~~~~~~~~~
+> >    drivers/block/virtio_blk.c:570:17: note: 'snprintf' output between 1=
+1 and 21 bytes into a destination of size 16
+> >      570 |                 snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "re=
+q_poll.%d", i);
+> >          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~
+> >=20
+> >=20
+> > vim +570 drivers/block/virtio_blk.c
+> >=20
+> >    511=09
+> >    512	static int init_vq(struct virtio_blk *vblk)
+> >    513	{
+> >    514		int err;
+> >    515		int i;
+> >    516		vq_callback_t **callbacks;
+> >    517		const char **names;
+> >    518		struct virtqueue **vqs;
+> >    519		unsigned short num_vqs;
+> >    520		unsigned int num_poll_vqs;
+> >    521		struct virtio_device *vdev =3D vblk->vdev;
+> >    522		struct irq_affinity desc =3D { 0, };
+> >    523=09
+> >    524		err =3D virtio_cread_feature(vdev, VIRTIO_BLK_F_MQ,
+> >    525					   struct virtio_blk_config, num_queues,
+> >    526					   &num_vqs);
+> >    527		if (err)
+> >    528			num_vqs =3D 1;
+> >    529=09
+> >    530		if (!err && !num_vqs) {
+> >    531			dev_err(&vdev->dev, "MQ advertised but zero queues reported\n"=
+);
+> >    532			return -EINVAL;
+> >    533		}
+> >    534=09
+> >    535		num_vqs =3D min_t(unsigned int,
+> >    536				min_not_zero(num_request_queues, nr_cpu_ids),
+> >    537				num_vqs);
+> >    538=09
+> >    539		num_poll_vqs =3D min_t(unsigned int, poll_queues, num_vqs - 1);
+> >    540=09
+> >    541		vblk->io_queues[HCTX_TYPE_DEFAULT] =3D num_vqs - num_poll_vqs;
+> >    542		vblk->io_queues[HCTX_TYPE_READ] =3D 0;
+> >    543		vblk->io_queues[HCTX_TYPE_POLL] =3D num_poll_vqs;
+> >    544=09
+> >    545		dev_info(&vdev->dev, "%d/%d/%d default/read/poll queues\n",
+> >    546					vblk->io_queues[HCTX_TYPE_DEFAULT],
+> >    547					vblk->io_queues[HCTX_TYPE_READ],
+> >    548					vblk->io_queues[HCTX_TYPE_POLL]);
+> >    549=09
+> >    550		vblk->vqs =3D kmalloc_array(num_vqs, sizeof(*vblk->vqs), GFP_KE=
+RNEL);
+> >    551		if (!vblk->vqs)
+> >    552			return -ENOMEM;
+> >    553=09
+> >    554		names =3D kmalloc_array(num_vqs, sizeof(*names), GFP_KERNEL);
+> >    555		callbacks =3D kmalloc_array(num_vqs, sizeof(*callbacks), GFP_KE=
+RNEL);
+> >    556		vqs =3D kmalloc_array(num_vqs, sizeof(*vqs), GFP_KERNEL);
+> >    557		if (!names || !callbacks || !vqs) {
+> >    558			err =3D -ENOMEM;
+> >    559			goto out;
+> >    560		}
+> >    561=09
+> >    562		for (i =3D 0; i < num_vqs - num_poll_vqs; i++) {
+> >    563			callbacks[i] =3D virtblk_done;
+> >    564			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req.%d", i);
+> >    565			names[i] =3D vblk->vqs[i].name;
+> >    566		}
+> >    567=09
+> >    568		for (; i < num_vqs; i++) {
+> >    569			callbacks[i] =3D NULL;
+> >  > 570			snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
+> >    571			names[i] =3D vblk->vqs[i].name;
+> >    572		}
+> >    573=09
+> >    574		/* Discover virtqueues and write information to configuration. =
+ */
+> >    575		err =3D virtio_find_vqs(vdev, num_vqs, vqs, callbacks, names, &=
+desc);
+> >    576		if (err)
+> >    577			goto out;
+> >    578=09
+> >    579		for (i =3D 0; i < num_vqs; i++) {
+> >    580			spin_lock_init(&vblk->vqs[i].lock);
+> >    581			vblk->vqs[i].vq =3D vqs[i];
+> >    582		}
+> >    583		vblk->num_vqs =3D num_vqs;
+> >    584=09
+> >    585	out:
+> >    586		kfree(vqs);
+> >    587		kfree(callbacks);
+> >    588		kfree(names);
+> >    589		if (err)
+> >    590			kfree(vblk->vqs);
+> >    591		return err;
+> >    592	}
+> >    593=09
+> >=20
+> > --=20
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+>=20
+> Stefan, Paolo,
+> It's a false positive but do we want to fix it? Make i unsigned?
 
-Best regards
-Lukas Funke
+It's a false positive:
 
-> 
-> 
-> diff --git a/drivers/extcon/extcon-usbc-tusb320.c
-> b/drivers/extcon/extcon-usbc-tusb320.c
-> index 4d08c2123e59..bd5ed8dd8fdd 100644
-> --- a/drivers/extcon/extcon-usbc-tusb320.c
-> +++ b/drivers/extcon/extcon-usbc-tusb320.c
-> @@ -17,6 +17,7 @@
->   #include <linux/usb/typec.h>
->   #include <linux/usb/typec_altmode.h>
->   #include <linux/usb/role.h>
-> +#include <linux/irq.h>
->   
->   #define TUSB320_REG8				0x8
->   #define TUSB320_REG8_CURRENT_MODE_ADVERTISE	GENMASK(7, 6)
-> @@ -515,6 +516,8 @@ static int tusb320_probe(struct i2c_client *client)
->   	const void *match_data;
->   	unsigned int revision;
->   	int ret;
-+	u32 irq_trigger_type = IRQF_TRIGGER_FALLING;
-> +	struct irq_data *irq_d;
->   
->   	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
->   	if (!priv)
-> @@ -568,9 +571,15 @@ static int tusb320_probe(struct i2c_client *client)
->   		 */
->   		tusb320_state_update_handler(priv, true);
->   
-> +	irq_d = irq_get_irq_data(client->irq);
-> +	if (irq_d)
-> +		irq_trigger_type = irqd_get_trigger_type(irq_d);
-> +
->   	ret = devm_request_threaded_irq(priv->dev, client->irq, NULL,
->   					tusb320_irq_handler,
-> -					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> +					IRQF_ONESHOT | irq_trigger_type,
->   					client->name, priv);
->   	if (ret)
->   		tusb320_typec_remove(priv);
+That maximum number of virtqueues is 65535. That's 5 characters. The
+maximum value of num_poll_vqs is actually 65534 because it's capped at
+num_vqs - 1.
+
+The warning reveals that the analysis thinks i can be negative:
+
+  drivers/block/virtio_blk.c:570:58: note: directive argument in the range =
+[-2147483648, 65534]
+
+It can't because of num_poll_vqs =3D min_t(unsigned int, poll_queues,
+num_vqs - 1).
+
+VQ_NAME_LEN is 16, so 9 bytes are used for "req_poll." and the NUL
+terminator:
+
+  snprintf(vblk->vqs[i].name, VQ_NAME_LEN, "req_poll.%d", i);
+
+9 + 5 =3D 14 is always less than VQ_NAME_LEN (16), so it looks like a
+false positive.
+
+That said, it's still worth cleaning up the types because they are
+inconsistent:
+
+  unsigned short num_vqs;
+  unsigned int num_poll_vqs;
+
+and using "%d" for an unsigned value also contributes to the problem.
+
+I'll send a patch.
+
+Stefan
+
+--fTQDD8oZaQ/Bt8qL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmVt1HgACgkQnKSrs4Gr
+c8hQGQgAvC3ypf09nxspqWWmTwKQ5WPNuYK6tbKgobVobv/Nt4xTgQrwfPqw8t18
+m9ULsVX8BnDdbsfub1kpMubgs4+FPA8mISHgJ1SbLpZgOnL15FXIisvAt8qvmnJx
+0YjALwS45322iYDa/Dm7VBQhxWw+hXjME+LCu2Qo3EKQ7lNjutfB7cU47KiE2wyT
+nH+toBH87ogKD0xvFg+Ste2A6mt129e2Ci1ed1ORwhbcWCXqGlurjDTF7RpGqmlS
+DF2rw9PNHjcNEYWKx84liDFJ/6x3l1/pEtjzaYHn8MZlSJ31UrgUyUKaz1z2U7Gl
+iatD64or1r4StlZmOBtZlMHrhsrIWw==
+=aXtt
+-----END PGP SIGNATURE-----
+
+--fTQDD8oZaQ/Bt8qL--
 
