@@ -1,54 +1,47 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F57C126
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 07:50:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0784FBE8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 08:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dz3FkyTT"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40c09d62b70so10370765e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Dec 2023 23:50:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701676239; x=1702281039; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MfuyjfI5rrot2b9MMBgHHf0/98+FnGTUcM8RRu9KaxI=;
-        b=dz3FkyTTrd05QOD4CMzPqNrwHczzq2FzL81UFSFSq9YiV7mave2b5ulWUKZ3x91zgL
-         8GIg0B6SMR93TP/UDh1ojOLmCxYFOB4/o9SU1VavPJh8EGy9wVk52MfecYmnPsbjykei
-         I+UdRnLBlux5mBZ0tbtarrauw5Sp6HNnGtEtlQjsm21oSMxQZJV1LjlsPJt2V7/D/t1y
-         DVrsve+VL9/arJ1ieKzZ/e2ZCfwtq9BJV20XwmC6JivfqmOCp1wjnI59ofLaHmHOS63e
-         fDSrN7b6CVzZeMC0Xg6QBNsMrgXOuyIXuA+lw5YbjSh7oagZfNoAaDDYxNnwn1hqkfIv
-         OZnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701676239; x=1702281039;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MfuyjfI5rrot2b9MMBgHHf0/98+FnGTUcM8RRu9KaxI=;
-        b=NN6x59c8tnvoZa0wbvLw09YG99A3LTwOg+RKWEvpgRVEqwBsbedYNygFMkilzNMvJ/
-         KT+cayaDsx5YFA5IHEnamkEX5DWEdj93GBq8I0wjgj620vf7QdKkY7Tr1JysKp1nptEd
-         771II0sOob0ehlpXrSPnxolZHZj7DlrWGb7GJfnuvZshHQXnYiVv3j2+2pbFCrampOCv
-         7YGVnMCiVzPFO0EA/AhwrBoIdr2lBADVU1KyoMlOcnYbaPsNvKF4UhiObvLymf7GO1cc
-         +i8XmXE55q/azaDQQv1qH9SIw99PIC9YBZ3GwNDTNsa04dsXFAThklH2tKWOPA39d8wk
-         qajQ==
-X-Gm-Message-State: AOJu0YwJbTrQ+qp0ueLrgw4e4JwFpO6ZsM/lVVqaoFwd1kUpwk9HcZF7
-	QQaDKGbiXx1z2gnufxJUkfpbKw==
-X-Google-Smtp-Source: AGHT+IHbASZQoLoy6RN0GqhWWZK5CgZjrGLQtZNFlTvZiBv33lm0s2DYxwn7PAhZqQ035t2VpWvJIw==
-X-Received: by 2002:a05:600c:219a:b0:40c:d1d:7822 with SMTP id e26-20020a05600c219a00b0040c0d1d7822mr157525wme.135.1701676238639;
-        Sun, 03 Dec 2023 23:50:38 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id r21-20020a05600c35d500b0040b3e79bad3sm13947798wmq.40.2023.12.03.23.50.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 23:50:38 -0800 (PST)
-Date: Mon, 4 Dec 2023 10:50:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dragos Bogdan <dragos.bogdan@analog.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Ley Foon Tan <ley.foon.tan@intel.com>,
-	Beniamin Bia <beniamin.bia@analog.com>
-Subject: drivers/clk/uniphier/clk-uniphier-mux.c:47
- uniphier_clk_mux_get_parent() warn: signedness bug returning '(-22)'
-Message-ID: <6322ed2e-8f2d-49e5-bebf-2fb109790cd4@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="US5rZW8U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701680202; x=1733216202;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=McEo/XNCWB4/AltTB63WLJdCfaL6mmAsgQpNkP34Txc=;
+  b=US5rZW8UTHLTlJXDX9udWc1uyMX87OUiWLBxjhppx8gHnMZyMx3IfRCx
+   LdjMPb4dANIwrljXR05HJ3h2NHxEOfUNtazE/1BtGSYaseEtMfQoAm6io
+   7Wa5fkjw7ACmMLfIY2KVMfgHoVaN+eOljz2+P7enBTBti1Ihvk0V2qybQ
+   z53gg0PjKloQjRllXJjIs5eZNPIi1qBsizLmVZDgSnH8lQGrf2gpXwHTV
+   Q5GRUOCeOpEpzVrHHFm2L2DcCuSkG2ar0aPrPZKGdnwkKL5uH+nQsh6cd
+   PY04vDl3XBQ9KdlucYR1GJ96q5d2kIUMxyw/zHITM6Wo+mt5/eMMbjvlL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="373136593"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="373136593"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 00:56:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="746769745"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="746769745"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 04 Dec 2023 00:56:40 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rA4kn-0007bu-1i;
+	Mon, 04 Dec 2023 08:56:37 +0000
+Date: Mon, 4 Dec 2023 16:56:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aswath Govindraju <a-govindraju@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>
+Subject: drivers/mux/adg792a.c:134:34: warning: 'adg792a_of_match' defined
+ but not used
+Message-ID: <202312041505.xa4xbjAK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,52 +51,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dragos,
+Hi Aswath,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: f26e433185cb2830b933df3a4d378558fe2fccd9 arch: nios2: Enable the common clk subsystem on Nios2
-config: nios2-randconfig-r081-20231120 (https://download.01.org/0day-ci/archive/20231204/202312041541.LK8ZbiIf-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231204/202312041541.LK8ZbiIf-lkp@intel.com/reproduce)
+commit: e4d4371253029528c02bfb43a46c252e1c3d035f phy: phy-can-transceiver: Add support for setting mux
+date:   1 year, 8 months ago
+config: x86_64-buildonly-randconfig-004-20230906 (https://download.01.org/0day-ci/archive/20231204/202312041505.xa4xbjAK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312041505.xa4xbjAK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312041541.LK8ZbiIf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312041505.xa4xbjAK-lkp@intel.com/
 
-smatch warnings:
-drivers/clk/uniphier/clk-uniphier-mux.c:47 uniphier_clk_mux_get_parent() warn: signedness bug returning '(-22)'
+All warnings (new ones prefixed by >>):
 
-vim +47 drivers/clk/uniphier/clk-uniphier-mux.c
+>> drivers/mux/adg792a.c:134:34: warning: 'adg792a_of_match' defined but not used [-Wunused-const-variable=]
+     134 | static const struct of_device_id adg792a_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~
 
-734d82f4a678e8 Masahiro Yamada 2016-09-16  31  static u8 uniphier_clk_mux_get_parent(struct clk_hw *hw)
-734d82f4a678e8 Masahiro Yamada 2016-09-16  32  {
-734d82f4a678e8 Masahiro Yamada 2016-09-16  33  	struct uniphier_clk_mux *mux = to_uniphier_clk_mux(hw);
-734d82f4a678e8 Masahiro Yamada 2016-09-16  34  	int num_parents = clk_hw_get_num_parents(hw);
-734d82f4a678e8 Masahiro Yamada 2016-09-16  35  	int ret;
-c0ce317f0c8863 Masahiro Yamada 2016-10-17  36  	unsigned int val;
-734d82f4a678e8 Masahiro Yamada 2016-09-16  37  	u8 i;
-734d82f4a678e8 Masahiro Yamada 2016-09-16  38  
-734d82f4a678e8 Masahiro Yamada 2016-09-16  39  	ret = regmap_read(mux->regmap, mux->reg, &val);
-734d82f4a678e8 Masahiro Yamada 2016-09-16  40  	if (ret)
-734d82f4a678e8 Masahiro Yamada 2016-09-16  41  		return ret;
-734d82f4a678e8 Masahiro Yamada 2016-09-16  42  
-734d82f4a678e8 Masahiro Yamada 2016-09-16  43  	for (i = 0; i < num_parents; i++)
-734d82f4a678e8 Masahiro Yamada 2016-09-16  44  		if ((mux->masks[i] & val) == mux->vals[i])
-734d82f4a678e8 Masahiro Yamada 2016-09-16  45  			return i;
-734d82f4a678e8 Masahiro Yamada 2016-09-16  46  
-734d82f4a678e8 Masahiro Yamada 2016-09-16 @47  	return -EINVAL;
 
-kbuild has decided to dig through ancient warnings today.  This function
-is type u8 so returning -EINVAL doesn't work.
+vim +/adg792a_of_match +134 drivers/mux/adg792a.c
 
-734d82f4a678e8 Masahiro Yamada 2016-09-16  48  }
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  133  
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14 @134  static const struct of_device_id adg792a_of_match[] = {
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  135  	{ .compatible = "adi,adg792a", },
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  136  	{ .compatible = "adi,adg792g", },
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  137  	{ }
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  138  };
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  139  MODULE_DEVICE_TABLE(of, adg792a_of_match);
+afda08c4caa948 drivers/mux/mux-adg792a.c Peter Rosin 2017-05-14  140  
+
+:::::: The code at line 134 was first introduced by commit
+:::::: afda08c4caa9489511557def51e322a5f2142a2f mux: adg792a: add mux controller driver for ADG792A/G
+
+:::::: TO: Peter Rosin <peda@axentia.se>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
