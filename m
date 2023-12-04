@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EAE5395
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F1E2E40C
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Dec 2023 16:27:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EDpQPpDD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bgUnRtzx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701707239; x=1733243239;
+  t=1701707241; x=1733243241;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bfQVqC6a+0h5w0lzqbk/UvvGhQcqNGm+qXmDgz3A+DM=;
-  b=EDpQPpDDKDWCNQemxrXoL1f7dl91XLPX7/JRe3HfMSitfaUZsz2QlaCU
-   ZrTN6ANsRn1cAaa34I+Nrlgh1lA5qzJ47Urcyw30O6Vr79AtEYyqmxk6L
-   rT4saPnerZTMUGww7KsQF39z4uK/kFYnGp3beKXGy2e/pOf0M2aT23YpX
-   fdIkSJ+qWCm1hthlCT8W19PqEGcSdoVBCkskbzN2djI1K7lcMOQ1XVr7e
-   jd20Ewde0WlkMDobZ5qNNPsGVgjMDmjw3TJUoBq/Y3GjIfgwkcm95dw65
-   kwQFda3rmXmqFs+cHSCCLKHFn/ja65P9apfy0gcl60OOhMyFHQeSrTwnd
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="12473892"
+  bh=uB0L/5LJuHJ93tulqUYqLgLYZHWNT+tV4PPB0VSjUiY=;
+  b=bgUnRtzx7npGMV8rQHhq9fDTCAFHjdXvl6DiCBW8VhtcgpNJ0jCKuUDi
+   wc3VJuYjdJM0YYquN/x//nNJJJwKxcVttGPPqtczhXWOahWdeLusDPMSz
+   E9z0BOI2zK9k5+JfPGmfOF6Sx3KhrjN5Mi3n7uMjHUlZsw0mhnidPL3nQ
+   FgPHiXmpo31riR29BrPtI7BHw4V1Fkf+r3PomagZ1c9x9oy2ud/D66UHh
+   tlVyTuMnwfpgK/j+tahYTw/swENfnfhquGzE7xVkongBxQMzH15WAWdm5
+   nBe1ceBxQxOWMx0caqZuR0DFMwFUmWPdzik3H2JRRDEEepxCtrD+mKNuS
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="373197356"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="12473892"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 08:27:18 -0800
+   d="scan'208";a="373197356"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 08:27:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="836637117"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764004903"
 X-IronPort-AV: E=Sophos;i="6.04,250,1695711600"; 
-   d="scan'208";a="836637117"
+   d="scan'208";a="764004903"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 04 Dec 2023 08:27:18 -0800
+  by orsmga007.jf.intel.com with ESMTP; 04 Dec 2023 08:27:18 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rABmu-0007u7-0D;
-	Mon, 04 Dec 2023 16:27:16 +0000
-Date: Tue, 5 Dec 2023 00:26:58 +0800
+	id 1rABmt-0007u1-2q;
+	Mon, 04 Dec 2023 16:27:15 +0000
+Date: Tue, 5 Dec 2023 00:27:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: io_uring/poll.c:480:43: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202312042340.7JS39aIa-lkp@intel.com>
+To: Vineet Gupta <vgupta@synopsys.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202312050038.JnRYRU9j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,136 +53,111 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-commit: b9ba8a4463cd78d0aee520c4bf2569820ac29929 io_uring: add support for level triggered poll
-date:   1 year, 4 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231204/202312042340.7JS39aIa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231204/202312042340.7JS39aIa-lkp@intel.com/reproduce)
+commit: 96f1b00138cb8f04c742c82d0a7c460b2202e887 ARCv2: save ABI registers across signal handling
+date:   2 years, 6 months ago
+config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231205/202312050038.JnRYRU9j-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231205/202312050038.JnRYRU9j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312042340.7JS39aIa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312050038.JnRYRU9j-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   io_uring/poll.c:165:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t @@
-   io_uring/poll.c:165:38: sparse:     expected signed int [usertype] res
-   io_uring/poll.c:165:38: sparse:     got restricted __poll_t
-   io_uring/poll.c:176:56: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:175:66: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
-   io_uring/poll.c:175:66: sparse:     expected restricted __poll_t [usertype] val
-   io_uring/poll.c:175:66: sparse:     got unsigned int
-   io_uring/poll.c:175:52: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned short @@
-   io_uring/poll.c:175:52: sparse:     expected restricted __poll_t [usertype] mask
-   io_uring/poll.c:175:52: sparse:     got unsigned short
-   io_uring/poll.c:181:50: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
-   io_uring/poll.c:181:50: sparse:     expected signed int [usertype] res
-   io_uring/poll.c:181:50: sparse:     got restricted __poll_t [usertype] mask
-   io_uring/poll.c:216:63: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:216:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
-   io_uring/poll.c:216:57: sparse:     expected restricted __poll_t [usertype] val
-   io_uring/poll.c:216:57: sparse:     got unsigned int
-   io_uring/poll.c:334:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [usertype] mask @@
-   io_uring/poll.c:334:40: sparse:     expected int mask
-   io_uring/poll.c:334:40: sparse:     got restricted __poll_t [usertype] mask
-   io_uring/poll.c:430:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:430:24: sparse:     expected int
-   io_uring/poll.c:430:24: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:451:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:451:40: sparse:     expected int mask
-   io_uring/poll.c:451:40: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:480:45: sparse: sparse: restricted __poll_t degrades to integer
->> io_uring/poll.c:480:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned int @@
-   io_uring/poll.c:480:43: sparse:     expected restricted __poll_t [usertype] mask
-   io_uring/poll.c:480:43: sparse:     got unsigned int
-   io_uring/poll.c:528:33: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:528:33: sparse:     expected int mask
-   io_uring/poll.c:528:33: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:528:50: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected int events @@     got restricted __poll_t [usertype] events @@
-   io_uring/poll.c:528:50: sparse:     expected int events
-   io_uring/poll.c:528:50: sparse:     got restricted __poll_t [usertype] events
-   io_uring/poll.c:642:24: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:642:24: sparse:    left side has type unsigned int
-   io_uring/poll.c:642:24: sparse:    right side has type restricted __poll_t
-   io_uring/poll.c:644:24: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:644:24: sparse:    left side has type unsigned int
-   io_uring/poll.c:644:24: sparse:    right side has type restricted __poll_t
-   io_uring/poll.c:646:55: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:645:29: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:645:38: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int @@
-   io_uring/poll.c:645:38: sparse:     expected restricted __poll_t
-   io_uring/poll.c:645:38: sparse:     got unsigned int
-   io_uring/poll.c:741:38: sparse: sparse: invalid assignment: &=
-   io_uring/poll.c:741:38: sparse:    left side has type restricted __poll_t
-   io_uring/poll.c:741:38: sparse:    right side has type int
-   io_uring/poll.c:742:52: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:742:38: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:742:38: sparse:    left side has type restricted __poll_t
-   io_uring/poll.c:742:38: sparse:    right side has type unsigned int
-   io_uring/poll.c: note: in included file:
-   io_uring/io_uring_types.h:92:37: sparse: sparse: array of flexible structures
+>> arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct user_regs_arcv2 * @@
+   arch/arc/kernel/signal.c:77:31: sparse:     expected void [noderef] __user *to
+   arch/arc/kernel/signal.c:77:31: sparse:     got struct user_regs_arcv2 *
+>> arch/arc/kernel/signal.c:88:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct user_regs_arcv2 * @@
+   arch/arc/kernel/signal.c:88:41: sparse:     expected void const [noderef] __user *from
+   arch/arc/kernel/signal.c:88:41: sparse:     got struct user_regs_arcv2 *
+>> arch/arc/kernel/signal.c:134:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
+   arch/arc/kernel/signal.c:134:42: sparse:     expected struct sigcontext *mctx
+   arch/arc/kernel/signal.c:134:42: sparse:     got struct sigcontext [noderef] __user *
+   arch/arc/kernel/signal.c:153:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
+   arch/arc/kernel/signal.c:153:45: sparse:     expected struct sigcontext *mctx
+   arch/arc/kernel/signal.c:153:45: sparse:     got struct sigcontext [noderef] __user *
 
-vim +480 io_uring/poll.c
+vim +77 arch/arc/kernel/signal.c
 
-   473	
-   474	int io_arm_poll_handler(struct io_kiocb *req, unsigned issue_flags)
-   475	{
-   476		const struct io_op_def *def = &io_op_defs[req->opcode];
-   477		struct io_ring_ctx *ctx = req->ctx;
-   478		struct async_poll *apoll;
-   479		struct io_poll_table ipt;
- > 480		__poll_t mask = POLLPRI | POLLERR | EPOLLET;
-   481		int ret;
-   482	
-   483		if (!def->pollin && !def->pollout)
-   484			return IO_APOLL_ABORTED;
-   485		if (!file_can_poll(req->file))
-   486			return IO_APOLL_ABORTED;
-   487		if ((req->flags & (REQ_F_POLLED|REQ_F_PARTIAL_IO)) == REQ_F_POLLED)
-   488			return IO_APOLL_ABORTED;
-   489		if (!(req->flags & REQ_F_APOLL_MULTISHOT))
-   490			mask |= EPOLLONESHOT;
-   491	
-   492		if (def->pollin) {
-   493			mask |= EPOLLIN | EPOLLRDNORM;
-   494	
-   495			/* If reading from MSG_ERRQUEUE using recvmsg, ignore POLLIN */
-   496			if (req->flags & REQ_F_CLEAR_POLLIN)
-   497				mask &= ~EPOLLIN;
-   498		} else {
-   499			mask |= EPOLLOUT | EPOLLWRNORM;
-   500		}
-   501		if (def->poll_exclusive)
-   502			mask |= EPOLLEXCLUSIVE;
-   503		if (req->flags & REQ_F_POLLED) {
-   504			apoll = req->apoll;
-   505			kfree(apoll->double_poll);
-   506		} else if (!(issue_flags & IO_URING_F_UNLOCKED) &&
-   507			   !list_empty(&ctx->apoll_cache)) {
-   508			apoll = list_first_entry(&ctx->apoll_cache, struct async_poll,
-   509							poll.wait.entry);
-   510			list_del_init(&apoll->poll.wait.entry);
-   511		} else {
-   512			apoll = kmalloc(sizeof(*apoll), GFP_ATOMIC);
-   513			if (unlikely(!apoll))
-   514				return IO_APOLL_ABORTED;
-   515		}
-   516		apoll->double_poll = NULL;
-   517		req->apoll = apoll;
-   518		req->flags |= REQ_F_POLLED;
-   519		ipt.pt._qproc = io_async_queue_proc;
-   520	
-   521		io_kbuf_recycle(req, issue_flags);
-   522	
-   523		ret = __io_arm_poll_handler(req, &apoll->poll, &ipt, mask);
-   524		if (ret || ipt.error)
-   525			return ret ? IO_APOLL_READY : IO_APOLL_ABORTED;
-   526	
-   527		trace_io_uring_poll_arm(ctx, req, req->cqe.user_data, req->opcode,
-   528					mask, apoll->poll.events);
-   529		return IO_APOLL_OK;
-   530	}
-   531	
+    63	
+    64	static int save_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
+    65	{
+    66		int err = 0;
+    67	#ifndef CONFIG_ISA_ARCOMPACT
+    68		struct user_regs_arcv2 v2abi;
+    69	
+    70		v2abi.r30 = regs->r30;
+    71	#ifdef CONFIG_ARC_HAS_ACCL_REGS
+    72		v2abi.r58 = regs->r58;
+    73		v2abi.r59 = regs->r59;
+    74	#else
+    75		v2abi.r58 = v2abi.r59 = 0;
+    76	#endif
+  > 77		err = __copy_to_user(&mctx->v2abi, &v2abi, sizeof(v2abi));
+    78	#endif
+    79		return err;
+    80	}
+    81	
+    82	static int restore_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
+    83	{
+    84		int err = 0;
+    85	#ifndef CONFIG_ISA_ARCOMPACT
+    86		struct user_regs_arcv2 v2abi;
+    87	
+  > 88		err = __copy_from_user(&v2abi, &mctx->v2abi, sizeof(v2abi));
+    89	
+    90		regs->r30 = v2abi.r30;
+    91	#ifdef CONFIG_ARC_HAS_ACCL_REGS
+    92		regs->r58 = v2abi.r58;
+    93		regs->r59 = v2abi.r59;
+    94	#endif
+    95	#endif
+    96		return err;
+    97	}
+    98	
+    99	static int
+   100	stash_usr_regs(struct rt_sigframe __user *sf, struct pt_regs *regs,
+   101		       sigset_t *set)
+   102	{
+   103		int err;
+   104		struct user_regs_struct uregs;
+   105	
+   106		uregs.scratch.bta	= regs->bta;
+   107		uregs.scratch.lp_start	= regs->lp_start;
+   108		uregs.scratch.lp_end	= regs->lp_end;
+   109		uregs.scratch.lp_count	= regs->lp_count;
+   110		uregs.scratch.status32	= regs->status32;
+   111		uregs.scratch.ret	= regs->ret;
+   112		uregs.scratch.blink	= regs->blink;
+   113		uregs.scratch.fp	= regs->fp;
+   114		uregs.scratch.gp	= regs->r26;
+   115		uregs.scratch.r12	= regs->r12;
+   116		uregs.scratch.r11	= regs->r11;
+   117		uregs.scratch.r10	= regs->r10;
+   118		uregs.scratch.r9	= regs->r9;
+   119		uregs.scratch.r8	= regs->r8;
+   120		uregs.scratch.r7	= regs->r7;
+   121		uregs.scratch.r6	= regs->r6;
+   122		uregs.scratch.r5	= regs->r5;
+   123		uregs.scratch.r4	= regs->r4;
+   124		uregs.scratch.r3	= regs->r3;
+   125		uregs.scratch.r2	= regs->r2;
+   126		uregs.scratch.r1	= regs->r1;
+   127		uregs.scratch.r0	= regs->r0;
+   128		uregs.scratch.sp	= regs->sp;
+   129	
+   130		err = __copy_to_user(&(sf->uc.uc_mcontext.regs.scratch), &uregs.scratch,
+   131				     sizeof(sf->uc.uc_mcontext.regs.scratch));
+   132	
+   133		if (is_isa_arcv2())
+ > 134			err |= save_arcv2_regs(&(sf->uc.uc_mcontext), regs);
+   135	
+   136		err |= __copy_to_user(&sf->uc.uc_sigmask, set, sizeof(sigset_t));
+   137	
+   138		return err ? -EFAULT : 0;
+   139	}
+   140	
 
 -- 
 0-DAY CI Kernel Test Service
