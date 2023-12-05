@@ -1,52 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6156A034
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 22:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E713FE5C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 23:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUHR7H4I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e/D08m7A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701815460; x=1733351460;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J7MOYVUUmMXw9Bbz68V78xjbparJszGQozDdKHc5IqI=;
-  b=cUHR7H4IcQzlo2bciU8NmhHJb7jP9L4K+gFaLGEa0gM2v0c/vNJTe+WO
-   uu9OC8rckFttW1UeOouiz3NQbIt9Y3/g6tyE1rEsCyQHNnaC4ysdZzOrS
-   TDKqKeI71GfIDPOHboGsui7siDCE7sNBX/Y2x/VaImvm5QPZfV3DoW3Dq
-   fNJQJgm9gVks0IkjK0sHzhNWqckNr7UOeahdNBEbKTJTaxF2nS7ywsVHl
-   +B3ceRy4Y0BgidPj4TL1DtxvyXzquX8i/sc1Lmxj4rn7zS0r/RjEASxER
-   j0dl3ytpxhh5VnHOz3bGL6Lx+Lrb0T6i+1sVEsxpaZ5qAMGaPfVT6RrWw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="396760081"
+  t=1701817440; x=1733353440;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fXoYNXCzqOrgVGOjoxNqZFaBx/iomzF0GtuSahaTLJY=;
+  b=e/D08m7AIsWz+5zfUKyimJawUkZQ4yjW++Q9rVsb61vYv1TcUK5p006U
+   EqfVn65Wi4Vyp/bAb8ltEEv/hRqFPXHX9ZNIZ6lrzAxB3FUyfOZmsErEV
+   BfsSHbkrbqL5nyumldLnWb438gVoOi8Ph3NH3vZoRixwAQ3j4mMc2c6iW
+   saQlRiC8r37vc4KgTBsd30ZV8cOxhTNwlN0tPxoxRsDWVYbD26K4mgTrp
+   dKL2yBAJYc3kXRR6gfDrQ6sY0Yp6BBmR8eQZoE7920YJqpAMfzNgoSGfa
+   Q6rPaI6LS9eSyXFUI0PKFl61PMqKEHDOS6SSc7n/qCoHbUB9dukz1re3I
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1031271"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="396760081"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 14:30:58 -0800
+   d="scan'208";a="1031271"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:03:59 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="841631766"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="19119382"
+   d="scan'208";a="841631766"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 05 Dec 2023 14:30:56 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 05 Dec 2023 15:03:56 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAdwL-0009oE-10;
-	Tue, 05 Dec 2023 22:30:53 +0000
-Date: Wed, 6 Dec 2023 06:30:32 +0800
+	id 1rAeSI-0009py-24;
+	Tue, 05 Dec 2023 23:03:54 +0000
+Date: Wed, 6 Dec 2023 07:03:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunke Cao <yunkec@google.com>, Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, Tomasz Figa <tfiga@chromium.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
-	Yunke Cao <yunkec@google.com>
-Subject: Re: [PATCH v14 06/11] v4l2-ctrls: add support for
- V4L2_CTRL_WHICH_MIN/MAX_VAL
-Message-ID: <202312060621.h935AOSJ-lkp@intel.com>
-References: <20231201071907.3080126-7-yunkec@google.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [xilinx-xlnx:lkp_test 29/42] drivers/spi/spi-zynq-qspi.c:167:6:
+ sparse: sparse: symbol 'zynq_qspi_update_stripe' was not declared. Should it
+ be static?
+Message-ID: <202312060605.vTJvD8EK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,55 +51,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201071907.3080126-7-yunkec@google.com>
 
-Hi Yunke,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linuxtv-media-stage/master linus/master v6.7-rc4 next-20231205]
-[cannot apply to media-tree/master sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunke-Cao/media-v4l2_ctrl-Add-V4L2_CTRL_TYPE_RECT/20231201-152501
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231201071907.3080126-7-yunkec%40google.com
-patch subject: [PATCH v14 06/11] v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
-config: alpha-randconfig-r122-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060621.h935AOSJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060621.h935AOSJ-lkp@intel.com/reproduce)
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   414b0dc753ec961cf8e532b86412522e78a00169
+commit: f941d3281b2d6cb258f536ba0d729ae54abae67c [29/42] spi: spi-zynq-qspi: Add multi-cs support in Zynq QSPI driver
+config: sh-randconfig-r122-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060605.vTJvD8EK-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060605.vTJvD8EK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060621.h935AOSJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060605.vTJvD8EK-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:309:6: sparse: sparse: symbol 'v4l2_ctrl_type_op_minimum' was not declared. Should it be static?
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:315:6: sparse: sparse: symbol 'v4l2_ctrl_type_op_maximum' was not declared. Should it be static?
-   drivers/media/v4l2-core/v4l2-ctrls-core.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>> drivers/spi/spi-zynq-qspi.c:167:6: sparse: sparse: symbol 'zynq_qspi_update_stripe' was not declared. Should it be static?
+   drivers/spi/spi-zynq-qspi.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/irq.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +/v4l2_ctrl_type_op_minimum +309 drivers/media/v4l2-core/v4l2-ctrls-core.c
+vim +/zynq_qspi_update_stripe +167 drivers/spi/spi-zynq-qspi.c
 
-   308	
- > 309	void v4l2_ctrl_type_op_minimum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-   310				       union v4l2_ctrl_ptr ptr)
-   311	{
-   312		__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MIN_VAL, ptr);
-   313	}
-   314	
- > 315	void v4l2_ctrl_type_op_maximum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-   316				       union v4l2_ctrl_ptr ptr)
-   317	{
-   318		__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MAX_VAL, ptr);
-   319	}
-   320	
+   159	
+   160	/**
+   161	 * zynq_qspi_update_stripe - For Zynq QSPI controller data stripe capabilities
+   162	 * @op: Pointer to mem ops
+   163	 * Return:      Status of the data stripe
+   164	 *
+   165	 * Returns true if data stripe need to be enabled, else returns false
+   166	 */
+ > 167	bool zynq_qspi_update_stripe(const struct spi_mem_op *op)
+   168	{
+   169		if (op->cmd.opcode ==  SPINOR_OP_BE_4K ||
+   170		    op->cmd.opcode ==  SPINOR_OP_BE_32K ||
+   171		    op->cmd.opcode ==  SPINOR_OP_CHIP_ERASE ||
+   172		    op->cmd.opcode ==  SPINOR_OP_SE ||
+   173		    op->cmd.opcode ==  SPINOR_OP_BE_32K_4B ||
+   174		    op->cmd.opcode ==  SPINOR_OP_SE_4B ||
+   175		    op->cmd.opcode == SPINOR_OP_BE_4K_4B ||
+   176		    op->cmd.opcode ==  SPINOR_OP_WRSR ||
+   177		    op->cmd.opcode ==  SPINOR_OP_WREAR ||
+   178		    op->cmd.opcode ==  SPINOR_OP_BRWR ||
+   179		    (op->cmd.opcode ==  SPINOR_OP_WRSR2 && !op->addr.nbytes))
+   180			return false;
+   181	
+   182		return true;
+   183	}
+   184	
 
 -- 
 0-DAY CI Kernel Test Service
