@@ -1,47 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450054177F;
-	Tue,  5 Dec 2023 09:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4CE46B87
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 09:50:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/R0s+ns"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yocccp6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701769839; x=1733305839;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xWFYoe5oxsGtQxUArBVv5GQudQnV/5Hoox5HND4fMlM=;
-  b=I/R0s+nsECvLUgt3FPtYjaPDvC5uy1nNU1LKiY1RzS6jvLLx6jjeA+Jf
-   Yv7OEZ9JSkaBkK/c8IKmIC7ga3ZvG1pW/Z9fV89cYuTaDhabbS9t2kdER
-   lDM/wJ6jv4WVXZ7XalXpdytDr4QsBtMjluDVxoKtICW8Lf1T1X1whNjmt
-   S2/XX0B8rnxmg9KNY4UTuNUpyD5oyU+6lUC+bpHT816Ffr7nLHLzaoigI
-   ldQodmxk1YnHgBQidAjoZ7YBqIB7K8kFsvuemXHKMpXpfygEjSUEEhj3k
-   PpCzMfI6869usL2fuRUxHUnzN2SsOYIMQPlyqVw7cwjFNSEddZxdBXfNp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="384269377"
+  t=1701769840; x=1733305840;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ynZxpIG44aYelXlmnhFzoUsvhHg41bdZ9yKRk1kUO+c=;
+  b=Yocccp6lPdOKIhR76ZldZMtEpw5vpgT/zet3HSG1/uVgQvJz40kwRBmL
+   /amdP+yXa3RnuhRPW7ZCLoglIkgs72CV2vCsG34dq2ervy0Eal4p+3M8j
+   jk1IhHEQSK9lBj4o5QcgAkQ0m57tKB10Fgr86rol/UFbowDa+SDfVEtfF
+   JATvQDFu7TlJLrAy779U8Tgc53YNXVS+MPnAmgbVg+y9oh0Tm+NPtnH6m
+   58NS/XmMuzmNkqFINwjZrBTZD1gHRTKnU8Qf6Wl254thoTq13OU8YGtC3
+   qpH8RUFwsLFomoOd50hxV18bT/xRb+IyWqBRkNP9CqXs5oGjJIVpIjdzM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="15419162"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="384269377"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 01:50:38 -0800
+   d="scan'208";a="15419162"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 01:50:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="805229070"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="836922250"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="805229070"
+   d="scan'208";a="836922250"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 05 Dec 2023 01:50:36 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 05 Dec 2023 01:50:35 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAS4Y-0008hn-13;
+	id 1rAS4Y-0008hl-0w;
 	Tue, 05 Dec 2023 09:50:34 +0000
-Date: Tue, 5 Dec 2023 17:50:32 +0800
+Date: Tue, 5 Dec 2023 17:50:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Atish Patra <atishp@rivosinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Atish Patra <Atish.Patra@wdc.com>
-Subject: [atishp04:kvm_pmu_snapshot_v1 32/32]
- arch/riscv/kvm/vcpu_pmu.c:204:6: warning: unused variable 'enabled'
-Message-ID: <202312051709.nVYMNAeq-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Kees Cook <keescook@chromium.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Iurii Zaikin <yzaikin@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Joel Granados <j.granados@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH v2 12/18] sysctl: treewide: constify the ctl_table
+ argument of handlers
+Message-ID: <202312051727.wW4EJo6e-lkp@intel.com>
+References: <20231204-const-sysctl-v2-12-7a5060b11447@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,95 +59,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231204-const-sysctl-v2-12-7a5060b11447@weissschuh.net>
 
-tree:   https://github.com/atishp04/linux kvm_pmu_snapshot_v1
-head:   7536565387bf2f507db4c5407ad0a27413b349db
-commit: 7536565387bf2f507db4c5407ad0a27413b349db [32/32] RISC-V: KVM: Support 64 bit firmware counters on RV32
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20231205/202312051709.nVYMNAeq-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051709.nVYMNAeq-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on netfilter-nf/main]
+[also build test ERROR on akpm-mm/mm-everything linus/master v6.7-rc4]
+[cannot apply to nf-next/master next-20231205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/sysctl-delete-unused-define-SYSCTL_PERM_EMPTY_DIR/20231204-165306
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20231204-const-sysctl-v2-12-7a5060b11447%40weissschuh.net
+patch subject: [PATCH v2 12/18] sysctl: treewide: constify the ctl_table argument of handlers
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051727.wW4EJo6e-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051727.wW4EJo6e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051709.nVYMNAeq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051727.wW4EJo6e-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/riscv/kvm/vcpu_pmu.c:204:6: warning: unused variable 'enabled' [-Wunused-variable]
-     204 |         u64 enabled, running;
-         |             ^
->> arch/riscv/kvm/vcpu_pmu.c:204:15: warning: unused variable 'running' [-Wunused-variable]
-     204 |         u64 enabled, running;
-         |                      ^
-   arch/riscv/kvm/vcpu_pmu.c:383:28: warning: result of comparison of constant 18446744073709551615 with expression of type 'unsigned long' is always true [-Wtautological-constant-out-of-range-compare]
-     383 |                 if (kvpmu->snapshot_addr != INVALID_GPA)
-         |                     ~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~
-   arch/riscv/kvm/vcpu_pmu.c:387:25: warning: implicit conversion from 'gpa_t' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-     387 |         kvpmu->snapshot_addr = INVALID_GPA;
-         |                              ~ ^~~~~~~~~~~
-   include/linux/kvm_types.h:43:22: note: expanded from macro 'INVALID_GPA'
-      43 | #define INVALID_GPA     (~(gpa_t)0)
-         |                          ^~~~~~~~~
-   arch/riscv/kvm/vcpu_pmu.c:440:26: warning: implicit conversion from 'gpa_t' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-     440 |                 kvpmu->snapshot_addr = INVALID_GPA;
-         |                                      ~ ^~~~~~~~~~~
-   include/linux/kvm_types.h:43:22: note: expanded from macro 'INVALID_GPA'
-      43 | #define INVALID_GPA     (~(gpa_t)0)
-         |                          ^~~~~~~~~
-   arch/riscv/kvm/vcpu_pmu.c:485:41: warning: result of comparison of constant 18446744073709551615 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
-     485 |             (bSnapshot && kvpmu->snapshot_addr == INVALID_GPA)) {
-         |                           ~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~
-   arch/riscv/kvm/vcpu_pmu.c:556:42: warning: result of comparison of constant 18446744073709551615 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
-     556 |             (bSnapshot && (kvpmu->snapshot_addr == INVALID_GPA))) {
-         |                            ~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~
-   arch/riscv/kvm/vcpu_pmu.c:771:25: warning: implicit conversion from 'gpa_t' (aka 'unsigned long long') to 'unsigned long' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
-     771 |         kvpmu->snapshot_addr = INVALID_GPA;
-         |                              ~ ^~~~~~~~~~~
-   include/linux/kvm_types.h:43:22: note: expanded from macro 'INVALID_GPA'
-      43 | #define INVALID_GPA     (~(gpa_t)0)
-         |                          ^~~~~~~~~
-   8 warnings generated.
+   arch/s390/appldata/appldata_base.c: In function 'appldata_register_ops':
+>> arch/s390/appldata/appldata_base.c:363:40: error: assignment to 'int (*)(const struct ctl_table *, int,  void *, size_t *, loff_t *)' {aka 'int (*)(const struct ctl_table *, int,  void *, long unsigned int *, long long int *)'} from incompatible pointer type 'int (*)(struct ctl_table *, int,  void *, size_t *, loff_t *)' {aka 'int (*)(struct ctl_table *, int,  void *, long unsigned int *, long long int *)'} [-Werror=incompatible-pointer-types]
+     363 |         ops->ctl_table[0].proc_handler = appldata_generic_handler;
+         |                                        ^
+   cc1: some warnings being treated as errors
 
 
-vim +/enabled +204 arch/riscv/kvm/vcpu_pmu.c
+vim +363 arch/s390/appldata/appldata_base.c
 
-   185	
-   186	static int pmu_get_pmc_index(struct kvm_pmu *pmu, unsigned long eidx,
-   187				     unsigned long cbase, unsigned long cmask)
-   188	{
-   189		int ret;
-   190	
-   191		/* Fixed counters need to be have fixed mapping as they have different width */
-   192		ret = kvm_pmu_get_fixed_pmc_index(eidx);
-   193		if (ret >= 0)
-   194			return ret;
-   195	
-   196		return kvm_pmu_get_programmable_pmc_index(pmu, eidx, cbase, cmask);
-   197	}
-   198	#if defined(CONFIG_32BIT)
-   199	static int pmu_fw_ctr_read_hi(struct kvm_vcpu *vcpu, unsigned long cidx,
-   200				      unsigned long *out_val)
-   201	{
-   202		struct kvm_pmu *kvpmu = vcpu_to_pmu(vcpu);
-   203		struct kvm_pmc *pmc;
- > 204		u64 enabled, running;
-   205		int fevent_code;
-   206	
-   207		pmc = &kvpmu->pmc[cidx];
-   208	
-   209		if (pmc->cinfo.type != SBI_PMU_CTR_TYPE_FW)
-   210			return -EINVAL;
-   211	
-   212		fevent_code = get_event_code(pmc->event_idx);
-   213		pmc->counter_val = kvpmu->fw_event[fevent_code].value;
-   214	
-   215		*out_val = pmc->counter_val >> 32;
-   216	
-   217		return 0;
-   218	}
-   219	#endif
-   220	
+^1da177e4c3f41 Linus Torvalds   2005-04-16  340  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  341  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  342  /************************* module-ops management *****************************/
+^1da177e4c3f41 Linus Torvalds   2005-04-16  343  /*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  344   * appldata_register_ops()
+^1da177e4c3f41 Linus Torvalds   2005-04-16  345   *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  346   * update ops list, register /proc/sys entries
+^1da177e4c3f41 Linus Torvalds   2005-04-16  347   */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  348  int appldata_register_ops(struct appldata_ops *ops)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  349  {
+13f8b7c5e6fa13 Roel Kluin       2008-10-28  350  	if (ops->size > APPLDATA_MAX_REC_SIZE)
+37e3a6ac5a3046 Heiko Carstens   2007-11-20  351  		return -EINVAL;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  352  
+fdd9da76e2dec0 Joel Granados    2023-10-02  353  	ops->ctl_table = kcalloc(1, sizeof(struct ctl_table), GFP_KERNEL);
+37e3a6ac5a3046 Heiko Carstens   2007-11-20  354  	if (!ops->ctl_table)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  355  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  356  
+b1ad171efa089a Gerald Schaefer  2009-04-23  357  	mutex_lock(&appldata_ops_mutex);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  358  	list_add(&ops->list, &appldata_ops_list);
+b1ad171efa089a Gerald Schaefer  2009-04-23  359  	mutex_unlock(&appldata_ops_mutex);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  360  
+7db12246306ea6 Luis Chamberlain 2023-03-10  361  	ops->ctl_table[0].procname = ops->name;
+7db12246306ea6 Luis Chamberlain 2023-03-10  362  	ops->ctl_table[0].mode = S_IRUGO | S_IWUSR;
+7db12246306ea6 Luis Chamberlain 2023-03-10 @363  	ops->ctl_table[0].proc_handler = appldata_generic_handler;
+7db12246306ea6 Luis Chamberlain 2023-03-10  364  	ops->ctl_table[0].data = ops;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  365  
+9edbfe92a0a135 Joel Granados    2023-08-09  366  	ops->sysctl_header = register_sysctl_sz(appldata_proc_name, ops->ctl_table, 1);
+37e3a6ac5a3046 Heiko Carstens   2007-11-20  367  	if (!ops->sysctl_header)
+37e3a6ac5a3046 Heiko Carstens   2007-11-20  368  		goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  369  	return 0;
+37e3a6ac5a3046 Heiko Carstens   2007-11-20  370  out:
+b1ad171efa089a Gerald Schaefer  2009-04-23  371  	mutex_lock(&appldata_ops_mutex);
+37e3a6ac5a3046 Heiko Carstens   2007-11-20  372  	list_del(&ops->list);
+b1ad171efa089a Gerald Schaefer  2009-04-23  373  	mutex_unlock(&appldata_ops_mutex);
+37e3a6ac5a3046 Heiko Carstens   2007-11-20  374  	kfree(ops->ctl_table);
+37e3a6ac5a3046 Heiko Carstens   2007-11-20  375  	return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  376  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  377  
 
 -- 
 0-DAY CI Kernel Test Service
