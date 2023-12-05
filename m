@@ -1,49 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2AB69292
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 17:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEC8692A5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 17:13:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KW5do3g8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYqKDZYv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701796389; x=1733332389;
+  t=1701796392; x=1733332392;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=C50b1hT9bdPKWty71s+6Tz72a9faiyJW59kqfSxsWSc=;
-  b=KW5do3g8nqgDD98VjQy/PkgO6t4+U4omuqsgtMpN7ZlNIWv9VSDaB3qc
-   CEpStY+ifqmxKxLxs/0Jvtg+P9MTiIOve2LkSWwvvClEKGxTI0LoyW4eT
-   CA//QxKTIYzrK4oJXwfLOIo3ekoGwctVYKFSOgRIENGW7gWIcmc8UezeB
-   rFK/y62Npoz6IGyfuZGOyoilX6vws27r2sN/hPmv9jLojCL/8dwgSkxTU
-   tEbEp6JAqylxo3v4zBHNsCd7fYwEVhqYoeehEmHTE9vQUBAme3+GPqTPS
-   nywgy8mqq2P/Ki16IgVvRyC2P4EbkLYNgZyutazC0zahejmDpbEaCTYjG
+  bh=BmifUTMaKj9dY4/DK95TnLsaZxvxHwv5Do/Twvz99vk=;
+  b=TYqKDZYvjw9GhQCnF+VMSEXEXZsOuiGCpqDGxXauUJSrlOLL5d+qQMK8
+   Xt5ly7QWGeTkrWHuvC/f4Th6TGPoG/VFEfsXMLcnyvGpDD205B5sniJGk
+   uK4EPjl3aGFGwluB6Vra1ojBQOeRYnLq+y6VrM0XPK+mYVP9KTjaF7qua
+   NlpnDdwTfkF7b95ShWYw+TwxtrmOrMF4hphH0JjWqL2TxSqrcGf5hsK6f
+   6zXSPkgYjcgoyKtBuoHmtoqEx09BLyN0nwNrjSgKimXeyO14/bC+anzME
+   MMp37CDvdkr00zzdmhCqsrXVwq49oe8bIreMqmKsw8NBPTZ7tHslZreaL
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="373377337"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="984052"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="373377337"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 09:13:08 -0800
+   d="scan'208";a="984052"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 09:13:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="770987840"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="861813064"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="770987840"
+   d="scan'208";a="861813064"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 05 Dec 2023 09:13:06 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 09:13:06 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAYyl-0009Qq-2N;
+	id 1rAYyl-0009Qk-27;
 	Tue, 05 Dec 2023 17:13:03 +0000
-Date: Wed, 6 Dec 2023 01:12:21 +0800
+Date: Wed, 6 Dec 2023 01:12:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Haoran Liu <liuhaoran14@163.com>, support.opensource@diasemi.com
-Cc: oe-kbuild-all@lists.linux.dev, lee@kernel.org,
-	linux-kernel@vger.kernel.org, Haoran Liu <liuhaoran14@163.com>
-Subject: Re: [PATCH] [mfd] da9052: Add error handling for spi_setup in
- da9052_spi_probe
-Message-ID: <202312060001.AnSLILR4-lkp@intel.com>
-References: <20231203052125.37334-1-liuhaoran14@163.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
+Message-ID: <202312060158.z29IZpw9-lkp@intel.com>
+References: <20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,89 +63,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231203052125.37334-1-liuhaoran14@163.com>
+In-Reply-To: <20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa@linaro.org>
 
-Hi Haoran,
+Hi Neil,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on lee-mfd/for-mfd-next]
-[also build test ERROR on lee-leds/for-leds-next lee-mfd/for-mfd-fixes linus/master v6.7-rc4 next-20231205]
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v6.7-rc4 next-20231205]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Haoran-Liu/da9052-Add-error-handling-for-spi_setup-in-da9052_spi_probe/20231203-132410
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20231203052125.37334-1-liuhaoran14%40163.com
-patch subject: [PATCH] [mfd] da9052: Add error handling for spi_setup in da9052_spi_probe
-config: x86_64-randconfig-123-20231203 (https://download.01.org/0day-ci/archive/20231206/202312060001.AnSLILR4-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060001.AnSLILR4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-document-WCD939x-Audio-Codec/20231202-000916
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa%40linaro.org
+patch subject: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
+config: arm64-randconfig-r123-20231204 (https://download.01.org/0day-ci/archive/20231206/202312060158.z29IZpw9-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060158.z29IZpw9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060001.AnSLILR4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060158.z29IZpw9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/mfd/da9052-spi.c:25:6: error: redefinition of 'ret'
-           int ret;
-               ^
-   drivers/mfd/da9052-spi.c:22:6: note: previous definition is here
-           int ret;
-               ^
-   1 error generated.
-
-
-vim +/ret +25 drivers/mfd/da9052-spi.c
-
-    18	
-    19	static int da9052_spi_probe(struct spi_device *spi)
-    20	{
-    21		struct regmap_config config;
-    22		int ret;
-    23		const struct spi_device_id *id = spi_get_device_id(spi);
-    24		struct da9052 *da9052;
-  > 25		int ret;
-    26	
-    27		da9052 = devm_kzalloc(&spi->dev, sizeof(struct da9052), GFP_KERNEL);
-    28		if (!da9052)
-    29			return -ENOMEM;
-    30	
-    31		spi->mode = SPI_MODE_0;
-    32		spi->bits_per_word = 8;
-    33		ret = spi_setup(spi);
-    34		if (ret) {
-    35			dev_err(&spi->dev, "spi_setup failed: %d\n", ret);
-    36			return ret;
-    37		}
-    38	
-    39		da9052->dev = &spi->dev;
-    40		da9052->chip_irq = spi->irq;
-    41	
-    42		spi_set_drvdata(spi, da9052);
-    43	
-    44		config = da9052_regmap_config;
-    45		config.read_flag_mask = 1;
-    46		config.reg_bits = 7;
-    47		config.pad_bits = 1;
-    48		config.val_bits = 8;
-    49		config.use_single_read = true;
-    50		config.use_single_write = true;
-    51	
-    52		da9052->regmap = devm_regmap_init_spi(spi, &config);
-    53		if (IS_ERR(da9052->regmap)) {
-    54			ret = PTR_ERR(da9052->regmap);
-    55			dev_err(&spi->dev, "Failed to allocate register map: %d\n",
-    56				ret);
-    57			return ret;
-    58		}
-    59	
-    60		return da9052_device_init(da9052, id->driver_data);
-    61	}
-    62	
+>> ld.lld: error: undefined symbol: typec_switch_set
+   >>> referenced by wcd939x.c
+   >>>               sound/soc/codecs/wcd939x.o:(wcd939x_swap_gnd_mic) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
