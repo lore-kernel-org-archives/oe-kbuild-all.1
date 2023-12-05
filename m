@@ -1,61 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05739DDDF
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 06:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83863125C7
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 06:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CvAD6bpQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwedkxUz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701758230; x=1733294230;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F4InaQp/5As/bJn0SZDnulbk5E33HqfsSfpQ2I/hFac=;
-  b=CvAD6bpQ7asIYb/NebDhI9p3+5ooXA/rC2rjeUArsAwI/uazjSuH8TWz
-   WKIGAy5WPJ70xkkbVAOD4io6GRdBbsDML7zJfKw6jh5DU05tAMakI2dZ6
-   hngdGirqqU4bDlJNhkEYQ53cC63YWPsCdCJE3VDMmGWBqG2CLPJTmI/6L
-   E8rhbz6IDYUOWh0lsQmUmsP8X11xbntxw8OJB3whY3WwAcKXY7rQJiKfq
-   nrpt42Sat80WzffryIh9fCh26ph8KMYFUZqKxvp6gFCYD2VsSEx6QqrZi
-   pDH8+k5qsi2heV8Oyo7eYVtEr5gSP3/66O5gwUpSf3R1QrcJPgBqP2/nO
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="374035387"
+  t=1701758233; x=1733294233;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BzdXWvseXq45e5+sdumpRpn+UxxVdhSHmuIAYkNY+DM=;
+  b=kwedkxUzm7Koi4iD1DnPV7UOkRgkEtFbqy3enrfzYBy2LqppukuWGrOu
+   wLnO6oJzLpnvVRq/peUbOm5Fsq6gqXFsNvAOeetNH9YugzGZhFrr65erY
+   xDjXOXpmbQppCSW01giogDyA548/J+j2Dfn7mfK9gDegRq4wsBERQbB7M
+   foftwZ4Q0xvBV6t0i7aaV84YdVhhPsBF+QNhlzdSJknHNOpmLMrTZCLHO
+   cvdDoRby+CuIFP6mBb0Zn9H2oqjByqFQIWrBPW64ACQRjfMG32UPN+DLF
+   W0p1HzkgSL0CD0Y5pkzPd8SlsZLI7ovIoPuljK73MJ0aktC4UFyaEcpWR
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="458171300"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="374035387"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 22:37:08 -0800
+   d="scan'208";a="458171300"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 22:37:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764224101"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="747113581"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="764224101"
+   d="scan'208";a="747113581"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 04 Dec 2023 22:37:03 -0800
+  by orsmga006.jf.intel.com with ESMTP; 04 Dec 2023 22:37:03 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAP3F-0008RU-1R;
+	id 1rAP3F-0008RX-1W;
 	Tue, 05 Dec 2023 06:37:01 +0000
-Date: Tue, 5 Dec 2023 14:36:23 +0800
+Date: Tue, 5 Dec 2023 14:36:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Jeff LaBundy <jeff@labundy.com>
-Cc: oe-kbuild-all@lists.linux.dev, catalin.popescu@leica-geosystems.com,
-	mark.satterthwaite@touchnetix.com, bartp@baasheep.co.uk,
-	hannah.rossiter@touchnetix.com,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	bsp-development.geo@leica-geosystems.com,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>
-Subject: Re: [PATCH v4 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-Message-ID: <202312051457.y3N1q3sZ-lkp@intel.com>
-References: <20231204140505.2838916-4-kamel.bouhara@bootlin.com>
+To: Baoquan He <bhe@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 3905/4597]
+ arch/mips/kernel/machine_kexec.c:161:6: warning: no previous prototype for
+ 'kexec_nonboot_cpu_jump'
+Message-ID: <202312051416.YiRWCYmp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,76 +52,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204140505.2838916-4-kamel.bouhara@bootlin.com>
 
-Hi Kamel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus robh/for-next linus/master krzk-dt/for-next v6.7-rc4 next-20231204]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kamel-Bouhara/dt-bindings-vendor-prefixes-Add-TouchNetix-AS/20231204-222017
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231204140505.2838916-4-kamel.bouhara%40bootlin.com
-patch subject: [PATCH v4 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051457.y3N1q3sZ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051457.y3N1q3sZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0f5f12ac05f36f117e793656c3f560625e927f1b
+commit: f7a6fde1ce06ddb4bc39e09ec82508dea41f2700 [3905/4597] kexec_core: change dependency of object files
+config: mips-randconfig-r021-20230305 (https://download.01.org/0day-ci/archive/20231205/202312051416.YiRWCYmp-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051416.YiRWCYmp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051457.y3N1q3sZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051416.YiRWCYmp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/input/touchscreen/touchnetix_axiom.c: In function 'axiom_usage_to_target_address':
->> drivers/input/touchscreen/touchnetix_axiom.c:142:31: warning: variable 'device_info' set but not used [-Wunused-but-set-variable]
-     142 |         struct axiom_devinfo *device_info;
-         |                               ^~~~~~~~~~~
+   arch/mips/kernel/machine_kexec.c: In function 'machine_kexec_prepare':
+   arch/mips/kernel/machine_kexec.c:97:14: error: implicit declaration of function 'kexec_nonboot_cpu_func' [-Werror=implicit-function-declaration]
+      97 |         if (!kexec_nonboot_cpu_func())
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/machine_kexec.c: In function 'kexec_shutdown_secondary':
+   arch/mips/kernel/machine_kexec.c:129:9: error: implicit declaration of function 'kexec_reboot' [-Werror=implicit-function-declaration]
+     129 |         kexec_reboot();
+         |         ^~~~~~~~~~~~
+   arch/mips/kernel/machine_kexec.c: At top level:
+   arch/mips/kernel/machine_kexec.c:136:1: warning: no previous prototype for 'machine_shutdown' [-Wmissing-prototypes]
+     136 | machine_shutdown(void)
+         | ^~~~~~~~~~~~~~~~
+   arch/mips/kernel/machine_kexec.c:152:1: warning: no previous prototype for 'machine_crash_shutdown' [-Wmissing-prototypes]
+     152 | machine_crash_shutdown(struct pt_regs *regs)
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/machine_kexec.c: In function 'machine_crash_shutdown':
+   arch/mips/kernel/machine_kexec.c:157:17: error: implicit declaration of function 'default_machine_crash_shutdown'; did you mean '_machine_crash_shutdown'? [-Werror=implicit-function-declaration]
+     157 |                 default_machine_crash_shutdown(regs);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 _machine_crash_shutdown
+   arch/mips/kernel/machine_kexec.c: At top level:
+>> arch/mips/kernel/machine_kexec.c:161:6: warning: no previous prototype for 'kexec_nonboot_cpu_jump' [-Wmissing-prototypes]
+     161 | void kexec_nonboot_cpu_jump(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/mips/kernel/machine_kexec.c:170:6: warning: no previous prototype for 'kexec_reboot' [-Wmissing-prototypes]
+     170 | void kexec_reboot(void)
+         |      ^~~~~~~~~~~~
+>> arch/mips/kernel/machine_kexec.c:170:6: warning: conflicting types for 'kexec_reboot'; have 'void(void)'
+   arch/mips/kernel/machine_kexec.c:129:9: note: previous implicit declaration of 'kexec_reboot' with type 'void(void)'
+     129 |         kexec_reboot();
+         |         ^~~~~~~~~~~~
+   arch/mips/kernel/machine_kexec.c: In function 'kexec_reboot':
+   arch/mips/kernel/machine_kexec.c:191:17: error: implicit declaration of function 'kexec_nonboot_cpu'; did you mean 'kexec_nonboot_cpu_jump'? [-Werror=implicit-function-declaration]
+     191 |                 kexec_nonboot_cpu();
+         |                 ^~~~~~~~~~~~~~~~~
+         |                 kexec_nonboot_cpu_jump
+   arch/mips/kernel/machine_kexec.c: In function 'machine_kexec':
+   arch/mips/kernel/machine_kexec.c:259:26: error: 'kexec_smp_wait' undeclared (first use in this function)
+     259 |                 (void *)(kexec_smp_wait - relocate_new_kernel);
+         |                          ^~~~~~~~~~~~~~
+   arch/mips/kernel/machine_kexec.c:259:26: note: each undeclared identifier is reported only once for each function it appears in
+   cc1: some warnings being treated as errors
+--
+   arch/mips/kernel/crash.c: In function 'crash_shutdown_secondary':
+   arch/mips/kernel/crash.c:47:30: error: 'kexec_ready_to_reboot' undeclared (first use in this function)
+      47 |         while (!atomic_read(&kexec_ready_to_reboot))
+         |                              ^~~~~~~~~~~~~~~~~~~~~
+   arch/mips/kernel/crash.c:47:30: note: each undeclared identifier is reported only once for each function it appears in
+   arch/mips/kernel/crash.c:50:9: error: implicit declaration of function 'kexec_reboot' [-Werror=implicit-function-declaration]
+      50 |         kexec_reboot();
+         |         ^~~~~~~~~~~~
+   arch/mips/kernel/crash.c: In function 'crash_smp_send_stop':
+   arch/mips/kernel/crash.c:86:13: error: '_crash_smp_send_stop' undeclared (first use in this function); did you mean 'crash_smp_send_stop'?
+      86 |         if (_crash_smp_send_stop)
+         |             ^~~~~~~~~~~~~~~~~~~~
+         |             crash_smp_send_stop
+   arch/mips/kernel/crash.c:87:17: error: implicit declaration of function '_crash_smp_send_stop'; did you mean 'crash_smp_send_stop'? [-Werror=implicit-function-declaration]
+      87 |                 _crash_smp_send_stop();
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 crash_smp_send_stop
+   arch/mips/kernel/crash.c: At top level:
+>> arch/mips/kernel/crash.c:96:6: warning: no previous prototype for 'default_machine_crash_shutdown' [-Wmissing-prototypes]
+      96 | void default_machine_crash_shutdown(struct pt_regs *regs)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/device_info +142 drivers/input/touchscreen/touchnetix_axiom.c
+vim +/kexec_nonboot_cpu_jump +161 arch/mips/kernel/machine_kexec.c
 
-   136	
-   137	/* Translate usage/page/offset triplet into physical address. */
-   138	static u16 axiom_usage_to_target_address(struct axiom_data *ts, char usage, char page,
-   139						 char offset)
-   140	{
-   141		struct axiom_usage_entry *usage_table;
- > 142		struct axiom_devinfo *device_info;
-   143		u32 i;
-   144	
-   145		device_info = &ts->devinfo;
-   146		usage_table = ts->usage_table;
-   147	
-   148		/* At the moment the convention is that u31 is always at physical address 0x0 */
-   149		if (!ts->usage_table_populated) {
-   150			if (usage == AXIOM_DEVINFO_USAGE_ID)
-   151				return ((page << 8) + offset);
-   152			else
-   153				return 0xffff;
-   154		}
-   155	
-   156		for (i = 0; i < ts->devinfo.num_usages; i++) {
-   157			if (usage_table[i].id != usage)
-   158				continue;
-   159	
-   160			if (page >= usage_table[i].num_pages) {
-   161				dev_err(ts->dev, "Invalid usage table! usage: %u, page: %u, offset: %u\n",
-   162					usage, page, offset);
-   163				return 0xffff;
-   164			}
-   165			break;
-   166		}
-   167	
-   168		return ((usage_table[i].start_page + page) << 8) + offset;
-   169	}
-   170	
+583bb86fbb9e85 Nicolas Schichan 2006-10-18  159  
+62cac480f33f8f Dengcheng Zhu    2018-09-11  160  #ifdef CONFIG_SMP
+62cac480f33f8f Dengcheng Zhu    2018-09-11 @161  void kexec_nonboot_cpu_jump(void)
+62cac480f33f8f Dengcheng Zhu    2018-09-11  162  {
+62cac480f33f8f Dengcheng Zhu    2018-09-11  163  	local_flush_icache_range((unsigned long)relocated_kexec_smp_wait,
+62cac480f33f8f Dengcheng Zhu    2018-09-11  164  				 reboot_code_buffer + relocate_new_kernel_size);
+62cac480f33f8f Dengcheng Zhu    2018-09-11  165  
+62cac480f33f8f Dengcheng Zhu    2018-09-11  166  	relocated_kexec_smp_wait(NULL);
+62cac480f33f8f Dengcheng Zhu    2018-09-11  167  }
+62cac480f33f8f Dengcheng Zhu    2018-09-11  168  #endif
+62cac480f33f8f Dengcheng Zhu    2018-09-11  169  
+62cac480f33f8f Dengcheng Zhu    2018-09-11 @170  void kexec_reboot(void)
+62cac480f33f8f Dengcheng Zhu    2018-09-11  171  {
+62cac480f33f8f Dengcheng Zhu    2018-09-11  172  	void (*do_kexec)(void) __noreturn;
+62cac480f33f8f Dengcheng Zhu    2018-09-11  173  
+82689ac663ac2f Dengcheng Zhu    2018-09-26  174  	/*
+82689ac663ac2f Dengcheng Zhu    2018-09-26  175  	 * We know we were online, and there will be no incoming IPIs at
+82689ac663ac2f Dengcheng Zhu    2018-09-26  176  	 * this point. Mark online again before rebooting so that the crash
+82689ac663ac2f Dengcheng Zhu    2018-09-26  177  	 * analysis tool will see us correctly.
+82689ac663ac2f Dengcheng Zhu    2018-09-26  178  	 */
+82689ac663ac2f Dengcheng Zhu    2018-09-26  179  	set_cpu_online(smp_processor_id(), true);
+82689ac663ac2f Dengcheng Zhu    2018-09-26  180  
+82689ac663ac2f Dengcheng Zhu    2018-09-26  181  	/* Ensure remote CPUs observe that we're online before rebooting. */
+82689ac663ac2f Dengcheng Zhu    2018-09-26  182  	smp_mb__after_atomic();
+82689ac663ac2f Dengcheng Zhu    2018-09-26  183  
+
+:::::: The code at line 161 was first introduced by commit
+:::::: 62cac480f33f8f9413d609cb1601b0ee521a86b8 MIPS: kexec: Make a framework for both jumping and halting on nonboot CPUs
+
+:::::: TO: Dengcheng Zhu <dzhu@wavecomp.com>
+:::::: CC: Paul Burton <paul.burton@mips.com>
 
 -- 
 0-DAY CI Kernel Test Service
