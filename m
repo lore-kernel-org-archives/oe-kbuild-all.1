@@ -1,53 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E336D51D;
-	Tue,  5 Dec 2023 11:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A5E51005
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 11:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aymnqoW6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iSL1IiQw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701774325; x=1733310325;
+  t=1701774327; x=1733310327;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vxtWDeGzVM4kvy0di8LLvjYNsy4xYn3TtHE94cFFtoI=;
-  b=aymnqoW63Xl1IB8S6sWu2XvyFcuuiQkiTynli4f3CHEN44n3KucPPanE
-   5jeP1b9WpoaE2ryBCvVNJ/i9ZwAuZq78kMOD+xjwKDnkDclzwoTDInUNb
-   VFm5RLxb+2rPPAhcK+guFNxNPu7VYlkXOHGc54t0tJhuf3Z/+j3RxE/Ta
-   jt47MteQjelfWeHVlselsEHD8KnN9LhoVggcQm3dXOmePUkoMNeS1nC/r
-   cevLmMBLRvB87Y3qM2m7qy4VvRekB/X2I4zsjmphKXR6UW0LLHfyf9odR
-   t2078ay7oWoG7qInjFPCUwWoy1/XaCp7GlLDwBuu5iKS4MAS7J7JLKl10
+  bh=g2IiNCZKkf0z4VEVzhLMsiNKMJiqcRWCkCgz8VEIZa8=;
+  b=iSL1IiQw7yye0S1eGCYZLaRu/RmF+SnBguKHAGzDEYHdU5VK1E0+zK/A
+   vkgW93fQj38fhqQGwfaFi/0GO6UxOicbZsGj2LtGMuBZ9/yzn4UYr7/oe
+   Y0G4ymuDsZj9DwKHDIFWrjzdYtM0Jh0Y/rxe+mXZ12KeGyCBTJvPqxnKz
+   4Xbb9hp68SK6HaXuMUErgl2YTuLRtIIwyh3zPOdnER7Iu+PzQFyaOZOkC
+   ogUCYjAvjfIKxR4+4mX017MeAnH9d333d3mQ6LTOVCpnO88yM8BWiDD4o
+   4YoNPV1CWCcnBnZ5xlvF3SSF03vcU13wuymoHZ6vfX/mGu8JxIKh53gbx
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="458199423"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="458199436"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="458199423"
+   d="scan'208";a="458199436"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:05:24 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:05:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="861708559"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="861708568"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="861708559"
+   d="scan'208";a="861708568"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 03:05:20 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 03:05:23 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rATEp-0008pW-0o;
-	Tue, 05 Dec 2023 11:05:16 +0000
+	id 1rATEs-0008pZ-3D;
+	Tue, 05 Dec 2023 11:05:20 +0000
 Date: Tue, 5 Dec 2023 19:04:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: baneric926@gmail.com, jdelvare@suse.com, linux@roeck-us.net,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, corbet@lwn.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com,
-	DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
-Subject: Re: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
-Message-ID: <202312051854.qBIoJW1N-lkp@intel.com>
-References: <20231204055650.788388-3-kcfeng0@nuvoton.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/2] drm/atomic-helper: rename
+ drm_atomic_helper_check_wb_encoder_state
+Message-ID: <202312051810.e0QCZPbY-lkp@intel.com>
+References: <20231205023150.1581875-2-dmitry.baryshkov@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,141 +62,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204055650.788388-3-kcfeng0@nuvoton.com>
+In-Reply-To: <20231205023150.1581875-2-dmitry.baryshkov@linaro.org>
 
-Hi,
+Hi Dmitry,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc4 next-20231205]
-[cannot apply to groeck-staging/hwmon-next]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.7-rc4 next-20231205]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/baneric926-gmail-com/dt-bindings-hwmon-Add-nct736x-bindings/20231204-135942
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231204055650.788388-3-kcfeng0%40nuvoton.com
-patch subject: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231205/202312051854.qBIoJW1N-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051854.qBIoJW1N-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-atomic-helper-rename-drm_atomic_helper_check_wb_encoder_state/20231205-103552
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231205023150.1581875-2-dmitry.baryshkov%40linaro.org
+patch subject: [PATCH v2 1/2] drm/atomic-helper: rename drm_atomic_helper_check_wb_encoder_state
+config: i386-buildonly-randconfig-003-20231205 (https://download.01.org/0day-ci/archive/20231205/202312051810.e0QCZPbY-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051810.e0QCZPbY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051854.qBIoJW1N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051810.e0QCZPbY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hwmon/nct736x.c:352:5: warning: variable 'gpio14_17' is uninitialized when used here [-Wuninitialized]
-                                   gpio14_17 |= FANIN_SEL(i);
-                                   ^~~~~~~~~
-   drivers/hwmon/nct736x.c:339:46: note: initialize the variable 'gpio14_17' to silence this warning
-           u8 i, gpio0_3, gpio4_7, gpio10_13, gpio14_17;
-                                                       ^
-                                                        = '\0'
->> drivers/hwmon/nct736x.c:347:5: warning: variable 'gpio10_13' is uninitialized when used here [-Wuninitialized]
-                                   gpio10_13 |= FANIN_SEL(i);
-                                   ^~~~~~~~~
-   drivers/hwmon/nct736x.c:339:35: note: initialize the variable 'gpio10_13' to silence this warning
-           u8 i, gpio0_3, gpio4_7, gpio10_13, gpio14_17;
-                                            ^
-                                             = '\0'
->> drivers/hwmon/nct736x.c:350:5: warning: variable 'gpio4_7' is uninitialized when used here [-Wuninitialized]
-                                   gpio4_7 |= PWM_SEL(i);
-                                   ^~~~~~~
-   drivers/hwmon/nct736x.c:339:24: note: initialize the variable 'gpio4_7' to silence this warning
-           u8 i, gpio0_3, gpio4_7, gpio10_13, gpio14_17;
-                                 ^
-                                  = '\0'
->> drivers/hwmon/nct736x.c:345:5: warning: variable 'gpio0_3' is uninitialized when used here [-Wuninitialized]
-                                   gpio0_3 |= PWM_SEL(i);
-                                   ^~~~~~~
-   drivers/hwmon/nct736x.c:339:15: note: initialize the variable 'gpio0_3' to silence this warning
-           u8 i, gpio0_3, gpio4_7, gpio10_13, gpio14_17;
-                        ^
-                         = '\0'
-   4 warnings generated.
+>> drivers/gpu/drm/drm_atomic_helper.c:811: warning: Function parameter or member 'wb_conn' not described in 'drm_atomic_helper_check_wb_connector_state'
+>> drivers/gpu/drm/drm_atomic_helper.c:811: warning: Excess function parameter 'connector' description in 'drm_atomic_helper_check_wb_connector_state'
 
 
-vim +/gpio14_17 +352 drivers/hwmon/nct736x.c
+vim +811 drivers/gpu/drm/drm_atomic_helper.c
 
-   334	
-   335	static int nct736x_init_chip(struct i2c_client *client,
-   336				     u32 pwm_mask, u32 fanin_mask, u32 wdt_cfg)
-   337	{
-   338		const struct i2c_device_id *id = i2c_match_id(nct736x_id, client);
-   339		u8 i, gpio0_3, gpio4_7, gpio10_13, gpio14_17;
-   340		int ret;
-   341	
-   342		for (i = 0; i < NCT736X_PWM_COUNT; i++) {
-   343			if (i < 4) {
-   344				if (pwm_mask & BIT_CHECK(i))
- > 345					gpio0_3 |= PWM_SEL(i);
-   346				if (fanin_mask & BIT_CHECK(i))
- > 347					gpio10_13 |= FANIN_SEL(i);
-   348			} else if (i < 8) {
-   349				if (pwm_mask & BIT_CHECK(i))
- > 350					gpio4_7 |= PWM_SEL(i);
-   351				if (fanin_mask & BIT_CHECK(i))
- > 352					gpio14_17 |= FANIN_SEL(i);
-   353			} else if (i < 12) {
-   354				if (pwm_mask & BIT_CHECK(i))
-   355					gpio10_13 |= PWM_SEL(i);
-   356				if (fanin_mask & BIT_CHECK(i))
-   357					gpio0_3 |= FANIN_SEL(i);
-   358			} else {
-   359				if (pwm_mask & BIT_CHECK(i))
-   360					gpio14_17 |= PWM_SEL(i);
-   361				if (fanin_mask & BIT_CHECK(i))
-   362					gpio4_7 |= FANIN_SEL(i);
-   363			}
-   364		}
-   365	
-   366		/* Pin Function Configuration */
-   367		ret = nct736x_write_reg(client, NCT736X_REG_GPIO_0_3, gpio0_3);
-   368		if (ret < 0)
-   369			return ret;
-   370		ret = nct736x_write_reg(client, NCT736X_REG_GPIO_4_7, gpio4_7);
-   371		if (ret < 0)
-   372			return ret;
-   373		ret = nct736x_write_reg(client, NCT736X_REG_GPIO_10_13, gpio10_13);
-   374		if (ret < 0)
-   375			return ret;
-   376		ret = nct736x_write_reg(client, NCT736X_REG_GPIO_14_17, gpio14_17);
-   377		if (ret < 0)
-   378			return ret;
-   379	
-   380		/* PWM and FANIN Monitoring Enable */
-   381		ret = nct736x_write_reg(client, NCT736X_REG_PWMEN_0_7,
-   382					pwm_mask & 0xff);
-   383		if (ret < 0)
-   384			return ret;
-   385		ret = nct736x_write_reg(client,
-   386					NCT736X_REG_PWMEN_8_15, (pwm_mask >> 8) & 0xff);
-   387		if (ret < 0)
-   388			return ret;
-   389		ret = nct736x_write_reg(client, NCT736X_REG_FANINEN_0_7,
-   390					fanin_mask & 0xff);
-   391		if (ret < 0)
-   392			return ret;
-   393		ret = nct736x_write_reg(client, NCT736X_REG_FANINEN_8_15,
-   394					(fanin_mask >> 8) & 0xff);
-   395		if (ret < 0)
-   396			return ret;
-   397	
-   398		/* Watchdog Timer Configuration */
-   399		if (wdt_cfg != 0xff && id->driver_data == nct7363) {
-   400			ret = nct736x_write_reg(client, NCT7363_REG_WDT, wdt_cfg);
-   401			if (ret < 0)
-   402				return ret;
-   403		}
-   404	
-   405		return 0;
-   406	}
-   407	
+623369e533e8a5 Daniel Vetter    2014-09-16  796  
+254fe9c106ed69 Igor Torrente    2022-09-05  797  /**
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  798   * drm_atomic_helper_check_wb_connector_state() - Check writeback connector state
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  799   * @connector: corresponding connector
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  800   * @state: the driver state object
+254fe9c106ed69 Igor Torrente    2022-09-05  801   *
+254fe9c106ed69 Igor Torrente    2022-09-05  802   * Checks if the writeback connector state is valid, and returns an error if it
+254fe9c106ed69 Igor Torrente    2022-09-05  803   * isn't.
+254fe9c106ed69 Igor Torrente    2022-09-05  804   *
+254fe9c106ed69 Igor Torrente    2022-09-05  805   * RETURNS:
+254fe9c106ed69 Igor Torrente    2022-09-05  806   * Zero for success or -errno
+254fe9c106ed69 Igor Torrente    2022-09-05  807   */
+254fe9c106ed69 Igor Torrente    2022-09-05  808  int
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  809  drm_atomic_helper_check_wb_connector_state(struct drm_writeback_connector *wb_conn,
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  810  					   struct drm_atomic_state *state)
+254fe9c106ed69 Igor Torrente    2022-09-05 @811  {
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  812  	struct drm_connector_state *conn_state =
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  813  		drm_atomic_get_new_connector_state(state, &wb_conn->base);
+254fe9c106ed69 Igor Torrente    2022-09-05  814  	struct drm_writeback_job *wb_job = conn_state->writeback_job;
+254fe9c106ed69 Igor Torrente    2022-09-05  815  	struct drm_property_blob *pixel_format_blob;
+254fe9c106ed69 Igor Torrente    2022-09-05  816  	struct drm_framebuffer *fb;
+254fe9c106ed69 Igor Torrente    2022-09-05  817  	size_t i, nformats;
+254fe9c106ed69 Igor Torrente    2022-09-05  818  	u32 *formats;
+254fe9c106ed69 Igor Torrente    2022-09-05  819  
+254fe9c106ed69 Igor Torrente    2022-09-05  820  	if (!wb_job || !wb_job->fb)
+254fe9c106ed69 Igor Torrente    2022-09-05  821  		return 0;
+254fe9c106ed69 Igor Torrente    2022-09-05  822  
+254fe9c106ed69 Igor Torrente    2022-09-05  823  	pixel_format_blob = wb_job->connector->pixel_formats_blob_ptr;
+254fe9c106ed69 Igor Torrente    2022-09-05  824  	nformats = pixel_format_blob->length / sizeof(u32);
+254fe9c106ed69 Igor Torrente    2022-09-05  825  	formats = pixel_format_blob->data;
+254fe9c106ed69 Igor Torrente    2022-09-05  826  	fb = wb_job->fb;
+254fe9c106ed69 Igor Torrente    2022-09-05  827  
+254fe9c106ed69 Igor Torrente    2022-09-05  828  	for (i = 0; i < nformats; i++)
+254fe9c106ed69 Igor Torrente    2022-09-05  829  		if (fb->format->format == formats[i])
+254fe9c106ed69 Igor Torrente    2022-09-05  830  			return 0;
+254fe9c106ed69 Igor Torrente    2022-09-05  831  
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  832  	drm_dbg_kms(wb_conn->base.dev, "Invalid pixel format %p4cc\n", &fb->format->format);
+254fe9c106ed69 Igor Torrente    2022-09-05  833  
+254fe9c106ed69 Igor Torrente    2022-09-05  834  	return -EINVAL;
+254fe9c106ed69 Igor Torrente    2022-09-05  835  }
+d538670e1a27f5 Dmitry Baryshkov 2023-12-05  836  EXPORT_SYMBOL(drm_atomic_helper_check_wb_connector_state);
+254fe9c106ed69 Igor Torrente    2022-09-05  837  
 
 -- 
 0-DAY CI Kernel Test Service
