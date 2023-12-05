@@ -1,188 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC843FC2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 06:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAB7134D0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 06:57:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pe3CDY5M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iTbkVwKH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701758893; x=1733294893;
+  t=1701759432; x=1733295432;
   h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=tdzDwlsgUjSiWim7qluAZborNy7JFNbBKg5h1eOE9fM=;
-  b=Pe3CDY5Mu31E9I4O8VPms3ujVUSu7uDD0nbNGX2Ln0PQDtvfThi+h4gZ
-   Mz8G7mZe+sOsC2Q/MK73OuM+wKUvCnNIlYn5HTko7S1zUD74Q5xcXEyG8
-   /yzYaqfyp+eWwzbsMHqrytNPp/emXww6Pt6j9IK0uvyDsShKcMgddZ2bA
-   ElwO9NZxTGX8f7i0XMfcwGnNS6fJODGr/EsYHHD0+0ZbGrytmr3m15eLE
-   oOgpbkloeUW0ZcuOi9Y0BkisB/2hUID6OlmT2gFfsZSN4+KjqVwoIp2hz
-   PYfTM+HzyPRf0kMkfTIC/DJj1Nm+wbGSs9ufwBLJbPKbd+RnMTC0X2Cxr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="391011974"
+   mime-version:in-reply-to;
+  bh=hNMOu/BOQarVCNtXuCbvjvKot05Y6DVsiWZ/fLy6Z18=;
+  b=iTbkVwKHJLhx5reUHwYYBQtaIikhjoWVEmhrL8xmOkK0qHCpKhqRzxkx
+   rVMBuatQrdj3PxaOkT5joyNMRdqs7/GOvxaz9Z7yY2E5A+2qriA3oZbBu
+   usDnB0c8GW/J1yU/lF/KrPtnrCw4ocriskYjpKSRhJ1lr0LSmP9X1RrWl
+   ad+GQ0tOnZLwIo9yelArYySSFOyBUzi5GLV5XX3IJmIlfyqp4m3vBUbd+
+   UgimbkPWyDLkJy/+kJE6UcxZ5ySRGQEmXm4yQ8XsmLNl4MGNrOUlmN3kc
+   mz/YV3IF3sYrI6SX1I6GMCkjmldbnuvSc+p7Rcr6/bV/3eAtK/K5fKGrq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="393588173"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="391011974"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 22:47:49 -0800
+   d="scan'208";a="393588173"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 22:57:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="799852300"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888822395"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="799852300"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Dec 2023 22:47:48 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 4 Dec 2023 22:47:48 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 4 Dec 2023 22:47:47 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 4 Dec 2023 22:47:47 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Mon, 4 Dec 2023 22:47:47 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h8P1i5LSx0PUwEW9L/IpgjWSL486TbqhFmCj+RZerR+p2nYAi+8WSYw6q72Kkw0zodUOnDmUmPY+7INE/dQPOG1104mK956zzQ+CjvLaHyB4yMs5f6T9dtEiq02+PGNM31Q5SSL3EidFtuOEjMeWxHm543WKnybCiYkQQVHUks83wB/yrT5ZtptacGc0X5oy6e9O5oTRjWhjR2V1aaJ+UfQ8Xz9BpK7wuDTSPnmXDjqzsCJWpgP97qSet2GRqD4e0/OLzI8WyMrmn3Hsbt3sFParIyj//+yZX6HP6TBQwLNltD3OkJHYDqv2fXIgZLDNzkaab3LYvUm5gQ9i5iJ50A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ksiDJMFQR4IGAKZGgbYyqBg2c3MugDkCNuL0vX2N3DI=;
- b=elrLkzGVwRSFIE+x1JvUd+BDYS3JCdbqDRzaYhSglwKxF06smqKr6WlhQC2rbG/aQFuFsHXEVVJXXgF4BFlbWpGjuZMuTCMFr6TitQzbV2INYA1vMyElwJLNoo4FHwMqJKAEo0z/onjLuVV9ycsIevgyIbhh7Q5lBUKRdwaBR0K/KtBdclGmOo2o5ZyQN3pRfruMeac6F9KPDBWtb6z5Qjq3xl2OJv9FfCyTOlirg5XqVwbS8TIc0U7V2RIMTsIxn3+PI+LablsxMzFbOk0oSoFScSNW7jyFSVtIPnwjLPOvzIAjlq3ipdmqjv6gAyAEq+Spy0/EeZQnTURt0P3tZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by PH7PR11MB6331.namprd11.prod.outlook.com (2603:10b6:510:1fd::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.33; Tue, 5 Dec
- 2023 06:47:45 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::15d3:7425:a09e:1c86%4]) with mapi id 15.20.7025.022; Tue, 5 Dec 2023
- 06:47:45 +0000
-Date: Tue, 5 Dec 2023 14:43:11 +0800
-From: Yujie Liu <yujie.liu@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: kernel test robot <lkp@intel.com>, Sebastian Reichel
-	<sebastian.reichel@collabora.co.uk>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: drivers/pinctrl/pinctrl-mcp23s08.c:1: warning: no structured
- comments found
-Message-ID: <ZW7Gfyr5UqEnb9An@yujie-X299>
-References: <202311220421.xKye7ZRO-lkp@intel.com>
- <6ab5bc0f-3945-43be-ab66-439402ca9a81@infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <6ab5bc0f-3945-43be-ab66-439402ca9a81@infradead.org>
-X-ClientProxiedBy: SI2PR02CA0009.apcprd02.prod.outlook.com
- (2603:1096:4:194::11) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="888822395"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 04 Dec 2023 22:57:06 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAPMe-0008TS-22;
+	Tue, 05 Dec 2023 06:57:04 +0000
+Date: Tue, 5 Dec 2023 14:56:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	syzbot+97a4fe20470e9bc30810@syzkaller.appspotmail.com,
+	bpf@vger.kernel.org, Martin KaFai Lau <kafai@fb.com>,
+	Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@chromium.org>,
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>
+Subject: Re: [PATCHv3 bpf 1/2] bpf: Fix prog_array_map_poke_run map poke
+ update
+Message-ID: <202312051420.clYpN744-lkp@intel.com>
+References: <20231203204851.388654-2-jolsa@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|PH7PR11MB6331:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4787e777-b634-461e-b3db-08dbf55e1599
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bccY3d50w67xsYiBvwU5tYr/5GplgDGboBXAQNaFe+IJvgDvHwNVF9pQIK/0M1ZxFrM7VmU81o0jD+19+awBwqiyGsJKEj2ZZkQkrsq/1hhb2as9jUekVpRZ7/f4onvdvM7JO2q5IyPdJmBdzCTx11ZFEQmEnAGDVeR8npXRAHaXIQnKWuEGXmwdsdKxTzSJUxrB9dFPjZGjp8m+g2DUpnc6Se57r6aIYIWpwEc+OtWl0Nx8JdOWauUsC1N1n3cfcBHO0ffjY4weZI6foaBL2d3S5SH3u6GObo87t9Sz19i+cD0t/gNwa1RhWwTm3OzUEmDYqXsuib/A37NdXXbeFwT9LHWLPwYS0281Vfj+YmW+iv2XKCGETxRMQ3C6qQfoyV9r9zj/wmI68EcAtTwPkyu9lxEZle1TRHDFRNpXoGcjMtTiF0pu4oubVjsLlWt2OgguG1quvlgmkGiK44jRiZhYFFI0RZTQ0OKs42rDoCZjAOlaE26un9Exkj0wBPugUqGYYn0OHc0AtpTKCoqbYKulgDT1e4IYvqPQP9bARZ8ckD/a4SmDkRN1+1a03haGKZLgvlMgvCQaFz3OJqDIb9frRSUbjDs6A8HtPubLb5s7PUlzW3BZHarBTYyUDI0voZLHIc+XilgfUOblgAHdVKLYUrzutu9LSR9Sl3jPT5o=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(346002)(136003)(396003)(39860400002)(366004)(230922051799003)(230173577357003)(230273577357003)(186009)(451199024)(1800799012)(64100799003)(6666004)(6512007)(6506007)(9686003)(53546011)(316002)(66476007)(66556008)(66946007)(6916009)(54906003)(83380400001)(26005)(8676002)(4326008)(38100700002)(6486002)(478600001)(82960400001)(966005)(8936002)(2906002)(41300700001)(5660300002)(44832011)(86362001)(33716001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?98cjqT01llAYQYooM3rukf4nNdeb2uaL5dCdFAl3LOspklVtCxcS6pja/Cqv?=
- =?us-ascii?Q?WscSiUkQBSRxIAFtCTE14WtwQuWJP2RXPSWI+Pp9jPf9a9GZvWq/Ko61ZUz6?=
- =?us-ascii?Q?5FyVuZbC43nz5dWuCfGYy2kNpZu0s0wfz9Bs7lXgYXYyYsE9eELswcNYsnEA?=
- =?us-ascii?Q?oCIkGUdJxfYiQmnhzkrxWXPxqMy/4HToD5vNpMPJ8M58FAIva9gmz5Asioof?=
- =?us-ascii?Q?lzcH5xDobP74P0QATE6BvpFjk+5tFVcUEZWfYHcvnRbnepntX1qIiV3CkEVl?=
- =?us-ascii?Q?KB1kmmYfYU6dbedHlXg1PkKXZIZWz7ExA+exvH8ceLO5uaEiboegbreInhmz?=
- =?us-ascii?Q?snkz5H9R5bYvhHTmJVWiFssXTy/7MbHPnzvL8Lb2Ox2pxACslXSrY4qo2KYC?=
- =?us-ascii?Q?TwjsR9nJdjzQ5VwHC69qTkoL+ys4rdlf+42TwG5rNmu7P6N1nWtY5xNAoEGF?=
- =?us-ascii?Q?LttK5KLtRyhm58NawpKoR2QiL+wMGCNIyBlealpadnwUnOzqrC5dHUu2sCjy?=
- =?us-ascii?Q?cXLHUTcTFUexFHlPGPPxxbAic3hcMRmFP4oa3XJhJSqOMlaPlanjKH7OIWjF?=
- =?us-ascii?Q?feA2GC1Fgf+hbnb+PXBcrUs9jjtv+uWa8ogEydJzkruCpqnZzb2ZMZEAla5d?=
- =?us-ascii?Q?yEfz+pj5CXRuXC1f+i6X/ykXs2AdM1KHhIo43BUBX3klrPXuMf5AYf3IvL6w?=
- =?us-ascii?Q?Yu1uU/INlYEz9vnhvyPNMLBXaJh/4yeMoIbeSQWxqP/O16vDtiPBu6KdKs3l?=
- =?us-ascii?Q?kesF4FOFAstEgGJ9bDwq52WP0MHsZN11VH+nndGskdEQt5c05gpjv5H4qAu+?=
- =?us-ascii?Q?du129vdRcoac6mG3r0QR9YkX23rgLVIqGL3xnJB64vAoQ5YXnOIl+/a0E5Hw?=
- =?us-ascii?Q?vKqj0jKZF3+O0goWbbzUha5EvOGO1b4UeuOYoF/yFnObk+TGGNpTwMih2mMu?=
- =?us-ascii?Q?C2oHA74b05DCEZjpPUPj0nQWx6Gy7xcjtvQlFZLV9vBI4uzkgwwr+hYhr+Ii?=
- =?us-ascii?Q?LW2rdY0ARJVlVa1NLeX8VktUNdD/LUi1u2eiZAjCHQMUeJ6XAqf/BIjz73RH?=
- =?us-ascii?Q?vRusPaBxkMqFmEH1WnvtZT+Rg8CcfgWOJQGigmyUHrgxRfcPDV5Yp3vE4tnw?=
- =?us-ascii?Q?bto8aRmjo+W7cXafw3VDhWWxGFplEdDwbUyYOU3Yg5i1U9qKq+vgQbUApRGF?=
- =?us-ascii?Q?HwgAUObY+CxJeHG7qEkqAEzDNkc+3QOq4p1IjlZIqJ/UKH5lHq35tUE66YcF?=
- =?us-ascii?Q?VnBbMBDaxNS1f0SyIcxnlzjeDw2tuC9b6imz5R7kEg3J1+2sLbXGeBmS/PTm?=
- =?us-ascii?Q?ACGOc1k6gaHj2CJrd6OJ4NTZ4fZ6+Hn4FyqHxxAe6Di1mFnFhXfgPXftdPTh?=
- =?us-ascii?Q?YAESsq0e/8Rug+2f/2OfaHy5Tk00sSghEtEyqxvdr95Et3kmZCrWZj6OZZO6?=
- =?us-ascii?Q?RfO1DAo+PvZU7dGtGPmTGAyYRaq32GLC+w+xmx02q47KIYjwtXwSbHdndEnz?=
- =?us-ascii?Q?uKh7SQK752vnOumC555UFQibPd22p5rwvp5yZif/0MzCIkumewaeekA5ojMP?=
- =?us-ascii?Q?vV1moyBHAyFBgf1peFYm77gtfmqSIuImDHsKUdiu?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4787e777-b634-461e-b3db-08dbf55e1599
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2023 06:47:44.6086
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hoGiZAMlQ/BVRs9JXaWBvxjXLVj+SoNIR3i6JE0acm8vmqXJ45/1jZ/F4n5mN9eJLKk6AkTlaxDYZRiP0uMi8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6331
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231203204851.388654-2-jolsa@kernel.org>
 
-Hi Randy,
+Hi Jiri,
 
-On Fri, Dec 01, 2023 at 04:53:22PM -0800, Randy Dunlap wrote:
-> Hi lkp,
-> 
-> On 11/21/23 13:12, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-> > commit: d8f4494e70ae5fef159719bfbb6abedc53619bf1 pinctrl: mcp23s08: drop comment about missing irq support
-> > date:   7 years ago
-> > config: i386-randconfig-002-20231120 (https://download.01.org/0day-ci/archive/20231122/202311220421.xKye7ZRO-lkp@intel.com/config)
-> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231122/202311220421.xKye7ZRO-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202311220421.xKye7ZRO-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    drivers/pinctrl/pinctrl-mcp23s08.c: In function 'mcp_pinconf_set':
-> >    drivers/pinctrl/pinctrl-mcp23s08.c:282:6: warning: variable 'val' set but not used [-Wunused-but-set-variable]
-> >      u16 val;
-> >          ^~~
-> >    drivers/pinctrl/pinctrl-mcp23s08.c:281:11: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
-> >      u32 arg, mask;
-> >               ^~~~
-> >>> drivers/pinctrl/pinctrl-mcp23s08.c:1: warning: no structured comments found
-> > 
-> > 
-> > vim +1 drivers/pinctrl/pinctrl-mcp23s08.c
-> > 
-> >    > 1	/* MCP23S08 SPI/I2C GPIO driver */
-> >      2	
-> 
-> 
-> What is the issue here?
-> I fail to see a problem.
-> 
-> I cannot reproduce the $Subject warning message.
+kernel test robot noticed the following build warnings:
 
-Please ignore this false report of kernel-doc warning.
-Sorry for the noise.
+[auto build test WARNING on bpf/master]
 
-Best Regards,
-Yujie
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/bpf-Fix-prog_array_map_poke_run-map-poke-update/20231204-045204
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20231203204851.388654-2-jolsa%40kernel.org
+patch subject: [PATCHv3 bpf 1/2] bpf: Fix prog_array_map_poke_run map poke update
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051420.clYpN744-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051420.clYpN744-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051420.clYpN744-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> kernel/bpf/arraymap.c:1015:13: warning: no previous prototype for 'bpf_arch_poke_desc_update' [-Wmissing-prototypes]
+    1015 | void __weak bpf_arch_poke_desc_update(struct bpf_jit_poke_descriptor *poke,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/bpf_arch_poke_desc_update +1015 kernel/bpf/arraymap.c
+
+  1014	
+> 1015	void __weak bpf_arch_poke_desc_update(struct bpf_jit_poke_descriptor *poke,
+  1016					      struct bpf_prog *new, struct bpf_prog *old)
+  1017	{
+  1018		WARN_ON_ONCE(1);
+  1019	}
+  1020	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
