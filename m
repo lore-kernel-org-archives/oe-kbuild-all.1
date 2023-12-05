@@ -1,49 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8E45D8EC
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 13:34:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0555E0C4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 13:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6bPzUjk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ChuE9mW/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701783250; x=1733319250;
+  t=1701784458; x=1733320458;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3ZG5O8x+XN9jfQ3hj5aUyeJvVs/G1In0ZVS8u9rOfn8=;
-  b=R6bPzUjkI1eOGPThWtKmIifaBXGTOtTDDdIoenbHVTUAfjwcqZkjWuRR
-   9bM29kiSsW/CKjlyXVFjUFYVVVkglYKPDJiNCA39n20h3xQbrcmWFZ/fc
-   KSmW1zl9Qdhkg9n2u2WSslict2c6m704fjde0SB8y7hdcB0/iFz/csjY1
-   yYVhpeqyIQNeFT2w5ckerZDmBG1iFimgighnDl0PIkMP75gM0U/pRhafk
-   hmRso7YPc01Xug2UWpPGbnMeTNTyGEvHBppvaXf4OXHghmw6aoSi0O5l9
-   HfVl3/+YoNintB2xzjeUCIZbPrQ8Bgp2E/ZWPa4gUxOYYO5SNUZ8kEpZW
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="396688882"
+  bh=U6+ZEYEE65DEUZnqgjF0DfTrL06shSvTTu7ShXbuoiI=;
+  b=ChuE9mW/nHqHU73Lq7S8LIRzGa/PUdHTDzH8FOJQrqG0g60K2hh0OaPL
+   JvzNwm6Tqe+kfD/sPsXHI3vMxPSvNeeAsYjG+FDwCFakajPqtyCxcujlW
+   x+linlejZ8tNojZIp39jrNj2EgBu61Lzk1bqBq/a9RtkfHFYUs6LvNxwg
+   MJK989x/OFbiuLdfUBjM5Ucktheugmf8DoTzEiLeMGGozmWyzVACLYSlR
+   jb1R/U/IStHQ3xRVwJ8Iq92ZZuFnvxTQ0ch1Jd0PHivYnDs0+W4TUXwQD
+   yavz4XMjI8rpYilxh+5Ksiu4tCd53zo5390lukLCDWhYIm1VmdCfvaBSB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="15443572"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="396688882"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 05:34:10 -0800
+   d="scan'208";a="15443572"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 05:54:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="747232463"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888939287"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="747232463"
+   d="scan'208";a="888939287"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 05 Dec 2023 05:34:08 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2023 05:54:13 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAVYp-000939-0g;
-	Tue, 05 Dec 2023 13:34:05 +0000
-Date: Tue, 5 Dec 2023 21:32:52 +0800
+	id 1rAVsJ-00096I-1r;
+	Tue, 05 Dec 2023 13:54:11 +0000
+Date: Tue, 5 Dec 2023 21:53:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 5/6] drm/amdgpu: Auto-validate DMABuf imports in compute
- VMs
-Message-ID: <202312052136.JfzEpgBw-lkp@intel.com>
-References: <20231201233438.1709981-5-Felix.Kuehling@amd.com>
+To: Alain Volmat <alain.volmat@foss.st.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/7] arm64: dts: st: add all 8 i2c nodes on stm32mp251
+Message-ID: <202312052114.dqhaFgjJ-lkp@intel.com>
+References: <20231129125920.1702497-6-alain.volmat@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,102 +60,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201233438.1709981-5-Felix.Kuehling@amd.com>
+In-Reply-To: <20231129125920.1702497-6-alain.volmat@foss.st.com>
 
-Hi Felix,
+Hi Alain,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on next-20231201]
-[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.7-rc3 v6.7-rc2 v6.7-rc1 v6.7-rc4]
+[auto build test ERROR on wsa/i2c/for-next]
+[also build test ERROR on atorgue-stm32/stm32-next robh/for-next linus/master v6.7-rc4 next-20231205]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Kuehling/drm-amdkfd-Export-DMABufs-from-KFD-using-GEM-handles/20231202-073833
-base:   next-20231201
-patch link:    https://lore.kernel.org/r/20231201233438.1709981-5-Felix.Kuehling%40amd.com
-patch subject: [PATCH 5/6] drm/amdgpu: Auto-validate DMABuf imports in compute VMs
-config: x86_64-randconfig-161-20231203 (https://download.01.org/0day-ci/archive/20231205/202312052136.JfzEpgBw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052136.JfzEpgBw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alain-Volmat/i2c-stm32f7-perform-most-of-irq-job-in-threaded-handler/20231129-210806
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/20231129125920.1702497-6-alain.volmat%40foss.st.com
+patch subject: [PATCH 5/7] arm64: dts: st: add all 8 i2c nodes on stm32mp251
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231205/202312052114.dqhaFgjJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052114.dqhaFgjJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312052136.JfzEpgBw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312052114.dqhaFgjJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/gpu/drm/amd/amdgpu/amdgpu_gem.o: in function `amdgpu_gem_object_open':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:208: undefined reference to `amdgpu_amdkfd_bo_validate_and_fence'
-
-
-vim +208 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-
-   156	
-   157	/*
-   158	 * Call from drm_gem_handle_create which appear in both new and open ioctl
-   159	 * case.
-   160	 */
-   161	static int amdgpu_gem_object_open(struct drm_gem_object *obj,
-   162					  struct drm_file *file_priv)
-   163	{
-   164		struct amdgpu_bo *abo = gem_to_amdgpu_bo(obj);
-   165		struct amdgpu_device *adev = amdgpu_ttm_adev(abo->tbo.bdev);
-   166		struct amdgpu_fpriv *fpriv = file_priv->driver_priv;
-   167		struct amdgpu_vm *vm = &fpriv->vm;
-   168		struct amdgpu_bo_va *bo_va;
-   169		struct mm_struct *mm;
-   170		int r;
-   171	
-   172		mm = amdgpu_ttm_tt_get_usermm(abo->tbo.ttm);
-   173		if (mm && mm != current->mm)
-   174			return -EPERM;
-   175	
-   176		if (abo->flags & AMDGPU_GEM_CREATE_VM_ALWAYS_VALID &&
-   177		    abo->tbo.base.resv != vm->root.bo->tbo.base.resv)
-   178			return -EPERM;
-   179	
-   180		r = amdgpu_bo_reserve(abo, false);
-   181		if (r)
-   182			return r;
-   183	
-   184		bo_va = amdgpu_vm_bo_find(vm, abo);
-   185		if (!bo_va)
-   186			bo_va = amdgpu_vm_bo_add(adev, vm, abo);
-   187		else
-   188			++bo_va->ref_count;
-   189		amdgpu_bo_unreserve(abo);
-   190	
-   191		/* Validate and add eviction fence to DMABuf imports with dynamic
-   192		 * attachment in compute VMs. Re-validation will be done by
-   193		 * amdgpu_vm_validate_evicted_bos and the fence will be updated by
-   194		 * amdgpu_vm_fence_imports in amdgpu_amdkfd_gpuvm_restore_process_bos.
-   195		 *
-   196		 * Nested locking below for the case that a GEM object is opened in
-   197		 * kfd_mem_export_dmabuf. Since the lock below is only taken for imports,
-   198		 * but not for export, this is a different lock class that cannot lead to
-   199		 * circular lock dependencies.
-   200		 */
-   201		if (!vm->is_compute_context || !vm->process_info)
-   202			return 0;
-   203		if (!obj->import_attach ||
-   204		    !dma_buf_is_dynamic(obj->import_attach->dmabuf))
-   205			return 0;
-   206		mutex_lock_nested(&vm->process_info->lock, 1);
-   207		if (!WARN_ON(!vm->process_info->eviction_fence)) {
- > 208			r = amdgpu_amdkfd_bo_validate_and_fence(abo, AMDGPU_GEM_DOMAIN_GTT,
-   209								&vm->process_info->eviction_fence->base);
-   210			if (r)
-   211				dev_warn(adev->dev, "%d: validate_and_fence failed: %d\n",
-   212					 vm->task_info.pid, r);
-   213		}
-   214		mutex_unlock(&vm->process_info->lock);
-   215	
-   216		return 0;
-   217	}
-   218	
+>> Error: arch/arm64/boot/dts/st/stm32mp251.dtsi:134.20-21 syntax error
+   FATAL ERROR: Unable to parse input tree
 
 -- 
 0-DAY CI Kernel Test Service
