@@ -1,49 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640F14E624
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 10:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901354EB24
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 10:21:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqD2tP8e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NrSXt2HU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701771716; x=1733307716;
+  t=1701771718; x=1733307718;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=eI5vtNusfqSvE9X2q9nEEXNFmJVKkAWPAIy6Y7CBWaA=;
-  b=ZqD2tP8e9Vj1qaN0fl8IFX1tCCVx8iTwnEhHydoPF4PJObxwqBO8r49Z
-   K5dGUKzRtez7P5gfnjwobmKgpEec6e8Lqh5pspjnCHoCWxZd9QX5CiIFK
-   HPyXvqlbD4PdzpiixNXdMnMy2FwyErXoXkA15oKbDeXOEdbXhdemCpxrK
-   UjfYAz75gSgm24PFyuFs+iUtYA/+3us/rjHzCxzgL9oHjNaDXKg57td1a
-   vYCBDhXRn4N3Hnh0xn/Dj+RSDyEafn2TMZPa2bNxExGIT17ppyL++IaG4
-   xNgb6ym9nKDMGD7zatM8QrM41kW4yukAHSD1OB8BbsVTauliyunMBpFgH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="716133"
+  bh=ZPly1fDdJeFUhMI/JCcMzF45VB6Ez+ThdnRYcJTIAnk=;
+  b=NrSXt2HU8GFAzSesGyYnVtQ/UXSMKixa65/Gx6tAx3ks52TLB3n3ZKKl
+   htDNAerTF/ckdpKax5Xc/LKsUDnaHBtpfhPr5ceOeomXOqNZrNTjQ9Bvk
+   qhes4v9cHYG/1IAFyhXY4aCAYDJtEO3P5ubav5l3dn4BjPzI0xPdTU6o5
+   Rc30eJaaXFsypP0eTyFP5VfbivN+6skcd7tOTSpL9AN2Uom+jqZT1EJhV
+   +sVYB7yxSXIJXsSiJGUrOlY1+8Olhv7/7Z4YIKNVwDOLwZsIOc9ftxEqY
+   iVZz+GnRBvr88oIXtWu67MZv2BCpeB1F8Z/UbtxGkSyPnO51InoexC+EY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="716140"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="716133"
+   d="scan'208";a="716140"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:21:55 -0800
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:21:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018174044"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018174042"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="1018174044"
+   d="scan'208";a="1018174042"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 02:21:53 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 02:21:52 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rASYo-0008kN-37;
-	Tue, 05 Dec 2023 10:21:51 +0000
-Date: Tue, 5 Dec 2023 18:21:09 +0800
+	id 1rASYo-0008kI-0p;
+	Tue, 05 Dec 2023 10:21:50 +0000
+Date: Tue, 5 Dec 2023 18:21:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH bpf-next 09/13] bpf: reuse subprog argument parsing logic
- for subprog call checks
-Message-ID: <202312051858.R1gH7aIp-lkp@intel.com>
-References: <20231204233931.49758-10-andrii@kernel.org>
+To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>,
+	Markuss Broks <markuss.broks@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	Karel Balej <balejk@matfyz.cz>
+Subject: Re: [PATCH v3 3/5] input/touchscreen: imagis: Add support for Imagis
+ IST3038B
+Message-ID: <202312051823.19Cxz3sZ-lkp@intel.com>
+References: <20231202125948.10345-4-karelb@gimli.ms.mff.cuni.cz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,153 +61,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204233931.49758-10-andrii@kernel.org>
+In-Reply-To: <20231202125948.10345-4-karelb@gimli.ms.mff.cuni.cz>
 
-Hi Andrii,
+Hi Karel,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next linus/master v6.7-rc4 next-20231205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-log-PTR_TO_MEM-memory-size-in-verifier-log/20231205-074451
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20231204233931.49758-10-andrii%40kernel.org
-patch subject: [PATCH bpf-next 09/13] bpf: reuse subprog argument parsing logic for subprog call checks
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051858.R1gH7aIp-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051858.R1gH7aIp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Karel-Balej/dt-bindings-input-touchscreen-Add-compatible-for-IST3038B/20231202-215030
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231202125948.10345-4-karelb%40gimli.ms.mff.cuni.cz
+patch subject: [PATCH v3 3/5] input/touchscreen: imagis: Add support for Imagis IST3038B
+config: hexagon-randconfig-r111-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051823.19Cxz3sZ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231205/202312051823.19Cxz3sZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051858.R1gH7aIp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051823.19Cxz3sZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf/verifier.c:5083:5: warning: no previous prototype for 'check_ptr_off_reg' [-Wmissing-prototypes]
-    5083 | int check_ptr_off_reg(struct bpf_verifier_env *env,
-         |     ^~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:7268:5: warning: no previous prototype for 'check_mem_reg' [-Wmissing-prototypes]
-    7268 | int check_mem_reg(struct bpf_verifier_env *env, struct bpf_reg_state *reg,
-         |     ^~~~~~~~~~~~~
-   kernel/bpf/verifier.c:8254:5: warning: no previous prototype for 'check_func_arg_reg_off' [-Wmissing-prototypes]
-    8254 | int check_func_arg_reg_off(struct bpf_verifier_env *env,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c: In function 'btf_check_func_arg_match':
->> kernel/bpf/verifier.c:9223:21: warning: variable 'func_name' set but not used [-Wunused-but-set-variable]
-    9223 |         const char *func_name;
-         |                     ^~~~~~~~~
-   kernel/bpf/verifier.c: At top level:
->> kernel/bpf/verifier.c:9291:5: warning: no previous prototype for 'btf_check_subprog_call' [-Wmissing-prototypes]
-    9291 | int btf_check_subprog_call(struct bpf_verifier_env *env, int subprog,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/input/touchscreen/imagis.c:5:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/input/touchscreen/imagis.c:5:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/input/touchscreen/imagis.c:5:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/input/touchscreen/imagis.c:366:39: warning: unused variable 'imagis_3038b_data' [-Wunused-const-variable]
+     366 | static const struct imagis_properties imagis_3038b_data = {
+         |                                       ^
+>> drivers/input/touchscreen/imagis.c:374:39: warning: unused variable 'imagis_3038c_data' [-Wunused-const-variable]
+     374 | static const struct imagis_properties imagis_3038c_data = {
+         |                                       ^
+   8 warnings generated.
 
 
-vim +/func_name +9223 kernel/bpf/verifier.c
+vim +/imagis_3038b_data +366 drivers/input/touchscreen/imagis.c
 
-  9216	
-  9217	static int btf_check_func_arg_match(struct bpf_verifier_env *env, int subprog,
-  9218					    const struct btf *btf, u32 func_id,
-  9219					    struct bpf_reg_state *regs)
-  9220	{
-  9221		struct bpf_subprog_info *sub = subprog_info(env, subprog);
-  9222		struct bpf_verifier_log *log = &env->log;
-> 9223		const char *func_name;
-  9224		const struct btf_type *fn_t;
-  9225		u32 i;
-  9226		int ret;
-  9227	
-  9228		ret = btf_prepare_func_args(env, subprog);
-  9229		if (ret)
-  9230			return ret;
-  9231	
-  9232		fn_t = btf_type_by_id(btf, func_id);
-  9233		if (!fn_t || !btf_type_is_func(fn_t)) {
-  9234			/* These checks were already done by the verifier while loading
-  9235			 * struct bpf_func_info or in add_kfunc_call().
-  9236			 */
-  9237			bpf_log(log, "BTF of func_id %u doesn't point to KIND_FUNC\n",
-  9238				func_id);
-  9239			return -EFAULT;
-  9240		}
-  9241		func_name = btf_name_by_offset(btf, fn_t->name_off);
-  9242	
-  9243		/* check that BTF function arguments match actual types that the
-  9244		 * verifier sees.
-  9245		 */
-  9246		for (i = 0; i < sub->arg_cnt; i++) {
-  9247			u32 regno = i + 1;
-  9248			struct bpf_reg_state *reg = &regs[regno];
-  9249			struct bpf_subprog_arg_info *arg = &sub->args[i];
-  9250	
-  9251			if (arg->arg_type == ARG_SCALAR) {
-  9252				if (reg->type != SCALAR_VALUE) {
-  9253					bpf_log(log, "R%d is not a scalar\n", regno);
-  9254					return -EINVAL;
-  9255				}
-  9256			} else if (arg->arg_type == ARG_PTR_TO_CTX) {
-  9257				ret = check_func_arg_reg_off(env, reg, regno, ARG_DONTCARE);
-  9258				if (ret < 0)
-  9259					return ret;
-  9260				/* If function expects ctx type in BTF check that caller
-  9261				 * is passing PTR_TO_CTX.
-  9262				 */
-  9263				if (reg->type != PTR_TO_CTX) {
-  9264					bpf_log(log, "arg#%d expects pointer to ctx\n", i);
-  9265					return -EINVAL;
-  9266				}
-  9267			} else if (base_type(arg->arg_type) == ARG_PTR_TO_MEM) {
-  9268				ret = check_func_arg_reg_off(env, reg, regno, ARG_DONTCARE);
-  9269				if (ret < 0)
-  9270					return ret;
-  9271	
-  9272				if (check_mem_reg(env, reg, regno, arg->mem_size))
-  9273					return -EINVAL;
-  9274			} else {
-  9275				bpf_log(log, "verifier bug: unrecognized arg#%d type %d\n",
-  9276					i, arg->arg_type);
-  9277				return -EFAULT;
-  9278			}
-  9279		}
-  9280	
-  9281		return 0;
-  9282	}
-  9283	
-  9284	/* Compare BTF of a function call with given bpf_reg_state.
-  9285	 * Returns:
-  9286	 * EFAULT - there is a verifier bug. Abort verification.
-  9287	 * EINVAL - there is a type mismatch or BTF is not available.
-  9288	 * 0 - BTF matches with what bpf_reg_state expects.
-  9289	 * Only PTR_TO_CTX and SCALAR_VALUE states are recognized.
-  9290	 */
-> 9291	int btf_check_subprog_call(struct bpf_verifier_env *env, int subprog,
-  9292				   struct bpf_reg_state *regs)
-  9293	{
-  9294		struct bpf_prog *prog = env->prog;
-  9295		struct btf *btf = prog->aux->btf;
-  9296		u32 btf_id;
-  9297		int err;
-  9298	
-  9299		if (!prog->aux->func_info)
-  9300			return -EINVAL;
-  9301	
-  9302		btf_id = prog->aux->func_info[subprog].type_id;
-  9303		if (!btf_id)
-  9304			return -EFAULT;
-  9305	
-  9306		if (prog->aux->func_info_aux[subprog].unreliable)
-  9307			return -EINVAL;
-  9308	
-  9309		err = btf_check_func_arg_match(env, subprog, btf, btf_id, regs);
-  9310		/* Compiler optimizations can remove arguments from static functions
-  9311		 * or mismatched type can be passed into a global function.
-  9312		 * In such cases mark the function as unreliable from BTF point of view.
-  9313		 */
-  9314		if (err)
-  9315			prog->aux->func_info_aux[subprog].unreliable = true;
-  9316		return err;
-  9317	}
-  9318	
+   365	
+ > 366	static const struct imagis_properties imagis_3038b_data = {
+   367		.interrupt_msg_cmd = IST3038B_REG_STATUS,
+   368		.touch_coord_cmd = IST3038B_REG_STATUS,
+   369		.whoami_cmd = IST3038B_REG_CHIPID,
+   370		.whoami_val = IST3038B_WHOAMI,
+   371		.protocol_b = true,
+   372	};
+   373	
+ > 374	static const struct imagis_properties imagis_3038c_data = {
+   375		.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
+   376		.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
+   377		.whoami_cmd = IST3038C_REG_CHIPID,
+   378		.whoami_val = IST3038C_WHOAMI,
+   379	};
+   380	
 
 -- 
 0-DAY CI Kernel Test Service
