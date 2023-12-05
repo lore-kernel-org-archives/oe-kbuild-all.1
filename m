@@ -1,56 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AFD10961
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05739DDDF
 	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 06:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nY1M9VcN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CvAD6bpQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701758230; x=1733294230;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZqvAkwNMScC8HI8XbCdEX2rgOR/mZYQHPqzhl7WBsng=;
-  b=nY1M9VcNczt0CZzMWvVHJK5kPveijnv4wsyKvg+HBifw7KW2rO36rEYh
-   8vo3hF1TGGIyLbFGODDUzol2Xs5ZWxs3yFvlqe+i8EmkINyUFfocbTiq4
-   IpHN0FpRwsW7p1OI+Cdcdyr+NsxPcVcHRwmqvmAcRXf07zrvMFned3XW0
-   dXDj9B42fadBXvWGiyZhgYAk71JBAZt/TnRIM9Ifs5UD35WE7B5m3Zvz+
-   XhaQXMyJpWyLnkU0FWUghtN6kQtcbj/eU3+TaD1XpYXEgey36CkgC7gpg
-   OXHxsEQiBt+oUjOUr9e4ukfQgK4Mema8s2EFbeXSvVp28l90DmCenw4vj
+  bh=F4InaQp/5As/bJn0SZDnulbk5E33HqfsSfpQ2I/hFac=;
+  b=CvAD6bpQ7asIYb/NebDhI9p3+5ooXA/rC2rjeUArsAwI/uazjSuH8TWz
+   WKIGAy5WPJ70xkkbVAOD4io6GRdBbsDML7zJfKw6jh5DU05tAMakI2dZ6
+   hngdGirqqU4bDlJNhkEYQ53cC63YWPsCdCJE3VDMmGWBqG2CLPJTmI/6L
+   E8rhbz6IDYUOWh0lsQmUmsP8X11xbntxw8OJB3whY3WwAcKXY7rQJiKfq
+   nrpt42Sat80WzffryIh9fCh26ph8KMYFUZqKxvp6gFCYD2VsSEx6QqrZi
+   pDH8+k5qsi2heV8Oyo7eYVtEr5gSP3/66O5gwUpSf3R1QrcJPgBqP2/nO
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="374035373"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="374035387"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="374035373"
+   d="scan'208";a="374035387"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 22:37:07 -0800
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 22:37:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764224102"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764224101"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="764224102"
+   d="scan'208";a="764224101"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga007.jf.intel.com with ESMTP; 04 Dec 2023 22:37:03 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAP3F-0008Rc-1f;
+	id 1rAP3F-0008RU-1R;
 	Tue, 05 Dec 2023 06:37:01 +0000
-Date: Tue, 5 Dec 2023 14:36:14 +0800
+Date: Tue, 5 Dec 2023 14:36:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neilb@suse.de>, Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Oleg Nesterov <oleg@redhat.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH 2/2] nfsd: Don't leave work of closing files to a work
- queue.
-Message-ID: <202312051443.02Ddb5pd-lkp@intel.com>
-References: <20231204014042.6754-3-neilb@suse.de>
+To: Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jeff LaBundy <jeff@labundy.com>
+Cc: oe-kbuild-all@lists.linux.dev, catalin.popescu@leica-geosystems.com,
+	mark.satterthwaite@touchnetix.com, bartp@baasheep.co.uk,
+	hannah.rossiter@touchnetix.com,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	bsp-development.geo@leica-geosystems.com,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>
+Subject: Re: [PATCH v4 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+Message-ID: <202312051457.y3N1q3sZ-lkp@intel.com>
+References: <20231204140505.2838916-4-kamel.bouhara@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,61 +64,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204014042.6754-3-neilb@suse.de>
+In-Reply-To: <20231204140505.2838916-4-kamel.bouhara@bootlin.com>
 
-Hi NeilBrown,
+Hi Kamel,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on linus/master v6.7-rc4]
-[cannot apply to brauner-vfs/vfs.all next-20231205]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next linus/master krzk-dt/for-next v6.7-rc4 next-20231204]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/Allow-a-kthread-to-declare-that-it-calls-task_work_run/20231204-094248
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20231204014042.6754-3-neilb%40suse.de
-patch subject: [PATCH 2/2] nfsd: Don't leave work of closing files to a work queue.
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231205/202312051443.02Ddb5pd-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051443.02Ddb5pd-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamel-Bouhara/dt-bindings-vendor-prefixes-Add-TouchNetix-AS/20231204-222017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231204140505.2838916-4-kamel.bouhara%40bootlin.com
+patch subject: [PATCH v4 3/3] Input: Add TouchNetix axiom i2c touchscreen driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051457.y3N1q3sZ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051457.y3N1q3sZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051443.02Ddb5pd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051457.y3N1q3sZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/nfsd/filecache.c:431: warning: Function parameter or member 'nn' not described in 'nfsd_file_dispose_some'
+   drivers/input/touchscreen/touchnetix_axiom.c: In function 'axiom_usage_to_target_address':
+>> drivers/input/touchscreen/touchnetix_axiom.c:142:31: warning: variable 'device_info' set but not used [-Wunused-but-set-variable]
+     142 |         struct axiom_devinfo *device_info;
+         |                               ^~~~~~~~~~~
 
 
-vim +431 fs/nfsd/filecache.c
+vim +/device_info +142 drivers/input/touchscreen/touchnetix_axiom.c
 
-   425	
-   426	/**
-   427	 * nfsd_file_dispose_some
-   428	 *
-   429	 */
-   430	void nfsd_file_dispose_some(struct nfsd_net *nn)
- > 431	{
-   432		struct nfsd_fcache_disposal *l = nn->fcache_disposal;
-   433		LIST_HEAD(dispose);
-   434		int i;
-   435	
-   436		if (list_empty(&l->freeme))
-   437			return;
-   438		spin_lock(&l->lock);
-   439		for (i = 0; i < 8 && !list_empty(&l->freeme); i++)
-   440			list_move(l->freeme.next, &dispose);
-   441		spin_unlock(&l->lock);
-   442		if (!list_empty(&l->freeme))
-   443			svc_wake_up(nn->nfsd_serv);
-   444		nfsd_file_dispose_list(&dispose);
-   445	}
-   446	
+   136	
+   137	/* Translate usage/page/offset triplet into physical address. */
+   138	static u16 axiom_usage_to_target_address(struct axiom_data *ts, char usage, char page,
+   139						 char offset)
+   140	{
+   141		struct axiom_usage_entry *usage_table;
+ > 142		struct axiom_devinfo *device_info;
+   143		u32 i;
+   144	
+   145		device_info = &ts->devinfo;
+   146		usage_table = ts->usage_table;
+   147	
+   148		/* At the moment the convention is that u31 is always at physical address 0x0 */
+   149		if (!ts->usage_table_populated) {
+   150			if (usage == AXIOM_DEVINFO_USAGE_ID)
+   151				return ((page << 8) + offset);
+   152			else
+   153				return 0xffff;
+   154		}
+   155	
+   156		for (i = 0; i < ts->devinfo.num_usages; i++) {
+   157			if (usage_table[i].id != usage)
+   158				continue;
+   159	
+   160			if (page >= usage_table[i].num_pages) {
+   161				dev_err(ts->dev, "Invalid usage table! usage: %u, page: %u, offset: %u\n",
+   162					usage, page, offset);
+   163				return 0xffff;
+   164			}
+   165			break;
+   166		}
+   167	
+   168		return ((usage_table[i].start_page + page) << 8) + offset;
+   169	}
+   170	
 
 -- 
 0-DAY CI Kernel Test Service
