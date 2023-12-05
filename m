@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF878D50F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 07:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E7515EBC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 07:18:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aUg4enjp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IRBIJu/e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701760030; x=1733296030;
+  t=1701760692; x=1733296692;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=98VZNfub+HclPOzauYfBNQql86RkYdBKS9eKmGijQsc=;
-  b=aUg4enjprjJYEwGF58gl1p7ewdZg3xLKiCIHNzzZg7U3NqHZmnSaESDm
-   wJn8nKnXE4tlTIqgHt28rpQ4VPHprpP9HIPgTotyx6PQT6ZNJSUu0UltC
-   vhEQktClDQXugzNY0eq3lZJU1a86baLptE63651Pr4rCzEl7yHoM8kMwF
-   Gxrrz4kqDYqfnfGqRK0pvIoeAcTMsP0UlnXVKHIWV3uHtyP6ZS7UE84mz
-   piAZ2S1p3WA+FlXuZOeQgs2qEVSeVpziED0uRrtKoSpvjG7COgGFgPxc+
-   BLWy5bi3MEuN6VdkG0OivKDwnZ6xZsxT8ttCEPqKdI6vNffMo6jdqvOo9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="393589010"
+  bh=cjnGOZOte1UBYYaRmDetD98r+hjV2T7R/r9+2UpDPcw=;
+  b=IRBIJu/eG4hMjIiwCGNe8qgVb94TlNY5V9KgHLoB/5Hg71i5OiiI7mmS
+   6Zjr7fFWoFZpDe4vuQmoSty2uUNheWbaRGmdvzr4qgLyhqu9nHWIdBI2y
+   N1G62P+AX7B26OM5fJVMXNhfxgIIaTsjiX+WlPajXTN5aQMix2CHFE1bf
+   4HYvhp9AvCTVAKgk1V0R0PnmCXN+QtIO5d7ASJPxlK0FHo43NsKV5gIYS
+   /QyNg7vRFciLLYScE+EikxHK9ihGvhTd7zcMGf3Ahpqvo0N6VOza9n9oB
+   1KJ1bNP4hcrnFTOjHfdZQzBlnC6S7u9vXSHEXWGY80iBOjvW5W4NwPfI3
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="7195034"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="393589010"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 23:07:10 -0800
+   d="scan'208";a="7195034"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 23:18:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="888825361"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="894278127"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="888825361"
+   d="scan'208";a="894278127"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Dec 2023 23:07:08 -0800
+  by orsmga004.jf.intel.com with ESMTP; 04 Dec 2023 23:18:09 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAPWM-0008Tw-1e;
-	Tue, 05 Dec 2023 07:07:06 +0000
-Date: Tue, 5 Dec 2023 15:06:55 +0800
+	id 1rAPh0-0008UY-2x;
+	Tue, 05 Dec 2023 07:18:06 +0000
+Date: Tue, 5 Dec 2023 15:17:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qais Yousef <qyousef@layalina.io>
+To: Jim Cromie <jim.cromie@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:dynamic-hz 1/1] include/asm-generic/param.h:10:25:
- warning: "__kernel_hz" is not defined, evaluates to 0
-Message-ID: <202312051456.XBCPgWck-lkp@intel.com>
+Subject: [jimc:lukas-v2.1 23/26] lib/dynamic_debug.c:631:7: warning: no
+ previous prototype for '__skip_spaces'
+Message-ID: <202312051528.CACzqGc3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,196 +50,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/qais-yousef/linux dynamic-hz
-head:   ccfcc35f75018f05039a35c98e4685ea5ce32ab5
-commit: ccfcc35f75018f05039a35c98e4685ea5ce32ab5 [1/1] HZ: Allow modifying HZ at boot time
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20231205/202312051456.XBCPgWck-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051456.XBCPgWck-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git lukas-v2.1
+head:   20d113eb6f9ac604fce8e97eefae3b07e133d148
+commit: bd5e2662b6cfb19528fe8c93525a6058fa235049 [23/26] dyndbg: __skip_spaces
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20231205/202312051528.CACzqGc3-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051528.CACzqGc3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051456.XBCPgWck-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051528.CACzqGc3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from ./arch/parisc/include/generated/uapi/asm/param.h:1,
-                    from include/uapi/linux/param.h:5,
-                    from include/linux/ratelimit_types.h:6,
-                    from include/linux/printk.h:9,
-                    from include/linux/kernel.h:31,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/parisc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from arch/parisc/kernel/asm-offsets.c:18:
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   ./include/generated/timeconst.h:10:5: note: in expansion of macro 'HZ'
-      10 | #if HZ != 250
-         |     ^~
-   In file included from include/linux/jiffies.h:14,
-                    from include/linux/ktime.h:25,
-                    from include/linux/timer.h:6,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/rhashtable-types.h:15,
-                    from include/linux/ipc.h:7,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/sched.h:15:
->> ./include/generated/timeconst.h:11:2: error: #error "include/generated/timeconst.h has the wrong HZ value!"
-      11 | #error "include/generated/timeconst.h has the wrong HZ value!"
-         |  ^~~~~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:23:5: note: in expansion of macro 'HZ'
-      23 | #if HZ >= 12 && HZ < 24
-         |     ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:25:7: note: in expansion of macro 'HZ'
-      25 | #elif HZ >= 24 && HZ < 48
-         |       ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:27:7: note: in expansion of macro 'HZ'
-      27 | #elif HZ >= 48 && HZ < 96
-         |       ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:29:7: note: in expansion of macro 'HZ'
-      29 | #elif HZ >= 96 && HZ < 192
-         |       ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:31:7: note: in expansion of macro 'HZ'
-      31 | #elif HZ >= 192 && HZ < 384
-         |       ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:33:7: note: in expansion of macro 'HZ'
-      33 | #elif HZ >= 384 && HZ < 768
-         |       ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:35:7: note: in expansion of macro 'HZ'
-      35 | #elif HZ >= 768 && HZ < 1536
-         |       ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:37:7: note: in expansion of macro 'HZ'
-      37 | #elif HZ >= 1536 && HZ < 3072
-         |       ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:39:7: note: in expansion of macro 'HZ'
-      39 | #elif HZ >= 3072 && HZ < 6144
-         |       ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:41:7: note: in expansion of macro 'HZ'
-      41 | #elif HZ >= 6144 && HZ < 12288
-         |       ^~
->> include/linux/jiffies.h:44:3: error: #error Invalid value of HZ.
-      44 | # error Invalid value of HZ.
-         |   ^~~~~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/vdso/jiffies.h:9:34: note: in expansion of macro 'HZ'
-       9 | #define TICK_NSEC ((NSEC_PER_SEC+HZ/2)/HZ)
-         |                                  ^~
-   include/linux/jiffies.h:407:31: note: in expansion of macro 'TICK_NSEC'
-     407 | #if !((((NSEC_PER_SEC << 2) / TICK_NSEC) << (SEC_JIFFIE_SC - 2)) & 0x80000000)
-         |                               ^~~~~~~~~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/vdso/jiffies.h:9:40: note: in expansion of macro 'HZ'
-       9 | #define TICK_NSEC ((NSEC_PER_SEC+HZ/2)/HZ)
-         |                                        ^~
-   include/linux/jiffies.h:407:31: note: in expansion of macro 'TICK_NSEC'
-     407 | #if !((((NSEC_PER_SEC << 2) / TICK_NSEC) << (SEC_JIFFIE_SC - 2)) & 0x80000000)
-         |                               ^~~~~~~~~
-   In file included from include/linux/jiffies.h:12:
->> include/vdso/jiffies.h:9:39: error: division by zero in #if
-       9 | #define TICK_NSEC ((NSEC_PER_SEC+HZ/2)/HZ)
-         |                                       ^
-   include/linux/jiffies.h:407:31: note: in expansion of macro 'TICK_NSEC'
-     407 | #if !((((NSEC_PER_SEC << 2) / TICK_NSEC) << (SEC_JIFFIE_SC - 2)) & 0x80000000)
-         |                               ^~~~~~~~~
->> include/linux/jiffies.h:406:29: warning: "SHIFT_HZ" is not defined, evaluates to 0 [-Wundef]
-     406 | #define SEC_JIFFIE_SC (31 - SHIFT_HZ)
-         |                             ^~~~~~~~
-   include/linux/jiffies.h:407:46: note: in expansion of macro 'SEC_JIFFIE_SC'
-     407 | #if !((((NSEC_PER_SEC << 2) / TICK_NSEC) << (SEC_JIFFIE_SC - 2)) & 0x80000000)
-         |                                              ^~~~~~~~~~~~~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:452:5: note: in expansion of macro 'HZ'
-     452 | #if HZ <= MSEC_PER_SEC && !(MSEC_PER_SEC % HZ)
-         |     ^~
->> include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:452:44: note: in expansion of macro 'HZ'
-     452 | #if HZ <= MSEC_PER_SEC && !(MSEC_PER_SEC % HZ)
-         |                                            ^~
->> include/linux/jiffies.h:452:42: error: division by zero in #if
-     452 | #if HZ <= MSEC_PER_SEC && !(MSEC_PER_SEC % HZ)
-         |                                          ^
-   include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:462:7: note: in expansion of macro 'HZ'
-     462 | #elif HZ > MSEC_PER_SEC && !(HZ % MSEC_PER_SEC)
-         |       ^~
-   include/asm-generic/param.h:10:25: warning: "__kernel_hz" is not defined, evaluates to 0 [-Wundef]
-      10 | # define HZ             __kernel_hz     /* Internal kernel timer frequency */
-         |                         ^~~~~~~~~~~
-   include/linux/jiffies.h:527:22: note: in expansion of macro 'HZ'
-     527 | #if !(USEC_PER_SEC % HZ)
-         |                      ^~
-   include/linux/jiffies.h:527:20: error: division by zero in #if
-     527 | #if !(USEC_PER_SEC % HZ)
-         |                    ^
-   make[3]: *** [scripts/Makefile.build:116: arch/parisc/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1191: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from include/linux/export.h:5,
+                    from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:17,
+                    from lib/dynamic_debug.c:16:
+   include/net/inet_connection_sock.h: In function 'inet_csk_clear_xmit_timer':
+   include/linux/dynamic_debug.h:224:28: error: 'struct _ddebug' has no member named 'flags'
+     224 |         unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:242:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     242 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:267:9: note: in expansion of macro '__dynamic_func_call_cls'
+     267 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls'
+     269 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:288:9: note: in expansion of macro '_dynamic_func_call'
+     288 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   include/net/inet_connection_sock.h:211:17: note: in expansion of macro 'pr_debug'
+     211 |                 pr_debug("inet_csk BUG: unknown timer value\n");
+         |                 ^~~~~~~~
+   include/net/inet_connection_sock.h: In function 'inet_csk_reset_xmit_timer':
+   include/linux/dynamic_debug.h:224:28: error: 'struct _ddebug' has no member named 'flags'
+     224 |         unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:242:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     242 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:267:9: note: in expansion of macro '__dynamic_func_call_cls'
+     267 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls'
+     269 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:288:9: note: in expansion of macro '_dynamic_func_call'
+     288 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   include/net/inet_connection_sock.h:225:17: note: in expansion of macro 'pr_debug'
+     225 |                 pr_debug("reset_xmit_timer: sk=%p %d when=0x%lx, caller=%p\n",
+         |                 ^~~~~~~~
+   include/linux/dynamic_debug.h:224:28: error: 'struct _ddebug' has no member named 'flags'
+     224 |         unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:242:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     242 |         if (DYNAMIC_DEBUG_BRANCH(id))                           \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:267:9: note: in expansion of macro '__dynamic_func_call_cls'
+     267 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls'
+     269 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:288:9: note: in expansion of macro '_dynamic_func_call'
+     288 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:579:9: note: in expansion of macro 'dynamic_pr_debug'
+     579 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   include/net/inet_connection_sock.h:240:17: note: in expansion of macro 'pr_debug'
+     240 |                 pr_debug("inet_csk BUG: unknown timer value\n");
+         |                 ^~~~~~~~
+   lib/dynamic_debug.c: At top level:
+   lib/dynamic_debug.c:207:7: warning: no previous prototype for 'show_T_args' [-Wmissing-prototypes]
+     207 | char *show_T_args(struct dd_ctrl *ctrl, char *p)
+         |       ^~~~~~~~~~~
+>> lib/dynamic_debug.c:631:7: warning: no previous prototype for '__skip_spaces' [-Wmissing-prototypes]
+     631 | char *__skip_spaces(const char *str)
+         |       ^~~~~~~~~~~~~
 
 
-vim +/__kernel_hz +10 include/asm-generic/param.h
+vim +/__skip_spaces +631 lib/dynamic_debug.c
 
-     8	
-     9	# undef HZ
-  > 10	# define HZ		__kernel_hz	/* Internal kernel timer frequency */
+   630	
+ > 631	char *__skip_spaces(const char *str)
+   632	{
+   633		str = skip_spaces(str);
+   634		if (*str == ',')
+   635			str = skip_spaces(++str);
+   636		return (char *)str;
+   637	}
+   638	
 
 -- 
 0-DAY CI Kernel Test Service
