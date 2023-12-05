@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CF75F1CE;
-	Tue,  5 Dec 2023 15:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D206B5F1CA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 15:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGgcIfBL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UhJVfC0R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701790300; x=1733326300;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9d+CrePk0J5cve1H8K0Z0/p2xvhNTllfEP6S+ZkrQk8=;
-  b=IGgcIfBLE0dpbZhrx6vJ2dmozZwZs0pLmeSdRVLvCtXFBxDx0KGkhXWt
-   kQaT7f9jTVoJZ4rvbFAa5gy1uHYTKC1IAOc+V+W37cmAss7U3E8KNI4wd
-   v63SXMX2ihI5z9WyMcBHvs0qf8tILPuPQqbZmufkJK+ZwYc4MHDosuM7R
-   qC6u/bt6rX/GHU6jcMf1LtIsXpHxEeNTY/vYzey8HeZpnMAn1shjKCA0N
-   wDeI31ZzLFZ/OQKLjOAS4aS+EEkzoi6Qn01TusvdNSF9lcGSSGnXNyk8N
-   rxcACJRmE7IwfwLZ1j9erGfLbrOe+leMTl5P/9Bbco2CeIfo5KBSZTukY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="458229238"
+  t=1701790781; x=1733326781;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=pDMlfjIK+FXlrFwXf3T6Y7ndgKfj5NZon/tI/R9KD4c=;
+  b=UhJVfC0RDMZalLf1mLrt77aeLF3AfOgjGlZEM1veMTe0dQi5Zr+kNQ5U
+   D+1aD2z2eRfLBGx6ylbVy3xs8xMNwTcP9Q1sP7gP411fYIG+9nrIvln3L
+   /j72vwpaLuEjmZT9NzSD0ORDX1bP20Rn5yWvDtJ2+GE7c0W8FHrz0+AXj
+   tKVzyatEmO/Dg03g1xxIuWARd/CSsmJ/Yj/najUod2ADqAXybdj1V8Th7
+   XEjZSl9snJoPhukO+wTVLT9rmLk2GiP9e415qVakp7FBkiq2ID2F333F1
+   AG+DseJt7fJVB4J8L4AS/tg4iOsz0mILgVWrMQ9oJLTPHElW49AmjmHUX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="460396645"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="458229238"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 07:31:40 -0800
+   d="scan'208";a="460396645"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 07:39:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="861778081"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="770959778"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="861778081"
+   d="scan'208";a="770959778"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 07:31:38 -0800
+  by orsmga002.jf.intel.com with ESMTP; 05 Dec 2023 07:39:40 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAXOa-0009Eo-28;
-	Tue, 05 Dec 2023 15:31:36 +0000
-Date: Tue, 5 Dec 2023 23:31:07 +0800
+	id 1rAXWL-0009Fe-2F;
+	Tue, 05 Dec 2023 15:39:37 +0000
+Date: Tue, 5 Dec 2023 23:39:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH net-next v3 01/13] net: phy: Introduce ethernet link
- topology representation
-Message-ID: <202312052307.KuiFEyDS-lkp@intel.com>
-References: <20231201163704.1306431-2-maxime.chevallier@bootlin.com>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 4/5] pci: move devres code from pci.c to devres.c
+Message-ID: <ZW9EKm9W2tbRfHfg@5b683c117983>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,40 +49,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201163704.1306431-2-maxime.chevallier@bootlin.com>
+In-Reply-To: <20231205153629.26020-6-pstanner@redhat.com>
 
-Hi Maxime,
+Hi,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on net-next/main]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Chevallier/net-phy-Introduce-ethernet-link-topology-representation/20231202-003935
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231201163704.1306431-2-maxime.chevallier%40bootlin.com
-patch subject: [RFC PATCH net-next v3 01/13] net: phy: Introduce ethernet link topology representation
-config: i386-randconfig-011-20231203 (https://download.01.org/0day-ci/archive/20231205/202312052307.KuiFEyDS-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052307.KuiFEyDS-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312052307.KuiFEyDS-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: phy_link_topo_init
-   >>> referenced by dev.c:10836 (net/core/dev.c:10836)
-   >>>               net/core/dev.o:(alloc_netdev_mqs) in archive vmlinux.a
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [m]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v4 4/5] pci: move devres code from pci.c to devres.c
+Link: https://lore.kernel.org/stable/20231205153629.26020-6-pstanner%40redhat.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
