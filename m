@@ -1,47 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC1D6DD01
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 20:19:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A31A6DD15;
+	Tue,  5 Dec 2023 20:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T1iAO0Y3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VugrPMHG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701807591; x=1733343591;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+CMWoG5N1KRST+JIb5fkBntMr1ISA4C+xRSVUyJkJLc=;
-  b=T1iAO0Y3j94akzaHZDQA7E8D+/EA4uwqto6oic6J2+zaUbKsmxUE5Z2+
-   McWK57ieo8OwPZ6yy1AJwvE32BOm4vZnnL83OMAeXGFHRvMY78elI8uvX
-   VFwJhO5RLjFfckzdH674PUciOVkMST6vjLANeN+8HpJvoswB4UXV4/SWo
-   c/0aPNouXffCKgs2zfd9wgNM5WGhxjB5MPGzkoUsN7ZnLffAZACSjyW92
-   DCFL1pkmYwW5aJ8IZktsSZbIdq3BMzeRKZ1EGPf7KNv0Scl4e280K1Xni
-   tlwfHg7IxVz2iFl6HrETAP2nzdP1lnNrcRyWhbxD7YaG0fMl5vij2ti/M
+  t=1701807595; x=1733343595;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8Te1EPKT9Apvr/qvCbHF708uBV9mKYf+FGDtRDTDGng=;
+  b=VugrPMHGgPVDCOPtY6A6RJscYwxHCWIv4czP1lHMjUCYWOmntShGBjfH
+   7Jlok/mJka6ya4KEb+sy7WdhaQRgrPtoLtoZvRygtckAd5wy5NuLsxmOB
+   IYgjZ3QA982mjF3Da5XpsLMR2LOnoor7sYCoXm2dsbpTRFJ8T2vWlQEkk
+   tbYTv1kjHsNQ2+R4Iez6emvFxKP+uanYSvanF3OH8YrLmmGNuxDinq4po
+   JKEOVUmE3Xp1ajWzPV8UH5LMOn1tgGpFxLY7WE0YHMhpl5/Fl11uM8B3J
+   Cw4q2PamcWc3a5sWnt/j/PXKZOZVNprvH7SF3PCAYWMAbxxJfiBM5acoh
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="849867"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="849886"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="849867"
+   d="scan'208";a="849886"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 12:19:49 -0800
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 12:19:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="841594342"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="841594336"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="841594342"
+   d="scan'208";a="841594336"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by fmsmga004.fm.intel.com with ESMTP; 05 Dec 2023 12:19:47 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAbtR-0009fW-1m;
+	id 1rAbtR-0009fL-18;
 	Tue, 05 Dec 2023 20:19:45 +0000
-Date: Wed, 6 Dec 2023 04:19:11 +0800
+Date: Wed, 6 Dec 2023 04:19:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kalesh Singh <kaleshsingh@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: arch/arm64/kvm/arm.c:52:1: sparse: sparse: symbol
- '__pcpu_scope_kvm_arm_hyp_stack_page' was not declared. Should it be static?
-Message-ID: <202312060419.Q0ZVqnHr-lkp@intel.com>
+To: Vadim Fedorenko <vadfed@meta.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-crypto@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next v7 1/3] bpf: make common crypto API for TC/XDP
+ programs
+Message-ID: <202312060457.bRXN2xnb-lkp@intel.com>
+References: <20231202010604.1877561-1-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,30 +60,178 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231202010604.1877561-1-vadfed@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: db129d486ebdf4e3168282236f9d9008b42cac7e KVM: arm64: Implement non-protected nVHE hyp stack unwinder
-date:   1 year, 4 months ago
-config: arm64-randconfig-r112-20231117 (https://download.01.org/0day-ci/archive/20231206/202312060419.Q0ZVqnHr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060419.Q0ZVqnHr-lkp@intel.com/reproduce)
+Hi Vadim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-crypto-add-skcipher-to-bpf-crypto/20231202-091254
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231202010604.1877561-1-vadfed%40meta.com
+patch subject: [PATCH bpf-next v7 1/3] bpf: make common crypto API for TC/XDP programs
+config: x86_64-buildonly-randconfig-001-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060457.bRXN2xnb-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060457.bRXN2xnb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060419.Q0ZVqnHr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060457.bRXN2xnb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/arm.c:52:1: sparse: sparse: symbol '__pcpu_scope_kvm_arm_hyp_stack_page' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/__pcpu_scope_kvm_arm_hyp_stack_page +52 arch/arm64/kvm/arm.c
+>> kernel/bpf/crypto.c:159:6: warning: variable 'ctx' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!key) {
+               ^~~~
+   kernel/bpf/crypto.c:192:6: note: uninitialized use occurs here
+           if (ctx->tfm)
+               ^~~
+   kernel/bpf/crypto.c:159:2: note: remove the 'if' if its condition is always false
+           if (!key) {
+           ^~~~~~~~~~~
+   kernel/bpf/crypto.c:154:6: warning: variable 'ctx' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!key_len) {
+               ^~~~~~~~
+   kernel/bpf/crypto.c:192:6: note: uninitialized use occurs here
+           if (ctx->tfm)
+               ^~~
+   kernel/bpf/crypto.c:154:2: note: remove the 'if' if its condition is always false
+           if (!key_len) {
+           ^~~~~~~~~~~~~~~
+   kernel/bpf/crypto.c:148:6: warning: variable 'ctx' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (authsize && !type->setauthsize) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/crypto.c:192:6: note: uninitialized use occurs here
+           if (ctx->tfm)
+               ^~~
+   kernel/bpf/crypto.c:148:2: note: remove the 'if' if its condition is always false
+           if (authsize && !type->setauthsize) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/crypto.c:143:6: warning: variable 'ctx' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!authsize && type->setauthsize) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/crypto.c:192:6: note: uninitialized use occurs here
+           if (ctx->tfm)
+               ^~~
+   kernel/bpf/crypto.c:143:2: note: remove the 'if' if its condition is always false
+           if (!authsize && type->setauthsize) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/crypto.c:138:6: warning: variable 'ctx' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!type->has_algo(algo__str)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/crypto.c:192:6: note: uninitialized use occurs here
+           if (ctx->tfm)
+               ^~~
+   kernel/bpf/crypto.c:138:2: note: remove the 'if' if its condition is always false
+           if (!type->has_algo(algo__str)) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/crypto.c:128:28: note: initialize the variable 'ctx' to silence this warning
+           struct bpf_crypto_ctx *ctx;
+                                     ^
+                                      = NULL
+   5 warnings generated.
 
-    51	
-  > 52	DEFINE_PER_CPU(unsigned long, kvm_arm_hyp_stack_page);
-    53	unsigned long kvm_arm_hyp_percpu_base[NR_CPUS];
-    54	DECLARE_KVM_NVHE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
-    55	
+
+vim +159 kernel/bpf/crypto.c
+
+   105	
+   106	/**
+   107	 * bpf_crypto_ctx_create() - Create a mutable BPF crypto context.
+   108	 *
+   109	 * Allocates a crypto context that can be used, acquired, and released by
+   110	 * a BPF program. The crypto context returned by this function must either
+   111	 * be embedded in a map as a kptr, or freed with bpf_crypto_ctx_release().
+   112	 * As crypto API functions use GFP_KERNEL allocations, this function can
+   113	 * only be used in sleepable BPF programs.
+   114	 *
+   115	 * bpf_crypto_ctx_create() allocates memory for crypto context.
+   116	 * It may return NULL if no memory is available.
+   117	 * @type__str: pointer to string representation of crypto type.
+   118	 * @algo__str: pointer to string representation of algorithm.
+   119	 * @pkey:      bpf_dynptr which holds cipher key to do crypto.
+   120	 * @err:       integer to store error code when NULL is returned
+   121	 */
+   122	__bpf_kfunc struct bpf_crypto_ctx *
+   123	bpf_crypto_ctx_create(const char *type__str, const char *algo__str,
+   124			      const struct bpf_dynptr_kern *pkey,
+   125			      unsigned int authsize, int *err)
+   126	{
+   127		const struct bpf_crypto_type *type = bpf_crypto_get_type(type__str);
+   128		struct bpf_crypto_ctx *ctx;
+   129		const u8 *key;
+   130		u32 key_len;
+   131	
+   132		type = bpf_crypto_get_type(type__str);
+   133		if (IS_ERR(type)) {
+   134			*err = PTR_ERR(type);
+   135			return NULL;
+   136		}
+   137	
+   138		if (!type->has_algo(algo__str)) {
+   139			*err = -EOPNOTSUPP;
+   140			goto err;
+   141		}
+   142	
+   143		if (!authsize && type->setauthsize) {
+   144			*err = -EOPNOTSUPP;
+   145			goto err;
+   146		}
+   147	
+   148		if (authsize && !type->setauthsize) {
+   149			*err = -EOPNOTSUPP;
+   150			goto err;
+   151		}
+   152	
+   153		key_len = __bpf_dynptr_size(pkey);
+   154		if (!key_len) {
+   155			*err = -EINVAL;
+   156			goto err;
+   157		}
+   158		key = __bpf_dynptr_data(pkey, key_len);
+ > 159		if (!key) {
+   160			*err = -EINVAL;
+   161			goto err;
+   162		}
+   163	
+   164		ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+   165		if (!ctx) {
+   166			*err = -ENOMEM;
+   167			goto err;
+   168		}
+   169	
+   170		ctx->type = type;
+   171		ctx->tfm = type->alloc_tfm(algo__str);
+   172		if (IS_ERR(ctx->tfm)) {
+   173			*err = PTR_ERR(ctx->tfm);
+   174			ctx->tfm = NULL;
+   175			goto err;
+   176		}
+   177	
+   178		if (authsize) {
+   179			*err = type->setauthsize(ctx->tfm, authsize);
+   180			if (*err)
+   181				goto err;
+   182		}
+   183	
+   184		*err = type->setkey(ctx->tfm, key, key_len);
+   185		if (*err)
+   186			goto err;
+   187	
+   188		refcount_set(&ctx->usage, 1);
+   189	
+   190		return ctx;
+   191	err:
+   192		if (ctx->tfm)
+   193			type->free_tfm(ctx->tfm);
+   194		kfree(ctx);
+   195		module_put(type->owner);
+   196	
+   197		return NULL;
+   198	}
+   199	
 
 -- 
 0-DAY CI Kernel Test Service
