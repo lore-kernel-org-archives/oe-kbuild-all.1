@@ -1,46 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212DA1775C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 09:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6953D963
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 09:04:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l83yxiwd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EHj3iZc3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701767071; x=1733303071;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vIvQf07bm9CAu932FQA2fzcUIxXMoe9QYTWzA/UzqZU=;
-  b=l83yxiwdHk0YqFnFakNUBO/ynIw+49JdHX4X1q6orpaOK/W7cafMo6Hu
-   PnUuvoe76M/VB78GyHZG3C1WZ6jqvY6lBOFlwZAhiitno266SaJs9D+m4
-   l1221WoHJ/5yI97NqN0wHSmGei/2w0A+Q7DolI0fZnqa9fZq6Wam0pvrt
-   54hcO1HTJkEJTjngoPUI44iFAFAm2ICYc5S6jBiEb5E9bh0m214bgVETO
-   mpDCtYfmauar7KQ3moxmGQjcNfGUWUOGBVQf1WKtO3F9S9A3aoQ/eZklU
-   3av6Gnvyu6/pzF2rUoDdr4xZw29SsfUmE8dB6r+fPPNoqBbys9DY8pOFr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="7208193"
+  t=1701767072; x=1733303072;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MwJ/1yzGcUn98OKfx1bwlkwjcTxsSdQBbUnz3IRBTIk=;
+  b=EHj3iZc3u/CsdLkfJsdh7ZKZW+kGWFE2WYnpJSusR9cuxEAYzPoZSoxX
+   QWI6CNcUBLIyB+JNDAPNLCHhtjiG/ous10StGxhYr4g812ClulWmucQKJ
+   YXc5PE9uqqghbURXEi2RyH4/jIBMLQKvT93sd+Av6ELdpYy74jfT1N5Z7
+   9sUG5tPxN+ARToYJPVWeB1+Vwu4rebpBSQaNk5qaqljvnrQGSqh3O1XW2
+   mqtXz33++nZ57JtS2NIOJWcLszbknJmejIxEYuHcC/6jVJrEK+W9oy3GQ
+   tbsp8l0O1WVuT9eGnPoNGq/ow4H2KPEjyEWLa3dWjf7xYb8IbYSVrsAkH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="926495"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="7208193"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 01:04:31 -0800
+   d="scan'208";a="926495"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 01:04:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="894296798"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="799894385"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="894296798"
+   d="scan'208";a="799894385"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 05 Dec 2023 01:04:29 -0800
+  by orsmga008.jf.intel.com with ESMTP; 05 Dec 2023 01:04:29 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rARLu-0008cM-1x;
+	id 1rARLu-0008cO-24;
 	Tue, 05 Dec 2023 09:04:26 +0000
 Date: Tue, 5 Dec 2023 17:04:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/btree_io.c:812:5-8: Unneeded variable: "ret". Return "
-  0" on line 900
-Message-ID: <202312051654.iKqsZSPl-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH bpf-next 08/13] bpf: move subprog call logic back to
+ verifier.c
+Message-ID: <202312051638.g1zvtUmv-lkp@intel.com>
+References: <20231204233931.49758-9-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,124 +52,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231204233931.49758-9-andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: 39fb2983c5862933798cdd1b59da180bc9642910 bcachefs: Kill bkey_type_successor
-date:   6 weeks ago
-config: x86_64-randconfig-104-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051654.iKqsZSPl-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231205/202312051654.iKqsZSPl-lkp@intel.com/reproduce)
+Hi Andrii,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-log-PTR_TO_MEM-memory-size-in-verifier-log/20231205-074451
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231204233931.49758-9-andrii%40kernel.org
+patch subject: [PATCH bpf-next 08/13] bpf: move subprog call logic back to verifier.c
+config: alpha-randconfig-r122-20231205 (https://download.01.org/0day-ci/archive/20231205/202312051638.g1zvtUmv-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231205/202312051638.g1zvtUmv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051654.iKqsZSPl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051638.g1zvtUmv-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/btree_io.c:812:5-8: Unneeded variable: "ret". Return "  0" on line 900
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/verifier.c:5083:5: sparse: sparse: symbol 'check_ptr_off_reg' was not declared. Should it be static?
+>> kernel/bpf/verifier.c:7268:5: sparse: sparse: symbol 'check_mem_reg' was not declared. Should it be static?
+>> kernel/bpf/verifier.c:8254:5: sparse: sparse: symbol 'check_func_arg_reg_off' was not declared. Should it be static?
+   kernel/bpf/verifier.c:19770:38: sparse: sparse: subtraction of functions? Share your drugs
+   kernel/bpf/verifier.c: note: in included file (through include/linux/bpf.h, include/linux/bpf-cgroup.h):
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
 
-vim +812 fs/bcachefs/btree_io.c
+vim +/check_ptr_off_reg +5083 kernel/bpf/verifier.c
 
-   804	
-   805	static int validate_bset_keys(struct bch_fs *c, struct btree *b,
-   806				 struct bset *i, unsigned *whiteout_u64s,
-   807				 int write, bool have_retry)
-   808	{
-   809		unsigned version = le16_to_cpu(i->version);
-   810		struct bkey_packed *k, *prev = NULL;
-   811		bool seen_non_whiteout = false;
- > 812		int ret = 0;
-   813	
-   814		if (!BSET_SEPARATE_WHITEOUTS(i)) {
-   815			seen_non_whiteout = true;
-   816			*whiteout_u64s = 0;
-   817		}
-   818	
-   819		for (k = i->start;
-   820		     k != vstruct_last(i);) {
-   821			struct bkey_s u;
-   822			struct bkey tmp;
-   823			const char *invalid;
-   824	
-   825			if (btree_err_on(bkey_next(k) > vstruct_last(i),
-   826					 BTREE_ERR_FIXABLE, c, b, i,
-   827					 "key extends past end of bset")) {
-   828				i->u64s = cpu_to_le16((u64 *) k - i->_data);
-   829				break;
-   830			}
-   831	
-   832			if (btree_err_on(k->format > KEY_FORMAT_CURRENT,
-   833					 BTREE_ERR_FIXABLE, c, b, i,
-   834					 "invalid bkey format %u", k->format)) {
-   835				i->u64s = cpu_to_le16(le16_to_cpu(i->u64s) - k->u64s);
-   836				memmove_u64s_down(k, bkey_next(k),
-   837						  (u64 *) vstruct_end(i) - (u64 *) k);
-   838				continue;
-   839			}
-   840	
-   841			/* XXX: validate k->u64s */
-   842			if (!write)
-   843				bch2_bkey_compat(b->c.level, b->c.btree_id, version,
-   844					    BSET_BIG_ENDIAN(i), write,
-   845					    &b->format, k);
-   846	
-   847			u = __bkey_disassemble(b, k, &tmp);
-   848	
-   849			invalid = __bch2_bkey_invalid(c, u.s_c, btree_node_type(b)) ?:
-   850				bch2_bkey_in_btree_node(b, u.s_c) ?:
-   851				(write ? bch2_bkey_val_invalid(c, u.s_c) : NULL);
-   852			if (invalid) {
-   853				char buf[160];
-   854	
-   855				bch2_bkey_val_to_text(&PBUF(buf), c, u.s_c);
-   856				btree_err(BTREE_ERR_FIXABLE, c, b, i,
-   857					  "invalid bkey:\n%s\n%s", invalid, buf);
-   858	
-   859				i->u64s = cpu_to_le16(le16_to_cpu(i->u64s) - k->u64s);
-   860				memmove_u64s_down(k, bkey_next(k),
-   861						  (u64 *) vstruct_end(i) - (u64 *) k);
-   862				continue;
-   863			}
-   864	
-   865			if (write)
-   866				bch2_bkey_compat(b->c.level, b->c.btree_id, version,
-   867					    BSET_BIG_ENDIAN(i), write,
-   868					    &b->format, k);
-   869	
-   870			/*
-   871			 * with the separate whiteouts thing (used for extents), the
-   872			 * second set of keys actually can have whiteouts too, so we
-   873			 * can't solely go off bkey_whiteout()...
-   874			 */
-   875	
-   876			if (!seen_non_whiteout &&
-   877			    (!bkey_whiteout(k) ||
-   878			     (prev && bkey_iter_cmp(b, prev, k) > 0))) {
-   879				*whiteout_u64s = k->_data - i->_data;
-   880				seen_non_whiteout = true;
-   881			} else if (prev && bkey_iter_cmp(b, prev, k) > 0) {
-   882				char buf1[80];
-   883				char buf2[80];
-   884				struct bkey up = bkey_unpack_key(b, prev);
-   885	
-   886				bch2_bkey_to_text(&PBUF(buf1), &up);
-   887				bch2_bkey_to_text(&PBUF(buf2), u.k);
-   888	
-   889				bch2_dump_bset(b, i, 0);
-   890				btree_err(BTREE_ERR_FATAL, c, b, i,
-   891					  "keys out of order: %s > %s",
-   892					  buf1, buf2);
-   893				/* XXX: repair this */
-   894			}
-   895	
-   896			prev = k;
-   897			k = bkey_next_skip_noops(k, vstruct_last(i));
-   898		}
-   899	fsck_err:
- > 900		return ret;
-   901	}
-   902	
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5082  
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15 @5083  int check_ptr_off_reg(struct bpf_verifier_env *env,
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5084  		      const struct bpf_reg_state *reg, int regno)
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5085  {
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5086  	return __check_ptr_off_reg(env, reg, regno, false);
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5087  }
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5088  
 
 -- 
 0-DAY CI Kernel Test Service
