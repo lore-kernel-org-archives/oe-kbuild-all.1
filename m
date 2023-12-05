@@ -1,297 +1,441 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39D45645E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 10:34:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB264C620;
+	Tue,  5 Dec 2023 10:34:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ihow/SVG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iPgimBiT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701772463; x=1733308463;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qI3TjHUMot/Zr56ZTctFAbA2DjX5E9s30s6IUc2kTjg=;
-  b=ihow/SVGV2aSpWbT+21uC+UN22pc1i8RcqdfArRade3D0ycFNSLm2yat
-   +tsyqgC2cCh//UHuxvNjs8dMhuR2p77aal315wJvark0yUzdsS8euJrWh
-   qqVo5ziFqDXA8pB7joPrDvV3V6cgYmMB+3Z74AUdExJE7Rfzy8domjltR
-   g2H8bFCvmmo7iuIIZ0iZz6hu7kF/NzkFEaA7ZufsuHgWgOHF+74uRqqDC
-   E9+vwU2YAjt0BZYGRSzqFfo980KjYTMVntpORPoyjvUZr1ShVTLQ4FiLW
-   0oYLWotXEPHmwqegsd/s/ylh144VjTX03YVBL4aH68Kn5OSakKFAu0I4D
+  t=1701772466; x=1733308466;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=yYgLqrXGI2VB45wRL2h58GT+poyNKmcqbZtPV5B9t5g=;
+  b=iPgimBiTBKiXnGipSMUj9Zido9bPu5qU/emdruVsJEqqrftemQAFniJh
+   mInelTXRElb5n1QmDVoZ0/d6I7464R8a0/u/BI+KkcqsU+AXJF3Wc4v57
+   kbs1OMjF7kuw/QToxuR/bNttm11lL+qTy/GFrxx+Q1cyxtAwb8ftYQnaW
+   1rYzZ65hqa5o2UcKi+F7iYWCuLtXC99o6tlmReRXVTVK5h44/v0/DfIKO
+   Ls5iMCaEX77nYaFmUm8Hwkwub2+K4CMk++ZjZ8yMAyiXaHB/4PcIGXFtq
+   S6jKe/+DOmEc7snh72NnPT3q8McgDwlWhDNr3vcyYC8YL3POpznLUvikZ
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="7217879"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="7217880"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="7217879"
+   d="scan'208";a="7217880"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:34:22 -0800
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:34:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="799924053"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="799924052"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="799924053"
+   d="scan'208";a="799924052"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 05 Dec 2023 02:34:21 -0800
+  by orsmga008.jf.intel.com with ESMTP; 05 Dec 2023 02:34:20 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rASks-0008m6-1X;
+	id 1rASks-0008m4-1T;
 	Tue, 05 Dec 2023 10:34:18 +0000
-Date: Tue, 5 Dec 2023 18:33:20 +0800
+Date: Tue, 5 Dec 2023 18:33:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [plbossart-sound:sdw/start-BRA-support 43/64]
- drivers/soundwire/intel_ace2x.c:303: undefined reference to
- `hda_sdw_bpt_wait'
-Message-ID: <202312051858.MixX1X04-lkp@intel.com>
+To: =?utf-8?Q?=C5=81ukasz?= Bartosik <lb@semihalf.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 08/15] dyndbg: move flags field to a new structure
+Message-ID: <202312051858.4Q1PZdEQ-lkp@intel.com>
+References: <20231130234048.157509-9-lb@semihalf.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231130234048.157509-9-lb@semihalf.com>
 
-tree:   https://github.com/plbossart/sound sdw/start-BRA-support
-head:   397fa61fc8605656143d539ebd1b1fa11c274ed4
-commit: 9036aad8cde37ea883e7689366dbb48f2825aa34 [43/64] soundwire: intel_ace2x: add BPT open/close/send_async/wait
-config: x86_64-randconfig-014-20231203 (https://download.01.org/0day-ci/archive/20231205/202312051858.MixX1X04-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051858.MixX1X04-lkp@intel.com/reproduce)
+Hi Łukasz,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.7-rc4 next-20231205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ukasz-Bartosik/dyndbg-add-_DPRINTK_FLAGS_TRACE/20231201-084054
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231130234048.157509-9-lb%40semihalf.com
+patch subject: [PATCH v2 08/15] dyndbg: move flags field to a new structure
+config: powerpc64-randconfig-001-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051858.4Q1PZdEQ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051858.4Q1PZdEQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051858.MixX1X04-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051858.4Q1PZdEQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `intel_ace2x_bpt_wait':
->> drivers/soundwire/intel_ace2x.c:303: undefined reference to `hda_sdw_bpt_wait'
-   ld: vmlinux.o: in function `intel_ace2x_bpt_send_async':
->> drivers/soundwire/intel_ace2x.c:273: undefined reference to `hda_sdw_bpt_send_async'
-   ld: vmlinux.o: in function `intel_ace2x_bpt_close_stream':
->> drivers/soundwire/intel_ace2x.c:236: undefined reference to `hda_sdw_bpt_close'
-   ld: vmlinux.o: in function `intel_ace2x_bpt_open_stream':
->> drivers/soundwire/intel_ace2x.c:179: undefined reference to `hda_sdw_bpt_open'
+>> drivers/scsi/hpsa.c:7581:4: error: no member named 'flags' in 'struct _ddebug'
+                           dev_dbg(&pdev->dev, "memory BAR = %lx\n",
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/hpsa.c:8739:32: warning: shift count >= width of type [-Wshift-count-overflow]
+           rc = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
+                                         ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
+   #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+                                                        ^ ~~~
+   1 warning and 1 error generated.
+--
+>> drivers/scsi/wd719x.c:583:3: error: no member named 'flags' in 'struct _ddebug'
+                   dev_dbg(&wd->pdev->dev, "SCB terminated by direct command\n");
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/wd719x.c:598:3: error: no member named 'flags' in 'struct _ddebug'
+                   dev_dbg(&wd->pdev->dev, "selection timeout\n");
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/wd719x.c:601:3: error: no member named 'flags' in 'struct _ddebug'
+                   dev_dbg(&wd->pdev->dev, "bus reset occurred\n");
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/wd719x.c:605:3: error: no member named 'flags' in 'struct _ddebug'
+                   dev_dbg(&wd->pdev->dev, "SCSI bus error\n");
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/wd719x.c:625:3: error: no member named 'flags' in 'struct _ddebug'
+                   dev_dbg(&wd->pdev->dev, "auto request sense\n");
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+--
+>> drivers/scsi/myrb.c:1412:2: error: no member named 'flags' in 'struct _ddebug'
+           dev_dbg(&scmd->device->sdev_gendev,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/myrb.c:1437:3: error: no member named 'flags' in 'struct _ddebug'
+                   dev_dbg(&shost->shost_gendev, "ldev %u in state %x, skip\n",
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/myrb.c:1637:2: error: no member named 'flags' in 'struct _ddebug'
+           dev_dbg(&sdev->sdev_gendev,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/myrb.c:1685:3: error: no member named 'flags' in 'struct _ddebug'
+                   dev_dbg(&sdev->sdev_gendev,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/myrb.c:1692:3: error: no member named 'flags' in 'struct _ddebug'
+                   dev_dbg(&sdev->sdev_gendev,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:258:2: note: expanded from macro '_dynamic_func_call'
+           _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+--
+>> drivers/usb/host/fhci-hub.c:53:2: error: no member named 'flags' in 'struct _ddebug'
+           fhci_dbg(fhci, "-> %s: %d\n", __func__, status);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/fhci.h:452:3: note: expanded from macro 'fhci_dbg'
+                   dev_dbg(fhci_to_hcd(fhci)->self.controller, fmt, ##args)
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/usb/host/fhci-hub.c:74:2: error: no member named 'flags' in 'struct _ddebug'
+           fhci_dbg(fhci, "<- %s: %d\n", __func__, status);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/fhci.h:452:3: note: expanded from macro 'fhci_dbg'
+                   dev_dbg(fhci_to_hcd(fhci)->self.controller, fmt, ##args)
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/usb/host/fhci-hub.c:83:2: error: no member named 'flags' in 'struct _ddebug'
+           fhci_dbg(fhci, "-> %s\n", __func__);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/fhci.h:452:3: note: expanded from macro 'fhci_dbg'
+                   dev_dbg(fhci_to_hcd(fhci)->self.controller, fmt, ##args)
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/usb/host/fhci-hub.c:104:2: error: no member named 'flags' in 'struct _ddebug'
+           fhci_dbg(fhci, "<- %s\n", __func__);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/fhci.h:452:3: note: expanded from macro 'fhci_dbg'
+                   dev_dbg(fhci_to_hcd(fhci)->self.controller, fmt, ##args)
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/dynamic_debug.h:231:6: note: expanded from macro '__dynamic_func_call_cls'
+           if (DYNAMIC_DEBUG_BRANCH(id))                           \
+               ^                    ~~
+   include/linux/dynamic_debug.h:213:22: note: expanded from macro 'DYNAMIC_DEBUG_BRANCH'
+           unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+                    ~~~~~~~~~~ ^
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/usb/host/fhci-hub.c:113:2: error: no member named 'flags' in 'struct _ddebug'
+           fhci_dbg(fhci, "-> %s\n", __func__);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/fhci.h:452:3: note: expanded from macro 'fhci_dbg'
+                   dev_dbg(fhci_to_hcd(fhci)->self.controller, fmt, ##args)
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:281:2: note: expanded from macro 'dynamic_dev_dbg'
+           _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+..
 
 
-vim +303 drivers/soundwire/intel_ace2x.c
+vim +7581 drivers/scsi/hpsa.c
 
-   121	
-   122		/*
-   123		 * the port config direction, number of channels and frame
-   124		 * rate is totally arbitrary
-   125		 */
-   126		sconfig.direction = dir;
-   127		sconfig.ch_count = ch;
-   128		sconfig.frame_rate = 16000;
-   129		sconfig.type = SDW_STREAM_BPT;
-   130		sconfig.bps = 32; /* this is required for BPT/BRA */
-   131	
-   132		/* Port configuration */
-   133		pconfig = kcalloc(num_pdi, sizeof(*pconfig), GFP_KERNEL);
-   134		if (!pconfig) {
-   135			ret =  -ENOMEM;
-   136			goto error;
-   137		}
-   138	
-   139		for (i = 0; i < num_pdi; i++) {
-   140			pconfig[i].num = i;
-   141			pconfig[i].ch_mask = ch;
-   142		}
-   143	
-   144		ret = sdw_stream_add_master(&cdns->bus, &sconfig,
-   145					    pconfig, num_pdi, stream);
-   146		kfree(pconfig);
-   147	
-   148		if (ret) {
-   149			dev_err(cdns->dev, "add master to stream failed:%d\n", ret);
-   150			goto error;
-   151		}
-   152	
-   153		cdns->bus.bpt_stream->state = SDW_STREAM_CONFIGURED;
-   154	
-   155		ret = sdw_prepare_stream(cdns->bus.bpt_stream);
-   156		if (ret < 0)
-   157			return ret; // FIXME
-   158	
-   159		command = (msg->flags & SDW_MSG_FLAG_WRITE) ? 0 : 1;
-   160	
-   161		ret = sdw_cdns_bpt_find_buffer_sizes(command,
-   162						     cdns->bus.params.row, cdns->bus.params.col,
-   163						     msg->len,
-   164						     SDW_BPT_MSG_MAX_BYTES,
-   165						     &data_per_frame,
-   166						     &pdi0_buffer_size,
-   167						     &pdi1_buffer_size,
-   168						     &num_frames);
-   169		if (ret < 0)
-   170			return ret; // FIXME
-   171	
-   172		sdw->bpt_ctx.pdi0_buffer_size = pdi0_buffer_size;
-   173		sdw->bpt_ctx.pdi1_buffer_size = pdi1_buffer_size;
-   174		sdw->bpt_ctx.num_frames = num_frames;
-   175	
-   176		dev_info(cdns->dev, "%s: sizes pdi0 %d pdi1 %d\n", __func__,
-   177			 pdi0_buffer_size, pdi1_buffer_size);
-   178	
- > 179		ret = hda_sdw_bpt_open(cdns->dev->parent, /* PCI device */
-   180				       &sdw->bpt_ctx.bpt_tx_stream,
-   181				       &sdw->bpt_ctx.dmab_tx_bdl,
-   182				       pdi0_buffer_size,
-   183				       &sdw->bpt_ctx.bpt_rx_stream,
-   184				       &sdw->bpt_ctx.dmab_rx_bdl,
-   185				       pdi1_buffer_size);
-   186		if (ret < 0) {
-   187			dev_err(cdns->dev, "%s: hda_sdw_bpt_open failed %d\n", __func__, ret);
-   188			return ret; // FIXME
-   189		}
-   190	
-   191		dev_info(cdns->dev, "%s: preparing dma buffer\n", __func__);
-   192	
-   193		if (!command) {
-   194			ret = sdw_cdns_prepare_write_dma_buffer(
-   195				msg->dev_num, msg->addr,
-   196				msg->buf, msg->len,
-   197				data_per_frame,
-   198				sdw->bpt_ctx.dmab_tx_bdl.area,
-   199				pdi0_buffer_size,
-   200				&tx_total_bytes);
-   201		} else {
-   202			ret = sdw_cdns_prepare_read_dma_buffer(
-   203				msg->dev_num, msg->addr,
-   204				msg->len,
-   205				data_per_frame,
-   206				sdw->bpt_ctx.dmab_tx_bdl.area, pdi0_buffer_size,
-   207				&tx_total_bytes);
-   208	
-   209		}
-   210		if (ret < 0) {
-   211			dev_err(cdns->dev, "%s: sdw_prepare_%s_dma_buffer failed %d\n",
-   212				__func__, command ? "read" : "write", ret);
-   213			return ret; // FIXME
-   214		}
-   215	
-   216		dev_info(cdns->dev, "%s: done\n", __func__);
-   217	
-   218		return 0;
-   219	error:
-   220		sdw_release_stream(cdns->bus.bpt_stream);
-   221	
-   222		return ret;
-   223	}
-   224	
-   225	static int intel_ace2x_bpt_close_stream(struct sdw_intel *sdw,
-   226						struct sdw_slave *slave,
-   227						enum sdw_bpt_type mode,
-   228						struct sdw_bpt_msg *msg)
-   229	{
-   230		struct sdw_cdns *cdns = &sdw->cdns;
-   231		int ret;
-   232	
-   233		if (mode != SDW_BRA)
-   234			return -EINVAL;
-   235	
- > 236		ret = hda_sdw_bpt_close(cdns->dev->parent, /* PCI device */
-   237					sdw->bpt_ctx.bpt_tx_stream,
-   238					&sdw->bpt_ctx.dmab_tx_bdl,
-   239					sdw->bpt_ctx.bpt_rx_stream,
-   240					&sdw->bpt_ctx.dmab_rx_bdl);
-   241		if (ret < 0)
-   242			dev_err(cdns->dev, "%s:  hda_sdw_bpt_close failed: ret %d\n",
-   243				__func__, ret);
-   244	
-   245		ret = sdw_deprepare_stream(cdns->bus.bpt_stream);
-   246		if (ret < 0)
-   247			dev_err(cdns->dev, "%s: sdw_deprepare_stream failed: ret %d\n", __func__, ret);
-   248		ret = sdw_stream_remove_slave(slave, cdns->bus.bpt_stream);
-   249		if (ret < 0)
-   250			dev_err(cdns->dev, "%s: remove slave failed: %d\n",
-   251				__func__, ret);
-   252	
-   253		ret = sdw_stream_remove_master(&cdns->bus, cdns->bus.bpt_stream);
-   254		if (ret < 0) {
-   255			dev_err(cdns->dev, "%s: remove master failed: %d\n",
-   256				__func__, ret);
-   257			return ret;
-   258		}
-   259		cdns->bus.bpt_stream = NULL;
-   260	
-   261		return 0;
-   262	}
-   263	
-   264	static int intel_ace2x_bpt_send_async(struct sdw_intel *sdw,
-   265					      struct sdw_slave *slave,
-   266					      struct sdw_bpt_msg *msg)
-   267	{
-   268		struct sdw_cdns *cdns = &sdw->cdns;
-   269		int ret;
-   270	
-   271		dev_info(cdns->dev, "%s: starting\n", __func__);
-   272	
- > 273		ret = hda_sdw_bpt_send_async(cdns->dev->parent, /* PCI device */
-   274					     sdw->bpt_ctx.bpt_tx_stream,
-   275					     sdw->bpt_ctx.bpt_rx_stream);
-   276		if (ret < 0) {
-   277			dev_info(cdns->dev, "%s: hda_sdw_bpt_send_async: %d\n", __func__, ret);
-   278			return ret;
-   279		} else {
-   280			dev_info(cdns->dev, "%s: hda_sdw_bpt_send_async done", __func__);
-   281		}
-   282		ret = sdw_enable_stream(cdns->bus.bpt_stream);
-   283		if (ret < 0) {
-   284			dev_err(cdns->dev, "%s: sdw_stream_enable failed: %d\n",
-   285				__func__, ret);
-   286			return ret;
-   287		}
-   288	
-   289		dev_info(cdns->dev, "%s: done\n", __func__);
-   290	
-   291		return 0;
-   292	}
-   293	
-   294	static int intel_ace2x_bpt_wait(struct sdw_intel *sdw,
-   295					struct sdw_slave *slave,
-   296					struct sdw_bpt_msg *msg)
-   297	{
-   298		struct sdw_cdns *cdns = &sdw->cdns;
-   299		int ret;
-   300	
-   301		dev_info(cdns->dev, "%s: starting wait\n", __func__);
-   302	
- > 303		ret = hda_sdw_bpt_wait(cdns->dev->parent, /* PCI device */
-   304				       sdw->bpt_ctx.bpt_tx_stream,
-   305				       sdw->bpt_ctx.bpt_rx_stream);
-   306		if (ret < 0)
-   307			dev_err(cdns->dev, "%s: hda_sdw_bpt_wait failed: %d\n", __func__, ret);
-   308	
-   309		ret = sdw_disable_stream(cdns->bus.bpt_stream);
-   310		if (ret < 0) {
-   311			dev_err(cdns->dev, "%s: sdw_stream_enable failed: %d\n",
-   312				__func__, ret);
-   313			return ret;
-   314		}
-   315	
-   316		if (1) {
-   317			/* dump DMA TX buffer */
-   318			print_hex_dump_debug("DMA out: ", DUMP_PREFIX_OFFSET,
-   319					     4, 4,
-   320					     sdw->bpt_ctx.dmab_tx_bdl.area,
-   321					     sdw->bpt_ctx.pdi0_buffer_size,
-   322					     false);
-   323	
-   324			print_hex_dump_debug("DMA in: ", DUMP_PREFIX_OFFSET,
-   325					     4, 4,
-   326					     sdw->bpt_ctx.dmab_rx_bdl.area,
-   327					     sdw->bpt_ctx.pdi1_buffer_size,
-   328					     false);
-   329		}
-   330	
-   331		dev_info(cdns->dev, "%s: done\n", __func__);
-   332	
-   333		return 0;
-   334	}
-   335	
+e5c880d1d5923c Stephen M. Cameron 2010-05-27  7571  
+6f039790510fd6 Greg Kroah-Hartman 2012-12-21  7572  static int hpsa_pci_find_memory_BAR(struct pci_dev *pdev,
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7573  				    unsigned long *memory_bar)
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7574  {
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7575  	int i;
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7576  
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7577  	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++)
+12d2cd4711b9e3 Stephen M. Cameron 2010-06-16  7578  		if (pci_resource_flags(pdev, i) & IORESOURCE_MEM) {
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7579  			/* addressing mode bits already removed */
+12d2cd4711b9e3 Stephen M. Cameron 2010-06-16  7580  			*memory_bar = pci_resource_start(pdev, i);
+12d2cd4711b9e3 Stephen M. Cameron 2010-06-16 @7581  			dev_dbg(&pdev->dev, "memory BAR = %lx\n",
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7582  				*memory_bar);
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7583  			return 0;
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7584  		}
+12d2cd4711b9e3 Stephen M. Cameron 2010-06-16  7585  	dev_warn(&pdev->dev, "no memory BAR found\n");
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7586  	return -ENODEV;
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7587  }
+3a7774ceb89f02 Stephen M. Cameron 2010-05-27  7588  
 
 -- 
 0-DAY CI Kernel Test Service
