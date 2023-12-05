@@ -1,47 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8E2241F1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 10:45:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1455C3DB95
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 10:45:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8WCnC4D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qfs2eZqg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701773108; x=1733309108;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/52dcC8YZO2910ghnnJnALEpsFh4wqjODV0/kLnGxPo=;
-  b=B8WCnC4DdbY+gyuUNA+fz7YtjllHZ8ecSwZyNAkrMRA+PvLe9Hz3oQZi
-   Sy845VFYjac2ezn18cUtIs7nwKdEOYFRLXGxWk8r4o3H279yZm4gS4rO5
-   rAKlaZh8vUSRhvtNfGbMVmV9gflXtmy9+AZHKjnvG05C9QlPK0Ia/k0G2
-   hmNDie/1fzzJpDzTwPxgxZ1/g1PPcBK9MhuGLHF3/eXNbjp0h+Inx8ZUJ
-   UGHzFcEjNAaonMeiVR0ZxU7QX+8Ze+4+OjiJ5PGCgfYVoRYx8E28ZHACe
-   C5rvLK08UdRIdv5ZBFCMvhA2TIHKRhtcm4ZFQzk9KxmkWYRHASrDIuP8Y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="378901362"
+  t=1701773113; x=1733309113;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SOLccH3Xzc++EaBQ0v6eolcJHqG0ji0sa1DvQVydOv4=;
+  b=Qfs2eZqg0FFc72fhGSWO7UMoLZ7wVxK+3yF3YQ3aV5eLf+R/ttSiKgYQ
+   Rl2dABTJv1dbomCn4Jv1wLUmntZ3OXrn32b+L2yYJggkc5/tcdmvbiR8c
+   XyuFaz06zb6mnxFQUXCzUUWHWw6YMhfDzNT2rzcTUkwU6Upd9ntPWT7mZ
+   KIlfdO7gbLCVCqkRH2zbbXaXFtIokNYmb+YsU6rKLg7j1B80Ay9xUO11z
+   vPqXdaYnmWBltnpGxqLXYUz3xzp0NuknYLR3LwcNvmQ0fImVkdIB6V8Tl
+   v+qB9akvnLh3V37c4Y3+AOymfsoX/5qVgBtZFOo+3d5ZSpoLqSa8Qq/GH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="393609841"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="378901362"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:45:08 -0800
+   d="scan'208";a="393609841"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:45:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018177799"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="914758875"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="1018177799"
+   d="scan'208";a="914758875"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 02:45:06 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 05 Dec 2023 02:45:05 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rASvI-0008nf-0T;
-	Tue, 05 Dec 2023 10:45:04 +0000
-Date: Tue, 5 Dec 2023 18:44:00 +0800
+	id 1rASus-0008na-2J;
+	Tue, 05 Dec 2023 10:45:03 +0000
+Date: Tue, 5 Dec 2023 18:44:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.6-r3mini 25/34]
- drivers/net/phy/air_en8811h.c:792:5: warning: no previous prototype for
- function 'en8811h_phy_modify_mmd_changed'
-Message-ID: <202312051845.2S2wmbPy-lkp@intel.com>
+To: Philipp Stanner <pstanner@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Hanjun Guo <guohanjun@huawei.com>, NeilBrown <neilb@suse.de>,
+	Kent Overstreet <kmo@daterainc.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Uladzislau Koshchanka <koshchanka@gmail.com>,
+	John Sanpe <sanpeqf@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Kees Cook <keescook@chromium.org>, David Gow <davidgow@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"wuqiang.matt" <wuqiang.matt@bytedance.com>,
+	Yury Norov <yury.norov@gmail.com>, Jason Baron <jbaron@akamai.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ben Dooks <ben.dooks@codethink.co.uk>, dakr@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-arch@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] lib, pci: unify generic pci_iounmap()
+Message-ID: <202312051813.09WbvusW-lkp@intel.com>
+References: <20231204123834.29247-6-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,66 +68,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231204123834.29247-6-pstanner@redhat.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.6-r3mini
-head:   7a4da3bc9c1a2302ba8c22503865d1bbc0cdce1d
-commit: d2b5b3c2c84adce7c4a2458bdd2b3a641b155cd0 [25/34] Add the Airoha EN8811H PHY driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051845.2S2wmbPy-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051845.2S2wmbPy-lkp@intel.com/reproduce)
+Hi Philipp,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus arnd-asm-generic/master kees/for-next/pstore kees/for-next/kspp linus/master v6.7-rc4 next-20231205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/lib-pci_iomap-c-fix-cleanup-bugs-in-pci_iounmap/20231204-204128
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231204123834.29247-6-pstanner%40redhat.com
+patch subject: [PATCH v3 5/5] lib, pci: unify generic pci_iounmap()
+config: openrisc-virt_defconfig (https://download.01.org/0day-ci/archive/20231205/202312051813.09WbvusW-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051813.09WbvusW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051845.2S2wmbPy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051813.09WbvusW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/phy/air_en8811h.c:792:5: warning: no previous prototype for function 'en8811h_phy_modify_mmd_changed' [-Wmissing-prototypes]
-   int en8811h_phy_modify_mmd_changed(struct phy_device *phydev, int devad, u32 regnum,
-       ^
-   drivers/net/phy/air_en8811h.c:792:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int en8811h_phy_modify_mmd_changed(struct phy_device *phydev, int devad, u32 regnum,
-   ^
-   static 
-   drivers/net/phy/air_en8811h.c:920:12: warning: no previous prototype for function 'en8811h_phy_driver_register' [-Wmissing-prototypes]
-   int __init en8811h_phy_driver_register(void)
-              ^
-   drivers/net/phy/air_en8811h.c:920:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __init en8811h_phy_driver_register(void)
-   ^
-   static 
-   drivers/net/phy/air_en8811h.c:931:13: warning: no previous prototype for function 'en8811h_phy_driver_unregister' [-Wmissing-prototypes]
-   void __exit en8811h_phy_driver_unregister(void)
-               ^
-   drivers/net/phy/air_en8811h.c:931:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __exit en8811h_phy_driver_unregister(void)
-   ^
-   static 
-   3 warnings generated.
+   drivers/pci/iomap.c: In function 'pci_iounmap':
+>> drivers/pci/iomap.c:155:17: error: implicit declaration of function 'ioport_unmap'; did you mean 'devm_ioport_unmap'? [-Werror=implicit-function-declaration]
+     155 |                 ioport_unmap(addr);
+         |                 ^~~~~~~~~~~~
+         |                 devm_ioport_unmap
+   cc1: some warnings being treated as errors
 
 
-vim +/en8811h_phy_modify_mmd_changed +792 drivers/net/phy/air_en8811h.c
+vim +155 drivers/pci/iomap.c
 
-   791	
- > 792	int en8811h_phy_modify_mmd_changed(struct phy_device *phydev, int devad, u32 regnum,
-   793				     u16 mask, u16 set)
-   794	{
-   795		int new, ret;
-   796	
-   797		ret = air_mii_cl45_read(phydev, devad, regnum);
-   798		if (ret < 0)
-   799			return ret;
-   800	
-   801		new = (ret & ~mask) | set;
-   802		if (new == ret)
-   803			return 0;
-   804	
-   805		ret = air_mii_cl45_write(phydev, devad, regnum, new);
-   806	
-   807		return ret < 0 ? ret : 1;
-   808	}
-   809	
+   144	
+   145	/**
+   146	 * pci_iounmap - Unmapp a mapping
+   147	 * @dev: PCI device the mapping belongs to
+   148	 * @addr: start address of the mapping
+   149	 *
+   150	 * Unmapp a PIO or MMIO mapping.
+   151	 */
+   152	void pci_iounmap(struct pci_dev *dev, void __iomem *addr)
+   153	{
+   154		if (iomem_is_ioport(addr)) {
+ > 155			ioport_unmap(addr);
+   156			return;
+   157		}
+   158	
+   159		iounmap(addr);
+   160	}
+   161	EXPORT_SYMBOL(pci_iounmap);
+   162	
 
 -- 
 0-DAY CI Kernel Test Service
