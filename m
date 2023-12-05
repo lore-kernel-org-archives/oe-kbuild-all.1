@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C4A1C13
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 01:34:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF561C13
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 01:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgLvZFg7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+81Ow7m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701740093; x=1733276093;
+  t=1701740097; x=1733276097;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rV/4dVlI+LgnNKXmK2bf3eml6chCjAXoX8v7ZX5wwIs=;
-  b=AgLvZFg7XsKpUvKWPk1bYetOjdAF/rZsgE0fswaU0VIfv0W3Z/pyEwxj
-   98DnV2AmbQqzZXV/XJHsSaj6BeseqwK8R1v0RMm9ysg8I0w3bWm+rJKuT
-   tER2QEfWvPQtbDNXSaRMMt2mxijfaMLnH/3laG8Vl5+vo3fItkwQcW1/b
-   DCzP7ne2VQapTm20iiEO3jUgehMWz37+72cA8XXQFGYeui/vU1D8viOV8
-   rBLAwXqNOa3MiSKcC9oPtpiFSMNEZXWwIw5ix3H8ppF4ZZ9OGX2YCgZns
-   lA0TdjpggRVNObLroGBGQU4V7vnfQoX5A/uV/jNDJWmcuaNisdr7r/AbZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="396622391"
+  bh=5xHDtRaLXGMH32pLIJvcltssPM2kAteoj8Xq4fGUkV0=;
+  b=h+81Ow7mhwI3WzIGrhUJ1gA7SzbGBbzTR+dr94svh4tV4O9y7aDnYPDN
+   MuVAeYdie6Ddo9/484TgfTzi8CADvCtCqY5IzFVP2zfzFprHBXdwXpmaD
+   ONRD+WwZrBCCGt9tWF3DVWadG1HcBBbqqSQJ9iSL1Q2Y+HgGgIqM06IOR
+   vNXTaLvBiJlukcu4/PjRIgsrQllG7HygYpB5u3Pj4UEQDIQ6aXx0T1HLf
+   veYj+A+x3huRyvgfE4u1fkTmwS9qU6YxMWN6bcyXjtC2pt2V/bVYn7TK5
+   R1UHRsyquZqg7xu8d8m+KcpR/mSVWeJM0Jaeczl1mf7LBRwTezuEL4xuW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="396622402"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="396622391"
+   d="scan'208";a="396622402"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 17:34:53 -0800
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 17:34:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="944077435"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="944077451"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="944077435"
+   d="scan'208";a="944077451"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 04 Dec 2023 17:34:51 -0800
+  by orsmga005.jf.intel.com with ESMTP; 04 Dec 2023 17:34:53 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAKKl-0008Gk-1X;
-	Tue, 05 Dec 2023 01:34:47 +0000
-Date: Tue, 5 Dec 2023 09:34:12 +0800
+	id 1rAKKn-0008Gm-15;
+	Tue, 05 Dec 2023 01:34:50 +0000
+Date: Tue, 5 Dec 2023 09:34:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Jens Axboe <axboe@kernel.dk>
 Subject: io_uring/poll.c:819:40: sparse: sparse: incorrect type in argument 2
  (different base types)
-Message-ID: <202312050909.3SlyDGqx-lkp@intel.com>
+Message-ID: <202312050925.mQD45OR7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,14 +55,14 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
 commit: 063a007996bf725ba4c7d8741701670be9858300 io_uring: change arm poll return values
 date:   1 year, 4 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231205/202312050909.3SlyDGqx-lkp@intel.com/config)
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231205/202312050925.mQD45OR7-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312050909.3SlyDGqx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312050925.mQD45OR7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312050909.3SlyDGqx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312050925.mQD45OR7-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
    io_uring/poll.c: note: in included file (through io_uring/io_uring.h):
@@ -128,6 +128,70 @@ sparse warnings: (new ones prefixed by >>)
 
 vim +819 io_uring/poll.c
 
+   734	
+   735	static __poll_t io_poll_parse_events(const struct io_uring_sqe *sqe,
+   736					     unsigned int flags)
+   737	{
+   738		u32 events;
+   739	
+   740		events = READ_ONCE(sqe->poll32_events);
+   741	#ifdef __BIG_ENDIAN
+   742		events = swahw32(events);
+   743	#endif
+   744		if (!(flags & IORING_POLL_ADD_MULTI))
+ > 745			events |= EPOLLONESHOT;
+   746		if (!(flags & IORING_POLL_ADD_LEVEL))
+   747			events |= EPOLLET;
+   748		return demangle_poll(events) |
+   749			(events & (EPOLLEXCLUSIVE|EPOLLONESHOT|EPOLLET));
+   750	}
+   751	
+   752	int io_poll_remove_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+   753	{
+   754		struct io_poll_update *upd = io_kiocb_to_cmd(req);
+   755		u32 flags;
+   756	
+   757		if (sqe->buf_index || sqe->splice_fd_in)
+   758			return -EINVAL;
+   759		flags = READ_ONCE(sqe->len);
+   760		if (flags & ~(IORING_POLL_UPDATE_EVENTS | IORING_POLL_UPDATE_USER_DATA |
+   761			      IORING_POLL_ADD_MULTI))
+   762			return -EINVAL;
+   763		/* meaningless without update */
+   764		if (flags == IORING_POLL_ADD_MULTI)
+   765			return -EINVAL;
+   766	
+   767		upd->old_user_data = READ_ONCE(sqe->addr);
+   768		upd->update_events = flags & IORING_POLL_UPDATE_EVENTS;
+   769		upd->update_user_data = flags & IORING_POLL_UPDATE_USER_DATA;
+   770	
+   771		upd->new_user_data = READ_ONCE(sqe->off);
+   772		if (!upd->update_user_data && upd->new_user_data)
+   773			return -EINVAL;
+   774		if (upd->update_events)
+   775			upd->events = io_poll_parse_events(sqe, flags);
+   776		else if (sqe->poll32_events)
+   777			return -EINVAL;
+   778	
+   779		return 0;
+   780	}
+   781	
+   782	int io_poll_add_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+   783	{
+   784		struct io_poll *poll = io_kiocb_to_cmd(req);
+   785		u32 flags;
+   786	
+   787		if (sqe->buf_index || sqe->off || sqe->addr)
+   788			return -EINVAL;
+   789		flags = READ_ONCE(sqe->len);
+   790		if (flags & ~(IORING_POLL_ADD_MULTI|IORING_POLL_ADD_LEVEL))
+   791			return -EINVAL;
+   792		if ((flags & IORING_POLL_ADD_MULTI) && (req->flags & REQ_F_CQE_SKIP))
+   793			return -EINVAL;
+   794	
+   795		poll->events = io_poll_parse_events(sqe, flags);
+   796		return 0;
+   797	}
    798	
    799	int io_poll_add(struct io_kiocb *req, unsigned int issue_flags)
    800	{
