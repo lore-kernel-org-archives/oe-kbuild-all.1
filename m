@@ -1,131 +1,395 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7FA84433
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 02:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283628F75
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 04:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="vWRtjqH2"
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20231205021303epoutp01a18701557c735f2687398d88183522d8~dza6Xx0HR2212922129epoutp01M
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 02:13:03 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20231205021303epoutp01a18701557c735f2687398d88183522d8~dza6Xx0HR2212922129epoutp01M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1701742384;
-	bh=AwRFuB7qZXhfRkTN+3x6O7fIJ0ZODsnPiKZ/h4q/GvY=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=vWRtjqH2jfiAvRdF7hHh64UUaKl+JcxlFVmdLgpvyIBq+SuHgDDddyGiXMQS9wZ3L
-	 crMqFGS9pRo/zswkGVX6eC7Gk80rjpEKRzi5BIsAGdJ/Fk0cDi4xvWtqFQQzd4ArdH
-	 D0rO0rNAX1z4h7mQtCvGGkvVeeAf70tG7HzICIaM=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20231205021302epcas1p213951e22e8bb52f6943302298b2fa0ab~dza40vmDk2023220232epcas1p2g;
-	Tue,  5 Dec 2023 02:13:02 +0000 (GMT)
-Received: from epcpadp4 (unknown [182.195.40.18]) by epsnrtp3.localdomain
-	(Postfix) with ESMTP id 4Skkb21xlDz4x9Q2; Tue,  5 Dec 2023 02:13:02 +0000
-	(GMT)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-	20231205021157epcas1p3f8d5f7eb75fc6ff82fb8b3b7bb380886~dzZ8P2y_o0913509135epcas1p3M;
-	Tue,  5 Dec 2023 02:11:57 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20231205021157epsmtrp1cb4691d519e2ee2e4989366b057b386f~dzZ8PDFoe2631226312epsmtrp1f;
-	Tue,  5 Dec 2023 02:11:57 +0000 (GMT)
-X-AuditID: b6c32a29-fa1ff70000002233-a3-656e86ed6233
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	64.50.08755.DE68E656; Tue,  5 Dec 2023 11:11:57 +0900 (KST)
-Received: from W10PB11329 (unknown [10.253.152.129]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20231205021157epsmtip276607d53ca2fcd0325ff0316504c1ec1~dzZ8B5vin1759817598epsmtip21;
-	Tue,  5 Dec 2023 02:11:57 +0000 (GMT)
-From: "Sungjong Seo" <sj1557.seo@samsung.com>
-To: "'Dan Carpenter'" <dan.carpenter@linaro.org>,
-	<oe-kbuild@lists.linux.dev>, <Yuezhang.Mo@sony.com>, <linkinjeon@kernel.org>
-Cc: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-fsdevel@vger.kernel.org>, <Andy.Wu@sony.com>,
-	<Wataru.Aoyama@sony.com>, <cpgs@samsung.com>, <sj1557.seo@samsung.com>
-In-Reply-To: <4308b820-7d69-42e6-8b07-205e81add314@suswa.mountain>
-Subject: RE: [PATCH v5 1/2] exfat: change to get file size from DataLength
-Date: Tue, 5 Dec 2023 11:11:56 +0900
-Message-ID: <1891546521.01701742382249.JavaMail.epsvc@epcpadp4>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I64yR0jd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701748807; x=1733284807;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H9Dua3FXdMv0MUV2rKPhgyS/O4yy43psLoDHyNIZhVU=;
+  b=I64yR0jdfx2/lWVj/+dBllpgpqAt20lTaPO0Ab+Ao0I2Bske3XpkZehh
+   mqDLdkKiUytypgWhby4lSMVksa7+fM8/Jl8lXQSjcpsyGV8mi7av7ETVR
+   eIHPgRWmdj02e4AFXXEjfvbwoPKlD/ZInmEtM9FT0dY5X3M42IDpJmyKr
+   2aATlPFne25wM4BjT+5d7d+prphCKwmzbIoHvwTvA4pKPWNXIN1Lbm8Bp
+   fCx1cSdYv4ycomaIWM2gBa6+XS7jdavHZguMKBAcF8nTZiFipJTvs3VsR
+   2kr1Ktg3dvCkIMZik2HNZ7bjeLu4ZrUe/H9woCmrKu99iXR8OlQ/GN5AX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="424997077"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="424997077"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 20:00:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="805141039"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="805141039"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 04 Dec 2023 20:00:04 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAMbK-0008Kc-03;
+	Tue, 05 Dec 2023 04:00:02 +0000
+Date: Tue, 5 Dec 2023 11:59:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:lukas-v2.1 9/26] include/linux/compiler-gcc.h:42:45: warning:
+ variable '__UNIQUE_ID_ddebug357' set but not used
+Message-ID: <202312051105.7xgszLDA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQGxd3wNhL+eaFfSGY7zFr2t4G5sZQF3kZuwsN+PREA=
-Content-Language: ko
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPIsWRmVeSWpSXmKPExsWy7bCSvO7btrxUg8dfOS1aj+xjtHh5SNPi
-	w7xWdouJ05YyW+zZe5LF4lXzIzaLQyuvMFk0rDvLbrHl3xFWi48PdjNaXH/zkNWB22PxnpdM
-	HptWdbJ53Lm2h83jxeaZjB59W1YxerRP2Mns8XmTXAB7FJdNSmpOZllqkb5dAlfGt3vfGAuW
-	clWcPD2FrYFxGkcXIyeHhICJxOamOcxdjFwcQgK7GSXa1j9h72LkAEpISRzcpwlhCkscPlwM
-	UfKcUWLXiRmsIL1sAroST278BOsVEWhhlLh44QkLiMMssJdR4sH02VBTJzNKLF/9gwWkhVPA
-	SWLm0l1sILawgJfE5scH2UFsFgEViQ2928BsXgFLiStbTjBB2IISJ2eCTOUAmqon0baRESTM
-	LCAvsf0tyNUgHyhI7P50FOwiEQEriSn3HrFC1IhIzO5sY57AKDwLyaRZCJNmIZk0C0nHAkaW
-	VYySqQXFuem5xYYFhnmp5XrFibnFpXnpesn5uZsYwXGopbmDcfuqD3qHGJk4GA8xSnAwK4nw
-	zruVnSrEm5JYWZValB9fVJqTWnyIUZqDRUmcV/xFb4qQQHpiSWp2ampBahFMlomDU6qBKbPw
-	+YXN9a9WOzTxB86rE2xVjTVNmpLctu3yC3bVpIye1Wdf/1t77F73JxvTCmtHT4Uei9zymRZt
-	ZzpVoxUNtcs6DSf9Ur3q89l/XaidwXqJFHmZ9SaHNwQkl36rPbn66A6GNxzHVBhYb1ziNuE/
-	PJPxo/0b5mk5h/kZKuLirDivs13ut3gR6Wp2ZclHPxsjac6T7hItnvsjNyi++XxAaGO5sXTa
-	x4Ot91UUxF6wK8xKCFr4ys9ZtinhwXovn8VWJWFMs07m1v7zP+b9r37e2QNz4491Lyl/b7FJ
-	2SRX40XQmYh3XHl/Hhr9eJif9Hv6p5RN2lMdl6f7LejZ99nmz+VHk3fwxR1c3nOqWlBCiaU4
-	I9FQi7moOBEA31fXrzIDAAA=
-X-CMS-MailID: 20231205021157epcas1p3f8d5f7eb75fc6ff82fb8b3b7bb380886
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-X-CPGSPASS: Y
-X-ArchiveUser: EV
-X-Hop-Count: 3
-X-CMS-RootMailID: 20231201082951epcas1p49f84b72f950c5038b85a6fce6b6b54f3
-References: <CGME20231201082951epcas1p49f84b72f950c5038b85a6fce6b6b54f3@epcas1p4.samsung.com>
-	<4308b820-7d69-42e6-8b07-205e81add314@suswa.mountain>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-[snip]
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  515  	if (ret < 0)
-{
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  516  		if
-(rw
-> & WRITE)
-> 
-> This code works and the checker doesn't complain about it, but for
-> consistency I think it should be if (rw == WRITE).
-> 
-> 5f2aa075070cf5b Namjae Jeon          2020-03-02  517
-> 	exfat_write_failed(mapping, size);
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  518
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  519  		if
-> (ret != -EIOCBQUEUED)
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  520
-> 	return ret;
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  521  	} else
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  522  		size
-=
-> pos + ret;
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  523
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30  524  	/* zero the
-> unwritten part in the partially written block */
-> 6642222a5afe775 Yuezhang.Mo@sony.com 2023-11-30 @525  	if ((rw &
-READ)
-> && pos < ei->valid_size && ei->valid_size < size) {
-> 
-> I think this should be rw == READ.
-You're definitely right.
-READ is 0, so it always be false.
+tree:   https://github.com/jimc/linux.git lukas-v2.1
+head:   20d113eb6f9ac604fce8e97eefae3b07e133d148
+commit: 3516abb0d844ec4008ffa3dfc68b37cb6a6c64f6 [9/26] dyndbg: move flags field to a new structure
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051105.7xgszLDA-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051105.7xgszLDA-lkp@intel.com/reproduce)
 
-Dear Yuezhang,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051105.7xgszLDA-lkp@intel.com/
 
-Can you please send v6 again for this?
-It would be nice to include fixes for a minor issue reported
-by Kernel test robot.
+All warnings (new ones prefixed by >>):
 
-Thanks
+   In file included from include/linux/export.h:5,
+                    from include/linux/linkage.h:7,
+                    from include/linux/fs.h:5,
+                    from fs/btrfs/transaction.c:6:
+   fs/btrfs/transaction.c: In function 'btrfs_defrag_root':
+   include/linux/dynamic_debug.h:213:28: error: 'struct _ddebug' has no member named 'flags'
+     213 |         unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:240:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     240 |         if (DYNAMIC_DEBUG_BRANCH(id))                                   \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/transaction.c:1516:25: note: in expansion of macro 'btrfs_debug'
+    1516 |                         btrfs_debug(info, "defrag_root cancelled");
+         |                         ^~~~~~~~~~~
+   In file included from include/linux/printk.h:564,
+                    from include/asm-generic/bug.h:22,
+                    from arch/openrisc/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/openrisc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6:
+   include/linux/compiler-gcc.h:42:45: warning: variable '__UNIQUE_ID_ddebug346' set but not used [-Wunused-but-set-variable]
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/dynamic_debug.h:173:31: note: in definition of macro 'DEFINE_DYNAMIC_DEBUG_METADATA_CLS'
+     173 |         __section("__dyndbg") name = {                          \
+         |                               ^~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/dynamic_debug.h:266:41: note: in expansion of macro '__UNIQUE_ID'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |                                         ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/transaction.c:1516:25: note: in expansion of macro 'btrfs_debug'
+    1516 |                         btrfs_debug(info, "defrag_root cancelled");
+         |                         ^~~~~~~~~~~
+   fs/btrfs/transaction.c: In function 'btrfs_clean_one_deleted_snapshot':
+   include/linux/dynamic_debug.h:213:28: error: 'struct _ddebug' has no member named 'flags'
+     213 |         unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:240:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     240 |         if (DYNAMIC_DEBUG_BRANCH(id))                                   \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/transaction.c:2628:9: note: in expansion of macro 'btrfs_debug'
+    2628 |         btrfs_debug(fs_info, "cleaner removing %llu", root->root_key.objectid);
+         |         ^~~~~~~~~~~
+>> include/linux/compiler-gcc.h:42:45: warning: variable '__UNIQUE_ID_ddebug357' set but not used [-Wunused-but-set-variable]
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/dynamic_debug.h:173:31: note: in definition of macro 'DEFINE_DYNAMIC_DEBUG_METADATA_CLS'
+     173 |         __section("__dyndbg") name = {                          \
+         |                               ^~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/dynamic_debug.h:266:41: note: in expansion of macro '__UNIQUE_ID'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |                                         ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/transaction.c:2628:9: note: in expansion of macro 'btrfs_debug'
+    2628 |         btrfs_debug(fs_info, "cleaner removing %llu", root->root_key.objectid);
+         |         ^~~~~~~~~~~
+--
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/bits.h:21,
+                    from arch/openrisc/include/asm/cmpxchg.h:19,
+                    from arch/openrisc/include/asm/atomic.h:131,
+                    from include/linux/atomic.h:7,
+                    from include/crypto/hash.h:11,
+                    from fs/btrfs/inode.c:6:
+   fs/btrfs/inode.c: In function 'submit_one_async_extent':
+   include/linux/dynamic_debug.h:213:28: error: 'struct _ddebug' has no member named 'flags'
+     213 |         unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:240:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     240 |         if (DYNAMIC_DEBUG_BRANCH(id))                                   \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:1206:9: note: in expansion of macro 'btrfs_debug'
+    1206 |         btrfs_debug(fs_info,
+         |         ^~~~~~~~~~~
+   In file included from include/linux/printk.h:564,
+                    from include/asm-generic/bug.h:22,
+                    from arch/openrisc/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/openrisc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from include/crypto/hash.h:12:
+>> include/linux/compiler-gcc.h:42:45: warning: variable '__UNIQUE_ID_ddebug383' set but not used [-Wunused-but-set-variable]
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/dynamic_debug.h:173:31: note: in definition of macro 'DEFINE_DYNAMIC_DEBUG_METADATA_CLS'
+     173 |         __section("__dyndbg") name = {                          \
+         |                               ^~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/dynamic_debug.h:266:41: note: in expansion of macro '__UNIQUE_ID'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |                                         ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:1206:9: note: in expansion of macro 'btrfs_debug'
+    1206 |         btrfs_debug(fs_info,
+         |         ^~~~~~~~~~~
+   fs/btrfs/inode.c: In function 'btrfs_orphan_cleanup':
+   include/linux/dynamic_debug.h:213:28: error: 'struct _ddebug' has no member named 'flags'
+     213 |         unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:240:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     240 |         if (DYNAMIC_DEBUG_BRANCH(id))                                   \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:3601:25: note: in expansion of macro 'btrfs_debug'
+    3601 |                         btrfs_debug(fs_info, "auto deleting %Lu",
+         |                         ^~~~~~~~~~~
+   include/linux/compiler-gcc.h:42:45: warning: variable '__UNIQUE_ID_ddebug395' set but not used [-Wunused-but-set-variable]
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/dynamic_debug.h:173:31: note: in definition of macro 'DEFINE_DYNAMIC_DEBUG_METADATA_CLS'
+     173 |         __section("__dyndbg") name = {                          \
+         |                               ^~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/dynamic_debug.h:266:41: note: in expansion of macro '__UNIQUE_ID'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |                                         ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:3601:25: note: in expansion of macro 'btrfs_debug'
+    3601 |                         btrfs_debug(fs_info, "auto deleting %Lu",
+         |                         ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:213:28: error: 'struct _ddebug' has no member named 'flags'
+     213 |         unlikely(descriptor.flags & _DPRINTK_FLAGS_ENABLED)
+         |                            ^
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/dynamic_debug.h:240:13: note: in expansion of macro 'DYNAMIC_DEBUG_BRANCH'
+     240 |         if (DYNAMIC_DEBUG_BRANCH(id))                                   \
+         |             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:3626:17: note: in expansion of macro 'btrfs_debug'
+    3626 |                 btrfs_debug(fs_info, "unlinked %d orphans", nr_unlink);
+         |                 ^~~~~~~~~~~
+>> include/linux/compiler-gcc.h:42:45: warning: variable '__UNIQUE_ID_ddebug397' set but not used [-Wunused-but-set-variable]
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/dynamic_debug.h:173:31: note: in definition of macro 'DEFINE_DYNAMIC_DEBUG_METADATA_CLS'
+     173 |         __section("__dyndbg") name = {                          \
+         |                               ^~~~
+   include/linux/dynamic_debug.h:266:9: note: in expansion of macro '__dynamic_func_call_cls_no_desc'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:29: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:75:22: note: in expansion of macro '___PASTE'
+      75 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler-gcc.h:42:37: note: in expansion of macro '__PASTE'
+      42 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/dynamic_debug.h:266:41: note: in expansion of macro '__UNIQUE_ID'
+     266 |         __dynamic_func_call_cls_no_desc(__UNIQUE_ID(ddebug), cls, fmt,  \
+         |                                         ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call_cls_no_desc'
+     269 |         _dynamic_func_call_cls_no_desc(_DPRINTK_CLASS_DFLT, fmt,        \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/messages.h:110:9: note: in expansion of macro '_dynamic_func_call_no_desc'
+     110 |         _dynamic_func_call_no_desc(fmt, btrfs_printk,                   \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:3626:17: note: in expansion of macro 'btrfs_debug'
+    3626 |                 btrfs_debug(fs_info, "unlinked %d orphans", nr_unlink);
+         |                 ^~~~~~~~~~~
+..
 
 
+vim +/__UNIQUE_ID_ddebug357 +42 include/linux/compiler-gcc.h
+
+87358710c1fb4f David Woodhouse 2018-02-19  41  
+cb984d101b30eb Joe Perches     2015-06-25 @42  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+cb984d101b30eb Joe Perches     2015-06-25  43  
+
+:::::: The code at line 42 was first introduced by commit
+:::::: cb984d101b30eb7478d32df56a0023e4603cba7f compiler-gcc: integrate the various compiler-gcc[345].h files
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
