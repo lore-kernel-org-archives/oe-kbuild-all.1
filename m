@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED7E65ECF
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 14:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A33B18F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 14:59:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEpkiXCy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e9dEpWsW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701787769; x=1733323769;
+  t=1701788372; x=1733324372;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LshY/DrNgYtOd8tzs/ACgUr8tWHNeoG5Zkw045bEVzw=;
-  b=YEpkiXCy9N4zVzdTldDqPuOjWJM2KHSEAUa8LeY2obPWm2CrfUiLXEnL
-   29EJGlTTvwmGXpYWdTU8IOmVljYrqrmaJPN+MfxlToeVkNnNeIu5mIqaV
-   rpagjFH5lf/OsX+QXtMAkb5VGWXx75aPu5ktiyvknoNfAKCR3a+bwCcqd
-   /pykFjrV7ByaWGiOWYSruLYC1CjqDshOAPBJeeVPtIg8q/ojursVIcQ7I
-   XKNS77V5UIx8TGLmNtC10MYkstx/sUtxe3m2MMFWTu4uOc9+uMU3syQe0
-   xARnqDaU8oNIU/oJNr/btxzGI/gwCUQ709pC5nNyUhmrwDNvPpksGFgh+
+  bh=VZDh21/Ig8AXYrMCD18ioZIyJdzTpoel4Yv9mfI1z6Q=;
+  b=e9dEpWsWa7GANAIdFYw2tFvEvlrhgQ1pm3fxzyZMeSsm+r/XGRDHdaSW
+   DA+hVb3syqfpXDS6J8W6tVkhBowJaEJjRBh8IkTW0/e/LVRPww3WyzCJL
+   sEUwOTbwcz0a/m/cEBIzOaNrB83XprKQtnNa8ILHow/7Qdxf8+l8rbKym
+   qu/ZMsa71hIVGRSvnMVdrpXYX9GCxMzntpnJj7/ICoDUtiwTUU/TlHYDA
+   Rdths1sfOl0HNKe46LBHTbbie43bHsLTUx/bD4VhbRpo8Cs2P8wAiABnL
+   OryYuCsqeiQvox5UUnFX11Q9uTLgrDcHqvzMHxUjHUFYhyAmDCeqBUKQM
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="966788"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="7250411"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="966788"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 06:49:28 -0800
+   d="scan'208";a="7250411"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 06:59:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="770942110"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="944283594"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="770942110"
+   d="scan'208";a="944283594"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 05 Dec 2023 06:49:23 -0800
+  by orsmga005.jf.intel.com with ESMTP; 05 Dec 2023 06:59:24 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAWjg-0009Ca-35;
-	Tue, 05 Dec 2023 14:49:20 +0000
-Date: Tue, 5 Dec 2023 22:49:07 +0800
+	id 1rAWtO-0009DG-02;
+	Tue, 05 Dec 2023 14:59:22 +0000
+Date: Tue, 5 Dec 2023 22:59:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karel Balej <karelb@gimli.ms.mff.cuni.cz>,
-	Markuss Broks <markuss.broks@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	Karel Balej <balejk@matfyz.cz>
-Subject: Re: [PATCH v3 5/5] input/touchscreen: imagis: add support for
- IST3032C
-Message-ID: <202312052257.8Qd4OcID-lkp@intel.com>
-References: <20231202125948.10345-6-karelb@gimli.ms.mff.cuni.cz>
+To: davidgow@google.com, Rae Moar <rmoar@google.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-sound@vger.kernel.org, David Gow <davidgow@google.com>
+Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
+Message-ID: <202312052230.ic1pg0uo-lkp@intel.com>
+References: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,124 +63,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231202125948.10345-6-karelb@gimli.ms.mff.cuni.cz>
+In-Reply-To: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
 
-Hi Karel,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus robh/for-next linus/master v6.7-rc4 next-20231205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on c8613be119892ccceffbc550b9b9d7d68b995c9e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karel-Balej/dt-bindings-input-touchscreen-Add-compatible-for-IST3038B/20231202-215030
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231202125948.10345-6-karelb%40gimli.ms.mff.cuni.cz
-patch subject: [PATCH v3 5/5] input/touchscreen: imagis: add support for IST3032C
-config: hexagon-randconfig-r111-20231204 (https://download.01.org/0day-ci/archive/20231205/202312052257.8Qd4OcID-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231205/202312052257.8Qd4OcID-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/davidgow-google-com/kunit-Add-APIs-for-managing-devices/20231205-153349
+base:   c8613be119892ccceffbc550b9b9d7d68b995c9e
+patch link:    https://lore.kernel.org/r/20231205-kunit_bus-v1-1-635036d3bc13%40google.com
+patch subject: [PATCH 1/4] kunit: Add APIs for managing devices
+config: i386-randconfig-141-20231205 (https://download.01.org/0day-ci/archive/20231205/202312052230.ic1pg0uo-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052230.ic1pg0uo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312052257.8Qd4OcID-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312052230.ic1pg0uo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/input/touchscreen/imagis.c:5:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/input/touchscreen/imagis.c:5:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/input/touchscreen/imagis.c:5:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/input/touchscreen/imagis.c:368:39: warning: unused variable 'imagis_3032c_data' [-Wunused-const-variable]
-     368 | static const struct imagis_properties imagis_3032c_data = {
-         |                                       ^
-   drivers/input/touchscreen/imagis.c:375:39: warning: unused variable 'imagis_3038b_data' [-Wunused-const-variable]
-     375 | static const struct imagis_properties imagis_3038b_data = {
-         |                                       ^
-   drivers/input/touchscreen/imagis.c:383:39: warning: unused variable 'imagis_3038c_data' [-Wunused-const-variable]
-     383 | static const struct imagis_properties imagis_3038c_data = {
-         |                                       ^
-   9 warnings generated.
+>> lib/kunit/device.c:100:22: warning: no previous prototype for '__kunit_device_register_internal' [-Wmissing-prototypes]
+     100 | struct kunit_device *__kunit_device_register_internal(struct kunit *test,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
+   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
+   Selected by [m]:
+   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
 
 
-vim +/imagis_3032c_data +368 drivers/input/touchscreen/imagis.c
+vim +/__kunit_device_register_internal +100 lib/kunit/device.c
 
-   367	
- > 368	static const struct imagis_properties imagis_3032c_data = {
-   369		.interrupt_msg_cmd = IST3038C_REG_INTR_MESSAGE,
-   370		.touch_coord_cmd = IST3038C_REG_TOUCH_COORD,
-   371		.whoami_cmd = IST3038C_REG_CHIPID,
-   372		.whoami_val = IST3032C_WHOAMI,
-   373	};
-   374	
+    99	
+ > 100	struct kunit_device *__kunit_device_register_internal(struct kunit *test,
+   101							      const char *name,
+   102							      struct device_driver *drv)
+   103	{
+   104		struct kunit_device *kunit_dev;
+   105		int err = -ENOMEM;
+   106	
+   107		kunit_dev = kzalloc(sizeof(struct kunit_device), GFP_KERNEL);
+   108		if (!kunit_dev)
+   109			return ERR_PTR(err);
+   110	
+   111		kunit_dev->owner = test;
+   112	
+   113		err = dev_set_name(&kunit_dev->dev, "%s.%s", test->name, name);
+   114		if (err) {
+   115			kfree(kunit_dev);
+   116			return ERR_PTR(err);
+   117		}
+   118	
+   119		/* Set the expected driver pointer, so we match. */
+   120		kunit_dev->driver = drv;
+   121	
+   122		kunit_dev->dev.release = kunit_device_release;
+   123		kunit_dev->dev.bus = &kunit_bus_type;
+   124		kunit_dev->dev.parent = &kunit_bus;
+   125	
+   126		err = device_register(&kunit_dev->dev);
+   127		if (err) {
+   128			put_device(&kunit_dev->dev);
+   129			return ERR_PTR(err);
+   130		}
+   131	
+   132		kunit_add_action(test, device_unregister_wrapper, &kunit_dev->dev);
+   133	
+   134		return kunit_dev;
+   135	}
+   136	
 
 -- 
 0-DAY CI Kernel Test Service
