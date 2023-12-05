@@ -1,200 +1,204 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCB63C490
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 10:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640F14E624
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 10:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT6QLru5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqD2tP8e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701771715; x=1733307715;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/ztZyAy6nFZ/EwP3psl8n3dImEyhCLRK3ybilKxJdT8=;
-  b=jT6QLru5/ELaI2gQIR+/jXs2rMy0Fk3kIEk54riCpdd2yYcS60WgyogL
-   +9l58mdiK+KRniv0ioYkGlojwsL9LCj3HEDxhhvf1qX97J59pkLjrXb1D
-   tuI9PVCnAHmvOGzQ1Lb/MxgF4oyhq7SYuxrLKrYXObdwFXJ7N748v4tOm
-   SzkcCY43wFoptruBNyzf+QAP34NBK5LRd0g7cx5pBFIo8/UjCbvhI9/cK
-   1B5aJjECSGNGQtrQyo2/b5i++PUkFcXkRb6VK15QtOEUzJEcTHA8OIstB
-   Y3TpXw658BmysasoW1ROnejlSMVa0Hbba2zz2XmcHbwed58ksBy/dVfT/
+  t=1701771716; x=1733307716;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eI5vtNusfqSvE9X2q9nEEXNFmJVKkAWPAIy6Y7CBWaA=;
+  b=ZqD2tP8e9Vj1qaN0fl8IFX1tCCVx8iTwnEhHydoPF4PJObxwqBO8r49Z
+   K5dGUKzRtez7P5gfnjwobmKgpEec6e8Lqh5pspjnCHoCWxZd9QX5CiIFK
+   HPyXvqlbD4PdzpiixNXdMnMy2FwyErXoXkA15oKbDeXOEdbXhdemCpxrK
+   UjfYAz75gSgm24PFyuFs+iUtYA/+3us/rjHzCxzgL9oHjNaDXKg57td1a
+   vYCBDhXRn4N3Hnh0xn/Dj+RSDyEafn2TMZPa2bNxExGIT17ppyL++IaG4
+   xNgb6ym9nKDMGD7zatM8QrM41kW4yukAHSD1OB8BbsVTauliyunMBpFgH
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="716130"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="716133"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="716130"
+   d="scan'208";a="716133"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:21:54 -0800
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:21:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018174043"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018174044"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="1018174043"
+   d="scan'208";a="1018174044"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 02:21:53 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rASYo-0008kK-24;
-	Tue, 05 Dec 2023 10:21:50 +0000
-Date: Tue, 5 Dec 2023 18:21:11 +0800
+	id 1rASYo-0008kN-37;
+	Tue, 05 Dec 2023 10:21:51 +0000
+Date: Tue, 5 Dec 2023 18:21:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jihan Cha <jihan.cha@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sudeep-holla:android13-5.10/ffa 1517/9999] mm/hmm.c:219:1: warning:
- control reaches end of non-void function
-Message-ID: <202312051844.wSaL8EPI-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH bpf-next 09/13] bpf: reuse subprog argument parsing logic
+ for subprog call checks
+Message-ID: <202312051858.R1gH7aIp-lkp@intel.com>
+References: <20231204233931.49758-10-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231204233931.49758-10-andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
-head:   9e12ac4f9c69befe08119567c073adc938aafc4d
-commit: 2ea27b7efa3f6fd0b4fab6a748ab08322280f29b [1517/9999] ANDROID: GKI: Kconfig.gki: enable CONFIG_HMM_MIRROR with HIDDEN GPU
-config: arm-randconfig-r064-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051844.wSaL8EPI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051844.wSaL8EPI-lkp@intel.com/reproduce)
+Hi Andrii,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-log-PTR_TO_MEM-memory-size-in-verifier-log/20231205-074451
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231204233931.49758-10-andrii%40kernel.org
+patch subject: [PATCH bpf-next 09/13] bpf: reuse subprog argument parsing logic for subprog call checks
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051858.R1gH7aIp-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051858.R1gH7aIp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051844.wSaL8EPI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051858.R1gH7aIp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         |                 ^~~~~~~~~
-         |                 pgd_write
-   mm/hmm.c:181:36: error: 'PMD_SHIFT' undeclared (first use in this function); did you mean 'PUD_SHIFT'?
-     181 |                hmm_pfn_flags_order(PMD_SHIFT - PAGE_SHIFT);
-         |                                    ^~~~~~~~~
-         |                                    PUD_SHIFT
-   mm/hmm.c:181:36: note: each undeclared identifier is reported only once for each function it appears in
-   mm/hmm.c: In function 'hmm_is_device_private_entry':
-   mm/hmm.c:216:16: error: implicit declaration of function 'is_device_private_entry'; did you mean 'hmm_is_device_private_entry'? [-Werror=implicit-function-declaration]
-     216 |         return is_device_private_entry(entry) &&
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
-         |                hmm_is_device_private_entry
-   mm/hmm.c:217:17: error: implicit declaration of function 'device_private_entry_to_page' [-Werror=implicit-function-declaration]
-     217 |                 device_private_entry_to_page(entry)->pgmap->owner ==
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hmm.c:217:52: error: invalid type argument of '->' (have 'int')
-     217 |                 device_private_entry_to_page(entry)->pgmap->owner ==
-         |                                                    ^~
-   mm/hmm.c: In function 'pte_to_hmm_pfn_flags':
-   mm/hmm.c:224:13: error: implicit declaration of function 'pte_none'; did you mean 'p4d_none'? [-Werror=implicit-function-declaration]
-     224 |         if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
-         |             ^~~~~~~~
-         |             p4d_none
-   mm/hmm.c:224:31: error: implicit declaration of function 'pte_present'; did you mean 'p4d_present'? [-Werror=implicit-function-declaration]
-     224 |         if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
-         |                               ^~~~~~~~~~~
-         |                               p4d_present
-   mm/hmm.c:224:51: error: implicit declaration of function 'pte_protnone' [-Werror=implicit-function-declaration]
-     224 |         if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
-         |                                                   ^~~~~~~~~~~~
-   mm/hmm.c:226:16: error: implicit declaration of function 'pte_write'; did you mean 'pgd_write'? [-Werror=implicit-function-declaration]
-     226 |         return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) : HMM_PFN_VALID;
-         |                ^~~~~~~~~
-         |                pgd_write
-   mm/hmm.c: In function 'hmm_vma_handle_pte':
-   mm/hmm.c:250:37: error: implicit declaration of function 'pte_to_swp_entry' [-Werror=implicit-function-declaration]
-     250 |                 swp_entry_t entry = pte_to_swp_entry(pte);
-         |                                     ^~~~~~~~~~~~~~~~
-   mm/hmm.c:250:37: error: invalid initializer
-   mm/hmm.c:258:29: error: implicit declaration of function 'is_write_device_private_entry'; did you mean 'hmm_is_device_private_entry'? [-Werror=implicit-function-declaration]
-     258 |                         if (is_write_device_private_entry(entry))
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                             hmm_is_device_private_entry
-   mm/hmm.c:260:36: error: implicit declaration of function 'device_private_entry_to_pfn' [-Werror=implicit-function-declaration]
-     260 |                         *hmm_pfn = device_private_entry_to_pfn(entry) |
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hmm.c:272:22: error: implicit declaration of function 'non_swap_entry' [-Werror=implicit-function-declaration]
-     272 |                 if (!non_swap_entry(entry))
-         |                      ^~~~~~~~~~~~~~
-   mm/hmm.c:275:21: error: implicit declaration of function 'is_migration_entry' [-Werror=implicit-function-declaration]
-     275 |                 if (is_migration_entry(entry)) {
-         |                     ^~~~~~~~~~~~~~~~~~
-   mm/hmm.c:276:25: error: implicit declaration of function 'pte_unmap'; did you mean 'memunmap'? [-Werror=implicit-function-declaration]
-     276 |                         pte_unmap(ptep);
-         |                         ^~~~~~~~~
-         |                         memunmap
-   mm/hmm.c:278:25: error: implicit declaration of function 'migration_entry_wait' [-Werror=implicit-function-declaration]
-     278 |                         migration_entry_wait(walk->mm, pmdp, addr);
-         |                         ^~~~~~~~~~~~~~~~~~~~
-   mm/hmm.c:297:46: error: implicit declaration of function 'pte_pfn' [-Werror=implicit-function-declaration]
-     297 |         if (pte_special(pte) && !is_zero_pfn(pte_pfn(pte))) {
-         |                                              ^~~~~~~
-   mm/hmm.c: In function 'hmm_vma_walk_pmd':
-   mm/hmm.c:331:13: error: implicit declaration of function 'pmd_none'; did you mean 'p4d_none'? [-Werror=implicit-function-declaration]
-     331 |         if (pmd_none(pmd))
-         |             ^~~~~~~~
-         |             p4d_none
-   mm/hmm.c:334:42: error: implicit declaration of function 'is_pmd_migration_entry' [-Werror=implicit-function-declaration]
-     334 |         if (thp_migration_supported() && is_pmd_migration_entry(pmd)) {
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~
-   mm/hmm.c:337:25: error: implicit declaration of function 'pmd_migration_entry_wait' [-Werror=implicit-function-declaration]
-     337 |                         pmd_migration_entry_wait(walk->mm, pmdp);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hmm.c:343:14: error: implicit declaration of function 'pmd_present'; did you mean 'p4d_present'? [-Werror=implicit-function-declaration]
-     343 |         if (!pmd_present(pmd)) {
-         |              ^~~~~~~~~~~
-         |              p4d_present
-   mm/hmm.c:349:13: error: implicit declaration of function 'pmd_devmap'; did you mean 'pte_devmap'? [-Werror=implicit-function-declaration]
-     349 |         if (pmd_devmap(pmd) || pmd_trans_huge(pmd)) {
-         |             ^~~~~~~~~~
-         |             pte_devmap
-   mm/hmm.c:349:32: error: implicit declaration of function 'pmd_trans_huge'; did you mean 'pmd_trans_huge_lock'? [-Werror=implicit-function-declaration]
-     349 |         if (pmd_devmap(pmd) || pmd_trans_huge(pmd)) {
-         |                                ^~~~~~~~~~~~~~
-         |                                pmd_trans_huge_lock
-   mm/hmm.c:359:23: error: implicit declaration of function 'pmd_read_atomic' [-Werror=implicit-function-declaration]
-     359 |                 pmd = pmd_read_atomic(pmdp);
-         |                       ^~~~~~~~~~~~~~~
-   mm/hmm.c:373:13: error: implicit declaration of function 'pmd_bad'; did you mean 'p4d_bad'? [-Werror=implicit-function-declaration]
-     373 |         if (pmd_bad(pmd)) {
-         |             ^~~~~~~
-         |             p4d_bad
-   mm/hmm.c:379:16: error: implicit declaration of function 'pte_offset_map'; did you mean 'pte_offset_map_lock'? [-Werror=implicit-function-declaration]
-     379 |         ptep = pte_offset_map(pmdp, addr);
-         |                ^~~~~~~~~~~~~~
-         |                pte_offset_map_lock
-   mm/hmm.c:379:14: warning: assignment to 'pte_t *' {aka 'long unsigned int *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     379 |         ptep = pte_offset_map(pmdp, addr);
-         |              ^
-   mm/hmm.c: In function 'hmm_is_device_private_entry':
->> mm/hmm.c:219:1: warning: control reaches end of non-void function [-Wreturn-type]
-     219 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HMM_MIRROR
-   Depends on [n]: MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_GPU_CONFIGS [=y]
+   kernel/bpf/verifier.c:5083:5: warning: no previous prototype for 'check_ptr_off_reg' [-Wmissing-prototypes]
+    5083 | int check_ptr_off_reg(struct bpf_verifier_env *env,
+         |     ^~~~~~~~~~~~~~~~~
+   kernel/bpf/verifier.c:7268:5: warning: no previous prototype for 'check_mem_reg' [-Wmissing-prototypes]
+    7268 | int check_mem_reg(struct bpf_verifier_env *env, struct bpf_reg_state *reg,
+         |     ^~~~~~~~~~~~~
+   kernel/bpf/verifier.c:8254:5: warning: no previous prototype for 'check_func_arg_reg_off' [-Wmissing-prototypes]
+    8254 | int check_func_arg_reg_off(struct bpf_verifier_env *env,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/verifier.c: In function 'btf_check_func_arg_match':
+>> kernel/bpf/verifier.c:9223:21: warning: variable 'func_name' set but not used [-Wunused-but-set-variable]
+    9223 |         const char *func_name;
+         |                     ^~~~~~~~~
+   kernel/bpf/verifier.c: At top level:
+>> kernel/bpf/verifier.c:9291:5: warning: no previous prototype for 'btf_check_subprog_call' [-Wmissing-prototypes]
+    9291 | int btf_check_subprog_call(struct bpf_verifier_env *env, int subprog,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +219 mm/hmm.c
+vim +/func_name +9223 kernel/bpf/verifier.c
 
-da4c3c735ea4dc Jérôme Glisse     2017-09-08  212  
-08ddddda667b3b Christoph Hellwig 2020-03-16  213  static inline bool hmm_is_device_private_entry(struct hmm_range *range,
-08ddddda667b3b Christoph Hellwig 2020-03-16  214  		swp_entry_t entry)
-08ddddda667b3b Christoph Hellwig 2020-03-16  215  {
-08ddddda667b3b Christoph Hellwig 2020-03-16  216  	return is_device_private_entry(entry) &&
-08ddddda667b3b Christoph Hellwig 2020-03-16  217  		device_private_entry_to_page(entry)->pgmap->owner ==
-08ddddda667b3b Christoph Hellwig 2020-03-16  218  		range->dev_private_owner;
-08ddddda667b3b Christoph Hellwig 2020-03-16 @219  }
-08ddddda667b3b Christoph Hellwig 2020-03-16  220  
-
-:::::: The code at line 219 was first introduced by commit
-:::::: 08ddddda667b3b7aaac10641418283f78118c5cd mm/hmm: check the device private page owner in hmm_range_fault()
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+  9216	
+  9217	static int btf_check_func_arg_match(struct bpf_verifier_env *env, int subprog,
+  9218					    const struct btf *btf, u32 func_id,
+  9219					    struct bpf_reg_state *regs)
+  9220	{
+  9221		struct bpf_subprog_info *sub = subprog_info(env, subprog);
+  9222		struct bpf_verifier_log *log = &env->log;
+> 9223		const char *func_name;
+  9224		const struct btf_type *fn_t;
+  9225		u32 i;
+  9226		int ret;
+  9227	
+  9228		ret = btf_prepare_func_args(env, subprog);
+  9229		if (ret)
+  9230			return ret;
+  9231	
+  9232		fn_t = btf_type_by_id(btf, func_id);
+  9233		if (!fn_t || !btf_type_is_func(fn_t)) {
+  9234			/* These checks were already done by the verifier while loading
+  9235			 * struct bpf_func_info or in add_kfunc_call().
+  9236			 */
+  9237			bpf_log(log, "BTF of func_id %u doesn't point to KIND_FUNC\n",
+  9238				func_id);
+  9239			return -EFAULT;
+  9240		}
+  9241		func_name = btf_name_by_offset(btf, fn_t->name_off);
+  9242	
+  9243		/* check that BTF function arguments match actual types that the
+  9244		 * verifier sees.
+  9245		 */
+  9246		for (i = 0; i < sub->arg_cnt; i++) {
+  9247			u32 regno = i + 1;
+  9248			struct bpf_reg_state *reg = &regs[regno];
+  9249			struct bpf_subprog_arg_info *arg = &sub->args[i];
+  9250	
+  9251			if (arg->arg_type == ARG_SCALAR) {
+  9252				if (reg->type != SCALAR_VALUE) {
+  9253					bpf_log(log, "R%d is not a scalar\n", regno);
+  9254					return -EINVAL;
+  9255				}
+  9256			} else if (arg->arg_type == ARG_PTR_TO_CTX) {
+  9257				ret = check_func_arg_reg_off(env, reg, regno, ARG_DONTCARE);
+  9258				if (ret < 0)
+  9259					return ret;
+  9260				/* If function expects ctx type in BTF check that caller
+  9261				 * is passing PTR_TO_CTX.
+  9262				 */
+  9263				if (reg->type != PTR_TO_CTX) {
+  9264					bpf_log(log, "arg#%d expects pointer to ctx\n", i);
+  9265					return -EINVAL;
+  9266				}
+  9267			} else if (base_type(arg->arg_type) == ARG_PTR_TO_MEM) {
+  9268				ret = check_func_arg_reg_off(env, reg, regno, ARG_DONTCARE);
+  9269				if (ret < 0)
+  9270					return ret;
+  9271	
+  9272				if (check_mem_reg(env, reg, regno, arg->mem_size))
+  9273					return -EINVAL;
+  9274			} else {
+  9275				bpf_log(log, "verifier bug: unrecognized arg#%d type %d\n",
+  9276					i, arg->arg_type);
+  9277				return -EFAULT;
+  9278			}
+  9279		}
+  9280	
+  9281		return 0;
+  9282	}
+  9283	
+  9284	/* Compare BTF of a function call with given bpf_reg_state.
+  9285	 * Returns:
+  9286	 * EFAULT - there is a verifier bug. Abort verification.
+  9287	 * EINVAL - there is a type mismatch or BTF is not available.
+  9288	 * 0 - BTF matches with what bpf_reg_state expects.
+  9289	 * Only PTR_TO_CTX and SCALAR_VALUE states are recognized.
+  9290	 */
+> 9291	int btf_check_subprog_call(struct bpf_verifier_env *env, int subprog,
+  9292				   struct bpf_reg_state *regs)
+  9293	{
+  9294		struct bpf_prog *prog = env->prog;
+  9295		struct btf *btf = prog->aux->btf;
+  9296		u32 btf_id;
+  9297		int err;
+  9298	
+  9299		if (!prog->aux->func_info)
+  9300			return -EINVAL;
+  9301	
+  9302		btf_id = prog->aux->func_info[subprog].type_id;
+  9303		if (!btf_id)
+  9304			return -EFAULT;
+  9305	
+  9306		if (prog->aux->func_info_aux[subprog].unreliable)
+  9307			return -EINVAL;
+  9308	
+  9309		err = btf_check_func_arg_match(env, subprog, btf, btf_id, regs);
+  9310		/* Compiler optimizations can remove arguments from static functions
+  9311		 * or mismatched type can be passed into a global function.
+  9312		 * In such cases mark the function as unreliable from BTF point of view.
+  9313		 */
+  9314		if (err)
+  9315			prog->aux->func_info_aux[subprog].unreliable = true;
+  9316		return err;
+  9317	}
+  9318	
 
 -- 
 0-DAY CI Kernel Test Service
