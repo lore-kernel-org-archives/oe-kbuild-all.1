@@ -1,294 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2041.outbound.protection.outlook.com [40.107.223.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C3468B68
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 17:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DF268B68
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 17:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+OIgGqJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701797719; x=1733333719;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ftp0oM4vEoQyXKRiSUHlM/FZe0BqParop+YuGijBVRs=;
-  b=I+OIgGqJfZzTSxC/IhOLjkNee+xLhVfgjoJeNbdp94gJKjoZeAHgGkyU
-   dmJESlef6PiiqvO/Ye54BnoRW370xZncGPZfrxF2LdsHrboacGsUA12X+
-   k6wUnONxttdqMZL6UmPlcVkfY4x6DCas+n9Yhe+RWOAT1ttBPPvhahhiI
-   mx1QeDELetV9PZCEKlGyn7myiZEpTyE2ztcQmyyGmM8EyaqnP44YBUTQO
-   S70JkFDcvAL/oUrLhEP30qiyg4fM83Uc4xsl/FmomjmVtzJwX43t1Uwpt
-   s6CF/V4LE4vGcSL0+45ZoECCDqNAABubifENdNPBGPUvsmtrhtzr6zals
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="771097"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="771097"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 09:35:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="841550399"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="841550399"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Dec 2023 09:35:07 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAZK5-0009SW-0k;
-	Tue, 05 Dec 2023 17:35:05 +0000
-Date: Wed, 6 Dec 2023 01:34:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jun Yi <yijun@loongson.cn>
-Subject: sound/soc/intel/skylake/skl-topology.c:3124:53: sparse: sparse:
- incorrect type in argument 3 (different base types)
-Message-ID: <202312060150.4DCFDzUX-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ll+M7TxY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nJ+SoHO+fiXtlUFhaOVShhVQM6tzi7r59fcilJ0xeArUMyuemiYEwN1PjglxKszayLTzVEl7dDL7bK6lSPnL1jn5tAMeTG+rbH31XniUGmWb7yAJxRP1FQsmerGYypI4CtACHK5rRejme+A/Tx24tbc8DYkbAeUsCqL0QIyTs1pC/OBs4kb+I7MMgU2M+orwTsL28p5vL6nZvzGF3ob0g+Ej914nZ/aC50CPNJJ1spgM3b/GdeIRJwBalnnIcRRylrIB4TJyNlpXipiBBIPHPP+EqwDa80Vr7+rkNhJ7yCxZbJvL1mHS+xXnltxF6yzmW4xNpXjXHWhFYr4RJ3DH9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t3XcyhLGk6AMCBYppjyVD1YgtqJRktyRe1udqK3RRvM=;
+ b=arqBqw8JjxIFOsub9+KcO4IIb1TrRJuTEydDUwSxnHYALgV5g1Ovk8tVGDd9vxQteZoa03uoApyceDN6GZpLzIxx2rXAulzHe3+8UFfqLgSWazB/5BRlH0BAtBjRk2d8o4A/iFb8i8yHxII04kGJatiVgyzchnJf+en842BPBQK8ypFr8/MgWcKh/X2zNqv0SLuTu6O1bJa9z+2uIOAUpmuKoBI/cCTqfnwQoshxhNEnO8YDUtOEoWsdkzndG3IwcMSWqBP0N3cqjlwMKQA9VQ3GCwuL1rU7jndAkycqUAbzQzl4w3a92UoSA3RzVfXNnEnhUskay0ZHGaoBw47Oew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t3XcyhLGk6AMCBYppjyVD1YgtqJRktyRe1udqK3RRvM=;
+ b=ll+M7TxYnvHKAqqVghbwgIAGzq9Q/fW7WlQSKuMiyZWf/OaMO9/aEiEGE5Iqx8hBI/VYEi1d0BcCXhW2zo9SJvBvIpHxm1S401il6vS0JEFoUtCm0qEi6dWOcTFT5K5FQXulj23IjjgiPdqHMRCn+FlJmZTLQhOJ55RLCSFY3bc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SA1PR12MB7223.namprd12.prod.outlook.com (2603:10b6:806:2bc::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Tue, 5 Dec
+ 2023 17:40:05 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1549:8c93:8585:ca1b]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1549:8c93:8585:ca1b%5]) with mapi id 15.20.7046.034; Tue, 5 Dec 2023
+ 17:40:05 +0000
+Message-ID: <c6262fd1-c416-4f54-b021-b25fd381561b@amd.com>
+Date: Tue, 5 Dec 2023 11:40:01 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH 07/15] x86/resctrl: Add support to enable/disable ABMC
+ feature
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
+ paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, seanjc@google.com,
+ kim.phillips@amd.com, jmattson@google.com, ilpo.jarvinen@linux.intel.com,
+ jithu.joseph@intel.com, kan.liang@linux.intel.com, nikunj@amd.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
+ rick.p.edgecombe@intel.com, rppt@kernel.org,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, peternewman@google.com
+References: <20231201005720.235639-8-babu.moger@amd.com>
+ <202312060033.DCTZ5iG9-lkp@intel.com>
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <202312060033.DCTZ5iG9-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DM6PR17CA0011.namprd17.prod.outlook.com
+ (2603:10b6:5:1b3::24) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA1PR12MB7223:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f48b162-4846-4f59-b8df-08dbf5b9377d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	dSGDIBHOL1dVvEM7mAG2E5CakM4mOdydwidYIWOJ4Pej84OatTZ/vli1++LSiMZ0R0FFTf4zkvVatlZwo2VBIqNwjMV868fYBYpvXTsZnagh2MSszkZwkG+FhWpCz54QkJp/F7ei3cZZl1HK7VISiIFk4nsfFuXErbTmUB9sJN25RSl9m246VhVrQqltbkpbZW04+BXrGrzF28h/fbLG6To9dv9+mpCQdFzNO1o+U9sgdssVs1yS+tBp3ItGXFk64TJtxaAnluNxf+jY4g/VNikEHv0X75TxmbhNf62T/egPEKPy0YCKb8MRvsWf90Z4jELEXIgkQ50C+BCR1FfD2FSnbMYBJ4OUYSoMrcjtOaKuDTf5YIyxBFhyhZU05Y4Bve3kCmAqgps8Q3XXN1oIb+O7EjOUo13M4mNS/CYTh09GXjVPTv/Q6cSw5IzOyXyQENVV/0AyOfoUN+Q/4lOZx2q3l+7aS2oetqwkz8ATYmqOyB7juchLI2qj82MbSqqjZ5E0W2uuU8qlQ5u5gjqTv8KkZAvgpJ9zEkEKGQ+AZAdn6+Zreq/0+HNHaRY9M3pspRmCiIRBndtvpJRRk8+w8X4ayZkfZMoZKEnsakM7wgSEx2TgRof/AXXYVFeClslhbReMec9LG8C27PWlqSYjivuc+pFoOndXtN/RetgKEAg7Q/KItIclefDXecBQleI9EXCO7QiGsw8immHYVywusB4vXPlsWTWDXWy7C8jbc04=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(136003)(346002)(396003)(376002)(230922051799003)(230273577357003)(230173577357003)(64100799003)(1800799012)(186009)(451199024)(83380400001)(38100700002)(41300700001)(36756003)(2906002)(6512007)(26005)(31686004)(2616005)(3450700001)(7416002)(6666004)(53546011)(478600001)(6486002)(966005)(5660300002)(31696002)(86362001)(66556008)(66476007)(66946007)(316002)(8936002)(4326008)(6506007)(8676002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?V2NZd1k4RDhtZ0MwM0hzdTZhL01WUXVHRjluYlpxenJMSkxPUFFPZ0hIRzY3?=
+ =?utf-8?B?ekw1bXRJRmcxUkF3ZXJKaXR2SGl1UUVDcituZUxFYkNWbHVxQ25Pa0cyNlFP?=
+ =?utf-8?B?bndyMExaYjUxYnUyYW45TUZ6WS9iVkNLYWdNM0lpWnREbDVDUjNMeXN0SFZO?=
+ =?utf-8?B?emxmcDh0UGVQSVoxVTAvazhlZDdyTkZTSW93Y09mVzFBVWpWMlZRd09HN0tY?=
+ =?utf-8?B?WVdVcXFIY2Q2Q0xEbFZjME9PSUFJUGRGbW9YRHIvYWxnTmdMUnN3Q0VZNkdL?=
+ =?utf-8?B?dTljTkVaSmg0WU1laEpVcXBva0lzSzhzNzlkTmJTNDI1c0tuYWJkeHdxb2dt?=
+ =?utf-8?B?WnVpS3kzYThPZmNwMjl5U25DZURpVGJTSW5GTlVYWmRxL3IxbGFnd2MyV1Zt?=
+ =?utf-8?B?RWdNL2F1V1g4YzlGcDNwZG5TS1FwUmdTckE5VFZZbWtOWVNZcWNsTmdTSjMr?=
+ =?utf-8?B?WVBlYWVzbU1ReDJJZUQySnNVNnRiQjBpUG9rWW5qN1MyVWhMdWxYRS9ZK2Jw?=
+ =?utf-8?B?eWFERzM2SHljbExVL041VzFHdm9GUnZWL0s2blRJMFQwVG1PUzg5dEhwdFdZ?=
+ =?utf-8?B?bkJKUFhvNDh1TitaenJ3NVM3cEFURmpnQkJjaGR1NnFOWkhWUFZRQTN0SE4z?=
+ =?utf-8?B?QXN2M0RZckQ4ZzlaQlZHeDcwUytqSHhQYWRwbjdHOXBWSUMvbldqams3aEsz?=
+ =?utf-8?B?TXpNY1RXVWdpNExJcnljVVU3TXArS1FENW9NaHN3bW0vRlB4OGRDWTdqU0I1?=
+ =?utf-8?B?UmtqQ085WXl2QjVkQ3R5WTVid1pROThVcE03N08xZTNuWldDR3VqMlRYOGhY?=
+ =?utf-8?B?MnN5QTZZSEZsZVZVRDAyc3dVRlpCSHFPUTJzUklIMEJrRzFBditHNkh6YklQ?=
+ =?utf-8?B?WjhzR2NkVmRrOXBSdXRoQVdnM3FCdzUzV29TTGwydDNNZy9VQXBNMC9zTVVV?=
+ =?utf-8?B?dHh3OXRpRjdaZUQvc1pIeEEyZ2NpaTJ6a3pHSmtwditVMXM1dXlDbUhFRVZt?=
+ =?utf-8?B?aVo4bS9Qd0hNcllvalNpd2NkVXJUNmNLWEZlV2owSWtkcjV2QVBvTVdxM3lh?=
+ =?utf-8?B?WkllRThTMG1ZUUhaazRna2FjczY4TnJFcUQ1bElpQzAxUi90ZUNWcTJubTRT?=
+ =?utf-8?B?UkpKYURpY040cjFiYVZyVEJUSkY0NnIrSWtidjBPcnE4UXd1RXYxVnJIa0Vu?=
+ =?utf-8?B?a2xQS2VWNXZFK0VWamVzTm9pWjQ3WFFtRVE2T0d2VWxmZk1rM2FzbWRYOEc2?=
+ =?utf-8?B?bXlwc2lMbWVSdnA0L2wwQVF1dnI0RHg2TDhYZ2haTE9BM0lRc3ZHTnVlNUpq?=
+ =?utf-8?B?V0Z6TVoyZ2F3TmE2WFJQZVV3VS9nZTg0UE4xYlkvLzlTRjRreHdTRGd4VkJW?=
+ =?utf-8?B?bnM0aTBKWUV1OXB2bHpKOVJwU3hRZmZtajZEd1I0a3l0cnhtMk1SK09oVjZl?=
+ =?utf-8?B?b0gxbkZEUFFCWEZkVTJDNVZQYlNyNmMyc1RVbC80NEcvNGdLbVlvcjlHVlpH?=
+ =?utf-8?B?TDBxTGhVSVlUUjNVSUFiQUZLWEs3L3QrZkNNQnJFbjZNeTgzQ0NoQ1JSeGZF?=
+ =?utf-8?B?UTlsWWZWMUIxY0pjTGZ2K25LOWtLRFEwM2xEaHF3ZGlOREY4TCtVdVNCNGhh?=
+ =?utf-8?B?dnJ1d1ZoVlNXN0FpbU9QVXBqcktPRFZYaXNQaW1SSlRiVDVreE9BRHowcit3?=
+ =?utf-8?B?T0ttRm54TTFmclhJOUF6bTlha1IzK2FlcVQ1L0owdXhZRDJDRDljWmdqV0xC?=
+ =?utf-8?B?NzcrWjFCNVlYa0lFM1cvYnc3M2RtLzlrMWNSbW5MMDlPSy9vREMzN05NeS9t?=
+ =?utf-8?B?bDhQd2ovY3NLODdMQ042TEZ3NGpSa3hiMnpHTGJxK1lHY25ITm95YnM4SjdI?=
+ =?utf-8?B?SmtTN01CSFk2alZ2SklObUJwZlNBUVBZV3A2dDg5N0h2OUZiOUNid1cxNVVU?=
+ =?utf-8?B?SktIRlNvcVM2OU1uUnBlbGIwWksweFZER3J6Q3hNaHUydUtyL3RBVWxROW9w?=
+ =?utf-8?B?b2QxaWxhVkFmMnJXM2ZmMHBZakFzZUpOb2JZb2RZOW1sT1FDaTEzcXRENjRh?=
+ =?utf-8?B?YWZnK1NpRkNObC9YN0F5cjMrKzVIeHo0TlVVZHZuTXpTV3JXbEtuMkdxT1dZ?=
+ =?utf-8?Q?ZUN0=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f48b162-4846-4f59-b8df-08dbf5b9377d
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2023 17:40:05.4384
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xroBWhat8r6XAMRV8oeqW78GXJ8peWvaxtSfVR+N/IlR4qTCR5fhyWt6AK85cstE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7223
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: a275a82dcd4024c75337db15d59ed039c31e21da LoongArch: Use alternative to optimize libraries
-date:   12 months ago
-config: loongarch-randconfig-r132-20231203 (https://download.01.org/0day-ci/archive/20231206/202312060150.4DCFDzUX-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060150.4DCFDzUX-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060150.4DCFDzUX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   sound/soc/intel/skylake/skl-topology.c:2561:68: sparse:     expected unsigned int [usertype] tkn
-   sound/soc/intel/skylake/skl-topology.c:2561:68: sparse:     got restricted __le32 [usertype] token
-   sound/soc/intel/skylake/skl-topology.c:2562:41: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2562:41: sparse:     expected unsigned int [usertype] val
-   sound/soc/intel/skylake/skl-topology.c:2562:41: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2581:29: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2584:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected int fmt_cfg_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2584:38: sparse:     expected int fmt_cfg_idx
-   sound/soc/intel/skylake/skl-topology.c:2584:38: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2588:73: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] caps_size @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2588:73: sparse:     expected unsigned int [usertype] caps_size
-   sound/soc/intel/skylake/skl-topology.c:2588:73: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2594:74: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] set_params @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2594:74: sparse:     expected unsigned int [usertype] set_params
-   sound/soc/intel/skylake/skl-topology.c:2594:74: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2599:72: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] param_id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2599:72: sparse:     expected unsigned int [usertype] param_id
-   sound/soc/intel/skylake/skl-topology.c:2599:72: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2604:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] domain @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2604:33: sparse:     expected unsigned char [usertype] domain
-   sound/soc/intel/skylake/skl-topology.c:2604:33: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2610:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] dma_buffer_size @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2610:42: sparse:     expected unsigned int [usertype] dma_buffer_size
-   sound/soc/intel/skylake/skl-topology.c:2610:42: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2401:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2649:21: sparse: sparse: invalid assignment: +=
-   sound/soc/intel/skylake/skl-topology.c:2649:21: sparse:    left side has type int
-   sound/soc/intel/skylake/skl-topology.c:2649:21: sparse:    right side has type restricted __le32
-   sound/soc/intel/skylake/skl-topology.c:2651:30: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2679:43: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2711:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2711:32: sparse:     expected int
-   sound/soc/intel/skylake/skl-topology.c:2711:32: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2707:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2707:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2707:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2930:13: sparse: sparse: invalid assignment: +=
-   sound/soc/intel/skylake/skl-topology.c:2930:13: sparse:    left side has type int
-   sound/soc/intel/skylake/skl-topology.c:2930:13: sparse:    right side has type restricted __le32
-   sound/soc/intel/skylake/skl-topology.c:2941:21: sparse: sparse: invalid assignment: +=
-   sound/soc/intel/skylake/skl-topology.c:2941:21: sparse:    left side has type int
-   sound/soc/intel/skylake/skl-topology.c:2941:21: sparse:    right side has type restricted __le32
-   sound/soc/intel/skylake/skl-topology.c:2951:21: sparse: sparse: invalid assignment: +=
-   sound/soc/intel/skylake/skl-topology.c:2951:21: sparse:    left side has type int
-   sound/soc/intel/skylake/skl-topology.c:2951:21: sparse:    right side has type restricted __le32
-   sound/soc/intel/skylake/skl-topology.c:3074:47: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned short [usertype] event_type @@     got restricted __le16 [usertype] event_type @@
-   sound/soc/intel/skylake/skl-topology.c:3074:47: sparse:     expected unsigned short [usertype] event_type
-   sound/soc/intel/skylake/skl-topology.c:3074:47: sparse:     got restricted __le16 [usertype] event_type
->> sound/soc/intel/skylake/skl-topology.c:3124:53: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long [usertype] __n @@     got restricted __le32 [usertype] size @@
-   sound/soc/intel/skylake/skl-topology.c:3124:53: sparse:     expected unsigned long [usertype] __n
-   sound/soc/intel/skylake/skl-topology.c:3124:53: sparse:     got restricted __le32 [usertype] size
-   sound/soc/intel/skylake/skl-topology.c:3170:29: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3143:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3143:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3191:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3221:33: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3264:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3264:29: sparse:     expected unsigned char [usertype] id
-   sound/soc/intel/skylake/skl-topology.c:3264:29: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3268:63: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [usertype] tkn @@     got restricted __le32 [usertype] token @@
-   sound/soc/intel/skylake/skl-topology.c:3268:63: sparse:     expected unsigned int [usertype] tkn
-   sound/soc/intel/skylake/skl-topology.c:3268:63: sparse:     got restricted __le32 [usertype] token
-   sound/soc/intel/skylake/skl-topology.c:3269:49: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3269:49: sparse:     expected unsigned int [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3269:49: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3262:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3288:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] input_pin_type @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3288:37: sparse:     expected unsigned char [usertype] input_pin_type
-   sound/soc/intel/skylake/skl-topology.c:3288:37: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3292:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] output_pin_type @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3292:38: sparse:     expected unsigned char [usertype] output_pin_type
-   sound/soc/intel/skylake/skl-topology.c:3292:38: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3296:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] max_input_pins @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3296:37: sparse:     expected unsigned char [usertype] max_input_pins
-   sound/soc/intel/skylake/skl-topology.c:3296:37: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3300:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] max_output_pins @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3300:38: sparse:     expected unsigned char [usertype] max_output_pins
-   sound/soc/intel/skylake/skl-topology.c:3300:38: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3304:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] nr_resources @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3304:35: sparse:     expected unsigned char [usertype] nr_resources
-   sound/soc/intel/skylake/skl-topology.c:3304:35: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3308:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] nr_interfaces @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3308:36: sparse:     expected unsigned char [usertype] nr_interfaces
-   sound/soc/intel/skylake/skl-topology.c:3308:36: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3286:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3286:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3286:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3286:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3286:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3286:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3342:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected int lib_count @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3342:32: sparse:     expected int lib_count
-   sound/soc/intel/skylake/skl-topology.c:3342:32: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3346:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] nr_modules @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3346:33: sparse:     expected unsigned char [usertype] nr_modules
-   sound/soc/intel/skylake/skl-topology.c:3346:33: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3361:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected int static mod_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3361:25: sparse:     expected int static mod_idx
-   sound/soc/intel/skylake/skl-topology.c:3361:25: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3370:29: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse: sparse: cast from restricted __le32
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse: sparse: cast from restricted __le32
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long [usertype] factor1 @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse:     expected unsigned long [usertype] factor1
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse: sparse: cast from restricted __le32
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long [usertype] factor1 @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse:     expected unsigned long [usertype] factor1
-   sound/soc/intel/skylake/skl-topology.c:3376:24: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3383:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] count @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3383:52: sparse:     expected unsigned int [usertype] count
-   sound/soc/intel/skylake/skl-topology.c:3383:52: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3387:29: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3393:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected int static astate_cfg_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3393:32: sparse:     expected int static astate_cfg_idx
-   sound/soc/intel/skylake/skl-topology.c:3393:32: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3397:51: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] kcps @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3397:51: sparse:     expected unsigned int [usertype] kcps
-   sound/soc/intel/skylake/skl-topology.c:3397:51: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3401:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] clk_src @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3401:54: sparse:     expected unsigned int [usertype] clk_src
-   sound/soc/intel/skylake/skl-topology.c:3401:54: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3416:31: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3417:36: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3424:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3424:25: sparse:     expected unsigned char [usertype] id
-   sound/soc/intel/skylake/skl-topology.c:3424:25: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3425:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected int static res_val_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3425:29: sparse:     expected int static res_val_idx
-   sound/soc/intel/skylake/skl-topology.c:3425:29: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3432:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] fmt_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3432:30: sparse:     expected unsigned char [usertype] fmt_idx
-   sound/soc/intel/skylake/skl-topology.c:3432:30: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3433:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected int static intf_val_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3433:30: sparse:     expected int static intf_val_idx
-   sound/soc/intel/skylake/skl-topology.c:3433:30: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3454:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] nr_input_pins @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3454:36: sparse:     expected unsigned char [usertype] nr_input_pins
-   sound/soc/intel/skylake/skl-topology.c:3454:36: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3461:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] nr_output_pins @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:3461:37: sparse:     expected unsigned char [usertype] nr_output_pins
-   sound/soc/intel/skylake/skl-topology.c:3461:37: sparse:     got restricted __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:3340:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3340:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3340:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3340:25: sparse: sparse: restricted __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:3340:25: sparse: sparse: restricted __le32 degrades to integer
+On 12/5/23 10:48, kernel test robot wrote:
+> Hi Babu,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on next-20231130]
+> [cannot apply to tip/x86/core linus/master v6.7-rc3 v6.7-rc2 v6.7-rc1 v6.7-rc4]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-resctrl-Remove-hard-coded-memory-bandwidth-limit/20231201-090621
+> base:   next-20231130
+> patch link:    https://lore.kernel.org/r/20231201005720.235639-8-babu.moger%40amd.com
+> patch subject: [PATCH 07/15] x86/resctrl: Add support to enable/disable ABMC feature
+> config: i386-randconfig-013-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060033.DCTZ5iG9-lkp@intel.com/config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060033.DCTZ5iG9-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312060033.DCTZ5iG9-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:2419:5: warning: no previous prototype for 'resctrl_arch_set_abmc_enabled' [-Wmissing-prototypes]
+>     2419 | int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
+>          |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
 
-vim +3124 sound/soc/intel/skylake/skl-topology.c
+Yes. Got it.  This function requires a prototype in
+arch/x86/kernel/cpu/resctrl/internal.h.
 
-7a1b749b34e8238 Dharageswari R 2017-05-31  3117  
-7a1b749b34e8238 Dharageswari R 2017-05-31  3118  	void *data;
-7a1b749b34e8238 Dharageswari R 2017-05-31  3119  
-7a1b749b34e8238 Dharageswari R 2017-05-31  3120  	if (ec->priv.size) {
-7a1b749b34e8238 Dharageswari R 2017-05-31  3121  		data = devm_kzalloc(dev, sizeof(ec->priv.size), GFP_KERNEL);
-7a1b749b34e8238 Dharageswari R 2017-05-31  3122  		if (!data)
-7a1b749b34e8238 Dharageswari R 2017-05-31  3123  			return -ENOMEM;
-7a1b749b34e8238 Dharageswari R 2017-05-31 @3124  		memcpy(data, ec->priv.data, ec->priv.size);
-7a1b749b34e8238 Dharageswari R 2017-05-31  3125  		se->dobj.private = data;
-7a1b749b34e8238 Dharageswari R 2017-05-31  3126  	}
-7a1b749b34e8238 Dharageswari R 2017-05-31  3127  
-7a1b749b34e8238 Dharageswari R 2017-05-31  3128  	return 0;
-7a1b749b34e8238 Dharageswari R 2017-05-31  3129  
+Will add it in the next revision after the other comments.
 
-:::::: The code at line 3124 was first introduced by commit
-:::::: 7a1b749b34e8238acae8a039a8f6822f4f4e2061 ASoC: Intel: Skylake: Add enum control for mic selection
+Thanks
+Babu Moger
 
-:::::: TO: Dharageswari R <dharageswari.r@intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
