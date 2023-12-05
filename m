@@ -1,93 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E711C8BF1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 09:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 85C88139F;
-	Tue,  5 Dec 2023 01:11:52 -0800 (PST)
-Received: from [192.168.1.3] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE68F3F6C4;
-	Tue,  5 Dec 2023 01:11:03 -0800 (PST)
-Message-ID: <4615fe3e-7f11-d8c6-596b-32833db458d2@arm.com>
-Date: Tue, 5 Dec 2023 09:11:03 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B533D96D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 09:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UUb2/Dpj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701767682; x=1733303682;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p4stTAxg/E6CGJ2w183041PPmkmXBFYcKXIEEcx8kFE=;
+  b=UUb2/DpjrTvtVxPMNF0b8rNFhYK3WLcKjFvro/nvalSSzTQ++i42IANU
+   1OpBWq+9M/eukL501ginCbCkdH+gH0UgcH0xU3ejH1SShDA+hNI16noeb
+   iqCMFwvMshg4hRJ6Wd9o+A1ka5iR5c+uF5QBwWXhV6k0hlrh3n/94L4Y4
+   KNC1B04lTW1huLKF36luc0fTLhKzJUXyNXSyCTULexzMiaVEy9KQURNkh
+   DkEW6nTcxaCbu/coaKOHDOVrfqJLF9zCbl13spdgiAhxsxaTaG+JNTi5y
+   xLUbXHZBLU4qt226Yif9rO+I6q8hfQccMzRLam3GXmXKD/Zwd+lDLSc68
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="945186"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="945186"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 01:14:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1102389833"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="1102389833"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 05 Dec 2023 01:14:30 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rARVc-0008dg-05;
+	Tue, 05 Dec 2023 09:14:28 +0000
+Date: Tue, 5 Dec 2023 17:14:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yu Kuai <yukuai1@huaweicloud.com>, song@kernel.org, xni@redhat.com,
+	yukuai3@huawei.com, neilb@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-raid@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yukuai1@huaweicloud.com,
+	yi.zhang@huawei.com, yangerkun@huawei.com
+Subject: Re: [PATCH v4 md-fixes 3/3] md: fix stopping sync thread
+Message-ID: <202312051758.ZlpYxGpJ-lkp@intel.com>
+References: <20231204135732.3647886-4-yukuai1@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2] coresight: Make current W=1 warnings default
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, coresight@lists.linaro.org,
- suzuki.poulose@arm.com
-Cc: oe-kbuild-all@lists.linux.dev, Mike Leach <mike.leach@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20231115162834.355598-1-james.clark@arm.com>
- <202312050158.FKpxuafP-lkp@intel.com>
-From: James Clark <james.clark@arm.com>
-In-Reply-To: <202312050158.FKpxuafP-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231204135732.3647886-4-yukuai1@huaweicloud.com>
+
+Hi Yu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on song-md/md-next]
+[also build test WARNING on linus/master v6.7-rc4 next-20231205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-fix-missing-flush-of-sync_work/20231204-215956
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
+patch link:    https://lore.kernel.org/r/20231204135732.3647886-4-yukuai1%40huaweicloud.com
+patch subject: [PATCH v4 md-fixes 3/3] md: fix stopping sync thread
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051758.ZlpYxGpJ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051758.ZlpYxGpJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051758.ZlpYxGpJ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/md/md.c: In function 'idle_sync_thread':
+>> drivers/md/md.c:4897:13: warning: unused variable 'sync_seq' [-Wunused-variable]
+    4897 |         int sync_seq = atomic_read(&mddev->sync_seq);
+         |             ^~~~~~~~
 
 
+vim +/sync_seq +4897 drivers/md/md.c
 
-On 04/12/2023 18:37, kernel test robot wrote:
-> Hi James,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on atorgue-stm32/stm32-next]
-> [also build test WARNING on linus/master v6.7-rc4 next-20231204]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/James-Clark/coresight-Make-current-W-1-warnings-default/20231116-004818
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-> patch link:    https://lore.kernel.org/r/20231115162834.355598-1-james.clark%40arm.com
-> patch subject: [PATCH v2] coresight: Make current W=1 warnings default
-> config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231205/202312050158.FKpxuafP-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231205/202312050158.FKpxuafP-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312050158.FKpxuafP-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->>> drivers/hwtracing/coresight/coresight-etb10.c:840:17: sparse: sparse: Using plain integer as NULL pointer
->    drivers/hwtracing/coresight/coresight-etb10.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
->    include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-> --
->>> drivers/hwtracing/coresight/coresight-funnel.c:395:17: sparse: sparse: Using plain integer as NULL pointer
->    drivers/hwtracing/coresight/coresight-funnel.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
->    include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-> --
->>> drivers/hwtracing/coresight/coresight-tpdm.c:242:17: sparse: sparse: Using plain integer as NULL pointer
->    drivers/hwtracing/coresight/coresight-tpdm.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
->    include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-> 
-> vim +840 drivers/hwtracing/coresight/coresight-etb10.c
-> 
->    834	
->    835	static const struct amba_id etb_ids[] = {
->    836		{
->    837			.id	= 0x000bb907,
->    838			.mask	= 0x000fffff,
->    839		},
->  > 840		{ 0, 0, 0 },
->    841	};
->    842	
-> 
+64e5e09afc14f8 Yu Kuai 2023-05-29  4894  
+64e5e09afc14f8 Yu Kuai 2023-05-29  4895  static void idle_sync_thread(struct mddev *mddev)
+64e5e09afc14f8 Yu Kuai 2023-05-29  4896  {
+130443d60b1b8c Yu Kuai 2023-05-29 @4897  	int sync_seq = atomic_read(&mddev->sync_seq);
+130443d60b1b8c Yu Kuai 2023-05-29  4898  
+6f56f0c4f1241f Yu Kuai 2023-05-29  4899  	mutex_lock(&mddev->sync_mutex);
+64e5e09afc14f8 Yu Kuai 2023-05-29  4900  	clear_bit(MD_RECOVERY_FROZEN, &mddev->recovery);
+130443d60b1b8c Yu Kuai 2023-05-29  4901  
+fde7b408a7cb14 Yu Kuai 2023-12-04  4902  	if (mddev_lock(mddev)) {
+fde7b408a7cb14 Yu Kuai 2023-12-04  4903  		mutex_unlock(&mddev->sync_mutex);
+fde7b408a7cb14 Yu Kuai 2023-12-04  4904  		return;
+fde7b408a7cb14 Yu Kuai 2023-12-04  4905  	}
+130443d60b1b8c Yu Kuai 2023-05-29  4906  
+fde7b408a7cb14 Yu Kuai 2023-12-04  4907  	stop_sync_thread(mddev, false, true);
+6f56f0c4f1241f Yu Kuai 2023-05-29  4908  	mutex_unlock(&mddev->sync_mutex);
+64e5e09afc14f8 Yu Kuai 2023-05-29  4909  }
+64e5e09afc14f8 Yu Kuai 2023-05-29  4910  
 
-This should already be fixed in V3 here:
-
-https://lore.kernel.org/linux-arm-kernel/20231123120459.287578-1-james.clark@arm.com/
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
