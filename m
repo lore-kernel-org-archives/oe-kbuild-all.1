@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8498268B61
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 17:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62526A331
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 17:56:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQfr2cOK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6D8PCmM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701798370; x=1733334370;
+  t=1701798970; x=1733334970;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PFQejbLytpK0PIobJ0ytaNGZ30vkahPcLgFj2SG0sd8=;
-  b=DQfr2cOKX+3js1aRoXJ2IbGJtinPc5YralrWfkGCk31uMypKcprmyCE2
-   ofvu7GIIucn4CBoV0XJ3Va/Yr0OU2z4OWpwrJDSd2S2zrOJJbF9UxRm+Z
-   Ysk9wcpO/Z7yPxvZcVPrVS1HGZdpe6fl85TLEJ0huunzeYG+gERaOGjNN
-   s+r8hkp2iGS37xlKNz0iKbKydIXbshXfsSQovVU5xbjZjY3deFcVp94xd
-   Vow29Tj99bRLC9djkcTz4fUM2rwUBbydRtAcA+gbF/5gVRUvO1CMu2P8P
-   PTe+zwdEU4ggixIvOAXGuho3t/aQ04CrVhsgONzRk8uj0U21Dw5MoIR6V
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="425089898"
+  bh=Y7f9MZrxXQj7mt8Snl0ySighA5uuQnSTWC5HgdzpJhM=;
+  b=m6D8PCmMzZgFGUH5+vCQOo859MrFmDgWkplcbFW/smoee0Jg+LUX70Gu
+   sMZg6L5qiGFHVAbKxH0wUNxUbPfXbtawkr+iQPpx2uTiBjTUAkCwzA79k
+   yjjGR7L9DXCAQe9pyKshR3uiMmXl+HEeMUxQa5bG/LdgodLBf2ZwNLIQV
+   3g8I7/qLBqzjIQu9meh6e+Md7jokSvWANZWeJt+sOKjxrTBOUj4YfZ1I+
+   +A/13YSrFDCDT2xOFdMYAfSf/c2j3MeXlOblhW7YVqEbbBisttPNDCCNQ
+   yq6PBvXU0Gti6tV26aT3GxaryBPCb8qKGBus/wcG6RXYFRm/LJ7yTjIQ6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="391099065"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="425089898"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 09:46:09 -0800
+   d="scan'208";a="391099065"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 09:56:09 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1102532869"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="12406041"
+   d="scan'208";a="1102532869"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 05 Dec 2023 09:46:09 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 05 Dec 2023 09:56:08 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAZUk-0009Tc-0X;
-	Tue, 05 Dec 2023 17:46:06 +0000
-Date: Wed, 6 Dec 2023 01:45:24 +0800
+	id 1rAZeQ-0009Uk-2w;
+	Tue, 05 Dec 2023 17:56:06 +0000
+Date: Wed, 6 Dec 2023 01:55:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:x86/kvm 3/11] arch/x86/kernel/static_call.c:47:33:
- error: expected ')' before 'ASM_ANNOTATE'
-Message-ID: <202312060149.6bEiGno8-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.7-dango 3867/3912]
+ drivers/mtd/ubi/nvmem.c:34:9: error: incompatible pointer types passing 'int
+ *' to parameter of type 'uint64_t *' (aka 'unsigned long long *')
+Message-ID: <202312060122.tcm1vahp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,47 +51,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/kvm
-head:   bd8e1c4c02ac085925674bddccb989e2d7d6cc2d
-commit: b7a510b43b1833fc6b0543c0295970c1dd87fbde [3/11] objtool: Convert ANNOTATE_RETPOLINE_SAFE to ANNOTATE
-config: i386-buildonly-randconfig-003-20231203 (https://download.01.org/0day-ci/archive/20231206/202312060149.6bEiGno8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060149.6bEiGno8-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.7-dango
+head:   e4b93ab389f818fbe74616c468898e72b2ec8315
+commit: 5eb8c881c3d5f2a13a6dea1b5dd5474b66bdf2a6 [3867/3912] mtd: ubi: provide NVMEM layer over UBI volumes
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20231206/202312060122.tcm1vahp-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060122.tcm1vahp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060149.6bEiGno8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060122.tcm1vahp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/kernel/static_call.c:47:33: error: expected ')' before 'ASM_ANNOTATE'
-      47 |      "__static_call_return:\n\t"
-         |                                 ^
-         |                                 )
-   arch/x86/kernel/static_call.c:44:5: note: to match this '('
-      44 | asm (".global __static_call_return\n\t"
-         |     ^
+   In file included from drivers/mtd/ubi/nvmem.c:7:
+   In file included from drivers/mtd/ubi/ubi.h:28:
+   In file included from include/linux/mtd/ubi.h:13:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/mtd/ubi/nvmem.c:7:
+   In file included from drivers/mtd/ubi/ubi.h:28:
+   In file included from include/linux/mtd/ubi.h:13:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/mtd/ubi/nvmem.c:7:
+   In file included from drivers/mtd/ubi/ubi.h:28:
+   In file included from include/linux/mtd/ubi.h:13:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   drivers/mtd/ubi/nvmem.c:34:9: warning: comparison of distinct pointer types ('typeof ((lnum)) *' (aka 'int *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
+      34 |         offs = do_div(lnum, unv->usable_leb_size);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
+>> drivers/mtd/ubi/nvmem.c:34:9: error: incompatible pointer types passing 'int *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
+      34 |         offs = do_div(lnum, unv->usable_leb_size);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                                      ^
+   drivers/mtd/ubi/nvmem.c:34:9: warning: shift count >= width of type [-Wshift-count-overflow]
+      34 |         offs = do_div(lnum, unv->usable_leb_size);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^  ~~
+   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   8 warnings and 1 error generated.
 
 
-vim +47 arch/x86/kernel/static_call.c
+vim +34 drivers/mtd/ubi/nvmem.c
 
-923510c88d2b7d9 Peter Zijlstra 2023-01-26  43  
-923510c88d2b7d9 Peter Zijlstra 2023-01-26  44  asm (".global __static_call_return\n\t"
-923510c88d2b7d9 Peter Zijlstra 2023-01-26  45       ".type __static_call_return, @function\n\t"
-923510c88d2b7d9 Peter Zijlstra 2023-01-26  46       ASM_FUNC_ALIGN "\n\t"
-923510c88d2b7d9 Peter Zijlstra 2023-01-26 @47       "__static_call_return:\n\t"
-923510c88d2b7d9 Peter Zijlstra 2023-01-26  48       ANNOTATE_NOENDBR
-923510c88d2b7d9 Peter Zijlstra 2023-01-26  49       ANNOTATE_RETPOLINE_SAFE
-923510c88d2b7d9 Peter Zijlstra 2023-01-26  50       "ret; int3\n\t"
-923510c88d2b7d9 Peter Zijlstra 2023-01-26  51       ".size __static_call_return, . - __static_call_return \n\t");
-923510c88d2b7d9 Peter Zijlstra 2023-01-26  52  
-
-:::::: The code at line 47 was first introduced by commit
-:::::: 923510c88d2b7d947c4217835fd9ca6bd65cc56c x86/static_call: Add support for Jcc tail-calls
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+    22	
+    23	static int ubi_nvmem_reg_read(void *priv, unsigned int from,
+    24				      void *val, size_t bytes)
+    25	{
+    26		int err = 0, lnum = from, offs, bytes_left = bytes, to_read;
+    27		struct ubi_nvmem *unv = priv;
+    28		struct ubi_volume_desc *desc;
+    29	
+    30		desc = ubi_open_volume(unv->ubi_num, unv->vol_id, UBI_READONLY);
+    31		if (IS_ERR(desc))
+    32			return PTR_ERR(desc);
+    33	
+  > 34		offs = do_div(lnum, unv->usable_leb_size);
+    35		while (bytes_left) {
+    36			to_read = unv->usable_leb_size - offs;
+    37	
+    38			if (to_read > bytes_left)
+    39				to_read = bytes_left;
+    40	
+    41			err = ubi_read(desc, lnum, val, offs, to_read);
+    42			if (err)
+    43				break;
+    44	
+    45			lnum += 1;
+    46			offs = 0;
+    47			bytes_left -= to_read;
+    48			val += to_read;
+    49		}
+    50		ubi_close_volume(desc);
+    51	
+    52		if (err)
+    53			return err;
+    54	
+    55		return bytes_left == 0 ? 0 : -EIO;
+    56	}
+    57	
 
 -- 
 0-DAY CI Kernel Test Service
