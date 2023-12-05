@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFD0241E5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 08:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA2C2D03C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 08:02:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFS+rIMs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nibgtaRy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701763276; x=1733299276;
+  t=1701763336; x=1733299336;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qGqzitfalThPXoeiMHLd0eesh0CrbOR2MSRRWWGCyjs=;
-  b=hFS+rIMslH+UsoyTOVXphok+7Dp2ZhCDN9sVdBp0dUKjD1GcA6tbWAye
-   XRWLaGOENjUYkE0GZJwEZ+lQloUB249UUXsw3m15gUAW/Hx1oc/EUSoaD
-   X8Zi+R2+53mKCS+iQM5uN2NP8LcDSbgdNOUaeDtPHifmk/OcWI76eo28Y
-   AboTTwvCSkXDa3hCR9E9M5e1cBnQRX1XoFY3gn869AkzpHg0ISflEbNvh
-   3zvbMvwJTI4olL3uScT2cCCr/wIrB0olxPfpqCANGhE1sA6AvG6PVGLsH
-   uuAy4iXcZU6F/4Jh5dc6YvnDadxmA963N0CAdzUAiPgj5wDQtHvnzhR9I
+  bh=iwGNQxP3zNb8SockV15o5cAe6CfunZCmktNNNeZe+w4=;
+  b=nibgtaRycKHNJjplP4ArIJlhCU8s1BTQXJOFGO0AAuALLWnls/iM8+gh
+   Y8dW4cZ7N3aFAd2mmCQtaQTunT7kuxIuKMJO+XaqoNk0EGcrJ9FgLm5qm
+   oYs+QTRUjEyUTNJ429wno0spHO55ONzs+CAG5rtGrYsCsrZttorU721wo
+   e9mlb+afxd1DoBQ1yrClb/i+++OQPriCP0Mixiww3s0m5qly3g71LKPKY
+   YVJSMVMY2kR94HZt674wnAlBW3sFAmQpVsILLp3e+fD0ik6Ck3p5dONms
+   ogR5X6Wx+a3Qz3OfaiCZd6jnhpN9m5kNErhqroIVnEk8s+hnpThlovSEc
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="384257214"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="393593560"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="384257214"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 00:01:15 -0800
+   d="scan'208";a="393593560"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 00:02:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764243329"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1102372737"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="764243329"
+   d="scan'208";a="1102372737"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 05 Dec 2023 00:01:14 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 05 Dec 2023 00:02:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAQMi-0008XW-0G;
-	Tue, 05 Dec 2023 08:01:12 +0000
-Date: Tue, 5 Dec 2023 16:01:11 +0800
+	id 1rAQNg-0008Xf-0y;
+	Tue, 05 Dec 2023 08:02:12 +0000
+Date: Tue, 5 Dec 2023 16:01:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Darrick J. Wong" <darrick.wong@oracle.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [djwong-xfs:fix-rtmount-overflows-6.7 18/20]
- fs/xfs/libxfs/xfs_sb.c:513:27: error: call to undeclared function
- 'xfs_compute_rextslog'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202312051512.DZKw2YEy-lkp@intel.com>
+ fs/xfs/libxfs/xfs_sb.c:513:27: error: implicit declaration of function
+ 'xfs_compute_rextslog' is invalid in C99
+Message-ID: <202312051503.N6JfVKCC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,18 +54,18 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fix-rtmount-overflows-6.7
 head:   435e0fd775b6fa76a4dfd605d523b48561723e6b
 commit: 40461b1f4b582c94c1c1db6f96b209227d995634 [18/20] xfs: make rextslog computation consistent with mkfs
-config: x86_64-buildonly-randconfig-003-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051512.DZKw2YEy-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051512.DZKw2YEy-lkp@intel.com/reproduce)
+config: powerpc-g5_defconfig (https://download.01.org/0day-ci/archive/20231205/202312051503.N6JfVKCC-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051503.N6JfVKCC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051512.DZKw2YEy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051503.N6JfVKCC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/xfs/libxfs/xfs_sb.c:513:27: error: call to undeclared function 'xfs_compute_rextslog'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>> fs/xfs/libxfs/xfs_sb.c:513:27: error: implicit declaration of function 'xfs_compute_rextslog' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
                        sbp->sb_rextslog != xfs_compute_rextslog(rexts) ||
                                            ^
    1 error generated.
