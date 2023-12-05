@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA2C2D03C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 08:02:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC7C39876
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 08:02:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nibgtaRy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SRXn4jsZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701763336; x=1733299336;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iwGNQxP3zNb8SockV15o5cAe6CfunZCmktNNNeZe+w4=;
-  b=nibgtaRycKHNJjplP4ArIJlhCU8s1BTQXJOFGO0AAuALLWnls/iM8+gh
-   Y8dW4cZ7N3aFAd2mmCQtaQTunT7kuxIuKMJO+XaqoNk0EGcrJ9FgLm5qm
-   oYs+QTRUjEyUTNJ429wno0spHO55ONzs+CAG5rtGrYsCsrZttorU721wo
-   e9mlb+afxd1DoBQ1yrClb/i+++OQPriCP0Mixiww3s0m5qly3g71LKPKY
-   YVJSMVMY2kR94HZt674wnAlBW3sFAmQpVsILLp3e+fD0ik6Ck3p5dONms
-   ogR5X6Wx+a3Qz3OfaiCZd6jnhpN9m5kNErhqroIVnEk8s+hnpThlovSEc
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="393593560"
+  t=1701763365; x=1733299365;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QIOkhm0gALKjGzbgLxGsPjX2kcP68mlAYfB69wuLqwg=;
+  b=SRXn4jsZ2MYC0KKLW8kKePitom191Fkg/uM8BO0V3KATi3v6mFY63bj3
+   ZQuZ2ro1ZKF3fqywl3DJCN64sFzSYX7uuCG5Tnw4KhEHxg+GCFveJCgro
+   meBxPP2e5x1Is6+CtGsaLKZKbhLllqGlZP20mvMBqOmDkUfMJrhXyMZRx
+   OM2YuDbGAzyp8DX+c4+f0U4rRnNxbGpQZdHWbT5/U89e2fbq2L51sqYyK
+   iS3iwlI7rXz25vyG0ZEk9tvEa9pgf1FkHVoGKYiyoV15OXZ+Zq1gKICHM
+   Nt6epNFlLHtKpnFK6OTe2yp2av2LZ3w4n2Rmz23ncfkv9N+IRTZo6nYsX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="12575213"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="393593560"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 00:02:15 -0800
+   d="scan'208";a="12575213"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 00:02:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1102372737"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="1102372737"
+   d="scan'208";a="18871583"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Dec 2023 00:02:14 -0800
+  by orviesa001.jf.intel.com with ESMTP; 05 Dec 2023 00:02:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAQNg-0008Xf-0y;
+	id 1rAQNg-0008Xc-0u;
 	Tue, 05 Dec 2023 08:02:12 +0000
-Date: Tue, 5 Dec 2023 16:01:12 +0800
+Date: Tue, 5 Dec 2023 16:01:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:fix-rtmount-overflows-6.7 18/20]
- fs/xfs/libxfs/xfs_sb.c:513:27: error: implicit declaration of function
- 'xfs_compute_rextslog' is invalid in C99
-Message-ID: <202312051503.N6JfVKCC-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH bpf-next 08/13] bpf: move subprog call logic back to
+ verifier.c
+Message-ID: <202312051530.hEAmx5zj-lkp@intel.com>
+References: <20231204233931.49758-9-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,278 +51,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231204233931.49758-9-andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fix-rtmount-overflows-6.7
-head:   435e0fd775b6fa76a4dfd605d523b48561723e6b
-commit: 40461b1f4b582c94c1c1db6f96b209227d995634 [18/20] xfs: make rextslog computation consistent with mkfs
-config: powerpc-g5_defconfig (https://download.01.org/0day-ci/archive/20231205/202312051503.N6JfVKCC-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051503.N6JfVKCC-lkp@intel.com/reproduce)
+Hi Andrii,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-log-PTR_TO_MEM-memory-size-in-verifier-log/20231205-074451
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20231204233931.49758-9-andrii%40kernel.org
+patch subject: [PATCH bpf-next 08/13] bpf: move subprog call logic back to verifier.c
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051530.hEAmx5zj-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051530.hEAmx5zj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051503.N6JfVKCC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051530.hEAmx5zj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/xfs/libxfs/xfs_sb.c:513:27: error: implicit declaration of function 'xfs_compute_rextslog' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                       sbp->sb_rextslog != xfs_compute_rextslog(rexts) ||
-                                           ^
-   1 error generated.
+>> kernel/bpf/verifier.c:5083:5: warning: no previous prototype for 'check_ptr_off_reg' [-Wmissing-prototypes]
+    5083 | int check_ptr_off_reg(struct bpf_verifier_env *env,
+         |     ^~~~~~~~~~~~~~~~~
+>> kernel/bpf/verifier.c:7268:5: warning: no previous prototype for 'check_mem_reg' [-Wmissing-prototypes]
+    7268 | int check_mem_reg(struct bpf_verifier_env *env, struct bpf_reg_state *reg,
+         |     ^~~~~~~~~~~~~
+>> kernel/bpf/verifier.c:8254:5: warning: no previous prototype for 'check_func_arg_reg_off' [-Wmissing-prototypes]
+    8254 | int check_func_arg_reg_off(struct bpf_verifier_env *env,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/xfs_compute_rextslog +513 fs/xfs/libxfs/xfs_sb.c
+vim +/check_ptr_off_reg +5083 kernel/bpf/verifier.c
 
-   304	
-   305	/* Check the validity of the SB. */
-   306	STATIC int
-   307	xfs_validate_sb_common(
-   308		struct xfs_mount	*mp,
-   309		struct xfs_buf		*bp,
-   310		struct xfs_sb		*sbp)
-   311	{
-   312		struct xfs_dsb		*dsb = bp->b_addr;
-   313		uint32_t		agcount = 0;
-   314		uint32_t		rem;
-   315		bool			has_dalign;
-   316	
-   317		if (!xfs_verify_magic(bp, dsb->sb_magicnum)) {
-   318			xfs_warn(mp,
-   319	"Superblock has bad magic number 0x%x. Not an XFS filesystem?",
-   320				be32_to_cpu(dsb->sb_magicnum));
-   321			return -EWRONGFS;
-   322		}
-   323	
-   324		if (!xfs_sb_good_version(sbp)) {
-   325			xfs_warn(mp,
-   326	"Superblock has unknown features enabled or corrupted feature masks.");
-   327			return -EWRONGFS;
-   328		}
-   329	
-   330		/*
-   331		 * Validate feature flags and state
-   332		 */
-   333		if (xfs_sb_is_v5(sbp)) {
-   334			if (sbp->sb_blocksize < XFS_MIN_CRC_BLOCKSIZE) {
-   335				xfs_notice(mp,
-   336	"Block size (%u bytes) too small for Version 5 superblock (minimum %d bytes)",
-   337					sbp->sb_blocksize, XFS_MIN_CRC_BLOCKSIZE);
-   338				return -EFSCORRUPTED;
-   339			}
-   340	
-   341			/* V5 has a separate project quota inode */
-   342			if (sbp->sb_qflags & (XFS_OQUOTA_ENFD | XFS_OQUOTA_CHKD)) {
-   343				xfs_notice(mp,
-   344				   "Version 5 of Super block has XFS_OQUOTA bits.");
-   345				return -EFSCORRUPTED;
-   346			}
-   347	
-   348			/*
-   349			 * Full inode chunks must be aligned to inode chunk size when
-   350			 * sparse inodes are enabled to support the sparse chunk
-   351			 * allocation algorithm and prevent overlapping inode records.
-   352			 */
-   353			if (sbp->sb_features_incompat & XFS_SB_FEAT_INCOMPAT_SPINODES) {
-   354				uint32_t	align;
-   355	
-   356				align = XFS_INODES_PER_CHUNK * sbp->sb_inodesize
-   357						>> sbp->sb_blocklog;
-   358				if (sbp->sb_inoalignmt != align) {
-   359					xfs_warn(mp,
-   360	"Inode block alignment (%u) must match chunk size (%u) for sparse inodes.",
-   361						 sbp->sb_inoalignmt, align);
-   362					return -EINVAL;
-   363				}
-   364			}
-   365		} else if (sbp->sb_qflags & (XFS_PQUOTA_ENFD | XFS_GQUOTA_ENFD |
-   366					XFS_PQUOTA_CHKD | XFS_GQUOTA_CHKD)) {
-   367				xfs_notice(mp,
-   368	"Superblock earlier than Version 5 has XFS_{P|G}QUOTA_{ENFD|CHKD} bits.");
-   369				return -EFSCORRUPTED;
-   370		}
-   371	
-   372		if (unlikely(
-   373		    sbp->sb_logstart == 0 && mp->m_logdev_targp == mp->m_ddev_targp)) {
-   374			xfs_warn(mp,
-   375			"filesystem is marked as having an external log; "
-   376			"specify logdev on the mount command line.");
-   377			return -EINVAL;
-   378		}
-   379	
-   380		if (unlikely(
-   381		    sbp->sb_logstart != 0 && mp->m_logdev_targp != mp->m_ddev_targp)) {
-   382			xfs_warn(mp,
-   383			"filesystem is marked as having an internal log; "
-   384			"do not specify logdev on the mount command line.");
-   385			return -EINVAL;
-   386		}
-   387	
-   388		/* Compute agcount for this number of dblocks and agblocks */
-   389		if (sbp->sb_agblocks) {
-   390			agcount = div_u64_rem(sbp->sb_dblocks, sbp->sb_agblocks, &rem);
-   391			if (rem)
-   392				agcount++;
-   393		}
-   394	
-   395		/*
-   396		 * More sanity checking.  Most of these were stolen directly from
-   397		 * xfs_repair.
-   398		 */
-   399		if (unlikely(
-   400		    sbp->sb_agcount <= 0					||
-   401		    sbp->sb_sectsize < XFS_MIN_SECTORSIZE			||
-   402		    sbp->sb_sectsize > XFS_MAX_SECTORSIZE			||
-   403		    sbp->sb_sectlog < XFS_MIN_SECTORSIZE_LOG			||
-   404		    sbp->sb_sectlog > XFS_MAX_SECTORSIZE_LOG			||
-   405		    sbp->sb_sectsize != (1 << sbp->sb_sectlog)			||
-   406		    sbp->sb_blocksize < XFS_MIN_BLOCKSIZE			||
-   407		    sbp->sb_blocksize > XFS_MAX_BLOCKSIZE			||
-   408		    sbp->sb_blocklog < XFS_MIN_BLOCKSIZE_LOG			||
-   409		    sbp->sb_blocklog > XFS_MAX_BLOCKSIZE_LOG			||
-   410		    sbp->sb_blocksize != (1 << sbp->sb_blocklog)		||
-   411		    sbp->sb_dirblklog + sbp->sb_blocklog > XFS_MAX_BLOCKSIZE_LOG ||
-   412		    sbp->sb_inodesize < XFS_DINODE_MIN_SIZE			||
-   413		    sbp->sb_inodesize > XFS_DINODE_MAX_SIZE			||
-   414		    sbp->sb_inodelog < XFS_DINODE_MIN_LOG			||
-   415		    sbp->sb_inodelog > XFS_DINODE_MAX_LOG			||
-   416		    sbp->sb_inodesize != (1 << sbp->sb_inodelog)		||
-   417		    sbp->sb_inopblock != howmany(sbp->sb_blocksize,sbp->sb_inodesize) ||
-   418		    XFS_FSB_TO_B(mp, sbp->sb_agblocks) < XFS_MIN_AG_BYTES	||
-   419		    XFS_FSB_TO_B(mp, sbp->sb_agblocks) > XFS_MAX_AG_BYTES	||
-   420		    sbp->sb_agblklog != xfs_highbit32(sbp->sb_agblocks - 1) + 1	||
-   421		    agcount == 0 || agcount != sbp->sb_agcount			||
-   422		    (sbp->sb_blocklog - sbp->sb_inodelog != sbp->sb_inopblog)	||
-   423		    (sbp->sb_rextsize * sbp->sb_blocksize > XFS_MAX_RTEXTSIZE)	||
-   424		    (sbp->sb_rextsize * sbp->sb_blocksize < XFS_MIN_RTEXTSIZE)	||
-   425		    (sbp->sb_imax_pct > 100 /* zero sb_imax_pct is valid */)	||
-   426		    sbp->sb_dblocks == 0					||
-   427		    sbp->sb_dblocks > XFS_MAX_DBLOCKS(sbp)			||
-   428		    sbp->sb_dblocks < XFS_MIN_DBLOCKS(sbp)			||
-   429		    sbp->sb_shared_vn != 0)) {
-   430			xfs_notice(mp, "SB sanity check failed");
-   431			return -EFSCORRUPTED;
-   432		}
-   433	
-   434		/*
-   435		 * Logs that are too large are not supported at all. Reject them
-   436		 * outright. Logs that are too small are tolerated on v4 filesystems,
-   437		 * but we can only check that when mounting the log. Hence we skip
-   438		 * those checks here.
-   439		 */
-   440		if (sbp->sb_logblocks > XFS_MAX_LOG_BLOCKS) {
-   441			xfs_notice(mp,
-   442			"Log size 0x%x blocks too large, maximum size is 0x%llx blocks",
-   443				 sbp->sb_logblocks, XFS_MAX_LOG_BLOCKS);
-   444			return -EFSCORRUPTED;
-   445		}
-   446	
-   447		if (XFS_FSB_TO_B(mp, sbp->sb_logblocks) > XFS_MAX_LOG_BYTES) {
-   448			xfs_warn(mp,
-   449			"log size 0x%llx bytes too large, maximum size is 0x%llx bytes",
-   450				 XFS_FSB_TO_B(mp, sbp->sb_logblocks),
-   451				 XFS_MAX_LOG_BYTES);
-   452			return -EFSCORRUPTED;
-   453		}
-   454	
-   455		/*
-   456		 * Do not allow filesystems with corrupted log sector or stripe units to
-   457		 * be mounted. We cannot safely size the iclogs or write to the log if
-   458		 * the log stripe unit is not valid.
-   459		 */
-   460		if (sbp->sb_versionnum & XFS_SB_VERSION_SECTORBIT) {
-   461			if (sbp->sb_logsectsize != (1U << sbp->sb_logsectlog)) {
-   462				xfs_notice(mp,
-   463				"log sector size in bytes/log2 (0x%x/0x%x) must match",
-   464					sbp->sb_logsectsize, 1U << sbp->sb_logsectlog);
-   465				return -EFSCORRUPTED;
-   466			}
-   467		} else if (sbp->sb_logsectsize || sbp->sb_logsectlog) {
-   468			xfs_notice(mp,
-   469			"log sector size in bytes/log2 (0x%x/0x%x) are not zero",
-   470				sbp->sb_logsectsize, sbp->sb_logsectlog);
-   471			return -EFSCORRUPTED;
-   472		}
-   473	
-   474		if (sbp->sb_logsunit > 1) {
-   475			if (sbp->sb_logsunit % sbp->sb_blocksize) {
-   476				xfs_notice(mp,
-   477			"log stripe unit 0x%x bytes must be a multiple of block size",
-   478					sbp->sb_logsunit);
-   479				return -EFSCORRUPTED;
-   480			}
-   481			if (sbp->sb_logsunit > XLOG_MAX_RECORD_BSIZE) {
-   482				xfs_notice(mp,
-   483			"log stripe unit 0x%x bytes over maximum size (0x%x bytes)",
-   484					sbp->sb_logsunit, XLOG_MAX_RECORD_BSIZE);
-   485				return -EFSCORRUPTED;
-   486			}
-   487		}
-   488	
-   489		/* Validate the realtime geometry; stolen from xfs_repair */
-   490		if (sbp->sb_rextsize * sbp->sb_blocksize > XFS_MAX_RTEXTSIZE ||
-   491		    sbp->sb_rextsize * sbp->sb_blocksize < XFS_MIN_RTEXTSIZE) {
-   492			xfs_notice(mp,
-   493				"realtime extent sanity check failed");
-   494			return -EFSCORRUPTED;
-   495		}
-   496	
-   497		if (sbp->sb_rblocks == 0) {
-   498			if (sbp->sb_rextents != 0 || sbp->sb_rbmblocks != 0 ||
-   499			    sbp->sb_rextslog != 0 || sbp->sb_frextents != 0) {
-   500				xfs_notice(mp,
-   501					"realtime zeroed geometry check failed");
-   502				return -EFSCORRUPTED;
-   503			}
-   504		} else {
-   505			uint64_t	rexts;
-   506			uint64_t	rbmblocks;
-   507	
-   508			rexts = div_u64(sbp->sb_rblocks, sbp->sb_rextsize);
-   509			rbmblocks = howmany_64(sbp->sb_rextents,
-   510					       NBBY * sbp->sb_blocksize);
-   511	
-   512			if (sbp->sb_rextents != rexts ||
- > 513			    sbp->sb_rextslog != xfs_compute_rextslog(rexts) ||
-   514			    sbp->sb_rbmblocks != rbmblocks) {
-   515				xfs_notice(mp,
-   516					"realtime geometry sanity check failed");
-   517				return -EFSCORRUPTED;
-   518			}
-   519		}
-   520	
-   521		/*
-   522		 * Either (sb_unit and !hasdalign) or (!sb_unit and hasdalign)
-   523		 * would imply the image is corrupted.
-   524		 */
-   525		has_dalign = sbp->sb_versionnum & XFS_SB_VERSION_DALIGNBIT;
-   526		if (!!sbp->sb_unit ^ has_dalign) {
-   527			xfs_notice(mp, "SB stripe alignment sanity check failed");
-   528			return -EFSCORRUPTED;
-   529		}
-   530	
-   531		if (!xfs_validate_stripe_geometry(mp, XFS_FSB_TO_B(mp, sbp->sb_unit),
-   532				XFS_FSB_TO_B(mp, sbp->sb_width), 0, false))
-   533			return -EFSCORRUPTED;
-   534	
-   535		/*
-   536		 * Currently only very few inode sizes are supported.
-   537		 */
-   538		switch (sbp->sb_inodesize) {
-   539		case 256:
-   540		case 512:
-   541		case 1024:
-   542		case 2048:
-   543			break;
-   544		default:
-   545			xfs_warn(mp, "inode size of %d bytes not supported",
-   546					sbp->sb_inodesize);
-   547			return -ENOSYS;
-   548		}
-   549	
-   550		return 0;
-   551	}
-   552	
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5082  
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15 @5083  int check_ptr_off_reg(struct bpf_verifier_env *env,
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5084  		      const struct bpf_reg_state *reg, int regno)
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5085  {
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5086  	return __check_ptr_off_reg(env, reg, regno, false);
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5087  }
+e9147b4422e1f3 Kumar Kartikeya Dwivedi 2022-04-15  5088  
 
 -- 
 0-DAY CI Kernel Test Service
