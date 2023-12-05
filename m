@@ -1,56 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3D6ABA6;
-	Tue,  5 Dec 2023 19:57:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7FA6DCE4;
+	Tue,  5 Dec 2023 20:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVOdDuKV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iW3by8pZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701806274; x=1733342274;
+  t=1701806929; x=1733342929;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8+xl7o993QHoQJuM8EvkCoX7M+DgfwFuc3rXwdvt3a8=;
-  b=EVOdDuKVGvdsV/ui+HX3qRRHDXuTXsljIViaojz+VjeHvRi4MZBCE9dq
-   VXfltzI+zs80ILDSNdys7Sg9OhlPgbGPgXGUIzR8pdA9qUNmZLYLizWa+
-   TkLQqNjgTKlF0svbZx8Tn7pSydIMwcnFxSRh+XfqADsrYxDkEm2GmdSIb
-   ZzozjMd81FLyJWr2irkSyp8zwkiTuXNxoA9/uzW1tyzPpNoFGy4BgXPhO
-   nrYtoAX7tZDFYfXhvuR1fecskS7IgBV7XQcYVy2T3qSCt6u/e8N27LP+q
-   TacanICyXib2WDCdjH7RNArqKZKGvh4M98zRcPaZP8Jqhl1GCisGm7n64
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="378973720"
+  bh=SUuGRs+vZC//Sfo0R7WmSf0IDUlFGiXpDp5H5TAZx6Y=;
+  b=iW3by8pZiIFdxruL40y2nm+EOGZ69X0ITtq+9zT3f7nGxiNAKDJ+nqnV
+   2phe6tdqKCXtKq2cgmbyorC82UdXVpFBfNg5dZp8OxrZX+vc4LXg3R+DB
+   jJ0R/u7qZvZGzFw7C+cWy1qwn4haaeJdM+Wr+8yRA4JDtbNqzWUUj2heb
+   8d3z9p3SVHlSBrsPY3kQe7pasAXOSggBpq52GSXlMElz7DP1Ms5f+wEf8
+   IjQMZlrclT6U1e5HTFszk8lKLb+MNc/OqicyALp7oA6NZFtKNQ7AODub2
+   kYmBrVOq26b0OWH1jxoW480nw8NYNztQvhi2YDP+hFFwFD7uySXluYA+F
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="374138358"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="378973720"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 11:57:53 -0800
+   d="scan'208";a="374138358"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 12:08:48 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="805394425"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="12449683"
+   d="scan'208";a="805394425"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 05 Dec 2023 11:57:47 -0800
+  by orsmga001.jf.intel.com with ESMTP; 05 Dec 2023 12:08:47 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAbY8-0009eY-2M;
-	Tue, 05 Dec 2023 19:57:44 +0000
-Date: Wed, 6 Dec 2023 03:57:38 +0800
+	id 1rAbin-0009ew-03;
+	Tue, 05 Dec 2023 20:08:45 +0000
+Date: Wed, 6 Dec 2023 04:08:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Makhalov <amakhalov@vmware.com>, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, hpa@zytor.com,
-	dave.hansen@linux.intel.co, bp@alien8.d, mingo@redhat.com,
-	tglx@linutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, netdev@vger.kernel.org,
-	richardcochran@gmail.com, linux-input@vger.kernel.org,
-	dmitry.torokhov@gmail.com, zackr@vmware.com,
-	linux-graphics-maintainer@vmware.com, pv-drivers@vmware.com,
-	namit@vmware.com, timothym@vmware.com, akaher@vmware.com,
-	jsipek@vmware.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
-	airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com, horms@kernel.org
-Subject: Re: [PATCH v2 6/6] x86/vmware: Add TDX hypercall support
-Message-ID: <202312060350.Paq0JYin-lkp@intel.com>
-References: <20231201232452.220355-7-amakhalov@vmware.com>
+To: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v3 15/21] mm/zsmalloc: convert __free_zspage() to use
+ zsdesc
+Message-ID: <202312060342.tJyfMWv0-lkp@intel.com>
+References: <20231130101242.2590384-16-42.hyeyoo@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,187 +51,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201232452.220355-7-amakhalov@vmware.com>
+In-Reply-To: <20231130101242.2590384-16-42.hyeyoo@gmail.com>
 
-Hi Alexey,
+Hi Hyeonggon,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on dtor-input/next dtor-input/for-linus linus/master v6.7-rc4 next-20231205]
-[cannot apply to tip/x86/vmware]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Makhalov/x86-vmware-Move-common-macros-to-vmware-h/20231202-072821
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231201232452.220355-7-amakhalov%40vmware.com
-patch subject: [PATCH v2 6/6] x86/vmware: Add TDX hypercall support
-config: x86_64-buildonly-randconfig-003-20231203 (https://download.01.org/0day-ci/archive/20231206/202312060350.Paq0JYin-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060350.Paq0JYin-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hyeonggon-Yoo/mm-zsmalloc-create-new-struct-zsdesc/20231130-181616
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231130101242.2590384-16-42.hyeyoo%40gmail.com
+patch subject: [RFC PATCH v3 15/21] mm/zsmalloc: convert __free_zspage() to use zsdesc
+config: i386-buildonly-randconfig-003-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060342.tJyfMWv0-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060342.tJyfMWv0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060350.Paq0JYin-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060342.tJyfMWv0-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/vmwgfx/vmwgfx_msg_x86.h:38,
-                    from drivers/gpu/drm/vmwgfx/vmwgfx_msg.c:37:
->> arch/x86/include/asm/vmware.h:46:46: warning: 'struct tdx_module_args' declared inside parameter list will not be visible outside of this definition or declaration
-      46 | extern void vmware_tdx_hypercall_args(struct tdx_module_args *args);
-         |                                              ^~~~~~~~~~~~~~~
-   arch/x86/include/asm/vmware.h: In function 'vmware_tdx_hypercall':
->> arch/x86/include/asm/vmware.h:61:9: error: variable 'args' has initializer but incomplete type
-      61 |  struct tdx_module_args args = {
-         |         ^~~~~~~~~~~~~~~
->> arch/x86/include/asm/vmware.h:62:4: error: 'struct tdx_module_args' has no member named 'r10'
-      62 |   .r10 = VMWARE_TDX_VENDOR_LEAF,
-         |    ^~~
->> arch/x86/include/asm/vmware.h:43:32: warning: excess elements in struct initializer
-      43 | #define VMWARE_TDX_VENDOR_LEAF 0x1AF7E4909ULL
-         |                                ^~~~~~~~~~~~~~
-   arch/x86/include/asm/vmware.h:62:10: note: in expansion of macro 'VMWARE_TDX_VENDOR_LEAF'
-      62 |   .r10 = VMWARE_TDX_VENDOR_LEAF,
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/vmware.h:43:32: note: (near initialization for 'args')
-      43 | #define VMWARE_TDX_VENDOR_LEAF 0x1AF7E4909ULL
-         |                                ^~~~~~~~~~~~~~
-   arch/x86/include/asm/vmware.h:62:10: note: in expansion of macro 'VMWARE_TDX_VENDOR_LEAF'
-      62 |   .r10 = VMWARE_TDX_VENDOR_LEAF,
-         |          ^~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/vmware.h:63:4: error: 'struct tdx_module_args' has no member named 'r11'
-      63 |   .r11 = VMWARE_TDX_HCALL_FUNC,
-         |    ^~~
-   arch/x86/include/asm/vmware.h:44:32: warning: excess elements in struct initializer
-      44 | #define VMWARE_TDX_HCALL_FUNC  1
-         |                                ^
-   arch/x86/include/asm/vmware.h:63:10: note: in expansion of macro 'VMWARE_TDX_HCALL_FUNC'
-      63 |   .r11 = VMWARE_TDX_HCALL_FUNC,
-         |          ^~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/vmware.h:44:32: note: (near initialization for 'args')
-      44 | #define VMWARE_TDX_HCALL_FUNC  1
-         |                                ^
-   arch/x86/include/asm/vmware.h:63:10: note: in expansion of macro 'VMWARE_TDX_HCALL_FUNC'
-      63 |   .r11 = VMWARE_TDX_HCALL_FUNC,
-         |          ^~~~~~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/vmware.h:64:4: error: 'struct tdx_module_args' has no member named 'r12'
-      64 |   .r12 = VMWARE_HYPERVISOR_MAGIC,
-         |    ^~~
-   arch/x86/include/asm/vmware.h:31:34: warning: excess elements in struct initializer
-      31 | #define VMWARE_HYPERVISOR_MAGIC  0x564D5868U
-         |                                  ^~~~~~~~~~~
-   arch/x86/include/asm/vmware.h:64:10: note: in expansion of macro 'VMWARE_HYPERVISOR_MAGIC'
-      64 |   .r12 = VMWARE_HYPERVISOR_MAGIC,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/vmware.h:31:34: note: (near initialization for 'args')
-      31 | #define VMWARE_HYPERVISOR_MAGIC  0x564D5868U
-         |                                  ^~~~~~~~~~~
-   arch/x86/include/asm/vmware.h:64:10: note: in expansion of macro 'VMWARE_HYPERVISOR_MAGIC'
-      64 |   .r12 = VMWARE_HYPERVISOR_MAGIC,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/vmware.h:65:4: error: 'struct tdx_module_args' has no member named 'r13'
-      65 |   .r13 = cmd,
-         |    ^~~
-   arch/x86/include/asm/vmware.h:65:10: warning: excess elements in struct initializer
-      65 |   .r13 = cmd,
-         |          ^~~
-   arch/x86/include/asm/vmware.h:65:10: note: (near initialization for 'args')
->> arch/x86/include/asm/vmware.h:66:4: error: 'struct tdx_module_args' has no member named 'rbx'
-      66 |   .rbx = in1,
-         |    ^~~
-   arch/x86/include/asm/vmware.h:66:10: warning: excess elements in struct initializer
-      66 |   .rbx = in1,
-         |          ^~~
-   arch/x86/include/asm/vmware.h:66:10: note: (near initialization for 'args')
->> arch/x86/include/asm/vmware.h:67:4: error: 'struct tdx_module_args' has no member named 'rdx'
-      67 |   .rdx = in3,
-         |    ^~~
-   arch/x86/include/asm/vmware.h:67:10: warning: excess elements in struct initializer
-      67 |   .rdx = in3,
-         |          ^~~
-   arch/x86/include/asm/vmware.h:67:10: note: (near initialization for 'args')
->> arch/x86/include/asm/vmware.h:68:4: error: 'struct tdx_module_args' has no member named 'rsi'
-      68 |   .rsi = in4,
-         |    ^~~
-   arch/x86/include/asm/vmware.h:68:10: warning: excess elements in struct initializer
-      68 |   .rsi = in4,
-         |          ^~~
-   arch/x86/include/asm/vmware.h:68:10: note: (near initialization for 'args')
->> arch/x86/include/asm/vmware.h:69:4: error: 'struct tdx_module_args' has no member named 'rdi'
-      69 |   .rdi = in5,
-         |    ^~~
-   arch/x86/include/asm/vmware.h:69:10: warning: excess elements in struct initializer
-      69 |   .rdi = in5,
-         |          ^~~
-   arch/x86/include/asm/vmware.h:69:10: note: (near initialization for 'args')
->> arch/x86/include/asm/vmware.h:70:4: error: 'struct tdx_module_args' has no member named 'r14'
-      70 |   .r14 = in6,
-         |    ^~~
-   arch/x86/include/asm/vmware.h:70:10: warning: excess elements in struct initializer
-      70 |   .r14 = in6,
-         |          ^~~
-   arch/x86/include/asm/vmware.h:70:10: note: (near initialization for 'args')
->> arch/x86/include/asm/vmware.h:61:25: error: storage size of 'args' isn't known
-      61 |  struct tdx_module_args args = {
-         |                         ^~~~
->> arch/x86/include/asm/vmware.h:61:25: warning: unused variable 'args' [-Wunused-variable]
+   mm/zsmalloc.c:393:14: warning: no previous prototype for function 'zsdesc_zone' [-Wmissing-prototypes]
+   struct zone *zsdesc_zone(struct zsdesc *zsdesc)
+                ^
+   mm/zsmalloc.c:393:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct zone *zsdesc_zone(struct zsdesc *zsdesc)
+   ^
+   static 
+   mm/zsmalloc.c:286:29: warning: unused function 'zsdesc_pfn' [-Wunused-function]
+   static inline unsigned long zsdesc_pfn(const struct zsdesc *zsdesc)
+                               ^
+   mm/zsmalloc.c:296:20: warning: unused function 'zsdesc_get' [-Wunused-function]
+   static inline void zsdesc_get(struct zsdesc *zsdesc)
+                      ^
+>> mm/zsmalloc.c:320:20: warning: function 'zsdesc_is_locked' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+   static inline bool zsdesc_is_locked(struct zsdesc *zsdesc)
+                      ^
+   mm/zsmalloc.c:325:20: warning: unused function 'wait_on_zsdesc_locked' [-Wunused-function]
+   static inline void wait_on_zsdesc_locked(struct zsdesc *zsdesc)
+                      ^
+   mm/zsmalloc.c:348:20: warning: unused function 'zsdesc_set_movable' [-Wunused-function]
+   static inline void zsdesc_set_movable(struct zsdesc *zsdesc)
+                      ^
+   mm/zsmalloc.c:388:20: warning: unused function 'zsdesc_is_isolated' [-Wunused-function]
+   static inline bool zsdesc_is_isolated(struct zsdesc *zsdesc)
+                      ^
+   7 warnings generated.
 
 
-vim +/args +61 arch/x86/include/asm/vmware.h
+vim +/zsdesc_is_locked +320 mm/zsmalloc.c
 
-    42	
-  > 43	#define VMWARE_TDX_VENDOR_LEAF 0x1AF7E4909ULL
-    44	#define VMWARE_TDX_HCALL_FUNC  1
-    45	
-  > 46	extern void vmware_tdx_hypercall_args(struct tdx_module_args *args);
-    47	
-    48	/*
-    49	 * TDCALL[TDG.VP.VMCALL] uses rax (arg0) and rcx (arg2), while the use of
-    50	 * rbp (arg6) is discouraged by the TDX specification. Therefore, we
-    51	 * remap those registers to r12, r13 and r14, respectively.
-    52	 */
-    53	static inline
-    54	unsigned long vmware_tdx_hypercall(unsigned long cmd, unsigned long in1,
-    55					   unsigned long in3, unsigned long in4,
-    56					   unsigned long in5, unsigned long in6,
-    57					   uint32_t *out1, uint32_t *out2,
-    58					   uint32_t *out3, uint32_t *out4,
-    59					   uint32_t *out5, uint32_t *out6)
-    60	{
-  > 61		struct tdx_module_args args = {
-  > 62			.r10 = VMWARE_TDX_VENDOR_LEAF,
-  > 63			.r11 = VMWARE_TDX_HCALL_FUNC,
-  > 64			.r12 = VMWARE_HYPERVISOR_MAGIC,
-  > 65			.r13 = cmd,
-  > 66			.rbx = in1,
-  > 67			.rdx = in3,
-  > 68			.rsi = in4,
-  > 69			.rdi = in5,
-  > 70			.r14 = in6,
-    71		};
-    72	
-    73		vmware_tdx_hypercall_args(&args);
-    74	
-    75		if (out1)
-    76			*out1 = args.rbx;
-    77		if (out2)
-    78			*out2 = args.r13;
-    79		if (out3)
-    80			*out3 = args.rdx;
-    81		if (out4)
-    82			*out4 = args.rsi;
-    83		if (out5)
-    84			*out5 = args.rdi;
-    85		if (out6)
-    86			*out6 = args.r14;
-    87	
-    88		return args.r12;
-    89	}
-    90	
+   319	
+ > 320	static inline bool zsdesc_is_locked(struct zsdesc *zsdesc)
+   321	{
+   322		return PageLocked(zsdesc_page(zsdesc));
+   323	}
+   324	
 
 -- 
 0-DAY CI Kernel Test Service
