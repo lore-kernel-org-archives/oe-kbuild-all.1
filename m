@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C63A6FCC5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1496FCC8
 	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 21:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebr/3Tep"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROpMzJ+J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701812817; x=1733348817;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8xAJSw1WXF0kbDXMV6TA+P/0fIU+HMuwiL+rhoG/mlU=;
-  b=ebr/3Tep/iuHW1bzgaSW/M5yMjZZad+7XcrFmHFxrLRtem4SB4thDxG1
-   mJwH6tw+Yd2GpGoPR+CDk6EY9XHlXHrWufj9vwrPJ/tzM8p8wwLVSQvyA
-   IEjjk8QkKYWMemxw+p/wG2REcQXv0AVXvjRFg4xTXXKiESYJ8VgJLqYXP
-   g3fasEegYIuCOy46rGwZW6nZnEGtcu+pQ73IucJ8uXg9badqHEbAwWXhI
-   pJtGm3j4Qn4mffnxLIdyFTZlaEbn4mE9dDO0PHSWdv+XEvOZa6F+iVvQm
-   aYvoDVMH1GHosh/GiDdkWLK+NdUhkmlzmi1IzRY3tYbk7Pd/F09qiqY8G
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="396754048"
+  bh=l4fS1ep/aUg7IgejVHBEQlC5MrEsLXDDzOnoLk+Xz04=;
+  b=ROpMzJ+J5mrjOb5Lq2yOSZ5Xfpda5OJdPg8iAu47tiF6FZ8omU2a4G3P
+   cYO7yXOas7eqlck4xZfOA+UUU9FdDgaRE8xkJXtdcNfeK+2D7nSSsLloZ
+   S425OSy3Dxs+YCYI0spT5ojsbIHBdxzH8+UOG19V6VhPv2KKLaVh55zuf
+   FuzO6hJX57gACxD+7bLqdM/GLC08vFLY1KGpA+I/1yHrEkVcpdfspQi13
+   nA6TsJVsbwIbLpwOXtLfDhc7DOYyo5zQp+CRU87+cL+ldHY+Wv/xbGwvm
+   VjPoYBI52GkvGS0tyA9s0fAVol4Jlp70CY7jBnCtX/WZDZH6/Gu8nrLM+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="396754051"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="396754048"
+   d="scan'208";a="396754051"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 13:46:55 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="19110304"
+   d="scan'208";a="19110303"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orviesa001.jf.intel.com with ESMTP; 05 Dec 2023 13:46:54 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAdFj-0009m2-2H;
+	id 1rAdFj-0009lx-28;
 	Tue, 05 Dec 2023 21:46:51 +0000
-Date: Wed, 6 Dec 2023 05:45:58 +0800
+Date: Wed, 6 Dec 2023 05:45:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10-2023-02 2/4]
- arch/arm64/mm/dma-mapping-noalias.c:562:33: error: 'arm64_iommu_ops'
- undeclared; did you mean 'arm64_noalias_ops'?
-Message-ID: <202312060505.zzdiKjAG-lkp@intel.com>
+To: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202312060556.19mMzKjL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,58 +50,219 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10-2023-02
-head:   11518ebf9bcc5beef148d8016900a407ea88dbda
-commit: 3c75a6fb7fd1cd149d7af1a2e200b064a2d12782 [2/4] ANDROID: arm64: Work around Cortex-A510 erratum 2454944
-config: arm64-randconfig-r131-20231204 (https://download.01.org/0day-ci/archive/20231206/202312060505.zzdiKjAG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060505.zzdiKjAG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
+commit: e362359ace6f87c201531872486ff295df306d13 posix-cpu-timers: Cleanup CPU timers before freeing them during exec
+date:   1 year, 4 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231206/202312060556.19mMzKjL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060556.19mMzKjL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060505.zzdiKjAG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060556.19mMzKjL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/exec.c:422:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __user * @@     got void * @@
+   fs/exec.c:422:31: sparse:     expected char const [noderef] __user *
+   fs/exec.c:422:31: sparse:     got void *
+   fs/exec.c:1051:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   fs/exec.c:1051:48: sparse:     expected struct sighand_struct *oldsighand
+   fs/exec.c:1051:48: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   fs/exec.c:1158:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/exec.c:1158:56: sparse:     expected struct task_struct *parent
+   fs/exec.c:1158:56: sparse:     got struct task_struct [noderef] __rcu *parent
+   fs/exec.c:1193:47: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   fs/exec.c:1193:47: sparse:     expected struct sighand_struct *oldsighand
+   fs/exec.c:1193:47: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+>> fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   fs/exec.c:1307:26: sparse:     expected struct spinlock [usertype] *lock
+   fs/exec.c:1307:26: sparse:     got struct spinlock [noderef] __rcu *
+   fs/exec.c:1309:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   fs/exec.c:1309:28: sparse:     expected struct spinlock [usertype] *lock
+   fs/exec.c:1309:28: sparse:     got struct spinlock [noderef] __rcu *
+   fs/exec.c:1766:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/exec.c:1766:70: sparse:     expected struct task_struct *tsk
+   fs/exec.c:1766:70: sparse:     got struct task_struct [noderef] __rcu *parent
 
-   arch/arm64/mm/dma-mapping-noalias.c:550:6: warning: no previous prototype for 'arm64_noalias_setup_dma_ops' [-Wmissing-prototypes]
-     550 | void arm64_noalias_setup_dma_ops(struct device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/mm/dma-mapping-noalias.c: In function 'arm64_noalias_setup_dma_ops':
->> arch/arm64/mm/dma-mapping-noalias.c:562:33: error: 'arm64_iommu_ops' undeclared (first use in this function); did you mean 'arm64_noalias_ops'?
-     562 |                 dev->dma_ops = &arm64_iommu_ops;
-         |                                 ^~~~~~~~~~~~~~~
-         |                                 arm64_noalias_ops
-   arch/arm64/mm/dma-mapping-noalias.c:562:33: note: each undeclared identifier is reported only once for each function it appears in
->> arch/arm64/mm/dma-mapping-noalias.c:563:21: error: 'iommu_dma_ops' undeclared (first use in this function); did you mean 'iommu_map'?
-     563 |                 if (iommu_dma_ops)
-         |                     ^~~~~~~~~~~~~
-         |                     iommu_map
+vim +1307 fs/exec.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-
-
-vim +562 arch/arm64/mm/dma-mapping-noalias.c
-
-   549	
- > 550	void arm64_noalias_setup_dma_ops(struct device *dev)
-   551	{
-   552		if (dev_is_dma_coherent(dev))
-   553			return;
-   554	
-   555		dev_info(dev, "applying no-alias DMA workaround\n");
-   556		if (!dev->dma_ops) {
-   557			dev->dma_ops = &arm64_noalias_ops;
-   558			goto done;
-   559		}
-   560	
-   561		if (IS_ENABLED(CONFIG_IOMMU_DMA)) {
- > 562			dev->dma_ops = &arm64_iommu_ops;
- > 563			if (iommu_dma_ops)
+  1243	
+  1244	/*
+  1245	 * Calling this is the point of no return. None of the failures will be
+  1246	 * seen by userspace since either the process is already taking a fatal
+  1247	 * signal (via de_thread() or coredump), or will have SEGV raised
+  1248	 * (after exec_mmap()) by search_binary_handler (see below).
+  1249	 */
+  1250	int begin_new_exec(struct linux_binprm * bprm)
+  1251	{
+  1252		struct task_struct *me = current;
+  1253		int retval;
+  1254	
+  1255		/* Once we are committed compute the creds */
+  1256		retval = bprm_creds_from_file(bprm);
+  1257		if (retval)
+  1258			return retval;
+  1259	
+  1260		/*
+  1261		 * Ensure all future errors are fatal.
+  1262		 */
+  1263		bprm->point_of_no_return = true;
+  1264	
+  1265		/*
+  1266		 * Make this the only thread in the thread group.
+  1267		 */
+  1268		retval = de_thread(me);
+  1269		if (retval)
+  1270			goto out;
+  1271	
+  1272		/*
+  1273		 * Cancel any io_uring activity across execve
+  1274		 */
+  1275		io_uring_task_cancel();
+  1276	
+  1277		/* Ensure the files table is not shared. */
+  1278		retval = unshare_files();
+  1279		if (retval)
+  1280			goto out;
+  1281	
+  1282		/*
+  1283		 * Must be called _before_ exec_mmap() as bprm->mm is
+  1284		 * not visible until then. This also enables the update
+  1285		 * to be lockless.
+  1286		 */
+  1287		retval = set_mm_exe_file(bprm->mm, bprm->file);
+  1288		if (retval)
+  1289			goto out;
+  1290	
+  1291		/* If the binary is not readable then enforce mm->dumpable=0 */
+  1292		would_dump(bprm, bprm->file);
+  1293		if (bprm->have_execfd)
+  1294			would_dump(bprm, bprm->executable);
+  1295	
+  1296		/*
+  1297		 * Release all of the old mmap stuff
+  1298		 */
+  1299		acct_arg_size(bprm, 0);
+  1300		retval = exec_mmap(bprm->mm);
+  1301		if (retval)
+  1302			goto out;
+  1303	
+  1304		bprm->mm = NULL;
+  1305	
+  1306	#ifdef CONFIG_POSIX_TIMERS
+> 1307		spin_lock_irq(&me->sighand->siglock);
+  1308		posix_cpu_timers_exit(me);
+  1309		spin_unlock_irq(&me->sighand->siglock);
+  1310		exit_itimers(me);
+  1311		flush_itimer_signals();
+  1312	#endif
+  1313	
+  1314		/*
+  1315		 * Make the signal table private.
+  1316		 */
+  1317		retval = unshare_sighand(me);
+  1318		if (retval)
+  1319			goto out_unlock;
+  1320	
+  1321		me->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC |
+  1322						PF_NOFREEZE | PF_NO_SETAFFINITY);
+  1323		flush_thread();
+  1324		me->personality &= ~bprm->per_clear;
+  1325	
+  1326		clear_syscall_work_syscall_user_dispatch(me);
+  1327	
+  1328		/*
+  1329		 * We have to apply CLOEXEC before we change whether the process is
+  1330		 * dumpable (in setup_new_exec) to avoid a race with a process in userspace
+  1331		 * trying to access the should-be-closed file descriptors of a process
+  1332		 * undergoing exec(2).
+  1333		 */
+  1334		do_close_on_exec(me->files);
+  1335	
+  1336		if (bprm->secureexec) {
+  1337			/* Make sure parent cannot signal privileged process. */
+  1338			me->pdeath_signal = 0;
+  1339	
+  1340			/*
+  1341			 * For secureexec, reset the stack limit to sane default to
+  1342			 * avoid bad behavior from the prior rlimits. This has to
+  1343			 * happen before arch_pick_mmap_layout(), which examines
+  1344			 * RLIMIT_STACK, but after the point of no return to avoid
+  1345			 * needing to clean up the change on failure.
+  1346			 */
+  1347			if (bprm->rlim_stack.rlim_cur > _STK_LIM)
+  1348				bprm->rlim_stack.rlim_cur = _STK_LIM;
+  1349		}
+  1350	
+  1351		me->sas_ss_sp = me->sas_ss_size = 0;
+  1352	
+  1353		/*
+  1354		 * Figure out dumpability. Note that this checking only of current
+  1355		 * is wrong, but userspace depends on it. This should be testing
+  1356		 * bprm->secureexec instead.
+  1357		 */
+  1358		if (bprm->interp_flags & BINPRM_FLAGS_ENFORCE_NONDUMP ||
+  1359		    !(uid_eq(current_euid(), current_uid()) &&
+  1360		      gid_eq(current_egid(), current_gid())))
+  1361			set_dumpable(current->mm, suid_dumpable);
+  1362		else
+  1363			set_dumpable(current->mm, SUID_DUMP_USER);
+  1364	
+  1365		perf_event_exec();
+  1366		__set_task_comm(me, kbasename(bprm->filename), true);
+  1367	
+  1368		/* An exec changes our domain. We are no longer part of the thread
+  1369		   group */
+  1370		WRITE_ONCE(me->self_exec_id, me->self_exec_id + 1);
+  1371		flush_signal_handlers(me, 0);
+  1372	
+  1373		retval = set_cred_ucounts(bprm->cred);
+  1374		if (retval < 0)
+  1375			goto out_unlock;
+  1376	
+  1377		/*
+  1378		 * install the new credentials for this executable
+  1379		 */
+  1380		security_bprm_committing_creds(bprm);
+  1381	
+  1382		commit_creds(bprm->cred);
+  1383		bprm->cred = NULL;
+  1384	
+  1385		/*
+  1386		 * Disable monitoring for regular users
+  1387		 * when executing setuid binaries. Must
+  1388		 * wait until new credentials are committed
+  1389		 * by commit_creds() above
+  1390		 */
+  1391		if (get_dumpable(me->mm) != SUID_DUMP_USER)
+  1392			perf_event_exit_task(me);
+  1393		/*
+  1394		 * cred_guard_mutex must be held at least to this point to prevent
+  1395		 * ptrace_attach() from altering our determination of the task's
+  1396		 * credentials; any time after this it may be unlocked.
+  1397		 */
+  1398		security_bprm_committed_creds(bprm);
+  1399	
+  1400		/* Pass the opened binary to the interpreter. */
+  1401		if (bprm->have_execfd) {
+  1402			retval = get_unused_fd_flags(0);
+  1403			if (retval < 0)
+  1404				goto out_unlock;
+  1405			fd_install(retval, bprm->executable);
+  1406			bprm->executable = NULL;
+  1407			bprm->execfd = retval;
+  1408		}
+  1409		return 0;
+  1410	
+  1411	out_unlock:
+  1412		up_write(&me->signal->exec_update_lock);
+  1413	out:
+  1414		return retval;
+  1415	}
+  1416	EXPORT_SYMBOL(begin_new_exec);
+  1417	
 
 -- 
 0-DAY CI Kernel Test Service
