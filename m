@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5D956770;
-	Tue,  5 Dec 2023 12:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000BB4D5A9
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 12:18:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/I38Hss"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSl5xU10"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701778129; x=1733314129;
+  t=1701778720; x=1733314720;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OHqJtD5QFJaEVHzSGnv66Ty4ETR4W0f7T3VyjhZXV1s=;
-  b=m/I38HsseDL8yFl1rK3fBjPcq3rv/6u62fqp7Gp+IHv4Z+/L98zL2oWY
-   THGJHvSSitqyKA7Aj8Gqb0WoCCdI5P+ZTUxW2/YG0bsn8us+Jg8rXcppW
-   7AKkXbiON/izsuihdfgcKpcHYJ2nBGjKNm5aO4Nz5gismTtiA7aFz+8WN
-   QeRBAEuLy37eanqKL0H/j6kMnnCvr7wWKJttc60IhHMRv67ELw7aCyIGq
-   1nXrCBzozCm1s4Zoj5MqhG2huWep64kYl/TkgYopvDK3/1VYEoF9Rhtop
-   torMmYmntyLRf7MX91qKwA0Dveah8zdaAruva6sC/zt9ADThKP/Wv7S/4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="374071858"
+  bh=y5WN3ivpWAFzOxw/1UNoAdkoH79/mRn5U5fxsmOTcWk=;
+  b=eSl5xU10eqwdUgZytDjOXidcHdvP6kCewFVOqRtTI6HvrlZYgNduHkUb
+   Y+77LwV/oAe01Gx4xOlh5ygIKJwZHIU+/teWpKiUQ/b+/FQjMYNhbNmvE
+   ePs5DjvXMpF5NOCNrIYIsVsBXpQMFkhHaNzTA0QXJvyWR2iK9o93iz/Or
+   IlNmmA6kue7yxqYKC7BHiNVGab+B3kDgAIPLUybW++zktO7T68nXDBjcO
+   Rj6SE+AZ3SkOxyEciku6WhDSbUSpOErGIO8+3omflPodvFb0lRfoC2Dn8
+   PPyKaidIvINAykxdex+804dBYpSc9JYTVs7UvAttVXOlnmKl8kyo3r6/n
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="378911157"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="374071858"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 04:08:37 -0800
+   d="scan'208";a="378911157"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 04:18:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="841434602"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="894361728"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="841434602"
+   d="scan'208";a="894361728"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Dec 2023 04:08:36 -0800
+  by orsmga004.jf.intel.com with ESMTP; 05 Dec 2023 04:18:39 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAUE6-0008wK-1P;
-	Tue, 05 Dec 2023 12:08:34 +0000
-Date: Tue, 5 Dec 2023 20:07:57 +0800
+	id 1rAUNo-0008xC-39;
+	Tue, 05 Dec 2023 12:18:36 +0000
+Date: Tue, 5 Dec 2023 20:18:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>
-Subject: [esmil:jh7110 38/41] drivers/gpu/drm/verisilicon/vs_dc.c:794:9:
- warning: variable 'ret' set but not used
-Message-ID: <202312052047.4wHjgrw7-lkp@intel.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [plbossart-sound:sdw/start-BRA-support 43/64]
+ intel_ace2x.c:undefined reference to `hda_sdw_bpt_wait'
+Message-ID: <202312052058.tcMLOLcY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,48 +50,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/esmil/linux jh7110
-head:   78d944d20650c3fd11da3a45a55c47922c2b69b7
-commit: 0f74e00252e01778747e8f8aafe43a09ff246b82 [38/41] drm/vs: Add KMS crtc&plane
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312052047.4wHjgrw7-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052047.4wHjgrw7-lkp@intel.com/reproduce)
+tree:   https://github.com/plbossart/sound sdw/start-BRA-support
+head:   397fa61fc8605656143d539ebd1b1fa11c274ed4
+commit: 9036aad8cde37ea883e7689366dbb48f2825aa34 [43/64] soundwire: intel_ace2x: add BPT open/close/send_async/wait
+config: arm64-randconfig-003-20231203 (https://download.01.org/0day-ci/archive/20231205/202312052058.tcMLOLcY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052058.tcMLOLcY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312052047.4wHjgrw7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312052058.tcMLOLcY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/verisilicon/vs_dc.c:794:9: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-           u32 i, ret;
-                  ^
-   1 warning generated.
---
->> drivers/gpu/drm/verisilicon/vs_crtc.c:217:40: warning: unused variable 'vs_sync_mode_enum_list' [-Wunused-const-variable]
-   static const struct drm_prop_enum_list vs_sync_mode_enum_list[] = {
-                                          ^
-   1 warning generated.
-
-
-vim +/ret +794 drivers/gpu/drm/verisilicon/vs_dc.c
-
-   789	
-   790	static irqreturn_t dc_isr(int irq, void *data)
-   791	{
-   792		struct vs_dc *dc = data;
-   793		struct vs_dc_info *dc_info = dc->hw.info;
- > 794		u32 i, ret;
-   795	
-   796		ret = dc_hw_get_interrupt(&dc->hw);
-   797	
-   798		for (i = 0; i < dc_info->panel_num; i++)
-   799			vs_crtc_handle_vblank(&dc->crtc[i]->base, dc_hw_check_underflow(&dc->hw));
-   800	
-   801		return IRQ_HANDLED;
-   802	}
-   803	
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/soundwire/intel_ace2x.o: in function `intel_ace2x_bpt_wait':
+>> intel_ace2x.c:(.text+0x2fc): undefined reference to `hda_sdw_bpt_wait'
+   aarch64-linux-ld: drivers/soundwire/intel_ace2x.o: in function `intel_ace2x_bpt_send_async':
+>> intel_ace2x.c:(.text+0x4dc): undefined reference to `hda_sdw_bpt_send_async'
+   aarch64-linux-ld: drivers/soundwire/intel_ace2x.o: in function `intel_ace2x_bpt_close_stream':
+>> intel_ace2x.c:(.text+0x62c): undefined reference to `hda_sdw_bpt_close'
+   aarch64-linux-ld: drivers/soundwire/intel_ace2x.o: in function `intel_ace2x_bpt_open_stream':
+>> intel_ace2x.c:(.text+0xec0): undefined reference to `hda_sdw_bpt_open'
 
 -- 
 0-DAY CI Kernel Test Service
