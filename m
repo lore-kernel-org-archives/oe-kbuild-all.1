@@ -1,50 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097CED26E;
-	Tue,  5 Dec 2023 05:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5827D1C13
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 05:53:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eDYI6Wow"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IpYbjEJg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701754992; x=1733290992;
+  t=1701755617; x=1733291617;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1l/T6y2xcV2nRQlqE65TsylyOoLxZOhQmgaILAnve0s=;
-  b=eDYI6WowNdAe7AKR3W6XTU0ikzLBTElDPV7VT1Bq2VTD4ugQSak4+JtF
-   eVHgsIpBlSnoGWre1QBRr2yVgHmRvohnF3WeDLxV1DVzq3l+zlcuz2HQl
-   5/W5EqX1l6ePJeFZ2/pIcbVU4bnooIOCil8A3+m48iUHa6WVvOjB0Gpzg
-   7or+ifsX+6ebFYNVdWz6+ZswA+Y5cA3k5U2nMtAIzTv71A+THmP/viCX3
-   g+e+vUznm83iZR5GCn9Ce4H37O79sUSID8TsY+eac4Zgfi6wgqZRMXout
-   z0Ucu2/6K/x0VHoT3n6W7ZJaS2VLCG3MY5lK/A+JC++h/dX9Bzf+LARlM
+  bh=mE1gyFvpkk11b5tZ16CddHWyiWvcWUPhBeSIBDJEF1w=;
+  b=IpYbjEJgkOnwsT9BsjKPJ7DnyUCEiVcK6UuQJFxc1QBWGnDFf+VUr3QB
+   uW3ieNL5wlWhPMqQeC0D6U3FwPhK1oa6tTiLUrM1OVrc2TVy1vPomDDzj
+   z+7VTLrMnu9O6+pGAlV/2J9iTHuACTPgXckQkOKQtoj4uZoC+Ur87JscP
+   ItwEO6FNk/44jHAR+n9Q1SoWo5R9YdzUxe5EPh9BE9tlqnECM8EIjPjSQ
+   rp8AgvzW1Ti1fa/xNqyQtvvBIq5GcZWJPnntnCJWkuEIC1hdcMu8zGA2Y
+   UZl5Ip2IlOvtrNBxxge1K0Du1tPfry8R7wCe0YA+ZMkpnl8Is0jjYZNOQ
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="7186191"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="425008171"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="7186191"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 21:43:09 -0800
+   d="scan'208";a="425008171"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 21:53:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764212962"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="841329821"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="764212962"
+   d="scan'208";a="841329821"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 04 Dec 2023 21:43:07 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 04 Dec 2023 21:53:35 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAOD2-0008Os-34;
-	Tue, 05 Dec 2023 05:43:04 +0000
-Date: Tue, 5 Dec 2023 13:42:51 +0800
+	id 1rAONA-0008PI-1z;
+	Tue, 05 Dec 2023 05:53:32 +0000
+Date: Tue, 5 Dec 2023 13:53:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johan Jonker <jbx6244@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: [linux-next:master 1690/4884]
- drivers/gpu/drm/rockchip/rk3066_hdmi.c:397:15: error: call to undeclared
- function 'drm_atomic_get_new_connector_state'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202312051333.Z0rH44Jk-lkp@intel.com>
+To: Nicholas Piggin <npiggin@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michal Marek <mmarek@suse.com>
+Subject: fs/nilfs2/btree.c:1863: warning: No description found for parameter
+ 'btree'
+Message-ID: <202312051316.CGxfBMux-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,75 +51,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0f5f12ac05f36f117e793656c3f560625e927f1b
-commit: ae3436a5e7c2ef4f92938133bd99f92fc47ea34e [1690/4884] drm/rockchip: rk3066_hdmi: Switch encoder hooks to atomic
-config: x86_64-buildonly-randconfig-003-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051333.Z0rH44Jk-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051333.Z0rH44Jk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
+commit: 4efca4ed05cbdfd13ec3e8cb623fb77d6e4ab187 kbuild: modversions for EXPORT_SYMBOL() for asm
+date:   7 years ago
+config: i386-buildonly-randconfig-005-20231120 (https://download.01.org/0day-ci/archive/20231205/202312051316.CGxfBMux-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051316.CGxfBMux-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051333.Z0rH44Jk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051316.CGxfBMux-lkp@intel.com/
 
-Note: the linux-next/master HEAD 0f5f12ac05f36f117e793656c3f560625e927f1b builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+>> fs/nilfs2/btree.c:1863: warning: No description found for parameter 'btree'
+>> fs/nilfs2/btree.c:1863: warning: No description found for parameter 'key'
+>> fs/nilfs2/btree.c:1863: warning: No description found for parameter 'ptr'
+>> fs/nilfs2/btree.c:1863: warning: No description found for parameter 'keys'
+>> fs/nilfs2/btree.c:1863: warning: No description found for parameter 'ptrs'
+>> fs/nilfs2/btree.c:1863: warning: No description found for parameter 'n'
+--
+   arch/x86/include/asm/bitops.h: Assembler messages:
+   arch/x86/include/asm/bitops.h:211: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+   arch/x86/include/asm/bitops.h:211: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+   arch/x86/include/asm/bitops.h:211: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+   arch/x86/include/asm/bitops.h:211: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+>> fs/nilfs2/btnode.c:167: warning: No description found for parameter 'btnc'
+>> fs/nilfs2/btnode.c:167: warning: No description found for parameter 'ctxt'
+   fs/nilfs2/btnode.c:237: warning: No description found for parameter 'btnc'
+   fs/nilfs2/btnode.c:237: warning: No description found for parameter 'ctxt'
+   fs/nilfs2/btnode.c:278: warning: No description found for parameter 'btnc'
+   fs/nilfs2/btnode.c:278: warning: No description found for parameter 'ctxt'
+--
+>> fs/nilfs2/recovery.c:580: warning: No description found for parameter 'root'
+--
+>> fs/nilfs2/sufile.c:575: warning: No description found for parameter 'sustat'
+   fs/nilfs2/sufile.c:575: warning: Excess function parameter 'stat' description in 'nilfs_sufile_get_stat'
+--
+>> fs/nilfs2/bmap.c:387: warning: No description found for parameter 'bh'
+   fs/nilfs2/bmap.c:387: warning: Excess function parameter 'bhp' description in 'nilfs_bmap_assign'
+--
+   arch/x86/include/asm/bitops.h: Assembler messages:
+   arch/x86/include/asm/bitops.h:211: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+>> fs/nilfs2/ioctl.c:128: warning: No description found for parameter 'inode'
+>> fs/nilfs2/ioctl.c:128: warning: No description found for parameter 'argp'
+   fs/nilfs2/ioctl.c:139: warning: No description found for parameter 'inode'
+>> fs/nilfs2/ioctl.c:139: warning: No description found for parameter 'filp'
+   fs/nilfs2/ioctl.c:139: warning: No description found for parameter 'argp'
+   fs/nilfs2/ioctl.c:193: warning: No description found for parameter 'inode'
+   fs/nilfs2/ioctl.c:193: warning: No description found for parameter 'argp'
+--
+>> fs/nilfs2/super.c:124: warning: No description found for parameter 'sb'
+>> fs/nilfs2/super.c:124: warning: No description found for parameter 'function'
+>> fs/nilfs2/super.c:124: warning: No description found for parameter 'fmt'
+--
+   arch/x86/include/asm/bitops.h: Assembler messages:
+   arch/x86/include/asm/bitops.h:257: Warning: no instruction mnemonic suffix given and no register operands; using default for `btr'
+   arch/x86/include/asm/bitops.h:211: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+>> fs/nilfs2/inode.c:81: warning: No description found for parameter 'inode'
+>> fs/nilfs2/inode.c:81: warning: No description found for parameter 'blkoff'
+>> fs/nilfs2/inode.c:81: warning: No description found for parameter 'bh_result'
+>> fs/nilfs2/inode.c:81: warning: No description found for parameter 'create'
+>> fs/nilfs2/inode.c:153: warning: No description found for parameter 'file'
+>> fs/nilfs2/inode.c:153: warning: No description found for parameter 'page'
+   fs/nilfs2/inode.c:167: warning: No description found for parameter 'file'
+>> fs/nilfs2/inode.c:167: warning: No description found for parameter 'mapping'
+>> fs/nilfs2/inode.c:167: warning: No description found for parameter 'pages'
+>> fs/nilfs2/inode.c:167: warning: No description found for parameter 'nr_pages'
+>> fs/nilfs2/inode.c:985: warning: No description found for parameter 'flags'
+--
+>> fs/nilfs2/cpfile.c:573: warning: No description found for parameter 'cpfile'
+>> fs/nilfs2/cpfile.c:573: warning: No description found for parameter 'cnop'
+>> fs/nilfs2/cpfile.c:573: warning: No description found for parameter 'mode'
+>> fs/nilfs2/cpfile.c:573: warning: No description found for parameter 'buf'
+>> fs/nilfs2/cpfile.c:573: warning: No description found for parameter 'cisz'
+>> fs/nilfs2/cpfile.c:573: warning: No description found for parameter 'nci'
+   fs/nilfs2/cpfile.c:590: warning: No description found for parameter 'cpfile'
+>> fs/nilfs2/cpfile.c:590: warning: No description found for parameter 'cno'
+   fs/nilfs2/cpfile.c:916: warning: No description found for parameter 'mode'
+   fs/nilfs2/cpfile.c:916: warning: Excess function parameter 'status' description in 'nilfs_cpfile_change_cpmode'
+>> fs/nilfs2/cpfile.c:955: warning: No description found for parameter 'cpstat'
+   fs/nilfs2/cpfile.c:955: warning: Excess function parameter 'stat' description in 'nilfs_cpfile_get_stat'
+--
+   arch/x86/include/asm/bitops.h: Assembler messages:
+   arch/x86/include/asm/bitops.h:211: Warning: no instruction mnemonic suffix given and no register operands; using default for `bts'
+>> fs/nilfs2/gcinode.c:189: warning: No description found for parameter 'nilfs'
+--
+>> drivers/iio/dac/ad7303.c:50: warning: No description found for parameter 'vdd_reg'
+>> drivers/iio/dac/ad7303.c:50: warning: No description found for parameter 'vref_reg'
+>> drivers/iio/dac/ad7303.c:50: warning: No description found for parameter '____cacheline_aligned'
+>> drivers/iio/dac/ad7303.c:50: warning: Excess struct/union/enum/typedef member 'data' description in 'ad7303_state'
+..
 
->> drivers/gpu/drm/rockchip/rk3066_hdmi.c:397:15: error: call to undeclared function 'drm_atomic_get_new_connector_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-                        ^
-   drivers/gpu/drm/rockchip/rk3066_hdmi.c:397:15: note: did you mean 'drm_atomic_helper_connector_reset'?
-   include/drm/drm_atomic_state_helper.h:73:6: note: 'drm_atomic_helper_connector_reset' declared here
-   void drm_atomic_helper_connector_reset(struct drm_connector *connector);
-        ^
->> drivers/gpu/drm/rockchip/rk3066_hdmi.c:397:13: error: incompatible integer to pointer conversion assigning to 'struct drm_connector_state *' from 'int' [-Wint-conversion]
-           conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/rockchip/rk3066_hdmi.c:401:15: error: call to undeclared function 'drm_atomic_get_new_crtc_state'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-                        ^
->> drivers/gpu/drm/rockchip/rk3066_hdmi.c:401:13: error: incompatible integer to pointer conversion assigning to 'struct drm_crtc_state *' from 'int' [-Wint-conversion]
-           crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 errors generated.
 
+vim +/btree +1863 fs/nilfs2/btree.c
 
-vim +/drm_atomic_get_new_connector_state +397 drivers/gpu/drm/rockchip/rk3066_hdmi.c
+17c76b0104e4a6 Koji Sato       2009-04-06  1850  
+17c76b0104e4a6 Koji Sato       2009-04-06  1851  /**
+17c76b0104e4a6 Koji Sato       2009-04-06  1852   * nilfs_btree_convert_and_insert -
+17c76b0104e4a6 Koji Sato       2009-04-06  1853   * @bmap:
+17c76b0104e4a6 Koji Sato       2009-04-06  1854   * @key:
+17c76b0104e4a6 Koji Sato       2009-04-06  1855   * @ptr:
+17c76b0104e4a6 Koji Sato       2009-04-06  1856   * @keys:
+17c76b0104e4a6 Koji Sato       2009-04-06  1857   * @ptrs:
+17c76b0104e4a6 Koji Sato       2009-04-06  1858   * @n:
+17c76b0104e4a6 Koji Sato       2009-04-06  1859   */
+e7c274f8083793 Ryusuke Konishi 2010-07-10  1860  int nilfs_btree_convert_and_insert(struct nilfs_bmap *btree,
+17c76b0104e4a6 Koji Sato       2009-04-06  1861  				   __u64 key, __u64 ptr,
+3033342a0b7604 Ryusuke Konishi 2009-05-24  1862  				   const __u64 *keys, const __u64 *ptrs, int n)
+17c76b0104e4a6 Koji Sato       2009-04-06 @1863  {
+4f05028f8d1af7 Ryusuke Konishi 2015-11-06  1864  	struct buffer_head *bh = NULL;
+17c76b0104e4a6 Koji Sato       2009-04-06  1865  	union nilfs_bmap_ptr_req dreq, nreq, *di, *ni;
+17c76b0104e4a6 Koji Sato       2009-04-06  1866  	struct nilfs_bmap_stats stats;
+17c76b0104e4a6 Koji Sato       2009-04-06  1867  	int ret;
+17c76b0104e4a6 Koji Sato       2009-04-06  1868  
+17c76b0104e4a6 Koji Sato       2009-04-06  1869  	if (n + 1 <= NILFS_BTREE_ROOT_NCHILDREN_MAX) {
+17c76b0104e4a6 Koji Sato       2009-04-06  1870  		di = &dreq;
+17c76b0104e4a6 Koji Sato       2009-04-06  1871  		ni = NULL;
+17c76b0104e4a6 Koji Sato       2009-04-06  1872  	} else if ((n + 1) <= NILFS_BTREE_NODE_NCHILDREN_MAX(
+e7c274f8083793 Ryusuke Konishi 2010-07-10  1873  			   1 << btree->b_inode->i_blkbits)) {
+17c76b0104e4a6 Koji Sato       2009-04-06  1874  		di = &dreq;
+17c76b0104e4a6 Koji Sato       2009-04-06  1875  		ni = &nreq;
+17c76b0104e4a6 Koji Sato       2009-04-06  1876  	} else {
+17c76b0104e4a6 Koji Sato       2009-04-06  1877  		di = NULL;
+17c76b0104e4a6 Koji Sato       2009-04-06  1878  		ni = NULL;
+17c76b0104e4a6 Koji Sato       2009-04-06  1879  		BUG();
+17c76b0104e4a6 Koji Sato       2009-04-06  1880  	}
+17c76b0104e4a6 Koji Sato       2009-04-06  1881  
+e7c274f8083793 Ryusuke Konishi 2010-07-10  1882  	ret = nilfs_btree_prepare_convert_and_insert(btree, key, di, ni, &bh,
+17c76b0104e4a6 Koji Sato       2009-04-06  1883  						     &stats);
+17c76b0104e4a6 Koji Sato       2009-04-06  1884  	if (ret < 0)
+17c76b0104e4a6 Koji Sato       2009-04-06  1885  		return ret;
+e7c274f8083793 Ryusuke Konishi 2010-07-10  1886  	nilfs_btree_commit_convert_and_insert(btree, key, ptr, keys, ptrs, n,
+3033342a0b7604 Ryusuke Konishi 2009-05-24  1887  					      di, ni, bh);
+be667377a8b8cd Ryusuke Konishi 2011-03-05  1888  	nilfs_inode_add_blocks(btree->b_inode, stats.bs_nblocks);
+17c76b0104e4a6 Koji Sato       2009-04-06  1889  	return 0;
+17c76b0104e4a6 Koji Sato       2009-04-06  1890  }
+17c76b0104e4a6 Koji Sato       2009-04-06  1891  
 
-   388	
-   389	static void rk3066_hdmi_encoder_enable(struct drm_encoder *encoder,
-   390					       struct drm_atomic_state *state)
-   391	{
-   392		struct rk3066_hdmi *hdmi = encoder_to_rk3066_hdmi(encoder);
-   393		struct drm_connector_state *conn_state;
-   394		struct drm_crtc_state *crtc_state;
-   395		int mux, val;
-   396	
- > 397		conn_state = drm_atomic_get_new_connector_state(state, &hdmi->connector);
-   398		if (WARN_ON(!conn_state))
-   399			return;
-   400	
- > 401		crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-   402		if (WARN_ON(!crtc_state))
-   403			return;
-   404	
-   405		mux = drm_of_encoder_active_endpoint_id(hdmi->dev->of_node, encoder);
-   406		if (mux)
-   407			val = (HDMI_VIDEO_SEL << 16) | HDMI_VIDEO_SEL;
-   408		else
-   409			val = HDMI_VIDEO_SEL << 16;
-   410	
-   411		regmap_write(hdmi->grf_regmap, GRF_SOC_CON0, val);
-   412	
-   413		DRM_DEV_DEBUG(hdmi->dev, "hdmi encoder enable select: vop%s\n",
-   414			      (mux) ? "1" : "0");
-   415	
-   416		rk3066_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
-   417	}
-   418	
+:::::: The code at line 1863 was first introduced by commit
+:::::: 17c76b0104e4a6513983777e1a17e0297a12b0c4 nilfs2: B-tree based block mapping
+
+:::::: TO: Koji Sato <sato.koji@lab.ntt.co.jp>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
