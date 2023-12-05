@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D312917727
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 07:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F47314AAC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 07:48:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T9+aULJL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cbQnGdRj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701762493; x=1733298493;
+  t=1701762502; x=1733298502;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qZeYraXD4otGmbX0f2QSh5bcN/rmRbFgRkyMZVKVoYE=;
-  b=T9+aULJLzp7WY0zUIB/FDHWNgfV3mjCw7pwmd55DefgAG1ZWUSpvTnnR
-   cj/ETF62ZbDwQqR81KFzpcnUx2yo6r+jGsN8yTySCfD9ystg/Me0nQJcm
-   rWfMpPQRcccOFjk6NCTRJ1YRoLMRylsryFMTszqDJcIKuu1Q6esbSEyT2
-   q4ALKsbpG6mrNP+mTVu89H6kuxa2KYmviDs1XIaOCjK09rIKqT9JVH7UO
-   Vl66JJAgIpseJYjgGl0f0LwHHAo4vqMs3tvLLNdrQ685vYDrsiyTlLPem
-   3pgwSuZp3D4EG2tyDSh7GihmRaDr6//eLj5NwJfRimex/tL6cd7KZkJJH
+  bh=PdPFl4fuaaUzBYJK4rD5txJmI7Vg3DHRzbi1KX+Lc6U=;
+  b=cbQnGdRj0JLmJ0TLOmv2QS08vSusYZnxRpxeA0BYyKxCf49gbBY0maXn
+   5R530xUS5gY+fWdmssXHfDoRFryIHbXgMp91VafMBo/HFY2zQFpuULCGg
+   k4jWz0WW8ibqe2uV13/8MKNbelNnwiQTVOd3SqvP/FrFIfpOqCJKlQuf6
+   VOvyB+sMdFXb5Td3tuRfT2X0NHtTm6loFHxeEufj/ini5iglhkTU0XvIU
+   N3sH0LC4lG3O0wD4xtRbawNyOLKzf474XLM+ksSKBFt7ETxaC4coPlpsl
+   lXwZHlTWw7SeuQCIUihcihAftvFLeKC0IDt6H6S2WwJdGf+eVxYeB7CAb
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="12573460"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="373304238"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="12573460"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 23:48:12 -0800
+   d="scan'208";a="373304238"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 23:48:12 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764240600"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="18867517"
+   d="scan'208";a="764240600"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 04 Dec 2023 23:48:11 -0800
+  by orsmga007.jf.intel.com with ESMTP; 04 Dec 2023 23:48:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAQA3-0008Ve-2K;
+	id 1rAQA3-0008Vh-2i;
 	Tue, 05 Dec 2023 07:48:07 +0000
-Date: Tue, 5 Dec 2023 15:47:46 +0800
+Date: Tue, 5 Dec 2023 15:47:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marco Elver <elver@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse: sparse:
- incorrect type in argument 2 (different address spaces)
-Message-ID: <202312051524.fOUthBRF-lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.7-rc2-net-next-mv88e6xxx-leds-v2 7/7]
+ drivers/net/dsa/qca/qca8k-8xxx.c:2018:24: error: initialization from
+ incompatible pointer type
+Message-ID: <202312051508.oXtbZ61u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,155 +51,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: 90db9dbedd26ce029f3a0f8d2cbd3a142f452408 kasan, powerpc: don't rename memintrinsics if compiler adds prefixes
-date:   9 months ago
-config: powerpc-randconfig-r123-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051524.fOUthBRF-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20231205/202312051524.fOUthBRF-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.7-rc2-net-next-mv88e6xxx-leds-v2
+head:   f53b44745216770b0b090aa7a1def08f267575ac
+commit: f53b44745216770b0b090aa7a1def08f267575ac [7/7] dsa: qca8k: Use DSA common code for LEDs
+config: i386-randconfig-015-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051508.oXtbZ61u-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051508.oXtbZ61u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051524.fOUthBRF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051508.oXtbZ61u-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] sram @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] sram
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] sram @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] sram
->> arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *q @@     got void [noderef] __iomem *static [assigned] [toplevel] sram @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse:     expected void const *q
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:135:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] sram
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:138:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] sram @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:138:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:138:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] sram
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:138:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] sram @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:138:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:138:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] sram
->> arch/powerpc/platforms/52xx/mpc52xx_pm.c:138:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got void [noderef] __iomem *static [assigned] [toplevel] sram @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:138:9: sparse:     expected void *p
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:138:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] sram
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:157:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *irq_0x500 @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:157:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:157:9: sparse:     got void [noderef] __iomem *irq_0x500
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:157:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *irq_0x500 @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:157:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:157:9: sparse:     got void [noderef] __iomem *irq_0x500
->> arch/powerpc/platforms/52xx/mpc52xx_pm.c:157:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *q @@     got void [noderef] __iomem *irq_0x500 @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:157:9: sparse:     expected void const *q
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:157:9: sparse:     got void [noderef] __iomem *irq_0x500
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:158:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *irq_0x500 @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:158:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:158:9: sparse:     got void [noderef] __iomem *irq_0x500
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:158:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *irq_0x500 @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:158:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:158:9: sparse:     got void [noderef] __iomem *irq_0x500
->> arch/powerpc/platforms/52xx/mpc52xx_pm.c:158:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got void [noderef] __iomem *irq_0x500 @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:158:9: sparse:     expected void *p
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:158:9: sparse:     got void [noderef] __iomem *irq_0x500
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:165:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *irq_0x500 @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:165:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:165:9: sparse:     got void [noderef] __iomem *irq_0x500
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:165:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *irq_0x500 @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:165:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:165:9: sparse:     got void [noderef] __iomem *irq_0x500
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:165:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got void [noderef] __iomem *irq_0x500 @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:165:9: sparse:     expected void *p
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:165:9: sparse:     got void [noderef] __iomem *irq_0x500
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:178:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] sram @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:178:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:178:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] sram
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:178:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [assigned] [toplevel] sram @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:178:9: sparse:     expected void const *
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:178:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] sram
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:178:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got void [noderef] __iomem *static [assigned] [toplevel] sram @@
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:178:9: sparse:     expected void *p
-   arch/powerpc/platforms/52xx/mpc52xx_pm.c:178:9: sparse:     got void [noderef] __iomem *static [assigned] [toplevel] sram
+All errors (new ones prefixed by >>):
 
-vim +135 arch/powerpc/platforms/52xx/mpc52xx_pm.c
+   drivers/net/dsa/qca/qca8k-8xxx.c:2018:3: error: 'const struct dsa_switch_ops' has no member named 'led_brightness_set'
+     .led_brightness_set = qca8k_led_brightness_set,
+      ^~~~~~~~~~~~~~~~~~
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2018:24: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+     .led_brightness_set = qca8k_led_brightness_set,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:2018:24: note: (near initialization for 'qca8k_switch_ops.port_change_conduit')
+   drivers/net/dsa/qca/qca8k-8xxx.c:2019:3: error: 'const struct dsa_switch_ops' has no member named 'led_blink_set'
+     .led_blink_set  = qca8k_led_blink_set,
+      ^~~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:2019:20: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+     .led_blink_set  = qca8k_led_blink_set,
+                       ^~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:2019:20: note: (near initialization for 'qca8k_switch_ops.setup')
+   drivers/net/dsa/qca/qca8k-8xxx.c:2020:3: error: 'const struct dsa_switch_ops' has no member named 'led_hw_control_is_supported'
+     .led_hw_control_is_supported = qca8k_led_hw_control_is_supported,
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:2020:33: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+     .led_hw_control_is_supported = qca8k_led_hw_control_is_supported,
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:2020:33: note: (near initialization for 'qca8k_switch_ops.teardown')
+   drivers/net/dsa/qca/qca8k-8xxx.c:2021:3: error: 'const struct dsa_switch_ops' has no member named 'led_hw_control_set'
+     .led_hw_control_set = qca8k_led_hw_control_set,
+      ^~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:2021:24: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+     .led_hw_control_set = qca8k_led_hw_control_set,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:2021:24: note: (near initialization for 'qca8k_switch_ops.port_setup')
+   drivers/net/dsa/qca/qca8k-8xxx.c:2022:3: error: 'const struct dsa_switch_ops' has no member named 'led_hw_control_get'
+     .led_hw_control_get = qca8k_led_hw_control_get,
+      ^~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:2022:24: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+     .led_hw_control_get = qca8k_led_hw_control_get,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/dsa/qca/qca8k-8xxx.c:2022:24: note: (near initialization for 'qca8k_switch_ops.port_teardown')
+   cc1: some warnings being treated as errors
 
-2e1ee1f76684c5 Domen Puncer 2007-05-07  114  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  115  int mpc52xx_pm_enter(suspend_state_t state)
-2e1ee1f76684c5 Domen Puncer 2007-05-07  116  {
-2e1ee1f76684c5 Domen Puncer 2007-05-07  117  	u32 clk_enables;
-2e1ee1f76684c5 Domen Puncer 2007-05-07  118  	u32 msr, hid0;
-2e1ee1f76684c5 Domen Puncer 2007-05-07  119  	u32 intr_main_mask;
-d3e0e02804a5f4 Domen Puncer 2007-07-09  120  	void __iomem * irq_0x500 = (void __iomem *)CONFIG_KERNEL_START + 0x500;
-2e1ee1f76684c5 Domen Puncer 2007-05-07  121  	unsigned long irq_0x500_stop = (unsigned long)irq_0x500 + mpc52xx_ds_cached_size;
-741c5640a15a23 Kees Cook    2018-07-02  122  	char saved_0x500[0x600-0x500];
-741c5640a15a23 Kees Cook    2018-07-02  123  
-741c5640a15a23 Kees Cook    2018-07-02  124  	if (WARN_ON(mpc52xx_ds_cached_size > sizeof(saved_0x500)))
-741c5640a15a23 Kees Cook    2018-07-02  125  		return -ENOMEM;
-2e1ee1f76684c5 Domen Puncer 2007-05-07  126  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  127  	/* disable all interrupts in PIC */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  128  	intr_main_mask = in_be32(&intr->main_mask);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  129  	out_be32(&intr->main_mask, intr_main_mask | 0x1ffff);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  130  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  131  	/* don't let DEC expire any time soon */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  132  	mtspr(SPRN_DEC, 0x7fffffff);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  133  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  134  	/* save SRAM */
-2e1ee1f76684c5 Domen Puncer 2007-05-07 @135  	memcpy(saved_sram, sram, sram_size);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  136  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  137  	/* copy low level suspend code to sram */
-2e1ee1f76684c5 Domen Puncer 2007-05-07 @138  	memcpy(sram, mpc52xx_ds_sram, mpc52xx_ds_sram_size);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  139  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  140  	out_8(&cdm->ccs_sleep_enable, 1);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  141  	out_8(&cdm->osc_sleep_enable, 1);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  142  	out_8(&cdm->ccs_qreq_test, 1);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  143  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  144  	/* disable all but SDRAM and bestcomm (SRAM) clocks */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  145  	clk_enables = in_be32(&cdm->clk_enables);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  146  	out_be32(&cdm->clk_enables, clk_enables & 0x00088000);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  147  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  148  	/* disable power management */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  149  	msr = mfmsr();
-2e1ee1f76684c5 Domen Puncer 2007-05-07  150  	mtmsr(msr & ~MSR_POW);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  151  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  152  	/* enable sleep mode, disable others */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  153  	hid0 = mfspr(SPRN_HID0);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  154  	mtspr(SPRN_HID0, (hid0 & ~(HID0_DOZE | HID0_NAP | HID0_DPM)) | HID0_SLEEP);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  155  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  156  	/* save original, copy our irq handler, flush from dcache and invalidate icache */
-2e1ee1f76684c5 Domen Puncer 2007-05-07 @157  	memcpy(saved_0x500, irq_0x500, mpc52xx_ds_cached_size);
-2e1ee1f76684c5 Domen Puncer 2007-05-07 @158  	memcpy(irq_0x500, mpc52xx_ds_cached, mpc52xx_ds_cached_size);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  159  	flush_icache_range((unsigned long)irq_0x500, irq_0x500_stop);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  160  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  161  	/* call low-level sleep code */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  162  	mpc52xx_deep_sleep(sram, sdram, cdm, intr);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  163  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  164  	/* restore original irq handler */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  165  	memcpy(irq_0x500, saved_0x500, mpc52xx_ds_cached_size);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  166  	flush_icache_range((unsigned long)irq_0x500, irq_0x500_stop);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  167  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  168  	/* restore old power mode */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  169  	mtmsr(msr & ~MSR_POW);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  170  	mtspr(SPRN_HID0, hid0);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  171  	mtmsr(msr);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  172  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  173  	out_be32(&cdm->clk_enables, clk_enables);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  174  	out_8(&cdm->ccs_sleep_enable, 0);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  175  	out_8(&cdm->osc_sleep_enable, 0);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  176  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  177  	/* restore SRAM */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  178  	memcpy(sram, saved_sram, sram_size);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  179  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  180  	/* reenable interrupts in PIC */
-2e1ee1f76684c5 Domen Puncer 2007-05-07  181  	out_be32(&intr->main_mask, intr_main_mask);
-2e1ee1f76684c5 Domen Puncer 2007-05-07  182  
-2e1ee1f76684c5 Domen Puncer 2007-05-07  183  	return 0;
-2e1ee1f76684c5 Domen Puncer 2007-05-07  184  }
-2e1ee1f76684c5 Domen Puncer 2007-05-07  185  
 
-:::::: The code at line 135 was first introduced by commit
-:::::: 2e1ee1f76684c5d4dd8e5a08cbf22d57f88769ed [POWERPC] mpc52xx suspend to deep-sleep
+vim +2018 drivers/net/dsa/qca/qca8k-8xxx.c
 
-:::::: TO: Domen Puncer <domen.puncer@telargo.com>
-:::::: CC: Paul Mackerras <paulus@samba.org>
+  1977	
+  1978	static const struct dsa_switch_ops qca8k_switch_ops = {
+  1979		.get_tag_protocol	= qca8k_get_tag_protocol,
+  1980		.setup			= qca8k_setup,
+  1981		.get_strings		= qca8k_get_strings,
+  1982		.get_ethtool_stats	= qca8k_get_ethtool_stats,
+  1983		.get_sset_count		= qca8k_get_sset_count,
+  1984		.set_ageing_time	= qca8k_set_ageing_time,
+  1985		.get_mac_eee		= qca8k_get_mac_eee,
+  1986		.set_mac_eee		= qca8k_set_mac_eee,
+  1987		.port_enable		= qca8k_port_enable,
+  1988		.port_disable		= qca8k_port_disable,
+  1989		.port_change_mtu	= qca8k_port_change_mtu,
+  1990		.port_max_mtu		= qca8k_port_max_mtu,
+  1991		.port_stp_state_set	= qca8k_port_stp_state_set,
+  1992		.port_pre_bridge_flags	= qca8k_port_pre_bridge_flags,
+  1993		.port_bridge_flags	= qca8k_port_bridge_flags,
+  1994		.port_bridge_join	= qca8k_port_bridge_join,
+  1995		.port_bridge_leave	= qca8k_port_bridge_leave,
+  1996		.port_fast_age		= qca8k_port_fast_age,
+  1997		.port_fdb_add		= qca8k_port_fdb_add,
+  1998		.port_fdb_del		= qca8k_port_fdb_del,
+  1999		.port_fdb_dump		= qca8k_port_fdb_dump,
+  2000		.port_mdb_add		= qca8k_port_mdb_add,
+  2001		.port_mdb_del		= qca8k_port_mdb_del,
+  2002		.port_mirror_add	= qca8k_port_mirror_add,
+  2003		.port_mirror_del	= qca8k_port_mirror_del,
+  2004		.port_vlan_filtering	= qca8k_port_vlan_filtering,
+  2005		.port_vlan_add		= qca8k_port_vlan_add,
+  2006		.port_vlan_del		= qca8k_port_vlan_del,
+  2007		.phylink_get_caps	= qca8k_phylink_get_caps,
+  2008		.phylink_mac_select_pcs	= qca8k_phylink_mac_select_pcs,
+  2009		.phylink_mac_config	= qca8k_phylink_mac_config,
+  2010		.phylink_mac_link_down	= qca8k_phylink_mac_link_down,
+  2011		.phylink_mac_link_up	= qca8k_phylink_mac_link_up,
+  2012		.get_phy_flags		= qca8k_get_phy_flags,
+  2013		.port_lag_join		= qca8k_port_lag_join,
+  2014		.port_lag_leave		= qca8k_port_lag_leave,
+  2015		.conduit_state_change	= qca8k_conduit_change,
+  2016		.connect_tag_protocol	= qca8k_connect_tag_protocol,
+  2017	#ifdef CONFIG_NET_DSA_QCA8K_LEDS_SUPPORT
+> 2018		.led_brightness_set	= qca8k_led_brightness_set,
+  2019		.led_blink_set		= qca8k_led_blink_set,
+  2020		.led_hw_control_is_supported = qca8k_led_hw_control_is_supported,
+  2021		.led_hw_control_set	= qca8k_led_hw_control_set,
+  2022		.led_hw_control_get	= qca8k_led_hw_control_get,
+  2023	#endif
+  2024	};
+  2025	
 
 -- 
 0-DAY CI Kernel Test Service
