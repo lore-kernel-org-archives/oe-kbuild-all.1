@@ -1,53 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A3A6A02A;
-	Tue,  5 Dec 2023 18:51:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC05675DB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 18:51:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qp1wgtWk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbwWyZ8l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701802280; x=1733338280;
+  t=1701802283; x=1733338283;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dT4NRjW0RT7c2QCYobwRufBLK9f4E4s8VI2cqsOh2oU=;
-  b=Qp1wgtWkQR0udpUGqOr/vIO6xOaB9b//oF5FwDtJjhDVqmebAPiYY6ax
-   JNKsuks3NIRuWsVxYT8w6H3FViTbIUtjsfwGW6zqtIsgXJlXPy/qM87ap
-   q6zoWrE6uTrLvhWh2aOQSJUVbxHCUP0PRXJg35ovg83avQIcddrRlSlUk
-   qfSo2eKAWNencyIrL1mclST4ABAGNPqFo0UUP4VhOATcaBbmVD7habOgt
-   Nwr1VMVpxMmwt4bxw+yWS2ahEORwbfRNB+U8swOYdE28PlJBpw9pMEqkl
-   OM+M+CxMWBhp8c5gQ1pvKH3c6+6aee2mb7mLAN8GBCItgHIIe/ekW7G5e
+  bh=FGHffFy0+nOUiTzc3iXUEN5m3xo0m449pUrj/6VUrqw=;
+  b=XbwWyZ8lu8leAhk1FZFEIjovokO+hMRAA8Po6yJP+pPgST9fBlz+L10t
+   zjvNXSZWj06AFbxgMuosgtkFfzgkn4g+0qpTEsc+SywxYFWduSiahD6Ta
+   cyLUs8wjKvIcKyoo+/jeo4TikKCLRhP5bogz/mja3xyAtm40+Gkzf6/Q2
+   Oyyt6HNpqwjCJ8d8mXDAUGzMrjesIVN3JPJt9i1wdx+OqwIQN7AMUmFtH
+   qzhan++096qgb3vfEZNW5atJ/4QuRBQZVXJJjGJ3a42b1AGLnsM6J2pH9
+   680cuUNqatoUd16OlIIcpJ7CDe/HDoelJ0Tf/juatNDg94L7oO9aP6NSP
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="458261259"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="458261266"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="458261259"
+   d="scan'208";a="458261266"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 10:51:19 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 10:51:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="747336973"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="747337026"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="747336973"
+   d="scan'208";a="747337026"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga006.jf.intel.com with ESMTP; 05 Dec 2023 10:51:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAaVk-0009Zr-13;
+	id 1rAaVk-0009Zn-0t;
 	Tue, 05 Dec 2023 18:51:12 +0000
-Date: Wed, 6 Dec 2023 02:50:14 +0800
+Date: Wed, 6 Dec 2023 02:50:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [RFT PATCH v2 2/4] drm/msm/dpu: enable writeback on SC8108X
-Message-ID: <202312060251.UlwzdD4v-lkp@intel.com>
-References: <20231203003203.1293087-3-dmitry.baryshkov@linaro.org>
+To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
+	reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
+	seanjc@google.com, kim.phillips@amd.com, babu.moger@amd.com,
+	jmattson@google.com, ilpo.jarvinen@linux.intel.com,
+	jithu.joseph@intel.com, kan.liang@linux.intel.com, nikunj@amd.com,
+	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
+	rick.p.edgecombe@intel.com, rppt@kernel.org,
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, eranian@google.com,
+	peternewman@google.com
+Subject: Re: [PATCH 07/15] x86/resctrl: Add support to enable/disable ABMC
+ feature
+Message-ID: <202312060208.zJLlUr1x-lkp@intel.com>
+References: <20231201005720.235639-8-babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,195 +62,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231203003203.1293087-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20231201005720.235639-8-babu.moger@amd.com>
 
-Hi Dmitry,
+Hi Babu,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.7-rc4 next-20231205]
+[auto build test WARNING on next-20231130]
+[cannot apply to tip/x86/core linus/master v6.7-rc3 v6.7-rc2 v6.7-rc1 v6.7-rc4]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-dpu-enable-writeback-on-SM8150/20231203-083350
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231203003203.1293087-3-dmitry.baryshkov%40linaro.org
-patch subject: [RFT PATCH v2 2/4] drm/msm/dpu: enable writeback on SC8108X
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231206/202312060251.UlwzdD4v-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060251.UlwzdD4v-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-resctrl-Remove-hard-coded-memory-bandwidth-limit/20231201-090621
+base:   next-20231130
+patch link:    https://lore.kernel.org/r/20231201005720.235639-8-babu.moger%40amd.com
+patch subject: [PATCH 07/15] x86/resctrl: Add support to enable/disable ABMC feature
+config: i386-randconfig-141-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060208.zJLlUr1x-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060208.zJLlUr1x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060251.UlwzdD4v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060208.zJLlUr1x-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:658:
-   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h:299:15: error: use of undeclared identifier 'WB_SDM845_MASK'
-     299 |                 .features = WB_SDM845_MASK,
-         |                             ^
-   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h:404:14: error: invalid application of 'sizeof' to an incomplete type 'const struct dpu_wb_cfg[]'
-     404 |         .wb_count = ARRAY_SIZE(sm8150_wb),
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:659:
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h:306:15: error: use of undeclared identifier 'WB_SDM845_MASK'
-     306 |                 .features = WB_SDM845_MASK,
-         |                             ^
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h:429:14: error: invalid application of 'sizeof' to an incomplete type 'const struct dpu_wb_cfg[]'
-     429 |         .wb_count = ARRAY_SIZE(sc8180x_wb),
-         |                     ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   4 errors generated.
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:2419:5: warning: no previous prototype for function 'resctrl_arch_set_abmc_enabled' [-Wmissing-prototypes]
+   int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
+       ^
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c:2419:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +/WB_SDM845_MASK +306 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+vim +/resctrl_arch_set_abmc_enabled +2419 arch/x86/kernel/cpu/resctrl/rdtgroup.c
 
-   301	
-   302	static const struct dpu_wb_cfg sc8180x_wb[] = {
-   303		{
-   304			.name = "wb_2", .id = WB_2,
-   305			.base = 0x65000, .len = 0x2c8,
- > 306			.features = WB_SDM845_MASK,
-   307			.format_list = wb2_formats,
-   308			.num_formats = ARRAY_SIZE(wb2_formats),
-   309			.clk_ctrl = DPU_CLK_CTRL_WB2,
-   310			.xin_id = 6,
-   311			.vbif_idx = VBIF_RT,
-   312			.maxlinewidth = 4096,
-   313			.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-   314		},
-   315	};
-   316	
-   317	static const struct dpu_intf_cfg sc8180x_intf[] = {
-   318		{
-   319			.name = "intf_0", .id = INTF_0,
-   320			.base = 0x6a000, .len = 0x280,
-   321			.features = INTF_SC7180_MASK,
-   322			.type = INTF_DP,
-   323			.controller_id = MSM_DP_CONTROLLER_0,
-   324			.prog_fetch_lines_worst_case = 24,
-   325			.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
-   326			.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
-   327		}, {
-   328			.name = "intf_1", .id = INTF_1,
-   329			.base = 0x6a800, .len = 0x2bc,
-   330			.features = INTF_SC7180_MASK,
-   331			.type = INTF_DSI,
-   332			.controller_id = MSM_DSI_CONTROLLER_0,
-   333			.prog_fetch_lines_worst_case = 24,
-   334			.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
-   335			.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
-   336			.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
-   337		}, {
-   338			.name = "intf_2", .id = INTF_2,
-   339			.base = 0x6b000, .len = 0x2bc,
-   340			.features = INTF_SC7180_MASK,
-   341			.type = INTF_DSI,
-   342			.controller_id = MSM_DSI_CONTROLLER_1,
-   343			.prog_fetch_lines_worst_case = 24,
-   344			.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
-   345			.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
-   346			.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2),
-   347		},
-   348		/* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
-   349		{
-   350			.name = "intf_3", .id = INTF_3,
-   351			.base = 0x6b800, .len = 0x280,
-   352			.features = INTF_SC7180_MASK,
-   353			.type = INTF_DP,
-   354			.controller_id = 999,
-   355			.prog_fetch_lines_worst_case = 24,
-   356			.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
-   357			.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
-   358		}, {
-   359			.name = "intf_4", .id = INTF_4,
-   360			.base = 0x6c000, .len = 0x280,
-   361			.features = INTF_SC7180_MASK,
-   362			.type = INTF_DP,
-   363			.controller_id = MSM_DP_CONTROLLER_1,
-   364			.prog_fetch_lines_worst_case = 24,
-   365			.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 20),
-   366			.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 21),
-   367		}, {
-   368			.name = "intf_5", .id = INTF_5,
-   369			.base = 0x6c800, .len = 0x280,
-   370			.features = INTF_SC7180_MASK,
-   371			.type = INTF_DP,
-   372			.controller_id = MSM_DP_CONTROLLER_2,
-   373			.prog_fetch_lines_worst_case = 24,
-   374			.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
-   375			.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23),
-   376		},
-   377	};
-   378	
-   379	static const struct dpu_perf_cfg sc8180x_perf_data = {
-   380		.max_bw_low = 9600000,
-   381		.max_bw_high = 9600000,
-   382		.min_core_ib = 2400000,
-   383		.min_llcc_ib = 800000,
-   384		.min_dram_ib = 800000,
-   385		.danger_lut_tbl = {0xf, 0xffff, 0x0},
-   386		.qos_lut_tbl = {
-   387			{.nentry = ARRAY_SIZE(sc7180_qos_linear),
-   388			.entries = sc7180_qos_linear
-   389			},
-   390			{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
-   391			.entries = sc7180_qos_macrotile
-   392			},
-   393			{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
-   394			.entries = sc7180_qos_nrt
-   395			},
-   396			/* TODO: macrotile-qseed is different from macrotile */
-   397		},
-   398		.cdp_cfg = {
-   399			{.rd_enable = 1, .wr_enable = 1},
-   400			{.rd_enable = 1, .wr_enable = 0}
-   401		},
-   402		.clk_inefficiency_factor = 105,
-   403		.bw_inefficiency_factor = 120,
-   404	};
-   405	
-   406	static const struct dpu_mdss_version sc8180x_mdss_ver = {
-   407		.core_major_ver = 5,
-   408		.core_minor_ver = 1,
-   409	};
-   410	
-   411	const struct dpu_mdss_cfg dpu_sc8180x_cfg = {
-   412		.mdss_ver = &sc8180x_mdss_ver,
-   413		.caps = &sc8180x_dpu_caps,
-   414		.mdp = &sc8180x_mdp,
-   415		.ctl_count = ARRAY_SIZE(sc8180x_ctl),
-   416		.ctl = sc8180x_ctl,
-   417		.sspp_count = ARRAY_SIZE(sc8180x_sspp),
-   418		.sspp = sc8180x_sspp,
-   419		.mixer_count = ARRAY_SIZE(sc8180x_lm),
-   420		.mixer = sc8180x_lm,
-   421		.dspp_count = ARRAY_SIZE(sc8180x_dspp),
-   422		.dspp = sc8180x_dspp,
-   423		.dsc_count = ARRAY_SIZE(sc8180x_dsc),
-   424		.dsc = sc8180x_dsc,
-   425		.pingpong_count = ARRAY_SIZE(sc8180x_pp),
-   426		.pingpong = sc8180x_pp,
-   427		.merge_3d_count = ARRAY_SIZE(sc8180x_merge_3d),
-   428		.merge_3d = sc8180x_merge_3d,
- > 429		.wb_count = ARRAY_SIZE(sc8180x_wb),
-   430		.wb = sc8180x_wb,
-   431		.intf_count = ARRAY_SIZE(sc8180x_intf),
-   432		.intf = sc8180x_intf,
-   433		.vbif_count = ARRAY_SIZE(sdm845_vbif),
-   434		.vbif = sdm845_vbif,
-   435		.perf = &sc8180x_perf_data,
-   436	};
-   437	
+  2418	
+> 2419	int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
+  2420	{
+  2421		struct rdt_hw_resource *hw_res = &rdt_resources_all[l];
+  2422	
+  2423		if (!hw_res->r_resctrl.abmc_capable)
+  2424			return -EINVAL;
+  2425	
+  2426		if (enable)
+  2427			return resctrl_abmc_enable(l);
+  2428	
+  2429		resctrl_abmc_disable(l);
+  2430	
+  2431		return 0;
+  2432	}
+  2433	
 
 -- 
 0-DAY CI Kernel Test Service
