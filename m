@@ -1,48 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9814312E55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A78D262
 	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 06:37:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1iVLU+z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UCmz1G99"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701758228; x=1733294228;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7gVSY4zP/GKPP85JaqwSFt9KaRTQEJBmOXzboqPqXa0=;
-  b=B1iVLU+z2J13QX0UcU1p6Cw79EWSyabykUHrKSpSmq1qAbQjTCbzvEob
-   kqs5nDu6oB1E0uUC8FaQ45SrGr8rK5IHVMRwHyTOso/yUGPW/vRGmVzQy
-   fPzdQx62eWO2Zkh4d0MSHXpIhw5zexHeB72KVf4XauhlIqH/+7XQalPP8
-   ha/liajGTjxzHMOWRIkPKuozmPD7C2ChtnBKUJYDKhFbnXJVc3Ws7czvK
-   5JiZ5KYeI9hdP1VNjDX7/j+dWcpysNhBbMidDp5kUN6fT1i7CtSNp047W
-   wT0x3nXZASn1fujUv/EoZA5887HZNqHs+ii1nea1Ras6mAZ7S0sHEzRzA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="374035357"
+  bh=Z7mcQP5twc2Q1+h2RBQFr9z+2yBUEmf4+3Gz4Au0aKs=;
+  b=UCmz1G99QL3GMsOIgYqYzS0qgxrUlP2mrf/aBXRTHsLHWsMzRcY0JR/5
+   STunfs2TrftGaDsZ0zFeqd9lXR1OtADidp5WyVrcYs27x19xAvwYjS8Qe
+   do0GtI0v6U3odNiNSJJghldTnpsW9QHxqqwB5NlmFSiXGExe/7QXWN85s
+   r7s/z7QjUxLcQao+Ntwy/VGeqLiZIX24+dRJRuLnLvEaCZNTgK6wPJqnF
+   dFlEwoJjk2Ij+tAP4f9Td4U1cqb8ox4J9oREr5BjQxBcT1AZ+6bv6+UoG
+   r2UZrK2fk5z4qtmcDqPVCJtDgDhsO/AZjWQf4wAVSsttHZKPo77bpY6n4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="374035361"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="374035357"
+   d="scan'208";a="374035361"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 22:37:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764224099"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="764224098"
 X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
-   d="scan'208";a="764224099"
+   d="scan'208";a="764224098"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga007.jf.intel.com with ESMTP; 04 Dec 2023 22:37:03 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAP3F-0008Rg-1j;
+	id 1rAP3F-0008RS-1M;
 	Tue, 05 Dec 2023 06:37:01 +0000
-Date: Tue, 5 Dec 2023 14:36:11 +0800
+Date: Tue, 5 Dec 2023 14:36:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: [linux-next:master 4150/4884] qcom_stats.c:undefined reference to
- `__aeabi_uldivmod'
-Message-ID: <202312051418.JkBRBDyP-lkp@intel.com>
+To: Ioana Ciornei <ioana.ciornei@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/freescale/dpaa2/dpaa2-eth-debugfs.c:135:42:
+ warning: '%d' directive output may be truncated writing between 1 and 10
+ bytes into a region of size 7
+Message-ID: <202312051441.oET2UCAw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,22 +51,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0f5f12ac05f36f117e793656c3f560625e927f1b
-commit: e84e61bdb97c14cf989094394c6e6a6dcb1a3381 [4150/4884] soc: qcom: stats: Add DDR sleep stats
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20231205/202312051418.JkBRBDyP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051418.JkBRBDyP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
+commit: b1dd9bf6ead81bfb910de1df3be74e9d176cae47 net: dpaa2-eth: export buffer pool info into a new debugfs file
+date:   1 year, 1 month ago
+config: x86_64-buildonly-randconfig-002-20231205 (https://download.01.org/0day-ci/archive/20231205/202312051441.oET2UCAw-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051441.oET2UCAw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312051418.JkBRBDyP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051441.oET2UCAw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: drivers/soc/qcom/qcom_stats.o: in function `qcom_ddr_stats_show':
->> qcom_stats.c:(.text+0x398): undefined reference to `__aeabi_uldivmod'
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth-debugfs.c: In function 'dpaa2_dbg_bp_show':
+>> drivers/net/ethernet/freescale/dpaa2/dpaa2-eth-debugfs.c:135:42: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size 7 [-Wformat-truncation=]
+     135 |   snprintf(ch_name, sizeof(ch_name), "CH#%d", i);
+         |                                          ^~
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth-debugfs.c:135:38: note: directive argument in the range [0, 2147483646]
+     135 |   snprintf(ch_name, sizeof(ch_name), "CH#%d", i);
+         |                                      ^~~~~~~
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth-debugfs.c:135:3: note: 'snprintf' output between 5 and 14 bytes into a destination of size 10
+     135 |   snprintf(ch_name, sizeof(ch_name), "CH#%d", i);
+         |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +135 drivers/net/ethernet/freescale/dpaa2/dpaa2-eth-debugfs.c
+
+   121	
+   122	static int dpaa2_dbg_bp_show(struct seq_file *file, void *offset)
+   123	{
+   124		struct dpaa2_eth_priv *priv = (struct dpaa2_eth_priv *)file->private;
+   125		int i, j, num_queues, buf_cnt;
+   126		struct dpaa2_eth_bp *bp;
+   127		char ch_name[10];
+   128		int err;
+   129	
+   130		/* Print out the header */
+   131		seq_printf(file, "Buffer pool info for %s:\n", priv->net_dev->name);
+   132		seq_printf(file, "%s  %10s%15s", "IDX", "BPID", "Buf count");
+   133		num_queues = dpaa2_eth_queue_count(priv);
+   134		for (i = 0; i < num_queues; i++) {
+ > 135			snprintf(ch_name, sizeof(ch_name), "CH#%d", i);
+   136			seq_printf(file, "%10s", ch_name);
+   137		}
+   138		seq_printf(file, "\n");
+   139	
+   140		/* For each buffer pool, print out its BPID, the number of buffers in
+   141		 * that buffer pool and the channels which are using it.
+   142		 */
+   143		for (i = 0; i < priv->num_bps; i++) {
+   144			bp = priv->bp[i];
+   145	
+   146			err = dpaa2_io_query_bp_count(NULL, bp->bpid, &buf_cnt);
+   147			if (err) {
+   148				netdev_warn(priv->net_dev, "Buffer count query error %d\n", err);
+   149				return err;
+   150			}
+   151	
+   152			seq_printf(file, "%3s%d%10d%15d", "BP#", i, bp->bpid, buf_cnt);
+   153			for (j = 0; j < num_queues; j++) {
+   154				if (priv->channel[j]->bp == bp)
+   155					seq_printf(file, "%10s", "x");
+   156				else
+   157					seq_printf(file, "%10s", "");
+   158			}
+   159			seq_printf(file, "\n");
+   160		}
+   161	
+   162		return 0;
+   163	}
+   164	
 
 -- 
 0-DAY CI Kernel Test Service
