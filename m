@@ -1,60 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93AA67E88
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 15:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C38D67E9C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 15:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bTnrQNnF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZdr2H7P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701789098; x=1733325098;
+  t=1701789700; x=1733325700;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NCKQrIJCsPPNg0e7E2xvPRKgQ8JPMHmTUcO7tybYGaQ=;
-  b=bTnrQNnFpnjixAbkt1mTM9YCA5+b9Bh0eIygrgi2YBEyZE59cJsR95ax
-   dDNnN0xmSVRRHmrblJjjS9whpbbNDYZl2h50tyZs8cYV6fpnPKz9GI0rY
-   itYgZxCQbLDAnVtCBRtS5Mqux8b85miJBWaY785IvLRwIrvq90X2WmHBX
-   QsDuGCLIYzElyqYpeGM96qn/b3te+9wZ8WyFsrdnhjTtucGb5boRJxHEN
-   9nOu8kFxaS9nkAW9brjaNU3uFIsAQpPzp9M1gMcWS5YUtSRELTZB1Yvia
-   oDgk7tJyBar6iqUCgOqLznlQUwjo7Ul2co09iFOhMiibmKtVGMFnrQps9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="800196"
+  bh=zZde1bRSdknyGLGHRWRhusZExHQToaE/lMC8COI/EwY=;
+  b=gZdr2H7P25BDGoic+7S1EljOSoQqzmP10hsQgw7CqhYeVU+WmNjRVvnL
+   hqYFafw45yeS0W8fWVaEnMs430pSlyzJiRJiYyuIGT2xPUQP3OyB1W5eY
+   Mx1lFwq4u75Rj0mmdbPhNhbnStUuuLw+I4IimGlpGR3GXPkON1CVBUCKO
+   ehkrwOJ26LXBIry6kL51O1hasEyOejrBktgxlHF44VBLj0++R24DtxZYR
+   sqN/VCLNrRji+pr5zjXybtFq+JfLathuF9/cz8RoRUewIq7y93U9uClpH
+   G8+1IuFt9EIC2SSaq9Pc+WsycW6Q9HEKSfhppAE2o2X2QPhu8SaybkTj/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="458227714"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="800196"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 07:11:37 -0800
+   d="scan'208";a="458227714"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 07:21:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="841490869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="861775411"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="841490869"
+   d="scan'208";a="861775411"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Dec 2023 07:11:31 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 07:21:38 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAX56-0009Dy-0c;
-	Tue, 05 Dec 2023 15:11:28 +0000
-Date: Tue, 5 Dec 2023 23:10:33 +0800
+	id 1rAXEu-0009ES-1f;
+	Tue, 05 Dec 2023 15:21:36 +0000
+Date: Tue, 5 Dec 2023 23:20:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: davidgow@google.com, Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <keescook@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-sound@vger.kernel.org, David Gow <davidgow@google.com>
-Subject: Re: [PATCH 1/4] kunit: Add APIs for managing devices
-Message-ID: <202312052210.IGXJP7wU-lkp@intel.com>
-References: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-mips@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	tsbogend@alpha.franken.de, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH] MIPS: Implement microMIPS MT ASE helpers
+Message-ID: <202312052344.xESwjhJU-lkp@intel.com>
+References: <20231201121101.90714-1-jiaxun.yang@flygoat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,70 +51,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231205-kunit_bus-v1-1-635036d3bc13@google.com>
+In-Reply-To: <20231201121101.90714-1-jiaxun.yang@flygoat.com>
 
-Hi,
+Hi Jiaxun,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on c8613be119892ccceffbc550b9b9d7d68b995c9e]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7-rc4 next-20231205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/davidgow-google-com/kunit-Add-APIs-for-managing-devices/20231205-153349
-base:   c8613be119892ccceffbc550b9b9d7d68b995c9e
-patch link:    https://lore.kernel.org/r/20231205-kunit_bus-v1-1-635036d3bc13%40google.com
-patch subject: [PATCH 1/4] kunit: Add APIs for managing devices
-config: x86_64-randconfig-122-20231205 (https://download.01.org/0day-ci/archive/20231205/202312052210.IGXJP7wU-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052210.IGXJP7wU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiaxun-Yang/MIPS-Implement-microMIPS-MT-ASE-helpers/20231201-201823
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231201121101.90714-1-jiaxun.yang%40flygoat.com
+patch subject: [PATCH] MIPS: Implement microMIPS MT ASE helpers
+config: mips-xway_defconfig (https://download.01.org/0day-ci/archive/20231205/202312052344.xESwjhJU-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312052344.xESwjhJU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312052210.IGXJP7wU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312052344.xESwjhJU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/kunit/device.c:100:21: sparse: sparse: symbol '__kunit_device_register_internal' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/__kunit_device_register_internal +100 lib/kunit/device.c
-
-    99	
- > 100	struct kunit_device *__kunit_device_register_internal(struct kunit *test,
-   101							      const char *name,
-   102							      struct device_driver *drv)
-   103	{
-   104		struct kunit_device *kunit_dev;
-   105		int err = -ENOMEM;
-   106	
-   107		kunit_dev = kzalloc(sizeof(struct kunit_device), GFP_KERNEL);
-   108		if (!kunit_dev)
-   109			return ERR_PTR(err);
-   110	
-   111		kunit_dev->owner = test;
-   112	
-   113		err = dev_set_name(&kunit_dev->dev, "%s.%s", test->name, name);
-   114		if (err) {
-   115			kfree(kunit_dev);
-   116			return ERR_PTR(err);
-   117		}
-   118	
-   119		/* Set the expected driver pointer, so we match. */
-   120		kunit_dev->driver = drv;
-   121	
-   122		kunit_dev->dev.release = kunit_device_release;
-   123		kunit_dev->dev.bus = &kunit_bus_type;
-   124		kunit_dev->dev.parent = &kunit_bus;
-   125	
-   126		err = device_register(&kunit_dev->dev);
-   127		if (err) {
-   128			put_device(&kunit_dev->dev);
-   129			return ERR_PTR(err);
-   130		}
-   131	
-   132		kunit_add_action(test, device_unregister_wrapper, &kunit_dev->dev);
-   133	
-   134		return kunit_dev;
-   135	}
-   136	
+   arch/mips/kernel/vpe-mt.c:177:7: warning: no previous prototype for 'vpe_alloc' [-Wmissing-prototypes]
+     177 | void *vpe_alloc(void)
+         |       ^~~~~~~~~
+   arch/mips/kernel/vpe-mt.c:195:5: warning: no previous prototype for 'vpe_start' [-Wmissing-prototypes]
+     195 | int vpe_start(void *vpe, unsigned long start)
+         |     ^~~~~~~~~
+   arch/mips/kernel/vpe-mt.c:205:5: warning: no previous prototype for 'vpe_stop' [-Wmissing-prototypes]
+     205 | int vpe_stop(void *vpe)
+         |     ^~~~~~~~
+   arch/mips/kernel/vpe-mt.c:226:5: warning: no previous prototype for 'vpe_free' [-Wmissing-prototypes]
+     226 | int vpe_free(void *vpe)
+         |     ^~~~~~~~
+   vpe-mt.c: Assembler messages:
+>> vpe-mt.c:4963: Error: Unable to parse register name 7
+   vpe-mt.c:4967:  Info: macro invoked from here
+   {standard input}:4972:   Info: macro invoked from here
+   vpe-mt.c:5083: Error: Unable to parse register name 6
+   vpe-mt.c:5087:  Info: macro invoked from here
+   {standard input}:5092:   Info: macro invoked from here
 
 -- 
 0-DAY CI Kernel Test Service
