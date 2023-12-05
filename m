@@ -1,226 +1,201 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB97D265
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 10:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCB63C490
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 10:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aMdiWR+w"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40b479ec4a3so53874175e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Dec 2023 02:06:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701770809; x=1702375609; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O9sl689hzlJQYzBsgFB2WhOlBJ/fZZG2kg7Y3Bfk+Jk=;
-        b=aMdiWR+wZ0hT2uA7myS69Z/ip7dTShFNj4bQQg2r8TJuGNXcTLKiJlcVBvouZV2hPz
-         6GIUhtVw+YDABQ/Sh4/DL2p5CURCsTt3pHKbNRShjZMRhzNalWPniDfol58i2LDkn1Tn
-         UyYPwetGQbLvBBSOAiDzgBTIYgFH3bojnVTJ9acKwm0YTYpVNCkdmbNI71/8IpJmf6GU
-         FI2traEAZmeVkbRKgqt8oQH0p4wQl/e7UiQ28NSWb6z7Wj2mgryErJIH3lrr2p7Rmj1L
-         KnUdCJZ2jpAYcK+sKMPQR4cEEa++t6/U3oSMTvFw8i5F5lXAKJWiPgU6drDJxqhiRgs5
-         WUxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701770809; x=1702375609;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O9sl689hzlJQYzBsgFB2WhOlBJ/fZZG2kg7Y3Bfk+Jk=;
-        b=b6x70T0GXIjF3YMtB2uDPawFgcWpdlmCqbe8mt9p/MeATm4VUUk8dCfhy92BcHxebF
-         c59VCK6NJxE733536hkDD0iB7DFKgsx3rbcZ+OJKnvOfpYQ7ByybVt14XWVO9amY9Uaz
-         Pdt6ftKqghQI3rMNzlg8TmXzgm0TnugT+LI25Devd5YkjsORtBRKulRDDmti7BbpHyQX
-         kmFQ5uC/fTTKmZHe1qpI1lCeI+Xf1k9fZ8KdT3XEMJjGYjlEuK7KqX7gioXUTkPhLLOL
-         Y4L7TEA7rAUsEJXWJNUVNSqfpOwBZVe0hbni9k8QEbl72qGG4ZTknnzYY7w+ZRi9hTU6
-         iBXA==
-X-Gm-Message-State: AOJu0YwcP00ERIdfAiQ+kUOKoIVKG2YuBO1XrMfUBm6uufor11WuqMAI
-	jBvSmlCpk2j2JGTfVwLwuUFFkg==
-X-Google-Smtp-Source: AGHT+IGiqAcOWb6+LtZFfcXdEsKroCG+o1qA0L106wojDPkJpNUDy3QfsoSUNiXys+b/+Co1QkteCg==
-X-Received: by 2002:a05:600c:19ce:b0:40a:25f1:7a28 with SMTP id u14-20020a05600c19ce00b0040a25f17a28mr4156631wmq.40.1701770809237;
-        Tue, 05 Dec 2023 02:06:49 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g14-20020a05600c310e00b0040b481222e3sm21976386wmo.41.2023.12.05.02.06.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 02:06:48 -0800 (PST)
-Date: Tue, 5 Dec 2023 13:06:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Dan Carpenter <error27@gmail.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
-	Luca Abeni <luca.abeni@santannapisa.it>
-Subject: Re: drivers/video/fbdev/amifb.c:3375:32: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <b139b275-ee57-4026-83d3-7d49ae04ef49@suswa.mountain>
-References: <202312051741.BVXr9CRP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jT6QLru5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701771715; x=1733307715;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/ztZyAy6nFZ/EwP3psl8n3dImEyhCLRK3ybilKxJdT8=;
+  b=jT6QLru5/ELaI2gQIR+/jXs2rMy0Fk3kIEk54riCpdd2yYcS60WgyogL
+   +9l58mdiK+KRniv0ioYkGlojwsL9LCj3HEDxhhvf1qX97J59pkLjrXb1D
+   tuI9PVCnAHmvOGzQ1Lb/MxgF4oyhq7SYuxrLKrYXObdwFXJ7N748v4tOm
+   SzkcCY43wFoptruBNyzf+QAP34NBK5LRd0g7cx5pBFIo8/UjCbvhI9/cK
+   1B5aJjECSGNGQtrQyo2/b5i++PUkFcXkRb6VK15QtOEUzJEcTHA8OIstB
+   Y3TpXw658BmysasoW1ROnejlSMVa0Hbba2zz2XmcHbwed58ksBy/dVfT/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="716130"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="716130"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 02:21:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018174043"
+X-IronPort-AV: E=Sophos;i="6.04,251,1695711600"; 
+   d="scan'208";a="1018174043"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 02:21:53 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rASYo-0008kK-24;
+	Tue, 05 Dec 2023 10:21:50 +0000
+Date: Tue, 5 Dec 2023 18:21:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jihan Cha <jihan.cha@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sudeep-holla:android13-5.10/ffa 1517/9999] mm/hmm.c:219:1: warning:
+ control reaches end of non-void function
+Message-ID: <202312051844.wSaL8EPI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <202312051741.BVXr9CRP-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Something went wrong with this git bisect.  The Sparse warning predates
-git.  The file was renamed at some point so I would have thought the
-bisect would point to that.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
+head:   9e12ac4f9c69befe08119567c073adc938aafc4d
+commit: 2ea27b7efa3f6fd0b4fab6a748ab08322280f29b [1517/9999] ANDROID: GKI: Kconfig.gki: enable CONFIG_HMM_MIRROR with HIDDEN GPU
+config: arm-randconfig-r064-20231204 (https://download.01.org/0day-ci/archive/20231205/202312051844.wSaL8EPI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231205/202312051844.wSaL8EPI-lkp@intel.com/reproduce)
 
-regards,
-dan carpenter
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312051844.wSaL8EPI-lkp@intel.com/
 
-On Tue, Dec 05, 2023 at 05:50:23PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-> commit: aa5222e92f8000ed3c1c38dddf11c83222aadfb3 sched/deadline: Don't use dubious signed bitfields
-> date:   6 years ago
-> config: m68k-randconfig-r131-20231129 (https://download.01.org/0day-ci/archive/20231205/202312051741.BVXr9CRP-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231205/202312051741.BVXr9CRP-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312051741.BVXr9CRP-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/video/fbdev/amifb.c:3375:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dst @@     got char [noderef] __iomem *screen_base @@
->    drivers/video/fbdev/amifb.c:3375:32: sparse:     expected void *dst
->    drivers/video/fbdev/amifb.c:3375:32: sparse:     got char [noderef] __iomem *screen_base
-> >> drivers/video/fbdev/amifb.c:3713:35: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got char * @@
->    drivers/video/fbdev/amifb.c:3713:35: sparse:     expected char [noderef] __iomem *screen_base
->    drivers/video/fbdev/amifb.c:3713:35: sparse:     got char *
-> >> drivers/video/fbdev/amifb.c:3755:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
->    drivers/video/fbdev/amifb.c:3755:26: sparse:     expected void [noderef] __iomem *addr
->    drivers/video/fbdev/amifb.c:3755:26: sparse:     got void *
->    drivers/video/fbdev/amifb.c:3772:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
->    drivers/video/fbdev/amifb.c:3772:26: sparse:     expected void [noderef] __iomem *addr
->    drivers/video/fbdev/amifb.c:3772:26: sparse:     got void *
->    In file included from include/linux/workqueue.h:9,
->                     from include/linux/srcu.h:34,
->                     from include/linux/notifier.h:16,
->                     from include/linux/memory_hotplug.h:7,
->                     from include/linux/mmzone.h:780,
->                     from include/linux/gfp.h:6,
->                     from include/linux/umh.h:4,
->                     from include/linux/kmod.h:22,
->                     from include/linux/module.h:13,
->                     from drivers/video/fbdev/amifb.c:43:
->    include/linux/timer.h: In function 'timer_setup':
->    include/linux/timer.h:159:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
->      159 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
->          |                              ^
->    include/linux/timer.h:126:39: note: in definition of macro '__setup_timer'
->      126 |                 (_timer)->function = (_fn);                             29-      |                                       ^~~
->    include/linux/timer.h: In function 'timer_setup_on_stack':
->    include/linux/timer.h:167:39: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
->      167 |         __setup_timer_on_stack(timer, (TIMER_FUNC_TYPE)callback,
->          |                                       ^
->    include/linux/timer.h:133:39: note: in definition of macro '__setup_timer_on_stack'
->      133 |                 (_timer)->function = (_fn);                             36-      |                                       ^~~
->    drivers/video/fbdev/amifb.c: In function 'ami_decode_var':
->    drivers/video/fbdev/amifb.c:1127:23: warning: variable 'vtotal' set but not used [-Wunused-but-set-variable]
->     1127 |         u_int htotal, vtotal;
->          |                       ^~~~~~
->    drivers/video/fbdev/amifb.c:1127:15: warning: variable 'htotal' set but not used [-Wunused-but-set-variable]
->     1127 |         u_int htotal, vtotal;
->          |               ^~~~~~
->    drivers/video/fbdev/amifb.c: In function 'ami_get_var_cursorinfo':
->    drivers/video/fbdev/amifb.c:1848:19: warning: variable 'alloc' set but not used [-Wunused-but-set-variable]
->     1848 |         int size, alloc;
->          |                   ^~~~~
->    drivers/video/fbdev/amifb.c: In function 'amifb_pan_display':
->    drivers/video/fbdev/amifb.c:2540:34: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
->     2540 |                 if (var->yoffset < 0 ||
->          |                                  ^
->    drivers/video/fbdev/amifb.c: At top level:
->    include/linux/module.h:131:13: warning: 'init_module' specifies less restrictive attribute than its target 'amifb_driver_init': 'cold' [-Wmissing-attributes]
->      131 |         int init_module(void) __attribute__((alias(#initfn)));
->          |             ^~~~~~~~~~~
->    include/linux/platform_device.h:251:1: note: in expansion of macro 'module_init'
->      251 | module_init(__platform_driver##_init); 58-      | ^~~~~~~~~~~
->    drivers/video/fbdev/amifb.c:3786:1: note: in expansion of macro 'module_platform_driver_probe'
->     3786 | module_platform_driver_probe(amifb_driver, amifb_probe);
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    In file included from drivers/video/fbdev/amifb.c:53:
->    drivers/video/fbdev/amifb.c:3786:30: note: 'init_module' target declared here
->     3786 | module_platform_driver_probe(amifb_driver, amifb_probe);
->          |                              ^~~~~~~~~~~~
->    include/linux/platform_device.h:246:19: note: in definition of macro 'module_platform_driver_probe'
->      246 | static int __init __platform_driver##_init(void) 68-      |                   ^~~~~~~~~~~~~~~~~
->    include/linux/module.h:137:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'amifb_driver_exit': 'cold' [-Wmissing-attributes]
->      137 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
->          |              ^~~~~~~~~~~~~~
->    include/linux/platform_device.h:256:1: note: in expansion of macro 'module_exit'
->      256 | module_exit(__platform_driver##_exit);
->          | ^~~~~~~~~~~
->    drivers/video/fbdev/amifb.c:3786:1: note: in expansion of macro 'module_platform_driver_probe'
->     3786 | module_platform_driver_probe(amifb_driver, amifb_probe);
->          | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/video/fbdev/amifb.c:3786:30: note: 'cleanup_module' target declared here
->     3786 | module_platform_driver_probe(amifb_driver, amifb_probe);
->          |                              ^~~~~~~~~~~~
->    include/linux/platform_device.h:252:20: note: in definition of macro 'module_platform_driver_probe'
->      252 | static void __exit __platform_driver##_exit(void) 83-      |                    ^~~~~~~~~~~~~~~~~
->    drivers/video/fbdev/amifb.c:2344:19: warning: 'amifb_setup' defined but not used [-Wunused-function]
->     2344 | static int __init amifb_setup(char *options)
->          |                   ^~~~~~~~~~~
-> 
-> vim +3375 drivers/video/fbdev/amifb.c
-> 
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3334  
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3335  
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3336  static void amifb_imageblit(struct fb_info *info, const struct fb_image *image)
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3337  {
-> 423a53086ce409 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3338  	struct amifb_par *par = info->par;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3339  	int x2, y2;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3340  	unsigned long *dst;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3341  	int dst_idx;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3342  	const char *src;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3343  	u32 dx, dy, width, height, pitch;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3344  
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3345  	/*
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3346  	 * We could use hardware clipping but on many cards you get around
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3347  	 * hardware clipping by writing to framebuffer directly like we are
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3348  	 * doing here.
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3349  	 */
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3350  	x2 = image->dx + image->width;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3351  	y2 = image->dy + image->height;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3352  	dx = image->dx;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3353  	dy = image->dy;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3354  	x2 = x2 < info->var.xres_virtual ? x2 : info->var.xres_virtual;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3355  	y2 = y2 < info->var.yres_virtual ? y2 : info->var.yres_virtual;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3356  	width  = x2 - dx;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3357  	height = y2 - dy;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3358  
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3359  	if (image->depth == 1) {
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3360  		dst = (unsigned long *)
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3361  			((unsigned long)info->screen_base & ~(BYTES_PER_LONG - 1));
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3362  		dst_idx = ((unsigned long)info->screen_base & (BYTES_PER_LONG - 1)) * 8;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3363  		dst_idx += dy * par->next_line * 8 + dx;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3364  		src = image->data;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3365  		pitch = (image->width + 7) / 8;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3366  		while (height--) {
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3367  			expand_one_line(info->var.bits_per_pixel,
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3368  					par->next_plane, dst, dst_idx, width,
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3369  					src, image->bg_color,
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3370  					image->fg_color);
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3371  			dst_idx += par->next_line * 8;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3372  			src += pitch;
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3373  		}
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3374  	} else {
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21 @3375  		c2p_planar(info->screen_base, image->data, dx, dy, width,
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3376  			   height, par->next_line, par->next_plane,
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3377  			   image->width, info->var.bits_per_pixel);
-> ^1da177e4c3f41 drivers/video/amifb.c Linus Torvalds     2005-04-16  3378  	}
-> ^1da177e4c3f41 drivers/video/amifb.c Linus Torvalds     2005-04-16  3379  }
-> f1cbb17ac73993 drivers/video/amifb.c Geert Uytterhoeven 2011-11-21  3380  
-> 
-> :::::: The code at line 3375 was first introduced by commit
-> :::::: f1cbb17ac73993225402d7e40a0694c502570876 fbdev/amifb: Reorder functions to remove forward declarations
-> 
-> :::::: TO: Geert Uytterhoeven <geert@linux-m68k.org>
-> :::::: CC: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
+
+         |                 ^~~~~~~~~
+         |                 pgd_write
+   mm/hmm.c:181:36: error: 'PMD_SHIFT' undeclared (first use in this function); did you mean 'PUD_SHIFT'?
+     181 |                hmm_pfn_flags_order(PMD_SHIFT - PAGE_SHIFT);
+         |                                    ^~~~~~~~~
+         |                                    PUD_SHIFT
+   mm/hmm.c:181:36: note: each undeclared identifier is reported only once for each function it appears in
+   mm/hmm.c: In function 'hmm_is_device_private_entry':
+   mm/hmm.c:216:16: error: implicit declaration of function 'is_device_private_entry'; did you mean 'hmm_is_device_private_entry'? [-Werror=implicit-function-declaration]
+     216 |         return is_device_private_entry(entry) &&
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+         |                hmm_is_device_private_entry
+   mm/hmm.c:217:17: error: implicit declaration of function 'device_private_entry_to_page' [-Werror=implicit-function-declaration]
+     217 |                 device_private_entry_to_page(entry)->pgmap->owner ==
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hmm.c:217:52: error: invalid type argument of '->' (have 'int')
+     217 |                 device_private_entry_to_page(entry)->pgmap->owner ==
+         |                                                    ^~
+   mm/hmm.c: In function 'pte_to_hmm_pfn_flags':
+   mm/hmm.c:224:13: error: implicit declaration of function 'pte_none'; did you mean 'p4d_none'? [-Werror=implicit-function-declaration]
+     224 |         if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
+         |             ^~~~~~~~
+         |             p4d_none
+   mm/hmm.c:224:31: error: implicit declaration of function 'pte_present'; did you mean 'p4d_present'? [-Werror=implicit-function-declaration]
+     224 |         if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
+         |                               ^~~~~~~~~~~
+         |                               p4d_present
+   mm/hmm.c:224:51: error: implicit declaration of function 'pte_protnone' [-Werror=implicit-function-declaration]
+     224 |         if (pte_none(pte) || !pte_present(pte) || pte_protnone(pte))
+         |                                                   ^~~~~~~~~~~~
+   mm/hmm.c:226:16: error: implicit declaration of function 'pte_write'; did you mean 'pgd_write'? [-Werror=implicit-function-declaration]
+     226 |         return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) : HMM_PFN_VALID;
+         |                ^~~~~~~~~
+         |                pgd_write
+   mm/hmm.c: In function 'hmm_vma_handle_pte':
+   mm/hmm.c:250:37: error: implicit declaration of function 'pte_to_swp_entry' [-Werror=implicit-function-declaration]
+     250 |                 swp_entry_t entry = pte_to_swp_entry(pte);
+         |                                     ^~~~~~~~~~~~~~~~
+   mm/hmm.c:250:37: error: invalid initializer
+   mm/hmm.c:258:29: error: implicit declaration of function 'is_write_device_private_entry'; did you mean 'hmm_is_device_private_entry'? [-Werror=implicit-function-declaration]
+     258 |                         if (is_write_device_private_entry(entry))
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                             hmm_is_device_private_entry
+   mm/hmm.c:260:36: error: implicit declaration of function 'device_private_entry_to_pfn' [-Werror=implicit-function-declaration]
+     260 |                         *hmm_pfn = device_private_entry_to_pfn(entry) |
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hmm.c:272:22: error: implicit declaration of function 'non_swap_entry' [-Werror=implicit-function-declaration]
+     272 |                 if (!non_swap_entry(entry))
+         |                      ^~~~~~~~~~~~~~
+   mm/hmm.c:275:21: error: implicit declaration of function 'is_migration_entry' [-Werror=implicit-function-declaration]
+     275 |                 if (is_migration_entry(entry)) {
+         |                     ^~~~~~~~~~~~~~~~~~
+   mm/hmm.c:276:25: error: implicit declaration of function 'pte_unmap'; did you mean 'memunmap'? [-Werror=implicit-function-declaration]
+     276 |                         pte_unmap(ptep);
+         |                         ^~~~~~~~~
+         |                         memunmap
+   mm/hmm.c:278:25: error: implicit declaration of function 'migration_entry_wait' [-Werror=implicit-function-declaration]
+     278 |                         migration_entry_wait(walk->mm, pmdp, addr);
+         |                         ^~~~~~~~~~~~~~~~~~~~
+   mm/hmm.c:297:46: error: implicit declaration of function 'pte_pfn' [-Werror=implicit-function-declaration]
+     297 |         if (pte_special(pte) && !is_zero_pfn(pte_pfn(pte))) {
+         |                                              ^~~~~~~
+   mm/hmm.c: In function 'hmm_vma_walk_pmd':
+   mm/hmm.c:331:13: error: implicit declaration of function 'pmd_none'; did you mean 'p4d_none'? [-Werror=implicit-function-declaration]
+     331 |         if (pmd_none(pmd))
+         |             ^~~~~~~~
+         |             p4d_none
+   mm/hmm.c:334:42: error: implicit declaration of function 'is_pmd_migration_entry' [-Werror=implicit-function-declaration]
+     334 |         if (thp_migration_supported() && is_pmd_migration_entry(pmd)) {
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~
+   mm/hmm.c:337:25: error: implicit declaration of function 'pmd_migration_entry_wait' [-Werror=implicit-function-declaration]
+     337 |                         pmd_migration_entry_wait(walk->mm, pmdp);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hmm.c:343:14: error: implicit declaration of function 'pmd_present'; did you mean 'p4d_present'? [-Werror=implicit-function-declaration]
+     343 |         if (!pmd_present(pmd)) {
+         |              ^~~~~~~~~~~
+         |              p4d_present
+   mm/hmm.c:349:13: error: implicit declaration of function 'pmd_devmap'; did you mean 'pte_devmap'? [-Werror=implicit-function-declaration]
+     349 |         if (pmd_devmap(pmd) || pmd_trans_huge(pmd)) {
+         |             ^~~~~~~~~~
+         |             pte_devmap
+   mm/hmm.c:349:32: error: implicit declaration of function 'pmd_trans_huge'; did you mean 'pmd_trans_huge_lock'? [-Werror=implicit-function-declaration]
+     349 |         if (pmd_devmap(pmd) || pmd_trans_huge(pmd)) {
+         |                                ^~~~~~~~~~~~~~
+         |                                pmd_trans_huge_lock
+   mm/hmm.c:359:23: error: implicit declaration of function 'pmd_read_atomic' [-Werror=implicit-function-declaration]
+     359 |                 pmd = pmd_read_atomic(pmdp);
+         |                       ^~~~~~~~~~~~~~~
+   mm/hmm.c:373:13: error: implicit declaration of function 'pmd_bad'; did you mean 'p4d_bad'? [-Werror=implicit-function-declaration]
+     373 |         if (pmd_bad(pmd)) {
+         |             ^~~~~~~
+         |             p4d_bad
+   mm/hmm.c:379:16: error: implicit declaration of function 'pte_offset_map'; did you mean 'pte_offset_map_lock'? [-Werror=implicit-function-declaration]
+     379 |         ptep = pte_offset_map(pmdp, addr);
+         |                ^~~~~~~~~~~~~~
+         |                pte_offset_map_lock
+   mm/hmm.c:379:14: warning: assignment to 'pte_t *' {aka 'long unsigned int *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     379 |         ptep = pte_offset_map(pmdp, addr);
+         |              ^
+   mm/hmm.c: In function 'hmm_is_device_private_entry':
+>> mm/hmm.c:219:1: warning: control reaches end of non-void function [-Wreturn-type]
+     219 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HMM_MIRROR
+   Depends on [n]: MMU [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_GPU_CONFIGS [=y]
+
+
+vim +219 mm/hmm.c
+
+da4c3c735ea4dc Jérôme Glisse     2017-09-08  212  
+08ddddda667b3b Christoph Hellwig 2020-03-16  213  static inline bool hmm_is_device_private_entry(struct hmm_range *range,
+08ddddda667b3b Christoph Hellwig 2020-03-16  214  		swp_entry_t entry)
+08ddddda667b3b Christoph Hellwig 2020-03-16  215  {
+08ddddda667b3b Christoph Hellwig 2020-03-16  216  	return is_device_private_entry(entry) &&
+08ddddda667b3b Christoph Hellwig 2020-03-16  217  		device_private_entry_to_page(entry)->pgmap->owner ==
+08ddddda667b3b Christoph Hellwig 2020-03-16  218  		range->dev_private_owner;
+08ddddda667b3b Christoph Hellwig 2020-03-16 @219  }
+08ddddda667b3b Christoph Hellwig 2020-03-16  220  
+
+:::::: The code at line 219 was first introduced by commit
+:::::: 08ddddda667b3b7aaac10641418283f78118c5cd mm/hmm: check the device private page owner in hmm_range_fault()
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
