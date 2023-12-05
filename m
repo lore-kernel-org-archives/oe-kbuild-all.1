@@ -1,159 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2066.outbound.protection.outlook.com [40.107.244.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB73F6A354
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 18:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC52E6A333
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 18:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RDf1bIBp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701799695; x=1733335695;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UVuUvArRESXqCywNPybRu1bVUdQbkthn/g4C9P7URvI=;
-  b=RDf1bIBp2wNyb70QVv/6Pcg+uA1rqkKnN4Fpf+9nkrb6bb5TaWv28xkN
-   kEqdGAAMg1rDSF9qtoImBv31jcX4DC5UCgM8AzV5/PRUwp7ZWAZriYgnb
-   dnpl2EupJLs9bao2hLiavA67hXKL/nn68trJS0YH8z7/qeP6tWI+ezBJ/
-   2QEi9+dmtiEeWqTuUoTPFeVluqR/o30LIBDc+U/gWj4etT+Fd+AtNM5y8
-   2QHGCv6+acOk6RDi+5TjHuRlUvImBaJuFXM84Vj+8Zx1AL6Qodm5meBZL
-   CwioVECmEvHtczL6KXi6W0vDnDhwMGSKU0QfggWZ0ENSH69hGTAkNzd3J
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="391100985"
-X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="391100985"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 10:08:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="889024127"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="889024127"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2023 10:08:10 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAZq3-0009Vd-2B;
-	Tue, 05 Dec 2023 18:08:07 +0000
-Date: Wed, 6 Dec 2023 02:07:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tony Lindgren <tony@atomide.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Dhruva Gole <d-gole@ti.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Subject: Re: [PATCH v4 4/4] serial: 8250: Add preferred console in
- serial8250_isa_init_ports()
-Message-ID: <202312060101.o6nb55MI-lkp@intel.com>
-References: <20231205073255.20562-5-tony@atomide.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="BmdoJ/YL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ex2P6hanc/nW0O1ArnPAdPb1ECS9Aslnpao+BxFHo+okOJVXQxGpfgEGyVQiiWa1BKUIiAPnFK6ywJBTHAMq7+dJ8jmM6c9NI9XgnfdfP1xF9fzxr1cOMSdJlTWN9qgKdEb4/L4jro3ZM+5PvlM+CYIwmQdlADXUpL/vK3r1QwWrp9UHS8B0oRzHwynAHXqg9udNwxnIowYiu3ug4pUh3qre9P/RCTjtAeQh7hqfHB71jH1OCmO0pmISssoPXVP8FZ7vC9WDbiAIaOb+oeIDTIrxNySltl1+arTxoMspFroBoFzp6dSrAQmLaHjM2asBrHuzhtbQWhnjkzHAQHubcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DIYJQVlHwIOC/Ub1+20JNz83xBw1G7bQlktcYn9FGjU=;
+ b=aUWus1iR5ApuyfPCzRwmckMe4i3jLinnFVqG3xLnWN9hyo1O0kezInlDZBDlwkB5tMXCihFbseADWHK9a+5PKgvah94llrXCNOJ94qaZ4qfypHy3wcHid2ckZkkDh651ow5Rv2ggO18sCR70B/XfCEHWfwQVBvopwD81MfYEtPqLAyE6wpuooowTDjUs5MCTvm1KKeKKw6OPpdce4SFpRqRYTvAK6F6HrttulBT6HOKGt5QVnm9oY7X3UT/7Yp8bZgQk4lzHzOgpGUxZAh9nkInk3OKVmGPrsqyNRD+p+ij1zaFuKMj63++cT7NNiucJgdG/wZ2OzVynHMMCiwwiBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DIYJQVlHwIOC/Ub1+20JNz83xBw1G7bQlktcYn9FGjU=;
+ b=BmdoJ/YL0EdsHSpshusGk5+xccHefN/fpjd6wFgK7fsMLPzfln60twjY9ek3OvbOHh4a9ERwTc5e6iBLYlxzPWoDBEld12dkWrOHwhgccOK88kBL1Up9Jo28KzuaeWA1yRtJKLauZibjVe5fxcm/KCYnM8SwS23WvV9byNasnb0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM4PR12MB6278.namprd12.prod.outlook.com (2603:10b6:8:a4::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Tue, 5 Dec
+ 2023 18:09:52 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1549:8c93:8585:ca1b]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::1549:8c93:8585:ca1b%5]) with mapi id 15.20.7046.034; Tue, 5 Dec 2023
+ 18:09:52 +0000
+Message-ID: <5adbb9a1-7163-4360-bd4f-e8c1f57746d0@amd.com>
+Date: Tue, 5 Dec 2023 12:09:48 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH 14/15] x86/resctrl: Add interface unassign a ABMC counter
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
+ paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, seanjc@google.com,
+ kim.phillips@amd.com, jmattson@google.com, ilpo.jarvinen@linux.intel.com,
+ jithu.joseph@intel.com, kan.liang@linux.intel.com, nikunj@amd.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
+ rick.p.edgecombe@intel.com, rppt@kernel.org,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, peternewman@google.com
+References: <20231201005720.235639-15-babu.moger@amd.com>
+ <202312060120.q62q2ha7-lkp@intel.com>
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <202312060120.q62q2ha7-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR2101CA0003.namprd21.prod.outlook.com
+ (2603:10b6:805:106::13) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231205073255.20562-5-tony@atomide.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM4PR12MB6278:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a0c7aaa-e78b-48bc-a72b-08dbf5bd60bb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	tEeDO0u3KZJ3Ecb3TxKgqgd1MqhYaNcDsoUOF6MbbTu2hFsqx0KrVu9x4nGZULkxFjv0dqx/RWAJEchr5vrp0kwPHpGwq9J/RdmuyRnEBGjG1mEGG84d6PfR402GKoQqkWDLVA0nqUvIIGiHR32MrwHEBdCCBEMYw5ONf2QKrZ6P5thbP/T8mVSVjDTNVxSXU6s1DhRjpCvXU4/wOodvUAVg3r5bEEUiLNvi/JUMMveu13MaDHwPYzWavoEJ8VpwUnavajaiCdCPFkYuy4sECOZqWdw/vEOZmnR06tLbvjJ9hNCGYASofd7W+Dcaf+6kydPYOadfxpbU9wXpoonRq0pT1avwhpWGiiP4aWTZYAX5Y8l+Dt7C9+DKePHceGhuF9RLiVQdrhsk6TbM/+LZtYQkBVVR4BvwRhhribP4lej0tUqiN3Tcid8Xly+Q9mO05+rbuej874QfBteA03vGO70iSyfvmJIW6Wvo//ra6xEBaTLGrIoPnvdpHQQxuSnlyzwxD2BgyLeoC8La+Ft4i9awIYnA9dRLUl5j8sEl9WCemwDV3mnDqouVb5ro4slCQS1LjMT4W52i0bv0aFoKFgMRklUP41lUU/+J5bx7cn+vt2DvSB85L2AKxIIG2sgzZSyrfA6e+DwUvcyEPx8KHX7u7RPb3IpLK06T1uZFKdrv6HjvbKqqM1X6yULtoAr+SF4HxG/uGeTchkHsW3TJYOFJhBOqymXHnwVC6cued30=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(346002)(376002)(396003)(136003)(230173577357003)(230922051799003)(230273577357003)(64100799003)(451199024)(186009)(1800799012)(5660300002)(7416002)(31686004)(316002)(4326008)(66946007)(66556008)(66476007)(41300700001)(2616005)(26005)(83380400001)(38100700002)(31696002)(86362001)(8936002)(36756003)(8676002)(6666004)(6486002)(2906002)(966005)(6512007)(53546011)(3450700001)(478600001)(6506007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NnA5WFN4bnJCSEpWdW9lRTNZZGt3Mmc4S1BKd2FESzhBS0hFM3NTMlVPWThh?=
+ =?utf-8?B?L3ZLeDlUQ0lNSG1lL0sxbWlyaVhxYU45Y3UvUnhsYk9UN1JmSFlSVHQ2UHFB?=
+ =?utf-8?B?QTZTVGdaVEVJZHFQUnhzaCtRVUVVaEwxWCtJcjNvSVM2SGNRbk0wTGEvSjR6?=
+ =?utf-8?B?ZGZ1VkZOMDhHY2RWdUE5NFdOMXRxNzFhbHh2U2RzM2ROUndYbnFBTkd0SnlY?=
+ =?utf-8?B?TDNTTGVhQ0hxNEs3UVAwV05FbFM5L0FYM0EwVlF6VVRFZ0w5dXZoL09sV2Na?=
+ =?utf-8?B?QUwwc3pvWXFpakplM1NPZ3o0SERkVWFXTjJRZmVvUmtReEx2SkJUZnVtNTd6?=
+ =?utf-8?B?VnBmVEZHZnlvaW9MTlNDT2VBUjBTN2pZRThaUHQySE5oNXFCZG1MSVIwSWJ6?=
+ =?utf-8?B?QlhEOGhwUllnTGNITlU4ek1WM0dweTFpcGMxTC83VHNPWklzODFpZ2lqeUZq?=
+ =?utf-8?B?TW1qUWtEOEZCSFI3MThYOFFpc0VKQmtWM1ZQZFl6ZDNBNk94cVh0c2VUMEt6?=
+ =?utf-8?B?d1JSSmdIZ2FKM080T3QyVkxKVVZja2c1YkhVWVQvL0w0QWJEVHFNNjcrVkh0?=
+ =?utf-8?B?SGFzY1B2UjJESmFmYXFObG9FZ2J6VnpDT08vYUhLV3lHREF5TU9UODlvVUE1?=
+ =?utf-8?B?R0FhZm4xWnU5bnZRdlpra3ZGaUZQNU1EVDNIeDJlT04vSXJFQ01iUXBrNWxu?=
+ =?utf-8?B?T1MwOTJyQkJQb1UreEJ5RjFjZTV1ZFFGY0pIM0I2bTV6dWsyeVdNb0dJbU1H?=
+ =?utf-8?B?ZGEzWFJNejhXL1lqVjZPNlZDdjRVOHB5WDV4S1FZS3NVRWN1c3VpQUZEaFRW?=
+ =?utf-8?B?Y2JvMFRMUHRpTTI1VXJHbDdGaDJlcnpNNm0xSkJZaHlDUDJsSXkvRVRORDRj?=
+ =?utf-8?B?Mm81Q0FDaTVvL0RlOEZnNDcvVE9qRFVQcU1jZFlZcWhPcVRZWnZUV0xlOVRr?=
+ =?utf-8?B?TWFsRm5ZWTFHVEZCV1VCL2RNbTQ1bnZTMnN5T0UwaHlrSzhVMnNmeW5Nc0Ro?=
+ =?utf-8?B?OWdlclJMbnNudG92STduank2YzJ4bm9EZmlVMUlVRDNUSEZyVVdPM2NLTnFV?=
+ =?utf-8?B?eG1NRHJUNkgwZGVCMnNvZWxrdnFFSFhBREFCQkFkSkhqQkJSdCtOSngwckR2?=
+ =?utf-8?B?bXlyZnZQTGFDdGlkTkV2emhvcFVONkZGV1pKQ1lIbUpVRU81Z2d1RHdDMFdZ?=
+ =?utf-8?B?VFFuRDVpN1RwY0JSako3cEFVNTdhMHB1eWxjU1lQSzY5TndIV2Vzakhzckw4?=
+ =?utf-8?B?anYrVTZtY2VEcGh6QmNVSytVTzhnSlJ3aTJUN3N2UUxSSGpaT2prV1dobXJo?=
+ =?utf-8?B?NUg1N1QvN0lXSTBaNGI1aHVJQVlKWnluM05tZE1LdUUyU1RHWU9aUmNpWnUx?=
+ =?utf-8?B?YS9vNUIxSzRYb29TcHBhRUx0OW9KaWtHWDJQdUFrckx0dWFGeWRRRnJ0Y1kr?=
+ =?utf-8?B?YUhzN09Za1d0d1lvMEVNMkpkcVl4MXRVT0x3UnFnd01ZQjRmUFRLNko2N3g1?=
+ =?utf-8?B?dVlSZEc2aEhzOG5BTHlaVW80VWRDeEczMVFyZDE5ei9ObGdlQkphN2NXQjNY?=
+ =?utf-8?B?UWlIQUxkaGJZSCswS1pGT0Vnc1lucU9QTFc3NXk1anJ2OWY4YkpwNHM5OHpn?=
+ =?utf-8?B?a0JtZ29RaDlIVmRLUzhSREVIZDEvOUt4cElIQjcxc3NJcElBSEw2dFpkWUd4?=
+ =?utf-8?B?U1BodlBQTGZDNGZGY1NKS296K3o4TVFXd0dhYjhFMUNDS25PNHQ2Mmg1dkNG?=
+ =?utf-8?B?aTFNUUtSeVhIK0RPUFkva1h3ZUNEbzhRU29SR2Q3QWpQWnJ4TTgyYlMxTWR6?=
+ =?utf-8?B?SzN0aHd2N1F1MHo1cUFsQ2FPbUEzSWxBNlkwRE1mL09pRUdNaU9hQjlEaEhU?=
+ =?utf-8?B?SlRLWjlqanNyOTBtTXZXNERYZnVnTXdrS3cyZFZCc0RhUkFiWEF6L0FEZng2?=
+ =?utf-8?B?bk9WMXN4em1zMDk4VU1jV3ZHUGpzdElhTE1IMTB5ODNVM05Fb3RHQ2lVSDBH?=
+ =?utf-8?B?a20vY1NaYXpSYnE5bnc3MU1qMFFWbGYzMVNjWUN2M24xRHExWXpXalNDTzRh?=
+ =?utf-8?B?OEI3UzNQMEpEdkkvU1VVWHBDeTlsUVNvdUtTNjF6Z25UcHhQdFdRaHV1b0xG?=
+ =?utf-8?Q?rPJgbX6/djtet7hbi2EAEeagf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a0c7aaa-e78b-48bc-a72b-08dbf5bd60bb
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2023 18:09:52.4918
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jbthrmADU8gA3u/E0Uh7MuKO8cytABAUi4XbgoB8HcAw9Tpkv/3DfSSUFbGl+9wF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6278
 
-Hi Tony,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.7-rc4 next-20231205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Lindgren/printk-Save-console-options-for-add_preferred_console_match/20231205-153731
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20231205073255.20562-5-tony%40atomide.com
-patch subject: [PATCH v4 4/4] serial: 8250: Add preferred console in serial8250_isa_init_ports()
-config: powerpc-randconfig-r081-20231205 (https://download.01.org/0day-ci/archive/20231206/202312060101.o6nb55MI-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060101.o6nb55MI-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060101.o6nb55MI-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/tty/serial/8250/8250_core.c:597:42: error: too few arguments to function call, expected 2, have 1
-     597 |                 serial8250_isa_init_preferred_console(i);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ^
-   drivers/tty/serial/8250/8250_core.c:543:20: note: 'serial8250_isa_init_preferred_console' declared here
-     543 | static inline void serial8250_isa_init_preferred_console(struct uart_port *port,
-         |                    ^
-   1 error generated.
 
 
-vim +597 drivers/tty/serial/8250/8250_core.c
+On 12/5/23 11:55, kernel test robot wrote:
+> Hi Babu,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on next-20231130]
+> [cannot apply to tip/x86/core linus/master v6.7-rc3 v6.7-rc2 v6.7-rc1 v6.7-rc4]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-resctrl-Remove-hard-coded-memory-bandwidth-limit/20231201-090621
+> base:   next-20231130
+> patch link:    https://lore.kernel.org/r/20231201005720.235639-15-babu.moger%40amd.com
+> patch subject: [PATCH 14/15] x86/resctrl: Add interface unassign a ABMC counter
+> config: i386-randconfig-013-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060120.q62q2ha7-lkp@intel.com/config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060120.q62q2ha7-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312060120.q62q2ha7-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:195:6: warning: no previous prototype for 'abmc_counters_free' [-Wmissing-prototypes]
+>      195 | void abmc_counters_free(int counterid)
 
-   549	
-   550	static void __init serial8250_isa_init_ports(void)
-   551	{
-   552		struct uart_8250_port *up;
-   553		static int first = 1;
-   554		int i, irqflag = 0;
-   555	
-   556		if (!first)
-   557			return;
-   558		first = 0;
-   559	
-   560		if (nr_uarts > UART_NR)
-   561			nr_uarts = UART_NR;
-   562	
-   563		/*
-   564		 * Set up initial isa ports based on nr_uart module param, or else
-   565		 * default to CONFIG_SERIAL_8250_RUNTIME_UARTS. Note that we do not
-   566		 * need to increase nr_uarts when setting up the initial isa ports.
-   567		 */
-   568		for (i = 0; i < nr_uarts; i++)
-   569			serial8250_setup_port(i);
-   570	
-   571		/* chain base port ops to support Remote Supervisor Adapter */
-   572		univ8250_port_ops = *base_ops;
-   573		univ8250_rsa_support(&univ8250_port_ops);
-   574	
-   575		if (share_irqs)
-   576			irqflag = IRQF_SHARED;
-   577	
-   578		for (i = 0, up = serial8250_ports;
-   579		     i < ARRAY_SIZE(old_serial_port) && i < nr_uarts;
-   580		     i++, up++) {
-   581			struct uart_port *port = &up->port;
-   582	
-   583			port->iobase   = old_serial_port[i].port;
-   584			port->irq      = irq_canonicalize(old_serial_port[i].irq);
-   585			port->irqflags = 0;
-   586			port->uartclk  = old_serial_port[i].baud_base * 16;
-   587			port->flags    = old_serial_port[i].flags;
-   588			port->hub6     = 0;
-   589			port->membase  = old_serial_port[i].iomem_base;
-   590			port->iotype   = old_serial_port[i].io_type;
-   591			port->regshift = old_serial_port[i].iomem_reg_shift;
-   592	
-   593			port->irqflags |= irqflag;
-   594			if (serial8250_isa_config != NULL)
-   595				serial8250_isa_config(i, &up->port, &up->capabilities);
-   596	
- > 597			serial8250_isa_init_preferred_console(i);
-   598		}
-   599	}
-   600	
+Yes. Got it.  This function requires a prototype in
+arch/x86/kernel/cpu/resctrl/internal.h.
 
+Will add it in the next revision after the other comments.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks
+Babu Moger
