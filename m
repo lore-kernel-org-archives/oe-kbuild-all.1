@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7346D1A6
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 19:12:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D826E6D1A3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Dec 2023 19:12:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CRBV/db1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ntXvevHk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701803550; x=1733339550;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wxoJGTf7jW0kpI33VCJqQQRt+6vy7zmpglX5TWAFgnY=;
-  b=CRBV/db19phhNdVgfu4xk1n4k+LKfNIyR93vfqpnjBjV3haIr0T3mVk3
-   STzwTCOLVntOMSFY0GlSpxVJcGhSHRlCYqZcwSgAHchdnBLqyYPbPlKdj
-   yc87+VeSS6uLRXh3tBivP5BIigoA4Bbn/AIkdfWO+C3vvFYCmhL2LRU5k
-   wWHwD8Ru28JuaWhzUJjHSEayqNw+L7oOkVvxwU58n/6HoeDjkqeU+v9DB
-   gsb4julxAqdfnMXr2LfTbNrWTf03hqnO5Hs4g4zHcFaAPhs0Hja2kScQq
-   kNDYeR90jfkKS+4xquemJsS6DIrJ98InG89TYoArXUwuylq0CI3lnFYA/
+  t=1701803552; x=1733339552;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SCVEwROWpI16Xe4LvrWk022YvjHgKA9aX9TmSNc/f2M=;
+  b=ntXvevHk/zbOD8CytW0h8b08ZOR5WCsVTIf05TBI1VG5ZzzMg5+nh0+l
+   CLUVnGhZKZtxFWJ8HJ+bDa5UNEerBE3QZwJ3BmnpUibHiggdTia00D2cm
+   C7O5f3Q1rRohVLRRGG66nmM+xn0izak/ngpqI5Za0m/QNtqaRrk/sfdpx
+   wcj9AUb0qu/K0UoKxjpgoLWdztn6qOkvXbfHocsszoo977RFxwosh8sFC
+   0KicaeBkoxiSwtTuMhj5ypK9Q3lDwc3f9m5C7rTFLpzFoLO6fiyXKSuTd
+   uTU6TZbnDTzw5g4QHtQifvnlaOLx2yVctZ7vyRUfoZKiMUXUqbQ7u1E/x
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="425100930"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="12662562"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="425100930"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 11:12:29 -0800
+   d="scan'208";a="12662562"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 11:12:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="861850886"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="889043560"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="861850886"
+   d="scan'208";a="889043560"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 11:12:27 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2023 11:12:29 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAaqG-0009b5-0X;
-	Tue, 05 Dec 2023 19:12:24 +0000
-Date: Wed, 6 Dec 2023 03:11:33 +0800
+	id 1rAaqH-0009b8-1C;
+	Tue, 05 Dec 2023 19:12:25 +0000
+Date: Wed, 6 Dec 2023 03:11:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: arch/mips/kernel/smp-cps.c:165:37: sparse: sparse: cast removes
- address space '__iomem' of expression
-Message-ID: <202312060347.7gSJptjV-lkp@intel.com>
+To: Jaegeuk Kim <jaegeuk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 4/4] f2fs: let's finish or reset zones all the time
+Message-ID: <202312060250.BuWvx8yf-lkp@intel.com>
+References: <20231204180428.925779-4-jaegeuk@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,224 +50,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231204180428.925779-4-jaegeuk@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: fea8826d5fdc4ff5c93e883a738597129614039c MIPS: smp-cps: Don't rely on CP0_CMGCRBASE
-date:   9 months ago
-config: mips-randconfig-r122-20231108 (https://download.01.org/0day-ci/archive/20231206/202312060347.7gSJptjV-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060347.7gSJptjV-lkp@intel.com/reproduce)
+Hi Jaegeuk,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jaegeuk-f2fs/dev-test]
+[also build test WARNING on jaegeuk-f2fs/dev linus/master v6.7-rc4 next-20231205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jaegeuk-Kim/f2fs-fix-write-pointers-on-zoned-device-after-roll-forward/20231205-020543
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20231204180428.925779-4-jaegeuk%40kernel.org
+patch subject: [PATCH 4/4] f2fs: let's finish or reset zones all the time
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231206/202312060250.BuWvx8yf-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060250.BuWvx8yf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060347.7gSJptjV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060250.BuWvx8yf-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/mips/kernel/smp-cps.c:165:37: sparse: sparse: cast removes address space '__iomem' of expression
-   arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/include/asm/mips-cps.h, arch/mips/include/asm/smp-ops.h, arch/mips/include/asm/smp.h, ...):
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:292:1: sparse:     got void [noderef] __iomem *
-   arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/include/asm/mips-cps.h, arch/mips/include/asm/smp-ops.h, arch/mips/include/asm/smp.h, ...):
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cpc.h:149:1: sparse:     got void [noderef] __iomem *
-   arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/include/asm/mips-cps.h, arch/mips/include/asm/smp-ops.h, arch/mips/include/asm/smp.h, ...):
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void const volatile [noderef] __iomem *mem
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     expected void *
-   arch/mips/include/asm/mips-cm.h:152:1: sparse:     got void [noderef] __iomem *
-   arch/mips/include/asm/mips-cm.h:131:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +165 arch/mips/kernel/smp-cps.c
+   fs/f2fs/segment.c: In function 'check_zone_write_pointer':
+>> fs/f2fs/segment.c:4874:29: warning: variable 'wp_block' set but not used [-Wunused-but-set-variable]
+    4874 |         block_t zone_block, wp_block, valid_block_cnt;
+         |                             ^~~~~~~~
 
-   118	
-   119	static void __init cps_prepare_cpus(unsigned int max_cpus)
-   120	{
-   121		unsigned ncores, core_vpes, c, cca;
-   122		bool cca_unsuitable, cores_limited;
-   123		u32 *entry_code;
-   124	
-   125		mips_mt_set_cpuoptions();
-   126	
-   127		/* Detect whether the CCA is unsuited to multi-core SMP */
-   128		cca = read_c0_config() & CONF_CM_CMASK;
-   129		switch (cca) {
-   130		case 0x4: /* CWBE */
-   131		case 0x5: /* CWB */
-   132			/* The CCA is coherent, multi-core is fine */
-   133			cca_unsuitable = false;
-   134			break;
-   135	
-   136		default:
-   137			/* CCA is not coherent, multi-core is not usable */
-   138			cca_unsuitable = true;
-   139		}
-   140	
-   141		/* Warn the user if the CCA prevents multi-core */
-   142		cores_limited = false;
-   143		if (cca_unsuitable || cpu_has_dc_aliases) {
-   144			for_each_present_cpu(c) {
-   145				if (cpus_are_siblings(smp_processor_id(), c))
-   146					continue;
-   147	
-   148				set_cpu_present(c, false);
-   149				cores_limited = true;
-   150			}
-   151		}
-   152		if (cores_limited)
-   153			pr_warn("Using only one core due to %s%s%s\n",
-   154				cca_unsuitable ? "unsuitable CCA" : "",
-   155				(cca_unsuitable && cpu_has_dc_aliases) ? " & " : "",
-   156				cpu_has_dc_aliases ? "dcache aliasing" : "");
-   157	
-   158		/*
-   159		 * Patch the start of mips_cps_core_entry to provide:
-   160		 *
-   161		 * s0 = kseg0 CCA
-   162		 */
-   163		entry_code = (u32 *)&mips_cps_core_entry;
-   164		uasm_i_addiu(&entry_code, 16, 0, cca);
- > 165		UASM_i_LA(&entry_code, 17, (long)mips_gcr_base);
-   166		BUG_ON((void *)entry_code > (void *)&mips_cps_core_entry_patch_end);
-   167		blast_dcache_range((unsigned long)&mips_cps_core_entry,
-   168				   (unsigned long)entry_code);
-   169		bc_wback_inv((unsigned long)&mips_cps_core_entry,
-   170			     (void *)entry_code - (void *)&mips_cps_core_entry);
-   171		__sync();
-   172	
-   173		/* Allocate core boot configuration structs */
-   174		ncores = mips_cps_numcores(0);
-   175		mips_cps_core_bootcfg = kcalloc(ncores, sizeof(*mips_cps_core_bootcfg),
-   176						GFP_KERNEL);
-   177		if (!mips_cps_core_bootcfg) {
-   178			pr_err("Failed to allocate boot config for %u cores\n", ncores);
-   179			goto err_out;
-   180		}
-   181	
-   182		/* Allocate VPE boot configuration structs */
-   183		for (c = 0; c < ncores; c++) {
-   184			core_vpes = core_vpe_count(0, c);
-   185			mips_cps_core_bootcfg[c].vpe_config = kcalloc(core_vpes,
-   186					sizeof(*mips_cps_core_bootcfg[c].vpe_config),
-   187					GFP_KERNEL);
-   188			if (!mips_cps_core_bootcfg[c].vpe_config) {
-   189				pr_err("Failed to allocate %u VPE boot configs\n",
-   190				       core_vpes);
-   191				goto err_out;
-   192			}
-   193		}
-   194	
-   195		/* Mark this CPU as booted */
-   196		atomic_set(&mips_cps_core_bootcfg[cpu_core(&current_cpu_data)].vpe_mask,
-   197			   1 << cpu_vpe_id(&current_cpu_data));
-   198	
-   199		return;
-   200	err_out:
-   201		/* Clean up allocations */
-   202		if (mips_cps_core_bootcfg) {
-   203			for (c = 0; c < ncores; c++)
-   204				kfree(mips_cps_core_bootcfg[c].vpe_config);
-   205			kfree(mips_cps_core_bootcfg);
-   206			mips_cps_core_bootcfg = NULL;
-   207		}
-   208	
-   209		/* Effectively disable SMP by declaring CPUs not present */
-   210		for_each_possible_cpu(c) {
-   211			if (c == 0)
-   212				continue;
-   213			set_cpu_present(c, false);
-   214		}
-   215	}
-   216	
+
+vim +/wp_block +4874 fs/f2fs/segment.c
+
+  4868	
+  4869	static int check_zone_write_pointer(struct f2fs_sb_info *sbi,
+  4870					    struct f2fs_dev_info *fdev,
+  4871					    struct blk_zone *zone)
+  4872	{
+  4873		unsigned int zone_segno;
+> 4874		block_t zone_block, wp_block, valid_block_cnt;
+  4875		unsigned int log_sectors_per_block = sbi->log_blocksize - SECTOR_SHIFT;
+  4876		int ret;
+  4877	
+  4878		if (zone->type != BLK_ZONE_TYPE_SEQWRITE_REQ)
+  4879			return 0;
+  4880	
+  4881		wp_block = fdev->start_blk + (zone->wp >> log_sectors_per_block);
+  4882		zone_block = fdev->start_blk + (zone->start >> log_sectors_per_block);
+  4883		zone_segno = GET_SEGNO(sbi, zone_block);
+  4884	
+  4885		/*
+  4886		 * Skip check of zones cursegs point to, since
+  4887		 * fix_curseg_write_pointer() checks them.
+  4888		 */
+  4889		if (zone_segno >= MAIN_SEGS(sbi) ||
+  4890		    IS_CURSEC(sbi, GET_SEC_FROM_SEG(sbi, zone_segno)))
+  4891			return 0;
+  4892	
+  4893		/*
+  4894		 * Get # of valid block of the zone.
+  4895		 */
+  4896		valid_block_cnt = get_valid_blocks(sbi, zone_segno, true);
+  4897	
+  4898		if ((!valid_block_cnt && zone->cond == BLK_ZONE_COND_EMPTY) ||
+  4899		    (valid_block_cnt && zone->cond == BLK_ZONE_COND_FULL))
+  4900			return 0;
+  4901	
+  4902		if (!valid_block_cnt) {
+  4903			f2fs_notice(sbi, "Zone without valid block has non-zero write "
+  4904				    "pointer. Reset the write pointer: cond[0x%x]",
+  4905				    zone->cond);
+  4906			ret = __f2fs_issue_discard_zone(sbi, fdev->bdev, zone_block,
+  4907						zone->len >> log_sectors_per_block);
+  4908			if (ret)
+  4909				f2fs_err(sbi, "Discard zone failed: %s (errno=%d)",
+  4910					 fdev->path, ret);
+  4911			return ret;
+  4912		}
+  4913	
+  4914		/*
+  4915		 * If there are valid blocks and the write pointer doesn't match
+  4916		 * with them, we need to report the inconsistency and fill
+  4917		 * the zone till the end to close the zone. This inconsistency
+  4918		 * does not cause write error because the zone will not be
+  4919		 * selected for write operation until it get discarded.
+  4920		 */
+  4921		f2fs_notice(sbi, "Valid blocks are not aligned with write "
+  4922			    "pointer: valid block[0x%x,0x%x] cond[0x%x]",
+  4923			    zone_segno, valid_block_cnt, zone->cond);
+  4924	
+  4925		ret = blkdev_zone_mgmt(fdev->bdev, REQ_OP_ZONE_FINISH,
+  4926					zone->start, zone->len, GFP_NOFS);
+  4927		if (ret == -EOPNOTSUPP) {
+  4928			ret = blkdev_issue_zeroout(fdev->bdev, zone->wp,
+  4929						zone->len - (zone->wp - zone->start),
+  4930						GFP_NOFS, 0);
+  4931			if (ret)
+  4932				f2fs_err(sbi, "Fill up zone failed: %s (errno=%d)",
+  4933						fdev->path, ret);
+  4934		} else if (ret) {
+  4935			f2fs_err(sbi, "Finishing zone failed: %s (errno=%d)",
+  4936					fdev->path, ret);
+  4937		}
+  4938	
+  4939		return ret;
+  4940	}
+  4941	
 
 -- 
 0-DAY CI Kernel Test Service
