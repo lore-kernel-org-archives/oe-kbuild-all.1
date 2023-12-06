@@ -1,167 +1,166 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437763EA8E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 15:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66273FB39
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 15:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mojatatu-com.20230601.gappssmtp.com header.i=@mojatatu-com.20230601.gappssmtp.com header.b="jXV6PV28"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5d7a47d06eeso47457527b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 06 Dec 2023 07:08:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mojatatu-com.20230601.gappssmtp.com; s=20230601; t=1701875314; x=1702480114; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gI4+87OmuedWYZowFLyZTVA/u3jp6SGb1EP0gsJn5OY=;
-        b=jXV6PV28De8VyXESgxjbBCMzlwpy/KJ61GCVmQh8IN3mohoZisIC4tcqrSpqbu7Sra
-         S4Uj0uKqR6pGcJxER7X83wjQmYoiTlorZCuB6rCwXKnf2VgqF4sl22W9DrgQzHyADVIj
-         W7Ob3LfVfQCs6K184s8LorGhmSIksejVa7/5tyIXRjU4xk3PhJzl0JfHWARIataNLDRO
-         Rtrba4+X7cD7tRHKZbQiBhN09vixZQpsFdMYSOr2Lh9wyxaKKZqFX0lbazkKqovMMM2P
-         f7Kn1Rxut6/j23RquriZc4sTB1rlM+zK5p+diM6rXWfUTLaqt1m5DBIa2E2SNzIY3WUu
-         rpHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701875314; x=1702480114;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gI4+87OmuedWYZowFLyZTVA/u3jp6SGb1EP0gsJn5OY=;
-        b=WutIVG/NTiAzEWL4+23a9yhU/73Hg18zWDjr6uX3MvxnIgAwzxbeO4xWA7xPwnHUH3
-         ZbCsQvZ623zu0GEnDYsnLmpPDh+RN+kSNaFXNFoQisJoOtjE8q+ijT0gHA0G02vF0JIi
-         x+HTzR61jCuuw8XjvW1whgIM1pp2jyknhkTbd+qPvZAtRVWv2CvlDKTZ+1S+gR5Wbo/k
-         W2ur/cb3wwxEpRJaSQjKVDxy7yg+VrPRO9FVIZflrmS7KH7zV5XmgHB8SKrN8Aa15snH
-         Al6YrAASmgcHp8P0TaMpUcH4H5z6J2ju/byqaNk8XhgonnmJ/UQ3NmdrrRJzGs7XA3Ey
-         h+Aw==
-X-Gm-Message-State: AOJu0YxSoQHnDAwPZ/UJCjjEK0mrN2zkVTHdlx7cfCEtqid1oZAYYXZc
-	Tw0ch+gHG3BlEybVgZ5hbEAlBoo/K6654i3NqdQsTA==
-X-Google-Smtp-Source: AGHT+IHF9CzT8VrghpajIXOI4MLzZ24JXy9q27f+k6JJ8gWMSKwgFRPeOQuAl95Vk0Cb7Kg8XGZRY9Z+ZKYjtmmKU1M=
-X-Received: by 2002:a0d:e60b:0:b0:5d7:1940:f3e9 with SMTP id
- p11-20020a0de60b000000b005d71940f3e9mr760885ywe.81.1701875313870; Wed, 06 Dec
- 2023 07:08:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bqTelXG9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701875872; x=1733411872;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=waumdTvJZcsBL2ArztxFKebgk3BhCdNk/+PYejbqe8M=;
+  b=bqTelXG9lOqvuXjljJjTxJO6VBoEQ3WAx7PYuv1KVzC0GG/GWqitDxrJ
+   5qZoU8oOPvD906zF3hTvWgIzYz/W1yuHFp8bXlTWX1IuY5s6awupcctjT
+   NzwzQJ5Uhd3Q17imX+TsD7U6xg228PI/5CrVsniq+idaz9MK2EomJ8mGu
+   2WHMA6snZA7E8fRHq/v0CNjkuMzwkECVDTQsQhDUyDZQcH8EsUjCHkYt6
+   Jzgt7uDa2GUNUgiXMoMIDEiBrsh4QpU8vox4h56EHOsjXHR+blC1tvgEw
+   yoTI7ujEuZnOwH3RIYoSSnWrRzph6svDuhrnqJAfwfB0lJF7FJuUV5kLE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="374253689"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
+   d="scan'208";a="374253689"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 07:17:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="805669853"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
+   d="scan'208";a="805669853"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 06 Dec 2023 07:17:48 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAtek-000Azq-2D;
+	Wed, 06 Dec 2023 15:17:46 +0000
+Date: Wed, 6 Dec 2023 23:17:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stefan Roesch <shr@devkernel.io>, kernel-team@fb.com
+Cc: oe-kbuild-all@lists.linux.dev, shr@devkernel.io,
+	akpm@linux-foundation.org, david@redhat.com, hannes@cmpxchg.org,
+	riel@surriel.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 1/4] mm/ksm: add ksm advisor
+Message-ID: <202312062353.lBYSA7Eb-lkp@intel.com>
+References: <20231204234906.1237478-2-shr@devkernel.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231201182904.532825-14-jhs@mojatatu.com> <9dc10258-a370-4c8f-8099-36edf40b6f80@suswa.mountain>
-In-Reply-To: <9dc10258-a370-4c8f-8099-36edf40b6f80@suswa.mountain>
-From: Jamal Hadi Salim <jhs@mojatatu.com>
-Date: Wed, 6 Dec 2023 10:08:22 -0500
-Message-ID: <CAM0EoMnnXNxtzDqtC96rbKjy1qfebtBTPpGj7MR7j4uzqXjEWA@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 13/15] p4tc: add runtime table entry create,
- update, get, delete, flush and dump
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, netdev@vger.kernel.org, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, deb.chatterjee@intel.com, 
-	anjali.singhai@intel.com, namrata.limaye@intel.com, mleitner@redhat.com, 
-	Mahesh.Shirshyad@amd.com, tomasz.osinski@intel.com, jiri@resnulli.us, 
-	xiyou.wangcong@gmail.com, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, vladbu@nvidia.com, horms@kernel.org, 
-	khalidm@nvidia.com, toke@redhat.com, daniel@iogearbox.net, 
-	bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231204234906.1237478-2-shr@devkernel.io>
 
-Hi Dan,
+Hi Stefan,
 
-On Wed, Dec 6, 2023 at 12:34=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> Hi Jamal,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/n=
-et-sched-act_api-increase-action-kind-string-length/20231202-032940
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20231201182904.532825-14-jhs%40m=
-ojatatu.com
-> patch subject: [PATCH net-next v9 13/15] p4tc: add runtime table entry cr=
-eate, update, get, delete, flush and dump
-> config: powerpc64-randconfig-r081-20231204 (https://download.01.org/0day-=
-ci/archive/20231205/202312052121.NV57fCuG-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231205/202312052121=
-.NV57fCuG-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202312052121.NV57fCuG-lkp@intel.com/
+kernel test robot noticed the following build errors:
 
-Thanks - Will do (it will be a new version not separate fix commit).
+[auto build test ERROR on 12d04a7bf0da67321229d2bc8b1a7074d65415a9]
 
-> smatch warnings:
-> net/sched/p4tc/p4tc_tbl_entry.c:2555 p4tc_tbl_entry_dumpit() warn: can 'n=
-l_path_attrs.pname' even be NULL?
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Roesch/mm-ksm-add-ksm-advisor/20231205-075118
+base:   12d04a7bf0da67321229d2bc8b1a7074d65415a9
+patch link:    https://lore.kernel.org/r/20231204234906.1237478-2-shr%40devkernel.io
+patch subject: [PATCH v3 1/4] mm/ksm: add ksm advisor
+config: i386-randconfig-011-20231206 (https://download.01.org/0day-ci/archive/20231206/202312062353.lBYSA7Eb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312062353.lBYSA7Eb-lkp@intel.com/reproduce)
 
-We need to update our smatch i suppose because we didnt catch this one.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312062353.lBYSA7Eb-lkp@intel.com/
 
-cheers,
-jamal
+All errors (new ones prefixed by >>):
 
-> vim +2555 net/sched/p4tc/p4tc_tbl_entry.c
->
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2529        pnatt =3D nla_res=
-erve(skb, P4TC_ROOT_PNAME, P4TC_PIPELINE_NAMSIZ);
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2530        if (!pnatt)
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2531                return -E=
-NOMEM;
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2532
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2533        ids[P4TC_PID_IDX]=
- =3D t_new->pipeid;
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2534        arg_ids =3D nla_d=
-ata(tb[P4TC_PATH]);
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2535        memcpy(&ids[P4TC_=
-TBLID_IDX], arg_ids, nla_len(tb[P4TC_PATH]));
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2536        nl_path_attrs.ids=
- =3D ids;
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2537
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2538        nl_path_attrs.pna=
-me =3D nla_data(pnatt);
->
-> nla_data() can't be NULL
->
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2539        if (!p_name) {
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2540                /* Filled=
- up by the operation or forced failure */
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2541                memset(nl=
-_path_attrs.pname, 0, P4TC_PIPELINE_NAMSIZ);
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2542                nl_path_a=
-ttrs.pname_passed =3D false;
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2543        } else {
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2544                strscpy(n=
-l_path_attrs.pname, p_name, P4TC_PIPELINE_NAMSIZ);
->
-> And we dereference it
->
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2545                nl_path_a=
-ttrs.pname_passed =3D true;
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2546        }
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2547
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2548        root =3D nla_nest=
-_start(skb, P4TC_ROOT);
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2549        ret =3D p4tc_tabl=
-e_entry_dump(net, skb, tb[P4TC_PARAMS], &nl_path_attrs,
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2550                         =
-           cb, extack);
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2551        if (ret <=3D 0)
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2552                goto out;
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2553        nla_nest_end(skb,=
- root);
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2554
-> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01 @2555        if (nl_path_attrs=
-.pname) {
->                                                             ^^^^^^^^^^^^^=
-^^^^^^
-> This NULL check can be removed.
->
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+   ld: mm/ksm.o: in function `scan_time_advisor':
+>> mm/ksm.c:423: undefined reference to `__divdi3'
+>> ld: mm/ksm.c:435: undefined reference to `__divdi3'
+   ld: mm/ksm.c:428: undefined reference to `__divdi3'
+
+
+vim +423 mm/ksm.c
+
+   383	
+   384	/*
+   385	 * The scan time advisor is based on the current scan rate and the target
+   386	 * scan rate.
+   387	 *
+   388	 *      new_pages_to_scan = pages_to_scan * (scan_time / target_scan_time)
+   389	 *
+   390	 * To avoid pertubations it calculates a change factor of previous changes.
+   391	 * A new change factor is calculated for each iteration and it uses an
+   392	 * exponentially weighted moving average. The new pages_to_scan value is
+   393	 * multiplied with that change factor:
+   394	 *
+   395	 *      new_pages_to_scan *= change facor
+   396	 *
+   397	 * In addition the new pages_to_scan value is capped by the max and min
+   398	 * limits.
+   399	 */
+   400	static void scan_time_advisor(void)
+   401	{
+   402		unsigned int cpu_percent;
+   403		unsigned long cpu_time;
+   404		unsigned long cpu_time_diff;
+   405		unsigned long cpu_time_diff_ms;
+   406		unsigned long pages;
+   407		unsigned long per_page_cost;
+   408		unsigned long factor;
+   409		unsigned long change;
+   410		unsigned long last_scan_time;
+   411		s64 scan_time;
+   412	
+   413		/* Convert scan time to seconds */
+   414		scan_time = advisor_stop_scan();
+   415		scan_time = div_s64(scan_time, MSEC_PER_SEC);
+   416		scan_time = scan_time ? scan_time : 1;
+   417	
+   418		/* Calculate CPU consumption of ksmd background thread */
+   419		cpu_time = task_sched_runtime(current);
+   420		cpu_time_diff = cpu_time - advisor_ctx.cpu_time;
+   421		cpu_time_diff_ms = cpu_time_diff / 1000 / 1000;
+   422	
+ > 423		cpu_percent = (cpu_time_diff_ms * 100) / (scan_time * 1000);
+   424		cpu_percent = cpu_percent ? cpu_percent : 1;
+   425		last_scan_time = prev_scan_time(&advisor_ctx, scan_time);
+   426	
+   427		/* Calculate scan time as percentage of target scan time */
+   428		factor = ksm_advisor_target_scan_time * 100 / scan_time;
+   429		factor = factor ? factor : 1;
+   430	
+   431		/*
+   432		 * Calculate scan time as percentage of last scan time and use
+   433		 * exponentially weighted average to smooth it
+   434		 */
+ > 435		change = scan_time * 100 / last_scan_time;
+   436		change = change ? change : 1;
+   437		change = ewma(advisor_ctx.change, change);
+   438	
+   439		/* Calculate new scan rate based on target scan rate. */
+   440		pages = ksm_thread_pages_to_scan * 100 / factor;
+   441		/* Update pages_to_scan by weighted change percentage. */
+   442		pages = pages * change / 100;
+   443	
+   444		/* Cap new pages_to_scan value */
+   445		per_page_cost = ksm_thread_pages_to_scan / cpu_percent;
+   446		per_page_cost = per_page_cost ? per_page_cost : 1;
+   447	
+   448		pages = min(pages, per_page_cost * ksm_advisor_max_cpu);
+   449		pages = max(pages, per_page_cost * ksm_advisor_min_cpu);
+   450		pages = min(pages, ksm_advisor_max_pages);
+   451	
+   452		/* Update advisor context */
+   453		advisor_ctx.change = change;
+   454		advisor_ctx.scan_time = scan_time;
+   455		advisor_ctx.cpu_time = cpu_time;
+   456	
+   457		ksm_thread_pages_to_scan = pages;
+   458	}
+   459	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
