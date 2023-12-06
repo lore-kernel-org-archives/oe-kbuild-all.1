@@ -1,102 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09DD1FBC
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 16:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B7649F66
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 17:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jZQoiTRO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701881087; x=1733417087;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K5BamlFQnKspvWlJoAksXpagvzUp5NjCWQziQXXTBVA=;
-  b=jZQoiTROaoAqgKfWOD+tpO+gj6H3zhyVLvzSUoOyipmm+Ofy87cyU/Js
-   8QzyhpQIke2vIw+pKnmhtyhyHPrXaT9XrEstsr8ohnJJnAd7Ud9i6ghLA
-   N/KTQHFvznLnqRtg/EImhrgI6/F5OFmRXlNk+ofj5jJYFxoVJ2iC8uWJP
-   iYtdh++Hy8cD2sqa9NS1zVuadnjBbUMejuH9c8Leb4Z3DJ2GCBPH+pD2n
-   lq2QkG7iSW8FJ2PQMa1v7wjX3QNQ//5NEbkAnxoxmT5sNTbUuQ1Hlwb1f
-   Sh9zV7R+lqVKlCfPP3j70OYOeCU2mTJ/qu7l+Fio/ndmm7YhCKJJKNTh3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="374264174"
-X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="374264174"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 08:44:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="862165435"
-X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="862165435"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Dec 2023 08:44:43 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAuzF-000B9y-23;
-	Wed, 06 Dec 2023 16:44:00 +0000
-Date: Thu, 7 Dec 2023 00:42:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <mripard@kernel.org>, davidgow@google.com,
-	Rae Moar <rmoar@google.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Vetter <daniel.vetter@ffwll.ch>,
-	David Airlie <airlied@linux.ie>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
-	kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH] drm/tests: Switch to kunit devices
-Message-ID: <202312070010.HAfMuYFE-lkp@intel.com>
-References: <20231205090405.153140-1-mripard@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IBkeXZF1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=zaZMCfpXWHDewSKfYQmdUR7glYYV0yHmqBv04S10bVk=; b=IBkeXZF15BDRNRFf9NMuJ/0yUO
+	qdy1IhDZ+H3egZn8hxUb4s5eJuCWOyvPy80Y9UjXaKMONiMfQIu3NePzrtpjUqCgs+hD/exMKD6Hu
+	+feC0hk4/mH+e2Id1sCR4ptvm40J8VJzdyWqrqCTLb8V+ZCMPSLzob5atCI3TK57Q0h7ErbsRhUOB
+	vydFCGEL2ZvQilLozlkxSW6Fifv/icDIdrQuD42COGiA3wwr/ILWWu80gLENtHg9DGQcHdMS6pN+N
+	kFH6JFsPFSaMgjSXucdcDxj90cy0IwcRAWcDOihSDLq/VP8mj9ei7Bwekh39zBp/M+u0F/VtycciH
+	2zBD6xZw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rAvew-00Astm-1O;
+	Wed, 06 Dec 2023 17:26:06 +0000
+Message-ID: <c10194f2-097f-4455-9932-19961edbf990@infradead.org>
+Date: Wed, 6 Dec 2023 09:26:06 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231205090405.153140-1-mripard@kernel.org>
-
-Hi Maxime,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20231205]
-[cannot apply to drm-misc/drm-misc-next v6.7-rc4 v6.7-rc3 v6.7-rc2 linus/master v6.7-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-Switch-to-kunit-devices/20231205-170508
-base:   next-20231205
-patch link:    https://lore.kernel.org/r/20231205090405.153140-1-mripard%40kernel.org
-patch subject: [PATCH] drm/tests: Switch to kunit devices
-config: i386-randconfig-012-20231206 (https://download.01.org/0day-ci/archive/20231207/202312070010.HAfMuYFE-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312070010.HAfMuYFE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312070010.HAfMuYFE-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/tests/drm_kunit_helpers.c:8:10: fatal error: kunit/device.h: No such file or directory
-    #include <kunit/device.h>
-             ^~~~~~~~~~~~~~~~
-   compilation terminated.
+User-Agent: Mozilla Thunderbird
+Subject: Re: pm.c:undefined reference to `i8042_command'
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
+ Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Nicolas Schier <nicolas@fjasle.eu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ linux-mips@vger.kernel.org
+References: <202312041909.lwhcU35R-lkp@intel.com>
+ <5f1caaf8-1edf-444a-b017-c4d08e52213b@infradead.org>
+ <f712a65b-4984-46e8-bd43-1309b5cd41f0@app.fastmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <f712a65b-4984-46e8-bd43-1309b5cd41f0@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +8 drivers/gpu/drm/tests/drm_kunit_helpers.c
 
-     7	
-   > 8	#include <kunit/device.h>
-     9	#include <kunit/resource.h>
-    10	
+On 12/5/23 22:52, Arnd Bergmann wrote:
+> On Wed, Dec 6, 2023, at 06:24, Randy Dunlap wrote:
+>>> All errors (new ones prefixed by >>):
+>>>
+>>>    mips64el-linux-ld: arch/mips/loongson2ef/lemote-2f/pm.o: in function `setup_wakeup_events':
+>>>>> pm.c:(.text+0x118): undefined reference to `i8042_command'
+>>>>> mips64el-linux-ld: pm.c:(.text+0x154): undefined reference to `i8042_command'
+>>
+>>
+>> How do we feel about this?
+>> I suppose that an ARCH or mach or board should know what it requires.
+>>
+>>
+>> ---
+>>  arch/mips/loongson2ef/Kconfig |    3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff -- a/arch/mips/loongson2ef/Kconfig b/arch/mips/loongson2ef/Kconfig
+>> --- a/arch/mips/loongson2ef/Kconfig
+>> +++ b/arch/mips/loongson2ef/Kconfig
+>> @@ -40,6 +40,9 @@ config LEMOTE_MACH2F
+>>  	select ARCH_HAS_PHYS_TO_DMA
+>>  	select ARCH_MIGHT_HAVE_PC_PARPORT
+>>  	select ARCH_MIGHT_HAVE_PC_SERIO
+>> +	select INPUT
+>> +	select SERIO
+>> +	select SERIO_I8042
+>>  	select BOARD_SCACHE
+>>  	select BOOT_ELF32
+> 
+> I think it's bad style to force-select an optional subsystem.
+> How about making the entire file optional? It seems that there
+> are already __weak functions in its place.
+
+Yes, I agree in general.
+
+Hopefully the maintainer will opine your suggestion.
+Jiaxun?
+
+Thanks.
+
+> 
+> --- a/arch/mips/loongson2ef/lemote-2f/Makefile
+> +++ b/arch/mips/loongson2ef/lemote-2f/Makefile
+> @@ -8,5 +8,6 @@ obj-y += clock.o machtype.o irq.o reset.o dma.o ec_kb3310b.o
+>  #
+>  # Suspend Support
+>  #
+> -
+> +ifdef CONFIG_SERIO_I8042
+>  obj-$(CONFIG_SUSPEND) += pm.o
+> +endif
+> 
+>      Arnd
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
