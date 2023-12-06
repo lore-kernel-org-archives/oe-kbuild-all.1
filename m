@@ -1,58 +1,49 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F159C8F5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 05:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6894810782
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 05:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UicEntuh"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40c09dfa03cso35566735e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Dec 2023 21:35:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701840955; x=1702445755; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qzthnNL0UkewQ0fO1K+PfqxIntdCT/Ts1fLBxjOArOk=;
-        b=UicEntuhPCxhInLPQvbN5bepQ+jZRF3fqxANk1SWzCBlzZnVwPhdg8dP0m8aaS6h9D
-         0pZwQliLb8eKzEiDcEl8DAW1WzZVfqephMR3lwWRdxTipGNIZipVRY0oXkEGFPVjxIsf
-         eOndAv9kMNMW4CY/QbW/Xb1yDj8yfVZqeBIEmG4xCW8VCAQCYeqnRveK2fDQV/f5ebGY
-         KBQ1XhGHw1Q0VeJI8syoil7NWXJgcAp+il+kvFp+h2KacCxAjy74dsS+I0ALMZ9m3uRm
-         gGzHsbUglE2mEo+jlgavHBp6eobthNUpbEz7upIkZlGIVnyuV9UC+2TyUsBpZ2bqzfEo
-         U2zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701840955; x=1702445755;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qzthnNL0UkewQ0fO1K+PfqxIntdCT/Ts1fLBxjOArOk=;
-        b=KpuUjzHTIdXlOOY2XHk+tQTFMkeqlNPv1AA8Y/H1+O2KPbSCT6sKiUa5sNb0NhMarr
-         G1scvNHsUySUuVhm8xH2gDmo6NLLqRAMflkWZ0GxWjvvHz8cwKZxWrSWl++VOfaLnrym
-         toXDO1IKZnsg2L1WAeJr4RdEzCBuPp0mRisNI7UcAeX8OVrWRRaRLj77mjDmtn6n+sKN
-         IfouuoMQBt5eIhsZSRTRSHCrbCA/6q3o+mf1cgYYekAiyU5Wy53brNU2mM+JenZorY3h
-         FyIflLukOf3DFkC6gm+UmvXwnUGcEWv5JHx1/eY8mQ9YFRpstvHY8knH2137GMx98+bL
-         y4Mg==
-X-Gm-Message-State: AOJu0YyuHuJZiY6qD54Y4Q6GXhaBMGxtpOxvJNML97mmBPp3bHRyfMnZ
-	SgqZzLB2eUYuj5HFUsqF0Vbd9Q==
-X-Google-Smtp-Source: AGHT+IENKmGGzONbrvIGkyY6v9ZdmSl19kkWnDTVDK4IiWorUXZqx8FY4JZ07ZgvvdYSt4VRR9L23w==
-X-Received: by 2002:a05:600c:21c9:b0:40b:5e59:c555 with SMTP id x9-20020a05600c21c900b0040b5e59c555mr214951wmj.127.1701840955265;
-        Tue, 05 Dec 2023 21:35:55 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id x16-20020adfec10000000b003333beb564asm10410153wrn.5.2023.12.05.21.35.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 21:35:54 -0800 (PST)
-Date: Wed, 6 Dec 2023 08:35:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Haoran Liu <liuhaoran14@163.com>,
-	davem@davemloft.net
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, edumazet@google.com,
-	pabeni@redhat.com, heiko@sntech.de, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Haoran Liu <liuhaoran14@163.com>
-Subject: Re: [PATCH] [net/ethernet] arc_emac: Add error handling in
- emac_rockchip_probe
-Message-ID: <08f04975-2abb-4c1a-8bf6-34e6653568af@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cqKTjQIW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701840974; x=1733376974;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wk2SuZhrBqHSmX72wJ4FHXoksutm0C49isPwl25iFCg=;
+  b=cqKTjQIWDpGYQtMFL4BPjFmwX1So/X6ruAoib+b36o1tOFCbR+Q22fwb
+   CjnEhzrKbfvayshEKDQvlSZaTu2YhIWgm49zng1NOAipcBil/xWtyRwU1
+   6OPdIE46XLdBCS9fwkAswZ1bL75O02sS0NktcyP+Yud/Fs3IGCxcXwL7k
+   1GaGdZESLBBVykblnwgzVsok5fhAHEQRep0yU/M5OAY3B4XrTVT63+4WV
+   vByH6k4TUEDfYzs5H8KgJkAj22Tet81/r424kfvXV8X4TH1uYK7qfCmz6
+   9ticc1cNYYoIGvbQ4BKI0rEC1N6i1BIq3XSLgRypPRdzGSGqm8puy/gTR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="391178294"
+X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
+   d="scan'208";a="391178294"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 21:36:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1102699786"
+X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
+   d="scan'208";a="1102699786"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 05 Dec 2023 21:36:11 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAkZl-000AKL-0l;
+	Wed, 06 Dec 2023 05:36:03 +0000
+Date: Wed, 6 Dec 2023 13:35:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kris Van Hees <kris.van.hees@oracle.com>,
+	Tomas Jedlicka <tomas.jedlicka@oracle.com>,
+	Alan Maguire <alan.maguire@oracle.com>
+Subject: [oracle-dtrace:devel/v2/6.6/dtrace 8/11]
+ arch/arm/vdso/vgettimeofday.c:15:16: error: implicit declaration of function
+ '__cvdso_clock_gettime32'; did you mean '__cvdso_clock_gettime'?
+Message-ID: <202312061301.3rMbqiyv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,197 +52,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231130031318.35850-1-liuhaoran14@163.com>
 
-Hi Haoran,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Haoran-Liu/arc_emac-Add-error-handling-in-emac_rockchip_probe/20231130-112325
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20231130031318.35850-1-liuhaoran14%40163.com
-patch subject: [PATCH] [net/ethernet] arc_emac: Add error handling in emac_rockchip_probe
-config: csky-randconfig-r071-20231203 (https://download.01.org/0day-ci/archive/20231206/202312060119.eRpB9j4s-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060119.eRpB9j4s-lkp@intel.com/reproduce)
+tree:   https://github.com/oracle/dtrace-linux-kernel devel/v2/6.6/dtrace
+head:   03ef4d82312b48741fbdafdd2aaebf3f0567f9a6
+commit: f9d9484f2e95b50c63c6e6bd96d727f6d7ab1f3e [8/11] ctf: generate CTF information for the kernel
+config: arm-randconfig-002-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061301.3rMbqiyv-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312061301.3rMbqiyv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312060119.eRpB9j4s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312061301.3rMbqiyv-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/arc/emac_rockchip.c:139 emac_rockchip_probe() warn: missing unwind goto?
-drivers/net/ethernet/arc/emac_rockchip.c:249 emac_rockchip_probe() warn: 'ndev' from alloc_etherdev_mqs() not released on lines: 139.
+All errors (new ones prefixed by >>):
 
-vim +139 drivers/net/ethernet/arc/emac_rockchip.c
+   arch/arm/vdso/vgettimeofday.c: In function '__vdso_clock_gettime':
+>> arch/arm/vdso/vgettimeofday.c:15:16: error: implicit declaration of function '__cvdso_clock_gettime32'; did you mean '__cvdso_clock_gettime'? [-Werror=implicit-function-declaration]
+      15 |         return __cvdso_clock_gettime32(clock, ts);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+         |                __cvdso_clock_gettime
+   arch/arm/vdso/vgettimeofday.c: In function '__vdso_clock_getres':
+>> arch/arm/vdso/vgettimeofday.c:33:16: error: implicit declaration of function '__cvdso_clock_getres_time32'; did you mean '__cvdso_clock_getres_common'? [-Werror=implicit-function-declaration]
+      33 |         return __cvdso_clock_getres_time32(clock_id, res);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                __cvdso_clock_getres_common
+   cc1: some warnings being treated as errors
 
-6eacf31139bf96 Romain Perier      2014-09-08   93  static int emac_rockchip_probe(struct platform_device *pdev)
-6eacf31139bf96 Romain Perier      2014-09-08   94  {
-6eacf31139bf96 Romain Perier      2014-09-08   95  	struct device *dev = &pdev->dev;
-6eacf31139bf96 Romain Perier      2014-09-08   96  	struct net_device *ndev;
-6eacf31139bf96 Romain Perier      2014-09-08   97  	struct rockchip_priv_data *priv;
-6eacf31139bf96 Romain Perier      2014-09-08   98  	const struct of_device_id *match;
-0c65b2b90d13c1 Andrew Lunn        2019-11-04   99  	phy_interface_t interface;
-6eacf31139bf96 Romain Perier      2014-09-08  100  	u32 data;
-0c65b2b90d13c1 Andrew Lunn        2019-11-04  101  	int err;
-6eacf31139bf96 Romain Perier      2014-09-08  102  
-6eacf31139bf96 Romain Perier      2014-09-08  103  	if (!pdev->dev.of_node)
-6eacf31139bf96 Romain Perier      2014-09-08  104  		return -ENODEV;
-6eacf31139bf96 Romain Perier      2014-09-08  105  
-6eacf31139bf96 Romain Perier      2014-09-08  106  	ndev = alloc_etherdev(sizeof(struct rockchip_priv_data));
-6eacf31139bf96 Romain Perier      2014-09-08  107  	if (!ndev)
-6eacf31139bf96 Romain Perier      2014-09-08  108  		return -ENOMEM;
-6eacf31139bf96 Romain Perier      2014-09-08  109  	platform_set_drvdata(pdev, ndev);
-6eacf31139bf96 Romain Perier      2014-09-08  110  	SET_NETDEV_DEV(ndev, dev);
-6eacf31139bf96 Romain Perier      2014-09-08  111  
-6eacf31139bf96 Romain Perier      2014-09-08  112  	priv = netdev_priv(ndev);
-6eacf31139bf96 Romain Perier      2014-09-08  113  	priv->emac.drv_name = DRV_NAME;
-6eacf31139bf96 Romain Perier      2014-09-08  114  	priv->emac.set_mac_speed = emac_rockchip_set_mac_speed;
-6eacf31139bf96 Romain Perier      2014-09-08  115  
-0c65b2b90d13c1 Andrew Lunn        2019-11-04  116  	err = of_get_phy_mode(dev->of_node, &interface);
-0c65b2b90d13c1 Andrew Lunn        2019-11-04  117  	if (err)
-0c65b2b90d13c1 Andrew Lunn        2019-11-04  118  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  119  
-af72261f33ee49 Xing Zheng         2016-01-08  120  	/* RK3036/RK3066/RK3188 SoCs only support RMII */
-6eacf31139bf96 Romain Perier      2014-09-08  121  	if (interface != PHY_INTERFACE_MODE_RMII) {
-6eacf31139bf96 Romain Perier      2014-09-08  122  		dev_err(dev, "unsupported phy interface mode %d\n", interface);
-6eacf31139bf96 Romain Perier      2014-09-08  123  		err = -ENOTSUPP;
-6eacf31139bf96 Romain Perier      2014-09-08  124  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  125  	}
-6eacf31139bf96 Romain Perier      2014-09-08  126  
-663713eb477b9b Caesar Wang        2016-03-14  127  	priv->grf = syscon_regmap_lookup_by_phandle(dev->of_node,
-663713eb477b9b Caesar Wang        2016-03-14  128  						    "rockchip,grf");
-6eacf31139bf96 Romain Perier      2014-09-08  129  	if (IS_ERR(priv->grf)) {
-663713eb477b9b Caesar Wang        2016-03-14  130  		dev_err(dev, "failed to retrieve global register file (%ld)\n",
-663713eb477b9b Caesar Wang        2016-03-14  131  			PTR_ERR(priv->grf));
-6eacf31139bf96 Romain Perier      2014-09-08  132  		err = PTR_ERR(priv->grf);
-6eacf31139bf96 Romain Perier      2014-09-08  133  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  134  	}
-6eacf31139bf96 Romain Perier      2014-09-08  135  
-6eacf31139bf96 Romain Perier      2014-09-08  136  	match = of_match_node(emac_rockchip_dt_ids, dev->of_node);
-8cb4cdab4b4030 Haoran Liu         2023-11-29  137  	if (!match) {
-8cb4cdab4b4030 Haoran Liu         2023-11-29  138  		dev_err(dev, "No matching device found\n");
-8cb4cdab4b4030 Haoran Liu         2023-11-29 @139  		return -ENODEV;
 
-goto out_netdev;
+vim +15 arch/arm/vdso/vgettimeofday.c
 
-8cb4cdab4b4030 Haoran Liu         2023-11-29  140  	}
-8cb4cdab4b4030 Haoran Liu         2023-11-29  141  
-6eacf31139bf96 Romain Perier      2014-09-08  142  	priv->soc_data = match->data;
-6eacf31139bf96 Romain Perier      2014-09-08  143  
-6eacf31139bf96 Romain Perier      2014-09-08  144  	priv->emac.clk = devm_clk_get(dev, "hclk");
-6eacf31139bf96 Romain Perier      2014-09-08  145  	if (IS_ERR(priv->emac.clk)) {
-663713eb477b9b Caesar Wang        2016-03-14  146  		dev_err(dev, "failed to retrieve host clock (%ld)\n",
-663713eb477b9b Caesar Wang        2016-03-14  147  			PTR_ERR(priv->emac.clk));
-6eacf31139bf96 Romain Perier      2014-09-08  148  		err = PTR_ERR(priv->emac.clk);
-6eacf31139bf96 Romain Perier      2014-09-08  149  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  150  	}
-6eacf31139bf96 Romain Perier      2014-09-08  151  
-6eacf31139bf96 Romain Perier      2014-09-08  152  	priv->refclk = devm_clk_get(dev, "macref");
-6eacf31139bf96 Romain Perier      2014-09-08  153  	if (IS_ERR(priv->refclk)) {
-663713eb477b9b Caesar Wang        2016-03-14  154  		dev_err(dev, "failed to retrieve reference clock (%ld)\n",
-663713eb477b9b Caesar Wang        2016-03-14  155  			PTR_ERR(priv->refclk));
-6eacf31139bf96 Romain Perier      2014-09-08  156  		err = PTR_ERR(priv->refclk);
-6eacf31139bf96 Romain Perier      2014-09-08  157  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  158  	}
-6eacf31139bf96 Romain Perier      2014-09-08  159  
-6eacf31139bf96 Romain Perier      2014-09-08  160  	err = clk_prepare_enable(priv->refclk);
-6eacf31139bf96 Romain Perier      2014-09-08  161  	if (err) {
-6eacf31139bf96 Romain Perier      2014-09-08  162  		dev_err(dev, "failed to enable reference clock (%d)\n", err);
-6eacf31139bf96 Romain Perier      2014-09-08  163  		goto out_netdev;
-6eacf31139bf96 Romain Perier      2014-09-08  164  	}
-6eacf31139bf96 Romain Perier      2014-09-08  165  
-6eacf31139bf96 Romain Perier      2014-09-08  166  	/* Optional regulator for PHY */
-6eacf31139bf96 Romain Perier      2014-09-08  167  	priv->regulator = devm_regulator_get_optional(dev, "phy");
-6eacf31139bf96 Romain Perier      2014-09-08  168  	if (IS_ERR(priv->regulator)) {
-00777fac28ba3e Christophe JAILLET 2018-03-18  169  		if (PTR_ERR(priv->regulator) == -EPROBE_DEFER) {
-00777fac28ba3e Christophe JAILLET 2018-03-18  170  			err = -EPROBE_DEFER;
-00777fac28ba3e Christophe JAILLET 2018-03-18  171  			goto out_clk_disable;
-00777fac28ba3e Christophe JAILLET 2018-03-18  172  		}
-6eacf31139bf96 Romain Perier      2014-09-08  173  		dev_err(dev, "no regulator found\n");
-6eacf31139bf96 Romain Perier      2014-09-08  174  		priv->regulator = NULL;
-6eacf31139bf96 Romain Perier      2014-09-08  175  	}
-6eacf31139bf96 Romain Perier      2014-09-08  176  
-6eacf31139bf96 Romain Perier      2014-09-08  177  	if (priv->regulator) {
-6eacf31139bf96 Romain Perier      2014-09-08  178  		err = regulator_enable(priv->regulator);
-6eacf31139bf96 Romain Perier      2014-09-08  179  		if (err) {
-6eacf31139bf96 Romain Perier      2014-09-08  180  			dev_err(dev, "failed to enable phy-supply (%d)\n", err);
-6eacf31139bf96 Romain Perier      2014-09-08  181  			goto out_clk_disable;
-6eacf31139bf96 Romain Perier      2014-09-08  182  		}
-6eacf31139bf96 Romain Perier      2014-09-08  183  	}
-6eacf31139bf96 Romain Perier      2014-09-08  184  
-f4c9d3ee0334fd Xing Zheng         2016-01-08  185  	/* Set speed 100M */
-f4c9d3ee0334fd Xing Zheng         2016-01-08  186  	data = (1 << (priv->soc_data->grf_speed_offset + 16)) |
-f4c9d3ee0334fd Xing Zheng         2016-01-08  187  	       (1 << priv->soc_data->grf_speed_offset);
-f4c9d3ee0334fd Xing Zheng         2016-01-08  188  	/* Set RMII mode */
-f4c9d3ee0334fd Xing Zheng         2016-01-08  189  	data |= (1 << (priv->soc_data->grf_mode_offset + 16)) |
-f4c9d3ee0334fd Xing Zheng         2016-01-08  190  		(0 << priv->soc_data->grf_mode_offset);
-6eacf31139bf96 Romain Perier      2014-09-08  191  
-6eacf31139bf96 Romain Perier      2014-09-08  192  	err = regmap_write(priv->grf, priv->soc_data->grf_offset, data);
-6eacf31139bf96 Romain Perier      2014-09-08  193  	if (err) {
-663713eb477b9b Caesar Wang        2016-03-14  194  		dev_err(dev, "unable to apply initial settings to grf (%d)\n",
-663713eb477b9b Caesar Wang        2016-03-14  195  			err);
-6eacf31139bf96 Romain Perier      2014-09-08  196  		goto out_regulator_disable;
-6eacf31139bf96 Romain Perier      2014-09-08  197  	}
-6eacf31139bf96 Romain Perier      2014-09-08  198  
-6eacf31139bf96 Romain Perier      2014-09-08  199  	/* RMII interface needs always a rate of 50MHz */
-6eacf31139bf96 Romain Perier      2014-09-08  200  	err = clk_set_rate(priv->refclk, 50000000);
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  201  	if (err) {
-663713eb477b9b Caesar Wang        2016-03-14  202  		dev_err(dev,
-663713eb477b9b Caesar Wang        2016-03-14  203  			"failed to change reference clock rate (%d)\n", err);
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  204  		goto out_regulator_disable;
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  205  	}
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  206  
-f4c9d3ee0334fd Xing Zheng         2016-01-08  207  	if (priv->soc_data->need_div_macclk) {
-f4c9d3ee0334fd Xing Zheng         2016-01-08  208  		priv->macclk = devm_clk_get(dev, "macclk");
-f4c9d3ee0334fd Xing Zheng         2016-01-08  209  		if (IS_ERR(priv->macclk)) {
-663713eb477b9b Caesar Wang        2016-03-14  210  			dev_err(dev, "failed to retrieve mac clock (%ld)\n",
-663713eb477b9b Caesar Wang        2016-03-14  211  				PTR_ERR(priv->macclk));
-f4c9d3ee0334fd Xing Zheng         2016-01-08  212  			err = PTR_ERR(priv->macclk);
-f4c9d3ee0334fd Xing Zheng         2016-01-08  213  			goto out_regulator_disable;
-f4c9d3ee0334fd Xing Zheng         2016-01-08  214  		}
-f4c9d3ee0334fd Xing Zheng         2016-01-08  215  
-f4c9d3ee0334fd Xing Zheng         2016-01-08  216  		err = clk_prepare_enable(priv->macclk);
-f4c9d3ee0334fd Xing Zheng         2016-01-08  217  		if (err) {
-f4c9d3ee0334fd Xing Zheng         2016-01-08  218  			dev_err(dev, "failed to enable mac clock (%d)\n", err);
-f4c9d3ee0334fd Xing Zheng         2016-01-08  219  			goto out_regulator_disable;
-f4c9d3ee0334fd Xing Zheng         2016-01-08  220  		}
-f4c9d3ee0334fd Xing Zheng         2016-01-08  221  
-f4c9d3ee0334fd Xing Zheng         2016-01-08  222  		/* RMII TX/RX needs always a rate of 25MHz */
-f4c9d3ee0334fd Xing Zheng         2016-01-08  223  		err = clk_set_rate(priv->macclk, 25000000);
-e46772a6946a7d Branislav Radocaj  2017-12-07  224  		if (err) {
-663713eb477b9b Caesar Wang        2016-03-14  225  			dev_err(dev,
-663713eb477b9b Caesar Wang        2016-03-14  226  				"failed to change mac clock rate (%d)\n", err);
-e46772a6946a7d Branislav Radocaj  2017-12-07  227  			goto out_clk_disable_macclk;
-e46772a6946a7d Branislav Radocaj  2017-12-07  228  		}
-f4c9d3ee0334fd Xing Zheng         2016-01-08  229  	}
-f4c9d3ee0334fd Xing Zheng         2016-01-08  230  
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  231  	err = arc_emac_probe(ndev, interface);
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  232  	if (err) {
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  233  		dev_err(dev, "failed to probe arc emac (%d)\n", err);
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  234  		goto out_clk_disable_macclk;
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  235  	}
-c9bca2fe3ca6d6 Xing Zheng         2016-01-08  236  
-6eacf31139bf96 Romain Perier      2014-09-08  237  	return 0;
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  238  
-e46772a6946a7d Branislav Radocaj  2017-12-07  239  out_clk_disable_macclk:
-2a9ee696c72a24 Branislav Radocaj  2017-12-12  240  	if (priv->soc_data->need_div_macclk)
-e46772a6946a7d Branislav Radocaj  2017-12-07  241  		clk_disable_unprepare(priv->macclk);
-6eacf31139bf96 Romain Perier      2014-09-08  242  out_regulator_disable:
-6eacf31139bf96 Romain Perier      2014-09-08  243  	if (priv->regulator)
-6eacf31139bf96 Romain Perier      2014-09-08  244  		regulator_disable(priv->regulator);
-6eacf31139bf96 Romain Perier      2014-09-08  245  out_clk_disable:
-6eacf31139bf96 Romain Perier      2014-09-08  246  	clk_disable_unprepare(priv->refclk);
-6eacf31139bf96 Romain Perier      2014-09-08  247  out_netdev:
-6eacf31139bf96 Romain Perier      2014-09-08  248  	free_netdev(ndev);
-6eacf31139bf96 Romain Perier      2014-09-08 @249  	return err;
-6eacf31139bf96 Romain Perier      2014-09-08  250  }
+8512287a816559 Nathan Lynch      2015-03-25  11  
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  12  int __vdso_clock_gettime(clockid_t clock,
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  13  			 struct old_timespec32 *ts)
+8512287a816559 Nathan Lynch      2015-03-25  14  {
+20e2fc42312f96 Vincenzo Frascino 2019-11-04 @15  	return __cvdso_clock_gettime32(clock, ts);
+8512287a816559 Nathan Lynch      2015-03-25  16  }
+8512287a816559 Nathan Lynch      2015-03-25  17  
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  18  int __vdso_clock_gettime64(clockid_t clock,
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  19  			   struct __kernel_timespec *ts)
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  20  {
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  21  	return __cvdso_clock_gettime(clock, ts);
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  22  }
+74d06efb9c2f99 Vincenzo Frascino 2019-11-04  23  
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  24  int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  25  			struct timezone *tz)
+8512287a816559 Nathan Lynch      2015-03-25  26  {
+20e2fc42312f96 Vincenzo Frascino 2019-11-04  27  	return __cvdso_gettimeofday(tv, tz);
+8512287a816559 Nathan Lynch      2015-03-25  28  }
+8512287a816559 Nathan Lynch      2015-03-25  29  
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  30  int __vdso_clock_getres(clockid_t clock_id,
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  31  			struct old_timespec32 *res)
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  32  {
+052e76a31b4a64 Vincenzo Frascino 2019-11-04 @33  	return __cvdso_clock_getres_time32(clock_id, res);
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  34  }
+052e76a31b4a64 Vincenzo Frascino 2019-11-04  35  
+
+:::::: The code at line 15 was first introduced by commit
+:::::: 20e2fc42312f960f497ac2d617e3742754e1fa5e ARM: 8930/1: Add support for generic vDSO
+
+:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
+:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
