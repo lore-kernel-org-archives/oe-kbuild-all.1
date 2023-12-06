@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A193EA97
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 14:36:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6581B37149
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 14:58:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dw/6VfIE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyKjJJTT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701873385; x=1733409385;
+  t=1701874691; x=1733410691;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GTe+1R3iU/RIpR+IGtalOGDm2jXpxCDW/IIx3ExWPF0=;
-  b=Dw/6VfIEpWCuEGUBbA9yut6svXxjdNNlJHgSot436h/BPv146/jecyAJ
-   ZimXTr/A6X0ysFdWj90iRV1QMLxJoRHYcrHS/uvvpYXp1h9vn8BrjZJcj
-   uoN7BUhgMIGTfuHufuCTakburphWQW+gtn2taFGYa4PqW1A/MqJhvdd6B
-   UBMeniIBovVbM7i+Rs5hJ0uk2TeArspfh4Z5k8d5oKsCt32KADCvUrv86
-   iDLsCbNhy2NlLz2iWkng/gueN/LzwPq+GwXc1QjC4hQ+wG9nglwKu9qx8
-   iGYHq3tBQNa1uX6asLhjhSPX5zYpBlj7+Uz55IZseMFKbWt6wo+U0qN1Z
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="955782"
+  bh=NLsugUCzxU5n/YZwaKHJo4UqyiWQaxneQHdOilZ7bSw=;
+  b=hyKjJJTT3H664bkrpx15AZNEKD2U7HXziUpPwKtfaLS+BaE0v6ReC8Kj
+   gMDxRV1l/nyiRpTFTGOMzEFhVkReiWAiu2aiNg6yuWPVRqxya3hd3luv6
+   KI/ZUZDv02GlN1u5S6Ft2dcImduk8ZQo/jv4xTwjfHshe356JYTqgZTQQ
+   XYWzNQaX0ghH/ETgE4qI/DqAypMT7I7GDR11qNAYhFuoLKc311E6biomW
+   0O3thm2G4aBRbPwGmPb98ekTXGvZSXNViolHjMIbHmClzoH69ZujzL3Z7
+   FA7jLhwJP9wfJCfIkiMd6bEFW+DWkFC3ZO1cw58Aq/r2gRxZQphJFoxhM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="373537485"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="955782"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 06:36:24 -0800
+   d="scan'208";a="373537485"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 06:58:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="894746790"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="862133129"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="894746790"
+   d="scan'208";a="862133129"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 06 Dec 2023 06:36:22 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Dec 2023 06:58:09 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAt0c-000Aw2-1S;
-	Wed, 06 Dec 2023 14:36:19 +0000
-Date: Wed, 6 Dec 2023 22:34:36 +0800
+	id 1rAtLL-000Axa-3A;
+	Wed, 06 Dec 2023 14:57:56 +0000
+Date: Wed, 6 Dec 2023 22:56:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dave Chinner <david@fromorbit.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dgc-xfs:vfs-scale 4/11] lib/dlock-list.c:67:30: sparse: sparse:
- incorrect type in assignment (different modifiers)
-Message-ID: <202312062236.jbI5FgtU-lkp@intel.com>
+Subject: [dgc-xfs:vfs-scale 4/11] lib/dlock-list.c:67:30: warning: assignment
+ discards 'const' qualifier from pointer target type
+Message-ID: <202312062242.7eHu13aJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,26 +53,24 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dgc/linux-xfs.git vfs-scale
 head:   5e5e95a86ea3aa15d83654ec3752451959a689e6
 commit: 7a215da6235ea23015452201ae78f1664c27ab8a [4/11] lib/dlock-list: Make sibling CPUs share the same linked list
-config: x86_64-randconfig-121-20231206 (https://download.01.org/0day-ci/archive/20231206/202312062236.jbI5FgtU-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312062236.jbI5FgtU-lkp@intel.com/reproduce)
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20231206/202312062242.7eHu13aJ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312062242.7eHu13aJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312062236.jbI5FgtU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312062242.7eHu13aJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/dlock-list.c:67:30: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct cpumask *sibling_mask @@     got struct cpumask const * @@
-   lib/dlock-list.c:67:30: sparse:     expected struct cpumask *sibling_mask
-   lib/dlock-list.c:67:30: sparse:     got struct cpumask const *
-   lib/dlock-list.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-   lib/dlock-list.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/dlock-list.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   lib/dlock-list.c:248:28: sparse: sparse: context imbalance in '__dlock_list_next_list' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +67 lib/dlock-list.c
+   lib/dlock-list.c: In function 'cpu2idx_init':
+>> lib/dlock-list.c:67:30: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+      67 |                 sibling_mask = topology_sibling_cpumask(cpu);
+         |                              ^
+
+
+vim +/const +67 lib/dlock-list.c
 
     36	
     37	/*
