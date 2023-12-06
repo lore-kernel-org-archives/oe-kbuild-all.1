@@ -1,47 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E429962A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 00:41:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0CC62A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 00:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lxbAIAmw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhMRJKBd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701823270; x=1733359270;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4Lgj0BPaS1V9htaB3BAuDxFenX4raVWmyMrGsG6EByU=;
-  b=lxbAIAmwknMI+PxXWLU0VOV3YK2eP8vi1f6ncqVBoC4yR5dR9WaqBB+D
-   j0XmCF4hXXXt6a7NHFyx+8VDfqZJ4UOvKVR17TeuApSfjUNKwAzxZmGZE
-   gsMXSTNi9JwV6/EgRLFpmMss0tmM8HZVl2ZMGAui8foEnogwAerQuU37e
-   lPAOgdyM8i06L+3QA7axcqIWKufTMa85T0ybGRCeusq8+2yqPWpHFi+gk
-   goQNDMq/nTQpavkH4m2y4Ixyx4uY2nhuclQ0hcTf31KX1V8sBhJZRK2ce
-   +yE+yEynUedN1qsSL76+S+PwoSad3HOCDlVjTQ2bNBdHQGUlVNlA56D8Q
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="12698163"
+  t=1701823275; x=1733359275;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1P5IlBr3TTaPR/mI0jj+Cnk7VmQ+gGQJC+aHPUL7cho=;
+  b=AhMRJKBdk/UizwinhjFA10N55eaWjoc97Y94jVkk2QffVJJieZ3d0ejP
+   1s20AoSVlK+nk95IvxI1YG26dmGFZKMfWfENsX+y/cxNFFy32j2wAbDJp
+   uOLOJFVBTldbdmh9N/Ct0xpgCUhyAhVKTNJbLrG5seto07g4VThPNmrLl
+   oYOw9wpNeJtO23u5W6SWL0vGuWjF3BLcIpe91Rc2jM2C/ZZx5S5bgmsQJ
+   7gZe7snNVnV3jcaMd+y05exlok13TSDQRwliYdrrk6lmbcQYzV4+0YMe0
+   qpvuzwlZq0k1XGlBiu9wmog4sMfnpcEGEnDhddIM9gMvGeulbRMVIuBl4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="391150142"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="12698163"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 16:41:09 -0800
+   d="scan'208";a="391150142"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 16:41:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="841650111"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="861935334"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="841650111"
+   d="scan'208";a="861935334"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Dec 2023 16:41:04 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 16:41:09 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAfyI-0009xy-1B;
+	id 1rAfyI-0009xu-12;
 	Wed, 06 Dec 2023 00:41:02 +0000
-Date: Wed, 6 Dec 2023 08:40:08 +0800
+Date: Wed, 6 Dec 2023 08:40:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:104:58: sparse:
- sparse: incorrect type in argument 2 (different address spaces)
-Message-ID: <202312060821.g8eqRm9E-lkp@intel.com>
+To: Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Paul Burton <paulburton@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mips@vger.kernel.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 12/22] MIPS: Get rid of CONFIG_NO_EXCEPT_FILL
+Message-ID: <202312060831.fGiw8m5S-lkp@intel.com>
+References: <20231201111512.803120-13-gregory.clement@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,67 +61,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231201111512.803120-13-gregory.clement@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: 894fa235eb4ca0bfa692dbe4932c2f940cdc8c1e powerpc: inline iomap accessors
-date:   3 years ago
-config: powerpc-randconfig-r113-20231106 (https://download.01.org/0day-ci/archive/20231206/202312060821.g8eqRm9E-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060821.g8eqRm9E-lkp@intel.com/reproduce)
+Hi Gregory,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on lee-mfd/for-mfd-next linus/master v6.7-rc4]
+[cannot apply to lee-mfd/for-mfd-fixes next-20231205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-CLEMENT/MIPS-Export-higher-highest-relocation-functions-in-uasm/20231201-201547
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20231201111512.803120-13-gregory.clement%40bootlin.com
+patch subject: [PATCH v3 12/22] MIPS: Get rid of CONFIG_NO_EXCEPT_FILL
+config: mips-fuloong2e_defconfig (https://download.01.org/0day-ci/archive/20231206/202312060831.fGiw8m5S-lkp@intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060831.fGiw8m5S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060821.g8eqRm9E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060831.fGiw8m5S-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:104:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:104:58: sparse:     expected void [noderef] __iomem *addr
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:104:58: sparse:     got void *
->> drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:110:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:110:58: sparse:     expected void const [noderef] __iomem *addr
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:110:58: sparse:     got void *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:157:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[assigned] emap @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:157:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:157:25: sparse:     got void *[assigned] emap
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:174:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *map @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:174:19: sparse:     expected void *map
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:174:19: sparse:     got void [noderef] __iomem *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:225:28: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void *map @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:225:28: sparse:     expected void [noderef] __iomem *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:225:28: sparse:     got void *map
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:233:28: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void *map @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:233:28: sparse:     expected void [noderef] __iomem *
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:233:28: sparse:     got void *map
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:240:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *map @@     got void *map @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:240:21: sparse:     expected void [noderef] __iomem *map
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:240:21: sparse:     got void *map
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:327:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[assigned] map @@
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:327:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:327:25: sparse:     got void *[assigned] map
+All warnings (new ones prefixed by >>):
 
-vim +104 drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
+>> arch/mips/kernel/head.S:63:35: warning: "KSEG0" is not defined, evaluates to 0 [-Wundef]
+      63 |         ((VMLINUX_LOAD_ADDRESS == KSEG0) ||     \
+         |                                   ^~~~~
 
-07bbc1c5f49b643 Ben Skeggs 2017-11-01  100  
-be55287aa5ba689 Ben Skeggs 2017-11-01  101  static void
-be55287aa5ba689 Ben Skeggs 2017-11-01  102  nv50_instobj_wr32(struct nvkm_memory *memory, u64 offset, u32 data)
-be55287aa5ba689 Ben Skeggs 2017-11-01  103  {
-be55287aa5ba689 Ben Skeggs 2017-11-01 @104  	iowrite32_native(data, nv50_instobj(memory)->map + offset);
-be55287aa5ba689 Ben Skeggs 2017-11-01  105  }
-be55287aa5ba689 Ben Skeggs 2017-11-01  106  
-be55287aa5ba689 Ben Skeggs 2017-11-01  107  static u32
-be55287aa5ba689 Ben Skeggs 2017-11-01  108  nv50_instobj_rd32(struct nvkm_memory *memory, u64 offset)
-be55287aa5ba689 Ben Skeggs 2017-11-01  109  {
-be55287aa5ba689 Ben Skeggs 2017-11-01 @110  	return ioread32_native(nv50_instobj(memory)->map + offset);
-be55287aa5ba689 Ben Skeggs 2017-11-01  111  }
-be55287aa5ba689 Ben Skeggs 2017-11-01  112  
 
-:::::: The code at line 104 was first introduced by commit
-:::::: be55287aa5ba6895e9d4d3ed2f08a1be7a065957 drm/nouveau/imem/nv50: embed nvkm_instobj directly into nv04_instobj
+vim +/KSEG0 +63 arch/mips/kernel/head.S
 
-:::::: TO: Ben Skeggs <bskeggs@redhat.com>
-:::::: CC: Ben Skeggs <bskeggs@redhat.com>
+    28	
+    29		/*
+    30		 * For the moment disable interrupts, mark the kernel mode and
+    31		 * set ST0_KX so that the CPU does not spit fire when using
+    32		 * 64-bit addresses.  A full initialization of the CPU's status
+    33		 * register is done later in per_cpu_trap_init().
+    34		 */
+    35		.macro	setup_c0_status set clr
+    36		.set	push
+    37		mfc0	t0, CP0_STATUS
+    38		or	t0, ST0_KERNEL_CUMASK|\set|0x1f|\clr
+    39		xor	t0, 0x1f|\clr
+    40		mtc0	t0, CP0_STATUS
+    41		.set	noreorder
+    42		sll	zero,3				# ehb
+    43		.set	pop
+    44		.endm
+    45	
+    46		.macro	setup_c0_status_pri
+    47	#ifdef CONFIG_64BIT
+    48		setup_c0_status ST0_KX 0
+    49	#else
+    50		setup_c0_status 0 0
+    51	#endif
+    52		.endm
+    53	
+    54		.macro	setup_c0_status_sec
+    55	#ifdef CONFIG_64BIT
+    56		setup_c0_status ST0_KX ST0_BEV
+    57	#else
+    58		setup_c0_status 0 ST0_BEV
+    59	#endif
+    60		.endm
+    61	
+    62	#if (MIPS_ISA_REV < 2) &&			\
+  > 63		((VMLINUX_LOAD_ADDRESS == KSEG0) ||	\
+    64		(VMLINUX_LOAD_ADDRESS == CKSEG0))
+    65		/*
+    66		 * Reserved space for exception handlers.
+    67		 * Necessary for machines which link their kernels at KSEG0
+    68		 * and incapable of moving ebase.
+    69		 */
+    70		.fill	0x400
+    71	#endif
+    72	
 
 -- 
 0-DAY CI Kernel Test Service
