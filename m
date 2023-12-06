@@ -1,58 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0CC62A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 00:41:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC02462A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 00:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhMRJKBd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ELDPIfWj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701823275; x=1733359275;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1P5IlBr3TTaPR/mI0jj+Cnk7VmQ+gGQJC+aHPUL7cho=;
-  b=AhMRJKBdk/UizwinhjFA10N55eaWjoc97Y94jVkk2QffVJJieZ3d0ejP
-   1s20AoSVlK+nk95IvxI1YG26dmGFZKMfWfENsX+y/cxNFFy32j2wAbDJp
-   uOLOJFVBTldbdmh9N/Ct0xpgCUhyAhVKTNJbLrG5seto07g4VThPNmrLl
-   oYOw9wpNeJtO23u5W6SWL0vGuWjF3BLcIpe91Rc2jM2C/ZZx5S5bgmsQJ
-   7gZe7snNVnV3jcaMd+y05exlok13TSDQRwliYdrrk6lmbcQYzV4+0YMe0
-   qpvuzwlZq0k1XGlBiu9wmog4sMfnpcEGEnDhddIM9gMvGeulbRMVIuBl4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="391150142"
+  t=1701823863; x=1733359863;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zRTzqi+4zqwccPmYcAZwEzILj18Je1dgiLQT//z71Zs=;
+  b=ELDPIfWj85VWt/nMDV2JDfJzDbC3rZb80AHRWWojmLIxL5inYl8zRuU9
+   T1HgoDjddyQx3xtZhnnEgcCAmnRBmVt2EOBGLXvo9k/qa+magtc+Pb8QV
+   qCcY8E8V0DfyQV1FkeBnKcD0rsTYOHByGsv9R5V/exJSnCLH3FzR2bGVk
+   b45gDqb9Tc0KpNIt2NL6almX7P+2JTEJLuflvvRvSDj/bBf9uavVlOmoF
+   o5xNcfhx7+X45glyUiaiNQzmYFaH1tBnVOz2oBlDJcLb8avi7z1Nam2kb
+   IyzAAgZMPx3+LmNonS0OE8C0J6IcEkfwPKbHCLDAdmhDbZM+2wqEeLIPG
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="12698965"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="391150142"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 16:41:13 -0800
+   d="scan'208";a="12698965"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 16:51:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="861935334"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="841652265"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="861935334"
+   d="scan'208";a="841652265"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 16:41:09 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 05 Dec 2023 16:51:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAfyI-0009xu-12;
-	Wed, 06 Dec 2023 00:41:02 +0000
-Date: Wed, 6 Dec 2023 08:40:09 +0800
+	id 1rAg7u-0009yk-2W;
+	Wed, 06 Dec 2023 00:50:58 +0000
+Date: Wed, 6 Dec 2023 08:50:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Paul Burton <paulburton@kernel.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-mips@vger.kernel.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 12/22] MIPS: Get rid of CONFIG_NO_EXCEPT_FILL
-Message-ID: <202312060831.fGiw8m5S-lkp@intel.com>
-References: <20231201111512.803120-13-gregory.clement@bootlin.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fuse-backing-fd 11/16] inode.c:undefined reference to
+ `fuse_backing_put'
+Message-ID: <202312060809.Ev8zH2mF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,86 +49,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201111512.803120-13-gregory.clement@bootlin.com>
 
-Hi Gregory,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on lee-mfd/for-mfd-next linus/master v6.7-rc4]
-[cannot apply to lee-mfd/for-mfd-fixes next-20231205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-CLEMENT/MIPS-Export-higher-highest-relocation-functions-in-uasm/20231201-201547
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231201111512.803120-13-gregory.clement%40bootlin.com
-patch subject: [PATCH v3 12/22] MIPS: Get rid of CONFIG_NO_EXCEPT_FILL
-config: mips-fuloong2e_defconfig (https://download.01.org/0day-ci/archive/20231206/202312060831.fGiw8m5S-lkp@intel.com/config)
-compiler: mips64el-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060831.fGiw8m5S-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux fuse-backing-fd
+head:   908a2beb53709f4b2f65a280af474b8d05962d18
+commit: 65d384ef1fca428aab66dffbbd7aa445f181675a [11/16] fuse: introduce FUSE_PASSTHROUGH capability
+config: nios2-randconfig-r051-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060809.Ev8zH2mF-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060809.Ev8zH2mF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060831.fGiw8m5S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312060809.Ev8zH2mF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/mips/kernel/head.S:63:35: warning: "KSEG0" is not defined, evaluates to 0 [-Wundef]
-      63 |         ((VMLINUX_LOAD_ADDRESS == KSEG0) ||     \
-         |                                   ^~~~~
-
-
-vim +/KSEG0 +63 arch/mips/kernel/head.S
-
-    28	
-    29		/*
-    30		 * For the moment disable interrupts, mark the kernel mode and
-    31		 * set ST0_KX so that the CPU does not spit fire when using
-    32		 * 64-bit addresses.  A full initialization of the CPU's status
-    33		 * register is done later in per_cpu_trap_init().
-    34		 */
-    35		.macro	setup_c0_status set clr
-    36		.set	push
-    37		mfc0	t0, CP0_STATUS
-    38		or	t0, ST0_KERNEL_CUMASK|\set|0x1f|\clr
-    39		xor	t0, 0x1f|\clr
-    40		mtc0	t0, CP0_STATUS
-    41		.set	noreorder
-    42		sll	zero,3				# ehb
-    43		.set	pop
-    44		.endm
-    45	
-    46		.macro	setup_c0_status_pri
-    47	#ifdef CONFIG_64BIT
-    48		setup_c0_status ST0_KX 0
-    49	#else
-    50		setup_c0_status 0 0
-    51	#endif
-    52		.endm
-    53	
-    54		.macro	setup_c0_status_sec
-    55	#ifdef CONFIG_64BIT
-    56		setup_c0_status ST0_KX ST0_BEV
-    57	#else
-    58		setup_c0_status 0 ST0_BEV
-    59	#endif
-    60		.endm
-    61	
-    62	#if (MIPS_ISA_REV < 2) &&			\
-  > 63		((VMLINUX_LOAD_ADDRESS == KSEG0) ||	\
-    64		(VMLINUX_LOAD_ADDRESS == CKSEG0))
-    65		/*
-    66		 * Reserved space for exception handlers.
-    67		 * Necessary for machines which link their kernels at KSEG0
-    68		 * and incapable of moving ebase.
-    69		 */
-    70		.fill	0x400
-    71	#endif
-    72	
+   nios2-linux-ld: fs/fuse/inode.o: in function `fuse_free_inode':
+>> inode.c:(.text+0xa14): undefined reference to `fuse_backing_put'
+   inode.c:(.text+0xa14): relocation truncated to fit: R_NIOS2_CALL26 against `fuse_backing_put'
 
 -- 
 0-DAY CI Kernel Test Service
