@@ -1,133 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6581B37149
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 14:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437763EA8E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 15:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyKjJJTT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701874691; x=1733410691;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NLsugUCzxU5n/YZwaKHJo4UqyiWQaxneQHdOilZ7bSw=;
-  b=hyKjJJTT3H664bkrpx15AZNEKD2U7HXziUpPwKtfaLS+BaE0v6ReC8Kj
-   gMDxRV1l/nyiRpTFTGOMzEFhVkReiWAiu2aiNg6yuWPVRqxya3hd3luv6
-   KI/ZUZDv02GlN1u5S6Ft2dcImduk8ZQo/jv4xTwjfHshe356JYTqgZTQQ
-   XYWzNQaX0ghH/ETgE4qI/DqAypMT7I7GDR11qNAYhFuoLKc311E6biomW
-   0O3thm2G4aBRbPwGmPb98ekTXGvZSXNViolHjMIbHmClzoH69ZujzL3Z7
-   FA7jLhwJP9wfJCfIkiMd6bEFW+DWkFC3ZO1cw58Aq/r2gRxZQphJFoxhM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="373537485"
-X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="373537485"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 06:58:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="862133129"
-X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="862133129"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Dec 2023 06:58:09 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAtLL-000Axa-3A;
-	Wed, 06 Dec 2023 14:57:56 +0000
-Date: Wed, 6 Dec 2023 22:56:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Chinner <david@fromorbit.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dgc-xfs:vfs-scale 4/11] lib/dlock-list.c:67:30: warning: assignment
- discards 'const' qualifier from pointer target type
-Message-ID: <202312062242.7eHu13aJ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=mojatatu-com.20230601.gappssmtp.com header.i=@mojatatu-com.20230601.gappssmtp.com header.b="jXV6PV28"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5d7a47d06eeso47457527b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 06 Dec 2023 07:08:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mojatatu-com.20230601.gappssmtp.com; s=20230601; t=1701875314; x=1702480114; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gI4+87OmuedWYZowFLyZTVA/u3jp6SGb1EP0gsJn5OY=;
+        b=jXV6PV28De8VyXESgxjbBCMzlwpy/KJ61GCVmQh8IN3mohoZisIC4tcqrSpqbu7Sra
+         S4Uj0uKqR6pGcJxER7X83wjQmYoiTlorZCuB6rCwXKnf2VgqF4sl22W9DrgQzHyADVIj
+         W7Ob3LfVfQCs6K184s8LorGhmSIksejVa7/5tyIXRjU4xk3PhJzl0JfHWARIataNLDRO
+         Rtrba4+X7cD7tRHKZbQiBhN09vixZQpsFdMYSOr2Lh9wyxaKKZqFX0lbazkKqovMMM2P
+         f7Kn1Rxut6/j23RquriZc4sTB1rlM+zK5p+diM6rXWfUTLaqt1m5DBIa2E2SNzIY3WUu
+         rpHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701875314; x=1702480114;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gI4+87OmuedWYZowFLyZTVA/u3jp6SGb1EP0gsJn5OY=;
+        b=WutIVG/NTiAzEWL4+23a9yhU/73Hg18zWDjr6uX3MvxnIgAwzxbeO4xWA7xPwnHUH3
+         ZbCsQvZ623zu0GEnDYsnLmpPDh+RN+kSNaFXNFoQisJoOtjE8q+ijT0gHA0G02vF0JIi
+         x+HTzR61jCuuw8XjvW1whgIM1pp2jyknhkTbd+qPvZAtRVWv2CvlDKTZ+1S+gR5Wbo/k
+         W2ur/cb3wwxEpRJaSQjKVDxy7yg+VrPRO9FVIZflrmS7KH7zV5XmgHB8SKrN8Aa15snH
+         Al6YrAASmgcHp8P0TaMpUcH4H5z6J2ju/byqaNk8XhgonnmJ/UQ3NmdrrRJzGs7XA3Ey
+         h+Aw==
+X-Gm-Message-State: AOJu0YxSoQHnDAwPZ/UJCjjEK0mrN2zkVTHdlx7cfCEtqid1oZAYYXZc
+	Tw0ch+gHG3BlEybVgZ5hbEAlBoo/K6654i3NqdQsTA==
+X-Google-Smtp-Source: AGHT+IHF9CzT8VrghpajIXOI4MLzZ24JXy9q27f+k6JJ8gWMSKwgFRPeOQuAl95Vk0Cb7Kg8XGZRY9Z+ZKYjtmmKU1M=
+X-Received: by 2002:a0d:e60b:0:b0:5d7:1940:f3e9 with SMTP id
+ p11-20020a0de60b000000b005d71940f3e9mr760885ywe.81.1701875313870; Wed, 06 Dec
+ 2023 07:08:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20231201182904.532825-14-jhs@mojatatu.com> <9dc10258-a370-4c8f-8099-36edf40b6f80@suswa.mountain>
+In-Reply-To: <9dc10258-a370-4c8f-8099-36edf40b6f80@suswa.mountain>
+From: Jamal Hadi Salim <jhs@mojatatu.com>
+Date: Wed, 6 Dec 2023 10:08:22 -0500
+Message-ID: <CAM0EoMnnXNxtzDqtC96rbKjy1qfebtBTPpGj7MR7j4uzqXjEWA@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 13/15] p4tc: add runtime table entry create,
+ update, get, delete, flush and dump
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, netdev@vger.kernel.org, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, deb.chatterjee@intel.com, 
+	anjali.singhai@intel.com, namrata.limaye@intel.com, mleitner@redhat.com, 
+	Mahesh.Shirshyad@amd.com, tomasz.osinski@intel.com, jiri@resnulli.us, 
+	xiyou.wangcong@gmail.com, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, vladbu@nvidia.com, horms@kernel.org, 
+	khalidm@nvidia.com, toke@redhat.com, daniel@iogearbox.net, 
+	bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dgc/linux-xfs.git vfs-scale
-head:   5e5e95a86ea3aa15d83654ec3752451959a689e6
-commit: 7a215da6235ea23015452201ae78f1664c27ab8a [4/11] lib/dlock-list: Make sibling CPUs share the same linked list
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20231206/202312062242.7eHu13aJ-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312062242.7eHu13aJ-lkp@intel.com/reproduce)
+Hi Dan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312062242.7eHu13aJ-lkp@intel.com/
+On Wed, Dec 6, 2023 at 12:34=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> Hi Jamal,
+>
+> kernel test robot noticed the following build warnings:
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/n=
+et-sched-act_api-increase-action-kind-string-length/20231202-032940
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20231201182904.532825-14-jhs%40m=
+ojatatu.com
+> patch subject: [PATCH net-next v9 13/15] p4tc: add runtime table entry cr=
+eate, update, get, delete, flush and dump
+> config: powerpc64-randconfig-r081-20231204 (https://download.01.org/0day-=
+ci/archive/20231205/202312052121.NV57fCuG-lkp@intel.com/config)
+> compiler: powerpc64-linux-gcc (GCC) 13.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20231205/202312052121=
+.NV57fCuG-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202312052121.NV57fCuG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Thanks - Will do (it will be a new version not separate fix commit).
 
-   lib/dlock-list.c: In function 'cpu2idx_init':
->> lib/dlock-list.c:67:30: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-      67 |                 sibling_mask = topology_sibling_cpumask(cpu);
-         |                              ^
+> smatch warnings:
+> net/sched/p4tc/p4tc_tbl_entry.c:2555 p4tc_tbl_entry_dumpit() warn: can 'n=
+l_path_attrs.pname' even be NULL?
 
+We need to update our smatch i suppose because we didnt catch this one.
 
-vim +/const +67 lib/dlock-list.c
+cheers,
+jamal
 
-    36	
-    37	/*
-    38	 * Initialize cpu2idx mapping table & nr_dlock_lists.
-    39	 *
-    40	 * It is possible that a dlock-list can be allocated before the cpu2idx is
-    41	 * initialized. In this case, all the cpus are mapped to the first entry
-    42	 * before initialization.
-    43	 *
-    44	 * All the sibling CPUs of a sibling group will map to the same dlock list so
-    45	 * as to reduce the number of dlock lists to be maintained while minimizing
-    46	 * cacheline contention.
-    47	 *
-    48	 * As the sibling masks are set up in the core initcall phase, this function
-    49	 * has to be done in the postcore phase to get the right data.
-    50	 */
-    51	static int __init cpu2idx_init(void)
-    52	{
-    53		int idx, cpu;
-    54		struct cpumask *sibling_mask;
-    55		static struct cpumask mask __initdata;
-    56	
-    57		cpumask_clear(&mask);
-    58		idx = 0;
-    59		for_each_possible_cpu(cpu) {
-    60			int scpu;
-    61	
-    62			if (cpumask_test_cpu(cpu, &mask))
-    63				continue;
-    64			per_cpu(cpu2idx, cpu) = idx;
-    65			cpumask_set_cpu(cpu, &mask);
-    66	
-  > 67			sibling_mask = topology_sibling_cpumask(cpu);
-    68			if (sibling_mask) {
-    69				for_each_cpu(scpu, sibling_mask) {
-    70					per_cpu(cpu2idx, scpu) = idx;
-    71					cpumask_set_cpu(scpu, &mask);
-    72				}
-    73			}
-    74			idx++;
-    75		}
-    76	
-    77		/*
-    78		 * nr_dlock_lists can only be set after cpu2idx is properly
-    79		 * initialized.
-    80		 */
-    81		smp_mb();
-    82		nr_dlock_lists = idx;
-    83		WARN_ON(nr_dlock_lists > nr_cpu_ids);
-    84	
-    85		pr_info("dlock-list: %d head entries per dlock list.\n",
-    86			nr_dlock_lists);
-    87		return 0;
-    88	}
-    89	postcore_initcall(cpu2idx_init);
-    90	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +2555 net/sched/p4tc/p4tc_tbl_entry.c
+>
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2529        pnatt =3D nla_res=
+erve(skb, P4TC_ROOT_PNAME, P4TC_PIPELINE_NAMSIZ);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2530        if (!pnatt)
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2531                return -E=
+NOMEM;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2532
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2533        ids[P4TC_PID_IDX]=
+ =3D t_new->pipeid;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2534        arg_ids =3D nla_d=
+ata(tb[P4TC_PATH]);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2535        memcpy(&ids[P4TC_=
+TBLID_IDX], arg_ids, nla_len(tb[P4TC_PATH]));
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2536        nl_path_attrs.ids=
+ =3D ids;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2537
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2538        nl_path_attrs.pna=
+me =3D nla_data(pnatt);
+>
+> nla_data() can't be NULL
+>
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2539        if (!p_name) {
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2540                /* Filled=
+ up by the operation or forced failure */
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2541                memset(nl=
+_path_attrs.pname, 0, P4TC_PIPELINE_NAMSIZ);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2542                nl_path_a=
+ttrs.pname_passed =3D false;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2543        } else {
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2544                strscpy(n=
+l_path_attrs.pname, p_name, P4TC_PIPELINE_NAMSIZ);
+>
+> And we dereference it
+>
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2545                nl_path_a=
+ttrs.pname_passed =3D true;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2546        }
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2547
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2548        root =3D nla_nest=
+_start(skb, P4TC_ROOT);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2549        ret =3D p4tc_tabl=
+e_entry_dump(net, skb, tb[P4TC_PARAMS], &nl_path_attrs,
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2550                         =
+           cb, extack);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2551        if (ret <=3D 0)
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2552                goto out;
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2553        nla_nest_end(skb,=
+ root);
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01  2554
+> 0d5bbed1381e54 Jamal Hadi Salim 2023-12-01 @2555        if (nl_path_attrs=
+.pname) {
+>                                                             ^^^^^^^^^^^^^=
+^^^^^^
+> This NULL check can be removed.
+>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
