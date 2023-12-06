@@ -1,52 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C162F869
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 12:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367D836B08
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 12:41:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7q9K38W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GMNWfa00"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701865775; x=1733401775;
+  t=1701866490; x=1733402490;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+GkCBS3JPIqJfqmVwwKDxl1JgdlAWVWExb1QL0i3ln4=;
-  b=C7q9K38WUnBeUOeHlopc6ahoBmX25EtHYHJujf4yd/01DsyOFHTpE8rM
-   TfRgLScmpSnRJf+zbJVzWz5FpHZ9CRsg6adTW8GClsNc8Vj4jyHq8QCFP
-   U0CQUErq+YQ2w25p8HDPYxoUrIWCxCzQ80B1/c7JCKBuc7TPRc4TNfkf9
-   SzoW9Nj3B/PU3i00jeRAhEEmqLrg5uNF83Z+tlqMHa1ilUpEuW7aVqb53
-   XAbTumXxiwnAsLiSJ3lSWTjikmMe0L7Cf+qzW1hYgPYfrb/+RqacSbXoW
-   XumJC/QBMAvUOqub8c8MS9MCFkBZJ5hhwO85K/nP5MExnQTgMEGWQZO18
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1147667"
+  bh=7aeLVgiSNbkfr1rewdbtLVTh2gibP+wYPGJehs3VmpY=;
+  b=GMNWfa00Dvie68i0BKAgoYQicu7kkubgAgZGpr50S2NfXcOaompvfexJ
+   al3yReFm81y7gHN9FtQCeFR01sQk4BFXdP85iX7yiYOLknWxa5sVOtK1v
+   0YgDpnS6lmNBfcpLc6NuiHTNOmNyEqK0PJTGto+X82+ryAyn2lNCqhpsn
+   Mm/O4t0Y6ypluXhaY50O2+s9lm8BjFj2tCwcKWyqNrxpvPEeGuar6b7UI
+   A7Q+41kS4Wxk2pPcyEBrOf/4C1XgtO/bUNJJXnjwfu/uA00bIQRteKqjF
+   5hfAvh2R5sX3EOZlxg71aTMNsZ8nIzzwC2C9tmBUbgXpfJ5wlaHHJjzBj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="391225899"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="1147667"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 04:29:34 -0800
+   d="scan'208";a="391225899"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 04:41:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="764706491"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="862098620"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="764706491"
+   d="scan'208";a="862098620"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 06 Dec 2023 04:29:30 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Dec 2023 04:41:30 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAr1q-000Amh-1e;
-	Wed, 06 Dec 2023 12:29:26 +0000
-Date: Wed, 6 Dec 2023 20:28:39 +0800
+	id 1rArDU-000An6-1J;
+	Wed, 06 Dec 2023 12:41:28 +0000
+Date: Wed, 6 Dec 2023 20:41:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Liu <jim.t90615@gmail.com>, JJLIU0@nuvoton.com,
-	krzysztof.kozlowski+dt@linaro.org, linus.walleij@linaro.org,
-	andy@kernel.org, robh+dt@kernel.org, conor+dt@kernel.org,
-	KWLIU@nuvoton.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	openbmc@lists.ozlabs.org
-Subject: Re: [PATCH v8 3/3] gpio: nuvoton: Add Nuvoton NPCM sgpio driver
-Message-ID: <202312062043.9nNc7GIZ-lkp@intel.com>
-References: <20231206014530.1600151-4-jim.t90615@gmail.com>
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5/7] ksmbd: lazy v2 lease break on smb2_write()
+Message-ID: <202312062020.FbeMXJCT-lkp@intel.com>
+References: <20231204134509.11413-5-linkinjeon@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,183 +50,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231206014530.1600151-4-jim.t90615@gmail.com>
+In-Reply-To: <20231204134509.11413-5-linkinjeon@kernel.org>
 
-Hi Jim,
+Hi Namjae,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on robh/for-next linus/master v6.7-rc4 next-20231206]
+[auto build test WARNING on cifs/for-next]
+[also build test WARNING on linus/master v6.7-rc4 next-20231206]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jim-Liu/dt-bindings-gpio-add-NPCM-sgpio-driver-bindings/20231206-095724
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20231206014530.1600151-4-jim.t90615%40gmail.com
-patch subject: [PATCH v8 3/3] gpio: nuvoton: Add Nuvoton NPCM sgpio driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231206/202312062043.9nNc7GIZ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312062043.9nNc7GIZ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Namjae-Jeon/ksmbd-set-v2-lease-capability/20231204-214847
+base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+patch link:    https://lore.kernel.org/r/20231204134509.11413-5-linkinjeon%40kernel.org
+patch subject: [PATCH 5/7] ksmbd: lazy v2 lease break on smb2_write()
+config: parisc-randconfig-r122-20231206 (https://download.01.org/0day-ci/archive/20231206/202312062020.FbeMXJCT-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312062020.FbeMXJCT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312062043.9nNc7GIZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312062020.FbeMXJCT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/smb/server/oplock.c: note: in included file (through include/linux/dcache.h, include/linux/unicode.h, fs/smb/server/unicode.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>> fs/smb/server/oplock.c:1120:16: sparse: sparse: dereference of noderef expression
+   fs/smb/server/oplock.c:1120:42: sparse: sparse: dereference of noderef expression
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   In file included from arch/alpha/include/asm/bug.h:23,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/alpha/include/generated/asm/current.h:1,
-                    from include/linux/mutex.h:14,
-                    from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from drivers/gpio/gpio-npcm-sgpio.c:9:
-   drivers/gpio/gpio-npcm-sgpio.c: In function 'bank_reg':
->> drivers/gpio/gpio-npcm-sgpio.c:150:26: warning: passing argument 1 of 'dev_driver_string' makes pointer from integer without a cast [-Wint-conversion]
-     150 |                 dev_WARN(true, "Getting here is an error condition");
-         |                          ^~~~
-         |                          |
-         |                          int
-   include/asm-generic/bug.h:99:62: note: in definition of macro '__WARN_printf'
-      99 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
-         |                                                              ^~~
-   include/linux/dev_printk.h:271:9: note: in expansion of macro 'WARN'
-     271 |         WARN(1, "%s %s: " format, dev_driver_string(dev), dev_name(dev), ## arg)
-         |         ^~~~
-   drivers/gpio/gpio-npcm-sgpio.c:150:17: note: in expansion of macro 'dev_WARN'
-     150 |                 dev_WARN(true, "Getting here is an error condition");
-         |                 ^~~~~~~~
-   In file included from include/linux/platform_device.h:13,
-                    from drivers/gpio/gpio-npcm-sgpio.c:16:
-   include/linux/device.h:1242:52: note: expected 'const struct device *' but argument is of type 'int'
-    1242 | const char *dev_driver_string(const struct device *dev);
-         |                               ~~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpio/gpio-npcm-sgpio.c:150:26: warning: passing argument 1 of 'dev_name' makes pointer from integer without a cast [-Wint-conversion]
-     150 |                 dev_WARN(true, "Getting here is an error condition");
-         |                          ^~~~
-         |                          |
-         |                          int
-   include/asm-generic/bug.h:99:62: note: in definition of macro '__WARN_printf'
-      99 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
-         |                                                              ^~~
-   include/linux/dev_printk.h:271:9: note: in expansion of macro 'WARN'
-     271 |         WARN(1, "%s %s: " format, dev_driver_string(dev), dev_name(dev), ## arg)
-         |         ^~~~
-   drivers/gpio/gpio-npcm-sgpio.c:150:17: note: in expansion of macro 'dev_WARN'
-     150 |                 dev_WARN(true, "Getting here is an error condition");
-         |                 ^~~~~~~~
-   include/linux/device.h:858:57: note: expected 'const struct device *' but argument is of type 'int'
-     858 | static inline const char *dev_name(const struct device *dev)
-         |                                    ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/gpio/gpio-npcm-sgpio.c: In function 'npcm_sgpio_dir_out':
->> drivers/gpio/gpio-npcm-sgpio.c:211:28: warning: unused variable 'gpio' [-Wunused-variable]
-     211 |         struct npcm_sgpio *gpio = gpiochip_get_data(gc);
-         |                            ^~~~
-   drivers/gpio/gpio-npcm-sgpio.c: At top level:
->> drivers/gpio/gpio-npcm-sgpio.c:534:20: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     534 |         .sft_clk = npcm750_SFT_CLK,
-         |                    ^~~~~~~~~~~~~~~
-   drivers/gpio/gpio-npcm-sgpio.c:535:20: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     535 |         .clk_sel = npcm750_CLK_SEL,
-         |                    ^~~~~~~~~~~~~~~
-   drivers/gpio/gpio-npcm-sgpio.c:540:20: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     540 |         .sft_clk = npcm845_SFT_CLK,
-         |                    ^~~~~~~~~~~~~~~
-   drivers/gpio/gpio-npcm-sgpio.c:541:20: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     541 |         .clk_sel = npcm845_CLK_SEL,
-         |                    ^~~~~~~~~~~~~~~
+vim +1120 fs/smb/server/oplock.c
 
-
-vim +/dev_driver_string +150 drivers/gpio/gpio-npcm-sgpio.c
-
-   134	
-   135	static void __iomem *bank_reg(struct npcm_sgpio *gpio,
-   136				      const struct npcm_sgpio_bank *bank,
-   137				      const enum npcm_sgpio_reg reg)
-   138	{
-   139		switch (reg) {
-   140		case READ_DATA:
-   141			return gpio->base + bank->rdata_reg;
-   142		case WRITE_DATA:
-   143			return gpio->base + bank->wdata_reg;
-   144		case EVENT_CFG:
-   145			return gpio->base + bank->event_config;
-   146		case EVENT_STS:
-   147			return gpio->base + bank->event_status;
-   148		default:
-   149			/* actually if code runs to here, it's an error case */
- > 150			dev_WARN(true, "Getting here is an error condition");
-   151		}
-   152		return 0;
-   153	}
-   154	
-   155	static const struct npcm_sgpio_bank *offset_to_bank(unsigned int offset)
-   156	{
-   157		unsigned int bank = GPIO_BANK(offset);
-   158	
-   159		return &npcm_sgpio_banks[bank];
-   160	}
-   161	
-   162	static void irqd_to_npcm_sgpio_data(struct irq_data *d,
-   163					    struct npcm_sgpio **gpio,
-   164					    const struct npcm_sgpio_bank **bank,
-   165					    u8 *bit, unsigned int *offset)
-   166	{
-   167		struct npcm_sgpio *internal;
-   168	
-   169		*offset = irqd_to_hwirq(d);
-   170		internal = irq_data_get_irq_chip_data(d);
-   171	
-   172		*gpio = internal;
-   173		*offset -= internal->nout_sgpio;
-   174		*bank = offset_to_bank(*offset);
-   175		*bit = GPIO_BIT(*offset);
-   176	}
-   177	
-   178	static int npcm_sgpio_init_port(struct npcm_sgpio *gpio)
-   179	{
-   180		u8 in_port, out_port, set_port, reg;
-   181	
-   182		in_port = GPIO_BANK(gpio->nin_sgpio);
-   183		if (GPIO_BIT(gpio->nin_sgpio) > 0)
-   184			in_port += 1;
-   185	
-   186		out_port = GPIO_BANK(gpio->nout_sgpio);
-   187		if (GPIO_BIT(gpio->nout_sgpio) > 0)
-   188			out_port += 1;
-   189	
-   190		gpio->in_port = in_port;
-   191		gpio->out_port = out_port;
-   192		set_port = ((out_port & NPCM_IOXCFG2_PORT) << 4) | (in_port & NPCM_IOXCFG2_PORT);
-   193		iowrite8(set_port, gpio->base + NPCM_IOXCFG2);
-   194	
-   195		reg = ioread8(gpio->base + NPCM_IOXCFG2);
-   196	
-   197		return reg == set_port ? 0 : -EINVAL;
-   198	
-   199	}
-   200	
-   201	static int npcm_sgpio_dir_in(struct gpio_chip *gc, unsigned int offset)
-   202	{
-   203		struct npcm_sgpio *gpio = gpiochip_get_data(gc);
-   204	
-   205		return offset <	gpio->nout_sgpio ? -EINVAL : 0;
-   206	
-   207	}
-   208	
-   209	static int npcm_sgpio_dir_out(struct gpio_chip *gc, unsigned int offset, int val)
-   210	{
- > 211		struct npcm_sgpio *gpio = gpiochip_get_data(gc);
-   212	
-   213		gc->set(gc, offset, val);
-   214	
-   215		return 0;
-   216	
+  1114	
+  1115	void smb_lazy_parent_lease_break_close(struct ksmbd_file *fp)
+  1116	{
+  1117		struct oplock_info *opinfo;
+  1118		struct ksmbd_inode *p_ci = NULL;
+  1119	
+> 1120		if (!fp->f_opinfo->is_lease || fp->f_opinfo->o_lease->version != 2)
+  1121			return;
+  1122	
+  1123		p_ci = ksmbd_inode_lookup_lock(fp->filp->f_path.dentry->d_parent);
+  1124		if (!p_ci)
+  1125			return;
+  1126	
+  1127		list_for_each_entry(opinfo, &p_ci->m_op_list, op_entry) {
+  1128			if (!opinfo->is_lease)
+  1129				continue;
+  1130	
+  1131			if (opinfo->o_lease->state != SMB2_OPLOCK_LEVEL_NONE)
+  1132				oplock_break(opinfo, SMB2_OPLOCK_LEVEL_NONE);
+  1133		}
+  1134	
+  1135		ksmbd_inode_put(p_ci);
+  1136	}
+  1137	
 
 -- 
 0-DAY CI Kernel Test Service
