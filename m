@@ -1,157 +1,133 @@
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2125.outbound.protection.outlook.com [40.107.114.125])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E006E3FB0A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 15:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C723DBBC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 15:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="bBeQOze7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IjwDnGSfQQ7okoHOuXVTk2TJEsX3sraJsx3W/pdqItFXboZYduFgg/s6U51Pm5wLkigZD7nWq2rUf1SW2n8aSzgJZwP8yiy0ieM8H2yvSfLZ9r/WLC5fnx5kQSk1m8h2xQ1HN980pc9/FPygtKnlMWv3zSX9q0fySa40DjLv+mPmRMDIu5cMBclwKl5KLrEsXl9DIsSwKw+9iedH33FPyFmNk7VdIlgxuwcZ0onl0IMPtKk7N+hFGaT2SB9HLNsKX6oXpyXGz/u3ForURBWnEGbx1qgnHgMWl1rfuPjBLXKJoBHeJs1Giyc7v/B1pQcU+E8VSu4rvN58bOtMaBa88A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+UmHcjNBZ72MlIW+e3eLZJ0KIjXkhbiNj77wiqukGUM=;
- b=h6pErlNKzKFlACrZ3q9BIxRukTZ2n70XnF57IFYg2ZVOYMi1N7RC5QdanQWdtlf3A+/nCfKZ/t9FLi/SQZk4DGwLSoIlL3sFat0UErEKsB2nyWe3HrFVD+bP3b1REp4yzlBV4iJWfQmWMRur+y4yVlDIlTLmSEr0SSRB7G+qeA/u7D8tqAJoAjThCRgEkSE3Q5IVxrT/0IJMaXvgKvHhaCqHCo3XozdiMdkhGywe55+vZK//INOUNcn1tYXCspUjP07VE7AxWL+NogiX6oatp1f+iAIt5IRIeh+TUHZ1Re5JLQXbIHFzBOE/rQBPwbij2I0wU2qUf2VY9Rjj5aA2jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+UmHcjNBZ72MlIW+e3eLZJ0KIjXkhbiNj77wiqukGUM=;
- b=bBeQOze7BbAchm8OhzIUPc4ZR5PpTRL9Oi72G8R0BNneBOjt1Q9emLvZelv5JkAVKXyK0gypyZtcTv8tsscbpc12i9+OuNRcMND7+kSaBrJ9yLtsH716qEPWV4IG9JEz4HjAHPbyCuUtEOJ8b4x5Rb/oh8vM1ex31dELUQzBhWI=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by OS3PR01MB6085.jpnprd01.prod.outlook.com
- (2603:1096:604:d7::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Wed, 6 Dec
- 2023 15:19:50 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::4af6:b31a:8826:51ac]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::4af6:b31a:8826:51ac%6]) with mapi id 15.20.7091.010; Wed, 6 Dec 2023
- 15:19:50 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Lee Jones <lee@kernel.org>
-CC: kernel test robot <lkp@intel.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Support
- Opensource <support.opensource@diasemi.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 4/6] dt-bindings: mfd: Convert da9062 to json-schema
-Thread-Topic: [PATCH 4/6] dt-bindings: mfd: Convert da9062 to json-schema
-Thread-Index: AQHaJEbLbkLjDyc/Rk+ATYqnJ+1Y7rCbvd2AgABG8QCAAELEgIAAHjdA
-Date: Wed, 6 Dec 2023 15:19:50 +0000
-Message-ID:
- <TYCPR01MB112691F765724764ED08F7FBB8684A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231201110840.37408-5-biju.das.jz@bp.renesas.com>
- <202312061323.Zk81yCZU-lkp@intel.com>
- <TYVPR01MB11279FA6949EFAE62C70EB2948684A@TYVPR01MB11279.jpnprd01.prod.outlook.com>
- <20231206132813.GC3375667@google.com>
-In-Reply-To: <20231206132813.GC3375667@google.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OS3PR01MB6085:EE_
-x-ms-office365-filtering-correlation-id: 59bc927b-01a0-4549-bb2c-08dbf66eca92
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- JrD6Bx/SUDCoIzUPPfaL5T9tw+zLyG6aQPYtzjKSddw8glWwshCbRmsFt7h7nC1IFb8J2u+2HHnbp8oXwBpK9HFd2u2f2yvWs5Hbp8frE54WNgHCTv1JFYnrVgo5WWhdID8u7dqLvvhkVNC1Rjltkrk2DVBxZ+UGrI2vEx52ejAioLzAV9ju833ogOWoZPwKOd+UsGClCE7QDvRSXB8U8eawYrMXntIeHkvwzcucAFSJL/iBsx64qCxjhBCuF+KXOOophyU1XMBELLChaErshyDrNH2ERZnUce66wN+U2Nc+ugYjY7kSdVigekpBvOV4Mb9wsyRZOAEaQaZj8MwC9fpQxOyN6PMedpcauh7a2gJAtJmyFgplR4ypMDz2WZNVeplvM5soTbBIwE3ipNyz6xL1ov0yVyhjdK+qwvMlJ9uMcUzUnceS6h37ZCthr5hxDo+oORXNe6WnUIeVdVwAjI+v9BqAX0UHsaiqX21Y+wny4veb2PQTakl86R9P/oUdbQPTB9k0+qfAKTeWRMYxQFkUhcHQPUKXYIeNwvw+aF7u41bHpipUmR37J501vkAWuF19fZbBjFmOnD4yx+VnkxpuyLpEr7dZi9zofFuK4nJ1vzrB+u91cbYqrg8xttYhbhIVlh5AyE3CvizcbEu2lHfdFtgwtZO4McwzF+E+xIY=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(396003)(346002)(366004)(376002)(230173577357003)(230273577357003)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(38070700009)(55016003)(38100700002)(122000001)(7416002)(33656002)(5660300002)(2906002)(9686003)(83380400001)(53546011)(6506007)(71200400001)(7696005)(26005)(478600001)(41300700001)(66946007)(4326008)(54906003)(64756008)(66446008)(66476007)(66556008)(6916009)(316002)(76116006)(52536014)(8676002)(86362001)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?bFFBckRuYkFQdVplM1h0Rkk0R1BrZWtjT2U5VXJodUhQNzhLT3ZnVm8yUG5Z?=
- =?utf-8?B?V1R5WUFBcnpFK3ZoZ2Y1SEptUmlrdGZXNDNoS3RVaWs4cmJEVE1WVGN5cWll?=
- =?utf-8?B?MXRRcWM1SHBGbVpMNG9YQ0lxSFdlY1kyMTZ1aUFrc29KS1JmdXQ0alNDbDhF?=
- =?utf-8?B?bnFBb2ZnYm9XZmdSSlFPUno3aFdOQUJQSHJWN1JOai9lWCtJeGFxMlVPNmZj?=
- =?utf-8?B?Q3pYdnJQMFBqR3ExeHFja2RSY2l2Mkg0MlhRQXVjM1pHaTg1QVRGellpRUpS?=
- =?utf-8?B?bmF1RmpzVFM2V2ZVN1pxWEErNmtNY2JEQ3Zyb0MwVHRlaExvTUs2eTV5VmdW?=
- =?utf-8?B?T1dOcTFNY28rZElTMFJiQVRlUURuOXZkL0RXMkY4RUttOU5iSTVOZGVFYUFZ?=
- =?utf-8?B?VUd0VFgxaXVib1ZzTlRTdWl1QUpYUDZZZXoyaXNxODVxNk9JMDVSUkdiU3dk?=
- =?utf-8?B?b2twL0RFbGtXMmc4aXhxc2RFSmhtNFl2RWdCNERpZG9pTDZCWWJZZ2lsRGpQ?=
- =?utf-8?B?cGxKV0grRlB0MWEwQXhRbjEySnhWaHJPbHNZZDRtSFI4Tzd3VVN4eXNXTXA1?=
- =?utf-8?B?MURQRWk0WHdVa0hrRTJUY3N0d1lZdTZjeWJPVko1N0lOamN4Rmg4c0lhTURQ?=
- =?utf-8?B?bkFUcC9taVFLOFJybjcrV0lZYjV2TTdpUzRySXV5VVBibW1lOFJrNDFQRjFG?=
- =?utf-8?B?VjQwMFV5NlVCaEtzaWRVNTYydW5QaWJTQThpbDlJY3FUc2c1T21BWEVwUEZV?=
- =?utf-8?B?Vm12STU1dEhucEVWUkVmbzZHeGU5RFBnZktUQU10RGFqYmNkZUFmcmxaLzEx?=
- =?utf-8?B?d1JNT3FMN1pQcWlMUWtTUkpXTUkvZjlRdEtubFY5TktnN0tCeHRFVWQzMkRE?=
- =?utf-8?B?bGZBdjJoK3ZIbHdTQVF4cXBqUkNmNTRPODFsMm04LzJWN0N4S3dKT2RsbDVN?=
- =?utf-8?B?bDg4NU9LTXR1bUt5dWs3algySk81VTNkRjBTb0hQdW4zdnQ5M3I3TUxxYTlD?=
- =?utf-8?B?UkJXNkdrMFZzTk43TU5iYWd5SG9MWVhHc003UVFPc0xZL0NNS1hpdlNTWGJ3?=
- =?utf-8?B?NGlCVWRhdU9HdXVLeEFaaityTGFBb0JTM3M1WXRFbDZHZ0ErZ2gvV0syeWlR?=
- =?utf-8?B?c0VIMWpXVkozckFjb2VDMXVoZHJLNUYrd3h1S2lJLzMyejRoZWRNdUMxQmhI?=
- =?utf-8?B?WVh6ajRaVDNhYWFITFBoR1lEaW9aOWVXeHh6TW0wTEdYMjdUWkpHbUhvZ0lR?=
- =?utf-8?B?WmppNWVOSEFnVFB3YVJxYXVPeTVobnMyeUozTjNqNmJPeTVLY29NZzJkRGZ2?=
- =?utf-8?B?K2FlYVN0L3ZTOHo5UmxtaFdEMi84VTcrVytaRzdTWU91c0d2K3NrWFJiMXBJ?=
- =?utf-8?B?V1lpT1k1eHRycjNtOXNnUktMY3VacW9wZ0dqTTkwUHk4RUpqMVhkTkhXa3VW?=
- =?utf-8?B?blI4b3pJM1hYMVh0T0R0UlhJQ1RycDZTSzJkOVR3aGNaL1A5bHNOTEZFN0t3?=
- =?utf-8?B?TnV4M3dPdEtwa1RkZVF4NjQyVVpSL1RNZWVjVlFPZnFoNUlzVEIrN1BjSWJj?=
- =?utf-8?B?a3FwTVBobkxiYkhNSEZXUW5TaHJUclQvSmlrdWtxR1RKNGsxcGRqVXBoWVIx?=
- =?utf-8?B?OWxiYzBxZVRpNmNTd20zak1RK3ptUTF6c3NTcy9mTlNRZHE1akZEL1FCSld2?=
- =?utf-8?B?V0psUUkrL2NFdkV3c0ZiRHI2OHNLU01UY0hiZ0lETERocUxzWFVIN210VDJM?=
- =?utf-8?B?U3VpQzBGOFhFWlFIZUFzaUVpSVlreWYyeDlNYzBkVFBndWpmTmRpeGZqcURz?=
- =?utf-8?B?Vkx4THh0T0N6eVZva2tEWTZoWlpMYWYwbThFQkJpUGhWd2RXV2lndzUwRmxZ?=
- =?utf-8?B?NFdnSXhobEhDUzI2cmFsME5ZVUs0M2RSbTdXS09hS2xPYTllem9FN0VvcVpx?=
- =?utf-8?B?N3BRaEg1N3VtbENLUGtyVTZ2ZEZWNzFXT0V5M0xsaHc3ck1tYUxHcjRoOXFM?=
- =?utf-8?B?MzZMRDBNTkN3bm1QcmhqaVl6ZEFvV0tSQkROV3ExS0d4TWR4bHRHSExXOHcr?=
- =?utf-8?B?NUZEMW1RQTh6WnJhcm53WE9EeHlzdmdTdzFkODZWNDQ4RWJ3eURvMlQxckY5?=
- =?utf-8?B?WkhlY09iVEdSUFE0Wk9ON0N2Tm5jZEdzS2lLZVR3MGdMNlUrOFFSQmQvTmVq?=
- =?utf-8?B?QlE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQIob8uM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701877317; x=1733413317;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cZr7EQRwmsoPaiZLo7tYCOCms5lp75M7M2RJwXaDLQM=;
+  b=YQIob8uMso/DPUOy2MXW0UILCl5BwWKQrAorUT5qJunS87071wY1BnCO
+   +u/ri4n413xJ5hmEDNbzhnShci0uoh2tgsPAfcWH620RWrQkjmOv3phYx
+   CZnxL4WPl6P3k9our9coG3T2AyXpydIIHZnRQmPKT7nDdQqMgMLokRJKq
+   vEFHGXbnexiEOKfoEGeDpCmi3E3TM2MXhoLl85VuqhVXw6egU0RS2OoFv
+   oellhDhfDykfn62Z4CEGczjnDTMru/oAAMpqebJgKDbWDEofpA0Eicnj3
+   r7OEe3MdW3AIy1v5TOXoT4o+Zeyz+RbHS+RfZxgBR/j+lMNRY9MbAvoZZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="373545720"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
+   d="scan'208";a="373545720"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 07:41:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="889388431"
+X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
+   d="scan'208";a="889388431"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 06 Dec 2023 07:41:45 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAu1v-000B16-0Z;
+	Wed, 06 Dec 2023 15:41:43 +0000
+Date: Wed, 6 Dec 2023 23:39:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Chinner <david@fromorbit.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dgc-xfs:vfs-scale 4/11] lib/dlock-list.c:67:16: error: assigning to
+ 'struct cpumask *' from 'const struct cpumask *' discards qualifiers
+Message-ID: <202312062348.Mq7trSIx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59bc927b-01a0-4549-bb2c-08dbf66eca92
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2023 15:19:50.8395
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /vTug+3SDrkiuvT91QVwJofTEkCDggFaC1Du08VeDXMTjVe5lFXEDG4RkX3QlgmpFnT0T2v3Vyo/PGjb2CTXCb1hkbbfIdyTVooKq//o/Mg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6085
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-SGkgTGVlIEpvbmVzLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IExl
-ZSBKb25lcyA8bGVlQGtlcm5lbC5vcmc+DQo+IFNlbnQ6IFdlZG5lc2RheSwgRGVjZW1iZXIgNiwg
-MjAyMyAxOjI4IFBNDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggNC82XSBkdC1iaW5kaW5nczogbWZk
-OiBDb252ZXJ0IGRhOTA2MiB0byBqc29uLXNjaGVtYQ0KPiANCj4gT24gV2VkLCAwNiBEZWMgMjAy
-MywgQmlqdSBEYXMgd3JvdGU6DQo+IA0KPiA+IEhpIGtlcm5lbCB0ZXN0IHJvYm90LA0KPiA+DQo+
-ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbToga2VybmVsIHRlc3Qg
-cm9ib3QgPGxrcEBpbnRlbC5jb20+DQo+ID4gPiBTdWJqZWN0OiBSZTogW1BBVENIIDQvNl0gZHQt
-YmluZGluZ3M6IG1mZDogQ29udmVydCBkYTkwNjIgdG8NCj4gPiA+IGpzb24tc2NoZW1hDQo+ID4g
-Pg0KPiA+ID4gSGkgQmlqdSwNCj4gPiA+DQo+ID4gPiBrZXJuZWwgdGVzdCByb2JvdCBub3RpY2Vk
-IHRoZSBmb2xsb3dpbmcgYnVpbGQgd2FybmluZ3M6DQo+ID4gPg0KPiA+ID4NCj4gPiA+IElmIHlv
-dSBmaXggdGhlIGlzc3VlIGluIGEgc2VwYXJhdGUgcGF0Y2gvY29tbWl0IChpLmUuIG5vdCBqdXN0
-IGEgbmV3DQo+ID4gPiB2ZXJzaW9uIG9mIHRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBh
-ZGQgZm9sbG93aW5nIHRhZ3MNCj4gPiA+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90
-IDxsa3BAaW50ZWwuY29tPg0KPiA+ID4gfCBDbG9zZXM6DQo+ID4gPg0KPiA+ID4gQWxsIHdhcm5p
-bmdzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6DQo+ID4gPg0KPiA+ID4gPj4gV2FybmluZzog
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lucHV0L2RhOTA2Mi1vbmtleS50eHQN
-Cj4gPiA+ID4+IHJlZmVyZW5jZXMgYSBmaWxlIHRoYXQgZG9lc24ndCBleGlzdDoNCj4gPiA+ID4+
-IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZmQvZGE5MDYyLnR4dA0KPiA+ID4g
-Pj4gV2FybmluZzoNCj4gPiA+ID4+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy90
-aGVybWFsL2RhOTA2Mi10aGVybWFsLnR4dA0KPiA+ID4gPj4gcmVmZXJlbmNlcyBhIGZpbGUgdGhh
-dCBkb2Vzbid0IGV4aXN0Og0KPiA+ID4gPj4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL21mZC9kYTkwNjIudHh0DQo+ID4gPg0KPiA+DQo+ID4gVGhlcmUgaXMgYW4gdXBkYXRlZCBw
-YXRjaCBzZXJpZXMgYXZhaWxhYmxlWzFdIGFuZCBQbGVhc2UgcmV0ZXN0IGFuZA0KPiA+IHByb3Zp
-ZGUgZmVlZGJhY2sgaWYgYW55Pw0KPiANCj4gRG8geW91IG9mdGVuIGZpbmQgeW91cnNlbGYgY2hh
-dHRpbmcgd2l0aCBpbmFuaW1hdGUvYXV0b21hdGVkIHNlcnZpY2VzPyA6KQ0KDQpGWUksIGJhc2Vk
-IG9uIHRoZSBwcmV2aW91cyBleHBlcmllbmNlLCB0aGVyZSBhcmUgc29tZSBwZW9wbGUgdXNlZCB0
-byByZXNwb25kDQpldmVuIHRob3VnaCBpdCBpcyBhZGRyZXNzZWQgdG8ga2VybmVsIHRlc3Qgcm9i
-b3QgPGxrcEBpbnRlbC5jb20+Lg0KDQpJIGRvbid0IGtub3cgYWJvdXQgdGhlIGN1cnJlbnQgc2l0
-dWF0aW9uLg0KDQpDaGVlcnMsDQpCaWp1DQo=
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dgc/linux-xfs.git vfs-scale
+head:   5e5e95a86ea3aa15d83654ec3752451959a689e6
+commit: 7a215da6235ea23015452201ae78f1664c27ab8a [4/11] lib/dlock-list: Make sibling CPUs share the same linked list
+config: x86_64-buildonly-randconfig-001-20231206 (https://download.01.org/0day-ci/archive/20231206/202312062348.Mq7trSIx-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312062348.Mq7trSIx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312062348.Mq7trSIx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> lib/dlock-list.c:67:16: error: assigning to 'struct cpumask *' from 'const struct cpumask *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+                   sibling_mask = topology_sibling_cpumask(cpu);
+                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +67 lib/dlock-list.c
+
+    36	
+    37	/*
+    38	 * Initialize cpu2idx mapping table & nr_dlock_lists.
+    39	 *
+    40	 * It is possible that a dlock-list can be allocated before the cpu2idx is
+    41	 * initialized. In this case, all the cpus are mapped to the first entry
+    42	 * before initialization.
+    43	 *
+    44	 * All the sibling CPUs of a sibling group will map to the same dlock list so
+    45	 * as to reduce the number of dlock lists to be maintained while minimizing
+    46	 * cacheline contention.
+    47	 *
+    48	 * As the sibling masks are set up in the core initcall phase, this function
+    49	 * has to be done in the postcore phase to get the right data.
+    50	 */
+    51	static int __init cpu2idx_init(void)
+    52	{
+    53		int idx, cpu;
+    54		struct cpumask *sibling_mask;
+    55		static struct cpumask mask __initdata;
+    56	
+    57		cpumask_clear(&mask);
+    58		idx = 0;
+    59		for_each_possible_cpu(cpu) {
+    60			int scpu;
+    61	
+    62			if (cpumask_test_cpu(cpu, &mask))
+    63				continue;
+    64			per_cpu(cpu2idx, cpu) = idx;
+    65			cpumask_set_cpu(cpu, &mask);
+    66	
+  > 67			sibling_mask = topology_sibling_cpumask(cpu);
+    68			if (sibling_mask) {
+    69				for_each_cpu(scpu, sibling_mask) {
+    70					per_cpu(cpu2idx, scpu) = idx;
+    71					cpumask_set_cpu(scpu, &mask);
+    72				}
+    73			}
+    74			idx++;
+    75		}
+    76	
+    77		/*
+    78		 * nr_dlock_lists can only be set after cpu2idx is properly
+    79		 * initialized.
+    80		 */
+    81		smp_mb();
+    82		nr_dlock_lists = idx;
+    83		WARN_ON(nr_dlock_lists > nr_cpu_ids);
+    84	
+    85		pr_info("dlock-list: %d head entries per dlock list.\n",
+    86			nr_dlock_lists);
+    87		return 0;
+    88	}
+    89	postcore_initcall(cpu2idx_init);
+    90	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
