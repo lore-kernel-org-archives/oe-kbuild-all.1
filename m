@@ -1,104 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B165CD279
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 06:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19F611C8D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 06:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZyJVIkok"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701844840; x=1733380840;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=y3f54WbYajDqZbyvq2c5qPICl/FDzPaPpf3pfWEP5jY=;
-  b=ZyJVIkokZ0uCygqspbeYifTffYdauCC75uMECZXulRmSIC0K6a7ufEco
-   7T5uZPm3jErywh3xKFEzTfu54XBQ8TNrKGhQeKTNPF5fQD0WSmn3UwGQC
-   jm2f9vLKtVD6Oo/Y12SaNxc6W2k9G23jfyu5+jw75jALRiJi0Q0t7O+Hl
-   3igo40lYGff2FVbLY0d2CNjXgGiXnT6t87i2qNvBVrZkTU/4LIZtAIv3R
-   bvoQLkWgbfqZT3RInEzwsYD7lsAhDip4L9220WZXa2oJUK7zJLO8IT0Bd
-   Z49qq0PyAuoK0ZLa5LwlY69aM+oWtSutsl0Pf56jqkL9mswu9tnkZsntW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="887023"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="887023"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 22:40:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="1102716537"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="1102716537"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Dec 2023 22:40:36 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAlaA-000AQC-35;
-	Wed, 06 Dec 2023 06:40:32 +0000
-Date: Wed, 6 Dec 2023 14:39:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: gabriel.fernandez@foss.st.com,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] clk: stm32mp1: use stm32mp13 reset driver
-Message-ID: <202312061455.vpswjBcr-lkp@intel.com>
-References: <20231128164851.588315-3-gabriel.fernandez@foss.st.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="QfPx6a9G";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GH+CucaS"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id DC3203200B13;
+	Wed,  6 Dec 2023 01:53:30 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 06 Dec 2023 01:53:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1701845610; x=1701932010; bh=PW
+	66L1dPgZW8LDxXB4sVa/5vk2EkvICnU+1XTg3NMCw=; b=QfPx6a9GTa1f8QF0e9
+	lEuKcFsJPTVPzqFVzdlUGuPbTX1bXF+m0OSM+YNNfRN1dBbSz3fYmLlgBf+4qu50
+	MSc3XV6QJBw/wNLDMYH0KHgRRX++edlijcqtOR4DqA4Ea4CgvszljPYzldmUD26q
+	X3QGbL/vfndBP62fcpHygQeXYNT4laXNuAZ9+yI/mu2Zr1wAHJzcWNi/vCh6laQS
+	zIadvRovi+y6hW9eDsJ4ps08lv51m+a/UswS+91VJGQW3/7P5fGNEGyNm7mmao6Y
+	VYt6MlBaRPA0p7V67U8kA+AsECGyy9Vy4akvg0ruNp+JfnaQjW1PN3/7Fop5WikR
+	fb/w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1701845610; x=1701932010; bh=PW66L1dPgZW8L
+	DxXB4sVa/5vk2EkvICnU+1XTg3NMCw=; b=GH+CucaS/2CicMAeMT4S2qz+0QUxW
+	siBhRM00FdK7bQYs0lqFqLWVH9ZhljqfelKYSu8lZZkIjExFiG4mE5HSbFn9TVcb
+	btqbpsjRCPqgqFDCm8m1HhMEB1avddz+lKBrKr5XHAhwMwrTuXU51xCEwPXtAqzh
+	s13xg4Mjp0wQ8tFG0xuX7CYR5Z8RYQ5pM7u4P6puIwTGKTpHlN6yAwiynTfzeQVT
+	d6r8qyJ362D6BWSC1M5lh3CmkQeFxV+pI63VXlBDG6vvZlJlrbOu+aHT68GwQNrJ
+	YmdSSyJWOGUJffDa9EAVThSRmPpUSy4a+g3N182uNx7YNX6SYa1XicWYA==
+X-ME-Sender: <xms:aRpwZR_vUtWbJQM2foiiiZyKFQR3HaPMIprLyJIT7duQYU_vi8kxSw>
+    <xme:aRpwZVvGr_Fh3c2gmaIvLahauUx3siYA3pFKtK_HJCaw2eLIFeH6xVVemPJn8brff
+    3HX3_tbFcpcQM3WdvI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudejledgkeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:aRpwZfCOUZHZkntdpX7ADkGLEOJJ-EDgM_1SmHXZ6mf2Np6EmQi0ZQ>
+    <xmx:aRpwZVfoSFCHWUo_VIyqeD5DKi5Tg8Bt0cLOGDJSd2C1Wnih5_wCJA>
+    <xmx:aRpwZWPbQI4CiTpCOsJ6vNoQRmxO0vRyePMO8I6SXlp9Y24mCU3trw>
+    <xmx:ahpwZd2ZWm_fEU9gcGqpRlAFAr7FWC0RGK6dqA6-uokNMj0btiqozQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 5AAB1B60089; Wed,  6 Dec 2023 01:53:29 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1178-geeaf0069a7-fm-20231114.001-geeaf0069
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128164851.588315-3-gabriel.fernandez@foss.st.com>
+Message-Id: <f712a65b-4984-46e8-bd43-1309b5cd41f0@app.fastmail.com>
+In-Reply-To: <5f1caaf8-1edf-444a-b017-c4d08e52213b@infradead.org>
+References: <202312041909.lwhcU35R-lkp@intel.com>
+ <5f1caaf8-1edf-444a-b017-c4d08e52213b@infradead.org>
+Date: Wed, 06 Dec 2023 07:52:58 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Randy Dunlap" <rdunlap@infradead.org>,
+ "kernel test robot" <lkp@intel.com>, "Masahiro Yamada" <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Nicolas Schier" <nicolas@fjasle.eu>,
+ "Jiaxun Yang" <jiaxun.yang@flygoat.com>, linux-mips@vger.kernel.org
+Subject: Re: pm.c:undefined reference to `i8042_command'
+Content-Type: text/plain
 
-Hi,
+On Wed, Dec 6, 2023, at 06:24, Randy Dunlap wrote:
+>> All errors (new ones prefixed by >>):
+>> 
+>>    mips64el-linux-ld: arch/mips/loongson2ef/lemote-2f/pm.o: in function `setup_wakeup_events':
+>>>> pm.c:(.text+0x118): undefined reference to `i8042_command'
+>>>> mips64el-linux-ld: pm.c:(.text+0x154): undefined reference to `i8042_command'
+>
+>
+> How do we feel about this?
+> I suppose that an ARCH or mach or board should know what it requires.
+>
+>
+> ---
+>  arch/mips/loongson2ef/Kconfig |    3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff -- a/arch/mips/loongson2ef/Kconfig b/arch/mips/loongson2ef/Kconfig
+> --- a/arch/mips/loongson2ef/Kconfig
+> +++ b/arch/mips/loongson2ef/Kconfig
+> @@ -40,6 +40,9 @@ config LEMOTE_MACH2F
+>  	select ARCH_HAS_PHYS_TO_DMA
+>  	select ARCH_MIGHT_HAVE_PC_PARPORT
+>  	select ARCH_MIGHT_HAVE_PC_SERIO
+> +	select INPUT
+> +	select SERIO
+> +	select SERIO_I8042
+>  	select BOARD_SCACHE
+>  	select BOOT_ELF32
 
-kernel test robot noticed the following build warnings:
+I think it's bad style to force-select an optional subsystem.
+How about making the entire file optional? It seems that there
+are already __weak functions in its place.
 
-[auto build test WARNING on atorgue-stm32/stm32-next]
-[also build test WARNING on clk/clk-next robh/for-next linus/master v6.7-rc4 next-20231206]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+--- a/arch/mips/loongson2ef/lemote-2f/Makefile
++++ b/arch/mips/loongson2ef/lemote-2f/Makefile
+@@ -8,5 +8,6 @@ obj-y += clock.o machtype.o irq.o reset.o dma.o ec_kb3310b.o
+ #
+ # Suspend Support
+ #
+-
++ifdef CONFIG_SERIO_I8042
+ obj-$(CONFIG_SUSPEND) += pm.o
++endif
 
-url:    https://github.com/intel-lab-lkp/linux/commits/gabriel-fernandez-foss-st-com/clk-stm32mp1-move-stm32mp1-clock-driver-into-stm32-directory/20231129-005157
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20231128164851.588315-3-gabriel.fernandez%40foss.st.com
-patch subject: [PATCH v4 2/5] clk: stm32mp1: use stm32mp13 reset driver
-config: arm-randconfig-r132-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061455.vpswjBcr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312061455.vpswjBcr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312061455.vpswjBcr-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/clk/stm32/clk-stm32mp13.c:1516:29: sparse: sparse: symbol 'stm32mp13_reset_data' was not declared. Should it be static?
---
->> drivers/clk/stm32/clk-stm32mp1.c:2148:29: sparse: sparse: symbol 'stm32mp1_reset_data' was not declared. Should it be static?
-
-vim +/stm32mp13_reset_data +1516 drivers/clk/stm32/clk-stm32mp13.c
-
-  1515	
-> 1516	struct clk_stm32_reset_data stm32mp13_reset_data = {
-  1517		.nr_lines	= STM32MP1_RESET_ID_MASK,
-  1518		.clear_offset	= RCC_CLR_OFFSET,
-  1519	};
-  1520	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+     Arnd
