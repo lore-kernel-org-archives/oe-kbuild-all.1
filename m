@@ -1,54 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1585948CDA;
-	Wed,  6 Dec 2023 16:33:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09DD1FBC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 16:44:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dctMhG+F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jZQoiTRO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701880411; x=1733416411;
+  t=1701881087; x=1733417087;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=htX4iDGNzlMTy6lmTdVTpUZwaIRb7KEUVU3EoBWvnLk=;
-  b=dctMhG+F/vzM6UoeWHIImpWDs79+4fm4BRHO1UC3G2Rnvd+ZGxaWSGjW
-   vSWkonRYUuTKHhvDPPQzYvCX5PUE4WAXbjU9OfqYPDJsdoLps+72tHoOF
-   EpRhM4BwJL8+qQTLveb5ZLO3sW5RsFHZ0IMhV+2K0FwM8KSpbpBxbAoz3
-   uL01w9UCMd5gPbmbxCBdEIQD9m/VZClpy5R0DzWeYtG23LtPpDt/De+tH
-   UFptTZgrRr+K1Qq1XU9XPxRmTZj7080U5o4fSoJGRpNRZzVbnczbgJAHd
-   DUqTELy2VlUtt3N8GyNtXjpBfUFGhalXqiYP2eBBHC/BrkZ3pHF8uFR+h
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="957919"
+  bh=K5BamlFQnKspvWlJoAksXpagvzUp5NjCWQziQXXTBVA=;
+  b=jZQoiTROaoAqgKfWOD+tpO+gj6H3zhyVLvzSUoOyipmm+Ofy87cyU/Js
+   8QzyhpQIke2vIw+pKnmhtyhyHPrXaT9XrEstsr8ohnJJnAd7Ud9i6ghLA
+   N/KTQHFvznLnqRtg/EImhrgI6/F5OFmRXlNk+ofj5jJYFxoVJ2iC8uWJP
+   iYtdh++Hy8cD2sqa9NS1zVuadnjBbUMejuH9c8Leb4Z3DJ2GCBPH+pD2n
+   lq2QkG7iSW8FJ2PQMa1v7wjX3QNQ//5NEbkAnxoxmT5sNTbUuQ1Hlwb1f
+   Sh9zV7R+lqVKlCfPP3j70OYOeCU2mTJ/qu7l+Fio/ndmm7YhCKJJKNTh3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="374264174"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="957919"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 08:33:30 -0800
+   d="scan'208";a="374264174"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 08:44:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="889404516"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="862165435"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="889404516"
+   d="scan'208";a="862165435"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Dec 2023 08:33:27 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Dec 2023 08:44:43 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAupw-000B8t-2n;
-	Wed, 06 Dec 2023 16:33:24 +0000
-Date: Thu, 7 Dec 2023 00:31:56 +0800
+	id 1rAuzF-000B9y-23;
+	Wed, 06 Dec 2023 16:44:00 +0000
+Date: Thu, 7 Dec 2023 00:42:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: Maxime Ripard <mripard@kernel.org>, davidgow@google.com,
 	Rae Moar <rmoar@google.com>,
 	Brendan Higgins <brendan.higgins@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Vetter <daniel.vetter@ffwll.ch>,
 	David Airlie <airlied@linux.ie>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
 	kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH] drm/tests: Switch to kunit devices
-Message-ID: <202312070011.fDjYhKoz-lkp@intel.com>
+Message-ID: <202312070010.HAfMuYFE-lkp@intel.com>
 References: <20231205090405.153140-1-mripard@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -74,21 +73,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-S
 base:   next-20231205
 patch link:    https://lore.kernel.org/r/20231205090405.153140-1-mripard%40kernel.org
 patch subject: [PATCH] drm/tests: Switch to kunit devices
-config: i386-buildonly-randconfig-004-20231206 (https://download.01.org/0day-ci/archive/20231207/202312070011.fDjYhKoz-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312070011.fDjYhKoz-lkp@intel.com/reproduce)
+config: i386-randconfig-012-20231206 (https://download.01.org/0day-ci/archive/20231207/202312070010.HAfMuYFE-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312070010.HAfMuYFE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312070011.fDjYhKoz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312070010.HAfMuYFE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/tests/drm_kunit_helpers.c:8:10: fatal error: 'kunit/device.h' file not found
-   #include <kunit/device.h>
-            ^~~~~~~~~~~~~~~~
-   1 error generated.
+>> drivers/gpu/drm/tests/drm_kunit_helpers.c:8:10: fatal error: kunit/device.h: No such file or directory
+    #include <kunit/device.h>
+             ^~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
 vim +8 drivers/gpu/drm/tests/drm_kunit_helpers.c
