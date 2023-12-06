@@ -1,52 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7558C12B6A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 07:00:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF9FFC08;
+	Wed,  6 Dec 2023 07:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ptyje+gZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VfORvOVI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701846046; x=1733382046;
+  t=1701846676; x=1733382676;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MxqLA5pxAlyS9f99ErxXmlln8s3f6yh2wue/tkIXCWA=;
-  b=Ptyje+gZ5m17bMv+hn1PSqfqlyQ88hcL5qIdb6QuBAVU1pBkDOTRmMkl
-   kPfvuQpjWPSAfg6w4DWtcy3jWI3Iy/xQMg2MNhUcuZLKXKvFbHOIQb9Eo
-   noRn9E64F0hZ+o+6X/rKcBbZwOiGher4LgkTGWq/JuV0XslR6dsDHswe9
-   q7J6GeHGtUKjwuBmjt8dw30b+fG8FFCD7Ts43eEsuvVkLuHHtyeyY0M+q
-   WRe/Sl+ihYXYsLJLrxoBMsrWvd0D6CmSumv6n3aJb1d7SAN+OaQYzY30c
-   DGtHAziLlo57iXcXGASkcIrIOJZd9+i+freazVCzikcyJrHG7s1hdwwbv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="12732813"
+  bh=xffnH9F5/s2eglTFcbaIqO0o3VhqJC3mGV+1KbfvF1U=;
+  b=VfORvOVIC7YOn3ELU3BleiEeRPduebZE2GKvIZdqCqW+a38IM8D5aun0
+   cYAGI0udZn0E9IDuUW7h4aXGMoGdQyiDqXuqQcJelJA6nqsh4MqFVFHav
+   AbqsHmvSteFfumkXW2tDvqtcwomOAbOwLVbNZEChXRhklgGfxGlsStzLb
+   SMIAubf5bnIksCmeC25WB+6+huinhwr8RRreivZmaaWzkoY2EaMBdRyKs
+   bU6py/IJEfGVrMf3OLVM4SRW4+xSbf+D+NdKJXLvBvsKm7jjI2KOjC9L7
+   N3gPVRb2xSuaH82C+5dDpOYR+2y2ML+FD6Sliall8s1DmfGhirTj6bgcm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="480215906"
 X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="12732813"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 23:00:45 -0800
+   d="scan'208";a="480215906"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 23:11:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="720981616"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="862019409"
 X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="720981616"
+   d="scan'208";a="862019409"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 05 Dec 2023 23:00:42 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2023 23:11:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAltg-000AR0-0c;
-	Wed, 06 Dec 2023 07:00:40 +0000
-Date: Wed, 6 Dec 2023 15:00:23 +0800
+	id 1rAm3m-000ARm-1q;
+	Wed, 06 Dec 2023 07:11:07 +0000
+Date: Wed, 6 Dec 2023 15:10:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Simon Holesch <simon@holesch.de>,
-	Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Hongren Zheng <i@zenithal.me>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, Simon Holesch <simon@holesch.de>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] usbip: Don't submit special requests twice
-Message-ID: <202312061416.KFbIrElk-lkp@intel.com>
-References: <20231130231650.22410-1-simon@holesch.de>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
+Message-ID: <202312061428.ck8TrWdU-lkp@intel.com>
+References: <20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,113 +64,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231130231650.22410-1-simon@holesch.de>
+In-Reply-To: <20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa@linaro.org>
 
-Hi Simon,
+Hi Neil,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.7-rc4 next-20231206]
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v6.7-rc4 next-20231205]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Simon-Holesch/usbip-Don-t-submit-special-requests-twice/20231201-072027
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231130231650.22410-1-simon%40holesch.de
-patch subject: [PATCH v3] usbip: Don't submit special requests twice
-config: hexagon-randconfig-r081-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061416.KFbIrElk-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312061416.KFbIrElk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/ASoC-dt-bindings-document-WCD939x-Audio-Codec/20231202-000916
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20231201-topic-sm8650-upstream-wcd939x-codec-v2-5-94ed814b25aa%40linaro.org
+patch subject: [PATCH v2 5/5] ASoC: codecs: Add WCD939x Codec driver
+config: x86_64-randconfig-001-20231203 (https://download.01.org/0day-ci/archive/20231206/202312061428.ck8TrWdU-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312061428.ck8TrWdU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312061416.KFbIrElk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312061428.ck8TrWdU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/usb/usbip/stub_rx.c:8:
-   In file included from include/linux/usb.h:16:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/usb/usbip/stub_rx.c:8:
-   In file included from include/linux/usb.h:16:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/usb/usbip/stub_rx.c:8:
-   In file included from include/linux/usb.h:16:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/usb/usbip/stub_rx.c:158:51: error: expected ';' after expression
-     158 |         err = usb_lock_device_for_reset(sdev->udev, NULL)
-         |                                                          ^
-         |                                                          ;
-   6 warnings and 1 error generated.
-
-
-vim +158 drivers/usb/usbip/stub_rx.c
-
-   149	
-   150	static int tweak_reset_device_cmd(struct urb *urb)
-   151	{
-   152		struct stub_priv *priv = (struct stub_priv *) urb->context;
-   153		struct stub_device *sdev = priv->sdev;
-   154		int err;
-   155	
-   156		dev_info(&urb->dev->dev, "usb_queue_reset_device\n");
-   157	
- > 158		err = usb_lock_device_for_reset(sdev->udev, NULL)
-   159		if (err < 0) {
-   160			dev_err(&urb->dev->dev, "could not obtain lock to reset device\n");
-   161			return err;
-   162		}
-   163		err = usb_reset_device(sdev->udev);
-   164		usb_unlock_device(sdev->udev);
-   165	
-   166		return err;
-   167	}
-   168	
+>> ld.lld: error: undefined symbol: typec_switch_unregister
+   >>> referenced by wcd939x.c:3610 (sound/soc/codecs/wcd939x.c:3610)
+   >>>               sound/soc/codecs/wcd939x.o:(wcd939x_probe) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: fwnode_typec_switch_get
+   >>> referenced by wcd939x.c:3369 (sound/soc/codecs/wcd939x.c:3369)
+   >>>               sound/soc/codecs/wcd939x.o:(wcd939x_bind) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: typec_switch_put
+   >>> referenced by wcd939x.c:3483 (sound/soc/codecs/wcd939x.c:3483)
+   >>>               sound/soc/codecs/wcd939x.o:(wcd939x_bind) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
