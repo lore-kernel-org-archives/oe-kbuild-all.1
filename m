@@ -1,123 +1,109 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19F611C8D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 06:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F05E10A37
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 07:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="QfPx6a9G";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GH+CucaS"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id DC3203200B13;
-	Wed,  6 Dec 2023 01:53:30 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 06 Dec 2023 01:53:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1701845610; x=1701932010; bh=PW
-	66L1dPgZW8LDxXB4sVa/5vk2EkvICnU+1XTg3NMCw=; b=QfPx6a9GTa1f8QF0e9
-	lEuKcFsJPTVPzqFVzdlUGuPbTX1bXF+m0OSM+YNNfRN1dBbSz3fYmLlgBf+4qu50
-	MSc3XV6QJBw/wNLDMYH0KHgRRX++edlijcqtOR4DqA4Ea4CgvszljPYzldmUD26q
-	X3QGbL/vfndBP62fcpHygQeXYNT4laXNuAZ9+yI/mu2Zr1wAHJzcWNi/vCh6laQS
-	zIadvRovi+y6hW9eDsJ4ps08lv51m+a/UswS+91VJGQW3/7P5fGNEGyNm7mmao6Y
-	VYt6MlBaRPA0p7V67U8kA+AsECGyy9Vy4akvg0ruNp+JfnaQjW1PN3/7Fop5WikR
-	fb/w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1701845610; x=1701932010; bh=PW66L1dPgZW8L
-	DxXB4sVa/5vk2EkvICnU+1XTg3NMCw=; b=GH+CucaS/2CicMAeMT4S2qz+0QUxW
-	siBhRM00FdK7bQYs0lqFqLWVH9ZhljqfelKYSu8lZZkIjExFiG4mE5HSbFn9TVcb
-	btqbpsjRCPqgqFDCm8m1HhMEB1avddz+lKBrKr5XHAhwMwrTuXU51xCEwPXtAqzh
-	s13xg4Mjp0wQ8tFG0xuX7CYR5Z8RYQ5pM7u4P6puIwTGKTpHlN6yAwiynTfzeQVT
-	d6r8qyJ362D6BWSC1M5lh3CmkQeFxV+pI63VXlBDG6vvZlJlrbOu+aHT68GwQNrJ
-	YmdSSyJWOGUJffDa9EAVThSRmPpUSy4a+g3N182uNx7YNX6SYa1XicWYA==
-X-ME-Sender: <xms:aRpwZR_vUtWbJQM2foiiiZyKFQR3HaPMIprLyJIT7duQYU_vi8kxSw>
-    <xme:aRpwZVvGr_Fh3c2gmaIvLahauUx3siYA3pFKtK_HJCaw2eLIFeH6xVVemPJn8brff
-    3HX3_tbFcpcQM3WdvI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudejledgkeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:aRpwZfCOUZHZkntdpX7ADkGLEOJJ-EDgM_1SmHXZ6mf2Np6EmQi0ZQ>
-    <xmx:aRpwZVfoSFCHWUo_VIyqeD5DKi5Tg8Bt0cLOGDJSd2C1Wnih5_wCJA>
-    <xmx:aRpwZWPbQI4CiTpCOsJ6vNoQRmxO0vRyePMO8I6SXlp9Y24mCU3trw>
-    <xmx:ahpwZd2ZWm_fEU9gcGqpRlAFAr7FWC0RGK6dqA6-uokNMj0btiqozQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5AAB1B60089; Wed,  6 Dec 2023 01:53:29 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1178-geeaf0069a7-fm-20231114.001-geeaf0069
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L7riAted"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701846044; x=1733382044;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=62zt6JItOjXrTMCXrh0JiyfLQjGDq31IWHjF8RZXofA=;
+  b=L7riAtedAmtosjiLJcS96uR9B1k3rU8Slw3luSm0jO1ql7IPlSpgZO8R
+   Z5df/b6a92uN3f0Yo/DV6rOodYqLAzmzZQBRdG8q5/qfw8h+HpNM0gTRE
+   T0BetX482Fi042oXU0jnt8Zvm3zvyzs8emKc8Hk5HhEWSgbJEgoF74m4K
+   akinN1YK/CP6btaMMHqjAVXOx7tupZPvU8aVXVD/M1uZ9KojvOuM0H6nB
+   U6Mc0WtxULSoBNhoxCJNCmqReodnTmoIPKr3oyW8oy73hzDLzTSvJVVTa
+   wXod3QmTH/XAvSr6DmuFmb+8P+/B8lRSvsQcGvLvrt7ajh1CinfWUJi+A
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="458339930"
+X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
+   d="scan'208";a="458339930"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 23:00:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="889242376"
+X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
+   d="scan'208";a="889242376"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2023 23:00:42 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAltg-000AR6-0s;
+	Wed, 06 Dec 2023 07:00:40 +0000
+Date: Wed, 6 Dec 2023 15:00:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 807/1891] htmldocs:
+ ./include/media/v4l2-async.h:177: warning: Function parameter or member
+ 'asd' not described in '__v4l2_async_nf_add_subdev'
+Message-ID: <202312061429.rwQqd9OY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <f712a65b-4984-46e8-bd43-1309b5cd41f0@app.fastmail.com>
-In-Reply-To: <5f1caaf8-1edf-444a-b017-c4d08e52213b@infradead.org>
-References: <202312041909.lwhcU35R-lkp@intel.com>
- <5f1caaf8-1edf-444a-b017-c4d08e52213b@infradead.org>
-Date: Wed, 06 Dec 2023 07:52:58 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Randy Dunlap" <rdunlap@infradead.org>,
- "kernel test robot" <lkp@intel.com>, "Masahiro Yamada" <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Nicolas Schier" <nicolas@fjasle.eu>,
- "Jiaxun Yang" <jiaxun.yang@flygoat.com>, linux-mips@vger.kernel.org
-Subject: Re: pm.c:undefined reference to `i8042_command'
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Dec 6, 2023, at 06:24, Randy Dunlap wrote:
->> All errors (new ones prefixed by >>):
->> 
->>    mips64el-linux-ld: arch/mips/loongson2ef/lemote-2f/pm.o: in function `setup_wakeup_events':
->>>> pm.c:(.text+0x118): undefined reference to `i8042_command'
->>>> mips64el-linux-ld: pm.c:(.text+0x154): undefined reference to `i8042_command'
->
->
-> How do we feel about this?
-> I suppose that an ARCH or mach or board should know what it requires.
->
->
-> ---
->  arch/mips/loongson2ef/Kconfig |    3 +++
->  1 file changed, 3 insertions(+)
->
-> diff -- a/arch/mips/loongson2ef/Kconfig b/arch/mips/loongson2ef/Kconfig
-> --- a/arch/mips/loongson2ef/Kconfig
-> +++ b/arch/mips/loongson2ef/Kconfig
-> @@ -40,6 +40,9 @@ config LEMOTE_MACH2F
->  	select ARCH_HAS_PHYS_TO_DMA
->  	select ARCH_MIGHT_HAVE_PC_PARPORT
->  	select ARCH_MIGHT_HAVE_PC_SERIO
-> +	select INPUT
-> +	select SERIO
-> +	select SERIO_I8042
->  	select BOARD_SCACHE
->  	select BOOT_ELF32
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   b92a48381564e28f2ab3a5b9379814f2330bc9d1
+commit: a8047e30907e009520c42f61073a10f3a8f6bf35 [807/1891] Revert "media: v4l: async: Drop v4l2_async_nf_parse_fwnode_endpoints()"
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312061429.rwQqd9OY-lkp@intel.com/reproduce)
 
-I think it's bad style to force-select an optional subsystem.
-How about making the entire file optional? It seems that there
-are already __weak functions in its place.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312061429.rwQqd9OY-lkp@intel.com/
 
---- a/arch/mips/loongson2ef/lemote-2f/Makefile
-+++ b/arch/mips/loongson2ef/lemote-2f/Makefile
-@@ -8,5 +8,6 @@ obj-y += clock.o machtype.o irq.o reset.o dma.o ec_kb3310b.o
- #
- # Suspend Support
- #
--
-+ifdef CONFIG_SERIO_I8042
- obj-$(CONFIG_SUSPEND) += pm.o
-+endif
+All warnings (new ones prefixed by >>):
 
-     Arnd
+>> ./include/media/v4l2-async.h:177: warning: Function parameter or member 'asd' not described in '__v4l2_async_nf_add_subdev'
+>> ./include/media/v4l2-async.h:177: warning: expecting prototype for v4l2_async_subdev_nf_init(). Prototype was for __v4l2_async_nf_add_subdev() instead
+>> ./include/media/v4l2-fwnode.h:412: warning: Function parameter or member 'asc' not described in 'parse_endpoint_func'
+
+vim +177 ./include/media/v4l2-async.h
+
+   146	
+   147	/**
+   148	 * v4l2_async_nf_init - Initialize a notifier.
+   149	 *
+   150	 * @notifier: pointer to &struct v4l2_async_notifier
+   151	 * @v4l2_dev: pointer to &struct v4l2_device
+   152	 *
+   153	 * This function initializes the notifier @asc_entry. It must be called
+   154	 * before adding a subdevice to a notifier, using one of:
+   155	 * v4l2_async_nf_add_fwnode_remote(),
+   156	 * v4l2_async_nf_add_fwnode() or
+   157	 * v4l2_async_nf_add_i2c().
+   158	 */
+   159	void v4l2_async_nf_init(struct v4l2_async_notifier *notifier,
+   160				struct v4l2_device *v4l2_dev);
+   161	
+   162	/**
+   163	 * v4l2_async_subdev_nf_init - Initialize a sub-device notifier.
+   164	 *
+   165	 * @notifier: pointer to &struct v4l2_async_notifier
+   166	 * @sd: pointer to &struct v4l2_subdev
+   167	 *
+   168	 * This function initializes the notifier @asc_list. It must be called
+   169	 * before adding a subdevice to a notifier, using one of:
+   170	 * v4l2_async_nf_add_fwnode_remote(),
+   171	 * v4l2_async_nf_add_fwnode(),
+   172	 * v4l2_async_nf_add_i2c(),
+   173	 * __v4l2_async_nf_add_subdev() or
+   174	 * v4l2_async_nf_parse_fwnode_endpoints().
+   175	 */
+   176	int __v4l2_async_nf_add_subdev(struct v4l2_async_notifier *notifier,
+ > 177	                              struct v4l2_async_connection *asd);
+   178	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
