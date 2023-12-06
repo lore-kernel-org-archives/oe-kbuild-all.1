@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03B73FE35
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 16:22:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1585948CDA;
+	Wed,  6 Dec 2023 16:33:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kC91uigp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dctMhG+F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701879746; x=1733415746;
+  t=1701880411; x=1733416411;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tWTy72mM6QmDiHuWH6XcVH51PFBJOPjfQIe5CWDdbsw=;
-  b=kC91uigpm6VddefnOi1brSebAoYHf2JBGN5uryLt/25eSkhUeUmGxyIo
-   TOjzc1Wg8DDrJj7e9uUXhALP2+4pmIUKgxN7LoCufh9An1Q7vpwzPSdz7
-   u++dADbNATtpw+v7TG6PxLCTOaqNTsZT80XjaGbbJq/92j7OsOd9wA1M3
-   rXR1uGKaWb5u7Nuz0M2wgI/yUUf5rr9KRTnzptIYmF9I10TQbpLfEavg+
-   8CiGJJaT/LXFN4WU7ZgrghAgVil8BLQxVApC2L/ppS6dl+bWuDqFQ9FDs
-   Swv8XXoeD7HH9uyxToEVf3VnCf0ZqotQ6wg3t1W22EfgKTjXkJ5Uv3QSM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="480281265"
+  bh=htX4iDGNzlMTy6lmTdVTpUZwaIRb7KEUVU3EoBWvnLk=;
+  b=dctMhG+F/vzM6UoeWHIImpWDs79+4fm4BRHO1UC3G2Rnvd+ZGxaWSGjW
+   vSWkonRYUuTKHhvDPPQzYvCX5PUE4WAXbjU9OfqYPDJsdoLps+72tHoOF
+   EpRhM4BwJL8+qQTLveb5ZLO3sW5RsFHZ0IMhV+2K0FwM8KSpbpBxbAoz3
+   uL01w9UCMd5gPbmbxCBdEIQD9m/VZClpy5R0DzWeYtG23LtPpDt/De+tH
+   UFptTZgrRr+K1Qq1XU9XPxRmTZj7080U5o4fSoJGRpNRZzVbnczbgJAHd
+   DUqTELy2VlUtt3N8GyNtXjpBfUFGhalXqiYP2eBBHC/BrkZ3pHF8uFR+h
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="957919"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="480281265"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 08:22:24 -0800
+   d="scan'208";a="957919"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 08:33:30 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="764783858"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="889404516"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="764783858"
+   d="scan'208";a="889404516"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 06 Dec 2023 08:22:21 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 06 Dec 2023 08:33:27 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAufB-000B7C-3D;
-	Wed, 06 Dec 2023 16:22:18 +0000
-Date: Thu, 7 Dec 2023 00:21:44 +0800
+	id 1rAupw-000B8t-2n;
+	Wed, 06 Dec 2023 16:33:24 +0000
+Date: Thu, 7 Dec 2023 00:31:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	srinivas.kandagatla@linaro.org, krzysztof.kozlowski@linaro.org,
-	broonie@kernel.org, agross@kernel.org, andersson@kernel.org,
-	quic_plai@quicinc.com, quic_rohkumar@quicinc.com,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	quic_phaniu@quicinc.com, quic_avangala@quicinc.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Subject: Re: [PATCH v1] ASoC: codecs: wcd937x: Add wcd937x codec driver
-Message-ID: <202312070038.2pjLNBhG-lkp@intel.com>
-References: <20231205123400.6353-1-quic_pkumpatl@quicinc.com>
+To: Maxime Ripard <mripard@kernel.org>, davidgow@google.com,
+	Rae Moar <rmoar@google.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+	kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH] drm/tests: Switch to kunit devices
+Message-ID: <202312070011.fDjYhKoz-lkp@intel.com>
+References: <20231205090405.153140-1-mripard@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,48 +58,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231205123400.6353-1-quic_pkumpatl@quicinc.com>
+In-Reply-To: <20231205090405.153140-1-mripard@kernel.org>
 
-Hi Prasad,
+Hi Maxime,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.7-rc4 next-20231206]
+[auto build test ERROR on next-20231205]
+[cannot apply to drm-misc/drm-misc-next v6.7-rc4 v6.7-rc3 v6.7-rc2 linus/master v6.7-rc4]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Prasad-Kumpatla/ASoC-codecs-wcd937x-Add-wcd937x-codec-driver/20231205-203631
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20231205123400.6353-1-quic_pkumpatl%40quicinc.com
-patch subject: [PATCH v1] ASoC: codecs: wcd937x: Add wcd937x codec driver
-config: s390-randconfig-r111-20231206 (https://download.01.org/0day-ci/archive/20231207/202312070038.2pjLNBhG-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312070038.2pjLNBhG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-tests-Switch-to-kunit-devices/20231205-170508
+base:   next-20231205
+patch link:    https://lore.kernel.org/r/20231205090405.153140-1-mripard%40kernel.org
+patch subject: [PATCH] drm/tests: Switch to kunit devices
+config: i386-buildonly-randconfig-004-20231206 (https://download.01.org/0day-ci/archive/20231207/202312070011.fDjYhKoz-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312070011.fDjYhKoz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312070038.2pjLNBhG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312070011.fDjYhKoz-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/codecs/wcd937x.c:1410:12: sparse: sparse: symbol 'tx_master_ch_text' was not declared. Should it be static?
->> sound/soc/codecs/wcd937x.c:1417:23: sparse: sparse: symbol 'tx_master_ch_enum' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/tx_master_ch_text +1410 sound/soc/codecs/wcd937x.c
+>> drivers/gpu/drm/tests/drm_kunit_helpers.c:8:10: fatal error: 'kunit/device.h' file not found
+   #include <kunit/device.h>
+            ^~~~~~~~~~~~~~~~
+   1 error generated.
 
-  1409	
-> 1410	const char * const tx_master_ch_text[] = {
-  1411		"ZERO", "SWRM_TX1_CH1", "SWRM_TX1_CH2", "SWRM_TX1_CH3", "SWRM_TX1_CH4",
-  1412		"SWRM_TX2_CH1", "SWRM_TX2_CH2", "SWRM_TX2_CH3", "SWRM_TX2_CH4",
-  1413		"SWRM_TX3_CH1", "SWRM_TX3_CH2", "SWRM_TX3_CH3", "SWRM_TX3_CH4",
-  1414		"SWRM_PCM_IN",
-  1415	};
-  1416	
-> 1417	const struct soc_enum tx_master_ch_enum =
-  1418		SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(tx_master_ch_text), tx_master_ch_text);
-  1419	
+
+vim +8 drivers/gpu/drm/tests/drm_kunit_helpers.c
+
+     7	
+   > 8	#include <kunit/device.h>
+     9	#include <kunit/resource.h>
+    10	
 
 -- 
 0-DAY CI Kernel Test Service
