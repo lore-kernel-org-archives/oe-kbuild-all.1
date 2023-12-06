@@ -1,70 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0374328A2;
-	Wed,  6 Dec 2023 23:44:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDE0182C4
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 23:54:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ta4YYkpX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YlVQS6Gq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701906257; x=1733442257;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aBQ3UsUdaTX6qmXYeXuurT+R78I2+gSlJN8HCaWvth4=;
-  b=Ta4YYkpXwp1J+KEUYlmyiLBN9Tz+OCPjpw3nsRTdXTyPVf1zNMeYNhTf
-   zyHr7Owq8cGYlfK3JiVGF0QMxttdv5/VnsIf7zmfQYXafA1or9kQQrGOj
-   2sDdh5GYn/81pDMTamfvCcy0xB4TFyeEoXseYu+eyeIr83ewtd1fV5lwm
-   vSbac0f/tOORK6SeLcZBpp6vdxktu37nJt4RPfMr8cJ5Xi35/Pf37g5Xd
-   eo0M97ip89fmdgW7veDdhNYq3L8Jax1014yvqfgBrKpFw2kxLWFKwTTsD
-   R4vKW1575xkJvV3+F5IjbEXjMizy+IT7D23PJ2l2qAqQWpDZQFjA+EwB6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="373634469"
+  t=1701906852; x=1733442852;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=v7BrEwvwpZYIBg3rQ6aE/GZbv+vlZVRLXR+chxmmMUY=;
+  b=YlVQS6GqspzhJtomb2sZzG0ViakBzbyUWfHAvlDIjcFoGYf3zRccDkVv
+   x+yNRQaSpqZCIcqGh2gVos22mMllXvlreXMTLZb7oi/ONUJePPMxWN2oy
+   YLxs4mzWm/+ZBgRQYoA86+MFvUPMKkc1Swf+tHtKZjQO51duGg8AbDkQD
+   09Gxi2Xlp2CiWM3nIWMwchsza9+0YYMuqfpRLwL92yblWk1HDk1FOEkGE
+   K3/EeO6znDLGVp2v93Rf+hX1lsQDYCDW5FDM0UNL0IjHk8KTzQnpCGvyN
+   Bh9mArPYxwJaaq3zrgLPCC9ad+MN8H0VOFhUaV7+icnco3PXhGSGBvEiZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="379165909"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="373634469"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 15:44:16 -0800
+   d="scan'208";a="379165909"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 15:54:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1018737711"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="944821999"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="1018737711"
+   d="scan'208";a="944821999"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Dec 2023 15:44:09 -0800
+  by orsmga005.jf.intel.com with ESMTP; 06 Dec 2023 15:54:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rB1Yk-000Bb2-2w;
-	Wed, 06 Dec 2023 23:44:06 +0000
-Date: Thu, 7 Dec 2023 07:43:15 +0800
+	id 1rB1iS-000BbN-1K;
+	Wed, 06 Dec 2023 23:54:08 +0000
+Date: Thu, 7 Dec 2023 07:53:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
-	Jeffrey Kardatzke <jkardatzke@google.com>,
-	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nathan Hebert <nhebert@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chen-Yu Tsai <wenst@chromium.org>, Yong Wu <yong.wu@mediatek.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH] media: medkatek: vcodec: support tee decoder
-Message-ID: <202312070723.APrpMLj9-lkp@intel.com>
-References: <20231206081538.17056-21-yunfei.dong@mediatek.com>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/070-audio 63/104]
+ sound/soc/apple/macaudio.c:1016:5: sparse: sparse: symbol
+ 'macaudio_sss_info' was not declared. Should it be static?
+Message-ID: <202312070705.Br5fmO5J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,307 +50,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231206081538.17056-21-yunfei.dong@mediatek.com>
 
-Hi Yunfei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.7-rc4 next-20231206]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunfei-Dong/media-medkatek-vcodec-support-tee-decoder/20231206-201843
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20231206081538.17056-21-yunfei.dong%40mediatek.com
-patch subject: [PATCH] media: medkatek: vcodec: support tee decoder
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231207/202312070723.APrpMLj9-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312070723.APrpMLj9-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   88e53b5c13659b0092bc49020fbc8ebbfc1abfa6
+commit: 7cc2528565fefec88f55654e9b81e00b2e40130d [63/104] ASoC: macaudio: Add 'Speakers Up Indicator' control
+config: openrisc-randconfig-r132-20231207 (https://download.01.org/0day-ci/archive/20231207/202312070705.Br5fmO5J-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231207/202312070705.Br5fmO5J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312070723.APrpMLj9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312070705.Br5fmO5J-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   sound/soc/apple/macaudio.c:985:1: sparse: sparse: symbol 'macaudio_spk_mux_enum' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:995:1: sparse: sparse: symbol 'macaudio_hp_mux_enum' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1016:5: sparse: sparse: symbol 'macaudio_sss_info' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1026:5: sparse: sparse: symbol 'macaudio_sss_get' was not declared. Should it be static?
 
->> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:313:11: error: no member named 'is_secure_playback' in 'struct mtk_vcodec_dec_ctx'
-     313 |         if (ctx->is_secure_playback)
-         |             ~~~  ^
->> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:314:3: error: call to undeclared function 'mtk_vcodec_dec_optee_release'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     314 |                 mtk_vcodec_dec_optee_release(dev->optee_private);
-         |                 ^
-   drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:314:3: note: did you mean 'mtk_vcodec_dec_release'?
-   drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h:88:6: note: 'mtk_vcodec_dec_release' declared here
-      88 | void mtk_vcodec_dec_release(struct mtk_vcodec_dec_ctx *ctx);
-         |      ^
->> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:314:37: error: no member named 'optee_private' in 'struct mtk_vcodec_dec_dev'
-     314 |                 mtk_vcodec_dec_optee_release(dev->optee_private);
-         |                                              ~~~  ^
->> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:472:8: error: call to undeclared function 'mtk_vcodec_dec_optee_private_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     472 |         ret = mtk_vcodec_dec_optee_private_init(dev);
-         |               ^
-   drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:472:8: note: did you mean 'mtk_vcodec_dec_queue_init'?
-   drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h:85:5: note: 'mtk_vcodec_dec_queue_init' declared here
-      85 | int mtk_vcodec_dec_queue_init(void *priv, struct vb2_queue *src_vq,
-         |     ^
-   4 errors generated.
+vim +/macaudio_sss_info +1016 sound/soc/apple/macaudio.c
 
-
-vim +313 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
-
-   291	
-   292	static int fops_vcodec_release(struct file *file)
-   293	{
-   294		struct mtk_vcodec_dec_dev *dev = video_drvdata(file);
-   295		struct mtk_vcodec_dec_ctx *ctx = fh_to_dec_ctx(file->private_data);
-   296	
-   297		mtk_v4l2_vdec_dbg(0, ctx, "[%d] decoder", ctx->id);
-   298		mutex_lock(&dev->dev_mutex);
-   299	
-   300		/*
-   301		 * Call v4l2_m2m_ctx_release before mtk_vcodec_dec_release. First, it
-   302		 * makes sure the worker thread is not running after vdec_if_deinit.
-   303		 * Second, the decoder will be flushed and all the buffers will be
-   304		 * returned in stop_streaming.
-   305		 */
-   306		v4l2_m2m_ctx_release(ctx->m2m_ctx);
-   307		mtk_vcodec_dec_release(ctx);
-   308	
-   309		v4l2_fh_del(&ctx->fh);
-   310		v4l2_fh_exit(&ctx->fh);
-   311		v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
-   312	
- > 313		if (ctx->is_secure_playback)
- > 314			mtk_vcodec_dec_optee_release(dev->optee_private);
-   315	
-   316		mtk_vcodec_dbgfs_remove(dev, ctx->id);
-   317		list_del_init(&ctx->list);
-   318		kfree(ctx);
-   319		mutex_unlock(&dev->dev_mutex);
-   320		return 0;
-   321	}
-   322	
-   323	static const struct v4l2_file_operations mtk_vcodec_fops = {
-   324		.owner		= THIS_MODULE,
-   325		.open		= fops_vcodec_open,
-   326		.release	= fops_vcodec_release,
-   327		.poll		= v4l2_m2m_fop_poll,
-   328		.unlocked_ioctl	= video_ioctl2,
-   329		.mmap		= v4l2_m2m_fop_mmap,
-   330	};
-   331	
-   332	static void mtk_vcodec_dec_get_chip_name(struct mtk_vcodec_dec_dev *vdec_dev)
-   333	{
-   334		struct device *dev = &vdec_dev->plat_dev->dev;
-   335	
-   336		if (of_device_is_compatible(dev->of_node, "mediatek,mt8173-vcodec-dec"))
-   337			vdec_dev->chip_name = MTK_VDEC_MT8173;
-   338		else if (of_device_is_compatible(dev->of_node, "mediatek,mt8183-vcodec-dec"))
-   339			vdec_dev->chip_name = MTK_VDEC_MT8183;
-   340		else if (of_device_is_compatible(dev->of_node, "mediatek,mt8192-vcodec-dec"))
-   341			vdec_dev->chip_name = MTK_VDEC_MT8192;
-   342		else if (of_device_is_compatible(dev->of_node, "mediatek,mt8195-vcodec-dec"))
-   343			vdec_dev->chip_name = MTK_VDEC_MT8195;
-   344		else if (of_device_is_compatible(dev->of_node, "mediatek,mt8186-vcodec-dec"))
-   345			vdec_dev->chip_name = MTK_VDEC_MT8186;
-   346		else if (of_device_is_compatible(dev->of_node, "mediatek,mt8188-vcodec-dec"))
-   347			vdec_dev->chip_name = MTK_VDEC_MT8188;
-   348		else
-   349			vdec_dev->chip_name = MTK_VDEC_INVAL;
-   350	}
-   351	
-   352	static int mtk_vcodec_probe(struct platform_device *pdev)
-   353	{
-   354		struct mtk_vcodec_dec_dev *dev;
-   355		struct video_device *vfd_dec;
-   356		phandle rproc_phandle;
-   357		enum mtk_vcodec_fw_type fw_type;
-   358		int i, ret;
-   359	
-   360		dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
-   361		if (!dev)
-   362			return -ENOMEM;
-   363	
-   364		INIT_LIST_HEAD(&dev->ctx_list);
-   365		dev->plat_dev = pdev;
-   366	
-   367		mtk_vcodec_dec_get_chip_name(dev);
-   368		if (dev->chip_name == MTK_VDEC_INVAL) {
-   369			dev_err(&pdev->dev, "Failed to get decoder chip name");
-   370			return -EINVAL;
-   371		}
-   372	
-   373		dev->vdec_pdata = of_device_get_match_data(&pdev->dev);
-   374		if (!of_property_read_u32(pdev->dev.of_node, "mediatek,vpu",
-   375					  &rproc_phandle)) {
-   376			fw_type = VPU;
-   377		} else if (!of_property_read_u32(pdev->dev.of_node, "mediatek,scp",
-   378						 &rproc_phandle)) {
-   379			fw_type = SCP;
-   380		} else {
-   381			dev_dbg(&pdev->dev, "Could not get vdec IPI device");
-   382			return -ENODEV;
-   383		}
-   384		dma_set_max_seg_size(&pdev->dev, UINT_MAX);
-   385	
-   386		dev->fw_handler = mtk_vcodec_fw_select(dev, fw_type, DECODER);
-   387		if (IS_ERR(dev->fw_handler))
-   388			return PTR_ERR(dev->fw_handler);
-   389	
-   390		ret = mtk_vcodec_init_dec_resources(dev);
-   391		if (ret) {
-   392			dev_err(&pdev->dev, "Failed to init dec resources");
-   393			goto err_dec_pm;
-   394		}
-   395	
-   396		if (IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch)) {
-   397			dev->core_workqueue =
-   398				alloc_ordered_workqueue("core-decoder",
-   399							WQ_MEM_RECLAIM | WQ_FREEZABLE);
-   400			if (!dev->core_workqueue) {
-   401				dev_dbg(&pdev->dev, "Failed to create core workqueue");
-   402				ret = -EINVAL;
-   403				goto err_res;
-   404			}
-   405		}
-   406	
-   407		for (i = 0; i < MTK_VDEC_HW_MAX; i++)
-   408			mutex_init(&dev->dec_mutex[i]);
-   409		mutex_init(&dev->dev_mutex);
-   410		spin_lock_init(&dev->irqlock);
-   411	
-   412		snprintf(dev->v4l2_dev.name, sizeof(dev->v4l2_dev.name), "%s",
-   413			"[/MTK_V4L2_VDEC]");
-   414	
-   415		ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
-   416		if (ret) {
-   417			dev_err(&pdev->dev, "v4l2_device_register err=%d", ret);
-   418			goto err_core_workq;
-   419		}
-   420	
-   421		vfd_dec = video_device_alloc();
-   422		if (!vfd_dec) {
-   423			dev_err(&pdev->dev, "Failed to allocate video device");
-   424			ret = -ENOMEM;
-   425			goto err_dec_alloc;
-   426		}
-   427		vfd_dec->fops		= &mtk_vcodec_fops;
-   428		vfd_dec->ioctl_ops	= &mtk_vdec_ioctl_ops;
-   429		vfd_dec->release	= video_device_release;
-   430		vfd_dec->lock		= &dev->dev_mutex;
-   431		vfd_dec->v4l2_dev	= &dev->v4l2_dev;
-   432		vfd_dec->vfl_dir	= VFL_DIR_M2M;
-   433		vfd_dec->device_caps	= V4L2_CAP_VIDEO_M2M_MPLANE |
-   434				V4L2_CAP_STREAMING;
-   435	
-   436		snprintf(vfd_dec->name, sizeof(vfd_dec->name), "%s",
-   437			MTK_VCODEC_DEC_NAME);
-   438		video_set_drvdata(vfd_dec, dev);
-   439		dev->vfd_dec = vfd_dec;
-   440		platform_set_drvdata(pdev, dev);
-   441	
-   442		dev->m2m_dev_dec = v4l2_m2m_init(&mtk_vdec_m2m_ops);
-   443		if (IS_ERR((__force void *)dev->m2m_dev_dec)) {
-   444			dev_err(&pdev->dev, "Failed to init mem2mem dec device");
-   445			ret = PTR_ERR((__force void *)dev->m2m_dev_dec);
-   446			goto err_dec_alloc;
-   447		}
-   448	
-   449		dev->decode_workqueue =
-   450			alloc_ordered_workqueue(MTK_VCODEC_DEC_NAME,
-   451				WQ_MEM_RECLAIM | WQ_FREEZABLE);
-   452		if (!dev->decode_workqueue) {
-   453			dev_err(&pdev->dev, "Failed to create decode workqueue");
-   454			ret = -EINVAL;
-   455			goto err_event_workq;
-   456		}
-   457	
-   458		if (dev->vdec_pdata->is_subdev_supported) {
-   459			ret = of_platform_populate(pdev->dev.of_node, NULL, NULL,
-   460						   &pdev->dev);
-   461			if (ret) {
-   462				dev_err(&pdev->dev, "Main device of_platform_populate failed.");
-   463				goto err_reg_cont;
-   464			}
-   465		} else {
-   466			set_bit(MTK_VDEC_CORE, dev->subdev_bitmap);
-   467		}
-   468	
-   469		atomic_set(&dev->dec_active_cnt, 0);
-   470		memset(dev->vdec_racing_info, 0, sizeof(dev->vdec_racing_info));
-   471		mutex_init(&dev->dec_racing_info_mutex);
- > 472		ret = mtk_vcodec_dec_optee_private_init(dev);
-   473		if (ret) {
-   474			dev_err(&pdev->dev, "Failed to init svp private.");
-   475			goto err_reg_cont;
-   476		}
-   477	
-   478		ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, -1);
-   479		if (ret) {
-   480			dev_err(&pdev->dev, "Failed to register video device");
-   481			goto err_reg_cont;
-   482		}
-   483	
-   484		if (dev->vdec_pdata->uses_stateless_api) {
-   485			v4l2_disable_ioctl(vfd_dec, VIDIOC_DECODER_CMD);
-   486			v4l2_disable_ioctl(vfd_dec, VIDIOC_TRY_DECODER_CMD);
-   487	
-   488			dev->mdev_dec.dev = &pdev->dev;
-   489			strscpy(dev->mdev_dec.model, MTK_VCODEC_DEC_NAME,
-   490				sizeof(dev->mdev_dec.model));
-   491	
-   492			media_device_init(&dev->mdev_dec);
-   493			dev->mdev_dec.ops = &mtk_vcodec_media_ops;
-   494			dev->v4l2_dev.mdev = &dev->mdev_dec;
-   495	
-   496			ret = v4l2_m2m_register_media_controller(dev->m2m_dev_dec, dev->vfd_dec,
-   497								 MEDIA_ENT_F_PROC_VIDEO_DECODER);
-   498			if (ret) {
-   499				dev_err(&pdev->dev, "Failed to register media controller");
-   500				goto err_dec_mem_init;
-   501			}
-   502	
-   503			ret = media_device_register(&dev->mdev_dec);
-   504			if (ret) {
-   505				dev_err(&pdev->dev, "Failed to register media device");
-   506				goto err_media_reg;
-   507			}
-   508	
-   509			dev_dbg(&pdev->dev, "media registered as /dev/media%d", vfd_dec->minor);
-   510		}
-   511	
-   512		mtk_vcodec_dbgfs_init(dev, false);
-   513		dev_dbg(&pdev->dev, "decoder registered as /dev/video%d", vfd_dec->minor);
-   514	
-   515		return 0;
-   516	
-   517	err_media_reg:
-   518		v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
-   519	err_dec_mem_init:
-   520		video_unregister_device(vfd_dec);
-   521	err_reg_cont:
-   522		if (dev->vdec_pdata->uses_stateless_api)
-   523			media_device_cleanup(&dev->mdev_dec);
-   524		destroy_workqueue(dev->decode_workqueue);
-   525	err_event_workq:
-   526		v4l2_m2m_release(dev->m2m_dev_dec);
-   527	err_dec_alloc:
-   528		v4l2_device_unregister(&dev->v4l2_dev);
-   529	err_core_workq:
-   530		if (IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch))
-   531			destroy_workqueue(dev->core_workqueue);
-   532	err_res:
-   533		if (!dev->vdec_pdata->is_subdev_supported)
-   534			pm_runtime_disable(dev->pm.dev);
-   535	err_dec_pm:
-   536		mtk_vcodec_fw_release(dev->fw_handler);
-   537		return ret;
-   538	}
-   539	
+   984	
+ > 985	SOC_ENUM_SINGLE_VIRT_DECL(macaudio_spk_mux_enum, macaudio_spk_mux_texts);
+   986	
+   987	static const struct snd_kcontrol_new macaudio_spk_mux =
+   988		SOC_DAPM_ENUM("Speaker Playback Mux", macaudio_spk_mux_enum);
+   989	
+   990	static const char * const macaudio_hp_mux_texts[] = {
+   991		"Primary",
+   992		"Secondary"
+   993	};
+   994	
+   995	SOC_ENUM_SINGLE_VIRT_DECL(macaudio_hp_mux_enum, macaudio_hp_mux_texts);
+   996	
+   997	static const struct snd_kcontrol_new macaudio_hp_mux =
+   998		SOC_DAPM_ENUM("Headphones Playback Mux", macaudio_hp_mux_enum);
+   999	
+  1000	static const struct snd_soc_dapm_widget macaudio_snd_widgets[] = {
+  1001		SND_SOC_DAPM_SPK("Speaker", NULL),
+  1002		SND_SOC_DAPM_SPK("Speaker (Static)", NULL),
+  1003		SND_SOC_DAPM_HP("Headphone", NULL),
+  1004		SND_SOC_DAPM_MIC("Headset Mic", NULL),
+  1005	
+  1006		SND_SOC_DAPM_MUX("Speaker Playback Mux", SND_SOC_NOPM, 0, 0, &macaudio_spk_mux),
+  1007		SND_SOC_DAPM_MUX("Headphone Playback Mux", SND_SOC_NOPM, 0, 0, &macaudio_hp_mux),
+  1008	
+  1009		SND_SOC_DAPM_AIF_OUT("Speaker Playback", NULL, 0, SND_SOC_NOPM, 0, 0),
+  1010		SND_SOC_DAPM_AIF_OUT("Headphone Playback", NULL, 0, SND_SOC_NOPM, 0, 0),
+  1011	
+  1012		SND_SOC_DAPM_AIF_IN("Headset Capture", NULL, 0, SND_SOC_NOPM, 0, 0),
+  1013		SND_SOC_DAPM_AIF_IN("Speaker Sense Capture", NULL, 0, SND_SOC_NOPM, 0, 0),
+  1014	};
+  1015	
+> 1016	int macaudio_sss_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info *uinfo)
+  1017	{
+  1018		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
+  1019		uinfo->count = 1;
+  1020		uinfo->value.integer.min = 0;
+  1021		uinfo->value.integer.max = 1;
+  1022	
+  1023		return 0;
+  1024	}
+  1025	
+> 1026	int macaudio_sss_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uvalue)
+  1027	{
+  1028		struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
+  1029		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1030	
+  1031		/*
+  1032		 * TODO: Check if any locking is in order here. I would
+  1033		 * assume there is some ALSA-level lock, but DAPM implementations
+  1034		 * of kcontrol ops do explicit locking, so look into it.
+  1035		 */
+  1036		uvalue->value.integer.value[0] = ma->speakers_streaming;
+  1037	
+  1038		return 0;
+  1039	}
+  1040	
 
 -- 
 0-DAY CI Kernel Test Service
