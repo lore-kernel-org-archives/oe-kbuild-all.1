@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7C13DB87
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 14:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD713EA8B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 14:36:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KuMuNc67"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BkjUioa6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701872622; x=1733408622;
+  t=1701873383; x=1733409383;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pp3OioeXpZho5+76nSTlDa8kUCjyMjUIKd1pp/K2V+4=;
-  b=KuMuNc67gviEh+McSD+gFX+KTHjlwHyHVW6c/3Wh2Jj9izRFe6i8/14k
-   ZT+P91+n8z8iRKVUampmC+q3AKOSE3e28/69mTroMPDtz+JDhiI4weAFs
-   7h399aYLWcOTJG6rbvuQnJssge7IRi1k8lLuzAAEzg/CeUT6/vWYEtNci
-   u3T1Blhl9zGtnyJ8+f0aiGlACgnliQStNkcqpOQXmUFG0rtAOPOx0LVT1
-   zL8kCmtALj5kLgPX8j/5jFGxdC8H8duKDgd/7RdzzFY8qno/7KWd8G9Ia
-   zQ37VZsPR4Qlp3ONDfjE0/nJJE7PAt5XGkTLZJ3ImHgJbixSoHeA8ks/W
+  bh=cCp7Zwx3gOFbLK12jSK4OxDXMWjTb1ykvlx4ScyM/+s=;
+  b=BkjUioa6R5xBH4X5cvcpnT9VMKg7bhLe+X15K9FhroO/KUm8NZukv7fr
+   DpLnWioM0LNA29F4cn8y9sUbFjUIHgfi2XSJKVRULWhvvfUfG9kXsAySN
+   yg5Fzl3zF/wXDXKRM67wW8fP23Tg9IfBRjV0aIfFrrDbRWbDmX/aJAoJ0
+   gFrt4RlhXuuhZD3DhdQHzCBAAxwdUQgcsjMoxjg2hCN3nyNby4M9skYVQ
+   DZqQ3O4pInMrGUmusoil4od6t5BsWxyOQH51eTEX3lZOSAZ4QRoEStfmk
+   WCfyp/0TKysZ1z7k0RyTv40qEhptTRsyrweGC/5b7D5MnW1Cl4aUDKAAo
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="396856495"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="955781"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="396856495"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 06:23:42 -0800
+   d="scan'208";a="955781"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 06:36:22 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="800365726"
 X-IronPort-AV: E=Sophos;i="6.04,255,1695711600"; 
-   d="scan'208";a="19337371"
+   d="scan'208";a="800365726"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 06 Dec 2023 06:23:40 -0800
+  by orsmga008.jf.intel.com with ESMTP; 06 Dec 2023 06:36:20 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAsoK-000Auk-0I;
-	Wed, 06 Dec 2023 14:23:36 +0000
-Date: Wed, 6 Dec 2023 22:22:06 +0800
+	id 1rAt0b-000Avz-2L;
+	Wed, 06 Dec 2023 14:36:18 +0000
+Date: Wed, 6 Dec 2023 22:34:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hugo Villeneuve <hugo@hugovil.com>, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, hvilleneuve@dimonoff.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, hugo@hugovil.com
-Subject: Re: [PATCH 7/7] serial: max310x: use separate regmap name for each
- port
-Message-ID: <202312062240.v39k99mQ-lkp@intel.com>
-References: <20231130191050.3165862-8-hugo@hugovil.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/hdcp: Fail Repeater authentication
+ if Type1 device not present
+Message-ID: <202312062206.3KtqfAc1-lkp@intel.com>
+References: <20231206093916.1733863-1-suraj.kandpal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,87 +52,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231130191050.3165862-8-hugo@hugovil.com>
+In-Reply-To: <20231206093916.1733863-1-suraj.kandpal@intel.com>
 
-Hi Hugo,
+Hi Suraj,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on d804987153e7bedf503f8e4ba649afe52cfd7f6d]
+[auto build test ERROR on drm-tip/drm-tip]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hugo-Villeneuve/serial-sc16is7xx-fix-snprintf-format-specifier-in-sc16is7xx_regmap_name/20231201-031413
-base:   d804987153e7bedf503f8e4ba649afe52cfd7f6d
-patch link:    https://lore.kernel.org/r/20231130191050.3165862-8-hugo%40hugovil.com
-patch subject: [PATCH 7/7] serial: max310x: use separate regmap name for each port
-config: arm-randconfig-r081-20231201 (https://download.01.org/0day-ci/archive/20231206/202312062240.v39k99mQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312062240.v39k99mQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-hdcp-Fail-Repeater-authentication-if-Type1-device-not-present/20231206-174124
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20231206093916.1733863-1-suraj.kandpal%40intel.com
+patch subject: [Intel-gfx] [PATCH] drm/i915/hdcp: Fail Repeater authentication if Type1 device not present
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231206/202312062206.3KtqfAc1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312062206.3KtqfAc1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312062240.v39k99mQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312062206.3KtqfAc1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In function 'max310x_regmap_name',
-       inlined from 'max310x_i2c_probe' at drivers/tty/serial/max310x.c:1641:21:
->> drivers/tty/serial/max310x.c:30:41: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
-      30 | #define MAX310X_PORT_NAME_SUFFIX        "port"
-         |                                         ^~~~~~
-   drivers/tty/serial/max310x.c:1494:36: note: in expansion of macro 'MAX310X_PORT_NAME_SUFFIX'
-    1494 |         snprintf(buf, sizeof(buf), MAX310X_PORT_NAME_SUFFIX "%u", port_id);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/max310x.c: In function 'max310x_i2c_probe':
-   drivers/tty/serial/max310x.c:1494:62: note: format string is defined here
-    1494 |         snprintf(buf, sizeof(buf), MAX310X_PORT_NAME_SUFFIX "%u", port_id);
-         |                                                              ^~
-   In function 'max310x_regmap_name',
-       inlined from 'max310x_i2c_probe' at drivers/tty/serial/max310x.c:1641:21:
-   drivers/tty/serial/max310x.c:30:41: note: directive argument in the range [1, 4294967294]
-      30 | #define MAX310X_PORT_NAME_SUFFIX        "port"
-         |                                         ^~~~~~
-   drivers/tty/serial/max310x.c:1494:36: note: in expansion of macro 'MAX310X_PORT_NAME_SUFFIX'
-    1494 |         snprintf(buf, sizeof(buf), MAX310X_PORT_NAME_SUFFIX "%u", port_id);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/max310x.c:1494:9: note: 'snprintf' output between 6 and 15 bytes into a destination of size 6
-    1494 |         snprintf(buf, sizeof(buf), MAX310X_PORT_NAME_SUFFIX "%u", port_id);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'max310x_regmap_name',
-       inlined from 'max310x_spi_probe' at drivers/tty/serial/max310x.c:1535:17:
->> drivers/tty/serial/max310x.c:30:41: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
-      30 | #define MAX310X_PORT_NAME_SUFFIX        "port"
-         |                                         ^~~~~~
-   drivers/tty/serial/max310x.c:1494:36: note: in expansion of macro 'MAX310X_PORT_NAME_SUFFIX'
-    1494 |         snprintf(buf, sizeof(buf), MAX310X_PORT_NAME_SUFFIX "%u", port_id);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/max310x.c: In function 'max310x_spi_probe':
-   drivers/tty/serial/max310x.c:1494:62: note: format string is defined here
-    1494 |         snprintf(buf, sizeof(buf), MAX310X_PORT_NAME_SUFFIX "%u", port_id);
-         |                                                              ^~
-   In function 'max310x_regmap_name',
-       inlined from 'max310x_spi_probe' at drivers/tty/serial/max310x.c:1535:17:
-   drivers/tty/serial/max310x.c:30:41: note: directive argument in the range [0, 4294967294]
-      30 | #define MAX310X_PORT_NAME_SUFFIX        "port"
-         |                                         ^~~~~~
-   drivers/tty/serial/max310x.c:1494:36: note: in expansion of macro 'MAX310X_PORT_NAME_SUFFIX'
-    1494 |         snprintf(buf, sizeof(buf), MAX310X_PORT_NAME_SUFFIX "%u", port_id);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/max310x.c:1494:9: note: 'snprintf' output between 6 and 15 bytes into a destination of size 6
-    1494 |         snprintf(buf, sizeof(buf), MAX310X_PORT_NAME_SUFFIX "%u", port_id);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/drm/ttm/ttm_resource.h:34,
+                    from include/drm/ttm/ttm_device.h:30,
+                    from drivers/gpu/drm/i915/i915_drv.h:37,
+                    from drivers/gpu/drm/i915/display/intel_hdcp.c:18:
+   drivers/gpu/drm/i915/display/intel_hdcp.c: In function 'hdcp2_authenticate_repeater_topology':
+>> drivers/gpu/drm/i915/display/intel_hdcp.c:1638:30: error: 'dev_priv' undeclared (first use in this function); did you mean 'dev_crit'?
+    1638 |                 drm_dbg_kms(&dev_priv->drm,
+         |                              ^~~~~~~~
+   include/drm/drm_print.h:410:29: note: in definition of macro 'drm_dev_dbg'
+     410 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
+         |                             ^~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:1638:17: note: in expansion of macro 'drm_dbg_kms'
+    1638 |                 drm_dbg_kms(&dev_priv->drm,
+         |                 ^~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:1638:30: note: each undeclared identifier is reported only once for each function it appears in
+    1638 |                 drm_dbg_kms(&dev_priv->drm,
+         |                              ^~~~~~~~
+   include/drm/drm_print.h:410:29: note: in definition of macro 'drm_dev_dbg'
+     410 |         __drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
+         |                             ^~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:1638:17: note: in expansion of macro 'drm_dbg_kms'
+    1638 |                 drm_dbg_kms(&dev_priv->drm,
+         |                 ^~~~~~~~~~~
 
 
-vim +30 drivers/tty/serial/max310x.c
+vim +1638 drivers/gpu/drm/i915/display/intel_hdcp.c
 
-    28	
-    29	#define MAX310X_NAME			"max310x"
-  > 30	#define MAX310X_PORT_NAME_SUFFIX	"port"
-    31	#define MAX310X_MAJOR			204
-    32	#define MAX310X_MINOR			209
-    33	#define MAX310X_UART_NRMAX		16
-    34	#define MAX310X_MAX_PORTS		4 /* Maximum number of UART ports per IC. */
-    35	
+  1599	
+  1600	static
+  1601	int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
+  1602	{
+  1603		struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+  1604		struct drm_i915_private *i915 = to_i915(connector->base.dev);
+  1605		struct intel_hdcp *hdcp = &connector->hdcp;
+  1606		union {
+  1607			struct hdcp2_rep_send_receiverid_list recvid_list;
+  1608			struct hdcp2_rep_send_ack rep_ack;
+  1609		} msgs;
+  1610		const struct intel_hdcp_shim *shim = hdcp->shim;
+  1611		u32 seq_num_v, device_cnt;
+  1612		u8 *rx_info;
+  1613		int ret;
+  1614	
+  1615		ret = shim->read_2_2_msg(connector, HDCP_2_2_REP_SEND_RECVID_LIST,
+  1616					 &msgs.recvid_list, sizeof(msgs.recvid_list));
+  1617		if (ret < 0)
+  1618			return ret;
+  1619	
+  1620		rx_info = msgs.recvid_list.rx_info;
+  1621	
+  1622		if (HDCP_2_2_MAX_CASCADE_EXCEEDED(rx_info[1]) ||
+  1623		    HDCP_2_2_MAX_DEVS_EXCEEDED(rx_info[1])) {
+  1624			drm_dbg_kms(&i915->drm, "Topology Max Size Exceeded\n");
+  1625			return -EINVAL;
+  1626		}
+  1627	
+  1628		/*
+  1629		 * MST topology is not Type 1 capable if it contains a downstream
+  1630		 * device that is only HDCP 1.x or Legacy HDCP 2.0/2.1 compliant.
+  1631		 */
+  1632		dig_port->hdcp_mst_type1_capable =
+  1633			!HDCP_2_2_HDCP1_DEVICE_CONNECTED(rx_info[1]) &&
+  1634			!HDCP_2_2_HDCP_2_0_REP_CONNECTED(rx_info[1]);
+  1635	
+  1636		if (!dig_port->hdcp_mst_type1_capable && hdcp->content_type &&
+  1637		    !intel_encoder_is_mst(connector->encoder)) {
+> 1638			drm_dbg_kms(&dev_priv->drm,
+  1639				    "HDCP1.x or 2.0 Legacy Device Downstream\n");
+  1640			return -EINVAL;
+  1641		}
+  1642	
+  1643		/* Converting and Storing the seq_num_v to local variable as DWORD */
+  1644		seq_num_v =
+  1645			drm_hdcp_be24_to_cpu((const u8 *)msgs.recvid_list.seq_num_v);
+  1646	
+  1647		if (!hdcp->hdcp2_encrypted && seq_num_v) {
+  1648			drm_dbg_kms(&i915->drm,
+  1649				    "Non zero Seq_num_v at first RecvId_List msg\n");
+  1650			return -EINVAL;
+  1651		}
+  1652	
+  1653		if (seq_num_v < hdcp->seq_num_v) {
+  1654			/* Roll over of the seq_num_v from repeater. Reauthenticate. */
+  1655			drm_dbg_kms(&i915->drm, "Seq_num_v roll over.\n");
+  1656			return -EINVAL;
+  1657		}
+  1658	
+  1659		device_cnt = (HDCP_2_2_DEV_COUNT_HI(rx_info[0]) << 4 |
+  1660			      HDCP_2_2_DEV_COUNT_LO(rx_info[1]));
+  1661		if (drm_hdcp_check_ksvs_revoked(&i915->drm,
+  1662						msgs.recvid_list.receiver_ids,
+  1663						device_cnt) > 0) {
+  1664			drm_err(&i915->drm, "Revoked receiver ID(s) is in list\n");
+  1665			return -EPERM;
+  1666		}
+  1667	
+  1668		ret = hdcp2_verify_rep_topology_prepare_ack(connector,
+  1669							    &msgs.recvid_list,
+  1670							    &msgs.rep_ack);
+  1671		if (ret < 0)
+  1672			return ret;
+  1673	
+  1674		hdcp->seq_num_v = seq_num_v;
+  1675		ret = shim->write_2_2_msg(connector, &msgs.rep_ack,
+  1676					  sizeof(msgs.rep_ack));
+  1677		if (ret < 0)
+  1678			return ret;
+  1679	
+  1680		return 0;
+  1681	}
+  1682	
 
 -- 
 0-DAY CI Kernel Test Service
