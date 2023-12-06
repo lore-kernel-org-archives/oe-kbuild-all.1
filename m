@@ -1,54 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C857DF58
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 04:34:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB06809
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Dec 2023 04:44:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KsYL1/+Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OrlMOxF2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701837282; x=1733373282;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sq4PJPq6VrkCmDvgjz4GTxFgQOfpDStAzoJv/e5p5AQ=;
-  b=KsYL1/+Z/lZHCJZHil5gsnewxNzo/cRy7NRXiARIdORxiXlGmLTnooPh
-   dR00H7RDUkAygyuvqeU47ltAczFb9jXh/vJu59/PgPI/159UuEqSj7oh0
-   j3FU/xY2bPGMBnprFV/99/rWAv6N4ImI+Ec0HL/gPibCu6jomB/I61WHi
-   aPOcgEA5rtxif9icDo/GNbLhwe2x6Z9yDoI4TH0jEymtcVIRecCPg5kFc
-   yXKYQEFRVUfLwleKDA17TOo8WK5rcOcADQzBKee+pswzqQ1oa3F9HAv4s
-   7v1xf3MhMztPgLFRNM+JqRLw6rUsUBpocSiJ5XK8jn7+g2gCapkSF8Ksi
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="379023584"
+  t=1701837898; x=1733373898;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yJX/J1WOnUjoPXSPayYNqMGXiOHikIsB+rJ9dYIL57Q=;
+  b=OrlMOxF2wOV7s5ToRM3Cp07QvwcVlEPajFMLhk756iSucziFwGmo18Nz
+   aqyphHOIKZV6S3NyIAZNbBPe880Pai5v4Esr36dtXDMhJzcm/eR+ogExU
+   szlOzIKGVSlcZgS0o/Z/nqaqwoPdn/XNacoweeWWcZwM/F720sF4SLfrO
+   El+jdY2VQOoIECFssya7A0Nvtdu2QLSLcLS3P7fBW6jrkLDxtQvRAU/rS
+   jiYKB4PO0LscCIhsSx1ykgUa7i8UfyHkCowBDUPXwy316MC6NwRKbStnV
+   THpwnxIL7MWlFl+VACjApjvGmkWgVG4pDtWPeYC45vrp2uUxlMp346vmQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="15556106"
 X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="379023584"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 20:34:40 -0800
+   d="scan'208";a="15556106"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 20:44:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="944514523"
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="805517854"
 X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="944514523"
+   d="scan'208";a="805517854"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 05 Dec 2023 20:34:35 -0800
+  by orsmga001.jf.intel.com with ESMTP; 05 Dec 2023 20:44:54 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rAjcH-000AGM-22;
-	Wed, 06 Dec 2023 04:34:33 +0000
-Date: Wed, 6 Dec 2023 12:34:02 +0800
+	id 1rAjmF-000AH6-1u;
+	Wed, 06 Dec 2023 04:44:51 +0000
+Date: Wed, 6 Dec 2023 12:44:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ma Jun <Jun.Ma2@amd.com>, amd-gfx@lists.freedesktop.org,
-	lenb@kernel.org, hdegoede@redhat.com, johannes@sipsolutions.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, alexander.deucher@amd.com, Lijo.Lazar@amd.com,
-	mario.limonciello@amd.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, majun@amd.com,
-	Evan Quan <quanliangl@hotmail.com>, Ma Jun <Jun.Ma2@amd.com>
-Subject: Re: [PATCH v14 4/9] wifi: mac80211: Add support for WBRF features
-Message-ID: <202312061213.9yUe2RGP-lkp@intel.com>
-References: <20231129091348.3972539-5-Jun.Ma2@amd.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.7-dango 3892/3912] versioncheck:
+ ./drivers/mtd/mtdsplit/mtdsplit_uimage.c: 19 linux/version.h not needed.
+Message-ID: <202312061233.L3pMpYux-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,60 +49,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231129091348.3972539-5-Jun.Ma2@amd.com>
 
-Hi Ma,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v6.7-rc1]
-[also build test ERROR on next-20231205]
-[cannot apply to drm-misc/drm-misc-next wireless-next/main wireless/main linus/master v6.7-rc3 v6.7-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Jun/Documentation-driver-api-Add-document-about-WBRF-mechanism/20231129-181516
-base:   v6.7-rc1
-patch link:    https://lore.kernel.org/r/20231129091348.3972539-5-Jun.Ma2%40amd.com
-patch subject: [PATCH v14 4/9] wifi: mac80211: Add support for WBRF features
-config: arm-randconfig-004-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061213.9yUe2RGP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312061213.9yUe2RGP-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.7-dango
+head:   e4b93ab389f818fbe74616c468898e72b2ec8315
+commit: 9354aaeed54fe4146951a13ae58e3e7cda47308b [3892/3912] OWRT BUILD: mtd: mtdsplit support
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312061233.L3pMpYux-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312061213.9yUe2RGP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312061233.L3pMpYux-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   net/mac80211/wbrf.c: In function 'ieee80211_add_wbrf':
->> net/mac80211/wbrf.c:79:9: error: implicit declaration of function 'acpi_amd_wbrf_add_remove'; did you mean 'acpi_amd_wbrf_add_exclusion'? [-Werror=implicit-function-declaration]
-      79 |         acpi_amd_wbrf_add_remove(dev, WBRF_RECORD_ADD, &ranges_in);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         acpi_amd_wbrf_add_exclusion
-   cc1: some warnings being treated as errors
-
-
-vim +79 net/mac80211/wbrf.c
-
-    66	
-    67	void ieee80211_add_wbrf(struct ieee80211_local *local, struct cfg80211_chan_def *chandef)
-    68	{
-    69		struct wbrf_ranges_in_out ranges_in = {0};
-    70		struct device *dev;
-    71	
-    72		if (!local->wbrf_supported)
-    73			return;
-    74	
-    75		dev = local->hw.wiphy->dev.parent;
-    76	
-    77		get_ranges_from_chandef(chandef, &ranges_in);
-    78	
-  > 79		acpi_amd_wbrf_add_remove(dev, WBRF_RECORD_ADD, &ranges_in);
-    80	}
-    81	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/mtd/mtdsplit/mtdsplit_uimage.c: 19 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 403: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
