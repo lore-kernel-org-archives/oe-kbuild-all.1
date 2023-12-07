@@ -1,55 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E915027D;
-	Thu,  7 Dec 2023 20:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FAA50277
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 20:33:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCt1qvDa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UXKv0p+i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701981237; x=1733517237;
+  t=1701981240; x=1733517240;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SPK2zasUPN95+NP/auAttA6k+ge4mGcg7RBWFAT4m1U=;
-  b=kCt1qvDaMdXsMYqR0qzhCWCKPUUfuiAzshqVcRXmHgikn76HdK0wlGkI
-   9U7HmXo+1Bx3xakelD7zytH+1A7VPpQG9AfBUMk/yn6H6Hca4rPyTzfim
-   635cwVzfMmA9jUpo04nsII6FES1qpU46dDovJLA0ftkjhoxC6jKwpbCWa
-   O5g5WbEAsy2nAmc5O6FaMpfnjCYUQy8CiOMuH+gUndBYgjrcv8WdVglQF
-   i1Jigwt2F13MHh3hkXUqOPZQ+aVZrrWRzWk/XsMQXUxbTTYcQqZ2XZtYp
-   q8YJpXGdoTJZPO40aLv5oYD/087+V3yRQ//a4zlZN6muW14+id4VukKq7
+  bh=4utBiV134gRoO48soBfJ8QpcFZDaar9aUc6yImhniHw=;
+  b=UXKv0p+iU6K/OgAGSOnGJ5jLskWs8OPaW5NNbtx50eW1yYNAku3ywtfL
+   pO4rQWhFoY7GnF88jL9e4ZeSVdwP4jJtbp/w2Hm60kBTSjF+CUfXQW6/Z
+   9YMbdhghVPrb9TPGQUOxDXHYYqVWhPWk6S79WxobLbOtAxMcg45vOQsGB
+   kz1PF5nv3Dsd1j78UOX4Q+QdPAl3IlLcm6s1J1ndIAf0KxgMviBUzAaSp
+   3daWu2jdb4QmVWdDDuJKL7uCyBSN3/qOnxrE/CiUOkG8h4dYxB+nsW6th
+   RMtZie39ccrpZqwcLIUNCS2Fp+vpNLHWfYDAjeko8v1b7hX5e1d5gNiAU
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="379306316"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1410464"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="379306316"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 12:33:57 -0800
+   d="scan'208";a="1410464"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 12:33:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="915695873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="771876772"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="915695873"
+   d="scan'208";a="771876772"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Dec 2023 12:33:53 -0800
+  by orsmga002.jf.intel.com with ESMTP; 07 Dec 2023 12:33:53 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBL4B-000Cnh-1q;
+	id 1rBL4B-000Cnf-1i;
 	Thu, 07 Dec 2023 20:33:51 +0000
-Date: Fri, 8 Dec 2023 04:33:32 +0800
+Date: Fri, 8 Dec 2023 04:33:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: RD Babiera <rdbabiera@google.com>, heikki.krogerus@linux.intel.com,
-	linux@roeck-us.net, gregkh@linuxfoundation.org,
-	pmalani@chromium.org, bleung@chromium.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, badhri@google.com,
-	tzungbi@kernel.org, utkarsh.h.patel@intel.com,
-	andriy.shevchenko@linux.intel.com,
-	RD Babiera <rdbabiera@google.com>
-Subject: Re: [PATCH v1 01/10] usb: typec: bus: provide transmit type for
- alternate mode drivers
-Message-ID: <202312080436.1iwq0THA-lkp@intel.com>
-References: <20231207090738.15721-13-rdbabiera@google.com>
+To: Chen Wang <unicornxw@gmail.com>, aou@eecs.berkeley.edu,
+	chao.wei@sophgo.com, conor@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, mturquette@baylibre.com,
+	palmer@dabbelt.com, paul.walmsley@sifive.com,
+	richardcochran@gmail.com, robh+dt@kernel.org, sboyd@kernel.org,
+	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	haijiao.liu@sophgo.com, xiaoguang.xing@sophgo.com,
+	guoren@kernel.org, jszhang@kernel.org, inochiama@outlook.com,
+	samuel.holland@sifive.com
+Cc: oe-kbuild-all@lists.linux.dev, Chen Wang <unicorn_wang@outlook.com>
+Subject: Re: [PATCH v5 3/4] clk: sophgo: Add SG2042 clock generator driver
+Message-ID: <202312080441.KewnhdyO-lkp@intel.com>
+References: <975f9995584dfa8af751e96a1f4d2c7991551a35.1701938395.git.unicorn_wang@outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,60 +59,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231207090738.15721-13-rdbabiera@google.com>
+In-Reply-To: <975f9995584dfa8af751e96a1f4d2c7991551a35.1701938395.git.unicorn_wang@outlook.com>
 
-Hi RD,
+Hi Chen,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 5e4c8814a431d21bfaf20b464134f40f2f81e152]
+[auto build test WARNING on b85ea95d086471afb4ad062012a4d73cd328fa86]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-bus-provide-transmit-type-for-alternate-mode-drivers/20231207-171114
-base:   5e4c8814a431d21bfaf20b464134f40f2f81e152
-patch link:    https://lore.kernel.org/r/20231207090738.15721-13-rdbabiera%40google.com
-patch subject: [PATCH v1 01/10] usb: typec: bus: provide transmit type for alternate mode drivers
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231208/202312080436.1iwq0THA-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080436.1iwq0THA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Wang/dt-bindings-soc-sophgo-Add-Sophgo-system-control-module/20231207-165948
+base:   b85ea95d086471afb4ad062012a4d73cd328fa86
+patch link:    https://lore.kernel.org/r/975f9995584dfa8af751e96a1f4d2c7991551a35.1701938395.git.unicorn_wang%40outlook.com
+patch subject: [PATCH v5 3/4] clk: sophgo: Add SG2042 clock generator driver
+config: riscv-randconfig-r113-20231208 (https://download.01.org/0day-ci/archive/20231208/202312080441.KewnhdyO-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080441.KewnhdyO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080436.1iwq0THA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080441.KewnhdyO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zihintpause'
+>> drivers/clk/sophgo/clk-sophgo-sg2042.c:1037:1: sparse: sparse: symbol 'sg2042_clk_lock' was not declared. Should it be static?
+   drivers/clk/sophgo/clk-sophgo-sg2042.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
->> drivers/usb/typec/ucsi/displayport.c:293:31: error: too few arguments to function call, expected 5, have 4
-                                   dp->vdo_data, dp->vdo_size);
-                                                             ^
-   include/linux/usb/typec_altmode.h:84:5: note: 'typec_altmode_vdm' declared here
-   int typec_altmode_vdm(struct typec_altmode *altmode,
-       ^
-   1 error generated.
+vim +/sg2042_clk_lock +1037 drivers/clk/sophgo/clk-sophgo-sg2042.c
 
-
-vim +293 drivers/usb/typec/ucsi/displayport.c
-
-af8622f6a585d8 Heikki Krogerus 2019-04-23  284  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  285  static void ucsi_displayport_work(struct work_struct *work)
-af8622f6a585d8 Heikki Krogerus 2019-04-23  286  {
-af8622f6a585d8 Heikki Krogerus 2019-04-23  287  	struct ucsi_dp *dp = container_of(work, struct ucsi_dp, work);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  288  	int ret;
-af8622f6a585d8 Heikki Krogerus 2019-04-23  289  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  290  	mutex_lock(&dp->con->lock);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  291  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  292  	ret = typec_altmode_vdm(dp->alt, dp->header,
-af8622f6a585d8 Heikki Krogerus 2019-04-23 @293  				dp->vdo_data, dp->vdo_size);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  294  	if (ret)
-af8622f6a585d8 Heikki Krogerus 2019-04-23  295  		dev_err(&dp->alt->dev, "VDM 0x%x failed\n", dp->header);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  296  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  297  	dp->vdo_data = NULL;
-af8622f6a585d8 Heikki Krogerus 2019-04-23  298  	dp->vdo_size = 0;
-af8622f6a585d8 Heikki Krogerus 2019-04-23  299  	dp->header = 0;
-af8622f6a585d8 Heikki Krogerus 2019-04-23  300  
-af8622f6a585d8 Heikki Krogerus 2019-04-23  301  	mutex_unlock(&dp->con->lock);
-af8622f6a585d8 Heikki Krogerus 2019-04-23  302  }
-af8622f6a585d8 Heikki Krogerus 2019-04-23  303  
+  1036	
+> 1037	DEFINE_SPINLOCK(sg2042_clk_lock);
+  1038	
 
 -- 
 0-DAY CI Kernel Test Service
