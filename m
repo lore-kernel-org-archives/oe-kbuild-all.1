@@ -1,46 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A53101DE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 14:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489E519F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 14:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/4/JeqX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701960352; x=1733496352;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eAFNe8Mj9Qyd5GReny7fyjVVA+UM88BVsgbXVumjSCU=;
-  b=U/4/JeqXErf1frHzHPhhicrYzmg+5FjbmW71YJEDnewpCEHPOS8zyhJ5
-   dRsQDpY76/VHHKh1Rr+Exumre9xDbyjHWfYBuV0oBiOtpK9tNW9einpDT
-   oqxDYUMAKk1uCy62jx9Aw5j8ZdHskhJlh3wsaB6jWqUNV/0Sb+n/4xRAX
-   0j+PmzKbpxdi+9CU6UZVRg1UTTb+1/7ivZs0uw5KXrApRb2RduyhgZQGK
-   8kUHMKaUJJdwFgHTRsKzrWL9rCextw8eoBzNB4HoslAgI31vO8GMZO4A0
-   W3aljWdhTxcpAA0B3ApzF+TypxVpqDLt3VJBzH6qSYe5d7f3LHYc4d683
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1119751"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="1119751"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 06:45:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1103216860"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="1103216860"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 07 Dec 2023 06:45:50 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rBFdM-000CNm-16;
-	Thu, 07 Dec 2023 14:45:48 +0000
-Date: Thu, 7 Dec 2023 22:45:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-next 6/7] drivers/reset/sti/reset-syscfg.c:196:1: warning:
- control reaches end of non-void function
-Message-ID: <202312072209.EZJmUcli-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NzsFZbC+"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50be10acaf9so788353e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Dec 2023 06:47:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701960435; x=1702565235; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cqlaAjyYoTX21n2s5cfjq7OlbuSAPm9lzmylNhTuY6I=;
+        b=NzsFZbC+AfZGLyBAiyns3d9+PcEL/YGDa3gNRyCSuCXCZcUUV+lpGKK6vK1YC/YqQ7
+         OwyxhugV742kfPpLWaWQfwDQAbtjRy5+pFmDLszQBzyg53qGIePileuEm0kRkx1mJy72
+         QcxMyNxHEs+C9mKa6C9wsH02gkVnNKE/99y7whLNWgdwD8X5otL45QgdJwWIuFf85OZM
+         OOKmRDoR1TTodiXC1LLKqZ15g+jafuVQa/BjB4ROZvKMSe4Aj5pLczFpKSzatqbNL30D
+         3oPqNrBovickH0ybiDrwoJcY0coLqFZAJiMQ8d5lalRKbyDVCuS/QQKYPrBwztICBxmz
+         wnHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701960435; x=1702565235;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cqlaAjyYoTX21n2s5cfjq7OlbuSAPm9lzmylNhTuY6I=;
+        b=mJqVxetJJBko6n1viJKDlT+3d5/a9bNeQrUhzr+uaxMjbF5/tRK2aEHcLkxtU2+Pcf
+         OrE2VmMtEgyzKRReDze+MR/Z8M0/RMsuwma77av8X1EiRDrXlz81bf66g4CmvMYx6oje
+         ZFNXMkMlCWWKg4hMQ5imOpaBevEQ3W7DzaYqEE7mK/8OANI0d1cnlI1X7siD3pLoRGtc
+         NGIJcd3ngQdoshGWj3OjgkWB9zq3xvpyEmGNra3DxbqdKrNd4bCI30ThapGKuRdmCkeP
+         dI8uQ4JEABMTqjr8rQs1GkKktPEfHACde0K9LXDADGuVVWN085Z2X7vHy80NFRwugVtR
+         qMFw==
+X-Gm-Message-State: AOJu0YwZncg80xOP5fifwaIWa5FjAoaQjsu+UN+cPxkSYh6f6/P+uLO9
+	zQV2AbISMe7CVg2nw8Te1KI=
+X-Google-Smtp-Source: AGHT+IHt6jmaJ4Kw2i2qQNJQx0ETtzVu6UphNSpRZpwIAZmDoKS9ekjWRCFIkH2tj1BtTLNIyKFnFw==
+X-Received: by 2002:a05:6512:3e27:b0:50b:c0f1:f532 with SMTP id i39-20020a0565123e2700b0050bc0f1f532mr4043138lfv.26.1701960434989;
+        Thu, 07 Dec 2023 06:47:14 -0800 (PST)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id e10-20020ac24e0a000000b0050c0215a806sm189601lfr.83.2023.12.07.06.47.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 06:47:14 -0800 (PST)
+Date: Thu, 7 Dec 2023 17:47:11 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+	Tomer Maimon <tmaimon77@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next 13/16] net: stmmac: intel: Register generic MDIO
+ device
+Message-ID: <ohhgcfdvbxo3sffjpf7nedti3gujcwti4cysgim47jgcsum5ay@rrtsfnwktbqb>
+References: <20231205103559.9605-14-fancer.lancer@gmail.com>
+ <202312060845.lDDRDWET-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,57 +67,253 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202312060845.lDDRDWET-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-head:   6c26cfb1561efbf12fe3cf700ddc2e956866af45
-commit: f793fea7761d32ed64767311c82f39f0798fe6d6 [6/7] of: Stop circularly including of_device.h and of_platform.h
-config: arm-multi_v7_defconfig (https://download.01.org/0day-ci/archive/20231207/202312072209.EZJmUcli-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312072209.EZJmUcli-lkp@intel.com/reproduce)
+On Wed, Dec 06, 2023 at 08:19:07AM +0800, kernel test robot wrote:
+> Hi Serge,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on net-next/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/net-pcs-xpcs-Drop-sentinel-entry-from-2500basex-ifaces-list/20231205-183808
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20231205103559.9605-14-fancer.lancer%40gmail.com
+> patch subject: [PATCH net-next 13/16] net: stmmac: intel: Register generic MDIO device
+> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20231206/202312060845.lDDRDWET-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060845.lDDRDWET-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312060845.lDDRDWET-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c: In function 'intel_mgbe_common_data':
+> >> drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c:646:31: error: 'clk' undeclared (first use in this function)
+>      646 |         clk_disable_unprepare(clk);
+>          |                               ^~~
+>    drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c:646:31: note: each undeclared identifier is reported only once for each function it appears in
+> 
+> 
+> vim +/clk +646 drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312072209.EZJmUcli-lkp@intel.com/
+Right, my series had been originally based on a branch which had some
+of this driver parts fixed. I should have more thoroughly performed
+the re-base process. I'll make sure it's fixed on v2.
 
-All warnings (new ones prefixed by >>):
+-Serge(y)
 
-   drivers/reset/sti/reset-syscfg.c: In function 'syscfg_reset_probe':
-   drivers/reset/sti/reset-syscfg.c:192:29: error: invalid use of undefined type 'const struct of_device_id'
-     192 |         if (!match || !match->data)
-         |                             ^~
-   drivers/reset/sti/reset-syscfg.c:195:59: error: invalid use of undefined type 'const struct of_device_id'
-     195 |         return syscfg_reset_controller_register(dev, match->data);
-         |                                                           ^~
->> drivers/reset/sti/reset-syscfg.c:196:1: warning: control reaches end of non-void function [-Wreturn-type]
-     196 | }
-         | ^
-
-
-vim +196 drivers/reset/sti/reset-syscfg.c
-
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  182  
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  183  int syscfg_reset_probe(struct platform_device *pdev)
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  184  {
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  185  	struct device *dev = pdev ? &pdev->dev : NULL;
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  186  	const struct of_device_id *match;
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  187  
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  188  	if (!dev || !dev->driver)
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  189  		return -ENODEV;
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  190  
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  191  	match = of_match_device(dev->driver->of_match_table, dev);
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  192  	if (!match || !match->data)
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  193  		return -EINVAL;
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  194  
-e5d76075d9300a4 Stephen Gallimore 2013-08-07  195  	return syscfg_reset_controller_register(dev, match->data);
-e5d76075d9300a4 Stephen Gallimore 2013-08-07 @196  }
-
-:::::: The code at line 196 was first introduced by commit
-:::::: e5d76075d9300a483619f7f308a693311af9c2cb drivers: reset: STi SoC system configuration reset controller support
-
-:::::: TO: Stephen Gallimore <stephen.gallimore@st.com>
-:::::: CC: Srinivas Kandagatla <srinivas.kandagatla@st.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+>    446	
+>    447	static int intel_mgbe_common_data(struct pci_dev *pdev,
+>    448					  struct plat_stmmacenet_data *plat)
+>    449	{
+>    450		struct fwnode_handle *fwnode;
+>    451		char clk_name[20];
+>    452		int ret;
+>    453		int i;
+>    454	
+>    455		plat->pdev = pdev;
+>    456		plat->phy_addr = -1;
+>    457		plat->clk_csr = 5;
+>    458		plat->has_gmac = 0;
+>    459		plat->has_gmac4 = 1;
+>    460		plat->force_sf_dma_mode = 0;
+>    461		plat->flags |= (STMMAC_FLAG_TSO_EN | STMMAC_FLAG_SPH_DISABLE);
+>    462	
+>    463		/* Multiplying factor to the clk_eee_i clock time
+>    464		 * period to make it closer to 100 ns. This value
+>    465		 * should be programmed such that the clk_eee_time_period *
+>    466		 * (MULT_FACT_100NS + 1) should be within 80 ns to 120 ns
+>    467		 * clk_eee frequency is 19.2Mhz
+>    468		 * clk_eee_time_period is 52ns
+>    469		 * 52ns * (1 + 1) = 104ns
+>    470		 * MULT_FACT_100NS = 1
+>    471		 */
+>    472		plat->mult_fact_100ns = 1;
+>    473	
+>    474		plat->rx_sched_algorithm = MTL_RX_ALGORITHM_SP;
+>    475	
+>    476		for (i = 0; i < plat->rx_queues_to_use; i++) {
+>    477			plat->rx_queues_cfg[i].mode_to_use = MTL_QUEUE_DCB;
+>    478			plat->rx_queues_cfg[i].chan = i;
+>    479	
+>    480			/* Disable Priority config by default */
+>    481			plat->rx_queues_cfg[i].use_prio = false;
+>    482	
+>    483			/* Disable RX queues routing by default */
+>    484			plat->rx_queues_cfg[i].pkt_route = 0x0;
+>    485		}
+>    486	
+>    487		for (i = 0; i < plat->tx_queues_to_use; i++) {
+>    488			plat->tx_queues_cfg[i].mode_to_use = MTL_QUEUE_DCB;
+>    489	
+>    490			/* Disable Priority config by default */
+>    491			plat->tx_queues_cfg[i].use_prio = false;
+>    492			/* Default TX Q0 to use TSO and rest TXQ for TBS */
+>    493			if (i > 0)
+>    494				plat->tx_queues_cfg[i].tbs_en = 1;
+>    495		}
+>    496	
+>    497		/* FIFO size is 4096 bytes for 1 tx/rx queue */
+>    498		plat->tx_fifo_size = plat->tx_queues_to_use * 4096;
+>    499		plat->rx_fifo_size = plat->rx_queues_to_use * 4096;
+>    500	
+>    501		plat->tx_sched_algorithm = MTL_TX_ALGORITHM_WRR;
+>    502		plat->tx_queues_cfg[0].weight = 0x09;
+>    503		plat->tx_queues_cfg[1].weight = 0x0A;
+>    504		plat->tx_queues_cfg[2].weight = 0x0B;
+>    505		plat->tx_queues_cfg[3].weight = 0x0C;
+>    506		plat->tx_queues_cfg[4].weight = 0x0D;
+>    507		plat->tx_queues_cfg[5].weight = 0x0E;
+>    508		plat->tx_queues_cfg[6].weight = 0x0F;
+>    509		plat->tx_queues_cfg[7].weight = 0x10;
+>    510	
+>    511		plat->dma_cfg->pbl = 32;
+>    512		plat->dma_cfg->pblx8 = true;
+>    513		plat->dma_cfg->fixed_burst = 0;
+>    514		plat->dma_cfg->mixed_burst = 0;
+>    515		plat->dma_cfg->aal = 0;
+>    516		plat->dma_cfg->dche = true;
+>    517	
+>    518		plat->axi = devm_kzalloc(&pdev->dev, sizeof(*plat->axi),
+>    519					 GFP_KERNEL);
+>    520		if (!plat->axi)
+>    521			return -ENOMEM;
+>    522	
+>    523		plat->axi->axi_lpi_en = 0;
+>    524		plat->axi->axi_xit_frm = 0;
+>    525		plat->axi->axi_wr_osr_lmt = 1;
+>    526		plat->axi->axi_rd_osr_lmt = 1;
+>    527		plat->axi->axi_blen[0] = 4;
+>    528		plat->axi->axi_blen[1] = 8;
+>    529		plat->axi->axi_blen[2] = 16;
+>    530	
+>    531		plat->ptp_max_adj = plat->clk_ptp_rate;
+>    532		plat->eee_usecs_rate = plat->clk_ptp_rate;
+>    533	
+>    534		/* Set system clock */
+>    535		sprintf(clk_name, "%s-%s", "stmmac", pci_name(pdev));
+>    536	
+>    537		plat->stmmac_clk = clk_register_fixed_rate(&pdev->dev,
+>    538							   clk_name, NULL, 0,
+>    539							   plat->clk_ptp_rate);
+>    540	
+>    541		if (IS_ERR(plat->stmmac_clk)) {
+>    542			dev_warn(&pdev->dev, "Fail to register stmmac-clk\n");
+>    543			plat->stmmac_clk = NULL;
+>    544		}
+>    545	
+>    546		ret = clk_prepare_enable(plat->stmmac_clk);
+>    547		if (ret) {
+>    548			clk_unregister_fixed_rate(plat->stmmac_clk);
+>    549			return ret;
+>    550		}
+>    551	
+>    552		plat->ptp_clk_freq_config = intel_mgbe_ptp_clk_freq_config;
+>    553	
+>    554		/* Set default value for multicast hash bins */
+>    555		plat->multicast_filter_bins = HASH_TABLE_SIZE;
+>    556	
+>    557		/* Set default value for unicast filter entries */
+>    558		plat->unicast_filter_entries = 1;
+>    559	
+>    560		/* Set the maxmtu to a default of JUMBO_LEN */
+>    561		plat->maxmtu = JUMBO_LEN;
+>    562	
+>    563		plat->flags |= STMMAC_FLAG_VLAN_FAIL_Q_EN;
+>    564	
+>    565		/* Use the last Rx queue */
+>    566		plat->vlan_fail_q = plat->rx_queues_to_use - 1;
+>    567	
+>    568		/* For fixed-link setup, we allow phy-mode setting */
+>    569		fwnode = dev_fwnode(&pdev->dev);
+>    570		if (fwnode) {
+>    571			int phy_mode;
+>    572	
+>    573			/* "phy-mode" setting is optional. If it is set,
+>    574			 *  we allow either sgmii or 1000base-x for now.
+>    575			 */
+>    576			phy_mode = fwnode_get_phy_mode(fwnode);
+>    577			if (phy_mode >= 0) {
+>    578				if (phy_mode == PHY_INTERFACE_MODE_SGMII ||
+>    579				    phy_mode == PHY_INTERFACE_MODE_1000BASEX)
+>    580					plat->phy_interface = phy_mode;
+>    581				else
+>    582					dev_warn(&pdev->dev, "Invalid phy-mode\n");
+>    583			}
+>    584		}
+>    585	
+>    586		/* Intel mgbe SGMII interface uses pcs-xcps */
+>    587		if (plat->phy_interface == PHY_INTERFACE_MODE_SGMII ||
+>    588		    plat->phy_interface == PHY_INTERFACE_MODE_1000BASEX) {
+>    589			struct mdio_board_info *xpcs_info;
+>    590	
+>    591			xpcs_info = devm_kzalloc(&pdev->dev,
+>    592						 sizeof(*xpcs_info) + MII_BUS_ID_SIZE,
+>    593						 GFP_KERNEL);
+>    594			if (!xpcs_info) {
+>    595				ret = -ENOMEM;
+>    596				goto err_alloc_info;
+>    597			}
+>    598	
+>    599			xpcs_info->bus_id = (void *)xpcs_info + sizeof(*xpcs_info);
+>    600			snprintf((char *)xpcs_info->bus_id, MII_BUS_ID_SIZE,
+>    601				 "stmmac-%x", plat->bus_id);
+>    602	
+>    603			snprintf(xpcs_info->modalias, MDIO_NAME_SIZE, "dwxpcs");
+>    604	
+>    605			xpcs_info->mdio_addr = INTEL_MGBE_XPCS_ADDR;
+>    606	
+>    607			ret = mdiobus_register_board_info(xpcs_info, 1);
+>    608			if (ret)
+>    609				goto err_alloc_info;
+>    610	
+>    611			plat->mdio_bus_data->has_xpcs = true;
+>    612			plat->mdio_bus_data->xpcs_an_inband = true;
+>    613		}
+>    614	
+>    615		/* For fixed-link setup, we clear xpcs_an_inband */
+>    616		if (fwnode) {
+>    617			struct fwnode_handle *fixed_node;
+>    618	
+>    619			fixed_node = fwnode_get_named_child_node(fwnode, "fixed-link");
+>    620			if (fixed_node)
+>    621				plat->mdio_bus_data->xpcs_an_inband = false;
+>    622	
+>    623			fwnode_handle_put(fixed_node);
+>    624		}
+>    625	
+>    626		/* Ensure mdio bus PHY-scan skips intel serdes and pcs-xpcs */
+>    627		plat->mdio_bus_data->phy_mask = 1 << INTEL_MGBE_ADHOC_ADDR;
+>    628		plat->mdio_bus_data->phy_mask |= 1 << INTEL_MGBE_XPCS_ADDR;
+>    629	
+>    630		plat->int_snapshot_num = AUX_SNAPSHOT1;
+>    631	
+>    632		plat->crosststamp = intel_crosststamp;
+>    633		plat->flags &= ~STMMAC_FLAG_INT_SNAPSHOT_EN;
+>    634	
+>    635		/* Setup MSI vector offset specific to Intel mGbE controller */
+>    636		plat->msi_mac_vec = 29;
+>    637		plat->msi_lpi_vec = 28;
+>    638		plat->msi_sfty_ce_vec = 27;
+>    639		plat->msi_sfty_ue_vec = 26;
+>    640		plat->msi_rx_base_vec = 0;
+>    641		plat->msi_tx_base_vec = 1;
+>    642	
+>    643		return 0;
+>    644	
+>    645	err_alloc_info:
+>  > 646		clk_disable_unprepare(clk);
+>    647		clk_unregister_fixed_rate(clk);
+>    648	
+>    649		return ret;
+>    650	}
+>    651	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
