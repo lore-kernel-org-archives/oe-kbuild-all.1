@@ -1,65 +1,46 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18EE4436F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 14:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A53101DE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 14:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IeFTFG21"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50bf37fd2bbso1017684e87.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Dec 2023 06:37:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701959827; x=1702564627; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P/n/DJfS500DzkD8o2lIXV8iW85crXSXBVQD2G7alNw=;
-        b=IeFTFG21JgYIL6Q5hOZfAK7fy2OaFPdSvXE3lHjN9dX1q4/VKf1d62GPd5US3jQwWT
-         T8nLdP6XZ1sAN5pj9GTqqo1pgz4/guFdpaF7oyT3g9iAcPekiAfxSGe0joCN5JHuXs2x
-         zso4L3hBsbQECxHRdDQPW3HmAYCyct/XUU+tbwr/y4r0vqzo5tk8yfcHpAcp7kiSSMxW
-         rC7HBYzE9Guc1mKdMU+kL6oQYb7VIKEPffB1eHya0Vbw6NkKrMi/qmQyEtfSuVHiNpIh
-         at3pg0wpmGbo3vLuSMirgwu4W794KA/kxT+DhL+pp7d/BIRdyW8+6CC0t1rzM3/2IY8I
-         LEow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701959827; x=1702564627;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P/n/DJfS500DzkD8o2lIXV8iW85crXSXBVQD2G7alNw=;
-        b=Jbob9/z51+0P2yU50ofd8k+MSxf3cHbw9BeGh2qFFSHgFi9tTdbmzV5f45rVAYyTXh
-         czgdhTt/G2OBtzqoOUAvhNjB+A7uasJqXY8eKDZ0BUs4SEnKZ7OwV/TSu4dw0UmyOVrV
-         TUYQW+5RThZaq6je9o/HB0Dop7VZly+SUQrve1V9wkoTSMwEtNghxZ82zgqqJ6c00AVf
-         ZDesshvc7xFrl7go1PrrbJorA/7o4nbjpxC5pMKVohh101uDFmbkEGC9OZ4NpmEC2sb4
-         KnPQypsk2EiQ8ujAVH1IngDXxQQFpK/nydQnUT7DgNoqxC3iL0ksydwCpcEm6PpsbTNK
-         qh9Q==
-X-Gm-Message-State: AOJu0YwQk22U/2VFXFm9/pOYlrDD3xCO6P2z2WYn10K6EIhy7oUAsCJK
-	4gco42i3XBu0pB1hdmV2MjQ=
-X-Google-Smtp-Source: AGHT+IGovfLmkKIpNWXQzCi7+4Z29EuCi9BtTtr8LpMmdT8CKQjdK8hgB4jjJwsDKG30N8bWSXmUog==
-X-Received: by 2002:a05:6512:230a:b0:50b:c8a0:5657 with SMTP id o10-20020a056512230a00b0050bc8a05657mr2022447lfu.17.1701959827365;
-        Thu, 07 Dec 2023 06:37:07 -0800 (PST)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id q9-20020a0565123a8900b0050c0bbbe3d2sm186046lfu.256.2023.12.07.06.37.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 06:37:06 -0800 (PST)
-Date: Thu, 7 Dec 2023 17:37:03 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Vladimir Oltean <olteanv@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next 11/16] net: pcs: xpcs: Change
- xpcs_create_mdiodev() suffix to "byaddr"
-Message-ID: <jiblfzhnqjztssy76dojx6g7vyqgpjymnt4hz6yg6xv2psn3fo@pro373rkjbbq>
-References: <20231205103559.9605-12-fancer.lancer@gmail.com>
- <202312060634.Cblfigt2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/4/JeqX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701960352; x=1733496352;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eAFNe8Mj9Qyd5GReny7fyjVVA+UM88BVsgbXVumjSCU=;
+  b=U/4/JeqXErf1frHzHPhhicrYzmg+5FjbmW71YJEDnewpCEHPOS8zyhJ5
+   dRsQDpY76/VHHKh1Rr+Exumre9xDbyjHWfYBuV0oBiOtpK9tNW9einpDT
+   oqxDYUMAKk1uCy62jx9Aw5j8ZdHskhJlh3wsaB6jWqUNV/0Sb+n/4xRAX
+   0j+PmzKbpxdi+9CU6UZVRg1UTTb+1/7ivZs0uw5KXrApRb2RduyhgZQGK
+   8kUHMKaUJJdwFgHTRsKzrWL9rCextw8eoBzNB4HoslAgI31vO8GMZO4A0
+   W3aljWdhTxcpAA0B3ApzF+TypxVpqDLt3VJBzH6qSYe5d7f3LHYc4d683
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1119751"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="1119751"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 06:45:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1103216860"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="1103216860"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 07 Dec 2023 06:45:50 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBFdM-000CNm-16;
+	Thu, 07 Dec 2023 14:45:48 +0000
+Date: Thu, 7 Dec 2023 22:45:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:for-next 6/7] drivers/reset/sti/reset-syscfg.c:196:1: warning:
+ control reaches end of non-void function
+Message-ID: <202312072209.EZJmUcli-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,89 +49,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202312060634.Cblfigt2-lkp@intel.com>
 
-On Wed, Dec 06, 2023 at 07:03:46AM +0800, kernel test robot wrote:
-> Hi Serge,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/net-pcs-xpcs-Drop-sentinel-entry-from-2500basex-ifaces-list/20231205-183808
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20231205103559.9605-12-fancer.lancer%40gmail.com
-> patch subject: [PATCH net-next 11/16] net: pcs: xpcs: Change xpcs_create_mdiodev() suffix to "byaddr"
-> config: arc-randconfig-001-20231206 (https://download.01.org/0day-ci/archive/20231206/202312060634.Cblfigt2-lkp@intel.com/config)
-> compiler: arc-elf-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060634.Cblfigt2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312060634.Cblfigt2-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
->    drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c: In function 'txgbe_mdio_pcs_init':
-> >> drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:150:16: error: implicit declaration of function 'xpcs_create_mdiodev'; did you mean 'xpcs_create_byaddr'? [-Werror=implicit-function-declaration]
->      150 |         xpcs = xpcs_create_mdiodev(mii_bus, 0, PHY_INTERFACE_MODE_10GBASER);
->          |                ^~~~~~~~~~~~~~~~~~~
->          |                xpcs_create_byaddr
-> >> drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c:150:14: warning: assignment to 'struct dw_xpcs *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->      150 |         xpcs = xpcs_create_mdiodev(mii_bus, 0, PHY_INTERFACE_MODE_10GBASER);
->          |              ^
->    cc1: some warnings being treated as errors
-> 
-> 
-> vim +150 drivers/net/ethernet/wangxun/txgbe/txgbe_phy.c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+head:   6c26cfb1561efbf12fe3cf700ddc2e956866af45
+commit: f793fea7761d32ed64767311c82f39f0798fe6d6 [6/7] of: Stop circularly including of_device.h and of_platform.h
+config: arm-multi_v7_defconfig (https://download.01.org/0day-ci/archive/20231207/202312072209.EZJmUcli-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312072209.EZJmUcli-lkp@intel.com/reproduce)
 
-Ah, right. I had been creating the series some times earlier than this
-code was introduced and just missed it on the last rebase. I'll fix
-this on v2.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312072209.EZJmUcli-lkp@intel.com/
 
--Serge(y)
+All warnings (new ones prefixed by >>):
 
-> 
-> 854cace61387b6 Jiawen Wu      2023-06-06  121  
-> 854cace61387b6 Jiawen Wu      2023-06-06  122  static int txgbe_mdio_pcs_init(struct txgbe *txgbe)
-> 854cace61387b6 Jiawen Wu      2023-06-06  123  {
-> 854cace61387b6 Jiawen Wu      2023-06-06  124  	struct mii_bus *mii_bus;
-> 854cace61387b6 Jiawen Wu      2023-06-06  125  	struct dw_xpcs *xpcs;
-> 854cace61387b6 Jiawen Wu      2023-06-06  126  	struct pci_dev *pdev;
-> 854cace61387b6 Jiawen Wu      2023-06-06  127  	struct wx *wx;
-> 854cace61387b6 Jiawen Wu      2023-06-06  128  	int ret = 0;
-> 854cace61387b6 Jiawen Wu      2023-06-06  129  
-> 854cace61387b6 Jiawen Wu      2023-06-06  130  	wx = txgbe->wx;
-> 854cace61387b6 Jiawen Wu      2023-06-06  131  	pdev = wx->pdev;
-> 854cace61387b6 Jiawen Wu      2023-06-06  132  
-> 854cace61387b6 Jiawen Wu      2023-06-06  133  	mii_bus = devm_mdiobus_alloc(&pdev->dev);
-> 854cace61387b6 Jiawen Wu      2023-06-06  134  	if (!mii_bus)
-> 854cace61387b6 Jiawen Wu      2023-06-06  135  		return -ENOMEM;
-> 854cace61387b6 Jiawen Wu      2023-06-06  136  
-> 854cace61387b6 Jiawen Wu      2023-06-06  137  	mii_bus->name = "txgbe_pcs_mdio_bus";
-> 854cace61387b6 Jiawen Wu      2023-06-06  138  	mii_bus->read_c45 = &txgbe_pcs_read;
-> 854cace61387b6 Jiawen Wu      2023-06-06  139  	mii_bus->write_c45 = &txgbe_pcs_write;
-> 854cace61387b6 Jiawen Wu      2023-06-06  140  	mii_bus->parent = &pdev->dev;
-> 854cace61387b6 Jiawen Wu      2023-06-06  141  	mii_bus->phy_mask = ~0;
-> 854cace61387b6 Jiawen Wu      2023-06-06  142  	mii_bus->priv = wx;
-> 854cace61387b6 Jiawen Wu      2023-06-06  143  	snprintf(mii_bus->id, MII_BUS_ID_SIZE, "txgbe_pcs-%x",
-> d8c21ef7b2b147 Xiongfeng Wang 2023-08-08  144  		 pci_dev_id(pdev));
-> 854cace61387b6 Jiawen Wu      2023-06-06  145  
-> 854cace61387b6 Jiawen Wu      2023-06-06  146  	ret = devm_mdiobus_register(&pdev->dev, mii_bus);
-> 854cace61387b6 Jiawen Wu      2023-06-06  147  	if (ret)
-> 854cace61387b6 Jiawen Wu      2023-06-06  148  		return ret;
-> 854cace61387b6 Jiawen Wu      2023-06-06  149  
-> 854cace61387b6 Jiawen Wu      2023-06-06 @150  	xpcs = xpcs_create_mdiodev(mii_bus, 0, PHY_INTERFACE_MODE_10GBASER);
-> 854cace61387b6 Jiawen Wu      2023-06-06  151  	if (IS_ERR(xpcs))
-> 854cace61387b6 Jiawen Wu      2023-06-06  152  		return PTR_ERR(xpcs);
-> 854cace61387b6 Jiawen Wu      2023-06-06  153  
-> 854cace61387b6 Jiawen Wu      2023-06-06  154  	txgbe->xpcs = xpcs;
-> 854cace61387b6 Jiawen Wu      2023-06-06  155  
-> 854cace61387b6 Jiawen Wu      2023-06-06  156  	return 0;
-> 854cace61387b6 Jiawen Wu      2023-06-06  157  }
-> 854cace61387b6 Jiawen Wu      2023-06-06  158  
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+   drivers/reset/sti/reset-syscfg.c: In function 'syscfg_reset_probe':
+   drivers/reset/sti/reset-syscfg.c:192:29: error: invalid use of undefined type 'const struct of_device_id'
+     192 |         if (!match || !match->data)
+         |                             ^~
+   drivers/reset/sti/reset-syscfg.c:195:59: error: invalid use of undefined type 'const struct of_device_id'
+     195 |         return syscfg_reset_controller_register(dev, match->data);
+         |                                                           ^~
+>> drivers/reset/sti/reset-syscfg.c:196:1: warning: control reaches end of non-void function [-Wreturn-type]
+     196 | }
+         | ^
+
+
+vim +196 drivers/reset/sti/reset-syscfg.c
+
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  182  
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  183  int syscfg_reset_probe(struct platform_device *pdev)
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  184  {
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  185  	struct device *dev = pdev ? &pdev->dev : NULL;
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  186  	const struct of_device_id *match;
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  187  
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  188  	if (!dev || !dev->driver)
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  189  		return -ENODEV;
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  190  
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  191  	match = of_match_device(dev->driver->of_match_table, dev);
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  192  	if (!match || !match->data)
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  193  		return -EINVAL;
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  194  
+e5d76075d9300a4 Stephen Gallimore 2013-08-07  195  	return syscfg_reset_controller_register(dev, match->data);
+e5d76075d9300a4 Stephen Gallimore 2013-08-07 @196  }
+
+:::::: The code at line 196 was first introduced by commit
+:::::: e5d76075d9300a483619f7f308a693311af9c2cb drivers: reset: STi SoC system configuration reset controller support
+
+:::::: TO: Stephen Gallimore <stephen.gallimore@st.com>
+:::::: CC: Srinivas Kandagatla <srinivas.kandagatla@st.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
