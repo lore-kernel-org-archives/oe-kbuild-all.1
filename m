@@ -1,81 +1,116 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B6D46BA8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 19:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400444E60E;
+	Thu,  7 Dec 2023 19:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YBHmbshd"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2c9f559b82cso13644311fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Dec 2023 11:10:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701976246; x=1702581046; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OfswJHbbaE8lthgCuxsCEF+7HdLrX0KCYICyRwFYL8Q=;
-        b=YBHmbshdIbC4VGyZ4IUnSwfC4MzncuM2Icq3IUHn43iRYvuay0xbud4bdsT028x1rG
-         rJKCrxYFyHobP92/mu6fmtmwAFonHKQ1EhUuR00+D/j1h0zAvkwHTewJy7C0zD04VFHk
-         saxloY1DEyxqSEaWUINs53B7VzJjzC0Bq7flAYJHWekyuegFwlVRCpQpSemOMSfmbtUg
-         liGv7kIQkRrQDTRSRcc3MDogJhiD7cRqNyu0U8alAUVhRmuIaEtYqSAnr1ZlLoJK1Qca
-         FvIBMKNDCc85kNYHXJ4d2Yocez7HJhPXBkRUODgwt6R2Hf2G8l6LyjEZbKmjBVEoW2Bz
-         ETSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701976246; x=1702581046;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OfswJHbbaE8lthgCuxsCEF+7HdLrX0KCYICyRwFYL8Q=;
-        b=HRAZGRsmgR3Qx19hSbVGxv3k7u5BIK8Pc7AIM4A2e4JkpyX/paJNs9tQ5RwLQRptQh
-         q9vE5wiM/HsMTgUY5cOaHIWD8AoJGgItuOICo1xHsEnnC++C3ygVi6KhF498iyL4SPJP
-         R4D0DkjTH6JYUcSWMoTWwh9cFi0LduCgyWCZ41NE1iMJd5PJtdQrQ2yCxHstao33fMz3
-         flqJB+Z8gG2JHRjmgo/23arxcvdqo8VC6eWNadMl+8X11ew+URiZIx9JX7KEfKTC76Og
-         /EO5hJAlMauZrPZ+Si0106Y5F9i7D+jD89dteZfMnuZNebzOwFPp5zeBQ57G6LDYOn6B
-         bbWA==
-X-Gm-Message-State: AOJu0YwZDwpYvyttSXanWqoXnzDYAg5vWiIUPpcWx0WU/46I6CWFWfEu
-	nwtInuia9QNPsHJLmqvwFFlO/A==
-X-Google-Smtp-Source: AGHT+IHHZzDwVjEoqj5L0COX7ANyUFp8QKEMmxG3cMwdjoXkbsmuUH84Uxh48VDZssIMNDNTOto8AQ==
-X-Received: by 2002:a2e:9991:0:b0:2c9:c8f4:1c0c with SMTP id w17-20020a2e9991000000b002c9c8f41c0cmr1649768lji.32.1701976246456;
-        Thu, 07 Dec 2023 11:10:46 -0800 (PST)
-Received: from [172.30.205.181] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id o18-20020a2e9b52000000b002c9f75a48fcsm23408ljj.16.2023.12.07.11.10.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 11:10:45 -0800 (PST)
-Message-ID: <014a4a44-0da2-49e9-ab1c-f4cc1ca2e218@linaro.org>
-Date: Thu, 7 Dec 2023 20:10:41 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4ECxeh4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701977449; x=1733513449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dQJzpPCJi2DcWLmi+tpSUDnGySOo5HoMcMdxmPpeqDs=;
+  b=C4ECxeh40vXZ5roxy2D9fLgxq06aihaOSzQYAPm+tSnUCOSFRhAOrgIw
+   FhkI85fwvcSU5gd1D+736HLCnRVDs2Mfb8COmfrJ/mtJO94m8syCoqVNo
+   fWRwIaZ+mtWBPgFQ/ANI1b+efK8BsK6EcrVMDwuJDGyFQyhzdNTZ59efK
+   5DtksA0vR38p/uuCxwbU0Cs7wTCIrikJ+8LPmCK6r0OqKvSknCkGYjR37
+   QRQO4+XyP73Hlp2HNiBnJDnIMqM5MMGNe4gZ54Hmle10r/CWINPKubwqt
+   kYE3g1pUXKjlFMWujfFhNwMltJ8lnCaB7MjdPpM4z9a+HCn9YlWJNs8mL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="373791327"
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="373791327"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 11:30:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="13216355"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 07 Dec 2023 11:30:45 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBK54-000Cjl-2R;
+	Thu, 07 Dec 2023 19:30:42 +0000
+Date: Fri, 8 Dec 2023 03:30:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xiaolei Wang <xiaolei.wang@windriver.com>, rafael@kernel.org,
+	pavel@ucw.cz, len.brown@intel.com, peterz@infradead.org,
+	mingo@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] freezer,sched: Move state information judgment outside
+ task_call_func
+Message-ID: <202312080347.yJvIjGb3-lkp@intel.com>
+References: <20231207111634.667057-1-xiaolei.wang@windriver.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] interconnect: qcom: Add MSM8909 interconnect provider
- driver
-To: kernel test robot <lkp@intel.com>,
- Stephan Gerhold <stephan.gerhold@kernkonzept.com>,
- Georgi Djakov <djakov@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Adam Skladowski <a39.skl@gmail.com>
-References: <20231206-icc-msm8909-v1-2-fe0dd632beff@kernkonzept.com>
- <202312071325.M9cg1wry-lkp@intel.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <202312071325.M9cg1wry-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231207111634.667057-1-xiaolei.wang@windriver.com>
+
+Hi Xiaolei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7-rc4 next-20231207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiaolei-Wang/freezer-sched-Move-state-information-judgment-outside-task_call_func/20231207-191924
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231207111634.667057-1-xiaolei.wang%40windriver.com
+patch subject: [PATCH] freezer,sched: Move state information judgment outside task_call_func
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231208/202312080347.yJvIjGb3-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080347.yJvIjGb3-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080347.yJvIjGb3-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/freezer.c:125:30: error: no member named 'lockdep_depth' in 'struct task_struct'
+           p_check->lockdep_depth = p->lockdep_depth;
+                                    ~  ^
+   1 error generated.
 
 
+vim +125 kernel/freezer.c
 
-On 12/7/23 07:06, kernel test robot wrote:
-> Hi Stephan,
-> 
-> kernel test robot noticed the following build errors:
-(.remove -> .remove_new)
+   107	
+   108	static int __set_task_frozen(struct task_struct *p, void *arg)
+   109	{
+   110		unsigned int state = READ_ONCE(p->__state);
+   111		struct task_freeze_check *p_check = arg;
+   112	
+   113		if (p->on_rq)
+   114			return 0;
+   115	
+   116		if (p != current && task_curr(p))
+   117			return 0;
+   118	
+   119		if (!(state & (TASK_FREEZABLE | __TASK_STOPPED | __TASK_TRACED)))
+   120			return 0;
+   121	
+   122		p->saved_state = p->__state;
+   123		WRITE_ONCE(p->__state, TASK_FROZEN);
+   124		p_check->state = p->__state;
+ > 125		p_check->lockdep_depth = p->lockdep_depth;
+   126		return TASK_FROZEN;
+   127	}
+   128	
 
-Konrad
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
