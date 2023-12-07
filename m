@@ -1,47 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC05168AA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 16:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C7946BAE;
+	Thu,  7 Dec 2023 16:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nBZtSz7j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MseZB7+K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701967660; x=1733503660;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PvTPXJLiWcY6eGFwYwrLpaMyezRPK5gst27sybqXNnk=;
-  b=nBZtSz7j4LgVZxL8omHSuLOkbenoHJIHG9NM07vBChALoNuT07YZymzU
-   NgRojRcFTk9tVvnz7hGXOcX9NP8jSS/czfiV3DD4h9zcQ3g9nOyUfm2HY
-   hbuvqvidpLXO3C7IFGMvpJz1EFjV2jbwRJCWEu7pTiu2gcWVDp51dwkVM
-   G0cySXrhWKkID268g+Q/2nzf0FFHsHZOjLOUJXI8yONdbirKrAJA8A6jO
-   D992WXYD0+b4BRpZmXWEUNlqVUB6fHAmaH+/fPmliQ0iwLxSCXVKXJ5MM
-   MD6ZkQFQmdzcdvUog9194LubZXoXACtjanF7NCCMhB4ltwKmsIroJ5x1f
+  t=1701968262; x=1733504262;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Gz/YhlEPqHemYXUvHjjd7D2SyWR2QGO2GITEF/SCnbY=;
+  b=MseZB7+Ky0+c1Bd6J17kAMR0tTSv6k34qNmT+T0G8jWAGWD5uJO1ABx8
+   7IMobCRAUVQlM4VayuKivp+7mEktUSIWeirZIW65rQVgNV8Wnb7vQAcLt
+   GJps9plRapFoN8cwmOGA2wIs1/9HZ6TsX/XkbCFHfq+F9BefUyxFn3Ut3
+   F+rVXcepRx5oVsamftS+KsY7osT9Y6VXtas+g9cDvARdK7VtXnk7Y4xxu
+   onJuJMza9vtTxoeRPfe7WAIUZNw7ESLUqgjC38ZcHjdOJwRQXtYgbnm8q
+   iFywbgrSk5SKYcyIoSlZ41iuU6HxS37C2vM5dldHqia9V8gl03bUB553U
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="373759402"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="373761372"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="373759402"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 08:47:39 -0800
+   d="scan'208";a="373761372"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 08:57:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="775477115"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1019018026"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="775477115"
+   d="scan'208";a="1019018026"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Dec 2023 08:47:38 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2023 08:57:38 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBHXE-000CYQ-0H;
-	Thu, 07 Dec 2023 16:47:36 +0000
-Date: Fri, 8 Dec 2023 00:46:49 +0800
+	id 1rBHgu-000CYl-11;
+	Thu, 07 Dec 2023 16:57:36 +0000
+Date: Fri, 8 Dec 2023 00:57:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ondrej Zary <linux@zary.sk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Subject: drivers/ata/pata_parport/frpw.c:210 frpw_test_pnp() warn:
- inconsistent indenting
-Message-ID: <202312080025.lkfHiW4A-lkp@intel.com>
+To: Stephan Gerhold <stephan.gerhold@kernkonzept.com>,
+	Georgi Djakov <djakov@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Adam Skladowski <a39.skl@gmail.com>,
+	Stephan Gerhold <stephan.gerhold@kernkonzept.com>
+Subject: Re: [PATCH 2/2] interconnect: qcom: Add MSM8909 interconnect
+ provider driver
+Message-ID: <202312080018.m4nXAKLG-lkp@intel.com>
+References: <20231206-icc-msm8909-v1-2-fe0dd632beff@kernkonzept.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,49 +61,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231206-icc-msm8909-v1-2-fe0dd632beff@kernkonzept.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: 72f2b0b2185099dce354c805009f591dda3ab73d drivers/block: Move PARIDE protocol modules to drivers/ata/pata_parport
-date:   10 months ago
-config: arm-randconfig-r071-20231130 (https://download.01.org/0day-ci/archive/20231208/202312080025.lkfHiW4A-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080025.lkfHiW4A-lkp@intel.com/reproduce)
+Hi Stephan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on feaf241ae2da2a73cb421473f52a4732128a996f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stephan-Gerhold/dt-bindings-interconnect-Add-Qualcomm-MSM8909-DT-bindings/20231206-223626
+base:   feaf241ae2da2a73cb421473f52a4732128a996f
+patch link:    https://lore.kernel.org/r/20231206-icc-msm8909-v1-2-fe0dd632beff%40kernkonzept.com
+patch subject: [PATCH 2/2] interconnect: qcom: Add MSM8909 interconnect provider driver
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231208/202312080018.m4nXAKLG-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080018.m4nXAKLG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080025.lkfHiW4A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080018.m4nXAKLG-lkp@intel.com/
 
-smatch warnings:
-drivers/ata/pata_parport/frpw.c:210 frpw_test_pnp() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +210 drivers/ata/pata_parport/frpw.c
+>> drivers/interconnect/qcom/msm8909.c:1319:12: error: incompatible function pointer types initializing 'int (*)(struct platform_device *)' with an expression of type 'void (struct platform_device *)' [-Wincompatible-function-pointer-types]
+    1319 |         .remove = qnoc_remove,
+         |                   ^~~~~~~~~~~
+   1 error generated.
 
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  201  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  202  	olddelay = pi->delay;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  203  	pi->delay = 10;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  204  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  205  	pi->saved_r0 = r0();
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  206          pi->saved_r2 = r2();
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  207  	
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  208  	w2(4); w0(4); w2(6); w2(7);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  209  	a = r1() & 0xff; w2(4); b = r1() & 0xff;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16 @210  	w2(0xc); w2(0xe); w2(4);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  211  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  212  	pi->delay = olddelay;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  213          w0(pi->saved_r0);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  214          w2(pi->saved_r2);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  215  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  216  	return ((~a&0x40) && (b&0x40));
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  217  } 
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  218  
 
-:::::: The code at line 210 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+vim +1319 drivers/interconnect/qcom/msm8909.c
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  1316	
+  1317	static struct platform_driver msm8909_noc_driver = {
+  1318		.probe = qnoc_probe,
+> 1319		.remove = qnoc_remove,
+  1320		.driver = {
+  1321			.name = "qnoc-msm8909",
+  1322			.of_match_table = msm8909_noc_of_match,
+  1323			.sync_state = icc_sync_state,
+  1324		},
+  1325	};
+  1326	module_platform_driver(msm8909_noc_driver);
+  1327	
 
 -- 
 0-DAY CI Kernel Test Service
