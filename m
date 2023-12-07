@@ -1,123 +1,144 @@
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A74A46B88
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 19:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB89A3EA72
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 19:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="wh/iLTry"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
-	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
-	:Date:subject:date:message-id:reply-to;
-	bh=EmYqNryA82Op86uYZ0H5QaMB/eSGzqR2n7W9jmjjGtc=; b=wh/iLTrypcg5XadryGWrJkhJVa
-	rZHwx+Ai/6dWZ9EkIvp9Ab2mheaxrAPnEB+YUPYlZZ503VinNenUtB0TRJrb66+k+QMMkBbXdDGIB
-	cSxcxLUI4ZezRXZ1fOSkjr7IhHddQ3RmcvS8o7BiPcyuNqh9zoTC0HMAet1eEROJNxww=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:37728 helo=pettiford)
-	by mail.hugovil.com with esmtpa (Exim 4.92)
-	(envelope-from <hugo@hugovil.com>)
-	id 1rBJdd-0008TT-6y; Thu, 07 Dec 2023 14:02:22 -0500
-Date: Thu, 7 Dec 2023 14:02:20 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, hvilleneuve@dimonoff.com,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org, stable@vger.kernel.org
-Message-Id: <20231207140220.370a61e0ca32bfd36ee8dbaf@hugovil.com>
-In-Reply-To: <CAHp75VebCZckUrNraYQj9k=Mrn2kbYs1Lx26f5-8rKJ3RXeh-w@mail.gmail.com>
-References: <20231130191050.3165862-2-hugo@hugovil.com>
-	<202312061443.Cknef7Uq-lkp@intel.com>
-	<20231207125243.c056d5cd0f875ea6dfdfa194@hugovil.com>
-	<CAHp75VebCZckUrNraYQj9k=Mrn2kbYs1Lx26f5-8rKJ3RXeh-w@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MV6LSP0V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701976071; x=1733512071;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pmpl+6ezX0Ah9BkO+Ag8eq4zTiI/Wi2kFTYQxpuuf98=;
+  b=MV6LSP0V/1DWVUmNVg1DNc955S0SdNZKDOIzsDN4B/ofiTyMk8fZ0rda
+   rYNEdQDlo3aq+hAbF7cDEdb95fKtzd5ZefkTA8tBw3b3O0FMhsDbiDYcl
+   esjZ2tg4D2YBe8rqHhKLyN/K1QYlb7SUh4sklWHrm1ZRT3tMjDczaHg4N
+   M1AniVghCDCDYHZJcomrocOGTtzIynqY2e5qcA2L9U5BU96O0exe1iCF4
+   MkOjHy9WjcC7Y3j3346zZlaroRghfTQU1RU2t4SH0ur+502C21az6le2l
+   nFWYz6vB6bfsCoJlJp5Yhoor54brHgFhWYz4rIAQo0hWDF+I/wEkWXWfI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1357820"
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="1357820"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 11:07:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="895246434"
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="895246434"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 07 Dec 2023 11:07:44 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBJio-000CiZ-06;
+	Thu, 07 Dec 2023 19:07:42 +0000
+Date: Fri, 8 Dec 2023 03:06:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Romain Gantois <romain.gantois@bootlin.com>, davem@davemloft.net,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Luka Perkov <luka.perkov@sartura.hr>,
+	Robert Marko <robert.marko@sartura.hr>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>
+Subject: Re: [PATCH net-next v3 5/8] net: qualcomm: ipqess: add bridge
+ offloading features to the IPQESS driver
+Message-ID: <202312080233.sRrkY9Q5-lkp@intel.com>
+References: <20231114105600.1012056-6-romain.gantois@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Level: 
-X-Spam-Report: 
-	*  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-	*      blocklist
-	*      [URIs: hugovil.com]
-	*  0.1 URIBL_CSS Contains an URL's NS IP listed in the Spamhaus CSS
-	*      blocklist
-	*      [URIs: hugovil.com]
-	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-	* -0.0 T_SCC_BODY_TEXT_LINE No description available.
-	* -2.3 NICE_REPLY_A Looks like a legit reply (A)
-Subject: Re: [PATCH 1/7] serial: sc16is7xx: fix snprintf format specifier in
- sc16is7xx_regmap_name()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231114105600.1012056-6-romain.gantois@bootlin.com>
 
-On Thu, 7 Dec 2023 20:24:45 +0200
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+Hi Romain,
 
-> On Thu, Dec 7, 2023 at 7:52 PM Hugo Villeneuve <hugo@hugovil.com> wrote:
-> > On Wed, 6 Dec 2023 14:29:39 +0800
-> > kernel test robot <lkp@intel.com> wrote:
-> 
-> ...
-> 
-> > >    drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_i2c_probe':
-> > > >> drivers/tty/serial/sc16is7xx.c:1703:41: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
-> > >     1703 |         snprintf(buf, sizeof(buf), "port%u", port_id);
-> > >          |                                         ^~
-> > >    In function 'sc16is7xx_regmap_name',
-> > >        inlined from 'sc16is7xx_i2c_probe' at drivers/tty/serial/sc16is7xx.c:1805:17:
-> > >    drivers/tty/serial/sc16is7xx.c:1703:36: note: directive argument in the range [0, 4294967294]
-> > >     1703 |         snprintf(buf, sizeof(buf), "port%u", port_id);
-> > >          |                                    ^~~~~~~~
-> > >    drivers/tty/serial/sc16is7xx.c:1703:9: note: 'snprintf' output between 6 and 15 bytes into a destination of size 6
-> > >     1703 |         snprintf(buf, sizeof(buf), "port%u", port_id);
-> > >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > Hi,
-> > the only solution I could find is to add this line just before snprintf:
-> >
-> >     BUG_ON(port_id > MAX310X_MAX_PORTS);
-> >
-> > it allows us to have the smallest buffer size possible.
-> >
-> > One other solution would be to change port_id from "unsigned int"
-> > to "u8", and increase the buffer by an additional 2 bytes to silence
-> > the warning, but then wasting 2 bytes for each channel, like so:
-> 
-> I didn't get this. It's a buffer that is rewritten on each port (why
-> is it even static?). Just make sure it's enough for any given number
-> and drop the static.
+kernel test robot noticed the following build warnings:
 
-Yes, using static is not appropriate, as regmap will copy each name
-into its internal buffer.
+[auto build test WARNING on net-next/main]
 
-I will drop the static and refactor the code accordingly.
+url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-net-Introduce-the-Qualcomm-IPQESS-Ethernet-switch/20231114-185953
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231114105600.1012056-6-romain.gantois%40bootlin.com
+patch subject: [PATCH net-next v3 5/8] net: qualcomm: ipqess: add bridge offloading features to the IPQESS driver
+config: arc-randconfig-r112-20231116 (https://download.01.org/0day-ci/archive/20231208/202312080233.sRrkY9Q5-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080233.sRrkY9Q5-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080233.sRrkY9Q5-lkp@intel.com/
 
-> While at it, can you look at the following items to improve?
-> - sc16is7xx_alloc_line() can be updated to use IDA framework
-> - move return xxx; to the default cases in a few functions
-> - if (div > 0xffff) { --> if (div >= BIT(16)) { as it better shows why
-> the limit is that (we have only 16 bits for the divider)
-> - do {} while (0) in the sc16is7xx_port_irq, WTH?!
-> - while (1) { -- do { } while (keep_polling); in sc16is7xx_irq()
-> - use in_range() in sc16is7xx_setup_mctrl_ports() ? (maybe not, dunno)
-> - for (i--; i >= 0; i--) { --> while (i--) {
-> - use spi_get_device_match_data() and i2c_get_match_data()
-> - 15000000 --> 15 * HZ_PER_MHZ ?
-> - dropping MODULE_ALIAS (and fix the ID tables, _if_ needed)
-> - split the code to the core / main + SPI + I2C glue drivers
-> 
-> * These just come on the first glance at the code, perhaps there is
-> more room to improve.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/dsa/qca/qca8k-8xxx.c:1982:5: sparse: sparse: symbol 'qca8k_dsa_port_fdb_dump' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:1988:6: sparse: sparse: symbol 'qca8k_dsa_port_stp_state_set' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:1995:6: sparse: sparse: symbol 'qca8k_dsa_port_fast_age' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2000:5: sparse: sparse: symbol 'qca8k_dsa_set_ageing_time' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2005:5: sparse: sparse: symbol 'qca8k_dsa_port_vlan_filtering' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2012:5: sparse: sparse: symbol 'qca8k_dsa_vlan_add' was not declared. Should it be static?
 
-Ok, no problem, I will have a look at it.
+vim +/qca8k_dsa_port_fdb_dump +1982 drivers/net/dsa/qca/qca8k-8xxx.c
 
-Thank you,
-Hugo Villeneuve
+  1981	
+> 1982	int qca8k_dsa_port_fdb_dump(struct dsa_switch *ds, int port,
+  1983				    dsa_fdb_dump_cb_t *cb, void *data)
+  1984	{
+  1985		return qca8k_port_fdb_dump(ds->priv, port, cb, data);
+  1986	}
+  1987	
+> 1988	void qca8k_dsa_port_stp_state_set(struct dsa_switch *ds, int port,
+  1989					  u8 state)
+  1990	{
+  1991		qca8k_port_stp_state_set(ds->priv, port, state,
+  1992					 dsa_to_port(ds, port)->learning, true);
+  1993	}
+  1994	
+> 1995	void qca8k_dsa_port_fast_age(struct dsa_switch *ds, int port)
+  1996	{
+  1997		qca8k_port_fast_age(ds->priv, port);
+  1998	}
+  1999	
+> 2000	int qca8k_dsa_set_ageing_time(struct dsa_switch *ds, unsigned int msecs)
+  2001	{
+  2002		return qca8k_set_ageing_time(ds->priv, msecs);
+  2003	}
+  2004	
+> 2005	int qca8k_dsa_port_vlan_filtering(struct dsa_switch *ds, int port,
+  2006					  bool vlan_filtering,
+  2007					  struct netlink_ext_ack *extack)
+  2008	{
+  2009		return qca8k_port_vlan_filtering(ds->priv, port, vlan_filtering);
+  2010	}
+  2011	
+> 2012	int qca8k_dsa_vlan_add(struct dsa_switch *ds, int port,
+  2013			       const struct switchdev_obj_port_vlan *vlan,
+  2014			       struct netlink_ext_ack *extack)
+  2015	{
+  2016		return qca8k_port_vlan_add(ds->priv, port, vlan, extack);
+  2017	}
+  2018	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
