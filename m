@@ -1,54 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D3E51C3A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 20:33:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E915027D;
+	Thu,  7 Dec 2023 20:33:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICofDkcL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCt1qvDa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701981237; x=1733517237;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qeIs2qDeHg1aj22+/59U1MW6QQTz1D5Le0uCHUaQkgk=;
-  b=ICofDkcLpcXwR8Oz0N49XFc/P2RgsoedeDKZPP+doQZs7LG7Qfl5Gpc2
-   Il/aGiiIX2kzUOxI9xkZiIuyIUVJpH8WI+fPI7IuVv4rB3sIcplLYlmTW
-   voowrGW8QByhmQOrTpYYKMhiTd30M0fBguT+lEfPLB6PSTUPOrmKl0UWk
-   qgBRRmERGhzFLHP9iBKx6ISSYE5Z+qPeiK9fFw6/WMar5pCZtGZK19Ujx
-   TtutLRPdFWztT0n/tRkMWcv9sa1SakRn1zcWtlsjziAppzjp+3fvk8qhX
-   BbOFIhgfVEDREu66CUCd01xspux179CxLO66Yu1ImeO8GtqH7kfUp4Zxq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1410461"
+  bh=SPK2zasUPN95+NP/auAttA6k+ge4mGcg7RBWFAT4m1U=;
+  b=kCt1qvDaMdXsMYqR0qzhCWCKPUUfuiAzshqVcRXmHgikn76HdK0wlGkI
+   9U7HmXo+1Bx3xakelD7zytH+1A7VPpQG9AfBUMk/yn6H6Hca4rPyTzfim
+   635cwVzfMmA9jUpo04nsII6FES1qpU46dDovJLA0ftkjhoxC6jKwpbCWa
+   O5g5WbEAsy2nAmc5O6FaMpfnjCYUQy8CiOMuH+gUndBYgjrcv8WdVglQF
+   i1Jigwt2F13MHh3hkXUqOPZQ+aVZrrWRzWk/XsMQXUxbTTYcQqZ2XZtYp
+   q8YJpXGdoTJZPO40aLv5oYD/087+V3yRQ//a4zlZN6muW14+id4VukKq7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="379306316"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="1410461"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 12:33:56 -0800
+   d="scan'208";a="379306316"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 12:33:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="771876786"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="915695873"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="771876786"
+   d="scan'208";a="915695873"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 07 Dec 2023 12:33:53 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 07 Dec 2023 12:33:53 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBL4B-000CnZ-1O;
+	id 1rBL4B-000Cnh-1q;
 	Thu, 07 Dec 2023 20:33:51 +0000
-Date: Fri, 8 Dec 2023 04:33:31 +0800
+Date: Fri, 8 Dec 2023 04:33:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Staikov <andrii.staikov@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Drewek Wojciech <wojciech.drewek@intel.com>,
-	Karen Ostrowska <karen.ostrowska@intel.com>, netdev@vger.kernel.org,
-	Andrii Staikov <andrii.staikov@intel.com>,
-	Mateusz Palczewski <mateusz.palczewski@intel.com>,
-	Kitszel Przemyslaw <przemyslaw.kitszel@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH iwl-net v3] i40e: Restore VF MSI-X
- state during PCI reset
-Message-ID: <202312080413.jtUlijX8-lkp@intel.com>
-References: <20231206125127.218350-1-andrii.staikov@intel.com>
+To: RD Babiera <rdbabiera@google.com>, heikki.krogerus@linux.intel.com,
+	linux@roeck-us.net, gregkh@linuxfoundation.org,
+	pmalani@chromium.org, bleung@chromium.org,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, badhri@google.com,
+	tzungbi@kernel.org, utkarsh.h.patel@intel.com,
+	andriy.shevchenko@linux.intel.com,
+	RD Babiera <rdbabiera@google.com>
+Subject: Re: [PATCH v1 01/10] usb: typec: bus: provide transmit type for
+ alternate mode drivers
+Message-ID: <202312080436.1iwq0THA-lkp@intel.com>
+References: <20231207090738.15721-13-rdbabiera@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,63 +58,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231206125127.218350-1-andrii.staikov@intel.com>
+In-Reply-To: <20231207090738.15721-13-rdbabiera@google.com>
 
-Hi Andrii,
+Hi RD,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tnguy-net-queue/dev-queue]
+[auto build test ERROR on 5e4c8814a431d21bfaf20b464134f40f2f81e152]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Staikov/i40e-Restore-VF-MSI-X-state-during-PCI-reset/20231206-205526
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20231206125127.218350-1-andrii.staikov%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-net v3] i40e: Restore VF MSI-X state during PCI reset
-config: powerpc-ppc64_defconfig (https://download.01.org/0day-ci/archive/20231208/202312080413.jtUlijX8-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080413.jtUlijX8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-bus-provide-transmit-type-for-alternate-mode-drivers/20231207-171114
+base:   5e4c8814a431d21bfaf20b464134f40f2f81e152
+patch link:    https://lore.kernel.org/r/20231207090738.15721-13-rdbabiera%40google.com
+patch subject: [PATCH v1 01/10] usb: typec: bus: provide transmit type for alternate mode drivers
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20231208/202312080436.1iwq0THA-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080436.1iwq0THA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080413.jtUlijX8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080436.1iwq0THA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c: In function 'i40e_restore_all_vfs_msi_state':
->> drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:175:58: error: 'struct pci_dev' has no member named 'physfn'; did you mean 'is_physfn'?
-     175 |                         if (vf_dev->is_virtfn && vf_dev->physfn == pdev)
-         |                                                          ^~~~~~
-         |                                                          is_physfn
+>> drivers/usb/typec/ucsi/displayport.c:293:31: error: too few arguments to function call, expected 5, have 4
+                                   dp->vdo_data, dp->vdo_size);
+                                                             ^
+   include/linux/usb/typec_altmode.h:84:5: note: 'typec_altmode_vdm' declared here
+   int typec_altmode_vdm(struct typec_altmode *altmode,
+       ^
+   1 error generated.
 
 
-vim +175 drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c
+vim +293 drivers/usb/typec/ucsi/displayport.c
 
-   156	
-   157	void i40e_restore_all_vfs_msi_state(struct pci_dev *pdev)
-   158	{
-   159		u16 vf_id;
-   160		u16 pos;
-   161	
-   162		/* Continue only if this is a PF */
-   163		if (!pdev->is_physfn)
-   164			return;
-   165	
-   166		if (!pci_num_vf(pdev))
-   167			return;
-   168	
-   169		pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_SRIOV);
-   170		if (pos) {
-   171			struct pci_dev *vf_dev = NULL;
-   172	
-   173			pci_read_config_word(pdev, pos + PCI_SRIOV_VF_DID, &vf_id);
-   174			while ((vf_dev = pci_get_device(pdev->vendor, vf_id, vf_dev))) {
- > 175				if (vf_dev->is_virtfn && vf_dev->physfn == pdev)
-   176					pci_restore_msi_state(vf_dev);
-   177			}
-   178		}
-   179	}
-   180	
+af8622f6a585d8 Heikki Krogerus 2019-04-23  284  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  285  static void ucsi_displayport_work(struct work_struct *work)
+af8622f6a585d8 Heikki Krogerus 2019-04-23  286  {
+af8622f6a585d8 Heikki Krogerus 2019-04-23  287  	struct ucsi_dp *dp = container_of(work, struct ucsi_dp, work);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  288  	int ret;
+af8622f6a585d8 Heikki Krogerus 2019-04-23  289  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  290  	mutex_lock(&dp->con->lock);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  291  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  292  	ret = typec_altmode_vdm(dp->alt, dp->header,
+af8622f6a585d8 Heikki Krogerus 2019-04-23 @293  				dp->vdo_data, dp->vdo_size);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  294  	if (ret)
+af8622f6a585d8 Heikki Krogerus 2019-04-23  295  		dev_err(&dp->alt->dev, "VDM 0x%x failed\n", dp->header);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  296  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  297  	dp->vdo_data = NULL;
+af8622f6a585d8 Heikki Krogerus 2019-04-23  298  	dp->vdo_size = 0;
+af8622f6a585d8 Heikki Krogerus 2019-04-23  299  	dp->header = 0;
+af8622f6a585d8 Heikki Krogerus 2019-04-23  300  
+af8622f6a585d8 Heikki Krogerus 2019-04-23  301  	mutex_unlock(&dp->con->lock);
+af8622f6a585d8 Heikki Krogerus 2019-04-23  302  }
+af8622f6a585d8 Heikki Krogerus 2019-04-23  303  
 
 -- 
 0-DAY CI Kernel Test Service
