@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A7B15CE;
-	Thu,  7 Dec 2023 02:22:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2367185A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 03:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AT1YYdjQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+yo5265"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701915723; x=1733451723;
+  t=1701918293; x=1733454293;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6UJrye13+9he0kh2Bl2TS8SowZ/Hi8F5/t6IqlrwEKk=;
-  b=AT1YYdjQLlrUVXHlp7bo3zfG4uaKESvbULkXF1Uq474HjeIQSYRIB+x8
-   dAYnEoEuG+HXKEqvwrnL1poXLRnAOSb/Rha9CbkKU4Dw1168ftJiC/CTl
-   whRXuoOkkUfvC6QF9d5/C+fRkATRsidK/Z2t4PKdvrW4OYtmfj9uPHC5R
-   q+5bIRriKFocMldeuilMLFhxcRd2aipYVwnS7suTuOYNoecp6En7lwSdE
-   K32yxyWsP0nX/QCLUHBKLhM1j2kCrvf4I8n+3bwV0YKU8NU5pa2vIQkJx
-   lfMsLd1uWO0UJopewsyQH3aWG7B4sSNDKZYU/RLoVE2k6ojbGtxWsokw3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="12873134"
+  bh=btGx1mN4mRDBfHKR7M7XlvEv3Lr1yjgljTWsUjnvY/4=;
+  b=D+yo5265n07fotxSieJLClAliOKfKvmdVOeohzPO7++ViaFSck1BuG1l
+   y6+3GLj5+LLGo0dSAsm2cG3cTpgwJuoJGwj4+2sm2riELkjJ/oJHO6l/7
+   QfC/RnNuycb6r47uLRytMN0Yj7tol6B2kdXg9mvDcVmPI3uYJOOyrRvhb
+   vCluxLHohKvK/LEfwbsj4ZQpgBOdMtfMt0aArnYXneMPlhPzqt32Wnjm2
+   GjIiX33pj+9OKAUTRqHQZhqrPHVllZV3SdrJTb6CG2xWy9HOz3oeQDVww
+   TZ0uToAhySX8Br4c+t27DxVxGQYFAFTcgNf1pBoOPqQAHprVxpSzp+f11
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="393897293"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="12873134"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 18:22:02 -0800
+   d="scan'208";a="393897293"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 19:04:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="747806041"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="747806041"
+   d="scan'208";a="12949534"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 06 Dec 2023 18:22:00 -0800
+  by orviesa002.jf.intel.com with ESMTP; 06 Dec 2023 19:04:52 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rB41T-000Bis-3A;
-	Thu, 07 Dec 2023 02:21:56 +0000
-Date: Thu, 7 Dec 2023 10:21:09 +0800
+	id 1rB4gz-000Bmw-0h;
+	Thu, 07 Dec 2023 03:04:49 +0000
+Date: Thu, 7 Dec 2023 11:04:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sujuan Chen <sujuan.chen@mediatek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Felix Fietkau <nbd@nbd.name>, Rex Lu <rex.lu@mediatek.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: [nbd168-wireless:mt76 58/62]
- drivers/net/wireless/mediatek/mt76/mmio.c:146:39: warning: shift count >=
- width of type
-Message-ID: <202312071044.ks9eUdyG-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/070-audio 90/104]
+ sound/soc/apple/macaudio.c:1449:30: sparse: sparse: symbol
+ 'macaudio_j180_cfg' was not declared. Should it be static?
+Message-ID: <202312071104.D8Md9COf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,161 +50,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/nbd168/wireless mt76
-head:   131c05dd91da2a13df20d4e5671e7c90d510bf69
-commit: 950aaa76922a903f2431d36e9093327dc0e8ff9c [58/62] wifi: mt76: mt7996: set DMA mask to 36 bits for boards with more than 4GB of RAM
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20231207/202312071044.ks9eUdyG-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312071044.ks9eUdyG-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   88e53b5c13659b0092bc49020fbc8ebbfc1abfa6
+commit: 86d3141f31805679637bd118a2665d9ef79a40fd [90/104] macaudio: Rework platform config & add all remaining platforms
+config: openrisc-randconfig-r132-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071104.D8Md9COf-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071104.D8Md9COf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312071044.ks9eUdyG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312071104.D8Md9COf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   sound/soc/apple/macaudio.c:226:6: sparse: sparse: symbol 'macaudio_vlimit_unlock' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:266:6: sparse: sparse: symbol 'macaudio_vlimit_update' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1249:1: sparse: sparse: symbol 'macaudio_spk_mux_enum' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1259:1: sparse: sparse: symbol 'macaudio_hp_mux_enum' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1280:5: sparse: sparse: symbol 'macaudio_sss_info' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1290:5: sparse: sparse: symbol 'macaudio_sss_get' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1305:5: sparse: sparse: symbol 'macaudio_slk_info' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1315:5: sparse: sparse: symbol 'macaudio_slk_put' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1351:5: sparse: sparse: symbol 'macaudio_slk_get' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1361:5: sparse: sparse: symbol 'macaudio_slk_lock' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1383:6: sparse: sparse: symbol 'macaudio_slk_unlock' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1449:30: sparse: sparse: symbol 'macaudio_j180_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1452:30: sparse: sparse: symbol 'macaudio_j274_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1456:30: sparse: sparse: symbol 'macaudio_j293_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1460:30: sparse: sparse: symbol 'macaudio_j313_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1464:30: sparse: sparse: symbol 'macaudio_j314_j316_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1468:30: sparse: sparse: symbol 'macaudio_j37x_j47x_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1472:30: sparse: sparse: symbol 'macaudio_j413_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1476:30: sparse: sparse: symbol 'macaudio_j415_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1480:30: sparse: sparse: symbol 'macaudio_j45x_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1484:30: sparse: sparse: symbol 'macaudio_j493_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1488:30: sparse: sparse: symbol 'macaudio_fallback_cfg' was not declared. Should it be static?
 
-   In file included from drivers/net/wireless/mediatek/mt76/mmio.c:6:
-   In file included from drivers/net/wireless/mediatek/mt76/mt76.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/net/wireless/mediatek/mt76/mmio.c:6:
-   In file included from drivers/net/wireless/mediatek/mt76/mt76.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/net/wireless/mediatek/mt76/mmio.c:6:
-   In file included from drivers/net/wireless/mediatek/mt76/mt76.h:10:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/net/wireless/mediatek/mt76/mmio.c:146:39: warning: shift count >= width of type [-Wshift-count-overflow]
-     146 |                         FIELD_PREP(MT_DMA_CTL_SDP0_H, addr >> 32);
-         |                                                            ^  ~~
-   include/linux/bitfield.h:114:33: note: expanded from macro 'FIELD_PREP'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                                               ^~~~
-   include/linux/bitfield.h:68:41: note: expanded from macro '__BF_FIELD_CHECK'
-      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-         |                                                       ^~~~
-   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                                          ^~~~
-   include/linux/compiler_types.h:435:22: note: expanded from macro 'compiletime_assert'
-     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:423:23: note: expanded from macro '_compiletime_assert'
-     423 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:415:9: note: expanded from macro '__compiletime_assert'
-     415 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
->> drivers/net/wireless/mediatek/mt76/mmio.c:146:39: warning: shift count >= width of type [-Wshift-count-overflow]
-     146 |                         FIELD_PREP(MT_DMA_CTL_SDP0_H, addr >> 32);
-         |                                                            ^  ~~
-   include/linux/bitfield.h:114:33: note: expanded from macro 'FIELD_PREP'
-     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                                               ^~~~
-   include/linux/bitfield.h:69:39: note: expanded from macro '__BF_FIELD_CHECK'
-      69 |                                  ~((_mask) >> __bf_shf(_mask)) & (_val) : 0, \
-         |                                                                   ^~~~
-   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                                          ^~~~
-   include/linux/compiler_types.h:435:22: note: expanded from macro 'compiletime_assert'
-     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                             ^~~~~~~~~
-   include/linux/compiler_types.h:423:23: note: expanded from macro '_compiletime_assert'
-     423 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |                              ^~~~~~~~~
-   include/linux/compiler_types.h:415:9: note: expanded from macro '__compiletime_assert'
-     415 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
->> drivers/net/wireless/mediatek/mt76/mmio.c:146:39: warning: shift count >= width of type [-Wshift-count-overflow]
-     146 |                         FIELD_PREP(MT_DMA_CTL_SDP0_H, addr >> 32);
-         |                                                            ^  ~~
-   include/linux/bitfield.h:115:20: note: expanded from macro 'FIELD_PREP'
-     115 |                 ((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);   \
-         |                                  ^~~~
-   9 warnings generated.
+vim +/macaudio_j180_cfg +1449 sound/soc/apple/macaudio.c
 
-
-vim +146 drivers/net/wireless/mediatek/mt76/mmio.c
-
-   110	
-   111	u32 mt76_mmio_wed_init_rx_buf(struct mtk_wed_device *wed, int size)
-   112	{
-   113		struct mt76_dev *dev = container_of(wed, struct mt76_dev, mmio.wed);
-   114		struct mtk_wed_bm_desc *desc = wed->rx_buf_ring.desc;
-   115		struct mt76_queue *q = &dev->q_rx[MT_RXQ_MAIN];
-   116		int i, len = SKB_WITH_OVERHEAD(q->buf_size);
-   117		struct mt76_txwi_cache *t = NULL;
-   118	
-   119		for (i = 0; i < size; i++) {
-   120			enum dma_data_direction dir;
-   121			dma_addr_t addr;
-   122			u32 offset;
-   123			int token;
-   124			void *buf;
-   125	
-   126			t = mt76_get_rxwi(dev);
-   127			if (!t)
-   128				goto unmap;
-   129	
-   130			buf = mt76_get_page_pool_buf(q, &offset, q->buf_size);
-   131			if (!buf)
-   132				goto unmap;
-   133	
-   134			addr = page_pool_get_dma_addr(virt_to_head_page(buf)) + offset;
-   135			dir = page_pool_get_dma_dir(q->page_pool);
-   136			dma_sync_single_for_device(dev->dma_dev, addr, len, dir);
-   137	
-   138			desc->buf0 = cpu_to_le32(addr);
-   139			token = mt76_rx_token_consume(dev, buf, t, addr);
-   140			if (token < 0) {
-   141				mt76_put_page_pool_buf(buf, false);
-   142				goto unmap;
-   143			}
-   144	
-   145			token = FIELD_PREP(MT_DMA_CTL_TOKEN, token) |
- > 146				FIELD_PREP(MT_DMA_CTL_SDP0_H, addr >> 32);
-   147			desc->token |= cpu_to_le32(token);
-   148			desc++;
-   149		}
-   150	
-   151		return 0;
-   152	
-   153	unmap:
-   154		if (t)
-   155			mt76_put_rxwi(dev, t);
-   156		mt76_mmio_wed_release_rx_buf(wed);
-   157	
-   158		return -ENOMEM;
-   159	}
-   160	EXPORT_SYMBOL_GPL(mt76_mmio_wed_init_rx_buf);
-   161	
+  1447	
+  1448	/*	enable	amp		speakers	stereo	gain	safe_vol */
+> 1449	struct macaudio_platform_cfg macaudio_j180_cfg = {
+  1450		false,	AMP_SN012776,	SPKR_1W1T,	false,	4,	-20,
+  1451	};
+  1452	struct macaudio_platform_cfg macaudio_j274_cfg = {
+  1453		true,	AMP_TAS5770,	SPKR_1W,	false,	14,	0, /* TODO: safety */
+  1454	};
+  1455	
+> 1456	struct macaudio_platform_cfg macaudio_j293_cfg = {
+  1457		false,	AMP_TAS5770,	SPKR_2W,	true,	9,	-20, /* TODO: check */
+  1458	};
+  1459	
+  1460	struct macaudio_platform_cfg macaudio_j313_cfg = {
+  1461		false,	AMP_TAS5770,	SPKR_1W,	true,	4,	-20, /* TODO: check */
+  1462	};
+  1463	
+> 1464	struct macaudio_platform_cfg macaudio_j314_j316_cfg = {
+  1465		false,	AMP_SN012776,	SPKR_2W1T,	true,	9,	-20,
+  1466	};
+  1467	
+> 1468	struct macaudio_platform_cfg macaudio_j37x_j47x_cfg = {
+  1469		false,	AMP_SN012776,	SPKR_1W,	false,	14,	-20,
+  1470	};
+  1471	
+  1472	struct macaudio_platform_cfg macaudio_j413_cfg = {
+  1473		false,	AMP_SN012776,	SPKR_1W1T,	true,	9,	-20,
+  1474	};
+  1475	
+  1476	struct macaudio_platform_cfg macaudio_j415_cfg = {
+  1477		false,	AMP_SN012776,	SPKR_2W1T,	true,	9,	-20,
+  1478	};
+  1479	
+> 1480	struct macaudio_platform_cfg macaudio_j45x_cfg = {
+  1481		false,	AMP_SSM3515,	SPKR_1W1T,	true,	9,	-20, /* TODO: gain?? */
+  1482	};
+  1483	
 
 -- 
 0-DAY CI Kernel Test Service
