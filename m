@@ -1,64 +1,45 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489E519F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 14:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53114436B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 14:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NzsFZbC+"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50be10acaf9so788353e87.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Dec 2023 06:47:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701960435; x=1702565235; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cqlaAjyYoTX21n2s5cfjq7OlbuSAPm9lzmylNhTuY6I=;
-        b=NzsFZbC+AfZGLyBAiyns3d9+PcEL/YGDa3gNRyCSuCXCZcUUV+lpGKK6vK1YC/YqQ7
-         OwyxhugV742kfPpLWaWQfwDQAbtjRy5+pFmDLszQBzyg53qGIePileuEm0kRkx1mJy72
-         QcxMyNxHEs+C9mKa6C9wsH02gkVnNKE/99y7whLNWgdwD8X5otL45QgdJwWIuFf85OZM
-         OOKmRDoR1TTodiXC1LLKqZ15g+jafuVQa/BjB4ROZvKMSe4Aj5pLczFpKSzatqbNL30D
-         3oPqNrBovickH0ybiDrwoJcY0coLqFZAJiMQ8d5lalRKbyDVCuS/QQKYPrBwztICBxmz
-         wnHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701960435; x=1702565235;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cqlaAjyYoTX21n2s5cfjq7OlbuSAPm9lzmylNhTuY6I=;
-        b=mJqVxetJJBko6n1viJKDlT+3d5/a9bNeQrUhzr+uaxMjbF5/tRK2aEHcLkxtU2+Pcf
-         OrE2VmMtEgyzKRReDze+MR/Z8M0/RMsuwma77av8X1EiRDrXlz81bf66g4CmvMYx6oje
-         ZFNXMkMlCWWKg4hMQ5imOpaBevEQ3W7DzaYqEE7mK/8OANI0d1cnlI1X7siD3pLoRGtc
-         NGIJcd3ngQdoshGWj3OjgkWB9zq3xvpyEmGNra3DxbqdKrNd4bCI30ThapGKuRdmCkeP
-         dI8uQ4JEABMTqjr8rQs1GkKktPEfHACde0K9LXDADGuVVWN085Z2X7vHy80NFRwugVtR
-         qMFw==
-X-Gm-Message-State: AOJu0YwZncg80xOP5fifwaIWa5FjAoaQjsu+UN+cPxkSYh6f6/P+uLO9
-	zQV2AbISMe7CVg2nw8Te1KI=
-X-Google-Smtp-Source: AGHT+IHt6jmaJ4Kw2i2qQNJQx0ETtzVu6UphNSpRZpwIAZmDoKS9ekjWRCFIkH2tj1BtTLNIyKFnFw==
-X-Received: by 2002:a05:6512:3e27:b0:50b:c0f1:f532 with SMTP id i39-20020a0565123e2700b0050bc0f1f532mr4043138lfv.26.1701960434989;
-        Thu, 07 Dec 2023 06:47:14 -0800 (PST)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id e10-20020ac24e0a000000b0050c0215a806sm189601lfr.83.2023.12.07.06.47.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 06:47:14 -0800 (PST)
-Date: Thu, 7 Dec 2023 17:47:11 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next 13/16] net: stmmac: intel: Register generic MDIO
- device
-Message-ID: <ohhgcfdvbxo3sffjpf7nedti3gujcwti4cysgim47jgcsum5ay@rrtsfnwktbqb>
-References: <20231205103559.9605-14-fancer.lancer@gmail.com>
- <202312060845.lDDRDWET-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DdhKz7vf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701960954; x=1733496954;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iXwW7SSR1QPSzx4M4xOyy0NiReeUsgqehPnKE3exjwI=;
+  b=DdhKz7vfhT5DUW668kGvxyhler2MsngTxEW2z90Bv4IbxyPs8JaYokE+
+   dbhDG1IvOxSvSBS8MWsibmTfUzcwptMuFdcr62o+HCDZ+8g6byAKMq0yV
+   7WvfSNy5Xv/70j7ZFn7Z+944Zv9HtGNRP1Q62sKweKlgHKIfHAQegTaQ9
+   pjQQNZtMgksut4zOgkGDL4LxReSCEsvjtornm4YDbuLBPNQm+bRhsdk8Z
+   pp36AdboZNZqf+i2GHOTC+AYq9lbUqX2n4U/qcbtLry27SmOOdO48LS23
+   bEThuF1Bu6rhdGyhWiiSQGVFHgfKLVIANY3bHyf5S/i7eiY6ryg1Oecog
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1070787"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="1070787"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 06:55:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="13131221"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 07 Dec 2023 06:55:51 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBFn2-000COM-36;
+	Thu, 07 Dec 2023 14:55:48 +0000
+Date: Thu, 7 Dec 2023 22:55:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:for-next 6/7] drivers/tty/serial/esp32_acm.c:369:31: error:
+ dereferencing pointer to incomplete type 'struct platform_device'
+Message-ID: <202312072207.oHCE2Lgr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,253 +48,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202312060845.lDDRDWET-lkp@intel.com>
 
-On Wed, Dec 06, 2023 at 08:19:07AM +0800, kernel test robot wrote:
-> Hi Serge,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/net-pcs-xpcs-Drop-sentinel-entry-from-2500basex-ifaces-list/20231205-183808
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20231205103559.9605-14-fancer.lancer%40gmail.com
-> patch subject: [PATCH net-next 13/16] net: stmmac: intel: Register generic MDIO device
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20231206/202312060845.lDDRDWET-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060845.lDDRDWET-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312060845.lDDRDWET-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c: In function 'intel_mgbe_common_data':
-> >> drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c:646:31: error: 'clk' undeclared (first use in this function)
->      646 |         clk_disable_unprepare(clk);
->          |                               ^~~
->    drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c:646:31: note: each undeclared identifier is reported only once for each function it appears in
-> 
-> 
-> vim +/clk +646 drivers/net/ethernet/stmicro/stmmac/dwmac-intel.c
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+head:   6c26cfb1561efbf12fe3cf700ddc2e956866af45
+commit: f793fea7761d32ed64767311c82f39f0798fe6d6 [6/7] of: Stop circularly including of_device.h and of_platform.h
+config: x86_64-buildonly-randconfig-002-20231207 (https://download.01.org/0day-ci/archive/20231207/202312072207.oHCE2Lgr-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312072207.oHCE2Lgr-lkp@intel.com/reproduce)
 
-Right, my series had been originally based on a branch which had some
-of this driver parts fixed. I should have more thoroughly performed
-the re-base process. I'll make sure it's fixed on v2.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312072207.oHCE2Lgr-lkp@intel.com/
 
--Serge(y)
+All error/warnings (new ones prefixed by >>):
 
-> 
->    446	
->    447	static int intel_mgbe_common_data(struct pci_dev *pdev,
->    448					  struct plat_stmmacenet_data *plat)
->    449	{
->    450		struct fwnode_handle *fwnode;
->    451		char clk_name[20];
->    452		int ret;
->    453		int i;
->    454	
->    455		plat->pdev = pdev;
->    456		plat->phy_addr = -1;
->    457		plat->clk_csr = 5;
->    458		plat->has_gmac = 0;
->    459		plat->has_gmac4 = 1;
->    460		plat->force_sf_dma_mode = 0;
->    461		plat->flags |= (STMMAC_FLAG_TSO_EN | STMMAC_FLAG_SPH_DISABLE);
->    462	
->    463		/* Multiplying factor to the clk_eee_i clock time
->    464		 * period to make it closer to 100 ns. This value
->    465		 * should be programmed such that the clk_eee_time_period *
->    466		 * (MULT_FACT_100NS + 1) should be within 80 ns to 120 ns
->    467		 * clk_eee frequency is 19.2Mhz
->    468		 * clk_eee_time_period is 52ns
->    469		 * 52ns * (1 + 1) = 104ns
->    470		 * MULT_FACT_100NS = 1
->    471		 */
->    472		plat->mult_fact_100ns = 1;
->    473	
->    474		plat->rx_sched_algorithm = MTL_RX_ALGORITHM_SP;
->    475	
->    476		for (i = 0; i < plat->rx_queues_to_use; i++) {
->    477			plat->rx_queues_cfg[i].mode_to_use = MTL_QUEUE_DCB;
->    478			plat->rx_queues_cfg[i].chan = i;
->    479	
->    480			/* Disable Priority config by default */
->    481			plat->rx_queues_cfg[i].use_prio = false;
->    482	
->    483			/* Disable RX queues routing by default */
->    484			plat->rx_queues_cfg[i].pkt_route = 0x0;
->    485		}
->    486	
->    487		for (i = 0; i < plat->tx_queues_to_use; i++) {
->    488			plat->tx_queues_cfg[i].mode_to_use = MTL_QUEUE_DCB;
->    489	
->    490			/* Disable Priority config by default */
->    491			plat->tx_queues_cfg[i].use_prio = false;
->    492			/* Default TX Q0 to use TSO and rest TXQ for TBS */
->    493			if (i > 0)
->    494				plat->tx_queues_cfg[i].tbs_en = 1;
->    495		}
->    496	
->    497		/* FIFO size is 4096 bytes for 1 tx/rx queue */
->    498		plat->tx_fifo_size = plat->tx_queues_to_use * 4096;
->    499		plat->rx_fifo_size = plat->rx_queues_to_use * 4096;
->    500	
->    501		plat->tx_sched_algorithm = MTL_TX_ALGORITHM_WRR;
->    502		plat->tx_queues_cfg[0].weight = 0x09;
->    503		plat->tx_queues_cfg[1].weight = 0x0A;
->    504		plat->tx_queues_cfg[2].weight = 0x0B;
->    505		plat->tx_queues_cfg[3].weight = 0x0C;
->    506		plat->tx_queues_cfg[4].weight = 0x0D;
->    507		plat->tx_queues_cfg[5].weight = 0x0E;
->    508		plat->tx_queues_cfg[6].weight = 0x0F;
->    509		plat->tx_queues_cfg[7].weight = 0x10;
->    510	
->    511		plat->dma_cfg->pbl = 32;
->    512		plat->dma_cfg->pblx8 = true;
->    513		plat->dma_cfg->fixed_burst = 0;
->    514		plat->dma_cfg->mixed_burst = 0;
->    515		plat->dma_cfg->aal = 0;
->    516		plat->dma_cfg->dche = true;
->    517	
->    518		plat->axi = devm_kzalloc(&pdev->dev, sizeof(*plat->axi),
->    519					 GFP_KERNEL);
->    520		if (!plat->axi)
->    521			return -ENOMEM;
->    522	
->    523		plat->axi->axi_lpi_en = 0;
->    524		plat->axi->axi_xit_frm = 0;
->    525		plat->axi->axi_wr_osr_lmt = 1;
->    526		plat->axi->axi_rd_osr_lmt = 1;
->    527		plat->axi->axi_blen[0] = 4;
->    528		plat->axi->axi_blen[1] = 8;
->    529		plat->axi->axi_blen[2] = 16;
->    530	
->    531		plat->ptp_max_adj = plat->clk_ptp_rate;
->    532		plat->eee_usecs_rate = plat->clk_ptp_rate;
->    533	
->    534		/* Set system clock */
->    535		sprintf(clk_name, "%s-%s", "stmmac", pci_name(pdev));
->    536	
->    537		plat->stmmac_clk = clk_register_fixed_rate(&pdev->dev,
->    538							   clk_name, NULL, 0,
->    539							   plat->clk_ptp_rate);
->    540	
->    541		if (IS_ERR(plat->stmmac_clk)) {
->    542			dev_warn(&pdev->dev, "Fail to register stmmac-clk\n");
->    543			plat->stmmac_clk = NULL;
->    544		}
->    545	
->    546		ret = clk_prepare_enable(plat->stmmac_clk);
->    547		if (ret) {
->    548			clk_unregister_fixed_rate(plat->stmmac_clk);
->    549			return ret;
->    550		}
->    551	
->    552		plat->ptp_clk_freq_config = intel_mgbe_ptp_clk_freq_config;
->    553	
->    554		/* Set default value for multicast hash bins */
->    555		plat->multicast_filter_bins = HASH_TABLE_SIZE;
->    556	
->    557		/* Set default value for unicast filter entries */
->    558		plat->unicast_filter_entries = 1;
->    559	
->    560		/* Set the maxmtu to a default of JUMBO_LEN */
->    561		plat->maxmtu = JUMBO_LEN;
->    562	
->    563		plat->flags |= STMMAC_FLAG_VLAN_FAIL_Q_EN;
->    564	
->    565		/* Use the last Rx queue */
->    566		plat->vlan_fail_q = plat->rx_queues_to_use - 1;
->    567	
->    568		/* For fixed-link setup, we allow phy-mode setting */
->    569		fwnode = dev_fwnode(&pdev->dev);
->    570		if (fwnode) {
->    571			int phy_mode;
->    572	
->    573			/* "phy-mode" setting is optional. If it is set,
->    574			 *  we allow either sgmii or 1000base-x for now.
->    575			 */
->    576			phy_mode = fwnode_get_phy_mode(fwnode);
->    577			if (phy_mode >= 0) {
->    578				if (phy_mode == PHY_INTERFACE_MODE_SGMII ||
->    579				    phy_mode == PHY_INTERFACE_MODE_1000BASEX)
->    580					plat->phy_interface = phy_mode;
->    581				else
->    582					dev_warn(&pdev->dev, "Invalid phy-mode\n");
->    583			}
->    584		}
->    585	
->    586		/* Intel mgbe SGMII interface uses pcs-xcps */
->    587		if (plat->phy_interface == PHY_INTERFACE_MODE_SGMII ||
->    588		    plat->phy_interface == PHY_INTERFACE_MODE_1000BASEX) {
->    589			struct mdio_board_info *xpcs_info;
->    590	
->    591			xpcs_info = devm_kzalloc(&pdev->dev,
->    592						 sizeof(*xpcs_info) + MII_BUS_ID_SIZE,
->    593						 GFP_KERNEL);
->    594			if (!xpcs_info) {
->    595				ret = -ENOMEM;
->    596				goto err_alloc_info;
->    597			}
->    598	
->    599			xpcs_info->bus_id = (void *)xpcs_info + sizeof(*xpcs_info);
->    600			snprintf((char *)xpcs_info->bus_id, MII_BUS_ID_SIZE,
->    601				 "stmmac-%x", plat->bus_id);
->    602	
->    603			snprintf(xpcs_info->modalias, MDIO_NAME_SIZE, "dwxpcs");
->    604	
->    605			xpcs_info->mdio_addr = INTEL_MGBE_XPCS_ADDR;
->    606	
->    607			ret = mdiobus_register_board_info(xpcs_info, 1);
->    608			if (ret)
->    609				goto err_alloc_info;
->    610	
->    611			plat->mdio_bus_data->has_xpcs = true;
->    612			plat->mdio_bus_data->xpcs_an_inband = true;
->    613		}
->    614	
->    615		/* For fixed-link setup, we clear xpcs_an_inband */
->    616		if (fwnode) {
->    617			struct fwnode_handle *fixed_node;
->    618	
->    619			fixed_node = fwnode_get_named_child_node(fwnode, "fixed-link");
->    620			if (fixed_node)
->    621				plat->mdio_bus_data->xpcs_an_inband = false;
->    622	
->    623			fwnode_handle_put(fixed_node);
->    624		}
->    625	
->    626		/* Ensure mdio bus PHY-scan skips intel serdes and pcs-xpcs */
->    627		plat->mdio_bus_data->phy_mask = 1 << INTEL_MGBE_ADHOC_ADDR;
->    628		plat->mdio_bus_data->phy_mask |= 1 << INTEL_MGBE_XPCS_ADDR;
->    629	
->    630		plat->int_snapshot_num = AUX_SNAPSHOT1;
->    631	
->    632		plat->crosststamp = intel_crosststamp;
->    633		plat->flags &= ~STMMAC_FLAG_INT_SNAPSHOT_EN;
->    634	
->    635		/* Setup MSI vector offset specific to Intel mGbE controller */
->    636		plat->msi_mac_vec = 29;
->    637		plat->msi_lpi_vec = 28;
->    638		plat->msi_sfty_ce_vec = 27;
->    639		plat->msi_sfty_ue_vec = 26;
->    640		plat->msi_rx_base_vec = 0;
->    641		plat->msi_tx_base_vec = 1;
->    642	
->    643		return 0;
->    644	
->    645	err_alloc_info:
->  > 646		clk_disable_unprepare(clk);
->    647		clk_unregister_fixed_rate(clk);
->    648	
->    649		return ret;
->    650	}
->    651	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+   drivers/tty/serial/esp32_acm.c:367:37: warning: 'struct platform_device' declared inside parameter list will not be visible outside of this definition or declaration
+    static int esp32s3_acm_probe(struct platform_device *pdev)
+                                        ^~~~~~~~~~~~~~~
+   drivers/tty/serial/esp32_acm.c: In function 'esp32s3_acm_probe':
+>> drivers/tty/serial/esp32_acm.c:369:31: error: dereferencing pointer to incomplete type 'struct platform_device'
+     struct device_node *np = pdev->dev.of_node;
+                                  ^~
+   drivers/tty/serial/esp32_acm.c:391:8: error: implicit declaration of function 'platform_get_resource'; did you mean 'platform_notify_remove'? [-Werror=implicit-function-declaration]
+     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+           ^~~~~~~~~~~~~~~~~~~~~
+           platform_notify_remove
+>> drivers/tty/serial/esp32_acm.c:391:6: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+         ^
+   drivers/tty/serial/esp32_acm.c:403:14: error: implicit declaration of function 'platform_get_irq'; did you mean 'platform_notify'? [-Werror=implicit-function-declaration]
+     port->irq = platform_get_irq(pdev, 0);
+                 ^~~~~~~~~~~~~~~~
+                 platform_notify
+   drivers/tty/serial/esp32_acm.c:411:2: error: implicit declaration of function 'platform_set_drvdata'; did you mean 'dev_set_drvdata'? [-Werror=implicit-function-declaration]
+     platform_set_drvdata(pdev, port);
+     ^~~~~~~~~~~~~~~~~~~~
+     dev_set_drvdata
+   drivers/tty/serial/esp32_acm.c: At top level:
+   drivers/tty/serial/esp32_acm.c:416:38: warning: 'struct platform_device' declared inside parameter list will not be visible outside of this definition or declaration
+    static int esp32s3_acm_remove(struct platform_device *pdev)
+                                         ^~~~~~~~~~~~~~~
+   drivers/tty/serial/esp32_acm.c: In function 'esp32s3_acm_remove':
+   drivers/tty/serial/esp32_acm.c:418:27: error: implicit declaration of function 'platform_get_drvdata'; did you mean 'dev_get_drvdata'? [-Werror=implicit-function-declaration]
+     struct uart_port *port = platform_get_drvdata(pdev);
+                              ^~~~~~~~~~~~~~~~~~~~
+                              dev_get_drvdata
+>> drivers/tty/serial/esp32_acm.c:418:27: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+   drivers/tty/serial/esp32_acm.c: At top level:
+   drivers/tty/serial/esp32_acm.c:425:15: error: variable 'esp32s3_acm_driver' has initializer but incomplete type
+    static struct platform_driver esp32s3_acm_driver = {
+                  ^~~~~~~~~~~~~~~
+   drivers/tty/serial/esp32_acm.c:426:3: error: 'struct platform_driver' has no member named 'probe'
+     .probe  = esp32s3_acm_probe,
+      ^~~~~
+   drivers/tty/serial/esp32_acm.c:426:12: warning: excess elements in struct initializer
+     .probe  = esp32s3_acm_probe,
+               ^~~~~~~~~~~~~~~~~
+   drivers/tty/serial/esp32_acm.c:426:12: note: (near initialization for 'esp32s3_acm_driver')
+   drivers/tty/serial/esp32_acm.c:427:3: error: 'struct platform_driver' has no member named 'remove'
+     .remove  = esp32s3_acm_remove,
+      ^~~~~~
+   drivers/tty/serial/esp32_acm.c:427:13: warning: excess elements in struct initializer
+     .remove  = esp32s3_acm_remove,
+                ^~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/esp32_acm.c:427:13: note: (near initialization for 'esp32s3_acm_driver')
+   drivers/tty/serial/esp32_acm.c:428:3: error: 'struct platform_driver' has no member named 'driver'
+     .driver  = {
+      ^~~~~~
+   drivers/tty/serial/esp32_acm.c:428:13: error: extra brace group at end of initializer
+     .driver  = {
+                ^
+   drivers/tty/serial/esp32_acm.c:428:13: note: (near initialization for 'esp32s3_acm_driver')
+   drivers/tty/serial/esp32_acm.c:428:13: warning: excess elements in struct initializer
+   drivers/tty/serial/esp32_acm.c:428:13: note: (near initialization for 'esp32s3_acm_driver')
+   drivers/tty/serial/esp32_acm.c: In function 'esp32s3_acm_init':
+   drivers/tty/serial/esp32_acm.c:442:8: error: implicit declaration of function 'platform_driver_register'; did you mean 'driver_register'? [-Werror=implicit-function-declaration]
+     ret = platform_driver_register(&esp32s3_acm_driver);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+           driver_register
+   drivers/tty/serial/esp32_acm.c: In function 'esp32s3_acm_exit':
+   drivers/tty/serial/esp32_acm.c:451:2: error: implicit declaration of function 'platform_driver_unregister'; did you mean 'driver_unregister'? [-Werror=implicit-function-declaration]
+     platform_driver_unregister(&esp32s3_acm_driver);
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+     driver_unregister
+   drivers/tty/serial/esp32_acm.c: At top level:
+   drivers/tty/serial/esp32_acm.c:425:31: error: storage size of 'esp32s3_acm_driver' isn't known
+    static struct platform_driver esp32s3_acm_driver = {
+                                  ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +369 drivers/tty/serial/esp32_acm.c
+
+b0c9a045e8c7d4 Max Filippov 2023-10-10  366  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  367  static int esp32s3_acm_probe(struct platform_device *pdev)
+b0c9a045e8c7d4 Max Filippov 2023-10-10  368  {
+b0c9a045e8c7d4 Max Filippov 2023-10-10 @369  	struct device_node *np = pdev->dev.of_node;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  370  	struct uart_port *port;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  371  	struct resource *res;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  372  	int ret;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  373  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  374  	port = devm_kzalloc(&pdev->dev, sizeof(*port), GFP_KERNEL);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  375  	if (!port)
+b0c9a045e8c7d4 Max Filippov 2023-10-10  376  		return -ENOMEM;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  377  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  378  	ret = of_alias_get_id(np, "serial");
+b0c9a045e8c7d4 Max Filippov 2023-10-10  379  	if (ret < 0) {
+b0c9a045e8c7d4 Max Filippov 2023-10-10  380  		dev_err(&pdev->dev, "failed to get alias id, errno %d\n", ret);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  381  		return ret;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  382  	}
+b0c9a045e8c7d4 Max Filippov 2023-10-10  383  	if (ret >= UART_NR) {
+b0c9a045e8c7d4 Max Filippov 2023-10-10  384  		dev_err(&pdev->dev, "driver limited to %d serial ports\n",
+b0c9a045e8c7d4 Max Filippov 2023-10-10  385  			UART_NR);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  386  		return -ENOMEM;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  387  	}
+b0c9a045e8c7d4 Max Filippov 2023-10-10  388  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  389  	port->line = ret;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  390  
+b0c9a045e8c7d4 Max Filippov 2023-10-10 @391  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  392  	if (!res)
+b0c9a045e8c7d4 Max Filippov 2023-10-10  393  		return -ENODEV;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  394  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  395  	port->mapbase = res->start;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  396  	port->membase = devm_ioremap_resource(&pdev->dev, res);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  397  	if (IS_ERR(port->membase))
+b0c9a045e8c7d4 Max Filippov 2023-10-10  398  		return PTR_ERR(port->membase);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  399  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  400  	port->dev = &pdev->dev;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  401  	port->type = PORT_GENERIC;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  402  	port->iotype = UPIO_MEM;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  403  	port->irq = platform_get_irq(pdev, 0);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  404  	port->ops = &esp32s3_acm_pops;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  405  	port->flags = UPF_BOOT_AUTOCONF;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  406  	port->has_sysrq = 1;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  407  	port->fifosize = ESP32S3_ACM_TX_FIFO_SIZE;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  408  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  409  	esp32s3_acm_ports[port->line] = port;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  410  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  411  	platform_set_drvdata(pdev, port);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  412  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  413  	return uart_add_one_port(&esp32s3_acm_reg, port);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  414  }
+b0c9a045e8c7d4 Max Filippov 2023-10-10  415  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  416  static int esp32s3_acm_remove(struct platform_device *pdev)
+b0c9a045e8c7d4 Max Filippov 2023-10-10  417  {
+b0c9a045e8c7d4 Max Filippov 2023-10-10 @418  	struct uart_port *port = platform_get_drvdata(pdev);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  419  
+b0c9a045e8c7d4 Max Filippov 2023-10-10  420  	uart_remove_one_port(&esp32s3_acm_reg, port);
+b0c9a045e8c7d4 Max Filippov 2023-10-10  421  	return 0;
+b0c9a045e8c7d4 Max Filippov 2023-10-10  422  }
+b0c9a045e8c7d4 Max Filippov 2023-10-10  423  
+
+:::::: The code at line 369 was first introduced by commit
+:::::: b0c9a045e8c7d4791ef8bafae2c29fe00e835067 drivers/tty/serial: add ESP32S3 ACM gadget driver
+
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
