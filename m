@@ -1,47 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E873454B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 09:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0181C31A82;
+	Thu,  7 Dec 2023 10:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cJJOO2hc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApBUpqfD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701942383; x=1733478383;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZD/3CwOHh/7eVZIQpbI1Pk52btA1FN2Akse0dmo2cs0=;
-  b=cJJOO2hcrnH0x97FKYQVsBxlA62ml4by9PfQGt8q1PP85abQ2u5hOBa3
-   pHI6BooGpWPGkhEiW+gjWOmNwvz7kiQcQsNReOS7LxF9I+ZBl/msTMcBb
-   4sVB1Jl3MwQlvs+BU9+RAgEfDTwdFpAM95J9QlUXM3EATEA+PdkFc919o
-   LWjbJN9YrlWrC2gyTmL5WXBl2eKqSbU9fffVlAp/dolcM6HMvsKcT4Kaq
-   HpEFA23+/tSMCX6cW3JjNRV3gnaRanbf6I9PWdKPMPZWWKiruTTlZv1cd
-   S6xlEAVzpv1sLzazJ8N+q5usn6OL9jKKsBnaeSl9pAyGQisOgKFmTSQor
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="384610559"
+  t=1701945502; x=1733481502;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZPf6NZW/lHuOySmp/h++fHHskD4yRCfRl/mqXyIxZ1U=;
+  b=ApBUpqfDirSLZpSYj1TeWBB3OAT23Bu+9e3z+JUI5Kg80yPxUIaY+L5C
+   Dfbt5A4JG5EsEaRR2AgYeLmjyU5gLdSKpE7jBQx4rLYIDiU+yJAK5BUUO
+   7hvWzEqFQepTgEH3puSmhTkTciKNG8WoLjMB/mzeIA4nYg+2+aoSmbQKd
+   uIWcOhFR1L7t3pelHm9EH9PMS/RQ7LupGDT+1ohjAhstbU3pPPijNAsrR
+   Lhb0q0WmH7/vIfGIF45YNl01gWBcuVd30fYwZVbzMZKuxdlROAkdC9U60
+   2WQlKpot6m4FxyQYl1fel8F4BWye6UVjo/qu441gsxLDssntv2SqcCCBB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1078523"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="384610559"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 01:46:22 -0800
+   d="scan'208";a="1078523"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 02:38:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="842150903"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="862434858"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="842150903"
+   d="scan'208";a="862434858"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Dec 2023 01:46:21 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Dec 2023 02:38:16 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBAxX-000C2Q-0V;
-	Thu, 07 Dec 2023 09:46:19 +0000
-Date: Thu, 7 Dec 2023 17:45:41 +0800
+	id 1rBBll-000C6X-1p;
+	Thu, 07 Dec 2023 10:38:13 +0000
+Date: Thu, 7 Dec 2023 18:38:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>, imx@lists.linux.dev,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	"open list:PCI DRIVER FOR IMX6" <linux-pci@vger.kernel.org>,
+	"moderated list:PCI DRIVER FOR IMX6" <linux-arm-kernel@lists.infradead.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:arm64-lpa2-v6-combined 26/64]
- arch/arm64/kernel/pi/patch-scs.c:64:29: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202312071741.WrjNuCZg-lkp@intel.com>
+Subject: Re: [PATCH 6/9] PCI: imx6: Simplify configure_type() by using
+ mode_off and mode_mask
+Message-ID: <202312071824.0niFJcYw-lkp@intel.com>
+References: <20231206155903.566194-7-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,68 +66,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231206155903.566194-7-Frank.Li@nxp.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git arm64-lpa2-v6-combined
-head:   17a8520829338e0852f61bf8201cd70cb24df936
-commit: 045b6611e4b2f81e8b7726beff96537f70770a09 [26/64] arm64: head: move dynamic shadow call stack patching into early C runtime
-config: arm64-randconfig-r131-20231130 (https://download.01.org/0day-ci/archive/20231207/202312071741.WrjNuCZg-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071741.WrjNuCZg-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.7-rc4 next-20231207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/PCI-imx6-Simplify-clock-handling-by-using-HAS_CLK_-bitmask/20231207-000209
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20231206155903.566194-7-Frank.Li%40nxp.com
+patch subject: [PATCH 6/9] PCI: imx6: Simplify configure_type() by using mode_off and mode_mask
+config: arm-randconfig-002-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071824.0niFJcYw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312071824.0niFJcYw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312071741.WrjNuCZg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312071824.0niFJcYw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kernel/pi/patch-scs.c:208:5: sparse: sparse: symbol 'scs_patch' was not declared. Should it be static?
-   arch/arm64/kernel/pi/patch-scs.c:254:24: sparse: sparse: symbol 'scs_patch_vmlinux' was not declared. Should it be static?
->> arch/arm64/kernel/pi/patch-scs.c:64:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   arch/arm64/kernel/pi/patch-scs.c:64:29: sparse:     expected unsigned int [usertype]
-   arch/arm64/kernel/pi/patch-scs.c:64:29: sparse:     got restricted __le32 [usertype]
-   arch/arm64/kernel/pi/patch-scs.c:67:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   arch/arm64/kernel/pi/patch-scs.c:67:29: sparse:     expected unsigned int [usertype]
-   arch/arm64/kernel/pi/patch-scs.c:67:29: sparse:     got restricted __le32 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +64 arch/arm64/kernel/pi/patch-scs.c
-
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  57  
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  58  static void __always_inline scs_patch_loc(u64 loc)
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  59  {
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  60  	u32 insn = le32_to_cpup((void *)loc);
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  61  
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  62  	switch (insn) {
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  63  	case PACIASP:
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27 @64  		*(u32 *)loc = cpu_to_le32(SCS_PUSH);
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  65  		break;
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  66  	case AUTIASP:
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  67  		*(u32 *)loc = cpu_to_le32(SCS_POP);
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  68  		break;
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  69  	default:
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  70  		/*
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  71  		 * While the DW_CFA_negate_ra_state directive is guaranteed to
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  72  		 * appear right after a PACIASP/AUTIASP instruction, it may
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  73  		 * also appear after a DW_CFA_restore_state directive that
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  74  		 * restores a state that is only partially accurate, and is
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  75  		 * followed by DW_CFA_negate_ra_state directive to toggle the
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  76  		 * PAC bit again. So we permit other instructions here, and ignore
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  77  		 * them.
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  78  		 */
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  79  		return;
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  80  	}
-045b6611e4b2f8 arch/arm64/kernel/pi/patch-scs.c Ard Biesheuvel 2022-11-10  81  	if (IS_ENABLED(CONFIG_ARM64_WORKAROUND_CLEAN_CACHE))
-045b6611e4b2f8 arch/arm64/kernel/pi/patch-scs.c Ard Biesheuvel 2022-11-10  82  		asm("dc civac, %0" :: "r"(loc));
-045b6611e4b2f8 arch/arm64/kernel/pi/patch-scs.c Ard Biesheuvel 2022-11-10  83  	else
-045b6611e4b2f8 arch/arm64/kernel/pi/patch-scs.c Ard Biesheuvel 2022-11-10  84  		asm(ALTERNATIVE("dc cvau, %0", "nop", ARM64_HAS_CACHE_IDC)
-045b6611e4b2f8 arch/arm64/kernel/pi/patch-scs.c Ard Biesheuvel 2022-11-10  85  		    :: "r"(loc));
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  86  }
-3b619e22c4601b arch/arm64/kernel/patch-scs.c    Ard Biesheuvel 2022-10-27  87  
-
-:::::: The code at line 64 was first introduced by commit
-:::::: 3b619e22c4601b444ed2d6a5458271f72625ac89 arm64: implement dynamic shadow call stack for Clang
-
-:::::: TO: Ard Biesheuvel <ardb@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   arm-linux-gnueabi-ld: drivers/pci/controller/dwc/pci-imx6.o: in function `imx6_pcie_init_phy':
+>> pci-imx6.c:(.text+0xc40): undefined reference to `__ffsdi2'
 
 -- 
 0-DAY CI Kernel Test Service
