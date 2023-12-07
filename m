@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10ABF5646A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 22:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B122C840C3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 23:12:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jGZYb5k3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZFOVFExp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701988273; x=1733524273;
+  t=1701990757; x=1733526757;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=srVJ8gw6ZfAE4QWT2Lto/OnSd1qPcsDD1l6x8Su01f0=;
-  b=jGZYb5k38dNH+BekdfMKENwx48DAK88Z1VKQJu4ZhMdg086mc1IXpSa0
-   zv2nRAg/gr/fXYkLBhPjxWRF5sEkVypUVVXbQGZ4inFX0uZNjOi8u0hTd
-   W1jTg0ZgwYJ4kS1R3qEx2nl39tgfTO8BP1WWuoP6EnI+QRwXIkMB6bKFX
-   sJ1TyYV60BI8z6aZwE136anp8idnSnC+6avsWmut+pjRTA/H0gR/+51w5
-   tNnS9208h8ul4XqtHVuOo2k8PyXWrqq+iGDzBc0wN8Qqjyss4fqVlqXYf
-   dss+ftp5e/lFZ+OAuWYLloJ0QMoV6MVOy1ikk8+UCQCzPoYHw3gH2JDv+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1396054"
+  bh=PgoMFKpGxhjBEVrUUZeg6L54dIPWQGLxl4CjAsm8rxI=;
+  b=ZFOVFExpM7O8sbtIW9Rlme4ZjLoDEzOqadfMN3VfvZ7QJozK43zIK69u
+   rAsI8oeSy9BDt4TSuE1s2tY5JUUVJCQY/PGHg9FqLeM1AwjL9R7pf0FJA
+   /nXvn9q0GBxKafVhKF0/5DRnhaYkQYM/rmtvADH22BZ3xXmgAYXtezdgO
+   y9KSRnsZMNkqs2JaV+FRXFaw8/JrsXoq7wHsouDVHDK6BXIUeHswHCqT1
+   ddkzVinz2FaC4OYqhChxNBSK3RMgU5YHugJ5ZnvJ8hXulf1Ablj1EU9nk
+   69rtHtagIqbNtLnyfzmVQ2KWeq1qfsKYN3M4RtzbBMTlOzPQJ0Yhgi7XW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1205269"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="1396054"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 14:31:00 -0800
+   d="scan'208";a="1205269"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 15:12:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="889893209"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1019135724"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="889893209"
+   d="scan'208";a="1019135724"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Dec 2023 14:30:58 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2023 15:12:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBMtU-000CvV-0a;
-	Thu, 07 Dec 2023 22:30:56 +0000
-Date: Fri, 8 Dec 2023 06:30:05 +0800
+	id 1rBNXk-000CyP-18;
+	Thu, 07 Dec 2023 23:12:32 +0000
+Date: Fri, 8 Dec 2023 07:12:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kalesh Singh <kaleshsingh@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: arch/arm64/kvm/hyp/nvhe/stacktrace.c:15:1: sparse: sparse: symbol
- '__pcpu_scope_kvm_stacktrace_info' was not declared. Should it be static?
-Message-ID: <202312080623.pPZHVKGm-lkp@intel.com>
+To: Stafford Horne <shorne@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/video/fbdev/cirrusfb.c:1852:28: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202312080725.XVbb9rMk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,29 +52,88 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9ace34a8e446c1a566f3b0a3e0c4c483987e39a6
-commit: 879e5ac7b2e4db05799a905b5a07fc9e5dedf651 KVM: arm64: Prepare non-protected nVHE hypervisor stacktrace
+commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
 date:   1 year, 4 months ago
-config: arm64-randconfig-r112-20231117 (https://download.01.org/0day-ci/archive/20231208/202312080623.pPZHVKGm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080623.pPZHVKGm-lkp@intel.com/reproduce)
+config: openrisc-randconfig-r112-20231116 (https://download.01.org/0day-ci/archive/20231208/202312080725.XVbb9rMk-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080725.XVbb9rMk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080623.pPZHVKGm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080725.XVbb9rMk-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kvm/hyp/nvhe/stacktrace.c:12:1: sparse: sparse: symbol '__pcpu_scope_overflow_stack' was not declared. Should it be static?
->> arch/arm64/kvm/hyp/nvhe/stacktrace.c:15:1: sparse: sparse: symbol '__pcpu_scope_kvm_stacktrace_info' was not declared. Should it be static?
+   drivers/video/fbdev/cirrusfb.c:866:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:867:38: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:871:40: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:873:25: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:876:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:877:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:878:27: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:879:29: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:1245:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:1246:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:1247:17: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/video/fbdev/cirrusfb.c:1852:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dest @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/cirrusfb.c:1852:28: sparse:     expected void *dest
+   drivers/video/fbdev/cirrusfb.c:1852:28: sparse:     got char [noderef] __iomem *screen_base
 
-vim +/__pcpu_scope_kvm_stacktrace_info +15 arch/arm64/kvm/hyp/nvhe/stacktrace.c
+vim +1852 drivers/video/fbdev/cirrusfb.c
 
-    11	
-    12	DEFINE_PER_CPU(unsigned long [OVERFLOW_STACK_SIZE/sizeof(long)], overflow_stack)
-    13		__aligned(16);
-    14	
-  > 15	DEFINE_PER_CPU(struct kvm_nvhe_stacktrace_info, kvm_stacktrace_info);
-    16	
+^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1809  
+8503df65976d0f drivers/video/cirrusfb.c Krzysztof Helt 2007-10-16  1810  static void cirrusfb_imageblit(struct fb_info *info,
+8503df65976d0f drivers/video/cirrusfb.c Krzysztof Helt 2007-10-16  1811  			       const struct fb_image *image)
+^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1812  {
+^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1813  	struct cirrusfb_info *cinfo = info->par;
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1814  	unsigned char op = (info->var.bits_per_pixel == 24) ? 0xc : 0x4;
+^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1815  
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1816  	if (info->state != FBINFO_STATE_RUNNING)
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1817  		return;
+df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1818  	/* Alpine/SD64 does not work at 24bpp ??? */
+df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1819  	if (info->flags & FBINFO_HWACCEL_DISABLED || image->depth != 1)
+df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1820  		cfb_imageblit(info, image);
+df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1821  	else if ((cinfo->btype == BT_ALPINE || cinfo->btype == BT_SD64) &&
+df3aafd57d590d drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1822  		  op == 0xc)
+^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1823  		cfb_imageblit(info, image);
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1824  	else {
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1825  		unsigned size = ((image->width + 7) >> 3) * image->height;
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1826  		int m = info->var.bits_per_pixel;
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1827  		u32 fg, bg;
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1828  
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1829  		if (info->var.bits_per_pixel == 8) {
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1830  			fg = image->fg_color;
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1831  			bg = image->bg_color;
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1832  		} else {
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1833  			fg = ((u32 *)(info->pseudo_palette))[image->fg_color];
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1834  			bg = ((u32 *)(info->pseudo_palette))[image->bg_color];
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1835  		}
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1836  		if (info->var.bits_per_pixel == 24) {
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1837  			/* clear background first */
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1838  			cirrusfb_RectFill(cinfo->regbase,
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1839  					  info->var.bits_per_pixel,
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1840  					  (image->dx * m) / 8, image->dy,
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1841  					  (image->width * m) / 8,
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1842  					  image->height,
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1843  					  bg, bg,
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1844  					  info->fix.line_length, 0x40);
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1845  		}
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1846  		cirrusfb_RectFill(cinfo->regbase,
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1847  				  info->var.bits_per_pixel,
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1848  				  (image->dx * m) / 8, image->dy,
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1849  				  (image->width * m) / 8, image->height,
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1850  				  fg, bg,
+7cade31cabec33 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1851  				  info->fix.line_length, op);
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31 @1852  		memcpy(info->screen_base, image->data, size);
+9e848062533207 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1853  	}
+^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1854  }
+^1da177e4c3f41 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1855  
+
+:::::: The code at line 1852 was first introduced by commit
+:::::: 9e848062533207130667f6eaa748549367ccbedf cirrusfb: add imageblit function
+
+:::::: TO: Krzysztof Helt <krzysztof.h1@wp.pl>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
