@@ -1,59 +1,57 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B26F10A33
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 05:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24FF13FEA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 06:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XvDUVJlO"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40c19467a63so6608875e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 06 Dec 2023 21:41:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701927672; x=1702532472; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q7rmf1L5KTUW/E5oPwtLwfXb9Vg7b5uQANioC1qAwJQ=;
-        b=XvDUVJlO5s14i14JCgCl/gj4+EZ4WHJIMRYvKiUD7uT+cKjHrjpg18kuX6BXT0UuzB
-         12sWyJtOh6rB8oSI9sLz3PGCBvVhn+Bo2u7bb4Zfe2Jmvq/NVplgg55I7yBTpEE7ZohS
-         qMFhgk1jl4BPibHzS7uEEFKff5UCr7OlZBbcbbaPNrTXqIkxd0C17DwlRUR/nBcF2pHA
-         GXQ2nMWcFzATrT46s7+GtNYW5mEQmIIxh6YoXeDLtoVzySo2p5FVb9JXtqSE5trpoKOR
-         DRIUEubMDg2wOYSgPo2zyHUoQ7lvbPNZVyC4K0jb/ud69wTq6hdjwpW3F4j8kK/2kzIT
-         vdEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701927672; x=1702532472;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q7rmf1L5KTUW/E5oPwtLwfXb9Vg7b5uQANioC1qAwJQ=;
-        b=C38IOZ72gonNJeT8FzBJcWJ64Ia6G560AzhicsgxYUY95rswIUt8fKVLPhcz+zgR0W
-         4MNqDKgt+K8UDaERjgP8FYqtqNBEoASPpdI1xMJH2F74Tr6BOYtoq81i4n7/zvHQaTc0
-         oOSe1N9CFAbOLuKEtV0c8mQE53Vs81vcUGKfg9A4Wot7clf6xweftRDkJ+hRLL86nHqB
-         ndc9UV/bnisdF8wW93XiwgxfDMPLc57DtICU9hMnci9N/aHK0y4iKf/QmrDntiQe3ghH
-         nPqxWdMiQRDG//RMOZDm9ST6zKP3hnAiN+v/thyuAaEqE3UyRVQhMWKr6eUnwUwTasht
-         Jcrg==
-X-Gm-Message-State: AOJu0YzkYU+bYOUwc6m3/6qg88jzHr1dswKsxhwd1ufkA9zevNJpPPq/
-	QYRfx457pZ8TadDz92DXDXU17w==
-X-Google-Smtp-Source: AGHT+IFcYPRJ0wHa3HawHgZzyaOQdVMjkxX4/+Q/hkkoscjHk6GLpxarpmJZAW4lnnUanfaDDUCLLg==
-X-Received: by 2002:a7b:cb95:0:b0:40b:5e59:ea01 with SMTP id m21-20020a7bcb95000000b0040b5e59ea01mr1260067wmi.160.1701927672414;
-        Wed, 06 Dec 2023 21:41:12 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id je16-20020a05600c1f9000b00405442edc69sm702928wmb.14.2023.12.06.21.41.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 21:41:12 -0800 (PST)
-Date: Thu, 7 Dec 2023 08:41:09 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, baneric926@gmail.com, jdelvare@suse.com,
-	linux@roeck-us.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	corbet@lwn.net
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com,
-	DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com
-Subject: Re: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
-Message-ID: <a62c8f0f-db3d-41da-b2a8-a064f0feba32@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMnJJ1Kr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701929289; x=1733465289;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=afuMH9RHeuu1Nlem0Rpl8i/1WPnpTa8StZWPZfDNT08=;
+  b=TMnJJ1KrY/srtpayyoAoXsvxuy+X6on0szCahWfvTKOjjPJPd3sGWM/A
+   GIx0nWLTddKCwXJFSQDafm53xCe+rtlI/xT3KqyO6lKlF2UG2OrvYi7ny
+   ZdU1NmdIDa9c+EYXNIgQda60dm9giTjINKrRnz4BUQWkT8QC3/XtuLoRa
+   FDc9xPGRlFlm2ezAa6/FmUOMF2uMok1OVzcTA0LnviB0eXhqmwOx6yxjZ
+   53vnkx/4vP454dpDO45zc4qSd4xUOGqPKnb75cRz2jNVVL5LgaxopPOTP
+   3sgowZLfWhLxZSKvQbF03zqUt3z7JwzwREQXd+j/gmUpQvp6fYGfEIFfz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="391352922"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="391352922"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 22:08:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="944915314"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="944915314"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 06 Dec 2023 22:07:56 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rB7Y9-000Btm-2b;
+	Thu, 07 Dec 2023 06:07:53 +0000
+Date: Thu, 7 Dec 2023 14:06:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stephan Gerhold <stephan.gerhold@kernkonzept.com>,
+	Georgi Djakov <djakov@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Adam Skladowski <a39.skl@gmail.com>,
+	Stephan Gerhold <stephan.gerhold@kernkonzept.com>
+Subject: Re: [PATCH 2/2] interconnect: qcom: Add MSM8909 interconnect
+ provider driver
+Message-ID: <202312071325.M9cg1wry-lkp@intel.com>
+References: <20231206-icc-msm8909-v1-2-fe0dd632beff@kernkonzept.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +60,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204055650.788388-3-kcfeng0@nuvoton.com>
+In-Reply-To: <20231206-icc-msm8909-v1-2-fe0dd632beff@kernkonzept.com>
 
-Hi,
+Hi Stephan,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on feaf241ae2da2a73cb421473f52a4732128a996f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/baneric926-gmail-com/dt-bindings-hwmon-Add-nct736x-bindings/20231204-135942
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231204055650.788388-3-kcfeng0%40nuvoton.com
-patch subject: [PATCH v1 2/2] hwmon: Driver for Nuvoton NCT736X
-config: m68k-randconfig-r071-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071152.Kfcw1KlD-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071152.Kfcw1KlD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stephan-Gerhold/dt-bindings-interconnect-Add-Qualcomm-MSM8909-DT-bindings/20231206-223626
+base:   feaf241ae2da2a73cb421473f52a4732128a996f
+patch link:    https://lore.kernel.org/r/20231206-icc-msm8909-v1-2-fe0dd632beff%40kernkonzept.com
+patch subject: [PATCH 2/2] interconnect: qcom: Add MSM8909 interconnect provider driver
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231207/202312071325.M9cg1wry-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312071325.M9cg1wry-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312071152.Kfcw1KlD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312071325.M9cg1wry-lkp@intel.com/
 
-smatch warnings:
-drivers/hwmon/nct736x.c:367 nct736x_init_chip() error: uninitialized symbol 'gpio0_3'.
-drivers/hwmon/nct736x.c:370 nct736x_init_chip() error: uninitialized symbol 'gpio4_7'.
-drivers/hwmon/nct736x.c:373 nct736x_init_chip() error: uninitialized symbol 'gpio10_13'.
-drivers/hwmon/nct736x.c:376 nct736x_init_chip() error: uninitialized symbol 'gpio14_17'.
+All errors (new ones prefixed by >>):
 
-vim +/gpio0_3 +367 drivers/hwmon/nct736x.c
+>> drivers/interconnect/qcom/msm8909.c:1319:19: error: initialization of 'int (*)(struct platform_device *)' from incompatible pointer type 'void (*)(struct platform_device *)' [-Werror=incompatible-pointer-types]
+    1319 |         .remove = qnoc_remove,
+         |                   ^~~~~~~~~~~
+   drivers/interconnect/qcom/msm8909.c:1319:19: note: (near initialization for 'msm8909_noc_driver.remove')
+   cc1: some warnings being treated as errors
 
-16e62bcf3c9b93 Ban Feng 2023-12-04  335  static int nct736x_init_chip(struct i2c_client *client,
-16e62bcf3c9b93 Ban Feng 2023-12-04  336  			     u32 pwm_mask, u32 fanin_mask, u32 wdt_cfg)
-16e62bcf3c9b93 Ban Feng 2023-12-04  337  {
-16e62bcf3c9b93 Ban Feng 2023-12-04  338  	const struct i2c_device_id *id = i2c_match_id(nct736x_id, client);
-16e62bcf3c9b93 Ban Feng 2023-12-04  339  	u8 i, gpio0_3, gpio4_7, gpio10_13, gpio14_17;
-16e62bcf3c9b93 Ban Feng 2023-12-04  340  	int ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04  341  
-16e62bcf3c9b93 Ban Feng 2023-12-04  342  	for (i = 0; i < NCT736X_PWM_COUNT; i++) {
-16e62bcf3c9b93 Ban Feng 2023-12-04  343  		if (i < 4) {
-16e62bcf3c9b93 Ban Feng 2023-12-04  344  			if (pwm_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  345  				gpio0_3 |= PWM_SEL(i);
 
-This doesn't work.  gpio0_3 needs to be initialized to zero before we
-can turn on individual bits.
+vim +1319 drivers/interconnect/qcom/msm8909.c
 
-16e62bcf3c9b93 Ban Feng 2023-12-04  346  			if (fanin_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  347  				gpio10_13 |= FANIN_SEL(i);
-
-Etc...
-
-16e62bcf3c9b93 Ban Feng 2023-12-04  348  		} else if (i < 8) {
-16e62bcf3c9b93 Ban Feng 2023-12-04  349  			if (pwm_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  350  				gpio4_7 |= PWM_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  351  			if (fanin_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  352  				gpio14_17 |= FANIN_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  353  		} else if (i < 12) {
-16e62bcf3c9b93 Ban Feng 2023-12-04  354  			if (pwm_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  355  				gpio10_13 |= PWM_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  356  			if (fanin_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  357  				gpio0_3 |= FANIN_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  358  		} else {
-16e62bcf3c9b93 Ban Feng 2023-12-04  359  			if (pwm_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  360  				gpio14_17 |= PWM_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  361  			if (fanin_mask & BIT_CHECK(i))
-16e62bcf3c9b93 Ban Feng 2023-12-04  362  				gpio4_7 |= FANIN_SEL(i);
-16e62bcf3c9b93 Ban Feng 2023-12-04  363  		}
-16e62bcf3c9b93 Ban Feng 2023-12-04  364  	}
-16e62bcf3c9b93 Ban Feng 2023-12-04  365  
-16e62bcf3c9b93 Ban Feng 2023-12-04  366  	/* Pin Function Configuration */
-16e62bcf3c9b93 Ban Feng 2023-12-04 @367  	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_0_3, gpio0_3);
-                                                                                                      ^^^^^^^
-
-16e62bcf3c9b93 Ban Feng 2023-12-04  368  	if (ret < 0)
-16e62bcf3c9b93 Ban Feng 2023-12-04  369  		return ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04 @370  	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_4_7, gpio4_7);
-16e62bcf3c9b93 Ban Feng 2023-12-04  371  	if (ret < 0)
-16e62bcf3c9b93 Ban Feng 2023-12-04  372  		return ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04 @373  	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_10_13, gpio10_13);
-16e62bcf3c9b93 Ban Feng 2023-12-04  374  	if (ret < 0)
-16e62bcf3c9b93 Ban Feng 2023-12-04  375  		return ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04 @376  	ret = nct736x_write_reg(client, NCT736X_REG_GPIO_14_17, gpio14_17);
-16e62bcf3c9b93 Ban Feng 2023-12-04  377  	if (ret < 0)
-16e62bcf3c9b93 Ban Feng 2023-12-04  378  		return ret;
-16e62bcf3c9b93 Ban Feng 2023-12-04  379  
-16e62bcf3c9b93 Ban Feng 2023-12-04  380  	/* PWM and FANIN Monitoring Enable */
+  1316	
+  1317	static struct platform_driver msm8909_noc_driver = {
+  1318		.probe = qnoc_probe,
+> 1319		.remove = qnoc_remove,
+  1320		.driver = {
+  1321			.name = "qnoc-msm8909",
+  1322			.of_match_table = msm8909_noc_of_match,
+  1323			.sync_state = icc_sync_state,
+  1324		},
+  1325	};
+  1326	module_platform_driver(msm8909_noc_driver);
+  1327	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
