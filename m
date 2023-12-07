@@ -1,47 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AED3EA9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 01:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C013EA9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 01:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWH3x+Re"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hUA53Lp+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701912150; x=1733448150;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cswOJEuzyCHnzZcbK6DqxzbmdpCQUo/oHxAIV0mYalE=;
-  b=UWH3x+ReWyvAZM0p3FO4HLMoYptYEswLrOQYbTdqsuaOfdElmO3I1T7U
-   1eLewMBsgffkTGlflEgzY+z2Xl5vqvaIQvmREpblRc94kRJKoOTVxuWyS
-   leFeqZQIzSrGB9YL/6YamjFNaPRzUiPN57/+pNMGt01czox4AEzf1uFbF
-   Kch94rGWU9J9bxT4GYhb+VuvJKQTlkcVfj5Io/ZUN67OAiFf0A/M7qBtr
-   bldKxvYNUJU/xitr5pl+7vdqI+0z+KOqoBS1MpzZzytZn9cXl6CAxrSub
-   O2N/00pCKSg5/a2iaRRPfwJZ9xpVfMUrwizF89GfbXW2M/AgEFs+kzYt+
+  t=1701912153; x=1733448153;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=haxRevXN/RxJvUHVAi69/QMEeMdiAMug75ZxQ4vmF6o=;
+  b=hUA53Lp+xTt8UHiabDmi62mb4qBlL2JPtMV5pPel8pm3GtcO2eSVyPEb
+   9n0R7+oiFqQJzRqFttHmS2F/w7wFh4qKpGrNIBNaSdr9JOkgmJcjLmN/e
+   w7ORZB2QiXs3IrxK4pS9geblZ7UosvWRbTEHgdtinaU1ji9BjS+0SEiny
+   zYeMrcn1spcW0XEw5aExE/s6I4WTsIrwvJZ+LN12+7DgXkAoOIq59NT1w
+   kJtOPUbw2KaF8ukJpvu6C/zUvbUWK9ilptaFgdcKeALrNtpe7YNK611PQ
+   p8Lh9rsUYM9QbmXT3TP++kBFiqk0jcAHhY/yh+hB9HkNH7PQP/paJpfuL
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="391325980"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="391325987"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="391325980"
+   d="scan'208";a="391325987"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 17:22:30 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 17:22:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="894943618"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="894943613"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="894943618"
+   d="scan'208";a="894943613"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 06 Dec 2023 17:22:29 -0800
+  by orsmga004.jf.intel.com with ESMTP; 06 Dec 2023 17:22:28 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rB35t-000BfE-32;
-	Thu, 07 Dec 2023 01:22:26 +0000
-Date: Thu, 7 Dec 2023 09:22:07 +0800
+	id 1rB35s-000BfC-14;
+	Thu, 07 Dec 2023 01:22:25 +0000
+Date: Thu, 7 Dec 2023 09:22:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 15013/30000]
- drivers/virtio/virtio_wl.c:1435:14: error: dereferencing pointer to
- incomplete type 'struct sync_file'
-Message-ID: <202312070935.RqTvUt6N-lkp@intel.com>
+To: Dumitru Ceclan <mitrutzceclan@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linus.walleij@linaro.org, brgl@bgdev.pl,
+	andy@kernel.org, linux-gpio@vger.kernel.org,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Walle <michael@walle.cc>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, ChiaEn Wu <chiaen_wu@richtek.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Leonard =?iso-8859-1?Q?G=F6hrs?= <l.goehrs@pengutronix.de>,
+	Mike Looijmans <mike.looijmans@topic.nl>,
+	Haibo Chen <haibo.chen@nxp.com>,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
+	Ceclan Dumitru <dumitru.ceclan@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dumitru Ceclan <mitrutzceclan@gmail.com>
+Subject: Re: [PATCH v7 2/2] iio: adc: ad7173: add AD7173 driver
+Message-ID: <202312070921.XWcr7wUd-lkp@intel.com>
+References: <20231205134223.17335-2-mitrutzceclan@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,157 +68,179 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231205134223.17335-2-mitrutzceclan@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   799749bdbfa75d19afbb979725fcd53cc65462e0
-commit: 6686780d2960d81b608e66938266602d276ea4d1 [15013/30000] CHROMIUM: virtio-wl: add support for host fences
-config: x86_64-randconfig-003-20231206 (https://download.01.org/0day-ci/archive/20231207/202312070935.RqTvUt6N-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312070935.RqTvUt6N-lkp@intel.com/reproduce)
+Hi Dumitru,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.7-rc4 next-20231206]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dumitru-Ceclan/iio-adc-ad7173-add-AD7173-driver/20231205-214833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20231205134223.17335-2-mitrutzceclan%40gmail.com
+patch subject: [PATCH v7 2/2] iio: adc: ad7173: add AD7173 driver
+config: m68k-randconfig-r071-20231207 (https://download.01.org/0day-ci/archive/20231207/202312070921.XWcr7wUd-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231207/202312070921.XWcr7wUd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312070935.RqTvUt6N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312070921.XWcr7wUd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/iio/adc/ad7173.c:833 ad7173_fw_parse_channel_config() warn: unsigned 'ref_sel' is never less than zero.
 
-   drivers/virtio/virtio_wl.c: In function 'virtwl_vfd_send':
-   drivers/virtio/virtio_wl.c:938:13: error: implicit declaration of function 'sync_file_get_fence'; did you mean 'sync_file_range'? [-Werror=implicit-function-declaration]
-     938 |     fence = sync_file_get_fence(vfd_fds[i]);
-         |             ^~~~~~~~~~~~~~~~~~~
-         |             sync_file_range
-   drivers/virtio/virtio_wl.c:938:11: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     938 |     fence = sync_file_get_fence(vfd_fds[i]);
-         |           ^
-   drivers/virtio/virtio_wl.c:939:18: error: implicit declaration of function 'is_local_fence' [-Werror=implicit-function-declaration]
-     939 |     if (fence && is_local_fence(fence)) {
-         |                  ^~~~~~~~~~~~~~
-   drivers/virtio/virtio_wl.c: In function 'virtwl_ioctl_recv':
-   drivers/virtio/virtio_wl.c:1417:11: error: implicit declaration of function 'sync_file_create'; did you mean 'sync_file_range'? [-Werror=implicit-function-declaration]
-    1417 |    sync = sync_file_create(&fence->base);
-         |           ^~~~~~~~~~~~~~~~
-         |           sync_file_range
-   drivers/virtio/virtio_wl.c:1417:9: warning: assignment to 'struct sync_file *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1417 |    sync = sync_file_create(&fence->base);
-         |         ^
->> drivers/virtio/virtio_wl.c:1435:14: error: dereferencing pointer to incomplete type 'struct sync_file'
-    1435 |     fput(sync->file);
-         |              ^~
-   cc1: some warnings being treated as errors
+vim +/ref_sel +833 drivers/iio/adc/ad7173.c
 
-
-vim +1435 drivers/virtio/virtio_wl.c
-
-  1361	
-  1362	static long virtwl_ioctl_recv(struct file *filp, void __user *ptr)
-  1363	{
-  1364		struct virtwl_ioctl_txn ioctl_recv;
-  1365		void __user *user_data = ptr + sizeof(struct virtwl_ioctl_txn);
-  1366		int __user *user_fds = (int __user *)ptr;
-  1367		size_t vfd_count = VIRTWL_SEND_MAX_ALLOCS;
-  1368		struct virtwl_vfd *vfds[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
-  1369		int fds[VIRTWL_SEND_MAX_ALLOCS];
-  1370		size_t i;
-  1371		int ret = 0;
-  1372	
-  1373		for (i = 0; i < VIRTWL_SEND_MAX_ALLOCS; i++)
-  1374			fds[i] = -1;
-  1375	
-  1376		ret = copy_from_user(&ioctl_recv, ptr, sizeof(struct virtwl_ioctl_txn));
-  1377		if (ret)
-  1378			return -EFAULT;
-  1379	
-  1380		/* Early check for user error. */
-  1381		ret = !access_ok(user_data, ioctl_recv.len);
-  1382		if (ret)
-  1383			return -EFAULT;
-  1384	
-  1385		ret = virtwl_vfd_recv(filp, user_data, ioctl_recv.len, vfds,
-  1386				      &vfd_count);
-  1387		if (ret < 0)
-  1388			return ret;
-  1389	
-  1390		ret = copy_to_user(&((struct virtwl_ioctl_txn __user *)ptr)->len, &ret,
-  1391				   sizeof(ioctl_recv.len));
-  1392		if (ret) {
-  1393			ret = -EFAULT;
-  1394			goto free_vfds;
-  1395		}
-  1396	
-  1397		for (i = 0; i < vfd_count; i++) {
-  1398			if (vfds[i]->flags & VIRTIO_WL_VFD_FENCE) {
-  1399				struct virtwl_vfd *vfd = filp->private_data;
-  1400				struct virtwl_info *vi = vfd->vi;
-  1401				struct virtwl_fence *fence;
-  1402				struct sync_file *sync;
-  1403	
-  1404				fence = kzalloc(sizeof(*fence), GFP_KERNEL);
-  1405				if (!fence) {
-  1406					ret = -ENOMEM;
-  1407					goto free_vfds;
-  1408				}
-  1409				fence->vfd = vfds[i];
-  1410				dma_fence_init(&fence->base, &virtwl_fence_ops,
-  1411					       &vi->fence_lock, fence->vfd->id, 1);
-  1412	
-  1413				// If something fails, cleanup of the dma_fence will
-  1414				// clean up this vfd.
-  1415				vfds[i] = NULL;
-  1416	
-  1417				sync = sync_file_create(&fence->base);
-  1418				dma_fence_put(&fence->base);
-  1419				if (!sync) {
-  1420					// Maybe not -ENOMEM, but sync_file_create
-  1421					// doesn't expose what actually went wrong.
-  1422					ret = -ENOMEM;
-  1423					goto free_vfds;
-  1424				}
-  1425	
-  1426				spin_lock(&vi->fence_lock);
-  1427				if (!fence->vfd->hungup)
-  1428					fence->vfd->fence = dma_fence_get(&fence->base);
-  1429				else
-  1430					dma_fence_signal_locked(&fence->base);
-  1431				spin_unlock(&vi->fence_lock);
-  1432	
-  1433				ret = get_unused_fd_flags(O_CLOEXEC);
-  1434				if (ret < 0) {
-> 1435					fput(sync->file);
-  1436					goto free_vfds;
-  1437				}
-  1438				fd_install(ret, sync->file);
-  1439			} else {
-  1440				ret = anon_inode_getfd("[virtwl_vfd]", &virtwl_vfd_fops,
-  1441						       vfds[i], virtwl_vfd_file_flags(vfds[i])
-  1442						       | O_CLOEXEC);
-  1443			}
-  1444	
-  1445			if (ret < 0)
-  1446				goto free_vfds;
-  1447	
-  1448			vfds[i] = NULL;
-  1449			fds[i] = ret;
-  1450		}
-  1451	
-  1452		ret = copy_to_user(user_fds, fds, sizeof(int) * VIRTWL_SEND_MAX_ALLOCS);
-  1453		if (ret) {
-  1454			ret = -EFAULT;
-  1455			goto free_vfds;
-  1456		}
-  1457	
-  1458		return 0;
-  1459	
-  1460	free_vfds:
-  1461		for (i = 0; i < vfd_count; i++) {
-  1462			if (vfds[i])
-  1463				do_vfd_close(vfds[i]);
-  1464			if (fds[i] >= 0)
-  1465				__close_fd(current->files, fds[i]);
-  1466		}
-  1467		return ret;
-  1468	}
-  1469	
+   735	
+   736	static int ad7173_fw_parse_channel_config(struct iio_dev *indio_dev)
+   737	{
+   738		struct ad7173_channel *channels_st_priv_arr, *chan_st_priv;
+   739		struct ad7173_state *st = iio_priv(indio_dev);
+   740		struct device *dev = indio_dev->dev.parent;
+   741		struct iio_chan_spec *chan_arr, *chan;
+   742		struct fwnode_handle *child;
+   743		unsigned int ain[2], chan_index = 0;
+   744		unsigned int num_channels;
+   745		const char *ref_label;
+   746		u32 ref_sel;
+   747		int ret;
+   748	
+   749		st->regulators[0].supply = ad7173_ref_sel_str[AD7173_SETUP_REF_SEL_EXT_REF];
+   750		st->regulators[1].supply = ad7173_ref_sel_str[AD7173_SETUP_REF_SEL_EXT_REF2];
+   751		st->regulators[2].supply = ad7173_ref_sel_str[AD7173_SETUP_REF_SEL_AVDD1_AVSS];
+   752	
+   753		/* If a regulator is not available, it will be set to a dummy regulator.
+   754		 * Each channel reference is checked with regulator_get_voltage() before
+   755		 *  setting attributes so if any channel uses a dummy supply the driver
+   756		 *  probe will fail.
+   757		 */
+   758		ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(st->regulators),
+   759					      st->regulators);
+   760		if (ret)
+   761			return dev_err_probe(dev, ret, "Failed to get regulators\n");
+   762	
+   763		ret = regulator_bulk_enable(ARRAY_SIZE(st->regulators), st->regulators);
+   764		if (ret)
+   765			return dev_err_probe(dev, ret, "Failed to enable regulators\n");
+   766	
+   767		ret = devm_add_action_or_reset(dev, ad7173_disable_regulators, st);
+   768		if (ret)
+   769			return dev_err_probe(dev, ret,
+   770					     "Failed to add regulators disable action\n");
+   771	
+   772		num_channels = device_get_child_node_count(dev);
+   773	
+   774		if (st->info->has_temp)
+   775			num_channels++;
+   776	
+   777		if (num_channels == 0)
+   778			return dev_err_probe(dev, -EINVAL, "No channels specified\n");
+   779		st->num_channels = num_channels;
+   780	
+   781		chan_arr = devm_kcalloc(dev, sizeof(*chan_arr), num_channels, GFP_KERNEL);
+   782		if (!chan_arr)
+   783			return -ENOMEM;
+   784	
+   785		channels_st_priv_arr = devm_kcalloc(dev, num_channels,
+   786						    sizeof(*channels_st_priv_arr),
+   787						    GFP_KERNEL);
+   788		if (!channels_st_priv_arr)
+   789			return -ENOMEM;
+   790	
+   791		indio_dev->channels = chan_arr;
+   792		indio_dev->num_channels = num_channels;
+   793		st->channels = channels_st_priv_arr;
+   794	
+   795		if (st->info->has_temp) {
+   796			chan_arr[chan_index] = ad7173_temp_iio_channel_template;
+   797			chan_st_priv = &channels_st_priv_arr[chan_index];
+   798			chan_st_priv->ain =
+   799				AD7173_CH_ADDRESS(chan_arr[chan_index].channel, chan_arr[chan_index].channel2);
+   800			chan_st_priv->cfg.bipolar = false;
+   801			chan_st_priv->cfg.input_buf = true;
+   802			chan_st_priv->cfg.ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
+   803			st->adc_mode |= AD7173_ADC_MODE_REF_EN;
+   804	
+   805			chan_index++;
+   806		}
+   807	
+   808		device_for_each_child_node(dev, child) {
+   809			chan = &chan_arr[chan_index];
+   810			chan_st_priv = &channels_st_priv_arr[chan_index];
+   811			ret = fwnode_property_read_u32_array(child, "diff-channels",
+   812							     ain, ARRAY_SIZE(ain));
+   813			if (ret) {
+   814				fwnode_handle_put(child);
+   815				return ret;
+   816			}
+   817	
+   818			if (ain[0] >= st->info->num_inputs ||
+   819			    ain[1] >= st->info->num_inputs) {
+   820				fwnode_handle_put(child);
+   821				return dev_err_probe(dev, -EINVAL,
+   822						     "Input pin number out of range for pair (%d %d).\n",
+   823						     ain[0], ain[1]);
+   824			}
+   825	
+   826			ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
+   827			ref_label = ad7173_ref_sel_str[AD7173_SETUP_REF_SEL_INT_REF];
+   828	
+   829			fwnode_property_read_string(child, "adi,reference-select",
+   830						    &ref_label);
+   831			ref_sel = match_string(ad7173_ref_sel_str,
+   832					       ARRAY_SIZE(ad7173_ref_sel_str), ref_label);
+ > 833			if (ref_sel < 0) {
+   834				fwnode_handle_put(child);
+   835				return dev_err_probe(dev, -EINVAL,
+   836						     "Invalid channel reference name %s\n",
+   837						     ref_label);
+   838			}
+   839	
+   840			if (ref_sel == AD7173_SETUP_REF_SEL_EXT_REF2 &&
+   841			    st->info->id != AD7173_ID) {
+   842				fwnode_handle_put(child);
+   843				return dev_err_probe(dev, -EINVAL, "External reference 2 is only available on ad7173-8\n");
+   844			}
+   845	
+   846			ret = ad7173_get_ref_voltage_milli(st, ref_sel);
+   847			if (ret < 0) {
+   848				fwnode_handle_put(child);
+   849				return dev_err_probe(dev, ret,
+   850						     "Cannot use reference %u\n", ref_sel);
+   851			}
+   852			if (ref_sel == AD7173_SETUP_REF_SEL_INT_REF)
+   853				st->adc_mode |= AD7173_ADC_MODE_REF_EN;
+   854			chan_st_priv->cfg.ref_sel = ref_sel;
+   855	
+   856			*chan = ad7173_channel_template;
+   857			chan->address = chan_index;
+   858			chan->scan_index = chan_index;
+   859			chan->channel = ain[0];
+   860			chan->channel2 = ain[1];
+   861			chan->differential = true;
+   862	
+   863			chan_st_priv->ain = AD7173_CH_ADDRESS(ain[0], ain[1]);
+   864			chan_st_priv->chan_reg = chan_index;
+   865			chan_st_priv->cfg.input_buf = true;
+   866			chan_st_priv->cfg.odr = 0;
+   867	
+   868			chan_st_priv->cfg.bipolar = fwnode_property_read_bool(child, "bipolar");
+   869			if (chan_st_priv->cfg.bipolar)
+   870				chan->info_mask_separate |= BIT(IIO_CHAN_INFO_OFFSET);
+   871	
+   872			chan_index++;
+   873		}
+   874	
+   875		return 0;
+   876	}
+   877	
 
 -- 
 0-DAY CI Kernel Test Service
