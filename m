@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879C35733A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 21:26:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67056840C4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 21:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9lX4Fbm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmgI3P35"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701984418; x=1733520418;
+  t=1701985139; x=1733521139;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z6WKhviJB5923Gs0f2xtC/iDHT5DEJBLNTzejBz7Des=;
-  b=X9lX4FbmMJmQmUFcH1n8l41nV6+2MPwAHf+segZ6QZQTChHU3m87Pt0i
-   ys1MCcFQxbLft7E9DwmubJACV5lnEoRbHpjVSlrvinLajsEFTwEUrmote
-   DZAPaWUIwYdt4/alj70Fsh688K0cd4LNvUiznOxy4WLwn47KO7lVK6lsb
-   HudBUbbYDx+GGRgvz/w+c57zIonKerxfVvKjEjQJ6ltN7j3ps8M7knXvF
-   YMU/myKQBPqcZJ68od9QVdmhbGPMONfDVBJKnZP7KYdIVSD6r3Wezlkj1
-   adhiFWRxTfxEHQA5OHaBEAOEsCTorr3NiMKTOd5bxjjX0SwcNAhP261Zp
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="480509679"
+  bh=s3fvsgzOi4E14N6ZbezeG1WKcP6hCcWDyqZ6dRuB2Ng=;
+  b=XmgI3P35JH4zHEUd+/NwNsJOvREbcX1IZiDJ3DqzsMalI19JH/3t8xeX
+   i1qj8DDUFkPX1J8NWk78hbA9sVVIe4dDRQxOX4KxIerSWCDuShUoI+m4L
+   TQngE1JOiMnD4+Px4DFoVVFBCM8S+EBTc73OvJvhs67Eue5N60raQ2tm7
+   xTG+4gZjk/T3IegkJm0kRqXLR1Te+Fe5tvNbGBGD3GBBmDuOlzivDOwZz
+   r53pXuhpA6eHkkQghcDK38jBdrzn1Mm5g/14Q/GMlusJ/5FLd0UYBhOop
+   BQBTGLlNytLwxgLVjvTjlpwQYAyyCCnzgQzEtQjGruxegnZQnT7A0iu+0
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="15864362"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="480509679"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 13:26:57 -0800
+   d="scan'208";a="15864362"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 13:38:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="915713114"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1019102402"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="915713114"
+   d="scan'208";a="1019102402"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Dec 2023 13:26:56 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 07 Dec 2023 13:38:56 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBLtV-000CrX-2u;
-	Thu, 07 Dec 2023 21:26:53 +0000
-Date: Fri, 8 Dec 2023 05:26:23 +0800
+	id 1rBM58-000Crr-0A;
+	Thu, 07 Dec 2023 21:38:54 +0000
+Date: Fri, 8 Dec 2023 05:38:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stafford Horne <shorne@gmail.com>
+To: Vineet Gupta <vgupta@synopsys.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: drivers/vhost/vringh.c:567:18: sparse: sparse: cast to restricted
- __virtio16
-Message-ID: <202312080502.SyHDnIDC-lkp@intel.com>
+	linux-snps-arc@lists.infradead.org
+Subject: arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202312080515.vdBoqRe6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,44 +53,111 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: d877322bc1adcab9850732275670409e8bcca4c4 openrisc: Fix issue with get_user for 64-bit values
-date:   3 years, 3 months ago
-config: openrisc-randconfig-r131-20231102 (https://download.01.org/0day-ci/archive/20231208/202312080502.SyHDnIDC-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080502.SyHDnIDC-lkp@intel.com/reproduce)
+commit: 96f1b00138cb8f04c742c82d0a7c460b2202e887 ARCv2: save ABI registers across signal handling
+date:   2 years, 6 months ago
+config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231208/202312080515.vdBoqRe6-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080515.vdBoqRe6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080502.SyHDnIDC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080515.vdBoqRe6-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/vhost/vringh.c:567:18: sparse: sparse: cast to restricted __virtio16
->> drivers/vhost/vringh.c:567:18: sparse: sparse: cast to restricted __virtio16
->> drivers/vhost/vringh.c:567:18: sparse: sparse: cast to restricted __virtio16
->> drivers/vhost/vringh.c:567:18: sparse: sparse: restricted __virtio16 degrades to integer
->> drivers/vhost/vringh.c:567:18: sparse: sparse: restricted __virtio16 degrades to integer
->> drivers/vhost/vringh.c:567:18: sparse: sparse: cast to restricted __virtio16
->> drivers/vhost/vringh.c:567:18: sparse: sparse: cast to restricted __virtio16
+>> arch/arc/kernel/signal.c:77:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct user_regs_arcv2 * @@
+   arch/arc/kernel/signal.c:77:31: sparse:     expected void [noderef] __user *to
+   arch/arc/kernel/signal.c:77:31: sparse:     got struct user_regs_arcv2 *
+>> arch/arc/kernel/signal.c:88:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct user_regs_arcv2 * @@
+   arch/arc/kernel/signal.c:88:41: sparse:     expected void const [noderef] __user *from
+   arch/arc/kernel/signal.c:88:41: sparse:     got struct user_regs_arcv2 *
+>> arch/arc/kernel/signal.c:134:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
+   arch/arc/kernel/signal.c:134:42: sparse:     expected struct sigcontext *mctx
+   arch/arc/kernel/signal.c:134:42: sparse:     got struct sigcontext [noderef] __user *
+   arch/arc/kernel/signal.c:153:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sigcontext *mctx @@     got struct sigcontext [noderef] __user * @@
+   arch/arc/kernel/signal.c:153:45: sparse:     expected struct sigcontext *mctx
+   arch/arc/kernel/signal.c:153:45: sparse:     got struct sigcontext [noderef] __user *
 
-vim +567 drivers/vhost/vringh.c
+vim +77 arch/arc/kernel/signal.c
 
-f87d0fbb579818 Rusty Russell      2013-03-20  562  
-f87d0fbb579818 Rusty Russell      2013-03-20  563  /* Userspace access helpers: in this case, addresses are really userspace. */
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  564  static inline int getu16_user(const struct vringh *vrh, u16 *val, const __virtio16 *p)
-f87d0fbb579818 Rusty Russell      2013-03-20  565  {
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  566  	__virtio16 v = 0;
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12 @567  	int rc = get_user(v, (__force __virtio16 __user *)p);
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  568  	*val = vringh16_to_cpu(vrh, v);
-b9f7ac8c72894c Michael S. Tsirkin 2014-12-12  569  	return rc;
-f87d0fbb579818 Rusty Russell      2013-03-20  570  }
-f87d0fbb579818 Rusty Russell      2013-03-20  571  
-
-:::::: The code at line 567 was first introduced by commit
-:::::: b9f7ac8c72894c19bf258a54ecaa708df4ffbe80 vringh: update for virtio 1.0 APIs
-
-:::::: TO: Michael S. Tsirkin <mst@redhat.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+    63	
+    64	static int save_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
+    65	{
+    66		int err = 0;
+    67	#ifndef CONFIG_ISA_ARCOMPACT
+    68		struct user_regs_arcv2 v2abi;
+    69	
+    70		v2abi.r30 = regs->r30;
+    71	#ifdef CONFIG_ARC_HAS_ACCL_REGS
+    72		v2abi.r58 = regs->r58;
+    73		v2abi.r59 = regs->r59;
+    74	#else
+    75		v2abi.r58 = v2abi.r59 = 0;
+    76	#endif
+  > 77		err = __copy_to_user(&mctx->v2abi, &v2abi, sizeof(v2abi));
+    78	#endif
+    79		return err;
+    80	}
+    81	
+    82	static int restore_arcv2_regs(struct sigcontext *mctx, struct pt_regs *regs)
+    83	{
+    84		int err = 0;
+    85	#ifndef CONFIG_ISA_ARCOMPACT
+    86		struct user_regs_arcv2 v2abi;
+    87	
+  > 88		err = __copy_from_user(&v2abi, &mctx->v2abi, sizeof(v2abi));
+    89	
+    90		regs->r30 = v2abi.r30;
+    91	#ifdef CONFIG_ARC_HAS_ACCL_REGS
+    92		regs->r58 = v2abi.r58;
+    93		regs->r59 = v2abi.r59;
+    94	#endif
+    95	#endif
+    96		return err;
+    97	}
+    98	
+    99	static int
+   100	stash_usr_regs(struct rt_sigframe __user *sf, struct pt_regs *regs,
+   101		       sigset_t *set)
+   102	{
+   103		int err;
+   104		struct user_regs_struct uregs;
+   105	
+   106		uregs.scratch.bta	= regs->bta;
+   107		uregs.scratch.lp_start	= regs->lp_start;
+   108		uregs.scratch.lp_end	= regs->lp_end;
+   109		uregs.scratch.lp_count	= regs->lp_count;
+   110		uregs.scratch.status32	= regs->status32;
+   111		uregs.scratch.ret	= regs->ret;
+   112		uregs.scratch.blink	= regs->blink;
+   113		uregs.scratch.fp	= regs->fp;
+   114		uregs.scratch.gp	= regs->r26;
+   115		uregs.scratch.r12	= regs->r12;
+   116		uregs.scratch.r11	= regs->r11;
+   117		uregs.scratch.r10	= regs->r10;
+   118		uregs.scratch.r9	= regs->r9;
+   119		uregs.scratch.r8	= regs->r8;
+   120		uregs.scratch.r7	= regs->r7;
+   121		uregs.scratch.r6	= regs->r6;
+   122		uregs.scratch.r5	= regs->r5;
+   123		uregs.scratch.r4	= regs->r4;
+   124		uregs.scratch.r3	= regs->r3;
+   125		uregs.scratch.r2	= regs->r2;
+   126		uregs.scratch.r1	= regs->r1;
+   127		uregs.scratch.r0	= regs->r0;
+   128		uregs.scratch.sp	= regs->sp;
+   129	
+   130		err = __copy_to_user(&(sf->uc.uc_mcontext.regs.scratch), &uregs.scratch,
+   131				     sizeof(sf->uc.uc_mcontext.regs.scratch));
+   132	
+   133		if (is_isa_arcv2())
+ > 134			err |= save_arcv2_regs(&(sf->uc.uc_mcontext), regs);
+   135	
+   136		err |= __copy_to_user(&sf->uc.uc_sigmask, set, sizeof(sigset_t));
+   137	
+   138		return err ? -EFAULT : 0;
+   139	}
+   140	
 
 -- 
 0-DAY CI Kernel Test Service
