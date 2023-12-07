@@ -1,54 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70F64F88E;
-	Thu,  7 Dec 2023 19:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F79B4F897
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 19:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h9IL30Vf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcoZN6Xt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701977451; x=1733513451;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0eJYswHSdqLumV5B3q8tXp4JrEbH7Qyc7NqSqNcNoH4=;
-  b=h9IL30Vf3Z+slEOu8iYBZkbY+BXuApBu+l0nU5CT5tOEhTotFJTtdXuH
-   Jzk3/UUBHzUY7Iw1mO4B9rYOfksZxXf0yrbfSRh1vzdvTr0VH87r4mRBk
-   h7ViVx3iINtX5ZPHHyzdV7Aw1ev2J7mNXrPalU41xYLhWQhlN8eTd4mwE
-   Ttsn69r6SZHcRILmlWE8AHmjlJ9cujABUNwD1VSsKNmIv82iXK9Pfj8hF
-   b/ynXt5N0DRA8WO8pyhHd60rKrO0sRW0xD1t4pBxPa1yYdJVHYH6bwujq
-   I5QfZUnw8CwOw4tAQwpMmVjb8Pz9BRWlbyCCFBD/34ApU5JOOagvk8WEh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="373791330"
+  t=1701977453; x=1733513453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ni9LHcDFxpSKk37CXMF+oPjVX8r7ExfZ+aG86iqZo6w=;
+  b=LcoZN6Xtu5fFAN+PqezwNe27P7HiZtPvzXNm8zJ3sLDpV03K4dczVodp
+   byH//DLRpbqm0dNJdCKnS7YLuXskzKlrks3Na1Ug80ekEx+2U4NusNwL7
+   KV9rY0qwFtNc0ORAjy8RGlbvTfFqNW9RpksdLTBxzaCEu54zHAPokNJ3Z
+   GSeaM6KgJoJxF5UuYZAnSQfjprBdZJ9R/l4nfVX3FbXZQ9foH7zQ4Ujkw
+   kWm7FIDPdI4+ySjBKMXZ9gP15VlxfXjrcZPwcH25v/nHsUsp3ypAZkxLH
+   hohjCoXmUKpRK1RtEN5lZ71ircA2MP/j4PlgnFIwZElLd5kaiX+CcsKLm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="393161440"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="373791330"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 11:30:48 -0800
+   d="scan'208";a="393161440"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 11:30:47 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="806132943"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="13216314"
+   d="scan'208";a="806132943"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 07 Dec 2023 11:30:45 -0800
+  by orsmga001.jf.intel.com with ESMTP; 07 Dec 2023 11:30:45 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBK54-000Cjn-2V;
+	id 1rBK54-000Cjh-2E;
 	Thu, 07 Dec 2023 19:30:42 +0000
-Date: Fri, 8 Dec 2023 03:30:03 +0800
+Date: Fri, 8 Dec 2023 03:30:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 1/3] media: i2c: imx415: Convert to new CCI register
- access helpers
-Message-ID: <202312080321.6wjzIYcj-lkp@intel.com>
-References: <20231205090557.298680-2-alexander.stein@ew.tq-group.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>,
+	Michael Schmitz <schmitzmic@gmail.com>
+Subject: drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202312080308.IqKTXDYM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,171 +51,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231205090557.298680-2-alexander.stein@ew.tq-group.com>
 
-Hi Alexander,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master linus/master v6.7-rc4 next-20231207]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Stein/media-i2c-imx415-Convert-to-new-CCI-register-access-helpers/20231205-170736
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20231205090557.298680-2-alexander.stein%40ew.tq-group.com
-patch subject: [PATCH 1/3] media: i2c: imx415: Convert to new CCI register access helpers
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231208/202312080321.6wjzIYcj-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080321.6wjzIYcj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
+commit: 30b5e6ef4a32ea4985b99200e06d6660a69f9246 m68k: atari: Make Atari ROM port I/O write macros return void
+date:   1 year, 7 months ago
+config: m68k-randconfig-r131-20231119 (https://download.01.org/0day-ci/archive/20231208/202312080308.IqKTXDYM-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080308.IqKTXDYM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080321.6wjzIYcj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080308.IqKTXDYM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
 
->> drivers/media/i2c/imx415.c:119:16: error: call to undeclared function 'CCI_REG16_LE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   .regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-                                ^
-   drivers/media/i2c/imx415.c:41:30: note: expanded from macro 'IMX415_BCWAIT_TIME'
-   #define IMX415_BCWAIT_TIME        CCI_REG16_LE(0x3008)
-                                     ^
->> drivers/media/i2c/imx415.c:119:16: error: initializer element is not a compile-time constant
-                   .regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-                                ^~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx415.c:41:30: note: expanded from macro 'IMX415_BCWAIT_TIME'
-   #define IMX415_BCWAIT_TIME        CCI_REG16_LE(0x3008)
-                                     ^~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/imx415.c:195:4: error: call to undeclared function 'CCI_REG24_LE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           { IMX415_VMAX, 0x08CA },
-             ^
-   drivers/media/i2c/imx415.c:53:24: note: expanded from macro 'IMX415_VMAX'
-   #define IMX415_VMAX               CCI_REG24_LE(0x3024)
-                                     ^
-   drivers/media/i2c/imx415.c:195:4: error: initializer element is not a compile-time constant
-           { IMX415_VMAX, 0x08CA },
-             ^~~~~~~~~~~
-   drivers/media/i2c/imx415.c:53:24: note: expanded from macro 'IMX415_VMAX'
-   #define IMX415_VMAX               CCI_REG24_LE(0x3024)
-                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx415.c:211:4: error: initializer element is not a compile-time constant
-           { IMX415_VMAX, 0x08CA },
-             ^~~~~~~~~~~
-   drivers/media/i2c/imx415.c:53:24: note: expanded from macro 'IMX415_VMAX'
-   #define IMX415_VMAX               CCI_REG24_LE(0x3024)
-                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx415.c:227:4: error: initializer element is not a compile-time constant
-           { IMX415_VMAX, 0x08CA },
-             ^~~~~~~~~~~
-   drivers/media/i2c/imx415.c:53:24: note: expanded from macro 'IMX415_VMAX'
-   #define IMX415_VMAX               CCI_REG24_LE(0x3024)
-                                     ^~~~~~~~~~~~~~~~~~~~
-   6 errors generated.
+vim +163 drivers/comedi/drivers/ni_daq_700.c
 
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  129  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  130  static int daq700_ai_rinsn(struct comedi_device *dev,
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  131  			   struct comedi_subdevice *s,
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  132  			   struct comedi_insn *insn, unsigned int *data)
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  133  {
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  134  	int n;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  135  	int d;
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  136  	int ret;
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  137  	unsigned int chan	= CR_CHAN(insn->chanspec);
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  138  	unsigned int aref	= CR_AREF(insn->chanspec);
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  139  	unsigned int range	= CR_RANGE(insn->chanspec);
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  140  	unsigned int r3_bits	= 0;
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  141  
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  142  	/* set channel input modes */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  143  	if (aref == AREF_DIFF)
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  144  		r3_bits |= CMD_R3_DIFF;
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  145  	/* write channel mode/range */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  146  	if (range >= 1)
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  147  		range++;        /* convert range to hardware value */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  148  	outb(r3_bits | (range & 0x03), dev->iobase + CMD_R3);
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  149  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  150  	/* write channel to multiplexer */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  151  	/* set mask scan bit high to disable scanning */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  152  	outb(chan | 0x80, dev->iobase + CMD_R1);
+ffed54dced8672 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2014-05-19  153  	/* mux needs 2us to really settle [Fred Brooks]. */
+ffed54dced8672 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2014-05-19  154  	udelay(2);
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  155  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  156  	/* convert n samples */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  157  	for (n = 0; n < insn->n; n++) {
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  158  		/* trigger conversion with out0 L to H */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  159  		outb(0x00, dev->iobase + CMD_R2); /* enable ADC conversions */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  160  		outb(0x30, dev->iobase + CMO_R); /* mode 0 out0 L, from H */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  161  		outb(0x00, dev->iobase + ADCLEAR_R);	/* clear the ADC FIFO */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  162  		/* read 16bit junk from FIFO to clear */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20 @163  		inw(dev->iobase + ADFIFO_R);
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  164  		/* mode 1 out0 H, L to H, start conversion */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  165  		outb(0x32, dev->iobase + CMO_R);
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  166  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  167  		/* wait for conversion to end */
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  168  		ret = comedi_timeout(dev, s, insn, daq700_ai_eoc, 0);
+22ca19d93d92c7 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  169  		if (ret)
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  170  			return ret;
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  171  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  172  		/* read data */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  173  		d = inw(dev->iobase + ADFIFO_R);
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  174  		/* mangle the data as necessary */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  175  		/* Bipolar Offset Binary: 0 to 4095 for -10 to +10 */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  176  		d &= 0x0fff;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  177  		d ^= 0x0800;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  178  		data[n] = d;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  179  	}
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  180  	return n;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  181  }
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  182  
 
-vim +/CCI_REG16_LE +119 drivers/media/i2c/imx415.c
+:::::: The code at line 163 was first introduced by commit
+:::::: cf695df834efc718b2ed17e9c83e127fd63c9033 staging: comedi: ni_daq_700: add AI range and input mode switching
 
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  113  
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  114  /* INCK Settings - includes all lane rate and INCK dependent registers */
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  115  static const struct imx415_clk_params imx415_clk_params[] = {
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  116  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  117  		.lane_rate = 594000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  118  		.inck = 27000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30 @119  		.regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  120  		.regs[1] = { IMX415_CPWAIT_TIME, 0x042 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  121  		.regs[2] = { IMX415_SYS_MODE, 0x7 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  122  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  123  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  124  		.regs[5] = { IMX415_INCKSEL3, 0x084 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  125  		.regs[6] = { IMX415_INCKSEL4, 0x0E7 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  126  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  127  		.regs[8] = { IMX415_INCKSEL6, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  128  		.regs[9] = { IMX415_INCKSEL7, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  129  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x06C0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  130  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  131  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  132  		.lane_rate = 720000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  133  		.inck = 24000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  134  		.regs[0] = { IMX415_BCWAIT_TIME, 0x054 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  135  		.regs[1] = { IMX415_CPWAIT_TIME, 0x03B },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  136  		.regs[2] = { IMX415_SYS_MODE, 0x9 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  137  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  138  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  139  		.regs[5] = { IMX415_INCKSEL3, 0x0B4 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  140  		.regs[6] = { IMX415_INCKSEL4, 0x0FC },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  141  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  142  		.regs[8] = { IMX415_INCKSEL6, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  143  		.regs[9] = { IMX415_INCKSEL7, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  144  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x0600 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  145  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  146  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  147  		.lane_rate = 891000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  148  		.inck = 27000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  149  		.regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  150  		.regs[1] = { IMX415_CPWAIT_TIME, 0x042 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  151  		.regs[2] = { IMX415_SYS_MODE, 0x5 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  152  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  153  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  154  		.regs[5] = { IMX415_INCKSEL3, 0x0C6 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  155  		.regs[6] = { IMX415_INCKSEL4, 0x0E7 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  156  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  157  		.regs[8] = { IMX415_INCKSEL6, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  158  		.regs[9] = { IMX415_INCKSEL7, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  159  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x06C0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  160  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  161  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  162  		.lane_rate = 1440000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  163  		.inck = 24000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  164  		.regs[0] = { IMX415_BCWAIT_TIME, 0x054 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  165  		.regs[1] = { IMX415_CPWAIT_TIME, 0x03B },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  166  		.regs[2] = { IMX415_SYS_MODE, 0x8 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  167  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  168  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  169  		.regs[5] = { IMX415_INCKSEL3, 0x0B4 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  170  		.regs[6] = { IMX415_INCKSEL4, 0x0FC },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  171  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  172  		.regs[8] = { IMX415_INCKSEL6, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  173  		.regs[9] = { IMX415_INCKSEL7, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  174  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x0600 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  175  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  176  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  177  		.lane_rate = 1485000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  178  		.inck = 27000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  179  		.regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  180  		.regs[1] = { IMX415_CPWAIT_TIME, 0x042 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  181  		.regs[2] = { IMX415_SYS_MODE, 0x8 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  182  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  183  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  184  		.regs[5] = { IMX415_INCKSEL3, 0x0A5 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  185  		.regs[6] = { IMX415_INCKSEL4, 0x0E7 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  186  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  187  		.regs[8] = { IMX415_INCKSEL6, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  188  		.regs[9] = { IMX415_INCKSEL7, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  189  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x06C0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  190  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  191  };
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  192  
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  193  /* all-pixel 2-lane 720 Mbps 15.74 Hz mode */
-a13751ef748a7a Alexander Stein 2023-12-05  194  static const struct cci_reg_sequence imx415_mode_2_720[] = {
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30 @195  	{ IMX415_VMAX, 0x08CA },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  196  	{ IMX415_HMAX, 0x07F0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  197  	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  198  	{ IMX415_TCLKPOST, 0x006F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  199  	{ IMX415_TCLKPREPARE, 0x002F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  200  	{ IMX415_TCLKTRAIL, 0x002F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  201  	{ IMX415_TCLKZERO, 0x00BF },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  202  	{ IMX415_THSPREPARE, 0x002F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  203  	{ IMX415_THSZERO, 0x0057 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  204  	{ IMX415_THSTRAIL, 0x002F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  205  	{ IMX415_THSEXIT, 0x004F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  206  	{ IMX415_TLPX, 0x0027 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  207  };
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  208  
+:::::: TO: Fred Brooks <frederick.brooks@microchip.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
