@@ -1,53 +1,48 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240C73454D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 12:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAA83D0A9;
+	Thu,  7 Dec 2023 12:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c0zLnBuD"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-332c46d5988so895821f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Dec 2023 04:41:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701952894; x=1702557694; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b86jcpOSWItgyj83zYhjOIQCL1JfjUgUyg+WBDZUH70=;
-        b=c0zLnBuDOJKTi1eMd+XrSLu8QVRhsBfSzJGBvyMf0cj+16xu0SZQQ1oYcxGXoCjW5Y
-         kFKrHkAcAATmtQ6nA4VMSbFKBsBrD/wdZnNEafH8S70jMCmq0A/IVRy/FrDXTuyPXdZX
-         T1QYKjhkayfWq7cZtek/EroPLLRYXOuXZ0pxYYRh5oEvKxE7u4T4BiiuingfDgPbjZoL
-         VPeMSzSvQ1iDAvaZ+smbVAIPQqMisLWqOIMS4PAORyvD6/1zzaYNj94ZMauqYwgM6Zmj
-         vBiafLofDswum1XIF0qLmwJxReREWq+WFLkbWebj8luzb8Bv9jODfaKyH4Y5/RqR13M5
-         Fw3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701952894; x=1702557694;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b86jcpOSWItgyj83zYhjOIQCL1JfjUgUyg+WBDZUH70=;
-        b=KvTfnlz8Vui9+Zlq2pLXC0Oa4ZoTZyNI0SR2GmxTwXIPzDwO8ibFzbZt3CZdR/ZiEG
-         zUd0hMqqd9Etd+QG4Hgl/MZaKHPdtzG1jxu1hR0uKGBIqr8kuz1Huo8SMipxJRF3iOYb
-         rnFRfvowGuv+SZeAxJTD2a5M+beaBRtliXlJgLoTzzM2JtI+6af/u5KswC4LvBkwYQbA
-         UQ2aWq1FnrrAviX0J+GPgdfNZtcvkSY5Lr8do7KS3tisaVrBGfcCIv4D+h+0tvCVs7MD
-         wCZWIGM192huLPyX8W/ir8uFAepNnKCyynyT6Ah7tDicztTCjfJxzQT+OBCdQZTprIj1
-         6X3A==
-X-Gm-Message-State: AOJu0Yyv6FFj2n1O/ZeUNBB60NG0GXqjYsXl+TpkUeERNwfyiHWYXcjo
-	F/ocN/cynBQ/1lrgXYaHdMz7fA==
-X-Google-Smtp-Source: AGHT+IGsW7Va+aSzKf+izc0fm2mum7VIRvQBWVob8wEjkrAW2lmA4G32DCDveIYST4sMHlCGV3io6Q==
-X-Received: by 2002:adf:ed10:0:b0:333:3b77:f05c with SMTP id a16-20020adfed10000000b003333b77f05cmr1580116wro.106.1701952894236;
-        Thu, 07 Dec 2023 04:41:34 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o6-20020a5d4746000000b00334b1564f0esm1341474wrs.89.2023.12.07.04.41.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 04:41:34 -0800 (PST)
-Date: Thu, 7 Dec 2023 15:41:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-f2fs-stable-linux-5.15.y 115/609]
- fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced before
- check 'bio' (see line 995)
-Message-ID: <9e3d9dc3-7877-44e5-a4d9-3515936c620c@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VG2pX0DB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701953146; x=1733489146;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WANftC6vGgWkzvKQzOL4++YVO4G6mp7Ssn47vXs+fvw=;
+  b=VG2pX0DBXTSHrvbhYv4qNRerHxT+YihteroCizaK4RpTKvJF3uS6GeGQ
+   g6GZ786FoDjvTWgLNbvAZa5fIDlw8bg2vYLzmox70VN4a96WlOQ71HE2J
+   bsdHJRVtGemm2zSiYAx6M+WeiGCAd/jQh15KeHxWnSfaIqsFPSGJU/pZU
+   aBCjyImtlr7c7Ro0las1Og46kgkHGwGN0ejebUNm8UtD0fG9TakpVY684
+   Xw+WM5Cu03dOsf5LWJIuLT3A4qNzc9J7wOjEihPkpyQyuv/C+IXTcoq2Q
+   anea3/ybvFHptUgwITOJSTNOAKHm0i3jFq7fNQgoU8NDhU0r4BcRk6bDP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="458546468"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="458546468"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 04:45:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="889731743"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="889731743"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 07 Dec 2023 04:45:43 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBDl7-000CFC-2D;
+	Thu, 07 Dec 2023 12:45:41 +0000
+Date: Thu, 7 Dec 2023 20:44:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 5474/5882] fs/ntfs3/ntfs.h:530:1: error: static
+ assertion failed due to requirement 'sizeof(struct ATTR_LIST_ENTRY) == 32':
+ sizeof(struct ATTR_LIST_ENTRY) == 0x20
+Message-ID: <202312072005.RcYtBUSp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,55 +52,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-5.15.y
-head:   f2de1a67d29d396f18aa7973b6792b29a84ed1f6
-commit: e8e3f1a12d05d0aef2c819664890b540dfb055af [115/609] f2fs: don't pass a bio to f2fs_target_device
-config: i386-randconfig-141-20231207 (https://download.01.org/0day-ci/archive/20231207/202312071658.K2fohs9s-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312071658.K2fohs9s-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8e00ce02066e8f6f1ad5eab49a2ede7bf7a5ef64
+commit: d155617006ebc172a80d3eb013c4b867f9a8ada4 [5474/5882] fs/ntfs3: Fix detected field-spanning write (size 8) of single field "le->name"
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231207/202312072005.RcYtBUSp-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312072005.RcYtBUSp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312071658.K2fohs9s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312072005.RcYtBUSp-lkp@intel.com/
 
-New smatch warnings:
-fs/f2fs/data.c:996 f2fs_grab_read_bio() warn: variable dereferenced before check 'bio' (see line 995)
+All errors (new ones prefixed by >>):
 
-vim +/bio +996 fs/f2fs/data.c
+   warning: unknown warning option '-Wold-style-declaration'; did you mean '-Wout-of-line-declaration'? [-Wunknown-warning-option]
+   In file included from fs/ntfs3/attrib.c:14:
+>> fs/ntfs3/ntfs.h:530:1: error: static assertion failed due to requirement 'sizeof(struct ATTR_LIST_ENTRY) == 32': sizeof(struct ATTR_LIST_ENTRY) == 0x20
+   static_assert(sizeof(struct ATTR_LIST_ENTRY) == 0x20);
+   ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ^               ~~~~
+   include/linux/build_bug.h:78:41: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                           ^              ~~~~
+   fs/ntfs3/ntfs.h:530:46: note: expression evaluates to '28 == 32'
+   static_assert(sizeof(struct ATTR_LIST_ENTRY) == 0x20);
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                                    ^~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                                          ^~~~
+   1 warning and 1 error generated.
 
-13ba41e346170e Jaegeuk Kim             2017-09-06   982  static struct bio *f2fs_grab_read_bio(struct inode *inode, block_t blkaddr,
-95ae251fe82838 Eric Biggers            2019-07-22   983  				      unsigned nr_pages, unsigned op_flag,
-7f59b277f79e8a Eric Biggers            2021-01-04   984  				      pgoff_t first_idx, bool for_write)
-13ba41e346170e Jaegeuk Kim             2017-09-06   985  {
-13ba41e346170e Jaegeuk Kim             2017-09-06   986  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
-13ba41e346170e Jaegeuk Kim             2017-09-06   987  	struct bio *bio;
-a4b6817625e71d Daeho Jeong             2021-08-20   988  	struct bio_post_read_ctx *ctx = NULL;
-6dbb17961f46b2 Eric Biggers            2018-04-18   989  	unsigned int post_read_steps = 0;
-e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   990  	sector_t sector;
-e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   991  	struct block_device *bdev = f2fs_target_device(sbi, blkaddr, &sector);
-13ba41e346170e Jaegeuk Kim             2017-09-06   992  
-67883ade7a98a7 Christoph Hellwig       2021-01-26   993  	bio = bio_alloc_bioset(for_write ? GFP_NOIO : GFP_KERNEL,
-5f7136db829960 Matthew Wilcox (Oracle  2021-01-29   994) 			       bio_max_segs(nr_pages), &f2fs_bioset);
-e8e3f1a12d05d0 Christoph Hellwig       2022-02-28  @995  	bio_set_dev(bio, bdev);
-                                                                            ^^^
-Dereferenced
 
-6dbb17961f46b2 Eric Biggers            2018-04-18  @996  	if (!bio)
-                                                                    ^^^^
-Checked too late
+vim +530 fs/ntfs3/ntfs.h
 
-13ba41e346170e Jaegeuk Kim             2017-09-06   997  		return ERR_PTR(-ENOMEM);
-e8e3f1a12d05d0 Christoph Hellwig       2022-02-28   998  	bio->bi_iter.bi_sector = sector;
-27aacd28ea3b89 Satya Tangirala         2020-07-02   999  	f2fs_set_bio_crypt_ctx(bio, inode, first_idx, NULL, GFP_NOFS);
-13ba41e346170e Jaegeuk Kim             2017-09-06  1000  	bio->bi_end_io = f2fs_read_end_io;
-e2e59414aae2c8 Jaegeuk Kim             2018-06-21  1001  	bio_set_op_attrs(bio, REQ_OP_READ, op_flag);
-13ba41e346170e Jaegeuk Kim             2017-09-06  1002  
-27aacd28ea3b89 Satya Tangirala         2020-07-02  1003  	if (fscrypt_inode_uses_fs_layer_crypto(inode))
-7f59b277f79e8a Eric Biggers            2021-01-04  1004  		post_read_steps |= STEP_DECRYPT;
+4534a70b7056fd Konstantin Komarov 2021-08-13  529  
+4534a70b7056fd Konstantin Komarov 2021-08-13 @530  static_assert(sizeof(struct ATTR_LIST_ENTRY) == 0x20);
+4534a70b7056fd Konstantin Komarov 2021-08-13  531  
+
+:::::: The code at line 530 was first introduced by commit
+:::::: 4534a70b7056fd4b9a1c6db5a4ce3c98546b291e fs/ntfs3: Add headers and misc files
+
+:::::: TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+:::::: CC: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
