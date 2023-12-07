@@ -1,55 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0AB4F8B5;
-	Thu,  7 Dec 2023 21:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4DB5D48A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 21:26:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MvQISNyQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cVoiXmlY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701983220; x=1733519220;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=V6wLJvnYVZuqFU6wsOOkiefEh9B/YqDJrTu7OOqvU+c=;
-  b=MvQISNyQ3CxveJEH/YUsTXiCsAlO0uqLyWaICDotHYYQMx1KL+qCa/dG
-   3z0hvSoY6v6K0Y94IEkKmXcePH9/W32RE3Qz5J2w8ZCo4J5Q8Ei4GmSNU
-   MX59qBXFJUpPKz0tjt9LLKCgAT58zudeXDGNxdxaBTOQ2GugtKBBQlwdl
-   uZN89ZBr16HX14Ga20bkBE1pjmePiv5fvfKh7CdJd1OxREyZfG1jEyL/a
-   8+up/p5MumoNVPkDftgQ2t4dkXKdAcTuSdhLscXECyrU/sfde5mhShzNm
-   E48GpI++GhpRT1lidLxIKkL5n1cqGRqat1IYSnw+GUT2KQb5GetmClytP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="460789356"
+  t=1701984418; x=1733520418;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3V3wMzxAEy52Wxnh2P2/9zi9U6aqKBMOMmcubK273wA=;
+  b=cVoiXmlY69Z+v6FzopLJgQq12/BEfBqtptlZaOKilnfovNFeM6ZKPhcP
+   HC/e+vCAB1/2w73awUBFNPCR+whXHlWYTbcuNtb5pBsZaXZwrI3F/OuK2
+   IHZEUqtJywzGU+CZy59V/iUEytL/fqRb3f+6IPkSWwgdef7twQyJ1JSxw
+   nK5YW+qD/4cQN7dSCs2H3r4NhPfuvJbc7UN7OPLyoAwEzMRQixVCZT1XQ
+   MJphmZtYOzpFjuiqEi43txGfPVBFoldMJtywdRHNL0uKqPnelCjFOUrS7
+   P2W+WDMwlg3XgcifB1XaKFkfGpjrVq0yDb+jpb08gBQdz4y+1fGmtxwFY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="393177454"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="460789356"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 13:06:59 -0800
+   d="scan'208";a="393177454"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 13:26:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="889871123"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="837886378"
 X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
-   d="scan'208";a="889871123"
+   d="scan'208";a="837886378"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Dec 2023 13:06:55 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 07 Dec 2023 13:26:56 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBLa8-000CpH-1e;
-	Thu, 07 Dec 2023 21:06:52 +0000
-Date: Fri, 8 Dec 2023 05:06:01 +0800
+	id 1rBLtV-000CrV-2m;
+	Thu, 07 Dec 2023 21:26:53 +0000
+Date: Fri, 8 Dec 2023 05:26:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: RD Babiera <rdbabiera@google.com>, heikki.krogerus@linux.intel.com,
-	linux@roeck-us.net, gregkh@linuxfoundation.org,
-	pmalani@chromium.org, bleung@chromium.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, badhri@google.com,
-	tzungbi@kernel.org, utkarsh.h.patel@intel.com,
-	andriy.shevchenko@linux.intel.com,
-	RD Babiera <rdbabiera@google.com>
-Subject: Re: [PATCH v1 01/10] usb: typec: bus: provide transmit type for
- alternate mode drivers
-Message-ID: <202312080453.iQ1jSiLY-lkp@intel.com>
-References: <20231207090738.15721-13-rdbabiera@google.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+Subject: drivers/remoteproc/stm32_rproc.c:139:20: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202312080528.GXCVJBa9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,80 +50,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231207090738.15721-13-rdbabiera@google.com>
 
-Hi RD,
+Hi Arnd,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on 5e4c8814a431d21bfaf20b464134f40f2f81e152]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-bus-provide-transmit-type-for-alternate-mode-drivers/20231207-171114
-base:   5e4c8814a431d21bfaf20b464134f40f2f81e152
-patch link:    https://lore.kernel.org/r/20231207090738.15721-13-rdbabiera%40google.com
-patch subject: [PATCH v1 01/10] usb: typec: bus: provide transmit type for alternate mode drivers
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20231208/202312080453.iQ1jSiLY-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080453.iQ1jSiLY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
+commit: 03bd158e1535e68bcd2b1e095b0ebcad7c84bd20 remoteproc: stm32: use correct format strings on 64-bit
+date:   6 months ago
+config: mips-randconfig-r122-20231108 (https://download.01.org/0day-ci/archive/20231208/202312080528.GXCVJBa9-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080528.GXCVJBa9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080453.iQ1jSiLY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080528.GXCVJBa9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/remoteproc/stm32_rproc.c:122:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *va @@     got void [noderef] __iomem * @@
+   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     expected void *va
+   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     got void [noderef] __iomem *
+>> drivers/remoteproc/stm32_rproc.c:139:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *va @@
+   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     got void *va
+   drivers/remoteproc/stm32_rproc.c:644:17: sparse: sparse: cast removes address space '__iomem' of expression
 
->> drivers/platform/chrome/cros_typec_vdm.c:89:82: error: too few arguments to function call, expected 5, have 4
-           ret = typec_altmode_vdm(amode, hdr, &resp.vdm_response[1], resp.vdm_data_objects);
-                 ~~~~~~~~~~~~~~~~~                                                         ^
-   include/linux/usb/typec_altmode.h:84:5: note: 'typec_altmode_vdm' declared here
-   int typec_altmode_vdm(struct typec_altmode *altmode,
-       ^
-   1 error generated.
+vim +139 drivers/remoteproc/stm32_rproc.c
 
+13140de09cc2dd Fabien Dessenne 2019-05-14  114  
+13140de09cc2dd Fabien Dessenne 2019-05-14  115  static int stm32_rproc_mem_alloc(struct rproc *rproc,
+13140de09cc2dd Fabien Dessenne 2019-05-14  116  				 struct rproc_mem_entry *mem)
+13140de09cc2dd Fabien Dessenne 2019-05-14  117  {
+13140de09cc2dd Fabien Dessenne 2019-05-14  118  	struct device *dev = rproc->dev.parent;
+13140de09cc2dd Fabien Dessenne 2019-05-14  119  	void *va;
+13140de09cc2dd Fabien Dessenne 2019-05-14  120  
+03bd158e1535e6 Arnd Bergmann   2023-06-09  121  	dev_dbg(dev, "map memory: %pad+%zx\n", &mem->dma, mem->len);
+13140de09cc2dd Fabien Dessenne 2019-05-14 @122  	va = ioremap_wc(mem->dma, mem->len);
+13140de09cc2dd Fabien Dessenne 2019-05-14  123  	if (IS_ERR_OR_NULL(va)) {
+03bd158e1535e6 Arnd Bergmann   2023-06-09  124  		dev_err(dev, "Unable to map memory region: %pad+0x%zx\n",
+13140de09cc2dd Fabien Dessenne 2019-05-14  125  			&mem->dma, mem->len);
+13140de09cc2dd Fabien Dessenne 2019-05-14  126  		return -ENOMEM;
+13140de09cc2dd Fabien Dessenne 2019-05-14  127  	}
+13140de09cc2dd Fabien Dessenne 2019-05-14  128  
+13140de09cc2dd Fabien Dessenne 2019-05-14  129  	/* Update memory entry va */
+13140de09cc2dd Fabien Dessenne 2019-05-14  130  	mem->va = va;
+13140de09cc2dd Fabien Dessenne 2019-05-14  131  
+13140de09cc2dd Fabien Dessenne 2019-05-14  132  	return 0;
+13140de09cc2dd Fabien Dessenne 2019-05-14  133  }
+13140de09cc2dd Fabien Dessenne 2019-05-14  134  
+13140de09cc2dd Fabien Dessenne 2019-05-14  135  static int stm32_rproc_mem_release(struct rproc *rproc,
+13140de09cc2dd Fabien Dessenne 2019-05-14  136  				   struct rproc_mem_entry *mem)
+13140de09cc2dd Fabien Dessenne 2019-05-14  137  {
+13140de09cc2dd Fabien Dessenne 2019-05-14  138  	dev_dbg(rproc->dev.parent, "unmap memory: %pa\n", &mem->dma);
+13140de09cc2dd Fabien Dessenne 2019-05-14 @139  	iounmap(mem->va);
+13140de09cc2dd Fabien Dessenne 2019-05-14  140  
+13140de09cc2dd Fabien Dessenne 2019-05-14  141  	return 0;
+13140de09cc2dd Fabien Dessenne 2019-05-14  142  }
+13140de09cc2dd Fabien Dessenne 2019-05-14  143  
 
-vim +89 drivers/platform/chrome/cros_typec_vdm.c
+:::::: The code at line 139 was first introduced by commit
+:::::: 13140de09cc2dd5e5166ad42292bb82af4e23cef remoteproc: stm32: add an ST stm32_rproc driver
 
-f54c013e7eef29 Prashant Malani 2023-01-26  55  
-50ed638bbc47ba Prashant Malani 2022-12-28  56  /*
-50ed638bbc47ba Prashant Malani 2022-12-28  57   * Retrieves a VDM response from the EC and forwards it to the altmode driver based on SVID.
-50ed638bbc47ba Prashant Malani 2022-12-28  58   */
-50ed638bbc47ba Prashant Malani 2022-12-28  59  void cros_typec_handle_vdm_response(struct cros_typec_data *typec, int port_num)
-50ed638bbc47ba Prashant Malani 2022-12-28  60  {
-50ed638bbc47ba Prashant Malani 2022-12-28  61  	struct ec_response_typec_vdm_response resp;
-50ed638bbc47ba Prashant Malani 2022-12-28  62  	struct ec_params_typec_vdm_response req = {
-50ed638bbc47ba Prashant Malani 2022-12-28  63  		.port = port_num,
-50ed638bbc47ba Prashant Malani 2022-12-28  64  	};
-50ed638bbc47ba Prashant Malani 2022-12-28  65  	struct typec_altmode *amode;
-50ed638bbc47ba Prashant Malani 2022-12-28  66  	u16 svid;
-50ed638bbc47ba Prashant Malani 2022-12-28  67  	u32 hdr;
-50ed638bbc47ba Prashant Malani 2022-12-28  68  	int ret;
-50ed638bbc47ba Prashant Malani 2022-12-28  69  
-50ed638bbc47ba Prashant Malani 2022-12-28  70  	ret = cros_ec_cmd(typec->ec, 0, EC_CMD_TYPEC_VDM_RESPONSE, &req,
-50ed638bbc47ba Prashant Malani 2022-12-28  71  			  sizeof(req), &resp, sizeof(resp));
-50ed638bbc47ba Prashant Malani 2022-12-28  72  	if (ret < 0) {
-50ed638bbc47ba Prashant Malani 2022-12-28  73  		dev_warn(typec->dev, "Failed VDM response fetch, port: %d\n", port_num);
-50ed638bbc47ba Prashant Malani 2022-12-28  74  		return;
-50ed638bbc47ba Prashant Malani 2022-12-28  75  	}
-50ed638bbc47ba Prashant Malani 2022-12-28  76  
-50ed638bbc47ba Prashant Malani 2022-12-28  77  	hdr = resp.vdm_response[0];
-50ed638bbc47ba Prashant Malani 2022-12-28  78  	svid = PD_VDO_VID(hdr);
-50ed638bbc47ba Prashant Malani 2022-12-28  79  	dev_dbg(typec->dev, "Received VDM header: %x, port: %d\n", hdr, port_num);
-50ed638bbc47ba Prashant Malani 2022-12-28  80  
-50ed638bbc47ba Prashant Malani 2022-12-28  81  	amode = typec_match_altmode(typec->ports[port_num]->port_altmode, CROS_EC_ALTMODE_MAX,
-50ed638bbc47ba Prashant Malani 2022-12-28  82  				    svid, PD_VDO_OPOS(hdr));
-50ed638bbc47ba Prashant Malani 2022-12-28  83  	if (!amode) {
-50ed638bbc47ba Prashant Malani 2022-12-28  84  		dev_err(typec->dev, "Received VDM for unregistered altmode (SVID:%x), port: %d\n",
-50ed638bbc47ba Prashant Malani 2022-12-28  85  			svid, port_num);
-50ed638bbc47ba Prashant Malani 2022-12-28  86  		return;
-50ed638bbc47ba Prashant Malani 2022-12-28  87  	}
-50ed638bbc47ba Prashant Malani 2022-12-28  88  
-50ed638bbc47ba Prashant Malani 2022-12-28 @89  	ret = typec_altmode_vdm(amode, hdr, &resp.vdm_response[1], resp.vdm_data_objects);
-50ed638bbc47ba Prashant Malani 2022-12-28  90  	if (ret)
-50ed638bbc47ba Prashant Malani 2022-12-28  91  		dev_err(typec->dev, "Failed to forward VDM to altmode (SVID:%x), port: %d\n",
-50ed638bbc47ba Prashant Malani 2022-12-28  92  			svid, port_num);
-50ed638bbc47ba Prashant Malani 2022-12-28  93  }
-50ed638bbc47ba Prashant Malani 2022-12-28  94  
+:::::: TO: Fabien Dessenne <fabien.dessenne@st.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
