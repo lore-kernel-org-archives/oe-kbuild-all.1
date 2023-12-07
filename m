@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3069415A8;
-	Thu,  7 Dec 2023 02:21:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90C715CE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 02:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JeEP4NeR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QE0cui3t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701915718; x=1733451718;
+  t=1701915720; x=1733451720;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LVxqwVKm+s2FEqwljT9eCIw46L09zJIYReaXbSqLTGM=;
-  b=JeEP4NeRVKmsPYB+G7ZjqsN3db4aUsl9JbIPfYsJg+r/R3HDOaynUU9N
-   6WdnRMSkWNpTqwN70ohO1TXVLt1fiTAqOW693p3A1CLXrEs3mhNigo62o
-   WthuaVZuGUfVbjhCgtrd3HnUjiwYnRdHJOmv4E3TBOVkWAI0RDJkdeamT
-   zOOOEexiYwJmDfryemlagxEdGcVFgHeCMQ0IjIUXJiPMugM454qqxyYn3
-   /b8BgzlWC90lHBmiX4RBzTOF/u6Y8f+6gmRlweVQYNGeIlYbiuV5eqz0w
-   q6J5OumO0X0teQjYps9b0RieaVlmkRW7JksnCqwMgzxbupn9AmASm2xJq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="425313356"
+  bh=KfgdGLs+dwx2j4CTq3XnM147efA6TD09UorkIzKZD7M=;
+  b=QE0cui3tZrOnIcM/nXRmNf3CF7npoCutzKKweo1GRfeEvnTqJU9sXTsF
+   BTfMHW0brV5Dyv4fYKghDZIzxPzpylpZFKPuAc6hTG2HZMMFvmHxTQ7iU
+   UvyX/k01ChFfQ6JmFMm9bPWorKffXjy9dFghRKLUWMNaz8XClt6F0/Ozk
+   1gppYIERSMv0ptnuzg+qwfMqmcn7KwAR+35LjE09b9ay8sBBvy/706KRy
+   heXEBteZTsT+lFjFjT/dBExoCpTGyvPw8CmJoe0vW9oRgI7IQE4ggEAy5
+   9vjMWV9FP6MSUpViWs3DlQQzZJ9/yVHBVFLl4xhPShSmTZ0zCExvl6I7Z
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="425313363"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="425313356"
+   d="scan'208";a="425313363"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 18:21:56 -0800
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 18:21:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="915399127"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="915399144"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="915399127"
+   d="scan'208";a="915399144"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Dec 2023 18:21:55 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 06 Dec 2023 18:21:58 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rB41Q-000Bik-0w;
-	Thu, 07 Dec 2023 02:21:52 +0000
-Date: Thu, 7 Dec 2023 10:21:11 +0800
+	id 1rB41S-000Bip-2S;
+	Thu, 07 Dec 2023 02:21:55 +0000
+Date: Thu, 7 Dec 2023 10:21:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev
-Subject: [paragon-software-group-ntfs3:master 8/16]
- include/linux/build_bug.h:78:41: error: static assertion failed:
- "sizeof(struct ATTR_LIST_ENTRY) == 0x20"
-Message-ID: <202312071005.g6YrbaIe-lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mark:perf/overflow 2/3] drivers/perf/arm_pmuv3.c:653:17: error:
+ implicit declaration of function 'write_pmovsset'; did you mean
+ 'write_pmovsclr'?
+Message-ID: <202312071003.ZNmyHpqG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,66 +51,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
-head:   652483bfbc45137e8dce556c9ddbd4458dad4452
-commit: d155617006ebc172a80d3eb013c4b867f9a8ada4 [8/16] fs/ntfs3: Fix detected field-spanning write (size 8) of single field "le->name"
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20231207/202312071005.g6YrbaIe-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312071005.g6YrbaIe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git perf/overflow
+head:   f3b357f85dad79444f2d0c645833fb947de1e88d
+commit: 7ba6f752673580876865a00a76702eb2cea8565f [2/3] arm_pmu: rework overflow handling
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231207/202312071003.ZNmyHpqG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312071003.ZNmyHpqG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312071005.g6YrbaIe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312071003.ZNmyHpqG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/ntfs3/attrib.c:9:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct ATTR_LIST_ENTRY) == 0x20"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/ntfs3/ntfs.h:530:1: note: in expansion of macro 'static_assert'
-     530 | static_assert(sizeof(struct ATTR_LIST_ENTRY) == 0x20);
-         | ^~~~~~~~~~~~~
+   drivers/perf/arm_pmuv3.c:144:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_RD'
+     144 |         [C(L1D)][C(OP_READ)][C(RESULT_MISS)]    = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:122:65: warning: initialized field overwritten [-Woverride-init]
+     122 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR                       0x0041
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:145:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR'
+     145 |         [C(L1D)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:122:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[0][1][0]')
+     122 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR                       0x0041
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:145:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR'
+     145 |         [C(L1D)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:124:65: warning: initialized field overwritten [-Woverride-init]
+     124 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR                0x0043
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:146:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR'
+     146 |         [C(L1D)][C(OP_WRITE)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:124:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[0][1][1]')
+     124 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR                0x0043
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:146:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR'
+     146 |         [C(L1D)][C(OP_WRITE)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:133:65: warning: initialized field overwritten [-Woverride-init]
+     133 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x004E
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:148:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
+     148 |         [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:133:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][0][0]')
+     133 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x004E
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:148:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
+     148 |         [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:134:65: warning: initialized field overwritten [-Woverride-init]
+     134 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x004F
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:149:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
+     149 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:134:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][1][0]')
+     134 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x004F
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:149:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
+     149 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:131:65: warning: initialized field overwritten [-Woverride-init]
+     131 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x004C
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:150:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
+     150 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:131:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][0][1]')
+     131 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x004C
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:150:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
+     150 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:132:65: warning: initialized field overwritten [-Woverride-init]
+     132 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x004D
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:151:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
+     151 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:132:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][1][1]')
+     132 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x004D
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:151:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
+     151 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:148:65: warning: initialized field overwritten [-Woverride-init]
+     148 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x0060
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:153:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
+     153 |         [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:148:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[6][0][0]')
+     148 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x0060
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:153:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
+     153 |         [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:149:65: warning: initialized field overwritten [-Woverride-init]
+     149 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x0061
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:154:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
+     154 |         [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:149:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[6][1][0]')
+     149 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x0061
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:154:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
+     154 |         [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/arm_pmuv3.c: In function 'armv8pmu_enable_event_irq':
+>> drivers/perf/arm_pmuv3.c:653:17: error: implicit declaration of function 'write_pmovsset'; did you mean 'write_pmovsclr'? [-Werror=implicit-function-declaration]
+     653 |                 write_pmovsset(BIT(counter));
+         |                 ^~~~~~~~~~~~~~
+         |                 write_pmovsclr
+   cc1: some warnings being treated as errors
 
 
-vim +78 include/linux/build_bug.h
+vim +653 drivers/perf/arm_pmuv3.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   646	
+   647	static inline void armv8pmu_enable_event_irq(struct perf_event *event)
+   648	{
+   649		u32 counter = ARMV8_IDX_TO_COUNTER(event->hw.idx);
+   650		armv8pmu_enable_intens(BIT(counter));
+   651	
+   652		if (local64_read(&event->hw.period_left) <= 0) {
+ > 653			write_pmovsset(BIT(counter));
+   654			isb();
+   655		}
+   656	}
+   657	
 
 -- 
 0-DAY CI Kernel Test Service
