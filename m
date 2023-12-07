@@ -1,110 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24FF13FEA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 06:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398353307C
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 08:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMnJJ1Kr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701929289; x=1733465289;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=afuMH9RHeuu1Nlem0Rpl8i/1WPnpTa8StZWPZfDNT08=;
-  b=TMnJJ1KrY/srtpayyoAoXsvxuy+X6on0szCahWfvTKOjjPJPd3sGWM/A
-   GIx0nWLTddKCwXJFSQDafm53xCe+rtlI/xT3KqyO6lKlF2UG2OrvYi7ny
-   ZdU1NmdIDa9c+EYXNIgQda60dm9giTjINKrRnz4BUQWkT8QC3/XtuLoRa
-   FDc9xPGRlFlm2ezAa6/FmUOMF2uMok1OVzcTA0LnviB0eXhqmwOx6yxjZ
-   53vnkx/4vP454dpDO45zc4qSd4xUOGqPKnb75cRz2jNVVL5LgaxopPOTP
-   3sgowZLfWhLxZSKvQbF03zqUt3z7JwzwREQXd+j/gmUpQvp6fYGfEIFfz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="391352922"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="391352922"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 22:08:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="944915314"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="944915314"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 06 Dec 2023 22:07:56 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rB7Y9-000Btm-2b;
-	Thu, 07 Dec 2023 06:07:53 +0000
-Date: Thu, 7 Dec 2023 14:06:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stephan Gerhold <stephan.gerhold@kernkonzept.com>,
-	Georgi Djakov <djakov@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Adam Skladowski <a39.skl@gmail.com>,
-	Stephan Gerhold <stephan.gerhold@kernkonzept.com>
-Subject: Re: [PATCH 2/2] interconnect: qcom: Add MSM8909 interconnect
- provider driver
-Message-ID: <202312071325.M9cg1wry-lkp@intel.com>
-References: <20231206-icc-msm8909-v1-2-fe0dd632beff@kernkonzept.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="YFpg2Mub"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40bd5eaa66cso9592985e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Dec 2023 00:35:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1701938114; x=1702542914; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K3iWeWB/mBuBm6/U8a08QVjCJLxiEQB+3v21Lk3/MtY=;
+        b=YFpg2MubHfvO0NUuVap5bibhnEZdrHenANmbhrQeXMF6N+9z/JDWfzQfpLF3xSXge1
+         STsVsCi3Gp6RifZo73ZXVW8ZhvqXtmof1hEOVaaMIToC78ErrVVitOfz0beki1Kgybj1
+         JQ36XYhMOyW0dI8/rMVvWAT370FqXUzOH/8/dpX5ocCxQWqf/FU0kymDc69vt6VjtMG2
+         6WmBmKKWhCJaN+TuyFxJI/oiKdHarvAe/Zym+/Oz7xOioa8vH+/3oxVMeglOUkdry6A3
+         IOQTKLlx2sCAw+k5ni61IY9sIF4H8+ve1zy0SzMnmkcKzfp2bd89oRzYUMKBrR0lnnkI
+         xmog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701938114; x=1702542914;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K3iWeWB/mBuBm6/U8a08QVjCJLxiEQB+3v21Lk3/MtY=;
+        b=vEnG8FkuZb3qJ2TpkdZN94jAyuefxTVc4O53MULV3twjUyAKGftQGd3+LsVt29eW/S
+         7o973s9jwYGyDrLa5LeHBfG8HL1EycaGkJeibtFOrBZ+EU6h1l2HZelt/WI2suTUKGQl
+         hWXzt7WyqOuBYEouau+LmPga93zZKliErEah9lbPny2q5UYSyBPxcFXBnismZ1sWRLMw
+         7BL9nSvt5ebJccNvemtKN93M0Vi/4NbzDbfPx/hh0K3E4BaCSf0gZU7+xKtxCdwKdcbU
+         kdDzwpcL3JXSPiSibCCgaHxQQxrqhiiQHxvkOUb3+rIx71+iphiZEUBOHkt+ojYACKlq
+         qKHw==
+X-Gm-Message-State: AOJu0Yx9hceo76zbGwU4lqUJD94V0IaGYycho8mDVjtweIVPVn6xgYuT
+	zDIEoSJnjgLrgpCTP5wocMfBoQ==
+X-Google-Smtp-Source: AGHT+IEaswcjzcSyX1BwyZBLdJdW1iILqzt5qzHgKeJ6f6tHRBd37xpxD4elOzZFWryup4RnCj9XsQ==
+X-Received: by 2002:a05:600c:1ca6:b0:40b:5e21:dd2a with SMTP id k38-20020a05600c1ca600b0040b5e21dd2amr1284898wms.88.1701938114170;
+        Thu, 07 Dec 2023 00:35:14 -0800 (PST)
+Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
+        by smtp.gmail.com with ESMTPSA id k19-20020adfb353000000b003335c061a2asm821969wrd.33.2023.12.07.00.35.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 00:35:13 -0800 (PST)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: lkp@intel.com,
+	linux-mm@kvack.org,
+	linux@weissschuh.net,
+	llvm@lists.linux.dev,
+	mcgrof@kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH -next] drivers: perf: Fix build error by adding const to ctl_table argument of handler
+Date: Thu,  7 Dec 2023 09:35:12 +0100
+Message-Id: <20231207083512.51792-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <202312062242.RFPPozG9-lkp@intel.com>
+References: <202312062242.RFPPozG9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231206-icc-msm8909-v1-2-fe0dd632beff@kernkonzept.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Stephan,
+The ctl_table argument of the proc_handler field was constified treewide
+but somehow missed the occurrence in the riscv pmu sbi driver, so add the
+const to fix the build error.
 
-kernel test robot noticed the following build errors:
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202312062242.RFPPozG9-lkp@intel.com/
+Fixes: c8be9e66ca1e ("sysctl: treewide: constify the ctl_table argument of handlers")
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+---
+ drivers/perf/riscv_pmu_sbi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[auto build test ERROR on feaf241ae2da2a73cb421473f52a4732128a996f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stephan-Gerhold/dt-bindings-interconnect-Add-Qualcomm-MSM8909-DT-bindings/20231206-223626
-base:   feaf241ae2da2a73cb421473f52a4732128a996f
-patch link:    https://lore.kernel.org/r/20231206-icc-msm8909-v1-2-fe0dd632beff%40kernkonzept.com
-patch subject: [PATCH 2/2] interconnect: qcom: Add MSM8909 interconnect provider driver
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231207/202312071325.M9cg1wry-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312071325.M9cg1wry-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312071325.M9cg1wry-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/interconnect/qcom/msm8909.c:1319:19: error: initialization of 'int (*)(struct platform_device *)' from incompatible pointer type 'void (*)(struct platform_device *)' [-Werror=incompatible-pointer-types]
-    1319 |         .remove = qnoc_remove,
-         |                   ^~~~~~~~~~~
-   drivers/interconnect/qcom/msm8909.c:1319:19: note: (near initialization for 'msm8909_noc_driver.remove')
-   cc1: some warnings being treated as errors
-
-
-vim +1319 drivers/interconnect/qcom/msm8909.c
-
-  1316	
-  1317	static struct platform_driver msm8909_noc_driver = {
-  1318		.probe = qnoc_probe,
-> 1319		.remove = qnoc_remove,
-  1320		.driver = {
-  1321			.name = "qnoc-msm8909",
-  1322			.of_match_table = msm8909_noc_of_match,
-  1323			.sync_state = icc_sync_state,
-  1324		},
-  1325	};
-  1326	module_platform_driver(msm8909_noc_driver);
-  1327	
-
+diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
+index 16acd4dcdb96..97e345f7d25d 100644
+--- a/drivers/perf/riscv_pmu_sbi.c
++++ b/drivers/perf/riscv_pmu_sbi.c
+@@ -986,7 +986,7 @@ static void riscv_pmu_update_counter_access(void *info)
+ 		csr_write(CSR_SCOUNTEREN, 0x2);
+ }
+ 
+-static int riscv_pmu_proc_user_access_handler(struct ctl_table *table,
++static int riscv_pmu_proc_user_access_handler(const struct ctl_table *table,
+ 					      int write, void *buffer,
+ 					      size_t *lenp, loff_t *ppos)
+ {
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
