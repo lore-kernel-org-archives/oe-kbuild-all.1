@@ -1,50 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B664E45978
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 15:40:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5055A3309C;
+	Thu,  7 Dec 2023 16:01:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CA+y8Jv5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HolY5u3p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701963638; x=1733499638;
+  t=1701964905; x=1733500905;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TRQrcR82gGZ4bilKmvDQp3/BMwMwwJ+qVGy8M9ph6/E=;
-  b=CA+y8Jv5WNpXG/1PZfPwcNvrKgrXQ+IzgvP9qag945EU/A5/VwlV16ZA
-   D/qrlNFBsF4WOYREjux6IKarxVlzKe1Fy+hBL3tO4Lqx79oYe3lnpJHoR
-   Yf+hPb0YKRqGijuyi16uLiZfRpIduGbeiJBKomyXvcvVP5r6OwaWh5djR
-   BrhADQoqOqQ3Zce5ofDijfMyZr0F2zwWwdjId+qlAYqaGIwBqRZFPra8o
-   T/CtnvCAVTmxt4NhU9mF6i5elt2u/NKNxdj8tYr8rerXX3krvJTHVI960
-   SaBQpoEUnrK5YW7fpVD58xUUp/PC67rUBWkYqS2la0VWW1TqDH1Mrc6M/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="393121332"
+  bh=phWQlYp9T78VNLL1jO/M1PShHVS5tnBO9tbtLaPHCwo=;
+  b=HolY5u3pk1+QgJoFAIqvYJBq11pqvA2QbdJ+ijp5dRuODWYDDiqPFUSj
+   G2jCRhn752o++KA0/AY6R+n4M71sJwnTA44TDv0mr5MILbUZfO+rELL69
+   6N18HBAswNjhTr1yijNNia0uw0oey9QThoweqWFQ/m6DY2ThEA4YZ4Mav
+   FOjg+wnXam7KTSAqZm6hAgDkXWRwvGj9KOLkcgYJqmG0+z/eFEACGZN+A
+   TtvriZd50PlVVnbwVfNhWVgapHasp8AZJcocgUvpL5Z2Xc/qS2nn4Ep7u
+   ICRl8CvSf7waIl2fMI+w4BD/Pptgb+Z1ocXxFczDXBcMPNW0KRRkiUE0D
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1358008"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="393121332"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 07:40:34 -0800
+   d="scan'208";a="1358008"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 08:01:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="771770862"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="748006917"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="771770862"
+   d="scan'208";a="748006917"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 07 Dec 2023 07:40:31 -0800
+  by orsmga006.jf.intel.com with ESMTP; 07 Dec 2023 08:01:32 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBGUH-000CQw-1t;
-	Thu, 07 Dec 2023 15:40:29 +0000
-Date: Thu, 7 Dec 2023 23:40:22 +0800
+	id 1rBGoc-000CSM-22;
+	Thu, 07 Dec 2023 16:01:30 +0000
+Date: Fri, 8 Dec 2023 00:00:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org,
-	Alison Schofield <alison.schofield@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [PATCH] cxl/hdm: Fix dpa translation locking
-Message-ID: <202312072350.QQTkSsY7-lkp@intel.com>
-References: <170192142664.461900.3169528633970716889.stgit@dwillia2-xfh.jf.intel.com>
+To: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+	Gergo Koteles <soyer@irl.hu>
+Subject: Re: [PATCH 13/16] ALSA: hda/tas2781: remove sound controls in unbind
+Message-ID: <202312072318.9KUgvYeb-lkp@intel.com>
+References: <8f16576930682297fd08bba5e063a9a1f3150388.1701906455.git.soyer@irl.hu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,56 +56,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <170192142664.461900.3169528633970716889.stgit@dwillia2-xfh.jf.intel.com>
+In-Reply-To: <8f16576930682297fd08bba5e063a9a1f3150388.1701906455.git.soyer@irl.hu>
 
-Hi Dan,
+Hi Gergo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc4 next-20231207]
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus broonie-sound/for-next linus/master v6.7-rc4 next-20231207]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/cxl-hdm-Fix-dpa-translation-locking/20231207-115958
-base:   linus/master
-patch link:    https://lore.kernel.org/r/170192142664.461900.3169528633970716889.stgit%40dwillia2-xfh.jf.intel.com
-patch subject: [PATCH] cxl/hdm: Fix dpa translation locking
-config: i386-buildonly-randconfig-003-20231207 (https://download.01.org/0day-ci/archive/20231207/202312072350.QQTkSsY7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312072350.QQTkSsY7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gergo-Koteles/ALSA-hda-tas2781-leave-hda_component-in-usable-state/20231207-085947
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/8f16576930682297fd08bba5e063a9a1f3150388.1701906455.git.soyer%40irl.hu
+patch subject: [PATCH 13/16] ALSA: hda/tas2781: remove sound controls in unbind
+config: x86_64-randconfig-001-20231207 (https://download.01.org/0day-ci/archive/20231207/202312072318.9KUgvYeb-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312072318.9KUgvYeb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312072350.QQTkSsY7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312072318.9KUgvYeb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/cxl/core/port.c: In function 'dpa_resource_show':
->> drivers/cxl/core/port.c:231:37: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     231 |         return sysfs_emit(buf, "%#llx\n", cxl_dpa_resource_start(cxled));
-         |                                 ~~~~^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                     |     |
-         |                                     |     resource_size_t {aka unsigned int}
-         |                                     long long unsigned int
-         |                                 %#x
+>> sound/pci/hda/tas2781_hda_i2c.c:868:1: warning: unused label 'out' [-Wunused-label]
+   out:
+   ^~~~
+   1 warning generated.
 
 
-vim +231 drivers/cxl/core/port.c
+vim +/out +868 sound/pci/hda/tas2781_hda_i2c.c
 
-   224	
-   225	static ssize_t dpa_resource_show(struct device *dev, struct device_attribute *attr,
-   226				    char *buf)
-   227	{
-   228		struct cxl_endpoint_decoder *cxled = to_cxl_endpoint_decoder(dev);
-   229	
-   230		guard(rwsem_read)(&cxl_dpa_rwsem);
- > 231		return sysfs_emit(buf, "%#llx\n", cxl_dpa_resource_start(cxled));
-   232	}
-   233	static DEVICE_ATTR_RO(dpa_resource);
-   234	
+   852	
+   853	static int tas2781_runtime_resume(struct device *dev)
+   854	{
+   855		struct tas2781_hda *tas_hda = dev_get_drvdata(dev);
+   856	
+   857		dev_dbg(tas_hda->dev, "Runtime Resume\n");
+   858	
+   859		mutex_lock(&tas_hda->priv->codec_lock);
+   860	
+   861		tasdevice_prmg_load(tas_hda->priv, tas_hda->priv->cur_prog);
+   862	
+   863		/* If calibrated data occurs error, dsp will still works with default
+   864		 * calibrated data inside algo.
+   865		 */
+   866		tasdevice_apply_calibration(tas_hda->priv);
+   867	
+ > 868	out:
+   869		mutex_unlock(&tas_hda->priv->codec_lock);
+   870	
+   871		return 0;
+   872	}
+   873	
 
 -- 
 0-DAY CI Kernel Test Service
