@@ -1,51 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093713309C;
-	Thu,  7 Dec 2023 16:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799FB481A7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 16:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="js7wTC6p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JV3LjRZR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701965686; x=1733501686;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p1g4KkA0JbfZhaiHdJWzaUcY/5IFDKB88xgppTOzQ6s=;
-  b=js7wTC6plRfbhuPyw9sCD1GCEYo4Od6hCyxuY4Mk0ggRwYSMeXtd7gQX
-   kS2pOrJ0TVkn5Lxi5aUQByTsYuElJ60a77VEiV+kHN5seCUBW20bL97J9
-   Lah38FFRdGxKmDI1k3SAecqioWygjTHXqSfEE6nARFGJ2CYgVIzqLZF/E
-   ed1E+5PJAr2zy/Kyh2P8z1q4yb6WTjVT6q1N/zvTiZo6VFRr8sFh+K5Yl
-   me1rof9WSMFxf/ePx2EwNOEmCInyXL9LxI5XLddrVpY1Z4a1LrAHPg5F7
-   3ce/J4OdEqwLVQAV3nGLC6rKwxbfySoVNqI87ecWJD/VgcGOQim+ehWM+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1083993"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="1083993"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 08:14:45 -0800
+  t=1701966879; x=1733502879;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NWBcawuYxkPK2G+8VXKXSsdnq3i5ghqK600YCJLipk8=;
+  b=JV3LjRZRwDya88KoWoCM6tNpb8p/JmwltCxoivM7kSUattbf+sswlnv6
+   bTuSXVYI4ikW+yFT9tLrOYBa+OwLj7006TCkWO/m86kRt1CBPz5mAKM7F
+   RPvUtru+hfrWShCXoVbNaasAuw7b6S7yoWqWiciFJz/26DHmD/2Hq7+vw
+   +ZkDYHlmVP3aYoKqu7UvqBAtBMOafIpRieGwBggtCVDnCb7HbhH+1Qyiv
+   TxARuCzB0+Ys3SRi4QdLIIB+t2dfK5uEOESoHwyNsyvPJX+3yzzk1tif6
+   fJb3zUWfGrTyfpmYCfHgokfWHEbF43ahuYmUM/CZGUBgw0HGmi1A/c4Wj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1366490"
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="1366490"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 08:34:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="889797110"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="889797110"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="945085922"
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="945085922"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Dec 2023 08:14:34 -0800
+  by orsmga005.jf.intel.com with ESMTP; 07 Dec 2023 08:34:37 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBH1E-000CTW-1F;
-	Thu, 07 Dec 2023 16:14:32 +0000
-Date: Fri, 8 Dec 2023 00:13:51 +0800
+	id 1rBHKc-000CWo-2y;
+	Thu, 07 Dec 2023 16:34:34 +0000
+Date: Fri, 8 Dec 2023 00:34:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	stable@vger.kernel.org,
-	Alison Schofield <alison.schofield@intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [PATCH] cxl/hdm: Fix dpa translation locking
-Message-ID: <202312080021.eQEtUpnB-lkp@intel.com>
-References: <170192142664.461900.3169528633970716889.stgit@dwillia2-xfh.jf.intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 5/11]
+ arch/arm64/kvm/hyp/nvhe/trace.c:17:1: sparse: sparse: symbol 'trace_rb_lock'
+ was not declared. Should it be static?
+Message-ID: <202312080045.YefnOiQe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,53 +50,208 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <170192142664.461900.3169528633970716889.stgit@dwillia2-xfh.jf.intel.com>
 
-Hi Dan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc4 next-20231207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/cxl-hdm-Fix-dpa-translation-locking/20231207-115958
-base:   linus/master
-patch link:    https://lore.kernel.org/r/170192142664.461900.3169528633970716889.stgit%40dwillia2-xfh.jf.intel.com
-patch subject: [PATCH] cxl/hdm: Fix dpa translation locking
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231208/202312080021.eQEtUpnB-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312080021.eQEtUpnB-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   bd5883688256f8eaf708cad509ce2a47ec8384aa
+commit: eab8f11bed73de6ca0cfe5a6897f53e0a1560bfb [5/11] ANDROID: KVM: arm64: Add tracing support for the nVHE hyp
+config: arm64-randconfig-r121-20231207 (https://download.01.org/0day-ci/archive/20231208/202312080045.YefnOiQe-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080045.YefnOiQe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080021.eQEtUpnB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080045.YefnOiQe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/hyp/nvhe/trace.c:17:1: sparse: sparse: symbol 'trace_rb_lock' was not declared. Should it be static?
+>> arch/arm64/kvm/hyp/nvhe/trace.c:190:15: sparse: sparse: symbol 'rb_event_size' was not declared. Should it be static?
 
->> drivers/cxl/core/port.c:231:36: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-           return sysfs_emit(buf, "%#llx\n", cxl_dpa_resource_start(cxled));
-                                   ~~~~~     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                   %#x
-   1 warning generated.
+vim +/trace_rb_lock +17 arch/arm64/kvm/hyp/nvhe/trace.c
 
-
-vim +231 drivers/cxl/core/port.c
-
-   224	
-   225	static ssize_t dpa_resource_show(struct device *dev, struct device_attribute *attr,
-   226				    char *buf)
-   227	{
-   228		struct cxl_endpoint_decoder *cxled = to_cxl_endpoint_decoder(dev);
-   229	
-   230		guard(rwsem_read)(&cxl_dpa_rwsem);
- > 231		return sysfs_emit(buf, "%#llx\n", cxl_dpa_resource_start(cxled));
-   232	}
-   233	static DEVICE_ATTR_RO(dpa_resource);
-   234	
+    14	
+    15	static struct hyp_buffer_pages_backing hyp_buffer_pages_backing;
+    16	DEFINE_PER_CPU(struct hyp_rb_per_cpu, trace_rb);
+  > 17	DEFINE_HYP_SPINLOCK(trace_rb_lock);
+    18	
+    19	static bool rb_set_flag(struct hyp_buffer_page *bpage, int new_flag)
+    20	{
+    21		unsigned long ret, val = (unsigned long)bpage->list.next;
+    22	
+    23		ret = cmpxchg((unsigned long *)&bpage->list.next,
+    24			      val, (val & ~HYP_RB_FLAG_MASK) | new_flag);
+    25	
+    26		return ret == val;
+    27	}
+    28	
+    29	static void rb_set_footer_status(struct hyp_buffer_page *bpage,
+    30					 unsigned long status,
+    31					 bool reader)
+    32	{
+    33		struct buffer_data_page *page = bpage->page;
+    34		struct rb_ext_page_footer *footer;
+    35	
+    36		footer = rb_ext_page_get_footer(page);
+    37	
+    38		if (reader)
+    39			atomic_set(&footer->reader_status, status);
+    40		else
+    41			atomic_set(&footer->writer_status, status);
+    42	}
+    43	
+    44	static void rb_footer_writer_status(struct hyp_buffer_page *bpage,
+    45					    unsigned long status)
+    46	{
+    47		rb_set_footer_status(bpage, status, false);
+    48	}
+    49	
+    50	static void rb_footer_reader_status(struct hyp_buffer_page *bpage,
+    51					    unsigned long status)
+    52	{
+    53		rb_set_footer_status(bpage, status, true);
+    54	}
+    55	
+    56	static struct hyp_buffer_page *rb_hyp_buffer_page(struct list_head *list)
+    57	{
+    58		unsigned long ptr = (unsigned long)list & ~HYP_RB_FLAG_MASK;
+    59	
+    60		return container_of((struct list_head *)ptr, struct hyp_buffer_page, list);
+    61	}
+    62	
+    63	static struct hyp_buffer_page *rb_next_page(struct hyp_buffer_page *bpage)
+    64	{
+    65		return rb_hyp_buffer_page(bpage->list.next);
+    66	}
+    67	
+    68	static bool rb_is_head_page(struct hyp_buffer_page *bpage)
+    69	{
+    70		return (unsigned long)bpage->list.prev->next & HYP_RB_PAGE_HEAD;
+    71	}
+    72	
+    73	static struct hyp_buffer_page *rb_set_head_page(struct hyp_rb_per_cpu *cpu_buffer)
+    74	{
+    75		struct hyp_buffer_page *bpage, *prev_head;
+    76		int cnt = 0;
+    77	again:
+    78		bpage = prev_head = cpu_buffer->head_page;
+    79		do {
+    80			if (rb_is_head_page(bpage)) {
+    81				cpu_buffer->head_page = bpage;
+    82				rb_footer_reader_status(prev_head, 0);
+    83				rb_footer_reader_status(bpage, RB_PAGE_FT_HEAD);
+    84				return bpage;
+    85			}
+    86	
+    87			bpage = rb_next_page(bpage);
+    88		} while (bpage != prev_head);
+    89	
+    90		cnt++;
+    91	
+    92		/* We might have race with the writer let's try again */
+    93		if (cnt < 3)
+    94			goto again;
+    95	
+    96		return NULL;
+    97	}
+    98	
+    99	static int rb_swap_reader_page(struct hyp_rb_per_cpu *cpu_buffer)
+   100	{
+   101		unsigned long *old_head_link, old_link_val, new_link_val, overrun;
+   102		struct hyp_buffer_page *head, *reader = cpu_buffer->reader_page;
+   103		struct rb_ext_page_footer *footer;
+   104	
+   105		rb_footer_reader_status(cpu_buffer->reader_page, 0);
+   106	spin:
+   107		/* Update the cpu_buffer->header_page according to HYP_RB_PAGE_HEAD */
+   108		head = rb_set_head_page(cpu_buffer);
+   109		if (!head)
+   110			return -ENODEV;
+   111	
+   112		/* Connect the reader page around the header page */
+   113		reader->list.next = head->list.next;
+   114		reader->list.prev = head->list.prev;
+   115	
+   116		/* The reader page points to the new header page */
+   117		rb_set_flag(reader, HYP_RB_PAGE_HEAD);
+   118	
+   119		/*
+   120		 * Paired with the cmpxchg in rb_move_tail(). Order the read of the head
+   121		 * page and overrun.
+   122		 */
+   123		smp_mb();
+   124		overrun = atomic_read(&cpu_buffer->overrun);
+   125	
+   126		/* Try to swap the prev head link to the reader page */
+   127		old_head_link = (unsigned long *)&reader->list.prev->next;
+   128		old_link_val = (*old_head_link & ~HYP_RB_FLAG_MASK) | HYP_RB_PAGE_HEAD;
+   129		new_link_val = (unsigned long)&reader->list;
+   130		if (cmpxchg(old_head_link, old_link_val, new_link_val)
+   131			      != old_link_val)
+   132			goto spin;
+   133	
+   134		cpu_buffer->head_page = rb_hyp_buffer_page(reader->list.next);
+   135		cpu_buffer->head_page->list.prev = &reader->list;
+   136		cpu_buffer->reader_page = head;
+   137	
+   138		rb_footer_reader_status(cpu_buffer->reader_page, RB_PAGE_FT_READER);
+   139		rb_footer_reader_status(cpu_buffer->head_page, RB_PAGE_FT_HEAD);
+   140	
+   141		footer = rb_ext_page_get_footer(cpu_buffer->reader_page->page);
+   142		footer->stats.overrun = overrun;
+   143	
+   144		return 0;
+   145	}
+   146	
+   147	static struct hyp_buffer_page *
+   148	rb_move_tail(struct hyp_rb_per_cpu *cpu_buffer)
+   149	{
+   150		struct hyp_buffer_page *tail_page, *new_tail, *new_head;
+   151	
+   152		tail_page = cpu_buffer->tail_page;
+   153		new_tail = rb_next_page(tail_page);
+   154	again:
+   155		/*
+   156		 * We caught the reader ... Let's try to move the head page.
+   157		 * The writer can only rely on ->next links to check if this is head.
+   158		 */
+   159		if ((unsigned long)tail_page->list.next & HYP_RB_PAGE_HEAD) {
+   160			/* The reader moved the head in between */
+   161			if (!rb_set_flag(tail_page, HYP_RB_PAGE_UPDATE))
+   162				goto again;
+   163	
+   164			atomic_add(atomic_read(&new_tail->entries), &cpu_buffer->overrun);
+   165	
+   166			/* Move the head */
+   167			rb_set_flag(new_tail, HYP_RB_PAGE_HEAD);
+   168	
+   169			/* The new head is in place, reset the update flag */
+   170			rb_set_flag(tail_page, 0);
+   171	
+   172			new_head = rb_next_page(new_tail);
+   173		}
+   174	
+   175		rb_footer_writer_status(tail_page, 0);
+   176		rb_footer_writer_status(new_tail, RB_PAGE_FT_COMMIT);
+   177	
+   178		local_set(&new_tail->page->commit, 0);
+   179	
+   180		atomic_set(&new_tail->write, 0);
+   181		atomic_set(&new_tail->entries, 0);
+   182	
+   183		atomic_inc(&cpu_buffer->pages_touched);
+   184	
+   185		cpu_buffer->tail_page = new_tail;
+   186	
+   187		return new_tail;
+   188	}
+   189	
+ > 190	unsigned long rb_event_size(unsigned long length)
+   191	{
+   192		struct ring_buffer_event *event;
+   193	
+   194		return length + RB_EVNT_HDR_SIZE + sizeof(event->array[0]);
+   195	}
+   196	
 
 -- 
 0-DAY CI Kernel Test Service
