@@ -1,191 +1,118 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4619039ADE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 12:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F192B39AFC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 12:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VIVOQTWA"
-Message-ID: <098fb386-0309-4313-866a-38e12b54c02a@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1701951254;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5Q1/cOmiqlDFPL84WQ9WoJ1IT+DT2CrNs/gCEPEtEv4=;
-	b=VIVOQTWAU4NIxnQdCOjTRIEYjC1BShDUHfLdnQZsDg0AUq91SXdUAaSpfZcA3Y4W4GVtka
-	IzAh/rS+P/cK+dJOKowDjjN4dtHvx66gDcG0tdTPct2uXWm44qQRvtKrWvq1kx4mpcZ+7+
-	YkJuflOs0LmR+uaK/FL/I893PEjjgnc=
-Date: Thu, 7 Dec 2023 12:14:12 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jS15Mxxm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701951761; x=1733487761;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ujh58FHcb5tb2jGK1N8YKu30AfBLDN/psJSNOj5NXOI=;
+  b=jS15MxxmX5AiqzTXTLRe00Dqwg4PHY7rlT7FBpFWjyKqKY/LxmkF5ihO
+   Hzd8SX+wTtVS82ULNQct1p2o8Tv6oJn5nqu5bMuX26BG0qXwHlX8rygVE
+   DUsfxN44DLE5YMgSK65Ip+Dbj9s/U/PpDGUZC8X+pXfvOfc/HqRxtPE2K
+   e0HB3Jmapaic69S3HTTFKM3D4g98oYzIipT9PbS5knajnWKFoPfj08Qq4
+   HbAlJyY9RBoJowtLvQMXSzTSDLCaffIT1I8GG5sMmBDSTkLdzJLgaG0rS
+   hPFAMFsEGaxELXw6gSvY13VVkb+kfw4LYgPplf6flewLMmDHgupoShCOg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="7530802"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="7530802"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 04:22:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="945013859"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="945013859"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 07 Dec 2023 04:22:37 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBDOk-000CDr-2t;
+	Thu, 07 Dec 2023 12:22:34 +0000
+Date: Thu, 7 Dec 2023 20:21:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>
+Subject: Re: [PATCH 13/16] ALSA: hda/tas2781: remove sound controls in unbind
+Message-ID: <202312072037.CYK5reOb-lkp@intel.com>
+References: <8f16576930682297fd08bba5e063a9a1f3150388.1701906455.git.soyer@irl.hu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v7 1/3] bpf: make common crypto API for TC/XDP
- programs
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Vadim Fedorenko <vadfed@meta.com>, Jakub Kicinski <kuba@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Andrii Nakryiko
- <andrii@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Mykola Lysenko <mykolal@fb.com>, Herbert Xu <herbert@gondor.apana.org.au>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- linux-crypto@vger.kernel.org, bpf@vger.kernel.org
-References: <dc0e2f8e-f82b-4439-b61a-9ab0be9f4e6b@suswa.mountain>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <dc0e2f8e-f82b-4439-b61a-9ab0be9f4e6b@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8f16576930682297fd08bba5e063a9a1f3150388.1701906455.git.soyer@irl.hu>
 
-On 05/12/2023 21:56, Dan Carpenter wrote:
-> Hi Vadim,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-crypto-add-skcipher-to-bpf-crypto/20231202-091254
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20231202010604.1877561-1-vadfed%40meta.com
-> patch subject: [PATCH bpf-next v7 1/3] bpf: make common crypto API for TC/XDP programs
-> config: x86_64-randconfig-161-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060647.2JfAE3rk-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060647.2JfAE3rk-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202312060647.2JfAE3rk-lkp@intel.com/
-> 
-> smatch warnings:
-> kernel/bpf/crypto.c:192 bpf_crypto_ctx_create() error: we previously assumed 'ctx' could be null (see line 165)
-> kernel/bpf/crypto.c:192 bpf_crypto_ctx_create() error: potentially dereferencing uninitialized 'ctx'.
-> 
-> vim +/ctx +192 kernel/bpf/crypto.c
-> 
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  122  __bpf_kfunc struct bpf_crypto_ctx *
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  123  bpf_crypto_ctx_create(const char *type__str, const char *algo__str,
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  124  		      const struct bpf_dynptr_kern *pkey,
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  125  		      unsigned int authsize, int *err)
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  126  {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  127  	const struct bpf_crypto_type *type = bpf_crypto_get_type(type__str);
-> 
-> Delete this assignment.  (Duplicated).
-> 
+Hi Gergo,
 
-Ah, yeah, will remove it.
+kernel test robot noticed the following build warnings:
 
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  128  	struct bpf_crypto_ctx *ctx;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  129  	const u8 *key;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  130  	u32 key_len;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  131
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  132  	type = bpf_crypto_get_type(type__str);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  133  	if (IS_ERR(type)) {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  134  		*err = PTR_ERR(type);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  135  		return NULL;
-> 
-> Why doesn't this function just return error pointers?
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus broonie-sound/for-next linus/master v6.7-rc4 next-20231207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-bpf_kfuncs cannot return error pointers, it makes BPF verifier very unhappy.
+url:    https://github.com/intel-lab-lkp/linux/commits/Gergo-Koteles/ALSA-hda-tas2781-leave-hda_component-in-usable-state/20231207-085947
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/8f16576930682297fd08bba5e063a9a1f3150388.1701906455.git.soyer%40irl.hu
+patch subject: [PATCH 13/16] ALSA: hda/tas2781: remove sound controls in unbind
+config: x86_64-randconfig-013-20231207 (https://download.01.org/0day-ci/archive/20231207/202312072037.CYK5reOb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312072037.CYK5reOb-lkp@intel.com/reproduce)
 
-> 
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  136  	}
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  137
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  138  	if (!type->has_algo(algo__str)) {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  139  		*err = -EOPNOTSUPP;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  140  		goto err;
-> 
-> ctx is uninitialized on this path.
-> 
-Yep, it was already highlighted in the feedback, thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312072037.CYK5reOb-lkp@intel.com/
 
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  141  	}
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  142
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  143  	if (!authsize && type->setauthsize) {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  144  		*err = -EOPNOTSUPP;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  145  		goto err;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  146  	}
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  147
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  148  	if (authsize && !type->setauthsize) {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  149  		*err = -EOPNOTSUPP;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  150  		goto err;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  151  	}
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  152
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  153  	key_len = __bpf_dynptr_size(pkey);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  154  	if (!key_len) {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  155  		*err = -EINVAL;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  156  		goto err;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  157  	}
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  158  	key = __bpf_dynptr_data(pkey, key_len);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  159  	if (!key) {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  160  		*err = -EINVAL;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  161  		goto err;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  162  	}
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  163
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  164  	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01 @165  	if (!ctx) {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  166  		*err = -ENOMEM;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  167  		goto err;
-> 
-> ctx is NULL here.
-> 
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  168  	}
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  169
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  170  	ctx->type = type;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  171  	ctx->tfm = type->alloc_tfm(algo__str);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  172  	if (IS_ERR(ctx->tfm)) {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  173  		*err = PTR_ERR(ctx->tfm);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  174  		ctx->tfm = NULL;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  175  		goto err;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  176  	}
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  177
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  178  	if (authsize) {
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  179  		*err = type->setauthsize(ctx->tfm, authsize);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  180  		if (*err)
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  181  			goto err;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  182  	}
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  183
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  184  	*err = type->setkey(ctx->tfm, key, key_len);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  185  	if (*err)
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  186  		goto err;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  187
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  188  	refcount_set(&ctx->usage, 1);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  189
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  190  	return ctx;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  191  err:
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01 @192  	if (ctx->tfm)
->                                                              ^^^^^^^^
-> NULL dereference.  These two error handling bugs in three lines of code
-> are canonical One Err Label type bugs.  Better to do a ladder where each
-> error label frees the last thing that was allocated.  Easier to review.
-> Then you could delete the "ctx->tfm = NULL;" assignment on line 174.
-> 
-> 	return ctx;
-> 
-> err_free_tfm:
-> 	type->free_tfm(ctx->tfm);
-> err_free_ctx:
-> 	kfree(ctx);
-> err_module_put:
-> 	module_put(type->owner);
-> 
-> 	return NULL;
-> 
-> I have written about this at length on my blog:
-> https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+All warnings (new ones prefixed by >>):
 
-Thanks, very good blog post, I'll follow this way in the next version.
+   sound/pci/hda/tas2781_hda_i2c.c: In function 'tas2781_runtime_resume':
+>> sound/pci/hda/tas2781_hda_i2c.c:868:1: warning: label 'out' defined but not used [-Wunused-label]
+     868 | out:
+         | ^~~
 
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  193  		type->free_tfm(ctx->tfm);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  194  	kfree(ctx);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  195  	module_put(type->owner);
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  196
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  197  	return NULL;
-> 0c47cb96ac404e Vadim Fedorenko 2023-12-01  198  }
-> 
 
+vim +/out +868 sound/pci/hda/tas2781_hda_i2c.c
+
+   852	
+   853	static int tas2781_runtime_resume(struct device *dev)
+   854	{
+   855		struct tas2781_hda *tas_hda = dev_get_drvdata(dev);
+   856	
+   857		dev_dbg(tas_hda->dev, "Runtime Resume\n");
+   858	
+   859		mutex_lock(&tas_hda->priv->codec_lock);
+   860	
+   861		tasdevice_prmg_load(tas_hda->priv, tas_hda->priv->cur_prog);
+   862	
+   863		/* If calibrated data occurs error, dsp will still works with default
+   864		 * calibrated data inside algo.
+   865		 */
+   866		tasdevice_apply_calibration(tas_hda->priv);
+   867	
+ > 868	out:
+   869		mutex_unlock(&tas_hda->priv->codec_lock);
+   870	
+   871		return 0;
+   872	}
+   873	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
