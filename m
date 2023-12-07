@@ -1,47 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D18F367
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 00:28:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D40836C
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 00:28:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aeFHdqeG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DLPRwAWJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701908894; x=1733444894;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TEEiRzbImuy5iwJuw+heAcWSeAEEyVg+B/PThSdiA14=;
-  b=aeFHdqeGYJZ0oqAnw5uWtcGp12GUb8wMiQhn/mvnSQnCmZvHfwr1Z17o
-   vpIXryFhRb4mcN58rAm0Vig5l3jdG+xcTGaoRZNw6KEhK2A9UE5lwR+0c
-   FDM8bh5w5KT8mco4n3lRXgemUNWYePfbDpUlioMcRTt5CNVbNUjskjin2
-   8HEdsvDjoPFvYd2vTwdPEMI5h7I0nxh3DVbrJ1ezOWi3aKTTAnfpad6wR
-   q05pgQK1nFl33A+g4B0Q+Ggtmbk2kMhCXypcEoYpgHefwESZBYxLDUoVU
-   SVQPoUhhEVGmrWKKFqLPHOwMru952Mj47e3YANLtb+g8j5lg9PIGvnsKB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="425302759"
+  t=1701908895; x=1733444895;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Aeiyg4qx7bpYJygKiaD67EIN+bTA3XdLMvUjVUJSJwI=;
+  b=DLPRwAWJ6ydfFloGChDTvDGrXbnD6aKLOH6jq25AX3PA2EhQ+nmmZHCP
+   gwkXoRAb96eUtDLnXa/j5/BS0v8llYXG+v1C4yu8Ud/CFQIg9Sk1lD6jm
+   urq9QAHCsx0PfBvJzUzScF4gPcDhlXWqrjqi+0tT7051shJjfcT44FEi9
+   duPz8m8V1OaWqBM+7Kc6tkuyuyYGUBuYcldc0ARGWNXO8L5fbp2jtM6o2
+   Oo/EPb8D/Z26NeHV/s/O1u+xaLF0MGGp/gqKPqx/2Bzw9VqiaxEfCySDM
+   QOFSPc3nTo1d1YyLfbNk8T5UX8172yD4TgVFYnF4jlT3k3I4hK1sMZ9Uk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="12863037"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="425302759"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 16:28:13 -0800
+   d="scan'208";a="12863037"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 16:28:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="764913280"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1103009011"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="764913280"
+   d="scan'208";a="1103009011"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 06 Dec 2023 16:28:12 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 06 Dec 2023 16:28:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rB2FN-000BdE-2v;
+	id 1rB2FN-000BdC-2r;
 	Thu, 07 Dec 2023 00:28:09 +0000
-Date: Thu, 7 Dec 2023 08:27:25 +0800
+Date: Thu, 7 Dec 2023 08:27:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/1]
- drivers/interconnect/debugfs-client.c:60:15: sparse: sparse: incompatible
- types in comparison expression (different address spaces):
-Message-ID: <202312070810.7tUi7mTA-lkp@intel.com>
+To: Allen_Lin <allencl_lin@hotmail.com>, dmitry.torokhov@gmail.com,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, jikos@kernel.org,
+	benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Allen_Lin <allencl_lin@hotmail.com>
+Subject: Re: [PATCH v2 2/2] Input: Add Himax HX83102J touchscreen driver
+Message-ID: <202312070838.oJSWv4T3-lkp@intel.com>
+References: <TY0PR06MB56119F0D60142F4C1435767C9E84A@TY0PR06MB5611.apcprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,99 +54,228 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <TY0PR06MB56119F0D60142F4C1435767C9E84A@TY0PR06MB5611.apcprd06.prod.outlook.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   80979fab469540cfe1fba2d4d5b887f341828977
-commit: 4439db7b8f941e4e418fc4d07e84a2eb31c6f339 [1/1] ANDROID: interconnect: Enable debugfs client
-config: arm-randconfig-r131-20231201 (https://download.01.org/0day-ci/archive/20231207/202312070810.7tUi7mTA-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231207/202312070810.7tUi7mTA-lkp@intel.com/reproduce)
+Hi Allen_Lin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on dtor-input/next dtor-input/for-linus robh/for-next linus/master v6.7-rc4 next-20231206]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Allen_Lin/Input-Add-Himax-HX83102J-touchscreen-driver/20231206-183804
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/TY0PR06MB56119F0D60142F4C1435767C9E84A%40TY0PR06MB5611.apcprd06.prod.outlook.com
+patch subject: [PATCH v2 2/2] Input: Add Himax HX83102J touchscreen driver
+config: sh-randconfig-r053-20231207 (https://download.01.org/0day-ci/archive/20231207/202312070838.oJSWv4T3-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312070838.oJSWv4T3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312070810.7tUi7mTA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312070838.oJSWv4T3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/interconnect/debugfs-client.c:60:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> drivers/interconnect/debugfs-client.c:60:15: sparse:    char [noderef] __rcu *
->> drivers/interconnect/debugfs-client.c:60:15: sparse:    char *
-   drivers/interconnect/debugfs-client.c:61:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/interconnect/debugfs-client.c:61:15: sparse:    char [noderef] __rcu *
-   drivers/interconnect/debugfs-client.c:61:15: sparse:    char *
-   drivers/interconnect/debugfs-client.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +60 drivers/interconnect/debugfs-client.c
+>> drivers/hid/hid-himax-83102j.c:2673:12: warning: 'himax_parse_dt' defined but not used [-Wunused-function]
+    2673 | static int himax_parse_dt(struct device_node *dt, struct himax_platform_data *pdata)
+         |            ^~~~~~~~~~~~~~
 
-770c69f037c18c Mike Tipton 2023-08-07   50  
-770c69f037c18c Mike Tipton 2023-08-07   51  static int icc_get_set(void *data, u64 val)
-770c69f037c18c Mike Tipton 2023-08-07   52  {
-770c69f037c18c Mike Tipton 2023-08-07   53  	struct debugfs_path *debugfs_path;
-770c69f037c18c Mike Tipton 2023-08-07   54  	char *src, *dst;
-770c69f037c18c Mike Tipton 2023-08-07   55  	int ret = 0;
-770c69f037c18c Mike Tipton 2023-08-07   56  
-770c69f037c18c Mike Tipton 2023-08-07   57  	mutex_lock(&debugfs_lock);
-770c69f037c18c Mike Tipton 2023-08-07   58  
-770c69f037c18c Mike Tipton 2023-08-07   59  	rcu_read_lock();
-770c69f037c18c Mike Tipton 2023-08-07  @60  	src = rcu_dereference(src_node);
-770c69f037c18c Mike Tipton 2023-08-07   61  	dst = rcu_dereference(dst_node);
-770c69f037c18c Mike Tipton 2023-08-07   62  
-770c69f037c18c Mike Tipton 2023-08-07   63  	/*
-770c69f037c18c Mike Tipton 2023-08-07   64  	 * If we've already looked up a path, then use the existing one instead
-770c69f037c18c Mike Tipton 2023-08-07   65  	 * of calling icc_get() again. This allows for updating previous BW
-770c69f037c18c Mike Tipton 2023-08-07   66  	 * votes when "get" is written to multiple times for multiple paths.
-770c69f037c18c Mike Tipton 2023-08-07   67  	 */
-770c69f037c18c Mike Tipton 2023-08-07   68  	cur_path = get_path(src, dst);
-770c69f037c18c Mike Tipton 2023-08-07   69  	if (cur_path) {
-770c69f037c18c Mike Tipton 2023-08-07   70  		rcu_read_unlock();
-770c69f037c18c Mike Tipton 2023-08-07   71  		goto out;
-770c69f037c18c Mike Tipton 2023-08-07   72  	}
-770c69f037c18c Mike Tipton 2023-08-07   73  
-770c69f037c18c Mike Tipton 2023-08-07   74  	src = kstrdup(src, GFP_ATOMIC);
-770c69f037c18c Mike Tipton 2023-08-07   75  	dst = kstrdup(dst, GFP_ATOMIC);
-770c69f037c18c Mike Tipton 2023-08-07   76  	rcu_read_unlock();
-770c69f037c18c Mike Tipton 2023-08-07   77  
-770c69f037c18c Mike Tipton 2023-08-07   78  	if (!src || !dst) {
-770c69f037c18c Mike Tipton 2023-08-07   79  		ret = -ENOMEM;
-770c69f037c18c Mike Tipton 2023-08-07   80  		goto err_free;
-770c69f037c18c Mike Tipton 2023-08-07   81  	}
-770c69f037c18c Mike Tipton 2023-08-07   82  
-770c69f037c18c Mike Tipton 2023-08-07   83  	cur_path = icc_get(&pdev->dev, src, dst);
-770c69f037c18c Mike Tipton 2023-08-07   84  	if (IS_ERR(cur_path)) {
-770c69f037c18c Mike Tipton 2023-08-07   85  		ret = PTR_ERR(cur_path);
-770c69f037c18c Mike Tipton 2023-08-07   86  		goto err_free;
-770c69f037c18c Mike Tipton 2023-08-07   87  	}
-770c69f037c18c Mike Tipton 2023-08-07   88  
-770c69f037c18c Mike Tipton 2023-08-07   89  	debugfs_path = kzalloc(sizeof(*debugfs_path), GFP_KERNEL);
-770c69f037c18c Mike Tipton 2023-08-07   90  	if (!debugfs_path) {
-770c69f037c18c Mike Tipton 2023-08-07   91  		ret = -ENOMEM;
-770c69f037c18c Mike Tipton 2023-08-07   92  		goto err_put;
-770c69f037c18c Mike Tipton 2023-08-07   93  	}
-770c69f037c18c Mike Tipton 2023-08-07   94  
-770c69f037c18c Mike Tipton 2023-08-07   95  	debugfs_path->path = cur_path;
-770c69f037c18c Mike Tipton 2023-08-07   96  	debugfs_path->src = src;
-770c69f037c18c Mike Tipton 2023-08-07   97  	debugfs_path->dst = dst;
-770c69f037c18c Mike Tipton 2023-08-07   98  	list_add_tail(&debugfs_path->list, &debugfs_paths);
-770c69f037c18c Mike Tipton 2023-08-07   99  
-770c69f037c18c Mike Tipton 2023-08-07  100  	goto out;
-770c69f037c18c Mike Tipton 2023-08-07  101  
-770c69f037c18c Mike Tipton 2023-08-07  102  err_put:
-770c69f037c18c Mike Tipton 2023-08-07  103  	icc_put(cur_path);
-770c69f037c18c Mike Tipton 2023-08-07  104  err_free:
-770c69f037c18c Mike Tipton 2023-08-07  105  	kfree(src);
-770c69f037c18c Mike Tipton 2023-08-07  106  	kfree(dst);
-770c69f037c18c Mike Tipton 2023-08-07  107  out:
-770c69f037c18c Mike Tipton 2023-08-07  108  	mutex_unlock(&debugfs_lock);
-770c69f037c18c Mike Tipton 2023-08-07  109  	return ret;
-770c69f037c18c Mike Tipton 2023-08-07  110  }
-770c69f037c18c Mike Tipton 2023-08-07  111  
 
-:::::: The code at line 60 was first introduced by commit
-:::::: 770c69f037c18cfaa37c3d6c6ef8bd257635513f interconnect: Add debugfs test client
+vim +/himax_parse_dt +2673 drivers/hid/hid-himax-83102j.c
 
-:::::: TO: Mike Tipton <quic_mdtipton@quicinc.com>
-:::::: CC: Georgi Djakov <djakov@kernel.org>
+  2672	
+> 2673	static int himax_parse_dt(struct device_node *dt, struct himax_platform_data *pdata)
+  2674	{
+  2675		/* pid_fw_name size = length of default_fw_name + length of "_XXXX" +
+  2676		 * length of ".bin" + null terminator.
+  2677		 */
+  2678		static char pid_fw_name[ARRAY_SIZE(default_fw_name) + 5 + 4 + 1] = {0};
+  2679		int tmp = 0;
+  2680		const int pid_prop_args = 2;
+  2681		u32 data = 0;
+  2682		int id_gpios[8] = {0};
+  2683		int counter = 0;
+  2684		int i = 0;
+  2685		s16 id_value = -1;
+  2686		int dts_irq = 0;
+  2687		int err = 0;
+  2688	
+  2689		UNUSED(default_fw_name);
+  2690		if (!dt || !pdata) {
+  2691			E("DT: dev or pdata is NULL");
+  2692			return -EINVAL;
+  2693		}
+  2694	
+  2695		dts_irq = of_irq_get(dt, 0);
+  2696		D("DT: dts_irq = %d", dts_irq);
+  2697		if (dts_irq <= 0) {
+  2698			if (dts_irq == -EPROBE_DEFER)
+  2699				E("DT: dts_irq = -EPROBE_DEFER");
+  2700			return -EIO;
+  2701		}
+  2702	
+  2703		pdata->of_irq = dts_irq;
+  2704		pdata->gpio_irq = -1;
+  2705	
+  2706		pdata->gpio_reset = of_get_named_gpio(dt, "reset-gpios", 0);
+  2707		if (!gpio_is_valid(pdata->gpio_reset)) {
+  2708			I(" DT:gpio-rst value is not valid");
+  2709			return -EIO;
+  2710		}
+  2711	
+  2712		I(" DT:interrupt=%d, reset=%d",
+  2713		  pdata->of_irq, pdata->gpio_reset);
+  2714		counter = gpiod_count(pdata->ts->dev, "himax,id");
+  2715		if (counter > 0) {
+  2716			for (i = 0 ; i < counter ; i++) {
+  2717				id_gpios[i] = of_get_named_gpio(dt, "himax,id-gpios", i);
+  2718				if (!gpio_is_valid(id_gpios[i])) {
+  2719					I(" DT:gpio-id value is not valid");
+  2720					return -EIO;
+  2721				}
+  2722				I(" DT:gpio-id[%d]=%d", i, id_gpios[i]);
+  2723			}
+  2724			id_value = 0;
+  2725			for (i = 0 ; i < counter ; i++) {
+  2726				gpio_direction_input(id_gpios[i]);
+  2727				id_value |= gpio_get_value(id_gpios[i]) << i;
+  2728			}
+  2729			I(" DT:gpio-id value=%04X", id_value);
+  2730			pdata->panel_id = id_value;
+  2731		} else {
+  2732			pdata->panel_id = -1;
+  2733			D(" DT:gpio-id not found");
+  2734		}
+  2735	
+  2736		// himax,ic_det_delay unit is millisecond
+  2737		if (of_property_read_u32(dt, "himax,ic-det-delay-ms", &data)) {
+  2738			pdata->ic_det_delay = 0;
+  2739			D(" DT:himax,ic-det-delay-ms not found");
+  2740		} else {
+  2741			pdata->ic_det_delay = data;
+  2742			I(" DT:himax,ic-det-delay-ms=%d", pdata->ic_det_delay);
+  2743		}
+  2744	
+  2745		// himax,ic_resume_delay unit is millisecond
+  2746		if (of_property_read_u32(dt, "himax,ic-resume-delay-ms", &data)) {
+  2747			pdata->ic_resume_delay = 0;
+  2748			D(" DT:himax,ic-resume-delay-ms not found");
+  2749		} else {
+  2750			pdata->ic_resume_delay = data;
+  2751			I(" DT:himax,ic-resume-delay-ms=%d", pdata->ic_resume_delay);
+  2752		}
+  2753	
+  2754		if (of_property_read_bool(dt, "himax,has-flash")) {
+  2755			pdata->is_zf = false;
+  2756			D(" DT:himax,has-flash");
+  2757		} else {
+  2758			pdata->is_zf = true;
+  2759			I(" DT:himax,has-flash not found, load firmware from file");
+  2760		}
+  2761	
+  2762		if (of_property_read_bool(dt, "vccd-supply")) {
+  2763			pdata->vccd_supply = regulator_get(pdata->ts->dev, "vccd");
+  2764			if (IS_ERR(pdata->vccd_supply)) {
+  2765				E(" DT:failed to get vccd supply");
+  2766				err = PTR_ERR(pdata->vccd_supply);
+  2767				pdata->vccd_supply = NULL;
+  2768				return err;
+  2769			}
+  2770			I(" DT:vccd-supply=%p", pdata->vccd_supply);
+  2771		} else {
+  2772			pdata->vccd_supply = NULL;
+  2773		}
+  2774	
+  2775		if (of_property_read_bool(dt, "vcca-supply")) {
+  2776			pdata->vcca_supply = regulator_get(pdata->ts->dev, "vcca");
+  2777			if (IS_ERR(pdata->vcca_supply)) {
+  2778				E(" DT:failed to get vcca supply");
+  2779				err = PTR_ERR(pdata->vcca_supply);
+  2780				pdata->vcca_supply = NULL;
+  2781				return err;
+  2782			}
+  2783			I(" DT:vcca-supply=%p", pdata->vcca_supply);
+  2784		} else {
+  2785			pdata->vcca_supply = NULL;
+  2786		}
+  2787	
+  2788		/*
+  2789		 * check himax,pid first, if exist then check if it is single.
+  2790		 * Single case: himax,pid = <0x1002>; // 0x1002 is pid value
+  2791		 * Multiple case: himax,pid = <id_value0 00x1001>, <id_value1 0x1002>;
+  2792		 * When id_value >= 0, check the mapping listed to use the pid value.
+  2793		 */
+  2794		if (of_get_property(dt, "himax,pid", &data)) {
+  2795			counter = data / (sizeof(u32) * pid_prop_args);
+  2796	
+  2797			if (!counter) {
+  2798				// default case, no id->pid mappings
+  2799				if (of_property_read_u32(dt, "himax,pid", &data)) {
+  2800					pdata->pid = 0;
+  2801					D(" DT:himax,pid not found");
+  2802					goto GET_PID_END;
+  2803				} else {
+  2804					goto GET_PID_VALUE;
+  2805				}
+  2806			}
+  2807	
+  2808			if (id_value < 0) {
+  2809				E(" DT:himax,pid has no matched for id_value=%04X", id_value);
+  2810				pdata->pid = 0;
+  2811				goto GET_PID_END;
+  2812			}
+  2813	
+  2814			for (i = 0; i < counter; i++) {
+  2815				if (of_property_read_u32_index(dt, "himax,pid",
+  2816							       i * pid_prop_args, &tmp)) {
+  2817					D(" DT:himax,pid parsing error!");
+  2818					pdata->pid = 0;
+  2819					goto GET_PID_END;
+  2820				}
+  2821	
+  2822				if (of_property_read_u32_index(dt, "himax,pid",
+  2823							       i * pid_prop_args + 1, &data)) {
+  2824					D(" DT:himax,pid parsing error!");
+  2825					pdata->pid = 0;
+  2826					goto GET_PID_END;
+  2827				}
+  2828	
+  2829				if (tmp == id_value) {
+  2830					I(" DT:himax,pid mapping: id=%04X => pid=%04X, matched!",
+  2831					  tmp, data);
+  2832					i = counter;
+  2833				} else {
+  2834					I(" DT:himax,pid mapping: id=%04X => pid=%04X", tmp, data);
+  2835				}
+  2836			}
+  2837	
+  2838			if (counter == i) {
+  2839				E(" DT:himax,pid has no matched for id_value=%04X", id_value);
+  2840				pdata->pid = 0;
+  2841				goto GET_PID_END;
+  2842			}
+  2843	
+  2844	GET_PID_VALUE:
+  2845			g_fw_boot_upgrade_name = pid_fw_name;
+  2846			pdata->pid = data;
+  2847			snprintf(pid_fw_name, sizeof(pid_fw_name), "%s_%04X%s",
+  2848				 BOOT_UPGRADE_FWNAME, pdata->pid, ".bin");
+  2849			I(" DT:himax,pid=%04X, fw_name=%s",
+  2850			  pdata->pid, pid_fw_name);
+  2851		} else {
+  2852			pdata->pid = 0;
+  2853			D(" DT:himax,pid not found");
+  2854		}
+  2855	GET_PID_END:
+  2856	
+  2857		return 0;
+  2858	}
+  2859	
 
 -- 
 0-DAY CI Kernel Test Service
