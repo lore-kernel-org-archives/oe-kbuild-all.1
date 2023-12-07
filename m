@@ -1,52 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F192B39AFC
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 12:22:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBAF39FFB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Dec 2023 12:34:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jS15Mxxm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dwRW4VCd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701951761; x=1733487761;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ujh58FHcb5tb2jGK1N8YKu30AfBLDN/psJSNOj5NXOI=;
-  b=jS15MxxmX5AiqzTXTLRe00Dqwg4PHY7rlT7FBpFWjyKqKY/LxmkF5ihO
-   Hzd8SX+wTtVS82ULNQct1p2o8Tv6oJn5nqu5bMuX26BG0qXwHlX8rygVE
-   DUsfxN44DLE5YMgSK65Ip+Dbj9s/U/PpDGUZC8X+pXfvOfc/HqRxtPE2K
-   e0HB3Jmapaic69S3HTTFKM3D4g98oYzIipT9PbS5knajnWKFoPfj08Qq4
-   HbAlJyY9RBoJowtLvQMXSzTSDLCaffIT1I8GG5sMmBDSTkLdzJLgaG0rS
-   hPFAMFsEGaxELXw6gSvY13VVkb+kfw4LYgPplf6flewLMmDHgupoShCOg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="7530802"
+  t=1701952492; x=1733488492;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3QTIpRDoNM7WI3ltgGX03/EutWE7qRKSVZUcH+7nick=;
+  b=dwRW4VCdWDmAGlFfAiuhWdJ4Nr0tTmotUjV9L352ywcHmU+XshoL8XFY
+   6PI8RSgyddrSp02XH60f9yFiqHMrid/4a1T20xE6htsaBOKPOb6FMz1Bp
+   hAWKWCn15jHAqg2GeWEJxwBaue3Tt8UzxGaIbjxf6BL8nZCgAcBedDK4d
+   mB0kD/EbzWYm8HPM6VUdwYom+8eFvoW5nVjYQZD9Jlzm8WEkq8romUS9m
+   blJdJKhrg/Za3CMbTMq49mr8DcUOkWG0Pl+wwAnE7UasTitFp+0GdC30w
+   A4L1WarDXKj6bv73bMFyCNeYhvCQSughJy5tDkqKDAFKTYMbFHqJlDHmH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1305864"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="7530802"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 04:22:40 -0800
+   d="scan'208";a="1305864"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 04:34:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="945013859"
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="721449025"
 X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="945013859"
+   d="scan'208";a="721449025"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 07 Dec 2023 04:22:37 -0800
+  by orsmga003.jf.intel.com with ESMTP; 07 Dec 2023 04:34:37 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBDOk-000CDr-2t;
-	Thu, 07 Dec 2023 12:22:34 +0000
-Date: Thu, 7 Dec 2023 20:21:57 +0800
+	id 1rBDaN-000CEc-1A;
+	Thu, 07 Dec 2023 12:34:35 +0000
+Date: Thu, 7 Dec 2023 20:34:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>
-Subject: Re: [PATCH 13/16] ALSA: hda/tas2781: remove sound controls in unbind
-Message-ID: <202312072037.CYK5reOb-lkp@intel.com>
-References: <8f16576930682297fd08bba5e063a9a1f3150388.1701906455.git.soyer@irl.hu>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: [linux-next:master 5087/5882] drivers/perf/riscv_pmu_sbi.c:1008:35:
+ error: initialization of 'int (*)(const struct ctl_table *, int,  void *,
+ size_t *, loff_t *)' {aka 'int (*)(const struct ctl_table *, int,  void *,
+ unsigned int *, long long int *)'} from incompatible pointer type 'i...
+Message-ID: <202312072017.DQIMIMxq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,63 +53,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8f16576930682297fd08bba5e063a9a1f3150388.1701906455.git.soyer@irl.hu>
 
-Hi Gergo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus broonie-sound/for-next linus/master v6.7-rc4 next-20231207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gergo-Koteles/ALSA-hda-tas2781-leave-hda_component-in-usable-state/20231207-085947
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/8f16576930682297fd08bba5e063a9a1f3150388.1701906455.git.soyer%40irl.hu
-patch subject: [PATCH 13/16] ALSA: hda/tas2781: remove sound controls in unbind
-config: x86_64-randconfig-013-20231207 (https://download.01.org/0day-ci/archive/20231207/202312072037.CYK5reOb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312072037.CYK5reOb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8e00ce02066e8f6f1ad5eab49a2ede7bf7a5ef64
+commit: c8be9e66ca1eb71c694537e20d00533db48650a9 [5087/5882] sysctl: treewide: constify the ctl_table argument of handlers
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20231207/202312072017.DQIMIMxq-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231207/202312072017.DQIMIMxq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312072037.CYK5reOb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312072017.DQIMIMxq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/pci/hda/tas2781_hda_i2c.c: In function 'tas2781_runtime_resume':
->> sound/pci/hda/tas2781_hda_i2c.c:868:1: warning: label 'out' defined but not used [-Wunused-label]
-     868 | out:
-         | ^~~
+>> drivers/perf/riscv_pmu_sbi.c:1008:35: error: initialization of 'int (*)(const struct ctl_table *, int,  void *, size_t *, loff_t *)' {aka 'int (*)(const struct ctl_table *, int,  void *, unsigned int *, long long int *)'} from incompatible pointer type 'int (*)(struct ctl_table *, int,  void *, size_t *, loff_t *)' {aka 'int (*)(struct ctl_table *, int,  void *, unsigned int *, long long int *)'} [-Werror=incompatible-pointer-types]
+    1008 |                 .proc_handler   = riscv_pmu_proc_user_access_handler,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/riscv_pmu_sbi.c:1008:35: note: (near initialization for 'sbi_pmu_sysctl_table[0].proc_handler')
+   cc1: some warnings being treated as errors
 
 
-vim +/out +868 sound/pci/hda/tas2781_hda_i2c.c
+vim +1008 drivers/perf/riscv_pmu_sbi.c
 
-   852	
-   853	static int tas2781_runtime_resume(struct device *dev)
-   854	{
-   855		struct tas2781_hda *tas_hda = dev_get_drvdata(dev);
-   856	
-   857		dev_dbg(tas_hda->dev, "Runtime Resume\n");
-   858	
-   859		mutex_lock(&tas_hda->priv->codec_lock);
-   860	
-   861		tasdevice_prmg_load(tas_hda->priv, tas_hda->priv->cur_prog);
-   862	
-   863		/* If calibrated data occurs error, dsp will still works with default
-   864		 * calibrated data inside algo.
-   865		 */
-   866		tasdevice_apply_calibration(tas_hda->priv);
-   867	
- > 868	out:
-   869		mutex_unlock(&tas_hda->priv->codec_lock);
-   870	
-   871		return 0;
-   872	}
-   873	
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1001  
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1002  static struct ctl_table sbi_pmu_sysctl_table[] = {
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1003  	{
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1004  		.procname       = "perf_user_access",
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1005  		.data		= &sysctl_perf_user_access,
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1006  		.maxlen		= sizeof(unsigned int),
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1007  		.mode           = 0644,
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02 @1008  		.proc_handler	= riscv_pmu_proc_user_access_handler,
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1009  		.extra1		= SYSCTL_ZERO,
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1010  		.extra2		= SYSCTL_TWO,
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1011  	},
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1012  	{ }
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1013  };
+cc4c07c89aada1 Alexandre Ghiti 2023-08-02  1014  
+
+:::::: The code at line 1008 was first introduced by commit
+:::::: cc4c07c89aada16229084eeb93895c95b7eabaa3 drivers: perf: Implement perf event mmap support in the SBI backend
+
+:::::: TO: Alexandre Ghiti <alexghiti@rivosinc.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
