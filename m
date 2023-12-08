@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CF21FDC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 22:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98491FDC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 23:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oBWzYDC+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MdLxGHyr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702075838; x=1733611838;
+  t=1702077818; x=1733613818;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+A4CIrlbr4UQ0qy/9ndBRAaopfX3pVG1pc1Jj386wXk=;
-  b=oBWzYDC+i+u+7ENgwF/35FbKHuL7GQTsZT0xzceEIoePm/mNtyCO2LBj
-   blI7DKZb2wN2GGKqXSYRGCzezvgOJlO9TaQOldRhohQBkT5D/77Ken0F1
-   3VDQbQ8YDbjflhZHp5//pthnI1jeWgm5c82GZwmCTmF1BLcAdSA0aNqA/
-   xi+soSU9M5TT3P9Zmkw2k9JtAkQllI5zx/VRKHTwotj+/3aF0lBFpuRfd
-   1Ha2BJ5fuCdvyBE6oOl94QxaU7dxlMExBPEz4VaEfAp1IgnqnQbZK3CpJ
-   252iszsJaxpijLIOEPPNX284ik0eL7MUxWaaZWM7mz/8I+UqfeHFHUx87
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1325053"
+  bh=7AkDiUD2MDLKCk1BXMFtHeUix0iZ7VpN3YFpel4fsDw=;
+  b=MdLxGHyrKzFOOde5nolXZj42vzqkfcZzr66ITiGAtxFNz99DgC0JzLXW
+   APnUcwdy6V1mzWP7XI770UlH77RmPqn+w8eZ50Xwe42UmtJDVXoyRZC73
+   shUxgfHsUbHE8N0TaOK8DHAOKjE7JXSPH+FfYXiKilYMOb9pjj1RWl4sV
+   ZOKKXdSm0SeYtjVxq7JmEm/WMnFxKUABh1WGqoCz8DtBfIOqaMfild80m
+   chtWEqwBu2WyrBYPLtkgpyh94pI8ManVVX47EEmqetWzXjivR1/5FKmp8
+   HAR/qWzkwkseH8U/055YJmwrva82Wfzb6JkadOzC92h+3rwLgMewaCR6u
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="398339979"
 X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="1325053"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 14:50:37 -0800
+   d="scan'208";a="398339979"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 15:23:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1019507261"
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="722030423"
 X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="1019507261"
+   d="scan'208";a="722030423"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 08 Dec 2023 14:50:35 -0800
+  by orsmga003.jf.intel.com with ESMTP; 08 Dec 2023 15:23:36 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBjg1-000EVZ-11;
-	Fri, 08 Dec 2023 22:50:33 +0000
-Date: Sat, 9 Dec 2023 06:50:14 +0800
+	id 1rBkBy-000EXZ-1v;
+	Fri, 08 Dec 2023 23:23:34 +0000
+Date: Sat, 9 Dec 2023 07:23:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
-	intel-gfx@lists.freedesktop.org
+To: Henry Huang <henry.hj@antgroup.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/3] drm: Add Adaptive Sync SDP logging
-Message-ID: <202312090656.uvVXEvqz-lkp@intel.com>
-References: <20231208061933.964588-2-mitulkumar.ajitkumar.golani@intel.com>
+Subject: Re: [RFC v2] mm: Multi-Gen LRU: fix use mm/page_idle/bitmap
+Message-ID: <202312090705.7ganY1Yw-lkp@intel.com>
+References: <951fb7edab535cf522def4f5f2613947ed7b7d28.1701853894.git.henry.hj@antgroup.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,65 +50,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231208061933.964588-2-mitulkumar.ajitkumar.golani@intel.com>
+In-Reply-To: <951fb7edab535cf522def4f5f2613947ed7b7d28.1701853894.git.henry.hj@antgroup.com>
 
-Hi Mitul,
+Hi Henry,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm/drm-next drm-tip/drm-tip linus/master v6.7-rc4 next-20231208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mitul-Golani/drm-Add-Adaptive-Sync-SDP-logging/20231208-142503
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20231208061933.964588-2-mitulkumar.ajitkumar.golani%40intel.com
-patch subject: [PATCH 1/3] drm: Add Adaptive Sync SDP logging
-reproduce: (https://download.01.org/0day-ci/archive/20231209/202312090656.uvVXEvqz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Henry-Huang/mm-Multi-Gen-LRU-fix-use-mm-page_idle-bitmap/20231206-205133
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/951fb7edab535cf522def4f5f2613947ed7b7d28.1701853894.git.henry.hj%40antgroup.com
+patch subject: [RFC v2] mm: Multi-Gen LRU: fix use mm/page_idle/bitmap
+config: i386-buildonly-randconfig-002-20231209 (https://download.01.org/0day-ci/archive/20231209/202312090705.7ganY1Yw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090705.7ganY1Yw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312090656.uvVXEvqz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312090705.7ganY1Yw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> ./include/drm/display/drm_dp_helper.h:126: warning: Function parameter or member 'revision' not described in 'drm_dp_as_sdp'
->> ./include/drm/display/drm_dp_helper.h:126: warning: Function parameter or member 'vtotal' not described in 'drm_dp_as_sdp'
->> ./include/drm/display/drm_dp_helper.h:126: warning: Function parameter or member 'target_rr' not described in 'drm_dp_as_sdp'
+   mm/vmscan.c: In function 'get_pfn_folio':
+>> mm/vmscan.c:3310:27: error: implicit declaration of function 'folio_test_idle'; did you mean 'folio_test_type'? [-Werror=implicit-function-declaration]
+    3310 |         if (clear_idle && folio_test_idle(folio))
+         |                           ^~~~~~~~~~~~~~~
+         |                           folio_test_type
+>> mm/vmscan.c:3311:17: error: implicit declaration of function 'folio_clear_idle'; did you mean 'folio_clear_head'? [-Werror=implicit-function-declaration]
+    3311 |                 folio_clear_idle(folio);
+         |                 ^~~~~~~~~~~~~~~~
+         |                 folio_clear_head
+   mm/vmscan.c: In function 'walk_pte_range':
+>> mm/vmscan.c:3379:22: error: implicit declaration of function 'folio_test_clear_young'; did you mean 'folio_test_clear_lru'? [-Werror=implicit-function-declaration]
+    3379 |                 if (!folio_test_clear_young(folio) && !is_pte_young) {
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+         |                      folio_test_clear_lru
+   cc1: some warnings being treated as errors
 
-vim +126 ./include/drm/display/drm_dp_helper.h
 
-   100	
-   101	/**
-   102	 * struct drm_dp_as_sdp - drm DP Adaptive Sync SDP
-   103	 *
-   104	 * This structure represents a DP AS SDP of drm
-   105	 * It is based on DP 2.1 spec [Table 2-126:  Adaptive-Sync SDP Header Bytes] and
-   106	 * [Table 2-127: Adaptive-Sync SDP Payload for DB0 through DB8]
-   107	 *
-   108	 * @sdp_type: secondary-data packet type
-   109	 * @length: number of valid data bytes
-   110	 * @vmin: minimum vtotal
-   111	 * @vmax: maximum vtotal
-   112	 * @duration_incr_ms: Successive frame duration increase
-   113	 * @duration_decr_ms: Successive frame duration decrease
-   114	 * @operation_mode: Adaptive Sync Operation Mode
-   115	 */
-   116	
-   117	struct drm_dp_as_sdp {
-   118		unsigned char sdp_type;
-   119		unsigned char revision;
-   120		unsigned char length;
-   121		int vtotal;
-   122		int target_rr;
-   123		int duration_incr_ms;
-   124		int duration_decr_ms;
-   125		int operation_mode;
- > 126	};
-   127	
+vim +3310 mm/vmscan.c
+
+  3298	
+  3299	static struct folio *get_pfn_folio(unsigned long pfn, struct mem_cgroup *memcg,
+  3300					   struct pglist_data *pgdat, bool can_swap, bool clear_idle)
+  3301	{
+  3302		struct folio *folio;
+  3303	
+  3304		/* try to avoid unnecessary memory loads */
+  3305		if (pfn < pgdat->node_start_pfn || pfn >= pgdat_end_pfn(pgdat))
+  3306			return NULL;
+  3307	
+  3308		folio = pfn_folio(pfn);
+  3309	
+> 3310		if (clear_idle && folio_test_idle(folio))
+> 3311			folio_clear_idle(folio);
+  3312	
+  3313		if (folio_nid(folio) != pgdat->node_id)
+  3314			return NULL;
+  3315	
+  3316		if (folio_memcg_rcu(folio) != memcg)
+  3317			return NULL;
+  3318	
+  3319		/* file VMAs can contain anon pages from COW */
+  3320		if (!folio_is_file_lru(folio) && !can_swap)
+  3321			return NULL;
+  3322	
+  3323		return folio;
+  3324	}
+  3325	
+  3326	static bool suitable_to_scan(int total, int young)
+  3327	{
+  3328		int n = clamp_t(int, cache_line_size() / sizeof(pte_t), 2, 8);
+  3329	
+  3330		/* suitable if the average number of young PTEs per cacheline is >=1 */
+  3331		return young * n >= total;
+  3332	}
+  3333	
+  3334	static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned long end,
+  3335				   struct mm_walk *args)
+  3336	{
+  3337		int i;
+  3338		pte_t *pte;
+  3339		spinlock_t *ptl;
+  3340		unsigned long addr;
+  3341		int total = 0;
+  3342		int young = 0;
+  3343		struct lru_gen_mm_walk *walk = args->private;
+  3344		struct mem_cgroup *memcg = lruvec_memcg(walk->lruvec);
+  3345		struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
+  3346		int old_gen, new_gen = lru_gen_from_seq(walk->max_seq);
+  3347	
+  3348		pte = pte_offset_map_nolock(args->mm, pmd, start & PMD_MASK, &ptl);
+  3349		if (!pte)
+  3350			return false;
+  3351		if (!spin_trylock(ptl)) {
+  3352			pte_unmap(pte);
+  3353			return false;
+  3354		}
+  3355	
+  3356		arch_enter_lazy_mmu_mode();
+  3357	restart:
+  3358		for (i = pte_index(start), addr = start; addr != end; i++, addr += PAGE_SIZE) {
+  3359			unsigned long pfn;
+  3360			struct folio *folio;
+  3361			pte_t ptent = ptep_get(pte + i);
+  3362			bool is_pte_young;
+  3363	
+  3364			total++;
+  3365			walk->mm_stats[MM_LEAF_TOTAL]++;
+  3366	
+  3367			pfn = get_pte_pfn(ptent, args->vma, addr);
+  3368			if (pfn == -1)
+  3369				continue;
+  3370	
+  3371			is_pte_young = !!pte_young(ptent);
+  3372			folio = get_pfn_folio(pfn, memcg, pgdat, walk->can_swap, is_pte_young);
+  3373			if (!folio) {
+  3374				if (!is_pte_young)
+  3375					walk->mm_stats[MM_LEAF_OLD]++;
+  3376				continue;
+  3377			}
+  3378	
+> 3379			if (!folio_test_clear_young(folio) && !is_pte_young) {
+  3380				walk->mm_stats[MM_LEAF_OLD]++;
+  3381				continue;
+  3382			}
+  3383	
+  3384			if (is_pte_young && !ptep_test_and_clear_young(args->vma, addr, pte + i))
+  3385				VM_WARN_ON_ONCE(true);
+  3386	
+  3387			young++;
+  3388			walk->mm_stats[MM_LEAF_YOUNG]++;
+  3389	
+  3390			if (pte_dirty(ptent) && !folio_test_dirty(folio) &&
+  3391			    !(folio_test_anon(folio) && folio_test_swapbacked(folio) &&
+  3392			      !folio_test_swapcache(folio)))
+  3393				folio_mark_dirty(folio);
+  3394	
+  3395			old_gen = folio_update_gen(folio, new_gen);
+  3396			if (old_gen >= 0 && old_gen != new_gen)
+  3397				update_batch_size(walk, folio, old_gen, new_gen);
+  3398		}
+  3399	
+  3400		if (i < PTRS_PER_PTE && get_next_vma(PMD_MASK, PAGE_SIZE, args, &start, &end))
+  3401			goto restart;
+  3402	
+  3403		arch_leave_lazy_mmu_mode();
+  3404		pte_unmap_unlock(pte, ptl);
+  3405	
+  3406		return suitable_to_scan(total, young);
+  3407	}
+  3408	
 
 -- 
 0-DAY CI Kernel Test Service
