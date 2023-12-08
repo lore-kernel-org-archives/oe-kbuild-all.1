@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634FE5224;
-	Fri,  8 Dec 2023 04:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7D515BE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 04:36:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j1CCAL73"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BLItjYes"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702008993; x=1733544993;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SxevhwPvl1dlX54v2YDQvnciLdpmAuA4/R+k34yhueQ=;
-  b=j1CCAL73D3/jBdsLNbygECA/Zp6Bk00L36s1ekjv4MRxDV2qfMlrNvQ/
-   aoWSWkZJ1+ubbMnfIHl04XGa07afN68p8sBBLo/x1sQx9DxVieIyJR8Cp
-   VLv6lUFk9yDl5J6U1SRPanJmU9vavxJNw8bR/XCFOaljLHvGKGi175hkR
-   u9Lw6WwDO1b7XgPO+DP5mOlD0MkJ60mLjUPjAcnmKucI+qNxFjXnpoSVe
-   X7Tahnfw4UVt5dVsVzNImI41D6fLj74urSHwgza0QpopSWX4+gNrrPYJ2
-   promWvNQ3OGg8IJTIfhn0eTSee2Zvk7pMpfYdOS95JBuKVau0lbehXzLE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="374519752"
+  t=1702010184; x=1733546184;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=juZTmDbHgitCRZRaA/47vtgPpie+gV2Z7odPgNF6PUY=;
+  b=BLItjYesJ4Q0TC3s5K1pTvr9EwG31C6753KZeNcrowkpgmANnW/F3Ht3
+   xPWS7HWVJJ8lHpUAyd4nDJPhXlM/2chQrhrUQB0ZqJJxPhMsSlK+S5J6U
+   7wr2xn7DcNVHxCXc1+e3V0J0avu5/J6RVErjzOCB3cBP+yzFvYwX6GHcc
+   ok9mROCXJbqvflIJ5GmPjjyo65nqN1gCsF9LmOqtO7xq9pAV+TvItCYZk
+   bR3lXEtemH08CsEPS4Tug9lXaGBKAGH7Q9SgjrHVHZkYGh5AwRCXkGavz
+   8uf6u0K0ZoSu1iTkugHo94fh4f7uLReMrOGVM++hcr1/6GA5LzkWi/0yH
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="379357978"
 X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="374519752"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 20:16:17 -0800
+   d="scan'208";a="379357978"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 20:36:16 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="806270324"
 X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="19953059"
+   d="scan'208";a="806270324"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 07 Dec 2023 20:16:15 -0800
+  by orsmga001.jf.intel.com with ESMTP; 07 Dec 2023 20:36:15 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBSHc-000DEh-0s;
-	Fri, 08 Dec 2023 04:16:12 +0000
-Date: Fri, 8 Dec 2023 12:15:44 +0800
+	id 1rBSaz-000DGB-0a;
+	Fri, 08 Dec 2023 04:36:13 +0000
+Date: Fri, 8 Dec 2023 12:36:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elad Nachman <enachman@marvell.com>, gregory.clement@bootlin.com,
-	andi.shyti@kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	enachman@marvell.com, cyuval@marvell.com
-Subject: Re: [PATCH v2 1/1] i2c: busses: i2c-mv64xxx: fix arb-loss i2c lock
-Message-ID: <202312081143.38GWJJ2J-lkp@intel.com>
-References: <20231207165027.2628302-2-enachman@marvell.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-2023-08 6543/11250]
+ arch/arm64/kvm/hyp_trace.c:38:17: error: use of undeclared identifier
+ 'STRUCT_HYP_BUFFER_PAGE_SIZE'
+Message-ID: <202312081245.FdsknFA4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,187 +50,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231207165027.2628302-2-enachman@marvell.com>
 
-Hi Elad,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wsa/i2c/for-next]
-[also build test WARNING on linus/master v6.7-rc4 next-20231207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Elad-Nachman/i2c-busses-i2c-mv64xxx-fix-arb-loss-i2c-lock/20231208-005406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
-patch link:    https://lore.kernel.org/r/20231207165027.2628302-2-enachman%40marvell.com
-patch subject: [PATCH v2 1/1] i2c: busses: i2c-mv64xxx: fix arb-loss i2c lock
-config: i386-buildonly-randconfig-004-20231208 (https://download.01.org/0day-ci/archive/20231208/202312081143.38GWJJ2J-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312081143.38GWJJ2J-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2023-08
+head:   82e136314a0ab3db85c8e05ac32d7961f84a5cb2
+commit: 34305ad4b1bbf0b1938712ef0070a78d8b2c3583 [6543/11250] ANDROID: KVM: arm64: Add host support for the nVHE hyp tracing
+config: arm64-randconfig-004-20231208 (https://download.01.org/0day-ci/archive/20231208/202312081245.FdsknFA4-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312081245.FdsknFA4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312081143.38GWJJ2J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312081245.FdsknFA4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-mv64xxx.c:440:9: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-                           if (!ret) {
-                                ^~~
-   drivers/i2c/busses/i2c-mv64xxx.c:372:12: note: initialize the variable 'ret' to silence this warning
-           int i, ret;
-                     ^
-                      = 0
-   1 warning generated.
+>> arch/arm64/kvm/hyp_trace.c:38:17: error: use of undeclared identifier 'STRUCT_HYP_BUFFER_PAGE_SIZE'
+      38 |         backing_size = STRUCT_HYP_BUFFER_PAGE_SIZE *
+         |                        ^
+   arch/arm64/kvm/hyp_trace.c:488:5: warning: no previous prototype for function 'hyp_trace_release' [-Wmissing-prototypes]
+     488 | int hyp_trace_release(struct inode *inode, struct file *file)
+         |     ^
+   arch/arm64/kvm/hyp_trace.c:488:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     488 | int hyp_trace_release(struct inode *inode, struct file *file)
+         | ^
+         | static 
+   1 warning and 1 error generated.
 
 
-vim +/ret +440 drivers/i2c/busses/i2c-mv64xxx.c
+vim +/STRUCT_HYP_BUFFER_PAGE_SIZE +38 arch/arm64/kvm/hyp_trace.c
 
-   367	
-   368	static void
-   369	mv64xxx_i2c_do_action(struct mv64xxx_i2c_data *drv_data)
-   370	{
-   371		struct pinctrl *pc;
-   372		int i, ret;
-   373	
-   374		switch(drv_data->action) {
-   375		case MV64XXX_I2C_ACTION_SEND_RESTART:
-   376			/* We should only get here if we have further messages */
-   377			BUG_ON(drv_data->num_msgs == 0);
-   378	
-   379			drv_data->msgs++;
-   380			drv_data->num_msgs--;
-   381			mv64xxx_i2c_send_start(drv_data);
-   382	
-   383			if (drv_data->errata_delay)
-   384				udelay(5);
-   385	
-   386			/*
-   387			 * We're never at the start of the message here, and by this
-   388			 * time it's already too late to do any protocol mangling.
-   389			 * Thankfully, do not advertise support for that feature.
-   390			 */
-   391			drv_data->send_stop = drv_data->num_msgs == 1;
-   392			break;
-   393	
-   394		case MV64XXX_I2C_ACTION_CONTINUE:
-   395			writel(drv_data->cntl_bits,
-   396				drv_data->reg_base + drv_data->reg_offsets.control);
-   397			break;
-   398	
-   399		case MV64XXX_I2C_ACTION_SEND_ADDR_1:
-   400			writel(drv_data->addr1,
-   401				drv_data->reg_base + drv_data->reg_offsets.data);
-   402			writel(drv_data->cntl_bits,
-   403				drv_data->reg_base + drv_data->reg_offsets.control);
-   404			break;
-   405	
-   406		case MV64XXX_I2C_ACTION_SEND_ADDR_2:
-   407			writel(drv_data->addr2,
-   408				drv_data->reg_base + drv_data->reg_offsets.data);
-   409			writel(drv_data->cntl_bits,
-   410				drv_data->reg_base + drv_data->reg_offsets.control);
-   411			break;
-   412	
-   413		case MV64XXX_I2C_ACTION_SEND_DATA:
-   414			writel(drv_data->msg->buf[drv_data->byte_posn++],
-   415				drv_data->reg_base + drv_data->reg_offsets.data);
-   416			writel(drv_data->cntl_bits,
-   417				drv_data->reg_base + drv_data->reg_offsets.control);
-   418			break;
-   419	
-   420		case MV64XXX_I2C_ACTION_RCV_DATA:
-   421			drv_data->msg->buf[drv_data->byte_posn++] =
-   422				readl(drv_data->reg_base + drv_data->reg_offsets.data);
-   423			writel(drv_data->cntl_bits,
-   424				drv_data->reg_base + drv_data->reg_offsets.control);
-   425			break;
-   426	
-   427		case MV64XXX_I2C_ACTION_UNLOCK_BUS:
-   428			if (!drv_data->soft_reset)
-   429				break;
-   430	
-   431			pc = devm_pinctrl_get(drv_data->adapter.dev.parent);
-   432			if (IS_ERR(pc)) {
-   433				dev_err(&drv_data->adapter.dev,
-   434					"failed to get pinctrl for bus unlock!\n");
-   435				break;
-   436			}
-   437	
-   438			/* Change i2c MPPs state to act as GPIOs: */
-   439			if (pinctrl_select_state(pc, drv_data->i2c_gpio_state) >= 0) {
- > 440				if (!ret) {
-   441					/*
-   442					 * Toggle i2c scl (serial clock) 10 times.
-   443					 * 10 clocks are enough to transfer a full
-   444					 * byte plus extra as seen from tests with
-   445					 * Ubiquity SFP module causing the issue.
-   446					 * This allows the slave that occupies
-   447					 * the bus to transmit its remaining data,
-   448					 * so it can release the i2c bus:
-   449					 */
-   450					for (i = 0; i < 10; i++) {
-   451						gpio_set_value(drv_data->scl_gpio, 1);
-   452						udelay(100);
-   453						gpio_set_value(drv_data->scl_gpio, 0);
-   454					};
-   455				}
-   456	
-   457				/* restore i2c pin state to MPPs: */
-   458				pinctrl_select_state(pc, drv_data->i2c_mpp_state);
-   459			}
-   460	
-   461			/*
-   462			 * Trigger controller soft reset
-   463			 * This register is write only, with none of the bits defined.
-   464			 * So any value will do.
-   465			 * 0x1 just seems more intuitive than 0x0 ...
-   466			 */
-   467			writel(0x1, drv_data->reg_base + drv_data->reg_offsets.soft_reset);
-   468			/* wait for i2c controller to complete reset: */
-   469			udelay(100);
-   470			/*
-   471			 * need to proceed to the data stop condition generation clause.
-   472			 * This is needed after clock toggling to put the i2c slave
-   473			 * in the correct state.
-   474			 */
-   475			fallthrough;
-   476	
-   477		case MV64XXX_I2C_ACTION_RCV_DATA_STOP:
-   478			drv_data->msg->buf[drv_data->byte_posn++] =
-   479				readl(drv_data->reg_base + drv_data->reg_offsets.data);
-   480			if (!drv_data->atomic)
-   481				drv_data->cntl_bits &= ~MV64XXX_I2C_REG_CONTROL_INTEN;
-   482			writel(drv_data->cntl_bits | MV64XXX_I2C_REG_CONTROL_STOP,
-   483				drv_data->reg_base + drv_data->reg_offsets.control);
-   484			drv_data->block = 0;
-   485			if (drv_data->errata_delay)
-   486				udelay(5);
-   487	
-   488			wake_up(&drv_data->waitq);
-   489			break;
-   490	
-   491		case MV64XXX_I2C_ACTION_INVALID:
-   492		default:
-   493			dev_err(&drv_data->adapter.dev,
-   494				"mv64xxx_i2c_do_action: Invalid action: %d\n",
-   495				drv_data->action);
-   496			drv_data->rc = -EIO;
-   497			fallthrough;
-   498		case MV64XXX_I2C_ACTION_SEND_STOP:
-   499			if (!drv_data->atomic)
-   500				drv_data->cntl_bits &= ~MV64XXX_I2C_REG_CONTROL_INTEN;
-   501			writel(drv_data->cntl_bits | MV64XXX_I2C_REG_CONTROL_STOP,
-   502				drv_data->reg_base + drv_data->reg_offsets.control);
-   503			drv_data->block = 0;
-   504			wake_up(&drv_data->waitq);
-   505			break;
-   506		}
-   507	}
-   508	
+    29	
+    30	static int bpage_backing_setup(struct hyp_trace_pack *pack)
+    31	{
+    32		size_t backing_size;
+    33		void *start;
+    34	
+    35		if (hyp_buffer_pages_backing.start)
+    36			return -EBUSY;
+    37	
+  > 38		backing_size = STRUCT_HYP_BUFFER_PAGE_SIZE *
+    39			       pack->trace_buffer_pack.total_pages;
+    40		backing_size = PAGE_ALIGN(backing_size);
+    41	
+    42		start = alloc_pages_exact(backing_size, GFP_KERNEL_ACCOUNT);
+    43		if (!start)
+    44			return -ENOMEM;
+    45	
+    46		hyp_buffer_pages_backing.start = (unsigned long)start;
+    47		hyp_buffer_pages_backing.size = backing_size;
+    48		pack->backing.start = (unsigned long)start;
+    49		pack->backing.size = backing_size;
+    50	
+    51		return 0;
+    52	}
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
