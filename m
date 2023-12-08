@@ -1,156 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986C1381B1;
-	Fri,  8 Dec 2023 17:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0235B3984B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 17:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPmDr/yQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702055295; x=1733591295;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h6YlmhLMJ8szyzdGIgaSrbbzgxC0poiQ7v+6CUx0yVk=;
-  b=bPmDr/yQSf8X9He97QqrzAnSc77nsG+kzECfJ+H8Mf1FCOzGcbOp8X8s
-   mzzfPcdmLx3G7W5xCZvBWFIlIBZMtrPZhQ58yFLibiIuwDeF/wHwvlVTm
-   NW1M2ksU3viexe31TRuclDwSlRyfgt4OHPEAkyoEpuQtAkjMsOeleqO36
-   keYQcMZLGimuKM8BbADsOfb27gC0tFIIPSw5PTFQryxFLK8JeIcqDyTk2
-   nFtvjyW2a7rXM/ojdKTUuL1OmJA7DILoAuyLk373UikHpDnoNHOPFMgcs
-   JH+tu5+VjaykvkDerYYheBfJUnNWixR0eqtrh9x9cKEucbEHZLSOx1Vlx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="425567165"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="425567165"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 09:08:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="801164851"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="801164851"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 08 Dec 2023 09:08:11 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rBeKf-000E4Z-0n;
-	Fri, 08 Dec 2023 17:08:09 +0000
-Date: Sat, 9 Dec 2023 01:07:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Subject: [linux-next:master 1163/6165] WARNING: modpost: vmlinux: section
- mismatch in reference: at91_shdwc_probe+0xd8 (section: .text) ->
- at91_wakeup_status (section: .init.text)
-Message-ID: <202312090117.DLMJTqST-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TUdisxC6"
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dbc55ebb312so727591276.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 08 Dec 2023 09:27:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702056472; x=1702661272; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YdoICmQ9QAD31pYA/bTZ1QatV+Ku9NtGC8oHfmaScDc=;
+        b=TUdisxC6Gnp5Y7mI8R3smDQra3JvAuZ1bS7bQPmqgD8hfLQLG75DrU/Tr3tkLz8rZI
+         dHILCxnp8d+lMxTIgH8BZoGdCRMOuXF2pkq8sTdYMJ1DNawBJPu0nJ8Gb8xyfjsWzWnK
+         fjPLqwXypacvPQHnVYdDSoJmzTLjypNhf49o8Im7bONulVpPdO5x9yRbyawQYFq3o+tg
+         hsJJKdJN1B4z9u5jJwGHpdyeIn23c9Ff/VwQjF1W4GZHFNLeGTnN6kNK22ZszLx50klG
+         rQ+VxERepQoNjAs7KwCbugThkRva3V07O81ETQGQ6o9Azy0G6XOizdCVJThSrlQiJuV2
+         EbbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702056472; x=1702661272;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YdoICmQ9QAD31pYA/bTZ1QatV+Ku9NtGC8oHfmaScDc=;
+        b=m32RgOV2is/Ptlx+YW8fDemtv1I/QrCRZZfaKaeo+RkBQpEzIMv/V3xchveYPdpTXY
+         THQUr8PjaMgoeyKg7eeuSDrl+59E3rBUeTpAz4pZeX4W6idi0bRiEoH1jX954dZhVrjR
+         P41f9pIoo8UEUKneNOJECr3v1ER/P1u0SKgzoU+aHFTEjgqycPem/IXNHrhaHEIqiyXD
+         84BTsnhjw8GZuwFsnCy2BSzZIi7Q48EDF63E4a8Wi/y429BwkX82FQxo2b7Z1PqA3mhb
+         c25SN5v16Ciymsk3PbZZwkCraC22YQ+musPOSf0XTdL/wqxbjj3NsvqVe/vki0p4Q+JB
+         ZMRg==
+X-Gm-Message-State: AOJu0YwJC4DeBoGd6SUT/haaJaFkjaipjBRiRZlcjS/teRanSWuYG4yQ
+	SepI2K+s9Gvg2SnYbLXvdOLtRzhixfsQNhbTCLp8ig==
+X-Google-Smtp-Source: AGHT+IEpJVfB6BWNWMVYbpi6wiG8uWpUQJne3gDqdaUVxxk6IDRE83cunTnBQQlGS5z3szh+TNs9mq4C68T3GyzSuXM=
+X-Received: by 2002:a05:6902:e0d:b0:db9:7c23:434f with SMTP id
+ df13-20020a0569020e0d00b00db97c23434fmr363066ybb.12.1702056471647; Fri, 08
+ Dec 2023 09:27:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202312081716.LUUhSNS4-lkp@intel.com>
+In-Reply-To: <202312081716.LUUhSNS4-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 8 Dec 2023 09:27:38 -0800
+Message-ID: <CAJuCfpF_FN07Pvn5BJn1vJMAeEPKRBdfT3kWXVD=WAfizto+UQ@mail.gmail.com>
+Subject: Re: [linux-next:master 5469/6165] uffd-common.c:636:28: warning:
+ unused variable 'uffdio_move'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bc63de6e6ba0b16652c5fb4b9c9916b9e7ca1f23
-commit: dde74a5de817e0a011e4783cf26295d7f6fdca26 [1163/6165] power: reset: at91-sama5d2_shdwc: Stop using module_platform_driver_probe()
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20231209/202312090117.DLMJTqST-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090117.DLMJTqST-lkp@intel.com/reproduce)
+On Fri, Dec 8, 2023 at 2:00=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   bc63de6e6ba0b16652c5fb4b9c9916b9e7ca1f23
+> commit: d02321ca0329457d5828a83b82b156e6337c4236 [5469/6165] selftests/mm=
+: add UFFDIO_MOVE ioctl test
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20231208/202312081716.LUUhSNS4-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312081716.LUUhSNS4-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312090117.DLMJTqST-lkp@intel.com/
+Huh. This is strange. I checked linux-next.git and looks like the
+patch adding the test [1] is there but the one actually adding new
+ioctl [2] is missing (at least I do not see the new definitions in
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/in=
+clude/uapi/linux/userfaultfd.h).
+Patches belong to the same series. I'll check what's going on later
+today.
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+[1] https://lore.kernel.org/all/20231206103702.3873743-6-surenb@google.com/
+[2] https://lore.kernel.org/all/20231206103702.3873743-3-surenb@google.com/
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: vmlinux: section mismatch in reference: at91_poweroff_probe+0x8c (section: .text) -> at91_wakeup_status (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: at91_shdwc_probe+0xd8 (section: .text) -> at91_wakeup_status (section: .init.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/crypto/aes-arm-bs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/crypto/crc32-arm-ce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/crypto_simd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha256.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-samsung.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/cppi41.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
-WARNING: modpost: drivers/gpu/drm/bridge/ti-tpd12s015: section mismatch in reference: tpd12s015_driver+0x4 (section: .data) -> tpd12s015_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ac97.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/ath/wcn36xx/wcn36xx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/broadcom/brcm80211/brcmfmac/wcc/brcmfmac-wcc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/brcmfmac-cyw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/brcmfmac-bca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac1_legacy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uvc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_midi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mmp_camera.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mcam-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-lite.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-is.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos4-is-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>    uffd-common.c: In function 'move_page':
+>    uffd-common.c:636:28: error: storage size of 'uffdio_move' isn't known
+>      636 |         struct uffdio_move uffdio_move;
+>          |                            ^~~~~~~~~~~
+>    uffd-common.c:643:28: error: 'UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES' undecl=
+ared (first use in this function)
+>      643 |         uffdio_move.mode =3D UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES;
+>          |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    uffd-common.c:643:28: note: each undeclared identifier is reported onl=
+y once for each function it appears in
+>    uffd-common.c:645:24: error: 'UFFDIO_MOVE' undeclared (first use in th=
+is function); did you mean 'UFFDIO_COPY'?
+>      645 |         if (ioctl(ufd, UFFDIO_MOVE, &uffdio_move)) {
+>          |                        ^~~~~~~~~~~
+>          |                        UFFDIO_COPY
+> >> uffd-common.c:636:28: warning: unused variable 'uffdio_move' [-Wunused=
+-variable]
+>      636 |         struct uffdio_move uffdio_move;
+>          |                            ^~~~~~~~~~~
+> --
+>    uffd-unit-tests.c:1323:42: error: 'UFFD_FEATURE_MOVE' undeclared here =
+(not in a function); did you mean 'UFFD_EVENT_REMOVE'?
+>     1323 |                 .uffd_feature_required =3D UFFD_FEATURE_MOVE,
+>          |                                          ^~~~~~~~~~~~~~~~~
+>          |                                          UFFD_EVENT_REMOVE
+>    uffd-common.c: In function 'move_page':
+>    uffd-common.c:636:28: error: storage size of 'uffdio_move' isn't known
+>      636 |         struct uffdio_move uffdio_move;
+>          |                            ^~~~~~~~~~~
+>    uffd-common.c:643:28: error: 'UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES' undecl=
+ared (first use in this function)
+>      643 |         uffdio_move.mode =3D UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES;
+>          |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    uffd-common.c:643:28: note: each undeclared identifier is reported onl=
+y once for each function it appears in
+>    uffd-common.c:645:24: error: 'UFFDIO_MOVE' undeclared (first use in th=
+is function); did you mean 'UFFDIO_COPY'?
+>      645 |         if (ioctl(ufd, UFFDIO_MOVE, &uffdio_move)) {
+>          |                        ^~~~~~~~~~~
+>          |                        UFFDIO_COPY
+> >> uffd-common.c:636:28: warning: unused variable 'uffdio_move' [-Wunused=
+-variable]
+>      636 |         struct uffdio_move uffdio_move;
+>          |                            ^~~~~~~~~~~
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
