@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2178C6ABB;
-	Fri,  8 Dec 2023 06:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154E87486
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 06:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gG4MkKRW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WN2mTQfo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702015886; x=1733551886;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=yOxwwhB8G5hwHdJVGV764DpSyd51dGvgRh2J1c59Ctk=;
-  b=gG4MkKRWxBBOwJBegkyAlOncqNn1MMfHbPXBP2TRj7aJOP1p+qHYHOtx
-   g/0hFlrFqhxRPAk/MG5j2BfVtPsZJztok7fTSkDX2pa67haejkVqS+ohm
-   KhhL6ic/QdYbgAk900veOWZQH0wquMLlg0/MpbjD4kiYIheIzrd3i94E6
-   jdcXhdsP+BfOFpldWYmgM13NhvUqBaih/KLOrosUWI6bgdSSj/1T5WPN5
-   lisIj7GSh2RqGFZxY50LVlwgvxLTbtRwdGd9vZZ0wrhVePWladOZOgv8a
-   q06jhsatP1P+bsecX+6cyVTO9snQiR32Jv9KwFazrP8Qk3O3n6Eba0YKo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="13061901"
+  t=1702016556; x=1733552556;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vuNbwU4RqPbACWnymglBU0ktelBfZ1noHC3Kaa9CaTk=;
+  b=WN2mTQfoFGnyaOJiKngM5N+FsfEy5agRGd4o4whqehhIt7v+Tunah4Mf
+   OEb2+P4cbzjRxUMxcp/Y8cgL+ymVLVFvUVeK+ZR+7SD9Iof1n2SokveXk
+   6WEZ1xvQJWuxSHeIW9KBehKE+7aIdCAuO8VcA8P1llJ+wIDjdVOsXopLF
+   C+i9B1Ze6K2Ma43PBkUzK+ilhkU7223698v4F05/Mcf0LZyizyXxn1QOp
+   rgm3ae+nOrVs4b1FbbATE3AhmrifXHyH4qs3/G6TzSqPXEIviGNoYJ0OW
+   fVJUX09GbFsQJp3yhO09Lr+SsgkfNIcIhT6qsgp6P8HIAPKP5l3eCKtsx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1431865"
 X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
-   d="scan'208";a="13061901"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 22:11:25 -0800
+   d="scan'208";a="1431865"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 22:22:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="945312893"
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="838023525"
 X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
-   d="scan'208";a="945312893"
+   d="scan'208";a="838023525"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 07 Dec 2023 22:11:23 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 07 Dec 2023 22:22:32 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBU52-000DLX-0K;
-	Fri, 08 Dec 2023 06:11:20 +0000
-Date: Fri, 8 Dec 2023 14:10:46 +0800
+	id 1rBUFq-000DNP-0l;
+	Fri, 08 Dec 2023 06:22:30 +0000
+Date: Fri, 8 Dec 2023 14:21:30 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: Re: [PATCH v13 13/35] x86/ptrace: Cleanup the definition of the
- pt_regs structure
-Message-ID: <202312081436.4qSl1Jd4-lkp@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: WARNING: modpost: drivers/input/mouse/amimouse: section mismatch in
+ reference: amimouse_driver+0x4 (section: .data) -> amimouse_remove (section:
+ .exit.text)
+Message-ID: <202312081423.p7XRxPsZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,105 +52,193 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In-Reply-To: <20231205105030.8698-14-xin3.li@intel.com>
-References: <20231205105030.8698-14-xin3.li@intel.com>
-TO: Xin Li <xin3.li@intel.com>
-
-Hi Xin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 5d868f6ec314aaee65ec5d12c03f18d79e632043]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xin-Li/x86-cpufeatures-opcode-msr-Add-the-WRMSRNS-instruction-support/20231205-192522
-base:   5d868f6ec314aaee65ec5d12c03f18d79e632043
-patch link:    https://lore.kernel.org/r/20231205105030.8698-14-xin3.li%40intel.com
-patch subject: [PATCH v13 13/35] x86/ptrace: Cleanup the definition of the pt_regs structure
-config: x86_64-randconfig-071-20231208 (https://download.01.org/0day-ci/archive/20231208/202312081436.4qSl1Jd4-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312081436.4qSl1Jd4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5e3f5b81de80c98338bcb47c233aebefee5a4801
+commit: f177cd0c15fcc7bdbb68d8d1a3166dead95314c8 modpost: Don't let "driver"s reference .exit.*
+date:   10 weeks ago
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20231208/202312081423.p7XRxPsZ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312081423.p7XRxPsZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312081436.4qSl1Jd4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312081423.p7XRxPsZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   vmlinux.o: warning: objtool: balance_leaf+0xeb8a: stack state mismatch: cfa1=4+488 cfa2=4+480
->> vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x62: relocation to !ENDBR: recover_probed_instruction+0xe
-
-
-objdump-func vmlinux.o set_ftrace_ops_ro:
-0000 0000000000112210 <set_ftrace_ops_ro>:
-0000   112210:	f3 0f 1e fa          	endbr64
-0004   112214:	55                   	push   %rbp
-0005   112215:	41 57                	push   %r15
-0007   112217:	41 56                	push   %r14
-0009   112219:	41 55                	push   %r13
-000b   11221b:	41 54                	push   %r12
-000d   11221d:	53                   	push   %rbx
-000e   11221e:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	112221: R_X86_64_32S	ftrace_ops_list
-0015   112225:	48 c1 e8 03          	shr    $0x3,%rax
-0019   112229:	49 bf 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%r15
-0023   112233:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
-0028   112238:	74 0c                	je     112246 <set_ftrace_ops_ro+0x36>
-002a   11223a:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	11223d: R_X86_64_32S	ftrace_ops_list
-0031   112241:	e8 00 00 00 00       	call   112246 <set_ftrace_ops_ro+0x36>	112242: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-0036   112246:	48 8b 1d 00 00 00 00 	mov    0x0(%rip),%rbx        # 11224d <set_ftrace_ops_ro+0x3d>	112249: R_X86_64_PC32	ftrace_ops_list-0x4
-003d   11224d:	e8 00 00 00 00       	call   112252 <set_ftrace_ops_ro+0x42>	11224e: R_X86_64_PLT32	debug_lockdep_rcu_enabled-0x4
-0042   112252:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	112255: R_X86_64_32S	ftrace_regs_caller
-0049   112259:	48 f7 d8             	neg    %rax
-004c   11225c:	4c 8d 2c 05 00 00 00 00 	lea    0x0(,%rax,1),%r13	112260: R_X86_64_32S	ftrace_regs_caller_end+0x1008
-0054   112264:	49 c1 ed 0c          	shr    $0xc,%r13
-0058   112268:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	11226b: R_X86_64_32S	ftrace_caller
-005f   11226f:	48 f7 d8             	neg    %rax
-0062   112272:	48 8d 2c 05 00 00 00 00 	lea    0x0(,%rax,1),%rbp	112276: R_X86_64_32S	ftrace_caller_end+0x1008
-006a   11227a:	48 c1 ed 0c          	shr    $0xc,%rbp
-006e   11227e:	4c 8d 73 10          	lea    0x10(%rbx),%r14
-0072   112282:	4c 89 f0             	mov    %r14,%rax
-0075   112285:	48 c1 e8 03          	shr    $0x3,%rax
-0079   112289:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
-007e   11228e:	74 08                	je     112298 <set_ftrace_ops_ro+0x88>
-0080   112290:	4c 89 f7             	mov    %r14,%rdi
-0083   112293:	e8 00 00 00 00       	call   112298 <set_ftrace_ops_ro+0x88>	112294: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-0088   112298:	4d 8b 26             	mov    (%r14),%r12
-008b   11229b:	41 f7 c4 00 08 00 00 	test   $0x800,%r12d
-0092   1122a2:	74 2f                	je     1122d3 <set_ftrace_ops_ro+0xc3>
-0094   1122a4:	4c 8d b3 70 01 00 00 	lea    0x170(%rbx),%r14
-009b   1122ab:	4c 89 f0             	mov    %r14,%rax
-009e   1122ae:	48 c1 e8 03          	shr    $0x3,%rax
-00a2   1122b2:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
-00a7   1122b7:	74 08                	je     1122c1 <set_ftrace_ops_ro+0xb1>
-00a9   1122b9:	4c 89 f7             	mov    %r14,%rdi
-00ac   1122bc:	e8 00 00 00 00       	call   1122c1 <set_ftrace_ops_ro+0xb1>	1122bd: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-00b1   1122c1:	41 f6 c4 04          	test   $0x4,%r12b
-00b5   1122c5:	49 8b 3e             	mov    (%r14),%rdi
-00b8   1122c8:	44 89 ee             	mov    %r13d,%esi
-00bb   1122cb:	0f 44 f5             	cmove  %ebp,%esi
-00be   1122ce:	e8 00 00 00 00       	call   1122d3 <set_ftrace_ops_ro+0xc3>	1122cf: R_X86_64_PLT32	set_memory_ro-0x4
-00c3   1122d3:	48 83 c3 08          	add    $0x8,%rbx
-00c7   1122d7:	48 89 d8             	mov    %rbx,%rax
-00ca   1122da:	48 c1 e8 03          	shr    $0x3,%rax
-00ce   1122de:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
-00d3   1122e3:	74 08                	je     1122ed <set_ftrace_ops_ro+0xdd>
-00d5   1122e5:	48 89 df             	mov    %rbx,%rdi
-00d8   1122e8:	e8 00 00 00 00       	call   1122ed <set_ftrace_ops_ro+0xdd>	1122e9: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-00dd   1122ed:	48 8b 1b             	mov    (%rbx),%rbx
-00e0   1122f0:	e8 00 00 00 00       	call   1122f5 <set_ftrace_ops_ro+0xe5>	1122f1: R_X86_64_PLT32	debug_lockdep_rcu_enabled-0x4
-00e5   1122f5:	48 85 db             	test   %rbx,%rbx
-00e8   1122f8:	74 10                	je     11230a <set_ftrace_ops_ro+0xfa>
-00ea   1122fa:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	1122fd: R_X86_64_32S	ftrace_list_end
-00f1   112301:	48 39 c3             	cmp    %rax,%rbx
-00f4   112304:	0f 85 74 ff ff ff    	jne    11227e <set_ftrace_ops_ro+0x6e>
-00fa   11230a:	5b                   	pop    %rbx
-00fb   11230b:	41 5c                	pop    %r12
-00fd   11230d:	41 5d                	pop    %r13
-00ff   11230f:	41 5e                	pop    %r14
-0101   112311:	41 5f                	pop    %r15
-0103   112313:	5d                   	pop    %rbp
-0104   112314:	c3                   	ret
-0105   112315:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/minix/minix.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hfs/hfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/sysv/sysv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_arc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/smb/common/cifs_md4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hpfs/hpfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx6/qnx6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha256.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_string.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-string_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hexdump.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bpf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_dhry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cpumask_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sysctl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test-kstrtox.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_list_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_min_heap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_rhashtable.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_sort.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bitmap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_uuid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_xarray.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_maple_tree.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_kmod.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_memcat_p.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_blackhole_dev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_meminit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_free_pages.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_kmp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_bm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ts_fsm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/atomic64_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/asn1_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/bitfield_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/checksum_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/list-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/hashtable_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_linear_ranges.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_bits.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/cmdline_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/memcpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/is_signed_type_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/overflow_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/stackinit_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strcat_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/strscpy_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/siphash_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/dsp56k.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dax/dax.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ipvlan/ipvtap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/dummy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/eql.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/macvtap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/tap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/plip/plip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/bsd_comp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_deflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_synctty.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/slip/slip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/slip/slhc.o
+>> WARNING: modpost: drivers/input/mouse/amimouse: section mismatch in reference: amimouse_driver+0x4 (section: .data) -> amimouse_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-a4tech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kensington.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+>> WARNING: modpost: drivers/parport/parport_amiga: section mismatch in reference: amiga_parallel_driver+0x4 (section: .data) -> amiga_parallel_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_atari.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/oss/dmasound/dmasound_paula.o
+>> WARNING: modpost: sound/oss/dmasound/dmasound_paula: section mismatch in reference: amiga_audio_driver+0x4 (section: .data) -> amiga_audio_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/dev_addr_lists_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/p8022.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/psnap.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/802/stp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nfnetlink_osf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_conntrack_broadcast.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nf_tables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_fib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_chain_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_fwd_netdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
 
 -- 
 0-DAY CI Kernel Test Service
