@@ -1,35 +1,33 @@
 Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDC5101D3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 06:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F76263AF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 06:37:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="UribllVI"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="LZUX07Uu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=HeHqdWehBWmHsX2GmjyaBttzBIbXfbZUAsDgj9C8SMw=;
-  b=UribllVIpY6iJ3y10XU8TrHgFqcNGBtrcrHsno3Np+VoKlXwwQPsTM7b
-   BmtPTFS3jVDcTBpQ7+MNUVDmXHW2ApPR4EBPJucjG5ovCglH7MyJbM04F
-   MM7/0p7KkugrUg+QFDK4QdwRhQMp+ZNMhM/RZN7QzJPzuyEKzEUU08jVW
-   4=;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Uu8NNuKf+kSuJ1iU7RJ085t3fsRbtzNQF1VzTv1XauM=;
+  b=LZUX07UuNv6eJFLMbYh65VbE1XZuHM4JT9cOeCQK6l+kTB9VxIBCZeQn
+   fkmqs+hXetNvSeNj29L/CNK+OaS3l9LN+gQztekc7tUtoQgqQQ5DOz4XU
+   P/Ru09Dwh5sTNmwt4ABDOUXSqOU2+HuoKLHjkAThwp/nt3d20lnMl6Gx5
+   Y=;
 Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.04,260,1695679200"; 
-   d="scan'208";a="73788584"
+   d="scan'208";a="73788617"
 Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 07:36:17 +0100
-Date: Fri, 8 Dec 2023 07:36:17 +0100 (CET)
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 07:37:41 +0100
+Date: Fri, 8 Dec 2023 07:37:40 +0100 (CET)
 From: Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-    Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-    =?ISO-8859-15?Q?Nuno_S=E1?= <nuno.sa@analog.com>, 
-    linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: drivers/iio/frequency/adf4377.c:498:19-48: duplicated argument to
- & or | (fwd)
-Message-ID: <alpine.DEB.2.22.394.2312080735000.3559@hadrien>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:xfile-page-caching 105/205] fs/xfs/xfs_buf.c:2066:11-12:
+ WARNING kmalloc is used to allocate this memory at line 2029 (fwd)
+Message-ID: <alpine.DEB.2.22.394.2312080736540.3559@hadrien>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -37,76 +35,100 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-847705971-1702017377=:3559"
+Content-Type: text/plain; charset=US-ASCII
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hello,
 
---8323329-847705971-1702017377=:3559
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
-
-Maybe line 498 should contain ADF4377_0000_SOFT_RESET_MSK, not
-ADF4377_0000_SOFT_RESET_R_MSK?
+There seems to be no reason not to use kfree in this code (line 2066).
 
 julia
 
 ---------- Forwarded message ----------
-Date: Fri, 8 Dec 2023 06:19:53 +0800
+Date: Fri, 8 Dec 2023 13:38:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/iio/frequency/adf4377.c:498:19-48: duplicated argument to & or
-    |
+Subject: [djwong-xfs:xfile-page-caching 105/205] fs/xfs/xfs_buf.c:2066:11-12:
+    WARNING kmalloc is used to allocate this memory at line 2029
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: "Nuno Sá" <nuno.sa@analog.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bee0e7762ad2c6025b9f5245c040fcc36ef2bde8
-commit: eda549e2e52496d0d374ce457f514a4f14172aa5 iio: frequency: adf4377: add support for ADF4377
-date:   1 year ago
-:::::: branch date: 3 days ago
-:::::: commit date: 1 year ago
-config: x86_64-randconfig-101-20231208 (https://download.01.org/0day-ci/archive/20231208/202312080606.0wEO9f5h-lkp@intel.com/config)
+Hi Darrick,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   ae5732f1c245c24e63c885992c35f723f36f79ff
+commit: 20739d9063f5efc04853e453a68816a0e1cad461 [105/205] xfs: make GFP_ usage consistent when allocating buftargs
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: x86_64-randconfig-102-20231208 (https://download.01.org/0day-ci/archive/20231208/202312081359.DPZHhJ05-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080606.0wEO9f5h-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312081359.DPZHhJ05-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312080606.0wEO9f5h-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312081359.DPZHhJ05-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/iio/frequency/adf4377.c:498:19-48: duplicated argument to & or |
+>> fs/xfs/xfs_buf.c:2066:11-12: WARNING kmalloc is used to allocate this memory at line 2029
 
-vim +498 drivers/iio/frequency/adf4377.c
+vim +2066 fs/xfs/xfs_buf.c
 
-eda549e2e52496 Antoniu Miclaus 2022-11-15  484
-eda549e2e52496 Antoniu Miclaus 2022-11-15  485  static int adf4377_soft_reset(struct adf4377_state *st)
-eda549e2e52496 Antoniu Miclaus 2022-11-15  486  {
-eda549e2e52496 Antoniu Miclaus 2022-11-15  487  	unsigned int read_val;
-eda549e2e52496 Antoniu Miclaus 2022-11-15  488  	int ret;
-eda549e2e52496 Antoniu Miclaus 2022-11-15  489
-eda549e2e52496 Antoniu Miclaus 2022-11-15  490  	ret = regmap_update_bits(st->regmap, 0x0, ADF4377_0000_SOFT_RESET_MSK |
-eda549e2e52496 Antoniu Miclaus 2022-11-15  491  				 ADF4377_0000_SOFT_RESET_R_MSK,
-eda549e2e52496 Antoniu Miclaus 2022-11-15  492  				 FIELD_PREP(ADF4377_0000_SOFT_RESET_MSK, 1) |
-eda549e2e52496 Antoniu Miclaus 2022-11-15  493  				 FIELD_PREP(ADF4377_0000_SOFT_RESET_R_MSK, 1));
-eda549e2e52496 Antoniu Miclaus 2022-11-15  494  	if (ret)
-eda549e2e52496 Antoniu Miclaus 2022-11-15  495  		return ret;
-eda549e2e52496 Antoniu Miclaus 2022-11-15  496
-eda549e2e52496 Antoniu Miclaus 2022-11-15  497  	return regmap_read_poll_timeout(st->regmap, 0x0, read_val,
-eda549e2e52496 Antoniu Miclaus 2022-11-15 @498  					!(read_val & (ADF4377_0000_SOFT_RESET_R_MSK |
-eda549e2e52496 Antoniu Miclaus 2022-11-15  499  					ADF4377_0000_SOFT_RESET_R_MSK)), 200, 200 * 100);
-eda549e2e52496 Antoniu Miclaus 2022-11-15  500  }
-eda549e2e52496 Antoniu Miclaus 2022-11-15  501
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2021
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2022  static struct xfs_buftarg *
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2023  xfs_alloc_buftarg_common(
+ebad861b5702c3 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner    2010-09-22  2024  	struct xfs_mount	*mp,
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2025  	const char		*descr)
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2026  {
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2027  	struct xfs_buftarg	*btp;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2028
+20739d9063f5ef fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-10 @2029  	btp = kzalloc(sizeof(*btp), GFP_NOFS);
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2030  	if (!btp)
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2031  		return NULL;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2032
+ebad861b5702c3 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner    2010-09-22  2033  	btp->bt_mount = mp;
+0e6e847ffe3743 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner    2011-03-26  2034
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2035  	/*
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2036  	 * Buffer IO error rate limiting. Limit it to no more than 10 messages
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2037  	 * per 30 seconds so as to not spam logs too much on repeated errors.
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2038  	 */
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2039  	ratelimit_state_init(&btp->bt_ioerror_rl, 30 * HZ,
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2040  			     DEFAULT_RATELIMIT_BURST);
+f9bccfcc3b59b9 fs/xfs/xfs_buf.c           Brian Foster    2020-05-06  2041
+5ca302c8e502ca fs/xfs/xfs_buf.c           Glauber Costa   2013-08-28  2042  	if (list_lru_init(&btp->bt_lru))
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2043  		goto error_free;
+5ca302c8e502ca fs/xfs/xfs_buf.c           Glauber Costa   2013-08-28  2044
+20739d9063f5ef fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-10  2045  	if (percpu_counter_init(&btp->bt_io_count, 0, GFP_NOFS))
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2046  		goto error_lru;
+9c7504aa72b6e2 fs/xfs/xfs_buf.c           Brian Foster    2016-07-20  2047
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2048  	btp->bt_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "xfs-%s:%s",
+3e4ce1b43d1268 fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-06  2049  			descr, mp->m_super->s_id);
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2050  	if (!btp->bt_shrinker)
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2051  		goto error_pcpu;
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2052
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2053  	btp->bt_shrinker->count_objects = xfs_buftarg_shrink_count;
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2054  	btp->bt_shrinker->scan_objects = xfs_buftarg_shrink_scan;
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2055  	btp->bt_shrinker->private_data = btp;
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2056
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2057  	shrinker_register(btp->bt_shrinker);
+17e7a00e60c8ff fs/xfs/xfs_buf.c           Qi Zheng        2023-09-11  2058
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2059  	return btp;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2060
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2061  error_pcpu:
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2062  	percpu_counter_destroy(&btp->bt_io_count);
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2063  error_lru:
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2064  	list_lru_destroy(&btp->bt_lru);
+d210a9874b8f61 fs/xfs/xfs_buf.c           Michal Hocko    2017-11-23  2065  error_free:
+20739d9063f5ef fs/xfs/xfs_buf.c           Darrick J. Wong 2023-03-10 @2066  	kvfree(btp);
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2067  	return NULL;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2068  }
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds  2005-04-16  2069
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
---8323329-847705971-1702017377=:3559--
