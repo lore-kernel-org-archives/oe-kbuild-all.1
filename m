@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2077F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 00:17:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB74A5F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 01:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ts3vXiZX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NHOTwPlr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701994621; x=1733530621;
+  t=1701997210; x=1733533210;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GmNtcnIA/48rpg6fqjvhaVRjnT8lxRZsbxeYWQdBPdQ=;
-  b=Ts3vXiZXXjHj1wFn4zcWEx/49p7QrUJUhxWT6qfWgdO+co28N1Ywtw/J
-   VgYIaa8xC4zc+wZ2WzJE84lIUrGpf+qj84njArufCPIxL7zRz87BFj4Vv
-   7GiHw2ky/biVaAAgkZSDtsaFO12mnc1WlGCuTFRuMNEWCWN9jaXWxidZO
-   qIwnQ7ebPFR7mghy5LkTsup7Mn8TTYqhYPB282+4RJygvkgR8bjTxydrs
-   riWGepghWvztbMnoFJpkQCXcg/vGeV3fuWqqTMxBzNGnUUUcr1avp4NC0
-   NI0FasSp3jBG38+pvJ9c0DW37s9CEkroSnC7FrcakS59FnpsvILPZY/1u
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="397117739"
+  bh=1KFDf/Or9O7KvOutPqrqlRAt9BJo5Ds3HbRkPdPzBHs=;
+  b=NHOTwPlrRO5uQ9zwRttYOQVGlbyXGW/cf0epvRkKSxUHP5kAxS8AWnJc
+   h/12OzPV7zOQkC5xB49hOJg404kv9tEyh5vU3kB0lwFK8r5Ra1hCFeCKh
+   yhF3KpPW7nXYCZDwegHldrvOWkjquG1opXwq95xPtcoMpctS14YSrNz0o
+   jJC0TKnAOkbH74a6bevn7016XcC76wvXblNbR5jU7lHSzBAy4J1eIbj/F
+   xZVUObAXcrfpfOJy/N77GCNwn4loRmfQfmUw1q/b8Mh+Yr5pknGjWsfjj
+   eAN0JqbMlJ3oy6dosPgoGUduebpG5nx0cmN310DQjYAnaBR4koXMgYXA8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="7694245"
 X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="397117739"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 16:16:53 -0800
+   d="scan'208";a="7694245"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 16:59:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="862677879"
 X-IronPort-AV: E=Sophos;i="6.04,259,1695711600"; 
-   d="scan'208";a="862677879"
+   d="scan'208";a="13311751"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Dec 2023 16:16:52 -0800
+  by orviesa002.jf.intel.com with ESMTP; 07 Dec 2023 16:59:54 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBOXx-000D14-28;
-	Fri, 08 Dec 2023 00:16:49 +0000
-Date: Fri, 8 Dec 2023 08:16:41 +0800
+	id 1rBPDb-000D3T-2O;
+	Fri, 08 Dec 2023 00:59:51 +0000
+Date: Fri, 8 Dec 2023 08:59:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202312080851.QH738juG-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:104:58: sparse:
+ sparse: incorrect type in argument 2 (different address spaces)
+Message-ID: <202312080839.kiCSYLXC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,70 +52,64 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9ace34a8e446c1a566f3b0a3e0c4c483987e39a6
-commit: 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b fbdev: omap: avoid using mach/*.h files
-date:   1 year, 8 months ago
-config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231208/202312080851.QH738juG-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080851.QH738juG-lkp@intel.com/reproduce)
+commit: 894fa235eb4ca0bfa692dbe4932c2f940cdc8c1e powerpc: inline iomap accessors
+date:   3 years ago
+config: powerpc-randconfig-r113-20231106 (https://download.01.org/0day-ci/archive/20231208/202312080839.kiCSYLXC-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312080839.kiCSYLXC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312080851.QH738juG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312080839.kiCSYLXC-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void *static [addressable] [assigned] [toplevel] vram_virt @@
-   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     expected void [noderef] __iomem *vaddr
-   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     got void *static [addressable] [assigned] [toplevel] vram_virt
-   drivers/video/fbdev/omap/lcdc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
---
->> drivers/video/fbdev/omap/lcd_mipid.c:451:23: sparse: sparse: cast to restricted __be32
-   drivers/video/fbdev/omap/lcd_mipid.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/radix-tree.h, ...):
-   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
---
->> drivers/video/fbdev/omap/omapfb_main.c:1027:11: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/omap/omapfb_main.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/radix-tree.h, ...):
-   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
+>> drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:104:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:104:58: sparse:     expected void [noderef] __iomem *addr
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:104:58: sparse:     got void *
+>> drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:110:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:110:58: sparse:     expected void const [noderef] __iomem *addr
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:110:58: sparse:     got void *
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:157:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[assigned] emap @@
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:157:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:157:25: sparse:     got void *[assigned] emap
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:174:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *map @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:174:19: sparse:     expected void *map
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:174:19: sparse:     got void [noderef] __iomem *
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:225:28: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void *map @@
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:225:28: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:225:28: sparse:     got void *map
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:233:28: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void *map @@
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:233:28: sparse:     expected void [noderef] __iomem *
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:233:28: sparse:     got void *map
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:240:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *map @@     got void *map @@
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:240:21: sparse:     expected void [noderef] __iomem *map
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:240:21: sparse:     got void *map
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:327:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *[assigned] map @@
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:327:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:327:25: sparse:     got void *[assigned] map
 
-vim +642 drivers/video/fbdev/omap/lcdc.c
+vim +104 drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
 
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  620  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  621  static int alloc_fbmem(struct omapfb_mem_region *region)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  622  {
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  623  	int bpp;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  624  	int frame_size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  625  	struct lcd_panel *panel = lcdc.fbdev->panel;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  626  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  627  	bpp = panel->bpp;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  628  	if (bpp == 12)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  629  		bpp = 16;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  630  	frame_size = PAGE_ALIGN(panel->x_res * bpp / 8 * panel->y_res);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  631  	if (region->size > frame_size)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  632  		frame_size = region->size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  633  	lcdc.vram_size = frame_size;
-f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  634  	lcdc.vram_virt = dma_alloc_wc(lcdc.fbdev->dev, lcdc.vram_size,
-f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  635  				      &lcdc.vram_phys, GFP_KERNEL);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  636  	if (lcdc.vram_virt == NULL) {
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  637  		dev_err(lcdc.fbdev->dev, "unable to allocate FB DMA memory\n");
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  638  		return -ENOMEM;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  639  	}
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  640  	region->size = frame_size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  641  	region->paddr = lcdc.vram_phys;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17 @642  	region->vaddr = lcdc.vram_virt;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  643  	region->alloc = 1;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  644  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  645  	memset(lcdc.vram_virt, 0, lcdc.vram_size);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  646  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  647  	return 0;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  648  }
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  649  
+07bbc1c5f49b64 Ben Skeggs 2017-11-01  100  
+be55287aa5ba68 Ben Skeggs 2017-11-01  101  static void
+be55287aa5ba68 Ben Skeggs 2017-11-01  102  nv50_instobj_wr32(struct nvkm_memory *memory, u64 offset, u32 data)
+be55287aa5ba68 Ben Skeggs 2017-11-01  103  {
+be55287aa5ba68 Ben Skeggs 2017-11-01 @104  	iowrite32_native(data, nv50_instobj(memory)->map + offset);
+be55287aa5ba68 Ben Skeggs 2017-11-01  105  }
+be55287aa5ba68 Ben Skeggs 2017-11-01  106  
+be55287aa5ba68 Ben Skeggs 2017-11-01  107  static u32
+be55287aa5ba68 Ben Skeggs 2017-11-01  108  nv50_instobj_rd32(struct nvkm_memory *memory, u64 offset)
+be55287aa5ba68 Ben Skeggs 2017-11-01  109  {
+be55287aa5ba68 Ben Skeggs 2017-11-01 @110  	return ioread32_native(nv50_instobj(memory)->map + offset);
+be55287aa5ba68 Ben Skeggs 2017-11-01  111  }
+be55287aa5ba68 Ben Skeggs 2017-11-01  112  
 
-:::::: The code at line 642 was first introduced by commit
-:::::: 569755c706f0f94409edd2ae60b9878cb420844f OMAP: add TI OMAP1 internal LCD controller
+:::::: The code at line 104 was first introduced by commit
+:::::: be55287aa5ba6895e9d4d3ed2f08a1be7a065957 drm/nouveau/imem/nv50: embed nvkm_instobj directly into nv04_instobj
 
-:::::: TO: Imre Deak <imre.deak@solidboot.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+:::::: TO: Ben Skeggs <bskeggs@redhat.com>
+:::::: CC: Ben Skeggs <bskeggs@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
