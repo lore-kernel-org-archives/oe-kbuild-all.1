@@ -1,47 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EA51F17B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 17:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6AA3B795
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 17:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P90igGHi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmWx+1DB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702058057; x=1733594057;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NCHte8bmYBS8picSFrflGKAueMkdMi2MwMQHX/kl5CM=;
-  b=P90igGHi4tZ4szmgUREhBvAgd3u+dc9AwBLc6AXOdDq1FCVA9mMjn/se
-   3UJYVM1megqg7yxJ8gEoKtfnX67UhpQEjZSwIg+R3U4p/rmsGKNdtMhcK
-   HxUjokbhdc+bOP7rRPSTqSUVxl6JojI+UlOBR2sV9AyTXHa5oxnvqLAx/
-   OO//n2JaIkExLKcpD0eNHUIINFQhoYu6Ot+fp7pFcy2tHwlwHDIpiwto3
-   ZJbWS3UqiwRBqfYR4LJiW41emb5OENGXcBdkrEpGd/eJxWcSEQywTUi1F
-   4LlQKhSr99cM4av61YrGFlF2Zk+xUTtvbkg6IjTpyG9Jh4NdGoFrDpPMC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="13138157"
+  t=1702058058; x=1733594058;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hGP20Fj9RNd2d6KFOCQyWiyd1zHagCpSAXCFiExoAS0=;
+  b=SmWx+1DBV734tv9mto6g2WjyjyQCdPIoo2WOAof3WjdI0wmHGx2QpGII
+   RgrIklrufjIqHEPyYObyCvU+N1Pd/KirLpWzN88HCBzMSMOL0OJI0Quzo
+   vSnuobQ+Wyqdq+Am1x3U6OCoSmSphhtF+BFl3VQoHEgxd0SjaR4AJrs2Y
+   rYTjFTuicygiXn4lwlR5q7pRSXOsRH9o8ut09gZMbFXSehWONNosy5/vC
+   iBxzFloCB3uUKi8wbLSeQzoYQqMqPNB4gA3OiwW+4+1BpOYx57k6znQrq
+   qWJk/51O1XMLXPsCHkSzQMqcLFABh1jqaYVpH+y2Be8Ll2Ya7Tio3v+4i
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="13138168"
 X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="13138157"
+   d="scan'208";a="13138168"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 09:54:16 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 09:54:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="890203473"
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="890203486"
 X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="890203473"
+   d="scan'208";a="890203486"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2023 09:54:13 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2023 09:54:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBf3D-000E99-33;
+	id 1rBf3D-000E9B-3B;
 	Fri, 08 Dec 2023 17:54:11 +0000
-Date: Sat, 9 Dec 2023 01:53:31 +0800
+Date: Sat, 9 Dec 2023 01:53:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: drivers/net/dsa/sja1105/sja1105.o: warning: objtool:
- sja1105_fast_age() falls through to next function sja1105_setup.cold()
-Message-ID: <202312090101.IgQIACgf-lkp@intel.com>
+To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	magnus.karlsson@intel.com, bjorn@kernel.org,
+	maciej.fijalkowski@intel.com, echaudro@redhat.com,
+	lorenzo@kernel.org
+Subject: Re: [PATCH bpf 2/3] net: fix usage of multi-buffer BPF helper for ZC
+ AF_XDP
+Message-ID: <202312090113.kESWoklw-lkp@intel.com>
+References: <20231208112945.313687-3-maciej.fijalkowski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,27 +55,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231208112945.313687-3-maciej.fijalkowski@intel.com>
 
-Hi Mark,
+Hi Maciej,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5e3f5b81de80c98338bcb47c233aebefee5a4801
-commit: c27cd083cfb9d392f304657ed00fcde1136704e7 Compiler attributes: GCC cold function alignment workarounds
-date:   11 months ago
-config: x86_64-buildonly-randconfig-003-20230911 (https://download.01.org/0day-ci/archive/20231209/202312090101.IgQIACgf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090101.IgQIACgf-lkp@intel.com/reproduce)
+[auto build test WARNING on bpf/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/xsk-recycle-buffer-in-case-Rx-queue-was-full/20231208-193306
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20231208112945.313687-3-maciej.fijalkowski%40intel.com
+patch subject: [PATCH bpf 2/3] net: fix usage of multi-buffer BPF helper for ZC AF_XDP
+config: i386-randconfig-014-20231208 (https://download.01.org/0day-ci/archive/20231209/202312090113.kESWoklw-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090113.kESWoklw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312090101.IgQIACgf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312090113.kESWoklw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/dsa/sja1105/sja1105.o: warning: objtool: sja1105_fast_age() falls through to next function sja1105_setup.cold()
+   net/core/filter.c: In function '__shrink_data':
+   net/core/filter.c:4102:3: error: implicit declaration of function 'xsk_buff_get_tail'; did you mean 'xsk_buff_get_frag'? [-Werror=implicit-function-declaration]
+    4102 |   xsk_buff_get_tail(xdp)->data_end -= shrink;
+         |   ^~~~~~~~~~~~~~~~~
+         |   xsk_buff_get_frag
+   net/core/filter.c:4102:25: error: invalid type argument of '->' (have 'int')
+    4102 |   xsk_buff_get_tail(xdp)->data_end -= shrink;
+         |                         ^~
+   net/core/filter.c: In function 'shrink_data':
+>> net/core/filter.c:4115:12: warning: assignment to 'struct xdp_buff *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    4115 |    zc_frag = xsk_buff_get_tail(xdp);
+         |            ^
+   net/core/filter.c:4117:4: error: implicit declaration of function 'xsk_buff_tail_del'; did you mean 'xsk_buff_alloc'? [-Werror=implicit-function-declaration]
+    4117 |    xsk_buff_tail_del(zc_frag);
+         |    ^~~~~~~~~~~~~~~~~
+         |    xsk_buff_alloc
+   cc1: some warnings being treated as errors
+
+
+vim +4115 net/core/filter.c
+
+  4097	
+  4098	static void __shrink_data(struct xdp_buff *xdp, struct xdp_mem_info *mem_info,
+  4099				  skb_frag_t *frag, int shrink)
+  4100	{
+  4101		if (mem_info->type == MEM_TYPE_XSK_BUFF_POOL)
+> 4102			xsk_buff_get_tail(xdp)->data_end -= shrink;
+  4103		skb_frag_size_sub(frag, shrink);
+  4104	}
+  4105	
+  4106	static bool shrink_data(struct xdp_buff *xdp, skb_frag_t *frag, int shrink)
+  4107	{
+  4108		struct xdp_mem_info *mem_info = &xdp->rxq->mem;
+  4109	
+  4110		if (skb_frag_size(frag) == shrink) {
+  4111			struct page *page = skb_frag_page(frag);
+  4112			struct xdp_buff *zc_frag = NULL;
+  4113	
+  4114			if (mem_info->type == MEM_TYPE_XSK_BUFF_POOL) {
+> 4115				zc_frag = xsk_buff_get_tail(xdp);
+  4116				xdp_buff_clear_frags_flag(zc_frag);
+  4117				xsk_buff_tail_del(zc_frag);
+  4118			}
+  4119	
+  4120			__xdp_return(page_address(page), mem_info, false, zc_frag);
+  4121			return true;
+  4122		}
+  4123		__shrink_data(xdp, mem_info, frag, shrink);
+  4124		return false;
+  4125	}
+  4126	
 
 -- 
 0-DAY CI Kernel Test Service
