@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890CF49F97
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 19:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A48C41C78
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 20:14:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E8IL7knd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mRGvohsy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702063822; x=1733599822;
+  t=1702066469; x=1733602469;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8asWn5ZBXffEvDkxo+NpeUAxgzQeZVng0bL0sN8FZUQ=;
-  b=E8IL7kndBZs3XiXQjkSQfXhG2H0dvZtnwnFmEXKQJo0tW21T4uWzZtVM
-   KODTc7pDm4abQaMqIHKffJN6dEZFx2sGkeYYGOJPik5NA1F31nn5iKZ9k
-   iRcEebY7DQ4XH8iVPeJr5LohfinYwadgv322t8+STJD6cZEcNTqQQUdqB
-   JFz8ZotALXyYUqRGBO3KGsLCcfWizbfPiZmhSmI6LgpeqpIUPJfyE1beQ
-   hcGwHldQv9H/p+U9+js1cic2imaZG+x5gsRgM8HF7RpClhr2eFG0i2vqa
-   O4xYtlxV4Hs8Y24qhKqCLlU6GOdAwTMDlQsjejZV/ArycJ4B1SwkKRPow
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="480646020"
+  bh=v4T4+WiXE+odrFkZl8xs/a1hu5KGjJSeMfWnW9v9QtY=;
+  b=mRGvohsyguJLpdTQC3Cyji79VA49KuUAgviOtutB05d5boffJ/4SUte4
+   MiaGTC8D3aXPBaF/R9Gys1KMgFcyfvMhFwSE9VwWSbmNgbjxOQG+uCUe0
+   rRJL8bdIeakuKu2Img5ikgcQ/W/NQWHrkMjSweNzE4qjihBfy3qXgwX63
+   Cym0DTo1NClKTY81L2AsxfZDJiK81n4Hj55ZwWx6MNaXE8uZWs/FFo3Mn
+   SJaAWzIMu9DPN/PU8gLO5jRVDRJmhq3YR3Q/CjRy3JRBp9TbIx5VvvK5x
+   P1haYnZOuFWj/yLNIM0wrd9/Pvca76qtmFN4eAeK8oqjBPVMIKXvJrjE3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="460934244"
 X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="480646020"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 11:30:21 -0800
+   d="scan'208";a="460934244"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 12:14:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="772238878"
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="945531125"
 X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="772238878"
+   d="scan'208";a="945531125"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 08 Dec 2023 11:30:19 -0800
+  by orsmga005.jf.intel.com with ESMTP; 08 Dec 2023 12:14:27 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBgYD-000EGO-1X;
-	Fri, 08 Dec 2023 19:30:17 +0000
-Date: Sat, 9 Dec 2023 03:29:23 +0800
+	id 1rBhEt-000EJy-31;
+	Fri, 08 Dec 2023 20:14:24 +0000
+Date: Sat, 9 Dec 2023 04:13:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Satish Kharat <satishkh@cisco.com>
+To: Jack Brennen <jbrennen@google.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: drivers/scsi/fnic/vnic_dev.c:332:32: sparse: sparse: incorrect type
- in argument 1 (different address spaces)
-Message-ID: <202312090311.SLJL5yUX-lkp@intel.com>
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch
+ in reference: et8ek8_i2c_driver+0x8 (section: .data) ->
+ et8ek8_i2c_driver_exit (section: .exit.text)
+Message-ID: <202312090426.sI2pwNVO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,211 +54,142 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   4df7c5fde316820286dfa6d203a1005d7fbe007d
-commit: 0a2fdd2215e1fa3b417792bd6e9cb719822cbfb6 scsi: fnic: Adding devcmd2 init and posting interfaces
-date:   4 years, 11 months ago
-config: x86_64-randconfig-123-20231025 (https://download.01.org/0day-ci/archive/20231209/202312090311.SLJL5yUX-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090311.SLJL5yUX-lkp@intel.com/reproduce)
+commit: 4074532758c5c367d3fcb8d124150824a254659d modpost: Optimize symbol search from linear to binary search
+date:   9 weeks ago
+config: xtensa-randconfig-001-20231208 (https://download.01.org/0day-ci/archive/20231209/202312090426.sI2pwNVO-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090426.sI2pwNVO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312090311.SLJL5yUX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312090426.sI2pwNVO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/scsi/fnic/vnic_dev.c:257:5: sparse: sparse: symbol 'vnic_dev_cmd1' was not declared. Should it be static?
->> drivers/scsi/fnic/vnic_dev.c:332:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int * @@
-   drivers/scsi/fnic/vnic_dev.c:332:32: sparse:     expected void [noderef] __iomem *
-   drivers/scsi/fnic/vnic_dev.c:332:32: sparse:     got unsigned int *
-   drivers/scsi/fnic/vnic_dev.c:333:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int * @@
-   drivers/scsi/fnic/vnic_dev.c:333:37: sparse:     expected void [noderef] __iomem *
-   drivers/scsi/fnic/vnic_dev.c:333:37: sparse:     got unsigned int *
-   drivers/scsi/fnic/vnic_dev.c:373:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned int * @@
-   drivers/scsi/fnic/vnic_dev.c:373:36: sparse:     expected void [noderef] __iomem *
-   drivers/scsi/fnic/vnic_dev.c:373:36: sparse:     got unsigned int *
-   drivers/scsi/fnic/vnic_dev.c:319:5: sparse: sparse: symbol 'vnic_dev_cmd2' was not declared. Should it be static?
->> drivers/scsi/fnic/vnic_dev.c:469:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct vnic_wq_ctrl *wq_ctrl @@     got struct vnic_wq_ctrl [noderef] __iomem *ctrl @@
-   drivers/scsi/fnic/vnic_dev.c:469:32: sparse:     expected struct vnic_wq_ctrl *wq_ctrl
-   drivers/scsi/fnic/vnic_dev.c:469:32: sparse:     got struct vnic_wq_ctrl [noderef] __iomem *ctrl
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +332 drivers/scsi/fnic/vnic_dev.c
-
-   318	
-   319	int vnic_dev_cmd2(struct vnic_dev *vdev, enum vnic_devcmd_cmd cmd,
-   320			int wait)
-   321	{
-   322		struct devcmd2_controller *dc2c = vdev->devcmd2;
-   323		struct devcmd2_result *result;
-   324		u8 color;
-   325		unsigned int i;
-   326		int delay;
-   327		int err;
-   328		u32 fetch_index;
-   329		u32 posted;
-   330		u32 new_posted;
-   331	
- > 332		posted = ioread32(&dc2c->wq_ctrl->posted_index);
-   333		fetch_index = ioread32(&dc2c->wq_ctrl->fetch_index);
-   334	
-   335		if (posted == 0xFFFFFFFF || fetch_index == 0xFFFFFFFF) {
-   336			/* Hardware surprise removal: return error */
-   337			pr_err("%s: devcmd2 invalid posted or fetch index on cmd %d\n",
-   338					pci_name(vdev->pdev), _CMD_N(cmd));
-   339			pr_err("%s: fetch index: %u, posted index: %u\n",
-   340					pci_name(vdev->pdev), fetch_index, posted);
-   341	
-   342			return -ENODEV;
-   343	
-   344		}
-   345	
-   346		new_posted = (posted + 1) % DEVCMD2_RING_SIZE;
-   347	
-   348		if (new_posted == fetch_index) {
-   349			pr_err("%s: devcmd2 wq full while issuing cmd %d\n",
-   350					pci_name(vdev->pdev), _CMD_N(cmd));
-   351			pr_err("%s: fetch index: %u, posted index: %u\n",
-   352					pci_name(vdev->pdev), fetch_index, posted);
-   353			return -EBUSY;
-   354	
-   355		}
-   356		dc2c->cmd_ring[posted].cmd = cmd;
-   357		dc2c->cmd_ring[posted].flags = 0;
-   358	
-   359		if ((_CMD_FLAGS(cmd) & _CMD_FLAGS_NOWAIT))
-   360			dc2c->cmd_ring[posted].flags |= DEVCMD2_FNORESULT;
-   361		if (_CMD_DIR(cmd) & _CMD_DIR_WRITE) {
-   362			for (i = 0; i < VNIC_DEVCMD_NARGS; i++)
-   363				dc2c->cmd_ring[posted].args[i] = vdev->args[i];
-   364	
-   365		}
-   366	
-   367		/* Adding write memory barrier prevents compiler and/or CPU
-   368		 * reordering, thus avoiding descriptor posting before
-   369		 * descriptor is initialized. Otherwise, hardware can read
-   370		 * stale descriptor fields.
-   371		 */
-   372		wmb();
-   373		iowrite32(new_posted, &dc2c->wq_ctrl->posted_index);
-   374	
-   375		if (dc2c->cmd_ring[posted].flags & DEVCMD2_FNORESULT)
-   376			return 0;
-   377	
-   378		result = dc2c->result + dc2c->next_result;
-   379		color = dc2c->color;
-   380	
-   381		dc2c->next_result++;
-   382		if (dc2c->next_result == dc2c->result_size) {
-   383			dc2c->next_result = 0;
-   384			dc2c->color = dc2c->color ? 0 : 1;
-   385		}
-   386	
-   387		for (delay = 0; delay < wait; delay++) {
-   388			udelay(100);
-   389			if (result->color == color) {
-   390				if (result->error) {
-   391					err = -(int) result->error;
-   392					if (err != ERR_ECMDUNKNOWN ||
-   393							cmd != CMD_CAPABILITY)
-   394						pr_err("%s:Error %d devcmd %d\n",
-   395							pci_name(vdev->pdev),
-   396							err, _CMD_N(cmd));
-   397					return err;
-   398				}
-   399				if (_CMD_DIR(cmd) & _CMD_DIR_READ) {
-   400					rmb(); /*prevent reorder while reding result*/
-   401					for (i = 0; i < VNIC_DEVCMD_NARGS; i++)
-   402						vdev->args[i] = result->results[i];
-   403				}
-   404				return 0;
-   405			}
-   406		}
-   407	
-   408		pr_err("%s:Timed out devcmd %d\n", pci_name(vdev->pdev), _CMD_N(cmd));
-   409	
-   410		return -ETIMEDOUT;
-   411	}
-   412	
-   413	
-   414	int vnic_dev_init_devcmd1(struct vnic_dev *vdev)
-   415	{
-   416		vdev->devcmd = vnic_dev_get_res(vdev, RES_TYPE_DEVCMD, 0);
-   417		if (!vdev->devcmd)
-   418			return -ENODEV;
-   419	
-   420		vdev->devcmd_rtn = &vnic_dev_cmd1;
-   421		return 0;
-   422	}
-   423	
-   424	
-   425	int vnic_dev_init_devcmd2(struct vnic_dev *vdev)
-   426	{
-   427		int err;
-   428		unsigned int fetch_index;
-   429	
-   430		if (vdev->devcmd2)
-   431			return 0;
-   432	
-   433		vdev->devcmd2 = kzalloc(sizeof(*vdev->devcmd2), GFP_ATOMIC);
-   434		if (!vdev->devcmd2)
-   435			return -ENOMEM;
-   436	
-   437		vdev->devcmd2->color = 1;
-   438		vdev->devcmd2->result_size = DEVCMD2_RING_SIZE;
-   439		err = vnic_wq_devcmd2_alloc(vdev, &vdev->devcmd2->wq,
-   440					DEVCMD2_RING_SIZE, DEVCMD2_DESC_SIZE);
-   441		if (err)
-   442			goto err_free_devcmd2;
-   443	
-   444		fetch_index = ioread32(&vdev->devcmd2->wq.ctrl->fetch_index);
-   445		if (fetch_index == 0xFFFFFFFF) { /* check for hardware gone  */
-   446			pr_err("error in devcmd2 init");
-   447			return -ENODEV;
-   448		}
-   449	
-   450		/*
-   451		 * Don't change fetch_index ever and
-   452		 * set posted_index same as fetch_index
-   453		 * when setting up the WQ for devcmd2.
-   454		 */
-   455		vnic_wq_init_start(&vdev->devcmd2->wq, 0, fetch_index,
-   456				fetch_index, 0, 0);
-   457	
-   458		vnic_wq_enable(&vdev->devcmd2->wq);
-   459	
-   460		err = vnic_dev_alloc_desc_ring(vdev, &vdev->devcmd2->results_ring,
-   461				DEVCMD2_RING_SIZE, DEVCMD2_DESC_SIZE);
-   462		if (err)
-   463			goto err_free_wq;
-   464	
-   465		vdev->devcmd2->result =
-   466			(struct devcmd2_result *) vdev->devcmd2->results_ring.descs;
-   467		vdev->devcmd2->cmd_ring =
-   468			(struct vnic_devcmd2 *) vdev->devcmd2->wq.ring.descs;
- > 469		vdev->devcmd2->wq_ctrl = vdev->devcmd2->wq.ctrl;
-   470		vdev->args[0] = (u64) vdev->devcmd2->results_ring.base_addr |
-   471					VNIC_PADDR_TARGET;
-   472		vdev->args[1] = DEVCMD2_RING_SIZE;
-   473	
-   474		err = vnic_dev_cmd2(vdev, CMD_INITIALIZE_DEVCMD2, 1000);
-   475		if (err)
-   476			goto err_free_desc_ring;
-   477	
-   478		vdev->devcmd_rtn = &vnic_dev_cmd2;
-   479	
-   480		return 0;
-   481	
-   482	err_free_desc_ring:
-   483		vnic_dev_free_desc_ring(vdev, &vdev->devcmd2->results_ring);
-   484	err_free_wq:
-   485		vnic_wq_disable(&vdev->devcmd2->wq);
-   486		vnic_wq_free(&vdev->devcmd2->wq);
-   487	err_free_devcmd2:
-   488		kfree(vdev->devcmd2);
-   489		vdev->devcmd2 = NULL;
-   490	
-   491		return err;
-   492	}
-   493	
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/via/viafb.o
+WARNING: modpost: drivers/video/fbdev/atmel_lcdfb: section mismatch in reference: atmel_lcdfb_driver+0x4 (section: .data) -> atmel_lcdfb_driver_exit (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/imx/clk-imxrt1050.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-apmixedsys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-bdp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-jpgdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mfgcfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-apmixedsys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu0.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu_adl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-ipu_conn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-mfgcfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8192-msdc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-apusys_pll.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8195-scp_adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sprd/clk-sprd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-npe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/max20411-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
+WARNING: modpost: drivers/char/hw_random/mxc-rnga: section mismatch in reference: mxc_rnga_driver+0x4 (section: .data) -> mxc_rnga_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/nomadik-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/st-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iommu/iova.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/ttm/tests/ttm_device_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/ttm/tests/ttm_pool_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/timberdale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-fc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/target/nvmet-fc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/parsers/tplink_safeloader.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/chipidea/ci_hdrc_msm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ali1563.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
+>> WARNING: modpost: drivers/media/i2c/et8ek8/et8ek8: section mismatch in reference: et8ek8_i2c_driver+0x8 (section: .data) -> et8ek8_i2c_driver_exit (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_aec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
 
 -- 
 0-DAY CI Kernel Test Service
