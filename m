@@ -1,195 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF87C208AB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 15:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5842E30CEE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 15:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NCSaFUeL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702050075; x=1733586075;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kuKy0uSZ2sgf2WUnRwww3AtGWNiQbLKjTQKgA9l/IGM=;
-  b=NCSaFUeL8Y9m3rC473AW2ndGet8UdaZx0mHFuvoCnogYQzTZG9PtKpD9
-   0x9HRDl5EYcoiy9PtEn9i5AhQvxcrfgnMPsAe/U931Ss6YjB2V6DGaCbo
-   V4dQAdXFO3BVQ/QVr1jhS/7nW9eLaqpRoHykHMP6UtDV9NTI5fiZAYCkO
-   7jZStrsGT5zdFiODpikcZ2Bxv69JEz8XnmShWwTc/zPnkXo2jGqmavCLR
-   jchvNh22gfg345gQz8G40fqzkoweyCV6Lg6bUuuMEzNQntA06h215im7d
-   t5joKW3MO8rW5eW64rHCM36FgKLsz5BCJvub1Sv7PM6kemGJXG9s8s0M+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1276369"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="1276369"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 07:41:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="20136875"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 08 Dec 2023 07:40:59 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rBcyG-000DuV-07;
-	Fri, 08 Dec 2023 15:40:56 +0000
-Date: Fri, 8 Dec 2023 23:40:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mina Almasry <almasrymina@google.com>,
-	Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	bpf@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Mina Almasry <almasrymina@google.com>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-	David Ahern <dsahern@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Shakeel Butt <shakeelb@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
-Message-ID: <202312082303.bCpeCR0q-lkp@intel.com>
-References: <20231208005250.2910004-7-almasrymina@google.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="eTVv/x5f"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5c5f0e325a6so1537599a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 08 Dec 2023 07:45:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1702050309; x=1702655109; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aSIhejMi2RvmJNFCsKZgxBFrupMMmn935wC4f2iCNQg=;
+        b=eTVv/x5fZzoRs8+D10TJrfrbrNZgTDE6n7CDMkbDkbyvMfkz/fBgy9d/5HmzclmpGU
+         VnGpCbRAvWFJv9Bqc+uQY5BwUGGwFQzJV0OlqMHM7wkdlY9xMmc7u07bekNtHoJXB0xq
+         19Um+sxevzUr6vpxLQz6hcePmJITYMvovvpqBSU2dHZhMkRT/vOGIHScAALapldDCs2u
+         fGr0eg5TZBCs79dXqU/OH6wjhAe5UXFqG8GB46RBf/W6uhCiF38ZFbB5U0WrUGYIBbpz
+         Aj+UOx4vmmiaarerx7CvyCMM17H0fUQAM+aYMwupswgFDqhtl50b7RKqYJkbWtzZDUYD
+         eH+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702050309; x=1702655109;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aSIhejMi2RvmJNFCsKZgxBFrupMMmn935wC4f2iCNQg=;
+        b=xT91xhgiiJdyLrC2LwP8YT/biYYHYPEChbhg23R8LXwFG7HIoXji6Ew2n4eqDKw7An
+         ZQh0tv3CSHw9szELYR10JrMnyCDgYhO+QfKNnNelvICF+/vqRStgazCTHMr9wtU1nvFM
+         W5h4Xsm2S9OsX5jIEmdnsAuM7rmT/FDdDHVryUQkYjvpFMUThslfQKy+Z2Q3+Z2KDDCn
+         qi9S9Ebq0CF+DBgEhR875EdCiYgYmQD+IaoquyX4BAjQdEF9Ka/zdAs5pvFANraA7KAN
+         wCxH5E0FLa6Niy7a/Xx4Tnm1QJBaao4fyddBN2HL1/HTox5GrGGOkPMcYE0Kjg7g/xKA
+         cK7g==
+X-Gm-Message-State: AOJu0YzB/hRpezNNywDzqdAwuknAqAaHqBe9tor0EH5r2b6J9L3S0Umx
+	SdUZUC8dvp8nLfZoIZwN+tDcBA==
+X-Google-Smtp-Source: AGHT+IGdUUbB++2LBRHDq+4gTXricXvOqgQFyCf+OZTByWhnSGPh/zvXwXZbFMSj/bMMd8fVtscIDQ==
+X-Received: by 2002:a05:6a20:3ca3:b0:18b:ec94:deed with SMTP id b35-20020a056a203ca300b0018bec94deedmr208781pzj.45.1702050309405;
+        Fri, 08 Dec 2023 07:45:09 -0800 (PST)
+Received: from [10.4.166.75] ([139.177.225.252])
+        by smtp.gmail.com with ESMTPSA id fb32-20020a056a002da000b006ce7ed5ba41sm1698369pfb.55.2023.12.08.07.45.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Dec 2023 07:45:09 -0800 (PST)
+Message-ID: <35bff89e-a984-42e3-a6e7-1933b12b6451@bytedance.com>
+Date: Fri, 8 Dec 2023 23:45:02 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231208005250.2910004-7-almasrymina@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] mm/zswap: make sure each swapfile always have zswap
+ rb-tree
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Vitaly Wool
+ <vitaly.wool@konsulko.com>, Nhat Pham <nphamcs@gmail.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>,
+ Seth Jennings <sjenning@redhat.com>, Dan Streetman <ddstreet@ieee.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Yosry Ahmed <yosryahmed@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-kernel@vger.kernel.org
+References: <20231206-zswap-lock-optimize-v1-1-e25b059f9c3a@bytedance.com>
+ <202312082309.xvC0Rdd9-lkp@intel.com>
+From: Chengming Zhou <zhouchengming@bytedance.com>
+In-Reply-To: <202312082309.xvC0Rdd9-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Mina,
+On 2023/12/8 23:17, kernel test robot wrote:
+> Hi Chengming,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 0f5f12ac05f36f117e793656c3f560625e927f1b]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Chengming-Zhou/mm-zswap-make-sure-each-swapfile-always-have-zswap-rb-tree/20231206-174717
+> base:   0f5f12ac05f36f117e793656c3f560625e927f1b
+> patch link:    https://lore.kernel.org/r/20231206-zswap-lock-optimize-v1-1-e25b059f9c3a%40bytedance.com
+> patch subject: [PATCH 1/7] mm/zswap: make sure each swapfile always have zswap rb-tree
+> config: i386-buildonly-randconfig-002-20231208 (https://download.01.org/0day-ci/archive/20231208/202312082309.xvC0Rdd9-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312082309.xvC0Rdd9-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312082309.xvC0Rdd9-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    In file included from arch/x86/kernel/asm-offsets.c:9:
+>    In file included from include/linux/crypto.h:17:
+>    In file included from include/linux/slab.h:16:
+>    In file included from include/linux/gfp.h:7:
+>    In file included from include/linux/mmzone.h:25:
+>>> include/linux/zswap.h:53:43: warning: non-void function does not return a value [-Wreturn-type]
+>    static inline int zswap_swapon(int type) {}
 
-kernel test robot noticed the following build warnings:
+Ah, will fix to return 0 when !CONFIG_ZSWAP here.
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-page_pool-factor-out-releasing-DMA-from-releasing-the-page/20231208-085531
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231208005250.2910004-7-almasrymina%40google.com
-patch subject: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
-config: m68k-randconfig-r071-20231208 (https://download.01.org/0day-ci/archive/20231208/202312082303.bCpeCR0q-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312082303.bCpeCR0q-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312082303.bCpeCR0q-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:17,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/uaccess.h:8,
-                    from net/core/dev.c:71:
-   net/core/dev.c: In function '__netdev_dmabuf_binding_free':
->> net/core/dev.c:2071:34: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2072 |                   size, avail))
-         |                   ~~~~            
-         |                   |
-         |                   size_t {aka unsigned int}
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/asm-generic/bug.h:176:9: note: in expansion of macro 'no_printk'
-     176 |         no_printk(format);                                              \
-         |         ^~~~~~~~~
-   net/core/dev.c:2071:14: note: in expansion of macro 'WARN'
-    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
-         |              ^~~~
-   net/core/dev.c:2071:65: note: format string is defined here
-    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
-         |                                                               ~~^
-         |                                                                 |
-         |                                                                 long unsigned int
-         |                                                               %u
-   net/core/dev.c:2071:34: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2072 |                   size, avail))
-         |                         ~~~~~     
-         |                         |
-         |                         size_t {aka unsigned int}
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
-     129 |                 printk(fmt, ##__VA_ARGS__);             \
-         |                 ^~~~~~
-   include/asm-generic/bug.h:176:9: note: in expansion of macro 'no_printk'
-     176 |         no_printk(format);                                              \
-         |         ^~~~~~~~~
-   net/core/dev.c:2071:14: note: in expansion of macro 'WARN'
-    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
-         |              ^~~~
-   net/core/dev.c:2071:76: note: format string is defined here
-    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
-         |                                                                          ~~^
-         |                                                                            |
-         |                                                                            long unsigned int
-         |                                                                          %u
-
-
-vim +2071 net/core/dev.c
-
-  2060	
-  2061	void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *binding)
-  2062	{
-  2063		size_t size, avail;
-  2064	
-  2065		gen_pool_for_each_chunk(binding->chunk_pool,
-  2066					netdev_dmabuf_free_chunk_owner, NULL);
-  2067	
-  2068		size = gen_pool_size(binding->chunk_pool);
-  2069		avail = gen_pool_avail(binding->chunk_pool);
-  2070	
-> 2071		if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
-  2072			  size, avail))
-  2073			gen_pool_destroy(binding->chunk_pool);
-  2074	
-  2075		dma_buf_unmap_attachment(binding->attachment, binding->sgt,
-  2076					 DMA_BIDIRECTIONAL);
-  2077		dma_buf_detach(binding->dmabuf, binding->attachment);
-  2078		dma_buf_put(binding->dmabuf);
-  2079		xa_destroy(&binding->bound_rxq_list);
-  2080		kfree(binding);
-  2081	}
-  2082	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
