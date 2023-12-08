@@ -1,129 +1,106 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93296643
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 09:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBX2N-0002Kw-04; Fri, 08 Dec 2023 10:20:47 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBX2M-00ENvp-7x; Fri, 08 Dec 2023 10:20:46 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBX2L-00GLWC-Uo; Fri, 08 Dec 2023 10:20:45 +0100
-Date: Fri, 8 Dec 2023 10:20:45 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: Re: WARNING: modpost: drivers/input/mouse/amimouse: section mismatch
- in reference: amimouse_driver+0x4 (section: .data) -> amimouse_remove
- (section: .exit.text)
-Message-ID: <20231208092045.rk7qta6g33ir7y5q@pengutronix.de>
-References: <202312081423.p7XRxPsZ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85335690
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 10:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F3Wsfona"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702029614; x=1733565614;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XRE3uEq29DIEq+HIBGKjCbCFKzlqWvc1NQRYq5G8Ujk=;
+  b=F3Wsfona3iSjTLEv+TSxBIdSYuqxdL2A6zM3n1vfENYkeBpkuwIdr4zg
+   seKv0Vqu7hEhMRHcxZJHp3DaPB4F66CdtRHNtByn4RKs+AHFvbDNn2c6c
+   AZf2N9bCRUkW4vQNmZIS+ecbVCRpkfj5wYreG6kUuzolOBm6eCg7N7XTe
+   z+L3YLpLhDgBoJH7fG1hQ+kwyFcKQwLMzfL216sXV0qwA3yMv3Xop939J
+   5nvshOpNZC528ajVqZqt1/PioqqQpNWQvOUco5hSd1fuwBYW/LVgMCBVj
+   9Jv4BtMsjXAWrDC41lVeb2F74EXypMFFMzoj+irMFkflzEOdmL8GnQ1T3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="393253110"
+X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
+   d="scan'208";a="393253110"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 02:00:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="806353900"
+X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
+   d="scan'208";a="806353900"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 08 Dec 2023 02:00:12 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBXeT-000DaH-2r;
+	Fri, 08 Dec 2023 10:00:09 +0000
+Date: Fri, 8 Dec 2023 18:00:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 5469/6165] uffd-common.c:636:28: warning: unused
+ variable 'uffdio_move'
+Message-ID: <202312081716.LUUhSNS4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ubvdkgmmew7jif2p"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202312081423.p7XRxPsZ-lkp@intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bc63de6e6ba0b16652c5fb4b9c9916b9e7ca1f23
+commit: d02321ca0329457d5828a83b82b156e6337c4236 [5469/6165] selftests/mm: add UFFDIO_MOVE ioctl test
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312081716.LUUhSNS4-lkp@intel.com/reproduce)
 
---ubvdkgmmew7jif2p
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312081716.LUUhSNS4-lkp@intel.com/
 
-Hello,
+All warnings (new ones prefixed by >>):
 
-On Fri, Dec 08, 2023 at 02:21:30PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   5e3f5b81de80c98338bcb47c233aebefee5a4801
-> commit: f177cd0c15fcc7bdbb68d8d1a3166dead95314c8 modpost: Don't let "driv=
-er"s reference .exit.*
-> date:   10 weeks ago
-> config: m68k-defconfig (https://download.01.org/0day-ci/archive/20231208/=
-202312081423.p7XRxPsZ-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20231208/202312081423.p7XRxPsZ-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312081423.p7XRxPsZ-lkp=
-@intel.com/
->=20
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
->=20
-> >> WARNING: modpost: drivers/input/mouse/amimouse: section mismatch in re=
-ference: amimouse_driver+0x4 (section: .data) -> amimouse_remove (section: =
-=2Eexit.text)
-> >> WARNING: modpost: drivers/parport/parport_amiga: section mismatch in r=
-eference: amiga_parallel_driver+0x4 (section: .data) -> amiga_parallel_remo=
-ve (section: .exit.text)
-> >> WARNING: modpost: sound/oss/dmasound/dmasound_paula: section mismatch =
-in reference: amiga_audio_driver+0x4 (section: .data) -> amiga_audio_remove=
- (section: .exit.text)
+   uffd-common.c: In function 'move_page':
+   uffd-common.c:636:28: error: storage size of 'uffdio_move' isn't known
+     636 |         struct uffdio_move uffdio_move;
+         |                            ^~~~~~~~~~~
+   uffd-common.c:643:28: error: 'UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES' undeclared (first use in this function)
+     643 |         uffdio_move.mode = UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   uffd-common.c:643:28: note: each undeclared identifier is reported only once for each function it appears in
+   uffd-common.c:645:24: error: 'UFFDIO_MOVE' undeclared (first use in this function); did you mean 'UFFDIO_COPY'?
+     645 |         if (ioctl(ufd, UFFDIO_MOVE, &uffdio_move)) {
+         |                        ^~~~~~~~~~~
+         |                        UFFDIO_COPY
+>> uffd-common.c:636:28: warning: unused variable 'uffdio_move' [-Wunused-variable]
+     636 |         struct uffdio_move uffdio_move;
+         |                            ^~~~~~~~~~~
+--
+   uffd-unit-tests.c:1323:42: error: 'UFFD_FEATURE_MOVE' undeclared here (not in a function); did you mean 'UFFD_EVENT_REMOVE'?
+    1323 |                 .uffd_feature_required = UFFD_FEATURE_MOVE,
+         |                                          ^~~~~~~~~~~~~~~~~
+         |                                          UFFD_EVENT_REMOVE
+   uffd-common.c: In function 'move_page':
+   uffd-common.c:636:28: error: storage size of 'uffdio_move' isn't known
+     636 |         struct uffdio_move uffdio_move;
+         |                            ^~~~~~~~~~~
+   uffd-common.c:643:28: error: 'UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES' undeclared (first use in this function)
+     643 |         uffdio_move.mode = UFFDIO_MOVE_MODE_ALLOW_SRC_HOLES;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   uffd-common.c:643:28: note: each undeclared identifier is reported only once for each function it appears in
+   uffd-common.c:645:24: error: 'UFFDIO_MOVE' undeclared (first use in this function); did you mean 'UFFDIO_COPY'?
+     645 |         if (ioctl(ufd, UFFDIO_MOVE, &uffdio_move)) {
+         |                        ^~~~~~~~~~~
+         |                        UFFDIO_COPY
+>> uffd-common.c:636:28: warning: unused variable 'uffdio_move' [-Wunused-variable]
+     636 |         struct uffdio_move uffdio_move;
+         |                            ^~~~~~~~~~~
 
-It's somewhat expected that a commit introducing a new warning triggers
-new warnings for the offending drivers.
-
-There are some more offenders than these. A quick look into these three
-shows that the warning is a false positive (i.e. I don't expect that a
-driver follows a link to a discarded function).
-
-To fix this you either need a commit like
-
-	141626dbc2e6 ("rtc: sh: Mark driver struct with __refdata to prevent secti=
-on mismatch warning")
-
-(if you really want continue using module_platform_driver_probe()), or
-modernize the driver (at the cost of a slightly increased memory
-footprint) with something like:
-
-	1865913dd590 ("media: meson-ir-tx: Drop usage of platform_driver_probe()")
-
-Addressing these is on my todo list, but not at it's top.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ubvdkgmmew7jif2p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVy3+wACgkQj4D7WH0S
-/k7BdAgAmeNRoYCaR8JTAtI7Gm7e7UCvR1/xFKybG97hTO/6J1F90rSiwX+YmdKl
-qgWbJn7qxXCrENT4YzmI5aiSYXPxcq+rDm7NS1mBRNz4DrSRpeSYi3d5Mw3x1zaD
-VHF5DjlqCvoqZeuPMDictElG9gT2eSjgi11sPhAvj+dWHlAAecv/Gfh7qNHh0BLF
-wDXJ8MUJQmBDV9TMEh9EB2R55WuFC1sb7aXO/SNyf/Y1NUCtCQFDIlekYpHBz/Vb
-eoi3LFs/n3O/EYTVf5LyklVvZk3feEdpLMmMgh6X/BjLIcaJoY3qhEiNKDqQ1su8
-bpw36kgpKFauVxHEJdaAfKhYPeYj8w==
-=PcJp
------END PGP SIGNATURE-----
-
---ubvdkgmmew7jif2p--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
