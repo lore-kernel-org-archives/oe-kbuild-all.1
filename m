@@ -1,58 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD0A35285
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 16:46:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986C1381B1;
+	Fri,  8 Dec 2023 17:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aEtquBk1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPmDr/yQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702053969; x=1733589969;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=miFLldcpDFE05dBCyzflhacH6Zq/6J15TPhKaKNu3M8=;
-  b=aEtquBk12AfCsVTrRp4jA8xqQ9H2R1OP+tlizmuNz5BhjyHDroCgaKtq
-   HT1BAD/cWMmIuBDIQY8YA/AiGS0pboq8ypzemiRDAizvHifPMSD2KGj1b
-   0yr7wvxID0zmbcXONGYM2JtwnuVA/TfG7mV9VthGOr0kRhjpKVePSc8Ed
-   GnYVzwqAdB+f2KUNFGzSOq8qbovUuG0j1CkeC9qskOvnC6XD7bfba/4ha
-   svsMUlZD8X8d6siacFq2WNZLHE2Jxp+22xXN8lxpR+9PBZV/32xV5XQsM
-   DjKE0I+Rt7dfD/m1j7U/zXQ7FSco5cZtmjdqVVUIjGJ6YV32lsMJwpmOo
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="458739208"
+  t=1702055295; x=1733591295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h6YlmhLMJ8szyzdGIgaSrbbzgxC0poiQ7v+6CUx0yVk=;
+  b=bPmDr/yQSf8X9He97QqrzAnSc77nsG+kzECfJ+H8Mf1FCOzGcbOp8X8s
+   mzzfPcdmLx3G7W5xCZvBWFIlIBZMtrPZhQ58yFLibiIuwDeF/wHwvlVTm
+   NW1M2ksU3viexe31TRuclDwSlRyfgt4OHPEAkyoEpuQtAkjMsOeleqO36
+   keYQcMZLGimuKM8BbADsOfb27gC0tFIIPSw5PTFQryxFLK8JeIcqDyTk2
+   nFtvjyW2a7rXM/ojdKTUuL1OmJA7DILoAuyLk373UikHpDnoNHOPFMgcs
+   JH+tu5+VjaykvkDerYYheBfJUnNWixR0eqtrh9x9cKEucbEHZLSOx1Vlx
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="425567165"
 X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="458739208"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 08:46:08 -0800
+   d="scan'208";a="425567165"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 09:08:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="772186771"
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="801164851"
 X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="772186771"
+   d="scan'208";a="801164851"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 08 Dec 2023 08:46:05 -0800
+  by orsmga008.jf.intel.com with ESMTP; 08 Dec 2023 09:08:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBdzF-000E1f-2u;
-	Fri, 08 Dec 2023 16:46:02 +0000
-Date: Sat, 9 Dec 2023 00:45:04 +0800
+	id 1rBeKf-000E4Z-0n;
+	Fri, 08 Dec 2023 17:08:09 +0000
+Date: Sat, 9 Dec 2023 01:07:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chengming Zhou <zhouchengming@bytedance.com>,
-	Vitaly Wool <vitaly.wool@konsulko.com>,
-	Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Seth Jennings <sjenning@redhat.com>,
-	Dan Streetman <ddstreet@ieee.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Yosry Ahmed <yosryahmed@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org,
-	Chengming Zhou <zhouchengming@bytedance.com>
-Subject: Re: [PATCH 1/7] mm/zswap: make sure each swapfile always have zswap
- rb-tree
-Message-ID: <202312090030.s5y0gXnv-lkp@intel.com>
-References: <20231206-zswap-lock-optimize-v1-1-e25b059f9c3a@bytedance.com>
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: [linux-next:master 1163/6165] WARNING: modpost: vmlinux: section
+ mismatch in reference: at91_shdwc_probe+0xd8 (section: .text) ->
+ at91_wakeup_status (section: .init.text)
+Message-ID: <202312090117.DLMJTqST-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,76 +53,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231206-zswap-lock-optimize-v1-1-e25b059f9c3a@bytedance.com>
 
-Hi Chengming,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0f5f12ac05f36f117e793656c3f560625e927f1b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chengming-Zhou/mm-zswap-make-sure-each-swapfile-always-have-zswap-rb-tree/20231206-174717
-base:   0f5f12ac05f36f117e793656c3f560625e927f1b
-patch link:    https://lore.kernel.org/r/20231206-zswap-lock-optimize-v1-1-e25b059f9c3a%40bytedance.com
-patch subject: [PATCH 1/7] mm/zswap: make sure each swapfile always have zswap rb-tree
-config: i386-randconfig-012-20231208 (https://download.01.org/0day-ci/archive/20231209/202312090030.s5y0gXnv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090030.s5y0gXnv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bc63de6e6ba0b16652c5fb4b9c9916b9e7ca1f23
+commit: dde74a5de817e0a011e4783cf26295d7f6fdca26 [1163/6165] power: reset: at91-sama5d2_shdwc: Stop using module_platform_driver_probe()
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231209/202312090117.DLMJTqST-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090117.DLMJTqST-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312090030.s5y0gXnv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312090117.DLMJTqST-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from include/linux/mmzone.h:25,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/crypto.h:17,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   include/linux/zswap.h: In function 'zswap_swapon':
->> include/linux/zswap.h:53:1: warning: no return statement in function returning non-void [-Wreturn-type]
-      53 | static inline int zswap_swapon(int type) {}
-         | ^~~~~~
---
-   In file included from include/linux/mmzone.h:25,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from drivers/clk/clkdev.c:9:
-   include/linux/zswap.h: In function 'zswap_swapon':
->> include/linux/zswap.h:53:1: warning: no return statement in function returning non-void [-Wreturn-type]
-      53 | static inline int zswap_swapon(int type) {}
-         | ^~~~~~
-   drivers/clk/clkdev.c: In function 'vclkdev_alloc':
-   drivers/clk/clkdev.c:173:17: warning: function 'vclkdev_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     173 |                 vscnprintf(cla->dev_id, sizeof(cla->dev_id), dev_fmt, ap);
-         |                 ^~~~~~~~~~
---
-   In file included from include/linux/mmzone.h:25,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/crypto.h:17,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   include/linux/zswap.h: In function 'zswap_swapon':
->> include/linux/zswap.h:53:1: warning: no return statement in function returning non-void [-Wreturn-type]
-      53 | static inline int zswap_swapon(int type) {}
-         | ^~~~~~
-
-
-vim +53 include/linux/zswap.h
-
-    51	
-    52	static inline void zswap_invalidate(int type, pgoff_t offset) {}
-  > 53	static inline int zswap_swapon(int type) {}
-    54	static inline void zswap_swapoff(int type) {}
-    55	static inline void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg) {}
-    56	static inline void zswap_lruvec_state_init(struct lruvec *lruvec) {}
-    57	static inline void zswap_page_swapin(struct page *page) {}
-    58	#endif
-    59	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: vmlinux: section mismatch in reference: at91_poweroff_probe+0x8c (section: .text) -> at91_wakeup_status (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: at91_shdwc_probe+0xd8 (section: .text) -> at91_wakeup_status (section: .init.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/crypto/aes-arm-bs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/crypto/crc32-arm-ce.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/af_alg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_hash.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/algif_skcipher.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/ecc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/crypto_simd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libarc4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libdes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libsha256.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-samsung.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/ti/cppi41.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
+WARNING: modpost: drivers/gpu/drm/bridge/ti-tpd12s015: section mismatch in reference: tpd12s015_driver+0x4 (section: .data) -> tpd12s015_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ac97.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/ath/wcn36xx/wcn36xx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/broadcom/brcm80211/brcmfmac/wcc/brcmfmac-wcc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/brcmfmac-cyw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/brcmfmac-bca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x-control.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/phy/phy-am335x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_acm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ss_lb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_serial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_obex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/u_ether.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ncm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_eem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_ecm_subset.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_rndis.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_mass_storage.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_fs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac1_legacy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uac2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_midi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_hid.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_printer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/libcomposite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mmp_camera.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/marvell/mcam-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-lite.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos-fimc-is.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/platform/samsung/exynos4-is/exynos4-is-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-hub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
 
 -- 
 0-DAY CI Kernel Test Service
