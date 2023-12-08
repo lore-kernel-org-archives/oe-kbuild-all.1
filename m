@@ -1,47 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98491FDC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 23:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1914CB49
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Dec 2023 23:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MdLxGHyr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mmho7Ja+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702077818; x=1733613818;
+  t=1702079801; x=1733615801;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7AkDiUD2MDLKCk1BXMFtHeUix0iZ7VpN3YFpel4fsDw=;
-  b=MdLxGHyrKzFOOde5nolXZj42vzqkfcZzr66ITiGAtxFNz99DgC0JzLXW
-   APnUcwdy6V1mzWP7XI770UlH77RmPqn+w8eZ50Xwe42UmtJDVXoyRZC73
-   shUxgfHsUbHE8N0TaOK8DHAOKjE7JXSPH+FfYXiKilYMOb9pjj1RWl4sV
-   ZOKKXdSm0SeYtjVxq7JmEm/WMnFxKUABh1WGqoCz8DtBfIOqaMfild80m
-   chtWEqwBu2WyrBYPLtkgpyh94pI8ManVVX47EEmqetWzXjivR1/5FKmp8
-   HAR/qWzkwkseH8U/055YJmwrva82Wfzb6JkadOzC92h+3rwLgMewaCR6u
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="398339979"
+  bh=mYkeT968/7W0MI+cOCJ0+wS2CIfQJZVDY3pyhVxZcV4=;
+  b=mmho7Ja+/u0E9b8fGW1fBvvbrZiR8oBfDXKuvB2e1sGk0eivodEUL6Ub
+   DxF0c+E8K0S37gwnAJ53oVXfQKgf8K/kmBvCFEH34aikcQEkdZCyx1pWh
+   CmwXHylyDKpCISRwUNnuHMNEejo4HY3exC9Un0tIpRcxtBHI82GVO8Byt
+   jNT8cYPLEz5xo8m4fMMTGcfViaAL6r+Uli7n6HNIKQlG4yd5xGTK4Diva
+   FU/7bl4J/w5Jd0k35WWEqsfrq32oumBlux5fSQYi8TY/D8HzI18CRdPIM
+   SbRkJXC5HVzXrnyl7CAgBOpGl2ilphQWfikUj//udYGtfBlfUxKL4AgBm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="13175895"
 X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="398339979"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 15:23:37 -0800
+   d="scan'208";a="13175895"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 15:56:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="722030423"
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="890318957"
 X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="722030423"
+   d="scan'208";a="890318957"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 08 Dec 2023 15:23:36 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2023 15:56:38 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBkBy-000EXZ-1v;
-	Fri, 08 Dec 2023 23:23:34 +0000
-Date: Sat, 9 Dec 2023 07:23:06 +0800
+	id 1rBkhv-000EYj-2w;
+	Fri, 08 Dec 2023 23:56:35 +0000
+Date: Sat, 9 Dec 2023 07:56:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Henry Huang <henry.hj@antgroup.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v2] mm: Multi-Gen LRU: fix use mm/page_idle/bitmap
-Message-ID: <202312090705.7ganY1Yw-lkp@intel.com>
-References: <951fb7edab535cf522def4f5f2613947ed7b7d28.1701853894.git.henry.hj@antgroup.com>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linux-usb@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	kernel@collabora.com
+Subject: Re: [PATCH v2] usb: gadget: webcam: Make g_webcam loadable again
+Message-ID: <202312090717.dUYTE5cM-lkp@intel.com>
+References: <20231208131342.65671-1-andrzej.p@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,160 +57,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <951fb7edab535cf522def4f5f2613947ed7b7d28.1701853894.git.henry.hj@antgroup.com>
+In-Reply-To: <20231208131342.65671-1-andrzej.p@collabora.com>
 
-Hi Henry,
+Hi Andrzej,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test WARNING on 33cc938e65a98f1d29d0a18403dbbee050dcad9a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Henry-Huang/mm-Multi-Gen-LRU-fix-use-mm-page_idle-bitmap/20231206-205133
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/951fb7edab535cf522def4f5f2613947ed7b7d28.1701853894.git.henry.hj%40antgroup.com
-patch subject: [RFC v2] mm: Multi-Gen LRU: fix use mm/page_idle/bitmap
-config: i386-buildonly-randconfig-002-20231209 (https://download.01.org/0day-ci/archive/20231209/202312090705.7ganY1Yw-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrzej-Pietrasiewicz/usb-gadget-webcam-Make-g_webcam-loadable-again/20231208-211513
+base:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
+patch link:    https://lore.kernel.org/r/20231208131342.65671-1-andrzej.p%40collabora.com
+patch subject: [PATCH v2] usb: gadget: webcam: Make g_webcam loadable again
+config: i386-buildonly-randconfig-002-20231209 (https://download.01.org/0day-ci/archive/20231209/202312090717.dUYTE5cM-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090705.7ganY1Yw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090717.dUYTE5cM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312090705.7ganY1Yw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312090717.dUYTE5cM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/vmscan.c: In function 'get_pfn_folio':
->> mm/vmscan.c:3310:27: error: implicit declaration of function 'folio_test_idle'; did you mean 'folio_test_type'? [-Werror=implicit-function-declaration]
-    3310 |         if (clear_idle && folio_test_idle(folio))
-         |                           ^~~~~~~~~~~~~~~
-         |                           folio_test_type
->> mm/vmscan.c:3311:17: error: implicit declaration of function 'folio_clear_idle'; did you mean 'folio_clear_head'? [-Werror=implicit-function-declaration]
-    3311 |                 folio_clear_idle(folio);
-         |                 ^~~~~~~~~~~~~~~~
-         |                 folio_clear_head
-   mm/vmscan.c: In function 'walk_pte_range':
->> mm/vmscan.c:3379:22: error: implicit declaration of function 'folio_test_clear_young'; did you mean 'folio_test_clear_lru'? [-Werror=implicit-function-declaration]
-    3379 |                 if (!folio_test_clear_young(folio) && !is_pte_young) {
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-         |                      folio_test_clear_lru
-   cc1: some warnings being treated as errors
+>> drivers/usb/gadget/legacy/webcam.c:368:32: warning: 'uvcg_frame_mjpeg_720p' defined but not used [-Wunused-const-variable=]
+     368 | static const struct uvcg_frame uvcg_frame_mjpeg_720p = {
+         |                                ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +3310 mm/vmscan.c
+vim +/uvcg_frame_mjpeg_720p +368 drivers/usb/gadget/legacy/webcam.c
 
-  3298	
-  3299	static struct folio *get_pfn_folio(unsigned long pfn, struct mem_cgroup *memcg,
-  3300					   struct pglist_data *pgdat, bool can_swap, bool clear_idle)
-  3301	{
-  3302		struct folio *folio;
-  3303	
-  3304		/* try to avoid unnecessary memory loads */
-  3305		if (pfn < pgdat->node_start_pfn || pfn >= pgdat_end_pfn(pgdat))
-  3306			return NULL;
-  3307	
-  3308		folio = pfn_folio(pfn);
-  3309	
-> 3310		if (clear_idle && folio_test_idle(folio))
-> 3311			folio_clear_idle(folio);
-  3312	
-  3313		if (folio_nid(folio) != pgdat->node_id)
-  3314			return NULL;
-  3315	
-  3316		if (folio_memcg_rcu(folio) != memcg)
-  3317			return NULL;
-  3318	
-  3319		/* file VMAs can contain anon pages from COW */
-  3320		if (!folio_is_file_lru(folio) && !can_swap)
-  3321			return NULL;
-  3322	
-  3323		return folio;
-  3324	}
-  3325	
-  3326	static bool suitable_to_scan(int total, int young)
-  3327	{
-  3328		int n = clamp_t(int, cache_line_size() / sizeof(pte_t), 2, 8);
-  3329	
-  3330		/* suitable if the average number of young PTEs per cacheline is >=1 */
-  3331		return young * n >= total;
-  3332	}
-  3333	
-  3334	static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned long end,
-  3335				   struct mm_walk *args)
-  3336	{
-  3337		int i;
-  3338		pte_t *pte;
-  3339		spinlock_t *ptl;
-  3340		unsigned long addr;
-  3341		int total = 0;
-  3342		int young = 0;
-  3343		struct lru_gen_mm_walk *walk = args->private;
-  3344		struct mem_cgroup *memcg = lruvec_memcg(walk->lruvec);
-  3345		struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
-  3346		int old_gen, new_gen = lru_gen_from_seq(walk->max_seq);
-  3347	
-  3348		pte = pte_offset_map_nolock(args->mm, pmd, start & PMD_MASK, &ptl);
-  3349		if (!pte)
-  3350			return false;
-  3351		if (!spin_trylock(ptl)) {
-  3352			pte_unmap(pte);
-  3353			return false;
-  3354		}
-  3355	
-  3356		arch_enter_lazy_mmu_mode();
-  3357	restart:
-  3358		for (i = pte_index(start), addr = start; addr != end; i++, addr += PAGE_SIZE) {
-  3359			unsigned long pfn;
-  3360			struct folio *folio;
-  3361			pte_t ptent = ptep_get(pte + i);
-  3362			bool is_pte_young;
-  3363	
-  3364			total++;
-  3365			walk->mm_stats[MM_LEAF_TOTAL]++;
-  3366	
-  3367			pfn = get_pte_pfn(ptent, args->vma, addr);
-  3368			if (pfn == -1)
-  3369				continue;
-  3370	
-  3371			is_pte_young = !!pte_young(ptent);
-  3372			folio = get_pfn_folio(pfn, memcg, pgdat, walk->can_swap, is_pte_young);
-  3373			if (!folio) {
-  3374				if (!is_pte_young)
-  3375					walk->mm_stats[MM_LEAF_OLD]++;
-  3376				continue;
-  3377			}
-  3378	
-> 3379			if (!folio_test_clear_young(folio) && !is_pte_young) {
-  3380				walk->mm_stats[MM_LEAF_OLD]++;
-  3381				continue;
-  3382			}
-  3383	
-  3384			if (is_pte_young && !ptep_test_and_clear_young(args->vma, addr, pte + i))
-  3385				VM_WARN_ON_ONCE(true);
-  3386	
-  3387			young++;
-  3388			walk->mm_stats[MM_LEAF_YOUNG]++;
-  3389	
-  3390			if (pte_dirty(ptent) && !folio_test_dirty(folio) &&
-  3391			    !(folio_test_anon(folio) && folio_test_swapbacked(folio) &&
-  3392			      !folio_test_swapcache(folio)))
-  3393				folio_mark_dirty(folio);
-  3394	
-  3395			old_gen = folio_update_gen(folio, new_gen);
-  3396			if (old_gen >= 0 && old_gen != new_gen)
-  3397				update_batch_size(walk, folio, old_gen, new_gen);
-  3398		}
-  3399	
-  3400		if (i < PTRS_PER_PTE && get_next_vma(PMD_MASK, PAGE_SIZE, args, &start, &end))
-  3401			goto restart;
-  3402	
-  3403		arch_leave_lazy_mmu_mode();
-  3404		pte_unmap_unlock(pte, ptl);
-  3405	
-  3406		return suitable_to_scan(total, young);
-  3407	}
-  3408	
+   367	
+ > 368	static const struct uvcg_frame uvcg_frame_mjpeg_720p = {
+   369		.fmt_type		= UVCG_MJPEG,
+   370		.frame = {
+   371			.b_length			= uvc_frame_mjpg_720p.bLength,
+   372			.b_descriptor_type		= uvc_frame_mjpg_720p.bDescriptorType,
+   373			.b_descriptor_subtype		= uvc_frame_mjpg_720p.bDescriptorSubType,
+   374			.b_frame_index			= uvc_frame_mjpg_720p.bFrameIndex,
+   375			.bm_capabilities		= uvc_frame_mjpg_720p.bmCapabilities,
+   376			.w_width			= uvc_frame_mjpg_720p.wWidth,
+   377			.w_height			= uvc_frame_mjpg_720p.wHeight,
+   378			.dw_min_bit_rate		= uvc_frame_mjpg_720p.dwMinBitRate,
+   379			.dw_max_bit_rate		= uvc_frame_mjpg_720p.dwMaxBitRate,
+   380			.dw_max_video_frame_buffer_size	= uvc_frame_mjpg_720p.dwMaxVideoFrameBufferSize,
+   381			.dw_default_frame_interval	= uvc_frame_mjpg_720p.dwDefaultFrameInterval,
+   382			.b_frame_interval_type		= uvc_frame_mjpg_720p.bFrameIntervalType,
+   383		},
+   384		.dw_frame_interval	= (u32 *)uvc_frame_mjpg_720p.dwFrameInterval,
+   385	};
+   386	
 
 -- 
 0-DAY CI Kernel Test Service
