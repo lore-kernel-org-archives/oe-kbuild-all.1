@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459F97F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 03:09:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C667F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 03:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MeavgEWN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXIw+Pf5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702091389; x=1733627389;
+  t=1702092170; x=1733628170;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2ZlpVIzc9BGXyLaOXJJn+Yoxlme66PiY2pQcJxRkkD0=;
-  b=MeavgEWNQY83NycoDed1uFtuy+juZPQE46CRB0ilORhRP9SbCZJUw77W
-   3DVwu14cqDjmBJOKir/R1Csly4ePqmj8fS6Hq/2Ny9qvnJKtiSnRGEw+a
-   XSohYV5pEdzexyqaGjvfjXOvoxWFaaxW7l09t1WoN3+W7fCbDqLr51Wsn
-   NhJjCkyiQzbCP+b9S+H/b19Ix8T62X4iHA3FX7LPnYvAShZShuF2HMIz2
-   wjo6OeKsZ1KYooyMirEbVVOVOE4ucLorot0aXd0q21epT4AKMTwe5Jez6
-   jeBC+9eIW38jdHs05MJPIRjdUQBraN9gTfhQb30K7P0o6p8L3Wrrtr3Qh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="460964952"
+  bh=x8hn+sZc8V+iWner9B+uBn4Eh865Ah1MS1AV4rKq1FM=;
+  b=LXIw+Pf53XHbIDl3oo1Jshz0dJczvvR6AnQkQpybfCtpH/hk7GPK70Yn
+   0X45EDCcWl8UqMc9G8SezLCiYgbB0rPwBecnkyKZ6RltOZpf3ozVWZEC5
+   P+lPuahjKeVeGUONUXIMzAywZIwrg4VjBNwqvT2atC5FBxQCU9MEZZHNj
+   sMGrkIfr7XEr0wPp4a7Lp/lfYjGNcFIogBnSgJAC9hsFalmxS2u5lVzRF
+   W8g0FUq5OdxqbT6zbkdzzVfpO3Eh92NIPCHsOjfas9E8MzaW0K2r1Kmyk
+   bCnb5adnq+aNCnQ+i9qZsbc9CupWQi0ThpnNOFNC3tFDMxNVPYFic/5mK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1575699"
 X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="460964952"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 19:09:48 -0800
+   d="scan'208";a="1575699"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 19:22:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="772335805"
 X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="772335805"
+   d="scan'208";a="20312515"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 08 Dec 2023 19:09:46 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Dec 2023 19:22:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBniq-000EkV-2I;
-	Sat, 09 Dec 2023 03:09:44 +0000
-Date: Sat, 9 Dec 2023 11:09:43 +0800
+	id 1rBnvQ-000El3-3C;
+	Sat, 09 Dec 2023 03:22:45 +0000
+Date: Sat, 9 Dec 2023 11:22:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kalesh Singh <kaleshsingh@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: arch/arm64/kvm/arm.c:52:1: sparse: sparse: symbol
- '__pcpu_scope_kvm_arm_hyp_stack_page' was not declared. Should it be static?
-Message-ID: <202312091147.jpPmUHGm-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-arcvm 20/42]
+ arch/arm64/kernel/kvm-uclamp.c:48:1: warning: control reaches end of
+ non-void function
+Message-ID: <202312091126.SwfAyx7V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,29 +50,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
-commit: db129d486ebdf4e3168282236f9d9008b42cac7e KVM: arm64: Implement non-protected nVHE hyp stack unwinder
-date:   1 year, 4 months ago
-config: arm64-randconfig-r112-20231117 (https://download.01.org/0day-ci/archive/20231209/202312091147.jpPmUHGm-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android13-5.15-arcvm
+head:   b26894471e7a8f8d1dc4c3c233e3e606540bbdd3
+commit: e6d9e3afd83522329ee34169e9169077a72ee97f [20/42] CHROMIUM: KVM: sched: Use KVM uclamp hypercall if available
+config: arm64-randconfig-003-20231209 (https://download.01.org/0day-ci/archive/20231209/202312091126.SwfAyx7V-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231209/202312091147.jpPmUHGm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091126.SwfAyx7V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312091147.jpPmUHGm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312091126.SwfAyx7V-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/arm.c:52:1: sparse: sparse: symbol '__pcpu_scope_kvm_arm_hyp_stack_page' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/__pcpu_scope_kvm_arm_hyp_stack_page +52 arch/arm64/kvm/arm.c
+   arch/arm64/kernel/kvm-uclamp.c:26:36: error: expected '=', ',', ';', 'asm' or '__attribute__' before '__ro_after_init'
+      26 | static int kvm_arch_uclamp_support __ro_after_init;
+         |                                    ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/kvm-uclamp.c: In function 'kvm_arch_uclamp_init':
+   arch/arm64/kernel/kvm-uclamp.c:37:17: error: 'kvm_arch_uclamp_support' undeclared (first use in this function); did you mean 'kvm_arch_uclamp_supported'?
+      37 |                 kvm_arch_uclamp_support = KVM_UCLAMP_UNSUPPORTED;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 kvm_arch_uclamp_supported
+   arch/arm64/kernel/kvm-uclamp.c:37:17: note: each undeclared identifier is reported only once for each function it appears in
+   arch/arm64/kernel/kvm-uclamp.c: In function 'kvm_arch_uclamp_supported':
+   arch/arm64/kernel/kvm-uclamp.c:47:16: error: 'kvm_arch_uclamp_support' undeclared (first use in this function); did you mean 'kvm_arch_uclamp_supported'?
+      47 |         return kvm_arch_uclamp_support == KVM_UCLAMP_SUPPORTED;
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+         |                kvm_arch_uclamp_supported
+>> arch/arm64/kernel/kvm-uclamp.c:48:1: warning: control reaches end of non-void function [-Wreturn-type]
+      48 | }
+         | ^
 
-    51	
-  > 52	DEFINE_PER_CPU(unsigned long, kvm_arm_hyp_stack_page);
-    53	unsigned long kvm_arm_hyp_percpu_base[NR_CPUS];
-    54	DECLARE_KVM_NVHE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
-    55	
+
+vim +48 arch/arm64/kernel/kvm-uclamp.c
+
+    44	
+    45	bool kvm_arch_uclamp_supported(void)
+    46	{
+    47		return kvm_arch_uclamp_support == KVM_UCLAMP_SUPPORTED;
+  > 48	}
+    49	
 
 -- 
 0-DAY CI Kernel Test Service
