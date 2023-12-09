@@ -1,111 +1,188 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9AD7461
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 10:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4171125B3
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 10:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QDQhgp9i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702117665;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9sgSSZVoHbtMUxorEO7aIxD48351b/dT2/kcqCclHl8=;
-	b=QDQhgp9iyOQwIdcXtPpt4EF42zeE7xMAWRyPOYvAWb0ubBMmIjgdjjY3mWeLwybWvLGP3R
-	Gxnh5+0s0GEw/joVmnIHtplNaNo4k8Nx1TbKJPMGcNxtsxL2bSCbdk5y6SYl4WIoseMkUZ
-	M4j8/l/mZ7hwLCX2ZB/jl100uqQhRJA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-647-zPsDZ64SN4STonRKT-E_xw-1; Sat, 09 Dec 2023 05:27:43 -0500
-X-MC-Unique: zPsDZ64SN4STonRKT-E_xw-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-33335c6d495so2379254f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 09 Dec 2023 02:27:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702117662; x=1702722462;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9sgSSZVoHbtMUxorEO7aIxD48351b/dT2/kcqCclHl8=;
-        b=im3QL5z5gg5rPQYcsJr2mNYgUPcFwDuqvXinF3bmfPyC7UY8B5UqD0xlvyFMQA5lFw
-         1DeWyzMXlmEsNMSBjEH1wyZvPhW71b3pjwLtJMPaUhNAljJEdlSsyLa/fzuRBVxpBDjt
-         45ijcYEpVUwzcSUDB2oNZz0EPYfLvBShLPTPwLGJoXEYtW6BDGkN1Ok8l9UdrGvN5FeS
-         37qKGRxszxXEdpyrVJV8juIz+slXFps4rs3I9a5oRfJ0ovGNxB1VH+ijVrppjxyLefkO
-         yFuZvzleGbtGVW0b2b69nq+QagIbI6A8DgiITp5Ca72bC6bno8i0q1rBzAKbMbKEolDB
-         6AhA==
-X-Gm-Message-State: AOJu0YxaSe6ZGh70NcfeA1hcXVsLDXfOPh55bBfpCDERqmTUdkbYCwb8
-	LlcQsMS7lQcONemPNygZ++dY/fsANRZOA6tvcYAoGwWP2153EbnUFW5Rb5GOBmfHS/B01vQnhGM
-	EsvKJ7PCmXjlG0RwHWSRR425EIA==
-X-Received: by 2002:a5d:6611:0:b0:333:4896:100d with SMTP id n17-20020a5d6611000000b003334896100dmr664687wru.8.1702117662543;
-        Sat, 09 Dec 2023 02:27:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGDiHXF4XIUOFxXmVXFha/8eTa6nHvn907AvowQMaqP0gK0hvBFBHsptrwJMLI54FcKEUH+MQ==
-X-Received: by 2002:a5d:6611:0:b0:333:4896:100d with SMTP id n17-20020a5d6611000000b003334896100dmr664676wru.8.1702117662230;
-        Sat, 09 Dec 2023 02:27:42 -0800 (PST)
-Received: from redhat.com ([2a06:c701:73ff:4f00:b091:120e:5537:ac67])
-        by smtp.gmail.com with ESMTPSA id m1-20020a056000008100b00334b3208700sm3961093wrx.49.2023.12.09.02.27.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Dec 2023 02:27:41 -0800 (PST)
-Date: Sat, 9 Dec 2023 05:27:38 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	oe-kbuild-all@lists.linux.dev, jasowang@redhat.com,
-	pabeni@redhat.com, kuba@kernel.org, yinjun.zhang@corigine.com,
-	edumazet@google.com, davem@davemloft.net, hawk@kernel.org,
-	john.fastabend@gmail.com, ast@kernel.org, horms@kernel.org,
-	xuanzhuo@linux.alibaba.com
-Subject: Re: [PATCH net-next v7 4/4] virtio-net: support rx netdim
-Message-ID: <20231209052724-mutt-send-email-mst@kernel.org>
-References: <9be20d1e86bea91b373f28401a96401b640ef4d1.1701929854.git.hengqi@linux.alibaba.com>
- <202312091132.7eR6Cbs9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bj0inFYo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702118483; x=1733654483;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0EqpImFANYSBcWTRpu4wgb5jHGr73ztwgg58L42Jzy4=;
+  b=bj0inFYodM/6ZW4mfXlLiH2/Lcjq5cpYoXPVpBwWJpN4CHXVXfL8Juny
+   BXAZwulr4wGh9u8jWKFFTYSWPSLxM+8GN3WDXphlBQGZyZf5WTV30lWU2
+   X3MyjTwlrTyMEAp5DcTxSLZILj9DuKiFeJLIaeNb8b6bafh8zNZeLSdM0
+   kfYhZ3T/THOl8msRUX99SlMzwKKao5+jPIlssEgq1wU6x76e0Gbl2VhvU
+   FDMK28w9c17t5xk2Zrcgbjz4nqjEy3tYahMI1/KyobHwy3AkEclY/liX9
+   cCHzNaqZ79y39Gb9FAVmtrvm+rM+rsT/Sfunw+5YGiZYeZ5XDV2aUT+zU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="16056911"
+X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
+   d="scan'208";a="16056911"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 02:41:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="722137199"
+X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
+   d="scan'208";a="722137199"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 09 Dec 2023 02:41:20 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBulq-000FEu-0e;
+	Sat, 09 Dec 2023 10:41:18 +0000
+Date: Sat, 9 Dec 2023 18:41:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: io_uring/poll.c:480:43: sparse: sparse: incorrect type in
+ initializer (different base types)
+Message-ID: <202312091824.Oiptw6wb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202312091132.7eR6Cbs9-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Sat, Dec 09, 2023 at 11:22:11AM +0800, kernel test robot wrote:
-> Hi Heng,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-returns-whether-napi-is-complete/20231207-143044
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/9be20d1e86bea91b373f28401a96401b640ef4d1.1701929854.git.hengqi%40linux.alibaba.com
-> patch subject: [PATCH net-next v7 4/4] virtio-net: support rx netdim
-> config: nios2-randconfig-r064-20231209 (https://download.01.org/0day-ci/archive/20231209/202312091132.7eR6Cbs9-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091132.7eR6Cbs9-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312091132.7eR6Cbs9-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    nios2-linux-ld: drivers/net/virtio_net.o: in function `virtnet_rx_dim_work':
->    virtio_net.c:(.text+0x21dc): undefined reference to `net_dim_get_rx_moderation'
-> >> virtio_net.c:(.text+0x21dc): relocation truncated to fit: R_NIOS2_CALL26 against `net_dim_get_rx_moderation'
->    nios2-linux-ld: drivers/net/virtio_net.o: in function `virtnet_poll':
->    virtio_net.c:(.text+0x97bc): undefined reference to `net_dim'
-> >> virtio_net.c:(.text+0x97bc): relocation truncated to fit: R_NIOS2_CALL26 against `net_dim'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
+commit: b9ba8a4463cd78d0aee520c4bf2569820ac29929 io_uring: add support for level triggered poll
+date:   1 year, 5 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231209/202312091824.Oiptw6wb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091824.Oiptw6wb-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312091824.Oiptw6wb-lkp@intel.com/
 
-Looks like select DIMLIB is missing?
+sparse warnings: (new ones prefixed by >>)
+   io_uring/poll.c:165:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t @@
+   io_uring/poll.c:165:38: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:165:38: sparse:     got restricted __poll_t
+   io_uring/poll.c:176:56: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:175:66: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:175:66: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:175:66: sparse:     got unsigned int
+   io_uring/poll.c:175:52: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned short @@
+   io_uring/poll.c:175:52: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:175:52: sparse:     got unsigned short
+   io_uring/poll.c:181:50: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:181:50: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:181:50: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:216:63: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:216:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:216:57: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:216:57: sparse:     got unsigned int
+   io_uring/poll.c:334:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:334:40: sparse:     expected int mask
+   io_uring/poll.c:334:40: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:430:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:430:24: sparse:     expected int
+   io_uring/poll.c:430:24: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:451:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:451:40: sparse:     expected int mask
+   io_uring/poll.c:451:40: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:480:45: sparse: sparse: restricted __poll_t degrades to integer
+>> io_uring/poll.c:480:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned int @@
+   io_uring/poll.c:480:43: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:480:43: sparse:     got unsigned int
+   io_uring/poll.c:528:33: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:528:33: sparse:     expected int mask
+   io_uring/poll.c:528:33: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:528:50: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected int events @@     got restricted __poll_t [usertype] events @@
+   io_uring/poll.c:528:50: sparse:     expected int events
+   io_uring/poll.c:528:50: sparse:     got restricted __poll_t [usertype] events
+   io_uring/poll.c:642:24: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:642:24: sparse:    left side has type unsigned int
+   io_uring/poll.c:642:24: sparse:    right side has type restricted __poll_t
+   io_uring/poll.c:644:24: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:644:24: sparse:    left side has type unsigned int
+   io_uring/poll.c:644:24: sparse:    right side has type restricted __poll_t
+   io_uring/poll.c:646:55: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:645:29: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:645:38: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int @@
+   io_uring/poll.c:645:38: sparse:     expected restricted __poll_t
+   io_uring/poll.c:645:38: sparse:     got unsigned int
+   io_uring/poll.c:741:38: sparse: sparse: invalid assignment: &=
+   io_uring/poll.c:741:38: sparse:    left side has type restricted __poll_t
+   io_uring/poll.c:741:38: sparse:    right side has type int
+   io_uring/poll.c:742:52: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:742:38: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:742:38: sparse:    left side has type restricted __poll_t
+   io_uring/poll.c:742:38: sparse:    right side has type unsigned int
+   io_uring/poll.c: note: in included file:
+   io_uring/io_uring_types.h:92:37: sparse: sparse: array of flexible structures
 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +480 io_uring/poll.c
 
+   473	
+   474	int io_arm_poll_handler(struct io_kiocb *req, unsigned issue_flags)
+   475	{
+   476		const struct io_op_def *def = &io_op_defs[req->opcode];
+   477		struct io_ring_ctx *ctx = req->ctx;
+   478		struct async_poll *apoll;
+   479		struct io_poll_table ipt;
+ > 480		__poll_t mask = POLLPRI | POLLERR | EPOLLET;
+   481		int ret;
+   482	
+   483		if (!def->pollin && !def->pollout)
+   484			return IO_APOLL_ABORTED;
+   485		if (!file_can_poll(req->file))
+   486			return IO_APOLL_ABORTED;
+   487		if ((req->flags & (REQ_F_POLLED|REQ_F_PARTIAL_IO)) == REQ_F_POLLED)
+   488			return IO_APOLL_ABORTED;
+   489		if (!(req->flags & REQ_F_APOLL_MULTISHOT))
+   490			mask |= EPOLLONESHOT;
+   491	
+   492		if (def->pollin) {
+   493			mask |= EPOLLIN | EPOLLRDNORM;
+   494	
+   495			/* If reading from MSG_ERRQUEUE using recvmsg, ignore POLLIN */
+   496			if (req->flags & REQ_F_CLEAR_POLLIN)
+   497				mask &= ~EPOLLIN;
+   498		} else {
+   499			mask |= EPOLLOUT | EPOLLWRNORM;
+   500		}
+   501		if (def->poll_exclusive)
+   502			mask |= EPOLLEXCLUSIVE;
+   503		if (req->flags & REQ_F_POLLED) {
+   504			apoll = req->apoll;
+   505			kfree(apoll->double_poll);
+   506		} else if (!(issue_flags & IO_URING_F_UNLOCKED) &&
+   507			   !list_empty(&ctx->apoll_cache)) {
+   508			apoll = list_first_entry(&ctx->apoll_cache, struct async_poll,
+   509							poll.wait.entry);
+   510			list_del_init(&apoll->poll.wait.entry);
+   511		} else {
+   512			apoll = kmalloc(sizeof(*apoll), GFP_ATOMIC);
+   513			if (unlikely(!apoll))
+   514				return IO_APOLL_ABORTED;
+   515		}
+   516		apoll->double_poll = NULL;
+   517		req->apoll = apoll;
+   518		req->flags |= REQ_F_POLLED;
+   519		ipt.pt._qproc = io_async_queue_proc;
+   520	
+   521		io_kbuf_recycle(req, issue_flags);
+   522	
+   523		ret = __io_arm_poll_handler(req, &apoll->poll, &ipt, mask);
+   524		if (ret || ipt.error)
+   525			return ret ? IO_APOLL_READY : IO_APOLL_ABORTED;
+   526	
+   527		trace_io_uring_poll_arm(ctx, req, req->cqe.user_data, req->opcode,
+   528					mask, apoll->poll.events);
+   529		return IO_APOLL_OK;
+   530	}
+   531	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
