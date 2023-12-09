@@ -1,47 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C9117F2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 06:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B224D1C03
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 06:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Orj32nB+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702103082; x=1733639082;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zNB6b/M57px8o5ziP42gtE2rU7ZpP+HT0VHm/EYm4ZI=;
-  b=Orj32nB+s6ripKmwFUB3E8//VA4lqrv8cCN1M42CXtU6caO+kbKS2jLG
-   9Z2TX428NCnm8+8mhQE3Y129VmfufsYkHbZWQLemmiR+c12U7Jl3ax1q6
-   Cl8RbrXqetp0jSwGY3Yj12y25dc+MDtXJ702BmTRdd2UAtKtNy5mmttoQ
-   eNNiyIl4hqNbguC38cUE982MdCGDNyzYWGtnCoOqxqwr0imSBnczdvUtc
-   vOFIj4SMRVKOw0qMBicKpfsyxtG9pY6z4SF6wJ8Uk+oDMYuVZoQwdCZuZ
-   y/ffhxFZN7StTLo0eLP6lyJnrUuYMV9PjkzBHP1K3VbqMFhT3cIR02up/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1371178"
-X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="1371178"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 22:24:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="765728238"
-X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="765728238"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 08 Dec 2023 22:24:39 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rBqjn-000EvN-0F;
-	Sat, 09 Dec 2023 06:24:02 +0000
-Date: Sat, 9 Dec 2023 14:22:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lubomir Rintel <lkundrak@v3.sk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>
-Subject: drivers/phy/marvell/phy-mmp3-hsic.c:61:31: sparse: sparse: cast
- removes address space '__iomem' of expression
-Message-ID: <202312091417.wmY8IiVm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b7rtxpZM"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40c3ceded81so3137345e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 08 Dec 2023 22:53:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702104824; x=1702709624; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=27fCHLUa4kUDvPQVbE+1w2YS5g7FkXV060e7T4s0mZE=;
+        b=b7rtxpZM6eKOsW9e7q/+7qy4JgqWz1eq2HSw4runYwRNKiCp1cqR5YBKPbGiPOhxVW
+         eHLaJ035Mr1O0vnjW5Y6v7V9yCJJ35XVWLnNVqgbVQz1jYB8euzRkRhIc0bh1NwG1QpB
+         ZfYI3MPrDVvaFIgmbCu54k3/z947Afa7JPkA8SwNYpNAoQJfsrZhvIkpah7yqWfSQ+6t
+         Q/xXKDtuCbYMxHZHZJ4bL9X4jzcNWjVAiODVWXK2kiJdaIwaPhWsVk4KzZusYzHDYuFo
+         Hf6Bp426+CB7YwQrdHhlA0rW3df8ERT0rSTsHHuGikMzOdKv6GLiIoD6vpYW1h21pIhx
+         B2Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702104824; x=1702709624;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=27fCHLUa4kUDvPQVbE+1w2YS5g7FkXV060e7T4s0mZE=;
+        b=dOUwe1avfjGLgzNxXyn7GvwEMX0iA6MsF28YisKCXJyAL9rMsEtnqLQCpT18kaIJat
+         ljLq6yoT7mc4wpLYhTYyoh1IP2U66Ocw9ei4ibpWFs40I9pdpdP5bZuKA2tjjtqQCi9Y
+         ingb+Y4nWZd9Tw0xqKBdWtsBU6fIA1Jgimwp2XTni6YscTWBpK+3/gxONXswIhHk4Zr3
+         PVwXNnAnzKokYzURYf4FE1xaa+bRilymoMmkbjavBtVwlE9MuQvEGH3RqlE3eZ0jTvso
+         avqYnlue3NOricR04JA9ffEudPxRGlRzmwPsMkSxA1W7TZwTo70jsovFrNQLeMZjM3hh
+         lcsA==
+X-Gm-Message-State: AOJu0YyvDybdO+0ymuJw6inAPkUW9fCAXKB3DnfgFxK5dg8ypF/8UNjv
+	Bjqi0+088NutDN99TP8cPITx/w==
+X-Google-Smtp-Source: AGHT+IEIQ1SNS311RaYj5If/4xi5+/rSPck3nXd3hzicSBW8VuZz6UwTsNjF2kXqF810V0JsNEX7dQ==
+X-Received: by 2002:a7b:c7d5:0:b0:40c:2bab:3d27 with SMTP id z21-20020a7bc7d5000000b0040c2bab3d27mr481651wmk.8.1702104823906;
+        Fri, 08 Dec 2023 22:53:43 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id w10-20020a05600c474a00b0040b2c195523sm7393926wmo.31.2023.12.08.22.53.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 22:53:43 -0800 (PST)
+Date: Sat, 9 Dec 2023 09:53:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org
+Subject: Re: arch/arc/kernel/setup.c:203 arcv2_mumbojumbo() error:
+ uninitialized symbol 'release'.
+Message-ID: <2fe769ff-a6f9-468e-9449-28731f8f966d@suswa.mountain>
+References: <c2148229-bea9-40ef-bbf3-6019555f3f1a@suswa.mountain>
+ <b78607e5-6965-4e7f-b43a-c1ca58eecf89@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,68 +59,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b78607e5-6965-4e7f-b43a-c1ca58eecf89@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
-commit: 0347c69214f4b600f40c0dc58945dc2798e2b3d9 phy: Add USB HSIC PHY driver for Marvell MMP3 SoC
-date:   3 years, 1 month ago
-config: openrisc-randconfig-r131-20231102 (https://download.01.org/0day-ci/archive/20231209/202312091417.wmY8IiVm-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231209/202312091417.wmY8IiVm-lkp@intel.com/reproduce)
+On Fri, Dec 08, 2023 at 04:33:44PM -0800, Vineet Gupta wrote:
+> On 11/27/23 22:22, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   2cc14f52aeb78ce3f29677c2de1f06c0e91471ab
+> > commit: fad84e39f116035ae8d550c6020107b8ac113b45 ARC: boot log: eliminate struct cpuinfo_arc #4: boot log per ISA
+> > config: arc-randconfig-r071-20231128 (https://download.01.org/0day-ci/archive/20231128/202311280906.VAIwEAfT-lkp@intel.com/config)
+> > compiler: arceb-elf-gcc (GCC) 13.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20231128/202311280906.VAIwEAfT-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Closes: https://lore.kernel.org/r/202311280906.VAIwEAfT-lkp@intel.com/
+> >
+> > New smatch warnings:
+> > arch/arc/kernel/setup.c:203 arcv2_mumbojumbo() error: uninitialized symbol 'release'.
+> 
+> Thx, I've posted a fix.
+> 
+> > Old smatch warnings:
+> > arch/arc/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
+> 
+> This seems like a false warning. Its a register variable and thus can't
+> possibly be initialized.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312091417.wmY8IiVm-lkp@intel.com/
+Yeah.  Sorry, I normally delete these but I somehow forgot this time.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/phy/marvell/phy-mmp3-hsic.c:61:31: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/phy/marvell/phy-mmp3-hsic.c: note: in included file (through arch/openrisc/include/asm/io.h, include/linux/io.h):
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [usertype] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [usertype]
+regards,
+dan carpenter
 
-vim +/__iomem +61 drivers/phy/marvell/phy-mmp3-hsic.c
-
-    39	
-    40	static int mmp3_hsic_phy_probe(struct platform_device *pdev)
-    41	{
-    42		struct device *dev = &pdev->dev;
-    43		struct phy_provider *provider;
-    44		struct resource *resource;
-    45		void __iomem *base;
-    46		struct phy *phy;
-    47	
-    48		resource = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-    49		base = devm_ioremap_resource(dev, resource);
-    50		if (IS_ERR(base)) {
-    51			dev_err(dev, "failed to remap PHY regs\n");
-    52			return PTR_ERR(base);
-    53		}
-    54	
-    55		phy = devm_phy_create(dev, NULL, &mmp3_hsic_phy_ops);
-    56		if (IS_ERR(phy)) {
-    57			dev_err(dev, "failed to create PHY\n");
-    58			return PTR_ERR(phy);
-    59		}
-    60	
-  > 61		phy_set_drvdata(phy, (void *)base);
-    62		provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
-    63		if (IS_ERR(provider)) {
-    64			dev_err(dev, "failed to register PHY provider\n");
-    65			return PTR_ERR(provider);
-    66		}
-    67	
-    68		return 0;
-    69	}
-    70	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
