@@ -1,58 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4BA1A5B5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 22:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D15F1B29E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 23:01:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/ETPctC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOy3V829"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702160934; x=1733696934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=go2OpyoHuQJfkvWrYMKtRz7dEGNntOkffUckFpnEvWM=;
-  b=C/ETPctCs/T644lnc6pG+LnlxYjIx7yKFtYlgsHB7fDs8+I4zNz5omTD
-   pOQZp5eBfZuloRMxTTnVOFl31qZxwI1q09XwEsTw6PM2M2jqxJPdKv3Rg
-   DqyEQU+ONAKXy+HxLKdccdFKLmEKLlyHEKrOuGCSAVwP/XNwtXh+RUPW5
-   QgPQWbLb3Tuj5fWYV9Kvv9RrfYuWgWPrNH9uVfBUS8gyMfiVvuMBFF3WU
-   cMuEpBiM6cN+EJq4jQTa5VHe0PKJrEuBQ43ppNaFAroXEjFb8JNjohp+s
-   q2kOfQdOEDHztAVtxq7gk0JnQXPMpGxf8NgHOv3SCHNFb0DLPG6/hVocM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="398389817"
+  t=1702162916; x=1733698916;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EnDubmjACSWPbF08w3YYY0HD5ZXALSIsPG7blTFGysU=;
+  b=NOy3V829hs0WIpDzH3Vg5c4SyTolKnJ9hcCiuB+0N6VKyt8aqclvLJ2R
+   EsXdwRcjQVgIfgENgGRAHdFj/zFZBk2l8PbKZwyAt/3uwpPAPgZSrSJii
+   AkFdu6VLs5QwIX6qvVAYxKA2w/EE3jzm1yHNkvKdeVNMwP/6bvU1vUDvV
+   EJ5CFPL4qLtPSskGatt0P4qNpjY3XUYeTctngCOamyxSCP7P7wliITNSN
+   ZdJLbMv2nAdM1Gt2R9/YSJr+n/1iJ68ICMWI/N2zoi8z15S2ZHMDT9AuH
+   q0IP0CnCBDIl7mNbuQUDJv1fqEJLUTC9A33T4387XjnOEg8tuIb3jhU3h
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1401590"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="398389817"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 14:28:52 -0800
+   d="scan'208";a="1401590"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 15:01:55 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="772505822"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="895925733"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="772505822"
+   d="scan'208";a="895925733"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 09 Dec 2023 14:28:45 -0800
+  by orsmga004.jf.intel.com with ESMTP; 09 Dec 2023 15:01:51 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC5oR-000G2z-0M;
-	Sat, 09 Dec 2023 22:28:43 +0000
-Date: Sun, 10 Dec 2023 06:28:38 +0800
+	id 1rC6KT-000G4x-0J;
+	Sat, 09 Dec 2023 23:01:49 +0000
+Date: Sun, 10 Dec 2023 07:00:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
-	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	mhocko@kernel.org, tj@kernel.org, ying.huang@intel.com,
-	gregory.price@memverge.com, corbet@lwn.net, rakie.kim@sk.com,
-	hyeongtak.ji@sk.com, honggyu.kim@sk.com, vtavarespetr@micron.com,
-	peterz@infradead.org, jgroves@micron.com, ravis.opensrc@micron.com,
-	sthanneeru@micron.com, emirakhur@micron.com, Hasan.Maruf@amd.com
-Subject: Re: [PATCH v2 11/11] mm/mempolicy: extend set_mempolicy2 and mbind2
- to support weighted interleave
-Message-ID: <202312100606.2aOpv2T5-lkp@intel.com>
-References: <20231209065931.3458-12-gregory.price@memverge.com>
+To: Jack Brennen <jbrennen@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: WARNING: modpost: drivers/watchdog/at91sam9_wdt: section mismatch in
+ reference: at91wdt_driver+0x4 (section: .data) -> at91wdt_driver_exit
+ (section: .exit.text)
+Message-ID: <202312100601.WtR8QPq5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,137 +51,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231209065931.3458-12-gregory.price@memverge.com>
 
-Hi Gregory,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master v6.7-rc4]
-[cannot apply to tip/x86/asm geert-m68k/for-next geert-m68k/for-linus next-20231208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231209-150314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231209065931.3458-12-gregory.price%40memverge.com
-patch subject: [PATCH v2 11/11] mm/mempolicy: extend set_mempolicy2 and mbind2 to support weighted interleave
-config: x86_64-randconfig-123-20231210 (https://download.01.org/0day-ci/archive/20231210/202312100606.2aOpv2T5-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100606.2aOpv2T5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   21b73ffcc62ab772bc06e3e90bd87eff5e9e8ed4
+commit: 4074532758c5c367d3fcb8d124150824a254659d modpost: Optimize symbol search from linear to binary search
+date:   10 weeks ago
+config: xtensa-randconfig-r021-20220808 (https://download.01.org/0day-ci/archive/20231210/202312100601.WtR8QPq5-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100601.WtR8QPq5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312100606.2aOpv2T5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100601.WtR8QPq5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/mempolicy.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/rcupdate.h:778:9: sparse: sparse: context imbalance in 'queue_folios_pte_range' - unexpected unlock
-   mm/mempolicy.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
-   arch/x86/include/asm/uaccess_64.h:88:24: sparse: sparse: cast removes address space '__user' of expression
->> mm/mempolicy.c:1681:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char *weights_ptr @@     got void [noderef] __user * @@
-   mm/mempolicy.c:1681:29: sparse:     expected unsigned char *weights_ptr
-   mm/mempolicy.c:1681:29: sparse:     got void [noderef] __user *
->> mm/mempolicy.c:1684:45: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void const [noderef] __user *src @@     got unsigned char *weights_ptr @@
-   mm/mempolicy.c:1684:45: sparse:     expected void const [noderef] __user *src
-   mm/mempolicy.c:1684:45: sparse:     got unsigned char *weights_ptr
-   mm/mempolicy.c:2042:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char *weights_ptr @@     got void [noderef] __user * @@
-   mm/mempolicy.c:2042:29: sparse:     expected unsigned char *weights_ptr
-   mm/mempolicy.c:2042:29: sparse:     got void [noderef] __user *
->> mm/mempolicy.c:2043:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char *weights_ptr @@
-   mm/mempolicy.c:2043:36: sparse:     expected void [noderef] __user *to
-   mm/mempolicy.c:2043:36: sparse:     got unsigned char *weights_ptr
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +1681 mm/mempolicy.c
-
-  1629	
-  1630	SYSCALL_DEFINE5(mbind2, const struct iovec __user *, vec, size_t, vlen,
-  1631			const struct mpol_args __user *, uargs, size_t, usize,
-  1632			unsigned long, flags)
-  1633	{
-  1634		struct mpol_args kargs;
-  1635		struct mempolicy_args margs;
-  1636		nodemask_t policy_nodes;
-  1637		unsigned long __user *nodes_ptr;
-  1638		struct iovec iovstack[UIO_FASTIOV];
-  1639		struct iovec *iov = iovstack;
-  1640		struct iov_iter iter;
-  1641		unsigned char weights[MAX_NUMNODES];
-  1642		unsigned char *weights_ptr;
-  1643		int err;
-  1644	
-  1645		if (!vec || !vlen)
-  1646			return -EINVAL;
-  1647	
-  1648		err = copy_struct_from_user(&kargs, sizeof(kargs), uargs, usize);
-  1649		if (err)
-  1650			return -EINVAL;
-  1651	
-  1652		err = validate_mpol_flags(kargs.mode, &kargs.mode_flags);
-  1653		if (err)
-  1654			return err;
-  1655	
-  1656		margs.mode = kargs.mode;
-  1657		margs.mode_flags = kargs.mode_flags;
-  1658		margs.addr = kargs.addr;
-  1659	
-  1660		/* if home node given, validate it is online */
-  1661		if (flags & MPOL_MF_HOME_NODE) {
-  1662			if ((kargs.home_node >= MAX_NUMNODES) ||
-  1663				!node_online(kargs.home_node))
-  1664				return -EINVAL;
-  1665			margs.home_node = kargs.home_node;
-  1666		} else
-  1667			margs.home_node = NUMA_NO_NODE;
-  1668		flags &= ~MPOL_MF_HOME_NODE;
-  1669	
-  1670		if (kargs.pol_nodes) {
-  1671			nodes_ptr = u64_to_user_ptr(kargs.pol_nodes);
-  1672			err = get_nodes(&policy_nodes, nodes_ptr,
-  1673					kargs.pol_maxnodes);
-  1674			if (err)
-  1675				return err;
-  1676			margs.policy_nodes = &policy_nodes;
-  1677		} else
-  1678			margs.policy_nodes = NULL;
-  1679	
-  1680		if (kargs.mode == MPOL_WEIGHTED_INTERLEAVE) {
-> 1681			weights_ptr = u64_to_user_ptr(kargs.il_weights);
-  1682			err = copy_struct_from_user(&weights,
-  1683						    sizeof(weights),
-> 1684						    weights_ptr,
-  1685						    kargs.pol_maxnodes);
-  1686			if (err)
-  1687				return err;
-  1688			margs.il_weights = weights;
-  1689		} else {
-  1690			margs.il_weights = NULL;
-  1691			flags |= MPOL_F_GWEIGHT;
-  1692		}
-  1693	
-  1694		/* For each address range in vector, do_mbind */
-  1695		err = import_iovec(ITER_DEST, vec, vlen, ARRAY_SIZE(iovstack), &iov,
-  1696				   &iter);
-  1697		if (err)
-  1698			return err;
-  1699		while (iov_iter_count(&iter)) {
-  1700			unsigned long start, len;
-  1701	
-  1702			start = untagged_addr((unsigned long)iter_iov_addr(&iter));
-  1703			len = iter_iov_len(&iter);
-  1704			err = do_mbind(start, len, &margs, flags);
-  1705			if (err)
-  1706				break;
-  1707			iov_iter_advance(&iter, iter_iov_len(&iter));
-  1708		}
-  1709	
-  1710		kfree(iov);
-  1711		return err;
-  1712	}
-  1713	
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-mc33880.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-spear.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-visconti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/dwc/pci-exynos.o
+WARNING: modpost: drivers/pci/controller/dwc/pci-exynos: section mismatch in reference: exynos_pcie_driver+0x4 (section: .data) -> exynos_pcie_driver_exit (section: .exit.text)
+WARNING: modpost: drivers/pci/controller/dwc/pcie-kirin: section mismatch in reference: kirin_pcie_driver+0x4 (section: .data) -> kirin_pcie_driver_exit (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mediatek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mediatek-gen3.o
+WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/encoder-tfp410: section mismatch in reference: tfp410_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
+WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015: section mismatch in reference: tpd_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
+WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/connector-dvi: section mismatch in reference: dvi_connector_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
+WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv: section mismatch in reference: tvc_connector_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
+WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/panel-dpi: section mismatch in reference: panel_dpi_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/via/viafb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/kyro/kyrofb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-ipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/lpass-gfm-sm8250.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/videocc-sdm845.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sunxi-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/suniv-f1c100s-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h616-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun4i-a10-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a23-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a83t-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-h3-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma_mgmt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-novatek-nt39016.o
+WARNING: modpost: drivers/gpu/drm/bridge/ti-tpd12s015: section mismatch in reference: tpd12s015_driver+0x4 (section: .data) -> tpd12s015_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ac97.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-fsl-lib.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
+WARNING: modpost: drivers/rtc/rtc-at91rm9200: section mismatch in reference: at91_rtc_driver+0x4 (section: .data) -> at91_rtc_driver_exit (section: .exit.text)
+WARNING: modpost: drivers/rtc/rtc-pcap: section mismatch in reference: pcap_rtc_driver+0x4 (section: .data) -> pcap_rtc_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/ttpci/budget-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
+>> WARNING: modpost: drivers/watchdog/at91sam9_wdt: section mismatch in reference: at91wdt_driver+0x4 (section: .data) -> at91wdt_driver_exit (section: .exit.text)
+WARNING: modpost: drivers/mmc/host/davinci_mmc: section mismatch in reference: davinci_mmcsd_driver+0x8 (section: .data) -> davinci_mmcsd_driver_exit (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/xilinx/zynqmp-aes-gcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
 
 -- 
 0-DAY CI Kernel Test Service
