@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C32979F1
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 10:42:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0DC13FED
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 11:36:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8Naa9VT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOvxDmS3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702118547; x=1733654547;
+  t=1702121778; x=1733657778;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aosUpJKuMFxNlIJ4PLGysshgVVjbb0r15RASPFtHmbA=;
-  b=d8Naa9VTAzjB8t4K7X5MuOfenVhNX4vFO1p5G6bh/YAUV5KKA8dGKkeq
-   63IzyLqoxjm+3vwirQOLeh9Fq24I/qPYCovDG1hxqV9tfxsu68Hx7qmT7
-   hxIQekovf70wAwfpfe5l9gq6DMz34Faay+HLLi98+ePktp3eoQ/kI1drK
-   UDW/G3YzYq3oZ4gUkYRpp6x5mRX4DxhsjXhZuUgLrafD8PYk67x3lvFZH
-   NngS9Tz3lTo1zQhPhg31o/JT/mJu1KCuolcGN7rzpf2pJwCuknK51I3pX
-   t6dRbH/2WxsWHVhA7g61kj+b8fwdlnvVDbZ1jXF9cdKjhz+1A/GzderOn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="397297813"
+  bh=6H4hUz1uOtUuFXAePyGh3wdpMDe//yvf1mPaHfsj9Aw=;
+  b=GOvxDmS32t3lOoGVON5CjX5fmS1KQkIEafc50Mwy58HlcZ6BHRjn9/qc
+   m2uXs1YPwGVzqHJCXJJ6toVkTqfMTkKtQDA/29JcSuBzZxzVALOtazNFh
+   a68h8gj6F1cZFfhpZyqq4kKc5dsBAqsJqIwyWQA34wVhqCf98ylAjps1D
+   u05FUAKxuTrRJrdqpdHxE0ngev09gYktRR7Ke6hG8M1siYKgffGfxyOaQ
+   8yAzIUXwjjZXsmFRQSR5HHPfS/dLcI4KTcXcsGRiC3VTMDC0QR1IBikUM
+   toSqUI2yDaQ5BsxzAn4t5vMa7CRBYYmnmrijSkfVfksTXztHLCoTV+EDF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="425638008"
 X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="397297813"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 02:42:26 -0800
+   d="scan'208";a="425638008"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 03:36:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="890451355"
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1103855927"
 X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="890451355"
+   d="scan'208";a="1103855927"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2023 02:42:24 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 09 Dec 2023 03:36:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBumo-000FF3-14;
-	Sat, 09 Dec 2023 10:42:19 +0000
-Date: Sat, 9 Dec 2023 18:41:18 +0800
+	id 1rBvcy-000FI4-1K;
+	Sat, 09 Dec 2023 11:36:12 +0000
+Date: Sat, 9 Dec 2023 19:35:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linux-usb@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	kernel@collabora.com
-Subject: Re: [PATCH v2] usb: gadget: webcam: Make g_webcam loadable again
-Message-ID: <202312091825.1MSZeBRA-lkp@intel.com>
-References: <20231208131342.65671-1-andrzej.p@collabora.com>
+To: Kamal Dasu <kamal.dasu@broadcom.com>, ulf.hansson@linaro.org,
+	linux-kernel@vger.kernel.org, alcooperx@gmail.com,
+	linux-arm-kernel@lists.infradead.org, adrian.hunter@intel.com,
+	linux-mmc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, f.fainelli@gmail.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	Kamal Dasu <kdasu@broadcom.com>
+Subject: Re: [PATCH 2/2] mmc: add new sdhci reset sequence for brcm 74165b0
+Message-ID: <202312091905.UGzltx8A-lkp@intel.com>
+References: <20231208202108.7468-2-kamal.dasu@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,152 +57,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231208131342.65671-1-andrzej.p@collabora.com>
+In-Reply-To: <20231208202108.7468-2-kamal.dasu@broadcom.com>
 
-Hi Andrzej,
+Hi Kamal,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 33cc938e65a98f1d29d0a18403dbbee050dcad9a]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on soc/for-next linus/master v6.7-rc4 next-20231208]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrzej-Pietrasiewicz/usb-gadget-webcam-Make-g_webcam-loadable-again/20231208-211513
-base:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-patch link:    https://lore.kernel.org/r/20231208131342.65671-1-andrzej.p%40collabora.com
-patch subject: [PATCH v2] usb: gadget: webcam: Make g_webcam loadable again
-config: x86_64-randconfig-r111-20231209 (https://download.01.org/0day-ci/archive/20231209/202312091825.1MSZeBRA-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091825.1MSZeBRA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamal-Dasu/mmc-add-new-sdhci-reset-sequence-for-brcm-74165b0/20231209-042222
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20231208202108.7468-2-kamal.dasu%40broadcom.com
+patch subject: [PATCH 2/2] mmc: add new sdhci reset sequence for brcm 74165b0
+config: nios2-randconfig-r133-20231209 (https://download.01.org/0day-ci/archive/20231209/202312091905.UGzltx8A-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231209/202312091905.UGzltx8A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312091825.1MSZeBRA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312091905.UGzltx8A-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mmc/host/sdhci-brcmstb.c:237:17: sparse: sparse: incorrect type in initializer (different modifiers) @@     expected struct sdhci_ops *ops @@     got struct sdhci_ops const * @@
+   drivers/mmc/host/sdhci-brcmstb.c:237:17: sparse:     expected struct sdhci_ops *ops
+   drivers/mmc/host/sdhci-brcmstb.c:237:17: sparse:     got struct sdhci_ops const *
 
->> drivers/usb/gadget/legacy/webcam.c:224:17: error: initializer element is not constant
-      .b_length   = uvc_frame_yuv_360p.bLength,
-                    ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:224:17: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_length')
-   drivers/usb/gadget/legacy/webcam.c:225:25: error: initializer element is not constant
-      .b_descriptor_type  = uvc_frame_yuv_360p.bDescriptorType,
-                            ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:225:25: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_descriptor_type')
-   drivers/usb/gadget/legacy/webcam.c:226:28: error: initializer element is not constant
-      .b_descriptor_subtype  = uvc_frame_yuv_360p.bDescriptorSubType,
-                               ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:226:28: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_descriptor_subtype')
-   drivers/usb/gadget/legacy/webcam.c:227:22: error: initializer element is not constant
-      .b_frame_index   = uvc_frame_yuv_360p.bFrameIndex,
-                         ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:227:22: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_frame_index')
-   drivers/usb/gadget/legacy/webcam.c:228:23: error: initializer element is not constant
-      .bm_capabilities  = uvc_frame_yuv_360p.bmCapabilities,
-                          ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:228:23: note: (near initialization for 'uvcg_frame_yuv_360p.frame.bm_capabilities')
-   drivers/usb/gadget/legacy/webcam.c:229:16: error: initializer element is not constant
-      .w_width   = uvc_frame_yuv_360p.wWidth,
-                   ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:229:16: note: (near initialization for 'uvcg_frame_yuv_360p.frame.w_width')
-   drivers/usb/gadget/legacy/webcam.c:230:17: error: initializer element is not constant
-      .w_height   = uvc_frame_yuv_360p.wHeight,
-                    ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:230:17: note: (near initialization for 'uvcg_frame_yuv_360p.frame.w_height')
-   drivers/usb/gadget/legacy/webcam.c:231:23: error: initializer element is not constant
-      .dw_min_bit_rate  = uvc_frame_yuv_360p.dwMinBitRate,
-                          ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:231:23: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_min_bit_rate')
-   drivers/usb/gadget/legacy/webcam.c:232:23: error: initializer element is not constant
-      .dw_max_bit_rate  = uvc_frame_yuv_360p.dwMaxBitRate,
-                          ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:232:23: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_max_bit_rate')
-   drivers/usb/gadget/legacy/webcam.c:233:37: error: initializer element is not constant
-      .dw_max_video_frame_buffer_size = uvc_frame_yuv_360p.dwMaxVideoFrameBufferSize,
-                                        ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:233:37: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_max_video_frame_buffer_size')
-   drivers/usb/gadget/legacy/webcam.c:234:32: error: initializer element is not constant
-      .dw_default_frame_interval = uvc_frame_yuv_360p.dwDefaultFrameInterval,
-                                   ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:234:32: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_default_frame_interval')
-   drivers/usb/gadget/legacy/webcam.c:235:29: error: initializer element is not constant
-      .b_frame_interval_type  = uvc_frame_yuv_360p.bFrameIntervalType,
-                                ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:235:29: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_frame_interval_type')
-   drivers/usb/gadget/legacy/webcam.c:263:17: error: initializer element is not constant
-      .b_length   = uvc_frame_yuv_720p.bLength,
-                    ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:263:17: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_length')
-   drivers/usb/gadget/legacy/webcam.c:264:25: error: initializer element is not constant
-      .b_descriptor_type  = uvc_frame_yuv_720p.bDescriptorType,
-                            ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:264:25: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_descriptor_type')
-   drivers/usb/gadget/legacy/webcam.c:265:28: error: initializer element is not constant
-      .b_descriptor_subtype  = uvc_frame_yuv_720p.bDescriptorSubType,
-                               ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:265:28: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_descriptor_subtype')
-   drivers/usb/gadget/legacy/webcam.c:266:22: error: initializer element is not constant
-      .b_frame_index   = uvc_frame_yuv_720p.bFrameIndex,
-                         ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:266:22: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_frame_index')
-   drivers/usb/gadget/legacy/webcam.c:267:23: error: initializer element is not constant
-      .bm_capabilities  = uvc_frame_yuv_720p.bmCapabilities,
-                          ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:267:23: note: (near initialization for 'uvcg_frame_yuv_720p.frame.bm_capabilities')
-   drivers/usb/gadget/legacy/webcam.c:268:16: error: initializer element is not constant
-      .w_width   = uvc_frame_yuv_720p.wWidth,
-                   ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:268:16: note: (near initialization for 'uvcg_frame_yuv_720p.frame.w_width')
-   drivers/usb/gadget/legacy/webcam.c:269:17: error: initializer element is not constant
-      .w_height   = uvc_frame_yuv_720p.wHeight,
-                    ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:269:17: note: (near initialization for 'uvcg_frame_yuv_720p.frame.w_height')
-   drivers/usb/gadget/legacy/webcam.c:270:23: error: initializer element is not constant
-      .dw_min_bit_rate  = uvc_frame_yuv_720p.dwMinBitRate,
-                          ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:270:23: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_min_bit_rate')
-   drivers/usb/gadget/legacy/webcam.c:271:23: error: initializer element is not constant
-      .dw_max_bit_rate  = uvc_frame_yuv_720p.dwMaxBitRate,
-                          ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:271:23: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_max_bit_rate')
-   drivers/usb/gadget/legacy/webcam.c:272:37: error: initializer element is not constant
-      .dw_max_video_frame_buffer_size = uvc_frame_yuv_720p.dwMaxVideoFrameBufferSize,
-                                        ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:272:37: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_max_video_frame_buffer_size')
-   drivers/usb/gadget/legacy/webcam.c:273:32: error: initializer element is not constant
-      .dw_default_frame_interval = uvc_frame_yuv_720p.dwDefaultFrameInterval,
-                                   ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:273:32: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_default_frame_interval')
-   drivers/usb/gadget/legacy/webcam.c:274:29: error: initializer element is not constant
-      .b_frame_interval_type  = uvc_frame_yuv_720p.bFrameIntervalType,
-                                ^~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:274:29: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_frame_interval_type')
-   drivers/usb/gadget/legacy/webcam.c:332:17: error: initializer element is not constant
-      .b_length   = uvc_frame_mjpg_360p.bLength,
-                    ^~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:332:17: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.b_length')
-   drivers/usb/gadget/legacy/webcam.c:333:25: error: initializer element is not constant
+vim +237 drivers/mmc/host/sdhci-brcmstb.c
 
-
-vim +224 drivers/usb/gadget/legacy/webcam.c
-
-   220	
-   221	static const struct uvcg_frame uvcg_frame_yuv_360p = {
-   222		.fmt_type		= UVCG_UNCOMPRESSED,
-   223		.frame = {
- > 224			.b_length			= uvc_frame_yuv_360p.bLength,
-   225			.b_descriptor_type		= uvc_frame_yuv_360p.bDescriptorType,
-   226			.b_descriptor_subtype		= uvc_frame_yuv_360p.bDescriptorSubType,
-   227			.b_frame_index			= uvc_frame_yuv_360p.bFrameIndex,
-   228			.bm_capabilities		= uvc_frame_yuv_360p.bmCapabilities,
-   229			.w_width			= uvc_frame_yuv_360p.wWidth,
-   230			.w_height			= uvc_frame_yuv_360p.wHeight,
-   231			.dw_min_bit_rate		= uvc_frame_yuv_360p.dwMinBitRate,
-   232			.dw_max_bit_rate		= uvc_frame_yuv_360p.dwMaxBitRate,
-   233			.dw_max_video_frame_buffer_size	= uvc_frame_yuv_360p.dwMaxVideoFrameBufferSize,
-   234			.dw_default_frame_interval	= uvc_frame_yuv_360p.dwDefaultFrameInterval,
-   235			.b_frame_interval_type		= uvc_frame_yuv_360p.bFrameIntervalType,
-   236		},
-   237		.dw_frame_interval	= (u32 *)uvc_frame_yuv_360p.dwFrameInterval,
+   233	
+   234	static const struct brcmstb_match_priv match_priv_74165b0 = {
+   235		.flags = BRCMSTB_MATCH_FLAGS_HAS_CLOCK_GATE,
+   236		.hs400es = sdhci_brcmstb_hs400es,
+ > 237		.ops = &sdhci_brcmstb_ops_74165b0,
    238	};
    239	
 
