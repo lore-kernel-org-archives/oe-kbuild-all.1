@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2280187C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D25418E04
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 17:53:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P0vYBXeL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuZahY5d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1702144385; x=1733680385;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LXk6ZDv98MfSOw8eys7/E8Ag8zozIdZauYuu1Jdm5fA=;
-  b=P0vYBXeLJ/TiWEp/iJ0iAvDVcNcIFdGHZvPm+2RaPG+RoHRgoy0y+HPV
-   WTk5zY7lor+OS6bM0dd9NBmG3hVicjVVN1fMa2+zX0ItF9Ov7KkjVFEdZ
-   csWETU/psaVwfhy5aVAcXasPaUQBxmsALTHK5/vi+0Kh3q266l5mXq0/S
-   7R2gJgXwL9cKt2TP/GKAIneGiCmi3UxijaUwADQW70PXLAHk8ycLzm1RL
-   +GHO55oiR07hD319UBUvCTobh2XENMmEubrJotZbqUsxV0n3qv/EF08B8
-   bfMA2kQWi1S9kizuikI5vNLbcJeV1/NKnoCV3r4cy/TaZjBo2BDIDEiLn
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QpDrM0O3Ur3ce9toIXQ4qh/vIe/vcwNMZ9nklHA68Tk=;
+  b=ZuZahY5dQVu1r0U5In5VQopdXnaAA4vWWqc/qc83L2udCMxT0xdg871T
+   0cI2t8c6WPI3FAOqPPTgcsZqjiGWnbfhWVfNLG3blQyByxHAxhGmtr77g
+   D+4h5qnV7RLDvLHfAGM6TMMtqpj9VEPd/ckBeT/oVu/9b7fFCPYrntEGe
+   KlL4SFGnfwIMcV4nuo0idG932XiCLtLBHnX6Wu8fqHmuk7z1xa+fYExW9
+   BqTimEOjdo4yzDBjRNP9uquVoGVlH/3igprGVEREPnm6h5KqtbvMGtZ87
+   LI4DFlcsUqrDNTbDWYThq0x1YJ3K9WVlQvwfR7M3KEuUbNUjlb5C5qVYE
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1643504"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1393998"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="1643504"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 09:53:04 -0800
+   d="scan'208";a="1393998"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 09:53:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="895873977"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1103914553"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="895873977"
+   d="scan'208";a="1103914553"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 09 Dec 2023 09:53:02 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 09 Dec 2023 09:53:02 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC1Vc-000Fi7-1i;
+	id 1rC1Vc-000Fi9-1n;
 	Sat, 09 Dec 2023 17:53:00 +0000
-Date: Sun, 10 Dec 2023 01:52:05 +0800
+Date: Sun, 10 Dec 2023 01:52:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Adrian Hunter <adrian.hunter@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC V2 4/4] coresight: Have a stab at support for pause /
- resume
-Message-ID: <202312100131.QphwFtTa-lkp@intel.com>
-References: <20231208172449.35444-5-adrian.hunter@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jens Axboe <axboe@kernel.dk>
+Subject: io_uring/poll.c:819:40: sparse: sparse: incorrect type in argument 2
+ (different base types)
+Message-ID: <202312100145.JghEFYm6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,147 +50,180 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231208172449.35444-5-adrian.hunter@intel.com>
 
-Hi Adrian,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on tip/perf/core perf-tools/perf-tools linus/master v6.7-rc4 next-20231208]
-[cannot apply to acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Hunter/perf-core-Add-aux_pause-aux_resume-aux_start_paused/20231209-013450
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20231208172449.35444-5-adrian.hunter%40intel.com
-patch subject: [PATCH RFC V2 4/4] coresight: Have a stab at support for pause / resume
-config: arm-randconfig-002-20231209 (https://download.01.org/0day-ci/archive/20231210/202312100131.QphwFtTa-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100131.QphwFtTa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
+commit: 063a007996bf725ba4c7d8741701670be9858300 io_uring: change arm poll return values
+date:   1 year, 5 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231210/202312100145.JghEFYm6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100145.JghEFYm6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312100131.QphwFtTa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100145.JghEFYm6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   io_uring/poll.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/poll.c:222:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t @@
+   io_uring/poll.c:222:38: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:222:38: sparse:     got restricted __poll_t
+   io_uring/poll.c:233:56: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:232:66: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:232:66: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:232:66: sparse:     got unsigned int
+   io_uring/poll.c:232:52: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned short @@
+   io_uring/poll.c:232:52: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:232:52: sparse:     got unsigned short
+   io_uring/poll.c:236:46: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:236:46: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:236:46: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:264:63: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:264:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
+   io_uring/poll.c:264:57: sparse:     expected restricted __poll_t [usertype] val
+   io_uring/poll.c:264:57: sparse:     got unsigned int
+   io_uring/poll.c:372:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [usertype] mask @@
+   io_uring/poll.c:372:40: sparse:     expected int mask
+   io_uring/poll.c:372:40: sparse:     got restricted __poll_t [usertype] mask
+   io_uring/poll.c:491:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:491:40: sparse:     expected int mask
+   io_uring/poll.c:491:40: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:543:45: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:543:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned int @@
+   io_uring/poll.c:543:43: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/poll.c:543:43: sparse:     got unsigned int
+   io_uring/poll.c:588:38: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
+   io_uring/poll.c:588:38: sparse:     expected int mask
+   io_uring/poll.c:588:38: sparse:     got restricted __poll_t [assigned] [usertype] mask
+   io_uring/poll.c:588:55: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int events @@     got restricted __poll_t [usertype] events @@
+   io_uring/poll.c:588:55: sparse:     expected int events
+   io_uring/poll.c:588:55: sparse:     got restricted __poll_t [usertype] events
+   io_uring/poll.c:745:24: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:745:24: sparse:    left side has type unsigned int
+   io_uring/poll.c:745:24: sparse:    right side has type restricted __poll_t
+   io_uring/poll.c:747:24: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:747:24: sparse:    left side has type unsigned int
+   io_uring/poll.c:747:24: sparse:    right side has type restricted __poll_t
+   io_uring/poll.c:749:55: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:748:29: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:748:38: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int @@
+   io_uring/poll.c:748:38: sparse:     expected restricted __poll_t
+   io_uring/poll.c:748:38: sparse:     got unsigned int
+>> io_uring/poll.c:819:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [addressable] [assigned] [usertype] result_mask @@
+   io_uring/poll.c:819:40: sparse:     expected signed int [usertype] res
+   io_uring/poll.c:819:40: sparse:     got restricted __poll_t [addressable] [assigned] [usertype] result_mask
+   io_uring/poll.c:873:38: sparse: sparse: invalid assignment: &=
+   io_uring/poll.c:873:38: sparse:    left side has type restricted __poll_t
+   io_uring/poll.c:873:38: sparse:    right side has type int
+   io_uring/poll.c:874:52: sparse: sparse: restricted __poll_t degrades to integer
+   io_uring/poll.c:874:38: sparse: sparse: invalid assignment: |=
+   io_uring/poll.c:874:38: sparse:    left side has type restricted __poll_t
+   io_uring/poll.c:874:38: sparse:    right side has type unsigned int
+   io_uring/poll.c:632:24: sparse: sparse: context imbalance in 'io_poll_find' - wrong count at exit
+   io_uring/poll.c:661:24: sparse: sparse: context imbalance in 'io_poll_file_find' - wrong count at exit
+   io_uring/poll.c:716:28: sparse: sparse: context imbalance in '__io_poll_cancel' - unexpected unlock
+   io_uring/poll.c:843:28: sparse: sparse: context imbalance in 'io_poll_remove' - unexpected unlock
 
-   drivers/hwtracing/coresight/coresight-etm-perf.c: In function 'etm_event_start':
->> drivers/hwtracing/coresight/coresight-etm-perf.c:456:13: error: 'mode' undeclared (first use in this function); did you mean 'node'?
-     456 |         if (mode & PERF_EF_RESUME) {
-         |             ^~~~
-         |             node
-   drivers/hwtracing/coresight/coresight-etm-perf.c:456:13: note: each undeclared identifier is reported only once for each function it appears in
+vim +819 io_uring/poll.c
 
-
-vim +456 drivers/hwtracing/coresight/coresight-etm-perf.c
-
-   445	
-   446	static void etm_event_start(struct perf_event *event, int flags)
-   447	{
-   448		int cpu = smp_processor_id();
-   449		struct etm_event_data *event_data;
-   450		struct etm_ctxt *ctxt = this_cpu_ptr(&etm_ctxt);
-   451		struct perf_output_handle *handle = &ctxt->handle;
-   452		struct coresight_device *sink, *csdev = per_cpu(csdev_src, cpu);
-   453		struct list_head *path;
-   454		u64 hw_id;
-   455	
- > 456		if (mode & PERF_EF_RESUME) {
-   457			if (!READ_ONCE(ctxt->pr_allowed))
-   458				return;
-   459		} else if (READ_ONCE(event->aux_paused)) {
-   460			goto out_pr_allowed;
-   461		}
-   462	
-   463		if (!csdev)
-   464			goto fail;
-   465	
-   466		/* Have we messed up our tracking ? */
-   467		if (WARN_ON(ctxt->event_data))
-   468			goto fail;
-   469	
-   470		/*
-   471		 * Deal with the ring buffer API and get a handle on the
-   472		 * session's information.
-   473		 */
-   474		event_data = perf_aux_output_begin(handle, event);
-   475		if (!event_data)
-   476			goto fail;
-   477	
-   478		/*
-   479		 * Check if this ETM is allowed to trace, as decided
-   480		 * at etm_setup_aux(). This could be due to an unreachable
-   481		 * sink from this ETM. We can't do much in this case if
-   482		 * the sink was specified or hinted to the driver. For
-   483		 * now, simply don't record anything on this ETM.
-   484		 *
-   485		 * As such we pretend that everything is fine, and let
-   486		 * it continue without actually tracing. The event could
-   487		 * continue tracing when it moves to a CPU where it is
-   488		 * reachable to a sink.
-   489		 */
-   490		if (!cpumask_test_cpu(cpu, &event_data->mask))
-   491			goto out;
-   492	
-   493		path = etm_event_cpu_path(event_data, cpu);
-   494		/* We need a sink, no need to continue without one */
-   495		sink = coresight_get_sink(path);
-   496		if (WARN_ON_ONCE(!sink))
-   497			goto fail_end_stop;
-   498	
-   499		/* Nothing will happen without a path */
-   500		if (coresight_enable_path(path, CS_MODE_PERF, handle))
-   501			goto fail_end_stop;
-   502	
-   503		/* Finally enable the tracer */
-   504		if (coresight_enable_source(csdev, CS_MODE_PERF, event))
-   505			goto fail_disable_path;
-   506	
-   507		/*
-   508		 * output cpu / trace ID in perf record, once for the lifetime
-   509		 * of the event.
-   510		 */
-   511		if (!cpumask_test_cpu(cpu, &event_data->aux_hwid_done)) {
-   512			cpumask_set_cpu(cpu, &event_data->aux_hwid_done);
-   513			hw_id = FIELD_PREP(CS_AUX_HW_ID_VERSION_MASK,
-   514					   CS_AUX_HW_ID_CURR_VERSION);
-   515			hw_id |= FIELD_PREP(CS_AUX_HW_ID_TRACE_ID_MASK,
-   516					    coresight_trace_id_read_cpu_id(cpu));
-   517			perf_report_aux_output_id(event, hw_id);
-   518		}
-   519	
-   520	out:
-   521		/* Tell the perf core the event is alive */
-   522		event->hw.state = 0;
-   523		/* Save the event_data for this ETM */
-   524		ctxt->event_data = event_data;
-   525	out_pr_allowed:
-   526		WRITE_ONCE(ctxt->pr_allowed, 1);
-   527		return;
-   528	
-   529	fail_disable_path:
-   530		coresight_disable_path(path);
-   531	fail_end_stop:
-   532		/*
-   533		 * Check if the handle is still associated with the event,
-   534		 * to handle cases where if the sink failed to start the
-   535		 * trace and TRUNCATED the handle already.
-   536		 */
-   537		if (READ_ONCE(handle->event)) {
-   538			perf_aux_output_flag(handle, PERF_AUX_FLAG_TRUNCATED);
-   539			perf_aux_output_end(handle, 0);
-   540		}
-   541	fail:
-   542		event->hw.state = PERF_HES_STOPPED;
-   543		WRITE_ONCE(ctxt->pr_allowed, 0);
-   544		return;
-   545	}
-   546	
+   734	
+   735	static __poll_t io_poll_parse_events(const struct io_uring_sqe *sqe,
+   736					     unsigned int flags)
+   737	{
+   738		u32 events;
+   739	
+   740		events = READ_ONCE(sqe->poll32_events);
+   741	#ifdef __BIG_ENDIAN
+   742		events = swahw32(events);
+   743	#endif
+   744		if (!(flags & IORING_POLL_ADD_MULTI))
+ > 745			events |= EPOLLONESHOT;
+   746		if (!(flags & IORING_POLL_ADD_LEVEL))
+   747			events |= EPOLLET;
+   748		return demangle_poll(events) |
+   749			(events & (EPOLLEXCLUSIVE|EPOLLONESHOT|EPOLLET));
+   750	}
+   751	
+   752	int io_poll_remove_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+   753	{
+   754		struct io_poll_update *upd = io_kiocb_to_cmd(req);
+   755		u32 flags;
+   756	
+   757		if (sqe->buf_index || sqe->splice_fd_in)
+   758			return -EINVAL;
+   759		flags = READ_ONCE(sqe->len);
+   760		if (flags & ~(IORING_POLL_UPDATE_EVENTS | IORING_POLL_UPDATE_USER_DATA |
+   761			      IORING_POLL_ADD_MULTI))
+   762			return -EINVAL;
+   763		/* meaningless without update */
+   764		if (flags == IORING_POLL_ADD_MULTI)
+   765			return -EINVAL;
+   766	
+   767		upd->old_user_data = READ_ONCE(sqe->addr);
+   768		upd->update_events = flags & IORING_POLL_UPDATE_EVENTS;
+   769		upd->update_user_data = flags & IORING_POLL_UPDATE_USER_DATA;
+   770	
+   771		upd->new_user_data = READ_ONCE(sqe->off);
+   772		if (!upd->update_user_data && upd->new_user_data)
+   773			return -EINVAL;
+   774		if (upd->update_events)
+   775			upd->events = io_poll_parse_events(sqe, flags);
+   776		else if (sqe->poll32_events)
+   777			return -EINVAL;
+   778	
+   779		return 0;
+   780	}
+   781	
+   782	int io_poll_add_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+   783	{
+   784		struct io_poll *poll = io_kiocb_to_cmd(req);
+   785		u32 flags;
+   786	
+   787		if (sqe->buf_index || sqe->off || sqe->addr)
+   788			return -EINVAL;
+   789		flags = READ_ONCE(sqe->len);
+   790		if (flags & ~(IORING_POLL_ADD_MULTI|IORING_POLL_ADD_LEVEL))
+   791			return -EINVAL;
+   792		if ((flags & IORING_POLL_ADD_MULTI) && (req->flags & REQ_F_CQE_SKIP))
+   793			return -EINVAL;
+   794	
+   795		poll->events = io_poll_parse_events(sqe, flags);
+   796		return 0;
+   797	}
+   798	
+   799	int io_poll_add(struct io_kiocb *req, unsigned int issue_flags)
+   800	{
+   801		struct io_poll *poll = io_kiocb_to_cmd(req);
+   802		struct io_poll_table ipt;
+   803		int ret;
+   804	
+   805		ipt.pt._qproc = io_poll_queue_proc;
+   806	
+   807		/*
+   808		 * If sqpoll or single issuer, there is no contention for ->uring_lock
+   809		 * and we'll end up holding it in tw handlers anyway.
+   810		 */
+   811		if (!(issue_flags & IO_URING_F_UNLOCKED) &&
+   812		    (req->ctx->flags & (IORING_SETUP_SQPOLL | IORING_SETUP_SINGLE_ISSUER)))
+   813			req->flags |= REQ_F_HASH_LOCKED;
+   814		else
+   815			req->flags &= ~REQ_F_HASH_LOCKED;
+   816	
+   817		ret = __io_arm_poll_handler(req, poll, &ipt, poll->events);
+   818		if (ret) {
+ > 819			io_req_set_res(req, ipt.result_mask, 0);
+   820			return IOU_OK;
+   821		}
+   822		if (ipt.error) {
+   823			req_set_fail(req);
+   824			return ipt.error;
+   825		}
+   826	
+   827		return IOU_ISSUE_SKIP_COMPLETE;
+   828	}
+   829	
 
 -- 
 0-DAY CI Kernel Test Service
