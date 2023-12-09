@@ -1,47 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D25418E04
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 17:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAA918E39
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 17:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuZahY5d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkLrELtl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702144385; x=1733680385;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QpDrM0O3Ur3ce9toIXQ4qh/vIe/vcwNMZ9nklHA68Tk=;
-  b=ZuZahY5dQVu1r0U5In5VQopdXnaAA4vWWqc/qc83L2udCMxT0xdg871T
-   0cI2t8c6WPI3FAOqPPTgcsZqjiGWnbfhWVfNLG3blQyByxHAxhGmtr77g
-   D+4h5qnV7RLDvLHfAGM6TMMtqpj9VEPd/ckBeT/oVu/9b7fFCPYrntEGe
-   KlL4SFGnfwIMcV4nuo0idG932XiCLtLBHnX6Wu8fqHmuk7z1xa+fYExW9
-   BqTimEOjdo4yzDBjRNP9uquVoGVlH/3igprGVEREPnm6h5KqtbvMGtZ87
-   LI4DFlcsUqrDNTbDWYThq0x1YJ3K9WVlQvwfR7M3KEuUbNUjlb5C5qVYE
+  t=1702144387; x=1733680387;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HwA9hXTpu4rYa8Lnzvejv74AVkq6Mfu/ugSlkhv6tT4=;
+  b=YkLrELtlp2EvQ1jW0sUHXAhXFHFes6vvOSQp844G4u1b/eeO4Kk4QLdl
+   RNMw9nxXzFkpuAB4gHemXYsc4KfDYyGeyuSKyxWb4v+62nxAUT348kiVp
+   M4568RDAfqNmQuedD8LCfH5cS5TRmmSENO9c+T9o3GBqUXjwCT37MAsRU
+   dmLjETEGuGnvzzuHlRsqI5j3Qa8aYHZ0VQOt1WrRWS3cT8MIPu3YZN7DP
+   VYkfApAc9cb5DgvbOnIX4SdIpxqlUwaWPFhokRq4AoQOo3jyvprQBMMUE
+   4Ki1uJ9dQcDkPx5X42PAIxpVHFBkCg0uiLU6CZiuPA7nJqdgUOcbDvycJ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1393998"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1643505"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="1393998"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 09:53:04 -0800
+   d="scan'208";a="1643505"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 09:53:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1103914553"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="895873980"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="1103914553"
+   d="scan'208";a="895873980"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Dec 2023 09:53:02 -0800
+  by orsmga004.jf.intel.com with ESMTP; 09 Dec 2023 09:53:02 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC1Vc-000Fi9-1n;
+	id 1rC1Vc-000Fi5-1c;
 	Sat, 09 Dec 2023 17:53:00 +0000
-Date: Sun, 10 Dec 2023 01:52:06 +0800
+Date: Sun, 10 Dec 2023 01:52:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Subject: io_uring/poll.c:819:40: sparse: sparse: incorrect type in argument 2
- (different base types)
-Message-ID: <202312100145.JghEFYm6-lkp@intel.com>
+To: Vimal Kumar <vimal.kumar32@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, chinmoyghosh2001@gmail.com,
+	badolevishal1116@gmail.com, mintupatel89@gmail.com,
+	Vimal Kumar <vimal.kumar32@gmail.com>
+Subject: Re: [PATCH] PM / sleep: Mechanism to find source aborting kernel
+ suspend transition
+Message-ID: <202312100146.Nv4INLR5-lkp@intel.com>
+References: <20231209081056.1497-1-vimal.kumar32@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,180 +57,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231209081056.1497-1-vimal.kumar32@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
-commit: 063a007996bf725ba4c7d8741701670be9858300 io_uring: change arm poll return values
-date:   1 year, 5 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231210/202312100145.JghEFYm6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100145.JghEFYm6-lkp@intel.com/reproduce)
+Hi Vimal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/acpi-bus linus/master rafael-pm/devprop v6.7-rc4 next-20231208]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vimal-Kumar/PM-sleep-Mechanism-to-find-source-aborting-kernel-suspend-transition/20231209-161237
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20231209081056.1497-1-vimal.kumar32%40gmail.com
+patch subject: [PATCH] PM / sleep: Mechanism to find source aborting kernel suspend transition
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231210/202312100146.Nv4INLR5-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100146.Nv4INLR5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312100145.JghEFYm6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100146.Nv4INLR5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   io_uring/poll.c: note: in included file (through io_uring/io_uring.h):
-   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
-   io_uring/poll.c:222:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t @@
-   io_uring/poll.c:222:38: sparse:     expected signed int [usertype] res
-   io_uring/poll.c:222:38: sparse:     got restricted __poll_t
-   io_uring/poll.c:233:56: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:232:66: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
-   io_uring/poll.c:232:66: sparse:     expected restricted __poll_t [usertype] val
-   io_uring/poll.c:232:66: sparse:     got unsigned int
-   io_uring/poll.c:232:52: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned short @@
-   io_uring/poll.c:232:52: sparse:     expected restricted __poll_t [usertype] mask
-   io_uring/poll.c:232:52: sparse:     got unsigned short
-   io_uring/poll.c:236:46: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
-   io_uring/poll.c:236:46: sparse:     expected signed int [usertype] res
-   io_uring/poll.c:236:46: sparse:     got restricted __poll_t [usertype] mask
-   io_uring/poll.c:264:63: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:264:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
-   io_uring/poll.c:264:57: sparse:     expected restricted __poll_t [usertype] val
-   io_uring/poll.c:264:57: sparse:     got unsigned int
-   io_uring/poll.c:372:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [usertype] mask @@
-   io_uring/poll.c:372:40: sparse:     expected int mask
-   io_uring/poll.c:372:40: sparse:     got restricted __poll_t [usertype] mask
-   io_uring/poll.c:491:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:491:40: sparse:     expected int mask
-   io_uring/poll.c:491:40: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:543:45: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:543:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned int @@
-   io_uring/poll.c:543:43: sparse:     expected restricted __poll_t [usertype] mask
-   io_uring/poll.c:543:43: sparse:     got unsigned int
-   io_uring/poll.c:588:38: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:588:38: sparse:     expected int mask
-   io_uring/poll.c:588:38: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:588:55: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int events @@     got restricted __poll_t [usertype] events @@
-   io_uring/poll.c:588:55: sparse:     expected int events
-   io_uring/poll.c:588:55: sparse:     got restricted __poll_t [usertype] events
-   io_uring/poll.c:745:24: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:745:24: sparse:    left side has type unsigned int
-   io_uring/poll.c:745:24: sparse:    right side has type restricted __poll_t
-   io_uring/poll.c:747:24: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:747:24: sparse:    left side has type unsigned int
-   io_uring/poll.c:747:24: sparse:    right side has type restricted __poll_t
-   io_uring/poll.c:749:55: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:748:29: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:748:38: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int @@
-   io_uring/poll.c:748:38: sparse:     expected restricted __poll_t
-   io_uring/poll.c:748:38: sparse:     got unsigned int
->> io_uring/poll.c:819:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [addressable] [assigned] [usertype] result_mask @@
-   io_uring/poll.c:819:40: sparse:     expected signed int [usertype] res
-   io_uring/poll.c:819:40: sparse:     got restricted __poll_t [addressable] [assigned] [usertype] result_mask
-   io_uring/poll.c:873:38: sparse: sparse: invalid assignment: &=
-   io_uring/poll.c:873:38: sparse:    left side has type restricted __poll_t
-   io_uring/poll.c:873:38: sparse:    right side has type int
-   io_uring/poll.c:874:52: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:874:38: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:874:38: sparse:    left side has type restricted __poll_t
-   io_uring/poll.c:874:38: sparse:    right side has type unsigned int
-   io_uring/poll.c:632:24: sparse: sparse: context imbalance in 'io_poll_find' - wrong count at exit
-   io_uring/poll.c:661:24: sparse: sparse: context imbalance in 'io_poll_file_find' - wrong count at exit
-   io_uring/poll.c:716:28: sparse: sparse: context imbalance in '__io_poll_cancel' - unexpected unlock
-   io_uring/poll.c:843:28: sparse: sparse: context imbalance in 'io_poll_remove' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +819 io_uring/poll.c
+>> drivers/base/power/wakeup.c:607:6: warning: no previous prototype for 'pm_add_abort_suspend_source' [-Wmissing-prototypes]
+     607 | void pm_add_abort_suspend_source(const char *source_name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/rculist.h:10,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/base/power/wakeup.c:9:
+   drivers/base/power/wakeup.c: In function 'pm_wakeup_pending':
+   drivers/base/power/wakeup.c:955:45: error: 'info' undeclared (first use in this function)
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                                             ^~~~
+   include/linux/list.h:778:14: note: in definition of macro 'list_for_each_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |              ^~~
+   drivers/base/power/wakeup.c:955:45: note: each undeclared identifier is reported only once for each function it appears in
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                                             ^~~~
+   include/linux/list.h:778:14: note: in definition of macro 'list_for_each_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |              ^~~
+   In file included from include/linux/bits.h:21,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/base/power/wakeup.c:9:
+   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
+     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
+     612 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
+     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/base/power/wakeup.c:955:25: note: in expansion of macro 'list_for_each_entry'
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                         ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
+     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
+     601 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~
+   drivers/base/power/wakeup.c:955:25: note: in expansion of macro 'list_for_each_entry'
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                         ^~~~~~~~~~~~~~~~~~~
+   drivers/base/power/wakeup.c:956:33: error: implicit declaration of function 'log_suspend_abort_reason' [-Werror=implicit-function-declaration]
+     956 |                                 log_suspend_abort_reason("ws or subsystem %s aborted suspend\n",
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/power/wakeup.c: In function 'pm_system_wakeup':
+   drivers/base/power/wakeup.c:967:18: error: 'MAX_SUSPEND_ABORT_LEN' undeclared (first use in this function)
+     967 |         char buf[MAX_SUSPEND_ABORT_LEN];
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/base/power/wakeup.c:967:14: warning: unused variable 'buf' [-Wunused-variable]
+     967 |         char buf[MAX_SUSPEND_ABORT_LEN];
+         |              ^~~
+   cc1: some warnings being treated as errors
 
-   734	
-   735	static __poll_t io_poll_parse_events(const struct io_uring_sqe *sqe,
-   736					     unsigned int flags)
-   737	{
-   738		u32 events;
-   739	
-   740		events = READ_ONCE(sqe->poll32_events);
-   741	#ifdef __BIG_ENDIAN
-   742		events = swahw32(events);
-   743	#endif
-   744		if (!(flags & IORING_POLL_ADD_MULTI))
- > 745			events |= EPOLLONESHOT;
-   746		if (!(flags & IORING_POLL_ADD_LEVEL))
-   747			events |= EPOLLET;
-   748		return demangle_poll(events) |
-   749			(events & (EPOLLEXCLUSIVE|EPOLLONESHOT|EPOLLET));
-   750	}
-   751	
-   752	int io_poll_remove_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-   753	{
-   754		struct io_poll_update *upd = io_kiocb_to_cmd(req);
-   755		u32 flags;
-   756	
-   757		if (sqe->buf_index || sqe->splice_fd_in)
-   758			return -EINVAL;
-   759		flags = READ_ONCE(sqe->len);
-   760		if (flags & ~(IORING_POLL_UPDATE_EVENTS | IORING_POLL_UPDATE_USER_DATA |
-   761			      IORING_POLL_ADD_MULTI))
-   762			return -EINVAL;
-   763		/* meaningless without update */
-   764		if (flags == IORING_POLL_ADD_MULTI)
-   765			return -EINVAL;
-   766	
-   767		upd->old_user_data = READ_ONCE(sqe->addr);
-   768		upd->update_events = flags & IORING_POLL_UPDATE_EVENTS;
-   769		upd->update_user_data = flags & IORING_POLL_UPDATE_USER_DATA;
-   770	
-   771		upd->new_user_data = READ_ONCE(sqe->off);
-   772		if (!upd->update_user_data && upd->new_user_data)
-   773			return -EINVAL;
-   774		if (upd->update_events)
-   775			upd->events = io_poll_parse_events(sqe, flags);
-   776		else if (sqe->poll32_events)
-   777			return -EINVAL;
-   778	
-   779		return 0;
-   780	}
-   781	
-   782	int io_poll_add_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-   783	{
-   784		struct io_poll *poll = io_kiocb_to_cmd(req);
-   785		u32 flags;
-   786	
-   787		if (sqe->buf_index || sqe->off || sqe->addr)
-   788			return -EINVAL;
-   789		flags = READ_ONCE(sqe->len);
-   790		if (flags & ~(IORING_POLL_ADD_MULTI|IORING_POLL_ADD_LEVEL))
-   791			return -EINVAL;
-   792		if ((flags & IORING_POLL_ADD_MULTI) && (req->flags & REQ_F_CQE_SKIP))
-   793			return -EINVAL;
-   794	
-   795		poll->events = io_poll_parse_events(sqe, flags);
-   796		return 0;
-   797	}
-   798	
-   799	int io_poll_add(struct io_kiocb *req, unsigned int issue_flags)
-   800	{
-   801		struct io_poll *poll = io_kiocb_to_cmd(req);
-   802		struct io_poll_table ipt;
-   803		int ret;
-   804	
-   805		ipt.pt._qproc = io_poll_queue_proc;
-   806	
-   807		/*
-   808		 * If sqpoll or single issuer, there is no contention for ->uring_lock
-   809		 * and we'll end up holding it in tw handlers anyway.
-   810		 */
-   811		if (!(issue_flags & IO_URING_F_UNLOCKED) &&
-   812		    (req->ctx->flags & (IORING_SETUP_SQPOLL | IORING_SETUP_SINGLE_ISSUER)))
-   813			req->flags |= REQ_F_HASH_LOCKED;
-   814		else
-   815			req->flags &= ~REQ_F_HASH_LOCKED;
-   816	
-   817		ret = __io_arm_poll_handler(req, poll, &ipt, poll->events);
-   818		if (ret) {
- > 819			io_req_set_res(req, ipt.result_mask, 0);
-   820			return IOU_OK;
-   821		}
-   822		if (ipt.error) {
-   823			req_set_fail(req);
-   824			return ipt.error;
-   825		}
-   826	
-   827		return IOU_ISSUE_SKIP_COMPLETE;
-   828	}
-   829	
+
+vim +/pm_add_abort_suspend_source +607 drivers/base/power/wakeup.c
+
+   602	
+   603	/**
+   604	 * pm_add_abort_suspend_source: add sources who aborted system suspend transitions.
+   605	 * @func_name: Name of the WS or subsystem which needs to added in the list
+   606	 */
+ > 607	void pm_add_abort_suspend_source(const char *source_name)
+   608	{
+   609		struct pm_abort_suspend_source *info = NULL;
+   610	
+   611		info = kmalloc(sizeof(struct pm_abort_suspend_source), GFP_KERNEL);
+   612		if (unlikely(!info)) {
+   613			pr_err("Failed to alloc memory for pm_abort_suspend_source info\n");
+   614			return;
+   615		}
+   616	
+   617		/* Initialize the list within the struct if it's not already initialized */
+   618		if (list_empty(&info->list))
+   619			INIT_LIST_HEAD(&info->list);
+   620	
+   621		info->source_triggering_abort_suspend = kstrdup(source_name, GFP_KERNEL);
+   622		if (unlikely(!info->source_triggering_abort_suspend)) {
+   623			pr_err("Failed to get abort_suspend source_name\n");
+   624			kfree(info);
+   625			return;
+   626		}
+   627	
+   628		list_add_tail(&info->list, &pm_abort_suspend_list);
+   629	}
+   630	EXPORT_SYMBOL_GPL(pm_add_abort_suspend_source);
+   631	
 
 -- 
 0-DAY CI Kernel Test Service
