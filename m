@@ -1,41 +1,41 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EAA918E39
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 17:53:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488751944C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 17:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkLrELtl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aw1RRc6E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1702144387; x=1733680387;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HwA9hXTpu4rYa8Lnzvejv74AVkq6Mfu/ugSlkhv6tT4=;
-  b=YkLrELtlp2EvQ1jW0sUHXAhXFHFes6vvOSQp844G4u1b/eeO4Kk4QLdl
-   RNMw9nxXzFkpuAB4gHemXYsc4KfDYyGeyuSKyxWb4v+62nxAUT348kiVp
-   M4568RDAfqNmQuedD8LCfH5cS5TRmmSENO9c+T9o3GBqUXjwCT37MAsRU
-   dmLjETEGuGnvzzuHlRsqI5j3Qa8aYHZ0VQOt1WrRWS3cT8MIPu3YZN7DP
-   VYkfApAc9cb5DgvbOnIX4SdIpxqlUwaWPFhokRq4AoQOo3jyvprQBMMUE
-   4Ki1uJ9dQcDkPx5X42PAIxpVHFBkCg0uiLU6CZiuPA7nJqdgUOcbDvycJ
+  bh=xTBJuGW7OnJL/FllZh5+SkyJa/3/rDNej9zo2XlGCwo=;
+  b=aw1RRc6EAcySINNt3DlYkco8juhN5Lny8HYDm0uvR6B/bG5YBHyZ058s
+   sMmY5hPpESrPWOKMAmK6/SdUDnN3sXip3yMdWtF9iqQPjxEAEfUK6vJeX
+   qGUhtVbGGtWi4JENmVuUxI2XBeG1Akln5BpHG0oFCzsMbnaZMfNyhqREN
+   A4MWgdB39Clvuro1+S+6HQiU3NcSj/SwSee3YMobTSZkBxfh0dMfJUn4f
+   XB8zJGEizdEv8GlOIEgq4JMtsE/Cm81/WwidWRph3tjy1gWrQHOSsyOhW
+   +xyQR1rjKbEfWbTNU5HDz9RQGABlQlr7do001CiJEPivS/pgrAYPP5wpF
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1643505"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1643509"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="1643505"
+   d="scan'208";a="1643509"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 09:53:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="895873980"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="895873982"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="895873980"
+   d="scan'208";a="895873982"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 09 Dec 2023 09:53:02 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC1Vc-000Fi5-1c;
+	id 1rC1Vc-000FiD-1s;
 	Sat, 09 Dec 2023 17:53:00 +0000
-Date: Sun, 10 Dec 2023 01:52:04 +0800
+Date: Sun, 10 Dec 2023 01:52:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vimal Kumar <vimal.kumar32@gmail.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -47,7 +47,7 @@ Cc: oe-kbuild-all@lists.linux.dev, chinmoyghosh2001@gmail.com,
 	Vimal Kumar <vimal.kumar32@gmail.com>
 Subject: Re: [PATCH] PM / sleep: Mechanism to find source aborting kernel
  suspend transition
-Message-ID: <202312100146.Nv4INLR5-lkp@intel.com>
+Message-ID: <202312100106.hPaGgy7C-lkp@intel.com>
 References: <20231209081056.1497-1-vimal.kumar32@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -73,105 +73,45 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Vimal-Kumar/PM-sleep-Mech
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
 patch link:    https://lore.kernel.org/r/20231209081056.1497-1-vimal.kumar32%40gmail.com
 patch subject: [PATCH] PM / sleep: Mechanism to find source aborting kernel suspend transition
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231210/202312100146.Nv4INLR5-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100146.Nv4INLR5-lkp@intel.com/reproduce)
+config: powerpc-randconfig-r071-20231209 (https://download.01.org/0day-ci/archive/20231210/202312100106.hPaGgy7C-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100106.hPaGgy7C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312100146.Nv4INLR5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100106.hPaGgy7C-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/base/power/wakeup.c:607:6: warning: no previous prototype for 'pm_add_abort_suspend_source' [-Wmissing-prototypes]
+>> drivers/base/power/wakeup.c:607:6: warning: no previous prototype for function 'pm_add_abort_suspend_source' [-Wmissing-prototypes]
      607 | void pm_add_abort_suspend_source(const char *source_name)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/rculist.h:10,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/base/power/wakeup.c:9:
-   drivers/base/power/wakeup.c: In function 'pm_wakeup_pending':
-   drivers/base/power/wakeup.c:955:45: error: 'info' undeclared (first use in this function)
+         |      ^
+   drivers/base/power/wakeup.c:607:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     607 | void pm_add_abort_suspend_source(const char *source_name)
+         | ^
+         | static 
+   drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
      955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
-         |                                             ^~~~
-   include/linux/list.h:778:14: note: in definition of macro 'list_for_each_entry'
-     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |              ^~~
-   drivers/base/power/wakeup.c:955:45: note: each undeclared identifier is reported only once for each function it appears in
-     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
-         |                                             ^~~~
-   include/linux/list.h:778:14: note: in definition of macro 'list_for_each_entry'
-     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |              ^~~
-   In file included from include/linux/bits.h:21,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/base/power/wakeup.c:9:
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:778:20: note: in expansion of macro 'list_first_entry'
-     778 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/base/power/wakeup.c:955:25: note: in expansion of macro 'list_for_each_entry'
-     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
-         |                         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:376:27: error: expression in static assertion is not an integer
-     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:645:9: note: in expansion of macro 'list_entry'
-     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:780:20: note: in expansion of macro 'list_next_entry'
-     780 |              pos = list_next_entry(pos, member))
-         |                    ^~~~~~~~~~~~~~~
-   drivers/base/power/wakeup.c:955:25: note: in expansion of macro 'list_for_each_entry'
-     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
-         |                         ^~~~~~~~~~~~~~~~~~~
-   drivers/base/power/wakeup.c:956:33: error: implicit declaration of function 'log_suspend_abort_reason' [-Werror=implicit-function-declaration]
+         |                                             ^
+   drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+   drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+   drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+   drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+   drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+   drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+   drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+   drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+   drivers/base/power/wakeup.c:956:5: error: call to undeclared function 'log_suspend_abort_reason'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      956 |                                 log_suspend_abort_reason("ws or subsystem %s aborted suspend\n",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/power/wakeup.c: In function 'pm_system_wakeup':
-   drivers/base/power/wakeup.c:967:18: error: 'MAX_SUSPEND_ABORT_LEN' undeclared (first use in this function)
+         |                                 ^
+   drivers/base/power/wakeup.c:957:7: error: use of undeclared identifier 'info'
+     957 |                                                 info->source_triggering_abort_suspend);
+         |                                                 ^
+   drivers/base/power/wakeup.c:967:11: error: use of undeclared identifier 'MAX_SUSPEND_ABORT_LEN'
      967 |         char buf[MAX_SUSPEND_ABORT_LEN];
-         |                  ^~~~~~~~~~~~~~~~~~~~~
->> drivers/base/power/wakeup.c:967:14: warning: unused variable 'buf' [-Wunused-variable]
-     967 |         char buf[MAX_SUSPEND_ABORT_LEN];
-         |              ^~~
-   cc1: some warnings being treated as errors
+         |                  ^
+   1 warning and 12 errors generated.
 
 
 vim +/pm_add_abort_suspend_source +607 drivers/base/power/wakeup.c
