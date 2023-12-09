@@ -1,47 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1457E15AB
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 05:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7390F1840
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 06:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYgNIeyv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702099248; x=1733635248;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=itSDpXH72I3FTYHBhj6+XQ+muCzGwhGWrNEQjpPzZ9c=;
-  b=VYgNIeyvpP6YIh2u0GDQLDjO+x1myA0dqKunzi5sGy1JMdISPT5tQxHU
-   KWcRMtxLZeLW5pkbVV8e8Dv8ZnzDymgbk1xZJ7soUOhA0eXu7qgEXZH79
-   0nMWosfVwjnaFqVvXXFTKiSalI0uYJ8HpkWbROZnUdRRdXEk/jYNmFFcE
-   9uKwt7pWUCPWnyFvjKIALu2BW8wKAKkNDosuWeh2uo/hU3bYcBi8UPZhT
-   N49znMM6yLmSthjTM8BZJpUcoOmkDzFOoVaI797u8OZH91NxKZ6KHzEYl
-   fIj9F4a0sV2DeQ2aWlWRKh31Q74Je2s3fUK2lGTdSrtMDgUN9DpdFxi9R
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="460968706"
-X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="460968706"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 21:20:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="945633863"
-X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
-   d="scan'208";a="945633863"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 08 Dec 2023 21:20:45 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rBplP-000Es3-0X;
-	Sat, 09 Dec 2023 05:20:34 +0000
-Date: Sat, 9 Dec 2023 13:19:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nicholas Piggin <npiggin@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: arch/powerpc/kernel/time.c:846:9: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202312091358.yxVj2uev-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eUGZxfAl"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-54f4f7e88feso1753806a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 08 Dec 2023 22:19:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702102761; x=1702707561; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SE7qvLJHOG+EjB/v+XYAGFxHzb2Bo2sb6+6iqnqa0TI=;
+        b=eUGZxfAl1NTLko181ab/2WorFUaO0nw8tzwqRq1MGXLBQkLMmDIdRXUnW6bmDnoeR0
+         wT+45EVQOde7ZXQrMb03db7FTKPTPgsIBzzxIpTKswxi9MouCiL3NNgCNvRREAugODZI
+         qWhYnNUrM5R7zf3/rJOES/h1fTfXW2S8Q4p6rRbwhdRn5naSD7CM9BMcWQCtJgryIggi
+         yFjaZyY3KSFO3QKfZYIi7curvFgcUQaCperPmmzUEsdUgpuXjEt8J7DNQDZlzX5TjYu+
+         S2mgHJKf7uvXtoseaK9RJBEr5rbcdEjEoIA0GxfHzlp83IDhw+XjhWHiYnyWbgf17AuJ
+         elAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702102761; x=1702707561;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SE7qvLJHOG+EjB/v+XYAGFxHzb2Bo2sb6+6iqnqa0TI=;
+        b=DXmnNBUzGd/hv9PnfD9nCfeVPqW2Paag9G5/HCe4CBE4HM/AbllN5Iq1/YINY2k2aK
+         oS0G0myZ3FMH4DRYo3e2HxGKtO97WVDo09ry5ryxfR6klaqCHXN3bwQFwjJ37+eb/SHu
+         uzqXFFf/tMzj/1RqwAS/560PtEZdMfyGvtd6ZjFx6jVwvnjbzxqBNXnaTmYBrUFqnJUd
+         +bUfqNIF9K3iaGiDWW48asuQ3FxbmtlF9OsSTjnOba9jS5WU5/phmn0+5b7lgtLUJjOW
+         mNZnUj0QdtnfhhQP0VJnEqo89UcHz0N9BUhL1lZQQOm/W1vK5hP6cMH/xTBUb/1plFli
+         c9tQ==
+X-Gm-Message-State: AOJu0Yyp1u37IOqAFJwuQtarUKjKQcqzUX0M6OprZcJwX8DCFendKJAo
+	cJB8rDrTWl1Ye3kTqlLIs6JRww==
+X-Google-Smtp-Source: AGHT+IEqBZL2ACU3gMuYM+N8dFy5XASza0/wIWAeVDw1TjQLoXeFyGk/R12dl1sVOytAbzHuWpNXdA==
+X-Received: by 2002:a17:907:7b82:b0:a1a:f475:2ebf with SMTP id ne2-20020a1709077b8200b00a1af4752ebfmr624004ejc.59.1702102761631;
+        Fri, 08 Dec 2023 22:19:21 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id le9-20020a170907170900b00a1e2aa3d090sm1796632ejc.206.2023.12.08.22.19.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 22:19:21 -0800 (PST)
+Date: Sat, 9 Dec 2023 09:19:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Elad Nachman <enachman@marvell.com>,
+	gregory.clement@bootlin.com, andi.shyti@kernel.org,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, enachman@marvell.com,
+	cyuval@marvell.com
+Subject: Re: [PATCH v2 1/1] i2c: busses: i2c-mv64xxx: fix arb-loss i2c lock
+Message-ID: <ae4bc7f8-2a20-494d-bf93-48f0bdd7562a@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,63 +58,178 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231207165027.2628302-2-enachman@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
-commit: 4ebbd075bcde7884e078d4360510b989f559bfec KVM: PPC: Book3S HV P9: Use host timer accounting to avoid decrementer read
-date:   2 years ago
-config: powerpc-randconfig-r113-20231106 (https://download.01.org/0day-ci/archive/20231209/202312091358.yxVj2uev-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231209/202312091358.yxVj2uev-lkp@intel.com/reproduce)
+Hi Elad,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Elad-Nachman/i2c-busses-i2c-mv64xxx-fix-arb-loss-i2c-lock/20231208-005406
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
+patch link:    https://lore.kernel.org/r/20231207165027.2628302-2-enachman%40marvell.com
+patch subject: [PATCH v2 1/1] i2c: busses: i2c-mv64xxx: fix arb-loss i2c lock
+config: csky-randconfig-r081-20231208 (https://download.01.org/0day-ci/archive/20231208/202312081920.oIwWca3H-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231208/202312081920.oIwWca3H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312091358.yxVj2uev-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312081920.oIwWca3H-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/powerpc/kernel/time.c:846:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/powerpc/kernel/time.c:846:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/powerpc/kernel/time.c:846:9: sparse:     got unsigned long long *
->> arch/powerpc/kernel/time.c:846:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/powerpc/kernel/time.c:846:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/powerpc/kernel/time.c:846:9: sparse:     got unsigned long long *
->> arch/powerpc/kernel/time.c:846:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/powerpc/kernel/time.c:846:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/powerpc/kernel/time.c:846:9: sparse:     got unsigned long long *
->> arch/powerpc/kernel/time.c:846:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/powerpc/kernel/time.c:846:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/powerpc/kernel/time.c:846:9: sparse:     got unsigned long long *
->> arch/powerpc/kernel/time.c:846:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/powerpc/kernel/time.c:846:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/powerpc/kernel/time.c:846:9: sparse:     got unsigned long long *
-   arch/powerpc/kernel/time.c:557:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long long * @@
-   arch/powerpc/kernel/time.c:557:24: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/powerpc/kernel/time.c:557:24: sparse:     got unsigned long long *
+smatch warnings:
+drivers/i2c/busses/i2c-mv64xxx.c:440 mv64xxx_i2c_do_action() error: uninitialized symbol 'ret'.
 
-vim +846 arch/powerpc/kernel/time.c
+vim +/ret +440 drivers/i2c/busses/i2c-mv64xxx.c
 
-4a4cfe3836916e Tony Breeds            2007-09-22  842  
-d831d0b83f2058 Tony Breeds            2007-09-21  843  static int decrementer_set_next_event(unsigned long evt,
-d831d0b83f2058 Tony Breeds            2007-09-21  844  				      struct clock_event_device *dev)
-d831d0b83f2058 Tony Breeds            2007-09-21  845  {
-6601ec1c2ba929 Christophe Leroy       2020-09-29 @846  	__this_cpu_write(decrementers_next_tb, get_tb() + evt);
-d831d0b83f2058 Tony Breeds            2007-09-21  847  	set_dec(evt);
-0215f7d8c53fb1 Benjamin Herrenschmidt 2014-01-14  848  
-0215f7d8c53fb1 Benjamin Herrenschmidt 2014-01-14  849  	/* We may have raced with new irq work */
-0215f7d8c53fb1 Benjamin Herrenschmidt 2014-01-14  850  	if (test_irq_work_pending())
-0215f7d8c53fb1 Benjamin Herrenschmidt 2014-01-14  851  		set_dec(1);
-0215f7d8c53fb1 Benjamin Herrenschmidt 2014-01-14  852  
-d831d0b83f2058 Tony Breeds            2007-09-21  853  	return 0;
-d831d0b83f2058 Tony Breeds            2007-09-21  854  }
-d831d0b83f2058 Tony Breeds            2007-09-21  855  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  368  static void
+^1da177e4c3f41 Linus Torvalds      2005-04-16  369  mv64xxx_i2c_do_action(struct mv64xxx_i2c_data *drv_data)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  370  {
+8ea9d334890b12 Elad Nachman        2023-12-07  371  	struct pinctrl *pc;
+8ea9d334890b12 Elad Nachman        2023-12-07  372  	int i, ret;
+8ea9d334890b12 Elad Nachman        2023-12-07  373  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  374  	switch(drv_data->action) {
+eda6bee6c7e67b Rodolfo Giometti    2010-11-26  375  	case MV64XXX_I2C_ACTION_SEND_RESTART:
+4243fa0bad551b Russell King        2013-05-16  376  		/* We should only get here if we have further messages */
+4243fa0bad551b Russell King        2013-05-16  377  		BUG_ON(drv_data->num_msgs == 0);
+4243fa0bad551b Russell King        2013-05-16  378  
+930ab3d403ae43 Gregory CLEMENT     2013-08-22  379  		drv_data->msgs++;
+930ab3d403ae43 Gregory CLEMENT     2013-08-22  380  		drv_data->num_msgs--;
+4c5b38e881b1a9 Wolfram Sang        2014-02-13  381  		mv64xxx_i2c_send_start(drv_data);
+4243fa0bad551b Russell King        2013-05-16  382  
+c1d15b68aab86f Gregory CLEMENT     2013-08-22  383  		if (drv_data->errata_delay)
+c1d15b68aab86f Gregory CLEMENT     2013-08-22  384  			udelay(5);
+c1d15b68aab86f Gregory CLEMENT     2013-08-22  385  
+4243fa0bad551b Russell King        2013-05-16  386  		/*
+4243fa0bad551b Russell King        2013-05-16  387  		 * We're never at the start of the message here, and by this
+4243fa0bad551b Russell King        2013-05-16  388  		 * time it's already too late to do any protocol mangling.
+4243fa0bad551b Russell King        2013-05-16  389  		 * Thankfully, do not advertise support for that feature.
+4243fa0bad551b Russell King        2013-05-16  390  		 */
+4243fa0bad551b Russell King        2013-05-16  391  		drv_data->send_stop = drv_data->num_msgs == 1;
+eda6bee6c7e67b Rodolfo Giometti    2010-11-26  392  		break;
+eda6bee6c7e67b Rodolfo Giometti    2010-11-26  393  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  394  	case MV64XXX_I2C_ACTION_CONTINUE:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  395  		writel(drv_data->cntl_bits,
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  396  			drv_data->reg_base + drv_data->reg_offsets.control);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  397  		break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  398  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  399  	case MV64XXX_I2C_ACTION_SEND_ADDR_1:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  400  		writel(drv_data->addr1,
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  401  			drv_data->reg_base + drv_data->reg_offsets.data);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  402  		writel(drv_data->cntl_bits,
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  403  			drv_data->reg_base + drv_data->reg_offsets.control);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  404  		break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  405  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  406  	case MV64XXX_I2C_ACTION_SEND_ADDR_2:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  407  		writel(drv_data->addr2,
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  408  			drv_data->reg_base + drv_data->reg_offsets.data);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  409  		writel(drv_data->cntl_bits,
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  410  			drv_data->reg_base + drv_data->reg_offsets.control);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  411  		break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  412  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  413  	case MV64XXX_I2C_ACTION_SEND_DATA:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  414  		writel(drv_data->msg->buf[drv_data->byte_posn++],
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  415  			drv_data->reg_base + drv_data->reg_offsets.data);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  416  		writel(drv_data->cntl_bits,
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  417  			drv_data->reg_base + drv_data->reg_offsets.control);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  418  		break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  419  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  420  	case MV64XXX_I2C_ACTION_RCV_DATA:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  421  		drv_data->msg->buf[drv_data->byte_posn++] =
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  422  			readl(drv_data->reg_base + drv_data->reg_offsets.data);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  423  		writel(drv_data->cntl_bits,
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  424  			drv_data->reg_base + drv_data->reg_offsets.control);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  425  		break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  426  
+8ea9d334890b12 Elad Nachman        2023-12-07  427  	case MV64XXX_I2C_ACTION_UNLOCK_BUS:
+8ea9d334890b12 Elad Nachman        2023-12-07  428  		if (!drv_data->soft_reset)
+8ea9d334890b12 Elad Nachman        2023-12-07  429  			break;
+8ea9d334890b12 Elad Nachman        2023-12-07  430  
+8ea9d334890b12 Elad Nachman        2023-12-07  431  		pc = devm_pinctrl_get(drv_data->adapter.dev.parent);
+8ea9d334890b12 Elad Nachman        2023-12-07  432  		if (IS_ERR(pc)) {
+8ea9d334890b12 Elad Nachman        2023-12-07  433  			dev_err(&drv_data->adapter.dev,
+8ea9d334890b12 Elad Nachman        2023-12-07  434  				"failed to get pinctrl for bus unlock!\n");
+8ea9d334890b12 Elad Nachman        2023-12-07  435  			break;
+8ea9d334890b12 Elad Nachman        2023-12-07  436  		}
+8ea9d334890b12 Elad Nachman        2023-12-07  437  
+8ea9d334890b12 Elad Nachman        2023-12-07  438  		/* Change i2c MPPs state to act as GPIOs: */
+8ea9d334890b12 Elad Nachman        2023-12-07  439  		if (pinctrl_select_state(pc, drv_data->i2c_gpio_state) >= 0) {
+8ea9d334890b12 Elad Nachman        2023-12-07 @440  			if (!ret) {
+                                                                            ^^^^
+"ret" isn't ever initialized.
 
-:::::: The code at line 846 was first introduced by commit
-:::::: 6601ec1c2ba929430f5585ce7f9d9960b0e0a01d powerpc: Remove get_tb_or_rtc()
-
-:::::: TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+8ea9d334890b12 Elad Nachman        2023-12-07  441  				/*
+8ea9d334890b12 Elad Nachman        2023-12-07  442  				 * Toggle i2c scl (serial clock) 10 times.
+8ea9d334890b12 Elad Nachman        2023-12-07  443  				 * 10 clocks are enough to transfer a full
+8ea9d334890b12 Elad Nachman        2023-12-07  444  				 * byte plus extra as seen from tests with
+8ea9d334890b12 Elad Nachman        2023-12-07  445  				 * Ubiquity SFP module causing the issue.
+8ea9d334890b12 Elad Nachman        2023-12-07  446  				 * This allows the slave that occupies
+8ea9d334890b12 Elad Nachman        2023-12-07  447  				 * the bus to transmit its remaining data,
+8ea9d334890b12 Elad Nachman        2023-12-07  448  				 * so it can release the i2c bus:
+8ea9d334890b12 Elad Nachman        2023-12-07  449  				 */
+8ea9d334890b12 Elad Nachman        2023-12-07  450  				for (i = 0; i < 10; i++) {
+8ea9d334890b12 Elad Nachman        2023-12-07  451  					gpio_set_value(drv_data->scl_gpio, 1);
+8ea9d334890b12 Elad Nachman        2023-12-07  452  					udelay(100);
+8ea9d334890b12 Elad Nachman        2023-12-07  453  					gpio_set_value(drv_data->scl_gpio, 0);
+8ea9d334890b12 Elad Nachman        2023-12-07  454  				};
+8ea9d334890b12 Elad Nachman        2023-12-07  455  			}
+8ea9d334890b12 Elad Nachman        2023-12-07  456  
+8ea9d334890b12 Elad Nachman        2023-12-07  457  			/* restore i2c pin state to MPPs: */
+8ea9d334890b12 Elad Nachman        2023-12-07  458  			pinctrl_select_state(pc, drv_data->i2c_mpp_state);
+8ea9d334890b12 Elad Nachman        2023-12-07  459  		}
+8ea9d334890b12 Elad Nachman        2023-12-07  460  
+8ea9d334890b12 Elad Nachman        2023-12-07  461  		/*
+8ea9d334890b12 Elad Nachman        2023-12-07  462  		 * Trigger controller soft reset
+8ea9d334890b12 Elad Nachman        2023-12-07  463  		 * This register is write only, with none of the bits defined.
+8ea9d334890b12 Elad Nachman        2023-12-07  464  		 * So any value will do.
+8ea9d334890b12 Elad Nachman        2023-12-07  465  		 * 0x1 just seems more intuitive than 0x0 ...
+8ea9d334890b12 Elad Nachman        2023-12-07  466  		 */
+8ea9d334890b12 Elad Nachman        2023-12-07  467  		writel(0x1, drv_data->reg_base + drv_data->reg_offsets.soft_reset);
+8ea9d334890b12 Elad Nachman        2023-12-07  468  		/* wait for i2c controller to complete reset: */
+8ea9d334890b12 Elad Nachman        2023-12-07  469  		udelay(100);
+8ea9d334890b12 Elad Nachman        2023-12-07  470  		/*
+8ea9d334890b12 Elad Nachman        2023-12-07  471  		 * need to proceed to the data stop condition generation clause.
+8ea9d334890b12 Elad Nachman        2023-12-07  472  		 * This is needed after clock toggling to put the i2c slave
+8ea9d334890b12 Elad Nachman        2023-12-07  473  		 * in the correct state.
+8ea9d334890b12 Elad Nachman        2023-12-07  474  		 */
+8ea9d334890b12 Elad Nachman        2023-12-07  475  		fallthrough;
+8ea9d334890b12 Elad Nachman        2023-12-07  476  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  477  	case MV64XXX_I2C_ACTION_RCV_DATA_STOP:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  478  		drv_data->msg->buf[drv_data->byte_posn++] =
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  479  			readl(drv_data->reg_base + drv_data->reg_offsets.data);
+544a8d75f3d6e6 Chris Morgan        2022-03-30  480  		if (!drv_data->atomic)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  481  			drv_data->cntl_bits &= ~MV64XXX_I2C_REG_CONTROL_INTEN;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  482  		writel(drv_data->cntl_bits | MV64XXX_I2C_REG_CONTROL_STOP,
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  483  			drv_data->reg_base + drv_data->reg_offsets.control);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  484  		drv_data->block = 0;
+c1d15b68aab86f Gregory CLEMENT     2013-08-22  485  		if (drv_data->errata_delay)
+c1d15b68aab86f Gregory CLEMENT     2013-08-22  486  			udelay(5);
+c1d15b68aab86f Gregory CLEMENT     2013-08-22  487  
+d295a86eab200b Russell King        2013-05-16  488  		wake_up(&drv_data->waitq);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  489  		break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  490  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  491  	case MV64XXX_I2C_ACTION_INVALID:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  492  	default:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  493  		dev_err(&drv_data->adapter.dev,
+^1da177e4c3f41 Linus Torvalds      2005-04-16  494  			"mv64xxx_i2c_do_action: Invalid action: %d\n",
+^1da177e4c3f41 Linus Torvalds      2005-04-16  495  			drv_data->action);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  496  		drv_data->rc = -EIO;
+4db7e1786db505 Gustavo A. R. Silva 2020-07-21  497  		fallthrough;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  498  	case MV64XXX_I2C_ACTION_SEND_STOP:
+544a8d75f3d6e6 Chris Morgan        2022-03-30  499  		if (!drv_data->atomic)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  500  			drv_data->cntl_bits &= ~MV64XXX_I2C_REG_CONTROL_INTEN;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  501  		writel(drv_data->cntl_bits | MV64XXX_I2C_REG_CONTROL_STOP,
+004e8ed7cc67f4 Maxime Ripard       2013-06-12  502  			drv_data->reg_base + drv_data->reg_offsets.control);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  503  		drv_data->block = 0;
+d295a86eab200b Russell King        2013-05-16  504  		wake_up(&drv_data->waitq);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  505  		break;
+00d8689b85a7bb Thomas Petazzoni    2014-12-11  506  	}
+00d8689b85a7bb Thomas Petazzoni    2014-12-11  507  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
