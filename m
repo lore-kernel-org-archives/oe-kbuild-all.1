@@ -1,47 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627FB18E00
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 20:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2A11FA3;
+	Sat,  9 Dec 2023 21:24:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RtgZvjdS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2qqbJJA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702155197; x=1733691197;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vsmFGp4tltrRfnwVP7WRUH3KHkFugEu7frCpsnLaLW8=;
-  b=RtgZvjdSjMBh20QPqzR9vFuBGbPM7Qil7mmtYnvTFP22coYdbN91J/bM
-   ppaKr9du5M2x+Uj0lZBhEklg4XmUFsqYyxRdCGw2YkXaK8sLy4S38H9pn
-   TBmXAC4D/1+osm0qvGf+CftKsvGmC41BGqP7xS0z9UCP0gwdjQGphDvK4
-   DYaU+10dgp5DbMeVwQkCiJBQUb2nckqtNyRdkDmdJ1ZkpoLOpzkdCcFyN
-   uKoTGGoqsbp571GDlT4Y/HgtGWH/qIagn+SNz02T24Jp2/XP3NJfIDVgq
-   +nljZRd7EbmaNStGTHVZ6QDmB9GKnIgreq5oBPs1QF5T1zjnUW3uGaFHB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="16077342"
+  t=1702157060; x=1733693060;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yYlnQySvDxKNGQj57awiOElNz5qN/U3+smc6jcWdlcw=;
+  b=K2qqbJJA/xXybRYmlTbq8IAl6flFD2fL8zLUFUvEIotiWO5r0DfpHS+Q
+   mYXegECgsdXrRxs7R2dcAg/YAUTVXbpDrVWA7jQ9cc9BFYNVg0UbaRC5U
+   wpAQ1c/xJBr4Ls2XnQLAUFQeXa0nqdl1kJqwXhRkb5F0s7O1FsmI7GCNO
+   0jKmGYErPsATC2bmqse5lMPEmhLWCNRC+uku6PE9o4CaTjjXkKoEPv8MB
+   KRovupiVmdeZENzQjByRt+sutWNwuqhWB/MELl53Rpi6UNJbYOqWnKiO+
+   K3Py4oO4z/SrrNTkeN03P9ymz8Fvqzn3buqoqLOQwHVjBr+oUI4C36BJT
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="7850925"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="16077342"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 12:53:16 -0800
+   d="scan'208";a="7850925"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 13:24:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="842993032"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="842993032"
+   d="scan'208";a="20490951"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Dec 2023 12:53:14 -0800
+  by orviesa001.jf.intel.com with ESMTP; 09 Dec 2023 13:24:16 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC4K0-000Fw4-14;
-	Sat, 09 Dec 2023 20:53:12 +0000
-Date: Sun, 10 Dec 2023 04:52:12 +0800
+	id 1rC4o1-000Fxh-0t;
+	Sat, 09 Dec 2023 21:24:13 +0000
+Date: Sun, 10 Dec 2023 05:24:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marius Zachmann <mail@mariuszachmann.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: drivers/hwmon/corsair-cpro.c:502:79: sparse: sparse: Using plain
- integer as NULL pointer
-Message-ID: <202312100455.k6m2eO4N-lkp@intel.com>
+To: Vimal Kumar <vimal.kumar32@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	chinmoyghosh2001@gmail.com, badolevishal1116@gmail.com,
+	mintupatel89@gmail.com, Vimal Kumar <vimal.kumar32@gmail.com>
+Subject: Re: [PATCH] PM / sleep: Mechanism to find source aborting kernel
+ suspend transition
+Message-ID: <202312100547.4pJ5OE1O-lkp@intel.com>
+References: <20231209081056.1497-1-vimal.kumar32@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,82 +56,308 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231209081056.1497-1-vimal.kumar32@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
-commit: 40c3a445422579db8ad96c234dbe6c0ab3f6b936 hwmon: add Corsair Commander Pro driver
-date:   3 years, 5 months ago
-config: parisc-randconfig-m041-20230821 (https://download.01.org/0day-ci/archive/20231210/202312100455.k6m2eO4N-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312100455.k6m2eO4N-lkp@intel.com/reproduce)
+Hi Vimal,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/acpi-bus linus/master rafael-pm/devprop v6.7-rc4 next-20231208]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vimal-Kumar/PM-sleep-Mechanism-to-find-source-aborting-kernel-suspend-transition/20231209-161237
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20231209081056.1497-1-vimal.kumar32%40gmail.com
+patch subject: [PATCH] PM / sleep: Mechanism to find source aborting kernel suspend transition
+config: arm-lpc32xx_defconfig (https://download.01.org/0day-ci/archive/20231210/202312100547.4pJ5OE1O-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100547.4pJ5OE1O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312100455.k6m2eO4N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100547.4pJ5OE1O-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/corsair-cpro.c:502:79: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +502 drivers/hwmon/corsair-cpro.c
+   drivers/base/power/wakeup.c:607:6: warning: no previous prototype for function 'pm_add_abort_suspend_source' [-Wmissing-prototypes]
+     607 | void pm_add_abort_suspend_source(const char *source_name)
+         |      ^
+   drivers/base/power/wakeup.c:607:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     607 | void pm_add_abort_suspend_source(const char *source_name)
+         | ^
+         | static 
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                                             ^
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'; did you mean 'int'?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                                             ^~~~
+         |                                             int
+   include/linux/list.h:780:29: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                                    ^
+   include/linux/list.h:645:14: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                     ^
+   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |                      ^
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^
+>> drivers/base/power/wakeup.c:955:4: error: reference to overloaded function could not be resolved; did you mean to call it?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:780:13: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:13: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:19:26: note: expanded from macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'; did you mean 'int'?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                                             ^~~~
+         |                                             int
+   include/linux/list.h:780:29: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                                    ^
+   include/linux/list.h:645:14: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                     ^
+   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |                      ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:376:63: note: expanded from macro '__same_type'
+     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^
+>> drivers/base/power/wakeup.c:955:4: error: reference to overloaded function could not be resolved; did you mean to call it?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:780:13: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:13: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:376:63: note: expanded from macro '__same_type'
+     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'; did you mean 'int'?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                                             ^~~~
+         |                                             int
+   include/linux/list.h:780:29: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                                    ^
+   include/linux/list.h:645:14: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                     ^
+   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |                      ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:376:63: note: expanded from macro '__same_type'
+     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                                  ^
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^
+>> drivers/base/power/wakeup.c:955:4: error: reference to overloaded function could not be resolved; did you mean to call it?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:780:13: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:13: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:601:15: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:376:63: note: expanded from macro '__same_type'
+     376 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'; did you mean 'int'?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                                             ^~~~
+         |                                             int
+   include/linux/list.h:780:29: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                                    ^
+   include/linux/list.h:645:42: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                                                 ^
+   include/linux/list.h:601:20: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |                           ^
+   include/linux/container_of.h:23:4: note: expanded from macro 'container_of'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |           ^
+>> drivers/base/power/wakeup.c:955:4: error: reference to overloaded function could not be resolved; did you mean to call it?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:780:13: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:41: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+   include/linux/list.h:601:20: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |         ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+   include/linux/container_of.h:23:4: note: expanded from macro 'container_of'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |           ^~~~
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'; did you mean 'int'?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                                             ^~~~
+         |                                             int
+   include/linux/list.h:780:29: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                                    ^
+   include/linux/list.h:645:42: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |                                                 ^
+   include/linux/list.h:601:20: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |                           ^
+   include/linux/container_of.h:23:30: note: expanded from macro 'container_of'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                                     ^
+   include/linux/stddef.h:16:51: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                                    ^
+>> drivers/base/power/wakeup.c:955:4: error: reference to overloaded function could not be resolved; did you mean to call it?
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:780:13: note: expanded from macro 'list_for_each_entry'
+     780 |              pos = list_next_entry(pos, member))
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:645:41: note: expanded from macro 'list_next_entry'
+     645 |         list_entry((pos)->member.next, typeof(*(pos)), member)
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+   include/linux/list.h:601:20: note: expanded from macro 'list_entry'
+     601 |         container_of(ptr, type, member)
+         |         ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+   include/linux/container_of.h:23:30: note: expanded from macro 'container_of'
+      23 |         ((type *)(__mptr - offsetof(type, member))); })
+         |                            ~~~~~~~~~^~~~~~~~~~~~~
+   include/linux/stddef.h:16:51: note: expanded from macro 'offsetof'
+      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+         |                                                    ^~~~
+>> drivers/base/power/wakeup.c:955:24: error: use of undeclared identifier 'info'
+     955 |                         list_for_each_entry(info, &pm_abort_suspend_list, list) {
+         |                                             ^
+>> drivers/base/power/wakeup.c:956:5: error: call to undeclared function 'log_suspend_abort_reason'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     956 |                                 log_suspend_abort_reason("ws or subsystem %s aborted suspend\n",
+         |                                 ^
+   drivers/base/power/wakeup.c:957:7: error: use of undeclared identifier 'info'
+     957 |                                                 info->source_triggering_abort_suspend);
+         |                                                 ^
+>> drivers/base/power/wakeup.c:967:11: error: use of undeclared identifier 'MAX_SUSPEND_ABORT_LEN'
+     967 |         char buf[MAX_SUSPEND_ABORT_LEN];
+         |                  ^
+   1 warning and 18 errors generated.
 
-   460	
-   461	static int ccp_probe(struct hid_device *hdev, const struct hid_device_id *id)
-   462	{
-   463		struct ccp_device *ccp;
-   464		int ret;
-   465	
-   466		ccp = devm_kzalloc(&hdev->dev, sizeof(*ccp), GFP_KERNEL);
-   467		if (!ccp)
-   468			return -ENOMEM;
-   469	
-   470		ccp->buffer = devm_kmalloc(&hdev->dev, OUT_BUFFER_SIZE, GFP_KERNEL);
-   471		if (!ccp->buffer)
-   472			return -ENOMEM;
-   473	
-   474		ret = hid_parse(hdev);
-   475		if (ret)
-   476			return ret;
-   477	
-   478		ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
-   479		if (ret)
-   480			return ret;
-   481	
-   482		ret = hid_hw_open(hdev);
-   483		if (ret)
-   484			goto out_hw_stop;
-   485	
-   486		ccp->hdev = hdev;
-   487		hid_set_drvdata(hdev, ccp);
-   488		mutex_init(&ccp->mutex);
-   489		init_completion(&ccp->wait_input_report);
-   490	
-   491		hid_device_io_start(hdev);
-   492	
-   493		/* temp and fan connection status only updates when device is powered on */
-   494		ret = get_temp_cnct(ccp);
-   495		if (ret)
-   496			goto out_hw_close;
-   497	
-   498		ret = get_fan_cnct(ccp);
-   499		if (ret)
-   500			goto out_hw_close;
-   501		ccp->hwmon_dev = hwmon_device_register_with_info(&hdev->dev, "corsaircpro",
- > 502								 ccp, &ccp_chip_info, 0);
-   503		if (IS_ERR(ccp->hwmon_dev)) {
-   504			ret = PTR_ERR(ccp->hwmon_dev);
-   505			goto out_hw_close;
-   506		}
-   507	
-   508		return 0;
-   509	
-   510	out_hw_close:
-   511		hid_hw_close(hdev);
-   512	out_hw_stop:
-   513		hid_hw_stop(hdev);
-   514		return ret;
-   515	}
-   516	
+
+vim +/info +955 drivers/base/power/wakeup.c
+
+   924	
+   925	/**
+   926	 * pm_wakeup_pending - Check if power transition in progress should be aborted.
+   927	 *
+   928	 * Compare the current number of registered wakeup events with its preserved
+   929	 * value from the past and return true if new wakeup events have been registered
+   930	 * since the old value was stored.  Also return true if the current number of
+   931	 * wakeup events being processed is different from zero.
+   932	 */
+   933	bool pm_wakeup_pending(void)
+   934	{
+   935		unsigned long flags;
+   936		bool ret = false;
+   937	
+   938		raw_spin_lock_irqsave(&events_lock, flags);
+   939		if (events_check_enabled) {
+   940			unsigned int cnt, inpr;
+   941	
+   942			split_counters(&cnt, &inpr);
+   943			ret = (cnt != saved_count || inpr > 0);
+   944			events_check_enabled = !ret;
+   945		}
+   946		raw_spin_unlock_irqrestore(&events_lock, flags);
+   947	
+   948		if (ret) {
+   949			pm_pr_dbg("Wakeup pending, aborting suspend\n");
+   950			pm_print_active_wakeup_sources();
+   951		}
+   952	
+   953		if (atomic_read(&pm_abort_suspend) > 0) {
+   954			if (!list_empty(&pm_abort_suspend_list))
+ > 955				list_for_each_entry(info, &pm_abort_suspend_list, list) {
+ > 956					log_suspend_abort_reason("ws or subsystem %s aborted suspend\n",
+   957							info->source_triggering_abort_suspend);
+   958				}
+   959		}
+   960	
+   961		return ret || atomic_read(&pm_abort_suspend) > 0;
+   962	}
+   963	EXPORT_SYMBOL_GPL(pm_wakeup_pending);
+   964	
+   965	void pm_system_wakeup(void)
+   966	{
+ > 967		char buf[MAX_SUSPEND_ABORT_LEN];
+   968	
+   969		if (pm_suspend_target_state != PM_SUSPEND_ON) {
+   970			sprintf(buf, "%ps", __builtin_return_address(0));
+   971			if (strcmp(buf, "pm_wakeup_ws_event"))
+   972				pm_add_abort_suspend_source(buf);
+   973		}
+   974	
+   975		atomic_inc(&pm_abort_suspend);
+   976		s2idle_wake();
+   977	}
+   978	EXPORT_SYMBOL_GPL(pm_system_wakeup);
+   979	
 
 -- 
 0-DAY CI Kernel Test Service
