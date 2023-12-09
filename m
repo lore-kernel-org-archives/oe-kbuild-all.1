@@ -1,46 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4171125B3
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 10:41:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C32979F1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 10:42:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bj0inFYo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8Naa9VT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702118483; x=1733654483;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0EqpImFANYSBcWTRpu4wgb5jHGr73ztwgg58L42Jzy4=;
-  b=bj0inFYodM/6ZW4mfXlLiH2/Lcjq5cpYoXPVpBwWJpN4CHXVXfL8Juny
-   BXAZwulr4wGh9u8jWKFFTYSWPSLxM+8GN3WDXphlBQGZyZf5WTV30lWU2
-   X3MyjTwlrTyMEAp5DcTxSLZILj9DuKiFeJLIaeNb8b6bafh8zNZeLSdM0
-   kfYhZ3T/THOl8msRUX99SlMzwKKao5+jPIlssEgq1wU6x76e0Gbl2VhvU
-   FDMK28w9c17t5xk2Zrcgbjz4nqjEy3tYahMI1/KyobHwy3AkEclY/liX9
-   cCHzNaqZ79y39Gb9FAVmtrvm+rM+rsT/Sfunw+5YGiZYeZ5XDV2aUT+zU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="16056911"
+  t=1702118547; x=1733654547;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aosUpJKuMFxNlIJ4PLGysshgVVjbb0r15RASPFtHmbA=;
+  b=d8Naa9VTAzjB8t4K7X5MuOfenVhNX4vFO1p5G6bh/YAUV5KKA8dGKkeq
+   63IzyLqoxjm+3vwirQOLeh9Fq24I/qPYCovDG1hxqV9tfxsu68Hx7qmT7
+   hxIQekovf70wAwfpfe5l9gq6DMz34Faay+HLLi98+ePktp3eoQ/kI1drK
+   UDW/G3YzYq3oZ4gUkYRpp6x5mRX4DxhsjXhZuUgLrafD8PYk67x3lvFZH
+   NngS9Tz3lTo1zQhPhg31o/JT/mJu1KCuolcGN7rzpf2pJwCuknK51I3pX
+   t6dRbH/2WxsWHVhA7g61kj+b8fwdlnvVDbZ1jXF9cdKjhz+1A/GzderOn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="397297813"
 X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="16056911"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 02:41:22 -0800
+   d="scan'208";a="397297813"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 02:42:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="722137199"
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="890451355"
 X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="722137199"
+   d="scan'208";a="890451355"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 09 Dec 2023 02:41:20 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2023 02:42:24 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBulq-000FEu-0e;
-	Sat, 09 Dec 2023 10:41:18 +0000
-Date: Sat, 9 Dec 2023 18:41:17 +0800
+	id 1rBumo-000FF3-14;
+	Sat, 09 Dec 2023 10:42:19 +0000
+Date: Sat, 9 Dec 2023 18:41:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: io_uring/poll.c:480:43: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202312091824.Oiptw6wb-lkp@intel.com>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linux-usb@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	kernel@collabora.com
+Subject: Re: [PATCH v2] usb: gadget: webcam: Make g_webcam loadable again
+Message-ID: <202312091825.1MSZeBRA-lkp@intel.com>
+References: <20231208131342.65671-1-andrzej.p@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,139 +57,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231208131342.65671-1-andrzej.p@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
-commit: b9ba8a4463cd78d0aee520c4bf2569820ac29929 io_uring: add support for level triggered poll
-date:   1 year, 5 months ago
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231209/202312091824.Oiptw6wb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091824.Oiptw6wb-lkp@intel.com/reproduce)
+Hi Andrzej,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 33cc938e65a98f1d29d0a18403dbbee050dcad9a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrzej-Pietrasiewicz/usb-gadget-webcam-Make-g_webcam-loadable-again/20231208-211513
+base:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
+patch link:    https://lore.kernel.org/r/20231208131342.65671-1-andrzej.p%40collabora.com
+patch subject: [PATCH v2] usb: gadget: webcam: Make g_webcam loadable again
+config: x86_64-randconfig-r111-20231209 (https://download.01.org/0day-ci/archive/20231209/202312091825.1MSZeBRA-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091825.1MSZeBRA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312091824.Oiptw6wb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312091825.1MSZeBRA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   io_uring/poll.c:165:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t @@
-   io_uring/poll.c:165:38: sparse:     expected signed int [usertype] res
-   io_uring/poll.c:165:38: sparse:     got restricted __poll_t
-   io_uring/poll.c:176:56: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:175:66: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
-   io_uring/poll.c:175:66: sparse:     expected restricted __poll_t [usertype] val
-   io_uring/poll.c:175:66: sparse:     got unsigned int
-   io_uring/poll.c:175:52: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned short @@
-   io_uring/poll.c:175:52: sparse:     expected restricted __poll_t [usertype] mask
-   io_uring/poll.c:175:52: sparse:     got unsigned short
-   io_uring/poll.c:181:50: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected signed int [usertype] res @@     got restricted __poll_t [usertype] mask @@
-   io_uring/poll.c:181:50: sparse:     expected signed int [usertype] res
-   io_uring/poll.c:181:50: sparse:     got restricted __poll_t [usertype] mask
-   io_uring/poll.c:216:63: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:216:57: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __poll_t [usertype] val @@     got unsigned int @@
-   io_uring/poll.c:216:57: sparse:     expected restricted __poll_t [usertype] val
-   io_uring/poll.c:216:57: sparse:     got unsigned int
-   io_uring/poll.c:334:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [usertype] mask @@
-   io_uring/poll.c:334:40: sparse:     expected int mask
-   io_uring/poll.c:334:40: sparse:     got restricted __poll_t [usertype] mask
-   io_uring/poll.c:430:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:430:24: sparse:     expected int
-   io_uring/poll.c:430:24: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:451:40: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:451:40: sparse:     expected int mask
-   io_uring/poll.c:451:40: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:480:45: sparse: sparse: restricted __poll_t degrades to integer
->> io_uring/poll.c:480:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __poll_t [usertype] mask @@     got unsigned int @@
-   io_uring/poll.c:480:43: sparse:     expected restricted __poll_t [usertype] mask
-   io_uring/poll.c:480:43: sparse:     got unsigned int
-   io_uring/poll.c:528:33: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected int mask @@     got restricted __poll_t [assigned] [usertype] mask @@
-   io_uring/poll.c:528:33: sparse:     expected int mask
-   io_uring/poll.c:528:33: sparse:     got restricted __poll_t [assigned] [usertype] mask
-   io_uring/poll.c:528:50: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected int events @@     got restricted __poll_t [usertype] events @@
-   io_uring/poll.c:528:50: sparse:     expected int events
-   io_uring/poll.c:528:50: sparse:     got restricted __poll_t [usertype] events
-   io_uring/poll.c:642:24: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:642:24: sparse:    left side has type unsigned int
-   io_uring/poll.c:642:24: sparse:    right side has type restricted __poll_t
-   io_uring/poll.c:644:24: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:644:24: sparse:    left side has type unsigned int
-   io_uring/poll.c:644:24: sparse:    right side has type restricted __poll_t
-   io_uring/poll.c:646:55: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:645:29: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:645:38: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int @@
-   io_uring/poll.c:645:38: sparse:     expected restricted __poll_t
-   io_uring/poll.c:645:38: sparse:     got unsigned int
-   io_uring/poll.c:741:38: sparse: sparse: invalid assignment: &=
-   io_uring/poll.c:741:38: sparse:    left side has type restricted __poll_t
-   io_uring/poll.c:741:38: sparse:    right side has type int
-   io_uring/poll.c:742:52: sparse: sparse: restricted __poll_t degrades to integer
-   io_uring/poll.c:742:38: sparse: sparse: invalid assignment: |=
-   io_uring/poll.c:742:38: sparse:    left side has type restricted __poll_t
-   io_uring/poll.c:742:38: sparse:    right side has type unsigned int
-   io_uring/poll.c: note: in included file:
-   io_uring/io_uring_types.h:92:37: sparse: sparse: array of flexible structures
+All errors (new ones prefixed by >>):
 
-vim +480 io_uring/poll.c
+>> drivers/usb/gadget/legacy/webcam.c:224:17: error: initializer element is not constant
+      .b_length   = uvc_frame_yuv_360p.bLength,
+                    ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:224:17: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_length')
+   drivers/usb/gadget/legacy/webcam.c:225:25: error: initializer element is not constant
+      .b_descriptor_type  = uvc_frame_yuv_360p.bDescriptorType,
+                            ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:225:25: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_descriptor_type')
+   drivers/usb/gadget/legacy/webcam.c:226:28: error: initializer element is not constant
+      .b_descriptor_subtype  = uvc_frame_yuv_360p.bDescriptorSubType,
+                               ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:226:28: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_descriptor_subtype')
+   drivers/usb/gadget/legacy/webcam.c:227:22: error: initializer element is not constant
+      .b_frame_index   = uvc_frame_yuv_360p.bFrameIndex,
+                         ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:227:22: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_frame_index')
+   drivers/usb/gadget/legacy/webcam.c:228:23: error: initializer element is not constant
+      .bm_capabilities  = uvc_frame_yuv_360p.bmCapabilities,
+                          ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:228:23: note: (near initialization for 'uvcg_frame_yuv_360p.frame.bm_capabilities')
+   drivers/usb/gadget/legacy/webcam.c:229:16: error: initializer element is not constant
+      .w_width   = uvc_frame_yuv_360p.wWidth,
+                   ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:229:16: note: (near initialization for 'uvcg_frame_yuv_360p.frame.w_width')
+   drivers/usb/gadget/legacy/webcam.c:230:17: error: initializer element is not constant
+      .w_height   = uvc_frame_yuv_360p.wHeight,
+                    ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:230:17: note: (near initialization for 'uvcg_frame_yuv_360p.frame.w_height')
+   drivers/usb/gadget/legacy/webcam.c:231:23: error: initializer element is not constant
+      .dw_min_bit_rate  = uvc_frame_yuv_360p.dwMinBitRate,
+                          ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:231:23: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_min_bit_rate')
+   drivers/usb/gadget/legacy/webcam.c:232:23: error: initializer element is not constant
+      .dw_max_bit_rate  = uvc_frame_yuv_360p.dwMaxBitRate,
+                          ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:232:23: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_max_bit_rate')
+   drivers/usb/gadget/legacy/webcam.c:233:37: error: initializer element is not constant
+      .dw_max_video_frame_buffer_size = uvc_frame_yuv_360p.dwMaxVideoFrameBufferSize,
+                                        ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:233:37: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_max_video_frame_buffer_size')
+   drivers/usb/gadget/legacy/webcam.c:234:32: error: initializer element is not constant
+      .dw_default_frame_interval = uvc_frame_yuv_360p.dwDefaultFrameInterval,
+                                   ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:234:32: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_default_frame_interval')
+   drivers/usb/gadget/legacy/webcam.c:235:29: error: initializer element is not constant
+      .b_frame_interval_type  = uvc_frame_yuv_360p.bFrameIntervalType,
+                                ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:235:29: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_frame_interval_type')
+   drivers/usb/gadget/legacy/webcam.c:263:17: error: initializer element is not constant
+      .b_length   = uvc_frame_yuv_720p.bLength,
+                    ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:263:17: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_length')
+   drivers/usb/gadget/legacy/webcam.c:264:25: error: initializer element is not constant
+      .b_descriptor_type  = uvc_frame_yuv_720p.bDescriptorType,
+                            ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:264:25: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_descriptor_type')
+   drivers/usb/gadget/legacy/webcam.c:265:28: error: initializer element is not constant
+      .b_descriptor_subtype  = uvc_frame_yuv_720p.bDescriptorSubType,
+                               ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:265:28: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_descriptor_subtype')
+   drivers/usb/gadget/legacy/webcam.c:266:22: error: initializer element is not constant
+      .b_frame_index   = uvc_frame_yuv_720p.bFrameIndex,
+                         ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:266:22: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_frame_index')
+   drivers/usb/gadget/legacy/webcam.c:267:23: error: initializer element is not constant
+      .bm_capabilities  = uvc_frame_yuv_720p.bmCapabilities,
+                          ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:267:23: note: (near initialization for 'uvcg_frame_yuv_720p.frame.bm_capabilities')
+   drivers/usb/gadget/legacy/webcam.c:268:16: error: initializer element is not constant
+      .w_width   = uvc_frame_yuv_720p.wWidth,
+                   ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:268:16: note: (near initialization for 'uvcg_frame_yuv_720p.frame.w_width')
+   drivers/usb/gadget/legacy/webcam.c:269:17: error: initializer element is not constant
+      .w_height   = uvc_frame_yuv_720p.wHeight,
+                    ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:269:17: note: (near initialization for 'uvcg_frame_yuv_720p.frame.w_height')
+   drivers/usb/gadget/legacy/webcam.c:270:23: error: initializer element is not constant
+      .dw_min_bit_rate  = uvc_frame_yuv_720p.dwMinBitRate,
+                          ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:270:23: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_min_bit_rate')
+   drivers/usb/gadget/legacy/webcam.c:271:23: error: initializer element is not constant
+      .dw_max_bit_rate  = uvc_frame_yuv_720p.dwMaxBitRate,
+                          ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:271:23: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_max_bit_rate')
+   drivers/usb/gadget/legacy/webcam.c:272:37: error: initializer element is not constant
+      .dw_max_video_frame_buffer_size = uvc_frame_yuv_720p.dwMaxVideoFrameBufferSize,
+                                        ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:272:37: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_max_video_frame_buffer_size')
+   drivers/usb/gadget/legacy/webcam.c:273:32: error: initializer element is not constant
+      .dw_default_frame_interval = uvc_frame_yuv_720p.dwDefaultFrameInterval,
+                                   ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:273:32: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_default_frame_interval')
+   drivers/usb/gadget/legacy/webcam.c:274:29: error: initializer element is not constant
+      .b_frame_interval_type  = uvc_frame_yuv_720p.bFrameIntervalType,
+                                ^~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:274:29: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_frame_interval_type')
+   drivers/usb/gadget/legacy/webcam.c:332:17: error: initializer element is not constant
+      .b_length   = uvc_frame_mjpg_360p.bLength,
+                    ^~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/legacy/webcam.c:332:17: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.b_length')
+   drivers/usb/gadget/legacy/webcam.c:333:25: error: initializer element is not constant
 
-   473	
-   474	int io_arm_poll_handler(struct io_kiocb *req, unsigned issue_flags)
-   475	{
-   476		const struct io_op_def *def = &io_op_defs[req->opcode];
-   477		struct io_ring_ctx *ctx = req->ctx;
-   478		struct async_poll *apoll;
-   479		struct io_poll_table ipt;
- > 480		__poll_t mask = POLLPRI | POLLERR | EPOLLET;
-   481		int ret;
-   482	
-   483		if (!def->pollin && !def->pollout)
-   484			return IO_APOLL_ABORTED;
-   485		if (!file_can_poll(req->file))
-   486			return IO_APOLL_ABORTED;
-   487		if ((req->flags & (REQ_F_POLLED|REQ_F_PARTIAL_IO)) == REQ_F_POLLED)
-   488			return IO_APOLL_ABORTED;
-   489		if (!(req->flags & REQ_F_APOLL_MULTISHOT))
-   490			mask |= EPOLLONESHOT;
-   491	
-   492		if (def->pollin) {
-   493			mask |= EPOLLIN | EPOLLRDNORM;
-   494	
-   495			/* If reading from MSG_ERRQUEUE using recvmsg, ignore POLLIN */
-   496			if (req->flags & REQ_F_CLEAR_POLLIN)
-   497				mask &= ~EPOLLIN;
-   498		} else {
-   499			mask |= EPOLLOUT | EPOLLWRNORM;
-   500		}
-   501		if (def->poll_exclusive)
-   502			mask |= EPOLLEXCLUSIVE;
-   503		if (req->flags & REQ_F_POLLED) {
-   504			apoll = req->apoll;
-   505			kfree(apoll->double_poll);
-   506		} else if (!(issue_flags & IO_URING_F_UNLOCKED) &&
-   507			   !list_empty(&ctx->apoll_cache)) {
-   508			apoll = list_first_entry(&ctx->apoll_cache, struct async_poll,
-   509							poll.wait.entry);
-   510			list_del_init(&apoll->poll.wait.entry);
-   511		} else {
-   512			apoll = kmalloc(sizeof(*apoll), GFP_ATOMIC);
-   513			if (unlikely(!apoll))
-   514				return IO_APOLL_ABORTED;
-   515		}
-   516		apoll->double_poll = NULL;
-   517		req->apoll = apoll;
-   518		req->flags |= REQ_F_POLLED;
-   519		ipt.pt._qproc = io_async_queue_proc;
-   520	
-   521		io_kbuf_recycle(req, issue_flags);
-   522	
-   523		ret = __io_arm_poll_handler(req, &apoll->poll, &ipt, mask);
-   524		if (ret || ipt.error)
-   525			return ret ? IO_APOLL_READY : IO_APOLL_ABORTED;
-   526	
-   527		trace_io_uring_poll_arm(ctx, req, req->cqe.user_data, req->opcode,
-   528					mask, apoll->poll.events);
-   529		return IO_APOLL_OK;
-   530	}
-   531	
+
+vim +224 drivers/usb/gadget/legacy/webcam.c
+
+   220	
+   221	static const struct uvcg_frame uvcg_frame_yuv_360p = {
+   222		.fmt_type		= UVCG_UNCOMPRESSED,
+   223		.frame = {
+ > 224			.b_length			= uvc_frame_yuv_360p.bLength,
+   225			.b_descriptor_type		= uvc_frame_yuv_360p.bDescriptorType,
+   226			.b_descriptor_subtype		= uvc_frame_yuv_360p.bDescriptorSubType,
+   227			.b_frame_index			= uvc_frame_yuv_360p.bFrameIndex,
+   228			.bm_capabilities		= uvc_frame_yuv_360p.bmCapabilities,
+   229			.w_width			= uvc_frame_yuv_360p.wWidth,
+   230			.w_height			= uvc_frame_yuv_360p.wHeight,
+   231			.dw_min_bit_rate		= uvc_frame_yuv_360p.dwMinBitRate,
+   232			.dw_max_bit_rate		= uvc_frame_yuv_360p.dwMaxBitRate,
+   233			.dw_max_video_frame_buffer_size	= uvc_frame_yuv_360p.dwMaxVideoFrameBufferSize,
+   234			.dw_default_frame_interval	= uvc_frame_yuv_360p.dwDefaultFrameInterval,
+   235			.b_frame_interval_type		= uvc_frame_yuv_360p.bFrameIntervalType,
+   236		},
+   237		.dw_frame_interval	= (u32 *)uvc_frame_yuv_360p.dwFrameInterval,
+   238	};
+   239	
 
 -- 
 0-DAY CI Kernel Test Service
