@@ -1,46 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0A413AF9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 15:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025C213AF9;
+	Sat,  9 Dec 2023 15:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CPesK0rQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702135362; x=1733671362;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8f/LqNeunxGMjPb3IXsL/dR2s6eRkvmQKc57l5wEEpc=;
-  b=CPesK0rQDXjXtE6lX++dejR/diPz7f/nirgm2RJh0jmGFUdrq8BwVtHg
-   EGCa+GZzSITVtcJTreW7Q4YTgz9EN9cks/617BJlxGNu6e+gVRGnHRnvQ
-   UaSKrrhqq5Q2v4nvAQfRlszTpv8Ywz+pqdjdP4uCx3K3oRe6f5mh9EzGZ
-   P6jJaAZHi2nQYi2wyOCk7Wob356Kdhb1v05SjkN2PGB6yvBaUgUoThE5V
-   vzu910pwE2kkUMQQWjbdk3InmTMq65dBn3dPGMounCfp46ocuK2SoU+oG
-   JudkbfpJPxbeuOx8c0tGazZUhj4hUvJXFPbX/4Dge6X2f3IBJqi92HL+Y
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="480708604"
-X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="480708604"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 07:22:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="945720148"
-X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="945720148"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 09 Dec 2023 07:22:40 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rBzA6-000FUr-0h;
-	Sat, 09 Dec 2023 15:22:38 +0000
-Date: Sat, 9 Dec 2023 23:22:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: io_uring.c:(.text+0x6c4e): relocation truncated to fit:
- R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-Message-ID: <202312092349.v2av9uL3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d4vPiUZg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDB26C433C8;
+	Sat,  9 Dec 2023 15:51:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702137090;
+	bh=B3v9bwxxiKJCYTZLonVR80MhGHU+cdr4njBxdTxrBZ8=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=d4vPiUZgGBp/xiPQThXJAATl3ojnowbYpykR84SpURS3H5bRnDo/aL+ZbJWapa2Q4
+	 +NnwnQ7fRXZDz0+QeeoO6V94YORod1WZhFn25o6Vw3I6bm5IMq9O7F5cagNoSM795B
+	 LIoPVAqu18I9s4SApslb6bP4Ashzt2WdKRQa7PmUktT71HSDRTn5mxP6O3tRQDSAN8
+	 wxOUlI23WMhEbhSsrpd9qQPDpALR4J+Hxm0v4/8V5OvjyxwpvXrTWSnn+xM+4J5NG9
+	 41xfD22q+3t7pEu3qrg+0dePAhEayiDH3eMI9U+5PejE0Rp0n+9zuTetFFXseZ1SbL
+	 rpxKfObL7MCxg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 5B3F4CE0D18; Sat,  9 Dec 2023 07:51:30 -0800 (PST)
+Date: Sat, 9 Dec 2023 07:51:30 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
+	julia.lawall@inria.fr, clm@fb.com, dsterba@suse.com,
+	baptiste.lepers@gmail.com
+Subject: Re: [paulmck-rcu:frederic.2023.12.08a 29/37]
+ fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329'
+ declared with 'error' attribute: Need native word sized stores/loads for
+ atomicity.
+Message-ID: <0487d7cc-b906-4a4a-b284-9c79700b4ede@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202312091837.cKaPw0Tf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,37 +41,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202312091837.cKaPw0Tf-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
-commit: 7b72d661f1f2f950ab8c12de7e2bc48bdac8ed69 io_uring: gate iowait schedule on having pending requests
-date:   5 months ago
-config: csky-randconfig-s053-20221204 (https://download.01.org/0day-ci/archive/20231209/202312092349.v2av9uL3-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312092349.v2av9uL3-lkp@intel.com/reproduce)
+On Sat, Dec 09, 2023 at 06:20:37PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git frederic.2023.12.08a
+> head:   37843b5f561a08ae899fb791eeeb5abd992eabe2
+> commit: 7dd87072d40809e26503f04b79d63290288dbbac [29/37] btrfs: Adjust ->last_trans ordering in btrfs_record_root_in_trans()
+> config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312091837.cKaPw0Tf-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
+>    warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wstring-concatenation'? [-Wunknown-warning-option]
+>    warning: unknown warning option '-Wmaybe-uninitialized'; did you mean '-Wuninitialized'? [-Wunknown-warning-option]
+> >> fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329' declared with 'error' attribute: Need native word sized stores/loads for atomicity.
+>      496 |         if (smp_load_acquire(&root->last_trans) == trans->transid && /* ^^^ */
+>          |             ^
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312092349.v2av9uL3-lkp@intel.com/
+Ooooh!!!  :-/
 
-All errors (new ones prefixed by >>):
+From what I can see, the current code can tear this load on 32-bit
+systems, which can result in bad comparisons and then in failure to wait
+for a partially complete transaction.
 
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
-   io_uring/io_uring.o: in function `ctx_flush_and_put':
->> io_uring.c:(.text+0x6c4e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6c52): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6c6a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6c6e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6c8e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6c9a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6ccc): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6cd0): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6cea): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6cf4): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   io_uring.c:(.text+0x6cfe): additional relocation overflows omitted from the output
+So is btrfs actually supported on 32-bit systems?  If not, would the
+following patch be appropriate?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+If btrfs is to be supported on 32-bit systems, from what I can see some
+major surgery is required, even if a 32-bit counter is wrap-safe for
+this particular type of transaction.  (But SSDs?  In-memory btrfs
+filesystems?)
+
+							Thanx, Paul
+
+------------------------------------------------------------------------
+
+diff --git a/fs/btrfs/Kconfig b/fs/btrfs/Kconfig
+index 4fb925e8c981..4d56158c34f9 100644
+--- a/fs/btrfs/Kconfig
++++ b/fs/btrfs/Kconfig
+@@ -19,6 +19,7 @@ config BTRFS_FS
+ 	select RAID6_PQ
+ 	select XOR_BLOCKS
+ 	depends on PAGE_SIZE_LESS_THAN_256KB
++	depends on 64BIT
+ 
+ 	help
+ 	  Btrfs is a general purpose copy-on-write filesystem with extents,
