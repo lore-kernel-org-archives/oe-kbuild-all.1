@@ -1,49 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F1B168B0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 15:54:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A747E187C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 16:04:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R8Q1uHRY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HAxSOpA7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702137285; x=1733673285;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cJAVYCTsvvg1pGHyApm68cNmhcwZTU4j+YwuPZIG6ko=;
-  b=R8Q1uHRYiQp3dHzGzarC8IChBdwriDsfX02puif6koQ45OhQ32FtX2mO
-   0Va7WRGieAbxVhacjaVdQ23wS0bNv2wW1DBKxDUfTjJAOZLh+OWO0FH1f
-   gstmdTMJSCTJedpbBQ+gBpVAX4z9w31/KoqaOvX6G/jCqeanqRxT+Uihq
-   BJioiGw0T9XK6oGVCunGADvqQvCqymkp0B88Ryq7YgRv84eF6nFM7E3YW
-   L7IsVofrYGoM148fKqkyxBFFIwvGtP+7cHhfkL7EbVOnwQeDZpW30EEtp
-   BWTlJjd4XoOMByN7xXiq2GKE13D2F9ADGvgd/R+2s3QLtTM9z2/Gu6ZpN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1614680"
+  t=1702137885; x=1733673885;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mbwyxV6Emt7SDz2s/R8taFzxiWC37ANwbG4JfXiR2GI=;
+  b=HAxSOpA7vlTtDgIifpohzo3Rjth9L0y7qfyVHWWGAsfOI+kBajCKHTaw
+   lsLfjCFJ2PbosMzUk5Hk93U+wRFvPtqElx646wkpPDuG5DRxhqkBJfKps
+   h1kVvmPUpAQmsRa6dbgvuHqXWY66El2Ge1BMmKXLhHQTF4WBRankHO34p
+   wUqYoYyOkEXMUhsSpyrK8xVV0oa1ZNhNCXPy3/YSw1IynMf/0jYm7irHD
+   V91RZUHd9N4DuoQNQ5o5u3aHX2UobnCbc5ui+OHm+g8REKTsiaoveP4yR
+   SNeAgmF58rHdGu6HUbYI9/+T+EFdEqrwqfTJf0Qqh12GOP8sbg8Op+KZc
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="398379218"
 X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="1614680"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 07:54:44 -0800
+   d="scan'208";a="398379218"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 08:04:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="842949695"
 X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="842949695"
+   d="scan'208";a="13818109"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Dec 2023 07:54:42 -0800
+  by orviesa002.jf.intel.com with ESMTP; 09 Dec 2023 08:04:43 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBzf6-000FXv-0J;
-	Sat, 09 Dec 2023 15:54:40 +0000
-Date: Sat, 9 Dec 2023 23:54:25 +0800
+	id 1rBzon-000FZ3-1a;
+	Sat, 09 Dec 2023 16:04:41 +0000
+Date: Sun, 10 Dec 2023 00:04:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julien Massot <julien.massot@collabora.com>, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
-	Julien Massot <julien.massot@collabora.com>
-Subject: Re: [PATCH v2 3/4] media: i2c: add MAX96714 driver
-Message-ID: <202312092303.ww5viNmZ-lkp@intel.com>
-References: <20231208143359.469049-4-julien.massot@collabora.com>
+To: Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: kernel/trace/rv/rv.c:244: warning: Function parameter or member
+ 'mdef' not described in 'rv_disable_monitor'
+Message-ID: <202312100010.bWNK9nlA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,60 +49,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231208143359.469049-4-julien.massot@collabora.com>
 
-Hi Julien,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master linus/master v6.7-rc4 next-20231208]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/dt-bindings-media-add-Maxim-MAX96714F-GMSL2-Deserializer/20231208-223758
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20231208143359.469049-4-julien.massot%40collabora.com
-patch subject: [PATCH v2 3/4] media: i2c: add MAX96714 driver
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20231209/202312092303.ww5viNmZ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312092303.ww5viNmZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f2e8a57ee9036c7d5443382b6c3c09b51a92ec7e
+commit: 102227b970a15256f5ffd12a6a276ddf978e6caf rv: Add Runtime Verification (RV) interface
+date:   1 year, 4 months ago
+config: x86_64-buildonly-randconfig-004-20231010 (https://download.01.org/0day-ci/archive/20231210/202312100010.bWNK9nlA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100010.bWNK9nlA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312092303.ww5viNmZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100010.bWNK9nlA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/media/i2c/max96714.c: In function 'max96714_csi_status':
->> drivers/media/i2c/max96714.c:380:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     380 |         freq = FIELD_GET(CSI_DPLL_FREQ_MASK, freq);
-         |                ^~~~~~~~~
-   drivers/media/i2c/max96714.c: In function 'max96714_init_tx_port':
->> drivers/media/i2c/max96714.c:600:15: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     600 |         val = FIELD_PREP(MAX96714_CSI2_LANE_CNT_MASK, mipi->num_data_lanes - 1);
-         |               ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> kernel/trace/rv/rv.c:244: warning: Function parameter or member 'mdef' not described in 'rv_disable_monitor'
+>> kernel/trace/rv/rv.c:255: warning: Function parameter or member 'mdef' not described in 'rv_enable_monitor'
 
 
-vim +/FIELD_GET +380 drivers/media/i2c/max96714.c
+vim +244 kernel/trace/rv/rv.c
 
-   373	
-   374	static void max96714_csi_status(struct max96714_priv *priv)
-   375	{
-   376		struct device *dev = &priv->client->dev;
-   377		u8 freq;
-   378	
-   379		max96714_read(priv, MAX96714_BACKTOP25, &freq);
- > 380		freq = FIELD_GET(CSI_DPLL_FREQ_MASK, freq);
-   381	
-   382		dev_info(dev, "CSI controller DPLL freq:%u00MHz CSIPHY enabled:%d\n",
-   383			 freq, max96714_tx_port_enabled(priv));
-   384	}
-   385	
+   237	
+   238	/**
+   239	 * rv_disable_monitor - disable a given runtime monitor
+   240	 *
+   241	 * Returns 0 on success.
+   242	 */
+   243	int rv_disable_monitor(struct rv_monitor_def *mdef)
+ > 244	{
+   245		__rv_disable_monitor(mdef, true);
+   246		return 0;
+   247	}
+   248	
+   249	/**
+   250	 * rv_enable_monitor - enable a given runtime monitor
+   251	 *
+   252	 * Returns 0 on success, error otherwise.
+   253	 */
+   254	int rv_enable_monitor(struct rv_monitor_def *mdef)
+ > 255	{
+   256		int retval;
+   257	
+   258		lockdep_assert_held(&rv_interface_lock);
+   259	
+   260		if (mdef->monitor->enabled)
+   261			return 0;
+   262	
+   263		retval = mdef->monitor->enable();
+   264	
+   265		if (!retval)
+   266			mdef->monitor->enabled = 1;
+   267	
+   268		return retval;
+   269	}
+   270	
 
 -- 
 0-DAY CI Kernel Test Service
