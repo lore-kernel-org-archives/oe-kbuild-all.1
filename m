@@ -1,48 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F8B111BF;
-	Sat,  9 Dec 2023 10:21:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FABF11CBB
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 10:21:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AxIHGw9S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYbtLTos"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702117313; x=1733653313;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/ksl0sdPrEXa+KPusl2nMjqXcvg9LCAN3e0GNe+nZig=;
-  b=AxIHGw9SwMjhWBVg9vdPVGkG1c09l1KN6wBgk9QlNUOzdLaLokMvr5Tw
-   q7awAzt9zCpkPjdbKLI3Cvj/M5yZgHuCIiCLpmazdrZ+QJXXk5bf1pJHo
-   FTehaMdyxCplV8I4aeyQutJUutmRYPnHXCGBoT+oHEcaCZrpO6DnGW7WY
-   EPBvQcpQoV4IfPyUGA963hsujOgWEJ42Tg0JgSD2QZS8oMdLxd82/gNY3
-   WHtXYkflN8UfOSqXHMtcTH0Iz8Ej6uAzeJKEoTB9FOjvVxjjFZnmZ3AfO
-   jqk1IZLreV5g8/2Rf4hFzYlyvaKVn+uaKbG8AXG66SHEmaeIAghhVHnly
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1576261"
+  t=1702117316; x=1733653316;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JoyPvmiD8zPrvDFM3J9U7JTurKggNBLbxCoM/GlAgEk=;
+  b=TYbtLTos4s8QKo87PvipEeU3FyVQtbvxBY6WWdCfX6UO4UjWsyWGU2AR
+   DT7GIl+o+BGg6WhYLgp6bla5Fqv6oL/QnTxiVj8un/g2XyVE8vpUgmRmc
+   C+4ruKfupPA26gMMGEp5ENn6YGkAQIVNWKN1j3vNSl11sdH09EJkVy9FX
+   ANToKBRUjN8sOxhO/fTZ7gE/mwARuUXlx0+mUSUZFii1847zAZtnGDVj/
+   XSYtBmzlxrUGMx9tfZakAORv7JIxH6s2vQjNRH2Z+Au7vTKI39ghbKQfJ
+   xqHaQrg/aS6/ZyT0QYgMILTMpc359+MpMpbsYj0WmIOBL3W5IjQteEgEt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1576263"
 X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="1576261"
+   d="scan'208";a="1576263"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 02:21:52 -0800
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 02:21:53 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
-   d="scan'208";a="13760149"
+   d="scan'208";a="13760154"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orviesa002.jf.intel.com with ESMTP; 09 Dec 2023 02:21:50 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rBuSM-000FBp-0B;
+	id 1rBuSx-000FBv-22;
 	Sat, 09 Dec 2023 10:21:47 +0000
 Date: Sat, 9 Dec 2023 18:20:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
-Subject: [paulmck-rcu:frederic.2023.12.08a 29/37]
- fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329'
- declared with 'error' attribute: Need native word sized stores/loads for
- atomicity.
-Message-ID: <202312091837.cKaPw0Tf-lkp@intel.com>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	linux-usb@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	kernel@collabora.com
+Subject: Re: [PATCH v2] usb: gadget: webcam: Make g_webcam loadable again
+Message-ID: <202312091817.u3BjKBcF-lkp@intel.com>
+References: <20231208131342.65671-1-andrzej.p@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,121 +56,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231208131342.65671-1-andrzej.p@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git frederic.2023.12.08a
-head:   37843b5f561a08ae899fb791eeeb5abd992eabe2
-commit: 7dd87072d40809e26503f04b79d63290288dbbac [29/37] btrfs: Adjust ->last_trans ordering in btrfs_record_root_in_trans()
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/reproduce)
+Hi Andrzej,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 33cc938e65a98f1d29d0a18403dbbee050dcad9a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrzej-Pietrasiewicz/usb-gadget-webcam-Make-g_webcam-loadable-again/20231208-211513
+base:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
+patch link:    https://lore.kernel.org/r/20231208131342.65671-1-andrzej.p%40collabora.com
+patch subject: [PATCH v2] usb: gadget: webcam: Make g_webcam loadable again
+config: m68k-randconfig-r132-20231209 (https://download.01.org/0day-ci/archive/20231209/202312091817.u3BjKBcF-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231209/202312091817.u3BjKBcF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312091837.cKaPw0Tf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312091817.u3BjKBcF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/gadget/legacy/webcam.c:229:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] w_width @@     got restricted __le16 static const [toplevel] [usertype] wWidth @@
+   drivers/usb/gadget/legacy/webcam.c:229:69: sparse:     expected unsigned short [usertype] w_width
+   drivers/usb/gadget/legacy/webcam.c:229:69: sparse:     got restricted __le16 static const [toplevel] [usertype] wWidth
+>> drivers/usb/gadget/legacy/webcam.c:230:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] w_height @@     got restricted __le16 static const [toplevel] [usertype] wHeight @@
+   drivers/usb/gadget/legacy/webcam.c:230:69: sparse:     expected unsigned short [usertype] w_height
+   drivers/usb/gadget/legacy/webcam.c:230:69: sparse:     got restricted __le16 static const [toplevel] [usertype] wHeight
+>> drivers/usb/gadget/legacy/webcam.c:231:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_min_bit_rate @@     got restricted __le32 static const [toplevel] [usertype] dwMinBitRate @@
+   drivers/usb/gadget/legacy/webcam.c:231:69: sparse:     expected unsigned int [usertype] dw_min_bit_rate
+   drivers/usb/gadget/legacy/webcam.c:231:69: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMinBitRate
+>> drivers/usb/gadget/legacy/webcam.c:232:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_max_bit_rate @@     got restricted __le32 static const [toplevel] [usertype] dwMaxBitRate @@
+   drivers/usb/gadget/legacy/webcam.c:232:69: sparse:     expected unsigned int [usertype] dw_max_bit_rate
+   drivers/usb/gadget/legacy/webcam.c:232:69: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMaxBitRate
+>> drivers/usb/gadget/legacy/webcam.c:233:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_max_video_frame_buffer_size @@     got restricted __le32 static const [toplevel] [usertype] dwMaxVideoFrameBufferSize @@
+   drivers/usb/gadget/legacy/webcam.c:233:69: sparse:     expected unsigned int [usertype] dw_max_video_frame_buffer_size
+   drivers/usb/gadget/legacy/webcam.c:233:69: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMaxVideoFrameBufferSize
+>> drivers/usb/gadget/legacy/webcam.c:234:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_default_frame_interval @@     got restricted __le32 static const [toplevel] [usertype] dwDefaultFrameInterval @@
+   drivers/usb/gadget/legacy/webcam.c:234:69: sparse:     expected unsigned int [usertype] dw_default_frame_interval
+   drivers/usb/gadget/legacy/webcam.c:234:69: sparse:     got restricted __le32 static const [toplevel] [usertype] dwDefaultFrameInterval
+   drivers/usb/gadget/legacy/webcam.c:268:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] w_width @@     got restricted __le16 static const [toplevel] [usertype] wWidth @@
+   drivers/usb/gadget/legacy/webcam.c:268:69: sparse:     expected unsigned short [usertype] w_width
+   drivers/usb/gadget/legacy/webcam.c:268:69: sparse:     got restricted __le16 static const [toplevel] [usertype] wWidth
+   drivers/usb/gadget/legacy/webcam.c:269:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] w_height @@     got restricted __le16 static const [toplevel] [usertype] wHeight @@
+   drivers/usb/gadget/legacy/webcam.c:269:69: sparse:     expected unsigned short [usertype] w_height
+   drivers/usb/gadget/legacy/webcam.c:269:69: sparse:     got restricted __le16 static const [toplevel] [usertype] wHeight
+   drivers/usb/gadget/legacy/webcam.c:270:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_min_bit_rate @@     got restricted __le32 static const [toplevel] [usertype] dwMinBitRate @@
+   drivers/usb/gadget/legacy/webcam.c:270:69: sparse:     expected unsigned int [usertype] dw_min_bit_rate
+   drivers/usb/gadget/legacy/webcam.c:270:69: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMinBitRate
+   drivers/usb/gadget/legacy/webcam.c:271:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_max_bit_rate @@     got restricted __le32 static const [toplevel] [usertype] dwMaxBitRate @@
+   drivers/usb/gadget/legacy/webcam.c:271:69: sparse:     expected unsigned int [usertype] dw_max_bit_rate
+   drivers/usb/gadget/legacy/webcam.c:271:69: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMaxBitRate
+   drivers/usb/gadget/legacy/webcam.c:272:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_max_video_frame_buffer_size @@     got restricted __le32 static const [toplevel] [usertype] dwMaxVideoFrameBufferSize @@
+   drivers/usb/gadget/legacy/webcam.c:272:69: sparse:     expected unsigned int [usertype] dw_max_video_frame_buffer_size
+   drivers/usb/gadget/legacy/webcam.c:272:69: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMaxVideoFrameBufferSize
+   drivers/usb/gadget/legacy/webcam.c:273:69: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_default_frame_interval @@     got restricted __le32 static const [toplevel] [usertype] dwDefaultFrameInterval @@
+   drivers/usb/gadget/legacy/webcam.c:273:69: sparse:     expected unsigned int [usertype] dw_default_frame_interval
+   drivers/usb/gadget/legacy/webcam.c:273:69: sparse:     got restricted __le32 static const [toplevel] [usertype] dwDefaultFrameInterval
+   drivers/usb/gadget/legacy/webcam.c:337:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] w_width @@     got restricted __le16 static const [toplevel] [usertype] wWidth @@
+   drivers/usb/gadget/legacy/webcam.c:337:70: sparse:     expected unsigned short [usertype] w_width
+   drivers/usb/gadget/legacy/webcam.c:337:70: sparse:     got restricted __le16 static const [toplevel] [usertype] wWidth
+   drivers/usb/gadget/legacy/webcam.c:338:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] w_height @@     got restricted __le16 static const [toplevel] [usertype] wHeight @@
+   drivers/usb/gadget/legacy/webcam.c:338:70: sparse:     expected unsigned short [usertype] w_height
+   drivers/usb/gadget/legacy/webcam.c:338:70: sparse:     got restricted __le16 static const [toplevel] [usertype] wHeight
+   drivers/usb/gadget/legacy/webcam.c:339:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_min_bit_rate @@     got restricted __le32 static const [toplevel] [usertype] dwMinBitRate @@
+   drivers/usb/gadget/legacy/webcam.c:339:70: sparse:     expected unsigned int [usertype] dw_min_bit_rate
+   drivers/usb/gadget/legacy/webcam.c:339:70: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMinBitRate
+   drivers/usb/gadget/legacy/webcam.c:340:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_max_bit_rate @@     got restricted __le32 static const [toplevel] [usertype] dwMaxBitRate @@
+   drivers/usb/gadget/legacy/webcam.c:340:70: sparse:     expected unsigned int [usertype] dw_max_bit_rate
+   drivers/usb/gadget/legacy/webcam.c:340:70: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMaxBitRate
+   drivers/usb/gadget/legacy/webcam.c:341:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_max_video_frame_buffer_size @@     got restricted __le32 static const [toplevel] [usertype] dwMaxVideoFrameBufferSize @@
+   drivers/usb/gadget/legacy/webcam.c:341:70: sparse:     expected unsigned int [usertype] dw_max_video_frame_buffer_size
+   drivers/usb/gadget/legacy/webcam.c:341:70: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMaxVideoFrameBufferSize
+   drivers/usb/gadget/legacy/webcam.c:342:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_default_frame_interval @@     got restricted __le32 static const [toplevel] [usertype] dwDefaultFrameInterval @@
+   drivers/usb/gadget/legacy/webcam.c:342:70: sparse:     expected unsigned int [usertype] dw_default_frame_interval
+   drivers/usb/gadget/legacy/webcam.c:342:70: sparse:     got restricted __le32 static const [toplevel] [usertype] dwDefaultFrameInterval
+   drivers/usb/gadget/legacy/webcam.c:376:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] w_width @@     got restricted __le16 static const [toplevel] [usertype] wWidth @@
+   drivers/usb/gadget/legacy/webcam.c:376:70: sparse:     expected unsigned short [usertype] w_width
+   drivers/usb/gadget/legacy/webcam.c:376:70: sparse:     got restricted __le16 static const [toplevel] [usertype] wWidth
+   drivers/usb/gadget/legacy/webcam.c:377:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned short [usertype] w_height @@     got restricted __le16 static const [toplevel] [usertype] wHeight @@
+   drivers/usb/gadget/legacy/webcam.c:377:70: sparse:     expected unsigned short [usertype] w_height
+   drivers/usb/gadget/legacy/webcam.c:377:70: sparse:     got restricted __le16 static const [toplevel] [usertype] wHeight
+   drivers/usb/gadget/legacy/webcam.c:378:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_min_bit_rate @@     got restricted __le32 static const [toplevel] [usertype] dwMinBitRate @@
+   drivers/usb/gadget/legacy/webcam.c:378:70: sparse:     expected unsigned int [usertype] dw_min_bit_rate
+   drivers/usb/gadget/legacy/webcam.c:378:70: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMinBitRate
+   drivers/usb/gadget/legacy/webcam.c:379:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_max_bit_rate @@     got restricted __le32 static const [toplevel] [usertype] dwMaxBitRate @@
+   drivers/usb/gadget/legacy/webcam.c:379:70: sparse:     expected unsigned int [usertype] dw_max_bit_rate
+   drivers/usb/gadget/legacy/webcam.c:379:70: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMaxBitRate
+   drivers/usb/gadget/legacy/webcam.c:380:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_max_video_frame_buffer_size @@     got restricted __le32 static const [toplevel] [usertype] dwMaxVideoFrameBufferSize @@
+   drivers/usb/gadget/legacy/webcam.c:380:70: sparse:     expected unsigned int [usertype] dw_max_video_frame_buffer_size
+   drivers/usb/gadget/legacy/webcam.c:380:70: sparse:     got restricted __le32 static const [toplevel] [usertype] dwMaxVideoFrameBufferSize
+   drivers/usb/gadget/legacy/webcam.c:381:70: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] dw_default_frame_interval @@     got restricted __le32 static const [toplevel] [usertype] dwDefaultFrameInterval @@
+   drivers/usb/gadget/legacy/webcam.c:381:70: sparse:     expected unsigned int [usertype] dw_default_frame_interval
+   drivers/usb/gadget/legacy/webcam.c:381:70: sparse:     got restricted __le32 static const [toplevel] [usertype] dwDefaultFrameInterval
+   drivers/usb/gadget/legacy/webcam.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wstring-concatenation'? [-Wunknown-warning-option]
-   warning: unknown warning option '-Wmaybe-uninitialized'; did you mean '-Wuninitialized'? [-Wunknown-warning-option]
->> fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329' declared with 'error' attribute: Need native word sized stores/loads for atomicity.
-     496 |         if (smp_load_acquire(&root->last_trans) == trans->transid && /* ^^^ */
-         |             ^
-   include/asm-generic/barrier.h:176:29: note: expanded from macro 'smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^
-   arch/riscv/include/asm/barrier.h:42:2: note: expanded from macro '__smp_load_acquire'
-      42 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^
-   include/linux/compiler_types.h:438:2: note: expanded from macro 'compiletime_assert_atomic_type'
-     438 |         compiletime_assert(__native_word(t),                            \
-         |         ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:423:2: note: expanded from macro '_compiletime_assert'
-     423 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:416:4: note: expanded from macro '__compiletime_assert'
-     416 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:60:1: note: expanded from here
-      60 | __compiletime_assert_329
-         | ^
-   fs/btrfs/transaction.c:434:3: error: call to '__compiletime_assert_326' declared with 'error' attribute: Need native word sized stores/loads for atomicity.
-     434 |                 smp_store_release(&root->last_trans, trans->transid); /* ^^^ */
-         |                 ^
-   include/asm-generic/barrier.h:172:55: note: expanded from macro 'smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^
-   arch/riscv/include/asm/barrier.h:34:2: note: expanded from macro '__smp_store_release'
-      34 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^
-   include/linux/compiler_types.h:438:2: note: expanded from macro 'compiletime_assert_atomic_type'
-     438 |         compiletime_assert(__native_word(t),                            \
-         |         ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:423:2: note: expanded from macro '_compiletime_assert'
-     423 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:416:4: note: expanded from macro '__compiletime_assert'
-     416 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:46:1: note: expanded from here
-      46 | __compiletime_assert_326
-         | ^
->> fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329' declared with 'error' attribute: Need native word sized stores/loads for atomicity.
-     496 |         if (smp_load_acquire(&root->last_trans) == trans->transid && /* ^^^ */
-         |             ^
-   include/asm-generic/barrier.h:176:29: note: expanded from macro 'smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^
-   arch/riscv/include/asm/barrier.h:42:2: note: expanded from macro '__smp_load_acquire'
-      42 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^
-   include/linux/compiler_types.h:438:2: note: expanded from macro 'compiletime_assert_atomic_type'
-     438 |         compiletime_assert(__native_word(t),                            \
-         |         ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:423:2: note: expanded from macro '_compiletime_assert'
-     423 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:416:4: note: expanded from macro '__compiletime_assert'
-     416 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:60:1: note: expanded from here
-      60 | __compiletime_assert_329
-         | ^
-   3 warnings and 3 errors generated.
+vim +229 drivers/usb/gadget/legacy/webcam.c
 
-
-vim +496 fs/btrfs/transaction.c
-
-   481	
-   482	int btrfs_record_root_in_trans(struct btrfs_trans_handle *trans,
-   483				       struct btrfs_root *root)
-   484	{
-   485		struct btrfs_fs_info *fs_info = root->fs_info;
-   486		int ret;
-   487	
-   488		if (!test_bit(BTRFS_ROOT_SHAREABLE, &root->state))
-   489			return 0;
-   490	
-   491		/*
-   492		 * see record_root_in_trans for comments about IN_TRANS_SETUP usage
-   493		 * and barriers.  The smp_load_acquire() pairs with the smp_wmb()
-   494		 * and the test_bit_acquire pairs with the smp_mb__before_atomic().
-   495		 */
- > 496		if (smp_load_acquire(&root->last_trans) == trans->transid && /* ^^^ */
-   497		    !test_bit_acquire(BTRFS_ROOT_IN_TRANS_SETUP, &root->state)) /* ^^^ */
-   498			return 0;
-   499	
-   500		mutex_lock(&fs_info->reloc_mutex);
-   501		ret = record_root_in_trans(trans, root, 0);
-   502		mutex_unlock(&fs_info->reloc_mutex);
-   503	
-   504		return ret;
-   505	}
-   506	
+   220	
+   221	static const struct uvcg_frame uvcg_frame_yuv_360p = {
+   222		.fmt_type		= UVCG_UNCOMPRESSED,
+   223		.frame = {
+   224			.b_length			= uvc_frame_yuv_360p.bLength,
+   225			.b_descriptor_type		= uvc_frame_yuv_360p.bDescriptorType,
+   226			.b_descriptor_subtype		= uvc_frame_yuv_360p.bDescriptorSubType,
+   227			.b_frame_index			= uvc_frame_yuv_360p.bFrameIndex,
+   228			.bm_capabilities		= uvc_frame_yuv_360p.bmCapabilities,
+ > 229			.w_width			= uvc_frame_yuv_360p.wWidth,
+ > 230			.w_height			= uvc_frame_yuv_360p.wHeight,
+ > 231			.dw_min_bit_rate		= uvc_frame_yuv_360p.dwMinBitRate,
+ > 232			.dw_max_bit_rate		= uvc_frame_yuv_360p.dwMaxBitRate,
+ > 233			.dw_max_video_frame_buffer_size	= uvc_frame_yuv_360p.dwMaxVideoFrameBufferSize,
+ > 234			.dw_default_frame_interval	= uvc_frame_yuv_360p.dwDefaultFrameInterval,
+   235			.b_frame_interval_type		= uvc_frame_yuv_360p.bFrameIntervalType,
+   236		},
+   237		.dw_frame_interval	= (u32 *)uvc_frame_yuv_360p.dwFrameInterval,
+   238	};
+   239	
 
 -- 
 0-DAY CI Kernel Test Service
