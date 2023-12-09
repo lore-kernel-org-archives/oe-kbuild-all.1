@@ -1,58 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870A81CF83;
-	Sat,  9 Dec 2023 21:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BDE1C68D
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 22:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YJk8Robz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JgSXApTQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702157063; x=1733693063;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZiDja0DRjGF8V4kOTELVdfHO8iGqBQYFHxa1g/OKJdg=;
-  b=YJk8RobzwK80RSYfwStPmErT38PjWyAaUAJmsU2nZT9PqKiUKkQTCJ5n
-   z9WRNIxEwPlWt4w6SmxDtrBr8bW2LkYxwpyvZcQ/CpAO4n3mGLHXL9Puh
-   ZmnfCzLcZJVNKtoXOPK6vg1hshD5ioIX+0W3qBMfyieMlG6/4Z6CpRuf/
-   REolgjKNdo6rtM+qHYi7B02M8WvGZGQT86ZcV7wsm+3xnophEMfBmIaWY
-   HChlYkiyojWJs0Toq821pR9H4EcRJbHnx5vsYp4/dGYQwlm4sG0UD1pC1
-   kr+A3HhOQXMlRGviy21VVFCR9JshVBRTb054Zg1hDYNxTOQWBNdPTqUPh
+  t=1702159699; x=1733695699;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YaFUXNbBtaqUvdEWk5/wtGou8FeKsG9QoVoYIcZahYk=;
+  b=JgSXApTQdgNK20W5FZivAmvMKQYXsCDhvuckYh0bKSwxUevm3BH4yStB
+   vTHoQObYBAsVipKY61La8aKD3pLbcgUEu4EAxvooaOeFoyDBzTorxlSfw
+   ukNlaXa+AZccdaG9LsAWmj3hq1rTHywtpJ7sV4fJLUVWqFUEnkaCcBNTp
+   iMCp3qBu+xvRcAO4lPSX5cAFwPoHNs28ryNnTFDtp7mC2TPlbXY/fWJ13
+   VJKVXmQoJkWPet1ss6EBV4ZVhO36eIFIhNzXZhzmvAEzfUStavunHy7TT
+   zBgzLFVYUIbocI88hV4d+x/aW/R/GH6+jDWVv+VnnlQKOlFXdcBd02aln
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="7850930"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="394265193"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="7850930"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 13:24:23 -0800
+   d="scan'208";a="394265193"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 14:08:18 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="801493114"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="20490955"
+   d="scan'208";a="801493114"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 09 Dec 2023 13:24:16 -0800
+  by orsmga008.jf.intel.com with ESMTP; 09 Dec 2023 14:07:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC4o1-000Fxn-17;
-	Sat, 09 Dec 2023 21:24:13 +0000
-Date: Sun, 10 Dec 2023 05:24:03 +0800
+	id 1rC5Tw-000G15-1D;
+	Sat, 09 Dec 2023 22:07:32 +0000
+Date: Sun, 10 Dec 2023 06:06:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	arnd@arndb.de, tglx@linutronix.de, luto@kernel.org,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, mhocko@kernel.org, tj@kernel.org,
-	ying.huang@intel.com, gregory.price@memverge.com, corbet@lwn.net,
-	rakie.kim@sk.com, hyeongtak.ji@sk.com, honggyu.kim@sk.com,
-	vtavarespetr@micron.com, peterz@infradead.org, jgroves@micron.com,
-	ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com
-Subject: Re: [PATCH v2 02/11] mm/mempolicy: introduce
- MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
-Message-ID: <202312100543.ix4jxw81-lkp@intel.com>
-References: <20231209065931.3458-3-gregory.price@memverge.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [drm-xe:drm-xe-next 897/1053]
+ drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:55:24: error:
+ implicit declaration of function 'readq'; did you mean 'readb'?
+Message-ID: <202312100637.R8yMm5VH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,147 +52,150 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231209065931.3458-3-gregory.price@memverge.com>
 
-Hi Gregory,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master v6.7-rc4 next-20231208]
-[cannot apply to tip/x86/asm geert-m68k/for-next geert-m68k/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231209-150314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231209065931.3458-3-gregory.price%40memverge.com
-patch subject: [PATCH v2 02/11] mm/mempolicy: introduce MPOL_WEIGHTED_INTERLEAVE for weighted interleaving
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20231210/202312100543.ix4jxw81-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100543.ix4jxw81-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+head:   1fc141d1f445b8e5ab4ff14645b0482dd98460b9
+commit: 0931b43873794c814a4a6fe1868b61edfe993b67 [897/1053] drm/xe/display: Implement display support
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20231210/202312100637.R8yMm5VH-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100637.R8yMm5VH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312100543.ix4jxw81-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100637.R8yMm5VH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/mempolicy.c:2355:3: warning: variable 'weight_total' is uninitialized when used here [-Wuninitialized]
-                   weight_total += weight;
-                   ^~~~~~~~~~~~
-   mm/mempolicy.c:2341:27: note: initialize the variable 'weight_total' to silence this warning
-           unsigned int weight_total;
-                                    ^
-                                     = 0
-   1 warning generated.
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15,
+                    from drivers/gpu/drm/xe/xe_display.c:16:
+   drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h: In function 'i915_gem_object_read_from_page':
+>> drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:55:24: error: implicit declaration of function 'readq'; did you mean 'readb'? [-Werror=implicit-function-declaration]
+      55 |                 *ptr = readq((void __iomem *)(virtual + ofs));
+         |                        ^~~~~
+         |                        readb
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15,
+                    from drivers/gpu/drm/xe/display/intel_fbdev_fb.c:13:
+   drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h: In function 'i915_gem_object_read_from_page':
+>> drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:55:24: error: implicit declaration of function 'readq'; did you mean 'readb'? [-Werror=implicit-function-declaration]
+      55 |                 *ptr = readq((void __iomem *)(virtual + ofs));
+         |                        ^~~~~
+         |                        readb
+   drivers/gpu/drm/xe/display/intel_fbdev_fb.c: In function 'intel_fbdev_fb_alloc':
+   drivers/gpu/drm/xe/display/intel_fbdev_fb.c:72:28: error: implicit declaration of function 'intel_bo_to_drm_bo' [-Werror=implicit-function-declaration]
+      72 |         drm_gem_object_put(intel_bo_to_drm_bo(obj));
+         |                            ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/display/intel_fbdev_fb.c:72:28: warning: passing argument 1 of 'drm_gem_object_put' makes pointer from integer without a cast [-Wint-conversion]
+      72 |         drm_gem_object_put(intel_bo_to_drm_bo(obj));
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~
+         |                            |
+         |                            int
+   In file included from include/drm/ttm/ttm_bo.h:34,
+                    from drivers/gpu/drm/xe/xe_bo_types.h:12,
+                    from drivers/gpu/drm/xe/xe_bo.h:11,
+                    from drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:11:
+   include/drm/drm_gem.h:501:43: note: expected 'struct drm_gem_object *' but argument is of type 'int'
+     501 | drm_gem_object_put(struct drm_gem_object *obj)
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/gpu/drm/xe/display/intel_fbdev_fb.c: In function 'intel_fbdev_fb_fill_info':
+   drivers/gpu/drm/xe/display/intel_fbdev_fb.c:101:52: error: invalid type argument of '->' (have 'int')
+     101 |         info->screen_size = intel_bo_to_drm_bo(obj)->size;
+         |                                                    ^~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15,
+                    from drivers/gpu/drm/i915/display/intel_display_trace.h:16,
+                    from drivers/gpu/drm/i915/display/intel_atomic_plane.c:46:
+   drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h: In function 'i915_gem_object_read_from_page':
+>> drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:55:24: error: implicit declaration of function 'readq'; did you mean 'readb'? [-Werror=implicit-function-declaration]
+      55 |                 *ptr = readq((void __iomem *)(virtual + ofs));
+         |                        ^~~~~
+         |                        readb
+   drivers/gpu/drm/i915/display/intel_atomic_plane.c: In function 'intel_prepare_plane_fb':
+   drivers/gpu/drm/i915/display/intel_atomic_plane.c:1099:51: error: implicit declaration of function 'intel_bo_to_drm_bo' [-Werror=implicit-function-declaration]
+    1099 |                         ret = add_dma_resv_fences(intel_bo_to_drm_bo(old_obj)->resv,
+         |                                                   ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_atomic_plane.c:1099:78: error: invalid type argument of '->' (have 'int')
+    1099 |                         ret = add_dma_resv_fences(intel_bo_to_drm_bo(old_obj)->resv,
+         |                                                                              ^~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15,
+                    from drivers/gpu/drm/i915/display/intel_de.h:9,
+                    from drivers/gpu/drm/i915/display/intel_cursor.c:17:
+   drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h: In function 'i915_gem_object_read_from_page':
+>> drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:55:24: error: implicit declaration of function 'readq'; did you mean 'readb'? [-Werror=implicit-function-declaration]
+      55 |                 *ptr = readq((void __iomem *)(virtual + ofs));
+         |                        ^~~~~
+         |                        readb
+   In file included from drivers/gpu/drm/i915/display/intel_cursor.c:22:
+   drivers/gpu/drm/i915/display/intel_frontbuffer.h: At top level:
+   drivers/gpu/drm/i915/display/intel_frontbuffer.h:46:28: error: field 'write' has incomplete type
+      46 |         struct i915_active write;
+         |                            ^~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_drv.h:15,
+                    from drivers/gpu/drm/i915/display/intel_fbdev.c:48:
+   drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h: In function 'i915_gem_object_read_from_page':
+>> drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:55:24: error: implicit declaration of function 'readq'; did you mean 'readb'? [-Werror=implicit-function-declaration]
+      55 |                 *ptr = readq((void __iomem *)(virtual + ofs));
+         |                        ^~~~~
+         |                        readb
+   In file included from drivers/gpu/drm/i915/display/intel_fbdev.c:54:
+   drivers/gpu/drm/i915/display/intel_frontbuffer.h: At top level:
+   drivers/gpu/drm/i915/display/intel_frontbuffer.h:46:28: error: field 'write' has incomplete type
+      46 |         struct i915_active write;
+         |                            ^~~~~
+   drivers/gpu/drm/i915/display/intel_fbdev.c: In function 'intel_fbdev_init_bios':
+   drivers/gpu/drm/i915/display/intel_fbdev.c:335:21: error: implicit declaration of function 'intel_bo_to_drm_bo' [-Werror=implicit-function-declaration]
+     335 |                 if (intel_bo_to_drm_bo(obj)->size > max_size) {
+         |                     ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_fbdev.c:335:44: error: invalid type argument of '->' (have 'int')
+     335 |                 if (intel_bo_to_drm_bo(obj)->size > max_size) {
+         |                                            ^~
+   drivers/gpu/drm/i915/display/intel_fbdev.c:340:59: error: invalid type argument of '->' (have 'int')
+     340 |                         max_size = intel_bo_to_drm_bo(obj)->size;
+         |                                                           ^~
+   cc1: some warnings being treated as errors
 
 
-vim +/weight_total +2355 mm/mempolicy.c
+vim +55 drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h
 
-  2329	
-  2330	static unsigned long alloc_pages_bulk_array_weighted_interleave(gfp_t gfp,
-  2331			struct mempolicy *pol, unsigned long nr_pages,
-  2332			struct page **page_array)
-  2333	{
-  2334		struct task_struct *me = current;
-  2335		unsigned long total_allocated = 0;
-  2336		unsigned long nr_allocated;
-  2337		unsigned long rounds;
-  2338		unsigned long node_pages, delta;
-  2339		unsigned char weight;
-  2340		unsigned char weights[MAX_NUMNODES];
-  2341		unsigned int weight_total;
-  2342		unsigned long rem_pages = nr_pages;
-  2343		nodemask_t nodes = pol->nodes;
-  2344		int nnodes, node, prev_node;
-  2345		int i;
-  2346	
-  2347		/* Stabilize the nodemask on the stack */
-  2348		barrier();
-  2349	
-  2350		nnodes = nodes_weight(nodes);
-  2351	
-  2352		/* Collect weights and save them on stack so they don't change */
-  2353		for_each_node_mask(node, nodes) {
-  2354			weight = iw_table[node];
-> 2355			weight_total += weight;
-  2356			weights[node] = weight;
-  2357		}
-  2358	
-  2359		/* Continue allocating from most recent node and adjust the nr_pages */
-  2360		if (pol->wil.cur_weight) {
-  2361			node = next_node_in(me->il_prev, nodes);
-  2362			node_pages = pol->wil.cur_weight;
-  2363			if (node_pages > rem_pages)
-  2364				node_pages = rem_pages;
-  2365			nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
-  2366							  NULL, page_array);
-  2367			page_array += nr_allocated;
-  2368			total_allocated += nr_allocated;
-  2369			/* if that's all the pages, no need to interleave */
-  2370			if (rem_pages <= pol->wil.cur_weight) {
-  2371				pol->wil.cur_weight -= rem_pages;
-  2372				return total_allocated;
-  2373			}
-  2374			/* Otherwise we adjust nr_pages down, and continue from there */
-  2375			rem_pages -= pol->wil.cur_weight;
-  2376			pol->wil.cur_weight = 0;
-  2377			prev_node = node;
-  2378		}
-  2379	
-  2380		/* Now we can continue allocating as if from 0 instead of an offset */
-  2381		rounds = rem_pages / weight_total;
-  2382		delta = rem_pages % weight_total;
-  2383		for (i = 0; i < nnodes; i++) {
-  2384			node = next_node_in(prev_node, nodes);
-  2385			weight = weights[node];
-  2386			node_pages = weight * rounds;
-  2387			if (delta) {
-  2388				if (delta > weight) {
-  2389					node_pages += weight;
-  2390					delta -= weight;
-  2391				} else {
-  2392					node_pages += delta;
-  2393					delta = 0;
-  2394				}
-  2395			}
-  2396			/* We may not make it all the way around */
-  2397			if (!node_pages)
-  2398				break;
-  2399			/* If an over-allocation would occur, floor it */
-  2400			if (node_pages + total_allocated > nr_pages) {
-  2401				node_pages = nr_pages - total_allocated;
-  2402				delta = 0;
-  2403			}
-  2404			nr_allocated = __alloc_pages_bulk(gfp, node, NULL, node_pages,
-  2405							  NULL, page_array);
-  2406			page_array += nr_allocated;
-  2407			total_allocated += nr_allocated;
-  2408			prev_node = node;
-  2409		}
-  2410	
-  2411		/*
-  2412		 * Finally, we need to update me->il_prev and pol->wil.cur_weight
-  2413		 * if there were overflow pages, but not equivalent to the node
-  2414		 * weight, set the cur_weight to node_weight - delta and the
-  2415		 * me->il_prev to the previous node. Otherwise if it was perfect
-  2416		 * we can simply set il_prev to node and cur_weight to 0
-  2417		 */
-  2418		if (node_pages) {
-  2419			me->il_prev = prev_node;
-  2420			node_pages %= weight;
-  2421			pol->wil.cur_weight = weight - node_pages;
-  2422		} else {
-  2423			me->il_prev = node;
-  2424			pol->wil.cur_weight = 0;
-  2425		}
-  2426	
-  2427		return total_allocated;
-  2428	}
-  2429	
+    33	
+    34	static inline int i915_gem_object_read_from_page(struct xe_bo *bo,
+    35						  u32 ofs, u64 *ptr, u32 size)
+    36	{
+    37		struct ttm_bo_kmap_obj map;
+    38		void *virtual;
+    39		bool is_iomem;
+    40		int ret;
+    41	
+    42		XE_WARN_ON(size != 8);
+    43	
+    44		ret = xe_bo_lock(bo, true);
+    45		if (ret)
+    46			return ret;
+    47	
+    48		ret = ttm_bo_kmap(&bo->ttm, ofs >> PAGE_SHIFT, 1, &map);
+    49		if (ret)
+    50			goto out_unlock;
+    51	
+    52		ofs &= ~PAGE_MASK;
+    53		virtual = ttm_kmap_obj_virtual(&map, &is_iomem);
+    54		if (is_iomem)
+  > 55			*ptr = readq((void __iomem *)(virtual + ofs));
+    56		else
+    57			*ptr = *(u64 *)(virtual + ofs);
+    58	
+    59		ttm_bo_kunmap(&map);
+    60	out_unlock:
+    61		xe_bo_unlock(bo);
+    62		return ret;
+    63	}
+    64	
 
 -- 
 0-DAY CI Kernel Test Service
