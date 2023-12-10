@@ -1,191 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D66F9E2;
-	Sun, 10 Dec 2023 14:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7EC1C3D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 14:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SJ2LnbdZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702217257; x=1733753257;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AqMQ12hypplovnBMfrnx3Zg6ItOfjkwRtKkMHvGMTUQ=;
-  b=SJ2LnbdZKqcEGWcnOaXiM1zfoP+4U6Vhrep/6d3RrWSh23MFacewplb0
-   Sq05Y/dG8lObddFbVlvwec0SI+XPgjT8h2bwaEq+qgiHv5UqIZOJ34Lqu
-   gtLazybtQdqykJfCE7t/huhU1MufZesBVBXflKB5Dj4GmXmiP6ue+clBx
-   DiZ2O+MbfYzH+hnNtffm2lwUua6YYCV6pebWBUsCPVhkTVjMxMUXSi/MG
-   aaB4p/e19VfKj30ASUg2nzUE1kLausuLi50tYNp0di7nuwnjRUCg/sIVH
-   hHT1xQ7pfZHBYlgSlQoeP6QxWpueQ/pa+DyeHnHL94o3mz0RAzDFE8yLC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="7914857"
-X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="7914857"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 06:07:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="722435368"
-X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="722435368"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 10 Dec 2023 06:07:32 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rCKSv-000GuU-29;
-	Sun, 10 Dec 2023 14:07:29 +0000
-Date: Sun, 10 Dec 2023 22:06:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	quic_jesszhan@quicinc.com, quic_parellan@quicinc.com,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 12/16] drm/msm/dpu: add an API to setup the CDM block
- for writeback
-Message-ID: <202312102149.qmbCdsg2-lkp@intel.com>
-References: <20231208050641.32582-13-quic_abhinavk@quicinc.com>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="aAVIWj5P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=rFMEHjNeOOmt0vk/J8eUvlo1PdkECbPgHOks40x4QNM=;
+  b=aAVIWj5P1uDSKFVVLMDAm14Z46NpG3vikYS9FXf1ak6KPWIeoXxWzAkK
+   3eem730q4ah3Il50sSba0ssmZKVOqm7hCF4m7rna7L/CNiDY90IPw5UpX
+   XULSSlh0giW5Qz+N65Bgrp48jREulpqBA83Z/jQcir8ndpmeDrRBdHmWf
+   Y=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.04,265,1695679200"; 
+   d="scan'208";a="73970994"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 15:32:51 +0100
+Date: Sun, 10 Dec 2023 15:32:51 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+    oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:timers/pushpull 30/32] kernel/time/timer_migration.c:1529:6-9:
+ WARNING: Unsigned expression compared with zero: ret     <     0 (fwd)
+Message-ID: <alpine.DEB.2.22.394.2312101532350.3198@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231208050641.32582-13-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Abhinav,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20231207]
-[also build test WARNING on v6.7-rc4]
-[cannot apply to drm-misc/drm-misc-next linus/master v6.7-rc4 v6.7-rc3 v6.7-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+---------- Forwarded message ----------
+Date: Sun, 10 Dec 2023 22:29:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [tglx-devel:timers/pushpull 30/32]
+    kernel/time/timer_migration.c:1529:6-9: WARNING: Unsigned expression
+    compared with zero: ret     <     0
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhinav-Kumar/drm-msm-dpu-add-formats-check-for-writeback-encoder/20231208-130820
-base:   next-20231207
-patch link:    https://lore.kernel.org/r/20231208050641.32582-13-quic_abhinavk%40quicinc.com
-patch subject: [PATCH v2 12/16] drm/msm/dpu: add an API to setup the CDM block for writeback
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231210/202312102149.qmbCdsg2-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312102149.qmbCdsg2-lkp@intel.com/reproduce)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: "Anna-Maria Behnsen" <anna-maria@linutronix.de>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/pushpull
+head:   c5f729902c462bd2f9153641aebe042bbb5f9ede
+commit: f7012466efc3b7e5a3220e702ada7e51245caf20 [30/32] timers: Implement the hierarchical pull model
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: x86_64-randconfig-101-20231210 (https://download.01.org/0day-ci/archive/20231210/202312102211.FOZEOMnd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312102211.FOZEOMnd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312102149.qmbCdsg2-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312102211.FOZEOMnd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> kernel/time/timer_migration.c:1529:6-9: WARNING: Unsigned expression compared with zero: ret     <     0
 
->> drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c:267: warning: expecting prototype for dpu_encoder_phys_wb_setup_cdp(). Prototype was for dpu_encoder_helper_phys_setup_cdm() instead
+vim +1529 kernel/time/timer_migration.c
 
-
-vim +267 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-
-   261	
-   262	/**
-   263	 * dpu_encoder_phys_wb_setup_cdp - setup chroma down sampling block
-   264	 * @phys_enc:Pointer to physical encoder
-   265	 */
-   266	static void dpu_encoder_helper_phys_setup_cdm(struct dpu_encoder_phys *phys_enc)
- > 267	{
-   268		struct dpu_hw_cdm *hw_cdm;
-   269		struct dpu_hw_cdm_cfg *cdm_cfg;
-   270		struct dpu_hw_pingpong *hw_pp;
-   271		struct dpu_encoder_phys_wb *wb_enc;
-   272		const struct msm_format *format;
-   273		const struct dpu_format *dpu_fmt;
-   274		struct drm_writeback_job *wb_job;
-   275		int ret;
-   276	
-   277		if (!phys_enc)
-   278			return;
-   279	
-   280		wb_enc = to_dpu_encoder_phys_wb(phys_enc);
-   281		cdm_cfg = &wb_enc->cdm_cfg;
-   282		hw_pp = phys_enc->hw_pp;
-   283		hw_cdm = phys_enc->hw_cdm;
-   284		wb_job = wb_enc->wb_job;
-   285	
-   286		format = msm_framebuffer_format(wb_enc->wb_job->fb);
-   287		dpu_fmt = dpu_get_dpu_format_ext(format->pixel_format, wb_job->fb->modifier);
-   288	
-   289		if (!hw_cdm)
-   290			return;
-   291	
-   292		if (!DPU_FORMAT_IS_YUV(dpu_fmt)) {
-   293			DPU_DEBUG("[enc:%d] cdm_disable fmt:%x\n", DRMID(phys_enc->parent),
-   294				  dpu_fmt->base.pixel_format);
-   295			if (hw_cdm->ops.disable)
-   296				hw_cdm->ops.disable(hw_cdm);
-   297	
-   298			return;
-   299		}
-   300	
-   301		memset(cdm_cfg, 0, sizeof(struct dpu_hw_cdm_cfg));
-   302	
-   303		cdm_cfg->output_width = wb_job->fb->width;
-   304		cdm_cfg->output_height = wb_job->fb->height;
-   305		cdm_cfg->output_fmt = dpu_fmt;
-   306		cdm_cfg->output_type = CDM_CDWN_OUTPUT_WB;
-   307		cdm_cfg->output_bit_depth = DPU_FORMAT_IS_DX(dpu_fmt) ?
-   308				CDM_CDWN_OUTPUT_10BIT : CDM_CDWN_OUTPUT_8BIT;
-   309		cdm_cfg->csc_cfg = dpu_hw_get_csc_cfg(DPU_HW_RGB2YUV_601L_10BIT);
-   310		if (!cdm_cfg->csc_cfg) {
-   311			DPU_ERROR("valid csc not found\n");
-   312			return;
-   313		}
-   314	
-   315		/* enable 10 bit logic */
-   316		switch (cdm_cfg->output_fmt->chroma_sample) {
-   317		case DPU_CHROMA_RGB:
-   318			cdm_cfg->h_cdwn_type = CDM_CDWN_DISABLE;
-   319			cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
-   320			break;
-   321		case DPU_CHROMA_H2V1:
-   322			cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
-   323			cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
-   324			break;
-   325		case DPU_CHROMA_420:
-   326			cdm_cfg->h_cdwn_type = CDM_CDWN_COSITE;
-   327			cdm_cfg->v_cdwn_type = CDM_CDWN_OFFSITE;
-   328			break;
-   329		case DPU_CHROMA_H1V2:
-   330		default:
-   331			DPU_ERROR("[enc:%d] unsupported chroma sampling type\n",
-   332				  DRMID(phys_enc->parent));
-   333			cdm_cfg->h_cdwn_type = CDM_CDWN_DISABLE;
-   334			cdm_cfg->v_cdwn_type = CDM_CDWN_DISABLE;
-   335			break;
-   336		}
-   337	
-   338		DPU_DEBUG("[enc:%d] cdm_enable:%d,%d,%X,%d,%d,%d,%d]\n",
-   339			  DRMID(phys_enc->parent), cdm_cfg->output_width,
-   340			  cdm_cfg->output_height, cdm_cfg->output_fmt->base.pixel_format,
-   341			  cdm_cfg->output_type, cdm_cfg->output_bit_depth,
-   342			  cdm_cfg->h_cdwn_type, cdm_cfg->v_cdwn_type);
-   343	
-   344		if (hw_cdm->ops.enable) {
-   345			cdm_cfg->pp_id = hw_pp->idx;
-   346			ret = hw_cdm->ops.enable(hw_cdm, cdm_cfg);
-   347			if (ret < 0) {
-   348				DPU_ERROR("[enc:%d] failed to enable CDM; ret:%d\n",
-   349					  DRMID(phys_enc->parent), ret);
-   350				return;
-   351			}
-   352		}
-   353	}
-   354	
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1518
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1519  static int tmigr_cpu_online(unsigned int cpu)
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1520  {
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1521  	struct tmigr_cpu *tmc = this_cpu_ptr(&tmigr_cpu);
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1522  	unsigned int ret;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1523
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1524  	/* First online attempt? Initialize CPU data */
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1525  	if (!tmc->tmgroup) {
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1526  		raw_spin_lock_init(&tmc->lock);
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1527
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1528  		ret = tmigr_add_cpu(cpu);
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21 @1529  		if (ret < 0)
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1530  			return ret;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1531
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1532  		if (tmc->childmask == 0)
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1533  			return -EINVAL;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1534
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1535  		timerqueue_init(&tmc->cpuevt.nextevt);
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1536  		tmc->cpuevt.nextevt.expires = KTIME_MAX;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1537  		tmc->cpuevt.ignore = true;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1538  		tmc->cpuevt.cpu = cpu;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1539
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1540  		tmc->remote = false;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1541  		WRITE_ONCE(tmc->wakeup, KTIME_MAX);
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1542  	}
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1543  	raw_spin_lock_irq(&tmc->lock);
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1544  	if (timer_base_is_idle())
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1545  		tmc->idle = true;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1546  	else
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1547  		__tmigr_cpu_activate(tmc);
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1548  	tmc->online = true;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1549  	raw_spin_unlock_irq(&tmc->lock);
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1550  	return 0;
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1551  }
+f7012466efc3b7 Anna-Maria Behnsen 2019-03-21  1552
 
 -- 
 0-DAY CI Kernel Test Service
