@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4794A28E3;
-	Sun, 10 Dec 2023 17:32:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B781774A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 17:54:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTJKt20A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXXqGro5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702229521; x=1733765521;
+  t=1702230842; x=1733766842;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wBggNkyXIzDkcXC+MK27g9trZDn0JQmfE2MeFgDNJqs=;
-  b=GTJKt20Am0nMfjneSGkvSjjL3gieuXhiSvy8Z2a2Da4EiqCL41K2W9DE
-   HcGMs+YrwdPUoCHeREQcZzyL6JYZO7F/B8ARC3K0EeC2VSG7le7Lr8QSB
-   QO7WHTfz+tR8E1QEKl9XYKsfcgcEOHcVIJoL7EYdxktjPySHpzhNUnsC8
-   ds7YQPvSKHUi4CFykp+xcCx7dhBsZ1DEGvmGTrCcNL1FG1x0A3OpdCazo
-   TiK9+KZlirKU8dob9Bq8s9kIAHyOFGezBu+onkzTOUb+VMBFThYanP/Zg
-   7SKOoxRFmGKq0DG8h3Hwatl++FHzzskC+bUIJ0OpUeAg2H12e5McxLwKt
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1664722"
+  bh=wupGRIcXQE3rQJ1+S2nUeMoGIQmmN7F41sifHiXdWD8=;
+  b=KXXqGro5svGc8LcwnEojjtdwDLR4kMFt+mbSGQdM8KVBwjJKmjeolvWf
+   5A6ZggjoBEL/qj56Im6+q5gQwB5YjWcbHWzhBhCOAdKhMDMP2g76IiCgR
+   30SchNnheRNrMHrqF5kFiQ5owGt7hQGee0I02Wd4dajD4WczplN7JtfGS
+   mGzX5We9xTCxls/ude44pCecRaZr5DwcV0ZGQA8qegisdqqx2Z/MULvx6
+   nklffrUNugwiHJAwh59GMSopT85V6nWvOJE/pWxm3AYbRJX2SvnGekiKm
+   2IhZPC4fzyxbrT3hEXRGDNaHMyTlp8uwFfZh2HhKEuzqgv5fcoVaEqk0J
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="425695997"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="1664722"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 09:32:00 -0800
+   d="scan'208";a="425695997"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 09:54:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="946017695"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="896154845"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="946017695"
+   d="scan'208";a="896154845"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 10 Dec 2023 09:31:58 -0800
+  by orsmga004.jf.intel.com with ESMTP; 10 Dec 2023 09:54:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCNem-000H6Q-2A;
-	Sun, 10 Dec 2023 17:31:56 +0000
-Date: Mon, 11 Dec 2023 01:31:49 +0800
+	id 1rCO05-000H8K-32;
+	Sun, 10 Dec 2023 17:53:57 +0000
+Date: Mon, 11 Dec 2023 01:53:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Wei <davidhwei@meta.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Pavel Begunkov <asml.silence@gmail.com>
-Subject: [isilence:zc/rx-pp-provider 19/31] io_uring/zc_rx.h:31:2: warning:
- void function 'io_unregister_zc_rx_ifq' should not return a value
-Message-ID: <202312110113.8edLMeAh-lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zc/rx-pp-provider 23/31] io_uring/zc_rx.c:195:5: error:
+ redefinition of 'io_register_zc_rx_sock'
+Message-ID: <202312110153.vCoMSEzs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,95 +52,116 @@ Content-Disposition: inline
 
 tree:   https://github.com/isilence/linux zc/rx-pp-provider
 head:   4b8de8977565096e38b6da993c68da6f2ef9b89c
-commit: a637a9b59d1de6a86ea926ae416dd7bc1f4b6da1 [19/31] io_uring: add interface queue
-config: i386-randconfig-012-20231210 (https://download.01.org/0day-ci/archive/20231211/202312110113.8edLMeAh-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231211/202312110113.8edLMeAh-lkp@intel.com/reproduce)
+commit: 91fec79b805edefb26cbef78d95ce0571750c778 [23/31] io_uring/zcrx: implement socket registration
+config: i386-buildonly-randconfig-006-20231210 (https://download.01.org/0day-ci/archive/20231211/202312110153.vCoMSEzs-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231211/202312110153.vCoMSEzs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312110113.8edLMeAh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312110153.vCoMSEzs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from io_uring/io_uring.c:98:
->> io_uring/zc_rx.h:31:2: warning: void function 'io_unregister_zc_rx_ifq' should not return a value [-Wreturn-type]
-           return -EOPNOTSUPP;
-           ^      ~~~~~~~~~~~
-   io_uring/io_uring.c:2923:2: error: call to undeclared function 'io_unregister_zc_rx_ifqs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           io_unregister_zc_rx_ifqs(ctx);
-           ^
-   io_uring/io_uring.c:2923:2: note: did you mean 'io_unregister_zc_rx_ifq'?
-   io_uring/zc_rx.h:29:20: note: 'io_unregister_zc_rx_ifq' declared here
-   static inline void io_unregister_zc_rx_ifq(struct io_ring_ctx *ctx)
-                      ^
-   io_uring/io_uring.c:3116:4: error: call to undeclared function 'io_shut_zc_rx_ifqs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           io_shut_zc_rx_ifqs(ctx);
-                           ^
-   1 warning and 2 errors generated.
---
-   In file included from io_uring/zc_rx.c:12:
->> io_uring/zc_rx.h:31:2: warning: void function 'io_unregister_zc_rx_ifq' should not return a value [-Wreturn-type]
-           return -EOPNOTSUPP;
-           ^      ~~~~~~~~~~~
->> io_uring/zc_rx.c:14:5: warning: no previous prototype for function 'io_allocate_rbuf_ring' [-Wmissing-prototypes]
-   int io_allocate_rbuf_ring(struct io_zc_rx_ifq *ifq,
-       ^
-   io_uring/zc_rx.c:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int io_allocate_rbuf_ring(struct io_zc_rx_ifq *ifq,
-   ^
-   static 
->> io_uring/zc_rx.c:34:6: warning: no previous prototype for function 'io_free_rbuf_ring' [-Wmissing-prototypes]
-   void io_free_rbuf_ring(struct io_zc_rx_ifq *ifq)
-        ^
-   io_uring/zc_rx.c:34:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void io_free_rbuf_ring(struct io_zc_rx_ifq *ifq)
-   ^
-   static 
-   io_uring/zc_rx.c:59:5: error: redefinition of 'io_register_zc_rx_ifq'
-   int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
-       ^
-   io_uring/zc_rx.h:24:19: note: previous definition is here
-   static inline int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
-                     ^
->> io_uring/zc_rx.c:98:6: warning: no previous prototype for function 'io_unregister_zc_rx_ifqs' [-Wmissing-prototypes]
-   void io_unregister_zc_rx_ifqs(struct io_ring_ctx *ctx)
-        ^
-   io_uring/zc_rx.c:98:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void io_unregister_zc_rx_ifqs(struct io_ring_ctx *ctx)
-   ^
-   static 
->> io_uring/zc_rx.c:111:6: warning: no previous prototype for function 'io_shut_zc_rx_ifqs' [-Wmissing-prototypes]
-   void io_shut_zc_rx_ifqs(struct io_ring_ctx *ctx)
-        ^
-   io_uring/zc_rx.c:111:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void io_shut_zc_rx_ifqs(struct io_ring_ctx *ctx)
-   ^
-   static 
-   5 warnings and 1 error generated.
+   In file included from io_uring/zc_rx.c:13:
+   io_uring/zc_rx.h: In function 'io_unregister_zc_rx_ifq':
+   io_uring/zc_rx.h:43:9: warning: 'return' with a value, in function returning void [-Wreturn-type]
+      43 |  return -EOPNOTSUPP;
+         |         ^
+   io_uring/zc_rx.h:41:20: note: declared here
+      41 | static inline void io_unregister_zc_rx_ifq(struct io_ring_ctx *ctx)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   io_uring/zc_rx.c: At top level:
+   io_uring/zc_rx.c:44:5: warning: no previous prototype for 'io_allocate_rbuf_ring' [-Wmissing-prototypes]
+      44 | int io_allocate_rbuf_ring(struct io_zc_rx_ifq *ifq,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   io_uring/zc_rx.c:64:6: warning: no previous prototype for 'io_free_rbuf_ring' [-Wmissing-prototypes]
+      64 | void io_free_rbuf_ring(struct io_zc_rx_ifq *ifq)
+         |      ^~~~~~~~~~~~~~~~~
+   io_uring/zc_rx.c:93:5: error: redefinition of 'io_register_zc_rx_ifq'
+      93 | int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   In file included from io_uring/zc_rx.c:13:
+   io_uring/zc_rx.h:36:19: note: previous definition of 'io_register_zc_rx_ifq' was here
+      36 | static inline int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+   io_uring/zc_rx.c:156:6: warning: no previous prototype for 'io_unregister_zc_rx_ifqs' [-Wmissing-prototypes]
+     156 | void io_unregister_zc_rx_ifqs(struct io_ring_ctx *ctx)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   io_uring/zc_rx.c:171:6: warning: no previous prototype for 'io_shut_zc_rx_ifqs' [-Wmissing-prototypes]
+     171 | void io_shut_zc_rx_ifqs(struct io_ring_ctx *ctx)
+         |      ^~~~~~~~~~~~~~~~~~
+>> io_uring/zc_rx.c:195:5: error: redefinition of 'io_register_zc_rx_sock'
+     195 | int io_register_zc_rx_sock(struct io_ring_ctx *ctx,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from io_uring/zc_rx.c:13:
+   io_uring/zc_rx.h:45:19: note: previous definition of 'io_register_zc_rx_sock' was here
+      45 | static inline int io_register_zc_rx_sock(struct io_ring_ctx *ctx,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/io_unregister_zc_rx_ifq +31 io_uring/zc_rx.h
+vim +/io_register_zc_rx_sock +195 io_uring/zc_rx.c
 
-    17	
-    18	#if defined(CONFIG_PAGE_POOL)
-    19	int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
-    20				  struct io_uring_zc_rx_ifq_reg __user *arg);
-    21	void io_unregister_zc_rx_ifqs(struct io_ring_ctx *ctx);
-    22	void io_shut_zc_rx_ifqs(struct io_ring_ctx *ctx);
-    23	#else
-    24	static inline int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
-    25				  struct io_uring_zc_rx_ifq_reg __user *arg)
-    26	{
-    27		return -EOPNOTSUPP;
-    28	}
-    29	static inline void io_unregister_zc_rx_ifq(struct io_ring_ctx *ctx)
-    30	{
-  > 31		return -EOPNOTSUPP;
-    32	}
-    33	#endif
-    34	
+   194	
+ > 195	int io_register_zc_rx_sock(struct io_ring_ctx *ctx,
+   196				   struct io_uring_zc_rx_sock_reg __user *arg)
+   197	{
+   198		struct io_uring_zc_rx_sock_reg sr;
+   199		struct io_zc_rx_ifq *ifq;
+   200		struct socket *sock;
+   201		struct file *file;
+   202		int ret = -EEXIST;
+   203		int idx;
+   204	
+   205		if (copy_from_user(&sr, arg, sizeof(sr)))
+   206			return -EFAULT;
+   207		if (sr.__resv[0] || sr.__resv[1])
+   208			return -EINVAL;
+   209		if (sr.zc_rx_ifq_idx != 0 || !ctx->ifq)
+   210			return -EINVAL;
+   211	
+   212		ifq = ctx->ifq;
+   213		if (ifq->nr_sockets >= ARRAY_SIZE(ifq->sockets))
+   214			return -EINVAL;
+   215	
+   216		BUILD_BUG_ON(ARRAY_SIZE(ifq->sockets) > IO_ZC_IFQ_IDX_MASK);
+   217	
+   218		file = fget(sr.sockfd);
+   219		if (!file)
+   220			return -EBADF;
+   221	
+   222		if (io_file_need_scm(file)) {
+   223			fput(file);
+   224			return -EBADF;
+   225		}
+   226	
+   227		sock = sock_from_file(file);
+   228		if (unlikely(!sock || !sock->sk)) {
+   229			fput(file);
+   230			return -ENOTSOCK;
+   231		}
+   232	
+   233		idx = ifq->nr_sockets;
+   234		lock_sock(sock->sk);
+   235		if (!sock->zc_rx_idx) {
+   236			unsigned token;
+   237	
+   238			token = idx + (sr.zc_rx_ifq_idx << IO_ZC_IFQ_IDX_OFFSET);
+   239			WRITE_ONCE(sock->zc_rx_idx, token);
+   240			ret = 0;
+   241		}
+   242		release_sock(sock->sk);
+   243	
+   244		if (ret) {
+   245			fput(file);
+   246			return -EINVAL;
+   247		}
+   248		ifq->sockets[idx] = file;
+   249		ifq->nr_sockets++;
+   250		return 0;
+   251	}
+   252	
 
 -- 
 0-DAY CI Kernel Test Service
