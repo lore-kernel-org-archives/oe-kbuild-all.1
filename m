@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF60A15AC9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 15:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA63F847B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 15:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M0TAswAa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SR00WPg/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702220559; x=1733756559;
+  t=1702222537; x=1733758537;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h0CE/Emk+x4zpt6q8t1A76egUvA8gjQRjxSBUjeWyX0=;
-  b=M0TAswAa3f0+y0lnV0BczLy+m6D01SNRA0ESBUogQXx49pQLxG1coadp
-   FrlfxEnolKn0RoUm9cTrr6zcTLZacoSbc+K6XjRb4CciNSz6eGOod8JV1
-   lbWhzc8E7+4tVBUkz/uBlzqUb5wVp6mazBQFVw5ENICDWMtubGShAmpq8
-   catJkX4TfJPqYfZR6ERrsw/81nUR+CZJH/1NeI79Bkr7gTO3VYJwuEWuO
-   DtiKPohhK7wdWBGZMWbNaES2MWHuwh7pVq9J0BfVerVejH0bvwJLLzdvR
-   w3/tIlcoCAVxP0v2uahe5EFgaOjiluZONP97kpZafrOPW09/nEH0ZwePQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1656904"
+  bh=gFbx6xzUXM1eZfjbY7RukjNbO2y8jdVKx5iTIVT56/s=;
+  b=SR00WPg/hoLMGVnALgqxIOrZ21oNB7w5868QMWqDWVzTp+th6c0uNXuH
+   k2xlhkX+Fy+ccfVYooU/de7BJlhoCbc5IEWCqgiK3UWzsIAxhb7adNBTg
+   IjSDlP8lQ97zzwlA9U6UKv7BeUyjmXcOXzRAyE+44asSLeQa5ZvdNkVDF
+   9MSgaGkz5ilF/DF0dr57Z+F46lmLc3atvgOj8l1W5zTUAXE6cD42OlcDS
+   I07XqG3Bf+JBW2PRflFr2+y2GrWZ0Jec1bsiQ9ItVj/t9UmGvsxr875u7
+   MQ5szfn1nn3j4QKGcpuq7JsJJO6rtI1RBEkt7ELMLLb3ZLZiHGy2Du5TI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="374718860"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="1656904"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 07:02:35 -0800
+   d="scan'208";a="374718860"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 07:35:36 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="748956943"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="14092635"
+   d="scan'208";a="748956943"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 10 Dec 2023 07:02:33 -0800
+  by orsmga006.jf.intel.com with ESMTP; 10 Dec 2023 07:35:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCLKB-000GxC-1L;
-	Sun, 10 Dec 2023 15:02:31 +0000
-Date: Sun, 10 Dec 2023 23:02:08 +0800
+	id 1rCLq8-000Gym-1X;
+	Sun, 10 Dec 2023 15:35:32 +0000
+Date: Sun, 10 Dec 2023 23:35:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Wei <davidhwei@meta.com>
-Cc: oe-kbuild-all@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
-Subject: [isilence:zc/rx-pp-provider 19/31] io_uring/zc_rx.h:31:9: warning:
- 'return' with a value, in function returning void
-Message-ID: <202312102222.W869Ero2-lkp@intel.com>
+To: Markus Pargmann <mpa@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: drivers/iio/gyro/bmg160_i2c.c:41:36: warning: 'bmg160_acpi_match'
+ defined but not used
+Message-ID: <202312102310.LXEzAWcy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,61 +52,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zc/rx-pp-provider
-head:   4b8de8977565096e38b6da993c68da6f2ef9b89c
-commit: a637a9b59d1de6a86ea926ae416dd7bc1f4b6da1 [19/31] io_uring: add interface queue
-config: i386-buildonly-randconfig-003-20231210 (https://download.01.org/0day-ci/archive/20231210/202312102222.W869Ero2-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312102222.W869Ero2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
+commit: 13426454b6493a847cebe276fb1ec3a7f1d48d0e iio: bmg160: Separate i2c and core driver
+date:   8 years ago
+config: m68k-randconfig-c031-20230421 (https://download.01.org/0day-ci/archive/20231210/202312102310.LXEzAWcy-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312102310.LXEzAWcy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312102222.W869Ero2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312102310.LXEzAWcy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from io_uring/io_uring.c:98:0:
-   io_uring/zc_rx.h: In function 'io_unregister_zc_rx_ifq':
->> io_uring/zc_rx.h:31:9: warning: 'return' with a value, in function returning void
-     return -EOPNOTSUPP;
-            ^
-   io_uring/zc_rx.h:29:20: note: declared here
-    static inline void io_unregister_zc_rx_ifq(struct io_ring_ctx *ctx)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   io_uring/io_uring.c: In function 'io_ring_ctx_free':
-   io_uring/io_uring.c:2923:2: error: implicit declaration of function 'io_unregister_zc_rx_ifqs'; did you mean 'io_unregister_zc_rx_ifq'? [-Werror=implicit-function-declaration]
-     io_unregister_zc_rx_ifqs(ctx);
-     ^~~~~~~~~~~~~~~~~~~~~~~~
-     io_unregister_zc_rx_ifq
-   io_uring/io_uring.c: In function 'io_ring_exit_work':
-   io_uring/io_uring.c:3116:4: error: implicit declaration of function 'io_shut_zc_rx_ifqs'; did you mean 'io_register_zc_rx_ifq'? [-Werror=implicit-function-declaration]
-       io_shut_zc_rx_ifqs(ctx);
-       ^~~~~~~~~~~~~~~~~~
-       io_register_zc_rx_ifq
-   cc1: some warnings being treated as errors
+   In file included from include/linux/kernel.h:11,
+                    from include/linux/list.h:8,
+                    from include/linux/kobject.h:20,
+                    from include/linux/device.h:17,
+                    from include/linux/i2c.h:30,
+                    from drivers/iio/gyro/bmg160_i2c.c:1:
+   include/linux/log2.h:22:1: warning: ignoring attribute 'noreturn' because it conflicts with attribute 'const' [-Wattributes]
+      22 | int ____ilog2_NaN(void);
+         | ^~~
+>> drivers/iio/gyro/bmg160_i2c.c:41:36: warning: 'bmg160_acpi_match' defined but not used [-Wunused-const-variable=]
+      41 | static const struct acpi_device_id bmg160_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~
 
 
-vim +/return +31 io_uring/zc_rx.h
+vim +/bmg160_acpi_match +41 drivers/iio/gyro/bmg160_i2c.c
 
-    17	
-    18	#if defined(CONFIG_PAGE_POOL)
-    19	int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
-    20				  struct io_uring_zc_rx_ifq_reg __user *arg);
-    21	void io_unregister_zc_rx_ifqs(struct io_ring_ctx *ctx);
-    22	void io_shut_zc_rx_ifqs(struct io_ring_ctx *ctx);
-    23	#else
-    24	static inline int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
-    25				  struct io_uring_zc_rx_ifq_reg __user *arg)
-    26	{
-    27		return -EOPNOTSUPP;
-    28	}
-    29	static inline void io_unregister_zc_rx_ifq(struct io_ring_ctx *ctx)
-    30	{
-  > 31		return -EOPNOTSUPP;
-    32	}
-    33	#endif
-    34	
+    40	
+  > 41	static const struct acpi_device_id bmg160_acpi_match[] = {
+    42		{"BMG0160", 0},
+    43		{"BMI055B", 0},
+    44		{},
+    45	};
+    46	
 
 -- 
 0-DAY CI Kernel Test Service
