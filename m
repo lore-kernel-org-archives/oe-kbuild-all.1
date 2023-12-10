@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6F54695
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 06:25:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089AA1FDE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 06:36:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OUwXcRZH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejSW/3L+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702189533; x=1733725533;
+  t=1702190196; x=1733726196;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+F9jiay/Pbn12wjvZfaBYEXg4qsr0upMIYGqfySYqPI=;
-  b=OUwXcRZHWPOrP8WCNINyr7tYVqu3iz0gBMoDROEItlgIO19rXgE2qMCw
-   LbMJRD+08l5wWib4YXhINbulA2IfTidkzMGNPDK8cWV8AksUMjwwQob1+
-   vprs86brxqb45c8WCwG+oNjHojYAnZmJowrE759WSbRW9cvCGK4jOvvZp
-   OeCtpAEIbDakX6bsJ87p3pJ+ukffLZUuM3VJjkNvJWMYvEz8GLcub4IDa
-   wGofI3rxD/m07KnmyEGxz+ObZm4HsSkG5KPvIv7xmpnv3iqi4DuAwz72u
-   IUr9cv8VZ1z3wj62Bus0mVK+BbqWHEiH40im4h5l7WJif4MHbuaGqF4bR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1412358"
+  bh=67icHhWoaVFXre/6V++8SJ2ngbwcUqXDzk+zKgKgaKQ=;
+  b=ejSW/3L+l3VMSao5OE9pzBhR/elXEvXF0ViJ5DKFlsYuaxv5rKVZOWKD
+   fp28UIUNcB/oAtDGxt33/Luxt2t9XmGpGdhOBtjGmTvwP9ZgARe5zf61c
+   wW6XyosmdV2/yuylrVqV3pfDwFRpM97j+5yGh2B6J+XyKv4R8GVOTdXxB
+   ackf3iuNC4s2Jqf669odAtnu4n3DCHa/w+ow0yqNxcFiuXAH9cP9AYH6U
+   Ylcv06mlKeKKwan/IdiY3+Ll8y6bOD5vR903iyJ9FNZDyKkUwlvC9Yz5I
+   q2OvSHKh7V0e84YvoqJwwPVgkwrT648q9SPez9frFsud7vzNq9ivTUusn
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="384950348"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="1412358"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 22:25:32 -0800
+   d="scan'208";a="384950348"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 22:36:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="801581285"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="722333175"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="801581285"
+   d="scan'208";a="722333175"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 09 Dec 2023 22:25:30 -0800
+  by orsmga003.jf.intel.com with ESMTP; 09 Dec 2023 22:36:31 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCDFo-000GTN-2D;
-	Sun, 10 Dec 2023 06:25:28 +0000
-Date: Sun, 10 Dec 2023 14:25:07 +0800
+	id 1rCDQT-000GU0-07;
+	Sun, 10 Dec 2023 06:36:29 +0000
+Date: Sun, 10 Dec 2023 14:35:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Huang, Ying" <ying.huang@intel.com>
-Subject: [djiang:cxl-hmem-report 23/23] htmldocs: ./drivers/cxl/cxl.h:535:
- warning: Function parameter or member 'memory_notifier' not described in
- 'cxl_region'
-Message-ID: <202312101405.8sesjxat-lkp@intel.com>
+To: Thadeu Lima de Souza Cascardo <cascardo@canonical.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202312101400.APynrk7M-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,53 +51,219 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-hmem-report
-head:   d097ef73f93c1f0d8098ecc5bbaf396ce09c75e2
-commit: d097ef73f93c1f0d8098ecc5bbaf396ce09c75e2 [23/23] cxl: Add memory hotplug notifier for cxl region
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101405.8sesjxat-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
+commit: e362359ace6f87c201531872486ff295df306d13 posix-cpu-timers: Cleanup CPU timers before freeing them during exec
+date:   1 year, 4 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231210/202312101400.APynrk7M-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312101400.APynrk7M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312101405.8sesjxat-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312101400.APynrk7M-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/exec.c:422:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __user * @@     got void * @@
+   fs/exec.c:422:31: sparse:     expected char const [noderef] __user *
+   fs/exec.c:422:31: sparse:     got void *
+   fs/exec.c:1051:48: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   fs/exec.c:1051:48: sparse:     expected struct sighand_struct *oldsighand
+   fs/exec.c:1051:48: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   fs/exec.c:1158:56: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/exec.c:1158:56: sparse:     expected struct task_struct *parent
+   fs/exec.c:1158:56: sparse:     got struct task_struct [noderef] __rcu *parent
+   fs/exec.c:1193:47: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *oldsighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   fs/exec.c:1193:47: sparse:     expected struct sighand_struct *oldsighand
+   fs/exec.c:1193:47: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+>> fs/exec.c:1307:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   fs/exec.c:1307:26: sparse:     expected struct spinlock [usertype] *lock
+   fs/exec.c:1307:26: sparse:     got struct spinlock [noderef] __rcu *
+   fs/exec.c:1309:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   fs/exec.c:1309:28: sparse:     expected struct spinlock [usertype] *lock
+   fs/exec.c:1309:28: sparse:     got struct spinlock [noderef] __rcu *
+   fs/exec.c:1766:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
+   fs/exec.c:1766:70: sparse:     expected struct task_struct *tsk
+   fs/exec.c:1766:70: sparse:     got struct task_struct [noderef] __rcu *parent
 
->> ./drivers/cxl/cxl.h:535: warning: Function parameter or member 'memory_notifier' not described in 'cxl_region'
+vim +1307 fs/exec.c
 
-vim +535 ./drivers/cxl/cxl.h
-
-a32320b71f085f Dan Williams 2023-02-10  512  
-779dd20cfb56c5 Ben Widawsky 2021-06-08  513  /**
-779dd20cfb56c5 Ben Widawsky 2021-06-08  514   * struct cxl_region - CXL region
-779dd20cfb56c5 Ben Widawsky 2021-06-08  515   * @dev: This region's device
-779dd20cfb56c5 Ben Widawsky 2021-06-08  516   * @id: This region's id. Id is globally unique across all regions
-779dd20cfb56c5 Ben Widawsky 2021-06-08  517   * @mode: Endpoint decoder allocation / access mode
-779dd20cfb56c5 Ben Widawsky 2021-06-08  518   * @type: Endpoint decoder target type
-f17b558d666310 Dan Williams 2022-12-01  519   * @cxl_nvb: nvdimm bridge for coordinating @cxlr_pmem setup / shutdown
-f17b558d666310 Dan Williams 2022-12-01  520   * @cxlr_pmem: (for pmem regions) cached copy of the nvdimm bridge
-d18bc74aced65e Dan Williams 2022-12-01  521   * @flags: Region state flags
-dd5ba0ebbdc414 Ben Widawsky 2021-05-27  522   * @params: active + config params for the region
-779dd20cfb56c5 Ben Widawsky 2021-06-08  523   */
-779dd20cfb56c5 Ben Widawsky 2021-06-08  524  struct cxl_region {
-779dd20cfb56c5 Ben Widawsky 2021-06-08  525  	struct device dev;
-779dd20cfb56c5 Ben Widawsky 2021-06-08  526  	int id;
-779dd20cfb56c5 Ben Widawsky 2021-06-08  527  	enum cxl_decoder_mode mode;
-779dd20cfb56c5 Ben Widawsky 2021-06-08  528  	enum cxl_decoder_type type;
-f17b558d666310 Dan Williams 2022-12-01  529  	struct cxl_nvdimm_bridge *cxl_nvb;
-f17b558d666310 Dan Williams 2022-12-01  530  	struct cxl_pmem_region *cxlr_pmem;
-d18bc74aced65e Dan Williams 2022-12-01  531  	unsigned long flags;
-dd5ba0ebbdc414 Ben Widawsky 2021-05-27  532  	struct cxl_region_params params;
-6627963c7efe78 Dave Jiang   2023-04-05  533  	struct access_coordinate *coord;
-d097ef73f93c1f Dave Jiang   2023-04-12  534  	struct notifier_block memory_notifier;
-779dd20cfb56c5 Ben Widawsky 2021-06-08 @535  };
-779dd20cfb56c5 Ben Widawsky 2021-06-08  536  
-
-:::::: The code at line 535 was first introduced by commit
-:::::: 779dd20cfb56c510f89877cca45529fa9f8bc450 cxl/region: Add region creation support
-
-:::::: TO: Ben Widawsky <bwidawsk@kernel.org>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+  1243	
+  1244	/*
+  1245	 * Calling this is the point of no return. None of the failures will be
+  1246	 * seen by userspace since either the process is already taking a fatal
+  1247	 * signal (via de_thread() or coredump), or will have SEGV raised
+  1248	 * (after exec_mmap()) by search_binary_handler (see below).
+  1249	 */
+  1250	int begin_new_exec(struct linux_binprm * bprm)
+  1251	{
+  1252		struct task_struct *me = current;
+  1253		int retval;
+  1254	
+  1255		/* Once we are committed compute the creds */
+  1256		retval = bprm_creds_from_file(bprm);
+  1257		if (retval)
+  1258			return retval;
+  1259	
+  1260		/*
+  1261		 * Ensure all future errors are fatal.
+  1262		 */
+  1263		bprm->point_of_no_return = true;
+  1264	
+  1265		/*
+  1266		 * Make this the only thread in the thread group.
+  1267		 */
+  1268		retval = de_thread(me);
+  1269		if (retval)
+  1270			goto out;
+  1271	
+  1272		/*
+  1273		 * Cancel any io_uring activity across execve
+  1274		 */
+  1275		io_uring_task_cancel();
+  1276	
+  1277		/* Ensure the files table is not shared. */
+  1278		retval = unshare_files();
+  1279		if (retval)
+  1280			goto out;
+  1281	
+  1282		/*
+  1283		 * Must be called _before_ exec_mmap() as bprm->mm is
+  1284		 * not visible until then. This also enables the update
+  1285		 * to be lockless.
+  1286		 */
+  1287		retval = set_mm_exe_file(bprm->mm, bprm->file);
+  1288		if (retval)
+  1289			goto out;
+  1290	
+  1291		/* If the binary is not readable then enforce mm->dumpable=0 */
+  1292		would_dump(bprm, bprm->file);
+  1293		if (bprm->have_execfd)
+  1294			would_dump(bprm, bprm->executable);
+  1295	
+  1296		/*
+  1297		 * Release all of the old mmap stuff
+  1298		 */
+  1299		acct_arg_size(bprm, 0);
+  1300		retval = exec_mmap(bprm->mm);
+  1301		if (retval)
+  1302			goto out;
+  1303	
+  1304		bprm->mm = NULL;
+  1305	
+  1306	#ifdef CONFIG_POSIX_TIMERS
+> 1307		spin_lock_irq(&me->sighand->siglock);
+  1308		posix_cpu_timers_exit(me);
+  1309		spin_unlock_irq(&me->sighand->siglock);
+  1310		exit_itimers(me);
+  1311		flush_itimer_signals();
+  1312	#endif
+  1313	
+  1314		/*
+  1315		 * Make the signal table private.
+  1316		 */
+  1317		retval = unshare_sighand(me);
+  1318		if (retval)
+  1319			goto out_unlock;
+  1320	
+  1321		me->flags &= ~(PF_RANDOMIZE | PF_FORKNOEXEC |
+  1322						PF_NOFREEZE | PF_NO_SETAFFINITY);
+  1323		flush_thread();
+  1324		me->personality &= ~bprm->per_clear;
+  1325	
+  1326		clear_syscall_work_syscall_user_dispatch(me);
+  1327	
+  1328		/*
+  1329		 * We have to apply CLOEXEC before we change whether the process is
+  1330		 * dumpable (in setup_new_exec) to avoid a race with a process in userspace
+  1331		 * trying to access the should-be-closed file descriptors of a process
+  1332		 * undergoing exec(2).
+  1333		 */
+  1334		do_close_on_exec(me->files);
+  1335	
+  1336		if (bprm->secureexec) {
+  1337			/* Make sure parent cannot signal privileged process. */
+  1338			me->pdeath_signal = 0;
+  1339	
+  1340			/*
+  1341			 * For secureexec, reset the stack limit to sane default to
+  1342			 * avoid bad behavior from the prior rlimits. This has to
+  1343			 * happen before arch_pick_mmap_layout(), which examines
+  1344			 * RLIMIT_STACK, but after the point of no return to avoid
+  1345			 * needing to clean up the change on failure.
+  1346			 */
+  1347			if (bprm->rlim_stack.rlim_cur > _STK_LIM)
+  1348				bprm->rlim_stack.rlim_cur = _STK_LIM;
+  1349		}
+  1350	
+  1351		me->sas_ss_sp = me->sas_ss_size = 0;
+  1352	
+  1353		/*
+  1354		 * Figure out dumpability. Note that this checking only of current
+  1355		 * is wrong, but userspace depends on it. This should be testing
+  1356		 * bprm->secureexec instead.
+  1357		 */
+  1358		if (bprm->interp_flags & BINPRM_FLAGS_ENFORCE_NONDUMP ||
+  1359		    !(uid_eq(current_euid(), current_uid()) &&
+  1360		      gid_eq(current_egid(), current_gid())))
+  1361			set_dumpable(current->mm, suid_dumpable);
+  1362		else
+  1363			set_dumpable(current->mm, SUID_DUMP_USER);
+  1364	
+  1365		perf_event_exec();
+  1366		__set_task_comm(me, kbasename(bprm->filename), true);
+  1367	
+  1368		/* An exec changes our domain. We are no longer part of the thread
+  1369		   group */
+  1370		WRITE_ONCE(me->self_exec_id, me->self_exec_id + 1);
+  1371		flush_signal_handlers(me, 0);
+  1372	
+  1373		retval = set_cred_ucounts(bprm->cred);
+  1374		if (retval < 0)
+  1375			goto out_unlock;
+  1376	
+  1377		/*
+  1378		 * install the new credentials for this executable
+  1379		 */
+  1380		security_bprm_committing_creds(bprm);
+  1381	
+  1382		commit_creds(bprm->cred);
+  1383		bprm->cred = NULL;
+  1384	
+  1385		/*
+  1386		 * Disable monitoring for regular users
+  1387		 * when executing setuid binaries. Must
+  1388		 * wait until new credentials are committed
+  1389		 * by commit_creds() above
+  1390		 */
+  1391		if (get_dumpable(me->mm) != SUID_DUMP_USER)
+  1392			perf_event_exit_task(me);
+  1393		/*
+  1394		 * cred_guard_mutex must be held at least to this point to prevent
+  1395		 * ptrace_attach() from altering our determination of the task's
+  1396		 * credentials; any time after this it may be unlocked.
+  1397		 */
+  1398		security_bprm_committed_creds(bprm);
+  1399	
+  1400		/* Pass the opened binary to the interpreter. */
+  1401		if (bprm->have_execfd) {
+  1402			retval = get_unused_fd_flags(0);
+  1403			if (retval < 0)
+  1404				goto out_unlock;
+  1405			fd_install(retval, bprm->executable);
+  1406			bprm->executable = NULL;
+  1407			bprm->execfd = retval;
+  1408		}
+  1409		return 0;
+  1410	
+  1411	out_unlock:
+  1412		up_write(&me->signal->exec_update_lock);
+  1413	out:
+  1414		return retval;
+  1415	}
+  1416	EXPORT_SYMBOL(begin_new_exec);
+  1417	
 
 -- 
 0-DAY CI Kernel Test Service
