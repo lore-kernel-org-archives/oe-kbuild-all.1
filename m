@@ -1,52 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C061A7EC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 02:03:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C3D7EC;
+	Sun, 10 Dec 2023 02:14:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iU/K6QN1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZxMY94S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702173800; x=1733709800;
+  t=1702174459; x=1733710459;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YPSa+EqqbwYkScTEXGKik/E61oTp1OD7T/v2f6DAEvI=;
-  b=iU/K6QN1LiXxgAEWyAMX73eoRqRYr9i0zgtbt2/v8MNXvNnPquFn0j8q
-   G520KKbUp20k0MdjLxjFxoESwH4g62WUHI3ZETegtzg5K7Ate2ZGIC3Tl
-   y7byIoZZwclSnFS7/rmXKL6OwMIT3bJHltlq0ntcpnLwY24StUuiH/LXF
-   mBkaZTdkKZR97TGuqQ7O5jk1AeRl70hh1GNQa1lKoNHwSxXAg+4J63JLQ
-   1wsH9qLb1Ay8ZGxMUoU8kHQLiWWXVb4q4Gmna7XVDu851zQNbBqyB43xD
-   rbtUFeU2jou28aHxPzAxndRorC6nNHhlkNfhiydbNM6PaRQVuBUmoWjgH
+  bh=5Hoh8xC8QuCdZj3NU4XXc2R6BshZ5CNSyUaWRE/sbek=;
+  b=iZxMY94SHx5KxYMXpGb+EqcjgODpt+3vUxsNr0JwOKqOOgUqUsLvosQl
+   VycdiBLpwRmPAUlehNd7Dqns7+JvH9V5JALlEOJjXLrWIfc6Iz2o1MIf4
+   90MO3R34KxvFLDHtspjG+U1WxQ1WgN6rPaWVSI2hd/li2VQDWe30yJ16G
+   mxnqcjJW4n5mWf4f6pFj+dVwcc5MS1f4CPiA294sn1ZqabojxDkI/62wI
+   zYIbZkafU3HjNkJpM18YQIMZRco4+/Z7yTKEP4JawPPiFFJCjk1rO4SHP
+   W+qJ6K3g47V7WU4JWnadNz6a+3jISI/9pwqmxui1Y8MILt+NUJegX9EkH
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="7892389"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1351265"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="7892389"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 18:03:19 -0800
+   d="scan'208";a="1351265"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 18:14:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="748776727"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="945819767"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="748776727"
+   d="scan'208";a="945819767"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 09 Dec 2023 18:03:15 -0800
+  by orsmga005.jf.intel.com with ESMTP; 09 Dec 2023 18:14:15 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC9A1-000GGl-0n;
-	Sun, 10 Dec 2023 02:03:13 +0000
-Date: Sun, 10 Dec 2023 10:02:14 +0800
+	id 1rC9Kf-000GH7-1a;
+	Sun, 10 Dec 2023 02:14:13 +0000
+Date: Sun, 10 Dec 2023 10:13:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gergo Koteles <soyer@irl.hu>, Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>
-Subject: Re: [PATCH 2/2] ALSA: hda/tas2563: Add tas2563 HDA driver
-Message-ID: <202312100942.CvTnDpkg-lkp@intel.com>
-References: <4a2f31d4eb8479789ceb1daf2e93ec0e25c23171.1701733441.git.soyer@irl.hu>
+To: Julien Massot <julien.massot@collabora.com>, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kernel@collabora.com, Julien Massot <julien.massot@collabora.com>
+Subject: Re: [PATCH v2 3/4] media: i2c: add MAX96714 driver
+Message-ID: <202312101007.RRCFzwfA-lkp@intel.com>
+References: <20231208143359.469049-4-julien.massot@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,117 +52,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4a2f31d4eb8479789ceb1daf2e93ec0e25c23171.1701733441.git.soyer@irl.hu>
+In-Reply-To: <20231208143359.469049-4-julien.massot@collabora.com>
 
-Hi Gergo,
+Hi Julien,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on ffc253263a1375a65fa6c9f62a893e9767fbebfa]
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linuxtv-media-stage/master linus/master v6.7-rc4 next-20231208]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gergo-Koteles/ASoc-tas2563-DSP-Firmware-loading-support/20231205-074901
-base:   ffc253263a1375a65fa6c9f62a893e9767fbebfa
-patch link:    https://lore.kernel.org/r/4a2f31d4eb8479789ceb1daf2e93ec0e25c23171.1701733441.git.soyer%40irl.hu
-patch subject: [PATCH 2/2] ALSA: hda/tas2563: Add tas2563 HDA driver
-config: x86_64-randconfig-r121-20231210 (https://download.01.org/0day-ci/archive/20231210/202312100942.CvTnDpkg-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100942.CvTnDpkg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/dt-bindings-media-add-Maxim-MAX96714F-GMSL2-Deserializer/20231208-223758
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20231208143359.469049-4-julien.massot%40collabora.com
+patch subject: [PATCH v2 3/4] media: i2c: add MAX96714 driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231210/202312101007.RRCFzwfA-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312101007.RRCFzwfA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312100942.CvTnDpkg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312101007.RRCFzwfA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/codecs/tas25xx-dsp.c:21:9: sparse: sparse: restricted __be16 degrades to integer
->> sound/soc/codecs/tas25xx-dsp.c:21:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long __ms @@     got restricted __be16 [usertype] @@
-   sound/soc/codecs/tas25xx-dsp.c:21:9: sparse:     expected unsigned long __ms
-   sound/soc/codecs/tas25xx-dsp.c:21:9: sparse:     got restricted __be16 [usertype]
->> sound/soc/codecs/tas25xx-dsp.c:21:9: sparse: sparse: restricted __be16 degrades to integer
->> sound/soc/codecs/tas25xx-dsp.c:21:9: sparse: sparse: restricted __be16 degrades to integer
->> sound/soc/codecs/tas25xx-dsp.c:21:9: sparse: sparse: restricted __be16 degrades to integer
->> sound/soc/codecs/tas25xx-dsp.c:21:9: sparse: sparse: restricted __be16 degrades to integer
->> sound/soc/codecs/tas25xx-dsp.c:28:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected int num_writes @@     got restricted __be16 [usertype] @@
-   sound/soc/codecs/tas25xx-dsp.c:28:26: sparse:     expected int num_writes
-   sound/soc/codecs/tas25xx-dsp.c:28:26: sparse:     got restricted __be16 [usertype]
->> sound/soc/codecs/tas25xx-dsp.c:65:33: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned long [usertype] val_count @@     got restricted __be16 [usertype] @@
-   sound/soc/codecs/tas25xx-dsp.c:65:33: sparse:     expected unsigned long [usertype] val_count
-   sound/soc/codecs/tas25xx-dsp.c:65:33: sparse:     got restricted __be16 [usertype]
-   sound/soc/codecs/tas25xx-dsp.c:84:30: sparse: sparse: restricted __be16 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:87:30: sparse: sparse: restricted __be16 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:82:17: sparse: sparse: restricted __be16 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:82:17: sparse: sparse: restricted __be16 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:82:17: sparse: sparse: restricted __be16 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:103:17: sparse: sparse: restricted __be16 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:103:17: sparse: sparse: restricted __be16 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:103:17: sparse: sparse: restricted __be16 degrades to integer
->> sound/soc/codecs/tas25xx-dsp.c:141:24: sparse: sparse: restricted __be32 degrades to integer
->> sound/soc/codecs/tas25xx-dsp.c:145:24: sparse: sparse: invalid assignment: +=
->> sound/soc/codecs/tas25xx-dsp.c:145:24: sparse:    left side has type int
->> sound/soc/codecs/tas25xx-dsp.c:145:24: sparse:    right side has type restricted __be32
-   sound/soc/codecs/tas25xx-dsp.c:150:35: sparse: sparse: restricted __be32 degrades to integer
->> sound/soc/codecs/tas25xx-dsp.c:151:29: sparse: sparse: incorrect type in initializer (different base types) @@     expected int num_subblocks @@     got restricted __be32 [usertype] @@
-   sound/soc/codecs/tas25xx-dsp.c:151:29: sparse:     expected int num_subblocks
-   sound/soc/codecs/tas25xx-dsp.c:151:29: sparse:     got restricted __be32 [usertype]
-   sound/soc/codecs/tas25xx-dsp.c:182:26: sparse: sparse: restricted __be32 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:186:24: sparse: sparse: invalid assignment: +=
-   sound/soc/codecs/tas25xx-dsp.c:186:24: sparse:    left side has type int
-   sound/soc/codecs/tas25xx-dsp.c:186:24: sparse:    right side has type restricted __be32
-   sound/soc/codecs/tas25xx-dsp.c:191:35: sparse: sparse: restricted __be32 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:192:29: sparse: sparse: incorrect type in initializer (different base types) @@     expected int num_subblocks @@     got restricted __be32 [usertype] @@
-   sound/soc/codecs/tas25xx-dsp.c:192:29: sparse:     expected int num_subblocks
-   sound/soc/codecs/tas25xx-dsp.c:192:29: sparse:     got restricted __be32 [usertype]
-   sound/soc/codecs/tas25xx-dsp.c:238:29: sparse: sparse: restricted __be32 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:239:31: sparse: sparse: invalid assignment: +=
->> sound/soc/codecs/tas25xx-dsp.c:239:31: sparse:    left side has type unsigned int
-   sound/soc/codecs/tas25xx-dsp.c:239:31: sparse:    right side has type restricted __be32
-   sound/soc/codecs/tas25xx-dsp.c:241:29: sparse: sparse: restricted __be32 degrades to integer
-   sound/soc/codecs/tas25xx-dsp.c:242:33: sparse: sparse: invalid assignment: +=
-   sound/soc/codecs/tas25xx-dsp.c:242:33: sparse:    left side has type unsigned int
-   sound/soc/codecs/tas25xx-dsp.c:242:33: sparse:    right side has type restricted __be32
->> sound/soc/codecs/tas25xx-dsp.c:260:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] prog_num @@     got restricted __be32 [usertype] @@
-   sound/soc/codecs/tas25xx-dsp.c:260:18: sparse:     expected unsigned int [usertype] prog_num
-   sound/soc/codecs/tas25xx-dsp.c:260:18: sparse:     got restricted __be32 [usertype]
->> sound/soc/codecs/tas25xx-dsp.c:261:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] config_num @@     got restricted __be32 [usertype] @@
-   sound/soc/codecs/tas25xx-dsp.c:261:20: sparse:     expected unsigned int [usertype] config_num
-   sound/soc/codecs/tas25xx-dsp.c:261:20: sparse:     got restricted __be32 [usertype]
---
->> sound/pci/hda/tas2563_hda_i2c.c:325:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
-   sound/pci/hda/tas2563_hda_i2c.c:325:37: sparse:     expected unsigned int
-   sound/pci/hda/tas2563_hda_i2c.c:325:37: sparse:     got restricted __be32 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +325 sound/pci/hda/tas2563_hda_i2c.c
+>> drivers/media/i2c/max96714.c:380:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           freq = FIELD_GET(CSI_DPLL_FREQ_MASK, freq);
+                  ^
+>> drivers/media/i2c/max96714.c:600:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           val = FIELD_PREP(MAX96714_CSI2_LANE_CNT_MASK, mipi->num_data_lanes - 1);
+                 ^
+   2 errors generated.
 
-   306	
-   307	/* Update the calibrate data, including speaker impedance, f0, etc, into algo.
-   308	 * Calibrate data is done by manufacturer in the factory. These data are used
-   309	 * by Algo for calucating the speaker temperature, speaker membrance excursion
-   310	 * and f0 in real time during playback.
-   311	 */
-   312	static int tas2563_tasdev_read_efi(struct tas2563_data *tas2563,
-   313		struct tas2563_dev *tasdev)
-   314	{
-   315		efi_status_t status;
-   316		unsigned int attr;
-   317		unsigned long max_size = TAS2563_CAL_DATA_SIZE;
-   318	
-   319		for (int i = 0; i < TAS2563_CAL_N; ++i) {
-   320			status = efi.get_variable(efi_var_names[tasdev->dev_id][i],
-   321				&efi_guid, &attr, &max_size,
-   322				&tasdev->cal_data[i]);
-   323			if (status != EFI_SUCCESS)
-   324				return -EINVAL;
- > 325			tasdev->cal_data[i] = cpu_to_be32(tasdev->cal_data[i]);
-   326		}
-   327	
-   328		dev_info(tas2563->dev,
-   329			"Calibration data %d: power:%08x r0:%08x inv_r0:%08x r0_low:%08x tlim:%08x\n",
-   330			tasdev->dev_id, tasdev->cal_data[0], tasdev->cal_data[1],
-   331			tasdev->cal_data[2], tasdev->cal_data[3], tasdev->cal_data[4]);
-   332	
-   333		return 0;
-   334	}
-   335	
+
+vim +/FIELD_GET +380 drivers/media/i2c/max96714.c
+
+   373	
+   374	static void max96714_csi_status(struct max96714_priv *priv)
+   375	{
+   376		struct device *dev = &priv->client->dev;
+   377		u8 freq;
+   378	
+   379		max96714_read(priv, MAX96714_BACKTOP25, &freq);
+ > 380		freq = FIELD_GET(CSI_DPLL_FREQ_MASK, freq);
+   381	
+   382		dev_info(dev, "CSI controller DPLL freq:%u00MHz CSIPHY enabled:%d\n",
+   383			 freq, max96714_tx_port_enabled(priv));
+   384	}
+   385	
 
 -- 
 0-DAY CI Kernel Test Service
