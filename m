@@ -1,47 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797E0BE5C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 12:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67368483;
+	Sun, 10 Dec 2023 12:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EpckrihP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RUG1I/mu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702210810; x=1733746810;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E2Cz8W3+wq+iLQx7epUCLvSaKQ8HHOGIRGq5VV4rhuU=;
-  b=EpckrihPfy6iWorzOz9j6i6q2P8Qi/iQDzX884UBHf0Az7eem6IJxDu3
-   yWnLA7sqjB4MDsyglQqsw1RT06oiZ9TFQvn/AotX8rgD7vU0ss6cRuraE
-   +Vz45UOT2T0dfKDjjc7sbzEac3w3l/nkGohbJQCeNO89xv3B9040KFJ1r
-   js92RAzZLhFQhETa8EtoodoZFRVfKBrHO5ZZYPNiYQz1hWzX1MJ6G3kTm
-   NpZCyJL8M7NOnq/HBeQn3mCxdWqcfHs7+2MObiJ8fiJEf+HztmWjv/H4h
-   noaLKqhxVY7MwfDtQ0u7WO0gScOsZDq7R5OTR1KkNC5Mo7bWlG1M8PKDb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="374058126"
+  t=1702211410; x=1733747410;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1hFKZaaYa0isYOfuRccRS7bdXdTSP+jzodb5aJcq+Mo=;
+  b=RUG1I/muz6cT8eihjn9A6NXShrQdHopGDqrQDWcvGUy8jc0+O8DUzMsd
+   yqeW7ZM0Yht9iyzxqaT+MxGgC5boiGoYvTeqxuz1Vs5FbcqKF0xI7QLgj
+   xbBoALEXVpVjUQfAXCcqV9MOPXJVBBaEJDceiErtH/CuWNppx0jyYFbAi
+   d3erj4NKyos1xsUzI5hYK9KE6tfoGTqgUt/ITtnAn3is8wxsre9LNHalS
+   i22QJQDE3NW6Ge+//TQIXG7tNfyP8v2JwC0cF5Q0rvyWsuBM+TdrbaKqt
+   +CdbrVvWdSUjBcmocKk2hQDZcos+m4uLoUFib7G0ukLCWqeWneBOfSTlY
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="7910826"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="374058126"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 04:20:06 -0800
+   d="scan'208";a="7910826"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 04:30:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="801654373"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1104116213"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="801654373"
+   d="scan'208";a="1104116213"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 10 Dec 2023 04:20:05 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 10 Dec 2023 04:30:05 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCImw-000GoW-2q;
-	Sun, 10 Dec 2023 12:20:02 +0000
-Date: Sun, 10 Dec 2023 20:19:02 +0800
+	id 1rCIwd-000Gp8-0G;
+	Sun, 10 Dec 2023 12:30:03 +0000
+Date: Sun, 10 Dec 2023 20:29:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jiri Kosina <jkosina@suse.cz>
-Subject: powerpc-linux-ld: warning: orphan section `.init.plt' from
- `drivers/hid/hid-uclogic-params.o' being placed in section `.init.plt'
-Message-ID: <202312102059.jy7TxyjJ-lkp@intel.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	quic_jesszhan@quicinc.com, quic_parellan@quicinc.com,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 10/16] drm/msm/dpu: add CDM related logic to
+ dpu_hw_ctl layer
+Message-ID: <202312102047.S0I69pCs-lkp@intel.com>
+References: <20231208050641.32582-11-quic_abhinavk@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,30 +59,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231208050641.32582-11-quic_abhinavk@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
-commit: a64cbf3ce63122168e1edb3eb1eb1cf7781ae230 HID: uclogic: Refactor UGEE v2 string descriptor parsing
-date:   1 year, 4 months ago
-config: powerpc-randconfig-r052-20231210 (https://download.01.org/0day-ci/archive/20231210/202312102059.jy7TxyjJ-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312102059.jy7TxyjJ-lkp@intel.com/reproduce)
+Hi Abhinav,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20231207]
+[also build test WARNING on v6.7-rc4]
+[cannot apply to drm-misc/drm-misc-next linus/master v6.7-rc4 v6.7-rc3 v6.7-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhinav-Kumar/drm-msm-dpu-add-formats-check-for-writeback-encoder/20231208-130820
+base:   next-20231207
+patch link:    https://lore.kernel.org/r/20231208050641.32582-11-quic_abhinavk%40quicinc.com
+patch subject: [PATCH v2 10/16] drm/msm/dpu: add CDM related logic to dpu_hw_ctl layer
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231210/202312102047.S0I69pCs-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312102047.S0I69pCs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312102059.jy7TxyjJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312102047.S0I69pCs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   powerpc-linux-ld: warning: orphan section `.init.plt' from `drivers/hid/hid-uclogic-rdesc.o' being placed in section `.init.plt'
->> powerpc-linux-ld: warning: orphan section `.init.plt' from `drivers/hid/hid-uclogic-params.o' being placed in section `.init.plt'
-   powerpc-linux-ld: warning: drivers/of/unittest-data/overlay_gpio_04b.dtb.o: missing .note.GNU-stack section implies executable stack
-   powerpc-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   powerpc-linux-ld: block/blk-iocost.o: in function `ioc_refresh_params.isra.0':
-   blk-iocost.c:(.text+0x1b5c): undefined reference to `__udivdi3'
-   powerpc-linux-ld: block/blk-iocost.o: in function `transfer_surpluses':
-   blk-iocost.c:(.text+0x3cd4): undefined reference to `__udivdi3'
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c:537:6: warning: variable 'cdm_active' set but not used [-Wunused-but-set-variable]
+           u32 cdm_active = 0;
+               ^
+   1 warning generated.
+
+
+vim +/cdm_active +537 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+
+   528	
+   529	
+   530	static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
+   531			struct dpu_hw_intf_cfg *cfg)
+   532	{
+   533		struct dpu_hw_blk_reg_map *c = &ctx->hw;
+   534		u32 intf_active = 0;
+   535		u32 wb_active = 0;
+   536		u32 mode_sel = 0;
+ > 537		u32 cdm_active = 0;
+   538	
+   539		/* CTL_TOP[31:28] carries group_id to collate CTL paths
+   540		 * per VM. Explicitly disable it until VM support is
+   541		 * added in SW. Power on reset value is not disable.
+   542		 */
+   543		if ((test_bit(DPU_CTL_VM_CFG, &ctx->caps->features)))
+   544			mode_sel = CTL_DEFAULT_GROUP_ID  << 28;
+   545	
+   546		if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
+   547			mode_sel |= BIT(17);
+   548	
+   549		intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
+   550		wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
+   551		cdm_active = DPU_REG_READ(c, CTL_CDM_ACTIVE);
+   552	
+   553		if (cfg->intf)
+   554			intf_active |= BIT(cfg->intf - INTF_0);
+   555	
+   556		if (cfg->wb)
+   557			wb_active |= BIT(cfg->wb - WB_0);
+   558	
+   559		DPU_REG_WRITE(c, CTL_TOP, mode_sel);
+   560		DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
+   561		DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
+   562	
+   563		if (cfg->merge_3d)
+   564			DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
+   565				      BIT(cfg->merge_3d - MERGE_3D_0));
+   566	
+   567		if (cfg->dsc)
+   568			DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
+   569	
+   570		if (cfg->cdm)
+   571			DPU_REG_WRITE(c, CTL_CDM_ACTIVE, cfg->cdm);
+   572	}
+   573	
 
 -- 
 0-DAY CI Kernel Test Service
