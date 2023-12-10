@@ -1,55 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE4C15AC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 04:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDE517F3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 05:31:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+RsnkNn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guFTYk1d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702181964; x=1733717964;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=asvKB3ReQvJ+jiqRWBtIOZ61VkP+wjyfmq7Jgp5pQkw=;
-  b=J+RsnkNn4hOUpcbGGCQd7j14MHjGPnZC/mE3Q55x1SyAmELykp9arZLL
-   miQPI8TDcMxhHXFSZFUUCLpwYXe+M1vurvuW2eFZKlqj4hO3vcw4IqR7a
-   RzvW5v7P2uYVKGjv6zUg76ex1nfcvE7yShKoakJFNlPwI62kCrEsoQjMk
-   nRIefv6yxTb8OFyj6e6Qd4pk3nfASXou+4+ixXOl/dky48u+eAUwGM0Tr
-   RLRN0rmmPlFpMJeusIzBmuutXN+VvooJSdf9w75caldZVhwbYU8rUi8bv
-   nn4dWCuuXA3A7qAt1J4Zn4r2RGs2+GPaNHZCK0Af7RZxQk0RoG4ROMdO7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="458851123"
+  t=1702186284; x=1733722284;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=/et48asKp74h3zJiv1JSiMibmejI9/AruJWjyN7fAaY=;
+  b=guFTYk1dBKlXfGQ+4Pb9MkCJWPXKoigA61ieuJBw0FL5IJVNY7sRBi92
+   HFvwc4oRN0j0pufuWJ0cKXlAuDaTozoEL1L22ld1k+0/dblxXdxJyzPXC
+   +rT9oy2BEuugNgnwWw8FZkf54bbGlpecCVTptjddVfxWvG6VhtL0JI3Do
+   XCQC+5H1SUY6x2TZHanuwBLs1QVdolVFDKCQC0aGG+cHzAvEn96md4JGU
+   Wpd9yoy5xBJxzmyxekFBOMaDFh4U6og1diFcd0xNXEzRpWMtpIm0h16Lv
+   +CHZueW5eqgijpMajFMRbbsnVrbJJAy1mZf5C63Zvc6CeDsbE1ame20pL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="391708944"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="458851123"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 20:19:23 -0800
+   d="scan'208";a="391708944"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 21:31:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="890647084"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="945854149"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="890647084"
+   d="scan'208";a="945854149"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2023 20:19:19 -0800
+  by orsmga005.jf.intel.com with ESMTP; 09 Dec 2023 21:31:22 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCBHh-000GNr-1g;
-	Sun, 10 Dec 2023 04:19:17 +0000
-Date: Sun, 10 Dec 2023 12:18:36 +0800
+	id 1rCCPQ-000GR1-1z
+	for oe-kbuild-all@lists.linux.dev;
+	Sun, 10 Dec 2023 05:31:20 +0000
+Date: Sun, 10 Dec 2023 13:31:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kamal Dasu <kamal.dasu@broadcom.com>, ulf.hansson@linaro.org,
-	linux-kernel@vger.kernel.org, alcooperx@gmail.com,
-	linux-arm-kernel@lists.infradead.org, adrian.hunter@intel.com,
-	linux-mmc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, f.fainelli@gmail.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	Kamal Dasu <kdasu@broadcom.com>
-Subject: Re: [V3, 1/2] dt-bindings: mmc: brcm,sdhci-brcmstb: Add support for
- 74165b0
-Message-ID: <202312101146.IK4Nrw1S-lkp@intel.com>
-References: <20231209165816.39044-1-kamal.dasu@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:4.19/android_s 12784/30000] kernel/dma/removed.c:107:30:
+ sparse: sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202312101332.3eRGgwv3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,118 +49,238 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231209165816.39044-1-kamal.dasu@broadcom.com>
 
-Hi Kamal,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on soc/for-next linus/master v6.7-rc4 next-20231208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kamal-Dasu/mmc-add-new-sdhci-reset-sequence-for-brcm-74165b0/20231210-010145
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231209165816.39044-1-kamal.dasu%40broadcom.com
-patch subject: [V3, 1/2] dt-bindings: mmc: brcm,sdhci-brcmstb: Add support for 74165b0
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101146.IK4Nrw1S-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   a45f8ae6659a25c2743eb4a9bc5ee7954a00d784
+commit: c9a574054dbbc299aac39781a1d19a36fe0bc35a [12784/30000] ANDROID: GKI: drivers: Add dma removed ops
+config: i386-randconfig-062-20231209 (https://download.01.org/0day-ci/archive/20231210/202312101332.3eRGgwv3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312101332.3eRGgwv3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312101146.IK4Nrw1S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312101332.3eRGgwv3-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/mmc/brcm,sdhci-brcmstb.yaml:25:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
---
->> Documentation/devicetree/bindings/mmc/brcm,sdhci-brcmstb.yaml:25:1: found a tab character that violates indentation
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
---
->> Documentation/devicetree/bindings/mmc/brcm,sdhci-brcmstb.yaml: ignoring, error parsing file
+sparse warnings: (new ones prefixed by >>)
+>> kernel/dma/removed.c:107:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
+   kernel/dma/removed.c:107:30: sparse:     expected void [noderef] __iomem *addr
+   kernel/dma/removed.c:107:30: sparse:     got void *
+>> kernel/dma/removed.c:119:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *[assigned] addr @@     got void * @@
+   kernel/dma/removed.c:119:38: sparse:     expected void [noderef] __iomem *[assigned] addr
+   kernel/dma/removed.c:119:38: sparse:     got void *
+>> kernel/dma/removed.c:127:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem *[assigned] addr @@
+   kernel/dma/removed.c:127:16: sparse:     expected void *
+   kernel/dma/removed.c:127:16: sparse:     got void [noderef] __iomem *[assigned] addr
+   kernel/dma/removed.c:71:6: sparse: sparse: symbol 'removed_alloc' was not declared. Should it be static?
+   kernel/dma/removed.c:131:5: sparse: sparse: symbol 'removed_mmap' was not declared. Should it be static?
+>> kernel/dma/removed.c:146:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *cpu_addr @@
+   kernel/dma/removed.c:146:25: sparse:     expected void volatile [noderef] __iomem *addr
+   kernel/dma/removed.c:146:25: sparse:     got void *cpu_addr
+   kernel/dma/removed.c:138:6: sparse: sparse: symbol 'removed_free' was not declared. Should it be static?
+   kernel/dma/removed.c:187:6: sparse: sparse: symbol 'removed_sync_single_for_device' was not declared. Should it be static?
+   kernel/dma/removed.c:193:6: sparse: sparse: symbol 'removed_sync_sg_for_cpu' was not declared. Should it be static?
+   kernel/dma/removed.c:199:6: sparse: sparse: symbol 'removed_sync_sg_for_device' was not declared. Should it be static?
+>> kernel/dma/removed.c:213:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *remapped_address @@
+   kernel/dma/removed.c:213:17: sparse:     expected void volatile [noderef] __iomem *addr
+   kernel/dma/removed.c:213:17: sparse:     got void *remapped_address
+   kernel/dma/removed.c:211:6: sparse: sparse: symbol 'removed_unremap' was not declared. Should it be static?
+>> kernel/dma/removed.c:228:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *( *remap )( ... ) @@     got void [noderef] __iomem *( * )( ... ) @@
+   kernel/dma/removed.c:228:35: sparse:     expected void *( *remap )( ... )
+   kernel/dma/removed.c:228:35: sparse:     got void [noderef] __iomem *( * )( ... )
+   kernel/dma/removed.c:71:7: warning: no previous prototype for 'removed_alloc' [-Wmissing-prototypes]
+      71 | void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
+         |       ^~~~~~~~~~~~~
+   kernel/dma/removed.c:131:5: warning: no previous prototype for 'removed_mmap' [-Wmissing-prototypes]
+     131 | int removed_mmap(struct device *dev, struct vm_area_struct *vma,
+         |     ^~~~~~~~~~~~
+   kernel/dma/removed.c:138:6: warning: no previous prototype for 'removed_free' [-Wmissing-prototypes]
+     138 | void removed_free(struct device *dev, size_t size, void *cpu_addr,
+         |      ^~~~~~~~~~~~
+   kernel/dma/removed.c:187:6: warning: no previous prototype for 'removed_sync_single_for_device' [-Wmissing-prototypes]
+     187 | void removed_sync_single_for_device(struct device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/removed.c:193:6: warning: no previous prototype for 'removed_sync_sg_for_cpu' [-Wmissing-prototypes]
+     193 | void removed_sync_sg_for_cpu(struct device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/removed.c:199:6: warning: no previous prototype for 'removed_sync_sg_for_device' [-Wmissing-prototypes]
+     199 | void removed_sync_sg_for_device(struct device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/removed.c:211:6: warning: no previous prototype for 'removed_unremap' [-Wmissing-prototypes]
+     211 | void removed_unremap(struct device *dev, void *remapped_address, size_t size)
+         |      ^~~~~~~~~~~~~~~
+   kernel/dma/removed.c:61:12: warning: 'dma_assign_removed_region' defined but not used [-Wunused-function]
+      61 | static int dma_assign_removed_region(struct device *dev,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/dma/removed.c:33:12: warning: 'dma_init_removed_memory' defined but not used [-Wunused-function]
+      33 | static int dma_init_removed_memory(phys_addr_t phys_addr, size_t size,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
 
-vim +25 Documentation/devicetree/bindings/mmc/brcm,sdhci-brcmstb.yaml
+vim +107 kernel/dma/removed.c
 
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07   8  
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07   9  maintainers:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  10    - Al Cooper <alcooperx@gmail.com>
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  11    - Florian Fainelli <f.fainelli@gmail.com>
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  12  
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  13  properties:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  14    compatible:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  15      oneOf:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  16        - items:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  17            - enum:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  18                - brcm,bcm7216-sdhci
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  19            - const: brcm,bcm7445-sdhci
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  20            - const: brcm,sdhci-brcmstb
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  21        - items:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  22            - enum:
-48e24385c58e80 Kamal Dasu          2023-12-09  23                - brcm,bcm74165b0-sdhci
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  24                - brcm,bcm7445-sdhci
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07 @25  	      - brcm,bcm7425-sdhci
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  26            - const: brcm,sdhci-brcmstb
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  27  
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  28    reg:
-b16ebda6d00361 Krzysztof Kozlowski 2022-04-28  29      maxItems: 2
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  30  
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  31    reg-names:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  32      items:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  33        - const: host
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  34        - const: cfg
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  35  
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  36    interrupts:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  37      maxItems: 1
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  38  
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  39    clocks:
-2f8690ef64128b Kamal Dasu          2022-05-20  40      minItems: 1
-2f8690ef64128b Kamal Dasu          2022-05-20  41      items:
-2f8690ef64128b Kamal Dasu          2022-05-20  42        - description: handle to core clock for the sdhci controller
-2f8690ef64128b Kamal Dasu          2022-05-20  43        - description: handle to improved 150Mhz clock for sdhci controller (Optional clock)
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  44  
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  45    clock-names:
-2f8690ef64128b Kamal Dasu          2022-05-20  46      minItems: 1
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  47      items:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  48        - const: sw_sdio
-2f8690ef64128b Kamal Dasu          2022-05-20  49        - const: sdio_freq # Optional clock
-2f8690ef64128b Kamal Dasu          2022-05-20  50  
-2f8690ef64128b Kamal Dasu          2022-05-20  51    clock-frequency:
-2f8690ef64128b Kamal Dasu          2022-05-20  52      description:
-2f8690ef64128b Kamal Dasu          2022-05-20  53        Maximum operating frequency of sdio_freq sdhci controller clock
-2f8690ef64128b Kamal Dasu          2022-05-20  54      $ref: /schemas/types.yaml#/definitions/uint32
-2f8690ef64128b Kamal Dasu          2022-05-20  55      minimum: 100000000
-2f8690ef64128b Kamal Dasu          2022-05-20  56      maximum: 150000000
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  57  
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  58    sdhci,auto-cmd12:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  59      type: boolean
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  60      description: Specifies that controller should use auto CMD12
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  61  
-2f8690ef64128b Kamal Dasu          2022-05-20  62  allOf:
-2f8690ef64128b Kamal Dasu          2022-05-20  63    - $ref: mmc-controller.yaml#
-2f8690ef64128b Kamal Dasu          2022-05-20  64    - if:
-2f8690ef64128b Kamal Dasu          2022-05-20  65        properties:
-2f8690ef64128b Kamal Dasu          2022-05-20  66          clock-names:
-2f8690ef64128b Kamal Dasu          2022-05-20  67            contains:
-2f8690ef64128b Kamal Dasu          2022-05-20  68              const: sdio_freq
-2f8690ef64128b Kamal Dasu          2022-05-20  69  
-2f8690ef64128b Kamal Dasu          2022-05-20  70      then:
-2f8690ef64128b Kamal Dasu          2022-05-20  71        required:
-2f8690ef64128b Kamal Dasu          2022-05-20  72          - clock-frequency
-2f8690ef64128b Kamal Dasu          2022-05-20  73  
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  74  required:
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  75    - compatible
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  76    - reg
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  77    - interrupts
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  78    - clocks
-2f8690ef64128b Kamal Dasu          2022-05-20  79    - clock-names
-50c4ef6b8ab7d1 Florian Fainelli    2021-12-07  80  
+    70	
+    71	void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
+    72			    gfp_t gfp, unsigned long attrs)
+    73	{
+    74		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
+    75		bool skip_zeroing = attrs & DMA_ATTR_SKIP_ZEROING;
+    76		int pageno;
+    77		unsigned long order;
+    78		void __iomem *addr = NULL;
+    79		struct removed_region *dma_mem = dev->removed_mem;
+    80		int nbits;
+    81		unsigned int align;
+    82	
+    83		if (!gfpflags_allow_blocking(gfp))
+    84			return NULL;
+    85	
+    86		size = PAGE_ALIGN(size);
+    87		nbits = size >> PAGE_SHIFT;
+    88		order = get_order(size);
+    89	
+    90		if (order > get_order(SZ_1M))
+    91			order = get_order(SZ_1M);
+    92	
+    93		align = (1 << order) - 1;
+    94	
+    95	
+    96		mutex_lock(&dma_mem->lock);
+    97		pageno = bitmap_find_next_zero_area(dma_mem->bitmap, dma_mem->nr_pages,
+    98							0, nbits, align);
+    99	
+   100		if (pageno < dma_mem->nr_pages) {
+   101			phys_addr_t base = dma_mem->base + pageno * PAGE_SIZE;
+   102			*handle = base;
+   103	
+   104			bitmap_set(dma_mem->bitmap, pageno, nbits);
+   105	
+   106			if (no_kernel_mapping && skip_zeroing) {
+ > 107				addr = (void *)NO_KERNEL_MAPPING_DUMMY;
+   108				goto out;
+   109			}
+   110	
+   111			addr = ioremap_wc(base, size);
+   112			if (WARN_ON(!addr)) {
+   113				bitmap_clear(dma_mem->bitmap, pageno, nbits);
+   114			} else {
+   115				if (!skip_zeroing)
+   116					memset_io(addr, 0, size);
+   117				if (no_kernel_mapping) {
+   118					iounmap(addr);
+ > 119					addr = (void *)NO_KERNEL_MAPPING_DUMMY;
+   120				}
+   121				*handle = base;
+   122			}
+   123		}
+   124	
+   125	out:
+   126		mutex_unlock(&dma_mem->lock);
+ > 127		return addr;
+   128	}
+   129	
+   130	
+   131	int removed_mmap(struct device *dev, struct vm_area_struct *vma,
+   132			 void *cpu_addr, dma_addr_t dma_addr, size_t size,
+   133			 unsigned long attrs)
+   134	{
+   135		return -ENXIO;
+   136	}
+   137	
+   138	void removed_free(struct device *dev, size_t size, void *cpu_addr,
+   139			  dma_addr_t handle, unsigned long attrs)
+   140	{
+   141		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
+   142		struct removed_region *dma_mem = dev->removed_mem;
+   143	
+   144		size = PAGE_ALIGN(size);
+   145		if (!no_kernel_mapping)
+ > 146			iounmap(cpu_addr);
+   147		mutex_lock(&dma_mem->lock);
+   148		bitmap_clear(dma_mem->bitmap, (handle - dma_mem->base) >> PAGE_SHIFT,
+   149					size >> PAGE_SHIFT);
+   150		mutex_unlock(&dma_mem->lock);
+   151	}
+   152	
+   153	static dma_addr_t removed_map_page(struct device *dev, struct page *page,
+   154				unsigned long offset, size_t size,
+   155				enum dma_data_direction dir,
+   156				unsigned long attrs)
+   157	{
+   158		return ~(dma_addr_t)0;
+   159	}
+   160	
+   161	static void removed_unmap_page(struct device *dev, dma_addr_t dma_handle,
+   162			size_t size, enum dma_data_direction dir,
+   163			unsigned long attrs)
+   164	{
+   165	}
+   166	
+   167	static int removed_map_sg(struct device *dev, struct scatterlist *sg,
+   168				int nents, enum dma_data_direction dir,
+   169				unsigned long attrs)
+   170	{
+   171		return 0;
+   172	}
+   173	
+   174	static void removed_unmap_sg(struct device *dev,
+   175				struct scatterlist *sg, int nents,
+   176				enum dma_data_direction dir,
+   177				unsigned long attrs)
+   178	{
+   179	}
+   180	
+   181	static void removed_sync_single_for_cpu(struct device *dev,
+   182				dma_addr_t dma_handle, size_t size,
+   183				enum dma_data_direction dir)
+   184	{
+   185	}
+   186	
+   187	void removed_sync_single_for_device(struct device *dev,
+   188				dma_addr_t dma_handle, size_t size,
+   189				enum dma_data_direction dir)
+   190	{
+   191	}
+   192	
+   193	void removed_sync_sg_for_cpu(struct device *dev,
+   194				struct scatterlist *sg, int nents,
+   195				enum dma_data_direction dir)
+   196	{
+   197	}
+   198	
+   199	void removed_sync_sg_for_device(struct device *dev,
+   200				struct scatterlist *sg, int nents,
+   201				enum dma_data_direction dir)
+   202	{
+   203	}
+   204	
+   205	static void __iomem *removed_remap(struct device *dev, void *cpu_addr,
+   206				dma_addr_t handle, size_t size, unsigned long attrs)
+   207	{
+   208		return ioremap_wc(handle, size);
+   209	}
+   210	
+   211	void removed_unremap(struct device *dev, void *remapped_address, size_t size)
+   212	{
+ > 213		iounmap(remapped_address);
+   214	}
+   215	
+   216	const struct dma_map_ops removed_dma_ops = {
+   217		.alloc			= removed_alloc,
+   218		.free			= removed_free,
+   219		.mmap			= removed_mmap,
+   220		.map_page		= removed_map_page,
+   221		.unmap_page		= removed_unmap_page,
+   222		.map_sg			= removed_map_sg,
+   223		.unmap_sg		= removed_unmap_sg,
+   224		.sync_single_for_cpu	= removed_sync_single_for_cpu,
+   225		.sync_single_for_device	= removed_sync_single_for_device,
+   226		.sync_sg_for_cpu	= removed_sync_sg_for_cpu,
+   227		.sync_sg_for_device	= removed_sync_sg_for_device,
+ > 228		.remap			= removed_remap,
+   229		.unremap		= removed_unremap,
+   230	};
+   231	EXPORT_SYMBOL(removed_dma_ops);
+   232	
 
 -- 
 0-DAY CI Kernel Test Service
