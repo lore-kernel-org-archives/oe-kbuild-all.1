@@ -1,49 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C3D7EC;
-	Sun, 10 Dec 2023 02:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074C07F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 02:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZxMY94S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gf5/XBOr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702174459; x=1733710459;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5Hoh8xC8QuCdZj3NU4XXc2R6BshZ5CNSyUaWRE/sbek=;
-  b=iZxMY94SHx5KxYMXpGb+EqcjgODpt+3vUxsNr0JwOKqOOgUqUsLvosQl
-   VycdiBLpwRmPAUlehNd7Dqns7+JvH9V5JALlEOJjXLrWIfc6Iz2o1MIf4
-   90MO3R34KxvFLDHtspjG+U1WxQ1WgN6rPaWVSI2hd/li2VQDWe30yJ16G
-   mxnqcjJW4n5mWf4f6pFj+dVwcc5MS1f4CPiA294sn1ZqabojxDkI/62wI
-   zYIbZkafU3HjNkJpM18YQIMZRco4+/Z7yTKEP4JawPPiFFJCjk1rO4SHP
-   W+qJ6K3g47V7WU4JWnadNz6a+3jISI/9pwqmxui1Y8MILt+NUJegX9EkH
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1351265"
+  t=1702176320; x=1733712320;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yjyoFH5S26Yv2IbmoplBBTDENkv/wrQMURodh3E6t4U=;
+  b=gf5/XBOryeSTYL8tyqHtxT2w8P42P8GOr3loZWXv3GIw594LqQiNj1SE
+   gbFRhZL1rHqw9LjVh6uxiFznCpdb+eLH34TRxh+4DPd4WJIj98mRYBChL
+   zO+d48TtDl4Dp97iEt/1G3Sa60lFo8qkLqZbbYvgYmxcccW9Q7uemrbZm
+   t74a+A/stKCYSnDy00XCktkADtInEGCPh+fyF7E3C/LHntoadgTH3U2oA
+   9hYVjxkOu8wsCYid17TTrQ2n1slJIYlxtacLVxPaW6GNJPiuZFa9HXQSa
+   oqSisOKjR4D7KhKxqIMmN2FC5LojKW41Xd8nMtcjgAwPzG9YdVBSaDdvK
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="425665306"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="1351265"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 18:14:18 -0800
+   d="scan'208";a="425665306"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 18:45:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="945819767"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="863319934"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="945819767"
+   d="scan'208";a="863319934"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 09 Dec 2023 18:14:15 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Dec 2023 18:45:17 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC9Kf-000GH7-1a;
-	Sun, 10 Dec 2023 02:14:13 +0000
-Date: Sun, 10 Dec 2023 10:13:47 +0800
+	id 1rC9og-000GIT-0u;
+	Sun, 10 Dec 2023 02:45:14 +0000
+Date: Sun, 10 Dec 2023 10:44:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julien Massot <julien.massot@collabora.com>, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel@collabora.com, Julien Massot <julien.massot@collabora.com>
-Subject: Re: [PATCH v2 3/4] media: i2c: add MAX96714 driver
-Message-ID: <202312101007.RRCFzwfA-lkp@intel.com>
-References: <20231208143359.469049-4-julien.massot@collabora.com>
+To: Casey Schaufler <casey@schaufler-ca.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Paul Moore <paul@paul-moore.com>, Kees Cook <keescook@chromium.org>,
+	Serge Hallyn <serge@hallyn.com>,
+	John Johansen <john.johansen@canonical.com>
+Subject: [linux-next:master 675/6165] security/lsm_syscalls.c:31:1: sparse:
+ sparse: Using plain integer as NULL pointer
+Message-ID: <202312101020.yura5Jmf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,58 +53,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231208143359.469049-4-julien.massot@collabora.com>
 
-Hi Julien,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master linus/master v6.7-rc4 next-20231208]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/dt-bindings-media-add-Maxim-MAX96714F-GMSL2-Deserializer/20231208-223758
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20231208143359.469049-4-julien.massot%40collabora.com
-patch subject: [PATCH v2 3/4] media: i2c: add MAX96714 driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231210/202312101007.RRCFzwfA-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312101007.RRCFzwfA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bc63de6e6ba0b16652c5fb4b9c9916b9e7ca1f23
+commit: a04a1198088a1378d0389c250cc684f649bcc91e [675/6165] LSM: syscalls for current process attributes
+config: s390-randconfig-r122-20231210 (https://download.01.org/0day-ci/archive/20231210/202312101020.yura5Jmf-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312101020.yura5Jmf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312101007.RRCFzwfA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312101020.yura5Jmf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> security/lsm_syscalls.c:31:1: sparse: sparse: Using plain integer as NULL pointer
+>> security/lsm_syscalls.c:31:1: sparse: sparse: Using plain integer as NULL pointer
+   security/lsm_syscalls.c:53:1: sparse: sparse: Using plain integer as NULL pointer
+   security/lsm_syscalls.c:53:1: sparse: sparse: Using plain integer as NULL pointer
+   security/lsm_syscalls.c:53:1: sparse: sparse: Using plain integer as NULL pointer
+   security/lsm_syscalls.c:53:1: sparse: sparse: Using plain integer as NULL pointer
 
->> drivers/media/i2c/max96714.c:380:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           freq = FIELD_GET(CSI_DPLL_FREQ_MASK, freq);
-                  ^
->> drivers/media/i2c/max96714.c:600:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           val = FIELD_PREP(MAX96714_CSI2_LANE_CNT_MASK, mipi->num_data_lanes - 1);
-                 ^
-   2 errors generated.
+vim +31 security/lsm_syscalls.c
 
-
-vim +/FIELD_GET +380 drivers/media/i2c/max96714.c
-
-   373	
-   374	static void max96714_csi_status(struct max96714_priv *priv)
-   375	{
-   376		struct device *dev = &priv->client->dev;
-   377		u8 freq;
-   378	
-   379		max96714_read(priv, MAX96714_BACKTOP25, &freq);
- > 380		freq = FIELD_GET(CSI_DPLL_FREQ_MASK, freq);
-   381	
-   382		dev_info(dev, "CSI controller DPLL freq:%u00MHz CSIPHY enabled:%d\n",
-   383			 freq, max96714_tx_port_enabled(priv));
-   384	}
-   385	
+    19	
+    20	/**
+    21	 * sys_lsm_set_self_attr - Set current task's security module attribute
+    22	 * @attr: which attribute to set
+    23	 * @ctx: the LSM contexts
+    24	 * @size: size of @ctx
+    25	 * @flags: reserved for future use
+    26	 *
+    27	 * Sets the calling task's LSM context. On success this function
+    28	 * returns 0. If the attribute specified cannot be set a negative
+    29	 * value indicating the reason for the error is returned.
+    30	 */
+  > 31	SYSCALL_DEFINE4(lsm_set_self_attr, unsigned int, attr, struct lsm_ctx __user *,
+    32			ctx, size_t, size, u32, flags)
+    33	{
+    34		return security_setselfattr(attr, ctx, size, flags);
+    35	}
+    36	
 
 -- 
 0-DAY CI Kernel Test Service
