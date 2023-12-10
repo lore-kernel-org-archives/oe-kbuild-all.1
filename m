@@ -1,47 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617D5636
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 19:11:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01371636;
+	Sun, 10 Dec 2023 20:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDcmaj6S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zita9nrx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702235465; x=1733771465;
+  t=1702238769; x=1733774769;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZSVYp2YqSIA2Rt4vXtP0fy2XUC8HLJn1ZFQ4QxNJgPU=;
-  b=KDcmaj6SxRsctYwtnQlWIDGyieq5vh1txHGbSCeUkOVD3nn3J6p2TZLs
-   TuillPx39vaUKV77YtrA0jBpgqdmmN2IVyrToXX+y7QjIbponpuOZfpfs
-   z5Sr9qCEXnHJxlHdc70w56biDeWI0voFUPEYF3YBYHak1aaGEtSehz6mW
-   SSo+CHtB+VGlwr/4Zxw+aFFT70FjXI4o/Vywmh4Q4pfIR04vAv4K72a7h
-   osx4MMvghXwioHI/ryKjTFqS/j6vO9jM2lZjeZoGHM2jclr9Ar3AEFbGS
-   vWBGIk3rezc08WFV/2NTmflh+kPiPB4U+QyTyK4kabvyLvpsC7OqukqW+
+  bh=jCov2ZnqT+3A1iiJk7lG+2aChDkarFR+QHCckZdK2Mc=;
+  b=Zita9nrxuX0Hiw+fa4kXbv3k7xFghAVQOcbrc5pZnDztwDIG3hrPD/z9
+   Yc7Dai1Mw2a/hY4rDLTnCS8+QpI5+QddIgo/bosbn86+c9zIzL/ZO+tVM
+   6pvDKItlyk2pscwbXvj6niJ8MfbJqdWQeJqO38GHs49/Y8DQc1EkvpDR+
+   NICazg+biSvyEc4V5qH0ViwKg1SCAmWLLPsInlKapx2CPICHbabDK9x/Q
+   2966bCc40hZeJqPRbF85dJSHznzo+Qo0GzFCCMy/6kvoziPyj1ETPGsbl
+   274q79ycj5jSlSBGxN+z9bNmVy48BIZ5pVFrCDTMbS1TKSxE1xHhNX7Ey
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1381701"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="7906192"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="1381701"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 11:11:04 -0800
+   d="scan'208";a="7906192"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 12:06:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="722494741"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1019972871"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="722494741"
+   d="scan'208";a="1019972871"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 10 Dec 2023 11:11:03 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 10 Dec 2023 12:06:03 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCPCe-000HCM-2X;
-	Sun, 10 Dec 2023 19:11:00 +0000
-Date: Mon, 11 Dec 2023 03:10:40 +0800
+	id 1rCQ3u-000HED-00;
+	Sun, 10 Dec 2023 20:06:02 +0000
+Date: Mon, 11 Dec 2023 04:05:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6/6] f2fs: add tracepoint for f2fs_vm_page_mkwrite()
-Message-ID: <202312110238.4bSkMypC-lkp@intel.com>
-References: <20231210092040.3374741-6-chao@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 2/2] usb: typec: mux: add Qualcomm WCD939X USB SubSystem
+ Altmode Mux driver
+Message-ID: <202312110337.uzelx86z-lkp@intel.com>
+References: <20231208-topic-sm8650-upstream-wcd939x-usbss-v1-2-91d1ba680fe0@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,126 +64,351 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231210092040.3374741-6-chao@kernel.org>
+In-Reply-To: <20231208-topic-sm8650-upstream-wcd939x-usbss-v1-2-91d1ba680fe0@linaro.org>
 
-Hi Chao,
+Hi Neil,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jaegeuk-f2fs/dev-test]
-[also build test WARNING on jaegeuk-f2fs/dev linus/master v6.7-rc4 next-20231208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on bc63de6e6ba0b16652c5fb4b9c9916b9e7ca1f23]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chao-Yu/f2fs-delete-obsolete-FI_DROP_CACHE/20231210-173004
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-patch link:    https://lore.kernel.org/r/20231210092040.3374741-6-chao%40kernel.org
-patch subject: [PATCH 6/6] f2fs: add tracepoint for f2fs_vm_page_mkwrite()
-config: x86_64-randconfig-122-20231210 (https://download.01.org/0day-ci/archive/20231211/202312110238.4bSkMypC-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/dt-bindings-usb-Document-WCD939x-USB-SubSystem-Altmode-Analog-Audio-Switch/20231208-232926
+base:   bc63de6e6ba0b16652c5fb4b9c9916b9e7ca1f23
+patch link:    https://lore.kernel.org/r/20231208-topic-sm8650-upstream-wcd939x-usbss-v1-2-91d1ba680fe0%40linaro.org
+patch subject: [PATCH 2/2] usb: typec: mux: add Qualcomm WCD939X USB SubSystem Altmode Mux driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231211/202312110337.uzelx86z-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231211/202312110238.4bSkMypC-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231211/202312110337.uzelx86z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312110238.4bSkMypC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312110337.uzelx86z-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/f2fs/super.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/f2fs.h):
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long mask
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned long flags @@     got restricted vm_fault_t [usertype] ret @@
-   include/trace/events/f2fs.h:1409:1: sparse:     expected unsigned long flags
-   include/trace/events/f2fs.h:1409:1: sparse:     got restricted vm_fault_t [usertype] ret
-   fs/f2fs/super.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/f2fs.h):
-   include/trace/events/f2fs.h:1121:1: sparse: sparse: cast to restricted blk_opf_t
-   include/trace/events/f2fs.h:1121:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1121:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1121:1: sparse: sparse: cast to restricted blk_opf_t
-   include/trace/events/f2fs.h:1121:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1121:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1180:1: sparse: sparse: cast to restricted blk_opf_t
-   include/trace/events/f2fs.h:1180:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1180:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1180:1: sparse: sparse: cast to restricted blk_opf_t
-   include/trace/events/f2fs.h:1180:1: sparse: sparse: restricted blk_opf_t degrades to integer
-   include/trace/events/f2fs.h:1180:1: sparse: sparse: restricted blk_opf_t degrades to integer
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: cast to restricted vm_fault_t
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: restricted vm_fault_t degrades to integer
->> include/trace/events/f2fs.h:1409:1: sparse: sparse: restricted vm_fault_t degrades to integer
-   fs/f2fs/super.c:1499:35: sparse: sparse: context imbalance in 'f2fs_drop_inode' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +1409 include/trace/events/f2fs.h
+>> drivers/usb/typec/mux/wcd939x-usbss.c:353:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                                            FIELD_PREP(WCD_USBSS_USB_SS_CNTL_USB_SS_MODE,
+                                            ^
+   drivers/usb/typec/mux/wcd939x-usbss.c:456:6: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                                    FIELD_PREP(WCD_USBSS_USB_SS_CNTL_USB_SS_MODE,
+                                    ^
+>> drivers/usb/typec/mux/wcd939x-usbss.c:602:22: error: call to undeclared function 'devm_gpiod_get_optional'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           usbss->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+                               ^
+   drivers/usb/typec/mux/wcd939x-usbss.c:602:22: note: did you mean 'devm_regulator_get_optional'?
+   include/linux/regulator/consumer.h:163:32: note: 'devm_regulator_get_optional' declared here
+   struct regulator *__must_check devm_regulator_get_optional(struct device *dev,
+                                  ^
+>> drivers/usb/typec/mux/wcd939x-usbss.c:602:60: error: use of undeclared identifier 'GPIOD_OUT_LOW'
+           usbss->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+                                                                     ^
+>> drivers/usb/typec/mux/wcd939x-usbss.c:627:2: error: call to undeclared function 'gpiod_set_value'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           gpiod_set_value(usbss->reset_gpio, 1);
+           ^
+   drivers/usb/typec/mux/wcd939x-usbss.c:650:6: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                                    FIELD_PREP(WCD_USBSS_FUNCTION_ENABLE_SOURCE_SELECT,
+                                    ^
+   6 errors generated.
 
-  1408	
-> 1409	DECLARE_EVENT_CLASS(f2fs_mmap,
-  1410	
-  1411		TP_PROTO(struct inode *inode, pgoff_t index,
-  1412				vm_flags_t flags, vm_fault_t ret),
-  1413	
-  1414		TP_ARGS(inode, index, flags, ret),
-  1415	
-  1416		TP_STRUCT__entry(
-  1417			__field(dev_t,	dev)
-  1418			__field(ino_t,	ino)
-  1419			__field(pgoff_t, index)
-  1420			__field(vm_flags_t, flags)
-  1421			__field(vm_fault_t, ret)
-  1422		),
-  1423	
-  1424		TP_fast_assign(
-  1425			__entry->dev	= inode->i_sb->s_dev;
-  1426			__entry->ino	= inode->i_ino;
-  1427			__entry->index	= index;
-  1428			__entry->flags	= flags;
-  1429			__entry->ret	= ret;
-  1430		),
-  1431	
-  1432		TP_printk("dev = (%d,%d), ino = %lu, index = %lu, flags: %s, ret: %s",
-  1433			show_dev_ino(__entry),
-  1434			(unsigned long)__entry->index,
-  1435			__print_flags(__entry->flags, "|", FAULT_FLAG_TRACE),
-  1436			__print_flags(__entry->ret, "|", VM_FAULT_RESULT_TRACE))
-  1437	);
-  1438	
+
+vim +/FIELD_PREP +353 drivers/usb/typec/mux/wcd939x-usbss.c
+
+   237	
+   238	static int wcd939x_usbss_set(struct wcd939x_usbss *usbss)
+   239	{
+   240		bool reverse = (usbss->orientation == TYPEC_ORIENTATION_REVERSE);
+   241		bool enable_audio = false;
+   242		bool enable_usb = false;
+   243		bool enable_dp = false;
+   244		int ret;
+   245	
+   246		/* USB Mode */
+   247		if (usbss->mode < TYPEC_STATE_MODAL ||
+   248		    (!usbss->svid && (usbss->mode == TYPEC_MODE_USB2 ||
+   249				      usbss->mode == TYPEC_MODE_USB3))) {
+   250			enable_usb = true;
+   251		} else if (usbss->svid) {
+   252			switch (usbss->mode) {
+   253			/* DP Only */
+   254			case TYPEC_DP_STATE_C:
+   255			case TYPEC_DP_STATE_E:
+   256				enable_dp = true;
+   257				break;
+   258	
+   259			/* DP + USB */
+   260			case TYPEC_DP_STATE_D:
+   261			case TYPEC_DP_STATE_F:
+   262				enable_usb = true;
+   263				enable_dp = true;
+   264				break;
+   265	
+   266			default:
+   267				return -EOPNOTSUPP;
+   268			}
+   269		} else if (usbss->mode == TYPEC_MODE_AUDIO) {
+   270			enable_audio = true;
+   271		} else {
+   272			return -EOPNOTSUPP;
+   273		}
+   274	
+   275		/* Disable all switches */
+   276		ret = regmap_clear_bits(usbss->regmap, WCD_USBSS_SWITCH_SETTINGS_ENABLE,
+   277					WCD_USBSS_SWITCH_SETTINGS_ENABLE_DP_AUXP_TO_MGX_SWITCHES |
+   278					WCD_USBSS_SWITCH_SETTINGS_ENABLE_DP_AUXM_TO_MGX_SWITCHES |
+   279					WCD_USBSS_SWITCH_SETTINGS_ENABLE_DPR_SWITCHES |
+   280					WCD_USBSS_SWITCH_SETTINGS_ENABLE_DNL_SWITCHES |
+   281					WCD_USBSS_SWITCH_SETTINGS_ENABLE_SENSE_SWITCHES |
+   282					WCD_USBSS_SWITCH_SETTINGS_ENABLE_MIC_SWITCHES |
+   283					WCD_USBSS_SWITCH_SETTINGS_ENABLE_AGND_SWITCHES);
+   284		if (ret)
+   285			return ret;
+   286	
+   287		/* Clear switches */
+   288		ret = regmap_clear_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT0,
+   289					WCD_USBSS_SWITCH_SELECT0_DP_AUXP_SWITCHES |
+   290					WCD_USBSS_SWITCH_SELECT0_DP_AUXM_SWITCHES |
+   291					WCD_USBSS_SWITCH_SELECT0_DPR_SWITCHES |
+   292					WCD_USBSS_SWITCH_SELECT0_DNL_SWITCHES |
+   293					WCD_USBSS_SWITCH_SELECT0_SENSE_SWITCHES |
+   294					WCD_USBSS_SWITCH_SELECT0_MIC_SWITCHES);
+   295		if (ret)
+   296			return ret;
+   297	
+   298		ret = regmap_clear_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT1,
+   299					WCD_USBSS_SWITCH_SELECT1_AGND_SWITCHES);
+   300		if (ret)
+   301			return ret;
+   302	
+   303		/* Enable OVP_MG1_BIAS PCOMP_DYN_BST_EN */
+   304		ret = regmap_set_bits(usbss->regmap, WCD_USBSS_MG1_BIAS,
+   305				      WCD_USBSS_MG1_BIAS_PCOMP_DYN_BST_EN);
+   306		if (ret)
+   307			return ret;
+   308	
+   309		/* Enable OVP_MG2_BIAS PCOMP_DYN_BST_EN */
+   310		ret = regmap_set_bits(usbss->regmap, WCD_USBSS_MG2_BIAS,
+   311				      WCD_USBSS_MG2_BIAS_PCOMP_DYN_BST_EN);
+   312		if (ret)
+   313			return ret;
+   314	
+   315		/* Disable Equalizer in safe mode */
+   316		ret = regmap_clear_bits(usbss->regmap, WCD_USBSS_EQUALIZER1,
+   317					WCD_USBSS_EQUALIZER1_EQ_EN);
+   318		if (ret)
+   319			return ret;
+   320	
+   321		/* Start FSM with all disabled, force write */
+   322		ret = regmap_write_bits(usbss->regmap, WCD_USBSS_AUDIO_FSM_START,
+   323					WCD_USBSS_AUDIO_FSM_START_AUDIO_FSM_AUDIO_TRIG,
+   324					WCD_USBSS_AUDIO_FSM_START_AUDIO_FSM_AUDIO_TRIG);
+   325	
+   326		/* 35us to allow the SBU switch to turn off */
+   327		usleep_range(35, 1000);
+   328	
+   329		/* Setup Audio Accessory mux/switch */
+   330		if (enable_audio) {
+   331			int i;
+   332	
+   333			/*
+   334			 * AATC switch configuration:
+   335			 * "Normal":
+   336			 * - R: DNR
+   337			 * - L: DNL
+   338			 * - Sense: GSBU2
+   339			 * - Mic: MG1
+   340			 * - AGND: MG2
+   341			 * "Swapped":
+   342			 * - R: DNR
+   343			 * - L: DNL
+   344			 * - Sense: GSBU1
+   345			 * - Mic: MG2
+   346			 * - AGND: MG1
+   347			 * Swapped information is given by the codec MBHC logic
+   348			 */
+   349	
+   350			/* Set AATC mode */
+   351			ret = regmap_update_bits(usbss->regmap, WCD_USBSS_USB_SS_CNTL,
+   352						 WCD_USBSS_USB_SS_CNTL_USB_SS_MODE,
+ > 353						 FIELD_PREP(WCD_USBSS_USB_SS_CNTL_USB_SS_MODE,
+   354							    WCD_USBSS_USB_SS_CNTL_USB_SS_MODE_AATC));
+   355			if (ret)
+   356				return ret;
+   357	
+   358			/* Select L for DNL_SWITCHES and R for DPR_SWITCHES */
+   359			ret = regmap_update_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT0,
+   360					WCD_USBSS_SWITCH_SELECT0_DPR_SWITCHES |
+   361					WCD_USBSS_SWITCH_SELECT0_DNL_SWITCHES,
+   362					FIELD_PREP(WCD_USBSS_SWITCH_SELECT0_DNL_SWITCHES,
+   363						WCD_USBSS_SWITCH_SELECT0_DNL_SWITCH_L) |
+   364					FIELD_PREP(WCD_USBSS_SWITCH_SELECT0_DPR_SWITCHES,
+   365						WCD_USBSS_SWITCH_SELECT0_DPR_SWITCH_R));
+   366			if (ret)
+   367				return ret;
+   368	
+   369			if (reverse)
+   370				/* Select MG2 for MIC, SBU1 for Sense */
+   371				ret = regmap_update_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT0,
+   372							 WCD_USBSS_SWITCH_SELECT0_MIC_SWITCHES,
+   373							 WCD_USBSS_SWITCH_SELECT0_MIC_SWITCHES);
+   374			else
+   375				/* Select MG1 for MIC, SBU2 for Sense */
+   376				ret = regmap_update_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT0,
+   377							 WCD_USBSS_SWITCH_SELECT0_SENSE_SWITCHES,
+   378							 WCD_USBSS_SWITCH_SELECT0_SENSE_SWITCHES);
+   379			if (ret)
+   380				return ret;
+   381	
+   382			if (reverse)
+   383				/* Disable OVP_MG1_BIAS PCOMP_DYN_BST_EN */
+   384				ret = regmap_clear_bits(usbss->regmap, WCD_USBSS_MG1_BIAS,
+   385							WCD_USBSS_MG1_BIAS_PCOMP_DYN_BST_EN);
+   386			else
+   387				/* Disable OVP_MG2_BIAS PCOMP_DYN_BST_EN */
+   388				ret = regmap_clear_bits(usbss->regmap, WCD_USBSS_MG2_BIAS,
+   389							WCD_USBSS_MG2_BIAS_PCOMP_DYN_BST_EN);
+   390			if (ret)
+   391				return ret;
+   392	
+   393			/*  Enable SENSE, MIC switches */
+   394			ret = regmap_set_bits(usbss->regmap, WCD_USBSS_SWITCH_SETTINGS_ENABLE,
+   395					      WCD_USBSS_SWITCH_SETTINGS_ENABLE_SENSE_SWITCHES |
+   396					      WCD_USBSS_SWITCH_SETTINGS_ENABLE_MIC_SWITCHES);
+   397			if (ret)
+   398				return ret;
+   399	
+   400			if (reverse)
+   401				/* Select MG1 for AGND_SWITCHES */
+   402				ret = regmap_clear_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT1,
+   403							WCD_USBSS_SWITCH_SELECT1_AGND_SWITCHES);
+   404			else
+   405				/* Select MG2 for AGND_SWITCHES */
+   406				ret = regmap_set_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT1,
+   407						      WCD_USBSS_SWITCH_SELECT1_AGND_SWITCHES);
+   408			if (ret)
+   409				return ret;
+   410	
+   411			/* Enable AGND switches */
+   412			ret = regmap_set_bits(usbss->regmap, WCD_USBSS_SWITCH_SETTINGS_ENABLE,
+   413					      WCD_USBSS_SWITCH_SETTINGS_ENABLE_AGND_SWITCHES);
+   414			if (ret)
+   415				return ret;
+   416	
+   417			/* Enable DPR, DNL switches */
+   418			ret = regmap_set_bits(usbss->regmap, WCD_USBSS_SWITCH_SETTINGS_ENABLE,
+   419					      WCD_USBSS_SWITCH_SETTINGS_ENABLE_DNL_SWITCHES |
+   420					      WCD_USBSS_SWITCH_SETTINGS_ENABLE_DPR_SWITCHES);
+   421			if (ret)
+   422				return ret;
+   423	
+   424			/* Setup FSM delays */
+   425			ret = regmap_write(usbss->regmap, WCD_USBSS_DELAY_L_SW, 0x02);
+   426			if (ret)
+   427				return ret;
+   428	
+   429			ret = regmap_write(usbss->regmap, WCD_USBSS_DELAY_R_SW, 0x02);
+   430			if (ret)
+   431				return ret;
+   432	
+   433			ret = regmap_write(usbss->regmap, WCD_USBSS_DELAY_MIC_SW, 0x01);
+   434			if (ret)
+   435				return ret;
+   436	
+   437			/* Start FSM, force write */
+   438			ret = regmap_write_bits(usbss->regmap, WCD_USBSS_AUDIO_FSM_START,
+   439						WCD_USBSS_AUDIO_FSM_START_AUDIO_FSM_AUDIO_TRIG,
+   440						WCD_USBSS_AUDIO_FSM_START_AUDIO_FSM_AUDIO_TRIG);
+   441			if (ret)
+   442				return ret;
+   443	
+   444			/* Default Linearlizer coefficients */
+   445			for (i = 0; i < ARRAY_SIZE(wcd939x_usbss_coeff_init); ++i)
+   446				regmap_update_bits(usbss->regmap,
+   447						   wcd939x_usbss_coeff_init[i].offset,
+   448						   wcd939x_usbss_coeff_init[i].mask,
+   449						   wcd939x_usbss_coeff_init[i].value);
+   450	
+   451			return 0;
+   452		}
+   453	
+   454		ret = regmap_update_bits(usbss->regmap, WCD_USBSS_USB_SS_CNTL,
+   455					 WCD_USBSS_USB_SS_CNTL_USB_SS_MODE,
+   456					 FIELD_PREP(WCD_USBSS_USB_SS_CNTL_USB_SS_MODE,
+   457						    WCD_USBSS_USB_SS_CNTL_USB_SS_MODE_USB));
+   458		if (ret)
+   459			return ret;
+   460	
+   461		/* Enable USB muxes */
+   462		if (enable_usb) {
+   463			/* Do not enable Equalizer in safe mode */
+   464			if (usbss->mode != TYPEC_STATE_SAFE) {
+   465				ret = regmap_set_bits(usbss->regmap, WCD_USBSS_EQUALIZER1,
+   466						      WCD_USBSS_EQUALIZER1_EQ_EN);
+   467				if (ret)
+   468					return ret;
+   469			}
+   470	
+   471			/* Select DN for DNL_SWITCHES and DP for DPR_SWITCHES */
+   472			ret = regmap_update_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT0,
+   473						 WCD_USBSS_SWITCH_SELECT0_DPR_SWITCHES |
+   474						 WCD_USBSS_SWITCH_SELECT0_DNL_SWITCHES,
+   475						 FIELD_PREP(WCD_USBSS_SWITCH_SELECT0_DNL_SWITCHES,
+   476							    WCD_USBSS_SWITCH_SELECT0_DNL_SWITCH_DN) |
+   477						 FIELD_PREP(WCD_USBSS_SWITCH_SELECT0_DPR_SWITCHES,
+   478							    WCD_USBSS_SWITCH_SELECT0_DPR_SWITCH_DP));
+   479			if (ret)
+   480				return ret;
+   481	
+   482			/* Enable DNL_SWITCHES and DPR_SWITCHES */
+   483			ret = regmap_set_bits(usbss->regmap, WCD_USBSS_SWITCH_SETTINGS_ENABLE,
+   484					      WCD_USBSS_SWITCH_SETTINGS_ENABLE_DPR_SWITCHES |
+   485					      WCD_USBSS_SWITCH_SETTINGS_ENABLE_DNL_SWITCHES);
+   486			if (ret)
+   487				return ret;
+   488		}
+   489	
+   490		/* Enable DP AUX muxes */
+   491		if (enable_dp) {
+   492			/* Update Leakage Canceller Coefficient for AUXP pins */
+   493			ret = regmap_update_bits(usbss->regmap, WCD_USBSS_DISP_AUXP_CTL,
+   494						 WCD_USBSS_DISP_AUXP_CTL_LK_CANCEL_TRK_COEFF,
+   495						 FIELD_PREP(WCD_USBSS_DISP_AUXP_CTL_LK_CANCEL_TRK_COEFF,
+   496							    5));
+   497			if (ret)
+   498				return ret;
+   499	
+   500			ret = regmap_set_bits(usbss->regmap, WCD_USBSS_DISP_AUXP_THRESH,
+   501					      WCD_USBSS_DISP_AUXP_THRESH_DISP_AUXP_OVPON_CM);
+   502			if (ret)
+   503				return ret;
+   504	
+   505			if (reverse)
+   506				/* Select MG2 for AUXP and MG1 for AUXM */
+   507				ret = regmap_update_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT0,
+   508							 WCD_USBSS_SWITCH_SELECT0_DP_AUXP_SWITCHES |
+   509							 WCD_USBSS_SWITCH_SELECT0_DP_AUXM_SWITCHES,
+   510							 WCD_USBSS_SWITCH_SELECT0_DP_AUXP_SWITCHES);
+   511			else
+   512				/* Select MG1 for AUXP and MG2 for AUXM */
+   513				ret = regmap_update_bits(usbss->regmap, WCD_USBSS_SWITCH_SELECT0,
+   514							 WCD_USBSS_SWITCH_SELECT0_DP_AUXP_SWITCHES |
+   515							 WCD_USBSS_SWITCH_SELECT0_DP_AUXM_SWITCHES,
+   516							 WCD_USBSS_SWITCH_SELECT0_DP_AUXM_SWITCHES);
+   517			if (ret)
+   518				return ret;
+   519	
+   520			/* Enable DP_AUXP_TO_MGX and DP_AUXM_TO_MGX switches */
+   521			ret = regmap_set_bits(usbss->regmap, WCD_USBSS_SWITCH_SETTINGS_ENABLE,
+   522					      WCD_USBSS_SWITCH_SETTINGS_ENABLE_DP_AUXP_TO_MGX_SWITCHES |
+   523					      WCD_USBSS_SWITCH_SETTINGS_ENABLE_DP_AUXM_TO_MGX_SWITCHES);
+   524	
+   525			/* 15us to allow the SBU switch to turn on again */
+   526			usleep_range(15, 1000);
+   527		}
+   528	
+   529		return 0;
+   530	}
+   531	
 
 -- 
 0-DAY CI Kernel Test Service
