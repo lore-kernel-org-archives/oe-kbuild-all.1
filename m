@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B781774A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 17:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCAD28E3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 18:17:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXXqGro5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtkjwiwX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702230842; x=1733766842;
+  t=1702232226; x=1733768226;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wupGRIcXQE3rQJ1+S2nUeMoGIQmmN7F41sifHiXdWD8=;
-  b=KXXqGro5svGc8LcwnEojjtdwDLR4kMFt+mbSGQdM8KVBwjJKmjeolvWf
-   5A6ZggjoBEL/qj56Im6+q5gQwB5YjWcbHWzhBhCOAdKhMDMP2g76IiCgR
-   30SchNnheRNrMHrqF5kFiQ5owGt7hQGee0I02Wd4dajD4WczplN7JtfGS
-   mGzX5We9xTCxls/ude44pCecRaZr5DwcV0ZGQA8qegisdqqx2Z/MULvx6
-   nklffrUNugwiHJAwh59GMSopT85V6nWvOJE/pWxm3AYbRJX2SvnGekiKm
-   2IhZPC4fzyxbrT3hEXRGDNaHMyTlp8uwFfZh2HhKEuzqgv5fcoVaEqk0J
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="425695997"
+  bh=hitiKMVu0mAuCQUKM+GjRpWkQ52QLtnGnEX7vaEYxmg=;
+  b=FtkjwiwX0AbM3ZlrmBdKOLmPB98QEf80bs5KuIr1SwfkdlMlq0KRLxSx
+   MHJXop6SNz2sRf67GtKKlOBi6hWRaVQLZUR2vLYRsHob7LI7srIdWGqqF
+   lcLU0jqzvP+2LqsA2peT6+IyWT2xbmLSYQTczQEs1kbXIAij2r/CE+RyJ
+   TvpHFHvjzA+opdQQczHaLuvIALJM5xktviWHcGFgsF2Bkn11ctVCg4YDL
+   TstTcipYy9tSR+mhRgJHyTfNcA9Rrs2fH0issG2IkfplmlpT0d4R1wXqe
+   9uYtXu2p/+eWjBmYtkYyX5/O42Tm1x0F3ABXuOgJOE7uS/i5ew0SO43Lj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="7926043"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="425695997"
+   d="scan'208";a="7926043"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 09:54:01 -0800
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 10:17:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="896154845"
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="896159770"
 X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="896154845"
+   d="scan'208";a="896159770"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 10 Dec 2023 09:54:00 -0800
+  by orsmga004.jf.intel.com with ESMTP; 10 Dec 2023 10:17:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCO05-000H8K-32;
-	Sun, 10 Dec 2023 17:53:57 +0000
-Date: Mon, 11 Dec 2023 01:53:52 +0800
+	id 1rCOMM-000H9K-1Y;
+	Sun, 10 Dec 2023 18:16:58 +0000
+Date: Mon, 11 Dec 2023 02:16:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zc/rx-pp-provider 23/31] io_uring/zc_rx.c:195:5: error:
- redefinition of 'io_register_zc_rx_sock'
-Message-ID: <202312110153.vCoMSEzs-lkp@intel.com>
+To: Borislav Petkov <bp@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/edac/i7300_edac.c:591: warning: No description found for
+ parameter 'dimm'
+Message-ID: <202312110215.PEi8XY6K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,118 +50,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zc/rx-pp-provider
-head:   4b8de8977565096e38b6da993c68da6f2ef9b89c
-commit: 91fec79b805edefb26cbef78d95ce0571750c778 [23/31] io_uring/zcrx: implement socket registration
-config: i386-buildonly-randconfig-006-20231210 (https://download.01.org/0day-ci/archive/20231211/202312110153.vCoMSEzs-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231211/202312110153.vCoMSEzs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
+commit: e3c4ff6d8c949fa9a9ea1bd005bf1967efe09d5d EDAC: Remove EDAC_MM_EDAC
+date:   7 years ago
+config: i386-buildonly-randconfig-006-20231120 (https://download.01.org/0day-ci/archive/20231211/202312110215.PEi8XY6K-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231211/202312110215.PEi8XY6K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312110153.vCoMSEzs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312110215.PEi8XY6K-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from io_uring/zc_rx.c:13:
-   io_uring/zc_rx.h: In function 'io_unregister_zc_rx_ifq':
-   io_uring/zc_rx.h:43:9: warning: 'return' with a value, in function returning void [-Wreturn-type]
-      43 |  return -EOPNOTSUPP;
-         |         ^
-   io_uring/zc_rx.h:41:20: note: declared here
-      41 | static inline void io_unregister_zc_rx_ifq(struct io_ring_ctx *ctx)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~
-   io_uring/zc_rx.c: At top level:
-   io_uring/zc_rx.c:44:5: warning: no previous prototype for 'io_allocate_rbuf_ring' [-Wmissing-prototypes]
-      44 | int io_allocate_rbuf_ring(struct io_zc_rx_ifq *ifq,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   io_uring/zc_rx.c:64:6: warning: no previous prototype for 'io_free_rbuf_ring' [-Wmissing-prototypes]
-      64 | void io_free_rbuf_ring(struct io_zc_rx_ifq *ifq)
-         |      ^~~~~~~~~~~~~~~~~
-   io_uring/zc_rx.c:93:5: error: redefinition of 'io_register_zc_rx_ifq'
-      93 | int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   In file included from io_uring/zc_rx.c:13:
-   io_uring/zc_rx.h:36:19: note: previous definition of 'io_register_zc_rx_ifq' was here
-      36 | static inline int io_register_zc_rx_ifq(struct io_ring_ctx *ctx,
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-   io_uring/zc_rx.c:156:6: warning: no previous prototype for 'io_unregister_zc_rx_ifqs' [-Wmissing-prototypes]
-     156 | void io_unregister_zc_rx_ifqs(struct io_ring_ctx *ctx)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   io_uring/zc_rx.c:171:6: warning: no previous prototype for 'io_shut_zc_rx_ifqs' [-Wmissing-prototypes]
-     171 | void io_shut_zc_rx_ifqs(struct io_ring_ctx *ctx)
-         |      ^~~~~~~~~~~~~~~~~~
->> io_uring/zc_rx.c:195:5: error: redefinition of 'io_register_zc_rx_sock'
-     195 | int io_register_zc_rx_sock(struct io_ring_ctx *ctx,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from io_uring/zc_rx.c:13:
-   io_uring/zc_rx.h:45:19: note: previous definition of 'io_register_zc_rx_sock' was here
-      45 | static inline int io_register_zc_rx_sock(struct io_ring_ctx *ctx,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/edac/i7300_edac.c:591: warning: No description found for parameter 'dimm'
+   drivers/edac/i7300_edac.c:591: warning: Excess function parameter 'p_csrow' description in 'decode_mtr'
+>> drivers/edac/i7300_edac.c:826: warning: No description found for parameter 'mir_no'
+--
+>> drivers/edac/amd76x_edac.c:231: warning: No description found for parameter 'pdev'
 
 
-vim +/io_register_zc_rx_sock +195 io_uring/zc_rx.c
+vim +/dimm +591 drivers/edac/i7300_edac.c
 
-   194	
- > 195	int io_register_zc_rx_sock(struct io_ring_ctx *ctx,
-   196				   struct io_uring_zc_rx_sock_reg __user *arg)
-   197	{
-   198		struct io_uring_zc_rx_sock_reg sr;
-   199		struct io_zc_rx_ifq *ifq;
-   200		struct socket *sock;
-   201		struct file *file;
-   202		int ret = -EEXIST;
-   203		int idx;
-   204	
-   205		if (copy_from_user(&sr, arg, sizeof(sr)))
-   206			return -EFAULT;
-   207		if (sr.__resv[0] || sr.__resv[1])
-   208			return -EINVAL;
-   209		if (sr.zc_rx_ifq_idx != 0 || !ctx->ifq)
-   210			return -EINVAL;
-   211	
-   212		ifq = ctx->ifq;
-   213		if (ifq->nr_sockets >= ARRAY_SIZE(ifq->sockets))
-   214			return -EINVAL;
-   215	
-   216		BUILD_BUG_ON(ARRAY_SIZE(ifq->sockets) > IO_ZC_IFQ_IDX_MASK);
-   217	
-   218		file = fget(sr.sockfd);
-   219		if (!file)
-   220			return -EBADF;
-   221	
-   222		if (io_file_need_scm(file)) {
-   223			fput(file);
-   224			return -EBADF;
-   225		}
-   226	
-   227		sock = sock_from_file(file);
-   228		if (unlikely(!sock || !sock->sk)) {
-   229			fput(file);
-   230			return -ENOTSOCK;
-   231		}
-   232	
-   233		idx = ifq->nr_sockets;
-   234		lock_sock(sock->sk);
-   235		if (!sock->zc_rx_idx) {
-   236			unsigned token;
-   237	
-   238			token = idx + (sr.zc_rx_ifq_idx << IO_ZC_IFQ_IDX_OFFSET);
-   239			WRITE_ONCE(sock->zc_rx_idx, token);
-   240			ret = 0;
-   241		}
-   242		release_sock(sock->sk);
-   243	
-   244		if (ret) {
-   245			fput(file);
-   246			return -EINVAL;
-   247		}
-   248		ifq->sockets[idx] = file;
-   249		ifq->nr_sockets++;
-   250		return 0;
-   251	}
-   252	
+5de6e07ed75ee2 Mauro Carvalho Chehab 2010-08-27  573  
+5de6e07ed75ee2 Mauro Carvalho Chehab 2010-08-27  574  /************************************************
+5de6e07ed75ee2 Mauro Carvalho Chehab 2010-08-27  575   * i7300 Functions related to memory enumberation
+5de6e07ed75ee2 Mauro Carvalho Chehab 2010-08-27  576   ************************************************/
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  577  
+d091a6eb177dd3 Mauro Carvalho Chehab 2010-08-27  578  /**
+d091a6eb177dd3 Mauro Carvalho Chehab 2010-08-27  579   * decode_mtr() - Decodes the MTR descriptor, filling the edac structs
+d091a6eb177dd3 Mauro Carvalho Chehab 2010-08-27  580   * @pvt: pointer to the private data struct used by i7300 driver
+d091a6eb177dd3 Mauro Carvalho Chehab 2010-08-27  581   * @slot: DIMM slot (0 to 7)
+d091a6eb177dd3 Mauro Carvalho Chehab 2010-08-27  582   * @ch: Channel number within the branch (0 or 1)
+d091a6eb177dd3 Mauro Carvalho Chehab 2010-08-27  583   * @branch: Branch number (0 or 1)
+d091a6eb177dd3 Mauro Carvalho Chehab 2010-08-27  584   * @dinfo: Pointer to DIMM info where dimm size is stored
+d091a6eb177dd3 Mauro Carvalho Chehab 2010-08-27  585   * @p_csrow: Pointer to the struct csrow_info that corresponds to that element
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  586   */
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  587  static int decode_mtr(struct i7300_pvt *pvt,
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  588  		      int slot, int ch, int branch,
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  589  		      struct i7300_dimm_info *dinfo,
+a895bf8b1e1ea4 Mauro Carvalho Chehab 2012-01-28  590  		      struct dimm_info *dimm)
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24 @591  {
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  592  	int mtr, ans, addrBits, channel;
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  593  
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  594  	channel = to_channel(ch, branch);
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  595  
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  596  	mtr = pvt->mtr[slot][branch];
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  597  	ans = MTR_DIMMS_PRESENT(mtr) ? 1 : 0;
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  598  
+956b9ba156dbfd Joe Perches           2012-04-29  599  	edac_dbg(2, "\tMTR%d CH%d: DIMMs are %sPresent (mtr)\n",
+956b9ba156dbfd Joe Perches           2012-04-29  600  		 slot, channel, ans ? "" : "NOT ");
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  601  
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  602  	/* Determine if there is a DIMM present in this DIMM slot */
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  603  	if (!ans)
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  604  		return 0;
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  605  
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  606  	/* Start with the number of bits for a Bank
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  607  	* on the DRAM */
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  608  	addrBits = MTR_DRAM_BANKS_ADDR_BITS;
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  609  	/* Add thenumber of ROW bits */
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  610  	addrBits += MTR_DIMM_ROWS_ADDR_BITS(mtr);
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  611  	/* add the number of COLUMN bits */
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  612  	addrBits += MTR_DIMM_COLS_ADDR_BITS(mtr);
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  613  	/* add the number of RANK bits */
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  614  	addrBits += MTR_DIMM_RANKS(mtr);
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  615  
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  616  	addrBits += 6;	/* add 64 bits per DIMM */
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  617  	addrBits -= 20;	/* divide by 2^^20 */
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  618  	addrBits -= 3;	/* 8 bits per bytes */
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  619  
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  620  	dinfo->megabytes = 1 << addrBits;
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  621  
+956b9ba156dbfd Joe Perches           2012-04-29  622  	edac_dbg(2, "\t\tWIDTH: x%d\n", MTR_DRAM_WIDTH(mtr));
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  623  
+956b9ba156dbfd Joe Perches           2012-04-29  624  	edac_dbg(2, "\t\tELECTRICAL THROTTLING is %s\n",
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  625  		 MTR_DIMMS_ETHROTTLE(mtr) ? "enabled" : "disabled");
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  626  
+956b9ba156dbfd Joe Perches           2012-04-29  627  	edac_dbg(2, "\t\tNUMBANK: %d bank(s)\n", MTR_DRAM_BANKS(mtr));
+956b9ba156dbfd Joe Perches           2012-04-29  628  	edac_dbg(2, "\t\tNUMRANK: %s\n",
+956b9ba156dbfd Joe Perches           2012-04-29  629  		 MTR_DIMM_RANKS(mtr) ? "double" : "single");
+956b9ba156dbfd Joe Perches           2012-04-29  630  	edac_dbg(2, "\t\tNUMROW: %s\n",
+7e881856eee8b8 Joe Perches           2012-04-28  631  		 MTR_DIMM_ROWS(mtr) == 0 ? "8,192 - 13 rows" :
+7e881856eee8b8 Joe Perches           2012-04-28  632  		 MTR_DIMM_ROWS(mtr) == 1 ? "16,384 - 14 rows" :
+7e881856eee8b8 Joe Perches           2012-04-28  633  		 MTR_DIMM_ROWS(mtr) == 2 ? "32,768 - 15 rows" :
+7e881856eee8b8 Joe Perches           2012-04-28  634  		 "65,536 - 16 rows");
+956b9ba156dbfd Joe Perches           2012-04-29  635  	edac_dbg(2, "\t\tNUMCOL: %s\n",
+7e881856eee8b8 Joe Perches           2012-04-28  636  		 MTR_DIMM_COLS(mtr) == 0 ? "1,024 - 10 columns" :
+7e881856eee8b8 Joe Perches           2012-04-28  637  		 MTR_DIMM_COLS(mtr) == 1 ? "2,048 - 11 columns" :
+7e881856eee8b8 Joe Perches           2012-04-28  638  		 MTR_DIMM_COLS(mtr) == 2 ? "4,096 - 12 columns" :
+7e881856eee8b8 Joe Perches           2012-04-28  639  		 "reserved");
+956b9ba156dbfd Joe Perches           2012-04-29  640  	edac_dbg(2, "\t\tSIZE: %d MB\n", dinfo->megabytes);
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  641  
+116389ed21e4ad Mauro Carvalho Chehab 2010-08-26  642  	/*
+15154c57c62494 Mauro Carvalho Chehab 2010-08-27  643  	 * The type of error detection actually depends of the
+116389ed21e4ad Mauro Carvalho Chehab 2010-08-26  644  	 * mode of operation. When it is just one single memory chip, at
+116389ed21e4ad Mauro Carvalho Chehab 2010-08-26  645  	 * socket 0, channel 0, it uses 8-byte-over-32-byte SECDED+ code.
+15154c57c62494 Mauro Carvalho Chehab 2010-08-27  646  	 * In normal or mirrored mode, it uses Lockstep mode,
+116389ed21e4ad Mauro Carvalho Chehab 2010-08-26  647  	 * with the possibility of using an extended algorithm for x8 memories
+116389ed21e4ad Mauro Carvalho Chehab 2010-08-26  648  	 * See datasheet Sections 7.3.6 to 7.3.8
+116389ed21e4ad Mauro Carvalho Chehab 2010-08-26  649  	 */
+15154c57c62494 Mauro Carvalho Chehab 2010-08-27  650  
+a895bf8b1e1ea4 Mauro Carvalho Chehab 2012-01-28  651  	dimm->nr_pages = MiB_TO_PAGES(dinfo->megabytes);
+084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  652  	dimm->grain = 8;
+084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  653  	dimm->mtype = MEM_FB_DDR2;
+15154c57c62494 Mauro Carvalho Chehab 2010-08-27  654  	if (IS_SINGLE_MODE(pvt->mc_settings_a)) {
+084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  655  		dimm->edac_mode = EDAC_SECDED;
+956b9ba156dbfd Joe Perches           2012-04-29  656  		edac_dbg(2, "\t\tECC code is 8-byte-over-32-byte SECDED+ code\n");
+15154c57c62494 Mauro Carvalho Chehab 2010-08-27  657  	} else {
+956b9ba156dbfd Joe Perches           2012-04-29  658  		edac_dbg(2, "\t\tECC code is on Lockstep mode\n");
+28c2ce7c8b275a Mauro Carvalho Chehab 2010-08-27  659  		if (MTR_DRAM_WIDTH(mtr) == 8)
+084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  660  			dimm->edac_mode = EDAC_S8ECD8ED;
+15154c57c62494 Mauro Carvalho Chehab 2010-08-27  661  		else
+084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  662  			dimm->edac_mode = EDAC_S4ECD4ED;
+15154c57c62494 Mauro Carvalho Chehab 2010-08-27  663  	}
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  664  
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  665  	/* ask what device type on this row */
+28c2ce7c8b275a Mauro Carvalho Chehab 2010-08-27  666  	if (MTR_DRAM_WIDTH(mtr) == 8) {
+956b9ba156dbfd Joe Perches           2012-04-29  667  		edac_dbg(2, "\t\tScrub algorithm for x8 is on %s mode\n",
+d7de2bdb0e15c5 Mauro Carvalho Chehab 2010-08-27  668  			 IS_SCRBALGO_ENHANCED(pvt->mc_settings) ?
+d7de2bdb0e15c5 Mauro Carvalho Chehab 2010-08-27  669  			 "enhanced" : "normal");
+d7de2bdb0e15c5 Mauro Carvalho Chehab 2010-08-27  670  
+084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  671  		dimm->dtype = DEV_X8;
+d7de2bdb0e15c5 Mauro Carvalho Chehab 2010-08-27  672  	} else
+084a4fccef39ac Mauro Carvalho Chehab 2012-01-27  673  		dimm->dtype = DEV_X4;
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  674  
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  675  	return mtr;
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  676  }
+fcaf780b2ad352 Mauro Carvalho Chehab 2010-08-24  677  
+
+:::::: The code at line 591 was first introduced by commit
+:::::: fcaf780b2ad352edaeb1d1c07a6da053266b1eed i7300_edac: start a driver for i7300 chipset (Clarksboro)
+
+:::::: TO: Mauro Carvalho Chehab <mchehab@redhat.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
