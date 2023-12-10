@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479F17477
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 11:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66D07477
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 11:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DSXdFn0A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AU2nurwe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702206366; x=1733742366;
+  t=1702208286; x=1733744286;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZhUadHq0Pr+9Oje4fAA0wsi+79NCrLqBCMTxS5vtX/A=;
-  b=DSXdFn0AqUISI7/hMisz245SHllGwV4zVGNuoZBXDJUc+IEzszq80Mi+
-   tjL3eJEsVhVu4MOukHeCSC6e9gnZ6M0pggvbC2VgjH5zWVbyxbZTKS5VO
-   mPFTFOiLOMQbMrTZcIrkAKg4g1QPR+dDntTVY8a/+5v5Mr/ixQEfe/jzd
-   DZcE6Cd7wZm/uC4DMIl8BS/zjj3ZTcdVQMyYY0L5G4QuK1uoB1Rs12IK9
-   m8FVbMi9Y8jYY4Fiyamn0WjXPdz6fMx9rNiSQA16vrYHI/psP1BGLFJNi
-   42zzc0jhYIpUm+MJgHRItZUh+kQlVyTlhxIfN4zKPpD5DJQZf8aT/lIpY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1391576"
+  bh=amKsmiOudTx7fviB5WFl8m5teG+gXO3MPl7JvOJeoRA=;
+  b=AU2nurwegY2woonGJyQpEvK6Zlvh2tnsCY0zwnmg6kl7+eipf0taiI0f
+   njp3tLay02FxdOhuXbN7N/cOGUF0tV+tP0j8YoG8oG1x3v4cI0onwTTjc
+   sDy4RT/MPDgg9L6SNrr1n1NjY+6quQL9gL1GB1ymSmhD1qqVXLC6uuEe8
+   49Yj/RQViQnPE5QWecuRRs3j6Z2mhkby4yJj7oCUoztCDLFv/s+z+JaC2
+   HNba/YSK3WIEyle3wpZLLUjktJ2KYCZn0O+HQupWG/wkd/FAqEAvLlhNd
+   zSTaFB9lN9SQKBHrTCFQu1ssIUSZGknlbpA1Ub3cRnEVQEq9cQ1/a57DF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="374709068"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="1391576"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 03:06:05 -0800
+   d="scan'208";a="374709068"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 03:38:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="945923452"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="722406422"
 X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
-   d="scan'208";a="945923452"
+   d="scan'208";a="722406422"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 10 Dec 2023 03:06:02 -0800
+  by orsmga003.jf.intel.com with ESMTP; 10 Dec 2023 03:38:04 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCHdI-000Gkc-2K;
-	Sun, 10 Dec 2023 11:06:00 +0000
-Date: Sun, 10 Dec 2023 19:05:10 +0800
+	id 1rCI8H-000Gmu-2v;
+	Sun, 10 Dec 2023 11:38:01 +0000
+Date: Sun, 10 Dec 2023 19:37:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Subject: [tip:sched/core 10/15] kernel/sched/fair.c:8231:(.text+0x2b62):
- relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-Message-ID: <202312101912.zKLp44oc-lkp@intel.com>
+To: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: kernel/exit.c:738:45: sparse: sparse: incorrect type in initializer
+ (different address spaces)
+Message-ID: <202312101924.ApMqg932-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,128 +50,123 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-head:   418146e39891ef1fb2284dee4cabbfe616cd21cf
-commit: c708a4dc5ab547edc3d6537233ca9e79ea30ce47 [10/15] sched: Unify more update_curr*()
-config: csky-randconfig-s042-20220830 (https://download.01.org/0day-ci/archive/20231210/202312101912.zKLp44oc-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312101912.zKLp44oc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c527f5606aa545233a4d2c6d5c636ed82b8633ef
+commit: d80f7d7b2c75c5954d335dffbccca62a5002c3e0 signal: Guarantee that SIGNAL_GROUP_EXIT is set on process exit
+date:   1 year, 5 months ago
+config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20231210/202312101924.ApMqg932-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312101924.ApMqg932-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312101912.zKLp44oc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312101924.ApMqg932-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/exit.c:281:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/exit.c:281:37: sparse:     expected struct task_struct *tsk
+   kernel/exit.c:281:37: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/exit.c:284:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/exit.c:284:32: sparse:     expected struct task_struct *task
+   kernel/exit.c:284:32: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/exit.c:285:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/exit.c:285:35: sparse:     expected struct task_struct *task
+   kernel/exit.c:285:35: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/exit.c:330:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/exit.c:330:24: sparse:     expected struct task_struct *parent
+   kernel/exit.c:330:24: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/exit.c:357:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/exit.c:357:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/exit.c:357:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/exit.c:360:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/exit.c:360:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/exit.c:360:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/exit.c:583:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *reaper @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/exit.c:583:29: sparse:     expected struct task_struct *reaper
+   kernel/exit.c:583:29: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/exit.c:585:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *reaper @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/exit.c:585:29: sparse:     expected struct task_struct *reaper
+   kernel/exit.c:585:29: sparse:     got struct task_struct [noderef] __rcu *real_parent
+>> kernel/exit.c:738:45: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   kernel/exit.c:738:45: sparse:     expected struct sighand_struct *sighand
+   kernel/exit.c:738:45: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   kernel/exit.c:927:63: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *const sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   kernel/exit.c:927:63: sparse:     expected struct sighand_struct *const sighand
+   kernel/exit.c:927:63: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   kernel/exit.c:1082:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/exit.c:1082:39: sparse:     expected struct spinlock [usertype] *lock
+   kernel/exit.c:1082:39: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/exit.c:1107:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/exit.c:1107:41: sparse:     expected struct spinlock [usertype] *lock
+   kernel/exit.c:1107:41: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/exit.c:1196:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/exit.c:1196:25: sparse:     expected struct spinlock [usertype] *lock
+   kernel/exit.c:1196:25: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/exit.c:1211:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/exit.c:1211:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/exit.c:1211:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/exit.c:1262:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/exit.c:1262:25: sparse:     expected struct spinlock [usertype] *lock
+   kernel/exit.c:1262:25: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/exit.c:1265:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/exit.c:1265:35: sparse:     expected struct spinlock [usertype] *lock
+   kernel/exit.c:1265:35: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/exit.c:1271:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/exit.c:1271:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/exit.c:1271:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/exit.c:1452:59: sparse: sparse: incompatible types in comparison expression (different base types):
+   kernel/exit.c:1452:59: sparse:    void *
+   kernel/exit.c:1452:59: sparse:    struct task_struct [noderef] __rcu *
+   kernel/exit.c:1468:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu * @@
+   kernel/exit.c:1468:25: sparse:     expected struct task_struct *parent
+   kernel/exit.c:1468:25: sparse:     got struct task_struct [noderef] __rcu *
+   kernel/exit.c: note: in included file:
+   include/linux/ptrace.h:92:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] __rcu *real_parent @@
+   include/linux/ptrace.h:92:40: sparse:     expected struct task_struct *p1
+   include/linux/ptrace.h:92:40: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   include/linux/ptrace.h:92:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p2 @@     got struct task_struct [noderef] __rcu *parent @@
+   include/linux/ptrace.h:92:60: sparse:     expected struct task_struct *p2
+   include/linux/ptrace.h:92:60: sparse:     got struct task_struct [noderef] __rcu *parent
+   include/linux/ptrace.h:92:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] __rcu *real_parent @@
+   include/linux/ptrace.h:92:40: sparse:     expected struct task_struct *p1
+   include/linux/ptrace.h:92:40: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   include/linux/ptrace.h:92:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p2 @@     got struct task_struct [noderef] __rcu *parent @@
+   include/linux/ptrace.h:92:60: sparse:     expected struct task_struct *p2
+   include/linux/ptrace.h:92:60: sparse:     got struct task_struct [noderef] __rcu *parent
+   kernel/exit.c: note: in included file (through include/linux/sched/signal.h, include/linux/rcuwait.h, include/linux/percpu-rwsem.h, ...):
+   include/linux/sched/task.h:110:21: sparse: sparse: context imbalance in 'wait_task_zombie' - unexpected unlock
+   include/linux/sched/task.h:110:21: sparse: sparse: context imbalance in 'wait_task_stopped' - unexpected unlock
+   include/linux/sched/task.h:110:21: sparse: sparse: context imbalance in 'wait_task_continued' - unexpected unlock
+   kernel/exit.c: note: in included file:
+   include/linux/ptrace.h:92:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p1 @@     got struct task_struct [noderef] __rcu *real_parent @@
+   include/linux/ptrace.h:92:40: sparse:     expected struct task_struct *p1
+   include/linux/ptrace.h:92:40: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   include/linux/ptrace.h:92:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p2 @@     got struct task_struct [noderef] __rcu *parent @@
+   include/linux/ptrace.h:92:60: sparse:     expected struct task_struct *p2
+   include/linux/ptrace.h:92:60: sparse:     got struct task_struct [noderef] __rcu *parent
+   kernel/exit.c: note: in included file (through include/linux/thread_info.h, arch/x86/include/asm/preempt.h, include/linux/preempt.h, ...):
+   arch/x86/include/asm/current.h:15:16: sparse: sparse: context imbalance in 'do_wait' - wrong count at exit
 
-   kernel/sched/fair.o: in function `attach_entity_load_avg':
->> include/trace/events/sched.h:743:(.text+0x2aec): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   include/trace/events/sched.h:743:(.text+0x2b0c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/sched/fair.o: in function `check_preempt_wakeup_fair':
->> kernel/sched/fair.c:8231:(.text+0x2b62): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/sched/fair.c:8287:(.text+0x2b88): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/sched/fair.c:8261:(.text+0x2be8): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/sched/fair.c:8276:(.text+0x2c2e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/sched/fair.c:8281:(.text+0x2c34): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/sched/fair.o: in function `select_idle_sibling':
-   kernel/sched/fair.c:4730:(.text+0x2c94): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/sched/fair.c:7470:(.text+0x2d3a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/sched/fair.c:7472:(.text+0x2d40): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   kernel/sched/fair.c:6652:(.text+0x2d48): additional relocation overflows omitted from the output
+vim +738 kernel/exit.c
 
-
-vim +8231 kernel/sched/fair.c
-
-02479099c28689 kernel/sched_fair.c Peter Zijlstra      2008-11-04  8206  
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar         2007-07-09  8207  /*
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar         2007-07-09  8208   * Preempt the current task with a newly woken task if needed:
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar         2007-07-09  8209   */
-82845683ca6a15 kernel/sched/fair.c Ingo Molnar         2023-09-19  8210  static void check_preempt_wakeup_fair(struct rq *rq, struct task_struct *p, int wake_flags)
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar         2007-07-09  8211  {
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar         2007-07-09  8212  	struct task_struct *curr = rq->curr;
-8651a86c342ab7 kernel/sched_fair.c Srivatsa Vaddagiri  2007-10-15  8213  	struct sched_entity *se = &curr->se, *pse = &p->se;
-4793241be408b3 kernel/sched_fair.c Peter Zijlstra      2008-11-04  8214  	struct cfs_rq *cfs_rq = task_cfs_rq(curr);
-2f36825b176f67 kernel/sched_fair.c Venkatesh Pallipadi 2011-04-14  8215  	int next_buddy_marked = 0;
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8216  	int cse_is_idle, pse_is_idle;
-4793241be408b3 kernel/sched_fair.c Peter Zijlstra      2008-11-04  8217  
-4ae7d5cefd4aa3 kernel/sched_fair.c Ingo Molnar         2008-03-19  8218  	if (unlikely(se == pse))
-4ae7d5cefd4aa3 kernel/sched_fair.c Ingo Molnar         2008-03-19  8219  		return;
-4ae7d5cefd4aa3 kernel/sched_fair.c Ingo Molnar         2008-03-19  8220  
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8221  	/*
-163122b7fcfa28 kernel/sched/fair.c Kirill Tkhai        2014-08-20  8222  	 * This is possible from callers such as attach_tasks(), in which we
-e23edc86b09df6 kernel/sched/fair.c Ingo Molnar         2023-09-19  8223  	 * unconditionally wakeup_preempt() after an enqueue (which may have
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8224  	 * lead to a throttle).  This both saves work and prevents false
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8225  	 * next-buddy nomination below.
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8226  	 */
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8227  	if (unlikely(throttled_hierarchy(cfs_rq_of(pse))))
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8228  		return;
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8229  
-5e963f2bd4654a kernel/sched/fair.c Peter Zijlstra      2023-05-31  8230  	if (sched_feat(NEXT_BUDDY) && !(wake_flags & WF_FORK)) {
-02479099c28689 kernel/sched_fair.c Peter Zijlstra      2008-11-04 @8231  		set_next_buddy(pse);
-2f36825b176f67 kernel/sched_fair.c Venkatesh Pallipadi 2011-04-14  8232  		next_buddy_marked = 1;
-2f36825b176f67 kernel/sched_fair.c Venkatesh Pallipadi 2011-04-14  8233  	}
-57fdc26d4a734a kernel/sched_fair.c Peter Zijlstra      2008-09-23  8234  
-aec0a5142cb52a kernel/sched_fair.c Bharata B Rao       2008-08-28  8235  	/*
-aec0a5142cb52a kernel/sched_fair.c Bharata B Rao       2008-08-28  8236  	 * We can come here with TIF_NEED_RESCHED already set from new task
-aec0a5142cb52a kernel/sched_fair.c Bharata B Rao       2008-08-28  8237  	 * wake up path.
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8238  	 *
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8239  	 * Note: this also catches the edge-case of curr being in a throttled
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8240  	 * group (e.g. via set_curr_task), since update_curr() (in the
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8241  	 * enqueue of curr) will have resulted in resched being set.  This
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8242  	 * prevents us from potentially nominating it as a false LAST_BUDDY
-5238cdd3873e67 kernel/sched_fair.c Paul Turner         2011-07-21  8243  	 * below.
-aec0a5142cb52a kernel/sched_fair.c Bharata B Rao       2008-08-28  8244  	 */
-aec0a5142cb52a kernel/sched_fair.c Bharata B Rao       2008-08-28  8245  	if (test_tsk_need_resched(curr))
-aec0a5142cb52a kernel/sched_fair.c Bharata B Rao       2008-08-28  8246  		return;
-aec0a5142cb52a kernel/sched_fair.c Bharata B Rao       2008-08-28  8247  
-a2f5c9ab79f78e kernel/sched_fair.c Darren Hart         2011-02-22  8248  	/* Idle tasks are by definition preempted by non-idle tasks. */
-1da1843f9f0334 kernel/sched/fair.c Viresh Kumar        2018-11-05  8249  	if (unlikely(task_has_idle_policy(curr)) &&
-1da1843f9f0334 kernel/sched/fair.c Viresh Kumar        2018-11-05  8250  	    likely(!task_has_idle_policy(p)))
-a2f5c9ab79f78e kernel/sched_fair.c Darren Hart         2011-02-22  8251  		goto preempt;
-a2f5c9ab79f78e kernel/sched_fair.c Darren Hart         2011-02-22  8252  
-91c234b4e3419c kernel/sched_fair.c Ingo Molnar         2007-10-15  8253  	/*
-a2f5c9ab79f78e kernel/sched_fair.c Darren Hart         2011-02-22  8254  	 * Batch and idle tasks do not preempt non-idle tasks (their preemption
-a2f5c9ab79f78e kernel/sched_fair.c Darren Hart         2011-02-22  8255  	 * is driven by the tick):
-91c234b4e3419c kernel/sched_fair.c Ingo Molnar         2007-10-15  8256  	 */
-8ed92e51f99c21 kernel/sched/fair.c Ingo Molnar         2012-10-14  8257  	if (unlikely(p->policy != SCHED_NORMAL) || !sched_feat(WAKEUP_PREEMPTION))
-91c234b4e3419c kernel/sched_fair.c Ingo Molnar         2007-10-15  8258  		return;
-8651a86c342ab7 kernel/sched_fair.c Srivatsa Vaddagiri  2007-10-15  8259  
-464b75273f64be kernel/sched_fair.c Peter Zijlstra      2008-10-24  8260  	find_matching_se(&se, &pse);
-09348d75a6ce60 kernel/sched/fair.c Ingo Molnar         2022-08-11  8261  	WARN_ON_ONCE(!pse);
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8262  
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8263  	cse_is_idle = se_is_idle(se);
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8264  	pse_is_idle = se_is_idle(pse);
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8265  
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8266  	/*
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8267  	 * Preempt an idle group in favor of a non-idle group (and don't preempt
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8268  	 * in the inverse case).
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8269  	 */
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8270  	if (cse_is_idle && !pse_is_idle)
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8271  		goto preempt;
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8272  	if (cse_is_idle != pse_is_idle)
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8273  		return;
-304000390f88d0 kernel/sched/fair.c Josh Don            2021-07-29  8274  
-147f3efaa24182 kernel/sched/fair.c Peter Zijlstra      2023-05-31  8275  	cfs_rq = cfs_rq_of(se);
-147f3efaa24182 kernel/sched/fair.c Peter Zijlstra      2023-05-31  8276  	update_curr(cfs_rq);
-147f3efaa24182 kernel/sched/fair.c Peter Zijlstra      2023-05-31  8277  
-2f36825b176f67 kernel/sched_fair.c Venkatesh Pallipadi 2011-04-14  8278  	/*
-147f3efaa24182 kernel/sched/fair.c Peter Zijlstra      2023-05-31  8279  	 * XXX pick_eevdf(cfs_rq) != se ?
-2f36825b176f67 kernel/sched_fair.c Venkatesh Pallipadi 2011-04-14  8280  	 */
-147f3efaa24182 kernel/sched/fair.c Peter Zijlstra      2023-05-31  8281  	if (pick_eevdf(cfs_rq) == pse)
-3a7e73a2e26fff kernel/sched_fair.c Peter Zijlstra      2009-11-28  8282  		goto preempt;
-464b75273f64be kernel/sched_fair.c Peter Zijlstra      2008-10-24  8283  
-3a7e73a2e26fff kernel/sched_fair.c Peter Zijlstra      2009-11-28  8284  	return;
-a65ac745e47e91 kernel/sched_fair.c Jupyung Lee         2009-11-17  8285  
-3a7e73a2e26fff kernel/sched_fair.c Peter Zijlstra      2009-11-28  8286  preempt:
-8875125efe8402 kernel/sched/fair.c Kirill Tkhai        2014-06-29  8287  	resched_curr(rq);
-f685ceacab07d3 kernel/sched_fair.c Mike Galbraith      2009-10-23  8288  }
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar         2007-07-09  8289  
-
-:::::: The code at line 8231 was first introduced by commit
-:::::: 02479099c286894644f8e96c6bbb535ab64662fd sched: fix buddies for group scheduling
-
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+   735	
+   736	static void synchronize_group_exit(struct task_struct *tsk, long code)
+   737	{
+ > 738		struct sighand_struct *sighand = tsk->sighand;
+   739		struct signal_struct *signal = tsk->signal;
+   740	
+   741		spin_lock_irq(&sighand->siglock);
+   742		signal->quick_threads--;
+   743		if ((signal->quick_threads == 0) &&
+   744		    !(signal->flags & SIGNAL_GROUP_EXIT)) {
+   745			signal->flags = SIGNAL_GROUP_EXIT;
+   746			signal->group_exit_code = code;
+   747			signal->group_stop_count = 0;
+   748		}
+   749		spin_unlock_irq(&sighand->siglock);
+   750	}
+   751	
 
 -- 
 0-DAY CI Kernel Test Service
