@@ -1,99 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FA11944F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 20:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143C01862F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 21:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PNQvA069"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702240688; x=1733776688;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XFXPO+n/Lu8tJ0UlCah9YtoT3mlmYBBj3N7+CPKuZN0=;
-  b=PNQvA069SbvgkDi+uDmAMOfjYktJheEpX0uCM+lWw/uN9UoFvp9A5aXK
-   hDVzcIYe/xtW7bOTlNwUd7bhoao2om0K28fFLxQURpfitDzgYdGSbE51U
-   PnAhL4iazWDMyVUfAN4/t4mpwnr4wFdrcOErumHSeoe4DrdVADKlGCUJi
-   paWi06cWWWorkFuBk858hlcW+3WC8c8E/fkX2IjtEu/NuEEuQxDaYWE+9
-   E7Kyt92qqac9by2ncPNnl6XPrSsS3xXVcr0Do1J98IzlLSRCnYqpxyqC7
-   9BAcwzo+Z/Lw0zeCAUJGXtP93b4k5P/ULnODqAwnvlMPRk4hZvbp+Bn9c
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="1384240"
-X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="1384240"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 12:38:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="772784450"
-X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="772784450"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 10 Dec 2023 12:38:05 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rCQYs-000HFq-3D;
-	Sun, 10 Dec 2023 20:38:03 +0000
-Date: Mon, 11 Dec 2023 04:37:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Stevens <stevensd@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Gerd Hoffmann <kraxel@redhat.com>
-Subject: drivers/virtio/virtio_dma_buf.c:41: warning: Function parameter or
- member 'dma_buf' not described in 'virtio_dma_buf_attach'
-Message-ID: <202312110445.z6bDltrY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XPves1wt"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-7bb4b7eb808so907038241.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 13:05:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702242339; x=1702847139; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wy/7JIgDHr+AOX+tkb0BNEATDAp5U47siWpf/cuRp9A=;
+        b=XPves1wtVUh7GQfBvkUweCQsJ/AakSCu7iPpKXz0Gxx9HrBy9sx4ZSjZd5zQwKH70i
+         sxZ9lK/d+xGWAg/WxPb1tcyqSC/dRb401gTqebShbZ7tkroVCwVPk9PjNGTHs3KZh+3h
+         fgZEPKGPcJ15NdatNHcRog0Iqi5kkh7Zaq5WDF5JgIpAwTrB4e/omaLeINc3PnVusg8H
+         Jzz/5faTl4Lj2REC7S4gDGa2X2GTeSCll5i/TRjjMXc3OHGbe1YzDSqVKjXjmrQA/sLn
+         h39Fm1h1Z9ScLZDyvFaFsb6zMfFJgoTspo0A2/bdZA9xsWLW68NiR6vZJ5Du7OIgzVcI
+         PFZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702242339; x=1702847139;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wy/7JIgDHr+AOX+tkb0BNEATDAp5U47siWpf/cuRp9A=;
+        b=kvp8DX8oUG3c5Mk5zGzCM0XikbisNkHLZrJJxnG7Pfulbm0msgvA2P0coUNwlrj5y3
+         phYLrhu+FKahv9XCIYlM3H5fgokcsOoo1f1NmrGuJIN5ayFnbyxSwb7YDFp6rlmCtQrk
+         8D4qdFLrkaAiCp9ep7IWJaoODjMG0T6oV9JEQm7Lkod7FTvD1Hayb0C0vQPCJ2FFAYyl
+         paDBenHGljdD87NOCiOhU0IWKUFvwvDskX/UOVEWt/q/64sI4sSLQUhJh301ftnZ0Ybl
+         T9z75jqcctNdQZtetmPlxf4wUfeitXXh9HJn/JayIIetmn1R0c5x9onDo9l11CMSij1+
+         WLGQ==
+X-Gm-Message-State: AOJu0YxA+UFL8MuaqabW683NetqEFZI8rLxsANNnPDy31a8t/zOG/EmR
+	v+xTGKrBCDygQpYiAiD4KAlMQE7lpEbCNYXLbtohAg==
+X-Google-Smtp-Source: AGHT+IFT0ErSlXhkSNmybzhzjzMcovjnPe8KMF5aV4ti0PjFyzAuvpHcAdxIiuVv1MAbaMYlIfbFWhKkProaYS3VTrw=
+X-Received: by 2002:a05:6122:458f:b0:4b2:c554:dfcc with SMTP id
+ de15-20020a056122458f00b004b2c554dfccmr3013830vkb.27.1702242337369; Sun, 10
+ Dec 2023 13:05:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202312102313.zJHWVLAZ-lkp@intel.com> <182d28da-8822-4d2d-85fe-5a1843905eb1@gmail.com>
+In-Reply-To: <182d28da-8822-4d2d-85fe-5a1843905eb1@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Sun, 10 Dec 2023 13:05:26 -0800
+Message-ID: <CAHS8izMn0JhRkmvF1yEvk1iUdYmHNbxbs8GgO=0GX6Qq5uR80w@mail.gmail.com>
+Subject: Re: [isilence:zc/rx-pp-provider 5/31] net/core/dev.c:2065: undefined
+ reference to `gen_pool_for_each_chunk'
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3a87498869d6d1e7347cd01f337a77984604eb5e
-commit: a0308938ec81cd0dca9d75833ec0dd1b8708917e virtio: add dma-buf support for exported objects
-date:   3 years, 4 months ago
-config: parisc-randconfig-m041-20230821 (https://download.01.org/0day-ci/archive/20231211/202312110445.z6bDltrY-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20231211/202312110445.z6bDltrY-lkp@intel.com/reproduce)
+On Sun, Dec 10, 2023 at 8:54=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
+com> wrote:
+>
+> On 12/10/23 15:45, kernel test robot wrote:
+> > tree:   https://github.com/isilence/linux zc/rx-pp-provider
+> > head:   4b8de8977565096e38b6da993c68da6f2ef9b89c
+> > commit: 161f99ad49ca48fa141161b409eac11a6b63c105 [5/31] netdev: support=
+ binding dma-buf to netdevice
+> > config: i386-randconfig-003-20231210 (https://download.01.org/0day-ci/a=
+rchive/20231210/202312102313.zJHWVLAZ-lkp@intel.com/config)
+> > compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20231210/202312102313.zJHWVLAZ-lkp@intel.com/reproduce)
+>
+> Ergh, I have no clue, why lkp thinks that it's a good idea to spam
+> about someone's non-release repos, but just ignore it.
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312110445.z6bDltrY-lkp@intel.com/
+How do i enable this on my repos? I have branches on github I'd like
+reports for:
 
-All warnings (new ones prefixed by >>):
-
->> drivers/virtio/virtio_dma_buf.c:41: warning: Function parameter or member 'dma_buf' not described in 'virtio_dma_buf_attach'
->> drivers/virtio/virtio_dma_buf.c:41: warning: Function parameter or member 'attach' not described in 'virtio_dma_buf_attach'
+https://github.com/mina/linux/branches
 
 
-vim +41 drivers/virtio/virtio_dma_buf.c
-
-    35	
-    36	/**
-    37	 * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
-    38	 */
-    39	int virtio_dma_buf_attach(struct dma_buf *dma_buf,
-    40				  struct dma_buf_attachment *attach)
-  > 41	{
-    42		int ret;
-    43		const struct virtio_dma_buf_ops *ops =
-    44			container_of(dma_buf->ops,
-    45				     const struct virtio_dma_buf_ops, ops);
-    46	
-    47		if (ops->device_attach) {
-    48			ret = ops->device_attach(dma_buf, attach);
-    49			if (ret)
-    50				return ret;
-    51		}
-    52		return 0;
-    53	}
-    54	EXPORT_SYMBOL(virtio_dma_buf_attach);
-    55	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Thanks,
+Mina
