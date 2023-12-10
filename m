@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D15F1B29E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Dec 2023 23:01:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7627EC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Dec 2023 01:20:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOy3V829"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E9nIkdn/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702162916; x=1733698916;
+  t=1702171216; x=1733707216;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EnDubmjACSWPbF08w3YYY0HD5ZXALSIsPG7blTFGysU=;
-  b=NOy3V829hs0WIpDzH3Vg5c4SyTolKnJ9hcCiuB+0N6VKyt8aqclvLJ2R
-   EsXdwRcjQVgIfgENgGRAHdFj/zFZBk2l8PbKZwyAt/3uwpPAPgZSrSJii
-   AkFdu6VLs5QwIX6qvVAYxKA2w/EE3jzm1yHNkvKdeVNMwP/6bvU1vUDvV
-   EJ5CFPL4qLtPSskGatt0P4qNpjY3XUYeTctngCOamyxSCP7P7wliITNSN
-   ZdJLbMv2nAdM1Gt2R9/YSJr+n/1iJ68ICMWI/N2zoi8z15S2ZHMDT9AuH
-   q0IP0CnCBDIl7mNbuQUDJv1fqEJLUTC9A33T4387XjnOEg8tuIb3jhU3h
+  bh=aGvzfT9spUsqBH0TtiFd9nyLofG3wdVzD2aGdzuxnfc=;
+  b=E9nIkdn/6EBR87c3SmVrUix+QD6q1TftxwW9bNuqfVGA4hcN7IEHbcBt
+   wHTnz0+aLBWAQJUTxHyyTdpfWc466LJqeiphIIhTRazrSCr3CWRQ8fovj
+   NL8RVAxHjw1roeEwXAFNEkg/truZazhFWitGUteHVV8hO71pvNRcAUdfP
+   UfCunMAa+8yKvshSw7ErBxVo7WPVwNXq8pawvn7Zyt9Qkmf/iKSqudIXj
+   FUFABFY2foLLvtZDIL1kFNP7LiBk6EuxVleyXe9F6MqVyByrNq/E/19MC
+   lTjOQRK7r0QsfdCHF9lbwisyDTtROCVnoSaIBoJAxnfWqgz0u80rSkMif
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1401590"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="480724285"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="1401590"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 15:01:55 -0800
+   d="scan'208";a="480724285"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 17:20:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="895925733"
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="890612241"
 X-IronPort-AV: E=Sophos;i="6.04,264,1695711600"; 
-   d="scan'208";a="895925733"
+   d="scan'208";a="890612241"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 09 Dec 2023 15:01:51 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2023 17:20:13 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rC6KT-000G4x-0J;
-	Sat, 09 Dec 2023 23:01:49 +0000
-Date: Sun, 10 Dec 2023 07:00:23 +0800
+	id 1rC8UN-000GDp-2E;
+	Sun, 10 Dec 2023 01:20:11 +0000
+Date: Sun, 10 Dec 2023 09:19:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jack Brennen <jbrennen@google.com>
+To: Will Deacon <will.deacon@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: WARNING: modpost: drivers/watchdog/at91sam9_wdt: section mismatch in
- reference: at91wdt_driver+0x4 (section: .data) -> at91wdt_driver_exit
- (section: .exit.text)
-Message-ID: <202312100601.WtR8QPq5-lkp@intel.com>
+	Ingo Molnar <mingo@kernel.org>
+Subject: arch/alpha/kernel/io.c:425:46: sparse: sparse: cast removes address
+ space '__iomem' of expression
+Message-ID: <202312100904.XepiU7RJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,151 +53,114 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   21b73ffcc62ab772bc06e3e90bd87eff5e9e8ed4
-commit: 4074532758c5c367d3fcb8d124150824a254659d modpost: Optimize symbol search from linear to binary search
-date:   10 weeks ago
-config: xtensa-randconfig-r021-20220808 (https://download.01.org/0day-ci/archive/20231210/202312100601.WtR8QPq5-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312100601.WtR8QPq5-lkp@intel.com/reproduce)
+commit: d15155824c5014803d91b829736d249c500bdda6 linux/compiler.h: Split into compiler.h and compiler_types.h
+date:   6 years ago
+config: alpha-randconfig-r113-20231116 (https://download.01.org/0day-ci/archive/20231210/202312100904.XepiU7RJ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231210/202312100904.XepiU7RJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312100601.WtR8QPq5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312100904.XepiU7RJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+   arch/alpha/kernel/io.c:620:14: sparse: sparse: multiple definitions for function 'ioport_map'
+   arch/alpha/kernel/io.c: note: in included file:
+   arch/alpha/include/asm/io.h:276:28: sparse:  the previous one is here
+   arch/alpha/kernel/io.c:625:6: sparse: sparse: multiple definitions for function 'ioport_unmap'
+   arch/alpha/include/asm/io.h:281:20: sparse:  the previous one is here
+>> arch/alpha/kernel/io.c:425:46: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/alpha/kernel/io.c:436:46: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/alpha/kernel/io.c:447:46: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/alpha/kernel/io.c:480:29: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/alpha/kernel/io.c:491:29: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/alpha/kernel/io.c:502:29: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/alpha/kernel/io.c:531:28: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/alpha/kernel/io.c:538:29: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/alpha/kernel/io.c:545:29: sparse: sparse: cast removes address space '__iomem' of expression
+   In file included from include/linux/workqueue.h:8,
+                    from include/linux/srcu.h:34,
+                    from include/linux/notifier.h:15,
+                    from include/linux/memory_hotplug.h:6,
+                    from include/linux/mmzone.h:779,
+                    from include/linux/gfp.h:5,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:22,
+                    from include/linux/module.h:13,
+                    from arch/alpha/kernel/io.c:8:
+   include/linux/timer.h: In function 'timer_setup':
+   include/linux/timer.h:178:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
+     178 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
+         |                              ^
+   include/linux/timer.h:143:39: note: in definition of macro '__setup_timer'
+     143 |                 (_timer)->function = (_fn);                             32-      |                                       ^~~
+   arch/alpha/kernel/io.c: At top level:
+   arch/alpha/kernel/io.c:590:1: warning: no previous prototype for 'scr_memcpyw' [-Wmissing-prototypes]
+     590 | scr_memcpyw(u16 *d, const u16 *s, unsigned int count)
+         | ^~~~~~~~~~~
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-mc33880.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-spear.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-visconti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/dwc/pci-exynos.o
-WARNING: modpost: drivers/pci/controller/dwc/pci-exynos: section mismatch in reference: exynos_pcie_driver+0x4 (section: .data) -> exynos_pcie_driver_exit (section: .exit.text)
-WARNING: modpost: drivers/pci/controller/dwc/pcie-kirin: section mismatch in reference: kirin_pcie_driver+0x4 (section: .data) -> kirin_pcie_driver_exit (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mediatek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mediatek-gen3.o
-WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/encoder-tfp410: section mismatch in reference: tfp410_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
-WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/encoder-tpd12s015: section mismatch in reference: tpd_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
-WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/connector-dvi: section mismatch in reference: dvi_connector_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
-WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/connector-analog-tv: section mismatch in reference: tvc_connector_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
-WARNING: modpost: drivers/video/fbdev/omap2/omapfb/displays/panel-dpi: section mismatch in reference: panel_dpi_driver+0x4 (section: .data) -> (unknown) (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/via/viafb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/kyro/kyrofb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-ipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-aud.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/lpass-gfm-sm8250.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/qcom/videocc-sdm845.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sunxi-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/suniv-f1c100s-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun20i-d1-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h616-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun4i-a10-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-a31-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a23-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a83t-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-h3-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma_mgmt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_kunit_helpers.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_buddy_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_cmdline_parser_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_connector_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_damage_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_dp_mst_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_format_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_framebuffer_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_managed_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_mm_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_modes_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_plane_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_probe_helper_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_rect_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_exec_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-novatek-nt39016.o
-WARNING: modpost: drivers/gpu/drm/bridge/ti-tpd12s015: section mismatch in reference: tpd12s015_driver+0x4 (section: .data) -> tpd12s015_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ac97.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-fsl-lib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-omap2-mcspi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/lib_test.o
-WARNING: modpost: drivers/rtc/rtc-at91rm9200: section mismatch in reference: at91_rtc_driver+0x4 (section: .data) -> at91_rtc_driver_exit (section: .exit.text)
-WARNING: modpost: drivers/rtc/rtc-pcap: section mismatch in reference: pcap_rtc_driver+0x4 (section: .data) -> pcap_rtc_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/ttpci/budget-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/saa7134/saa7134-empress.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/radio/si470x/radio-si470x-common.o
->> WARNING: modpost: drivers/watchdog/at91sam9_wdt: section mismatch in reference: at91wdt_driver+0x4 (section: .data) -> at91wdt_driver_exit (section: .exit.text)
-WARNING: modpost: drivers/mmc/host/davinci_mmc: section mismatch in reference: davinci_mmcsd_driver+0x8 (section: .data) -> davinci_mmcsd_driver_exit (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/xilinx/zynqmp-aes-gcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/chrome/cros_kunit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/arm-ccn.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mq-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/mxs/snd-soc-mxs-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+vim +/__iomem +425 arch/alpha/kernel/io.c
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  414  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  415  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  416  /*
+^1da177e4c3f41 Linus Torvalds 2005-04-16  417   * Copy data from IO memory space to "real" memory space.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  418   * This needs to be optimized.
+^1da177e4c3f41 Linus Torvalds 2005-04-16  419   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  420  void memcpy_fromio(void *to, const volatile void __iomem *from, long count)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  421  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  422  	/* Optimize co-aligned transfers.  Everything else gets handled
+^1da177e4c3f41 Linus Torvalds 2005-04-16  423  	   a byte at a time. */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  424  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @425  	if (count >= 8 && ((u64)to & 7) == ((u64)from & 7)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  426  		count -= 8;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  427  		do {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  428  			*(u64 *)to = __raw_readq(from);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  429  			count -= 8;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  430  			to += 8;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  431  			from += 8;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  432  		} while (count >= 0);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  433  		count += 8;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  434  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  435  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  436  	if (count >= 4 && ((u64)to & 3) == ((u64)from & 3)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  437  		count -= 4;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  438  		do {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  439  			*(u32 *)to = __raw_readl(from);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  440  			count -= 4;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  441  			to += 4;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  442  			from += 4;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  443  		} while (count >= 0);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  444  		count += 4;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  445  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  446  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  447  	if (count >= 2 && ((u64)to & 1) == ((u64)from & 1)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  448  		count -= 2;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  449  		do {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  450  			*(u16 *)to = __raw_readw(from);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  451  			count -= 2;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  452  			to += 2;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  453  			from += 2;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  454  		} while (count >= 0);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  455  		count += 2;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  456  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  457  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  458  	while (count > 0) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  459  		*(u8 *) to = __raw_readb(from);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  460  		count--;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  461  		to++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  462  		from++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  463  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  464  	mb();
+^1da177e4c3f41 Linus Torvalds 2005-04-16  465  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  466  
+
+:::::: The code at line 425 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
