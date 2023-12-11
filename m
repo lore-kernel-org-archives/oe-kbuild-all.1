@@ -1,47 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA68456744
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 23:17:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D64155C11
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 23:27:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ktVcrQhY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PC5Az13b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702336637; x=1733872637;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Dw4kMtShdbPzytYgQyl6erVQMS9zXDuMSrQXIkHimtc=;
-  b=ktVcrQhYBcfMk7kLtaswNqbX1BCGj1A3fmaluSzEd2l8zMdo3EqNIXYw
-   onQu58cQ0D8gHUP10k/P/IqSQMF/JXxcEknjacribgZPFDZiJfbFGIPxv
-   y4CRe9jJlMnKPwP+kXRy8n1f1sNC7zqqP6yvkV1EzB7nBHjtdTY52kLXN
-   +YTcX6TZKhh7qCx9elWGC7uW8zWUllX1vrKT4br1148smkWeK25ItBeGG
-   xvHpCK0Kzi2pOyVHDoVA8v2VDlNkOa20FZkSFSu2IXEfBw2J9sKzUSUFX
-   PvLhi124/NlZNvYgfu4AJDsw14o3j0J6wQ+AX6+lIqieUnSx9dONmSJm6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="374230381"
+  t=1702337245; x=1733873245;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DdRXcLF5La/fFvm5gRAwmGzIOBnpwPil+HPUgFmjR5I=;
+  b=PC5Az13b+2i7NFtsUEWn7zis7XeOiwjcGXpeP0/FwQxf+WgZ1KntbVhH
+   o9GY7ICqAw3m7b/cfGpc5hT/ArP1IlxS0KDXEF00z6Tjq7xSE5iakfvHc
+   rwGtvQYOSb6OB0aMCNMwcep3u06nT2Kg4C1A4VjELtotBmVDMB3EAIT7J
+   qCqe75W28k5pt0IuAFMvuWI2MwRaAsIoQb1Ux4HwF5nRQoNwuiArf2fqD
+   d1zTUuoZxCcwH+UGfV/1nFpAVD4d5Y/A8JsguGgz3wr0yQGjusSS8bjdN
+   3U+bCMmkNjvoCzVgjwsHM7f6kwQGTSdWtc1FpNuwxmOBtX22Nacjq8eKH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="391898882"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="374230381"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 15:17:14 -0800
+   d="scan'208";a="391898882"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 15:27:24 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="776850510"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="21273187"
+   d="scan'208";a="776850510"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 11 Dec 2023 15:17:12 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 11 Dec 2023 15:27:22 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCpWO-000IYf-09;
-	Mon, 11 Dec 2023 23:17:08 +0000
-Date: Tue, 12 Dec 2023 07:16:57 +0800
+	id 1rCpgG-000IZD-12;
+	Mon, 11 Dec 2023 23:27:20 +0000
+Date: Tue, 12 Dec 2023 07:27:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Carpenter <error27@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	Luca Abeni <luca.abeni@santannapisa.it>
-Subject: drivers/firmware/dmi_scan.c:145:13: sparse: sparse: incorrect type
- in assignment (different address spaces)
-Message-ID: <202312120718.oZqe253R-lkp@intel.com>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx
+ version
+Message-ID: <202312120740.HxQGwUoL-lkp@intel.com>
+References: <50830030-dca7-4c43-bcc8-449c7cfa9fbb@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,67 +54,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <50830030-dca7-4c43-bcc8-449c7cfa9fbb@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-commit: aa5222e92f8000ed3c1c38dddf11c83222aadfb3 sched/deadline: Don't use dubious signed bitfields
-date:   6 years ago
-config: arm64-randconfig-r121-20231116 (https://download.01.org/0day-ci/archive/20231212/202312120718.oZqe253R-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120718.oZqe253R-lkp@intel.com/reproduce)
+Hi Akira,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.7-rc5 next-20231211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Akira-Yokosawa/docs-sphinx-requirement-txt-Reflect-recommended-Sphinx-version/20231210-074628
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/50830030-dca7-4c43-bcc8-449c7cfa9fbb%40gmail.com
+patch subject: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx version
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120740.HxQGwUoL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120718.oZqe253R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120740.HxQGwUoL-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/dmi_scan.c:145:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [usertype] *buf @@     got void [noderef] __iomem * @@
-   drivers/firmware/dmi_scan.c:145:13: sparse:     expected unsigned char [usertype] *buf
-   drivers/firmware/dmi_scan.c:145:13: sparse:     got void [noderef] __iomem *
->> drivers/firmware/dmi_scan.c:153:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *buf @@
-   drivers/firmware/dmi_scan.c:153:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/firmware/dmi_scan.c:153:9: sparse:     got unsigned char [usertype] *buf
->> drivers/firmware/dmi_scan.c:736:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [usertype] *dmi_table @@     got void [noderef] __iomem * @@
-   drivers/firmware/dmi_scan.c:736:19: sparse:     expected unsigned char [usertype] *dmi_table
-   drivers/firmware/dmi_scan.c:736:19: sparse:     got void [noderef] __iomem *
->> drivers/firmware/dmi_scan.c:755:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *dmi_table @@
-   drivers/firmware/dmi_scan.c:755:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/firmware/dmi_scan.c:755:9: sparse:     got unsigned char [usertype] *dmi_table
-   drivers/firmware/dmi_scan.c:1031:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [usertype] *buf @@     got void [noderef] __iomem * @@
-   drivers/firmware/dmi_scan.c:1031:13: sparse:     expected unsigned char [usertype] *buf
-   drivers/firmware/dmi_scan.c:1031:13: sparse:     got void [noderef] __iomem *
-   drivers/firmware/dmi_scan.c:1037:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *buf @@
-   drivers/firmware/dmi_scan.c:1037:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/firmware/dmi_scan.c:1037:9: sparse:     got unsigned char [usertype] *buf
+All warnings (new ones prefixed by >>):
 
-vim +145 drivers/firmware/dmi_scan.c
-
-7fce084a0b3e2b drivers/firmware/dmi_scan.c Jean Delvare    2007-11-03  138  
-e7a19c5624c66a drivers/firmware/dmi_scan.c Jean Delvare    2009-03-30  139  static int __init dmi_walk_early(void (*decode)(const struct dmi_header *,
-e7a19c5624c66a drivers/firmware/dmi_scan.c Jean Delvare    2009-03-30  140  		void *))
-7fce084a0b3e2b drivers/firmware/dmi_scan.c Jean Delvare    2007-11-03  141  {
-7fce084a0b3e2b drivers/firmware/dmi_scan.c Jean Delvare    2007-11-03  142  	u8 *buf;
-6e0ad59e3d838a drivers/firmware/dmi_scan.c Jean Delvare    2015-06-25  143  	u32 orig_dmi_len = dmi_len;
-7fce084a0b3e2b drivers/firmware/dmi_scan.c Jean Delvare    2007-11-03  144  
-6e0ad59e3d838a drivers/firmware/dmi_scan.c Jean Delvare    2015-06-25 @145  	buf = dmi_early_remap(dmi_base, orig_dmi_len);
-7fce084a0b3e2b drivers/firmware/dmi_scan.c Jean Delvare    2007-11-03  146  	if (buf == NULL)
-c926820085437a drivers/firmware/dmi_scan.c Andy Lutomirski 2017-06-15  147  		return -ENOMEM;
-7fce084a0b3e2b drivers/firmware/dmi_scan.c Jean Delvare    2007-11-03  148  
-eb4c5ea50e60aa drivers/firmware/dmi_scan.c Ivan Khoronzhuk 2015-06-25  149  	dmi_decode_table(buf, decode, NULL);
-7fce084a0b3e2b drivers/firmware/dmi_scan.c Jean Delvare    2007-11-03  150  
-d114a333874725 drivers/firmware/dmi_scan.c Tony Luck       2012-07-20  151  	add_device_randomness(buf, dmi_len);
-d114a333874725 drivers/firmware/dmi_scan.c Tony Luck       2012-07-20  152  
-6e0ad59e3d838a drivers/firmware/dmi_scan.c Jean Delvare    2015-06-25 @153  	dmi_early_unmap(buf, orig_dmi_len);
-^1da177e4c3f41 arch/i386/kernel/dmi_scan.c Linus Torvalds  2005-04-16  154  	return 0;
-^1da177e4c3f41 arch/i386/kernel/dmi_scan.c Linus Torvalds  2005-04-16  155  }
-^1da177e4c3f41 arch/i386/kernel/dmi_scan.c Linus Torvalds  2005-04-16  156  
-
-:::::: The code at line 145 was first introduced by commit
-:::::: 6e0ad59e3d838a2887e7aa657baee5896030d009 firmware: dmi_scan: Trim DMI table length before exporting it
-
-:::::: TO: Jean Delvare <jdelvare@suse.de>
-:::::: CC: Jean Delvare <jdelvare@suse.de>
+>> Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:344: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:39.
+>> Documentation/gpu/drm-kms:461: ./drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:49.
+>> Documentation/gpu/drm-uapi:434: ./drivers/gpu/drm/drm_ioctl.c:928: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:70.
 
 -- 
 0-DAY CI Kernel Test Service
