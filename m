@@ -1,75 +1,106 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E4F1775F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 03:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R961e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0Vy9pc7B_1702267012;
-Received: from 30.221.148.156(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0Vy9pc7B_1702267012)
-          by smtp.aliyun-inc.com;
-          Mon, 11 Dec 2023 11:56:54 +0800
-Message-ID: <9fcc649f-8c0c-41da-9372-3c489859274d@linux.alibaba.com>
-Date: Mon, 11 Dec 2023 11:56:48 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B71168C8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 03:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lz6mxbfx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702267130; x=1733803130;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H9bYxsjkRfsfzsk0ZmO4aAhp85+v88UE44sJd2ZLsHo=;
+  b=Lz6mxbfxIvQFpwqfhu2PlLrp4fruTRPvK0awCaFHlyn3l7cMO35A/Ijh
+   uWKTpzphcvs5+Ee6D4dYGcpHG9iFyVMD9XHS3PKwGL0zqyxh52wIThsFg
+   wtkH5G7ovH49GntXJpne4rwSQUqS847TH8sjVoetxPyDDbva824MpM369
+   cpyAJYc6WGrKrpijTxzZM5hxj6I6QS9zffgDSIueUeYGlrq8N3Yb7JBHA
+   09D6wNCL/UXntJx9WPaktq42iwFdYC0WrKrGbv/7SEAKEzQOtKF50N1E3
+   +jsAVwx15rQ9YexRfSfjTaAOtYWOtL/9Axno6NWt+m8SdDZN9xPH/yrDO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="458900857"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
+   d="scan'208";a="458900857"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 19:58:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="843341028"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
+   d="scan'208";a="843341028"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 10 Dec 2023 19:58:48 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rCXRO-000HcL-1x;
+	Mon, 11 Dec 2023 03:58:46 +0000
+Date: Mon, 11 Dec 2023 11:58:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:start-write-safe 4/8] fs/splice.c:1283:9: error:
+ conflicting types for 'splice_file_to_pipe'; have 'ssize_t(struct file *,
+ struct pipe_inode_info *, loff_t *, size_t,  unsigned int)' {aka 'int(struct
+ file *, struct pipe_inode_info *, long long int *, unsigned int,  unsigned
+ in...
+Message-ID: <202312111144.rzUfUWhZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 4/4] virtio-net: support rx netdim
-To: "Michael S. Tsirkin" <mst@redhat.com>, kernel test robot <lkp@intel.com>
-Cc: netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
- oe-kbuild-all@lists.linux.dev, jasowang@redhat.com, pabeni@redhat.com,
- kuba@kernel.org, yinjun.zhang@corigine.com, edumazet@google.com,
- davem@davemloft.net, hawk@kernel.org, john.fastabend@gmail.com,
- ast@kernel.org, horms@kernel.org, xuanzhuo@linux.alibaba.com
-References: <9be20d1e86bea91b373f28401a96401b640ef4d1.1701929854.git.hengqi@linux.alibaba.com>
- <202312091132.7eR6Cbs9-lkp@intel.com>
- <20231209052724-mutt-send-email-mst@kernel.org>
-From: Heng Qi <hengqi@linux.alibaba.com>
-In-Reply-To: <20231209052724-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://github.com/amir73il/linux start-write-safe
+head:   510ead444588b4eb211d3c6670c897b83ed90d8b
+commit: 38e5b41d49a9b3c33ff60348fcd3b908852c96d7 [4/8] splice: return type ssize_t from all helpers
+config: i386-randconfig-011-20231211 (https://download.01.org/0day-ci/archive/20231211/202312111144.rzUfUWhZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231211/202312111144.rzUfUWhZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312111144.rzUfUWhZ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> fs/splice.c:1283:9: error: conflicting types for 'splice_file_to_pipe'; have 'ssize_t(struct file *, struct pipe_inode_info *, loff_t *, size_t,  unsigned int)' {aka 'int(struct file *, struct pipe_inode_info *, long long int *, unsigned int,  unsigned int)'}
+    1283 | ssize_t splice_file_to_pipe(struct file *in,
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from fs/splice.c:40:
+   fs/internal.h:244:6: note: previous declaration of 'splice_file_to_pipe' with type 'long int(struct file *, struct pipe_inode_info *, loff_t *, size_t,  unsigned int)' {aka 'long int(struct file *, struct pipe_inode_info *, long long int *, unsigned int,  unsigned int)'}
+     244 | long splice_file_to_pipe(struct file *in,
+         |      ^~~~~~~~~~~~~~~~~~~
 
 
+vim +1283 fs/splice.c
 
-在 2023/12/9 下午6:27, Michael S. Tsirkin 写道:
-> On Sat, Dec 09, 2023 at 11:22:11AM +0800, kernel test robot wrote:
->> Hi Heng,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on net-next/main]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-returns-whether-napi-is-complete/20231207-143044
->> base:   net-next/main
->> patch link:    https://lore.kernel.org/r/9be20d1e86bea91b373f28401a96401b640ef4d1.1701929854.git.hengqi%40linux.alibaba.com
->> patch subject: [PATCH net-next v7 4/4] virtio-net: support rx netdim
->> config: nios2-randconfig-r064-20231209 (https://download.01.org/0day-ci/archive/20231209/202312091132.7eR6Cbs9-lkp@intel.com/config)
->> compiler: nios2-linux-gcc (GCC) 13.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091132.7eR6Cbs9-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202312091132.7eR6Cbs9-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>     nios2-linux-ld: drivers/net/virtio_net.o: in function `virtnet_rx_dim_work':
->>     virtio_net.c:(.text+0x21dc): undefined reference to `net_dim_get_rx_moderation'
->>>> virtio_net.c:(.text+0x21dc): relocation truncated to fit: R_NIOS2_CALL26 against `net_dim_get_rx_moderation'
->>     nios2-linux-ld: drivers/net/virtio_net.o: in function `virtnet_poll':
->>     virtio_net.c:(.text+0x97bc): undefined reference to `net_dim'
->>>> virtio_net.c:(.text+0x97bc): relocation truncated to fit: R_NIOS2_CALL26 against `net_dim'
->
-> Looks like select DIMLIB is missing?
+  1278	
+  1279	static int splice_pipe_to_pipe(struct pipe_inode_info *ipipe,
+  1280				       struct pipe_inode_info *opipe,
+  1281				       size_t len, unsigned int flags);
+  1282	
+> 1283	ssize_t splice_file_to_pipe(struct file *in,
+  1284				    struct pipe_inode_info *opipe,
+  1285				    loff_t *offset,
+  1286				    size_t len, unsigned int flags)
+  1287	{
+  1288		ssize_t ret;
+  1289	
+  1290		pipe_lock(opipe);
+  1291		ret = wait_for_space(opipe, flags);
+  1292		if (!ret)
+  1293			ret = do_splice_read(in, offset, opipe, len, flags);
+  1294		pipe_unlock(opipe);
+  1295		if (ret > 0)
+  1296			wakeup_pipe_readers(opipe);
+  1297		return ret;
+  1298	}
+  1299	
 
-Yes. I'll add this. Thanks!
-
->> -- 
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests/wiki
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
