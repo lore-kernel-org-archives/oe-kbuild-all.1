@@ -1,57 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E3741A92
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 19:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373655380C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 20:07:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NbFVEKW+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a9qxABz1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702323409; x=1733859409;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fpzANBwosWLnu6s/jRy8y9zAkBIaw0FMrX1vO8cjm0Q=;
-  b=NbFVEKW+ON2d+RIRMGv5B+S2JYoowrCA4NakC6lGn4uvDlfzqvwiV9LT
-   ezOfbXr3C+0uXi9hmF3RcAy40lmwGGEMGKYdHRT5fwsrWkpai26wuq6/0
-   tAs0ojXUWatQduXml7Hk4naiFrlijbLKAkj/KWi/O4RBRtH4PqGCNJ2N0
-   hCSnOCvYBNdxRWFMNPBkNO7aVI82yCKortmtYGaSQAV+j18XGI/oyerEC
-   hg+6jQN6XI9b/rMUs4xF+dvHsfy0dpXOd84F/ZFIk7DfgPXZQ7bAHovrA
-   hm64LmaSy6JWWXYjkGE3dNGC99dsaumweUYGDUZra/JY8cSitq0Q+TH7z
+  t=1702325243; x=1733861243;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=d6H4B40TtYGwFVjYcYQ+RuIi/PlPjI1Vp41HV8BuC54=;
+  b=a9qxABz1Ho5cMahN6X0Ykhe5pEs7gWHj6iX80n+lgyKjKQzLLEkOghtr
+   AR4PCiPmfrFrKp4BDqh7kWmoy9fE2GqO8x5neyl3sFCIpIhdw8IuBueyf
+   4i+a4vJwdPPQQ8vpqoLIqdZVJHddmrWvl2aa0ShI/xMvJJWjVuqwAOYyI
+   zyvJ9Un4E8RWzIbjz9Q+lnA8rz36IeJv1f2qSVKWfOc/L5pbf7q7VlA6U
+   irhjWkUQF6TGfN4heNGLAMoWkLR/j3+79Ph5s/OOdq4qrZJuUve11jkHW
+   UgH8Y6VEgF7wDChFtSJR+ecCSUKbRg399ohFbhYMncxv8eCZmKzzFRSlp
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="461176125"
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="13397882"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="461176125"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 11:36:42 -0800
+   d="scan'208";a="13397882"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 12:07:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="807428246"
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1104605225"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="807428246"
+   d="scan'208";a="1104605225"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 11 Dec 2023 11:36:35 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 11 Dec 2023 12:07:19 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCm4t-000IQ0-1N;
-	Mon, 11 Dec 2023 19:36:31 +0000
-Date: Tue, 12 Dec 2023 03:35:57 +0800
+	id 1rCmYf-000IRW-0i;
+	Mon, 11 Dec 2023 20:07:17 +0000
+Date: Tue, 12 Dec 2023 04:06:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xinhu Wu <xinhu.wu@unisoc.com>, gregkh@linuxfoundation.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, orsonzhai@gmail.com,
-	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
-	heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, xinhuwu.unisoc@gmail.com,
-	zhiyong.liu@unisoc.com, peak.yang@unisoc.com,
-	teng.zhang1@unisoc.com, bruce.chen@unisoc.com,
-	surong.pang@unisoc.com, xingxing.luo@unisoc.com,
-	xinhu.wu@unisoc.com
-Subject: Re: [PATCH V2 2/2] dt-bindings: usb: Add an Spreadtrum pmic typec
- yaml
-Message-ID: <202312120307.jhk5BElS-lkp@intel.com>
-References: <20231211074120.27958-3-xinhu.wu@unisoc.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	Luca Abeni <luca.abeni@santannapisa.it>
+Subject: drivers/watchdog/ath79_wdt.c:165:37: sparse: sparse: incorrect type
+ in initializer (different address spaces)
+Message-ID: <202312120412.tOagTH3Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,66 +51,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231211074120.27958-3-xinhu.wu@unisoc.com>
 
-Hi Xinhu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus robh/for-next westeri-thunderbolt/next linus/master v6.7-rc5 next-20231211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xinhu-Wu/usb-typec-Support-sprd_pmic_typec-driver/20231211-154328
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231211074120.27958-3-xinhu.wu%40unisoc.com
-patch subject: [PATCH V2 2/2] dt-bindings: usb: Add an Spreadtrum pmic typec yaml
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120307.jhk5BElS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+commit: aa5222e92f8000ed3c1c38dddf11c83222aadfb3 sched/deadline: Don't use dubious signed bitfields
+date:   6 years ago
+config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231212/202312120412.tOagTH3Q-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120412.tOagTH3Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120307.jhk5BElS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120412.tOagTH3Q-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/usb/sprd,pmic_typec.yaml:28:18: [error] syntax error: mapping values are not allowed here (syntax)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/watchdog/ath79_wdt.c:165:37: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char const [noderef] __user *register __p @@     got char const * @@
+   drivers/watchdog/ath79_wdt.c:165:37: sparse:     expected char const [noderef] __user *register __p
+   drivers/watchdog/ath79_wdt.c:165:37: sparse:     got char const *
+   drivers/watchdog/ath79_wdt.c:239:27: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *write )( ... ) @@     got int ( * )( ... ) @@
+   drivers/watchdog/ath79_wdt.c:239:27: sparse:     expected int ( *write )( ... )
+   drivers/watchdog/ath79_wdt.c:239:27: sparse:     got int ( * )( ... )
 --
->> Documentation/devicetree/bindings/usb/sprd,pmic_typec.yaml:28:18: mapping values are not allowed in this context
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
---
->> Documentation/devicetree/bindings/usb/sprd,pmic_typec.yaml: ignoring, error parsing file
+   kernel/futex.c: note: in included file:
+>> arch/arm/include/asm/futex.h:58:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
+   arch/arm/include/asm/futex.h:58:9: sparse:     expected void const *
+   arch/arm/include/asm/futex.h:58:9: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
+   kernel/futex.c:1497:9: sparse: sparse: context imbalance in 'wake_futex_pi' - unexpected unlock
+   arch/arm/include/asm/futex.h:143:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
+   arch/arm/include/asm/futex.h:143:17: sparse:     expected void const *
+   arch/arm/include/asm/futex.h:143:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
+   arch/arm/include/asm/futex.h:146:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
+   arch/arm/include/asm/futex.h:146:17: sparse:     expected void const *
+   arch/arm/include/asm/futex.h:146:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
+   arch/arm/include/asm/futex.h:149:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
+   arch/arm/include/asm/futex.h:149:17: sparse:     expected void const *
+   arch/arm/include/asm/futex.h:149:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
+   arch/arm/include/asm/futex.h:152:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
+   arch/arm/include/asm/futex.h:152:17: sparse:     expected void const *
+   arch/arm/include/asm/futex.h:152:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
+   arch/arm/include/asm/futex.h:155:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
+   arch/arm/include/asm/futex.h:155:17: sparse:     expected void const *
+   arch/arm/include/asm/futex.h:155:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
+   kernel/futex.c:1658:33: sparse: sparse: context imbalance in 'futex_wake_op' - different lock contexts for basic block
+   kernel/futex.c:1949:41: sparse: sparse: context imbalance in 'futex_requeue' - different lock contexts for basic block
+   kernel/futex.c:2467:13: sparse: sparse: context imbalance in 'futex_wait_queue_me' - unexpected unlock
+   kernel/futex.c:2570:9: sparse: sparse: context imbalance in 'futex_wait_setup' - different lock contexts for basic block
+   kernel/futex.c:2859:12: sparse: sparse: context imbalance in 'futex_unlock_pi' - different lock contexts for basic block
+   kernel/futex.c:3127:29: sparse: sparse: context imbalance in 'futex_wait_requeue_pi' - unexpected unlock
+   In file included from kernel/futex.c:56:
+   include/linux/syscalls.h:211:25: warning: 'sys_set_robust_list' alias between functions of incompatible types 'long int(struct robust_list_head *, size_t)' {aka 'long int(struct robust_list_head *, unsigned int)'} and 'long int(long int,  long int)' [-Wattribute-alias=]
+     211 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       30-      |                         ^~~
+   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:197:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     197 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/futex.c:3262:1: note: in expansion of macro 'SYSCALL_DEFINE2'
+    3262 | SYSCALL_DEFINE2(set_robust_list, struct robust_list_head __user *, head,
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:215:25: note: aliased declaration here
+     215 |         asmlinkage long SyS##name(__MAP(x,__SC_LONG,__VA_ARGS__))       42-      |                         ^~~
+   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:197:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     197 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/futex.c:3262:1: note: in expansion of macro 'SYSCALL_DEFINE2'
+    3262 | SYSCALL_DEFINE2(set_robust_list, struct robust_list_head __user *, head,
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:211:25: warning: 'sys_futex' alias between functions of incompatible types 'long int(u32 *, int,  u32,  struct timespec *, u32 *, u32)' {aka 'long int(unsigned int *, int,  unsigned int,  struct timespec *, unsigned int *, unsigned int)'} and 'long int(long int,  long int,  long int,  long int,  long int,  long int)' [-Wattribute-alias=]
+     211 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       54-      |                         ^~~
+   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:201:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     201 | #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/futex.c:3519:1: note: in expansion of macro 'SYSCALL_DEFINE6'
+    3519 | SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:215:25: note: aliased declaration here
+     215 |         asmlinkage long SyS##name(__MAP(x,__SC_LONG,__VA_ARGS__))       66-      |                         ^~~
+   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:201:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     201 | #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/futex.c:3519:1: note: in expansion of macro 'SYSCALL_DEFINE6'
+    3519 | SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:211:25: warning: 'sys_get_robust_list' alias between functions of incompatible types 'long int(int,  struct robust_list_head **, size_t *)' {aka 'long int(int,  struct robust_list_head **, unsigned int *)'} and 'long int(long int,  long int,  long int)' [-Wattribute-alias=]
+     211 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       78-      |                         ^~~
+   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:198:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     198 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/futex.c:3284:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3284 | SYSCALL_DEFINE3(get_robust_list, int, pid,
+         | ^~~~~~~~~~~~~~~
+   include/linux/syscalls.h:215:25: note: aliased declaration here
+     215 |         asmlinkage long SyS##name(__MAP(x,__SC_LONG,__VA_ARGS__))       90-      |                         ^~~
+   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
+     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:198:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+     198 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
+         |                                    ^~~~~~~~~~~~~~~
+   kernel/futex.c:3284:1: note: in expansion of macro 'SYSCALL_DEFINE3'
+    3284 | SYSCALL_DEFINE3(get_robust_list, int, pid,
+         | ^~~~~~~~~~~~~~~
+   kernel/futex.c: In function 'do_futex':
+   kernel/futex.c:3489:22: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    3489 |                 val3 = FUTEX_BITSET_MATCH_ANY;
 
-vim +28 Documentation/devicetree/bindings/usb/sprd,pmic_typec.yaml
+vim +165 drivers/watchdog/ath79_wdt.c
 
-     8	
-     9	maintainers:
-    10	  - Xinhu Wu <xinhu.wu@unisoc.com>
-    11	
-    12	description:
-    13	  Supports the typec found on these PMICs.
-    14	
-    15	properties:
-    16	  compatible:
-    17	    enum:
-    18	      - sprd,sc2730-typec
-    19	
-    20	  reg:
-    21	    maxItems: 1
-    22	
-    23	  interrupts:
-    24	    maxItems: 1
-    25	
-    26	  sprd,mode:
-    27	    maxItems: 1
-  > 28	      description: the number indicates src, snk or drp.
+f8394f61c66f48 Gabor Juhos 2011-01-04  152  
+f8394f61c66f48 Gabor Juhos 2011-01-04  153  static ssize_t ath79_wdt_write(struct file *file, const char *data,
+f8394f61c66f48 Gabor Juhos 2011-01-04  154  				size_t len, loff_t *ppos)
+f8394f61c66f48 Gabor Juhos 2011-01-04  155  {
+f8394f61c66f48 Gabor Juhos 2011-01-04  156  	if (len) {
+f8394f61c66f48 Gabor Juhos 2011-01-04  157  		if (!nowayout) {
+f8394f61c66f48 Gabor Juhos 2011-01-04  158  			size_t i;
+f8394f61c66f48 Gabor Juhos 2011-01-04  159  
+f8394f61c66f48 Gabor Juhos 2011-01-04  160  			clear_bit(WDT_FLAGS_EXPECT_CLOSE, &wdt_flags);
+f8394f61c66f48 Gabor Juhos 2011-01-04  161  
+f8394f61c66f48 Gabor Juhos 2011-01-04  162  			for (i = 0; i != len; i++) {
+f8394f61c66f48 Gabor Juhos 2011-01-04  163  				char c;
+f8394f61c66f48 Gabor Juhos 2011-01-04  164  
+f8394f61c66f48 Gabor Juhos 2011-01-04 @165  				if (get_user(c, data + i))
+f8394f61c66f48 Gabor Juhos 2011-01-04  166  					return -EFAULT;
+f8394f61c66f48 Gabor Juhos 2011-01-04  167  
+f8394f61c66f48 Gabor Juhos 2011-01-04  168  				if (c == 'V')
+f8394f61c66f48 Gabor Juhos 2011-01-04  169  					set_bit(WDT_FLAGS_EXPECT_CLOSE,
+f8394f61c66f48 Gabor Juhos 2011-01-04  170  						&wdt_flags);
+f8394f61c66f48 Gabor Juhos 2011-01-04  171  			}
+f8394f61c66f48 Gabor Juhos 2011-01-04  172  		}
+f8394f61c66f48 Gabor Juhos 2011-01-04  173  
+f8394f61c66f48 Gabor Juhos 2011-01-04  174  		ath79_wdt_keepalive();
+f8394f61c66f48 Gabor Juhos 2011-01-04  175  	}
+f8394f61c66f48 Gabor Juhos 2011-01-04  176  
+f8394f61c66f48 Gabor Juhos 2011-01-04  177  	return len;
+f8394f61c66f48 Gabor Juhos 2011-01-04  178  }
+f8394f61c66f48 Gabor Juhos 2011-01-04  179  
+
+:::::: The code at line 165 was first introduced by commit
+:::::: f8394f61c66f48b1fe9d6964ddce492d7f9a4cd9 watchdog: add driver for the Atheros AR71XX/AR724X/AR913X SoCs
+
+:::::: TO: Gabor Juhos <juhosg@openwrt.org>
+:::::: CC: Wim Van Sebroeck <wim@iguana.be>
 
 -- 
 0-DAY CI Kernel Test Service
