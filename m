@@ -1,54 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B475465E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 20:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AEE53E12
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 20:58:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7WBCJWc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0Lq5hGn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702327686; x=1733863686;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5Ec3jjJ0GmZERXndcFrL3GlDV7DejKmQ2N16/Vt5A/U=;
-  b=S7WBCJWcQG7nng3nHrt7U05vW6RApu0ye+OQy92LQzSPdeo+JjnEq2KG
-   S0ATDMrRv7w9g1VG3kahRjDdxJlPx2rqEF0RiALVOEbFk009rUuoYpEWC
-   Z2+03h1PT2xTb7J/XwQ/uBbxbQa6SgnZOP/+9fpnbNaTwOkXYNX+Dvs7M
-   Kk8i/SV4xR/IPZMpHBug3B0OV27qGw3D0ZRCC5/TpDed63VWmsFwVYM2q
-   rpMSSJwcF+Sy3ubwvxjYS9cOXoUJjTqvop9LaPpvnL4JZZ6xnUUItTBv9
-   u8vugTqT6n1QaHj8OizuqDJKlaE6Ur6CGWh66OZxHoq6uYKtiVTzwON/6
+  t=1702328315; x=1733864315;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YRX5IfIuCPMAe2XSRoNnkGW/b5UjOFInMdN2RdS2jko=;
+  b=O0Lq5hGnDB8eu0ysvSiXXehBDJIGOgtGeLiJllyG64RCfj+pUyRAU3jc
+   t7PMAhoC1AR2O9PJeCumQkfWLP8ocX5CgeUWmwjfIDlAWA2NXJ82/H8gK
+   FcGCUVt4Rl8Oz5sxrbvGpkU4QgwpL54W9B/zpQoGg4HbjvLW+N4j8AxXR
+   85iPITb2yd9+H6PmKYVB9OGKKx9zNlRCMjRM84iJHOArdOPYwrotEg2NA
+   dQIGiEQPfAyon0EVx2eFIfoB32bGBSF4zVBnHW/B5rrB0Du8w5nRomhng
+   ewTL+rnLlLNjjN71GFPt7ZO9FmPuSC0oC69hJavjfrWpu7AbmFwvKW7AX
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="374215389"
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="374216627"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="374215389"
+   d="scan'208";a="374216627"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 12:48:05 -0800
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 12:58:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1104620209"
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1104623050"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="1104620209"
+   d="scan'208";a="1104623050"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Dec 2023 12:48:02 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 11 Dec 2023 12:58:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCnBd-000IT8-0Q;
-	Mon, 11 Dec 2023 20:48:00 +0000
-Date: Tue, 12 Dec 2023 04:47:27 +0800
+	id 1rCnME-000ITS-2r;
+	Mon, 11 Dec 2023 20:58:30 +0000
+Date: Tue, 12 Dec 2023 04:57:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	linux-usb@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	kernel@collabora.com
-Subject: Re: [PATCH v3] usb: gadget: webcam: Make g_webcam loadable again
-Message-ID: <202312120426.lOtrWHIw-lkp@intel.com>
-References: <20231211123819.76648-1-andrzej.p@collabora.com>
+To: Qais Yousef <qyousef@layalina.io>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [qais-yousef:uclamp-max-aggregation 7/12]
+ kernel/sched/cpufreq_schedutil.c:11:1: sparse: sparse: symbol
+ '__pcpu_scope_response_time_mult' was not declared. Should it be static?
+Message-ID: <202312120437.zEMWfNgI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,757 +50,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231211123819.76648-1-andrzej.p@collabora.com>
 
-Hi Andrzej,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 33cc938e65a98f1d29d0a18403dbbee050dcad9a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrzej-Pietrasiewicz/usb-gadget-webcam-Make-g_webcam-loadable-again/20231211-204453
-base:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-patch link:    https://lore.kernel.org/r/20231211123819.76648-1-andrzej.p%40collabora.com
-patch subject: [PATCH v3] usb: gadget: webcam: Make g_webcam loadable again
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20231212/202312120426.lOtrWHIw-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120426.lOtrWHIw-lkp@intel.com/reproduce)
+tree:   https://github.com/qais-yousef/linux uclamp-max-aggregation
+head:   4489ba9b2ba5ce1cf9caa0e13f7b3bdf14dbb83f
+commit: 3d803d07795740e3f0c18046d900f2a84b5473a3 [7/12] sched/schedutil: Add a new tunable to dictate response time
+config: x86_64-randconfig-123-20231212 (https://download.01.org/0day-ci/archive/20231212/202312120437.zEMWfNgI-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120437.zEMWfNgI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120426.lOtrWHIw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120437.zEMWfNgI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/build_utility.c: note: in included file:
+>> kernel/sched/cpufreq_schedutil.c:11:1: sparse: sparse: symbol '__pcpu_scope_response_time_mult' was not declared. Should it be static?
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/stats.c:148:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/stats.c:148:17: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/stats.c:148:17: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/topology.c:485:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct perf_domain *pd @@     got struct perf_domain [noderef] __rcu *pd @@
+   kernel/sched/topology.c:485:19: sparse:     expected struct perf_domain *pd
+   kernel/sched/topology.c:485:19: sparse:     got struct perf_domain [noderef] __rcu *pd
+   kernel/sched/topology.c:647:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:647:49: sparse:     expected struct sched_domain *parent
+   kernel/sched/topology.c:647:49: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:732:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:732:50: sparse:     expected struct sched_domain *parent
+   kernel/sched/topology.c:732:50: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:740:55: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child @@     got struct sched_domain *[assigned] tmp @@
+   kernel/sched/topology.c:740:55: sparse:     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child
+   kernel/sched/topology.c:740:55: sparse:     got struct sched_domain *[assigned] tmp
+   kernel/sched/topology.c:753:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:753:29: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/topology.c:753:29: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:758:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:758:20: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:758:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:779:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *sd @@
+   kernel/sched/topology.c:779:13: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/topology.c:779:13: sparse:     got struct sched_domain [noderef] __rcu *sd
+   kernel/sched/topology.c:941:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:941:70: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:941:70: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:970:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:970:59: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:970:59: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1016:57: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1016:57: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:1016:57: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1018:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1018:25: sparse:     expected struct sched_domain *sibling
+   kernel/sched/topology.c:1018:25: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1026:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1026:55: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:1026:55: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1028:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1028:25: sparse:     expected struct sched_domain *sibling
+   kernel/sched/topology.c:1028:25: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1098:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1098:62: sparse:     expected struct sched_domain *sd
+   kernel/sched/topology.c:1098:62: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1202:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:1202:40: sparse:     expected struct sched_domain *child
+   kernel/sched/topology.c:1202:40: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1622:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain [noderef] __rcu *child @@     got struct sched_domain *child @@
+   kernel/sched/topology.c:1622:43: sparse:     expected struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:1622:43: sparse:     got struct sched_domain *child
+   kernel/sched/topology.c:2321:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *parent @@     got struct sched_domain *sd @@
+   kernel/sched/topology.c:2321:31: sparse:     expected struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:2321:31: sparse:     got struct sched_domain *sd
+   kernel/sched/topology.c:2425:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:2425:57: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:2425:57: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:2446:56: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/topology.c:2446:56: sparse:     expected struct sched_domain *child
+   kernel/sched/topology.c:2446:56: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/topology.c:2445:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:2445:57: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:2445:57: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/topology.c:2500:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/topology.c:2500:57: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/topology.c:2500:57: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/core_sched.c:276:37: sparse: sparse: incompatible types in conditional expression (different address spaces):
+   kernel/sched/core_sched.c:276:37: sparse:    struct task_struct *
+   kernel/sched/core_sched.c:276:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/build_utility.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/sched.h:1846:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/sched.h:1846:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/sched.h:1846:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/sched.h:1867:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/sched.h:1867:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/sched.h:1867:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/sched.h:1867:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/sched.h:1867:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/sched.h:1867:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/sched.h:1846:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/sched.h:1846:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/sched.h:1846:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/sched.h:1867:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/sched.h:1867:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/sched.h:1867:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/build_utility.c: note: in included file:
+   kernel/sched/topology.c:741:39: sparse: sparse: dereference of noderef expression
+   kernel/sched/topology.c:971:31: sparse: sparse: dereference of noderef expression
+   kernel/sched/topology.c:1643:19: sparse: sparse: dereference of noderef expression
+   kernel/sched/topology.c:2483:51: sparse: sparse: dereference of noderef expression
+   kernel/sched/topology.c:2484:49: sparse: sparse: dereference of noderef expression
+   kernel/sched/topology.c:2486:52: sparse: sparse: dereference of noderef expression
 
-   In file included from include/linux/swab.h:5,
-                    from include/uapi/linux/byteorder/big_endian.h:14,
-                    from include/linux/byteorder/big_endian.h:5,
-                    from arch/arc/include/uapi/asm/byteorder.h:14,
-                    from include/asm-generic/bitops/le.h:6,
-                    from arch/arc/include/asm/bitops.h:192,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from drivers/usb/gadget/legacy/webcam.c:9:
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:222:15: note: in expansion of macro 'le32_to_cpu'
-     222 |         [0] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[0]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_360p_dw_frame_interval[0]')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:222:15: note: in expansion of macro 'le32_to_cpu'
-     222 |         [0] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[0]),
-         |               ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:223:15: note: in expansion of macro 'le32_to_cpu'
-     223 |         [1] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[1]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_360p_dw_frame_interval[1]')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:223:15: note: in expansion of macro 'le32_to_cpu'
-     223 |         [1] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[1]),
-         |               ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:224:15: note: in expansion of macro 'le32_to_cpu'
-     224 |         [2] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[2]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_360p_dw_frame_interval[2]')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:224:15: note: in expansion of macro 'le32_to_cpu'
-     224 |         [2] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[2]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: error: initializer element is not constant
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:235:51: note: in expansion of macro 'le16_to_cpu'
-     235 |                 .w_width                        = le16_to_cpu(uvc_frame_yuv_360p.wWidth),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: note: (near initialization for 'uvcg_frame_yuv_360p.frame.w_width')
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:235:51: note: in expansion of macro 'le16_to_cpu'
-     235 |                 .w_width                        = le16_to_cpu(uvc_frame_yuv_360p.wWidth),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: error: initializer element is not constant
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:236:51: note: in expansion of macro 'le16_to_cpu'
-     236 |                 .w_height                       = le16_to_cpu(uvc_frame_yuv_360p.wHeight),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: note: (near initialization for 'uvcg_frame_yuv_360p.frame.w_height')
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:236:51: note: in expansion of macro 'le16_to_cpu'
-     236 |                 .w_height                       = le16_to_cpu(uvc_frame_yuv_360p.wHeight),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:237:51: note: in expansion of macro 'le32_to_cpu'
-     237 |                 .dw_min_bit_rate                = le32_to_cpu(uvc_frame_yuv_360p.dwMinBitRate),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_min_bit_rate')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:237:51: note: in expansion of macro 'le32_to_cpu'
-     237 |                 .dw_min_bit_rate                = le32_to_cpu(uvc_frame_yuv_360p.dwMinBitRate),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:238:51: note: in expansion of macro 'le32_to_cpu'
-     238 |                 .dw_max_bit_rate                = le32_to_cpu(uvc_frame_yuv_360p.dwMaxBitRate),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_max_bit_rate')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:238:51: note: in expansion of macro 'le32_to_cpu'
-     238 |                 .dw_max_bit_rate                = le32_to_cpu(uvc_frame_yuv_360p.dwMaxBitRate),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:239:51: note: in expansion of macro 'le32_to_cpu'
-     239 |                 .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_yuv_360p.dwMaxVideoFrameBufferSize),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_max_video_frame_buffer_size')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:239:51: note: in expansion of macro 'le32_to_cpu'
-     239 |                 .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_yuv_360p.dwMaxVideoFrameBufferSize),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:240:51: note: in expansion of macro 'le32_to_cpu'
-     240 |                 .dw_default_frame_interval      = le32_to_cpu(uvc_frame_yuv_360p.dwDefaultFrameInterval),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_default_frame_interval')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:240:51: note: in expansion of macro 'le32_to_cpu'
-     240 |                 .dw_default_frame_interval      = le32_to_cpu(uvc_frame_yuv_360p.dwDefaultFrameInterval),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:267:15: note: in expansion of macro 'le32_to_cpu'
-     267 |         [0] = le32_to_cpu(uvc_frame_yuv_720p.dwFrameInterval[0]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_720p_dw_frame_interval[0]')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:267:15: note: in expansion of macro 'le32_to_cpu'
-     267 |         [0] = le32_to_cpu(uvc_frame_yuv_720p.dwFrameInterval[0]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: error: initializer element is not constant
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:278:51: note: in expansion of macro 'le16_to_cpu'
-     278 |                 .w_width                        = le16_to_cpu(uvc_frame_yuv_720p.wWidth),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: note: (near initialization for 'uvcg_frame_yuv_720p.frame.w_width')
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:278:51: note: in expansion of macro 'le16_to_cpu'
-     278 |                 .w_width                        = le16_to_cpu(uvc_frame_yuv_720p.wWidth),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: error: initializer element is not constant
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:279:51: note: in expansion of macro 'le16_to_cpu'
-     279 |                 .w_height                       = le16_to_cpu(uvc_frame_yuv_720p.wHeight),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: note: (near initialization for 'uvcg_frame_yuv_720p.frame.w_height')
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:279:51: note: in expansion of macro 'le16_to_cpu'
-     279 |                 .w_height                       = le16_to_cpu(uvc_frame_yuv_720p.wHeight),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:280:51: note: in expansion of macro 'le32_to_cpu'
-     280 |                 .dw_min_bit_rate                = le32_to_cpu(uvc_frame_yuv_720p.dwMinBitRate),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_min_bit_rate')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:280:51: note: in expansion of macro 'le32_to_cpu'
-     280 |                 .dw_min_bit_rate                = le32_to_cpu(uvc_frame_yuv_720p.dwMinBitRate),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:281:51: note: in expansion of macro 'le32_to_cpu'
-     281 |                 .dw_max_bit_rate                = le32_to_cpu(uvc_frame_yuv_720p.dwMaxBitRate),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_max_bit_rate')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:281:51: note: in expansion of macro 'le32_to_cpu'
-     281 |                 .dw_max_bit_rate                = le32_to_cpu(uvc_frame_yuv_720p.dwMaxBitRate),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:282:51: note: in expansion of macro 'le32_to_cpu'
-     282 |                 .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_yuv_720p.dwMaxVideoFrameBufferSize),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_max_video_frame_buffer_size')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:282:51: note: in expansion of macro 'le32_to_cpu'
-     282 |                 .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_yuv_720p.dwMaxVideoFrameBufferSize),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:283:51: note: in expansion of macro 'le32_to_cpu'
-     283 |                 .dw_default_frame_interval      = le32_to_cpu(uvc_frame_yuv_720p.dwDefaultFrameInterval),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_default_frame_interval')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:283:51: note: in expansion of macro 'le32_to_cpu'
-     283 |                 .dw_default_frame_interval      = le32_to_cpu(uvc_frame_yuv_720p.dwDefaultFrameInterval),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:340:15: note: in expansion of macro 'le32_to_cpu'
-     340 |         [0] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[0]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_mjpeg_360p_dw_frame_interval[0]')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:340:15: note: in expansion of macro 'le32_to_cpu'
-     340 |         [0] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[0]),
-         |               ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:341:15: note: in expansion of macro 'le32_to_cpu'
-     341 |         [1] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[1]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_mjpeg_360p_dw_frame_interval[1]')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:341:15: note: in expansion of macro 'le32_to_cpu'
-     341 |         [1] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[1]),
-         |               ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:342:15: note: in expansion of macro 'le32_to_cpu'
-     342 |         [2] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[2]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_mjpeg_360p_dw_frame_interval[2]')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:342:15: note: in expansion of macro 'le32_to_cpu'
-     342 |         [2] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[2]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: error: initializer element is not constant
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:353:51: note: in expansion of macro 'le16_to_cpu'
-     353 |                 .w_width                        = le16_to_cpu(uvc_frame_mjpg_360p.wWidth),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.w_width')
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:353:51: note: in expansion of macro 'le16_to_cpu'
-     353 |                 .w_width                        = le16_to_cpu(uvc_frame_mjpg_360p.wWidth),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: error: initializer element is not constant
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:354:51: note: in expansion of macro 'le16_to_cpu'
-     354 |                 .w_height                       = le16_to_cpu(uvc_frame_mjpg_360p.wHeight),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.w_height')
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:354:51: note: in expansion of macro 'le16_to_cpu'
-     354 |                 .w_height                       = le16_to_cpu(uvc_frame_mjpg_360p.wHeight),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:355:51: note: in expansion of macro 'le32_to_cpu'
-     355 |                 .dw_min_bit_rate                = le32_to_cpu(uvc_frame_mjpg_360p.dwMinBitRate),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.dw_min_bit_rate')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:355:51: note: in expansion of macro 'le32_to_cpu'
-     355 |                 .dw_min_bit_rate                = le32_to_cpu(uvc_frame_mjpg_360p.dwMinBitRate),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:356:51: note: in expansion of macro 'le32_to_cpu'
-     356 |                 .dw_max_bit_rate                = le32_to_cpu(uvc_frame_mjpg_360p.dwMaxBitRate),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.dw_max_bit_rate')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:356:51: note: in expansion of macro 'le32_to_cpu'
-     356 |                 .dw_max_bit_rate                = le32_to_cpu(uvc_frame_mjpg_360p.dwMaxBitRate),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:357:51: note: in expansion of macro 'le32_to_cpu'
-     357 |                 .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_mjpg_360p.dwMaxVideoFrameBufferSize),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.dw_max_video_frame_buffer_size')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:357:51: note: in expansion of macro 'le32_to_cpu'
-     357 |                 .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_mjpg_360p.dwMaxVideoFrameBufferSize),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:358:51: note: in expansion of macro 'le32_to_cpu'
-     358 |                 .dw_default_frame_interval      = le32_to_cpu(uvc_frame_mjpg_360p.dwDefaultFrameInterval),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.dw_default_frame_interval')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:358:51: note: in expansion of macro 'le32_to_cpu'
-     358 |                 .dw_default_frame_interval      = le32_to_cpu(uvc_frame_mjpg_360p.dwDefaultFrameInterval),
-         |                                                   ^~~~~~~~~~~
->> include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:385:15: note: in expansion of macro 'le32_to_cpu'
-     385 |         [0] = le32_to_cpu(uvc_frame_mjpg_720p.dwFrameInterval[0]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_mjpeg_720p_dw_frame_interval[0]')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:385:15: note: in expansion of macro 'le32_to_cpu'
-     385 |         [0] = le32_to_cpu(uvc_frame_mjpg_720p.dwFrameInterval[0]),
-         |               ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: error: initializer element is not constant
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:396:51: note: in expansion of macro 'le16_to_cpu'
-     396 |                 .w_width                        = le16_to_cpu(uvc_frame_mjpg_720p.wWidth),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.w_width')
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:396:51: note: in expansion of macro 'le16_to_cpu'
-     396 |                 .w_width                        = le16_to_cpu(uvc_frame_mjpg_720p.wWidth),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: error: initializer element is not constant
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:397:51: note: in expansion of macro 'le16_to_cpu'
-     397 |                 .w_height                       = le16_to_cpu(uvc_frame_mjpg_720p.wHeight),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:105:9: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.w_height')
-     105 |         (__u16)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:37:26: note: in expansion of macro '__swab16'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-      91 | #define le16_to_cpu __le16_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:397:51: note: in expansion of macro 'le16_to_cpu'
-     397 |                 .w_height                       = le16_to_cpu(uvc_frame_mjpg_720p.wHeight),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:398:51: note: in expansion of macro 'le32_to_cpu'
-     398 |                 .dw_min_bit_rate                = le32_to_cpu(uvc_frame_mjpg_720p.dwMinBitRate),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.dw_min_bit_rate')
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                          ^~~~~~~~
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/webcam.c:398:51: note: in expansion of macro 'le32_to_cpu'
-     398 |                 .dw_min_bit_rate                = le32_to_cpu(uvc_frame_mjpg_720p.dwMinBitRate),
-         |                                                   ^~~~~~~~~~~
-   include/uapi/linux/swab.h:118:9: error: initializer element is not constant
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |         ^
-   include/uapi/linux/byteorder/big_endian.h:35:26: note: in expansion of macro '__swab32'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+vim +/__pcpu_scope_response_time_mult +11 kernel/sched/cpufreq_schedutil.c
 
-
-vim +118 include/uapi/linux/swab.h
-
-607ca46e97a1b6 David Howells 2012-10-13  109  
-607ca46e97a1b6 David Howells 2012-10-13  110  /**
-607ca46e97a1b6 David Howells 2012-10-13  111   * __swab32 - return a byteswapped 32-bit value
-607ca46e97a1b6 David Howells 2012-10-13  112   * @x: value to byteswap
-607ca46e97a1b6 David Howells 2012-10-13  113   */
-7322dd755e7dd3 Arnd Bergmann 2016-05-05  114  #ifdef __HAVE_BUILTIN_BSWAP32__
-7322dd755e7dd3 Arnd Bergmann 2016-05-05  115  #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-7322dd755e7dd3 Arnd Bergmann 2016-05-05  116  #else
-607ca46e97a1b6 David Howells 2012-10-13  117  #define __swab32(x)				\
-d30dfd490f7dc4 Justin Stitt  2022-06-08 @118  	(__u32)(__builtin_constant_p(x) ?	\
-607ca46e97a1b6 David Howells 2012-10-13  119  	___constant_swab32(x) :			\
-607ca46e97a1b6 David Howells 2012-10-13  120  	__fswab32(x))
-7322dd755e7dd3 Arnd Bergmann 2016-05-05  121  #endif
-607ca46e97a1b6 David Howells 2012-10-13  122  
+    10	
+  > 11	DEFINE_PER_CPU_READ_MOSTLY(unsigned long, response_time_mult);
+    12	
 
 -- 
 0-DAY CI Kernel Test Service
