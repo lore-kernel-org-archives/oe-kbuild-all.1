@@ -1,48 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B2653819
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 20:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C90C4C3BE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 20:17:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+yd35+h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c71zrDUq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702325245; x=1733861245;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eV6ALv9dJ4aLcyW2f7YpkBkOH9jP5pA35o2amRmGxg8=;
-  b=k+yd35+hujoxuxxCj4QnfklcMfVIUjoJc19v8bNWS3jwexdKONYFFoxG
-   qViNqJ3J81tXZxYJeLMFF/WSpZSwNxvC1oeXU9Nrny3+4mc/eqdj/AuEp
-   V7zU0YWSONmiLPkLNBR3k4HWP5t7G5XB84/S+MgNDbx/tV8syNuSo0ohF
-   Iy/rtS386/jraDAZ92CUKv1V6uwTvFmw6IMHMRdsL7LVFXP0zdkFQ4tHk
-   d2HItuUE1dsfG3mg4CQf6RG+DBPwaCs+dBg30xlGHW0o1VfVTWME1nQUx
-   AuQqUHQhYULOrdxQ0gnQFZeTwZFT4yfea2qkGW8hlTzaJA4D/baiiumAa
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="13397887"
+  t=1702325871; x=1733861871;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lifVkN0Anjy9swzdNdFNqAoI7xT5sDXmb3KqliJOUpI=;
+  b=c71zrDUqh3A6/5/vZPH32im7RYQxmsO3VqGERH25yiW8inXojITDpbs1
+   V4Njs5pZCcOXDUAe9GwPZnfKkjGmy215n09fMbAzU+/kpdFs//FTpKnnp
+   Xk5k+louLsqlYfAZgy8eHfGZKID4rPXNrwIo3JpwCZhROBcttZxhcFoGi
+   I5GEvOi/LHwna7FI1Oh3VAT9+D0yAKhxhUdDqpESFfOu1dN/1LZ9u8Q/c
+   HQXndyNp/7ZNnfOzBaa9sbb1B9+Dn2RSv6IQviKKhQsI/1Fo5aWqssRUK
+   AC4+ZOj1ieBnEGeeqgh/ktllSEZirjtCvVp49N6Qh5vVY5pLObvrHAotm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="391875066"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="13397887"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 12:07:22 -0800
+   d="scan'208";a="391875066"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 12:17:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1104605231"
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="863927876"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="1104605231"
+   d="scan'208";a="863927876"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Dec 2023 12:07:19 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Dec 2023 12:17:26 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCmYf-000IRf-1D;
-	Mon, 11 Dec 2023 20:07:17 +0000
-Date: Tue, 12 Dec 2023 04:06:29 +0800
+	id 1rCmiL-000IRy-1z;
+	Mon, 11 Dec 2023 20:17:23 +0000
+Date: Tue, 12 Dec 2023 04:16:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	Luca Abeni <luca.abeni@santannapisa.it>
-Subject: drivers/video/fbdev/ffb.c:938:27: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202312120413.oh2xnDJm-lkp@intel.com>
+To: Romain Gantois <romain.gantois@bootlin.com>, davem@davemloft.net,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Luka Perkov <luka.perkov@sartura.hr>,
+	Robert Marko <robert.marko@sartura.hr>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>
+Subject: Re: [PATCH net-next v3 5/8] net: qualcomm: ipqess: add bridge
+ offloading features to the IPQESS driver
+Message-ID: <202312120428.xmRLjyHQ-lkp@intel.com>
+References: <20231114105600.1012056-6-romain.gantois@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,187 +69,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231114105600.1012056-6-romain.gantois@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-commit: aa5222e92f8000ed3c1c38dddf11c83222aadfb3 sched/deadline: Don't use dubious signed bitfields
-date:   6 years ago
-config: sparc-randconfig-r122-20231116 (https://download.01.org/0day-ci/archive/20231212/202312120413.oh2xnDJm-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120413.oh2xnDJm-lkp@intel.com/reproduce)
+Hi Romain,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-net-Introduce-the-Qualcomm-IPQESS-Ethernet-switch/20231114-185953
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231114105600.1012056-6-romain.gantois%40bootlin.com
+patch subject: [PATCH net-next v3 5/8] net: qualcomm: ipqess: add bridge offloading features to the IPQESS driver
+config: arc-randconfig-r112-20231116 (https://download.01.org/0day-ci/archive/20231212/202312120428.xmRLjyHQ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120428.xmRLjyHQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120413.oh2xnDJm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120428.xmRLjyHQ-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/ffb.c:938:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got char * @@
-   drivers/video/fbdev/ffb.c:938:27: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/ffb.c:938:27: sparse:     got char *
-   In file included from include/linux/workqueue.h:9,
-                    from include/linux/srcu.h:34,
-                    from include/linux/notifier.h:16,
-                    from include/linux/memory_hotplug.h:7,
-                    from include/linux/mmzone.h:780,
-                    from include/linux/gfp.h:6,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:22,
-                    from include/linux/module.h:13,
-                    from drivers/video/fbdev/ffb.c:9:
-   include/linux/timer.h: In function 'timer_setup':
-   include/linux/timer.h:159:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
-     159 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
-         |                              ^
-   include/linux/timer.h:126:39: note: in definition of macro '__setup_timer'
-     126 |                 (_timer)->function = (_fn);                             20-      |                                       ^~~
-   include/linux/timer.h: In function 'timer_setup_on_stack':
-   include/linux/timer.h:167:39: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
-     167 |         __setup_timer_on_stack(timer, (TIMER_FUNC_TYPE)callback,
-         |                                       ^
-   include/linux/timer.h:133:39: note: in definition of macro '__setup_timer_on_stack'
-     133 |                 (_timer)->function = (_fn);                             27-      |                                       ^~~
-   drivers/video/fbdev/ffb.c:673: warning: Function parameter or member 'blank' not described in 'ffb_blank'
-   drivers/video/fbdev/ffb.c:673: warning: Excess function parameter 'blank_mode' description in 'ffb_blank'
+>> drivers/net/dsa/qca/qca8k-8xxx.c:1982:5: sparse: sparse: symbol 'qca8k_dsa_port_fdb_dump' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:1988:6: sparse: sparse: symbol 'qca8k_dsa_port_stp_state_set' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:1995:6: sparse: sparse: symbol 'qca8k_dsa_port_fast_age' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2000:5: sparse: sparse: symbol 'qca8k_dsa_set_ageing_time' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2005:5: sparse: sparse: symbol 'qca8k_dsa_port_vlan_filtering' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2012:5: sparse: sparse: symbol 'qca8k_dsa_vlan_add' was not declared. Should it be static?
 
-vim +938 drivers/video/fbdev/ffb.c
+vim +/qca8k_dsa_port_fdb_dump +1982 drivers/net/dsa/qca/qca8k-8xxx.c
 
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   895  
-48c68c4f1b5424 drivers/video/ffb.c       Greg Kroah-Hartman 2012-12-21   896  static int ffb_probe(struct platform_device *op)
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   897  {
-61c7a080a5a061 drivers/video/ffb.c       Grant Likely       2010-04-13   898  	struct device_node *dp = op->dev.of_node;
-50312ce9dd794e drivers/video/ffb.c       David S. Miller    2006-06-29   899  	struct ffb_fbc __iomem *fbc;
-50312ce9dd794e drivers/video/ffb.c       David S. Miller    2006-06-29   900  	struct ffb_dac __iomem *dac;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   901  	struct fb_info *info;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   902  	struct ffb_par *par;
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   903  	u32 dac_pnum, dac_rev, dac_mrev;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   904  	int err;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   905  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   906  	info = framebuffer_alloc(sizeof(struct ffb_par), &op->dev);
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   907  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   908  	err = -ENOMEM;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   909  	if (!info)
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   910  		goto out_err;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   911  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   912  	par = info->par;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   913  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   914  	spin_lock_init(&par->lock);
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   915  	par->fbc = of_ioremap(&op->resource[2], 0,
-50312ce9dd794e drivers/video/ffb.c       David S. Miller    2006-06-29   916  			      sizeof(struct ffb_fbc), "ffb fbc");
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   917  	if (!par->fbc)
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   918  		goto out_release_fb;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   919  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   920  	par->dac = of_ioremap(&op->resource[1], 0,
-50312ce9dd794e drivers/video/ffb.c       David S. Miller    2006-06-29   921  			      sizeof(struct ffb_dac), "ffb dac");
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   922  	if (!par->dac)
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   923  		goto out_unmap_fbc;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   924  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   925  	par->rop_cache = FFB_ROP_NEW;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   926  	par->physbase = op->resource[0].start;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   927  
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   928  	/* Don't mention copyarea, so SCROLL_REDRAW is always
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   929  	 * used.  It is the fastest on this chip.
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   930  	 */
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   931  	info->flags = (FBINFO_DEFAULT |
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   932  		       /* FBINFO_HWACCEL_COPYAREA | */
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   933  		       FBINFO_HWACCEL_FILLRECT |
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   934  		       FBINFO_HWACCEL_IMAGEBLIT);
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   935  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   936  	info->fbops = &ffb_ops;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   937  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  @938  	info->screen_base = (char *) par->physbase + FFB_DFB24_POFF;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   939  	info->pseudo_palette = par->pseudo_palette;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   940  
-6cd5a86b56ec8f drivers/video/ffb.c       Robert Reif        2008-05-08   941  	sbusfb_fill_var(&info->var, dp, 32);
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   942  	par->fbsize = PAGE_ALIGN(info->var.xres * info->var.yres * 4);
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   943  	ffb_fixup_var_rgb(&info->var);
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   944  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   945  	info->var.accel_flags = FB_ACCELF_TEXT;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   946  
-50312ce9dd794e drivers/video/ffb.c       David S. Miller    2006-06-29   947  	if (!strcmp(dp->name, "SUNW,afb"))
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   948  		par->flags |= FFB_FLAG_AFB;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   949  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   950  	par->board_type = of_getintprop_default(dp, "board_type", 0);
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   951  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   952  	fbc = par->fbc;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   953  	if ((upa_readl(&fbc->ucsr) & FFB_UCSR_ALL_ERRORS) != 0)
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   954  		upa_writel(FFB_UCSR_ALL_ERRORS, &fbc->ucsr);
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   955  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   956  	dac = par->dac;
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   957  	upa_writel(FFB_DAC_DID, &dac->type);
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   958  	dac_pnum = upa_readl(&dac->value);
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   959  	dac_rev = (dac_pnum & FFB_DAC_DID_REV) >> FFB_DAC_DID_REV_SHIFT;
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   960  	dac_pnum = (dac_pnum & FFB_DAC_DID_PNUM) >> FFB_DAC_DID_PNUM_SHIFT;
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   961  
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   962  	upa_writel(FFB_DAC_UCTRL, &dac->type);
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   963  	dac_mrev = upa_readl(&dac->value);
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   964  	dac_mrev = (dac_mrev & FFB_DAC_UCTRL_MANREV) >>
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   965  		FFB_DAC_UCTRL_MANREV_SHIFT;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   966  
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   967  	/* Elite3D has different DAC revision numbering, and no DAC revisions
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   968  	 * have the reversed meaning of cursor enable.  Otherwise, Pacifica 1
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   969  	 * ramdacs with manufacturing revision less than 3 have inverted
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   970  	 * cursor logic.  We identify Pacifica 1 as not Pacifica 2, the
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   971  	 * latter having a part number value of 0x236e.
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   972  	 */
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   973  	if ((par->flags & FFB_FLAG_AFB) || dac_pnum == 0x236e) {
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   974  		par->flags &= ~FFB_FLAG_INVCURSOR;
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   975  	} else {
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   976  		if (dac_mrev < 3)
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   977  			par->flags |= FFB_FLAG_INVCURSOR;
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   978  	}
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26   979  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   980  	ffb_switch_from_graph(par);
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   981  
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   982  	/* Unblank it just to be sure.  When there are multiple
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   983  	 * FFB/AFB cards in the system, or it is not the OBP
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   984  	 * chosen console, it will have video outputs off in
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   985  	 * the DAC.
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   986  	 */
-59f7137a1369c2 drivers/video/ffb.c       Robert Reif        2008-05-03   987  	ffb_blank(FB_BLANK_UNBLANK, info);
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   988  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   989  	if (fb_alloc_cmap(&info->cmap, 256, 0))
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   990  		goto out_unmap_dac;
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   991  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   992  	ffb_init_fix(info);
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   993  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   994  	err = register_framebuffer(info);
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   995  	if (err < 0)
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   996  		goto out_dealloc_cmap;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   997  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27   998  	dev_set_drvdata(&op->dev, info);
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16   999  
-6d7e653300e30f drivers/video/fbdev/ffb.c Rob Herring        2017-08-07  1000  	printk(KERN_INFO "%pOF: %s at %016lx, type %d, "
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26  1001  	       "DAC pnum[%x] rev[%d] manuf_rev[%d]\n",
-6d7e653300e30f drivers/video/fbdev/ffb.c Rob Herring        2017-08-07  1002  	       dp,
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1003  	       ((par->flags & FFB_FLAG_AFB) ? "AFB" : "FFB"),
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1004  	       par->physbase, par->board_type,
-37db9a348ad425 drivers/video/ffb.c       David S. Miller    2007-03-26  1005  	       dac_pnum, dac_rev, dac_mrev);
-50312ce9dd794e drivers/video/ffb.c       David S. Miller    2006-06-29  1006  
-50312ce9dd794e drivers/video/ffb.c       David S. Miller    2006-06-29  1007  	return 0;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16  1008  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1009  out_dealloc_cmap:
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1010  	fb_dealloc_cmap(&info->cmap);
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1011  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1012  out_unmap_dac:
-7b0e278519eba8 drivers/video/ffb.c       Axel Lin           2011-02-08  1013  	of_iounmap(&op->resource[1], par->dac, sizeof(struct ffb_dac));
-50312ce9dd794e drivers/video/ffb.c       David S. Miller    2006-06-29  1014  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1015  out_unmap_fbc:
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1016  	of_iounmap(&op->resource[2], par->fbc, sizeof(struct ffb_fbc));
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1017  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1018  out_release_fb:
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1019  	framebuffer_release(info);
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1020  
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1021  out_err:
-c7f439b99efbea drivers/video/ffb.c       David S. Miller    2007-07-27  1022  	return err;
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16  1023  }
-^1da177e4c3f41 drivers/video/ffb.c       Linus Torvalds     2005-04-16  1024  
-
-:::::: The code at line 938 was first introduced by commit
-:::::: c7f439b99efbea74c70a5531f92566db5a6731f2 [VIDEO]: Fix OOPS in all SBUS framebuffer drivers.
-
-:::::: TO: David S. Miller <davem@sunset.davemloft.net>
-:::::: CC: David S. Miller <davem@sunset.davemloft.net>
+  1981	
+> 1982	int qca8k_dsa_port_fdb_dump(struct dsa_switch *ds, int port,
+  1983				    dsa_fdb_dump_cb_t *cb, void *data)
+  1984	{
+  1985		return qca8k_port_fdb_dump(ds->priv, port, cb, data);
+  1986	}
+  1987	
+> 1988	void qca8k_dsa_port_stp_state_set(struct dsa_switch *ds, int port,
+  1989					  u8 state)
+  1990	{
+  1991		qca8k_port_stp_state_set(ds->priv, port, state,
+  1992					 dsa_to_port(ds, port)->learning, true);
+  1993	}
+  1994	
+> 1995	void qca8k_dsa_port_fast_age(struct dsa_switch *ds, int port)
+  1996	{
+  1997		qca8k_port_fast_age(ds->priv, port);
+  1998	}
+  1999	
+> 2000	int qca8k_dsa_set_ageing_time(struct dsa_switch *ds, unsigned int msecs)
+  2001	{
+  2002		return qca8k_set_ageing_time(ds->priv, msecs);
+  2003	}
+  2004	
+> 2005	int qca8k_dsa_port_vlan_filtering(struct dsa_switch *ds, int port,
+  2006					  bool vlan_filtering,
+  2007					  struct netlink_ext_ack *extack)
+  2008	{
+  2009		return qca8k_port_vlan_filtering(ds->priv, port, vlan_filtering);
+  2010	}
+  2011	
+> 2012	int qca8k_dsa_vlan_add(struct dsa_switch *ds, int port,
+  2013			       const struct switchdev_obj_port_vlan *vlan,
+  2014			       struct netlink_ext_ack *extack)
+  2015	{
+  2016		return qca8k_port_vlan_add(ds->priv, port, vlan, extack);
+  2017	}
+  2018	
 
 -- 
 0-DAY CI Kernel Test Service
