@@ -1,302 +1,274 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4C753E12
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 20:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E2F2137B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 21:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PFTyG+FE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702328322; x=1733864322;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mF4fiCAwampEEOH/9adU+46tNH0329HW5vM9Wh1+FxM=;
-  b=PFTyG+FE8EGoxGZ+yw9LoPg5/baNgupZ/INPZpwg8ORs5rtv8BCuM78+
-   KKmlJg+yxAiYxpBixqaAgURjvjlRqnvfNX0oHygW8Zpjnmj5k0Qn7r5+j
-   XWPqSas1RRCapO9bJH+QLWQb9pbm3Eh+ATEPa/EQ4KIlx58IjzpF7/OpX
-   jaSDg9ykNjh7iEZA+mhoGAZ/Kwm9d1PXIcFGtKdf3t3WXEHaA81rsJSDV
-   kGZH8dzOE6ISsHN/KNslEmYQfxehifbpDkJ4RfoaTrwdoL2ZFcR51oJEp
-   Kxee6laW7kZVk87gFc2kSLNYU8+25jK7EfWc5/xG9uEbUYQ3ecTw/MmvY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="459019513"
-X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="459019513"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 12:58:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="863942331"
-X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="863942331"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 Dec 2023 12:58:33 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rCnME-000ITQ-2J;
-	Mon, 11 Dec 2023 20:58:30 +0000
-Date: Tue, 12 Dec 2023 04:57:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sabrina Dubroca <sd@queasysnail.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Steffen Klassert <steffen.klassert@secunet.com>
-Subject: net/xfrm/xfrm_state.c:2695:31: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202312120417.mReeFqvn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nByBboe4"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3333fbbeab9so4447802f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 13:36:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702330597; x=1702935397; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/Vppo7NU6Ebv3ckyFDeCWLvuP+8JGYLLMsJt0+DiFg4=;
+        b=nByBboe46dS040G42BDnpVRQxQfa/cVVc9mBlRUaGLbb0rc+Gijum9wp5V7AsZ8omd
+         uZ+Cp24YuFZeryrzp9E6/TNnpeGsBk9kMCKOLOwo9TO8Z+TmV93PIiIs77ddjqUHi4Xh
+         qm3UmpoufB0ZniSBELurnIcvmibYJjSEG540vLfI5lHWeGRrGAfvQHNGBCqaBjoO8k3R
+         3b1azflqkUaK88Zqm7MnWBssDAtE4uWk0iRXh0xgJbhlQ0LHwqZcaRNCtQIi4CoJstlz
+         KmdPMUHiGMO3yhMo+llflwskszwSZonyPnojfQP6q7XNt/9ZbfJ9T/OXqcJj4vV8QWCz
+         HGiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702330597; x=1702935397;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/Vppo7NU6Ebv3ckyFDeCWLvuP+8JGYLLMsJt0+DiFg4=;
+        b=rQHnqjpzGlahc/EoZRTawAdHdZb3UYawu3vNyRPon+NHJPii435gitQxZ3N6qEmFH3
+         4w7saE9tNiCfHaiskAtadyM6Z5yUX+t+cLoB2SA+37w3jDESBZxF2QWDXeuWK8BxNu8o
+         mldb7LU0EpcJS0jW445wgCdGf23s6Ui1h6L6kocitMQOrxnjebQTqO66C2937JmG4jz8
+         VZS2OIUE+A7J3nFJC5QxpMRiwg95RF6lPtDqZ6VaNocFr1fyximzt7oqM6GS01FXhHI7
+         2ffM9o0mlX9+ElQa4N2ibVWH3AZK7JeF5e4Y4aXJDpCLWUAzlsadf5R16KQ1zKL2xJgB
+         S30g==
+X-Gm-Message-State: AOJu0YwIDgoMk5iealBU0BVmJ0s8erRp1fjWI4i0/jT+cVD/aeY04saq
+	Z47QDlRavqlKdZS7nRcUI7h8L1spkQ1+gQnA8Ozq5w==
+X-Google-Smtp-Source: AGHT+IFUuTHQMfY1vC2ANr/q6GuCdL0vi+i/MuA/El7BUOtHVuk8oqmOKJ1YMKuhUCkiYpQTE6InNJ0NS0A8ml7jGCo=
+X-Received: by 2002:a5d:510e:0:b0:333:55da:62b4 with SMTP id
+ s14-20020a5d510e000000b0033355da62b4mr2424433wrt.111.1702330596929; Mon, 11
+ Dec 2023 13:36:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202312120116.CP1IYKWT-lkp@intel.com>
+In-Reply-To: <202312120116.CP1IYKWT-lkp@intel.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Mon, 11 Dec 2023 13:36:22 -0800
+Message-ID: <CAKwvOdk-f2CzzeKjEWyBi9MNM4spo9o90J_rsqtdNBy15GZ+Qw@mail.gmail.com>
+Subject: Re: arch/mips/include/asm/mipsregs.h:2791:3: error: instruction
+ requires a CPU feature not currently enabled
+To: llvm@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-commit: fe9f1d8779cb47046e76ea209b6eece7ec56d1b4 xfrm: add state hashtable keyed by seq
-date:   2 years, 7 months ago
-config: openrisc-randconfig-r133-20231130 (https://download.01.org/0day-ci/archive/20231212/202312120417.mReeFqvn-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120417.mReeFqvn-lkp@intel.com/reproduce)
+On Mon, Dec 11, 2023 at 9:48=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Nick,
+>
+> FYI, the error/warning still remains.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+> commit: f12b034afeb3a977bbb1c6584dedc0f3dc666f14 scripts/Makefile.clang: =
+default to LLVM_IAS=3D1
+> date:   2 years, 4 months ago
+> config: mips-malta_kvm_defconfig (https://download.01.org/0day-ci/archive=
+/20231212/202312120116.CP1IYKWT-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
+ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20231212/202312120116.CP1IYKWT-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312120116.CP1IYKWT-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from arch/mips/kvm/tlb.c:13:
+>    In file included from include/linux/sched.h:12:
+>    In file included from ./arch/mips/include/generated/asm/current.h:1:
+>    In file included from include/asm-generic/current.h:5:
+>    In file included from include/linux/thread_info.h:14:
+>    In file included from include/linux/restart_block.h:10:
+>    In file included from include/linux/time64.h:5:
+>    In file included from include/linux/math64.h:6:
+>    In file included from include/linux/math.h:5:
+>    In file included from arch/mips/include/asm/div64.h:89:
+>    In file included from include/asm-generic/div64.h:55:
+>    In file included from include/linux/log2.h:12:
+>    In file included from include/linux/bitops.h:32:
+>    In file included from arch/mips/include/asm/bitops.h:19:
+>    In file included from arch/mips/include/asm/barrier.h:11:
+>    In file included from arch/mips/include/asm/addrspace.h:13:
+>    In file included from arch/mips/include/asm/mach-malta/spaces.h:44:
+>    In file included from arch/mips/include/asm/mach-generic/spaces.h:15:
+> >> arch/mips/include/asm/mipsregs.h:2791:3: error: instruction requires a=
+ CPU feature not currently enabled
+>                    _ASM_SET_VIRT
+>                    ^
+>    arch/mips/include/asm/mipsregs.h:2073:36: note: expanded from macro '_=
+ASM_SET_VIRT'
+>    #define _ASM_SET_VIRT ".set\tvirt\n\t"
+>                                       ^
+>    <inline asm>:4:2: note: instantiated into assembly here
+>            tlbgp
+>            ^
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120417.mReeFqvn-lkp@intel.com/
+https://github.com/ClangBuiltLinux/linux/issues/1532
 
-sparse warnings: (new ones prefixed by >>)
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1093:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1110:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1168:77: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1168:77: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1168:77: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1170:77: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1170:77: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1170:77: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1173:85: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1173:85: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1173:85: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1177:85: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1177:85: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1177:85: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1195:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct xfrm_state [noderef] __rcu *x @@     got struct xfrm_state *[assigned] x @@
-   net/xfrm/xfrm_state.c:1195:42: sparse:     expected struct xfrm_state [noderef] __rcu *x
-   net/xfrm/xfrm_state.c:1195:42: sparse:     got struct xfrm_state *[assigned] x
-   net/xfrm/xfrm_state.c:1282:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1282:61: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1282:61: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1285:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1285:61: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1285:61: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1291:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1291:69: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1291:69: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1297:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1297:69: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1297:69: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1411:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1411:69: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1411:69: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1413:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1413:69: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1413:69: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1972:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2076:69: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:2076:69: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:2076:69: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:2686:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_bydst @@     got struct hlist_head * @@
-   net/xfrm/xfrm_state.c:2686:31: sparse:     expected struct hlist_head [noderef] __rcu *state_bydst
-   net/xfrm/xfrm_state.c:2686:31: sparse:     got struct hlist_head *
-   net/xfrm/xfrm_state.c:2689:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_bysrc @@     got struct hlist_head * @@
-   net/xfrm/xfrm_state.c:2689:31: sparse:     expected struct hlist_head [noderef] __rcu *state_bysrc
-   net/xfrm/xfrm_state.c:2689:31: sparse:     got struct hlist_head *
-   net/xfrm/xfrm_state.c:2692:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_byspi @@     got struct hlist_head * @@
-   net/xfrm/xfrm_state.c:2692:31: sparse:     expected struct hlist_head [noderef] __rcu *state_byspi
-   net/xfrm/xfrm_state.c:2692:31: sparse:     got struct hlist_head *
->> net/xfrm/xfrm_state.c:2695:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_byseq @@     got struct hlist_head * @@
-   net/xfrm/xfrm_state.c:2695:31: sparse:     expected struct hlist_head [noderef] __rcu *state_byseq
-   net/xfrm/xfrm_state.c:2695:31: sparse:     got struct hlist_head *
-   net/xfrm/xfrm_state.c:2708:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byspi @@
-   net/xfrm/xfrm_state.c:2708:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:2708:33: sparse:     got struct hlist_head [noderef] __rcu *state_byspi
-   net/xfrm/xfrm_state.c:2710:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bysrc @@
-   net/xfrm/xfrm_state.c:2710:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:2710:33: sparse:     got struct hlist_head [noderef] __rcu *state_bysrc
-   net/xfrm/xfrm_state.c:2712:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bydst @@
-   net/xfrm/xfrm_state.c:2712:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:2712:33: sparse:     got struct hlist_head [noderef] __rcu *state_bydst
->> net/xfrm/xfrm_state.c:2728:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu *state_byseq @@
-   net/xfrm/xfrm_state.c:2728:9: sparse:     expected struct hlist_head const *h
-   net/xfrm/xfrm_state.c:2728:9: sparse:     got struct hlist_head [noderef] __rcu *state_byseq
->> net/xfrm/xfrm_state.c:2729:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byseq @@
-   net/xfrm/xfrm_state.c:2729:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:2729:33: sparse:     got struct hlist_head [noderef] __rcu *state_byseq
-   net/xfrm/xfrm_state.c:2730:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu *state_byspi @@
-   net/xfrm/xfrm_state.c:2730:9: sparse:     expected struct hlist_head const *h
-   net/xfrm/xfrm_state.c:2730:9: sparse:     got struct hlist_head [noderef] __rcu *state_byspi
-   net/xfrm/xfrm_state.c:2731:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byspi @@
-   net/xfrm/xfrm_state.c:2731:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:2731:33: sparse:     got struct hlist_head [noderef] __rcu *state_byspi
-   net/xfrm/xfrm_state.c:2732:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu *state_bysrc @@
-   net/xfrm/xfrm_state.c:2732:9: sparse:     expected struct hlist_head const *h
-   net/xfrm/xfrm_state.c:2732:9: sparse:     got struct hlist_head [noderef] __rcu *state_bysrc
-   net/xfrm/xfrm_state.c:2733:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bysrc @@
-   net/xfrm/xfrm_state.c:2733:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:2733:33: sparse:     got struct hlist_head [noderef] __rcu *state_bysrc
-   net/xfrm/xfrm_state.c:2734:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu *state_bydst @@
-   net/xfrm/xfrm_state.c:2734:9: sparse:     expected struct hlist_head const *h
-   net/xfrm/xfrm_state.c:2734:9: sparse:     got struct hlist_head [noderef] __rcu *state_bydst
-   net/xfrm/xfrm_state.c:2735:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bydst @@
-   net/xfrm/xfrm_state.c:2735:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:2735:33: sparse:     got struct hlist_head [noderef] __rcu *state_bydst
-   net/xfrm/xfrm_state.c: note: in included file (through include/linux/workqueue.h):
-   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_register_type' - unexpected unlock
-   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_unregister_type' - unexpected unlock
-   net/xfrm/xfrm_state.c:328:13: sparse: sparse: context imbalance in 'xfrm_get_type' - unexpected unlock
-   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_register_type_offload' - unexpected unlock
-   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_unregister_type_offload' - unexpected unlock
-   include/linux/rcupdate.h:709:9: sparse: sparse: context imbalance in 'xfrm_get_type_offload' - unexpected unlock
-   net/xfrm/xfrm_state.c:734:17: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:795:17: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:755:17: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:839:17: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:54:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:54:39: sparse:     expected struct refcount_struct [usertype] *r
-   net/xfrm/xfrm_state.c:54:39: sparse:     got struct refcount_struct [noderef] __rcu *
-   net/xfrm/xfrm_state.c:54:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:54:39: sparse:     expected struct refcount_struct [usertype] *r
-   net/xfrm/xfrm_state.c:54:39: sparse:     got struct refcount_struct [noderef] __rcu *
-   net/xfrm/xfrm_state.c:54:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:54:39: sparse:     expected struct refcount_struct [usertype] *r
-   net/xfrm/xfrm_state.c:54:39: sparse:     got struct refcount_struct [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1227:9: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:1321:9: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:1356:9: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c: note: in included file:
-   include/net/xfrm.h:1731:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/xfrm.h:1731:16: sparse:    struct sock [noderef] __rcu *
-   include/net/xfrm.h:1731:16: sparse:    struct sock *
+>    In file included from arch/mips/kvm/tlb.c:13:
+>    In file included from include/linux/sched.h:12:
+>    In file included from ./arch/mips/include/generated/asm/current.h:1:
+>    In file included from include/asm-generic/current.h:5:
+>    In file included from include/linux/thread_info.h:14:
+>    In file included from include/linux/restart_block.h:10:
+>    In file included from include/linux/time64.h:5:
+>    In file included from include/linux/math64.h:6:
+>    In file included from include/linux/math.h:5:
+>    In file included from arch/mips/include/asm/div64.h:89:
+>    In file included from include/asm-generic/div64.h:55:
+>    In file included from include/linux/log2.h:12:
+>    In file included from include/linux/bitops.h:32:
+>    In file included from arch/mips/include/asm/bitops.h:19:
+>    In file included from arch/mips/include/asm/barrier.h:11:
+>    In file included from arch/mips/include/asm/addrspace.h:13:
+>    In file included from arch/mips/include/asm/mach-malta/spaces.h:44:
+>    In file included from arch/mips/include/asm/mach-generic/spaces.h:15:
+>    arch/mips/include/asm/mipsregs.h:2801:3: error: instruction requires a=
+ CPU feature not currently enabled
+>                    _ASM_SET_VIRT
+>                    ^
+>    arch/mips/include/asm/mipsregs.h:2073:36: note: expanded from macro '_=
+ASM_SET_VIRT'
+>    #define _ASM_SET_VIRT ".set\tvirt\n\t"
+>                                       ^
+>    <inline asm>:4:2: note: instantiated into assembly here
+>            tlbgr
+>            ^
+>    In file included from arch/mips/kvm/tlb.c:13:
+>    In file included from include/linux/sched.h:12:
+>    In file included from ./arch/mips/include/generated/asm/current.h:1:
+>    In file included from include/asm-generic/current.h:5:
+>    In file included from include/linux/thread_info.h:14:
+>    In file included from include/linux/restart_block.h:10:
+>    In file included from include/linux/time64.h:5:
+>    In file included from include/linux/math64.h:6:
+>    In file included from include/linux/math.h:5:
+>    In file included from arch/mips/include/asm/div64.h:89:
+>    In file included from include/asm-generic/div64.h:55:
+>    In file included from include/linux/log2.h:12:
+>    In file included from include/linux/bitops.h:32:
+>    In file included from arch/mips/include/asm/bitops.h:19:
+>    In file included from arch/mips/include/asm/barrier.h:11:
+>    In file included from arch/mips/include/asm/addrspace.h:13:
+>    In file included from arch/mips/include/asm/mach-malta/spaces.h:44:
+>    In file included from arch/mips/include/asm/mach-generic/spaces.h:15:
+>    arch/mips/include/asm/mipsregs.h:2811:3: error: instruction requires a=
+ CPU feature not currently enabled
+>                    _ASM_SET_VIRT
+>                    ^
+>    arch/mips/include/asm/mipsregs.h:2073:36: note: expanded from macro '_=
+ASM_SET_VIRT'
+>    #define _ASM_SET_VIRT ".set\tvirt\n\t"
+>                                       ^
+>    <inline asm>:4:2: note: instantiated into assembly here
+>            tlbgwi
+>            ^
+>    In file included from arch/mips/kvm/tlb.c:13:
+>    In file included from include/linux/sched.h:12:
+>    In file included from ./arch/mips/include/generated/asm/current.h:1:
+>    In file included from include/asm-generic/current.h:5:
+>    In file included from include/linux/thread_info.h:14:
+>    In file included from include/linux/restart_block.h:10:
+>    In file included from include/linux/time64.h:5:
+>    In file included from include/linux/math64.h:6:
+>    In file included from include/linux/math.h:5:
+>    In file included from arch/mips/include/asm/div64.h:89:
+>    In file included from include/asm-generic/div64.h:55:
+>    In file included from include/linux/log2.h:12:
+>    In file included from include/linux/bitops.h:32:
+>    In file included from arch/mips/include/asm/bitops.h:19:
+>    In file included from arch/mips/include/asm/barrier.h:11:
+>    In file included from arch/mips/include/asm/addrspace.h:13:
+>    In file included from arch/mips/include/asm/mach-malta/spaces.h:44:
+>    In file included from arch/mips/include/asm/mach-generic/spaces.h:15:
+>    arch/mips/include/asm/mipsregs.h:2801:3: error: instruction requires a=
+ CPU feature not currently enabled
+>                    _ASM_SET_VIRT
+>                    ^
+>    arch/mips/include/asm/mipsregs.h:2073:36: note: expanded from macro '_=
+ASM_SET_VIRT'
+>    #define _ASM_SET_VIRT ".set\tvirt\n\t"
+>                                       ^
+>    <inline asm>:4:2: note: instantiated into assembly here
+>            tlbgr
+>            ^
+>    In file included from arch/mips/kvm/tlb.c:13:
+>    In file included from include/linux/sched.h:12:
+>    In file included from ./arch/mips/include/generated/asm/current.h:1:
+>    In file included from include/asm-generic/current.h:5:
+>    In file included from include/linux/thread_info.h:14:
+>    In file included from include/linux/restart_block.h:10:
+>    In file included from include/linux/time64.h:5:
+>    In file included from include/linux/math64.h:6:
+>    In file included from include/linux/math.h:5:
+>    In file included from arch/mips/include/asm/div64.h:89:
+>    In file included from include/asm-generic/div64.h:55:
+>
+>
+> vim +2791 arch/mips/include/asm/mipsregs.h
+>
+> ^1da177e4c3f41 include/asm-mips/mipsregs.h      Linus Torvalds 2005-04-16=
+  2780
+> ^1da177e4c3f41 include/asm-mips/mipsregs.h      Linus Torvalds 2005-04-16=
+  2781  /*
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2782   * Guest TLB operations.
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2783   *
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2784   * It is responsibility of the caller to take care of any TLB hazar=
+ds.
+> ^1da177e4c3f41 include/asm-mips/mipsregs.h      Linus Torvalds 2005-04-16=
+  2785   */
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2786  static inline void guest_tlb_probe(void)
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2787  {
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2788         __asm__ __volatile__(
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2789                 ".set push\n\t"
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2790                 ".set noreorder\n\t"
+> 00b4eb408aaff2 arch/mips/include/asm/mipsregs.h James Hogan    2017-11-22=
+ @2791                 _ASM_SET_VIRT
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2792                 "tlbgp\n\t"
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2793                 ".set pop");
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2794  }
+> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
+  2795
+>
+> :::::: The code at line 2791 was first introduced by commit
+> :::::: 00b4eb408aaff21aeb806de24c5ff25b398083a4 MIPS: VZ: Update helpers =
+to use new asm macros
+>
+> :::::: TO: James Hogan <jhogan@kernel.org>
+> :::::: CC: James Hogan <jhogan@kernel.org>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-vim +2695 net/xfrm/xfrm_state.c
 
-  2673	
-  2674	int __net_init xfrm_state_init(struct net *net)
-  2675	{
-  2676		unsigned int sz;
-  2677	
-  2678		if (net_eq(net, &init_net))
-  2679			xfrm_state_cache = KMEM_CACHE(xfrm_state,
-  2680						      SLAB_HWCACHE_ALIGN | SLAB_PANIC);
-  2681	
-  2682		INIT_LIST_HEAD(&net->xfrm.state_all);
-  2683	
-  2684		sz = sizeof(struct hlist_head) * 8;
-  2685	
-  2686		net->xfrm.state_bydst = xfrm_hash_alloc(sz);
-  2687		if (!net->xfrm.state_bydst)
-  2688			goto out_bydst;
-  2689		net->xfrm.state_bysrc = xfrm_hash_alloc(sz);
-  2690		if (!net->xfrm.state_bysrc)
-  2691			goto out_bysrc;
-  2692		net->xfrm.state_byspi = xfrm_hash_alloc(sz);
-  2693		if (!net->xfrm.state_byspi)
-  2694			goto out_byspi;
-> 2695		net->xfrm.state_byseq = xfrm_hash_alloc(sz);
-  2696		if (!net->xfrm.state_byseq)
-  2697			goto out_byseq;
-  2698		net->xfrm.state_hmask = ((sz / sizeof(struct hlist_head)) - 1);
-  2699	
-  2700		net->xfrm.state_num = 0;
-  2701		INIT_WORK(&net->xfrm.state_hash_work, xfrm_hash_resize);
-  2702		spin_lock_init(&net->xfrm.xfrm_state_lock);
-  2703		seqcount_spinlock_init(&net->xfrm.xfrm_state_hash_generation,
-  2704				       &net->xfrm.xfrm_state_lock);
-  2705		return 0;
-  2706	
-  2707	out_byseq:
-  2708		xfrm_hash_free(net->xfrm.state_byspi, sz);
-  2709	out_byspi:
-  2710		xfrm_hash_free(net->xfrm.state_bysrc, sz);
-  2711	out_bysrc:
-  2712		xfrm_hash_free(net->xfrm.state_bydst, sz);
-  2713	out_bydst:
-  2714		return -ENOMEM;
-  2715	}
-  2716	
-  2717	void xfrm_state_fini(struct net *net)
-  2718	{
-  2719		unsigned int sz;
-  2720	
-  2721		flush_work(&net->xfrm.state_hash_work);
-  2722		flush_work(&xfrm_state_gc_work);
-  2723		xfrm_state_flush(net, 0, false, true);
-  2724	
-  2725		WARN_ON(!list_empty(&net->xfrm.state_all));
-  2726	
-  2727		sz = (net->xfrm.state_hmask + 1) * sizeof(struct hlist_head);
-> 2728		WARN_ON(!hlist_empty(net->xfrm.state_byseq));
-> 2729		xfrm_hash_free(net->xfrm.state_byseq, sz);
-  2730		WARN_ON(!hlist_empty(net->xfrm.state_byspi));
-  2731		xfrm_hash_free(net->xfrm.state_byspi, sz);
-  2732		WARN_ON(!hlist_empty(net->xfrm.state_bysrc));
-  2733		xfrm_hash_free(net->xfrm.state_bysrc, sz);
-  2734		WARN_ON(!hlist_empty(net->xfrm.state_bydst));
-  2735		xfrm_hash_free(net->xfrm.state_bydst, sz);
-  2736	}
-  2737	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Thanks,
+~Nick Desaulniers
