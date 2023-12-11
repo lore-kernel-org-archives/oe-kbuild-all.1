@@ -1,52 +1,53 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA88F208A2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 08:01:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59571F618
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 08:10:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZQH/lubv"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-54c5d041c23so5803216a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 00:01:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xX09QnTs"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a1c7d8f89a5so547703066b.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 00:10:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702281702; x=1702886502; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1702282217; x=1702887017; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=U5f0a3lTlUFh5il4cTLQ9hvyeurD3ss1k0xSKahuq5s=;
-        b=ZQH/lubvTvl9La/W3naY5dPJPwZ632qsjW9ufWFaUCDEmwSaucZiG9fcbG3V5Mxw6C
-         1g0mZdPyk1QGomhiLRUiBtV2Py+7qkBhvEUvPny+l9V8Jk2ULEtb1k276ZrqsmsWVhFy
-         sC+ImqvmuRCOH5nz5RlZ+igQ9wmELH00aqroLaP7QRmf2Pw0smjLnNA9vgiPHrx6fTaX
-         nEA2JasvOTxyUzXOwofulC9olBVBDpZNzIszCHfB7vvU+ct5Kfk2sg/jJi/fW/6y2j73
-         vMKnmjofBrEhjxZWX+xJmnjKGEpOQiqxuu2IMH28mqem9PbZAth+9IBhtro7+am2bBZR
-         ft9w==
+        bh=Xi45JTzQiulIXlnGkIaxF8gVg0QbWWgrQaZHWcPYRzI=;
+        b=xX09QnTsRcYIsYtS5GFvxp9bb/EVH4jiJU05M4mUvbTfbX09bmz1gLoHvJhBnW0Eqm
+         eUiVvgt1QC4+xz7emYFLC0X2fBWHjSsNb0KFpJSbVCfY+JEGHtST6bNcGL0NqarL6HyS
+         Hf68EAGCLplEyrsaDRUg+gBUK5OD3SZUg84zy84XBlFKMGDepoIp8sL8iTbxqky5kLvj
+         cBIZlw2HeeiFJz21B7udC2K4j2jeF6silMHy9nAP0smDYKx4O1KPj86WN2geREEWjiaP
+         MfXDhyvnFbq4tTks0PUfbOU9TJwvxt0AiciQrWOislkAmTSyXmhiDU8GSJsecpIG1t4x
+         j2Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702281702; x=1702886502;
+        d=1e100.net; s=20230601; t=1702282217; x=1702887017;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U5f0a3lTlUFh5il4cTLQ9hvyeurD3ss1k0xSKahuq5s=;
-        b=XxrgJ9N1bzPdeBw8LTRK+7T4ey7ElLMr7ZEj30RWhMFukaKiBiywZZ9r3/jSxdXY/1
-         0ZSCpLa3+JrkDg7GzQhcG4hyDt/XllsQuZkmBfpPqSJooNzJWcA01JcWV7rH6Oa4U33i
-         ph4GBsnEKBT4UwJnnHbeHxlw9dz1JLUk6KUmyYopBJQuDbmisyPpzh5XwwJ6UqqJ4PVj
-         ksrJL66JM9cZX5xGzR2ZYjkwJx1x8N1ZzZy2W0xyoEhDCLtQkDahnRXYirz/6FMFx2fG
-         /4YcEZMrIMo7yQxylX0l1VM012jgY/1v/x+49uMECgywHkXkqW54b+YxJTXPHnbqRQWo
-         ffSA==
-X-Gm-Message-State: AOJu0Yx2VyPycQD0zWGA4ONV7jhg6Ip6EQpbuQAZNEVmbcn2xAP3E+qw
-	ckVNJFAmgJkU60HTMroq6QchwQ==
-X-Google-Smtp-Source: AGHT+IFvY8tFcCBjmcXCGCSBGotrwP1HNVM4kehg3DwcBlQkd7VK0C+M1DwYuehyKDepu3daGRQb1w==
-X-Received: by 2002:a50:aad7:0:b0:550:1ed8:45d9 with SMTP id r23-20020a50aad7000000b005501ed845d9mr1228246edc.64.1702281702099;
-        Mon, 11 Dec 2023 00:01:42 -0800 (PST)
+        bh=Xi45JTzQiulIXlnGkIaxF8gVg0QbWWgrQaZHWcPYRzI=;
+        b=gcYn4DMZHChsJ7zlFrqs9Pn1J4LmgBmoNDhvHLDY9JCo/UJFk8ggkaEX4j9gnQTnRb
+         aaBm2suMyvkLU3ssuUyoIzGUnPpSJGWunX2H7mo6ZhnaFkztwAlq+QB+oyqxy+8NBYn5
+         OSUJ5/qujiRCeSyyFA+T8fqOTJ2AJ7IQpsPjl4hB52yExWWdRswyE79/APbvqYFesxdJ
+         tjtXSFBiXtb/guODc3K9IgZsx1Z9Y2mNy83rYACq9Zhhg5Jg4gJ7FbvlBPRnZ1G+qpjl
+         Fx3j77EGS70URuaarQ0SrWsOM5/DQdDPKCfedXNlYLoTsmTZlPn7ERk8UtEr5fxb0vMG
+         Ctuw==
+X-Gm-Message-State: AOJu0YzSgjvlodElqAVZxafZKesNGoQ7XtGkepJnQbgigu1itY8+5e9q
+	hg+yj6cMmAvWkRvlndkRytXhWg==
+X-Google-Smtp-Source: AGHT+IHIjJcU6nJQlzbJOU/5lxh5ZB5oremY7q44w6+sziripj2KODC/+IrHQi8hAIyI72q8fPFQIw==
+X-Received: by 2002:a17:907:7251:b0:a02:54fa:4f2f with SMTP id ds17-20020a170907725100b00a0254fa4f2fmr2331370ejc.53.1702282216802;
+        Mon, 11 Dec 2023 00:10:16 -0800 (PST)
 Received: from localhost (hf89.n1.ips.mtn.co.ug. [41.210.143.137])
-        by smtp.gmail.com with ESMTPSA id t28-20020a50d71c000000b0054b1360dd03sm3497419edi.58.2023.12.11.00.01.39
+        by smtp.gmail.com with ESMTPSA id b42-20020a509f2d000000b0054cc6be8b0bsm3525295edf.32.2023.12.11.00.10.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 00:01:41 -0800 (PST)
-Date: Mon, 11 Dec 2023 11:01:34 +0300
+        Mon, 11 Dec 2023 00:10:16 -0800 (PST)
+Date: Mon, 11 Dec 2023 11:10:09 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:xfile-page-caching 61/205] fs/xfs/scrub/rtsummary.c:288
- xchk_rtsum_compare() warn: missing error code? 'error'
-Message-ID: <68785c4f-126c-4dc7-b760-66fe4c0af771@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Sven Peter <sven@svenpeter.dev>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:bits/170-atcphy 3/11] drivers/phy/apple/atc.c:1609
+ atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
+Message-ID: <3b615383-5149-4fee-9c5f-51d236d8ddf5@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,58 +57,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   ae5732f1c245c24e63c885992c35f723f36f79ff
-commit: 47301ab5762a101097a4c924722ffdb4f36776a2 [61/205] xfs: check rt summary file geometry more thoroughly
-config: x86_64-randconfig-161-20231211 (https://download.01.org/0day-ci/archive/20231211/202312111046.AVIXqABS-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20231211/202312111046.AVIXqABS-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
+head:   4931e8edc0670b6acf66c1b83702c7521722ff1c
+commit: 3b2571b8e8064a73eca2cec23cf86cfe7f7050f5 [3/11] WIP: phy: apple: Add Apple Type-C PHY
+config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231211/202312110624.SVpwzkJ6-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20231211/202312110624.SVpwzkJ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312111046.AVIXqABS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312110624.SVpwzkJ6-lkp@intel.com/
 
 smatch warnings:
-fs/xfs/scrub/rtsummary.c:288 xchk_rtsum_compare() warn: missing error code? 'error'
+drivers/phy/apple/atc.c:1609 atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
+drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) => (0-u32max > u32max)'
+drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(mask > (~0)) => (0-u32max > u32max)'
+drivers/phy/apple/atc.c:2157 atcphy_parse_new_tunable() warn: impossible condition '(value > (~0)) => (0-u32max > u32max)'
 
-vim +/error +288 fs/xfs/scrub/rtsummary.c
+vim +1609 drivers/phy/apple/atc.c
 
-47301ab5762a10 Darrick J. Wong 2023-10-13  268  	for (off = 0; off < endoff; off++) {
-47301ab5762a10 Darrick J. Wong 2023-10-13  269  		union xfs_suminfo_raw	*ondisk_info;
-47301ab5762a10 Darrick J. Wong 2023-10-13  270  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  271  		/* Read a block's worth of ondisk rtsummary file. */
-47301ab5762a10 Darrick J. Wong 2023-10-13  272  		error = xfs_rtsummary_read_buf(&rts->args, off);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  273  		if (!xchk_fblock_process_error(sc, XFS_DATA_FORK, off, &error))
-526aab5f5790e2 Darrick J. Wong 2023-08-10  274  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  275  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  276  		/* Read a block's worth of computed rtsummary file. */
-47301ab5762a10 Darrick J. Wong 2023-10-13  277  		error = xfsum_copyout(sc, sumoff, rts->words, mp->m_blockwsize);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  278  		if (error) {
-47301ab5762a10 Darrick J. Wong 2023-10-13  279  			xfs_rtbuf_cache_relse(&rts->args);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  280  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  281  		}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  282  
-47301ab5762a10 Darrick J. Wong 2023-10-13  283  		ondisk_info = xfs_rsumblock_infoptr(&rts->args, 0);
-47301ab5762a10 Darrick J. Wong 2023-10-13  284  		if (memcmp(ondisk_info, rts->words,
-47301ab5762a10 Darrick J. Wong 2023-10-13  285  					mp->m_blockwsize << XFS_WORDLOG) != 0) {
-526aab5f5790e2 Darrick J. Wong 2023-08-10  286  			xchk_fblock_set_corrupt(sc, XFS_DATA_FORK, off);
-47301ab5762a10 Darrick J. Wong 2023-10-13  287  			xfs_rtbuf_cache_relse(&rts->args);
-47301ab5762a10 Darrick J. Wong 2023-10-13 @288  			return error;
+3b2571b8e8064a Sven Peter 2022-11-30  1567  static int atcphy_usb3_power_on(struct phy *phy)
+3b2571b8e8064a Sven Peter 2022-11-30  1568  {
+3b2571b8e8064a Sven Peter 2022-11-30  1569  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
+3b2571b8e8064a Sven Peter 2022-11-30  1570  	enum atcphy_pipehandler_state state;
+3b2571b8e8064a Sven Peter 2022-11-30  1571  	int ret = 0;
+3b2571b8e8064a Sven Peter 2022-11-30  1572  
+3b2571b8e8064a Sven Peter 2022-11-30  1573  	/*
+3b2571b8e8064a Sven Peter 2022-11-30  1574  	 * Both usb role switch and mux set work will be running concurrently.
+3b2571b8e8064a Sven Peter 2022-11-30  1575  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
+3b2571b8e8064a Sven Peter 2022-11-30  1576  	 * trying to switch dwc3 to the correct PHY.
+3b2571b8e8064a Sven Peter 2022-11-30  1577  	 */
+3b2571b8e8064a Sven Peter 2022-11-30  1578  	mutex_lock(&atcphy->lock);
+3b2571b8e8064a Sven Peter 2022-11-30  1579  	if (atcphy->mode != atcphy->target_mode) {
+3b2571b8e8064a Sven Peter 2022-11-30  1580  		reinit_completion(&atcphy->atcphy_online_event);
+3b2571b8e8064a Sven Peter 2022-11-30  1581  		mutex_unlock(&atcphy->lock);
+3b2571b8e8064a Sven Peter 2022-11-30  1582  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
+3b2571b8e8064a Sven Peter 2022-11-30  1583  					msecs_to_jiffies(1000));
+3b2571b8e8064a Sven Peter 2022-11-30  1584  		mutex_lock(&atcphy->lock);
+3b2571b8e8064a Sven Peter 2022-11-30  1585  	}
+3b2571b8e8064a Sven Peter 2022-11-30  1586  
+3b2571b8e8064a Sven Peter 2022-11-30  1587  	if (atcphy->mode != atcphy->target_mode) {
+3b2571b8e8064a Sven Peter 2022-11-30  1588  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
+3b2571b8e8064a Sven Peter 2022-11-30  1589  		return -EINVAL;
 
-"error" is zero here.  I feel like this is a bug, but if it's not, it
-would be better to return a literal zero.  Probably it should have a
-comment as well.  But probably it's a bug.
+mutex_unlock(&atcphy->lock); before returning.
 
-47301ab5762a10 Darrick J. Wong 2023-10-13  289  		}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  290  
-47301ab5762a10 Darrick J. Wong 2023-10-13  291  		xfs_rtbuf_cache_relse(&rts->args);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  292  		sumoff += mp->m_blockwsize;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  293  	}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  294  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  295  	return 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  296  }
+3b2571b8e8064a Sven Peter 2022-11-30  1590  	}
+3b2571b8e8064a Sven Peter 2022-11-30  1591  
+3b2571b8e8064a Sven Peter 2022-11-30  1592  	atcphy->dwc3_online = true;
+3b2571b8e8064a Sven Peter 2022-11-30  1593  	state = atcphy_modes[atcphy->mode].pipehandler_state;
+3b2571b8e8064a Sven Peter 2022-11-30  1594  	switch (state) {
+3b2571b8e8064a Sven Peter 2022-11-30  1595  	case ATCPHY_PIPEHANDLER_STATE_USB2:
+3b2571b8e8064a Sven Peter 2022-11-30  1596  	case ATCPHY_PIPEHANDLER_STATE_USB3:
+3b2571b8e8064a Sven Peter 2022-11-30  1597  		ret = atcphy_configure_pipehandler(atcphy, state);
+3b2571b8e8064a Sven Peter 2022-11-30  1598  		break;
+3b2571b8e8064a Sven Peter 2022-11-30  1599  
+3b2571b8e8064a Sven Peter 2022-11-30  1600  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
+3b2571b8e8064a Sven Peter 2022-11-30  1601  	default:
+3b2571b8e8064a Sven Peter 2022-11-30  1602  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
+3b2571b8e8064a Sven Peter 2022-11-30  1603  			 state);
+3b2571b8e8064a Sven Peter 2022-11-30  1604  		ret = -EINVAL;
+3b2571b8e8064a Sven Peter 2022-11-30  1605  	}
+3b2571b8e8064a Sven Peter 2022-11-30  1606  
+3b2571b8e8064a Sven Peter 2022-11-30  1607  	mutex_unlock(&atcphy->lock);
+3b2571b8e8064a Sven Peter 2022-11-30  1608  
+3b2571b8e8064a Sven Peter 2022-11-30 @1609  	return 0;
+3b2571b8e8064a Sven Peter 2022-11-30  1610  }
 
 -- 
 0-DAY CI Kernel Test Service
