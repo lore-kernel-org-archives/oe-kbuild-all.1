@@ -1,48 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485182030A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 07:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA88F208A2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 08:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e3NKJRUY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702279686; x=1733815686;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rETILmxyRgZeGp8f1LB72/vyCNAfO/TxpdE4p/Nf/Xc=;
-  b=e3NKJRUY+8P30XHC2gIbIjUUB+zffniiGrUH7DdgdF+FRdld/S4IPoAP
-   Oi0XG7zCsokqjQDThhlXG7V4t1tjCtgPbrkynsZEIopdR7QFBE/PydRyI
-   qY00BB0Bu1IcDVsP9vBS0XXJqbZzjjVP7Ya0aS/78XBEhHvbhmeiDpAjQ
-   x+sfnWc9Vez4wKyigjMvn1fBRAs8oA4HFubVDISBX0soSoMm/FeLUvjYz
-   nhpGILgZySdmDUfH+QJtxceKo7IYmGcEtYGw36FYQEXTCiIKAZx7mUjgq
-   2F0NvpbIJf1LiBKR4ZZwEm/w9c5Q4FuAFtO7xjdIPO6XQ5EXdl6reOQKX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="425734099"
-X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
-   d="scan'208";a="425734099"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 23:28:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="863661164"
-X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
-   d="scan'208";a="863661164"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Dec 2023 23:28:02 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rCahs-000Hlm-0b;
-	Mon, 11 Dec 2023 07:28:00 +0000
-Date: Mon, 11 Dec 2023 15:27:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 23/25] kernel/sched/debug.c:492:39:
- warning: format specifies type 'int' but the argument has type 'unsigned
- long'
-Message-ID: <202312111506.z9V41oqr-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZQH/lubv"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-54c5d041c23so5803216a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 00:01:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702281702; x=1702886502; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U5f0a3lTlUFh5il4cTLQ9hvyeurD3ss1k0xSKahuq5s=;
+        b=ZQH/lubvTvl9La/W3naY5dPJPwZ632qsjW9ufWFaUCDEmwSaucZiG9fcbG3V5Mxw6C
+         1g0mZdPyk1QGomhiLRUiBtV2Py+7qkBhvEUvPny+l9V8Jk2ULEtb1k276ZrqsmsWVhFy
+         sC+ImqvmuRCOH5nz5RlZ+igQ9wmELH00aqroLaP7QRmf2Pw0smjLnNA9vgiPHrx6fTaX
+         nEA2JasvOTxyUzXOwofulC9olBVBDpZNzIszCHfB7vvU+ct5Kfk2sg/jJi/fW/6y2j73
+         vMKnmjofBrEhjxZWX+xJmnjKGEpOQiqxuu2IMH28mqem9PbZAth+9IBhtro7+am2bBZR
+         ft9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702281702; x=1702886502;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U5f0a3lTlUFh5il4cTLQ9hvyeurD3ss1k0xSKahuq5s=;
+        b=XxrgJ9N1bzPdeBw8LTRK+7T4ey7ElLMr7ZEj30RWhMFukaKiBiywZZ9r3/jSxdXY/1
+         0ZSCpLa3+JrkDg7GzQhcG4hyDt/XllsQuZkmBfpPqSJooNzJWcA01JcWV7rH6Oa4U33i
+         ph4GBsnEKBT4UwJnnHbeHxlw9dz1JLUk6KUmyYopBJQuDbmisyPpzh5XwwJ6UqqJ4PVj
+         ksrJL66JM9cZX5xGzR2ZYjkwJx1x8N1ZzZy2W0xyoEhDCLtQkDahnRXYirz/6FMFx2fG
+         /4YcEZMrIMo7yQxylX0l1VM012jgY/1v/x+49uMECgywHkXkqW54b+YxJTXPHnbqRQWo
+         ffSA==
+X-Gm-Message-State: AOJu0Yx2VyPycQD0zWGA4ONV7jhg6Ip6EQpbuQAZNEVmbcn2xAP3E+qw
+	ckVNJFAmgJkU60HTMroq6QchwQ==
+X-Google-Smtp-Source: AGHT+IFvY8tFcCBjmcXCGCSBGotrwP1HNVM4kehg3DwcBlQkd7VK0C+M1DwYuehyKDepu3daGRQb1w==
+X-Received: by 2002:a50:aad7:0:b0:550:1ed8:45d9 with SMTP id r23-20020a50aad7000000b005501ed845d9mr1228246edc.64.1702281702099;
+        Mon, 11 Dec 2023 00:01:42 -0800 (PST)
+Received: from localhost (hf89.n1.ips.mtn.co.ug. [41.210.143.137])
+        by smtp.gmail.com with ESMTPSA id t28-20020a50d71c000000b0054b1360dd03sm3497419edi.58.2023.12.11.00.01.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 00:01:41 -0800 (PST)
+Date: Mon, 11 Dec 2023 11:01:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:xfile-page-caching 61/205] fs/xfs/scrub/rtsummary.c:288
+ xchk_rtsum_compare() warn: missing error code? 'error'
+Message-ID: <68785c4f-126c-4dc7-b760-66fe4c0af771@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,56 +56,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   9d0509698cf63e7e91a24a29118040e287d6c0f2
-commit: aa4395306ee1f677dfc46b5c08fab8c1414d5375 [23/25] BACKPORT: FROMGIT: sched/fair: Fair server interface
-config: i386-buildonly-randconfig-002-20231211 (https://download.01.org/0day-ci/archive/20231211/202312111506.z9V41oqr-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
+head:   ae5732f1c245c24e63c885992c35f723f36f79ff
+commit: 47301ab5762a101097a4c924722ffdb4f36776a2 [61/205] xfs: check rt summary file geometry more thoroughly
+config: x86_64-randconfig-161-20231211 (https://download.01.org/0day-ci/archive/20231211/202312111046.AVIXqABS-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231211/202312111506.z9V41oqr-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231211/202312111046.AVIXqABS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312111506.z9V41oqr-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312111046.AVIXqABS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/xfs/scrub/rtsummary.c:288 xchk_rtsum_compare() warn: missing error code? 'error'
 
->> kernel/sched/debug.c:492:39: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
-                   snprintf(buf, sizeof(buf), "cpu%d", cpu);
-                                                  ~~   ^~~
-                                                  %lu
-   1 warning generated.
+vim +/error +288 fs/xfs/scrub/rtsummary.c
 
+47301ab5762a10 Darrick J. Wong 2023-10-13  268  	for (off = 0; off < endoff; off++) {
+47301ab5762a10 Darrick J. Wong 2023-10-13  269  		union xfs_suminfo_raw	*ondisk_info;
+47301ab5762a10 Darrick J. Wong 2023-10-13  270  
+526aab5f5790e2 Darrick J. Wong 2023-08-10  271  		/* Read a block's worth of ondisk rtsummary file. */
+47301ab5762a10 Darrick J. Wong 2023-10-13  272  		error = xfs_rtsummary_read_buf(&rts->args, off);
+526aab5f5790e2 Darrick J. Wong 2023-08-10  273  		if (!xchk_fblock_process_error(sc, XFS_DATA_FORK, off, &error))
+526aab5f5790e2 Darrick J. Wong 2023-08-10  274  			return error;
+526aab5f5790e2 Darrick J. Wong 2023-08-10  275  
+526aab5f5790e2 Darrick J. Wong 2023-08-10  276  		/* Read a block's worth of computed rtsummary file. */
+47301ab5762a10 Darrick J. Wong 2023-10-13  277  		error = xfsum_copyout(sc, sumoff, rts->words, mp->m_blockwsize);
+526aab5f5790e2 Darrick J. Wong 2023-08-10  278  		if (error) {
+47301ab5762a10 Darrick J. Wong 2023-10-13  279  			xfs_rtbuf_cache_relse(&rts->args);
+526aab5f5790e2 Darrick J. Wong 2023-08-10  280  			return error;
+526aab5f5790e2 Darrick J. Wong 2023-08-10  281  		}
+526aab5f5790e2 Darrick J. Wong 2023-08-10  282  
+47301ab5762a10 Darrick J. Wong 2023-10-13  283  		ondisk_info = xfs_rsumblock_infoptr(&rts->args, 0);
+47301ab5762a10 Darrick J. Wong 2023-10-13  284  		if (memcmp(ondisk_info, rts->words,
+47301ab5762a10 Darrick J. Wong 2023-10-13  285  					mp->m_blockwsize << XFS_WORDLOG) != 0) {
+526aab5f5790e2 Darrick J. Wong 2023-08-10  286  			xchk_fblock_set_corrupt(sc, XFS_DATA_FORK, off);
+47301ab5762a10 Darrick J. Wong 2023-10-13  287  			xfs_rtbuf_cache_relse(&rts->args);
+47301ab5762a10 Darrick J. Wong 2023-10-13 @288  			return error;
 
-vim +492 kernel/sched/debug.c
+"error" is zero here.  I feel like this is a bug, but if it's not, it
+would be better to return a literal zero.  Probably it should have a
+comment as well.  But probably it's a bug.
 
-   478	
-   479	static void debugfs_fair_server_init(void)
-   480	{
-   481		struct dentry *d_fair;
-   482		unsigned long cpu;
-   483	
-   484		d_fair = debugfs_create_dir("fair_server", debugfs_sched);
-   485		if (!d_fair)
-   486			return;
-   487	
-   488		for_each_possible_cpu(cpu) {
-   489			struct dentry *d_cpu;
-   490			char buf[32];
-   491	
- > 492			snprintf(buf, sizeof(buf), "cpu%d", cpu);
-   493			d_cpu = debugfs_create_dir(buf, d_fair);
-   494	
-   495			debugfs_create_file("runtime", 0644, d_cpu, (void *)cpu,
-   496			    &fair_server_runtime_fops);
-   497			debugfs_create_file("period", 0644, d_cpu, (void *)cpu,
-   498			    &fair_server_period_fops);
-   499			debugfs_create_file("defer", 0644, d_cpu, (void *)cpu,
-   500			    &fair_server_defer_fops);
-   501		}
-   502	}
-   503	
+47301ab5762a10 Darrick J. Wong 2023-10-13  289  		}
+526aab5f5790e2 Darrick J. Wong 2023-08-10  290  
+47301ab5762a10 Darrick J. Wong 2023-10-13  291  		xfs_rtbuf_cache_relse(&rts->args);
+526aab5f5790e2 Darrick J. Wong 2023-08-10  292  		sumoff += mp->m_blockwsize;
+526aab5f5790e2 Darrick J. Wong 2023-08-10  293  	}
+526aab5f5790e2 Darrick J. Wong 2023-08-10  294  
+526aab5f5790e2 Darrick J. Wong 2023-08-10  295  	return 0;
+526aab5f5790e2 Darrick J. Wong 2023-08-10  296  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
