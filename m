@@ -1,243 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DDB156F0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 02:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y0eiYvOy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702263512; x=1733799512;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Xirg3iVKLP98IJEWKpiz8nFvxlHWdkdRaPwoaJggaww=;
-  b=Y0eiYvOypODPA2SyO85uE4BP0fgpISfkTjcmSk20jaJOaH2i5fLfA5pP
-   ej9+lijXegrsMKklLq4rb4F+HS9Za1RifaN5J2AOmq6MiWNjEZm4s4zRl
-   M7TQeT9QkctYq4PHfgaReoWEZdlwKM2Q/KwfP7gCpjMx6y/xH/t2Z4kGT
-   /7pEzpN+9hzr9BGbQANEUSG+hM2DWRvkNz8rIR3qE+LL6jQcnopx2rEBb
-   I5mgfE7Agk7s5+5tvbvhnklhRG40MdmpyIMtv8C9exQtEeQT5ITq9ZR76
-   kA8sNDQRTFBRAur112JrUKy5MnxdlMK1lNn5lg3ybySvCCJFkgLY1YFrF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="379583321"
-X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="379583321"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2023 18:58:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="772871275"
-X-IronPort-AV: E=Sophos;i="6.04,266,1695711600"; 
-   d="scan'208";a="772871275"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 10 Dec 2023 18:58:27 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rCWUz-000HZe-1a;
-	Mon, 11 Dec 2023 02:58:25 +0000
-Date: Mon, 11 Dec 2023 10:57:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qingqing Zhuo <Qingqing.Zhuo@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-	Roman Li <roman.li@amd.com>
-Subject: drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c:5421:19-20:
- WARNING comparing pointer to 0
-Message-ID: <202312111026.2UUri4V7-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E4F1775F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 03:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R961e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=16;SR=0;TI=SMTPD_---0Vy9pc7B_1702267012;
+Received: from 30.221.148.156(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0Vy9pc7B_1702267012)
+          by smtp.aliyun-inc.com;
+          Mon, 11 Dec 2023 11:56:54 +0800
+Message-ID: <9fcc649f-8c0c-41da-9372-3c489859274d@linux.alibaba.com>
+Date: Mon, 11 Dec 2023 11:56:48 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v7 4/4] virtio-net: support rx netdim
+To: "Michael S. Tsirkin" <mst@redhat.com>, kernel test robot <lkp@intel.com>
+Cc: netdev@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ oe-kbuild-all@lists.linux.dev, jasowang@redhat.com, pabeni@redhat.com,
+ kuba@kernel.org, yinjun.zhang@corigine.com, edumazet@google.com,
+ davem@davemloft.net, hawk@kernel.org, john.fastabend@gmail.com,
+ ast@kernel.org, horms@kernel.org, xuanzhuo@linux.alibaba.com
+References: <9be20d1e86bea91b373f28401a96401b640ef4d1.1701929854.git.hengqi@linux.alibaba.com>
+ <202312091132.7eR6Cbs9-lkp@intel.com>
+ <20231209052724-mutt-send-email-mst@kernel.org>
+From: Heng Qi <hengqi@linux.alibaba.com>
+In-Reply-To: <20231209052724-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-commit: 7966f319c66d9468623c6a6a017ecbc0dd79be75 drm/amd/display: Introduce DML2
-date:   9 weeks ago
-config: loongarch-randconfig-r061-20231211 (https://download.01.org/0day-ci/archive/20231211/202312111026.2UUri4V7-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231211/202312111026.2UUri4V7-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312111026.2UUri4V7-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c:5421:19-20: WARNING comparing pointer to 0
+在 2023/12/9 下午6:27, Michael S. Tsirkin 写道:
+> On Sat, Dec 09, 2023 at 11:22:11AM +0800, kernel test robot wrote:
+>> Hi Heng,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on net-next/main]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-returns-whether-napi-is-complete/20231207-143044
+>> base:   net-next/main
+>> patch link:    https://lore.kernel.org/r/9be20d1e86bea91b373f28401a96401b640ef4d1.1701929854.git.hengqi%40linux.alibaba.com
+>> patch subject: [PATCH net-next v7 4/4] virtio-net: support rx netdim
+>> config: nios2-randconfig-r064-20231209 (https://download.01.org/0day-ci/archive/20231209/202312091132.7eR6Cbs9-lkp@intel.com/config)
+>> compiler: nios2-linux-gcc (GCC) 13.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091132.7eR6Cbs9-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202312091132.7eR6Cbs9-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     nios2-linux-ld: drivers/net/virtio_net.o: in function `virtnet_rx_dim_work':
+>>     virtio_net.c:(.text+0x21dc): undefined reference to `net_dim_get_rx_moderation'
+>>>> virtio_net.c:(.text+0x21dc): relocation truncated to fit: R_NIOS2_CALL26 against `net_dim_get_rx_moderation'
+>>     nios2-linux-ld: drivers/net/virtio_net.o: in function `virtnet_poll':
+>>     virtio_net.c:(.text+0x97bc): undefined reference to `net_dim'
+>>>> virtio_net.c:(.text+0x97bc): relocation truncated to fit: R_NIOS2_CALL26 against `net_dim'
+>
+> Looks like select DIMLIB is missing?
 
-vim +5421 drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
+Yes. I'll add this. Thanks!
 
-  5335	
-  5336	static void CalculateOutputLink(
-  5337			dml_float_t PHYCLKPerState,
-  5338			dml_float_t PHYCLKD18PerState,
-  5339			dml_float_t PHYCLKD32PerState,
-  5340			dml_float_t Downspreading,
-  5341			dml_bool_t IsMainSurfaceUsingTheIndicatedTiming,
-  5342			enum dml_output_encoder_class Output,
-  5343			enum dml_output_format_class OutputFormat,
-  5344			dml_uint_t HTotal,
-  5345			dml_uint_t HActive,
-  5346			dml_float_t PixelClockBackEnd,
-  5347			dml_float_t ForcedOutputLinkBPP,
-  5348			dml_uint_t DSCInputBitPerComponent,
-  5349			dml_uint_t NumberOfDSCSlices,
-  5350			dml_float_t AudioSampleRate,
-  5351			dml_uint_t AudioSampleLayout,
-  5352			enum dml_odm_mode ODMModeNoDSC,
-  5353			enum dml_odm_mode ODMModeDSC,
-  5354			enum dml_dsc_enable DSCEnable,
-  5355			dml_uint_t OutputLinkDPLanes,
-  5356			enum dml_output_link_dp_rate OutputLinkDPRate,
-  5357	
-  5358			// Output
-  5359			dml_bool_t *RequiresDSC,
-  5360			dml_bool_t *RequiresFEC,
-  5361			dml_float_t *OutBpp,
-  5362			enum dml_output_type_and_rate__type *OutputType,
-  5363			enum dml_output_type_and_rate__rate *OutputRate,
-  5364			dml_uint_t *RequiredSlots)
-  5365	{
-  5366		dml_bool_t LinkDSCEnable;
-  5367		dml_uint_t dummy;
-  5368		*RequiresDSC = false;
-  5369		*RequiresFEC = false;
-  5370		*OutBpp = 0;
-  5371	
-  5372		*OutputType = dml_output_type_unknown;
-  5373		*OutputRate = dml_output_rate_unknown;
-  5374	
-  5375		if (IsMainSurfaceUsingTheIndicatedTiming) {
-  5376			if (Output == dml_hdmi) {
-  5377				*RequiresDSC = false;
-  5378				*RequiresFEC = false;
-  5379				*OutBpp = TruncToValidBPP(dml_min(600, PHYCLKPerState) * 10, 3, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, false, Output,
-  5380										OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, &dummy);
-  5381				//OutputTypeAndRate = "HDMI";
-  5382				*OutputType = dml_output_type_hdmi;
-  5383	
-  5384			} else if (Output == dml_dp || Output == dml_dp2p0 || Output == dml_edp) {
-  5385				if (DSCEnable == dml_dsc_enable) {
-  5386					*RequiresDSC = true;
-  5387					LinkDSCEnable = true;
-  5388					if (Output == dml_dp || Output == dml_dp2p0) {
-  5389						*RequiresFEC = true;
-  5390					} else {
-  5391						*RequiresFEC = false;
-  5392					}
-  5393				} else {
-  5394					*RequiresDSC = false;
-  5395					LinkDSCEnable = false;
-  5396					if (Output == dml_dp2p0) {
-  5397						*RequiresFEC = true;
-  5398					} else {
-  5399						*RequiresFEC = false;
-  5400					}
-  5401				}
-  5402				if (Output == dml_dp2p0) {
-  5403					*OutBpp = 0;
-  5404					if ((OutputLinkDPRate == dml_dp_rate_na || OutputLinkDPRate == dml_dp_rate_uhbr10) && PHYCLKD32PerState >= 10000 / 32) {
-  5405						*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 10000, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5406													OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5407						if (*OutBpp == 0 && PHYCLKD32PerState < 13500 / 32 && DSCEnable == dml_dsc_enable_if_necessary && ForcedOutputLinkBPP == 0) {
-  5408							*RequiresDSC = true;
-  5409							LinkDSCEnable = true;
-  5410							*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 10000, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5411														OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5412						}
-  5413						//OutputTypeAndRate = Output & " UHBR10";
-  5414						*OutputType = dml_output_type_dp2p0;
-  5415						*OutputRate = dml_output_rate_dp_rate_uhbr10;
-  5416					}
-  5417					if ((OutputLinkDPRate == dml_dp_rate_na || OutputLinkDPRate == dml_dp_rate_uhbr13p5) && *OutBpp == 0 && PHYCLKD32PerState >= 13500 / 32) {
-  5418						*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 13500, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5419													OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5420	
-> 5421						if (OutBpp == 0 && PHYCLKD32PerState < 20000 / 32 && DSCEnable == dml_dsc_enable_if_necessary && ForcedOutputLinkBPP == 0) {
-  5422							*RequiresDSC = true;
-  5423							LinkDSCEnable = true;
-  5424							*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 13500, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5425													OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5426						}
-  5427						//OutputTypeAndRate = Output & " UHBR13p5";
-  5428						*OutputType = dml_output_type_dp2p0;
-  5429						*OutputRate = dml_output_rate_dp_rate_uhbr13p5;
-  5430					}
-  5431					if ((OutputLinkDPRate == dml_dp_rate_na || OutputLinkDPRate == dml_dp_rate_uhbr20) && *OutBpp == 0 && PHYCLKD32PerState >= 20000 / 32) {
-  5432						*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 20000, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5433												OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5434						if (*OutBpp == 0 && DSCEnable == dml_dsc_enable_if_necessary && ForcedOutputLinkBPP == 0) {
-  5435							*RequiresDSC = true;
-  5436							LinkDSCEnable = true;
-  5437							*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 20000, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5438													OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5439						}
-  5440						//OutputTypeAndRate = Output & " UHBR20";
-  5441						*OutputType = dml_output_type_dp2p0;
-  5442						*OutputRate = dml_output_rate_dp_rate_uhbr20;
-  5443					}
-  5444				} else { // output is dp or edp
-  5445					*OutBpp = 0;
-  5446					if ((OutputLinkDPRate == dml_dp_rate_na || OutputLinkDPRate == dml_dp_rate_hbr) && PHYCLKPerState >= 270) {
-  5447						*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 2700, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5448												OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5449						if (*OutBpp == 0 && PHYCLKPerState < 540 && DSCEnable == dml_dsc_enable_if_necessary && ForcedOutputLinkBPP == 0) {
-  5450							*RequiresDSC = true;
-  5451							LinkDSCEnable = true;
-  5452							if (Output == dml_dp) {
-  5453								*RequiresFEC = true;
-  5454							}
-  5455							*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 2700, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5456													OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5457						}
-  5458						//OutputTypeAndRate = Output & " HBR";
-  5459						*OutputType = (Output == dml_dp) ? dml_output_type_dp : dml_output_type_edp;
-  5460						*OutputRate = dml_output_rate_dp_rate_hbr;
-  5461					}
-  5462					if ((OutputLinkDPRate == dml_dp_rate_na || OutputLinkDPRate == dml_dp_rate_hbr2) && *OutBpp == 0 && PHYCLKPerState >= 540) {
-  5463						*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 5400, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5464												OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5465	
-  5466						if (*OutBpp == 0 && PHYCLKPerState < 810 && DSCEnable == dml_dsc_enable_if_necessary && ForcedOutputLinkBPP == 0) {
-  5467							*RequiresDSC = true;
-  5468							LinkDSCEnable = true;
-  5469							if (Output == dml_dp) {
-  5470								*RequiresFEC = true;
-  5471							}
-  5472							*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 5400, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5473													OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5474						}
-  5475						//OutputTypeAndRate = Output & " HBR2";
-  5476						*OutputType = (Output == dml_dp) ? dml_output_type_dp : dml_output_type_edp;
-  5477						*OutputRate = dml_output_rate_dp_rate_hbr2;
-  5478					}
-  5479					if ((OutputLinkDPRate == dml_dp_rate_na || OutputLinkDPRate == dml_dp_rate_hbr3) && *OutBpp == 0 && PHYCLKPerState >= 810) { // VBA_ERROR, vba code doesn't have hbr3 check
-  5480						*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 8100, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5481												OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5482	
-  5483						if (*OutBpp == 0 && DSCEnable == dml_dsc_enable_if_necessary && ForcedOutputLinkBPP == 0) {
-  5484							*RequiresDSC = true;
-  5485							LinkDSCEnable = true;
-  5486							if (Output == dml_dp) {
-  5487								*RequiresFEC = true;
-  5488							}
-  5489							*OutBpp = TruncToValidBPP((1 - Downspreading / 100) * 8100, OutputLinkDPLanes, HTotal, HActive, PixelClockBackEnd, ForcedOutputLinkBPP, LinkDSCEnable, Output,
-  5490													OutputFormat, DSCInputBitPerComponent, NumberOfDSCSlices, (dml_uint_t)AudioSampleRate, AudioSampleLayout, ODMModeNoDSC, ODMModeDSC, RequiredSlots);
-  5491						}
-  5492						//OutputTypeAndRate = Output & " HBR3";
-  5493						*OutputType = (Output == dml_dp) ? dml_output_type_dp : dml_output_type_edp;
-  5494						*OutputRate = dml_output_rate_dp_rate_hbr3;
-  5495					}
-  5496				}
-  5497			}
-  5498		}
-  5499	}
-  5500	
+>> -- 
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
