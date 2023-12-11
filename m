@@ -1,49 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7639C5380E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 20:37:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B0053E38;
+	Mon, 11 Dec 2023 20:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dTG85wZR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZFMXzJlq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702327058; x=1733863058;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tZTAKJGVnPGxY+DYxogu1KWKjFB9K64MFQUwrzFsFTA=;
-  b=dTG85wZR3aHSi9G/x+y93wGANod7R7TP2a0Ut2niCUCeDm2WMWk01BiO
-   PKXG8Twr74y9Bc691DzOqAzk4Fn8HJHEpjoYDxTKc+VjkDV1lwEd72rm4
-   NO8OmLkojsKI5QjvJrJhnkBhs7GDw9z6jJ0vCU/FhGdPt0ToQC5jDYVuD
-   kB4JUt4HjkLFaLzFFrsBpl7xuI1E0w+6z7ThjVH8izPaOc87ynNpap0WZ
-   ToL6kyGGGTmbxVuG2sfONRVRS+1IM93C6wDaDw1p2tVnt8C9p5DMnumSW
-   iWuT/KBsqk8c879cOJbBc0c9CVF0hVdDNCV9eLctfj5798TElIVvPXQhD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1576465"
+  t=1702327059; x=1733863059;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2kZgK+Azl0i+jQycTVfutPvf19qddGVf1z6teDm6mjs=;
+  b=ZFMXzJlqvoJUsEqXei9AbWOwI08cSLNrfWHMWVlVMb4SIlYPutcwYmEi
+   2tu80OTBifl0oQ1+CaRrI9Z1cwOYc8s726t/3kAdl072x7Je5+qbDxabS
+   vAX6b84MX0en1nWdIZurjSpBJ+jynBvn8LYWTKz6IXUVOUihn799n1qLb
+   D57tX7WGXc1w5K409X8CKthLz5pf7PzVHl/KtOV3iIbcQzlxHb0EXHtgG
+   Uz/TKRo8qLFV6Q//NA5FHsUFeJvaTASDfLqWDAfYg9bdBOjELlaG+8str
+   6ijo5Lg+vXNH3rde5RO07MXKs9ZdoC9ic9cxKKADgZDjjZ+e5mMWcw9wq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1576470"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="1576465"
+   d="scan'208";a="1576470"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 12:37:36 -0800
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 12:37:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="946469696"
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="946469699"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="946469696"
+   d="scan'208";a="946469699"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga005.jf.intel.com with ESMTP; 11 Dec 2023 12:37:35 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCn1w-000ISg-2m;
+	id 1rCn1w-000ISi-2u;
 	Mon, 11 Dec 2023 20:37:32 +0000
-Date: Tue, 12 Dec 2023 04:37:13 +0800
+Date: Tue, 12 Dec 2023 04:37:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 6231/6992] kernel/events/core.c:7477
- perf_virt_to_phys() warn: always true condition '(virt >= (0)) => (0-u64max
- >= 0)'
-Message-ID: <202312120428.kUWabWlC-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH 2/4] media: imx334: Use v4l2_link_frequencies_to_bitmap
+ helper
+Message-ID: <202312120434.56RvVcwQ-lkp@intel.com>
+References: <20231211140658.366268-3-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,71 +56,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231211140658.366268-3-sakari.ailus@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bbd220ce4e29ed55ab079007cff0b550895258eb
-commit: 8a651e8f1fca74c7c2b033d9a0ad5214ac5d46e4 [6231/6992] riscv: fix VMALLOC_START definition
-config: riscv-randconfig-r071-20231211 (https://download.01.org/0day-ci/archive/20231212/202312120428.kUWabWlC-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120428.kUWabWlC-lkp@intel.com/reproduce)
+Hi Sakari,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master linus/master v6.7-rc5 next-20231211]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-Add-a-helper-for-setting-up-link-frequencies-control/20231211-220844
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20231211140658.366268-3-sakari.ailus%40linux.intel.com
+patch subject: [PATCH 2/4] media: imx334: Use v4l2_link_frequencies_to_bitmap helper
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231212/202312120434.56RvVcwQ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120434.56RvVcwQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120428.kUWabWlC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120434.56RvVcwQ-lkp@intel.com/
 
-New smatch warnings:
-kernel/events/core.c:7477 perf_virt_to_phys() warn: always true condition '(virt >= (0)) => (0-u64max >= 0)'
-drivers/clk/ingenic/tcu.c:455 ingenic_tcu_probe() warn: 'tcu->clk' from clk_prepare_enable() not released on lines: 455.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/riscv/include/asm/atomic.h:225 arch_atomic64_fetch_add_unless() warn: inconsistent indenting
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+>> drivers/media/i2c/imx334.c:1115:15: warning: unused variable 'i' [-Wunused-variable]
+           unsigned int i, j;
+                        ^
+>> drivers/media/i2c/imx334.c:1115:18: warning: unused variable 'j' [-Wunused-variable]
+           unsigned int i, j;
+                           ^
+   2 warnings generated.
 
-vim +7477 kernel/events/core.c
 
-5622f295b53fb6 kernel/perf_counter.c Markus Metzger   2009-09-15  7466  
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7467  static u64 perf_virt_to_phys(u64 virt)
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7468  {
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7469  	u64 phys_addr = 0;
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7470  
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7471  	if (!virt)
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7472  		return 0;
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7473  
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7474  	if (virt >= TASK_SIZE) {
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7475  		/* If it's vmalloc()d memory, leave phys_addr as 0 */
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7476  		if (virt_addr_valid((void *)(uintptr_t)virt) &&
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28 @7477  		    !(virt >= VMALLOC_START && virt < VMALLOC_END))
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7478  			phys_addr = (u64)virt_to_phys((void *)(uintptr_t)virt);
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7479  	} else {
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7480  		/*
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7481  		 * Walking the pages tables for user address.
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7482  		 * Interrupts are disabled, so it prevents any tear down
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7483  		 * of the page tables.
-dadbb612f6e50b kernel/events/core.c  Souptick Joarder 2020-06-07  7484  		 * Try IRQ-safe get_user_page_fast_only first.
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7485  		 * If failed, leave phys_addr as 0.
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7486  		 */
-d3296fb372bf74 kernel/events/core.c  Jiri Olsa        2020-04-07  7487  		if (current->mm != NULL) {
-4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7488  			struct page *p;
-4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7489  
-d3296fb372bf74 kernel/events/core.c  Jiri Olsa        2020-04-07  7490  			pagefault_disable();
-4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7491  			if (get_user_page_fast_only(virt, 0, &p)) {
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7492  				phys_addr = page_to_phys(p) + virt % PAGE_SIZE;
-4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7493  				put_page(p);
-4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7494  			}
-d3296fb372bf74 kernel/events/core.c  Jiri Olsa        2020-04-07  7495  			pagefault_enable();
-d3296fb372bf74 kernel/events/core.c  Jiri Olsa        2020-04-07  7496  		}
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7497  	}
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7498  
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7499  	return phys_addr;
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7500  }
-fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7501  
+vim +/i +1115 drivers/media/i2c/imx334.c
 
-:::::: The code at line 7477 was first introduced by commit
-:::::: fc7ce9c74c3ad232b084d80148654f926d01ece7 perf/core, x86: Add PERF_SAMPLE_PHYS_ADDR
-
-:::::: TO: Kan Liang <kan.liang@intel.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+9746b11715c394 Martina Krasteva 2021-02-03  1100  
+9746b11715c394 Martina Krasteva 2021-02-03  1101  /**
+9746b11715c394 Martina Krasteva 2021-02-03  1102   * imx334_parse_hw_config() - Parse HW configuration and check if supported
+9746b11715c394 Martina Krasteva 2021-02-03  1103   * @imx334: pointer to imx334 device
+9746b11715c394 Martina Krasteva 2021-02-03  1104   *
+9746b11715c394 Martina Krasteva 2021-02-03  1105   * Return: 0 if successful, error code otherwise.
+9746b11715c394 Martina Krasteva 2021-02-03  1106   */
+9746b11715c394 Martina Krasteva 2021-02-03  1107  static int imx334_parse_hw_config(struct imx334 *imx334)
+9746b11715c394 Martina Krasteva 2021-02-03  1108  {
+9746b11715c394 Martina Krasteva 2021-02-03  1109  	struct fwnode_handle *fwnode = dev_fwnode(imx334->dev);
+9746b11715c394 Martina Krasteva 2021-02-03  1110  	struct v4l2_fwnode_endpoint bus_cfg = {
+9746b11715c394 Martina Krasteva 2021-02-03  1111  		.bus_type = V4L2_MBUS_CSI2_DPHY
+9746b11715c394 Martina Krasteva 2021-02-03  1112  	};
+9746b11715c394 Martina Krasteva 2021-02-03  1113  	struct fwnode_handle *ep;
+9746b11715c394 Martina Krasteva 2021-02-03  1114  	unsigned long rate;
+e3269ea5148d39 Shravan Chippa   2023-04-14 @1115  	unsigned int i, j;
+9746b11715c394 Martina Krasteva 2021-02-03  1116  	int ret;
+9746b11715c394 Martina Krasteva 2021-02-03  1117  
+9746b11715c394 Martina Krasteva 2021-02-03  1118  	if (!fwnode)
+9746b11715c394 Martina Krasteva 2021-02-03  1119  		return -ENXIO;
+9746b11715c394 Martina Krasteva 2021-02-03  1120  
+9746b11715c394 Martina Krasteva 2021-02-03  1121  	/* Request optional reset pin */
+9746b11715c394 Martina Krasteva 2021-02-03  1122  	imx334->reset_gpio = devm_gpiod_get_optional(imx334->dev, "reset",
+9746b11715c394 Martina Krasteva 2021-02-03  1123  						     GPIOD_OUT_LOW);
+9746b11715c394 Martina Krasteva 2021-02-03  1124  	if (IS_ERR(imx334->reset_gpio)) {
+c702e2f70275db Hans Verkuil     2021-02-08  1125  		dev_err(imx334->dev, "failed to get reset gpio %ld",
+c702e2f70275db Hans Verkuil     2021-02-08  1126  			PTR_ERR(imx334->reset_gpio));
+9746b11715c394 Martina Krasteva 2021-02-03  1127  		return PTR_ERR(imx334->reset_gpio);
+9746b11715c394 Martina Krasteva 2021-02-03  1128  	}
+9746b11715c394 Martina Krasteva 2021-02-03  1129  
+9746b11715c394 Martina Krasteva 2021-02-03  1130  	/* Get sensor input clock */
+9746b11715c394 Martina Krasteva 2021-02-03  1131  	imx334->inclk = devm_clk_get(imx334->dev, NULL);
+9746b11715c394 Martina Krasteva 2021-02-03  1132  	if (IS_ERR(imx334->inclk)) {
+9746b11715c394 Martina Krasteva 2021-02-03  1133  		dev_err(imx334->dev, "could not get inclk");
+9746b11715c394 Martina Krasteva 2021-02-03  1134  		return PTR_ERR(imx334->inclk);
+9746b11715c394 Martina Krasteva 2021-02-03  1135  	}
+9746b11715c394 Martina Krasteva 2021-02-03  1136  
+9746b11715c394 Martina Krasteva 2021-02-03  1137  	rate = clk_get_rate(imx334->inclk);
+9746b11715c394 Martina Krasteva 2021-02-03  1138  	if (rate != IMX334_INCLK_RATE) {
+9746b11715c394 Martina Krasteva 2021-02-03  1139  		dev_err(imx334->dev, "inclk frequency mismatch");
+9746b11715c394 Martina Krasteva 2021-02-03  1140  		return -EINVAL;
+9746b11715c394 Martina Krasteva 2021-02-03  1141  	}
+9746b11715c394 Martina Krasteva 2021-02-03  1142  
+9746b11715c394 Martina Krasteva 2021-02-03  1143  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+9746b11715c394 Martina Krasteva 2021-02-03  1144  	if (!ep)
+9746b11715c394 Martina Krasteva 2021-02-03  1145  		return -ENXIO;
+9746b11715c394 Martina Krasteva 2021-02-03  1146  
+9746b11715c394 Martina Krasteva 2021-02-03  1147  	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+9746b11715c394 Martina Krasteva 2021-02-03  1148  	fwnode_handle_put(ep);
+9746b11715c394 Martina Krasteva 2021-02-03  1149  	if (ret)
+9746b11715c394 Martina Krasteva 2021-02-03  1150  		return ret;
+9746b11715c394 Martina Krasteva 2021-02-03  1151  
+9746b11715c394 Martina Krasteva 2021-02-03  1152  	if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX334_NUM_DATA_LANES) {
+9746b11715c394 Martina Krasteva 2021-02-03  1153  		dev_err(imx334->dev,
+9746b11715c394 Martina Krasteva 2021-02-03  1154  			"number of CSI2 data lanes %d is not supported",
+9746b11715c394 Martina Krasteva 2021-02-03  1155  			bus_cfg.bus.mipi_csi2.num_data_lanes);
+9746b11715c394 Martina Krasteva 2021-02-03  1156  		ret = -EINVAL;
+9746b11715c394 Martina Krasteva 2021-02-03  1157  		goto done_endpoint_free;
+9746b11715c394 Martina Krasteva 2021-02-03  1158  	}
+9746b11715c394 Martina Krasteva 2021-02-03  1159  
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1160  	ret = v4l2_link_frequencies_to_bitmap(imx334->dev,
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1161  					      bus_cfg.link_frequencies,
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1162  					      bus_cfg.nr_of_link_frequencies,
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1163  					      link_freq, ARRAY_SIZE(link_freq),
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1164  					      &imx334->link_freq_bitmap);
+9746b11715c394 Martina Krasteva 2021-02-03  1165  
+9746b11715c394 Martina Krasteva 2021-02-03  1166  done_endpoint_free:
+9746b11715c394 Martina Krasteva 2021-02-03  1167  	v4l2_fwnode_endpoint_free(&bus_cfg);
+9746b11715c394 Martina Krasteva 2021-02-03  1168  
+9746b11715c394 Martina Krasteva 2021-02-03  1169  	return ret;
+9746b11715c394 Martina Krasteva 2021-02-03  1170  }
+9746b11715c394 Martina Krasteva 2021-02-03  1171  
 
 -- 
 0-DAY CI Kernel Test Service
