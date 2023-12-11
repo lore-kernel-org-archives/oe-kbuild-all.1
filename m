@@ -1,274 +1,118 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E2F2137B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 21:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306AA2137B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 21:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nByBboe4"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3333fbbeab9so4447802f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 13:36:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702330597; x=1702935397; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/Vppo7NU6Ebv3ckyFDeCWLvuP+8JGYLLMsJt0+DiFg4=;
-        b=nByBboe46dS040G42BDnpVRQxQfa/cVVc9mBlRUaGLbb0rc+Gijum9wp5V7AsZ8omd
-         uZ+Cp24YuFZeryrzp9E6/TNnpeGsBk9kMCKOLOwo9TO8Z+TmV93PIiIs77ddjqUHi4Xh
-         qm3UmpoufB0ZniSBELurnIcvmibYJjSEG540vLfI5lHWeGRrGAfvQHNGBCqaBjoO8k3R
-         3b1azflqkUaK88Zqm7MnWBssDAtE4uWk0iRXh0xgJbhlQ0LHwqZcaRNCtQIi4CoJstlz
-         KmdPMUHiGMO3yhMo+llflwskszwSZonyPnojfQP6q7XNt/9ZbfJ9T/OXqcJj4vV8QWCz
-         HGiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702330597; x=1702935397;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/Vppo7NU6Ebv3ckyFDeCWLvuP+8JGYLLMsJt0+DiFg4=;
-        b=rQHnqjpzGlahc/EoZRTawAdHdZb3UYawu3vNyRPon+NHJPii435gitQxZ3N6qEmFH3
-         4w7saE9tNiCfHaiskAtadyM6Z5yUX+t+cLoB2SA+37w3jDESBZxF2QWDXeuWK8BxNu8o
-         mldb7LU0EpcJS0jW445wgCdGf23s6Ui1h6L6kocitMQOrxnjebQTqO66C2937JmG4jz8
-         VZS2OIUE+A7J3nFJC5QxpMRiwg95RF6lPtDqZ6VaNocFr1fyximzt7oqM6GS01FXhHI7
-         2ffM9o0mlX9+ElQa4N2ibVWH3AZK7JeF5e4Y4aXJDpCLWUAzlsadf5R16KQ1zKL2xJgB
-         S30g==
-X-Gm-Message-State: AOJu0YwIDgoMk5iealBU0BVmJ0s8erRp1fjWI4i0/jT+cVD/aeY04saq
-	Z47QDlRavqlKdZS7nRcUI7h8L1spkQ1+gQnA8Ozq5w==
-X-Google-Smtp-Source: AGHT+IFUuTHQMfY1vC2ANr/q6GuCdL0vi+i/MuA/El7BUOtHVuk8oqmOKJ1YMKuhUCkiYpQTE6InNJ0NS0A8ml7jGCo=
-X-Received: by 2002:a5d:510e:0:b0:333:55da:62b4 with SMTP id
- s14-20020a5d510e000000b0033355da62b4mr2424433wrt.111.1702330596929; Mon, 11
- Dec 2023 13:36:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIXObhTO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702330993; x=1733866993;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=19DxBUJi/Ir5nNm2awpXrBoHk+7/x5xguTu96/SHplM=;
+  b=PIXObhTONbHuv3TWvOJqychT7K64/5G/MmgN6syAYgT8e1dasukhgs1t
+   5Jo0REk8/OoxU5QhFEx0U3ifGxAZQ8LySwgHNxndnssIVSZfmX29o+mG8
+   dzUSiwMkLh4n2w4/SFusZpWuEm9cqbmr1eBa5I4Qc8epBxkXyNLdLjmkN
+   XwsU+3giid0aVIyX9SzAS04jovdX+cvIekoeG9PhZh8Cdn7zogd/Zu4h5
+   ZtQqvo+JZIRVMmUntYVU2GF3/hHAScMuyFptPya2SUEOCVHPmJOeckvBV
+   sbBr4+RYe0Z55Rq9BrtguwX3Uc81KcOryQcUTiR8h7JifB5+qq8QGqAVW
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1862478"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="1862478"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 13:43:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="722964430"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="722964430"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 11 Dec 2023 13:43:04 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rCo3K-000IV7-0E;
+	Mon, 11 Dec 2023 21:43:02 +0000
+Date: Tue, 12 Dec 2023 05:42:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 6/9] include/linux/blkdev.h:118:33: warning:
+ passing argument 2 of 'blkdev_put' makes pointer from integer without a cast
+Message-ID: <202312120516.oN3ZO1V5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202312120116.CP1IYKWT-lkp@intel.com>
-In-Reply-To: <202312120116.CP1IYKWT-lkp@intel.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 11 Dec 2023 13:36:22 -0800
-Message-ID: <CAKwvOdk-f2CzzeKjEWyBi9MNM4spo9o90J_rsqtdNBy15GZ+Qw@mail.gmail.com>
-Subject: Re: arch/mips/include/asm/mipsregs.h:2791:3: error: instruction
- requires a CPU feature not currently enabled
-To: llvm@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Dec 11, 2023 at 9:48=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Nick,
->
-> FYI, the error/warning still remains.
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-> commit: f12b034afeb3a977bbb1c6584dedc0f3dc666f14 scripts/Makefile.clang: =
-default to LLVM_IAS=3D1
-> date:   2 years, 4 months ago
-> config: mips-malta_kvm_defconfig (https://download.01.org/0day-ci/archive=
-/20231212/202312120116.CP1IYKWT-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
-ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20231212/202312120116.CP1IYKWT-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312120116.CP1IYKWT-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from arch/mips/kvm/tlb.c:13:
->    In file included from include/linux/sched.h:12:
->    In file included from ./arch/mips/include/generated/asm/current.h:1:
->    In file included from include/asm-generic/current.h:5:
->    In file included from include/linux/thread_info.h:14:
->    In file included from include/linux/restart_block.h:10:
->    In file included from include/linux/time64.h:5:
->    In file included from include/linux/math64.h:6:
->    In file included from include/linux/math.h:5:
->    In file included from arch/mips/include/asm/div64.h:89:
->    In file included from include/asm-generic/div64.h:55:
->    In file included from include/linux/log2.h:12:
->    In file included from include/linux/bitops.h:32:
->    In file included from arch/mips/include/asm/bitops.h:19:
->    In file included from arch/mips/include/asm/barrier.h:11:
->    In file included from arch/mips/include/asm/addrspace.h:13:
->    In file included from arch/mips/include/asm/mach-malta/spaces.h:44:
->    In file included from arch/mips/include/asm/mach-generic/spaces.h:15:
-> >> arch/mips/include/asm/mipsregs.h:2791:3: error: instruction requires a=
- CPU feature not currently enabled
->                    _ASM_SET_VIRT
->                    ^
->    arch/mips/include/asm/mipsregs.h:2073:36: note: expanded from macro '_=
-ASM_SET_VIRT'
->    #define _ASM_SET_VIRT ".set\tvirt\n\t"
->                                       ^
->    <inline asm>:4:2: note: instantiated into assembly here
->            tlbgp
->            ^
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   1b768cc63f5abe0b76a68266dd997c4c2d061363
+commit: cd323d13deca39a6bf99aa7fd617f68234cd99a9 [6/9] CHROMIUM: PM: hibernate: Add three ioctls for secure image transfer
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231212/202312120516.oN3ZO1V5-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120516.oN3ZO1V5-lkp@intel.com/reproduce)
 
-https://github.com/ClangBuiltLinux/linux/issues/1532
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120516.oN3ZO1V5-lkp@intel.com/
 
->    In file included from arch/mips/kvm/tlb.c:13:
->    In file included from include/linux/sched.h:12:
->    In file included from ./arch/mips/include/generated/asm/current.h:1:
->    In file included from include/asm-generic/current.h:5:
->    In file included from include/linux/thread_info.h:14:
->    In file included from include/linux/restart_block.h:10:
->    In file included from include/linux/time64.h:5:
->    In file included from include/linux/math64.h:6:
->    In file included from include/linux/math.h:5:
->    In file included from arch/mips/include/asm/div64.h:89:
->    In file included from include/asm-generic/div64.h:55:
->    In file included from include/linux/log2.h:12:
->    In file included from include/linux/bitops.h:32:
->    In file included from arch/mips/include/asm/bitops.h:19:
->    In file included from arch/mips/include/asm/barrier.h:11:
->    In file included from arch/mips/include/asm/addrspace.h:13:
->    In file included from arch/mips/include/asm/mach-malta/spaces.h:44:
->    In file included from arch/mips/include/asm/mach-generic/spaces.h:15:
->    arch/mips/include/asm/mipsregs.h:2801:3: error: instruction requires a=
- CPU feature not currently enabled
->                    _ASM_SET_VIRT
->                    ^
->    arch/mips/include/asm/mipsregs.h:2073:36: note: expanded from macro '_=
-ASM_SET_VIRT'
->    #define _ASM_SET_VIRT ".set\tvirt\n\t"
->                                       ^
->    <inline asm>:4:2: note: instantiated into assembly here
->            tlbgr
->            ^
->    In file included from arch/mips/kvm/tlb.c:13:
->    In file included from include/linux/sched.h:12:
->    In file included from ./arch/mips/include/generated/asm/current.h:1:
->    In file included from include/asm-generic/current.h:5:
->    In file included from include/linux/thread_info.h:14:
->    In file included from include/linux/restart_block.h:10:
->    In file included from include/linux/time64.h:5:
->    In file included from include/linux/math64.h:6:
->    In file included from include/linux/math.h:5:
->    In file included from arch/mips/include/asm/div64.h:89:
->    In file included from include/asm-generic/div64.h:55:
->    In file included from include/linux/log2.h:12:
->    In file included from include/linux/bitops.h:32:
->    In file included from arch/mips/include/asm/bitops.h:19:
->    In file included from arch/mips/include/asm/barrier.h:11:
->    In file included from arch/mips/include/asm/addrspace.h:13:
->    In file included from arch/mips/include/asm/mach-malta/spaces.h:44:
->    In file included from arch/mips/include/asm/mach-generic/spaces.h:15:
->    arch/mips/include/asm/mipsregs.h:2811:3: error: instruction requires a=
- CPU feature not currently enabled
->                    _ASM_SET_VIRT
->                    ^
->    arch/mips/include/asm/mipsregs.h:2073:36: note: expanded from macro '_=
-ASM_SET_VIRT'
->    #define _ASM_SET_VIRT ".set\tvirt\n\t"
->                                       ^
->    <inline asm>:4:2: note: instantiated into assembly here
->            tlbgwi
->            ^
->    In file included from arch/mips/kvm/tlb.c:13:
->    In file included from include/linux/sched.h:12:
->    In file included from ./arch/mips/include/generated/asm/current.h:1:
->    In file included from include/asm-generic/current.h:5:
->    In file included from include/linux/thread_info.h:14:
->    In file included from include/linux/restart_block.h:10:
->    In file included from include/linux/time64.h:5:
->    In file included from include/linux/math64.h:6:
->    In file included from include/linux/math.h:5:
->    In file included from arch/mips/include/asm/div64.h:89:
->    In file included from include/asm-generic/div64.h:55:
->    In file included from include/linux/log2.h:12:
->    In file included from include/linux/bitops.h:32:
->    In file included from arch/mips/include/asm/bitops.h:19:
->    In file included from arch/mips/include/asm/barrier.h:11:
->    In file included from arch/mips/include/asm/addrspace.h:13:
->    In file included from arch/mips/include/asm/mach-malta/spaces.h:44:
->    In file included from arch/mips/include/asm/mach-generic/spaces.h:15:
->    arch/mips/include/asm/mipsregs.h:2801:3: error: instruction requires a=
- CPU feature not currently enabled
->                    _ASM_SET_VIRT
->                    ^
->    arch/mips/include/asm/mipsregs.h:2073:36: note: expanded from macro '_=
-ASM_SET_VIRT'
->    #define _ASM_SET_VIRT ".set\tvirt\n\t"
->                                       ^
->    <inline asm>:4:2: note: instantiated into assembly here
->            tlbgr
->            ^
->    In file included from arch/mips/kvm/tlb.c:13:
->    In file included from include/linux/sched.h:12:
->    In file included from ./arch/mips/include/generated/asm/current.h:1:
->    In file included from include/asm-generic/current.h:5:
->    In file included from include/linux/thread_info.h:14:
->    In file included from include/linux/restart_block.h:10:
->    In file included from include/linux/time64.h:5:
->    In file included from include/linux/math64.h:6:
->    In file included from include/linux/math.h:5:
->    In file included from arch/mips/include/asm/div64.h:89:
->    In file included from include/asm-generic/div64.h:55:
->
->
-> vim +2791 arch/mips/include/asm/mipsregs.h
->
-> ^1da177e4c3f41 include/asm-mips/mipsregs.h      Linus Torvalds 2005-04-16=
-  2780
-> ^1da177e4c3f41 include/asm-mips/mipsregs.h      Linus Torvalds 2005-04-16=
-  2781  /*
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2782   * Guest TLB operations.
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2783   *
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2784   * It is responsibility of the caller to take care of any TLB hazar=
-ds.
-> ^1da177e4c3f41 include/asm-mips/mipsregs.h      Linus Torvalds 2005-04-16=
-  2785   */
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2786  static inline void guest_tlb_probe(void)
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2787  {
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2788         __asm__ __volatile__(
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2789                 ".set push\n\t"
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2790                 ".set noreorder\n\t"
-> 00b4eb408aaff2 arch/mips/include/asm/mipsregs.h James Hogan    2017-11-22=
- @2791                 _ASM_SET_VIRT
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2792                 "tlbgp\n\t"
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2793                 ".set pop");
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2794  }
-> 7eb91118227d71 arch/mips/include/asm/mipsregs.h James Hogan    2016-05-11=
-  2795
->
-> :::::: The code at line 2791 was first introduced by commit
-> :::::: 00b4eb408aaff21aeb806de24c5ff25b398083a4 MIPS: VZ: Update helpers =
-to use new asm macros
->
-> :::::: TO: James Hogan <jhogan@kernel.org>
-> :::::: CC: James Hogan <jhogan@kernel.org>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
+
+   In file included from kernel/power/user.c:27:
+   kernel/power/user.c: In function 'snapshot_set_block_device':
+>> include/linux/blkdev.h:118:33: warning: passing argument 2 of 'blkdev_put' makes pointer from integer without a cast [-Wint-conversion]
+     118 | #define BLK_OPEN_READ           ((__force blk_mode_t)(1 << 0))
+         |                                 ^
+         |                                 |
+         |                                 unsigned int
+   kernel/power/user.c:277:34: note: in expansion of macro 'BLK_OPEN_READ'
+     277 |                 blkdev_put(bdev, BLK_OPEN_READ | BLK_OPEN_WRITE | BLK_OPEN_EXCL);
+         |                                  ^~~~~~~~~~~~~
+   include/linux/blkdev.h:1489:50: note: expected 'void *' but argument is of type 'unsigned int'
+    1489 | void blkdev_put(struct block_device *bdev, void *holder);
+         |                                            ~~~~~~^~~~~~
+   kernel/power/user.c: In function 'snapshot_release_block_device':
+>> include/linux/blkdev.h:118:33: warning: passing argument 2 of 'blkdev_put' makes pointer from integer without a cast [-Wint-conversion]
+     118 | #define BLK_OPEN_READ           ((__force blk_mode_t)(1 << 0))
+         |                                 ^
+         |                                 |
+         |                                 unsigned int
+   kernel/power/user.c:296:32: note: in expansion of macro 'BLK_OPEN_READ'
+     296 |         blkdev_put(data->bdev, BLK_OPEN_READ | BLK_OPEN_WRITE | BLK_OPEN_EXCL);
+         |                                ^~~~~~~~~~~~~
+   include/linux/blkdev.h:1489:50: note: expected 'void *' but argument is of type 'unsigned int'
+    1489 | void blkdev_put(struct block_device *bdev, void *holder);
+         |                                            ~~~~~~^~~~~~
 
 
+vim +/blkdev_put +118 include/linux/blkdev.h
 
---=20
-Thanks,
-~Nick Desaulniers
+05bdb9965305bb Christoph Hellwig 2023-06-08  116  
+05bdb9965305bb Christoph Hellwig 2023-06-08  117  /* open for reading */
+05bdb9965305bb Christoph Hellwig 2023-06-08 @118  #define BLK_OPEN_READ		((__force blk_mode_t)(1 << 0))
+05bdb9965305bb Christoph Hellwig 2023-06-08  119  /* open for writing */
+05bdb9965305bb Christoph Hellwig 2023-06-08  120  #define BLK_OPEN_WRITE		((__force blk_mode_t)(1 << 1))
+05bdb9965305bb Christoph Hellwig 2023-06-08  121  /* open exclusively (vs other exclusive openers */
+05bdb9965305bb Christoph Hellwig 2023-06-08  122  #define BLK_OPEN_EXCL		((__force blk_mode_t)(1 << 2))
+05bdb9965305bb Christoph Hellwig 2023-06-08  123  /* opened with O_NDELAY */
+05bdb9965305bb Christoph Hellwig 2023-06-08  124  #define BLK_OPEN_NDELAY		((__force blk_mode_t)(1 << 3))
+05bdb9965305bb Christoph Hellwig 2023-06-08  125  /* open for "writes" only for ioctls (specialy hack for floppy.c) */
+05bdb9965305bb Christoph Hellwig 2023-06-08  126  #define BLK_OPEN_WRITE_IOCTL	((__force blk_mode_t)(1 << 4))
+05bdb9965305bb Christoph Hellwig 2023-06-08  127  
+
+:::::: The code at line 118 was first introduced by commit
+:::::: 05bdb9965305bbfdae79b31d22df03d1e2cfcb22 block: replace fmode_t with a block-specific type for block open flags
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
