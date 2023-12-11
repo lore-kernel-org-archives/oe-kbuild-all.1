@@ -1,272 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2344EB4D;
-	Mon, 11 Dec 2023 18:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0976D524CC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 18:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/pa+GbC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acuHPID1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702317635; x=1733853635;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=tMC8yRoYUTc9X1VBTaW/uBj01hskaQ3rsvTliVh20+g=;
-  b=m/pa+GbCQP95W6kFjHy1RiZaP4oB1d+/UuNE7c4I589lyimQQMf/065U
-   7KIolVfHhMaPPe4eNWMVWvXVQqLqeGomVQrOERZAOWrhALRcxqmjSylI+
-   OGz4ewELd3mbEIwu8WAN+qt+JwV+xaj06UfG8tL7B1gNqDJk9CXnphjoe
-   TNL3jCROBPl7IMqcXqEhN2hh1OmXHbBADt757voOkUkCofV0EGHcRE9MR
-   CUrJjvw2CLovTk+aCs5DEIbrO/jfTbWFj8U29/Qa4zzOd+QSx3UoIAZPb
-   bP9c08Hhlz0OC0G8nrIZhxbjx7v7bNQa9MiOcls9Fe8nOythWqXJA8DlK
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1830847"
+  t=1702320091; x=1733856091;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=l+DyZ8UU/9XXHetIIIi2W3nMVV8qkg3F57XCtDgDVUM=;
+  b=acuHPID1bfm2/AeTa9R7tZwoekTyiC3Vf0YWGxc0KfXg2bAl5oRGspEl
+   PULMCyY7CnNfa7dxRdqheG0acAbu7LjuVgraV63rD/piWf1QzAX+QtxwV
+   oa9Z3y/8rJy4hqvFYMfrL+5sq92TSazTHQX2192viv5QIJSxnrnJjbuBm
+   2urEP7Wmmk45LjuFT9lS1K+rVnFJNIJvqv8M4Yefw0za4PGiPKW1f/lOT
+   lqhCprBIDcFzejjyKmnoW9zluKj/bd5d3stGuhXIg83iw114W7RQ+dVch
+   qG82wm8BQaOJ8ViS63GUnBGN3L0ZBOOvVlpV+q6e62CRs+pHD2Wy4JNaE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1532383"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="1830847"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 10:00:34 -0800
+   d="scan'208";a="1532383"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 10:41:30 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="843601845"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="14578578"
+   d="scan'208";a="843601845"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 11 Dec 2023 10:00:30 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 11 Dec 2023 10:41:29 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCkZu-000IJl-31;
-	Mon, 11 Dec 2023 18:00:27 +0000
-Date: Tue, 12 Dec 2023 02:00:12 +0800
+	id 1rClDa-000INI-2R;
+	Mon, 11 Dec 2023 18:41:26 +0000
+Date: Tue, 12 Dec 2023 02:40:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: linan666@huaweicloud.com, song@kernel.org, axboe@kernel.dk
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-raid@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linan666@huaweicloud.com,
-	yukuai3@huawei.com, yi.zhang@huawei.com, houtao1@huawei.com,
-	yangerkun@huawei.com
-Subject: Re: [PATCH 2/2] md: don't account sync_io if iostats of the disk is
- disabled
-Message-ID: <202312120159.I03ON8Ov-lkp@intel.com>
-References: <20231211075614.1850003-3-linan666@huaweicloud.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 6214/6992] fs/bcachefs/super.c:93:17: warning:
+ function '__bch2_print' might be a candidate for 'gnu_printf' format
+ attribute
+Message-ID: <202312120215.R0X1cyU3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231211075614.1850003-3-linan666@huaweicloud.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on song-md/md-next]
-[also build test ERROR on axboe-block/for-next linus/master v6.7-rc5 next-20231211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/linan666-huaweicloud-com/md-Fix-overflow-in-is_mddev_idle/20231211-155833
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
-patch link:    https://lore.kernel.org/r/20231211075614.1850003-3-linan666%40huaweicloud.com
-patch subject: [PATCH 2/2] md: don't account sync_io if iostats of the disk is disabled
-config: i386-buildonly-randconfig-003-20231211 (https://download.01.org/0day-ci/archive/20231212/202312120159.I03ON8Ov-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120159.I03ON8Ov-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bbd220ce4e29ed55ab079007cff0b550895258eb
+commit: bd6599d01e62591a0b371b58ec9c191475a10285 [6214/6992] bcachefs: Add ability to redirect log output
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20231212/202312120215.R0X1cyU3-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120215.R0X1cyU3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120159.I03ON8Ov-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120215.R0X1cyU3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/md/md-faulty.c:60:
->> drivers/md/md.h:587:28: error: character <U+2014> not allowed in an identifier
-           if (blk_queue_io_stat(disk—>queue))
-                                     ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
-   11 errors generated.
---
-   In file included from drivers/md/md-bitmap.c:32:
->> drivers/md/md.h:587:28: error: character <U+2014> not allowed in an identifier
-           if (blk_queue_io_stat(disk—>queue))
-                                     ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md-bitmap.c:2601:34: warning: result of comparison of constant 4294967296 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
-           if (BITS_PER_LONG > 32 && csize >= (1ULL << (BITS_PER_BYTE *
-                                     ~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 11 errors generated.
---
-   In file included from drivers/md/md.c:69:
->> drivers/md/md.h:587:28: error: character <U+2014> not allowed in an identifier
-           if (blk_queue_io_stat(disk—>queue))
-                                     ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.c:8517:29: error: character <U+2014> not allowed in an identifier
-                   if (blk_queue_io_stat(disk—>queue))
-                                             ^
->> drivers/md/md.c:8517:25: error: use of undeclared identifier 'disk—'
-                   if (blk_queue_io_stat(disk—>queue))
-                                         ^
->> drivers/md/md.c:8517:33: error: use of undeclared identifier 'queue'
-                   if (blk_queue_io_stat(disk—>queue))
-                                               ^
->> drivers/md/md.c:8517:25: error: use of undeclared identifier 'disk—'
-                   if (blk_queue_io_stat(disk—>queue))
-                                         ^
->> drivers/md/md.c:8517:33: error: use of undeclared identifier 'queue'
-                   if (blk_queue_io_stat(disk—>queue))
-                                               ^
->> drivers/md/md.c:8517:25: error: use of undeclared identifier 'disk—'
-                   if (blk_queue_io_stat(disk—>queue))
-                                         ^
->> drivers/md/md.c:8517:33: error: use of undeclared identifier 'queue'
-                   if (blk_queue_io_stat(disk—>queue))
-                                               ^
->> drivers/md/md.c:8517:25: error: use of undeclared identifier 'disk—'
-                   if (blk_queue_io_stat(disk—>queue))
-                                         ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
---
-   In file included from drivers/md/raid5.c:53:
->> drivers/md/md.h:587:28: error: character <U+2014> not allowed in an identifier
-           if (blk_queue_io_stat(disk—>queue))
-                                     ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
->> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
-           if (blk_queue_io_stat(disk—>queue))
-                                 ^
->> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
-           if (blk_queue_io_stat(disk—>queue))
-                                       ^
-   drivers/md/raid5.c:4265:7: warning: variable 'qread' set but not used [-Wunused-but-set-variable]
-                   int qread =0;
-                       ^
-   1 warning and 11 errors generated.
+   In file included from fs/bcachefs/super.c:31:
+   fs/bcachefs/error.h: In function 'bch2_bkey_fsck_err':
+   fs/bcachefs/error.h:168:9: warning: function 'bch2_bkey_fsck_err' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     168 |         prt_vprintf(err_msg, fmt, args);
+         |         ^~~~~~~~~~~
+   fs/bcachefs/super.c: In function '__bch2_print':
+>> fs/bcachefs/super.c:93:17: warning: function '__bch2_print' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+      93 |                 vprintk(fmt, args);
+         |                 ^~~~~~~
+   fs/bcachefs/super.c:101:17: warning: function '__bch2_print' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     101 |                 prt_vprintf(&output->buf, fmt, args);
+         |                 ^~~~~~~~~~~
 
 
-vim +587 drivers/md/md.h
+vim +93 fs/bcachefs/super.c
 
-   584	
-   585	static inline void md_sync_acct_bio(struct bio *bio, unsigned long nr_sectors)
-   586	{
- > 587		if (blk_queue_io_stat(disk—>queue))
-   588			md_sync_acct(bio->bi_bdev, nr_sectors);
-   589	}
-   590	
+    82	
+    83	void __bch2_print(struct bch_fs *c, const char *fmt, ...)
+    84	{
+    85		struct log_output *output = c->output;
+    86		va_list args;
+    87	
+    88		if (c->output_filter && c->output_filter != current)
+    89			output = NULL;
+    90	
+    91		va_start(args, fmt);
+    92		if (likely(!output)) {
+  > 93			vprintk(fmt, args);
+    94		} else {
+    95			unsigned long flags;
+    96	
+    97			if (fmt[0] == KERN_SOH[0])
+    98				fmt += 2;
+    99	
+   100			spin_lock_irqsave(&output->lock, flags);
+   101			prt_vprintf(&output->buf, fmt, args);
+   102			spin_unlock_irqrestore(&output->lock, flags);
+   103	
+   104			wake_up(&output->wait);
+   105		}
+   106		va_end(args);
+   107	}
+   108	
 
 -- 
 0-DAY CI Kernel Test Service
