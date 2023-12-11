@@ -1,241 +1,272 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF894EB4D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 17:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2344EB4D;
+	Mon, 11 Dec 2023 18:00:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1OxRNBR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/pa+GbC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702317557; x=1733853557;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PsW2ndOHwv2IudZ4G4zSXL7Cdy6YddJQIjcd3yWNPwA=;
-  b=b1OxRNBR1M8NDOwKvnVfWE6syuu36zbpxelqRdQ41SfrYGdExfhUF5s/
-   npa1PxxZo4+SRs2eXLL2AT0BRf2cosOerzDBoHOM7EcxZmRkCXXAA0nxd
-   fbpR9aSWP80iOi7yYEyaX5ueWQh5PTl9Ej3tzquvGv3Jd8v58Qbs2I9QV
-   PRW6TcxBHlEPfOt5dkfa2an9wSODyE4DJtBZQaM4GvE3AwT8WvZ8+PSYV
-   xNwsEGEVh3OF4eAbkwQxU5uIeVAcxvYRTqL77gLbgLYJcWzwRKxZntXow
-   C540dUSdP34LLHlLjehdV3tf3Uxy4ygC01I2BsVgPovu50lnnrBIUId+h
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1502267"
+  t=1702317635; x=1733853635;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=tMC8yRoYUTc9X1VBTaW/uBj01hskaQ3rsvTliVh20+g=;
+  b=m/pa+GbCQP95W6kFjHy1RiZaP4oB1d+/UuNE7c4I589lyimQQMf/065U
+   7KIolVfHhMaPPe4eNWMVWvXVQqLqeGomVQrOERZAOWrhALRcxqmjSylI+
+   OGz4ewELd3mbEIwu8WAN+qt+JwV+xaj06UfG8tL7B1gNqDJk9CXnphjoe
+   TNL3jCROBPl7IMqcXqEhN2hh1OmXHbBADt757voOkUkCofV0EGHcRE9MR
+   CUrJjvw2CLovTk+aCs5DEIbrO/jfTbWFj8U29/Qa4zzOd+QSx3UoIAZPb
+   bP9c08Hhlz0OC0G8nrIZhxbjx7v7bNQa9MiOcls9Fe8nOythWqXJA8DlK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1830847"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="1502267"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 09:50:49 -0800
+   d="scan'208";a="1830847"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 10:00:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="839111612"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="839111612"
+   d="scan'208";a="14578578"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Dec 2023 09:50:47 -0800
+  by orviesa002.jf.intel.com with ESMTP; 11 Dec 2023 10:00:30 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCkQX-000IJ4-0D;
-	Mon, 11 Dec 2023 17:50:45 +0000
-Date: Tue, 12 Dec 2023 01:50:00 +0800
+	id 1rCkZu-000IJl-31;
+	Mon, 11 Dec 2023 18:00:27 +0000
+Date: Tue, 12 Dec 2023 02:00:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Deepak Kumar Singh <quic_deesin@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: drivers/soc/qcom/smem.c:1056:16: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202312120157.td2QsaAc-lkp@intel.com>
+To: linan666@huaweicloud.com, song@kernel.org, axboe@kernel.dk
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-raid@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linan666@huaweicloud.com,
+	yukuai3@huawei.com, yi.zhang@huawei.com, houtao1@huawei.com,
+	yangerkun@huawei.com
+Subject: Re: [PATCH 2/2] md: don't account sync_io if iostats of the disk is
+ disabled
+Message-ID: <202312120159.I03ON8Ov-lkp@intel.com>
+References: <20231211075614.1850003-3-linan666@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231211075614.1850003-3-linan666@huaweicloud.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
-commit: 20bb6c9de1b7e13f11d2ffe73686f4449c426807 soc: qcom: smem: map only partitions used by local HOST
-date:   1 year, 8 months ago
-config: sh-randconfig-r111-20231116 (https://download.01.org/0day-ci/archive/20231212/202312120157.td2QsaAc-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120157.td2QsaAc-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on song-md/md-next]
+[also build test ERROR on axboe-block/for-next linus/master v6.7-rc5 next-20231211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/linan666-huaweicloud-com/md-Fix-overflow-in-is_mddev_idle/20231211-155833
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
+patch link:    https://lore.kernel.org/r/20231211075614.1850003-3-linan666%40huaweicloud.com
+patch subject: [PATCH 2/2] md: don't account sync_io if iostats of the disk is disabled
+config: i386-buildonly-randconfig-003-20231211 (https://download.01.org/0day-ci/archive/20231212/202312120159.I03ON8Ov-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120159.I03ON8Ov-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120157.td2QsaAc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120159.I03ON8Ov-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/soc/qcom/smem.c:422:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:422:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:422:16: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:507:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:507:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:507:16: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:520:50: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   drivers/soc/qcom/smem.c:520:50: sparse:     expected void *
-   drivers/soc/qcom/smem.c:520:50: sparse:     got void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:648:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *phdr @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:648:22: sparse:     expected struct smem_partition_header *phdr
-   drivers/soc/qcom/smem.c:648:22: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:653:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *phdr @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:653:22: sparse:     expected struct smem_partition_header *phdr
-   drivers/soc/qcom/smem.c:653:22: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:657:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:657:24: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:657:24: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:667:30: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/soc/qcom/smem.c:667:30: sparse:    void *
-   drivers/soc/qcom/smem.c:667:30: sparse:    void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:688:36: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/qcom/smem.c:697:28: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/qcom/smem.c:706:36: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/qcom/smem.c:721:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:721:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:721:16: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:754:57: sparse: sparse: restricted __le32 degrades to integer
-   drivers/soc/qcom/smem.c:775:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *header @@     got void [noderef] __iomem * @@
-   drivers/soc/qcom/smem.c:775:16: sparse:     expected struct smem_partition_header *header
-   drivers/soc/qcom/smem.c:775:16: sparse:     got void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:926:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_ptable *ptable @@     got void [noderef] __iomem * @@
-   drivers/soc/qcom/smem.c:926:22: sparse:     expected struct smem_ptable *ptable
-   drivers/soc/qcom/smem.c:926:22: sparse:     got void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:1035:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:1035:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:1035:16: sparse:     got void [noderef] __iomem *virt_base
->> drivers/soc/qcom/smem.c:1056:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got restricted __le32 * @@
-   drivers/soc/qcom/smem.c:1056:16: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smem.c:1056:16: sparse:     got restricted __le32 *
-   drivers/soc/qcom/smem.c:1056:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got restricted __le32 * @@
-   drivers/soc/qcom/smem.c:1056:52: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smem.c:1056:52: sparse:     got restricted __le32 *
+All error/warnings (new ones prefixed by >>):
 
-vim +1056 drivers/soc/qcom/smem.c
+   In file included from drivers/md/md-faulty.c:60:
+>> drivers/md/md.h:587:28: error: character <U+2014> not allowed in an identifier
+           if (blk_queue_io_stat(disk—>queue))
+                                     ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+   11 errors generated.
+--
+   In file included from drivers/md/md-bitmap.c:32:
+>> drivers/md/md.h:587:28: error: character <U+2014> not allowed in an identifier
+           if (blk_queue_io_stat(disk—>queue))
+                                     ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md-bitmap.c:2601:34: warning: result of comparison of constant 4294967296 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
+           if (BITS_PER_LONG > 32 && csize >= (1ULL << (BITS_PER_BYTE *
+                                     ~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 11 errors generated.
+--
+   In file included from drivers/md/md.c:69:
+>> drivers/md/md.h:587:28: error: character <U+2014> not allowed in an identifier
+           if (blk_queue_io_stat(disk—>queue))
+                                     ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.c:8517:29: error: character <U+2014> not allowed in an identifier
+                   if (blk_queue_io_stat(disk—>queue))
+                                             ^
+>> drivers/md/md.c:8517:25: error: use of undeclared identifier 'disk—'
+                   if (blk_queue_io_stat(disk—>queue))
+                                         ^
+>> drivers/md/md.c:8517:33: error: use of undeclared identifier 'queue'
+                   if (blk_queue_io_stat(disk—>queue))
+                                               ^
+>> drivers/md/md.c:8517:25: error: use of undeclared identifier 'disk—'
+                   if (blk_queue_io_stat(disk—>queue))
+                                         ^
+>> drivers/md/md.c:8517:33: error: use of undeclared identifier 'queue'
+                   if (blk_queue_io_stat(disk—>queue))
+                                               ^
+>> drivers/md/md.c:8517:25: error: use of undeclared identifier 'disk—'
+                   if (blk_queue_io_stat(disk—>queue))
+                                         ^
+>> drivers/md/md.c:8517:33: error: use of undeclared identifier 'queue'
+                   if (blk_queue_io_stat(disk—>queue))
+                                               ^
+>> drivers/md/md.c:8517:25: error: use of undeclared identifier 'disk—'
+                   if (blk_queue_io_stat(disk—>queue))
+                                         ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+   In file included from drivers/md/raid5.c:53:
+>> drivers/md/md.h:587:28: error: character <U+2014> not allowed in an identifier
+           if (blk_queue_io_stat(disk—>queue))
+                                     ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+>> drivers/md/md.h:587:24: error: use of undeclared identifier 'disk—'
+           if (blk_queue_io_stat(disk—>queue))
+                                 ^
+>> drivers/md/md.h:587:32: error: use of undeclared identifier 'queue'
+           if (blk_queue_io_stat(disk—>queue))
+                                       ^
+   drivers/md/raid5.c:4265:7: warning: variable 'qread' set but not used [-Wunused-but-set-variable]
+                   int qread =0;
+                       ^
+   1 warning and 11 errors generated.
 
-   973	
-   974	static int qcom_smem_probe(struct platform_device *pdev)
-   975	{
-   976		struct smem_header *header;
-   977		struct reserved_mem *rmem;
-   978		struct qcom_smem *smem;
-   979		unsigned long flags;
-   980		size_t array_size;
-   981		int num_regions;
-   982		int hwlock_id;
-   983		u32 version;
-   984		u32 size;
-   985		int ret;
-   986		int i;
-   987	
-   988		num_regions = 1;
-   989		if (of_find_property(pdev->dev.of_node, "qcom,rpm-msg-ram", NULL))
-   990			num_regions++;
-   991	
-   992		array_size = num_regions * sizeof(struct smem_region);
-   993		smem = devm_kzalloc(&pdev->dev, sizeof(*smem) + array_size, GFP_KERNEL);
-   994		if (!smem)
-   995			return -ENOMEM;
-   996	
-   997		smem->dev = &pdev->dev;
-   998		smem->num_regions = num_regions;
-   999	
-  1000		rmem = of_reserved_mem_lookup(pdev->dev.of_node);
-  1001		if (rmem) {
-  1002			smem->regions[0].aux_base = rmem->base;
-  1003			smem->regions[0].size = rmem->size;
-  1004		} else {
-  1005			/*
-  1006			 * Fall back to the memory-region reference, if we're not a
-  1007			 * reserved-memory node.
-  1008			 */
-  1009			ret = qcom_smem_resolve_mem(smem, "memory-region", &smem->regions[0]);
-  1010			if (ret)
-  1011				return ret;
-  1012		}
-  1013	
-  1014		if (num_regions > 1) {
-  1015			ret = qcom_smem_resolve_mem(smem, "qcom,rpm-msg-ram", &smem->regions[1]);
-  1016			if (ret)
-  1017				return ret;
-  1018		}
-  1019	
-  1020	
-  1021		ret = qcom_smem_map_toc(smem, &smem->regions[0]);
-  1022		if (ret)
-  1023			return ret;
-  1024	
-  1025		for (i = 1; i < num_regions; i++) {
-  1026			smem->regions[i].virt_base = devm_ioremap_wc(&pdev->dev,
-  1027								     smem->regions[i].aux_base,
-  1028								     smem->regions[i].size);
-  1029			if (!smem->regions[i].virt_base) {
-  1030				dev_err(&pdev->dev, "failed to remap %pa\n", &smem->regions[i].aux_base);
-  1031				return -ENOMEM;
-  1032			}
-  1033		}
-  1034	
-  1035		header = smem->regions[0].virt_base;
-  1036		if (le32_to_cpu(header->initialized) != 1 ||
-  1037		    le32_to_cpu(header->reserved)) {
-  1038			dev_err(&pdev->dev, "SMEM is not initialized by SBL\n");
-  1039			return -EINVAL;
-  1040		}
-  1041	
-  1042		hwlock_id = of_hwspin_lock_get_id(pdev->dev.of_node, 0);
-  1043		if (hwlock_id < 0) {
-  1044			if (hwlock_id != -EPROBE_DEFER)
-  1045				dev_err(&pdev->dev, "failed to retrieve hwlock\n");
-  1046			return hwlock_id;
-  1047		}
-  1048	
-  1049		smem->hwlock = hwspin_lock_request_specific(hwlock_id);
-  1050		if (!smem->hwlock)
-  1051			return -ENXIO;
-  1052	
-  1053		ret = hwspin_lock_timeout_irqsave(smem->hwlock, HWSPINLOCK_TIMEOUT, &flags);
-  1054		if (ret)
-  1055			return ret;
-> 1056		size = readl_relaxed(&header->available) + readl_relaxed(&header->free_offset);
-  1057		hwspin_unlock_irqrestore(smem->hwlock, &flags);
-  1058	
-  1059		version = qcom_smem_get_sbl_version(smem);
-  1060		/*
-  1061		 * smem header mapping is required only in heap version scheme, so unmap
-  1062		 * it here. It will be remapped in qcom_smem_map_global() when whole
-  1063		 * partition is mapped again.
-  1064		 */
-  1065		devm_iounmap(smem->dev, smem->regions[0].virt_base);
-  1066		switch (version >> 16) {
-  1067		case SMEM_GLOBAL_PART_VERSION:
-  1068			ret = qcom_smem_set_global_partition(smem);
-  1069			if (ret < 0)
-  1070				return ret;
-  1071			smem->item_count = qcom_smem_get_item_count(smem);
-  1072			break;
-  1073		case SMEM_GLOBAL_HEAP_VERSION:
-  1074			qcom_smem_map_global(smem, size);
-  1075			smem->item_count = SMEM_ITEM_COUNT;
-  1076			break;
-  1077		default:
-  1078			dev_err(&pdev->dev, "Unsupported SMEM version 0x%x\n", version);
-  1079			return -EINVAL;
-  1080		}
-  1081	
-  1082		BUILD_BUG_ON(SMEM_HOST_APPS >= SMEM_HOST_COUNT);
-  1083		ret = qcom_smem_enumerate_partitions(smem, SMEM_HOST_APPS);
-  1084		if (ret < 0 && ret != -ENOENT)
-  1085			return ret;
-  1086	
-  1087		__smem = smem;
-  1088	
-  1089		smem->socinfo = platform_device_register_data(&pdev->dev, "qcom-socinfo",
-  1090							      PLATFORM_DEVID_NONE, NULL,
-  1091							      0);
-  1092		if (IS_ERR(smem->socinfo))
-  1093			dev_dbg(&pdev->dev, "failed to register socinfo device\n");
-  1094	
-  1095		return 0;
-  1096	}
-  1097	
+
+vim +587 drivers/md/md.h
+
+   584	
+   585	static inline void md_sync_acct_bio(struct bio *bio, unsigned long nr_sectors)
+   586	{
+ > 587		if (blk_queue_io_stat(disk—>queue))
+   588			md_sync_acct(bio->bi_bdev, nr_sectors);
+   589	}
+   590	
 
 -- 
 0-DAY CI Kernel Test Service
