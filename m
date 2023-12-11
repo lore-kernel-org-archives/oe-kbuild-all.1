@@ -1,46 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5928BEBE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 22:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A8A22337
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 23:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FxLDK/dw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UHLNimI1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702334651; x=1733870651;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w5XunGIJBEL2TTf8nbIqTbzQlZj1ORAEIw0uFdSJyTs=;
-  b=FxLDK/dw3vodrYq1cAhJW59OfAksR4fh4sjOevpmSe0EjdEzPchKvcwF
-   QK4judttNT16frlBq9AfIbZYDTdSNTAFKwoJ0xQRLj3hUp1YUybLcdALe
-   AtSN3D6pPkdOm43iy4qoNheff6NETrF6l+s1o3cGaP9BMFcgZNwVcTQnX
-   MO1Yw01dv7JNgFNKTKdC3AvnZ/HCj0eJoDSm0RNXVRpExQsf+I/hagqXB
-   GnSz5+C2d0RVtt1hVxPIJwaBaXESnMMj25bIe3uOjWhZMc3ebbEl0Zxjj
-   1yMXyKFx2EaPtd/7skFyVWJ8a59Ty8S/7SkM4DXVwriHezBzw6NPF6SNc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="374878469"
+  t=1702336634; x=1733872634;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ck35hHnCHFtH+d2GzNW7cjDeYHKAdUN4ZsaO0xxGAYs=;
+  b=UHLNimI1LelydaQiGSTQ3hybOJ+yJ2Sxafvaf3/x7gPJKQpFoFM4zIib
+   f3z87HL5sGbArumVRSOSE4YF/InKQjJdpx1p277IkIj7BUZzvzNStJkgv
+   EW/rK1j0OHdNfZcCTBIdgL/n/8N7H17vr75v0Rp/24CbCMzgbeW7SsgMS
+   guFB7Tt5NHWKcsaAVvsiCrWRtGj0nSiH5GGEbm3BYN6hdk3KsHhoo3RhC
+   rL/PoXJAAZPYusL8ofbgDEtX7CDxboggrJKISKZdMf4l9PWxEIxZrkppJ
+   9HJa1ahqJTcsmvrcEkjAOG8oGj1x1eVs+BJdSuH0sNDZ+cHwO7iIBlUui
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="374230368"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="374878469"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 14:44:10 -0800
+   d="scan'208";a="374230368"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 15:17:13 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="722996351"
 X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="21261077"
+   d="scan'208";a="722996351"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 11 Dec 2023 14:44:09 -0800
+  by orsmga003.jf.intel.com with ESMTP; 11 Dec 2023 15:17:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rCp0Q-000IXW-0V;
-	Mon, 11 Dec 2023 22:44:06 +0000
-Date: Tue, 12 Dec 2023 06:44:05 +0800
+	id 1rCpWM-000IYd-2i;
+	Mon, 11 Dec 2023 23:17:07 +0000
+Date: Tue, 12 Dec 2023 07:16:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qais Yousef <qyousef@layalina.io>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [qais-yousef:uclamp-max-aggregation 7/12]
- kernel/sched/cpufreq_schedutil.c:11:1: sparse: sparse: symbol
- 'response_time_mult' was not declared. Should it be static?
-Message-ID: <202312120650.RQasNry7-lkp@intel.com>
+To: Lizhi Xu <lizhi.xu@windriver.com>,
+	syzbot+006987d1be3586e13555@syzkaller.appspotmail.com
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mani@kernel.org,
+	netdev@vger.kernel.org, pabeni@redhat.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH] radix-tree: fix memory leak in radix_tree_insert
+Message-ID: <202312120651.92GGXeX4-lkp@intel.com>
+References: <20231211094840.642118-1-lizhi.xu@windriver.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,127 +55,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231211094840.642118-1-lizhi.xu@windriver.com>
 
-tree:   https://github.com/qais-yousef/linux uclamp-max-aggregation
-head:   4489ba9b2ba5ce1cf9caa0e13f7b3bdf14dbb83f
-commit: 3d803d07795740e3f0c18046d900f2a84b5473a3 [7/12] sched/schedutil: Add a new tunable to dictate response time
-config: x86_64-randconfig-121-20231212 (https://download.01.org/0day-ci/archive/20231212/202312120650.RQasNry7-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120650.RQasNry7-lkp@intel.com/reproduce)
+Hi Lizhi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
+[also build test WARNING on linus/master v6.7-rc5 next-20231211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lizhi-Xu/radix-tree-fix-memory-leak-in-radix_tree_insert/20231211-174951
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20231211094840.642118-1-lizhi.xu%40windriver.com
+patch subject: [PATCH] radix-tree: fix memory leak in radix_tree_insert
+config: i386-randconfig-061-20231212 (https://download.01.org/0day-ci/archive/20231212/202312120651.92GGXeX4-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120651.92GGXeX4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312120650.RQasNry7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120651.92GGXeX4-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/sched/build_utility.c: note: in included file:
->> kernel/sched/cpufreq_schedutil.c:11:1: sparse: sparse: symbol 'response_time_mult' was not declared. Should it be static?
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/debug.c:468:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/debug.c:468:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/debug.c:468:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/debug.c:793:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/debug.c:793:9: sparse:     expected struct task_struct *tsk
-   kernel/sched/debug.c:793:9: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/debug.c:793:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/debug.c:793:9: sparse:     expected struct task_struct *tsk
-   kernel/sched/debug.c:793:9: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/stats.c:148:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/stats.c:148:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/stats.c:148:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/topology.c:107:56: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:107:56: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:107:56: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:126:60: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:126:60: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:126:60: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:149:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:149:20: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:149:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:455:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_domain *[assigned] tmp @@     got struct perf_domain [noderef] __rcu *pd @@
-   kernel/sched/topology.c:455:13: sparse:     expected struct perf_domain *[assigned] tmp
-   kernel/sched/topology.c:455:13: sparse:     got struct perf_domain [noderef] __rcu *pd
-   kernel/sched/topology.c:464:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_domain *[assigned] tmp @@     got struct perf_domain [noderef] __rcu *pd @@
-   kernel/sched/topology.c:464:13: sparse:     expected struct perf_domain *[assigned] tmp
-   kernel/sched/topology.c:464:13: sparse:     got struct perf_domain [noderef] __rcu *pd
-   kernel/sched/topology.c:485:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct perf_domain *[assigned] pd @@     got struct perf_domain [noderef] __rcu *pd @@
-   kernel/sched/topology.c:485:19: sparse:     expected struct perf_domain *[assigned] pd
-   kernel/sched/topology.c:485:19: sparse:     got struct perf_domain [noderef] __rcu *pd
-   kernel/sched/topology.c:647:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:647:49: sparse:     expected struct sched_domain *parent
-   kernel/sched/topology.c:647:49: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:732:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:732:50: sparse:     expected struct sched_domain *parent
-   kernel/sched/topology.c:732:50: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:740:55: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child @@     got struct sched_domain *[assigned] tmp @@
-   kernel/sched/topology.c:740:55: sparse:     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child
-   kernel/sched/topology.c:740:55: sparse:     got struct sched_domain *[assigned] tmp
-   kernel/sched/topology.c:753:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:753:29: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/topology.c:753:29: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:758:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:758:20: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:758:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:779:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *sd @@
-   kernel/sched/topology.c:779:13: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/topology.c:779:13: sparse:     got struct sched_domain [noderef] __rcu *sd
-   kernel/sched/topology.c:941:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:941:70: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:941:70: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:970:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:970:59: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:970:59: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1016:57: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1016:57: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:1016:57: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1018:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1018:25: sparse:     expected struct sched_domain *sibling
-   kernel/sched/topology.c:1018:25: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1026:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1026:55: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:1026:55: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1028:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1028:25: sparse:     expected struct sched_domain *sibling
-   kernel/sched/topology.c:1028:25: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1098:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1098:62: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:1098:62: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1202:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1202:40: sparse:     expected struct sched_domain *child
-   kernel/sched/topology.c:1202:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1622:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain [noderef] __rcu *child @@     got struct sched_domain *child @@
-   kernel/sched/topology.c:1622:43: sparse:     expected struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1622:43: sparse:     got struct sched_domain *child
-   kernel/sched/topology.c:2321:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *parent @@     got struct sched_domain *sd @@
-   kernel/sched/topology.c:2321:31: sparse:     expected struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:2321:31: sparse:     got struct sched_domain *sd
-   kernel/sched/topology.c:2425:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:2425:57: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:2425:57: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:2446:56: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:2446:56: sparse:     expected struct sched_domain *child
-   kernel/sched/topology.c:2446:56: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:2445:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:2445:57: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:2445:57: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:2500:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:2500:57: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:2500:57: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/core_sched.c:276:37: sparse: sparse: incompatible types in conditional expression (different address spaces):
-   kernel/sched/core_sched.c:276:37: sparse:    struct task_struct *
-   kernel/sched/core_sched.c:276:37: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/build_utility.c: note: in included file:
+   lib/radix-tree.c:266:36: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *nodes @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:266:36: sparse:     expected struct xa_node *nodes
+   lib/radix-tree.c:266:36: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:284:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] __rcu *parent @@     got struct xa_node *parent @@
+   lib/radix-tree.c:284:29: sparse:     expected struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:284:29: sparse:     got struct xa_node *parent
+   lib/radix-tree.c:344:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] __rcu *parent @@     got struct xa_node *nodes @@
+   lib/radix-tree.c:344:38: sparse:     expected struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:344:38: sparse:     got struct xa_node *nodes
+   lib/radix-tree.c:446:54: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] __rcu *parent @@     got struct xa_node *node @@
+   lib/radix-tree.c:446:54: sparse:     expected struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:446:54: sparse:     got struct xa_node *node
+   lib/radix-tree.c:558:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *parent @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:558:24: sparse:     expected struct xa_node *parent
+   lib/radix-tree.c:558:24: sparse:     got struct xa_node [noderef] __rcu *parent
+>> lib/radix-tree.c:653:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *pn @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:653:28: sparse:     expected struct xa_node *pn
+   lib/radix-tree.c:653:28: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:687:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *[assigned] child @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:687:31: sparse:     expected struct xa_node *[assigned] child
+   lib/radix-tree.c:687:31: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:962:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *node @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:962:22: sparse:     expected struct xa_node *node
+   lib/radix-tree.c:962:22: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:1022:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *node @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:1022:22: sparse:     expected struct xa_node *node
+   lib/radix-tree.c:1022:22: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:1542:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *[assigned] node @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:1542:38: sparse:     expected struct xa_node *[assigned] node
+   lib/radix-tree.c:1542:38: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:1602:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *nodes @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:1602:28: sparse:     expected struct xa_node *nodes
+   lib/radix-tree.c:1602:28: sparse:     got struct xa_node [noderef] __rcu *parent
 
-vim +/response_time_mult +11 kernel/sched/cpufreq_schedutil.c
+vim +653 lib/radix-tree.c
 
-    10	
-  > 11	DEFINE_PER_CPU_READ_MOSTLY(unsigned long, response_time_mult);
-    12	
+   581	
+   582	/**
+   583	 *	__radix_tree_create	-	create a slot in a radix tree
+   584	 *	@root:		radix tree root
+   585	 *	@index:		index key
+   586	 *	@nodep:		returns node
+   587	 *	@slotp:		returns slot
+   588	 *
+   589	 *	Create, if necessary, and return the node and slot for an item
+   590	 *	at position @index in the radix tree @root.
+   591	 *
+   592	 *	Until there is more than one item in the tree, no nodes are
+   593	 *	allocated and @root->xa_head is used as a direct slot instead of
+   594	 *	pointing to a node, in which case *@nodep will be NULL.
+   595	 *
+   596	 *	Returns -ENOMEM, or 0 for success.
+   597	 */
+   598	static int __radix_tree_create(struct radix_tree_root *root,
+   599			unsigned long index, struct radix_tree_node **nodep,
+   600			void __rcu ***slotp)
+   601	{
+   602		struct radix_tree_node *node = NULL, *child;
+   603		void __rcu **slot = (void __rcu **)&root->xa_head;
+   604		unsigned long maxindex;
+   605		unsigned int shift, offset = 0, mmshift = 0;
+   606		unsigned long max = index;
+   607		gfp_t gfp = root_gfp_mask(root);
+   608		int ret;
+   609	
+   610		shift = radix_tree_load_root(root, &child, &maxindex);
+   611	
+   612		/* Make sure the tree is high enough.  */
+   613		if (max > maxindex) {
+   614			int error = radix_tree_extend(root, gfp, max, shift);
+   615			if (error < 0)
+   616				return error;
+   617			shift = error;
+   618			mmshift = error;
+   619			child = rcu_dereference_raw(root->xa_head);
+   620		}
+   621	
+   622		while (shift > 0) {
+   623			shift -= RADIX_TREE_MAP_SHIFT;
+   624			if (child == NULL) {
+   625				/* Have to add a child node.  */
+   626				child = radix_tree_node_alloc(gfp, node, root, shift,
+   627								offset, 0, 0);
+   628				if (!child) {
+   629					 ret = -ENOMEM;
+   630					 goto freec;
+   631				}
+   632				rcu_assign_pointer(*slot, node_to_entry(child));
+   633				if (node)
+   634					node->count++;
+   635			} else if (!radix_tree_is_internal_node(child))
+   636				break;
+   637	
+   638			/* Go a level down */
+   639			node = entry_to_node(child);
+   640			offset = radix_tree_descend(node, &child, index);
+   641			slot = &node->slots[offset];
+   642		}
+   643	
+   644		if (nodep)
+   645			*nodep = node;
+   646		if (slotp)
+   647			*slotp = slot;
+   648		return 0;
+   649	freec:
+   650		if (mmshift > 0) {
+   651			struct radix_tree_node *pn;
+   652			while (shift < mmshift && node) {
+ > 653				pn = node->parent;
+   654				radix_tree_node_rcu_free(&node->rcu_head);
+   655				shift += RADIX_TREE_MAP_SHIFT;
+   656				node = pn;
+   657			}
+   658		}
+   659		return ret;
+   660	}
+   661	
 
 -- 
 0-DAY CI Kernel Test Service
