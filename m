@@ -1,130 +1,189 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59571F618
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 08:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAC4210E3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 09:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xX09QnTs"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a1c7d8f89a5so547703066b.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Dec 2023 00:10:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702282217; x=1702887017; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Xi45JTzQiulIXlnGkIaxF8gVg0QbWWgrQaZHWcPYRzI=;
-        b=xX09QnTsRcYIsYtS5GFvxp9bb/EVH4jiJU05M4mUvbTfbX09bmz1gLoHvJhBnW0Eqm
-         eUiVvgt1QC4+xz7emYFLC0X2fBWHjSsNb0KFpJSbVCfY+JEGHtST6bNcGL0NqarL6HyS
-         Hf68EAGCLplEyrsaDRUg+gBUK5OD3SZUg84zy84XBlFKMGDepoIp8sL8iTbxqky5kLvj
-         cBIZlw2HeeiFJz21B7udC2K4j2jeF6silMHy9nAP0smDYKx4O1KPj86WN2geREEWjiaP
-         MfXDhyvnFbq4tTks0PUfbOU9TJwvxt0AiciQrWOislkAmTSyXmhiDU8GSJsecpIG1t4x
-         j2Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702282217; x=1702887017;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xi45JTzQiulIXlnGkIaxF8gVg0QbWWgrQaZHWcPYRzI=;
-        b=gcYn4DMZHChsJ7zlFrqs9Pn1J4LmgBmoNDhvHLDY9JCo/UJFk8ggkaEX4j9gnQTnRb
-         aaBm2suMyvkLU3ssuUyoIzGUnPpSJGWunX2H7mo6ZhnaFkztwAlq+QB+oyqxy+8NBYn5
-         OSUJ5/qujiRCeSyyFA+T8fqOTJ2AJ7IQpsPjl4hB52yExWWdRswyE79/APbvqYFesxdJ
-         tjtXSFBiXtb/guODc3K9IgZsx1Z9Y2mNy83rYACq9Zhhg5Jg4gJ7FbvlBPRnZ1G+qpjl
-         Fx3j77EGS70URuaarQ0SrWsOM5/DQdDPKCfedXNlYLoTsmTZlPn7ERk8UtEr5fxb0vMG
-         Ctuw==
-X-Gm-Message-State: AOJu0YzSgjvlodElqAVZxafZKesNGoQ7XtGkepJnQbgigu1itY8+5e9q
-	hg+yj6cMmAvWkRvlndkRytXhWg==
-X-Google-Smtp-Source: AGHT+IHIjJcU6nJQlzbJOU/5lxh5ZB5oremY7q44w6+sziripj2KODC/+IrHQi8hAIyI72q8fPFQIw==
-X-Received: by 2002:a17:907:7251:b0:a02:54fa:4f2f with SMTP id ds17-20020a170907725100b00a0254fa4f2fmr2331370ejc.53.1702282216802;
-        Mon, 11 Dec 2023 00:10:16 -0800 (PST)
-Received: from localhost (hf89.n1.ips.mtn.co.ug. [41.210.143.137])
-        by smtp.gmail.com with ESMTPSA id b42-20020a509f2d000000b0054cc6be8b0bsm3525295edf.32.2023.12.11.00.10.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 00:10:16 -0800 (PST)
-Date: Mon, 11 Dec 2023 11:10:09 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sven Peter <sven@svenpeter.dev>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/170-atcphy 3/11] drivers/phy/apple/atc.c:1609
- atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
-Message-ID: <3b615383-5149-4fee-9c5f-51d236d8ddf5@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKoOauxb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702285444; x=1733821444;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2jW52o4qb9S4AI2mxXBCjt65TyOoc1THxKjE/qpIUwA=;
+  b=FKoOauxbgSXUqdKKABqzH1+gbnfexk+Glg+rzPPhsRzz1nqf9La0/uZ2
+   EBUXY0pRFbxGg0Dm2UpMrxJTKzY+jgLanmlkU0d1/6Xwzgh+O8GjmyP/4
+   hNITkA++pr9VABT4OrJ5P+GuFhvTmhfQVhKv7VsHeJLrx/u5xEv32yocp
+   MF5cRauOl0iCYvBnk122Ov6bHrFb/OFgr9HgWf/rOsiopsaHhzmH0XGNi
+   TUvmoXxlj4sGSUJrrCV0cLbAnsBLASTJK1hWVF8JA0ueohUV1aUsJjq6Q
+   /CPnawnG65Lb0c2IjZD3Dgo7uCExY8lGHS1NBqpNTEmK3K47RE4cPSMj9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="458927072"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
+   d="scan'208";a="458927072"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 01:03:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10920"; a="772970600"
+X-IronPort-AV: E=Sophos;i="6.04,267,1695711600"; 
+   d="scan'208";a="772970600"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Dec 2023 01:03:45 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 11 Dec 2023 01:03:44 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 11 Dec 2023 01:03:44 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 11 Dec 2023 01:03:44 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 11 Dec 2023 01:03:42 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j1gTitn5X76YVDCXYPVUvNgQsFJ4a17fYtRVSpdy0UG7MCQlXba3dTJW+oL3i3yNUfidR7yaO2ccupXAoFufdex59teRI34uON6g8SCtiJ8++Ii1uSc7LMl0866Vpcm/2kO5nRLczPKzF/R1GUA8tnrmO9s+pTQ9Sx0h1phMpTvKhAvlr3z0sRLuY82VBWVThEi1iJSQgMPLnbEm4wN0tW+rD0rzLXgEIjl46XH8w2ko0wQdaGzTlL+TMEx1r6xy/XOrHYDpIK/s4genRMxnmi/JEEW2iDdJMi4iujinKlMgeEgIWCyBNTcwsc2l33QvUMqMDYbXRQDIl1EPIFf91g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PyDP0L876p6qkw3CHBVpLYCdDm4IQHBGugfVAIUwXl0=;
+ b=Kkpm+GcqfiKtTvRkXQkeb9oCm2PUVCS8PH14AkZvwF0kdmVtIr6h7n28RIQ+atV4m6V/rkVZAc2c8ISACfP3hzh82iyL+uK8tR/s5T6dqr8h7Zv2+35djuy9153ZcLF4uSHxy8Z5Hos57N3zjOK68TQ+el82E5ptZvAbaIXNFaDhtW5fGsYs1f5byhtV8ihUl2+ioSE/QAcQnXiULW/S22eCO4BjaWVN5P3T40fYTHreUCm80LCKabeLeUnuEH8hBuJV8iAfjCYWXIo23hGBqLkSLw7TBkfOosDz/I8hSqRzh4sezwRT/ltjOaV8sA7gG/IGt6SvxgUxZKmKz3gZyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN6PR11MB3006.namprd11.prod.outlook.com (2603:10b6:805:d1::24)
+ by SJ0PR11MB5167.namprd11.prod.outlook.com (2603:10b6:a03:2d9::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32; Mon, 11 Dec
+ 2023 09:03:40 +0000
+Received: from SN6PR11MB3006.namprd11.prod.outlook.com
+ ([fe80::7f2d:3448:d474:f74e]) by SN6PR11MB3006.namprd11.prod.outlook.com
+ ([fe80::7f2d:3448:d474:f74e%5]) with mapi id 15.20.7068.031; Mon, 11 Dec 2023
+ 09:03:40 +0000
+Date: Mon, 11 Dec 2023 17:03:24 +0800
+From: kernel test robot <philip.li@intel.com>
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Palmer
+ Dabbelt" <palmer@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>
+Subject: drivers/cpufreq/cpufreq.c:475:17: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <ZXbQXCXVh8uK4JGc@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0154.apcprd04.prod.outlook.com (2603:1096:4::16)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR11MB3006:EE_|SJ0PR11MB5167:EE_
+X-MS-Office365-Filtering-Correlation-Id: e62d43d3-1d54-4dfc-a4c8-08dbfa280c44
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LGEGZClIwNgBsE+wZZvkmHlsbXo03OlBu6tkqhIgWlokYMS8/C/adi5jq+Q4/mU51vCtuzrF1Bus92uT7Lu93Fpahz5rdnRbIviK2zy9ySph4Wu04KECO5NCThEKA3hIRhTP1NVMGsTErQiW3VE0cQdHTKCVtv0LTgiihUNAqRQBVbGrx/8KEDpDgceC2kR55CejsBho1hhgshW7iUZgyak957fkq74wkDA4Bn3lygA1AhYpJ/Zbfl+2EETu0p//8Ep8ld5wFhL16FrrOhtkFoQ8JBu5DJIlpR9MtGfbncDOyHPShT1oZvZC2vSai6+0x2Hw87K6Jfm5TUjYgvXY6PKRg3L8cfX6ikq4LhbVmrM5XLVoI/ef7et8v0S2bhvQAmlG3pNq4f2k5qr4hxcQ+UolCsq36vefY4QWIXjFFJ7zipw/oMmKkR9X+8qhzl8KYFoPMxV8K47KHEq/0goMVH0c0alpuDG7TKNuolvHr7Y+ymBj2JdsmI730OJHya0RXzCGSLhmHyP+nzQymx92KM1KsYLxmXfSL8C5z6lmw5YNM6HjgtUaocbZg+AyUKFCj6lR16fy6d4uEzWsLFTQv+V9qF+jIKgnGzhEDMcSnoqFpXg/IbaZG+Z8lrQkv2k/zgVWENT/yF5wEBB98HQC05+h6KOiBlSvmNn+bDAdII0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(376002)(136003)(346002)(39860400002)(396003)(230173577357003)(230922051799003)(230273577357003)(451199024)(186009)(64100799003)(1800799012)(33716001)(41300700001)(26005)(83380400001)(82960400001)(86362001)(38100700002)(5660300002)(316002)(8936002)(8676002)(4326008)(2906002)(6666004)(6512007)(6506007)(9686003)(66946007)(66556008)(66476007)(54906003)(6916009)(478600001)(6486002)(966005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/77sTkSfzMhoD4+jJ5j0uPmaMMpDTy8msD22ZbJroofx8dZ0PLI/6Rx/scoy?=
+ =?us-ascii?Q?VaHjsQtHt5jfuSvBggdy0cWi0P2wdJevvcRn5TKdk4eq/mqM9tEySqhL5keX?=
+ =?us-ascii?Q?NTWBP4pIhlYpxC0eSVia8Z2QzyXeiZ1A4QFTxbk9/JqV7ebGA6ZanB2mpwR8?=
+ =?us-ascii?Q?ixEouANincAngrbm0mtcQor+tuDHeE/UORMJY2YV53jSW0LEmpPb/THQjh56?=
+ =?us-ascii?Q?zp1EJstqr4NEBg6pWKTu4T53ezNDdP6F9PC81Jizp4jEz9uBvCa2xF8UFvzC?=
+ =?us-ascii?Q?4d67un3tove356uLtJ5sLEnFv51bHmgFT6w3nZ6EIPyXT0Vo9jQMn/m//0gb?=
+ =?us-ascii?Q?GqJHCA3XLrV2WHz8Ztr2jQO2DZei0eNqyRfHOGTCbhXT52sVomltTphogqKJ?=
+ =?us-ascii?Q?Qo08jear/Ap5ciZ4SZBJruNCO/ErKJxpZzAljcTYSz46xw9LkvmDbCE6/mNa?=
+ =?us-ascii?Q?M3QoZ+nhUS0Eao1yxNuTn6Iu2ta3gWsw0IYgoVuOOB15X2GFb/ta3jHblLxq?=
+ =?us-ascii?Q?EpFKn67Rz+oNgKN7nIv50wXi7gdpR+169pkK6UqIBrRQCMhYKeyVQKWkrOjQ?=
+ =?us-ascii?Q?mAughfYoxhpSUWWugLdCIBQOe9JKmHwrBRQFXscnYRkivlXsi2LvHjJYDzEs?=
+ =?us-ascii?Q?8CrvqTdXOueqs04KdXHyc+wifhysiGlW6Ql8PGLTAoETEKqdnxXXxrRl1HbJ?=
+ =?us-ascii?Q?mfZbMIxpxnQHUJAifjoIJLqq9LP0pWIVkdLVYj7uw+QEwP0p7CK2Z0qzObuv?=
+ =?us-ascii?Q?J21BgRXdA8EhUycaI/kWPU738yTq+fXmgXDgoVeYdI8J8scwn/W/kQF42dhk?=
+ =?us-ascii?Q?OJB/N+kUGc2Ebe47eE3+7T65iSMLiU460KPYvOq/ygfTKV6oGYyrgWMzZWab?=
+ =?us-ascii?Q?5fs5Ugn6QybiPonKejwxpCLwCGv6z9O+tnY7/NRaagKEXwxv8DpgV23zv84v?=
+ =?us-ascii?Q?vsHS3Kb1AAbtjDGBatVbE7SdZ7/FwLB7PMl3z0vbwXkFGe8TRsWRIZIFjWZZ?=
+ =?us-ascii?Q?UNkPpsSYssKeXcL+tiNmAKbjbcENXchD8QSsXC20F/ckWmQgG4P6OE/dF9La?=
+ =?us-ascii?Q?twYRXHpyPOdwWjgsiaGDUVk0sEQEdL7IBa1SwvBQxPtYDItWqptoV7gVqoCd?=
+ =?us-ascii?Q?8vD6E2MmwvdEkHOlMFqUnbCs7Roj99uEpzOIohmp5I4h41aP95ggGoIs7U+V?=
+ =?us-ascii?Q?9ImS6TnoQAWJxw/PfuAyr85U2px0erBh4w0OWpss3O5sfjFGCRSBKNDQturt?=
+ =?us-ascii?Q?cvyc8ZNRrfZG4BTjsDaaa8ZcOfRK7SjDV6f7XJNuVzclKyVduLrcC7HSOwXf?=
+ =?us-ascii?Q?5+sX76WCIXIY4MpZ6pCbTeyQRKP7pq9upGt4GlhnEVirB+pp/CNmXdSCe3Pa?=
+ =?us-ascii?Q?v9othr1x1DvPiBguqkMFizn2dcw89Td6CA0LlGi1h7JgbdFCiN3FOjE7hT/y?=
+ =?us-ascii?Q?IA726KhaGG03cbD6dLrzsFXMHau2AR+zYQ0VYGFf3otBjOPhR+QcEFcxcban?=
+ =?us-ascii?Q?kjHfGcalxKjNecjnER2msGe3jS8Agp85vShHjrmkPSGrTHSxcs8bVWmUsFni?=
+ =?us-ascii?Q?whWzlY84y8UizhkNYvI92CdG1VZzTnrsBGeSLpFY?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e62d43d3-1d54-4dfc-a4c8-08dbfa280c44
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2023 09:03:40.6404
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uahPmtkhQYL6gB+V6Rmwzqf/ezGLNRtNwB0oFUQjux6N3nuC0SHuUw28/Nmq2wmq1z5PupM8fHFJhlkMwLclkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5167
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
-head:   4931e8edc0670b6acf66c1b83702c7521722ff1c
-commit: 3b2571b8e8064a73eca2cec23cf86cfe7f7050f5 [3/11] WIP: phy: apple: Add Apple Type-C PHY
-config: arm64-randconfig-r081-20231127 (https://download.01.org/0day-ci/archive/20231211/202312110624.SVpwzkJ6-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20231211/202312110624.SVpwzkJ6-lkp@intel.com/reproduce)
+Hi Lad,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b47bc037bd44f142ac09848e8d3ecccc726be99
+commit: effae0e3d9e1139d583e9b5d050f4f948825b8a3 riscv: Kconfig: Enable cpufreq kconfig menu
+date:   1 year ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 1 year ago
+config: riscv-randconfig-r031-20230608 (https://download.01.org/0day-ci/archive/20231201/202312010059.MQ446XMR-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20231201/202312010059.MQ446XMR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312110624.SVpwzkJ6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202312010059.MQ446XMR-lkp@intel.com/
 
-smatch warnings:
-drivers/phy/apple/atc.c:1609 atcphy_usb3_power_on() warn: inconsistent returns '&atcphy->lock'.
-drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(offset > (~0)) => (0-u32max > u32max)'
-drivers/phy/apple/atc.c:2156 atcphy_parse_new_tunable() warn: impossible condition '(mask > (~0)) => (0-u32max > u32max)'
-drivers/phy/apple/atc.c:2157 atcphy_parse_new_tunable() warn: impossible condition '(value > (~0)) => (0-u32max > u32max)'
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zicbom_zihintpause'
+>> drivers/cpufreq/cpufreq.c:475:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block *nb @@     got struct notifier_block [noderef] __rcu *static [addressable] [toplevel] head @@
+   drivers/cpufreq/cpufreq.c:475:17: sparse:     expected struct notifier_block *nb
+   drivers/cpufreq/cpufreq.c:475:17: sparse:     got struct notifier_block [noderef] __rcu *static [addressable] [toplevel] head
+>> drivers/cpufreq/cpufreq.c:475:65: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct notifier_block *nb @@     got struct notifier_block [noderef] __rcu *next @@
+   drivers/cpufreq/cpufreq.c:475:65: sparse:     expected struct notifier_block *nb
+   drivers/cpufreq/cpufreq.c:475:65: sparse:     got struct notifier_block [noderef] __rcu *next
 
-vim +1609 drivers/phy/apple/atc.c
+vim +475 drivers/cpufreq/cpufreq.c
 
-3b2571b8e8064a Sven Peter 2022-11-30  1567  static int atcphy_usb3_power_on(struct phy *phy)
-3b2571b8e8064a Sven Peter 2022-11-30  1568  {
-3b2571b8e8064a Sven Peter 2022-11-30  1569  	struct apple_atcphy *atcphy = phy_get_drvdata(phy);
-3b2571b8e8064a Sven Peter 2022-11-30  1570  	enum atcphy_pipehandler_state state;
-3b2571b8e8064a Sven Peter 2022-11-30  1571  	int ret = 0;
-3b2571b8e8064a Sven Peter 2022-11-30  1572  
-3b2571b8e8064a Sven Peter 2022-11-30  1573  	/*
-3b2571b8e8064a Sven Peter 2022-11-30  1574  	 * Both usb role switch and mux set work will be running concurrently.
-3b2571b8e8064a Sven Peter 2022-11-30  1575  	 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
-3b2571b8e8064a Sven Peter 2022-11-30  1576  	 * trying to switch dwc3 to the correct PHY.
-3b2571b8e8064a Sven Peter 2022-11-30  1577  	 */
-3b2571b8e8064a Sven Peter 2022-11-30  1578  	mutex_lock(&atcphy->lock);
-3b2571b8e8064a Sven Peter 2022-11-30  1579  	if (atcphy->mode != atcphy->target_mode) {
-3b2571b8e8064a Sven Peter 2022-11-30  1580  		reinit_completion(&atcphy->atcphy_online_event);
-3b2571b8e8064a Sven Peter 2022-11-30  1581  		mutex_unlock(&atcphy->lock);
-3b2571b8e8064a Sven Peter 2022-11-30  1582  		wait_for_completion_timeout(&atcphy->atcphy_online_event,
-3b2571b8e8064a Sven Peter 2022-11-30  1583  					msecs_to_jiffies(1000));
-3b2571b8e8064a Sven Peter 2022-11-30  1584  		mutex_lock(&atcphy->lock);
-3b2571b8e8064a Sven Peter 2022-11-30  1585  	}
-3b2571b8e8064a Sven Peter 2022-11-30  1586  
-3b2571b8e8064a Sven Peter 2022-11-30  1587  	if (atcphy->mode != atcphy->target_mode) {
-3b2571b8e8064a Sven Peter 2022-11-30  1588  		dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
-3b2571b8e8064a Sven Peter 2022-11-30  1589  		return -EINVAL;
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  466  
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  467  static void cpufreq_list_transition_notifiers(void)
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  468  {
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  469  	struct notifier_block *nb;
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  470  
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  471  	pr_info("Registered transition notifiers:\n");
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  472  
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  473  	mutex_lock(&cpufreq_transition_notifier_list.mutex);
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  474  
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30 @475  	for (nb = cpufreq_transition_notifier_list.head; nb; nb = nb->next)
+d75f773c86a2b8 Sakari Ailus      2019-03-25  476  		pr_info("%pS\n", nb->notifier_call);
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  477  
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  478  	mutex_unlock(&cpufreq_transition_notifier_list.mutex);
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  479  }
+b7898fda5bc7e7 Rafael J. Wysocki 2016-03-30  480  
 
-mutex_unlock(&atcphy->lock); before returning.
+:::::: The code at line 475 was first introduced by commit
+:::::: b7898fda5bc7e786e76ce24fbd2ec993b08ec518 cpufreq: Support for fast frequency switching
 
-3b2571b8e8064a Sven Peter 2022-11-30  1590  	}
-3b2571b8e8064a Sven Peter 2022-11-30  1591  
-3b2571b8e8064a Sven Peter 2022-11-30  1592  	atcphy->dwc3_online = true;
-3b2571b8e8064a Sven Peter 2022-11-30  1593  	state = atcphy_modes[atcphy->mode].pipehandler_state;
-3b2571b8e8064a Sven Peter 2022-11-30  1594  	switch (state) {
-3b2571b8e8064a Sven Peter 2022-11-30  1595  	case ATCPHY_PIPEHANDLER_STATE_USB2:
-3b2571b8e8064a Sven Peter 2022-11-30  1596  	case ATCPHY_PIPEHANDLER_STATE_USB3:
-3b2571b8e8064a Sven Peter 2022-11-30  1597  		ret = atcphy_configure_pipehandler(atcphy, state);
-3b2571b8e8064a Sven Peter 2022-11-30  1598  		break;
-3b2571b8e8064a Sven Peter 2022-11-30  1599  
-3b2571b8e8064a Sven Peter 2022-11-30  1600  	case ATCPHY_PIPEHANDLER_STATE_INVALID:
-3b2571b8e8064a Sven Peter 2022-11-30  1601  	default:
-3b2571b8e8064a Sven Peter 2022-11-30  1602  		dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
-3b2571b8e8064a Sven Peter 2022-11-30  1603  			 state);
-3b2571b8e8064a Sven Peter 2022-11-30  1604  		ret = -EINVAL;
-3b2571b8e8064a Sven Peter 2022-11-30  1605  	}
-3b2571b8e8064a Sven Peter 2022-11-30  1606  
-3b2571b8e8064a Sven Peter 2022-11-30  1607  	mutex_unlock(&atcphy->lock);
-3b2571b8e8064a Sven Peter 2022-11-30  1608  
-3b2571b8e8064a Sven Peter 2022-11-30 @1609  	return 0;
-3b2571b8e8064a Sven Peter 2022-11-30  1610  }
+:::::: TO: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
