@@ -1,136 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09B916428;
-	Tue, 12 Dec 2023 22:38:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2F763C1F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 23:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iaWERBnR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOyFNjXN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702420692; x=1733956692;
+  t=1702422677; x=1733958677;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=h8t5QXL6Y/ehxu347O7xBo8bJeRhhquvqG+ltUVUxcg=;
-  b=iaWERBnR/idOx+Tj4VIfg7WtVMbUk+tYTN3cpD8EmQp0fGjWKWJRF07Y
-   /BHJGx+ztDfmbiT27FdaDHGkSp8tVAmCrPXNSv9Kysmpd8gdaVz8NRFek
-   P4kl2zT0HGW3b5//og/ld7bdjnQIlcf3IBF6bEJqMziV/R3OtT4ftisfL
-   aDlJEogcVGVDv31ZYkqixf3QkizORt3ycsR0tyvhou8pejBjZExbbS63I
-   1nW8xsNNaE/vYnaJe3btCigwWNFrzmKMaDe7qhHBMexRhjoWN4VA5qGIY
-   id1SQ99PkZF/JoDjxNs9HT7mYsqwCaq+xpK/QhktGxuf+OAsEazm2Fc7Z
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1737037"
+   mime-version:in-reply-to;
+  bh=Kd4RqJif4k/V976t9s7NhBzcyfdHKz5t8C7L6lzC9BM=;
+  b=GOyFNjXN5yDkCX69mSrmJp4WH2nICYT5LFmuqnOV5kbNdIA4dBq1hyNM
+   Nfe1gODkwbxT5pw1UBKSNyX1yx8ztGieNCgM3YwaE/R90+kyXlNhNLZiW
+   a7EPAnMKtxd51x4u8KwAKcGVDdSGO3pjb51cQsFlRU134tcuzifsds3Qp
+   U5EkoEKOiHCorsWBstff1s6cEtFgcjFulHT37svGVndTyadgJTfN+XwQC
+   bxSJaJbCrTocwgaSTi9inOXV2vP/BGFf/7gUyi74gO4Z7fVOtJwSq4/eI
+   woqHNFgOiVRhhPoNO8FPiGe0AmKwc++uT4w2Vi81VL6rjMBSylKDP6SnA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="426007635"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="1737037"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 14:38:12 -0800
+   d="scan'208";a="426007635"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 15:11:16 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="766990162"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="15185388"
+   d="scan'208";a="766990162"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 12 Dec 2023 14:38:10 -0800
+  by orsmga007.jf.intel.com with ESMTP; 12 Dec 2023 15:11:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDBOB-000Jnr-24;
-	Tue, 12 Dec 2023 22:38:07 +0000
-Date: Wed, 13 Dec 2023 06:37:28 +0800
+	id 1rDBu9-000JqF-17;
+	Tue, 12 Dec 2023 23:11:09 +0000
+Date: Wed, 13 Dec 2023 07:10:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?B?TWljaGHFgiBLb3BlxIc=?= <michal.kopec@3mdeb.com>,
-	linux-usb@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	=?utf-8?B?TWljaGHFgiBLb3BlxIc=?= <michal@nozomi.space>
-Subject: Re: [PATCH] platform/x86: serial-multi-instantiate: allow single
- GpioInt IRQ for INT3515
-Message-ID: <202312130609.vkwtG6qJ-lkp@intel.com>
-References: <20231212103823.546118-2-michal.kopec@3mdeb.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lorenzo.bianconi@redhat.com,
+	davem@davemloft.net, kuba@kernel.org, edumazet@google.com,
+	pabeni@redhat.com, bpf@vger.kernel.org, hawk@kernel.org,
+	toke@redhat.com, willemdebruijn.kernel@gmail.com,
+	jasowang@redhat.com, sdf@google.com
+Subject: Re: [PATCH v4 net-next 3/3] xdp: add multi-buff support for xdp
+ running in generic mode
+Message-ID: <202312130625.4PfR5846-lkp@intel.com>
+References: <2d0f9388c6509192d88e359a402517a73124b50e.1702375338.git.lorenzo@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231212103823.546118-2-michal.kopec@3mdeb.com>
+In-Reply-To: <2d0f9388c6509192d88e359a402517a73124b50e.1702375338.git.lorenzo@kernel.org>
 
-Hi Michał,
+Hi Lorenzo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on westeri-thunderbolt/next]
-[also build test WARNING on linus/master v6.7-rc5 next-20231212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Kope/platform-x86-serial-multi-instantiate-allow-single-GpioInt-IRQ-for-INT3515/20231212-184116
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-patch link:    https://lore.kernel.org/r/20231212103823.546118-2-michal.kopec%403mdeb.com
-patch subject: [PATCH] platform/x86: serial-multi-instantiate: allow single GpioInt IRQ for INT3515
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231213/202312130609.vkwtG6qJ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130609.vkwtG6qJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/net-introduce-page_pool-pointer-in-softnet_data-percpu-struct/20231212-181103
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/2d0f9388c6509192d88e359a402517a73124b50e.1702375338.git.lorenzo%40kernel.org
+patch subject: [PATCH v4 net-next 3/3] xdp: add multi-buff support for xdp running in generic mode
+config: sh-edosk7760_defconfig (https://download.01.org/0day-ci/archive/20231213/202312130625.4PfR5846-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130625.4PfR5846-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312130609.vkwtG6qJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312130625.4PfR5846-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/platform/x86/serial-multi-instantiate.c:79:17: warning: logical not is only applied to the left hand side of this bitwise operator [-Wlogical-not-parentheses]
-           if (ret < 0 && !inst->flags & IRQ_OPTIONAL)
-                          ^            ~
-   drivers/platform/x86/serial-multi-instantiate.c:79:17: note: add parentheses after the '!' to evaluate the bitwise operator first
-           if (ret < 0 && !inst->flags & IRQ_OPTIONAL)
-                          ^
-                           (                         )
-   drivers/platform/x86/serial-multi-instantiate.c:79:17: note: add parentheses around left hand side expression to silence this warning
-           if (ret < 0 && !inst->flags & IRQ_OPTIONAL)
-                          ^
-                          (           )
-   1 warning generated.
+   sh4-linux-ld: net/core/dev.o: in function `netif_skb_segment_for_xdp':
+>> net/core/dev.c:5003:(.text+0x2860): undefined reference to `page_pool_alloc_frag'
+>> sh4-linux-ld: net/core/dev.c:5003:(.text+0x28fc): undefined reference to `page_pool_alloc_pages'
+   sh4-linux-ld: net/core/dev.o: in function `net_dev_init':
+   net/core/dev.c:11882:(.init.text+0x198): undefined reference to `page_pool_create'
 
 
-vim +79 drivers/platform/x86/serial-multi-instantiate.c
+vim +5003 net/core/dev.c
 
-    51	
-    52	static int smi_get_irq(struct platform_device *pdev, struct acpi_device *adev,
-    53			       const struct smi_instance *inst)
-    54	{
-    55		int ret;
-    56	
-    57		switch (inst->flags & IRQ_RESOURCE_TYPE) {
-    58		case IRQ_RESOURCE_AUTO:
-    59			ret = acpi_dev_gpio_irq_get(adev, inst->irq_idx);
-    60			if (ret > 0) {
-    61				dev_dbg(&pdev->dev, "Using gpio irq\n");
-    62				break;
-    63			}
-    64			ret = platform_get_irq_optional(pdev, inst->irq_idx);
-    65			if (ret > 0) {
-    66				dev_dbg(&pdev->dev, "Using platform irq\n");
-    67				break;
-    68			}
-    69			break;
-    70		case IRQ_RESOURCE_GPIO:
-    71			ret = acpi_dev_gpio_irq_get(adev, inst->irq_idx);
-    72			break;
-    73		case IRQ_RESOURCE_APIC:
-    74			ret = platform_get_irq_optional(pdev, inst->irq_idx);
-    75			break;
-    76		default:
-    77			return 0;
-    78		}
-  > 79		if (ret < 0 && !inst->flags & IRQ_OPTIONAL)
-    80			return dev_err_probe(&pdev->dev, ret, "Error requesting irq at index %d\n",
-    81					     inst->irq_idx);
-    82	
-    83		return ret;
-    84	}
-    85	
+  4932	
+  4933	static int netif_skb_segment_for_xdp(struct sk_buff **pskb)
+  4934	{
+  4935		struct softnet_data *sd = this_cpu_ptr(&softnet_data);
+  4936		u32 size, truesize, len, max_head_size, off;
+  4937		struct sk_buff *skb = *pskb, *nskb;
+  4938		int err, i, head_off;
+  4939		void *data;
+  4940	
+  4941		max_head_size = SKB_WITH_OVERHEAD(PAGE_SIZE - XDP_PACKET_HEADROOM);
+  4942		if (skb->len > max_head_size + MAX_SKB_FRAGS * PAGE_SIZE)
+  4943			return -ENOMEM;
+  4944	
+  4945		size = min_t(u32, skb->len, max_head_size);
+  4946		truesize = SKB_HEAD_ALIGN(size) + XDP_PACKET_HEADROOM;
+  4947		data = page_pool_dev_alloc_va(sd->page_pool, &truesize);
+  4948		if (!data)
+  4949			return -ENOMEM;
+  4950	
+  4951		nskb = napi_build_skb(data, truesize);
+  4952		if (!nskb) {
+  4953			page_pool_free_va(sd->page_pool, data, true);
+  4954			return -ENOMEM;
+  4955		}
+  4956	
+  4957		skb_reserve(nskb, XDP_PACKET_HEADROOM);
+  4958		skb_copy_header(nskb, skb);
+  4959		skb_mark_for_recycle(nskb);
+  4960	
+  4961		err = skb_copy_bits(skb, 0, nskb->data, size);
+  4962		if (err) {
+  4963			consume_skb(nskb);
+  4964			return err;
+  4965		}
+  4966		skb_put(nskb, size);
+  4967	
+  4968		head_off = skb_headroom(nskb) - skb_headroom(skb);
+  4969		skb_headers_offset_update(nskb, head_off);
+  4970	
+  4971		off = size;
+  4972		len = skb->len - off;
+  4973		for (i = 0; i < MAX_SKB_FRAGS && off < skb->len; i++) {
+  4974			struct page *page;
+  4975			u32 page_off;
+  4976	
+  4977			size = min_t(u32, len, PAGE_SIZE);
+  4978			truesize = size;
+  4979	
+  4980			page = page_pool_dev_alloc(sd->page_pool, &page_off,
+  4981						   &truesize);
+  4982			if (!data) {
+  4983				consume_skb(nskb);
+  4984				return -ENOMEM;
+  4985			}
+  4986	
+  4987			skb_add_rx_frag(nskb, i, page, page_off, size, truesize);
+  4988			err = skb_copy_bits(skb, off, page_address(page) + page_off,
+  4989					    size);
+  4990			if (err) {
+  4991				consume_skb(nskb);
+  4992				return err;
+  4993			}
+  4994	
+  4995			len -= size;
+  4996			off += size;
+  4997		}
+  4998	
+  4999		consume_skb(skb);
+  5000		*pskb = nskb;
+  5001	
+  5002		return 0;
+> 5003	}
+  5004	
 
 -- 
 0-DAY CI Kernel Test Service
