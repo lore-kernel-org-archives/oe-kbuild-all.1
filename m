@@ -1,85 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D12464CC0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 21:57:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5737064CC9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 21:57:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8X6Dwca"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TSdlrfH4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702418231; x=1733954231;
+  t=1702418246; x=1733954246;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cR/SZi/CQM7AqNyWws8Tpn6BYvRNvG5YcWdlZDDZfOg=;
-  b=m8X6DwcaQghDqX9wk61v729PfU12zm5BfAZVdHsAi/R0L6M0d6i+KKU5
-   jKjAsI8B4//F+yaa384ndf6Uq2sKw8MDzV1+jjZrInVtMrg8ZLAKRImPd
-   OzzTTgS1a21OFx43vli/sE+eGEWAVfEhzEYbbGFxMTPLYqf4EJiPMct2A
-   dCmyAUl9/nN00/0sdIPsMTFqQvWyw7LzG/JeMY8RJl6L4OdawPbXEkIZW
-   7Qv2v/WrtEIZctyM1MDsx0yM1ddWhVLIiHfEz4BlaZsx2+2gJHVw5cVCQ
-   o4ts9AUrmHNpf3rH+f+++DzgwuULG2Wjp3H705xAMF0+m21s/MlmWA+S1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="461350452"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Z73/hOSxGYVupXLmXbwMfHy1VRD17NY40HD1VCffAhI=;
+  b=TSdlrfH4XeBf1MJMhauH2l6igc1wr0h2vx0RwG2iYKt355gvm7RqR8M+
+   UXRlt6QSrwoai06XTXu7OXiQDhcpKe/LTUepHMZJtCfxiy6XWwUcgvT/2
+   wB2R9Gfey/TRqeviP+INZNvJ9dsCiD5V2mPI70u5qV8Rw9mLhPH3KKUO3
+   iSjpYnTskXF47596gWm6SONWKRnpS4OknV/6oLVcELFsp8HRWTYlHcCxE
+   GQ6q11R1P6KIvdlbCySmRqAEDfrexPL00bK376FJV3qlHJmhtkbwOG6Sx
+   ZxgsPPKXabtu9+8jXeLlfx2msdW9uNLdeqdhPf0a5JJdLJ063KknYzpOO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="397661382"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="461350452"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 13:57:10 -0800
+   d="scan'208";a="397661382"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 13:57:14 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897068463"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="15177903"
+   d="scan'208";a="897068463"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 12 Dec 2023 13:57:07 -0800
+  by orsmga004.jf.intel.com with ESMTP; 12 Dec 2023 13:57:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDAkS-000Jlj-1W;
+	id 1rDAkS-000Jln-1j;
 	Tue, 12 Dec 2023 21:57:04 +0000
-Date: Wed, 13 Dec 2023 05:56:47 +0800
+Date: Wed, 13 Dec 2023 05:56:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lorenzo.bianconi@redhat.com,
-	davem@davemloft.net, kuba@kernel.org, edumazet@google.com,
-	pabeni@redhat.com, bpf@vger.kernel.org, hawk@kernel.org,
-	toke@redhat.com, willemdebruijn.kernel@gmail.com,
-	jasowang@redhat.com, sdf@google.com
-Subject: Re: [PATCH v4 net-next 1/3] net: introduce page_pool pointer in
- softnet_data percpu struct
-Message-ID: <202312130531.EIYsEYp0-lkp@intel.com>
-References: <2a267c8f331996de0e26568472c45fe78eb67e1d.1702375338.git.lorenzo@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>, linux-tegra@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com
+Subject: Re: [PATCH] drm/tegra: include drm/drm_edid.h only where needed
+Message-ID: <202312130548.FrTZXIdd-lkp@intel.com>
+References: <20231212142409.3826544-1-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <2a267c8f331996de0e26568472c45fe78eb67e1d.1702375338.git.lorenzo@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231212142409.3826544-1-jani.nikula@intel.com>
 
-Hi Lorenzo,
+Hi Jani,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.7-rc5 next-20231212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/net-introduce-page_pool-pointer-in-softnet_data-percpu-struct/20231212-181103
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/2a267c8f331996de0e26568472c45fe78eb67e1d.1702375338.git.lorenzo%40kernel.org
-patch subject: [PATCH v4 net-next 1/3] net: introduce page_pool pointer in softnet_data percpu struct
-config: arc-defconfig (https://download.01.org/0day-ci/archive/20231213/202312130531.EIYsEYp0-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130531.EIYsEYp0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-tegra-include-drm-drm_edid-h-only-where-needed/20231212-222603
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20231212142409.3826544-1-jani.nikula%40intel.com
+patch subject: [PATCH] drm/tegra: include drm/drm_edid.h only where needed
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231213/202312130548.FrTZXIdd-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130548.FrTZXIdd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312130531.EIYsEYp0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312130548.FrTZXIdd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arc-elf-ld: net/core/dev.o: in function `net_dev_init':
->> dev.c:(.init.text+0x180): undefined reference to `page_pool_create'
->> arc-elf-ld: dev.c:(.init.text+0x180): undefined reference to `page_pool_create'
+   drivers/gpu/drm/tegra/sor.c: In function 'tegra_sor_hdmi_setup_avi_infoframe':
+>> drivers/gpu/drm/tegra/sor.c:1928:15: error: implicit declaration of function 'drm_hdmi_avi_infoframe_from_display_mode' [-Werror=implicit-function-declaration]
+    1928 |         err = drm_hdmi_avi_infoframe_from_display_mode(&frame,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/drm_hdmi_avi_infoframe_from_display_mode +1928 drivers/gpu/drm/tegra/sor.c
+
+459cc2c6800b54 Thierry Reding 2015-07-30  1911  
+459cc2c6800b54 Thierry Reding 2015-07-30  1912  static int
+459cc2c6800b54 Thierry Reding 2015-07-30  1913  tegra_sor_hdmi_setup_avi_infoframe(struct tegra_sor *sor,
+459cc2c6800b54 Thierry Reding 2015-07-30  1914  				   const struct drm_display_mode *mode)
+459cc2c6800b54 Thierry Reding 2015-07-30  1915  {
+459cc2c6800b54 Thierry Reding 2015-07-30  1916  	u8 buffer[HDMI_INFOFRAME_SIZE(AVI)];
+459cc2c6800b54 Thierry Reding 2015-07-30  1917  	struct hdmi_avi_infoframe frame;
+459cc2c6800b54 Thierry Reding 2015-07-30  1918  	u32 value;
+459cc2c6800b54 Thierry Reding 2015-07-30  1919  	int err;
+459cc2c6800b54 Thierry Reding 2015-07-30  1920  
+459cc2c6800b54 Thierry Reding 2015-07-30  1921  	/* disable AVI infoframe */
+459cc2c6800b54 Thierry Reding 2015-07-30  1922  	value = tegra_sor_readl(sor, SOR_HDMI_AVI_INFOFRAME_CTRL);
+459cc2c6800b54 Thierry Reding 2015-07-30  1923  	value &= ~INFOFRAME_CTRL_SINGLE;
+459cc2c6800b54 Thierry Reding 2015-07-30  1924  	value &= ~INFOFRAME_CTRL_OTHER;
+459cc2c6800b54 Thierry Reding 2015-07-30  1925  	value &= ~INFOFRAME_CTRL_ENABLE;
+459cc2c6800b54 Thierry Reding 2015-07-30  1926  	tegra_sor_writel(sor, value, SOR_HDMI_AVI_INFOFRAME_CTRL);
+459cc2c6800b54 Thierry Reding 2015-07-30  1927  
+13d0add333afea Ville Syrjälä  2019-01-08 @1928  	err = drm_hdmi_avi_infoframe_from_display_mode(&frame,
+13d0add333afea Ville Syrjälä  2019-01-08  1929  						       &sor->output.connector, mode);
+459cc2c6800b54 Thierry Reding 2015-07-30  1930  	if (err < 0) {
+459cc2c6800b54 Thierry Reding 2015-07-30  1931  		dev_err(sor->dev, "failed to setup AVI infoframe: %d\n", err);
+459cc2c6800b54 Thierry Reding 2015-07-30  1932  		return err;
+459cc2c6800b54 Thierry Reding 2015-07-30  1933  	}
+459cc2c6800b54 Thierry Reding 2015-07-30  1934  
+459cc2c6800b54 Thierry Reding 2015-07-30  1935  	err = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
+459cc2c6800b54 Thierry Reding 2015-07-30  1936  	if (err < 0) {
+459cc2c6800b54 Thierry Reding 2015-07-30  1937  		dev_err(sor->dev, "failed to pack AVI infoframe: %d\n", err);
+459cc2c6800b54 Thierry Reding 2015-07-30  1938  		return err;
+459cc2c6800b54 Thierry Reding 2015-07-30  1939  	}
+459cc2c6800b54 Thierry Reding 2015-07-30  1940  
+459cc2c6800b54 Thierry Reding 2015-07-30  1941  	tegra_sor_hdmi_write_infopack(sor, buffer, err);
+459cc2c6800b54 Thierry Reding 2015-07-30  1942  
+459cc2c6800b54 Thierry Reding 2015-07-30  1943  	/* enable AVI infoframe */
+459cc2c6800b54 Thierry Reding 2015-07-30  1944  	value = tegra_sor_readl(sor, SOR_HDMI_AVI_INFOFRAME_CTRL);
+459cc2c6800b54 Thierry Reding 2015-07-30  1945  	value |= INFOFRAME_CTRL_CHECKSUM_ENABLE;
+459cc2c6800b54 Thierry Reding 2015-07-30  1946  	value |= INFOFRAME_CTRL_ENABLE;
+459cc2c6800b54 Thierry Reding 2015-07-30  1947  	tegra_sor_writel(sor, value, SOR_HDMI_AVI_INFOFRAME_CTRL);
+459cc2c6800b54 Thierry Reding 2015-07-30  1948  
+459cc2c6800b54 Thierry Reding 2015-07-30  1949  	return 0;
+459cc2c6800b54 Thierry Reding 2015-07-30  1950  }
+459cc2c6800b54 Thierry Reding 2015-07-30  1951  
 
 -- 
 0-DAY CI Kernel Test Service
