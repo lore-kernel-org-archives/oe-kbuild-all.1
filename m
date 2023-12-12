@@ -1,154 +1,140 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6B1A23
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 01:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F707E3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 01:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ECB/2XqN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702344189;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MmWLQ8S7dWkSauCMe9+QRo60HBpBohLa6sWyfno5d6Q=;
-	b=ECB/2XqNTRlE/8zOg1wEx4sh0BLAdLfumxNmLwgg00Bz7/Eq+Gacit/zk4Kl9/hIonPcna
-	aPuo0i3sWCGLtYzZSNrPCrBxnTjl3FB/TMEu28TMo33a69R06Rp9dGsHJHZ2Ynm7f0/SxA
-	hIP0NgcZmjMOdeipkJRQ/jfZTJgglV4=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-499-o1RwP8zqOfKVizhJ0VPGhg-1; Mon,
- 11 Dec 2023 20:23:06 -0500
-X-MC-Unique: o1RwP8zqOfKVizhJ0VPGhg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBAA21C05AA0;
-	Tue, 12 Dec 2023 01:23:05 +0000 (UTC)
-Received: from localhost (unknown [10.72.112.218])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 47DF12166B31;
-	Tue, 12 Dec 2023 01:23:04 +0000 (UTC)
-Date: Tue, 12 Dec 2023 09:23:02 +0800
-From: Baoquan He <bhe@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [linux-next:master 6231/6992] kernel/events/core.c:7477
- perf_virt_to_phys() warn: always true condition '(virt >= (0)) => (0-u64max
- >= 0)'
-Message-ID: <ZXe19jRuQLVb+lLm@MiWiFi-R3L-srv>
-References: <202312120428.kUWabWlC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cY97ACaW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702345355; x=1733881355;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L/gJYQh3vkVByJTJ9gcevsmOjIhbT2UnPUYs6fdBNPU=;
+  b=cY97ACaWo+cz7xA5dZWHV6RQmmcJ/GB7LrPh5jGyQpmff+7Bsrq1Zgq9
+   O/dcvtfw2uA2DgcfgxzubyUXKDo6I0fJlWTxM9UqOL5jSwhXJAO7lwM6v
+   qxqVwTocaTjIP38L6gTioEQynA+/SvUfbEV2s2F9xAQo9LworlShABp5r
+   J9OZ/zBGNdQy/aZZiQYJ5TIcxf8rLXPWcWGMo0yHinQPCaWE+4ng9lh8C
+   CUVXl9rNNG967fBV86SHMmsPETNeNZF+Lc/RTIGzfELAVvzCHrvDVav7U
+   kZR/4Ifv8j+c6+0dha0smFHlMD2M+ygiaMifSBgKcAyWzlJnj945iQovm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="8101564"
+X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; 
+   d="scan'208";a="8101564"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 17:42:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="843729122"
+X-IronPort-AV: E=Sophos;i="6.04,269,1695711600"; 
+   d="scan'208";a="843729122"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 11 Dec 2023 17:42:33 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rCrn2-000IeV-21;
+	Tue, 12 Dec 2023 01:42:29 +0000
+Date: Tue, 12 Dec 2023 09:40:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stafford Horne <shorne@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/video/fbdev/cirrusfb.c:1852:28: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202312120922.hQZ8Qe8k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202312120428.kUWabWlC-lkp@intel.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On 12/12/23 at 04:37am, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   bbd220ce4e29ed55ab079007cff0b550895258eb
-> commit: 8a651e8f1fca74c7c2b033d9a0ad5214ac5d46e4 [6231/6992] riscv: fix VMALLOC_START definition
-> config: riscv-randconfig-r071-20231211 (https://download.01.org/0day-ci/archive/20231212/202312120428.kUWabWlC-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120428.kUWabWlC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
+commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
+date:   1 year, 4 months ago
+config: openrisc-randconfig-r112-20231116 (https://download.01.org/0day-ci/archive/20231212/202312120922.hQZ8Qe8k-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120922.hQZ8Qe8k-lkp@intel.com/reproduce)
 
-Thanks for reporting this. While I can't open the reproduce link,
-can you double check it?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120922.hQZ8Qe8k-lkp@intel.com/
 
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312120428.kUWabWlC-lkp@intel.com/
-> 
-> New smatch warnings:
-> kernel/events/core.c:7477 perf_virt_to_phys() warn: always true condition '(virt >= (0)) => (0-u64max >= 0)'
-> drivers/clk/ingenic/tcu.c:455 ingenic_tcu_probe() warn: 'tcu->clk' from clk_prepare_enable() not released on lines: 455.
-> 
-> Old smatch warnings:
-> arch/riscv/include/asm/atomic.h:225 arch_atomic64_fetch_add_unless() warn: inconsistent indenting
-> arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+sparse warnings: (new ones prefixed by >>)
+   drivers/video/fbdev/cirrusfb.c:866:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:867:38: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:871:40: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:873:25: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:876:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:877:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:878:27: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:879:29: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:1245:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:1246:17: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/cirrusfb.c:1247:17: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/video/fbdev/cirrusfb.c:1852:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dest @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/cirrusfb.c:1852:28: sparse:     expected void *dest
+   drivers/video/fbdev/cirrusfb.c:1852:28: sparse:     got char [noderef] __iomem *screen_base
 
-From the config, it has:
-------------------------
-# CONFIG_MMU is not set
-------------------------
+vim +1852 drivers/video/fbdev/cirrusfb.c
 
-On RISC-V, we have definitions as below. So this sounds like a redundant
-warning. I will see if I can mute it anyway.
+^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1809  
+8503df65976d0f8 drivers/video/cirrusfb.c Krzysztof Helt 2007-10-16  1810  static void cirrusfb_imageblit(struct fb_info *info,
+8503df65976d0f8 drivers/video/cirrusfb.c Krzysztof Helt 2007-10-16  1811  			       const struct fb_image *image)
+^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1812  {
+^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1813  	struct cirrusfb_info *cinfo = info->par;
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1814  	unsigned char op = (info->var.bits_per_pixel == 24) ? 0xc : 0x4;
+^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1815  
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1816  	if (info->state != FBINFO_STATE_RUNNING)
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1817  		return;
+df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1818  	/* Alpine/SD64 does not work at 24bpp ??? */
+df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1819  	if (info->flags & FBINFO_HWACCEL_DISABLED || image->depth != 1)
+df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1820  		cfb_imageblit(info, image);
+df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1821  	else if ((cinfo->btype == BT_ALPINE || cinfo->btype == BT_SD64) &&
+df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1822  		  op == 0xc)
+^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1823  		cfb_imageblit(info, image);
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1824  	else {
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1825  		unsigned size = ((image->width + 7) >> 3) * image->height;
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1826  		int m = info->var.bits_per_pixel;
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1827  		u32 fg, bg;
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1828  
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1829  		if (info->var.bits_per_pixel == 8) {
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1830  			fg = image->fg_color;
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1831  			bg = image->bg_color;
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1832  		} else {
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1833  			fg = ((u32 *)(info->pseudo_palette))[image->fg_color];
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1834  			bg = ((u32 *)(info->pseudo_palette))[image->bg_color];
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1835  		}
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1836  		if (info->var.bits_per_pixel == 24) {
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1837  			/* clear background first */
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1838  			cirrusfb_RectFill(cinfo->regbase,
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1839  					  info->var.bits_per_pixel,
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1840  					  (image->dx * m) / 8, image->dy,
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1841  					  (image->width * m) / 8,
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1842  					  image->height,
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1843  					  bg, bg,
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1844  					  info->fix.line_length, 0x40);
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1845  		}
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1846  		cirrusfb_RectFill(cinfo->regbase,
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1847  				  info->var.bits_per_pixel,
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1848  				  (image->dx * m) / 8, image->dy,
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1849  				  (image->width * m) / 8, image->height,
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1850  				  fg, bg,
+7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1851  				  info->fix.line_length, op);
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31 @1852  		memcpy(info->screen_base, image->data, size);
+9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1853  	}
+^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1854  }
+^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1855  
 
-arch/riscv/include/asm/pgtable.h:
-#ifdef CONFIG_MMU
-......
-#else /* CONFIG_MMU */
+:::::: The code at line 1852 was first introduced by commit
+:::::: 9e848062533207130667f6eaa748549367ccbedf cirrusfb: add imageblit function
 
-#define PAGE_SHARED             __pgprot(0)
-#define PAGE_KERNEL             __pgprot(0)
-#define swapper_pg_dir          NULL
-#define TASK_SIZE               0xffffffffUL
-#define VMALLOC_START           0
-#define VMALLOC_END             TASK_SIZE
+:::::: TO: Krzysztof Helt <krzysztof.h1@wp.pl>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
-#endif /* !CONFIG_MMU */
-
-> 
-> vim +7477 kernel/events/core.c
-> 
-> 5622f295b53fb6 kernel/perf_counter.c Markus Metzger   2009-09-15  7466  
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7467  static u64 perf_virt_to_phys(u64 virt)
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7468  {
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7469  	u64 phys_addr = 0;
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7470  
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7471  	if (!virt)
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7472  		return 0;
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7473  
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7474  	if (virt >= TASK_SIZE) {
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7475  		/* If it's vmalloc()d memory, leave phys_addr as 0 */
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7476  		if (virt_addr_valid((void *)(uintptr_t)virt) &&
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28 @7477  		    !(virt >= VMALLOC_START && virt < VMALLOC_END))
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7478  			phys_addr = (u64)virt_to_phys((void *)(uintptr_t)virt);
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7479  	} else {
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7480  		/*
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7481  		 * Walking the pages tables for user address.
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7482  		 * Interrupts are disabled, so it prevents any tear down
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7483  		 * of the page tables.
-> dadbb612f6e50b kernel/events/core.c  Souptick Joarder 2020-06-07  7484  		 * Try IRQ-safe get_user_page_fast_only first.
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7485  		 * If failed, leave phys_addr as 0.
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7486  		 */
-> d3296fb372bf74 kernel/events/core.c  Jiri Olsa        2020-04-07  7487  		if (current->mm != NULL) {
-> 4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7488  			struct page *p;
-> 4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7489  
-> d3296fb372bf74 kernel/events/core.c  Jiri Olsa        2020-04-07  7490  			pagefault_disable();
-> 4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7491  			if (get_user_page_fast_only(virt, 0, &p)) {
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7492  				phys_addr = page_to_phys(p) + virt % PAGE_SIZE;
-> 4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7493  				put_page(p);
-> 4716023a8f6a0f kernel/events/core.c  Greg Thelen      2021-11-10  7494  			}
-> d3296fb372bf74 kernel/events/core.c  Jiri Olsa        2020-04-07  7495  			pagefault_enable();
-> d3296fb372bf74 kernel/events/core.c  Jiri Olsa        2020-04-07  7496  		}
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7497  	}
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7498  
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7499  	return phys_addr;
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7500  }
-> fc7ce9c74c3ad2 kernel/events/core.c  Kan Liang        2017-08-28  7501  
-> 
-> :::::: The code at line 7477 was first introduced by commit
-> :::::: fc7ce9c74c3ad232b084d80148654f926d01ece7 perf/core, x86: Add PERF_SAMPLE_PHYS_ADDR
-> 
-> :::::: TO: Kan Liang <kan.liang@intel.com>
-> :::::: CC: Ingo Molnar <mingo@kernel.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
