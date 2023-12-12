@@ -1,798 +1,378 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B20B5B5D5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 18:28:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FF210F5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 18:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lmH1oQY6"
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7281C327;
-	Tue, 12 Dec 2023 19:21:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702405290;
-	bh=IYndxRPbrUXPsncM95cDHBQyiHPrtwlKLaP7qc7L4FM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lmH1oQY697C3JFTc4xy2W0gdFLIISUaSmBv7OvG6ruDUZ+Krjn9xbKHbIbj7Yx8sC
-	 HjR/+mlyL8mHhyuYsWqMk/OesSi01nAzDYifkCKrD9QX/DT4zmfG/pnk4MSMa1vegi
-	 3WETFEYewLqBECVeZ4Vdu7AKyvMiPe4Jj8XPajfM=
-Date: Tue, 12 Dec 2023 20:22:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: kernel test robot <lkp@intel.com>, linux-usb@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	kernel@collabora.com
-Subject: Re: [PATCH v3] usb: gadget: webcam: Make g_webcam loadable again
-Message-ID: <20231212182222.GP27535@pendragon.ideasonboard.com>
-References: <20231211123819.76648-1-andrzej.p@collabora.com>
- <202312120517.4yhTyhYY-lkp@intel.com>
- <a4f23fd3-800b-48e3-b3de-0fbccb76252a@collabora.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEXPawgi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702406632; x=1733942632;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IEO21lVidRSfn1FGhr1zGlPze/gGm/qWc0vGuIIGC+M=;
+  b=ZEXPawgi3YwbqPXhokJcnYT5VhDO75tLbUhAy2/4Nu+PlASdoFSW0suD
+   dR0qj8XWjuLrKyw2A/6WeB37FfNzIWkicnXn4gleykwBGZQcuuR158z5A
+   2n8LQO7hpoIKx+7BRMps5Nk20wjSfQQA/J8d0ZiFMECNB4JdfG2r9wugX
+   iu0Qb/mCynTEiceBdTAZHUFtL5pmxISZxqXayEJk0NtPH3zBCRFTS7vq0
+   MEwV+rgt6P9Unnz2DVykVW+oKN94JuWeJ67ii7eCa6gUKz1ifJcG08U3t
+   LZYUTCR92SmwMc0oc7BfbqxUCxWrfB7Z9YTPBOfvcBE1HcP9SnXzhLBQX
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="459170518"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="459170518"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 10:43:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="844008949"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="844008949"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 12 Dec 2023 10:43:47 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rD7jN-000JZa-0W;
+	Tue, 12 Dec 2023 18:43:45 +0000
+Date: Wed, 13 Dec 2023 02:43:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Will Deacon <will.deacon@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: arch/mips/include/asm/mips-cpc.h:153:1: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202312130247.3Zy1HRN6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a4f23fd3-800b-48e3-b3de-0fbccb76252a@collabora.com>
 
-Hi Andrzej,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   26aff849438cebcd05f1a647390c4aa700d5c0f1
+commit: d15155824c5014803d91b829736d249c500bdda6 linux/compiler.h: Split into compiler.h and compiler_types.h
+date:   6 years ago
+config: mips-randconfig-r122-20231108 (https://download.01.org/0day-ci/archive/20231213/202312130247.3Zy1HRN6-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231213/202312130247.3Zy1HRN6-lkp@intel.com/reproduce)
 
-On Tue, Dec 12, 2023 at 06:01:09PM +0100, Andrzej Pietrasiewicz wrote:
-> W dniu 11.12.2023 o 22:53, kernel test robot pisze:
-> > Hi Andrzej,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on 33cc938e65a98f1d29d0a18403dbbee050dcad9a]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Andrzej-Pietrasiewicz/usb-gadget-webcam-Make-g_webcam-loadable-again/20231211-204453
-> > base:   33cc938e65a98f1d29d0a18403dbbee050dcad9a
-> > patch link:    https://lore.kernel.org/r/20231211123819.76648-1-andrzej.p%40collabora.com
-> > patch subject: [PATCH v3] usb: gadget: webcam: Make g_webcam loadable again
-> > config: i386-randconfig-003-20231212 (https://download.01.org/0day-ci/archive/20231212/202312120517.4yhTyhYY-lkp@intel.com/config)
-> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120517.4yhTyhYY-lkp@intel.com/reproduce)
-> 
-> The reproduction steps under the above link are:
-> 
->          make W=1 O=build_dir ARCH=i386 olddefconfig
->          make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/usb/gadge/legacy/
-> 
-> but that builds clean on my machine. I had to:
-> 
-> make CC=gcc-7 W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/usb/gadget/legacy/
-> 
-> to actually see the below errors.
-> 
-> Using a modern compiler there are no errors, so I'm wondering if the errors
-> reported are maybe a problem of an old compiler rather then the submitted patch?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312130247.3Zy1HRN6-lkp@intel.com/
 
-They may be, but gcc 7 is still officially supported by the kernel (see
-Documentation/process/changes.rst, the minimum required gcc version is
-v5.1), so the issue needs to be fixed.
+sparse warnings: (new ones prefixed by >>)
+   arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/include/asm/mips-cps.h, arch/mips/include/asm/smp-ops.h, arch/mips/include/asm/smp.h, ...):
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:295:1: sparse:     got void [noderef] __iomem *
+   arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/include/asm/mips-cps.h, arch/mips/include/asm/smp-ops.h, arch/mips/include/asm/smp.h, ...):
+>> arch/mips/include/asm/mips-cpc.h:153:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     got void *
+>> arch/mips/include/asm/mips-cpc.h:153:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     got void *
+>> arch/mips/include/asm/mips-cpc.h:153:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     got void *
+>> arch/mips/include/asm/mips-cpc.h:153:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     got void *
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cpc.h:153:1: sparse:     got void [noderef] __iomem *
+   arch/mips/kernel/smp-cps.c: note: in included file (through arch/mips/include/asm/mips-cps.h, arch/mips/include/asm/smp-ops.h, arch/mips/include/asm/smp.h, ...):
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     expected void *
+   arch/mips/include/asm/mips-cm.h:155:1: sparse:     got void [noderef] __iomem *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     expected void const volatile [noderef] __iomem *mem
+   arch/mips/include/asm/mips-cm.h:134:1: sparse:     got void *
+   arch/mips/include/asm/mips-cm.h:134:1: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+--
+   drivers/gpu/drm/drm_bufs.c:213:45: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *handle @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/drm_bufs.c:213:45: sparse:     expected void *handle
+   drivers/gpu/drm/drm_bufs.c:213:45: sparse:     got void [noderef] __iomem *
+   drivers/gpu/drm/drm_bufs.c:216:45: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *handle @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/drm_bufs.c:216:45: sparse:     expected void *handle
+   drivers/gpu/drm/drm_bufs.c:216:45: sparse:     got void [noderef] __iomem *
+>> drivers/gpu/drm/drm_bufs.c:331:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *handle @@
+   drivers/gpu/drm/drm_bufs.c:331:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/gpu/drm/drm_bufs.c:331:36: sparse:     got void *handle
+   drivers/gpu/drm/drm_bufs.c:348:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *handle @@
+   drivers/gpu/drm/drm_bufs.c:348:36: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/gpu/drm/drm_bufs.c:348:36: sparse:     got void *handle
+   drivers/gpu/drm/drm_bufs.c:514:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *handle @@
+   drivers/gpu/drm/drm_bufs.c:514:28: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/gpu/drm/drm_bufs.c:514:28: sparse:     got void *handle
+   In file included from include/linux/workqueue.h:8,
+                    from include/linux/srcu.h:34,
+                    from include/linux/notifier.h:15,
+                    from include/linux/memory_hotplug.h:6,
+                    from include/linux/mmzone.h:779,
+                    from include/linux/gfp.h:5,
+                    from include/linux/slab.h:14,
+                    from drivers/gpu/drm/drm_bufs.c:32:
+   include/linux/timer.h: In function 'timer_setup':
+   include/linux/timer.h:178:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
+     178 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
+         |                              ^
+   include/linux/timer.h:143:39: note: in definition of macro '__setup_timer'
+     143 |                 (_timer)->function = (_fn);                             30-      |                                       ^~~
+   drivers/gpu/drm/drm_bufs.c:125: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Core function to create a range of memory available for mapping by a
+   drivers/gpu/drm/drm_bufs.c:379: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Ioctl to specify a range of memory that is available for mapping by a
+   drivers/gpu/drm/drm_bufs.c:480: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Remove a map private from list and deallocate resources if the mapping
+   drivers/gpu/drm/drm_bufs.c:633: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Cleanup after an error on one of the addbufs() functions.
+   drivers/gpu/drm/drm_bufs.c:668: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Add AGP buffers for DMA transfers.
+   drivers/gpu/drm/drm_bufs.c:1204: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Add buffers for DMA transfers (ioctl).
+   drivers/gpu/drm/drm_bufs.c:1245: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Get information about the buffer mappings.
+   drivers/gpu/drm/drm_bufs.c:1333: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Specifies a low and high water mark for buffer allocation
+   drivers/gpu/drm/drm_bufs.c:1382: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Unreserve the buffers in list, previously reserved using drmDMA.
+   drivers/gpu/drm/drm_bufs.c:1451: warning: Function parameter or member 'dev' not described in '__drm_legacy_mapbufs'
+   drivers/gpu/drm/drm_bufs.c:1451: warning: Function parameter or member 'data' not described in '__drm_legacy_mapbufs'
+   drivers/gpu/drm/drm_bufs.c:1451: warning: Function parameter or member 'p' not described in '__drm_legacy_mapbufs'
+   drivers/gpu/drm/drm_bufs.c:1451: warning: Function parameter or member 'v' not described in '__drm_legacy_mapbufs'
+   drivers/gpu/drm/drm_bufs.c:1451: warning: Function parameter or member 'f' not described in '__drm_legacy_mapbufs'
+   drivers/gpu/drm/drm_bufs.c:1451: warning: Function parameter or member 'file_priv' not described in '__drm_legacy_mapbufs'
+   drivers/gpu/drm/drm_bufs.c:1451: warning: expecting prototype for Maps all of the DMA buffers into client(). Prototype was for __drm_legacy_mapbufs() instead
+--
+   drivers/gpu/drm/drm_memory.c:128:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *handle @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/drm_memory.c:128:29: sparse:     expected void *handle
+   drivers/gpu/drm/drm_memory.c:128:29: sparse:     got void [noderef] __iomem *
+   drivers/gpu/drm/drm_memory.c:137:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *handle @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/drm_memory.c:137:29: sparse:     expected void *handle
+   drivers/gpu/drm/drm_memory.c:137:29: sparse:     got void [noderef] __iomem *
+>> drivers/gpu/drm/drm_memory.c:149:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *handle @@
+   drivers/gpu/drm/drm_memory.c:149:28: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/gpu/drm/drm_memory.c:149:28: sparse:     got void *handle
+   In file included from include/linux/workqueue.h:8,
+                    from include/linux/mm_types.h:15,
+                    from include/linux/fs.h:21,
+                    from include/linux/highmem.h:4,
+                    from drivers/gpu/drm/drm_memory.c:36:
+   include/linux/timer.h: In function 'timer_setup':
+   include/linux/timer.h:178:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
+     178 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
+         |                              ^
+   include/linux/timer.h:143:39: note: in definition of macro '__setup_timer'
+     143 |                 (_timer)->function = (_fn);                             21-      |                                       ^~~
+   drivers/gpu/drm/drm_memory.c:2: warning: Cannot understand  * file drm_memory.c
+    on line 2 - I thought it was a doc line
+--
+>> drivers/gpu/drm/drm_vm.c:265:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *handle @@
+   drivers/gpu/drm/drm_vm.c:265:44: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/gpu/drm/drm_vm.c:265:44: sparse:     got void *handle
+   drivers/gpu/drm/drm_vm.c:476:51: sparse: sparse: undefined identifier '_PAGE_RW'
+   drivers/gpu/drm/drm_vm.c:560:51: sparse: sparse: undefined identifier '_PAGE_RW'
+   In file included from include/linux/workqueue.h:8,
+                    from include/linux/srcu.h:34,
+                    from include/linux/notifier.h:15,
+                    from include/linux/memory_hotplug.h:6,
+                    from include/linux/mmzone.h:779,
+                    from include/linux/gfp.h:5,
+                    from include/linux/idr.h:16,
+                    from include/linux/kernfs.h:14,
+                    from include/linux/sysfs.h:15,
+                    from include/linux/kobject.h:21,
+                    from include/linux/cdev.h:4,
+                    from include/drm/drmP.h:36,
+                    from drivers/gpu/drm/drm_vm.c:36:
+   include/linux/timer.h: In function 'timer_setup':
+   include/linux/timer.h:178:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
+     178 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
+         |                              ^
+   include/linux/timer.h:143:39: note: in definition of macro '__setup_timer'
+     143 |                 (_timer)->function = (_fn);                             25-      |                                       ^~~
+   drivers/gpu/drm/drm_vm.c: In function 'drm_mmap_locked':
+   drivers/gpu/drm/drm_vm.c:575:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     575 |                 if (dev->agp && dev->agp->cant_use_aperture) {
+         |                    ^
+   drivers/gpu/drm/drm_vm.c:589:9: note: here
+     589 |         case _DRM_FRAME_BUFFER:
+         |         ^~~~
+   drivers/gpu/drm/drm_vm.c:612:37: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     612 |                 vma->vm_page_prot = drm_dma_prot(map->type, vma);
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_vm.c:614:9: note: here
+     614 |         case _DRM_SHM:
+         |         ^~~~
+   drivers/gpu/drm/drm_vm.c:2: warning: Cannot understand  * file drm_vm.c
+    on line 2 - I thought it was a doc line
+   drivers/gpu/drm/drm_vm.c:93: warning: Cannot understand  * c fault method for AGP virtual memory.
+    on line 93 - I thought it was a doc line
+   drivers/gpu/drm/drm_vm.c:183: warning: Cannot understand  * c nopage method for shared virtual memory.
+    on line 183 - I thought it was a doc line
+   drivers/gpu/drm/drm_vm.c:216: warning: Cannot understand  * c close method for shared virtual memory.
+    on line 216 - I thought it was a doc line
+   drivers/gpu/drm/drm_vm.c:287: warning: Cannot understand  * c fault method for DMA virtual memory.
+    on line 287 - I thought it was a doc line
+   drivers/gpu/drm/drm_vm.c:322: warning: Cannot understand  * c fault method for scatter-gather virtual memory.
+    on line 322 - I thought it was a doc line
+   drivers/gpu/drm/drm_vm.c:428: warning: Cannot understand  * c close method for all virtual memory types.
+    on line 428 - I thought it was a doc line
+   drivers/gpu/drm/drm_vm.c:446: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * mmap DMA memory.
+   drivers/gpu/drm/drm_vm.c:506: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * mmap DMA memory.
 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202312120517.4yhTyhYY-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >     In file included from include/linux/byteorder/little_endian.h:5:0,
-> >                      from arch/x86/include/uapi/asm/byteorder.h:5,
-> >                      from include/asm-generic/bitops/le.h:6,
-> >                      from arch/x86/include/asm/bitops.h:436,
-> >                      from include/linux/bitops.h:68,
-> >                      from include/linux/kernel.h:23,
-> >                      from drivers/usb/gadget/legacy/webcam.c:9:
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:222:8: note: in expansion of macro 'le32_to_cpu'
-> >       [0] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[0]),
-> >             ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_360p_dw_frame_interval[0]')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:222:8: note: in expansion of macro 'le32_to_cpu'
-> >       [0] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[0]),
-> >             ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:223:8: note: in expansion of macro 'le32_to_cpu'
-> >       [1] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[1]),
-> >             ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_360p_dw_frame_interval[1]')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:223:8: note: in expansion of macro 'le32_to_cpu'
-> >       [1] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[1]),
-> >             ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:224:8: note: in expansion of macro 'le32_to_cpu'
-> >       [2] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[2]),
-> >             ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_360p_dw_frame_interval[2]')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:224:8: note: in expansion of macro 'le32_to_cpu'
-> >       [2] = le32_to_cpu(uvc_frame_yuv_360p.dwFrameInterval[2]),
-> >             ^~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:230:17: error: initializer element is not constant
-> >        .b_length   = uvc_frame_yuv_360p.bLength,
-> >                      ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:230:17: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_length')
-> >     drivers/usb/gadget/legacy/webcam.c:231:25: error: initializer element is not constant
-> >        .b_descriptor_type  = uvc_frame_yuv_360p.bDescriptorType,
-> >                              ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:231:25: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_descriptor_type')
-> >     drivers/usb/gadget/legacy/webcam.c:232:28: error: initializer element is not constant
-> >        .b_descriptor_subtype  = uvc_frame_yuv_360p.bDescriptorSubType,
-> >                                 ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:232:28: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_descriptor_subtype')
-> >     drivers/usb/gadget/legacy/webcam.c:233:22: error: initializer element is not constant
-> >        .b_frame_index   = uvc_frame_yuv_360p.bFrameIndex,
-> >                           ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:233:22: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_frame_index')
-> >     drivers/usb/gadget/legacy/webcam.c:234:23: error: initializer element is not constant
-> >        .bm_capabilities  = uvc_frame_yuv_360p.bmCapabilities,
-> >                            ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:234:23: note: (near initialization for 'uvcg_frame_yuv_360p.frame.bm_capabilities')
-> >     In file included from include/linux/byteorder/little_endian.h:5:0,
-> >                      from arch/x86/include/uapi/asm/byteorder.h:5,
-> >                      from include/asm-generic/bitops/le.h:6,
-> >                      from arch/x86/include/asm/bitops.h:436,
-> >                      from include/linux/bitops.h:68,
-> >                      from include/linux/kernel.h:23,
-> >                      from drivers/usb/gadget/legacy/webcam.c:9:
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: error: initializer element is not constant
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:235:16: note: in expansion of macro 'le16_to_cpu'
-> >        .w_width   = le16_to_cpu(uvc_frame_yuv_360p.wWidth),
-> >                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: note: (near initialization for 'uvcg_frame_yuv_360p.frame.w_width')
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:235:16: note: in expansion of macro 'le16_to_cpu'
-> >        .w_width   = le16_to_cpu(uvc_frame_yuv_360p.wWidth),
-> >                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: error: initializer element is not constant
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:236:17: note: in expansion of macro 'le16_to_cpu'
-> >        .w_height   = le16_to_cpu(uvc_frame_yuv_360p.wHeight),
-> >                      ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: note: (near initialization for 'uvcg_frame_yuv_360p.frame.w_height')
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:236:17: note: in expansion of macro 'le16_to_cpu'
-> >        .w_height   = le16_to_cpu(uvc_frame_yuv_360p.wHeight),
-> >                      ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:237:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_min_bit_rate  = le32_to_cpu(uvc_frame_yuv_360p.dwMinBitRate),
-> >                            ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_min_bit_rate')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:237:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_min_bit_rate  = le32_to_cpu(uvc_frame_yuv_360p.dwMinBitRate),
-> >                            ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:238:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_bit_rate  = le32_to_cpu(uvc_frame_yuv_360p.dwMaxBitRate),
-> >                            ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_max_bit_rate')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:238:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_bit_rate  = le32_to_cpu(uvc_frame_yuv_360p.dwMaxBitRate),
-> >                            ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:239:37: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_yuv_360p.dwMaxVideoFrameBufferSize),
-> >                                          ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_max_video_frame_buffer_size')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:239:37: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_yuv_360p.dwMaxVideoFrameBufferSize),
-> >                                          ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:240:32: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_default_frame_interval = le32_to_cpu(uvc_frame_yuv_360p.dwDefaultFrameInterval),
-> >                                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_360p.frame.dw_default_frame_interval')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:240:32: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_default_frame_interval = le32_to_cpu(uvc_frame_yuv_360p.dwDefaultFrameInterval),
-> >                                     ^~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:241:29: error: initializer element is not constant
-> >        .b_frame_interval_type  = uvc_frame_yuv_360p.bFrameIntervalType,
-> >                                  ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:241:29: note: (near initialization for 'uvcg_frame_yuv_360p.frame.b_frame_interval_type')
-> >     In file included from include/linux/byteorder/little_endian.h:5:0,
-> >                      from arch/x86/include/uapi/asm/byteorder.h:5,
-> >                      from include/asm-generic/bitops/le.h:6,
-> >                      from arch/x86/include/asm/bitops.h:436,
-> >                      from include/linux/bitops.h:68,
-> >                      from include/linux/kernel.h:23,
-> >                      from drivers/usb/gadget/legacy/webcam.c:9:
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:267:8: note: in expansion of macro 'le32_to_cpu'
-> >       [0] = le32_to_cpu(uvc_frame_yuv_720p.dwFrameInterval[0]),
-> >             ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_720p_dw_frame_interval[0]')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:267:8: note: in expansion of macro 'le32_to_cpu'
-> >       [0] = le32_to_cpu(uvc_frame_yuv_720p.dwFrameInterval[0]),
-> >             ^~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:273:17: error: initializer element is not constant
-> >        .b_length   = uvc_frame_yuv_720p.bLength,
-> >                      ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:273:17: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_length')
-> >     drivers/usb/gadget/legacy/webcam.c:274:25: error: initializer element is not constant
-> >        .b_descriptor_type  = uvc_frame_yuv_720p.bDescriptorType,
-> >                              ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:274:25: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_descriptor_type')
-> >     drivers/usb/gadget/legacy/webcam.c:275:28: error: initializer element is not constant
-> >        .b_descriptor_subtype  = uvc_frame_yuv_720p.bDescriptorSubType,
-> >                                 ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:275:28: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_descriptor_subtype')
-> >     drivers/usb/gadget/legacy/webcam.c:276:22: error: initializer element is not constant
-> >        .b_frame_index   = uvc_frame_yuv_720p.bFrameIndex,
-> >                           ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:276:22: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_frame_index')
-> >     drivers/usb/gadget/legacy/webcam.c:277:23: error: initializer element is not constant
-> >        .bm_capabilities  = uvc_frame_yuv_720p.bmCapabilities,
-> >                            ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:277:23: note: (near initialization for 'uvcg_frame_yuv_720p.frame.bm_capabilities')
-> >     In file included from include/linux/byteorder/little_endian.h:5:0,
-> >                      from arch/x86/include/uapi/asm/byteorder.h:5,
-> >                      from include/asm-generic/bitops/le.h:6,
-> >                      from arch/x86/include/asm/bitops.h:436,
-> >                      from include/linux/bitops.h:68,
-> >                      from include/linux/kernel.h:23,
-> >                      from drivers/usb/gadget/legacy/webcam.c:9:
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: error: initializer element is not constant
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:278:16: note: in expansion of macro 'le16_to_cpu'
-> >        .w_width   = le16_to_cpu(uvc_frame_yuv_720p.wWidth),
-> >                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: note: (near initialization for 'uvcg_frame_yuv_720p.frame.w_width')
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:278:16: note: in expansion of macro 'le16_to_cpu'
-> >        .w_width   = le16_to_cpu(uvc_frame_yuv_720p.wWidth),
-> >                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: error: initializer element is not constant
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:279:17: note: in expansion of macro 'le16_to_cpu'
-> >        .w_height   = le16_to_cpu(uvc_frame_yuv_720p.wHeight),
-> >                      ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: note: (near initialization for 'uvcg_frame_yuv_720p.frame.w_height')
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:279:17: note: in expansion of macro 'le16_to_cpu'
-> >        .w_height   = le16_to_cpu(uvc_frame_yuv_720p.wHeight),
-> >                      ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:280:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_min_bit_rate  = le32_to_cpu(uvc_frame_yuv_720p.dwMinBitRate),
-> >                            ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_min_bit_rate')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:280:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_min_bit_rate  = le32_to_cpu(uvc_frame_yuv_720p.dwMinBitRate),
-> >                            ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:281:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_bit_rate  = le32_to_cpu(uvc_frame_yuv_720p.dwMaxBitRate),
-> >                            ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_max_bit_rate')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:281:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_bit_rate  = le32_to_cpu(uvc_frame_yuv_720p.dwMaxBitRate),
-> >                            ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:282:37: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_yuv_720p.dwMaxVideoFrameBufferSize),
-> >                                          ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_max_video_frame_buffer_size')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:282:37: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_yuv_720p.dwMaxVideoFrameBufferSize),
-> >                                          ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:283:32: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_default_frame_interval = le32_to_cpu(uvc_frame_yuv_720p.dwDefaultFrameInterval),
-> >                                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_yuv_720p.frame.dw_default_frame_interval')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:283:32: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_default_frame_interval = le32_to_cpu(uvc_frame_yuv_720p.dwDefaultFrameInterval),
-> >                                     ^~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:284:29: error: initializer element is not constant
-> >        .b_frame_interval_type  = uvc_frame_yuv_720p.bFrameIntervalType,
-> >                                  ^~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:284:29: note: (near initialization for 'uvcg_frame_yuv_720p.frame.b_frame_interval_type')
-> >     In file included from include/linux/byteorder/little_endian.h:5:0,
-> >                      from arch/x86/include/uapi/asm/byteorder.h:5,
-> >                      from include/asm-generic/bitops/le.h:6,
-> >                      from arch/x86/include/asm/bitops.h:436,
-> >                      from include/linux/bitops.h:68,
-> >                      from include/linux/kernel.h:23,
-> >                      from drivers/usb/gadget/legacy/webcam.c:9:
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:340:8: note: in expansion of macro 'le32_to_cpu'
-> >       [0] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[0]),
-> >             ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_mjpeg_360p_dw_frame_interval[0]')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:340:8: note: in expansion of macro 'le32_to_cpu'
-> >       [0] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[0]),
-> >             ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:341:8: note: in expansion of macro 'le32_to_cpu'
-> >       [1] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[1]),
-> >             ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_mjpeg_360p_dw_frame_interval[1]')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:341:8: note: in expansion of macro 'le32_to_cpu'
-> >       [1] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[1]),
-> >             ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:342:8: note: in expansion of macro 'le32_to_cpu'
-> >       [2] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[2]),
-> >             ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_mjpeg_360p_dw_frame_interval[2]')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:342:8: note: in expansion of macro 'le32_to_cpu'
-> >       [2] = le32_to_cpu(uvc_frame_mjpg_360p.dwFrameInterval[2]),
-> >             ^~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:348:17: error: initializer element is not constant
-> >        .b_length   = uvc_frame_mjpg_360p.bLength,
-> >                      ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:348:17: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.b_length')
-> >     drivers/usb/gadget/legacy/webcam.c:349:25: error: initializer element is not constant
-> >        .b_descriptor_type  = uvc_frame_mjpg_360p.bDescriptorType,
-> >                              ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:349:25: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.b_descriptor_type')
-> >     drivers/usb/gadget/legacy/webcam.c:350:28: error: initializer element is not constant
-> >        .b_descriptor_subtype  = uvc_frame_mjpg_360p.bDescriptorSubType,
-> >                                 ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:350:28: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.b_descriptor_subtype')
-> >     drivers/usb/gadget/legacy/webcam.c:351:22: error: initializer element is not constant
-> >        .b_frame_index   = uvc_frame_mjpg_360p.bFrameIndex,
-> >                           ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:351:22: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.b_frame_index')
-> >     drivers/usb/gadget/legacy/webcam.c:352:23: error: initializer element is not constant
-> >        .bm_capabilities  = uvc_frame_mjpg_360p.bmCapabilities,
-> >                            ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:352:23: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.bm_capabilities')
-> >     In file included from include/linux/byteorder/little_endian.h:5:0,
-> >                      from arch/x86/include/uapi/asm/byteorder.h:5,
-> >                      from include/asm-generic/bitops/le.h:6,
-> >                      from arch/x86/include/asm/bitops.h:436,
-> >                      from include/linux/bitops.h:68,
-> >                      from include/linux/kernel.h:23,
-> >                      from drivers/usb/gadget/legacy/webcam.c:9:
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: error: initializer element is not constant
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:353:16: note: in expansion of macro 'le16_to_cpu'
-> >        .w_width   = le16_to_cpu(uvc_frame_mjpg_360p.wWidth),
-> >                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.w_width')
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:353:16: note: in expansion of macro 'le16_to_cpu'
-> >        .w_width   = le16_to_cpu(uvc_frame_mjpg_360p.wWidth),
-> >                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: error: initializer element is not constant
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:354:17: note: in expansion of macro 'le16_to_cpu'
-> >        .w_height   = le16_to_cpu(uvc_frame_mjpg_360p.wHeight),
-> >                      ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.w_height')
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:354:17: note: in expansion of macro 'le16_to_cpu'
-> >        .w_height   = le16_to_cpu(uvc_frame_mjpg_360p.wHeight),
-> >                      ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:355:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_min_bit_rate  = le32_to_cpu(uvc_frame_mjpg_360p.dwMinBitRate),
-> >                            ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.dw_min_bit_rate')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:355:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_min_bit_rate  = le32_to_cpu(uvc_frame_mjpg_360p.dwMinBitRate),
-> >                            ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:356:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_bit_rate  = le32_to_cpu(uvc_frame_mjpg_360p.dwMaxBitRate),
-> >                            ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.dw_max_bit_rate')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:356:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_bit_rate  = le32_to_cpu(uvc_frame_mjpg_360p.dwMaxBitRate),
-> >                            ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:357:37: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_mjpg_360p.dwMaxVideoFrameBufferSize),
-> >                                          ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.dw_max_video_frame_buffer_size')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:357:37: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_max_video_frame_buffer_size = le32_to_cpu(uvc_frame_mjpg_360p.dwMaxVideoFrameBufferSize),
-> >                                          ^~~~~~~~~~~
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:358:32: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_default_frame_interval = le32_to_cpu(uvc_frame_mjpg_360p.dwDefaultFrameInterval),
-> >                                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.dw_default_frame_interval')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:358:32: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_default_frame_interval = le32_to_cpu(uvc_frame_mjpg_360p.dwDefaultFrameInterval),
-> >                                     ^~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:359:29: error: initializer element is not constant
-> >        .b_frame_interval_type  = uvc_frame_mjpg_360p.bFrameIntervalType,
-> >                                  ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:359:29: note: (near initialization for 'uvcg_frame_mjpeg_360p.frame.b_frame_interval_type')
-> >     In file included from include/linux/byteorder/little_endian.h:5:0,
-> >                      from arch/x86/include/uapi/asm/byteorder.h:5,
-> >                      from include/asm-generic/bitops/le.h:6,
-> >                      from arch/x86/include/asm/bitops.h:436,
-> >                      from include/linux/bitops.h:68,
-> >                      from include/linux/kernel.h:23,
-> >                      from drivers/usb/gadget/legacy/webcam.c:9:
-> >>> include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:385:8: note: in expansion of macro 'le32_to_cpu'
-> >       [0] = le32_to_cpu(uvc_frame_mjpg_720p.dwFrameInterval[0]),
-> >             ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_mjpeg_720p_dw_frame_interval[0]')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:385:8: note: in expansion of macro 'le32_to_cpu'
-> >       [0] = le32_to_cpu(uvc_frame_mjpg_720p.dwFrameInterval[0]),
-> >             ^~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:391:17: error: initializer element is not constant
-> >        .b_length   = uvc_frame_mjpg_720p.bLength,
-> >                      ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:391:17: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.b_length')
-> >     drivers/usb/gadget/legacy/webcam.c:392:25: error: initializer element is not constant
-> >        .b_descriptor_type  = uvc_frame_mjpg_720p.bDescriptorType,
-> >                              ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:392:25: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.b_descriptor_type')
-> >     drivers/usb/gadget/legacy/webcam.c:393:28: error: initializer element is not constant
-> >        .b_descriptor_subtype  = uvc_frame_mjpg_720p.bDescriptorSubType,
-> >                                 ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:393:28: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.b_descriptor_subtype')
-> >     drivers/usb/gadget/legacy/webcam.c:394:22: error: initializer element is not constant
-> >        .b_frame_index   = uvc_frame_mjpg_720p.bFrameIndex,
-> >                           ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:394:22: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.b_frame_index')
-> >     drivers/usb/gadget/legacy/webcam.c:395:23: error: initializer element is not constant
-> >        .bm_capabilities  = uvc_frame_mjpg_720p.bmCapabilities,
-> >                            ^~~~~~~~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:395:23: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.bm_capabilities')
-> >     In file included from include/linux/byteorder/little_endian.h:5:0,
-> >                      from arch/x86/include/uapi/asm/byteorder.h:5,
-> >                      from include/asm-generic/bitops/le.h:6,
-> >                      from arch/x86/include/asm/bitops.h:436,
-> >                      from include/linux/bitops.h:68,
-> >                      from include/linux/kernel.h:23,
-> >                      from drivers/usb/gadget/legacy/webcam.c:9:
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: error: initializer element is not constant
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:396:16: note: in expansion of macro 'le16_to_cpu'
-> >        .w_width   = le16_to_cpu(uvc_frame_mjpg_720p.wWidth),
-> >                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.w_width')
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:396:16: note: in expansion of macro 'le16_to_cpu'
-> >        .w_width   = le16_to_cpu(uvc_frame_mjpg_720p.wWidth),
-> >                     ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: error: initializer element is not constant
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:397:17: note: in expansion of macro 'le16_to_cpu'
-> >        .w_height   = le16_to_cpu(uvc_frame_mjpg_720p.wHeight),
-> >                      ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:37:26: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.w_height')
-> >      #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:91:21: note: in expansion of macro '__le16_to_cpu'
-> >      #define le16_to_cpu __le16_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:397:17: note: in expansion of macro 'le16_to_cpu'
-> >        .w_height   = le16_to_cpu(uvc_frame_mjpg_720p.wHeight),
-> >                      ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:398:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_min_bit_rate  = le32_to_cpu(uvc_frame_mjpg_720p.dwMinBitRate),
-> >                            ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: note: (near initialization for 'uvcg_frame_mjpeg_720p.frame.dw_min_bit_rate')
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> >                               ^
-> >     include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-> >      #define le32_to_cpu __le32_to_cpu
-> >                          ^~~~~~~~~~~~~
-> >     drivers/usb/gadget/legacy/webcam.c:398:23: note: in expansion of macro 'le32_to_cpu'
-> >        .dw_min_bit_rate  = le32_to_cpu(uvc_frame_mjpg_720p.dwMinBitRate),
-> >                            ^~~~~~~~~~~
-> >     include/uapi/linux/byteorder/little_endian.h:35:26: error: initializer element is not constant
-> >      #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> > 
-> > 
-> > vim +35 include/uapi/linux/byteorder/little_endian.h
-> > 
-> > 5921e6f8809b16 David Howells 2012-10-13  15
-> > 5921e6f8809b16 David Howells 2012-10-13  16  #define __constant_htonl(x) ((__force __be32)___constant_swab32((x)))
-> > 5921e6f8809b16 David Howells 2012-10-13  17  #define __constant_ntohl(x) ___constant_swab32((__force __be32)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  18  #define __constant_htons(x) ((__force __be16)___constant_swab16((x)))
-> > 5921e6f8809b16 David Howells 2012-10-13  19  #define __constant_ntohs(x) ___constant_swab16((__force __be16)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  20  #define __constant_cpu_to_le64(x) ((__force __le64)(__u64)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  21  #define __constant_le64_to_cpu(x) ((__force __u64)(__le64)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  22  #define __constant_cpu_to_le32(x) ((__force __le32)(__u32)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  23  #define __constant_le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  24  #define __constant_cpu_to_le16(x) ((__force __le16)(__u16)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  25  #define __constant_le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  26  #define __constant_cpu_to_be64(x) ((__force __be64)___constant_swab64((x)))
-> > 5921e6f8809b16 David Howells 2012-10-13  27  #define __constant_be64_to_cpu(x) ___constant_swab64((__force __u64)(__be64)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  28  #define __constant_cpu_to_be32(x) ((__force __be32)___constant_swab32((x)))
-> > 5921e6f8809b16 David Howells 2012-10-13  29  #define __constant_be32_to_cpu(x) ___constant_swab32((__force __u32)(__be32)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  30  #define __constant_cpu_to_be16(x) ((__force __be16)___constant_swab16((x)))
-> > 5921e6f8809b16 David Howells 2012-10-13  31  #define __constant_be16_to_cpu(x) ___constant_swab16((__force __u16)(__be16)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  32  #define __cpu_to_le64(x) ((__force __le64)(__u64)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  33  #define __le64_to_cpu(x) ((__force __u64)(__le64)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  34  #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13 @35  #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  36  #define __cpu_to_le16(x) ((__force __le16)(__u16)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  37  #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  38  #define __cpu_to_be64(x) ((__force __be64)__swab64((x)))
-> > 5921e6f8809b16 David Howells 2012-10-13  39  #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  40  #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
-> > 5921e6f8809b16 David Howells 2012-10-13  41  #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  42  #define __cpu_to_be16(x) ((__force __be16)__swab16((x)))
-> > 5921e6f8809b16 David Howells 2012-10-13  43  #define __be16_to_cpu(x) __swab16((__force __u16)(__be16)(x))
-> > 5921e6f8809b16 David Howells 2012-10-13  44
+vim +153 arch/mips/include/asm/mips-cpc.h
+
+9c38cf44712af9 Paul Burton 2014-01-15  151  
+23cb600e3fd406 Paul Burton 2017-08-12  152  /* CPC_Cx_CONFIG - Mirrors GCR_Cx_CONFIG */
+23cb600e3fd406 Paul Burton 2017-08-12 @153  CPC_CX_ACCESSOR_RW(32, 0x090, config)
+23cb600e3fd406 Paul Burton 2017-08-12  154  
+
+:::::: The code at line 153 was first introduced by commit
+:::::: 23cb600e3fd4068697d6fa207848d93e74ec7333 MIPS: CPS: Add CM/CPC 3.5 register definitions
+
+:::::: TO: Paul Burton <paul.burton@imgtec.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
