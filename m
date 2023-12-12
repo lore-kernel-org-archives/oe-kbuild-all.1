@@ -1,52 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2F763C1F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 23:11:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72EC1173C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 23:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOyFNjXN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZQ/3bB2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702422677; x=1733958677;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Kd4RqJif4k/V976t9s7NhBzcyfdHKz5t8C7L6lzC9BM=;
-  b=GOyFNjXN5yDkCX69mSrmJp4WH2nICYT5LFmuqnOV5kbNdIA4dBq1hyNM
-   Nfe1gODkwbxT5pw1UBKSNyX1yx8ztGieNCgM3YwaE/R90+kyXlNhNLZiW
-   a7EPAnMKtxd51x4u8KwAKcGVDdSGO3pjb51cQsFlRU134tcuzifsds3Qp
-   U5EkoEKOiHCorsWBstff1s6cEtFgcjFulHT37svGVndTyadgJTfN+XwQC
-   bxSJaJbCrTocwgaSTi9inOXV2vP/BGFf/7gUyi74gO4Z7fVOtJwSq4/eI
-   woqHNFgOiVRhhPoNO8FPiGe0AmKwc++uT4w2Vi81VL6rjMBSylKDP6SnA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="426007635"
+  t=1702423994; x=1733959994;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=S+QfxIB/YVJFaRXJQyfINWQX0eIPBWDdN6JfMDJ70VU=;
+  b=eZQ/3bB2iy5JtDI+hRnEOJWpKSfGzp9deWN9pxj4bTBaTCBXjrRQIlcg
+   1sp2h1jVrLTce3BSg2skeGNSrxfaOML8lMJkLYNIZHDOtDAA9qjUXDvv2
+   3ukOvQS7GxAwu1CvPTdtqb3uC2+GqiHEpNuYJrEdDgi8feNEADMcPpRqn
+   jLZFnpdwXdK2AL4leL02ia1jwWSclh5CQN7bUCAToYe6aD/qPCenOX7S8
+   GI2+AD3mtn6GNrpX7aZLGzwGR1xJT6tiGRWJdbazR4rCFjQAZrIfhstvt
+   7uHhYDZB1NmVVhn60do5yE+OAiTLHFqj0IlA/1iMlG5B2d7pCbmLXO/pR
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="385300649"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="426007635"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 15:11:16 -0800
+   d="scan'208";a="385300649"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 15:33:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="766990162"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897106141"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="766990162"
+   d="scan'208";a="897106141"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 12 Dec 2023 15:11:11 -0800
+  by orsmga004.jf.intel.com with ESMTP; 12 Dec 2023 15:33:12 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDBu9-000JqF-17;
-	Tue, 12 Dec 2023 23:11:09 +0000
-Date: Wed, 13 Dec 2023 07:10:51 +0800
+	id 1rDCFS-000JrM-0u;
+	Tue, 12 Dec 2023 23:33:10 +0000
+Date: Wed, 13 Dec 2023 07:33:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lorenzo.bianconi@redhat.com,
-	davem@davemloft.net, kuba@kernel.org, edumazet@google.com,
-	pabeni@redhat.com, bpf@vger.kernel.org, hawk@kernel.org,
-	toke@redhat.com, willemdebruijn.kernel@gmail.com,
-	jasowang@redhat.com, sdf@google.com
-Subject: Re: [PATCH v4 net-next 3/3] xdp: add multi-buff support for xdp
- running in generic mode
-Message-ID: <202312130625.4PfR5846-lkp@intel.com>
-References: <2d0f9388c6509192d88e359a402517a73124b50e.1702375338.git.lorenzo@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: [linusw-gpio:b4/gpio-descriptors-sound-misc 5/5]
+ sound/soc/tegra/tegra20_ac97.c:46:33: warning: passing argument 1 of
+ 'gpiod_set_value' makes pointer from integer without a cast
+Message-ID: <202312130748.S0Z3yEtT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,111 +50,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2d0f9388c6509192d88e359a402517a73124b50e.1702375338.git.lorenzo@kernel.org>
 
-Hi Lorenzo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/net-introduce-page_pool-pointer-in-softnet_data-percpu-struct/20231212-181103
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/2d0f9388c6509192d88e359a402517a73124b50e.1702375338.git.lorenzo%40kernel.org
-patch subject: [PATCH v4 net-next 3/3] xdp: add multi-buff support for xdp running in generic mode
-config: sh-edosk7760_defconfig (https://download.01.org/0day-ci/archive/20231213/202312130625.4PfR5846-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130625.4PfR5846-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git b4/gpio-descriptors-sound-misc
+head:   cbde31b95f12d0b3059938194b704f40cdd55540
+commit: cbde31b95f12d0b3059938194b704f40cdd55540 [5/5] ASoC: tegra: tegra20_ac97: Convert to use GPIO descriptors
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231213/202312130748.S0Z3yEtT-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130748.S0Z3yEtT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312130625.4PfR5846-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312130748.S0Z3yEtT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sh4-linux-ld: net/core/dev.o: in function `netif_skb_segment_for_xdp':
->> net/core/dev.c:5003:(.text+0x2860): undefined reference to `page_pool_alloc_frag'
->> sh4-linux-ld: net/core/dev.c:5003:(.text+0x28fc): undefined reference to `page_pool_alloc_pages'
-   sh4-linux-ld: net/core/dev.o: in function `net_dev_init':
-   net/core/dev.c:11882:(.init.text+0x198): undefined reference to `page_pool_create'
+   sound/soc/tegra/tegra20_ac97.c: In function 'tegra20_ac97_codec_reset':
+>> sound/soc/tegra/tegra20_ac97.c:46:33: warning: passing argument 1 of 'gpiod_set_value' makes pointer from integer without a cast [-Wint-conversion]
+      46 |         gpiod_set_value(workdata->reset_gpio, 1);
+         |                         ~~~~~~~~^~~~~~~~~~~~
+         |                                 |
+         |                                 int
+   In file included from sound/soc/tegra/tegra20_ac97.c:15:
+   include/linux/gpio/consumer.h:122:40: note: expected 'struct gpio_desc *' but argument is of type 'int'
+     122 | void gpiod_set_value(struct gpio_desc *desc, int value);
+         |                      ~~~~~~~~~~~~~~~~~~^~~~
+   sound/soc/tegra/tegra20_ac97.c:49:33: warning: passing argument 1 of 'gpiod_set_value' makes pointer from integer without a cast [-Wint-conversion]
+      49 |         gpiod_set_value(workdata->reset_gpio, 0);
+         |                         ~~~~~~~~^~~~~~~~~~~~
+         |                                 |
+         |                                 int
+   include/linux/gpio/consumer.h:122:40: note: expected 'struct gpio_desc *' but argument is of type 'int'
+     122 | void gpiod_set_value(struct gpio_desc *desc, int value);
+         |                      ~~~~~~~~~~~~~~~~~~^~~~
+   sound/soc/tegra/tegra20_ac97.c: In function 'tegra20_ac97_codec_warm_reset':
+>> sound/soc/tegra/tegra20_ac97.c:72:40: warning: passing argument 1 of 'gpiod_direction_output' makes pointer from integer without a cast [-Wint-conversion]
+      72 |         gpiod_direction_output(workdata->sync_gpio, 1);
+         |                                ~~~~~~~~^~~~~~~~~~~
+         |                                        |
+         |                                        int
+   include/linux/gpio/consumer.h:111:46: note: expected 'struct gpio_desc *' but argument is of type 'int'
+     111 | int gpiod_direction_output(struct gpio_desc *desc, int value);
+         |                            ~~~~~~~~~~~~~~~~~~^~~~
+   sound/soc/tegra/tegra20_ac97.c:74:33: warning: passing argument 1 of 'gpiod_set_value' makes pointer from integer without a cast [-Wint-conversion]
+      74 |         gpiod_set_value(workdata->sync_gpio, 0);
+         |                         ~~~~~~~~^~~~~~~~~~~
+         |                                 |
+         |                                 int
+   include/linux/gpio/consumer.h:122:40: note: expected 'struct gpio_desc *' but argument is of type 'int'
+     122 | void gpiod_set_value(struct gpio_desc *desc, int value);
+         |                      ~~~~~~~~~~~~~~~~~~^~~~
+   sound/soc/tegra/tegra20_ac97.c: In function 'tegra20_ac97_platform_probe':
+>> sound/soc/tegra/tegra20_ac97.c:345:26: warning: assignment to 'int' from 'struct gpio_desc *' makes integer from pointer without a cast [-Wint-conversion]
+     345 |         ac97->reset_gpio = devm_gpiod_get(&pdev->dev,
+         |                          ^
+>> sound/soc/tegra/tegra20_ac97.c:348:24: warning: passing argument 1 of 'IS_ERR' makes pointer from integer without a cast [-Wint-conversion]
+     348 |         if (IS_ERR(ac97->reset_gpio)) {
+         |                    ~~~~^~~~~~~~~~~~
+         |                        |
+         |                        int
+   In file included from include/linux/clk.h:12,
+                    from sound/soc/tegra/tegra20_ac97.c:12:
+   include/linux/err.h:59:60: note: expected 'const void *' but argument is of type 'int'
+      59 | static inline bool __must_check IS_ERR(__force const void *ptr)
+         |                                                ~~~~~~~~~~~~^~~
+>> sound/soc/tegra/tegra20_ac97.c:349:35: warning: passing argument 1 of 'PTR_ERR' makes pointer from integer without a cast [-Wint-conversion]
+     349 |                 ret = PTR_ERR(ac97->reset_gpio);
+         |                               ~~~~^~~~~~~~~~~~
+         |                                   |
+         |                                   int
+   include/linux/err.h:49:61: note: expected 'const void *' but argument is of type 'int'
+      49 | static inline long __must_check PTR_ERR(__force const void *ptr)
+         |                                                 ~~~~~~~~~~~~^~~
+>> sound/soc/tegra/tegra20_ac97.c:353:37: warning: passing argument 1 of 'gpiod_set_consumer_name' makes pointer from integer without a cast [-Wint-conversion]
+     353 |         gpiod_set_consumer_name(ac97->reset_gpio, "codec-reset");
+         |                                 ~~~~^~~~~~~~~~~~
+         |                                     |
+         |                                     int
+   include/linux/gpio/consumer.h:168:47: note: expected 'struct gpio_desc *' but argument is of type 'int'
+     168 | int gpiod_set_consumer_name(struct gpio_desc *desc, const char *name);
+         |                             ~~~~~~~~~~~~~~~~~~^~~~
+   sound/soc/tegra/tegra20_ac97.c:355:25: warning: assignment to 'int' from 'struct gpio_desc *' makes integer from pointer without a cast [-Wint-conversion]
+     355 |         ac97->sync_gpio = devm_gpiod_get(&pdev->dev,
+         |                         ^
+   sound/soc/tegra/tegra20_ac97.c:358:24: warning: passing argument 1 of 'IS_ERR' makes pointer from integer without a cast [-Wint-conversion]
+     358 |         if (IS_ERR(ac97->sync_gpio)) {
+         |                    ~~~~^~~~~~~~~~~
+         |                        |
+         |                        int
+   include/linux/err.h:59:60: note: expected 'const void *' but argument is of type 'int'
+      59 | static inline bool __must_check IS_ERR(__force const void *ptr)
+         |                                                ~~~~~~~~~~~~^~~
+   sound/soc/tegra/tegra20_ac97.c:359:35: warning: passing argument 1 of 'PTR_ERR' makes pointer from integer without a cast [-Wint-conversion]
+     359 |                 ret = PTR_ERR(ac97->sync_gpio);
+         |                               ~~~~^~~~~~~~~~~
+         |                                   |
+         |                                   int
+   include/linux/err.h:49:61: note: expected 'const void *' but argument is of type 'int'
+      49 | static inline long __must_check PTR_ERR(__force const void *ptr)
+         |                                                 ~~~~~~~~~~~~^~~
+   sound/soc/tegra/tegra20_ac97.c:363:37: warning: passing argument 1 of 'gpiod_set_consumer_name' makes pointer from integer without a cast [-Wint-conversion]
+     363 |         gpiod_set_consumer_name(ac97->sync_gpio, "codec-sync");
+         |                                 ~~~~^~~~~~~~~~~
+         |                                     |
+         |                                     int
+   include/linux/gpio/consumer.h:168:47: note: expected 'struct gpio_desc *' but argument is of type 'int'
+     168 | int gpiod_set_consumer_name(struct gpio_desc *desc, const char *name);
+         |                             ~~~~~~~~~~~~~~~~~~^~~~
 
 
-vim +5003 net/core/dev.c
+vim +/gpiod_set_value +46 sound/soc/tegra/tegra20_ac97.c
 
-  4932	
-  4933	static int netif_skb_segment_for_xdp(struct sk_buff **pskb)
-  4934	{
-  4935		struct softnet_data *sd = this_cpu_ptr(&softnet_data);
-  4936		u32 size, truesize, len, max_head_size, off;
-  4937		struct sk_buff *skb = *pskb, *nskb;
-  4938		int err, i, head_off;
-  4939		void *data;
-  4940	
-  4941		max_head_size = SKB_WITH_OVERHEAD(PAGE_SIZE - XDP_PACKET_HEADROOM);
-  4942		if (skb->len > max_head_size + MAX_SKB_FRAGS * PAGE_SIZE)
-  4943			return -ENOMEM;
-  4944	
-  4945		size = min_t(u32, skb->len, max_head_size);
-  4946		truesize = SKB_HEAD_ALIGN(size) + XDP_PACKET_HEADROOM;
-  4947		data = page_pool_dev_alloc_va(sd->page_pool, &truesize);
-  4948		if (!data)
-  4949			return -ENOMEM;
-  4950	
-  4951		nskb = napi_build_skb(data, truesize);
-  4952		if (!nskb) {
-  4953			page_pool_free_va(sd->page_pool, data, true);
-  4954			return -ENOMEM;
-  4955		}
-  4956	
-  4957		skb_reserve(nskb, XDP_PACKET_HEADROOM);
-  4958		skb_copy_header(nskb, skb);
-  4959		skb_mark_for_recycle(nskb);
-  4960	
-  4961		err = skb_copy_bits(skb, 0, nskb->data, size);
-  4962		if (err) {
-  4963			consume_skb(nskb);
-  4964			return err;
-  4965		}
-  4966		skb_put(nskb, size);
-  4967	
-  4968		head_off = skb_headroom(nskb) - skb_headroom(skb);
-  4969		skb_headers_offset_update(nskb, head_off);
-  4970	
-  4971		off = size;
-  4972		len = skb->len - off;
-  4973		for (i = 0; i < MAX_SKB_FRAGS && off < skb->len; i++) {
-  4974			struct page *page;
-  4975			u32 page_off;
-  4976	
-  4977			size = min_t(u32, len, PAGE_SIZE);
-  4978			truesize = size;
-  4979	
-  4980			page = page_pool_dev_alloc(sd->page_pool, &page_off,
-  4981						   &truesize);
-  4982			if (!data) {
-  4983				consume_skb(nskb);
-  4984				return -ENOMEM;
-  4985			}
-  4986	
-  4987			skb_add_rx_frag(nskb, i, page, page_off, size, truesize);
-  4988			err = skb_copy_bits(skb, off, page_address(page) + page_off,
-  4989					    size);
-  4990			if (err) {
-  4991				consume_skb(nskb);
-  4992				return err;
-  4993			}
-  4994	
-  4995			len -= size;
-  4996			off += size;
-  4997		}
-  4998	
-  4999		consume_skb(skb);
-  5000		*pskb = nskb;
-  5001	
-  5002		return 0;
-> 5003	}
-  5004	
+    35	
+    36	static void tegra20_ac97_codec_reset(struct snd_ac97 *ac97)
+    37	{
+    38		u32 readback;
+    39		unsigned long timeout;
+    40	
+    41		/*
+    42		 * The reset line is not driven by DAC pad group, have to toggle GPIO.
+    43		 * The RESET line is active low but this is abstracted by the GPIO
+    44		 * library.
+    45		 */
+  > 46		gpiod_set_value(workdata->reset_gpio, 1);
+    47		udelay(2);
+    48	
+    49		gpiod_set_value(workdata->reset_gpio, 0);
+    50		udelay(2);
+    51	
+    52		timeout = jiffies + msecs_to_jiffies(100);
+    53	
+    54		do {
+    55			regmap_read(workdata->regmap, TEGRA20_AC97_STATUS1, &readback);
+    56			if (readback & TEGRA20_AC97_STATUS1_CODEC1_RDY)
+    57				break;
+    58			usleep_range(1000, 2000);
+    59		} while (!time_after(jiffies, timeout));
+    60	}
+    61	
+    62	static void tegra20_ac97_codec_warm_reset(struct snd_ac97 *ac97)
+    63	{
+    64		u32 readback;
+    65		unsigned long timeout;
+    66	
+    67		/*
+    68		 * although sync line is driven by the DAC pad group warm reset using
+    69		 * the controller cmd is not working, have to toggle sync line
+    70		 * manually.
+    71		 */
+  > 72		gpiod_direction_output(workdata->sync_gpio, 1);
+    73		udelay(2);
+    74		gpiod_set_value(workdata->sync_gpio, 0);
+    75		udelay(2);
+    76	
+    77		timeout = jiffies + msecs_to_jiffies(100);
+    78	
+    79		do {
+    80			regmap_read(workdata->regmap, TEGRA20_AC97_STATUS1, &readback);
+    81			if (readback & TEGRA20_AC97_STATUS1_CODEC1_RDY)
+    82				break;
+    83			usleep_range(1000, 2000);
+    84		} while (!time_after(jiffies, timeout));
+    85	}
+    86	
 
 -- 
 0-DAY CI Kernel Test Service
