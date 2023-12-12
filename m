@@ -1,109 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F73C7540E;
-	Tue, 12 Dec 2023 15:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67C275403
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 15:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pEfIG+fp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 413F7C433CD;
-	Tue, 12 Dec 2023 15:21:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702394469;
-	bh=fPuUDXbvyQcdlGJVGtxadUQq7xMHYvrITxb/nuVFpzc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pEfIG+fp3V3eVe8VWoQtmtv+FXpOuNu3/MG6SEfZZ+KyCRN04C+P7+erYFvaQTgu9
-	 eFPz0FROSykUvwNHpaprw6hk/xBHZSUxxTMeNeeFuGVg9fqOVwA6eRSAzr5D0ez7lS
-	 3LKTuyn3OiGjvvCai7cPIr+AvhERotkqxzy2y8duCmo1F2SyuVevlyU/SdcrJBs+y+
-	 fB1SptobaXSXxZ9of5YqHPKZW5qEA8zl+nnvZ6Yo1pmfdRArJx7NpFLopx40DOXhrf
-	 24VPA4wdHtUwSiwBWsw5lljmlcASYmQSa71ZEL2gZ69mu+LMtwe0MPIT4VTGOETttN
-	 ZEnEiZkxpELPA==
-Date: Tue, 12 Dec 2023 15:21:04 +0000
-From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>, lkp@intel.com,
-	linux-mm@kvack.org, linux@weissschuh.net, llvm@lists.linux.dev,
-	mcgrof@kernel.org, oe-kbuild-all@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: Re: [PATCH -next] drivers: perf: Fix build error by adding const to
- ctl_table argument of handler
-Message-ID: <20231212-garage-pellet-c6a2bd34854c@spud>
-References: <202312062242.RFPPozG9-lkp@intel.com>
- <20231207083512.51792-1-alexghiti@rivosinc.com>
- <877cljsbes.fsf@all.your.base.are.belong.to.us>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqwpKgaT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702394661; x=1733930661;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=p2IUJrC5Gk9zGOG5a3pPHEp8ky/FvfByH9MNDDfIYX8=;
+  b=AqwpKgaT3qw/5cuClFKWaGSEy6q3SePxsthOEF8nrqYTSxPUBKEbAiQU
+   iVlGyg16k46J9GE6lxoPlldY7Q2J6PQZFUMhoDRSRFDKnl9fuG2mKmdEv
+   8Jf0e+58nGKDfTeTX4fPj/aPIusBt6qcI7F5EXr6BaEY9+kgSgGM+es4+
+   U02lmCD6/EO0OZv0/LU5jPYdcdPW1BFQh/44jFTMO7+iOoEzIN9U/Njs4
+   L3JMHMtBYI8tArGlbQpMjuLk+MMib08Fg0ZLO4b64bivvyQrFhX/ZZrHq
+   EhWvVQAvHHcJfRtlfPvcBbN18QbcDZikxWfxDm0prULM+1rCjQZraUoCP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394567186"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="394567186"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 07:20:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="891629322"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="891629322"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 12 Dec 2023 07:20:52 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rD4Z0-000JJr-0S;
+	Tue, 12 Dec 2023 15:20:50 +0000
+Date: Tue, 12 Dec 2023 23:20:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gavrilov Ilia <Ilia.Gavrilov@infotecs.ru>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/3] tty: n_gsm: add sanity check for gsm->receive in
+ gsm_receive_buf()
+Message-ID: <ZXh6UNFgyochTbrt@171f04e7aea4>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="u+TMTYDuzJdAB5mY"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <877cljsbes.fsf@all.your.base.are.belong.to.us>
+In-Reply-To: <20231212111431.4064760-4-Ilia.Gavrilov@infotecs.ru>
+
+Hi,
+
+Thanks for your patch.
+
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH 3/3] tty: n_gsm: add sanity check for gsm->receive in gsm_receive_buf()
+Link: https://lore.kernel.org/stable/20231212111431.4064760-4-Ilia.Gavrilov%40infotecs.ru
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 
---u+TMTYDuzJdAB5mY
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 12, 2023 at 04:11:55PM +0100, Bj=F6rn T=F6pel wrote:
-> Alexandre Ghiti <alexghiti@rivosinc.com> writes:
->=20
-> > The ctl_table argument of the proc_handler field was constified treewide
-> > but somehow missed the occurrence in the riscv pmu sbi driver, so add t=
-he
-> > const to fix the build error.
-> >
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202312062242.RFPPozG9-lkp=
-@intel.com/
-> > Fixes: c8be9e66ca1e ("sysctl: treewide: constify the ctl_table argument=
- of handlers")
-> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > ---
-> >  drivers/perf/riscv_pmu_sbi.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> > index 16acd4dcdb96..97e345f7d25d 100644
-> > --- a/drivers/perf/riscv_pmu_sbi.c
-> > +++ b/drivers/perf/riscv_pmu_sbi.c
-> > @@ -986,7 +986,7 @@ static void riscv_pmu_update_counter_access(void *i=
-nfo)
-> >  		csr_write(CSR_SCOUNTEREN, 0x2);
-> >  }
-> > =20
-> > -static int riscv_pmu_proc_user_access_handler(struct ctl_table *table,
-> > +static int riscv_pmu_proc_user_access_handler(const struct ctl_table *=
-table,
-> >  					      int write, void *buffer,
-> >  					      size_t *lenp, loff_t *ppos)
->=20
-> Adding linux-riscv.
->=20
-> Reviewed-by: Bj=F6rn T=F6pel <bjorn@rivosinc.com>
-
-There's already a patch for this:
-https://lore.kernel.org/linux-riscv/20231206084642.802053-1-m.szyprowski@sa=
-msung.com/
-
-The maintainer of the tree with the broken patch (Luis) has not deigned to
-pick it up yet unfortunately. It can't go into Palmer's tree cos it will
-break the build if applied there.
-
-Cheers,
-Conor.
-
---u+TMTYDuzJdAB5mY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXh6YAAKCRB4tDGHoIJi
-0rA3AP45hqW77ceWdDa3OBX5lwstdHr3WTXrkkHheKfXIwqn3QEAnEtNdsZN1rp1
-dMhZ39fGppXobCP3M3OQjxQjrt3cjQs=
-=f5mp
------END PGP SIGNATURE-----
-
---u+TMTYDuzJdAB5mY--
