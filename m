@@ -1,91 +1,112 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E8565A78
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 21:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA8165A9E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 21:27:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="AiCZzotk"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d2f1cecf89so22261315ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 13:04:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1702415082; x=1703019882; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NQLI8ZxmgGnTnjndBk3z0pIE3uTOANUnGC/O+K8Uf68=;
-        b=AiCZzotkTppcu2Sx1a+h9LsU52fvuYW+PkeYg/6QAbZssk6aZQ/bmwmR7MZzZarmEc
-         wUspLX5GWpB+/pnsdIpJNFAmzKqqSvCuhXKHD/Bm6H6GiT3GjxF3PM/ZPMkPa62KQSMk
-         aU8VLf8q+tLyriyMHr4574dTWfd3TMInR2A1haWPx+V5dxkzwVx1QXnu4e3QZwI6AmpP
-         sMKkN6t99sogMG+8qUdCllm6NpTjAZQ1CjJcsTDCCfCcQK4dNeiFGj9mrBmtU+GL4PpP
-         rDDGavssV1CNIdskVFkALX7DD0zvndDksBOytcg49/c6dUj9sbkY/sAxs+EcHFWv+DTq
-         /h5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702415082; x=1703019882;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NQLI8ZxmgGnTnjndBk3z0pIE3uTOANUnGC/O+K8Uf68=;
-        b=b+fEdTd1BgiHKcVOGbz3BS6uKpM7XwHAZu0y6c9sBVjIAAgvlPSO8jisNQAAXi+S+n
-         wgYSaRZLlU4KB/LHDvyYEAGRL1OhSMheuKnB0Eamv3cWYTv/+QI0Wx8E6LVi18/QYwTz
-         zxlFf+PTxpDMkFh8lVrZo07ycgz3cS5muE1dOwUT8DbYcygQ6XPl4nDIUb/2BfMPZJu5
-         pE3VYAG7FX4lIUzWWWD/cTPwo/P46ph0dlgfVjVrRXyvEXYLEtPotczzGofWHHRAtl00
-         VQEn5nzDTeV7BwqMzHy8Cp/DixGQKHNEl40vHcxXXtO7bC32oY+Henyl0HfGiOkxYv2l
-         74yg==
-X-Gm-Message-State: AOJu0YxFpWZnyr4/1yekEJW4e5a8CIFOuNXQYc6Ar5CjDqKyA/tkOj9Z
-	auniFL/U0jUsFyWKwaQEMQdeW4OwYMcp7AtAh7o=
-X-Google-Smtp-Source: AGHT+IEffuvr5hwWjR1T7jT2dRz7mdzArWh18uGXB0xpGx+xGt4IV2Sq4auOxtaoNxBwuMmVj5TnWQ==
-X-Received: by 2002:a17:903:2282:b0:1d3:39fd:9043 with SMTP id b2-20020a170903228200b001d339fd9043mr938093plh.13.1702415082012;
-        Tue, 12 Dec 2023 13:04:42 -0800 (PST)
-Received: from localhost ([12.44.203.122])
-        by smtp.gmail.com with ESMTPSA id f7-20020a170902ab8700b001cfc19c2d01sm1697091plr.296.2023.12.12.13.04.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 13:04:41 -0800 (PST)
-Date: Tue, 12 Dec 2023 13:04:41 -0800 (PST)
-X-Google-Original-Date: Tue, 12 Dec 2023 12:59:26 PST (-0800)
-Subject:     Re: [PATCH -next] drivers: perf: Fix build error by adding const to ctl_table argument of handler
-In-Reply-To: <20231207083512.51792-1-alexghiti@rivosinc.com>
-CC: lkp@intel.com, linux-mm@kvack.org, linux@weissschuh.net, llvm@lists.linux.dev,
-  mcgrof@kernel.org, oe-kbuild-all@lists.linux.dev, alexghiti@rivosinc.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: alexghiti@rivosinc.com
-Message-ID: <mhng-eda68e75-0733-4b42-b2a8-3e4696bde0db@palmer-ri-x1c9a>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWFDE8Xr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702416431; x=1733952431;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Glv9k4sgoCx/kFFVABVJtskGf9A4kbcnVpT8FsDFbT8=;
+  b=UWFDE8Xr6+AsT3oczHc1W4i8tDYT1iihKhlDzkQW4DZ3u7stivVtf939
+   1dYlnZ65Flu7IvY1OrMFMOVFJq+PcTuyrcrX1Fb5L0an4NO1pT86nU9cx
+   3In6El6h3jZNdqimzXm+l6qL6mXsAPgzzlhDeAQehkdDAzodT8Mg7wQhY
+   CCq3y8BBvWqumvdk/JuVhl4Drktftbrzhr5Rm9UnP2HoAPOP3j3BbMxjq
+   /A30ysjo/8plPSnMdiKNzm21y87gcn9R4p+wuitGii7PdFJaOcImK9TUg
+   b19Qj0/htjcP2dYsV0sDeZ8Rvecuj8oIONSmHnnbIBmK9oUB9m0SBwl45
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1946709"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="1946709"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 13:27:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="839586745"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="839586745"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 12 Dec 2023 13:27:05 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDAHP-000JkZ-2K;
+	Tue, 12 Dec 2023 21:27:03 +0000
+Date: Wed, 13 Dec 2023 05:26:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: Re: [PATCH] block/blk-ioprio: Skip zoned writes that are not
+ append operations
+Message-ID: <202312130548.cusrlw1s-lkp@intel.com>
+References: <d660cc31-a5be-47f2-9fdf-ba4bf5106226@acm.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d660cc31-a5be-47f2-9fdf-ba4bf5106226@acm.org>
 
-On Thu, 07 Dec 2023 00:35:12 PST (-0800), alexghiti@rivosinc.com wrote:
-> The ctl_table argument of the proc_handler field was constified treewide
-> but somehow missed the occurrence in the riscv pmu sbi driver, so add the
-> const to fix the build error.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202312062242.RFPPozG9-lkp@intel.com/
-> Fixes: c8be9e66ca1e ("sysctl: treewide: constify the ctl_table argument of handlers")
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  drivers/perf/riscv_pmu_sbi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> index 16acd4dcdb96..97e345f7d25d 100644
-> --- a/drivers/perf/riscv_pmu_sbi.c
-> +++ b/drivers/perf/riscv_pmu_sbi.c
-> @@ -986,7 +986,7 @@ static void riscv_pmu_update_counter_access(void *info)
->  		csr_write(CSR_SCOUNTEREN, 0x2);
->  }
->
-> -static int riscv_pmu_proc_user_access_handler(struct ctl_table *table,
-> +static int riscv_pmu_proc_user_access_handler(const struct ctl_table *table,
->  					      int write, void *buffer,
->  					      size_t *lenp, loff_t *ppos)
->  {
+Hi Bart,
 
-Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.7-rc5 next-20231212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/Re-PATCH-block-blk-ioprio-Skip-zoned-writes-that-are-not-append-operations/20231212-081223
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/d660cc31-a5be-47f2-9fdf-ba4bf5106226%40acm.org
+patch subject: Re: [PATCH] block/blk-ioprio: Skip zoned writes that are not append operations
+config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20231213/202312130548.cusrlw1s-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130548.cusrlw1s-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312130548.cusrlw1s-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/t10-pi.h:6,
+                    from include/scsi/scsi_cmnd.h:7,
+                    from drivers/scsi/scsi.c:61:
+   include/linux/blk-mq.h: In function 'blk_bio_is_seq_zoned_write':
+>> include/linux/blk-mq.h:1161:37: error: 'struct bio' has no member named 'bi_disk'
+    1161 |                 disk_zone_is_seq(bio->bi_disk, bio.bi_iter.bi_sector);
+         |                                     ^~
+>> include/linux/blk-mq.h:1161:51: error: 'bio' is a pointer; did you mean to use '->'?
+    1161 |                 disk_zone_is_seq(bio->bi_disk, bio.bi_iter.bi_sector);
+         |                                                   ^
+         |                                                   ->
+
+
+vim +1161 include/linux/blk-mq.h
+
+  1151	
+  1152	/**
+  1153	 * blk_bio_is_seq_zoned_write() - Check if @bio requires write serialization.
+  1154	 * @bio: Bio to examine.
+  1155	 *
+  1156	 * Note: REQ_OP_ZONE_APPEND bios do not require serialization.
+  1157	 */
+  1158	static inline bool blk_bio_is_seq_zoned_write(struct bio *bio)
+  1159	{
+  1160		return op_needs_zoned_write_locking(bio_op(bio)) &&
+> 1161			disk_zone_is_seq(bio->bi_disk, bio.bi_iter.bi_sector);
+  1162	}
+  1163	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
