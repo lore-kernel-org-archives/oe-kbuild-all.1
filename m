@@ -1,102 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37FF61683
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 13:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5856D1D5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 13:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXqa40H6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702387327; x=1733923327;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vComJbd8kBDo3YrHK5c9ly3E/Fx3FjjEgUVzcOkwUsk=;
-  b=QXqa40H6u0KaZpE3sZBw2swzI/JthBvdpI2Q+88KRoow92+zpsz5iVde
-   yG6LLUZnKv3Fugt5UvdB13qaFFIUEgZmvu3+nhgKiLCV6x/NZDhHjJ5tL
-   iVSvmBDbcbxXxu+52JGG8ibCuGoMT3txsbgI+ssMxZ4ICl8ersriE3y0q
-   97BUjebiXBOil4fT8nfItgFQsYVzqoLtAtLpt64b/uadZVWYS6G1A8USo
-   GNT85puOm3QWmbjxhz+lHfS3Ki9qwFS9iYJqYfDk4ZatIKJq5sVQX7nlX
-   Y+0r6EkPAAQ4sy0l0s9EpMUCm6DaLyuU7kBYGSvXZy92RNlYrAFj7mBFM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1624029"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="1624029"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 05:22:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1104906549"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="1104906549"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 12 Dec 2023 05:21:59 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rD2hx-000JDA-1m;
-	Tue, 12 Dec 2023 13:21:57 +0000
-Date: Tue, 12 Dec 2023 21:21:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Oleksii_Moisieiev@epam.com, gregkh@linuxfoundation.org,
-	herbert@gondor.apana.org.au, davem@davemloft.net,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, alexandre.torgue@foss.st.com, vkoul@kernel.org,
-	jic23@kernel.org, olivier.moysan@foss.st.com,
-	arnaud.pouliquen@foss.st.com, mchehab@kernel.org,
-	fabrice.gasnier@foss.st.com, andi.shyti@kernel.org,
-	ulf.hansson@linaro.org, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, hugues.fruchet@foss.st.com, lee@kernel.org,
-	will@kernel.org, catalin.marinas@arm.com, arnd@kernel.org,
-	richardcochran@gmail.com, Frank Rowand <frowand.list@gmail.com>,
-	peng.fan@oss.nxp.com, lars@metafoo.de, rcsekar@samsung.com,
-	wg@grandegger.com
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 05/13] firewall: introduce stm32_firewall framework
-Message-ID: <202312122156.5wsnpd5l-lkp@intel.com>
-References: <20231211183044.808204-6-gatien.chevallier@foss.st.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jjX2XRm+"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40c3ca9472dso36646295e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 05:53:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702389212; x=1702994012; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hTEAK+2LTcfnNQwEb+oSGpsXypsMob+S9kan2IS2dPs=;
+        b=jjX2XRm+JCAisnDUWhe16Wjq2ECd/9f5VSy1llcqcnQ9UyH3zlKDb2JN/RB0HpZgfK
+         TmTnQ94V4xm8+Zwfu4Kg7yWoXHFbt9VRnynM1TfbJCTAgd4MfYRlrwDPirRJqw6DUu+m
+         YaaPLNBVWmcfzLcrL7ybALDo92dg48amCPL3PTsD9IXwUOX2arkwtdhKsXKziYz16dgx
+         pytGiwYwOzAClOPzuN4qPQBVfEyMWiJCcOOxjaXn7oyo2jZJ4yT0QP1p8jWm6H9JHEY7
+         JQh8yg5HhvwhUx0MLCdw9QVePb+AGePZD8JSSpJ1uJeGJhQ9ofQE9Yc56BcnxNSBvLji
+         tuhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702389212; x=1702994012;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTEAK+2LTcfnNQwEb+oSGpsXypsMob+S9kan2IS2dPs=;
+        b=rxPUcmqgfpeVapxK7Y6CArwkWsOX7odoZnkg8FsT4jD36mfpdG2rc7/+BcDxfzne11
+         6JNQ8ewypkVsQ8VUBwIV4YFjJZH57Ew3wP3V6pJ1sgQqNV4Tokvf4dKXkYq3tbtk2VLX
+         4fKBLP2r+D7T3i0mQyoEIlMC5jTuumbWcub3uA315aSsriYmSrv7owF/eGqx1N3eLd9/
+         PEtaioi62PCzxFCBweR43oXslUSv5gDTVtkC+6/q58IPmL+EJmPf9uL0XqwFc8goNQ95
+         VVwAreM+Z84S/H2bVwsT95tvr/AeKxDF7ydjLlxA2hfv7tGadeKZzb9CjQe6RCqvKS8x
+         H1XQ==
+X-Gm-Message-State: AOJu0YwvvCUCxlm6Q+hvzNJhW80lx/GSUwKHlibglf7Dcei6hDqa2qDy
+	LORNILRvcgWs/z+EA5fJgu8=
+X-Google-Smtp-Source: AGHT+IEpZfz+yZwZe/aWwF1eS+4t9ZZv7wkjVuBWPAa/XhT2Kga2jJddVn6m0LjFT6vLvynVW5FwQA==
+X-Received: by 2002:a1c:7207:0:b0:40c:914:d2cf with SMTP id n7-20020a1c7207000000b0040c0914d2cfmr2151015wmc.134.1702389211550;
+        Tue, 12 Dec 2023 05:53:31 -0800 (PST)
+Received: from [192.168.8.100] ([85.255.234.100])
+        by smtp.gmail.com with ESMTPSA id t14-20020a5d42ce000000b003333b0d603bsm10860669wrr.42.2023.12.12.05.53.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Dec 2023 05:53:31 -0800 (PST)
+Message-ID: <46b061f4-1542-4b18-b65a-6b3b77fb2f25@gmail.com>
+Date: Tue, 12 Dec 2023 13:52:08 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231211183044.808204-6-gatien.chevallier@foss.st.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [isilence:zc/rx-pp-provider 5/31] net/core/dev.c:2065: undefined
+ reference to `gen_pool_for_each_chunk'
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: Mina Almasry <almasrymina@google.com>, kernel test robot <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+References: <202312102313.zJHWVLAZ-lkp@intel.com>
+ <182d28da-8822-4d2d-85fe-5a1843905eb1@gmail.com>
+ <CAHS8izMn0JhRkmvF1yEvk1iUdYmHNbxbs8GgO=0GX6Qq5uR80w@mail.gmail.com>
+ <18a68cf6-7738-40aa-869b-401bb08bc41a@gmail.com>
+ <ZXZja1UjyhyHDNiu@yujie-X299>
+ <7ad9d49a-d649-4f78-ae89-c592117d7665@gmail.com>
+ <ZXfLBk8F4eoQmmZn@yujie-X299>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <ZXfLBk8F4eoQmmZn@yujie-X299>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Gatien,
+On 12/12/23 02:52, Yujie Liu wrote:
+> On Mon, Dec 11, 2023 at 01:25:19PM +0000, Pavel Begunkov wrote:
+>> On 12/11/23 01:18, Yujie Liu wrote:
+>>> Hi Pavel,
+>>>
+>>> On Sun, Dec 10, 2023 at 11:15:50PM +0000, Pavel Begunkov wrote:
+>>>> On 12/10/23 21:05, Mina Almasry wrote:
+>>>>> On Sun, Dec 10, 2023 at 8:54 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>>>>>
+>>>>>> On 12/10/23 15:45, kernel test robot wrote:
+>>>>>>> tree:   https://github.com/isilence/linux zc/rx-pp-provider
+>>>>>>> head:   4b8de8977565096e38b6da993c68da6f2ef9b89c
+>>>>>>> commit: 161f99ad49ca48fa141161b409eac11a6b63c105 [5/31] netdev: support binding dma-buf to netdevice
+>>>>>>> config: i386-randconfig-003-20231210 (https://download.01.org/0day-ci/archive/20231210/202312102313.zJHWVLAZ-lkp@intel.com/config)
+>>>>>>> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+>>>>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231210/202312102313.zJHWVLAZ-lkp@intel.com/reproduce)
+>>>>>>
+>>>>>> Ergh, I have no clue, why lkp thinks that it's a good idea to spam
+>>>>>> about someone's non-release repos, but just ignore it.
+>>>>>>
+>>>>>
+>>>>> How do i enable this on my repos? I have branches on github I'd like
+>>>>> reports for:
+>>>>
+>>>> That happened long time ago without my knowledge, but apparently
+>>>> you can just ask them
+>>>>
+>>>> https://github.com/intel/lkp-tests/wiki/LKP-FAQ#how-to-request-testing-a-new-kernel-tree-on-lkp
+>>>>
+>>>> I'm not aware if they have filters for what branches to test
+>>>
+>>> We do have regex filters for this. Please check the "branch_allowlist"
+>>> and "branch_denylist" entries at:
+>>>
+>>> https://github.com/intel/lkp-tests/wiki/Repo-Spec
+>>>
+>>> Sorry for any spam on non-release repos. Do you want us to stop the
+>>> robot from testing this repo, or could you provide some info about what
+>>> branches to be tested/ignored so we can set the configuration for you?
+>>
+>> Dear Yujie,
+>>
+>> To be fair, it's a pretty useful service, and I appreciate the effort.
+>> The annoyance comes from CC'ing a bunch of people and lists who don't
+>> care about the patches, and who will then be asking me what's that all
+>> about.
+>>
+>> Ideally, I'd prefer to limit recipients for reports for that tree
+>> to only myself. (and maybe some necessary technical lists like
+>> lkp and oe-kbuild?). If it's not an option, can you help me to set up
+>> a filter to only test "lkp-test/.*" branches?
+> 
+> Hi Pavel,
+> 
+> We've set the mail config for you and the reports for this tree will be
+> sent to you privately.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on atorgue-stm32/stm32-next]
-[also build test WARNING on robh/for-next jic23-iio/togreg broonie-sound/for-next linus/master v6.7-rc5 next-20231212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gatien-Chevallier/dt-bindings-document-generic-access-controllers/20231212-023824
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20231211183044.808204-6-gatien.chevallier%40foss.st.com
-patch subject: [PATCH v7 05/13] firewall: introduce stm32_firewall framework
-config: alpha-kismet-CONFIG_OF_DYNAMIC-CONFIG_STM32_FIREWALL-0-0 (https://download.01.org/0day-ci/archive/20231212/202312122156.5wsnpd5l-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312122156.5wsnpd5l-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312122156.5wsnpd5l-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for OF_DYNAMIC when selected by STM32_FIREWALL
-   
-   WARNING: unmet direct dependencies detected for OF_DYNAMIC
-     Depends on [n]: OF [=n]
-     Selected by [y]:
-     - STM32_FIREWALL [=y] && (ARCH_STM32 || COMPILE_TEST [=y])
+That's very helpful, thank you
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pavel Begunkov
