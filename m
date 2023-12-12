@@ -1,58 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B37F76DDF;
-	Tue, 12 Dec 2023 15:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B067E77648
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 16:08:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cEfpeiwR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCm1mo8W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702394877; x=1733930877;
+  t=1702397283; x=1733933283;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=J5cBlnY1Ze/CWvlCx8CRGQ0t3RzxDZTAr16nqiZAwP4=;
-  b=cEfpeiwR+iSrosEUGMGPwpYNTgyhMmHZ/NUQCm9i/8atirkL4a2L/gqP
-   GYp/JizLUwdzF3Yja1xhb1xF3Dmv8UPIqH/UDTmuTvxugAzUdMCJZzhi8
-   Ju7Fr1W5x8qH7KDxb7czTgF/baXWknIUdMOxxKwrzKu49S05t+Siot/u6
-   saJgYlO0NKgux2+9KT41J/rncSOM6bXcemYLhHQkUGfhofcFe8mLmNR8i
-   fSIQLXbHLjXHXd/r6MvBJq7voHaoCpnp37lizL9i2ckOuXTqU8nzqNwkh
-   CRT29BRsAHlEAmlwF54tnelpunoWzNfAyyCqHJTFGiToAfwzMeaU93Yyy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="398665662"
+  bh=cFBdoTZ5fhsZheQJNeg0clfOcDH5a1bwW/O5K1uAiS8=;
+  b=BCm1mo8WKTHzfbozale/2BhFjxUa47at/2U5UB6nB7tVKHJVQlbeVgro
+   E6whGAV7FfXXbX2u9P15lGGsDGt3O3sJni8jUdc8igZ2tBXTiuv0opUlV
+   FJeVMVUcFmwrK2rH+wh3IU2RWhtBDA2wTNkGBskoYxkktXorjsDz3HfTs
+   16RP6JIHm2UX2HPOZyTzGRGtzAVuXRXjhAitFP+bNGKksYwk72/A3MZ7G
+   VGDcHPkvxj6twlRoqC+z2PDKUf2b3Lgxno+89RpYdkwubMtAEkSLvCEI7
+   edC5BRbc47FfZ4hb1h64b9pGLC0k47n+uCAgYuR4xFEP+QHE4LrdU5uB7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="379824182"
 X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="398665662"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 07:27:56 -0800
+   d="scan'208";a="379824182"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 08:08:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="807801491"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="843967766"
 X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="807801491"
+   d="scan'208";a="843967766"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 12 Dec 2023 07:27:52 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 12 Dec 2023 08:07:56 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rD4fm-000JJz-0e;
-	Tue, 12 Dec 2023 15:27:50 +0000
-Date: Tue, 12 Dec 2023 23:27:14 +0800
+	id 1rD5IW-000JOF-2k;
+	Tue, 12 Dec 2023 16:07:52 +0000
+Date: Wed, 13 Dec 2023 00:07:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	dri-devel@lists.freedesktop.org, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dongwon Kim <dongwon.kim@intel.com>,
-	David Hildenbrand <david@redhat.com>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Hugh Dickins <hughd@google.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Peter Xu <peterx@redhat.com>, Christoph Hellwig <hch@infradead.org>,
-	Gerd Hoffmann <kraxel@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
-	Junxiao Chang <junxiao.chang@intel.com>,
-	Mike Kravetz <mike.kravetz@oracle.com>
-Subject: Re: [PATCH v7 3/6] mm/gup: Introduce memfd_pin_folios() for pinning
- memfd folios (v7)
-Message-ID: <202312122339.viQUjwIW-lkp@intel.com>
-References: <20231212073803.3233055-4-vivek.kasireddy@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, laurent.pinchart@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH 1/4] media: v4l: Add a helper for setting up
+ link-frequencies control
+Message-ID: <202312122344.1l0j6bV6-lkp@intel.com>
+References: <20231211140658.366268-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,164 +55,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231212073803.3233055-4-vivek.kasireddy@intel.com>
+In-Reply-To: <20231211140658.366268-2-sakari.ailus@linux.intel.com>
 
-Hi Vivek,
+Hi Sakari,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master sailus-media-tree/streams linus/master v6.7-rc5 next-20231212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Kasireddy/udmabuf-Use-vmf_insert_pfn-and-VM_PFNMAP-for-handling-mmap/20231212-160312
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231212073803.3233055-4-vivek.kasireddy%40intel.com
-patch subject: [PATCH v7 3/6] mm/gup: Introduce memfd_pin_folios() for pinning memfd folios (v7)
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20231212/202312122339.viQUjwIW-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312122339.viQUjwIW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-Add-a-helper-for-setting-up-link-frequencies-control/20231211-220844
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20231211140658.366268-2-sakari.ailus%40linux.intel.com
+patch subject: [PATCH 1/4] media: v4l: Add a helper for setting up link-frequencies control
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312122344.1l0j6bV6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312122339.viQUjwIW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312122344.1l0j6bV6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/gup.c:3543:11: error: incompatible pointer types assigning to 'struct folio *' from 'struct page *' [-Werror,-Wincompatible-pointer-types]
-                                   folio = memfd_alloc_folio(memfd, start_idx);
-                                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +3543 mm/gup.c
-
-  3417	
-  3418	/**
-  3419	 * memfd_pin_folios() - pin folios associated with a memfd
-  3420	 * @memfd:      the memfd whose folios are to be pinned
-  3421	 * @start:      starting memfd offset
-  3422	 * @nr_pages:   number of pages from start to pin
-  3423	 * @folios:     array that receives pointers to the folios pinned.
-  3424	 *              Should be at-least nr_pages long.
-  3425	 * @offsets:    array that receives offsets of pages in their folios.
-  3426	 *              Should be at-least nr_pages long.
-  3427	 *
-  3428	 * Attempt to pin folios associated with a memfd; given that a memfd is
-  3429	 * either backed by shmem or hugetlb, the folios can either be found in
-  3430	 * the page cache or need to be allocated if necessary. Once the folios
-  3431	 * are located, they are all pinned via FOLL_PIN and the @offsets array
-  3432	 * is populated with offsets of the pages in their respective folios.
-  3433	 * Therefore, for each page the caller requested, there will be a
-  3434	 * corresponding entry in both @folios and @offsets. And, eventually,
-  3435	 * these pinned folios need to be released either using unpin_user_pages()
-  3436	 * or unpin_user_page().
-  3437	 *
-  3438	 * It must be noted that the folios may be pinned for an indefinite amount
-  3439	 * of time. And, in most cases, the duration of time they may stay pinned
-  3440	 * would be controlled by the userspace. This behavior is effectively the
-  3441	 * same as using FOLL_LONGTERM with other GUP APIs.
-  3442	 *
-  3443	 * Returns number of folios pinned. This would be equal to the number of
-  3444	 * pages requested. If no folios were pinned, it returns -errno.
-  3445	 */
-  3446	long memfd_pin_folios(struct file *memfd, unsigned long start,
-  3447			      unsigned long nr_pages, struct folio **folios,
-  3448			      pgoff_t *offsets)
-  3449	{
-  3450		unsigned long end = start + (nr_pages << PAGE_SHIFT) - 1;
-  3451		unsigned int max_pgs, pgoff, pgshift = PAGE_SHIFT;
-  3452		pgoff_t start_idx, end_idx, next_idx;
-  3453		unsigned int flags, nr_folios, i, j;
-  3454		struct folio *folio = NULL;
-  3455		struct folio_batch fbatch;
-  3456		struct page **pages;
-  3457		struct hstate *h;
-  3458		long ret;
-  3459	
-  3460		if (!nr_pages)
-  3461			return -EINVAL;
-  3462	
-  3463		if (!memfd)
-  3464			return -EINVAL;
-  3465	
-  3466		if (!shmem_file(memfd) && !is_file_hugepages(memfd))
-  3467			return -EINVAL;
-  3468	
-  3469		pages = kmalloc_array(nr_pages, sizeof(*pages), GFP_KERNEL);
-  3470		if (!pages)
-  3471			return -ENOMEM;
-  3472	
-  3473		if (is_file_hugepages(memfd)) {
-  3474			h = hstate_file(memfd);
-  3475			pgshift = huge_page_shift(h);
-  3476		}
-  3477	
-  3478		flags = memalloc_pin_save();
-  3479		do {
-  3480			i = 0;
-  3481			start_idx = start >> pgshift;
-  3482			end_idx = end >> pgshift;
-  3483			if (is_file_hugepages(memfd)) {
-  3484				start_idx <<= huge_page_order(h);
-  3485				end_idx <<= huge_page_order(h);
-  3486			}
-  3487	
-  3488			folio_batch_init(&fbatch);
-  3489			while (start_idx <= end_idx) {
-  3490				/*
-  3491				 * In most cases, we should be able to find the folios
-  3492				 * in the page cache. If we cannot find them for some
-  3493				 * reason, we try to allocate them and add them to the
-  3494				 * page cache.
-  3495				 */
-  3496				nr_folios = filemap_get_folios_contig(memfd->f_mapping,
-  3497								      &start_idx,
-  3498								      end_idx,
-  3499								      &fbatch);
-  3500				if (folio) {
-  3501					folio_put(folio);
-  3502					folio = NULL;
-  3503				}
-  3504	
-  3505				next_idx = 0;
-  3506				for (j = 0; j < nr_folios; j++) {
-  3507					if (next_idx &&
-  3508					    next_idx != folio_index(fbatch.folios[j]))
-  3509						continue;
-  3510	
-  3511					folio = try_grab_folio(&fbatch.folios[j]->page,
-  3512							       1, FOLL_PIN);
-  3513					if (!folio) {
-  3514						folio_batch_release(&fbatch);
-  3515						kfree(pages);
-  3516						goto err;
-  3517					}
-  3518	
-  3519					max_pgs = folio_nr_pages(folio);
-  3520					if (i == 0) {
-  3521						pgoff = offset_in_folio(folio, start);
-  3522						pgoff >>= PAGE_SHIFT;
-  3523					}
-  3524	
-  3525					do {
-  3526						folios[i] = folio;
-  3527						offsets[i] = pgoff << PAGE_SHIFT;
-  3528						pages[i] = folio_page(folio, 0);
-  3529						folio_add_pin(folio);
-  3530	
-  3531						pgoff++;
-  3532						i++;
-  3533					} while (pgoff < max_pgs && i < nr_pages);
-  3534	
-  3535					pgoff = 0;
-  3536					next_idx = folio_next_index(folio);
-  3537					gup_put_folio(folio, 1, FOLL_PIN);
-  3538				}
-  3539	
-  3540				folio = NULL;
-  3541				folio_batch_release(&fbatch);
-  3542				if (!nr_folios) {
-> 3543					folio = memfd_alloc_folio(memfd, start_idx);
+>> Documentation/driver-api/media/v4l2-common:6: ./include/media/v4l2-common.h:567: WARNING: Unexpected indentation.
+>> Documentation/driver-api/media/v4l2-common:6: ./include/media/v4l2-common.h:568: WARNING: Block quote ends without a blank line; unexpected unindent.
 
 -- 
 0-DAY CI Kernel Test Service
