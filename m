@@ -1,47 +1,49 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AACA210FB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 18:54:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DED07F568
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 18:54:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Teuq4hUo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aK1Mh7M8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702407290; x=1733943290;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0hVYkWzitVyH556SnbRUqJ/JGtITbvnw7xXOLEJ/QRs=;
-  b=Teuq4hUogtsOE6aIVWhBDI0voTamnc4u3qcHQiWKnZlmeVgY5V62rT3K
-   bVG8JAR6HpWMNH42XzcXHPOUiybFdW4dgXJNv6ZcXQvRobgFhBwX9B2ID
-   n9HBF196k8YNRxCVbj7UrJhwikoGD0HtqDJdY5vuSruLcvLFCFJbTNVnR
-   Vl2kR+AXon433S1+cDpdTBzbGUfkBUEZQPOmm2QmqxwQPf6mfy18jmvbB
-   I6v2ApktT3OVmNolZG2Gzstd7fLJX6LkfGVsbsUOstgzV6saA0Oz+ksVv
-   N9ewPreS5M2/1tEF92y2v/Kdl6sMwnIOjfHrNI+ifhDCOBrV8KvnXogCe
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="385263220"
+  t=1702407293; x=1733943293;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Fhtw7jwfZStNBl0doZOH1Goh94LDTrinYbroAI2TZRs=;
+  b=aK1Mh7M8U3kn3HjeTc+JWQY+NJTJ16piq/4bTi+2LnXChvrMQRXsbLPe
+   6LNH+atRdZpsVySc5O+eJImcMIV/MBNSa90ZG2q2lWYhP5XoAAbq6CZp2
+   Z/L+3nH58YQYiVR7Nuv3uPx5FC2hVog2Ikse6WoefbtDUXbxr9FVyzlbg
+   55lB2dFFmPdQvfotnW2hICapvwdM2QHQZc2WefP/YTgju+8s+LjVz2t91
+   A5OFc1jPx/ACjh48pH/xnKggkIknbvCxc0QIYHZum4HT300QHA4xDUfGT
+   dloO/5tC5nvAtP616O/uyO0FiaDJswKR1Qhv4auy9cxVphdLeU1pP0BDt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="385263225"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="385263220"
+   d="scan'208";a="385263225"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 10:54:49 -0800
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 10:54:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="749814653"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="749814655"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="749814653"
+   d="scan'208";a="749814655"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga006.jf.intel.com with ESMTP; 12 Dec 2023 10:54:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rD7u1-000Ja3-1P;
+	id 1rD7u1-000Ja5-1T;
 	Tue, 12 Dec 2023 18:54:45 +0000
-Date: Wed, 13 Dec 2023 02:53:57 +0800
+Date: Wed, 13 Dec 2023 02:53:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Will Deacon <will.deacon@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: drivers/watchdog/ath79_wdt.c:165:37: sparse: sparse: incorrect type
- in initializer (different address spaces)
-Message-ID: <202312130257.RgeLtCBh-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, linux-sound@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com,
+	Takashi Iwai <tiwai@suse.com>, dri-devel@lists.freedesktop.org,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [PATCH] ASoC: hdmi-codec: drop drm/drm_edid.h include
+Message-ID: <202312130235.qG8OwKk0-lkp@intel.com>
+References: <20231212143038.3828691-1-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,171 +52,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231212143038.3828691-1-jani.nikula@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   26aff849438cebcd05f1a647390c4aa700d5c0f1
-commit: d15155824c5014803d91b829736d249c500bdda6 linux/compiler.h: Split into compiler.h and compiler_types.h
-date:   6 years ago
-config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231213/202312130257.RgeLtCBh-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231213/202312130257.RgeLtCBh-lkp@intel.com/reproduce)
+Hi Jani,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master v6.7-rc5 next-20231212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/ASoC-hdmi-codec-drop-drm-drm_edid-h-include/20231212-223200
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20231212143038.3828691-1-jani.nikula%40intel.com
+patch subject: [PATCH] ASoC: hdmi-codec: drop drm/drm_edid.h include
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231213/202312130235.qG8OwKk0-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130235.qG8OwKk0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312130257.RgeLtCBh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312130235.qG8OwKk0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/watchdog/ath79_wdt.c:165:37: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char const [noderef] __user *register __p @@     got char const * @@
-   drivers/watchdog/ath79_wdt.c:165:37: sparse:     expected char const [noderef] __user *register __p
-   drivers/watchdog/ath79_wdt.c:165:37: sparse:     got char const *
-   drivers/watchdog/ath79_wdt.c:239:27: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different address spaces)) @@     expected int ( *write )( ... ) @@     got int ( * )( ... ) @@
-   drivers/watchdog/ath79_wdt.c:239:27: sparse:     expected int ( *write )( ... )
-   drivers/watchdog/ath79_wdt.c:239:27: sparse:     got int ( * )( ... )
-   In file included from include/linux/workqueue.h:8,
-                    from include/linux/mm_types.h:15,
-                    from include/linux/fs.h:21,
-                    from drivers/watchdog/ath79_wdt.c:25:
-   include/linux/timer.h: In function 'timer_setup':
-   include/linux/timer.h:178:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
-     178 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
-         |                              ^
-   include/linux/timer.h:143:39: note: in definition of macro '__setup_timer'
-     143 |                 (_timer)->function = (_fn);                             17-      |                                       ^~~
+All error/warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/msm/dp/dp_display.c: In function 'dp_display_process_hpd_high':
+>> drivers/gpu/drm/msm/dp/dp_display.c:406:31: error: implicit declaration of function 'drm_detect_monitor_audio' [-Werror=implicit-function-declaration]
+     406 |         dp->audio_supported = drm_detect_monitor_audio(edid);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
-   kernel/futex.c: note: in included file:
->> arch/arm/include/asm/futex.h:57:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
-   arch/arm/include/asm/futex.h:57:9: sparse:     expected void const *
-   arch/arm/include/asm/futex.h:57:9: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
-   kernel/futex.c:1480:9: sparse: sparse: context imbalance in 'wake_futex_pi' - unexpected unlock
-   arch/arm/include/asm/futex.h:142:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
-   arch/arm/include/asm/futex.h:142:17: sparse:     expected void const *
-   arch/arm/include/asm/futex.h:142:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
-   arch/arm/include/asm/futex.h:145:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
-   arch/arm/include/asm/futex.h:145:17: sparse:     expected void const *
-   arch/arm/include/asm/futex.h:145:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
-   arch/arm/include/asm/futex.h:148:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
-   arch/arm/include/asm/futex.h:148:17: sparse:     expected void const *
-   arch/arm/include/asm/futex.h:148:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
-   arch/arm/include/asm/futex.h:151:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
-   arch/arm/include/asm/futex.h:151:17: sparse:     expected void const *
-   arch/arm/include/asm/futex.h:151:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
-   arch/arm/include/asm/futex.h:154:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned int [noderef] [usertype] __user *uaddr @@
-   arch/arm/include/asm/futex.h:154:17: sparse:     expected void const *
-   arch/arm/include/asm/futex.h:154:17: sparse:     got unsigned int [noderef] [usertype] __user *uaddr
-   kernel/futex.c:1633:33: sparse: sparse: context imbalance in 'futex_wake_op' - different lock contexts for basic block
-   kernel/futex.c:1924:41: sparse: sparse: context imbalance in 'futex_requeue' - different lock contexts for basic block
-   kernel/futex.c:2442:13: sparse: sparse: context imbalance in 'futex_wait_queue_me' - unexpected unlock
-   kernel/futex.c:2545:9: sparse: sparse: context imbalance in 'futex_wait_setup' - different lock contexts for basic block
-   kernel/futex.c:2834:12: sparse: sparse: context imbalance in 'futex_unlock_pi' - different lock contexts for basic block
-   kernel/futex.c:3102:29: sparse: sparse: context imbalance in 'futex_wait_requeue_pi' - unexpected unlock
-   In file included from include/linux/workqueue.h:8,
-                    from include/linux/srcu.h:34,
-                    from include/linux/notifier.h:15,
-                    from include/linux/memory_hotplug.h:6,
-                    from include/linux/mmzone.h:779,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:14,
-                    from kernel/futex.c:47:
-   include/linux/timer.h: In function 'timer_setup':
-   include/linux/timer.h:178:30: warning: cast between incompatible function types from 'void (*)(struct timer_list *)' to 'void (*)(long unsigned int)' [-Wcast-function-type]
-     178 |         __setup_timer(timer, (TIMER_FUNC_TYPE)callback,
-         |                              ^
-   include/linux/timer.h:143:39: note: in definition of macro '__setup_timer'
-     143 |                 (_timer)->function = (_fn);                             41-      |                                       ^~~
-   In file included from kernel/futex.c:56:
-   kernel/futex.c: At top level:
-   include/linux/syscalls.h:211:25: warning: 'sys_set_robust_list' alias between functions of incompatible types 'long int(struct robust_list_head *, size_t)' {aka 'long int(struct robust_list_head *, unsigned int)'} and 'long int(long int,  long int)' [-Wattribute-alias=]
-     211 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       46-      |                         ^~~
-   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:197:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     197 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/futex.c:3237:1: note: in expansion of macro 'SYSCALL_DEFINE2'
-    3237 | SYSCALL_DEFINE2(set_robust_list, struct robust_list_head __user *, head,
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:215:25: note: aliased declaration here
-     215 |         asmlinkage long SyS##name(__MAP(x,__SC_LONG,__VA_ARGS__))       58-      |                         ^~~
-   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:197:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     197 | #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/futex.c:3237:1: note: in expansion of macro 'SYSCALL_DEFINE2'
-    3237 | SYSCALL_DEFINE2(set_robust_list, struct robust_list_head __user *, head,
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:211:25: warning: 'sys_futex' alias between functions of incompatible types 'long int(u32 *, int,  u32,  struct timespec *, u32 *, u32)' {aka 'long int(unsigned int *, int,  unsigned int,  struct timespec *, unsigned int *, unsigned int)'} and 'long int(long int,  long int,  long int,  long int,  long int,  long int)' [-Wattribute-alias=]
-     211 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       70-      |                         ^~~
-   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:201:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     201 | #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/futex.c:3494:1: note: in expansion of macro 'SYSCALL_DEFINE6'
-    3494 | SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:215:25: note: aliased declaration here
-     215 |         asmlinkage long SyS##name(__MAP(x,__SC_LONG,__VA_ARGS__))       82-      |                         ^~~
-   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:201:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     201 | #define SYSCALL_DEFINE6(name, ...) SYSCALL_DEFINEx(6, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/futex.c:3494:1: note: in expansion of macro 'SYSCALL_DEFINE6'
-    3494 | SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:211:25: warning: 'sys_get_robust_list' alias between functions of incompatible types 'long int(int,  struct robust_list_head **, size_t *)' {aka 'long int(int,  struct robust_list_head **, unsigned int *)'} and 'long int(long int,  long int,  long int)' [-Wattribute-alias=]
-     211 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       94-      |                         ^~~
-   include/linux/syscalls.h:207:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     207 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:198:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     198 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/futex.c:3259:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-    3259 | SYSCALL_DEFINE3(get_robust_list, int, pid,
+   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_is_full_range':
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:168:17: error: implicit declaration of function 'drm_default_rgb_quant_range' [-Werror=implicit-function-declaration]
+     168 |                 drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_handle_hotplug':
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:437:16: error: implicit declaration of function 'drm_get_edid'; did you mean 'drm_gem_evict'? [-Werror=implicit-function-declaration]
+     437 |         edid = drm_get_edid(connector, vc4_hdmi->ddc);
+         |                ^~~~~~~~~~~~
+         |                drm_gem_evict
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:437:14: warning: assignment to 'struct edid *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     437 |         edid = drm_get_edid(connector, vc4_hdmi->ddc);
+         |              ^
+   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_connector_get_modes':
+   drivers/gpu/drm/vc4/vc4_hdmi.c:508:14: warning: assignment to 'struct edid *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     508 |         edid = drm_get_edid(connector, vc4_hdmi->ddc);
+         |              ^
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:514:15: error: implicit declaration of function 'drm_add_edid_modes' [-Werror=implicit-function-declaration]
+     514 |         ret = drm_add_edid_modes(connector, edid);
+         |               ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_set_avi_infoframe':
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:910:15: error: implicit declaration of function 'drm_hdmi_avi_infoframe_from_display_mode'; did you mean 'drm_hdmi_avi_infoframe_content_type'? [-Werror=implicit-function-declaration]
+     910 |         ret = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               drm_hdmi_avi_infoframe_content_type
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:917:9: error: implicit declaration of function 'drm_hdmi_avi_infoframe_quant_range'; did you mean 'drm_hdmi_avi_infoframe_content_type'? [-Werror=implicit-function-declaration]
+     917 |         drm_hdmi_avi_infoframe_quant_range(&frame.avi,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         drm_hdmi_avi_infoframe_content_type
+   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_sink_supports_format_bpc':
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:1930:18: error: implicit declaration of function 'drm_match_cea_mode' [-Werror=implicit-function-declaration]
+    1930 |         u8 vic = drm_match_cea_mode(mode);
+         |                  ^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:1950:70: error: 'DRM_EDID_HDMI_DC_30' undeclared (first use in this function)
+    1950 |                 if (bpc == 10 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30)) {
+         |                                                                      ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/vc4/vc4_hdmi.c:1950:70: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:1955:70: error: 'DRM_EDID_HDMI_DC_36' undeclared (first use in this function)
+    1955 |                 if (bpc == 12 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_36)) {
+         |                                                                      ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-vim +165 drivers/watchdog/ath79_wdt.c
 
-f8394f61c66f48 Gabor Juhos 2011-01-04  152  
-f8394f61c66f48 Gabor Juhos 2011-01-04  153  static ssize_t ath79_wdt_write(struct file *file, const char *data,
-f8394f61c66f48 Gabor Juhos 2011-01-04  154  				size_t len, loff_t *ppos)
-f8394f61c66f48 Gabor Juhos 2011-01-04  155  {
-f8394f61c66f48 Gabor Juhos 2011-01-04  156  	if (len) {
-f8394f61c66f48 Gabor Juhos 2011-01-04  157  		if (!nowayout) {
-f8394f61c66f48 Gabor Juhos 2011-01-04  158  			size_t i;
-f8394f61c66f48 Gabor Juhos 2011-01-04  159  
-f8394f61c66f48 Gabor Juhos 2011-01-04  160  			clear_bit(WDT_FLAGS_EXPECT_CLOSE, &wdt_flags);
-f8394f61c66f48 Gabor Juhos 2011-01-04  161  
-f8394f61c66f48 Gabor Juhos 2011-01-04  162  			for (i = 0; i != len; i++) {
-f8394f61c66f48 Gabor Juhos 2011-01-04  163  				char c;
-f8394f61c66f48 Gabor Juhos 2011-01-04  164  
-f8394f61c66f48 Gabor Juhos 2011-01-04 @165  				if (get_user(c, data + i))
-f8394f61c66f48 Gabor Juhos 2011-01-04  166  					return -EFAULT;
-f8394f61c66f48 Gabor Juhos 2011-01-04  167  
-f8394f61c66f48 Gabor Juhos 2011-01-04  168  				if (c == 'V')
-f8394f61c66f48 Gabor Juhos 2011-01-04  169  					set_bit(WDT_FLAGS_EXPECT_CLOSE,
-f8394f61c66f48 Gabor Juhos 2011-01-04  170  						&wdt_flags);
-f8394f61c66f48 Gabor Juhos 2011-01-04  171  			}
-f8394f61c66f48 Gabor Juhos 2011-01-04  172  		}
-f8394f61c66f48 Gabor Juhos 2011-01-04  173  
-f8394f61c66f48 Gabor Juhos 2011-01-04  174  		ath79_wdt_keepalive();
-f8394f61c66f48 Gabor Juhos 2011-01-04  175  	}
-f8394f61c66f48 Gabor Juhos 2011-01-04  176  
-f8394f61c66f48 Gabor Juhos 2011-01-04  177  	return len;
-f8394f61c66f48 Gabor Juhos 2011-01-04  178  }
-f8394f61c66f48 Gabor Juhos 2011-01-04  179  
+vim +/drm_detect_monitor_audio +406 drivers/gpu/drm/msm/dp/dp_display.c
 
-:::::: The code at line 165 was first introduced by commit
-:::::: f8394f61c66f48b1fe9d6964ddce492d7f9a4cd9 watchdog: add driver for the Atheros AR71XX/AR724X/AR913X SoCs
-
-:::::: TO: Gabor Juhos <juhosg@openwrt.org>
-:::::: CC: Wim Van Sebroeck <wim@iguana.be>
+c943b4948b5848 Chandan Uddaraju 2020-08-27  381  
+c943b4948b5848 Chandan Uddaraju 2020-08-27  382  static int dp_display_process_hpd_high(struct dp_display_private *dp)
+c943b4948b5848 Chandan Uddaraju 2020-08-27  383  {
+c943b4948b5848 Chandan Uddaraju 2020-08-27  384  	int rc = 0;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  385  	struct edid *edid;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  386  
+c943b4948b5848 Chandan Uddaraju 2020-08-27  387  	dp->panel->max_dp_lanes = dp->parser->max_dp_lanes;
+0e7f270591a42f Kuogee Hsieh     2022-12-27  388  	dp->panel->max_dp_link_rate = dp->parser->max_dp_link_rate;
+0e7f270591a42f Kuogee Hsieh     2022-12-27  389  
+0e7f270591a42f Kuogee Hsieh     2022-12-27  390  	drm_dbg_dp(dp->drm_dev, "max_lanes=%d max_link_rate=%d\n",
+0e7f270591a42f Kuogee Hsieh     2022-12-27  391  		dp->panel->max_dp_lanes, dp->panel->max_dp_link_rate);
+c943b4948b5848 Chandan Uddaraju 2020-08-27  392  
+c943b4948b5848 Chandan Uddaraju 2020-08-27  393  	rc = dp_panel_read_sink_caps(dp->panel, dp->dp_display.connector);
+c943b4948b5848 Chandan Uddaraju 2020-08-27  394  	if (rc)
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  395  		goto end;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  396  
+c943b4948b5848 Chandan Uddaraju 2020-08-27  397  	dp_link_process_request(dp->link);
+c943b4948b5848 Chandan Uddaraju 2020-08-27  398  
+bfcc3d8f94f4cb Dmitry Baryshkov 2023-09-04  399  	drm_dp_set_subconnector_property(dp->dp_display.connector, connector_status_connected,
+bfcc3d8f94f4cb Dmitry Baryshkov 2023-09-04  400  					 dp->panel->dpcd, dp->panel->downstream_ports);
+bfcc3d8f94f4cb Dmitry Baryshkov 2023-09-04  401  
+c943b4948b5848 Chandan Uddaraju 2020-08-27  402  	edid = dp->panel->edid;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  403  
+b78c77273a5648 Abhinav Kumar    2023-04-27  404  	dp->dp_display.psr_supported = dp->panel->psr_cap.version && psr_enabled;
+cd779808cccd50 Vinod Polimera   2023-03-02  405  
+c943b4948b5848 Chandan Uddaraju 2020-08-27 @406  	dp->audio_supported = drm_detect_monitor_audio(edid);
+c943b4948b5848 Chandan Uddaraju 2020-08-27  407  	dp_panel_handle_sink_request(dp->panel);
+c943b4948b5848 Chandan Uddaraju 2020-08-27  408  
+c943b4948b5848 Chandan Uddaraju 2020-08-27  409  	dp->dp_display.max_dp_lanes = dp->parser->max_dp_lanes;
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  410  
+f21c8a276c2dad Kuogee Hsieh     2021-05-21  411  	/*
+f21c8a276c2dad Kuogee Hsieh     2021-05-21  412  	 * set sink to normal operation mode -- D0
+f21c8a276c2dad Kuogee Hsieh     2021-05-21  413  	 * before dpcd read
+f21c8a276c2dad Kuogee Hsieh     2021-05-21  414  	 */
+f21c8a276c2dad Kuogee Hsieh     2021-05-21  415  	dp_link_psm_config(dp->link, &dp->panel->link_info, false);
+f21c8a276c2dad Kuogee Hsieh     2021-05-21  416  
+6625e2637d93d2 Tanmay Shah      2020-09-25  417  	dp_link_reset_phy_params_vx_px(dp->link);
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  418  	rc = dp_ctrl_on_link(dp->ctrl);
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  419  	if (rc) {
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  420  		DRM_ERROR("failed to complete DP link training\n");
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  421  		goto end;
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  422  	}
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  423  
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  424  	dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
+8ede2ecc3e5ee3 Kuogee Hsieh     2020-09-11  425  
+c943b4948b5848 Chandan Uddaraju 2020-08-27  426  end:
+c943b4948b5848 Chandan Uddaraju 2020-08-27  427  	return rc;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  428  }
+c943b4948b5848 Chandan Uddaraju 2020-08-27  429  
 
 -- 
 0-DAY CI Kernel Test Service
