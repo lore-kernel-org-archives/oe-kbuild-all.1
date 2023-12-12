@@ -1,51 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB5963C07
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 20:25:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100A26412D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 20:46:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VvgL1Fh5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjVBB5Fg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702412759; x=1733948759;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ShU3x8zcFhiiKxZVBruiDPx0rJANmV4IUQZtaK+tLG8=;
-  b=VvgL1Fh5lzG28fYDF2ROcaVv78poWlCBCxZzor1ZCkcCrD6HTb8Oa45q
-   G+fAOAlKofhpLAYoUpSXYcdP9P4cZzS409ML17q4X8B4rkUFnJtEqTt1T
-   WBWS6YMgEGcRVy+UMG01IEYSOSoEGXwKkyOWaWYM9WqS5OTr+d86WilqW
-   MveLWsIxkUmzjzYiP3U1QJWZglCkO3emLnnnNtsf6nStozhonLVLY5vlw
-   LOmsw1syoAJZeGH3gt/0WgixeBaCQovHY7VbrhFTkboG21OpMce91R238
-   CPfmFwERc3Ved34Btd1gzeUr435WEYO4Im0OKFF7Hyu+1pXbqB8+IWl3g
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="397650967"
+  t=1702413985; x=1733949985;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zVD3QBifYBNd7xxTpl5ZSgoxn/2WPe5lGBf29+CRcLk=;
+  b=VjVBB5FgkvZFdC9L6ZXJ+N3cLDIMjksxc83vNmSAjmYdqjnET4Y8CqXa
+   VQkdaSCjQxUoMNipot34K3xoRJM1MAtoduvj5bmKBZOa9hhxGKe/b07+l
+   pDYbk57sCR80PHTEUsDd2xkMzDeuJrUne1K6jBxIQTI3Xz4cuF0Bg4imF
+   dVLg+NJWoQCgAyTwKglSzg1m3ID31rpmxKookkKUg1+Ud2M+vqf5cHG3X
+   Hzcy8tNb/GtEC7xinPR8wNqX6q5IMxVlbo8+ZZOcjqcqsoutQLbLWuJwa
+   K8R64aZ4zqW5A3zZ/Vj8YU2nvmduMkJvoR6eF57TEixJ1knRZOeA/WLE7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="392042794"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="397650967"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 12:25:58 -0800
+   d="scan'208";a="392042794"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 12:46:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1020847391"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897045213"
 X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="1020847391"
+   d="scan'208";a="897045213"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 12 Dec 2023 12:25:54 -0800
+  by orsmga004.jf.intel.com with ESMTP; 12 Dec 2023 12:46:03 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rD9KB-000JfH-1N;
-	Tue, 12 Dec 2023 20:25:51 +0000
-Date: Wed, 13 Dec 2023 04:25:05 +0800
+	id 1rD9dh-000Jgl-10;
+	Tue, 12 Dec 2023 20:46:01 +0000
+Date: Wed, 13 Dec 2023 04:45:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiawen Wu <jiawenwu@trustnetic.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	linux@armlinux.org.uk, andrew@lunn.ch, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, mengyuanlou@net-swift.com,
-	Jiawen Wu <jiawenwu@trustnetic.com>
-Subject: Re: [PATCH net-next v4 5/8] net: wangxun: add ethtool_ops for ring
- parameters
-Message-ID: <202312130411.eLnRwdT9-lkp@intel.com>
-References: <20231212080438.1361308-6-jiawenwu@trustnetic.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.6-r4-dango 20/29] kismet: WARNING: unmet
+ direct dependencies detected for PHY_MTK_PEXTP when selected by
+ PCS_MTK_USXGMII
+Message-ID: <202312130456.bNbDUI4O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,112 +50,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231212080438.1361308-6-jiawenwu@trustnetic.com>
 
-Hi Jiawen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiawen-Wu/net-libwx-add-phylink-to-libwx/20231212-161804
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231212080438.1361308-6-jiawenwu%40trustnetic.com
-patch subject: [PATCH net-next v4 5/8] net: wangxun: add ethtool_ops for ring parameters
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20231213/202312130411.eLnRwdT9-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130411.eLnRwdT9-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.6-r4-dango
+head:   51d4eefd9d760a0847c6aacddebb7ede142e7710
+commit: 7c89ca96e12ef4bfcab4b34456af66044061d12f [20/29] net: pcs: add driver for MediaTek USXGMII PCS
+config: alpha-kismet-CONFIG_PHY_MTK_PEXTP-CONFIG_PCS_MTK_USXGMII-0-0 (https://download.01.org/0day-ci/archive/20231213/202312130456.bNbDUI4O-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20231213/202312130456.bNbDUI4O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312130411.eLnRwdT9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312130456.bNbDUI4O-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/wangxun/ngbe/ngbe_ethtool.c: In function 'ngbe_set_ringparam':
->> drivers/net/ethernet/wangxun/ngbe/ngbe_ethtool.c:83:21: error: implicit declaration of function 'vmalloc'; did you mean 'kvmalloc'? [-Werror=implicit-function-declaration]
-      83 |         temp_ring = vmalloc(i * sizeof(struct wx_ring));
-         |                     ^~~~~~~
-         |                     kvmalloc
->> drivers/net/ethernet/wangxun/ngbe/ngbe_ethtool.c:83:19: warning: assignment to 'struct wx_ring *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      83 |         temp_ring = vmalloc(i * sizeof(struct wx_ring));
-         |                   ^
->> drivers/net/ethernet/wangxun/ngbe/ngbe_ethtool.c:90:9: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-      90 |         vfree(temp_ring);
-         |         ^~~~~
-         |         kvfree
-   cc1: some warnings being treated as errors
---
-   drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c: In function 'txgbe_set_ringparam':
->> drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c:50:21: error: implicit declaration of function 'vmalloc'; did you mean 'kvmalloc'? [-Werror=implicit-function-declaration]
-      50 |         temp_ring = vmalloc(i * sizeof(struct wx_ring));
-         |                     ^~~~~~~
-         |                     kvmalloc
->> drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c:50:19: warning: assignment to 'struct wx_ring *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      50 |         temp_ring = vmalloc(i * sizeof(struct wx_ring));
-         |                   ^
->> drivers/net/ethernet/wangxun/txgbe/txgbe_ethtool.c:57:9: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-      57 |         vfree(temp_ring);
-         |         ^~~~~
-         |         kvfree
-   cc1: some warnings being treated as errors
-
-
-vim +83 drivers/net/ethernet/wangxun/ngbe/ngbe_ethtool.c
-
-    46	
-    47	static int ngbe_set_ringparam(struct net_device *netdev,
-    48				      struct ethtool_ringparam *ring,
-    49				      struct kernel_ethtool_ringparam *kernel_ring,
-    50				      struct netlink_ext_ack *extack)
-    51	{
-    52		struct wx *wx = netdev_priv(netdev);
-    53		u32 new_rx_count, new_tx_count;
-    54		struct wx_ring *temp_ring;
-    55		int i, err = 0;
-    56	
-    57		if (ring->rx_mini_pending || ring->rx_jumbo_pending)
-    58			return -EOPNOTSUPP;
-    59	
-    60		new_tx_count = clamp_t(u32, ring->tx_pending, WX_MIN_TXD, WX_MAX_TXD);
-    61		new_tx_count = ALIGN(new_tx_count, WX_REQ_TX_DESCRIPTOR_MULTIPLE);
-    62	
-    63		new_rx_count = clamp_t(u32, ring->rx_pending, WX_MIN_RXD, WX_MAX_RXD);
-    64		new_rx_count = ALIGN(new_rx_count, WX_REQ_RX_DESCRIPTOR_MULTIPLE);
-    65	
-    66		if (new_tx_count == wx->tx_ring_count &&
-    67		    new_rx_count == wx->rx_ring_count)
-    68			return 0;
-    69	
-    70		if (!netif_running(wx->netdev)) {
-    71			for (i = 0; i < wx->num_tx_queues; i++)
-    72				wx->tx_ring[i]->count = new_tx_count;
-    73			for (i = 0; i < wx->num_rx_queues; i++)
-    74				wx->rx_ring[i]->count = new_rx_count;
-    75			wx->tx_ring_count = new_tx_count;
-    76			wx->rx_ring_count = new_rx_count;
-    77	
-    78			return 0;
-    79		}
-    80	
-    81		/* allocate temporary buffer to store rings in */
-    82		i = max_t(int, wx->num_tx_queues, wx->num_rx_queues);
-  > 83		temp_ring = vmalloc(i * sizeof(struct wx_ring));
-    84		if (!temp_ring)
-    85			return -ENOMEM;
-    86	
-    87		ngbe_down(wx);
-    88	
-    89		wx_set_ring(wx, new_tx_count, new_rx_count, temp_ring);
-  > 90		vfree(temp_ring);
-    91	
-    92		wx_configure(wx);
-    93		ngbe_up(wx);
-    94	
-    95		return err;
-    96	}
-    97	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PHY_MTK_PEXTP when selected by PCS_MTK_USXGMII
+   
+   WARNING: unmet direct dependencies detected for PHY_MTK_PEXTP
+     Depends on [n]: (ARCH_MEDIATEK || COMPILE_TEST [=y]) && OF [=n] && OF_ADDRESS [=n] && HAS_IOMEM [=y]
+     Selected by [y]:
+     - PCS_MTK_USXGMII [=y] && NETDEVICES [=y]
 
 -- 
 0-DAY CI Kernel Test Service
