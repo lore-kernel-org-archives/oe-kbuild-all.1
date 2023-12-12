@@ -1,100 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5566359B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 19:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563F95275D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Dec 2023 20:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hugovil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hugovil.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JAZMbAx+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702410895; x=1733946895;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CA9aa2awBIDig+dNOGZp0RzanEU6A7xfFCBeXtxY+5w=;
-  b=JAZMbAx+fwABxpvgjRnNU+EX37pyfyUxk32DqvFj6wzChllv2VTFjJGt
-   NFHoKs77UKleRqZfubCqvOCblgfpyQhfRrC9aTRh/SgemsE3MB0Ko5/UH
-   IfE4zDbR1nh+pTw5UxDpN+lXSK/Nma5jQdzzvlNvVMwQ2yqaGSr8Z14iO
-   QhAWiN7deRCVWNgOsTmeqrNooapgXH+4HgQ/rdJKcuT+D5vOFabjPl9bp
-   zrdE6UzkUumtZcyE0w59dW6xNYGbbmIrpJGQXdiHcFj+Wks/YY5QcyoO3
-   8ba5HGXd6H/RXfL0VCJzr3mamRyYvg6wsIUHhp3YfWJs0K4boA/eYe0/X
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="398704156"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="398704156"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 11:54:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="802601537"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="802601537"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 12 Dec 2023 11:54:51 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rD8q8-000JeR-2z;
-	Tue, 12 Dec 2023 19:54:48 +0000
-Date: Wed, 13 Dec 2023 03:54:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: edward.cree@amd.com, linux-net-drivers@amd.com, davem@davemloft.net,
-	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com
-Cc: oe-kbuild-all@lists.linux.dev, Edward Cree <ecree.xilinx@gmail.com>,
-	netdev@vger.kernel.org, habetsm.xilinx@gmail.com,
-	Jonathan Cooper <jonathan.s.cooper@amd.com>
-Subject: Re: [PATCH net-next 2/7] sfc: debugfs for channels
-Message-ID: <202312130301.cKD8l8IO-lkp@intel.com>
-References: <df43d737fda6b6aa0cda3f2cb300916ca4b2e8f8.1702314695.git.ecree.xilinx@gmail.com>
+	dkim=pass (1024-bit key) header.d=hugovil.com header.i=@hugovil.com header.b="VAN/d/JU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+	; s=x; h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+	:Date:subject:date:message-id:reply-to;
+	bh=GU5bD/tkNbwYE01vFKqUORHlQtxGJUzogaJ4KX5B+SE=; b=VAN/d/JUx6n8DA7SJeL3AgkgOn
+	cSxx9y9yZlUFXcC3B6FH4I8KAzxipMdU68Cr7JHARKBZAHpbhqHo8DjQXD1j5HUtWNXuRw8H/xlkF
+	j/y+wCxPoLkCNdG5pVGkTNV9YrfvE6ybnNiQGaz2Esrt+XgRIquyvu58/84CEV14giuU=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:50180 helo=pettiford)
+	by mail.hugovil.com with esmtpa (Exim 4.92)
+	(envelope-from <hugo@hugovil.com>)
+	id 1rD8y6-0003S3-F0; Tue, 12 Dec 2023 15:03:03 -0500
+Date: Tue, 12 Dec 2023 15:03:02 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, hvilleneuve@dimonoff.com,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, stable@vger.kernel.org
+Message-Id: <20231212150302.a9ec5d085a4ba65e89ca41af@hugovil.com>
+In-Reply-To: <CAHp75VebCZckUrNraYQj9k=Mrn2kbYs1Lx26f5-8rKJ3RXeh-w@mail.gmail.com>
+References: <20231130191050.3165862-2-hugo@hugovil.com>
+	<202312061443.Cknef7Uq-lkp@intel.com>
+	<20231207125243.c056d5cd0f875ea6dfdfa194@hugovil.com>
+	<CAHp75VebCZckUrNraYQj9k=Mrn2kbYs1Lx26f5-8rKJ3RXeh-w@mail.gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <df43d737fda6b6aa0cda3f2cb300916ca4b2e8f8.1702314695.git.ecree.xilinx@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Level: 
+X-Spam-Report: 
+	* -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	* -0.0 T_SCC_BODY_TEXT_LINE No description available.
+	* -2.5 NICE_REPLY_A Looks like a legit reply (A)
+Subject: Re: [PATCH 1/7] serial: sc16is7xx: fix snprintf format specifier in
+ sc16is7xx_regmap_name()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 
-Hi,
+On Thu, 7 Dec 2023 20:24:45 +0200
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> On Thu, Dec 7, 2023 at 7:52 PM Hugo Villeneuve <hugo@hugovil.com> wrote:
+> > On Wed, 6 Dec 2023 14:29:39 +0800
+> > kernel test robot <lkp@intel.com> wrote:
+> 
+> ...
+> 
+> > >    drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_i2c_probe':
+> > > >> drivers/tty/serial/sc16is7xx.c:1703:41: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+> > >     1703 |         snprintf(buf, sizeof(buf), "port%u", port_id);
+> > >          |                                         ^~
+> > >    In function 'sc16is7xx_regmap_name',
+> > >        inlined from 'sc16is7xx_i2c_probe' at drivers/tty/serial/sc16is7xx.c:1805:17:
+> > >    drivers/tty/serial/sc16is7xx.c:1703:36: note: directive argument in the range [0, 4294967294]
+> > >     1703 |         snprintf(buf, sizeof(buf), "port%u", port_id);
+> > >          |                                    ^~~~~~~~
+> > >    drivers/tty/serial/sc16is7xx.c:1703:9: note: 'snprintf' output between 6 and 15 bytes into a destination of size 6
+> > >     1703 |         snprintf(buf, sizeof(buf), "port%u", port_id);
+> > >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> > Hi,
+> > the only solution I could find is to add this line just before snprintf:
+> >
+> >     BUG_ON(port_id > MAX310X_MAX_PORTS);
+> >
+> > it allows us to have the smallest buffer size possible.
+> >
+> > One other solution would be to change port_id from "unsigned int"
+> > to "u8", and increase the buffer by an additional 2 bytes to silence
+> > the warning, but then wasting 2 bytes for each channel, like so:
+> 
+> I didn't get this. It's a buffer that is rewritten on each port (why
+> is it even static?). Just make sure it's enough for any given number
+> and drop the static.
+> 
+> ...
+> 
+> While at it, can you look at the following items to improve?
+> - sc16is7xx_alloc_line() can be updated to use IDA framework
+> - move return xxx; to the default cases in a few functions
+> - if (div > 0xffff) { --> if (div >= BIT(16)) { as it better shows why
+> the limit is that (we have only 16 bits for the divider)
+> - do {} while (0) in the sc16is7xx_port_irq, WTH?!
+> - while (1) { -- do { } while (keep_polling); in sc16is7xx_irq()
+> - use in_range() in sc16is7xx_setup_mctrl_ports() ? (maybe not, dunno)
+> - for (i--; i >= 0; i--) { --> while (i--) {
+> - use spi_get_device_match_data() and i2c_get_match_data()
+> - 15000000 --> 15 * HZ_PER_MHZ ?
+> - dropping MODULE_ALIAS (and fix the ID tables, _if_ needed)
+> - split the code to the core / main + SPI + I2C glue drivers
+> 
+> * These just come on the first glance at the code, perhaps there is
+> more room to improve.
 
-[auto build test WARNING on net-next/main]
+Hi Andy,
+just to let you know that I have implemented almost all of the fixes /
+improvements. I will submit them once V2 of this current series
+lands in Greg's next tree.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/edward-cree-amd-com/sfc-initial-debugfs-implementation/20231212-013223
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/df43d737fda6b6aa0cda3f2cb300916ca4b2e8f8.1702314695.git.ecree.xilinx%40gmail.com
-patch subject: [PATCH net-next 2/7] sfc: debugfs for channels
-config: mips-ip27_defconfig (https://download.01.org/0day-ci/archive/20231213/202312130301.cKD8l8IO-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312130301.cKD8l8IO-lkp@intel.com/reproduce)
+However, for sc16is7xx_alloc_line(), I looked at using the IDA framework
+but it doesn't seem possible because there is no IDA function
+to search if a bit is set, which is a needed functionality.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312130301.cKD8l8IO-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/net/ethernet/sfc/efx.c:36:
->> drivers/net/ethernet/sfc/debugfs.h:51:5: warning: no previous prototype for 'efx_init_debugfs_channel' [-Wmissing-prototypes]
-      51 | int efx_init_debugfs_channel(struct efx_channel *channel)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/sfc/debugfs.h:55:6: warning: no previous prototype for 'efx_fini_debugfs_channel' [-Wmissing-prototypes]
-      55 | void efx_fini_debugfs_channel(struct efx_channel *channel) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/efx_init_debugfs_channel +51 drivers/net/ethernet/sfc/debugfs.h
-
-    50	
-  > 51	int efx_init_debugfs_channel(struct efx_channel *channel)
-    52	{
-    53		return 0;
-    54	}
-  > 55	void efx_fini_debugfs_channel(struct efx_channel *channel) {}
-    56	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hugo Villeneuve
