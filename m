@@ -1,135 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5F12D780;
-	Wed, 13 Dec 2023 14:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BBB5CD2F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 15:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hrd+mK15"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35478C433C8;
-	Wed, 13 Dec 2023 14:56:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702479398;
-	bh=RbqO8lhLpHDZIavrq3v7GldwAkkZy4gcb11Zs9mg9yQ=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=Hrd+mK15OXrooHgeQnsU/Nu8j0gvSF67u3rJRkr1x7BgKkJsKCMjnx94V7Hxi3Qu1
-	 6LpfA/+/pAB1NJcwCRXFVfK8Sn/EMlmLr7IuZEdkl/pARDfRiVsv/FedIrC3RQqBFL
-	 7N8ZRtfPmy4b+VvdQoS2RTupHG856iiRvGQbA+Qi2fsFKNWi+6s7VfjS9GqbbGv7x4
-	 1znbv5REK8/qZEvQfKI+Im1Q1y8srpTP9g7IFJJFSggyNhOCk3I9n1lfI8IB+Io+7c
-	 MOeS8gqCKcwLx+OLmyxMziV0y01viOoBHusbBcFhqUcoSreV/NQanCnypVYYmJ/aB7
-	 szsxbI3LQoD3Q==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id B381DCE105C; Wed, 13 Dec 2023 06:56:37 -0800 (PST)
-Date: Wed, 13 Dec 2023 06:56:37 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: David Sterba <dsterba@suse.cz>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>, julia.lawall@inria.fr,
-	clm@fb.com, dsterba@suse.com, baptiste.lepers@gmail.com
-Subject: Re: [paulmck-rcu:frederic.2023.12.08a 29/37]
- fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329'
- declared with 'error' attribute: Need native word sized stores/loads for
- atomicity.
-Message-ID: <4c814394-6eab-4aca-96af-43f99fb94c01@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202312091837.cKaPw0Tf-lkp@intel.com>
- <0487d7cc-b906-4a4a-b284-9c79700b4ede@paulmck-laptop>
- <20231213125358.GB3001@suse.cz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SP/krroX"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d35dc7e1bbso3050795ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 07:42:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702482168; x=1703086968; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pNspfJlVqkGI+84+zJiCPcimkPN1petzpe1fNUwvChk=;
+        b=SP/krroXYItpUsNQmF/NiyoU1tol1FOaR6fogxlNvAdQnFW086CCYVylZf28dJqvLZ
+         pw5k6OqKUtVLy5/o52hYrpyuXXW2hPaBigZNd/uJh53cZo0QA0SSjbafvqR+ROR6xo56
+         RnQs1CR91Hx+6idEEd+4rx2VeGL0p+AlOjtqsBGFNpIhtsoQgcYao+XxUITHk0MFWN+h
+         AlTtGa95PMZvn9xmg5vY9nhIzYdkM838ClNeiIZsc+zoCnsOY9txpjduvZ+ggmTlHq9C
+         xxbn7ExcBz3el0RLO5CS7h+5LNKE/XPniW6bLYtz/dPp3rAGx943HtZpBKOE3IpnOqe+
+         YX+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702482168; x=1703086968;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pNspfJlVqkGI+84+zJiCPcimkPN1petzpe1fNUwvChk=;
+        b=GfOUlhJerzgeg8hNe8cf85PMyZ9IFJjCYFxsIyTGZzUxVDJGOFqGgG+vewGXLvHGF2
+         2mXUU0QmW2l3701JJ9lLlyLM3uE0Hp3bIXunpJsbJbS67dz8XYMFtbvxoXPnyA+7rfaf
+         C+RoS7HOJhk+ZYGZrhbhxUzHklC/KlfoHEzKGpPvt5j7eJXXRCp8PIvocvzmK+jIU3jt
+         eUvk3NMlXd15jCV1IMzvozaDUS3BBe+xqLe0NPwXN1PnHmZT24DXWWt9NhXBb6KOEyiH
+         VppgfLEAMnh9SmkeIsQnAHxZgkFLIjqt2imD3ftWtsLYs0NcBJuZWhBKdjAo3Ui8JVH1
+         hQ3g==
+X-Gm-Message-State: AOJu0YxLDiUp/cbpQVRPtTE5pOmfdxczxR0bxuTMnkr+szIVbgB1tz8a
+	24jx4wAcoEqunkG1hMwWSYE=
+X-Google-Smtp-Source: AGHT+IHBOmXf4W3D6sBHrUVLG4Oj7Nofh5iZLh4OH7v6/MiahFsCTPrQJunt/keLomAhjqB+bETPbA==
+X-Received: by 2002:a17:903:244e:b0:1d0:cd48:e05c with SMTP id l14-20020a170903244e00b001d0cd48e05cmr10561199pls.75.1702482167534;
+        Wed, 13 Dec 2023 07:42:47 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id jf18-20020a170903269200b001d087d2c42fsm10685463plb.24.2023.12.13.07.42.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Dec 2023 07:42:47 -0800 (PST)
+Message-ID: <d58dd14b-1a61-4377-9477-1af1346147a5@gmail.com>
+Date: Thu, 14 Dec 2023 00:42:44 +0900
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213125358.GB3001@suse.cz>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx
+ version
+To: kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <50830030-dca7-4c43-bcc8-449c7cfa9fbb@gmail.com>
+ <202312120740.HxQGwUoL-lkp@intel.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <202312120740.HxQGwUoL-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 13, 2023 at 01:53:58PM +0100, David Sterba wrote:
-> On Sat, Dec 09, 2023 at 07:51:30AM -0800, Paul E. McKenney wrote:
-> > On Sat, Dec 09, 2023 at 06:20:37PM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git frederic.2023.12.08a
-> > > head:   37843b5f561a08ae899fb791eeeb5abd992eabe2
-> > > commit: 7dd87072d40809e26503f04b79d63290288dbbac [29/37] btrfs: Adjust ->last_trans ordering in btrfs_record_root_in_trans()
-> > > config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/config)
-> > > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202312091837.cKaPw0Tf-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
-> > >    warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wstring-concatenation'? [-Wunknown-warning-option]
-> > >    warning: unknown warning option '-Wmaybe-uninitialized'; did you mean '-Wuninitialized'? [-Wunknown-warning-option]
-> > > >> fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329' declared with 'error' attribute: Need native word sized stores/loads for atomicity.
-> > >      496 |         if (smp_load_acquire(&root->last_trans) == trans->transid && /* ^^^ */
-> > >          |             ^
-> > 
-> > Ooooh!!!  :-/
-> > 
-> > From what I can see, the current code can tear this load on 32-bit
-> > systems, which can result in bad comparisons and then in failure to wait
-> > for a partially complete transaction.
-> > 
-> > So is btrfs actually supported on 32-bit systems?  If not, would the
-> > following patch be appropriate?
+On 2023/12/12 8:27, kernel test robot wrote:
+> Hi Akira,
 > 
-> There are limitations on 32bit systems, eg. due to shorter inode numbers
-> (ino_t is unsigned long) and that radix-tree/xarray does support only
-> unsigned long keys, while we have 64bit identifiers for inodes or tree
-> roots.
+> kernel test robot noticed the following build warnings:
 > 
-> So far we support that and dropping it completely is I think a big deal,
-> like with any possibly used feature. What I've seen there are NAS boxes
-> with low power ARM that are 32bit.
+> [auto build test WARNING on lwn/docs-next]
+> [also build test WARNING on linus/master v6.7-rc5 next-20231211]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
-> > If btrfs is to be supported on 32-bit systems, from what I can see some
-> > major surgery is required, even if a 32-bit counter is wrap-safe for
-> > this particular type of transaction.  (But SSDs?  In-memory btrfs
-> > filesystems?)
+> url:    https://github.com/intel-lab-lkp/linux/commits/Akira-Yokosawa/docs-sphinx-requirement-txt-Reflect-recommended-Sphinx-version/20231210-074628
+> base:   git://git.lwn.net/linux.git docs-next
+> patch link:    https://lore.kernel.org/r/50830030-dca7-4c43-bcc8-449c7cfa9fbb%40gmail.com
+> patch subject: [PATCH] docs: sphinx/requirement.txt: Reflect recommended Sphinx version
+> reproduce: (https://download.01.org/0day-ci/archive/20231212/202312120740.HxQGwUoL-lkp@intel.com/reproduce)
 > 
-> We won't probably do any major surgery to support 32bit systems.
-
-Got it, and thank you for the background!  My takeaway is that 32-bit
-BTRFS must work in the common case, but might have issues on some
-workloads, for example, running out of inode numbers or load tearing.
-
-> > ------------------------------------------------------------------------
-> > 
-> > diff --git a/fs/btrfs/Kconfig b/fs/btrfs/Kconfig
-> > index 4fb925e8c981..4d56158c34f9 100644
-> > --- a/fs/btrfs/Kconfig
-> > +++ b/fs/btrfs/Kconfig
-> > @@ -19,6 +19,7 @@ config BTRFS_FS
-> >  	select RAID6_PQ
-> >  	select XOR_BLOCKS
-> >  	depends on PAGE_SIZE_LESS_THAN_256KB
-> > +	depends on 64BIT
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312120740.HxQGwUoL-lkp@intel.com/
 > 
-> Can we keep the current inefficient smp_* barriers instead of dropping
-> the whole 32bit support as an alternative. If the smp_load_acquire are
-> better but not strictly necessary for the correctness (from the barriers
-> POV) I'd suggest to leave it as-is. We can put comments in case somebody
-> wants to optimize it in the future again.
+> All warnings (new ones prefixed by >>):
+> 
+>>> Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:344: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:39.
+>>> Documentation/gpu/drm-kms:461: ./drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:49.
+>>> Documentation/gpu/drm-uapi:434: ./drivers/gpu/drm/drm_ioctl.c:928: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:70.
+> 
 
-We still have the barrier placement issue, given that smp_rmb() enforces
-only the ordering of earlier and later loads, correct?  Or am I missing
-some other ordering constraint that makes all that work?
+These warnings on duplicate C decl are expected when you upgrade
+Sphinx to >= 3.1.
+See https://github.com/sphinx-doc/sphinx/issues/7819 for the long
+standing bug of Sphinx. 
 
-But I can make each of the current patch's smp_load_acquire() call instead
-be be a READ_ONCE() followed by an smp_rmb(), the test_bit_acquire()
-call be test_bit() followed by smp_rmb(), and the smp_store_release()
-call be an smp_wmb() followed by a WRITE_ONCE().  This provides the needed
-ordering, bullet-proofs the 64-bit code against compilers, but works on
-32-bit systems.  For example, on a 32-bit system the 64-bit READ_ONCE()
-and WRITE_ONCE() might still be compiled as a pair of 32-bit memory
-accesses, but they will both be guaranteed to be single memory accesses
-on 64-bit systems.
+Anyway, I can't do anything in response to this report.
 
-Would that work for you guys?
-
-							Thanx, Paul
+Regards,
+Akira
