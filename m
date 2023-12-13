@@ -1,47 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3433241EC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 11:33:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D64241EC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 11:33:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZALmO7E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a11bDhD3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702467185; x=1734003185;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nJJNId47MZlRZH6V7/ofz/FPzb166ydMRCAXOabIzzI=;
-  b=PZALmO7EUWi3/B3CLa1G44liPzkGUDAlLO6a6N3Vp4stYp0dm6OiRwVW
-   g8ItgPLJjXHG7nGsU3bYOFBl63yOqluSI97UahhZn6Byyc1Y4nezJnLLj
-   zSp8HXYQ4lEuGvvkXvy/V/pM8aCMQK3JcJrQdXm0KzVWrfGFzEc4cB9+B
-   2gzxZl/RQ3jh0vwnAWYIvAPovbATDIjGZCWyxOou52qq8oTYiQGWQ96R7
-   vBWnPNfKNmuoDoOOS8WRqX29K990N9FmMTEnMdqqZvEt4k00ipAcKMaZx
-   DNVXcFrBq6nEwMbIEob2UgG3BpyxL1kDMtdf3BapiCwgoa+bNEUNzSNMa
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394702309"
+  t=1702467192; x=1734003192;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dL6Em6F9/TJ8e69UFYykBz6xgC2V73mBvEEwVDeutqU=;
+  b=a11bDhD3nZxn919vxQiPWoD54m+b1n+fxQLuh1itPLYEJWhgXyGLI0sF
+   zQbH1YITeWHGSpAv9mLSKw8sbiBJDtHc0xGXE8+SDmFL6L6oSS00yA5he
+   UmiIEdseYsNRfMf4Hlj370oI3OntqnftMGaN7cqs+Up9vv7w0oJ4iCprV
+   d8yjO2+KxbEHVU3vajfsFtOpeSjxcS4XBm0ZHvINUb5p+A4RaW+54Y6y6
+   N4vUBxUBhC6ExXetrZSw/4/+Bnw+Hqxm6kfuuFrEiPiVbvAD4j0N/0AeI
+   wrdfaI/pY7e/TwTG4WyjqD1rfOK4xXjyf6akKe0kuM+HcpBS3pD1sgeHw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394702316"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="394702309"
+   d="scan'208";a="394702316"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 03:33:05 -0800
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 03:33:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897302956"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897302957"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="897302956"
+   d="scan'208";a="897302957"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orsmga004.jf.intel.com with ESMTP; 13 Dec 2023 03:33:04 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDNU5-000KUL-2t;
+	id 1rDNU5-000KUJ-2l;
 	Wed, 13 Dec 2023 11:33:01 +0000
-Date: Wed, 13 Dec 2023 19:32:50 +0800
+Date: Wed, 13 Dec 2023 19:32:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vincent-guittot:sched/system-pressure 11/11]
- drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202312131958.h69L2bgA-lkp@intel.com>
+To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	linux-mm@kvack.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, x86@kernel.org,
+	Eric Biederman <ebiederm@xmission.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	James Gowans <jgowans@amazon.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [PATCH 02/15] memblock: Declare scratch memory as CMA
+Message-ID: <202312131930.gMiphjju-lkp@intel.com>
+References: <20231213000452.88295-3-graf@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,94 +68,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231213000452.88295-3-graf@amazon.com>
 
-Hi Vincent,
+Hi Alexander,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.linaro.org/people/vincent.guittot/kernel.git sched/system-pressure
-head:   5844548bc216fd4d47bc8b20f0ff22ac4b14d48d
-commit: 5844548bc216fd4d47bc8b20f0ff22ac4b14d48d [11/11] sched: Rename arch_update_thermal_pressure into arch_update_hw_pressure
-config: parisc-randconfig-r122-20231213 (https://download.01.org/0day-ci/archive/20231213/202312131958.h69L2bgA-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231213/202312131958.h69L2bgA-lkp@intel.com/reproduce)
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on arm64/for-next/core akpm-mm/mm-everything linus/master v6.7-rc5 next-20231213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20231213-080941
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20231213000452.88295-3-graf%40amazon.com
+patch subject: [PATCH 02/15] memblock: Declare scratch memory as CMA
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20231213/202312131930.gMiphjju-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312131930.gMiphjju-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312131958.h69L2bgA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312131930.gMiphjju-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
->> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
-   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
-   drivers/base/arch_topology.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +204 drivers/base/arch_topology.c
+>> mm/memblock.c:2153:13: warning: 'reserve_scratch_mem' defined but not used [-Wunused-function]
+    2153 | static void reserve_scratch_mem(phys_addr_t start, phys_addr_t end)
+         |             ^~~~~~~~~~~~~~~~~~~
 
-   164	
-   165	/**
-   166	 * topology_update_hw_pressure() - Update hw pressure for CPUs
-   167	 * @cpus        : The related CPUs for which capacity has been reduced
-   168	 * @capped_freq : The maximum allowed frequency that CPUs can run at
-   169	 *
-   170	 * Update the value of hw pressure for all @cpus in the mask. The
-   171	 * cpumask should include all (online+offline) affected CPUs, to avoid
-   172	 * operating on stale data when hot-plug is used for some CPUs. The
-   173	 * @capped_freq reflects the currently allowed max CPUs frequency due to
-   174	 * hw capping. It might be also a boost frequency value, which is bigger
-   175	 * than the internal 'capacity_freq_ref' max frequency. In such case the
-   176	 * pressure value should simply be removed, since this is an indication that
-   177	 * there is no hw throttling. The @capped_freq must be provided in kHz.
-   178	 */
-   179	void topology_update_hw_pressure(const struct cpumask *cpus,
-   180					      unsigned long capped_freq)
-   181	{
-   182		unsigned long max_capacity, capacity, hw_pressure;
-   183		u32 max_freq;
-   184		int cpu;
-   185	
-   186		cpu = cpumask_first(cpus);
-   187		max_capacity = arch_scale_cpu_capacity(cpu);
-   188		max_freq = arch_scale_freq_ref(cpu);
-   189	
-   190		/*
-   191		 * Handle properly the boost frequencies, which should simply clean
-   192		 * the hw pressure value.
-   193		 */
-   194		if (max_freq <= capped_freq)
-   195			capacity = max_capacity;
-   196		else
-   197			capacity = mult_frac(max_capacity, capped_freq, max_freq);
-   198	
-   199		hw_pressure = max_capacity - capacity;
-   200	
-   201		trace_hw_pressure_update(cpu, hw_pressure);
-   202	
-   203		for_each_cpu(cpu, cpus)
- > 204			WRITE_ONCE(per_cpu(hw_pressure, cpu), hw_pressure);
-   205	}
-   206	EXPORT_SYMBOL_GPL(topology_update_hw_pressure);
-   207	
+
+vim +/reserve_scratch_mem +2153 mm/memblock.c
+
+  2152	
+> 2153	static void reserve_scratch_mem(phys_addr_t start, phys_addr_t end)
+  2154	{
+  2155	#ifdef CONFIG_MEMBLOCK_SCRATCH
+  2156		ulong start_pfn = pageblock_start_pfn(PFN_DOWN(start));
+  2157		ulong end_pfn = pageblock_align(PFN_UP(end));
+  2158		ulong pfn;
+  2159	
+  2160		for (pfn = start_pfn; pfn < end_pfn; pfn += pageblock_nr_pages) {
+  2161			/* Mark as CMA to prevent kernel allocations in it */
+  2162			set_pageblock_migratetype(pfn_to_page(pfn), MIGRATE_CMA);
+  2163		}
+  2164	#endif
+  2165	}
+  2166	
 
 -- 
 0-DAY CI Kernel Test Service
