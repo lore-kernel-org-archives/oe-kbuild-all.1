@@ -1,150 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C1D17C8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 02:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DE26124
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 03:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f93cWWmu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702433705; x=1733969705;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R3wPK74lI3isRxG8q1/3e0bayBSEhIqQESBOeWOeJcg=;
-  b=f93cWWmucO+fpgvYiJfYfeqViIVbcRupJDapRJpGjIV7YSLE5OJQd/HW
-   m+2mAe6AaFg+qXbnAoC2RejoUXTsnCgPh21++gWDPO+ohXQeFcSuiKlFY
-   pd984ZLi6VyA7SnTTQ0nU2uBYZkk0dJsj3aBYJFAZBX++wlU1fZ++Idvr
-   8IWNmE0JVOfpDcphWTd+BmDk1RlpyEL8pO9x/UOC51gw8i9u3VP10GwLB
-   4zdT00TSBvHPjtte6Ewe6K1kOqGTmn+xc49otp3sNFxL/jEbsL20AQev7
-   UotPacvfKgsNIK0T1ZqqX9xqC0YHD3p8TMvtHarL69FVxNp94Q+f0OS5j
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1746343"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="1746343"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 18:15:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897156722"
-X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
-   d="scan'208";a="897156722"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 12 Dec 2023 18:15:01 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDElx-000K0F-2c;
-	Wed, 13 Dec 2023 02:14:54 +0000
-Date: Wed, 13 Dec 2023 10:14:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: drivers/uio/uio_aec.c:50:49: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202312131026.UI2RWnbl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="JK8gUTZX"
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BD2LqBh013286;
+	Tue, 12 Dec 2023 19:25:09 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PPS06212021; bh=oHEWwWS/d+ov9oePzS5N8MzuKRMw9eiK625IUaQWN7E=; b=
+	JK8gUTZXHPvpSOmd5yh39qi5MxiksPE2stT8b+AeTFA9zI3kZRacQz+d6wt0jFtC
+	eLDYTH9SFVtCHY8jxavgvPE6rRfNIw10TC4d/Cr4VN7e6K7Xj1KZD7ftFopaFb2u
+	cyIc7eHhUFmw+BxuHgzie5L46J+0YIluMDSWq9UpwXD5tEA9aMwf9cefNKaQ7mwu
+	YNcaxPvnPtgHqC/zeGDWoaxVyyLh41jkA0/HTHLwhVrhJRv78+YGyXN/dyOijW54
+	F0n/Y4uWjAIcGJzMbMADD5FxxrsiRQ5t2AUUtuW8mzNzBCD4TPMW6wx9wkORy2AM
+	o6e5ms9XJvIc116ttNRURw==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uwyxja1f9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 12 Dec 2023 19:25:09 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 12 Dec 2023 19:25:13 -0800
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 19:25:10 -0800
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <lkp@intel.com>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <lizhi.xu@windriver.com>, <mani@kernel.org>, <netdev@vger.kernel.org>,
+        <oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>,
+        <syzbot+006987d1be3586e13555@syzkaller.appspotmail.com>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: [PATCH] radix-tree: fix memory leak in radix_tree_insert
+Date: Wed, 13 Dec 2023 11:25:04 +0800
+Message-ID: <20231213032504.2133661-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <202312120651.92GGXeX4-lkp@intel.com>
+References: <202312120651.92GGXeX4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 9iluF6xhpeAdVt-FoAhNtKxtKrWPHrdW
+X-Proofpoint-GUID: 9iluF6xhpeAdVt-FoAhNtKxtKrWPHrdW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 mlxscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 mlxlogscore=789 adultscore=0 clxscore=1011
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312130022
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cf52eed70e555e864120cfaf280e979e2a035c66
-commit: 8f28ca6bd8211214faf717677bbffe375c2a6072 iomap: constify ioreadX() iomem argument (as in generic implementation)
-date:   3 years, 4 months ago
-config: i386-randconfig-061-20231101 (https://download.01.org/0day-ci/archive/20231213/202312131026.UI2RWnbl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312131026.UI2RWnbl-lkp@intel.com/reproduce)
+On Tue, 12 Dec 2023 07:16:50 +0800, kernel test robot <lkp@intel.com> wrote:
+> kernel test robot noticed the following build warnings:
+>    lib/radix-tree.c:558:24: sparse:     got struct xa_node [noderef] __rcu *parent
+> >> lib/radix-tree.c:653:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *pn @@     got struct xa_node [noderef] __rcu *parent @@
+>    lib/radix-tree.c:653:28: sparse:     expected struct xa_node *pn
+>   651			struct radix_tree_node *pn;
+>   652			while (shift < mmshift && node) {
+> > 653				pn = node->parent;
+It can be clarified here that node->parent is the type just alloced as 
+"struct radix_tree node *", so there is no need to use cast type conversion,  
+Please ignore this warning.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312131026.UI2RWnbl-lkp@intel.com/
+BR,
+Lizhi
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/uio/uio_aec.c:44:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *int_flag @@     got void * @@
-   drivers/uio/uio_aec.c:44:49: sparse:     expected void [noderef] __iomem *int_flag
-   drivers/uio/uio_aec.c:44:49: sparse:     got void *
->> drivers/uio/uio_aec.c:50:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:50:49: sparse:     expected void const [noderef] __iomem *
-   drivers/uio/uio_aec.c:50:49: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const [noderef] __iomem *
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const [noderef] __iomem *
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const [noderef] __iomem *
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const [noderef] __iomem *
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const [noderef] __iomem *
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:59:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:59:9: sparse:     expected void const [noderef] __iomem *
-   drivers/uio/uio_aec.c:59:9: sparse:     got void *
-   drivers/uio/uio_aec.c:88:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *priv @@     got void [noderef] __iomem * @@
-   drivers/uio/uio_aec.c:88:20: sparse:     expected void *priv
-   drivers/uio/uio_aec.c:88:20: sparse:     got void [noderef] __iomem *
-   drivers/uio/uio_aec.c:104:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:104:42: sparse:     expected void [noderef] __iomem *
-   drivers/uio/uio_aec.c:104:42: sparse:     got void *
-   drivers/uio/uio_aec.c:105:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:105:43: sparse:     expected void [noderef] __iomem *
-   drivers/uio/uio_aec.c:105:43: sparse:     got void *
-   drivers/uio/uio_aec.c:106:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:106:34: sparse:     expected void const [noderef] __iomem *
-   drivers/uio/uio_aec.c:106:34: sparse:     got void *
-   drivers/uio/uio_aec.c:115:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void *priv @@
-   drivers/uio/uio_aec.c:115:31: sparse:     expected void [noderef] __iomem *
-   drivers/uio/uio_aec.c:115:31: sparse:     got void *priv
-   drivers/uio/uio_aec.c:130:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:130:42: sparse:     expected void [noderef] __iomem *
-   drivers/uio/uio_aec.c:130:42: sparse:     got void *
-   drivers/uio/uio_aec.c:131:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:131:43: sparse:     expected void [noderef] __iomem *
-   drivers/uio/uio_aec.c:131:43: sparse:     got void *
-   drivers/uio/uio_aec.c:133:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got void * @@
-   drivers/uio/uio_aec.c:133:28: sparse:     expected void const [noderef] __iomem *
-   drivers/uio/uio_aec.c:133:28: sparse:     got void *
-   drivers/uio/uio_aec.c:138:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *priv @@
-   drivers/uio/uio_aec.c:138:21: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/uio/uio_aec.c:138:21: sparse:     got void *priv
-
-vim +50 drivers/uio/uio_aec.c
-
-1bafeb378e915f Brandon Philips 2009-01-27  41  
-1bafeb378e915f Brandon Philips 2009-01-27  42  static irqreturn_t aectc_irq(int irq, struct uio_info *dev_info)
-1bafeb378e915f Brandon Philips 2009-01-27  43  {
-1bafeb378e915f Brandon Philips 2009-01-27  44  	void __iomem *int_flag = dev_info->priv + INTA_DRVR_ADDR;
-1bafeb378e915f Brandon Philips 2009-01-27  45  	unsigned char status = ioread8(int_flag);
-1bafeb378e915f Brandon Philips 2009-01-27  46  
-1bafeb378e915f Brandon Philips 2009-01-27  47  
-1bafeb378e915f Brandon Philips 2009-01-27  48  	if ((status & INTA_ENABLED_FLAG) && (status & INTA_FLAG)) {
-1bafeb378e915f Brandon Philips 2009-01-27  49  		/* application writes 0x00 to 0x2F to get next interrupt */
-1bafeb378e915f Brandon Philips 2009-01-27 @50  		status = ioread8(dev_info->priv + MAILBOX);
-1bafeb378e915f Brandon Philips 2009-01-27  51  		return IRQ_HANDLED;
-1bafeb378e915f Brandon Philips 2009-01-27  52  	}
-1bafeb378e915f Brandon Philips 2009-01-27  53  
-1bafeb378e915f Brandon Philips 2009-01-27  54  	return IRQ_NONE;
-1bafeb378e915f Brandon Philips 2009-01-27  55  }
-1bafeb378e915f Brandon Philips 2009-01-27  56  
-
-:::::: The code at line 50 was first introduced by commit
-:::::: 1bafeb378e915f39b1bf44ee0871823d6f402ea5 uio: add the uio_aec driver
-
-:::::: TO: Brandon Philips <brandon@ifup.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
