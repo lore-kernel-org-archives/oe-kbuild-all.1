@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567622E821
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 14:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7689E2E821
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 14:14:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VoOq+voU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QT6EwhQf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702476869; x=1734012869;
+  t=1702476876; x=1734012876;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KsCsRfzOQHBDZyTJhXSxUqvxPC7X4K/a3aTo0yZ7DOo=;
-  b=VoOq+voUv1Wm9QmbuVFN6XMpw1U4PuZM7Fe4+qrhk0A1p3XDLNLUCWLE
-   7Gv4FFEPt2kAaZg7neji1GE8s/7OQ6O9v+6w7U3umVyAvGKOZWVBVDAo9
-   XmpfYSGGfgWuGXFWxDt/g0cwVS/KxU7BUhaBM6bhmROH4jkl4zoYURBPM
-   AR7hhdnllqvLEieyDcpZuynpWS8AXxzRWY9ovRxfSEZPBO036by3mnuI5
-   SQYCuU+ttjNyEuwZMVzGX1+htS2Gz3qrlsJFZXec1HJwxfQehza8MDRtk
-   2f68ebHq0iYLtJBUlTNYIMjqYGPyc4b1LA5ASGyXS+N9FXzRLm6J+vdtC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="2147430"
+  bh=zUF0yPw2ARlvkVoYpzdLpayt7rJm97a+UnrLZm7H+ZA=;
+  b=QT6EwhQfU5pcbrgNIdkdP0XAbxJGPMDZMos+2VEENC8u01RV+DYeRuKs
+   0XzlolGJhsGthMRCnwkzUPw7wh8MkOqtZ8JPYX3f4nhIuq+jmJ7HKGXEN
+   J50UFkEbNHvkal1E+Ph/KpS9LZH69TeFMJMERa+HYGmJKcm4sAwVJKydA
+   Z5SFwvlbuqiCmijhKnZMcuM+lVHEqoX1wVbs+F+8PDQTR3uPFY6RV5GCG
+   zq2ux2gUUT+4p4ZSp4m4SyKENc7kpNjL5j7Y3xifXIi5wecQ651LZ/w72
+   jGS7fFcdrqcwjHdP8DWyL95Du9E0fpo9QncROn5V9oi54VPSMs3hvcME+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="8329630"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="2147430"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 06:14:28 -0800
+   d="scan'208";a="8329630"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 06:14:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="773964000"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897342389"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="773964000"
+   d="scan'208";a="897342389"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 13 Dec 2023 06:14:27 -0800
+  by orsmga004.jf.intel.com with ESMTP; 13 Dec 2023 06:14:25 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDQ0F-000KfB-0M;
+	id 1rDQ0F-000Kf9-0I;
 	Wed, 13 Dec 2023 14:14:23 +0000
-Date: Wed, 13 Dec 2023 22:13:41 +0800
+Date: Wed, 13 Dec 2023 22:13:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:afs-next 40/43] fs/afs/callback.c:82:13: sparse:
- sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-Message-ID: <202312132235.mTdYGBd1-lkp@intel.com>
+To: Mike Rapoport <rppt@linux.vnet.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: fs/pstore/ram_core.c:532:36: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202312132232.faZpeGsh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,52 +52,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git afs-next
-head:   f1302568cc65d3fdd85e6413688779e5235f4e2b
-commit: b8f604776e35dd984fbf93f49276543461cbbb22 [40/43] afs: Overhaul invalidation handling to better support RO volumes
-config: nios2-randconfig-r112-20231213 (https://download.01.org/0day-ci/archive/20231213/202312132235.mTdYGBd1-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   88035e5694a86a7167d490bb95e9df97a9bb162b
+commit: a811c05c16b53ff89e9cfc029ec77a0aae846881 nios2: use generic early_init_dt_add_memory_arch
+date:   5 years ago
+config: nios2-randconfig-r113-20231116 (https://download.01.org/0day-ci/archive/20231213/202312132232.faZpeGsh-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231213/202312132235.mTdYGBd1-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231213/202312132232.faZpeGsh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312132235.mTdYGBd1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312132232.faZpeGsh-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/afs/callback.c:82:13: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   fs/afs/callback.c:146:22: sparse: sparse: context imbalance in 'afs_lookup_volume_rcu' - different lock contexts for basic block
+   fs/pstore/ram_core.c:277:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char * @@
+   fs/pstore/ram_core.c:277:34: sparse:     expected void volatile [noderef] __iomem *addr
+   fs/pstore/ram_core.c:277:34: sparse:     got unsigned char *
+   fs/pstore/ram_core.c:310:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned char * @@
+   fs/pstore/ram_core.c:310:50: sparse:     expected void const volatile [noderef] __iomem *addr
+   fs/pstore/ram_core.c:310:50: sparse:     got unsigned char *
+   fs/pstore/ram_core.c:311:65: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned char * @@
+   fs/pstore/ram_core.c:311:65: sparse:     expected void const volatile [noderef] __iomem *addr
+   fs/pstore/ram_core.c:311:65: sparse:     got unsigned char *
+   fs/pstore/ram_core.c:452:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *va @@     got void [noderef] __iomem * @@
+   fs/pstore/ram_core.c:452:20: sparse:     expected void *va
+   fs/pstore/ram_core.c:452:20: sparse:     got void [noderef] __iomem *
+   fs/pstore/ram_core.c:454:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *va @@     got void [noderef] __iomem * @@
+   fs/pstore/ram_core.c:454:20: sparse:     expected void *va
+   fs/pstore/ram_core.c:454:20: sparse:     got void [noderef] __iomem *
+>> fs/pstore/ram_core.c:532:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *vaddr @@
+   fs/pstore/ram_core.c:532:36: sparse:     expected void [noderef] __iomem *addr
+   fs/pstore/ram_core.c:532:36: sparse:     got void *vaddr
+   fs/pstore/ram_core.c: note: in included file (through include/linux/irqflags.h, include/asm-generic/bitops.h, arch/nios2/include/generated/asm/bitops.h, ...):
+   arch/nios2/include/asm/irqflags.h:25:16: sparse: sparse: undefined identifier '__builtin_rdctl'
+   arch/nios2/include/asm/irqflags.h:34:9: sparse: sparse: undefined identifier '__builtin_wrctl'
+   fs/pstore/ram_core.c: In function 'persistent_ram_save_old':
+   fs/pstore/ram_core.c:310:37: warning: array subscript <unknown> is outside array bounds of 'uint8_t[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
+     310 |         memcpy_fromio(prz->old_log, &buffer->data[start], size - start);
+         |                                     ^~~~~~~~~~~~~~~~~~~~
+   fs/pstore/ram_core.c:36:21: note: while referencing 'data'
+      36 |         uint8_t     data[0];
+         |                     ^~~~
+   fs/pstore/ram_core.c:311:52: warning: array subscript 0 is outside array bounds of 'uint8_t[0]' {aka 'unsigned char[]'} [-Warray-bounds=]
+     311 |         memcpy_fromio(prz->old_log + size - start, &buffer->data[0], start);
+         |                                                    ^~~~~~~~~~~~~~~~
+   fs/pstore/ram_core.c:36:21: note: while referencing 'data'
+      36 |         uint8_t     data[0];
+         |                     ^~~~
 
-vim +82 fs/afs/callback.c
+vim +532 fs/pstore/ram_core.c
 
-    73	
-    74	/*
-    75	 * actually break a callback
-    76	 */
-    77	void __afs_break_callback(struct afs_vnode *vnode, enum afs_cb_break_reason reason)
-    78	{
-    79		_enter("");
-    80	
-    81		clear_bit(AFS_VNODE_NEW_CONTENT, &vnode->flags);
-  > 82		if (xchg(&vnode->cb_expires_at, AFS_NO_CB_PROMISE) != AFS_NO_CB_PROMISE) {
-    83			vnode->cb_break++;
-    84			vnode->cb_v_check = atomic_read(&vnode->volume->cb_v_break);
-    85			afs_clear_permits(vnode);
-    86	
-    87			if (vnode->lock_state == AFS_VNODE_LOCK_WAITING_FOR_CB)
-    88				afs_lock_may_be_available(vnode);
-    89	
-    90			if (reason != afs_cb_break_for_deleted &&
-    91			    vnode->status.type == AFS_FTYPE_FILE &&
-    92			    atomic_read(&vnode->cb_nr_mmap))
-    93				queue_work(system_unbound_wq, &vnode->cb_work);
-    94	
-    95			trace_afs_cb_break(&vnode->fid, vnode->cb_break, reason, true);
-    96		} else {
-    97			trace_afs_cb_break(&vnode->fid, vnode->cb_break, reason, false);
-    98		}
-    99	}
-   100	
+bb4206f2042d95 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  521  
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  522  void persistent_ram_free(struct persistent_ram_zone *prz)
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  523  {
+beeb94321a7a6d fs/pstore/ram_core.c                     Anton Vorontsov 2012-06-18  524  	if (!prz)
+beeb94321a7a6d fs/pstore/ram_core.c                     Anton Vorontsov 2012-06-18  525  		return;
+beeb94321a7a6d fs/pstore/ram_core.c                     Anton Vorontsov 2012-06-18  526  
+beeb94321a7a6d fs/pstore/ram_core.c                     Anton Vorontsov 2012-06-18  527  	if (prz->vaddr) {
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  528  		if (pfn_valid(prz->paddr >> PAGE_SHIFT)) {
+831b624df1b420 fs/pstore/ram_core.c                     Bin Yang        2018-09-12  529  			/* We must vunmap() at page-granularity. */
+831b624df1b420 fs/pstore/ram_core.c                     Bin Yang        2018-09-12  530  			vunmap(prz->vaddr - offset_in_page(prz->paddr));
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  531  		} else {
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11 @532  			iounmap(prz->vaddr);
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  533  			release_mem_region(prz->paddr, prz->size);
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  534  		}
+beeb94321a7a6d fs/pstore/ram_core.c                     Anton Vorontsov 2012-06-18  535  		prz->vaddr = NULL;
+beeb94321a7a6d fs/pstore/ram_core.c                     Anton Vorontsov 2012-06-18  536  	}
+f2531f1976d98a fs/pstore/ram_core.c                     Kees Cook       2018-03-07  537  	if (prz->rs_decoder) {
+f2531f1976d98a fs/pstore/ram_core.c                     Kees Cook       2018-03-07  538  		free_rs(prz->rs_decoder);
+f2531f1976d98a fs/pstore/ram_core.c                     Kees Cook       2018-03-07  539  		prz->rs_decoder = NULL;
+f2531f1976d98a fs/pstore/ram_core.c                     Kees Cook       2018-03-07  540  	}
+f2531f1976d98a fs/pstore/ram_core.c                     Kees Cook       2018-03-07  541  	kfree(prz->ecc_info.par);
+f2531f1976d98a fs/pstore/ram_core.c                     Kees Cook       2018-03-07  542  	prz->ecc_info.par = NULL;
+f2531f1976d98a fs/pstore/ram_core.c                     Kees Cook       2018-03-07  543  
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  544  	persistent_ram_free_old(prz);
+1227daa43bce13 fs/pstore/ram_core.c                     Kees Cook       2018-10-17  545  	kfree(prz->label);
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  546  	kfree(prz);
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  547  }
+d3b487695120b5 drivers/staging/android/persistent_ram.c Anton Vorontsov 2012-05-11  548  
+
+:::::: The code at line 532 was first introduced by commit
+:::::: d3b487695120b5342067244253697eabb121436d staging: android: persistent_ram: Introduce persistent_ram_free()
+
+:::::: TO: Anton Vorontsov <anton.vorontsov@linaro.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
