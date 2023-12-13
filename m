@@ -1,47 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76CA28DC7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 12:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F72660EB;
+	Wed, 13 Dec 2023 12:32:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="io5aNGNx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702469837; x=1734005837;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=clL0PS01VSa/C+qkRIvi/ZNSkBW6EP29eJxNHUDtV80=;
-  b=io5aNGNx2izwZfqtzPrPm+X8xPXtPUYlvlaGlf7v/5zbb382kHoeuv36
-   PhtIO7YdK6vCzrWGx4XicTYlzvNRGdPFqWy+6NnuobPt3h30VRZp1T5B3
-   7msfu0GfRbzgcZqVaqmSu9uLY1adXqR8kcy1T6EZaKkSKhdTEfV2Zr9Jk
-   Zw88sgZC/wsxKTg/F/10/iwhtfcvxwc4NSksllRR6/LGcc2eLnJpX4RUi
-   AyynOJ4IilLA+HM6GMr7NqLEeJPP18SJ7LIjtLGY5zu29NkuXTh7GSj1l
-   M5SeZ56tBdp/e8SquUOdpSMyXYBnBqvuFqzN3R0Keb0NQ8sTAXoCREpqD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="481153983"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="481153983"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 04:17:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="777487828"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="777487828"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 13 Dec 2023 04:17:12 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDOAm-000KWk-1n;
-	Wed, 13 Dec 2023 12:17:08 +0000
-Date: Wed, 13 Dec 2023 20:16:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1/2]
- include/trace/trace_events.h:27:23: warning:
- 'str__delayacct__trace_system_name' defined but not used
-Message-ID: <202312132008.tbziYefP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgUohgwo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24F4BC433C8;
+	Wed, 13 Dec 2023 12:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702470769;
+	bh=vrdMpHk3hes/pW7t5HwtgiIc6BqoYwfb1U2KPkDWxgE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dgUohgwoOyhk6M6Wd7/FpKATne5jZCu9xiDWyOmoagGffRNlTYcsChdGvykCND8fn
+	 plnKDqWey43X6DVHTv14SZisx9rxXTuCin3kQVp/z4hCwvXL8JD+J0LsXGW1v+D+os
+	 RM4xJw8uLWmUECtdtXKkVieONogprH1N/wmuAfmjAGlr21zer0fD2oRef0475J0XYK
+	 MCmOrhKOuj7yg4Jni2BiO3dqo1I8epmsTZZRWM3OuVEgAPZK/A+/WuqYOKtiSr1P/j
+	 igHPxaS0UybluJ8YmZ74QXb3bmx8hgE42BAe520dtWTgJeblq+gXeZ5f9+WBZquiqm
+	 wkp7N1j6pOJ9w==
+Received: from johan by xi.lan with local (Exim 4.96.2)
+	(envelope-from <johan@kernel.org>)
+	id 1rDOPu-0004dw-0X;
+	Wed, 13 Dec 2023 13:32:46 +0100
+Date: Wed, 13 Dec 2023 13:32:46 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Yujie Liu <yujie.liu@intel.com>
+Cc: kernel test robot <lkp@intel.com>,
+	Johan Hovold <johan+linaro@kernel.org>, stable@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] ASoC: qcom: sc8280xp: Limit speaker digital volumes
+Message-ID: <ZXmkbgOqI4D3k7ds@hovoldconsulting.com>
+References: <20231211132608.27861-3-johan+linaro@kernel.org>
+ <ZXdGxI0OrIUKrbcS@be2c62907a9b>
+ <ZXdJZ6yfK0NWz_zj@hovoldconsulting.com>
+ <ZXgedtUhbKEwtSMr@yujie-X299>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,140 +41,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZXgedtUhbKEwtSMr@yujie-X299>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   34d95b5fde142fadf010bf1156228c09ec951cce
-commit: bb57557246d39dba8a66df7f43983fe1ec71bff6 [1/2] ANDROID: Add vendor_hooks to workaround CONFIG_TASK_DELAY_ACCT
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20231213/202312132008.tbziYefP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312132008.tbziYefP-lkp@intel.com/reproduce)
+On Tue, Dec 12, 2023 at 04:48:54PM +0800, Yujie Liu wrote:
+> On Mon, Dec 11, 2023 at 06:39:51PM +0100, Johan Hovold wrote:
+> > On Tue, Dec 12, 2023 at 01:28:36AM +0800, kernel test robot wrote:
+> > > Hi,
+> > > 
+> > > Thanks for your patch.
+> > > 
+> > > FYI: kernel test robot notices the stable kernel rule is not satisfied.
+> > > 
+> > > The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+> > > 
+> > > Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+> > > Subject: [PATCH 2/2] ASoC: qcom: sc8280xp: Limit speaker digital volumes
+>                    ^
+> 
+> > > Link: https://lore.kernel.org/stable/20231211132608.27861-3-johan%2Blinaro%40kernel.org
+> > 
+> > Please fix your robot. This is a series of stable kernel backports so
+> > the above warning makes no sense.
+> 
+> Sorry for this wrong report. We introduced b4 tool into the robot
+> recently to help simplify patch processing, but seems that b4
+> automatically removed the "stable-6.6" prefix in the patch subject when
+> grabbing the mail thread, and triggered this wrong report. We've fixed
+> this issue for the bot just now.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312132008.tbziYefP-lkp@intel.com/
+Perfect, thanks!
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/delayacct.h:65,
-                    from drivers/android/vendor_hooks.c:113:
->> include/trace/trace_events.h:27:23: warning: 'str__delayacct__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/psi.h:25,
-                    from drivers/android/vendor_hooks.c:112:
-   include/trace/trace_events.h:27:23: warning: 'str__psi__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/loop.h:21,
-                    from drivers/android/vendor_hooks.c:111:
-   include/trace/trace_events.h:27:23: warning: 'str__loop__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/direct_io.h:21,
-                    from drivers/android/vendor_hooks.c:110:
-   include/trace/trace_events.h:27:23: warning: 'str__direct_io__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dm.h:21,
-                    from drivers/android/vendor_hooks.c:109:
-   include/trace/trace_events.h:27:23: warning: 'str__dm__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bl_hib.h:44,
-                    from drivers/android/vendor_hooks.c:108:
-   include/trace/trace_events.h:27:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-
-
-vim +/str__delayacct__trace_system_name +27 include/trace/trace_events.h
-
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Johan
