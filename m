@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA387FBD3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 23:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA0C79E0B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 23:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LloksCR/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bV5uMFk6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702509256; x=1734045256;
+  t=1702511177; x=1734047177;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2HhgxzypDa5gBJlL3fVXaMJ/guTw/6vPdE6mdWuZ2Og=;
-  b=LloksCR/GLhUutsFmHEhiWLMR4mrAg1zHBSB41L1dh/2Dqx8WVjPPgad
-   yuEMceYm6U/7PP41UHdiP+6CeFZN7Iypw4ntzYvq84dgPj2NbyhCtHDaf
-   ni3o9LhKWbjAf0lp+ocMyU+sX2Lh19j4+2xLU/9I0PH3FHRjxj/1Pbk3y
-   ON80mN/CMssmBxm8IhIWrcDJVwZAsZTAX+7isWxEf66X0TmbkEOMQM816
-   nBTlTnXX9eHGiTgFd97HfoDWEHuA6rvTmmnXSReWM8oriXv8SRyoEPbPo
-   gd9Z1eZj5gbEa0LPcxqZSdYc8amIYIq+2tz+EHxXlUfEw/1m8FT8nfWWi
+  bh=Kkibd09OWbQ7qyk8+w4xeNQR2v52ToVvpvlYJrSAjC4=;
+  b=bV5uMFk6Y8P6zx8VJ0LZ8rBxp6r9pdxf9H6aUK1VYWs7YJaniQzGOdpv
+   nUTYocnroZVKR/dhERhtcHZ9mSZU7HQZzRaavHBwrQsIKeiR0NPm909Vm
+   xgIlOQd4YtiULIa2xeqNNP3PUbJQNKXuHQR5HEAcWy5bu2LFCkqTSDz2q
+   qeZwnQdTF3Lp0KAIGJG6YZVabnVVrUHziHzn9vOCSU9oRRBUdmq/fewuB
+   Jk5GsV6qAg3+sjOnsCrQVDLWij9bHdyg6npzrv52C5D/ztByXdLkYwhmj
+   6oTaFPr8hrz0oJQVeKGNSisF1dz9a00NZ5TwC2Jm2BPlccYb5+GTxNQfE
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1861555"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1877241"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="1861555"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 15:14:15 -0800
+   d="scan'208";a="1877241"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 15:46:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="844496106"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="947354301"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="844496106"
+   d="scan'208";a="947354301"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Dec 2023 15:14:14 -0800
+  by orsmga005.jf.intel.com with ESMTP; 13 Dec 2023 15:46:15 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDYQe-000LGx-0I;
-	Wed, 13 Dec 2023 23:14:12 +0000
-Date: Thu, 14 Dec 2023 07:13:58 +0800
+	id 1rDYvd-000LIF-19;
+	Wed, 13 Dec 2023 23:46:13 +0000
+Date: Thu, 14 Dec 2023 07:45:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arun Kumar Neelakantam <aneela@codeaurora.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: drivers/rpmsg/qcom_glink_smem.c:93:17: sparse: sparse: incorrect
- type in argument 2 (different address spaces)
-Message-ID: <202312140746.AMlosG0F-lkp@intel.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/bcachefs/backpointers.c:46:5-8: Unneeded variable: "ret". Return
+ "  0" on line 53
+Message-ID: <202312140748.LI8Jmu2W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,48 +52,44 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: 928002a5e9dab2ddc1a0fe3e00739e89be30dc6b rpmsg: glink: smem: Support rx peak for size less than 4 bytes
-date:   5 years ago
-config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231214/202312140746.AMlosG0F-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231214/202312140746.AMlosG0F-lkp@intel.com/reproduce)
+commit: b65db750e2bb9252321fd54c284edd73c1595a09 bcachefs: Enumerate fsck errors
+date:   6 weeks ago
+config: x86_64-randconfig-102-20231213 (https://download.01.org/0day-ci/archive/20231214/202312140748.LI8Jmu2W-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20231214/202312140748.LI8Jmu2W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312140746.AMlosG0F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312140748.LI8Jmu2W-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/rpmsg/qcom_glink_smem.c:93:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *from @@     got void * @@
-   drivers/rpmsg/qcom_glink_smem.c:93:17: sparse:     expected void const volatile [noderef] __iomem *from
-   drivers/rpmsg/qcom_glink_smem.c:93:17: sparse:     got void *
->> drivers/rpmsg/qcom_glink_smem.c:96:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *from @@     got void *fifo @@
-   drivers/rpmsg/qcom_glink_smem.c:96:17: sparse:     expected void const volatile [noderef] __iomem *from
-   drivers/rpmsg/qcom_glink_smem.c:96:17: sparse:     got void *fifo
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/backpointers.c:46:5-8: Unneeded variable: "ret". Return "  0" on line 53
+--
+>> fs/bcachefs/inode.c:404:5-8: Unneeded variable: "ret". Return "  0" on line 437
+   fs/bcachefs/inode.c:617:5-8: Unneeded variable: "ret". Return "  0" on line 623
+--
+>> fs/bcachefs/xattr.c:80:5-8: Unneeded variable: "ret". Return "  0" on line 104
 
-vim +93 drivers/rpmsg/qcom_glink_smem.c
+vim +46 fs/bcachefs/backpointers.c
 
-    78	
-    79	static void glink_smem_rx_peak(struct qcom_glink_pipe *np,
-    80				       void *data, unsigned int offset, size_t count)
-    81	{
-    82		struct glink_smem_pipe *pipe = to_smem_pipe(np);
-    83		size_t len;
-    84		u32 tail;
-    85	
-    86		tail = le32_to_cpu(*pipe->tail);
-    87		tail += offset;
-    88		if (tail >= pipe->native.length)
-    89			tail -= pipe->native.length;
-    90	
-    91		len = min_t(size_t, count, pipe->native.length - tail);
-    92		if (len)
-  > 93			memcpy_fromio(data, pipe->fifo + tail, len);
-    94	
-    95		if (len != count)
-  > 96			memcpy_fromio(data + len, pipe->fifo, (count - len));
-    97	}
-    98	
+    39	
+    40	int bch2_backpointer_invalid(struct bch_fs *c, struct bkey_s_c k,
+    41				     enum bkey_invalid_flags flags,
+    42				     struct printbuf *err)
+    43	{
+    44		struct bkey_s_c_backpointer bp = bkey_s_c_to_backpointer(k);
+    45		struct bpos bucket = bp_pos_to_bucket(c, bp.k->p);
+  > 46		int ret = 0;
+    47	
+    48		bkey_fsck_err_on(!bpos_eq(bp.k->p, bucket_pos_to_bp(c, bucket, bp.v->bucket_offset)),
+    49				 c, err,
+    50				 backpointer_pos_wrong,
+    51				 "backpointer at wrong pos");
+    52	fsck_err:
+  > 53		return ret;
+    54	}
+    55	
 
 -- 
 0-DAY CI Kernel Test Service
