@@ -1,53 +1,66 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384722C1BC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 13:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425602D035
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 13:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XYB6oM2N"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-336420a244dso291959f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 05:19:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702473569; x=1703078369; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EsdXhQ9stE2bZqdJRy9zMQjkiZsUKWSWLUwA06lYnkQ=;
-        b=XYB6oM2NxfXABXpKl+ygAQY3rKEOK9qPeK+T/BtGfKYcd47pngBfuhCbLy073YaeW3
-         H3Wseap/EJTGs/nKd79ZndFSsW3tT6S7CxlxGcnNzH2Adw00LFJYO0gtjKGzrwKLP3Ev
-         yBsqCY9FBUp9Zue1R1733c6vbMXTNTcAMJdtbYOKns3/Q+vIq2/1MjtE4qqkk+OjK4/i
-         skVJtE93tuoovmn5tILJcfOwhlN7Q8yPye71tNBBloE5hRQI86U4fnHO6B5CXpNcvMrS
-         og67S/J6QVuRGjLiwo1wwkakBuImRQxqpx3u1dRIRLJjhtxL/JsueL1lRM4oQQXBvjZr
-         WKqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702473569; x=1703078369;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EsdXhQ9stE2bZqdJRy9zMQjkiZsUKWSWLUwA06lYnkQ=;
-        b=NDj6xraqKMj/Vszc0eOYUte58byIZnIT0uy4rxLkptMZYVNgkMkKgNSmzLGSQhXILx
-         53DpF7g1H3SEIwGdnqeVKB1s5P4XTTsDvU/EMr7cl/gFlnfg6lo3hz9yLpyi1wRZgFXx
-         uEnPmbdmQkAGFTPhitKhC2vA/v1Lm3udd3IXV7+NFpCRtXpA8uTvApTDaI3+m2GRu4rK
-         /QMGnru9qOlqXxjU2rdXFpZAHJW6GDQD4wLGRuctJwlM+lF6sJb/S1IE0ro0azLUzazQ
-         W/OZqCAvfn3W/4pfkQU4zai8wjbjzEz8RdLI1w6vHDQJtWqXBFqpBqSf0UNyBIxRA+Yj
-         pJiQ==
-X-Gm-Message-State: AOJu0Yz5YHhfe/TX8yOixWinDOVIRP6uvzZD4Lgbr1pyUkUlt2bsUpRi
-	flKrB2diHJQs370toX0MZaW2+w==
-X-Google-Smtp-Source: AGHT+IFFLrs9vM6knyPmGlPn6dej6ZlQgDhZz3Yaa7EHmjE5r/WWjNkPTiPL5gEmvXZiHuAy1OYpCQ==
-X-Received: by 2002:adf:e28c:0:b0:333:4a78:c5ee with SMTP id v12-20020adfe28c000000b003334a78c5eemr4118334wri.48.1702473569381;
-        Wed, 13 Dec 2023 05:19:29 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id p18-20020a5d6392000000b003333a216682sm13263376wru.97.2023.12.13.05.19.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 05:19:28 -0800 (PST)
-Date: Wed, 13 Dec 2023 16:19:26 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Charlie Jenkins <charlie@rivosinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: arch/riscv/kernel/module.c:727 add_relocation_to_accumulate() error:
- dereferencing freed memory 'rel_head'
-Message-ID: <17fcf691-e184-4542-b095-bbb4084d031f@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLrpMCjG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702474885; x=1734010885;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UHu+07MBRevDOSW1Tf5iIKC4rfKnsAW4POR/WWx6Gr0=;
+  b=eLrpMCjGQiBgEN5PwajLLh5XAO7sgqmajRyWgE3sDI+rKCk6OAfCtjjN
+   EDLMdtL5EpSp13C3Y6DC2Ht221TlCDdM99GkGdbmsr/z2iayh813TiB8p
+   SmC13S3jHgt7/KByY0W0iaFnYjfElPCqjlx2VzHtI0xx28Uq2xFma83Zj
+   yLJMB+qyeV47v3uumHQ8SJ0NYf7D1A8VjbJJdmTiR5kUUS/g4Td/S5XEo
+   5TmYFg0fUGCBZI+tjgxeHcO8ieWBVmXdZsRK6QCiCOsW8kA/Ui3xLKUIn
+   Gp5Dly5gXFqyIP4xRUvgp1JlGzYggvcFOli3izhoNyXyPMhorRNd8c13Q
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="461439321"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="461439321"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 05:41:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="892023724"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="892023724"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 13 Dec 2023 05:41:17 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDPUB-000Kcx-1a;
+	Wed, 13 Dec 2023 13:41:15 +0000
+Date: Wed, 13 Dec 2023 21:41:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	linux-mm@kvack.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, x86@kernel.org,
+	Eric Biederman <ebiederm@xmission.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	James Gowans <jgowans@amazon.com>,
+	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
+	Anthony Yznaga <anthony.yznaga@oracle.com>,
+	Usama Arif <usama.arif@bytedance.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [PATCH 06/15] arm64: Add KHO support
+Message-ID: <202312132139.g2NKV67G-lkp@intel.com>
+References: <20231213000452.88295-7-graf@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,82 +69,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231213000452.88295-7-graf@amazon.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   88035e5694a86a7167d490bb95e9df97a9bb162b
-commit: d8792a5734b0f3e58b898c2e2f910bfac48e9ee3 riscv: Safely remove entries from relocation list
-config: riscv-randconfig-r071-20231211 (https://download.01.org/0day-ci/archive/20231213/202312132019.iYGTwW0L-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231213/202312132019.iYGTwW0L-lkp@intel.com/reproduce)
+Hi Alexander,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on arm64/for-next/core akpm-mm/mm-everything linus/master v6.7-rc5 next-20231213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20231213-080941
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20231213000452.88295-7-graf%40amazon.com
+patch subject: [PATCH 06/15] arm64: Add KHO support
+config: microblaze-randconfig-r133-20231213 (https://download.01.org/0day-ci/archive/20231213/202312132139.g2NKV67G-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231213/202312132139.g2NKV67G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202312132019.iYGTwW0L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312132139.g2NKV67G-lkp@intel.com/
 
-New smatch warnings:
-arch/riscv/kernel/module.c:727 add_relocation_to_accumulate() error: dereferencing freed memory 'rel_head'
-arch/riscv/kernel/module.c:792 apply_relocate_add() warn: unsigned 'hashtable_bits' is never less than zero.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/of/fdt.c:1012:13: sparse: sparse: symbol 'early_init_dt_check_kho' was not declared. Should it be static?
 
-vim +/rel_head +727 arch/riscv/kernel/module.c
+vim +/early_init_dt_check_kho +1012 drivers/of/fdt.c
 
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  717  		INIT_LIST_HEAD(rel_head->rel_entry);
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  718  		rel_head->location = location;
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  719  		INIT_HLIST_NODE(&rel_head->node);
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  720  		if (!current_head->first) {
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  721  			bucket =
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  722  				kmalloc(sizeof(struct used_bucket), GFP_KERNEL);
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  723  
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  724  			if (!bucket) {
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  725  				kfree(entry);
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  726  				kfree(rel_head);
-d8792a5734b0f3 Charlie Jenkins      2023-11-27 @727  				kfree(rel_head->rel_entry);
-
-Swap these two frees to avoid a use after free.
-
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  728  				return -ENOMEM;
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  729  			}
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  730  
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  731  			INIT_LIST_HEAD(&bucket->head);
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  732  			bucket->bucket = current_head;
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  733  			list_add(&bucket->head, used_buckets_list);
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  734  		}
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  735  		hlist_add_head(&rel_head->node, current_head);
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  736  	}
-
-[ snip ]
-
-e2c0cdfba7f699 Palmer Dabbelt       2017-07-10  773  int apply_relocate_add(Elf_Shdr *sechdrs, const char *strtab,
-e2c0cdfba7f699 Palmer Dabbelt       2017-07-10  774  		       unsigned int symindex, unsigned int relsec,
-e2c0cdfba7f699 Palmer Dabbelt       2017-07-10  775  		       struct module *me)
-e2c0cdfba7f699 Palmer Dabbelt       2017-07-10  776  {
-e2c0cdfba7f699 Palmer Dabbelt       2017-07-10  777  	Elf_Rela *rel = (void *) sechdrs[relsec].sh_addr;
-8cbe0accc4a6ba Emil Renner Berthing 2023-11-01  778  	int (*handler)(struct module *me, void *location, Elf_Addr v);
-e2c0cdfba7f699 Palmer Dabbelt       2017-07-10  779  	Elf_Sym *sym;
-8cbe0accc4a6ba Emil Renner Berthing 2023-11-01  780  	void *location;
-e2c0cdfba7f699 Palmer Dabbelt       2017-07-10  781  	unsigned int i, type;
-e2c0cdfba7f699 Palmer Dabbelt       2017-07-10  782  	Elf_Addr v;
-e2c0cdfba7f699 Palmer Dabbelt       2017-07-10  783  	int res;
-8fd6c5142395a1 Charlie Jenkins      2023-11-01  784  	unsigned int num_relocations = sechdrs[relsec].sh_size / sizeof(*rel);
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  785  	struct hlist_head *relocation_hashtable;
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  786  	struct list_head used_buckets_list;
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  787  	unsigned int hashtable_bits;
-                                                        ^^^^^^^^
-
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  788  
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  789  	hashtable_bits = initialize_relocation_hashtable(num_relocations,
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  790  							 &relocation_hashtable);
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  791  
-d8792a5734b0f3 Charlie Jenkins      2023-11-27 @792  	if (hashtable_bits < 0)
-                                                            ^^^^^^^^^^^^^^^^^^
-Can't be less than zero.
-
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  793  		return hashtable_bits;
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  794  
-d8792a5734b0f3 Charlie Jenkins      2023-11-27  795  	INIT_LIST_HEAD(&used_buckets_list);
+  1008	
+  1009	/**
+  1010	 * early_init_dt_check_kho - Decode info required for kexec handover from DT
+  1011	 */
+> 1012	void __init early_init_dt_check_kho(void)
+  1013	{
+  1014	#ifdef CONFIG_KEXEC_KHO
+  1015		unsigned long node = chosen_node_offset;
+  1016		u64 kho_start, scratch_start, scratch_size, mem_start, mem_size;
+  1017		const __be32 *p;
+  1018		int l;
+  1019	
+  1020		if ((long)node < 0)
+  1021			return;
+  1022	
+  1023		p = of_get_flat_dt_prop(node, "linux,kho-dt", &l);
+  1024		if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
+  1025			return;
+  1026	
+  1027		kho_start = dt_mem_next_cell(dt_root_addr_cells, &p);
+  1028	
+  1029		p = of_get_flat_dt_prop(node, "linux,kho-scratch", &l);
+  1030		if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
+  1031			return;
+  1032	
+  1033		scratch_start = dt_mem_next_cell(dt_root_addr_cells, &p);
+  1034		scratch_size = dt_mem_next_cell(dt_root_addr_cells, &p);
+  1035	
+  1036		p = of_get_flat_dt_prop(node, "linux,kho-mem", &l);
+  1037		if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
+  1038			return;
+  1039	
+  1040		mem_start = dt_mem_next_cell(dt_root_addr_cells, &p);
+  1041		mem_size = dt_mem_next_cell(dt_root_addr_cells, &p);
+  1042	
+  1043		kho_populate(kho_start, scratch_start, scratch_size, mem_start, mem_size);
+  1044	#endif
+  1045	}
+  1046	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
