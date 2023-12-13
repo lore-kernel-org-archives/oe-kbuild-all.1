@@ -1,159 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAA62E854
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 14:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD3E26AC7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 14:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A78VqP77"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702477469; x=1734013469;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T8Uz49/o7EJoTJzyDbNb3dYWTBn+GxZvf7BKX1E73lM=;
-  b=A78VqP77iTtKkyxWgadsCNbVwh1ol9m4EV1NkmhMMHNUYj+SUiDvxQ1v
-   SGSb1Xjelko1DQjM0hlRus2x5wfjVEcdrvjvNtXUycl9wQNn1zF3Z5aKm
-   pEyoxQs39GgECV5oWfm+mcYh8D+KBFrIhkYi4WHw/iIZE5qW0snyWUSzb
-   GDXgm86mST6BnfHYOgBfLcb000NjL48B1n1vcoUEwiAXQYDF7wc/uv3Er
-   Sp9V7Gx/vNc07Dyzq2DnbabsbAhw1AiRmoY5/nRbudK161n3s03hYQOho
-   5awgkkp/1ZzIp+ysbuxEg6G+fm+ln2opnY4gideLBLHdH2wLBNlLclgFH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="426094067"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="426094067"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 06:24:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="892036528"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="892036528"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 13 Dec 2023 06:24:25 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDQ9v-000Kfq-22;
-	Wed, 13 Dec 2023 14:24:23 +0000
-Date: Wed, 13 Dec 2023 22:24:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sidhartha Kumar <sidhartha.kumar@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: [akpm-mm:mm-unstable 208/262] lib/maple_tree.c:5506:30: error:
- 'struct ma_state' has no member named 'end'
-Message-ID: <202312132207.KsGGGt1v-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UfNvGFbb"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-da7ea62e76cso7247200276.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 06:44:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702478647; x=1703083447; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nA9AYgq+Q6lLyujeVI1ujBo0nRXSJrVBxDPsrp2S+R4=;
+        b=UfNvGFbbANFtVViN9TuQLEaUUqtC+es2sQlGKy/FonDi8c01guToXds4Xy0Mxxm0Bp
+         Cl/OG1rIksoakW6TavX0wS1dd3aur6+uuslHvRem/byBHzVIEDhDE21U4DeoGh+uXobl
+         y4bKQ/1Riz8PLH1+KCQNimKV6WRvpHjxHeTIhFgdxyjdaOh/oi5syvaHH+n1ObWp12o6
+         shAJVjyCNrsxHKYU/fyBITH+GV0iXfoRwIPFqvtYd7f+lVnU0i6yhWQoxLjUfBB5UJdt
+         cyg1CcUAOtiDBqCka6hszSyADj7eXzz+HBVZ8PojFEEN7fkOeTzP29Lcpjn5AuCrpKgW
+         b6DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702478647; x=1703083447;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nA9AYgq+Q6lLyujeVI1ujBo0nRXSJrVBxDPsrp2S+R4=;
+        b=hOXBD6G6vKa3Oa3evf2vEQd6g51rmpeGvJAd7fsxOSRdkrCaWH15TBh/j5LiML1yZR
+         +WzOVApu2WvfVzvHndOsSU85I/aexJ7Devgs9Phv2Zl5gSMxeU3xx6e0dd89iLnp1Y/U
+         pIAcP881+C+CQJyPG13p+HxoKYfNiC+qxstfyOLJTK0CeERHY+nzjLidLG6XwOZiHcqN
+         meQJv+Ywpm75O+VhVmZC2J0TYqYm1i2HV1C9ERpIpjsO3ukPeRxo3LsFeLNu3jnWEx80
+         id8KhIlmbkGAJ9VWKMi/2n4MDr7tDJa+RV+UqMqidUIPgJv7tRd3i0n6qT/vtktJqbvh
+         LJmw==
+X-Gm-Message-State: AOJu0Yymynr3IsFDyH0hfRiY96Jsb3Rh91MFabn6ygjbE1t+sYud6xzM
+	uaV35ibFky4txrh94nDVwSC6OOwr9u/5OLnTI6E=
+X-Google-Smtp-Source: AGHT+IEuu9eTC37h0uGuH3d+sHC+1yl29aTiQxb2OyOfh7A8H4bhb370iJVrewUB70HeP25ONnpIil5Z4wLYPKFVIvA=
+X-Received: by 2002:a25:f202:0:b0:dbc:cd3a:aded with SMTP id
+ i2-20020a25f202000000b00dbccd3aadedmr777115ybe.11.1702478647466; Wed, 13 Dec
+ 2023 06:44:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20231130191050.3165862-2-hugo@hugovil.com> <202312061443.Cknef7Uq-lkp@intel.com>
+ <20231207125243.c056d5cd0f875ea6dfdfa194@hugovil.com> <CAHp75VebCZckUrNraYQj9k=Mrn2kbYs1Lx26f5-8rKJ3RXeh-w@mail.gmail.com>
+ <20231212150302.a9ec5d085a4ba65e89ca41af@hugovil.com>
+In-Reply-To: <20231212150302.a9ec5d085a4ba65e89ca41af@hugovil.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 13 Dec 2023 16:43:31 +0200
+Message-ID: <CAHp75Vciqaphicuhs8HY3vmfLaLgHR55ebJbOXR3mw7X+HupSg@mail.gmail.com>
+Subject: Re: [PATCH 1/7] serial: sc16is7xx: fix snprintf format specifier in sc16is7xx_regmap_name()
+To: Hugo Villeneuve <hugo@hugovil.com>
+Cc: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
+	hvilleneuve@dimonoff.com, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   4d9256c0c56bafd76b8b1517916451e168fae495
-commit: 84bda0b24555d3fdf52b56040696ee1ee00700c9 [208/262] maple_tree: do not preallocate nodes for slot stores
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20231213/202312132207.KsGGGt1v-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312132207.KsGGGt1v-lkp@intel.com/reproduce)
+On Tue, Dec 12, 2023 at 10:03=E2=80=AFPM Hugo Villeneuve <hugo@hugovil.com>=
+ wrote:
+> On Thu, 7 Dec 2023 20:24:45 +0200
+> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+> > On Thu, Dec 7, 2023 at 7:52=E2=80=AFPM Hugo Villeneuve <hugo@hugovil.co=
+m> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312132207.KsGGGt1v-lkp@intel.com/
+...
 
-Note: the akpm-mm/mm-unstable HEAD 4d9256c0c56bafd76b8b1517916451e168fae495 builds fine.
-      It only hurts bisectability.
+> > While at it, can you look at the following items to improve?
+> > - sc16is7xx_alloc_line() can be updated to use IDA framework
+> > - move return xxx; to the default cases in a few functions
+> > - if (div > 0xffff) { --> if (div >=3D BIT(16)) { as it better shows wh=
+y
+> > the limit is that (we have only 16 bits for the divider)
+> > - do {} while (0) in the sc16is7xx_port_irq, WTH?!
+> > - while (1) { -- do { } while (keep_polling); in sc16is7xx_irq()
+> > - use in_range() in sc16is7xx_setup_mctrl_ports() ? (maybe not, dunno)
+> > - for (i--; i >=3D 0; i--) { --> while (i--) {
+> > - use spi_get_device_match_data() and i2c_get_match_data()
+> > - 15000000 --> 15 * HZ_PER_MHZ ?
+> > - dropping MODULE_ALIAS (and fix the ID tables, _if_ needed)
+> > - split the code to the core / main + SPI + I2C glue drivers
+> >
+> > * These just come on the first glance at the code, perhaps there is
+> > more room to improve.
+>
+> Hi Andy,
+> just to let you know that I have implemented almost all of the fixes /
+> improvements. I will submit them once V2 of this current series
+> lands in Greg's next tree.
 
-All errors (new ones prefixed by >>):
+Hooray!
 
-   lib/maple_tree.c: In function 'mas_preallocate':
->> lib/maple_tree.c:5506:30: error: 'struct ma_state' has no member named 'end'
-    5506 |         if ((node_size == mas->end) && ((!mt_in_rcu(mas->tree))
-         |                              ^~
+> However, for sc16is7xx_alloc_line(), I looked at using the IDA framework
+> but it doesn't seem possible because there is no IDA function
+> to search if a bit is set, which is a needed functionality.
 
+It can be done via trying to get it, but probably it's uglier than
+current behaviour. Okay, let's leave it as is for now.
 
-vim +5506 lib/maple_tree.c
-
-  5465	
-  5466	/**
-  5467	 * mas_preallocate() - Preallocate enough nodes for a store operation
-  5468	 * @mas: The maple state
-  5469	 * @entry: The entry that will be stored
-  5470	 * @gfp: The GFP_FLAGS to use for allocations.
-  5471	 *
-  5472	 * Return: 0 on success, -ENOMEM if memory could not be allocated.
-  5473	 */
-  5474	int mas_preallocate(struct ma_state *mas, void *entry, gfp_t gfp)
-  5475	{
-  5476		MA_WR_STATE(wr_mas, mas, entry);
-  5477		unsigned char node_size;
-  5478		int request = 1;
-  5479		int ret;
-  5480	
-  5481	
-  5482		if (unlikely(!mas->index && mas->last == ULONG_MAX))
-  5483			goto ask_now;
-  5484	
-  5485		mas_wr_store_setup(&wr_mas);
-  5486		wr_mas.content = mas_start(mas);
-  5487		/* Root expand */
-  5488		if (unlikely(mas_is_none(mas) || mas_is_ptr(mas)))
-  5489			goto ask_now;
-  5490	
-  5491		if (unlikely(!mas_wr_walk(&wr_mas))) {
-  5492			/* Spanning store, use worst case for now */
-  5493			request = 1 + mas_mt_height(mas) * 3;
-  5494			goto ask_now;
-  5495		}
-  5496	
-  5497		/* At this point, we are at the leaf node that needs to be altered. */
-  5498		/* Exact fit, no nodes needed. */
-  5499		if (wr_mas.r_min == mas->index && wr_mas.r_max == mas->last)
-  5500			return 0;
-  5501	
-  5502		mas_wr_end_piv(&wr_mas);
-  5503		node_size = mas_wr_new_end(&wr_mas);
-  5504	
-  5505		/* Slot store, does not require additional nodes */
-> 5506		if ((node_size == mas->end) && ((!mt_in_rcu(mas->tree))
-  5507			|| (wr_mas.offset_end - mas->offset == 1)))
-  5508			return 0;
-  5509	
-  5510		if (node_size >= mt_slots[wr_mas.type]) {
-  5511			/* Split, worst case for now. */
-  5512			request = 1 + mas_mt_height(mas) * 2;
-  5513			goto ask_now;
-  5514		}
-  5515	
-  5516		/* New root needs a singe node */
-  5517		if (unlikely(mte_is_root(mas->node)))
-  5518			goto ask_now;
-  5519	
-  5520		/* Potential spanning rebalance collapsing a node, use worst-case */
-  5521		if (node_size  - 1 <= mt_min_slots[wr_mas.type])
-  5522			request = mas_mt_height(mas) * 2 - 1;
-  5523	
-  5524		/* node store, slot store needs one node */
-  5525	ask_now:
-  5526		mas_node_count_gfp(mas, request, gfp);
-  5527		mas->mas_flags |= MA_STATE_PREALLOC;
-  5528		if (likely(!mas_is_err(mas)))
-  5529			return 0;
-  5530	
-  5531		mas_set_alloc_req(mas, 0);
-  5532		ret = xa_err(mas->node);
-  5533		mas_reset(mas);
-  5534		mas_destroy(mas);
-  5535		mas_reset(mas);
-  5536		return ret;
-  5537	}
-  5538	EXPORT_SYMBOL_GPL(mas_preallocate);
-  5539	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+With Best Regards,
+Andy Shevchenko
