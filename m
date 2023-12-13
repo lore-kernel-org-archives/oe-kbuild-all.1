@@ -1,65 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AED323762;
-	Wed, 13 Dec 2023 11:23:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3433241EC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 11:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nvkSHpZu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZALmO7E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702466592; x=1734002592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EFKlP2H/rVAQxxvmv92h/YY7+JQJiLeLpwP988CiQ8I=;
-  b=nvkSHpZuIvP5VIr94JZomr2SZvU1/Oa0k0gYKu3/m2xO7RM128OuSkxw
-   DYHktUpNv7hToGxLBSXHq/2Y4YmEl/IkBLtvLV14Sttd+OzVyQpe+obpW
-   F9xeBfi4Hs8csOwAefnD0lFdvurTRwnRhbVDwirJHFJF1XJr0zPA4Exii
-   sW0PYA5EU35JDhef73nqJXZuj9UKG18mK5rX2WDp/CgzEHeAN5/OadFuM
-   zDcdeaU/aX+cMrKjMhPI6jIkcDBUXz8PreZ9LGyrH5HTd6X0w78m15a99
-   7CDzMxM9AFfJfqGqwEl4KxSygDzBVb0drPQmA3yog9lsLNpIfLVGTUzn6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394701095"
+  t=1702467185; x=1734003185;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nJJNId47MZlRZH6V7/ofz/FPzb166ydMRCAXOabIzzI=;
+  b=PZALmO7EUWi3/B3CLa1G44liPzkGUDAlLO6a6N3Vp4stYp0dm6OiRwVW
+   g8ItgPLJjXHG7nGsU3bYOFBl63yOqluSI97UahhZn6Byyc1Y4nezJnLLj
+   zSp8HXYQ4lEuGvvkXvy/V/pM8aCMQK3JcJrQdXm0KzVWrfGFzEc4cB9+B
+   2gzxZl/RQ3jh0vwnAWYIvAPovbATDIjGZCWyxOou52qq8oTYiQGWQ96R7
+   vBWnPNfKNmuoDoOOS8WRqX29K990N9FmMTEnMdqqZvEt4k00ipAcKMaZx
+   DNVXcFrBq6nEwMbIEob2UgG3BpyxL1kDMtdf3BapiCwgoa+bNEUNzSNMa
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="394702309"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="394701095"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 03:23:11 -0800
+   d="scan'208";a="394702309"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 03:33:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="802851000"
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="897302956"
 X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="802851000"
+   d="scan'208";a="897302956"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 13 Dec 2023 03:23:04 -0800
+  by orsmga004.jf.intel.com with ESMTP; 13 Dec 2023 03:33:04 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDNKP-000KTb-1L;
-	Wed, 13 Dec 2023 11:23:01 +0000
-Date: Wed, 13 Dec 2023 19:22:33 +0800
+	id 1rDNU5-000KUL-2t;
+	Wed, 13 Dec 2023 11:33:01 +0000
+Date: Wed, 13 Dec 2023 19:32:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	x86@kernel.org, Eric Biederman <ebiederm@xmission.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	James Gowans <jgowans@amazon.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	arnd@arndb.de, pbonzini@redhat.com, madvenka@linux.microsoft.com,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH 06/15] arm64: Add KHO support
-Message-ID: <202312131958.BJ7skdaN-lkp@intel.com>
-References: <20231213000452.88295-7-graf@amazon.com>
+To: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vincent-guittot:sched/system-pressure 11/11]
+ drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202312131958.h69L2bgA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,84 +50,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231213000452.88295-7-graf@amazon.com>
 
-Hi Alexander,
+Hi Vincent,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on arm64/for-next/core akpm-mm/mm-everything linus/master v6.7-rc5 next-20231213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Graf/mm-memblock-Add-support-for-scratch-memory/20231213-080941
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20231213000452.88295-7-graf%40amazon.com
-patch subject: [PATCH 06/15] arm64: Add KHO support
-config: i386-buildonly-randconfig-001-20231213 (https://download.01.org/0day-ci/archive/20231213/202312131958.BJ7skdaN-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312131958.BJ7skdaN-lkp@intel.com/reproduce)
+tree:   https://git.linaro.org/people/vincent.guittot/kernel.git sched/system-pressure
+head:   5844548bc216fd4d47bc8b20f0ff22ac4b14d48d
+commit: 5844548bc216fd4d47bc8b20f0ff22ac4b14d48d [11/11] sched: Rename arch_update_thermal_pressure into arch_update_hw_pressure
+config: parisc-randconfig-r122-20231213 (https://download.01.org/0day-ci/archive/20231213/202312131958.h69L2bgA-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231213/202312131958.h69L2bgA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312131958.BJ7skdaN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312131958.h69L2bgA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+>> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+>> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+>> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+>> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+>> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+>> drivers/base/arch_topology.c:204:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got unsigned long * @@
+   drivers/base/arch_topology.c:204:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/base/arch_topology.c:204:17: sparse:     got unsigned long *
+   drivers/base/arch_topology.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
->> drivers/of/fdt.c:1012:13: warning: no previous prototype for function 'early_init_dt_check_kho' [-Wmissing-prototypes]
-   void __init early_init_dt_check_kho(void)
-               ^
-   drivers/of/fdt.c:1012:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __init early_init_dt_check_kho(void)
-   ^
-   static 
-   1 warning generated.
+vim +204 drivers/base/arch_topology.c
 
-
-vim +/early_init_dt_check_kho +1012 drivers/of/fdt.c
-
-  1008	
-  1009	/**
-  1010	 * early_init_dt_check_kho - Decode info required for kexec handover from DT
-  1011	 */
-> 1012	void __init early_init_dt_check_kho(void)
-  1013	{
-  1014	#ifdef CONFIG_KEXEC_KHO
-  1015		unsigned long node = chosen_node_offset;
-  1016		u64 kho_start, scratch_start, scratch_size, mem_start, mem_size;
-  1017		const __be32 *p;
-  1018		int l;
-  1019	
-  1020		if ((long)node < 0)
-  1021			return;
-  1022	
-  1023		p = of_get_flat_dt_prop(node, "linux,kho-dt", &l);
-  1024		if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
-  1025			return;
-  1026	
-  1027		kho_start = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1028	
-  1029		p = of_get_flat_dt_prop(node, "linux,kho-scratch", &l);
-  1030		if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
-  1031			return;
-  1032	
-  1033		scratch_start = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1034		scratch_size = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1035	
-  1036		p = of_get_flat_dt_prop(node, "linux,kho-mem", &l);
-  1037		if (l != (dt_root_addr_cells + dt_root_size_cells) * sizeof(__be32))
-  1038			return;
-  1039	
-  1040		mem_start = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1041		mem_size = dt_mem_next_cell(dt_root_addr_cells, &p);
-  1042	
-  1043		kho_populate(kho_start, scratch_start, scratch_size, mem_start, mem_size);
-  1044	#endif
-  1045	}
-  1046	
+   164	
+   165	/**
+   166	 * topology_update_hw_pressure() - Update hw pressure for CPUs
+   167	 * @cpus        : The related CPUs for which capacity has been reduced
+   168	 * @capped_freq : The maximum allowed frequency that CPUs can run at
+   169	 *
+   170	 * Update the value of hw pressure for all @cpus in the mask. The
+   171	 * cpumask should include all (online+offline) affected CPUs, to avoid
+   172	 * operating on stale data when hot-plug is used for some CPUs. The
+   173	 * @capped_freq reflects the currently allowed max CPUs frequency due to
+   174	 * hw capping. It might be also a boost frequency value, which is bigger
+   175	 * than the internal 'capacity_freq_ref' max frequency. In such case the
+   176	 * pressure value should simply be removed, since this is an indication that
+   177	 * there is no hw throttling. The @capped_freq must be provided in kHz.
+   178	 */
+   179	void topology_update_hw_pressure(const struct cpumask *cpus,
+   180					      unsigned long capped_freq)
+   181	{
+   182		unsigned long max_capacity, capacity, hw_pressure;
+   183		u32 max_freq;
+   184		int cpu;
+   185	
+   186		cpu = cpumask_first(cpus);
+   187		max_capacity = arch_scale_cpu_capacity(cpu);
+   188		max_freq = arch_scale_freq_ref(cpu);
+   189	
+   190		/*
+   191		 * Handle properly the boost frequencies, which should simply clean
+   192		 * the hw pressure value.
+   193		 */
+   194		if (max_freq <= capped_freq)
+   195			capacity = max_capacity;
+   196		else
+   197			capacity = mult_frac(max_capacity, capped_freq, max_freq);
+   198	
+   199		hw_pressure = max_capacity - capacity;
+   200	
+   201		trace_hw_pressure_update(cpu, hw_pressure);
+   202	
+   203		for_each_cpu(cpu, cpus)
+ > 204			WRITE_ONCE(per_cpu(hw_pressure, cpu), hw_pressure);
+   205	}
+   206	EXPORT_SYMBOL_GPL(topology_update_hw_pressure);
+   207	
 
 -- 
 0-DAY CI Kernel Test Service
