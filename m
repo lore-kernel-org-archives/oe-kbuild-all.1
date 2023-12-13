@@ -1,81 +1,139 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DE26124
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 03:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A88BA28;
+	Wed, 13 Dec 2023 05:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="JK8gUTZX"
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BD2LqBh013286;
-	Tue, 12 Dec 2023 19:25:09 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PPS06212021; bh=oHEWwWS/d+ov9oePzS5N8MzuKRMw9eiK625IUaQWN7E=; b=
-	JK8gUTZXHPvpSOmd5yh39qi5MxiksPE2stT8b+AeTFA9zI3kZRacQz+d6wt0jFtC
-	eLDYTH9SFVtCHY8jxavgvPE6rRfNIw10TC4d/Cr4VN7e6K7Xj1KZD7ftFopaFb2u
-	cyIc7eHhUFmw+BxuHgzie5L46J+0YIluMDSWq9UpwXD5tEA9aMwf9cefNKaQ7mwu
-	YNcaxPvnPtgHqC/zeGDWoaxVyyLh41jkA0/HTHLwhVrhJRv78+YGyXN/dyOijW54
-	F0n/Y4uWjAIcGJzMbMADD5FxxrsiRQ5t2AUUtuW8mzNzBCD4TPMW6wx9wkORy2AM
-	o6e5ms9XJvIc116ttNRURw==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uwyxja1f9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 12 Dec 2023 19:25:09 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 12 Dec 2023 19:25:13 -0800
-Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 12 Dec 2023 19:25:10 -0800
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <lkp@intel.com>
-CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <lizhi.xu@windriver.com>, <mani@kernel.org>, <netdev@vger.kernel.org>,
-        <oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>,
-        <syzbot+006987d1be3586e13555@syzkaller.appspotmail.com>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: [PATCH] radix-tree: fix memory leak in radix_tree_insert
-Date: Wed, 13 Dec 2023 11:25:04 +0800
-Message-ID: <20231213032504.2133661-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <202312120651.92GGXeX4-lkp@intel.com>
-References: <202312120651.92GGXeX4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEXyEv+M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702443614; x=1733979614;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E2++cigaU5epJz8MvyaCLgexIN/en3jBO7RKWMnmda8=;
+  b=hEXyEv+MaRQonEHyWV7MFR+NRwEiNjGZ/fgTwWHn6+P6o7OC+c29qq4t
+   QRHdIIXDVQGFq/rOWDIh1Gohh21ZMkAlJKmx/63PHfq7M9vu16yNRJWl7
+   YIuF5teDr2pybOWWprndqqLJ8TAdFeitA/7iYfW9dgi+75GkE3kdfHWOr
+   8yBiENT4LWSn1FbaqL2iEaNHdLI//7416ZlC6Jj1cBONRp8vnDhJqD/Zi
+   CPCeZW75VLqu6KQUWg5pBxSKE7iEIOyqcO4phj1VKnd0kA70Ee3YD+dMe
+   2FeSa2JNLOccugsJ/Dgv6zOG1UjjLKhP0/r2L2dw1vu0HNUhNhyqyp9Ar
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="8289895"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="8289895"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 21:00:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="1105181391"
+X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
+   d="scan'208";a="1105181391"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 12 Dec 2023 21:00:07 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDHLp-000K5V-2Q;
+	Wed, 13 Dec 2023 05:00:05 +0000
+Date: Wed, 13 Dec 2023 12:59:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	David Epping <david.epping@missinglinkelectronics.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Harini Katakam <harini.katakam@amd.com>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v5 3/3] net: phy: add support for PHY package
+ MMD read/write
+Message-ID: <202312131208.HLapuT6A-lkp@intel.com>
+References: <20231212123743.29829-3-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 9iluF6xhpeAdVt-FoAhNtKxtKrWPHrdW
-X-Proofpoint-GUID: 9iluF6xhpeAdVt-FoAhNtKxtKrWPHrdW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 mlxscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
- bulkscore=0 priorityscore=1501 mlxlogscore=789 adultscore=0 clxscore=1011
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312130022
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231212123743.29829-3-ansuelsmth@gmail.com>
 
-On Tue, 12 Dec 2023 07:16:50 +0800, kernel test robot <lkp@intel.com> wrote:
-> kernel test robot noticed the following build warnings:
->    lib/radix-tree.c:558:24: sparse:     got struct xa_node [noderef] __rcu *parent
-> >> lib/radix-tree.c:653:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *pn @@     got struct xa_node [noderef] __rcu *parent @@
->    lib/radix-tree.c:653:28: sparse:     expected struct xa_node *pn
->   651			struct radix_tree_node *pn;
->   652			while (shift < mmshift && node) {
-> > 653				pn = node->parent;
-It can be clarified here that node->parent is the type just alloced as 
-"struct radix_tree node *", so there is no need to use cast type conversion,  
-Please ignore this warning.
+Hi Christian,
 
-BR,
-Lizhi
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-restructure-__phy_write-read_mmd-to-helper-and-phydev-user/20231212-203921
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231212123743.29829-3-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH v5 3/3] net: phy: add support for PHY package MMD read/write
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20231213/202312131208.HLapuT6A-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231213/202312131208.HLapuT6A-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312131208.HLapuT6A-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/phy/phy-core.c:777: warning: expecting prototype for __phy_package_write_mmd(). Prototype was for phy_package_write_mmd() instead
+
+
+vim +777 drivers/net/phy/phy-core.c
+
+   757	
+   758	/**
+   759	 * __phy_package_write_mmd - write MMD reg relative to PHY package base addr
+   760	 * @phydev: The phy_device struct
+   761	 * @addr_offset: The offset to be added to PHY package base_addr
+   762	 * @devad: The MMD to write to
+   763	 * @regnum: The register on the MMD to write
+   764	 * @val: value to write to @regnum
+   765	 *
+   766	 * Convenience helper for writing a register of an MMD on a given PHY
+   767	 * using the PHY package base address. The base address is added to
+   768	 * the addr_offset value.
+   769	 *
+   770	 * Same calling rules as for phy_write();
+   771	 *
+   772	 * NOTE: It's assumed that the entire PHY package is either C22 or C45.
+   773	 */
+   774	int phy_package_write_mmd(struct phy_device *phydev,
+   775				  unsigned int addr_offset, int devad,
+   776				  u32 regnum, u16 val)
+ > 777	{
+   778		struct phy_package_shared *shared = phydev->shared;
+   779		int addr = shared->base_addr + addr_offset;
+   780		int ret;
+   781	
+   782		if (addr >= PHY_MAX_ADDR)
+   783			return -EIO;
+   784	
+   785		if (regnum > (u16)~0 || devad > 32)
+   786			return -EINVAL;
+   787	
+   788		phy_lock_mdio_bus(phydev);
+   789		ret = mmd_phy_write(phydev->mdio.bus, addr, phydev->is_c45, devad,
+   790				    regnum, val);
+   791		phy_unlock_mdio_bus(phydev);
+   792	
+   793		return ret;
+   794	}
+   795	EXPORT_SYMBOL(phy_package_write_mmd);
+   796	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
