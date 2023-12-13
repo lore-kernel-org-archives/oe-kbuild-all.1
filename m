@@ -1,80 +1,53 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAD826AFD;
-	Wed, 13 Dec 2023 13:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD522C846
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 13:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="B55tobPW";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CjI5e0gF";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wTb1cv0C";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MW5UH5ML"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E22192253E;
-	Wed, 13 Dec 2023 13:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702472450;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fc6oe/XMIOwA5ngedPo5oLgqOy7OCBLCUg0DlfK38Lk=;
-	b=B55tobPWLFHdIJlmeI69FNLLnCE7Vw+40W+lZLgeNLcLKu/cFRCzGxfjbO5+QQzdVnncYB
-	ko+Vg89dv1fg0uoWPOVz9vRb7qY1AL8GOaxl30lJcSSK7jdU9YE3KkbcGjpzQfrAeTqhjS
-	AOJKzaV4CNsZFMK51IybJ/I+Ta7dpGk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702472450;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fc6oe/XMIOwA5ngedPo5oLgqOy7OCBLCUg0DlfK38Lk=;
-	b=CjI5e0gFQcqBTK2Bl+EdnsJR+aQ83XB6Qo/X+peRT2oMBET1lqbIEaCHvHeF2rYHDDvZ7O
-	ld3n6jrp9JvqDpAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702472449;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fc6oe/XMIOwA5ngedPo5oLgqOy7OCBLCUg0DlfK38Lk=;
-	b=wTb1cv0Csna/1yuml5biItuDVVtSajSrMHCBtTOzeYjnD3qFZvt0r3lplQSnPwFfgOYY+G
-	tZJYVmQr27fiWGAm3z43B/Fci7iu+pn2NFWuggpycFgySZKh6w1WIMHsV/QW0M/LwRie1r
-	oGAxzc+TwFMdR92ftayfyuiZgAcm/+o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702472449;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fc6oe/XMIOwA5ngedPo5oLgqOy7OCBLCUg0DlfK38Lk=;
-	b=MW5UH5MLm6+1w4wF+IN4ty4fdtoXToNEAhSUV9UGyTVn96vJcS7rgKsj5YFZPLPBl/fjdF
-	OxpI9LEC0+lD1QAg==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id BC3C313240;
-	Wed, 13 Dec 2023 13:00:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id LG69LQGreWVeJAAAn2gu4w
-	(envelope-from <dsterba@suse.cz>); Wed, 13 Dec 2023 13:00:49 +0000
-Date: Wed, 13 Dec 2023 13:53:58 +0100
-From: David Sterba <dsterba@suse.cz>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>, julia.lawall@inria.fr,
-	clm@fb.com, dsterba@suse.com, baptiste.lepers@gmail.com
-Subject: Re: [paulmck-rcu:frederic.2023.12.08a 29/37]
- fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329'
- declared with 'error' attribute: Need native word sized stores/loads for
- atomicity.
-Message-ID: <20231213125358.GB3001@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <202312091837.cKaPw0Tf-lkp@intel.com>
- <0487d7cc-b906-4a4a-b284-9c79700b4ede@paulmck-laptop>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CPyJ6nH6"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40b5155e154so78822675e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Dec 2023 05:05:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702472710; x=1703077510; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ljMp018ROe4hGaH9/TJ5tyaqo+dyXzOK453gIhBKF1o=;
+        b=CPyJ6nH6O0Vubi80faqW/IIq0yGZ4R80x+SbrYfk1hrnOgJ+oGOEpVRAkyYFOkK/m7
+         sLWD2dOJtBZAPsriWeyDILzyZAkFMrGWLzuJQzyj5r+O55q1kBtr0IdUPLHCgHTJzvoR
+         GtCuyX+bXnDVifLDxWuc+2vuo2pdH1KJjsPf/UdNYu1c5V/fbWUeiWD87WpzquUhV5jD
+         uP76e6WnPgq3qHtVELzGjbuvifY43RaLy4rmbTO/I6TU61oGc+q3W74ZPppNlN8mbRl3
+         wJL9yuCqTWhIdWp1+Xn45qVdD4a8kq0BTTo/vjdIyYQzIVTQOx0sgjIy7DaKj68dLLwc
+         B0XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702472710; x=1703077510;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ljMp018ROe4hGaH9/TJ5tyaqo+dyXzOK453gIhBKF1o=;
+        b=ZIGvGxj1leTdojbsbFCEkh8VfmxVJmRuL4hwR/GlrCgJErQG1h1uCPotMTIQBa1jvj
+         2nwRZCSqqRKFwapAJHGmJIfLC8lQrS9157L+Oih1YWnscr5qSMSGYXKKBQNfmV/252V3
+         xrDKh0tMz9lbuTvaKNv8pIZBEXdicu4hyViYT1nQ9PrHnKITUHXqgzrDkD9CZsE3kFaz
+         3VTA1ON6EBuBkUV7xcdKTd+7PhCQzY7NfPvj5/sQ2BRJGdFz+hfeqRTvCCWUl/QTkXUq
+         rT9uU/NsRWkbGIeL7CwkDnV22wZ7diARCttYXH6BtN5Z0lY0cWBJHvYtFG7XxtJdVGRf
+         sMgQ==
+X-Gm-Message-State: AOJu0YzwMd2ilanYF5FO5GlEb9ULOXknxa6iGTN7q4oigk+4VZABMGYb
+	jSDrTHp78rnNwjLrg8bB3sqglw==
+X-Google-Smtp-Source: AGHT+IFP0pARtXM8ipvYc+9dwbUf4Ofpcumx1/QBxsaaix8XlcRLn+0bMIqoh6xLCXgl5ufWvVY31A==
+X-Received: by 2002:a7b:c40d:0:b0:40c:3150:3d73 with SMTP id k13-20020a7bc40d000000b0040c31503d73mr3704075wmi.247.1702472710386;
+        Wed, 13 Dec 2023 05:05:10 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id bi11-20020a05600c3d8b00b0040c2963e5f3sm20224087wmb.38.2023.12.13.05.05.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 05:05:09 -0800 (PST)
+Date: Wed, 13 Dec 2023 16:05:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Charlie Jenkins <charlie@rivosinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
+ error: uninitialized symbol 'curr_type'.
+Message-ID: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,106 +56,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0487d7cc-b906-4a4a-b284-9c79700b4ede@paulmck-laptop>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Level: 
-X-Spam-Score: -1.50
-X-Spam-Flag: NO
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.50
-X-Spamd-Result: default: False [-1.50 / 50.00];
-	 ARC_NA(0.00)[];
-	 HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 REPLYTO_ADDR_EQ_FROM(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 BAYES_HAM(-3.00)[99.99%];
-	 RCPT_COUNT_SEVEN(0.00)[10];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[intel.com,lists.linux.dev,vger.kernel.org,toxicpanda.com,inria.fr,fb.com,suse.com,gmail.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
 
-On Sat, Dec 09, 2023 at 07:51:30AM -0800, Paul E. McKenney wrote:
-> On Sat, Dec 09, 2023 at 06:20:37PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git frederic.2023.12.08a
-> > head:   37843b5f561a08ae899fb791eeeb5abd992eabe2
-> > commit: 7dd87072d40809e26503f04b79d63290288dbbac [29/37] btrfs: Adjust ->last_trans ordering in btrfs_record_root_in_trans()
-> > config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202312091837.cKaPw0Tf-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
-> >    warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wstring-concatenation'? [-Wunknown-warning-option]
-> >    warning: unknown warning option '-Wmaybe-uninitialized'; did you mean '-Wuninitialized'? [-Wunknown-warning-option]
-> > >> fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329' declared with 'error' attribute: Need native word sized stores/loads for atomicity.
-> >      496 |         if (smp_load_acquire(&root->last_trans) == trans->transid && /* ^^^ */
-> >          |             ^
-> 
-> Ooooh!!!  :-/
-> 
-> From what I can see, the current code can tear this load on 32-bit
-> systems, which can result in bad comparisons and then in failure to wait
-> for a partially complete transaction.
-> 
-> So is btrfs actually supported on 32-bit systems?  If not, would the
-> following patch be appropriate?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cf52eed70e555e864120cfaf280e979e2a035c66
+commit: 8fd6c5142395a106b63c8668e9f4a7106b6a0772 riscv: Add remaining module relocations
+config: riscv-randconfig-r071-20231211 (https://download.01.org/0day-ci/archive/20231213/202312130859.wnkuzVWY-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231213/202312130859.wnkuzVWY-lkp@intel.com/reproduce)
 
-There are limitations on 32bit systems, eg. due to shorter inode numbers
-(ino_t is unsigned long) and that radix-tree/xarray does support only
-unsigned long keys, while we have 64bit identifiers for inodes or tree
-roots.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202312130859.wnkuzVWY-lkp@intel.com/
 
-So far we support that and dropping it completely is I think a big deal,
-like with any possibly used feature. What I've seen there are NAS boxes
-with low power ARM that are 32bit.
+New smatch warnings:
+arch/riscv/kernel/module.c:639 process_accumulated_relocations() error: uninitialized symbol 'curr_type'.
 
-> If btrfs is to be supported on 32-bit systems, from what I can see some
-> major surgery is required, even if a 32-bit counter is wrap-safe for
-> this particular type of transaction.  (But SSDs?  In-memory btrfs
-> filesystems?)
+Old smatch warnings:
+arch/riscv/kernel/module.c:632 process_accumulated_relocations() error: dereferencing freed memory 'rel_entry_iter'
+arch/riscv/kernel/module.c:629 process_accumulated_relocations() error: dereferencing freed memory 'rel_head_iter'
+arch/riscv/kernel/module.c:628 process_accumulated_relocations() error: dereferencing freed memory 'bucket_iter'
 
-We won't probably do any major surgery to support 32bit systems.
+vim +/curr_type +639 arch/riscv/kernel/module.c
 
-> 
-> 							Thanx, Paul
-> 
-> ------------------------------------------------------------------------
-> 
-> diff --git a/fs/btrfs/Kconfig b/fs/btrfs/Kconfig
-> index 4fb925e8c981..4d56158c34f9 100644
-> --- a/fs/btrfs/Kconfig
-> +++ b/fs/btrfs/Kconfig
-> @@ -19,6 +19,7 @@ config BTRFS_FS
->  	select RAID6_PQ
->  	select XOR_BLOCKS
->  	depends on PAGE_SIZE_LESS_THAN_256KB
-> +	depends on 64BIT
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  602  void process_accumulated_relocations(struct module *me)
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  603  {
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  604  	/*
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  605  	 * Only ADD/SUB/SET/ULEB128 should end up here.
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  606  	 *
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  607  	 * Each bucket may have more than one relocation location. All
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  608  	 * relocations for a location are stored in a list in a bucket.
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  609  	 *
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  610  	 * Relocations are applied to a temp variable before being stored to the
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  611  	 * provided location to check for overflow. This also allows ULEB128 to
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  612  	 * properly decide how many entries are needed before storing to
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  613  	 * location. The final value is stored into location using the handler
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  614  	 * for the last relocation to an address.
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  615  	 *
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  616  	 * Three layers of indexing:
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  617  	 *	- Each of the buckets in use
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  618  	 *	- Groups of relocations in each bucket by location address
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  619  	 *	- Each relocation entry for a location address
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  620  	 */
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  621  	struct used_bucket *bucket_iter;
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  622  	struct relocation_head *rel_head_iter;
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  623  	struct relocation_entry *rel_entry_iter;
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  624  	int curr_type;
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  625  	void *location;
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  626  	long buffer;
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  627  
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  628  	list_for_each_entry(bucket_iter, &used_buckets_list, head) {
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  629  		hlist_for_each_entry(rel_head_iter, bucket_iter->bucket, node) {
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  630  			buffer = 0;
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  631  			location = rel_head_iter->location;
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  632  			list_for_each_entry(rel_entry_iter,
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  633  					    rel_head_iter->rel_entry, head) {
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  634  				curr_type = rel_entry_iter->type;
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  635  				reloc_handlers[curr_type].reloc_handler(
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  636  					me, &buffer, rel_entry_iter->value);
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  637  				kfree(rel_entry_iter);
 
-Can we keep the current inefficient smp_* barriers instead of dropping
-the whole 32bit support as an alternative. If the smp_load_acquire are
-better but not strictly necessary for the correctness (from the barriers
-POV) I'd suggest to leave it as-is. We can put comments in case somebody
-wants to optimize it in the future again.
+This kfree() will lead to a NULL dereference on the next iteration
+through the loop.  You need to use list_for_each_entry_safe().
+
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
+8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
+                                                                                       ^^^^^^^^^
+Can the list be empty?  Uninitialized in that case.
+
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  640  				me, location, buffer);
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  641  			kfree(rel_head_iter);
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  642  		}
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  643  		kfree(bucket_iter);
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  644  	}
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  645  
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  646  	kfree(relocation_hashtable);
+8fd6c5142395a1 Charlie Jenkins 2023-11-01  647  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
