@@ -1,38 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F72660EB;
-	Wed, 13 Dec 2023 12:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAD826AFD;
+	Wed, 13 Dec 2023 13:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgUohgwo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24F4BC433C8;
-	Wed, 13 Dec 2023 12:32:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702470769;
-	bh=vrdMpHk3hes/pW7t5HwtgiIc6BqoYwfb1U2KPkDWxgE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dgUohgwoOyhk6M6Wd7/FpKATne5jZCu9xiDWyOmoagGffRNlTYcsChdGvykCND8fn
-	 plnKDqWey43X6DVHTv14SZisx9rxXTuCin3kQVp/z4hCwvXL8JD+J0LsXGW1v+D+os
-	 RM4xJw8uLWmUECtdtXKkVieONogprH1N/wmuAfmjAGlr21zer0fD2oRef0475J0XYK
-	 MCmOrhKOuj7yg4Jni2BiO3dqo1I8epmsTZZRWM3OuVEgAPZK/A+/WuqYOKtiSr1P/j
-	 igHPxaS0UybluJ8YmZ74QXb3bmx8hgE42BAe520dtWTgJeblq+gXeZ5f9+WBZquiqm
-	 wkp7N1j6pOJ9w==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1rDOPu-0004dw-0X;
-	Wed, 13 Dec 2023 13:32:46 +0100
-Date: Wed, 13 Dec 2023 13:32:46 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Johan Hovold <johan+linaro@kernel.org>, stable@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] ASoC: qcom: sc8280xp: Limit speaker digital volumes
-Message-ID: <ZXmkbgOqI4D3k7ds@hovoldconsulting.com>
-References: <20231211132608.27861-3-johan+linaro@kernel.org>
- <ZXdGxI0OrIUKrbcS@be2c62907a9b>
- <ZXdJZ6yfK0NWz_zj@hovoldconsulting.com>
- <ZXgedtUhbKEwtSMr@yujie-X299>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="B55tobPW";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CjI5e0gF";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wTb1cv0C";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MW5UH5ML"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E22192253E;
+	Wed, 13 Dec 2023 13:00:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1702472450;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fc6oe/XMIOwA5ngedPo5oLgqOy7OCBLCUg0DlfK38Lk=;
+	b=B55tobPWLFHdIJlmeI69FNLLnCE7Vw+40W+lZLgeNLcLKu/cFRCzGxfjbO5+QQzdVnncYB
+	ko+Vg89dv1fg0uoWPOVz9vRb7qY1AL8GOaxl30lJcSSK7jdU9YE3KkbcGjpzQfrAeTqhjS
+	AOJKzaV4CNsZFMK51IybJ/I+Ta7dpGk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1702472450;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fc6oe/XMIOwA5ngedPo5oLgqOy7OCBLCUg0DlfK38Lk=;
+	b=CjI5e0gFQcqBTK2Bl+EdnsJR+aQ83XB6Qo/X+peRT2oMBET1lqbIEaCHvHeF2rYHDDvZ7O
+	ld3n6jrp9JvqDpAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1702472449;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fc6oe/XMIOwA5ngedPo5oLgqOy7OCBLCUg0DlfK38Lk=;
+	b=wTb1cv0Csna/1yuml5biItuDVVtSajSrMHCBtTOzeYjnD3qFZvt0r3lplQSnPwFfgOYY+G
+	tZJYVmQr27fiWGAm3z43B/Fci7iu+pn2NFWuggpycFgySZKh6w1WIMHsV/QW0M/LwRie1r
+	oGAxzc+TwFMdR92ftayfyuiZgAcm/+o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1702472449;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fc6oe/XMIOwA5ngedPo5oLgqOy7OCBLCUg0DlfK38Lk=;
+	b=MW5UH5MLm6+1w4wF+IN4ty4fdtoXToNEAhSUV9UGyTVn96vJcS7rgKsj5YFZPLPBl/fjdF
+	OxpI9LEC0+lD1QAg==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id BC3C313240;
+	Wed, 13 Dec 2023 13:00:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id LG69LQGreWVeJAAAn2gu4w
+	(envelope-from <dsterba@suse.cz>); Wed, 13 Dec 2023 13:00:49 +0000
+Date: Wed, 13 Dec 2023 13:53:58 +0100
+From: David Sterba <dsterba@suse.cz>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Josef Bacik <josef@toxicpanda.com>, julia.lawall@inria.fr,
+	clm@fb.com, dsterba@suse.com, baptiste.lepers@gmail.com
+Subject: Re: [paulmck-rcu:frederic.2023.12.08a 29/37]
+ fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329'
+ declared with 'error' attribute: Need native word sized stores/loads for
+ atomicity.
+Message-ID: <20231213125358.GB3001@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <202312091837.cKaPw0Tf-lkp@intel.com>
+ <0487d7cc-b906-4a4a-b284-9c79700b4ede@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -41,34 +83,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZXgedtUhbKEwtSMr@yujie-X299>
+In-Reply-To: <0487d7cc-b906-4a4a-b284-9c79700b4ede@paulmck-laptop>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Level: 
+X-Spam-Score: -1.50
+X-Spam-Flag: NO
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -1.50
+X-Spamd-Result: default: False [-1.50 / 50.00];
+	 ARC_NA(0.00)[];
+	 HAS_REPLYTO(0.30)[dsterba@suse.cz];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 REPLYTO_ADDR_EQ_FROM(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 BAYES_HAM(-3.00)[99.99%];
+	 RCPT_COUNT_SEVEN(0.00)[10];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[intel.com,lists.linux.dev,vger.kernel.org,toxicpanda.com,inria.fr,fb.com,suse.com,gmail.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
 
-On Tue, Dec 12, 2023 at 04:48:54PM +0800, Yujie Liu wrote:
-> On Mon, Dec 11, 2023 at 06:39:51PM +0100, Johan Hovold wrote:
-> > On Tue, Dec 12, 2023 at 01:28:36AM +0800, kernel test robot wrote:
-> > > Hi,
-> > > 
-> > > Thanks for your patch.
-> > > 
-> > > FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> > > 
-> > > The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-> > > 
-> > > Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-> > > Subject: [PATCH 2/2] ASoC: qcom: sc8280xp: Limit speaker digital volumes
->                    ^
-> 
-> > > Link: https://lore.kernel.org/stable/20231211132608.27861-3-johan%2Blinaro%40kernel.org
+On Sat, Dec 09, 2023 at 07:51:30AM -0800, Paul E. McKenney wrote:
+> On Sat, Dec 09, 2023 at 06:20:37PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git frederic.2023.12.08a
+> > head:   37843b5f561a08ae899fb791eeeb5abd992eabe2
+> > commit: 7dd87072d40809e26503f04b79d63290288dbbac [29/37] btrfs: Adjust ->last_trans ordering in btrfs_record_root_in_trans()
+> > config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/config)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312091837.cKaPw0Tf-lkp@intel.com/reproduce)
 > > 
-> > Please fix your robot. This is a series of stable kernel backports so
-> > the above warning makes no sense.
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202312091837.cKaPw0Tf-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    warning: unknown warning option '-Wpacked-not-aligned'; did you mean '-Wpacked-non-pod'? [-Wunknown-warning-option]
+> >    warning: unknown warning option '-Wstringop-truncation'; did you mean '-Wstring-concatenation'? [-Wunknown-warning-option]
+> >    warning: unknown warning option '-Wmaybe-uninitialized'; did you mean '-Wuninitialized'? [-Wunknown-warning-option]
+> > >> fs/btrfs/transaction.c:496:6: error: call to '__compiletime_assert_329' declared with 'error' attribute: Need native word sized stores/loads for atomicity.
+> >      496 |         if (smp_load_acquire(&root->last_trans) == trans->transid && /* ^^^ */
+> >          |             ^
 > 
-> Sorry for this wrong report. We introduced b4 tool into the robot
-> recently to help simplify patch processing, but seems that b4
-> automatically removed the "stable-6.6" prefix in the patch subject when
-> grabbing the mail thread, and triggered this wrong report. We've fixed
-> this issue for the bot just now.
+> Ooooh!!!  :-/
+> 
+> From what I can see, the current code can tear this load on 32-bit
+> systems, which can result in bad comparisons and then in failure to wait
+> for a partially complete transaction.
+> 
+> So is btrfs actually supported on 32-bit systems?  If not, would the
+> following patch be appropriate?
 
-Perfect, thanks!
+There are limitations on 32bit systems, eg. due to shorter inode numbers
+(ino_t is unsigned long) and that radix-tree/xarray does support only
+unsigned long keys, while we have 64bit identifiers for inodes or tree
+roots.
 
-Johan
+So far we support that and dropping it completely is I think a big deal,
+like with any possibly used feature. What I've seen there are NAS boxes
+with low power ARM that are 32bit.
+
+> If btrfs is to be supported on 32-bit systems, from what I can see some
+> major surgery is required, even if a 32-bit counter is wrap-safe for
+> this particular type of transaction.  (But SSDs?  In-memory btrfs
+> filesystems?)
+
+We won't probably do any major surgery to support 32bit systems.
+
+> 
+> 							Thanx, Paul
+> 
+> ------------------------------------------------------------------------
+> 
+> diff --git a/fs/btrfs/Kconfig b/fs/btrfs/Kconfig
+> index 4fb925e8c981..4d56158c34f9 100644
+> --- a/fs/btrfs/Kconfig
+> +++ b/fs/btrfs/Kconfig
+> @@ -19,6 +19,7 @@ config BTRFS_FS
+>  	select RAID6_PQ
+>  	select XOR_BLOCKS
+>  	depends on PAGE_SIZE_LESS_THAN_256KB
+> +	depends on 64BIT
+
+Can we keep the current inefficient smp_* barriers instead of dropping
+the whole 32bit support as an alternative. If the smp_load_acquire are
+better but not strictly necessary for the correctness (from the barriers
+POV) I'd suggest to leave it as-is. We can put comments in case somebody
+wants to optimize it in the future again.
