@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFAF377
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 00:13:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573E2377
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 00:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JhCyr/cF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nR1E7eiP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702512817; x=1734048817;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/jl2kmkMTqGyu6lkpLnjSR9M3/tTTAJWrRkS1p/n0/A=;
-  b=JhCyr/cFhv+26+gSsbrc2JEJS7w5xoyj3SkuP43IGPcWfYPatIgvfKFb
-   JRl8QPXynULwgmh3wQEGobfzj3Msi7SFOlVxKWfQmlinhbmYOtoHt7eDI
-   RU36huGbQPMn3fFQCC5O1JS8shniZNwohLicFVI1eHRk/wxKdbyw8CGd4
-   DYIU22H6dyfeIrU1PU0K48mFQoznZ73KybtRDz8Pc80DuTXSTEEZB1nbH
-   kku9OHXjZAGP/WER67Sm8CW66DbtnpHBRM4ad7totrnfi5AUhC+ufUjT1
-   /JAPH+jZjluWy6AnUbi9vniZY+ghpG5KBH2ODV9Zaf+dGmiLjZC479xPF
+  t=1702513180; x=1734049180;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aarCVYzeHq+Ua5lNYgL0T6ML4iSUsMMnv//09P+T8cg=;
+  b=nR1E7eiPahgfraEzyrybf7+a2vN7gxU/Y1tbyt3ApFalB1InmDprtDoI
+   UYX4Q3NGsC+8v9tS7ZJcBft0ZeG3lvq+cwrlfuY02+bE9st7S0aM/usM1
+   j2r75sLVABNzlnyh42JeQJcGx1iQTaCL9PSLrAffEEGcIkvS3Cy7Rus3z
+   gtuLQ/ozXSuhX04qEkciSeXyUCVHbms6MknmVLJlXQpUtgi/Fh0o4sdRp
+   foSxmVsXQl3OzFyVXXzGDGHhxMHIksBJQyOwHl3xuu3bUBO8nt3dec5Iz
+   1HbjYrTHAyptqidmUjMeWQvS/lYZzf3u4fKcr7FRFTLfrU8NAPgbxI4FD
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="16596997"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="426178793"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="16596997"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 16:13:36 -0800
+   d="scan'208";a="426178793"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 16:19:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="844509613"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="892225296"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="844509613"
+   d="scan'208";a="892225296"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Dec 2023 16:13:34 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 13 Dec 2023 16:19:37 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDZM4-000LK6-2S;
-	Thu, 14 Dec 2023 00:13:32 +0000
-Date: Thu, 14 Dec 2023 08:09:10 +0800
+	id 1rDZRv-000LKR-1O;
+	Thu, 14 Dec 2023 00:19:35 +0000
+Date: Thu, 14 Dec 2023 08:19:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu Kuai <yukuai1@huaweicloud.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v2 for-6.8/block 04/18] mtd: block2mtd: use bdev apis
-Message-ID: <202312140712.mwReKJAj-lkp@intel.com>
-References: <20231211140552.973290-5-yukuai1@huaweicloud.com>
+To: Marco Elver <elver@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202312140845.mtTYivLr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,125 +51,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231211140552.973290-5-yukuai1@huaweicloud.com>
 
-Hi Yu,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tytso-ext4/dev]
-[also build test ERROR on axboe-block/for-next kdave/for-next linus/master v6.7-rc5]
-[cannot apply to next-20231213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/block-add-some-bdev-apis/20231211-221732
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20231211140552.973290-5-yukuai1%40huaweicloud.com
-patch subject: [PATCH RFC v2 for-6.8/block 04/18] mtd: block2mtd: use bdev apis
-config: i386-randconfig-003-20231214 (https://download.01.org/0day-ci/archive/20231214/202312140712.mwReKJAj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312140712.mwReKJAj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
+commit: 90db9dbedd26ce029f3a0f8d2cbd3a142f452408 kasan, powerpc: don't rename memintrinsics if compiler adds prefixes
+date:   9 months ago
+config: powerpc-randconfig-r132-20231117 (https://download.01.org/0day-ci/archive/20231214/202312140845.mtTYivLr-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231214/202312140845.mtTYivLr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312140712.mwReKJAj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312140845.mtTYivLr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/video/fbdev/atmel_lcdfb.c:334:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void * @@
+   drivers/video/fbdev/atmel_lcdfb.c:334:27: sparse:     expected char [noderef] __iomem *screen_base
+   drivers/video/fbdev/atmel_lcdfb.c:334:27: sparse:     got void *
+   drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse:     expected void const *
+   drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse:     got char [noderef] __iomem *screen_base
+   drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse:     expected void const *
+   drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse:     got char [noderef] __iomem *screen_base
+>> drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse:     expected void *p
+   drivers/video/fbdev/atmel_lcdfb.c:342:9: sparse:     got char [noderef] __iomem *screen_base
+   drivers/video/fbdev/atmel_lcdfb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:246:46: sparse: sparse: self-comparison always evaluates to false
+   drivers/video/fbdev/atmel_lcdfb.c:313:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/atmel_lcdfb.c:313:59: sparse:     expected void *cpu_addr
+   drivers/video/fbdev/atmel_lcdfb.c:313:59: sparse:     got char [noderef] __iomem *screen_base
+   drivers/video/fbdev/atmel_lcdfb.c:313:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
+   drivers/video/fbdev/atmel_lcdfb.c:313:59: sparse:     expected void *cpu_addr
+   drivers/video/fbdev/atmel_lcdfb.c:313:59: sparse:     got char [noderef] __iomem *screen_base
+--
+   drivers/mtd/nand/raw/hisi504_nand.c:362:26: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/mtd/nand/raw/hisi504_nand.c:367:26: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     got void [noderef] __iomem *mmio
+>> drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     expected void *p
+   drivers/mtd/nand/raw/hisi504_nand.c:465:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     expected void *p
+   drivers/mtd/nand/raw/hisi504_nand.c:477:17: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     expected void const *
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got void [noderef] __iomem *mmio @@
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     expected void *p
+   drivers/mtd/nand/raw/hisi504_nand.c:603:9: sparse:     got void [noderef] __iomem *mmio
+   drivers/mtd/nand/raw/hisi504_nand.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:246:46: sparse: sparse: self-comparison always evaluates to false
 
-   ld: drivers/mtd/devices/block2mtd.o: in function `add_device':
->> drivers/mtd/devices/block2mtd.c:289: undefined reference to `__moddi3'
+vim +342 drivers/video/fbdev/atmel_lcdfb.c
 
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  316  
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  317  /**
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  318   *	atmel_lcdfb_alloc_video_memory - Allocate framebuffer memory
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  319   *	@sinfo: the frame buffer to allocate memory for
+1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  320   * 	
+1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  321   * 	This function is called only from the atmel_lcdfb_probe()
+1d01e83557105e drivers/video/atmel_lcdfb.c       Krzysztof Helt     2009-07-08  322   * 	so no locking by fb_info->mm_lock around smem_len setting is needed.
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  323   */
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  324  static int atmel_lcdfb_alloc_video_memory(struct atmel_lcdfb_info *sinfo)
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  325  {
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  326  	struct fb_info *info = sinfo->info;
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  327  	struct fb_var_screeninfo *var = &info->var;
+ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  328  	unsigned int smem_len;
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  329  
+ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  330  	smem_len = (var->xres_virtual * var->yres_virtual
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  331  		    * ((var->bits_per_pixel + 7) / 8));
+ea757acad5a518 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-08-12  332  	info->fix.smem_len = max(smem_len, sinfo->smem_len);
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  333  
+f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  334  	info->screen_base = dma_alloc_wc(info->device, info->fix.smem_len,
+f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  335  					 (dma_addr_t *)&info->fix.smem_start,
+f6e45661f9be54 drivers/video/fbdev/atmel_lcdfb.c Luis R. Rodriguez  2016-01-22  336  					 GFP_KERNEL);
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  337  
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  338  	if (!info->screen_base) {
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  339  		return -ENOMEM;
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  340  	}
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  341  
+01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28 @342  	memset(info->screen_base, 0, info->fix.smem_len);
+01d3a5e7fab773 drivers/video/atmel_lcdfb.c       Haavard Skinnemoen 2008-04-28  343  
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  344  	return 0;
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  345  }
+14340586148e7c drivers/video/atmel_lcdfb.c       Nicolas Ferre      2007-05-10  346  
 
-vim +289 drivers/mtd/devices/block2mtd.c
+:::::: The code at line 342 was first introduced by commit
+:::::: 01d3a5e7fab7732cfc5d5d4533e9378ea435295a atmel_lcdfb: don't initialize a pre-allocated framebuffer
 
-   255	
-   256	static struct block2mtd_dev *add_device(char *devname, int erase_size,
-   257			char *label, int timeout)
-   258	{
-   259		const blk_mode_t mode = BLK_OPEN_READ | BLK_OPEN_WRITE;
-   260		struct bdev_handle *bdev_handle;
-   261		struct block_device *bdev;
-   262		struct block2mtd_dev *dev;
-   263		char *name;
-   264	
-   265		if (!devname)
-   266			return NULL;
-   267	
-   268		dev = kzalloc(sizeof(struct block2mtd_dev), GFP_KERNEL);
-   269		if (!dev)
-   270			return NULL;
-   271	
-   272		/* Get a handle on the device */
-   273		bdev_handle = bdev_open_by_path(devname, mode, dev, NULL);
-   274		if (IS_ERR(bdev_handle))
-   275			bdev_handle = mdtblock_early_get_bdev(devname, mode, timeout,
-   276							      dev);
-   277		if (IS_ERR(bdev_handle)) {
-   278			pr_err("error: cannot open device %s\n", devname);
-   279			goto err_free_block2mtd;
-   280		}
-   281		dev->bdev_handle = bdev_handle;
-   282		bdev = bdev_handle->bdev;
-   283	
-   284		if (MAJOR(bdev->bd_dev) == MTD_BLOCK_MAJOR) {
-   285			pr_err("attempting to use an MTD device as a block device\n");
-   286			goto err_free_block2mtd;
-   287		}
-   288	
- > 289		if (bdev_nr_bytes(bdev) % erase_size) {
-   290			pr_err("erasesize must be a divisor of device size\n");
-   291			goto err_free_block2mtd;
-   292		}
-   293	
-   294		mutex_init(&dev->write_mutex);
-   295	
-   296		/* Setup the MTD structure */
-   297		/* make the name contain the block device in */
-   298		if (!label)
-   299			name = kasprintf(GFP_KERNEL, "block2mtd: %s", devname);
-   300		else
-   301			name = kstrdup(label, GFP_KERNEL);
-   302		if (!name)
-   303			goto err_destroy_mutex;
-   304	
-   305		dev->mtd.name = name;
-   306	
-   307		dev->mtd.size = bdev_nr_bytes(bdev) & PAGE_MASK;
-   308		dev->mtd.erasesize = erase_size;
-   309		dev->mtd.writesize = 1;
-   310		dev->mtd.writebufsize = PAGE_SIZE;
-   311		dev->mtd.type = MTD_RAM;
-   312		dev->mtd.flags = MTD_CAP_RAM;
-   313		dev->mtd._erase = block2mtd_erase;
-   314		dev->mtd._write = block2mtd_write;
-   315		dev->mtd._sync = block2mtd_sync;
-   316		dev->mtd._read = block2mtd_read;
-   317		dev->mtd.priv = dev;
-   318		dev->mtd.owner = THIS_MODULE;
-   319	
-   320		if (mtd_device_register(&dev->mtd, NULL, 0)) {
-   321			/* Device didn't get added, so free the entry */
-   322			goto err_destroy_mutex;
-   323		}
-   324	
-   325		list_add(&dev->list, &blkmtd_device_list);
-   326		pr_info("mtd%d: [%s] erase_size = %dKiB [%d]\n",
-   327			dev->mtd.index,
-   328			label ? label : dev->mtd.name + strlen("block2mtd: "),
-   329			dev->mtd.erasesize >> 10, dev->mtd.erasesize);
-   330		return dev;
-   331	
-   332	err_destroy_mutex:
-   333		mutex_destroy(&dev->write_mutex);
-   334	err_free_block2mtd:
-   335		block2mtd_free_device(dev);
-   336		return NULL;
-   337	}
-   338	
+:::::: TO: Haavard Skinnemoen <hskinnemoen@atmel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
