@@ -1,46 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C762D3E479
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 11:01:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0238C3F8ED
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 11:24:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2WU6V44"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RggZ8mmp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702551703; x=1734087703;
+  t=1702553080; x=1734089080;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ww0WnfBytmnbi/hhuXlo4KHRICoOT5JGI4gpmAcOWsk=;
-  b=C2WU6V44H5YAk4EqSdQc0Ba9pyyZvuMUPj/W36a73GgnO1OoczoMnW+M
-   dxiN6+iPaR3fYpQBFr+U5FcfvRa4n/RON4VZpc+JgRgKxRxcd0xIRJKaF
-   3AW1n/IhOuEd34VQDsbKiNhnBR6FoOP7S8WkUjKlNADDEWRAvEb/0CBej
-   DEkWQQTCJoCI8hL1BDj//stw9KLmn0zAsYQ4Q+sIq2LZ0BrZUrzHDkxYe
-   KCFvFXWk59MCbz+8znAXzd2aQ3A5sc5xcvuHm4okORovsKU7t+0Wa04QI
-   /p7ZH8414q9BQCColNXOjpiQsgWarprtmc+eqQqllGoCiDRKgJHS55/Bd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="459425512"
+  bh=rerZwQ0/qZqP1HXezOIkE+k7M/FVoApEw2Eamlkzvq8=;
+  b=RggZ8mmpFVD7uEF+gkIEv8SjcicydEh7/Hys01euyfl2Krx2IyxWlMfd
+   rlKd7pgi5hseMxOHVB9YcnJxLgOOU4OUnElda3hYQ6G5adfOTOw7YVjW6
+   QZGksj544+SGedN2EjIq0NHBcRTMKXMpT5WFv719nKV7meh2zicKCheEM
+   TTPUl8DoWbqpy+ka9EeG++kwSu611C8fazUNSXq3TyS6oqTBLWD9JDzeM
+   NpNmwLwNAxLNO2HsSOS/3yzxnbhvhvATSxw8zh9qDOuRb7ZaPC4ejM84n
+   D305cVF04z8BpDlm5jlHFFXs8oevJDUzAJStRQOJwdarLFLOUkYW2f8h+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="394852257"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="459425512"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:01:38 -0800
+   d="scan'208";a="394852257"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:24:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="918020206"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="808553178"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="918020206"
+   d="scan'208";a="808553178"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Dec 2023 03:01:37 -0800
+  by orsmga001.jf.intel.com with ESMTP; 14 Dec 2023 03:24:38 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDjTD-000LxV-0a;
-	Thu, 14 Dec 2023 11:01:35 +0000
-Date: Thu, 14 Dec 2023 19:01:33 +0800
+	id 1rDjpT-000Ly7-2q;
+	Thu, 14 Dec 2023 11:24:35 +0000
+Date: Thu, 14 Dec 2023 19:24:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 19/276] mm/vmscan.c:905:15: error: no
- previous prototype for 'shrink_slab'
-Message-ID: <202312141835.MIj0tKok-lkp@intel.com>
+To: Shravan Kumar Ramani <shravankr@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	David Thompson <davthompson@nvidia.com>
+Subject: drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202312141958.5gJeiJvT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,102 +53,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   5feaf92b247cfa3dd98eefa2915dfb3b305ac2d2
-commit: 8c19c1e07e377ecbdfab11afa8faca6d9f12a41d [19/276] ANDROID: vendor_hooks: export shrink_slab
-config: x86_64-sof-customedconfig-atom-defconfig (https://download.01.org/0day-ci/archive/20231214/202312141835.MIj0tKok-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141835.MIj0tKok-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
+commit: 423c3361855c1e81f1cb91728a2ac5ddfd2cbf16 platform/mellanox: mlxbf-pmc: Add support for BlueField-3
+date:   3 months ago
+config: arm64-randconfig-r121-20231116 (https://download.01.org/0day-ci/archive/20231214/202312141958.5gJeiJvT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231214/202312141958.5gJeiJvT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141835.MIj0tKok-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141958.5gJeiJvT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse:     expected void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1172:14: sparse:     got void [noderef] __iomem *
+>> drivers/platform/mellanox/mlxbf-pmc.c:1174:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1174:31: sparse:     expected void [noderef] __iomem *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1174:31: sparse:     got void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1186:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1186:32: sparse:     expected void [noderef] __iomem *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1186:32: sparse:     got void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1194:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1194:14: sparse:     expected void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1194:14: sparse:     got void [noderef] __iomem *
+   drivers/platform/mellanox/mlxbf-pmc.c:1198:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1198:32: sparse:     expected void [noderef] __iomem *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1198:32: sparse:     got void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1415:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1415:14: sparse:     expected void *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1415:14: sparse:     got void [noderef] __iomem *
+   drivers/platform/mellanox/mlxbf-pmc.c:1417:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *addr @@
+   drivers/platform/mellanox/mlxbf-pmc.c:1417:31: sparse:     expected void [noderef] __iomem *addr
+   drivers/platform/mellanox/mlxbf-pmc.c:1417:31: sparse:     got void *addr
 
->> mm/vmscan.c:905:15: error: no previous prototype for 'shrink_slab' [-Werror=missing-prototypes]
-     905 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^~~~~~~~~~~
-   mm/vmscan.c: In function 'demote_page_list':
-   mm/vmscan.c:1357:13: error: variable 'err' set but not used [-Werror=unused-but-set-variable]
-    1357 |         int err;
-         |             ^~~
-   cc1: all warnings being treated as errors
+vim +1172 drivers/platform/mellanox/mlxbf-pmc.c
 
-
-vim +/shrink_slab +905 mm/vmscan.c
-
-   884	
-   885	/**
-   886	 * shrink_slab - shrink slab caches
-   887	 * @gfp_mask: allocation context
-   888	 * @nid: node whose slab caches to target
-   889	 * @memcg: memory cgroup whose slab caches to target
-   890	 * @priority: the reclaim priority
-   891	 *
-   892	 * Call the shrink functions to age shrinkable caches.
-   893	 *
-   894	 * @nid is passed along to shrinkers with SHRINKER_NUMA_AWARE set,
-   895	 * unaware shrinkers will receive a node id of 0 instead.
-   896	 *
-   897	 * @memcg specifies the memory cgroup to target. Unaware shrinkers
-   898	 * are called only if it is the root cgroup.
-   899	 *
-   900	 * @priority is sc->priority, we take the number of objects and >> by priority
-   901	 * in order to get the scan target.
-   902	 *
-   903	 * Returns the number of reclaimed slab objects.
-   904	 */
- > 905	unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-   906					 struct mem_cgroup *memcg,
-   907					 int priority)
-   908	{
-   909		unsigned long ret, freed = 0;
-   910		struct shrinker *shrinker;
-   911	
-   912		/*
-   913		 * The root memcg might be allocated even though memcg is disabled
-   914		 * via "cgroup_disable=memory" boot parameter.  This could make
-   915		 * mem_cgroup_is_root() return false, then just run memcg slab
-   916		 * shrink, but skip global shrink.  This may result in premature
-   917		 * oom.
-   918		 */
-   919		if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
-   920			return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
-   921	
-   922		if (!down_read_trylock(&shrinker_rwsem))
-   923			goto out;
-   924	
-   925		list_for_each_entry(shrinker, &shrinker_list, list) {
-   926			struct shrink_control sc = {
-   927				.gfp_mask = gfp_mask,
-   928				.nid = nid,
-   929				.memcg = memcg,
-   930			};
-   931	
-   932			ret = do_shrink_slab(&sc, shrinker, priority);
-   933			if (ret == SHRINK_EMPTY)
-   934				ret = 0;
-   935			freed += ret;
-   936			/*
-   937			 * Bail out if someone want to register a new shrinker to
-   938			 * prevent the registration from being stalled for long periods
-   939			 * by parallel ongoing shrinking.
-   940			 */
-   941			if (rwsem_is_contended(&shrinker_rwsem)) {
-   942				freed = freed ? : 1;
-   943				break;
-   944			}
-   945		}
-   946	
-   947		up_read(&shrinker_rwsem);
-   948	out:
-   949		cond_resched();
-   950		return freed;
-   951	}
-   952	EXPORT_SYMBOL_GPL(shrink_slab);
-   953	
+  1163	
+  1164	/* Method to handle crspace counter programming */
+  1165	static int mlxbf_pmc_program_crspace_counter(int blk_num, uint32_t cnt_num,
+  1166						     uint32_t evt)
+  1167	{
+  1168		uint32_t word;
+  1169		void *addr;
+  1170		int ret;
+  1171	
+> 1172		addr = pmc->block[blk_num].mmio_base +
+  1173			(rounddown(cnt_num, 2) * MLXBF_PMC_CRSPACE_PERFSEL_SZ);
+> 1174		ret = mlxbf_pmc_readl(addr, &word);
+  1175		if (ret)
+  1176			return ret;
+  1177	
+  1178		if (cnt_num % 2) {
+  1179			word &= ~MLXBF_PMC_CRSPACE_PERFSEL1;
+  1180			word |= FIELD_PREP(MLXBF_PMC_CRSPACE_PERFSEL1, evt);
+  1181		} else {
+  1182			word &= ~MLXBF_PMC_CRSPACE_PERFSEL0;
+  1183			word |= FIELD_PREP(MLXBF_PMC_CRSPACE_PERFSEL0, evt);
+  1184		}
+  1185	
+  1186		return mlxbf_pmc_write(addr, MLXBF_PMC_WRITE_REG_32, word);
+  1187	}
+  1188	
 
 -- 
 0-DAY CI Kernel Test Service
