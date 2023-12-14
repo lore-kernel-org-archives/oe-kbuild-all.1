@@ -1,58 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58440364A5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 09:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC5135F0A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 09:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFR7f0gg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HA1KkHWo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1702547801; x=1734083801;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RqiCkuGCEaun1cH6jxYGjDo0sb5DoR/NddNRX5ci++o=;
-  b=YFR7f0ggx7pvKRdxPqfAJWk6muVAmlWTeUeeTcfwXEpqy/LYTgnaE5AG
-   t2qgsAzDrYrvaXFmVI3r9PEIOHZFM2uFK4CxU0WSBAJywcCoAH+d9bTw9
-   E1gxsTDL8zVXy/qJVmUaMk+dewM/Xe7i+0U8n2Hrfd+7VHURfrnWfohUn
-   5BPi/yazk8JyE7oG1m9/IXcPlXUhjSkHJfMhqXoVEJVLzX4+M7wAoey5N
-   7Xi4DOB/x9SKlmUUUkvkazo+1IRE6ZNaSJLPcobbv5BgCfL0INuDFBiUv
-   f049gnR1Ao/rtOVDIkJxmkdqWSc27uNoKTG98sr3+9ZquS488O6c2eAn6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="459419581"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RqJZp62Ztj1vHsYr9yGB9aYLvwWDNYtgJt7JK3oUqz0=;
+  b=HA1KkHWoRKF/Iy9yWD8u9rem5iiKWvStXBWB82/77mhwPWpeWA+VnywA
+   QD4LbaVVHrH34GHzO3b24ZbXOcBov6udzCMD+Lef0t3/O9N7GodMA3p7U
+   OwQ0xhC0nEy05UhLPjrKVyknC1lK6mNMA33PgwP4BaxaIb+0XCZwnCNb8
+   azMMFSZHx2BdjQxTvHBxbmZKZJa0m5I2aXHVgKKOfJ+PwGA0HByCqV8vN
+   56dBi5I2YX2TdDkMzKCahryBUetvB32ny08suRQEnD9MhxMxO7EX3d1be
+   sLdDjjG9zWH4KHsddsqxOV9pud74/OyAhnlKI4yDnSTH7as5G8G5z0Gyj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="398933032"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="459419581"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 01:56:40 -0800
+   d="scan'208";a="398933032"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 01:56:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1021452328"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="864967905"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="1021452328"
+   d="scan'208";a="864967905"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Dec 2023 01:56:33 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Dec 2023 01:56:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDiSE-000LsP-36;
-	Thu, 14 Dec 2023 09:56:30 +0000
-Date: Thu, 14 Dec 2023 17:56:13 +0800
+	id 1rDiSF-000LsR-05;
+	Thu, 14 Dec 2023 09:56:31 +0000
+Date: Thu, 14 Dec 2023 17:56:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, x86@kernel.org,
-	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
-	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
-Subject: Re: [PATCH v3 01/11] mm/mempolicy: implement the sysfs-based
- weighted_interleave interface
-Message-ID: <202312141733.PALHOosm-lkp@intel.com>
-References: <20231213224118.1949-2-gregory.price@memverge.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-lib 2/39] ld: arch/x86/include/asm/atomic.h:23:
+ undefined reference to `__tracepoint_fscache_access_volume'
+Message-ID: <202312141717.487gMDH6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,96 +49,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231213224118.1949-2-gregory.price@memverge.com>
 
-Hi Gregory,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on geert-m68k/for-next geert-m68k/for-linus deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master tip/x86/asm v6.7-rc5 next-20231214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231214-064236
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231213224118.1949-2-gregory.price%40memverge.com
-patch subject: [PATCH v3 01/11] mm/mempolicy: implement the sysfs-based weighted_interleave interface
-config: x86_64-randconfig-161-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141733.PALHOosm-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-lib
+head:   0e2ac5291cc1c3c45e5ee784357b3f51b611195f
+commit: f226a193dad5bb11b03dec94d3d2d1daff3db91f [2/39] netfs, fscache: Combine fscache with netfs
+config: x86_64-randconfig-073-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141717.487gMDH6-lkp@intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141733.PALHOosm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141717.487gMDH6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141733.PALHOosm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141717.487gMDH6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kobject.h:20,
-                    from include/linux/energy_model.h:7,
-                    from include/linux/device.h:16,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from include/linux/static_call.h:135,
-                    from include/linux/tracepoint.h:22,
-                    from include/trace/events/tlb.h:9,
-                    from arch/x86/include/asm/mmu_context.h:10,
-                    from include/linux/mmu_context.h:5,
-                    from include/linux/cpuset.h:18,
-                    from mm/mempolicy.c:83:
-   mm/mempolicy.c: In function 'add_weight_node':
->> mm/mempolicy.c:3145:28: error: 'struct iw_node_attr' has no member named 'attr'
-    3145 |  sysfs_attr_init(&node_attr->attr);
-         |                            ^~
-   include/linux/sysfs.h:55:3: note: in definition of macro 'sysfs_attr_init'
-      55 |  (attr)->key = &__key;    \
-         |   ^~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_I915_DEBUG_GEM
-   Depends on [n]: HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && DRM_I915_WERROR [=n]
-   Selected by [m]:
-   - DRM_I915_DEBUG [=y] && HAS_IOMEM [=y] && DRM_I915 [=m] && EXPERT [=y] && !COMPILE_TEST [=n]
-
-
-vim +3145 mm/mempolicy.c
-
-  3129	
-  3130	static int add_weight_node(int nid, struct kobject *wi_kobj)
-  3131	{
-  3132		struct iw_node_attr *node_attr;
-  3133		char *name;
-  3134	
-  3135		node_attr = kzalloc(sizeof(*node_attr), GFP_KERNEL);
-  3136		if (!node_attr)
-  3137			return -ENOMEM;
-  3138	
-  3139		name = kasprintf(GFP_KERNEL, "node%d", nid);
-  3140		if (!name) {
-  3141			kfree(node_attr);
-  3142			return -ENOMEM;
-  3143		}
-  3144	
-> 3145		sysfs_attr_init(&node_attr->attr);
-  3146		node_attr->kobj_attr.attr.name = name;
-  3147		node_attr->kobj_attr.attr.mode = 0644;
-  3148		node_attr->kobj_attr.show = node_show;
-  3149		node_attr->kobj_attr.store = node_store;
-  3150		node_attr->nid = nid;
-  3151	
-  3152		if (sysfs_create_file(wi_kobj, &node_attr->kobj_attr.attr)) {
-  3153			kfree(node_attr->kobj_attr.attr.name);
-  3154			kfree(node_attr);
-  3155			pr_err("failed to add attribute to weighted_interleave\n");
-  3156			return -ENOMEM;
-  3157		}
-  3158	
-  3159		node_attrs[nid] = node_attr;
-  3160		return 0;
-  3161	}
-  3162	
+   ld: vmlinux.o: in function `instrument_atomic_read_write':
+   include/linux/instrumented.h:96: undefined reference to `fscache_n_no_create_space'
+   ld: vmlinux.o: in function `arch_atomic_inc':
+   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_no_create_space'
+   ld: vmlinux.o: in function `instrument_atomic_read_write':
+   include/linux/instrumented.h:96: undefined reference to `fscache_n_no_write_space'
+   ld: vmlinux.o: in function `arch_atomic_inc':
+   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_no_write_space'
+   ld: vmlinux.o: in function `cachefiles_has_space':
+   fs/cachefiles/cache.c:212: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_add_cache':
+   fs/cachefiles/cache.c:27: undefined reference to `fscache_acquire_cache'
+   ld: fs/cachefiles/cache.c:144: undefined reference to `fscache_add_cache'
+   ld: fs/cachefiles/cache.c:172: undefined reference to `fscache_relinquish_cache'
+   ld: vmlinux.o: in function `cachefiles_withdraw_cache':
+   fs/cachefiles/cache.c:371: undefined reference to `fscache_withdraw_cache'
+   ld: vmlinux.o: in function `cachefiles_withdraw_objects':
+   fs/cachefiles/cache.c:299: undefined reference to `fscache_withdraw_cookie'
+   ld: vmlinux.o: in function `cachefiles_withdraw_cache':
+   fs/cachefiles/cache.c:382: undefined reference to `fscache_relinquish_cache'
+   ld: vmlinux.o: in function `fscache_wait_for_objects':
+   include/linux/fscache-cache.h:182: undefined reference to `fscache_clearance_waiters'
+   ld: include/linux/fscache-cache.h:182: undefined reference to `fscache_clearance_waiters'
+   ld: vmlinux.o: in function `cachefiles_sync_cache':
+   fs/cachefiles/cache.c:357: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_invalidate_cookie':
+   fs/cachefiles/interface.c:419: undefined reference to `fscache_resume_after_invalidation'
+   ld: fs/cachefiles/interface.c:396: undefined reference to `fscache_resume_after_invalidation'
+   ld: vmlinux.o: in function `cachefiles_shorten_object':
+   fs/cachefiles/interface.c:266: undefined reference to `fscache_io_error'
+   ld: fs/cachefiles/interface.c:251: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_put_object':
+   fs/cachefiles/interface.c:98: undefined reference to `fscache_put_cookie'
+   ld: vmlinux.o: in function `fscache_uncount_object':
+   include/linux/fscache-cache.h:170: undefined reference to `fscache_clearance_waiters'
+   ld: vmlinux.o: in function `cachefiles_alloc_object':
+   fs/cachefiles/interface.c:45: undefined reference to `fscache_get_cookie'
+   ld: vmlinux.o: in function `cachefiles_lookup_cookie':
+   fs/cachefiles/interface.c:215: undefined reference to `fscache_caching_failed'
+   ld: vmlinux.o: in function `cachefiles_adjust_size':
+   fs/cachefiles/interface.c:166: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_query_occupancy':
+   fs/cachefiles/io.c:208: undefined reference to `fscache_wait_for_operation'
+   ld: vmlinux.o: in function `cachefiles_end_operation':
+   fs/cachefiles/io.c:626: undefined reference to `fscache_end_cookie_access'
+   ld: vmlinux.o: in function `cachefiles_read':
+   fs/cachefiles/io.c:87: undefined reference to `fscache_wait_for_operation'
+   ld: vmlinux.o: in function `instrument_atomic_read_write':
+   include/linux/instrumented.h:96: undefined reference to `fscache_n_read'
+   ld: vmlinux.o: in function `arch_atomic_inc':
+   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_read'
+   ld: vmlinux.o: in function `cachefiles_do_prepare_read':
+   fs/cachefiles/io.c:412: undefined reference to `fscache_wait_for_operation'
+   ld: fs/cachefiles/io.c:412: undefined reference to `fscache_wait_for_operation'
+   ld: vmlinux.o: in function `instrument_atomic_read_write':
+   include/linux/instrumented.h:96: undefined reference to `fscache_n_write'
+   ld: vmlinux.o: in function `arch_atomic_inc':
+   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_write'
+   ld: vmlinux.o: in function `cachefiles_write':
+   fs/cachefiles/io.c:365: undefined reference to `fscache_wait_for_operation'
+   ld: vmlinux.o: in function `instrument_atomic_read_write':
+   include/linux/instrumented.h:96: undefined reference to `fscache_n_no_write_space'
+   ld: vmlinux.o: in function `arch_atomic_inc':
+   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_no_write_space'
+   ld: vmlinux.o: in function `__cachefiles_prepare_write':
+   fs/cachefiles/io.c:581: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_prepare_write':
+   fs/cachefiles/io.c:603: undefined reference to `fscache_wait_for_operation'
+   ld: vmlinux.o: in function `cachefiles_lookup_for_cull':
+   fs/cachefiles/namei.c:779: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_unlink':
+   fs/cachefiles/namei.c:250: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_bury_object':
+   fs/cachefiles/namei.c:371: undefined reference to `fscache_io_error'
+   ld: fs/cachefiles/namei.c:400: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_create_tmpfile':
+   fs/cachefiles/namei.c:464: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_look_up_object':
+   fs/cachefiles/namei.c:663: undefined reference to `fscache_cookie_lookup_negative'
+   ld: fs/cachefiles/namei.c:641: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_open_file':
+   fs/cachefiles/namei.c:601: undefined reference to `fscache_cookie_lookup_negative'
+   ld: vmlinux.o: in function `instrument_atomic_read_write':
+   include/linux/instrumented.h:96: undefined reference to `fscache_n_culled'
+   ld: vmlinux.o: in function `arch_atomic_inc':
+   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_culled'
+   ld: vmlinux.o: in function `arch_atomic_read':
+   arch/x86/include/asm/atomic.h:23: undefined reference to `__tracepoint_fscache_access_volume'
+>> ld: arch/x86/include/asm/atomic.h:23: undefined reference to `__tracepoint_fscache_access_volume'
+   ld: vmlinux.o: in function `trace_fscache_access_volume':
+   include/trace/events/fscache.h:344: undefined reference to `__tracepoint_fscache_access_volume'
+   ld: include/trace/events/fscache.h:344: undefined reference to `__tracepoint_fscache_access_volume'
+   ld: include/trace/events/fscache.h:344: undefined reference to `__SCT__tp_func_fscache_access_volume'
+   ld: include/trace/events/fscache.h:344: undefined reference to `__tracepoint_fscache_access_volume'
+   ld: vmlinux.o: in function `arch_atomic_read':
+   arch/x86/include/asm/atomic.h:23: undefined reference to `__tracepoint_fscache_access_volume'
+   ld: vmlinux.o: in function `cachefiles_withdraw_volume':
+   fs/cachefiles/volume.c:136: undefined reference to `fscache_withdraw_volume'
+   ld: vmlinux.o: in function `cachefiles_set_object_xattr':
+   fs/cachefiles/xattr.c:77: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_check_auxdata':
+   fs/cachefiles/xattr.c:117: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_remove_object_xattr':
+   fs/cachefiles/xattr.c:160: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_set_volume_xattr':
+   fs/cachefiles/xattr.c:218: undefined reference to `fscache_io_error'
+   ld: vmlinux.o: in function `cachefiles_check_volume_xattr':
+   fs/cachefiles/xattr.c:258: undefined reference to `fscache_io_error'
+   ld: vmlinux.o:(.static_call_sites+0x5554): undefined reference to `__SCK__tp_func_fscache_access_volume'
 
 -- 
 0-DAY CI Kernel Test Service
