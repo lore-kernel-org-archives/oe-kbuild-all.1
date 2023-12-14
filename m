@@ -1,116 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426812DB65
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 23:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA732DB81;
+	Thu, 14 Dec 2023 23:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JFjV09sm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702597719; x=1734133719;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NwTPjsINtjz6bj7IWfrfWCE6ugFwF08fiakrTtgjL+Y=;
-  b=JFjV09sm1AXcWy6Q+6P6McRUuGxvISZP3+6LDzOxXoZvv1RjNThO+iIQ
-   QVMEfQ2PTvIgb+hiQFcCPwcQEnJ1rgFH/Zhk3iUV8nhGHKkZ/faX3xCZC
-   9hpeoROAz70nyVKcnTePXYdkA4Js/0GB7cKcrKfwmse+XIj6128Ed3/Jp
-   xWofBjSvKAV3G0PRjJGW4mZqBPZPfIpVLuwB2FMVe7A26qVA3sMCWX5C3
-   f3RJM5S8ZQG+CPrUYXmg5bRDEKtH5pUIduV+EdtuoRK6LEArlWSn0A8VC
-   8vCR9ShnKr56hz9jYksrXaa7K92EHa7GZ10TATUMxIfcHbjkt/xKJCq74
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2058228"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="2058228"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 15:48:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="844910749"
-X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="844910749"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Dec 2023 15:48:37 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDvRQ-000MkZ-0p;
-	Thu, 14 Dec 2023 23:48:32 +0000
-Date: Fri, 15 Dec 2023 07:48:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lewis Huang <lewis.huang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Subject: drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c:532:62-63: WARNING
- comparing pointer to 0
-Message-ID: <202312150759.RDeuSwNA-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lV6Vokk9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=BaJCsCfijs7GuDBKTrIWbe4mzrObKT7MV71UU5ZCbZI=; b=lV6Vokk9qA9LV1JxhmI1jaKIiu
+	Ez3QbwTc6QyJJwweVy0QrKzsK56LfExa8KhtpvXwDP4wdCq9fGFIk+eJ0A2zx3Pj2n5HwBp6umEZy
+	naBywZPbRyfhYQo7RwzQidTGDtq9CFX/ZNw/iQgOwWUwJvJHYBSyA3f9CrF+JWSi2bGBuzyA/MWo2
+	QhF+mMZVp8V7W2pCFQNDqQ3tACEL3mJ3+ESC/gDjx3VM3O/h74/Q8b4gcQ/5v63eyc/91K37psgkj
+	FZitV4YP+l0c3rK7eZNCHJCBrMz3XI8hzo+BSUA04/91AZ8wScvnjiSkwdlclKGYDzlR9Z8Gg1Pyr
+	itWCHZHg==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rDva2-001aYl-1m;
+	Thu, 14 Dec 2023 23:57:26 +0000
+Message-ID: <8bddc464-a2f3-47e5-85e6-d4067db67ccd@infradead.org>
+Date: Thu, 14 Dec 2023 15:57:26 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: pm.c:undefined reference to `i8042_command'
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Nicolas Schier <nicolas@fjasle.eu>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>
+References: <202312041909.lwhcU35R-lkp@intel.com>
+ <5f1caaf8-1edf-444a-b017-c4d08e52213b@infradead.org>
+ <f712a65b-4984-46e8-bd43-1309b5cd41f0@app.fastmail.com>
+ <c10194f2-097f-4455-9932-19961edbf990@infradead.org>
+ <40b5e438-22f4-43e5-9663-db44dd402a35@app.fastmail.com>
+ <374978b4-9bed-4d5c-90e2-344e46dedaf8@app.fastmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <374978b4-9bed-4d5c-90e2-344e46dedaf8@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c7402612e2e61b76177f22e6e7f705adcbecc6fe
-commit: 5911d02cac70d7fb52009fbd37423e63f8f6f9bc drm/amd/display: Change the DMCUB mailbox memory location from FB to inbox
-date:   4 weeks ago
-config: x86_64-randconfig-104-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150759.RDeuSwNA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150759.RDeuSwNA-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150759.RDeuSwNA-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c:532:62-63: WARNING comparing pointer to 0
+On 12/14/23 11:54, Arnd Bergmann wrote:
+> On Thu, Dec 7, 2023, at 01:21, Jiaxun Yang wrote:
+>> 在2023年12月6日十二月 下午5:26，Randy Dunlap写道：
+>>> On 12/5/23 22:52, Arnd Bergmann wrote:
+>>>> On Wed, Dec 6, 2023, at 06:24, Randy Dunlap wrote:
+> 
+>>>> I think it's bad style to force-select an optional subsystem.
+>>>> How about making the entire file optional? It seems that there
+>>>> are already __weak functions in its place.
+>>>
+>>> Yes, I agree in general.
+>>>
+>>> Hopefully the maintainer will opine your suggestion.
+>>> Jiaxun?
+>>
+>> LGTM, PM is not an essential function here.
+>> Arnd, do you mind making it a patch?
+>>
+> 
+> I just tried it out and my version doesn't actually work since
+> we still end up building the file with SERIO_I82042=m.
+> 
+> We could still make it work by checking for serio being
+> built-in here, but in the end I think that's worse than
+> Randy's patch, so let's just go with his original version.
+> 
+>       Arnd
 
-vim +532 drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c
+I think that we should look for yet another alternative then.
+I don't believe that adding "select INPUT" is a good idea.
+It would be the only "select INPUT" in the entire kernel tree.
 
-   505	
-   506	enum dmub_status dmub_srv_calc_mem_info(struct dmub_srv *dmub,
-   507					       const struct dmub_srv_memory_params *params,
-   508					       struct dmub_srv_fb_info *out)
-   509	{
-   510		uint8_t *cpu_base;
-   511		uint64_t gpu_base;
-   512		uint32_t i;
-   513	
-   514		if (!dmub->sw_init)
-   515			return DMUB_STATUS_INVALID;
-   516	
-   517		memset(out, 0, sizeof(*out));
-   518	
-   519		if (params->region_info->num_regions != DMUB_NUM_WINDOWS)
-   520			return DMUB_STATUS_INVALID;
-   521	
-   522		cpu_base = (uint8_t *)params->cpu_fb_addr;
-   523		gpu_base = params->gpu_fb_addr;
-   524	
-   525		for (i = 0; i < DMUB_NUM_WINDOWS; ++i) {
-   526			const struct dmub_region *reg =
-   527				&params->region_info->regions[i];
-   528	
-   529			out->fb[i].cpu_addr = cpu_base + reg->base;
-   530			out->fb[i].gpu_addr = gpu_base + reg->base;
-   531	
- > 532			if (i == DMUB_WINDOW_4_MAILBOX && params->cpu_inbox_addr != 0) {
-   533				out->fb[i].cpu_addr = (uint8_t *)params->cpu_inbox_addr + reg->base;
-   534				out->fb[i].gpu_addr = params->gpu_inbox_addr + reg->base;
-   535			}
-   536	
-   537			out->fb[i].size = reg->top - reg->base;
-   538		}
-   539	
-   540		out->num_fb = DMUB_NUM_WINDOWS;
-   541	
-   542		return DMUB_STATUS_OK;
-   543	}
-   544	
 
+thanks.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
