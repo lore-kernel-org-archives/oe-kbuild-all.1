@@ -1,52 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9847B12E6B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 11:01:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C762D3E479
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 11:01:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFVPIYJe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2WU6V44"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702551699; x=1734087699;
+  t=1702551703; x=1734087703;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tStEvbSDiRiak4yKgqAtDq3tYukI60wxecpagS8ZV10=;
-  b=gFVPIYJeJ43jM3uX6hmiIpBaUX1j0AUXcr0M3GiisgAicqWm7U5KCink
-   +8acWOZW9DFebzGppe74zRFsyQcuCbX/fPA+KwudLq6WjeiIETSUv7UPR
-   AsqNnhXzEwxtp47R8sC8jBo2c7+UYabZSQGuUYUZUpIX7YPL7rkqtJrVd
-   SQEUKW4g37SL1P7ZGCcUe5gwjxxe7tO8fXqSBSp6w0pG7C2SC97rSISfC
-   b7vrspBmjF3j4xC6T44RAy5e0o3BHb2g49LKBznxQFaHfXhypMJR2/B/2
-   ikd9QGKhdDiKjQrL7M9fNivNbkHErtm3hCfoaJq0yjCCV7RLfkr/8HUcz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1955530"
+  bh=Ww0WnfBytmnbi/hhuXlo4KHRICoOT5JGI4gpmAcOWsk=;
+  b=C2WU6V44H5YAk4EqSdQc0Ba9pyyZvuMUPj/W36a73GgnO1OoczoMnW+M
+   dxiN6+iPaR3fYpQBFr+U5FcfvRa4n/RON4VZpc+JgRgKxRxcd0xIRJKaF
+   3AW1n/IhOuEd34VQDsbKiNhnBR6FoOP7S8WkUjKlNADDEWRAvEb/0CBej
+   DEkWQQTCJoCI8hL1BDj//stw9KLmn0zAsYQ4Q+sIq2LZ0BrZUrzHDkxYe
+   KCFvFXWk59MCbz+8znAXzd2aQ3A5sc5xcvuHm4okORovsKU7t+0Wa04QI
+   /p7ZH8414q9BQCColNXOjpiQsgWarprtmc+eqQqllGoCiDRKgJHS55/Bd
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="459425512"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="1955530"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:01:39 -0800
+   d="scan'208";a="459425512"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 03:01:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="777859170"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="918020206"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="777859170"
+   d="scan'208";a="918020206"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Dec 2023 03:01:37 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 14 Dec 2023 03:01:37 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDjTD-000LxT-0U;
+	id 1rDjTD-000LxV-0a;
 	Thu, 14 Dec 2023 11:01:35 +0000
-Date: Thu, 14 Dec 2023 19:01:34 +0800
+Date: Thu, 14 Dec 2023 19:01:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Melissa Wen <mwen@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Joshua Ashton <joshua@froggi.es>
-Subject: [linux-next:master 7445/7726]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:312:
- warning: expecting prototype for drm_crtc_additional_color_mgmt(). Prototype
- was for dm_crtc_additional_color_mgmt() instead
-Message-ID: <202312141801.o9eBCxt9-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 19/276] mm/vmscan.c:905:15: error: no
+ previous prototype for 'shrink_slab'
+Message-ID: <202312141835.MIj0tKok-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,47 +50,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   11651f8cb2e88372d4ed523d909514dc9a613ea3
-commit: 0f5afa190b890052cae187496f660699f00067ef [7445/7726] drm/amd/display: add CRTC gamma TF driver-specific property
-config: i386-buildonly-randconfig-004-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141801.o9eBCxt9-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   5feaf92b247cfa3dd98eefa2915dfb3b305ac2d2
+commit: 8c19c1e07e377ecbdfab11afa8faca6d9f12a41d [19/276] ANDROID: vendor_hooks: export shrink_slab
+config: x86_64-sof-customedconfig-atom-defconfig (https://download.01.org/0day-ci/archive/20231214/202312141835.MIj0tKok-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141801.o9eBCxt9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141835.MIj0tKok-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141801.o9eBCxt9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141835.MIj0tKok-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c:312: warning: expecting prototype for drm_crtc_additional_color_mgmt(). Prototype was for dm_crtc_additional_color_mgmt() instead
+>> mm/vmscan.c:905:15: error: no previous prototype for 'shrink_slab' [-Werror=missing-prototypes]
+     905 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^~~~~~~~~~~
+   mm/vmscan.c: In function 'demote_page_list':
+   mm/vmscan.c:1357:13: error: variable 'err' set but not used [-Werror=unused-but-set-variable]
+    1357 |         int err;
+         |             ^~~
+   cc1: all warnings being treated as errors
 
 
-vim +312 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crtc.c
+vim +/shrink_slab +905 mm/vmscan.c
 
-   299	
-   300	#ifdef AMD_PRIVATE_COLOR
-   301	/**
-   302	 * drm_crtc_additional_color_mgmt - enable additional color properties
-   303	 * @crtc: DRM CRTC
-   304	 *
-   305	 * This function lets the driver enable post-blending CRTC regamma transfer
-   306	 * function property in addition to DRM CRTC gamma LUT. Default value means
-   307	 * linear transfer function, which is the default CRTC gamma LUT behaviour
-   308	 * without this property.
-   309	 */
-   310	static void
-   311	dm_crtc_additional_color_mgmt(struct drm_crtc *crtc)
- > 312	{
-   313		struct amdgpu_device *adev = drm_to_adev(crtc->dev);
-   314	
-   315		if(adev->dm.dc->caps.color.mpc.ogam_ram)
-   316			drm_object_attach_property(&crtc->base,
-   317						   adev->mode_info.regamma_tf_property,
-   318						   AMDGPU_TRANSFER_FUNCTION_DEFAULT);
-   319	}
-   320	
+   884	
+   885	/**
+   886	 * shrink_slab - shrink slab caches
+   887	 * @gfp_mask: allocation context
+   888	 * @nid: node whose slab caches to target
+   889	 * @memcg: memory cgroup whose slab caches to target
+   890	 * @priority: the reclaim priority
+   891	 *
+   892	 * Call the shrink functions to age shrinkable caches.
+   893	 *
+   894	 * @nid is passed along to shrinkers with SHRINKER_NUMA_AWARE set,
+   895	 * unaware shrinkers will receive a node id of 0 instead.
+   896	 *
+   897	 * @memcg specifies the memory cgroup to target. Unaware shrinkers
+   898	 * are called only if it is the root cgroup.
+   899	 *
+   900	 * @priority is sc->priority, we take the number of objects and >> by priority
+   901	 * in order to get the scan target.
+   902	 *
+   903	 * Returns the number of reclaimed slab objects.
+   904	 */
+ > 905	unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+   906					 struct mem_cgroup *memcg,
+   907					 int priority)
+   908	{
+   909		unsigned long ret, freed = 0;
+   910		struct shrinker *shrinker;
+   911	
+   912		/*
+   913		 * The root memcg might be allocated even though memcg is disabled
+   914		 * via "cgroup_disable=memory" boot parameter.  This could make
+   915		 * mem_cgroup_is_root() return false, then just run memcg slab
+   916		 * shrink, but skip global shrink.  This may result in premature
+   917		 * oom.
+   918		 */
+   919		if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
+   920			return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
+   921	
+   922		if (!down_read_trylock(&shrinker_rwsem))
+   923			goto out;
+   924	
+   925		list_for_each_entry(shrinker, &shrinker_list, list) {
+   926			struct shrink_control sc = {
+   927				.gfp_mask = gfp_mask,
+   928				.nid = nid,
+   929				.memcg = memcg,
+   930			};
+   931	
+   932			ret = do_shrink_slab(&sc, shrinker, priority);
+   933			if (ret == SHRINK_EMPTY)
+   934				ret = 0;
+   935			freed += ret;
+   936			/*
+   937			 * Bail out if someone want to register a new shrinker to
+   938			 * prevent the registration from being stalled for long periods
+   939			 * by parallel ongoing shrinking.
+   940			 */
+   941			if (rwsem_is_contended(&shrinker_rwsem)) {
+   942				freed = freed ? : 1;
+   943				break;
+   944			}
+   945		}
+   946	
+   947		up_read(&shrinker_rwsem);
+   948	out:
+   949		cond_resched();
+   950		return freed;
+   951	}
+   952	EXPORT_SYMBOL_GPL(shrink_slab);
+   953	
 
 -- 
 0-DAY CI Kernel Test Service
