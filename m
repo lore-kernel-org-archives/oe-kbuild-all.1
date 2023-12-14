@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D67959E2D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AD25ABA3;
+	Thu, 14 Dec 2023 14:41:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cKvCbDEW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aZWAvhm0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1702564900; x=1734100900;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fO4V+ejCyUnzWk/Rt58KkdhI5/UtBknV5DJ/XG96U9Y=;
-  b=cKvCbDEW8Bk3Gih4ul7m72taq/M/nKTQMRXIvPVqtI3YgK2nire99ukf
-   mPp1VNBBZZ5WP6jZyrn2ucah9Wwpj+XIAYv7JVmVk8R3qr3uf+a8x/9+J
-   D7t6LByMX3YS+xFqiQVcrWJ6FcIswJfVkhM7VuN5+w+pz1GwDgr6sn9/H
-   fvsI0tYnECCUo9yT3eH3S4YXSh0l3U9MUr5htmYtLo6W2ONX1VChaLtIc
-   +FUTAbE3PWQe9DtRF5vCOAD7G3xual8rsFsn6hptwPsQG1QjA94IQtW8F
-   7u0R0k9SEXmUbni+waIrUYyard9fRBIi4oqj0oelbqX/0wovRLqMWH5iN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="16675697"
+  bh=rN6hud+oJsUKQi8X4OIhfmAZHdbmCpxNJAQDU9g1zg0=;
+  b=aZWAvhm0iBOGe84oXd6UhVWahJJfmGzwLyofxmXWRZiO81kC6M7Pliij
+   7kNalk6xuUuGw+HELD8khQ4vksvxvshaQ8982YhmcvVwCBd83+ntDkbtX
+   tRZletcc1PwdVsweRw50o/6EqMCGRi8AK9jz3gM2el9yC6DGmX9+5xDIA
+   uzWBFusVPqcwI63PK8/nsAnJduXQHqdwa0HRtDbQLCdIKbpmV5lhRSobr
+   HjLYtBQD3byafkKX1o2yCnzD+0jaHAtEdxuZa/e3MUJ5meZp7Sjd1rqrW
+   B6Kc5jhHOlz2GxirZbFwdEfPZMIUJQh9hiv1NoQ1/sgKsD9oGuiAE5aDt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392302134"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="16675697"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:41:36 -0800
+   d="scan'208";a="392302134"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:41:35 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="892488775"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="22432856"
+   d="scan'208";a="892488775"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 14 Dec 2023 06:41:35 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 14 Dec 2023 06:41:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDmu3-000MBQ-2l;
+	id 1rDmu3-000MBM-2T;
 	Thu, 14 Dec 2023 14:41:31 +0000
 Date: Thu, 14 Dec 2023 22:40:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: arch/x86/kernel/apic/apic.c:2135: warning: Function parameter or
- member 'spurious_interrupt' not described in 'DEFINE_IDTENTRY_IRQ'
-Message-ID: <202312142220.6hKrNeSe-lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dm-devel@lists.linux.dev
+Subject: [device-mapper-dm:dm-vdo-wip 61/61]
+ drivers/md/dm-vdo/dm-vdo-target.c:1157: warning: Function parameter or
+ member 'vdo' not described in 'get_thread_id_for_phase'
+Message-ID: <202312142231.3Mm9oNl0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,88 +52,278 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thomas,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: fa5e5c409213265da8a188b4a5e4e641b1382eb4 x86/entry: Use idtentry for interrupts
-date:   3 years, 6 months ago
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231214/202312142220.6hKrNeSe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142220.6hKrNeSe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git dm-vdo-wip
+head:   e64f626707d0a0b2908bf0d47705d755ada6fd2d
+commit: e64f626707d0a0b2908bf0d47705d755ada6fd2d [61/61] dm vdo: use a proper Makefile for dm-vdo
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231214/202312142231.3Mm9oNl0-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142231.3Mm9oNl0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312142220.6hKrNeSe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312142231.3Mm9oNl0-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/apic/apic.c:2135: warning: Function parameter or member 'spurious_interrupt' not described in 'DEFINE_IDTENTRY_IRQ'
->> arch/x86/kernel/apic/apic.c:2135: warning: expecting prototype for spurious_interrupt(). Prototype was for DEFINE_IDTENTRY_IRQ() instead
+>> drivers/md/dm-vdo/completion.c:72: warning: Function parameter or member 'completion' not described in 'vdo_set_completion_result'
+>> drivers/md/dm-vdo/completion.c:72: warning: Function parameter or member 'result' not described in 'vdo_set_completion_result'
+>> drivers/md/dm-vdo/completion.c:88: warning: Function parameter or member 'completion' not described in 'vdo_launch_completion_with_priority'
+>> drivers/md/dm-vdo/completion.c:133: warning: Function parameter or member 'completion' not described in 'vdo_requeue_completion_if_needed'
+>> drivers/md/dm-vdo/completion.c:133: warning: Function parameter or member 'callback_thread_id' not described in 'vdo_requeue_completion_if_needed'
+--
+>> drivers/md/dm-vdo/admin-state.c:159: warning: Function parameter or member 'state' not described in 'get_next_state'
+>> drivers/md/dm-vdo/admin-state.c:159: warning: Function parameter or member 'operation' not described in 'get_next_state'
+>> drivers/md/dm-vdo/admin-state.c:198: warning: Function parameter or member 'state' not described in 'vdo_finish_operation'
+>> drivers/md/dm-vdo/admin-state.c:198: warning: Function parameter or member 'result' not described in 'vdo_finish_operation'
+>> drivers/md/dm-vdo/admin-state.c:226: warning: Function parameter or member 'state' not described in 'begin_operation'
+>> drivers/md/dm-vdo/admin-state.c:226: warning: Function parameter or member 'operation' not described in 'begin_operation'
+>> drivers/md/dm-vdo/admin-state.c:226: warning: Function parameter or member 'waiter' not described in 'begin_operation'
+>> drivers/md/dm-vdo/admin-state.c:226: warning: Function parameter or member 'initiator' not described in 'begin_operation'
+>> drivers/md/dm-vdo/admin-state.c:271: warning: Function parameter or member 'state' not described in 'start_operation'
+>> drivers/md/dm-vdo/admin-state.c:271: warning: Function parameter or member 'operation' not described in 'start_operation'
+>> drivers/md/dm-vdo/admin-state.c:271: warning: Function parameter or member 'waiter' not described in 'start_operation'
+>> drivers/md/dm-vdo/admin-state.c:271: warning: Function parameter or member 'initiator' not described in 'start_operation'
+>> drivers/md/dm-vdo/admin-state.c:288: warning: Function parameter or member 'valid' not described in 'check_code'
+>> drivers/md/dm-vdo/admin-state.c:288: warning: Function parameter or member 'code' not described in 'check_code'
+>> drivers/md/dm-vdo/admin-state.c:288: warning: Function parameter or member 'what' not described in 'check_code'
+>> drivers/md/dm-vdo/admin-state.c:288: warning: Function parameter or member 'waiter' not described in 'check_code'
+>> drivers/md/dm-vdo/admin-state.c:310: warning: Function parameter or member 'operation' not described in 'assert_vdo_drain_operation'
+>> drivers/md/dm-vdo/admin-state.c:310: warning: Function parameter or member 'waiter' not described in 'assert_vdo_drain_operation'
+>> drivers/md/dm-vdo/admin-state.c:310: warning: expecting prototype for vdo_drain_operation(). Prototype was for assert_vdo_drain_operation() instead
+>> drivers/md/dm-vdo/admin-state.c:325: warning: Function parameter or member 'state' not described in 'vdo_start_draining'
+   drivers/md/dm-vdo/admin-state.c:325: warning: Function parameter or member 'operation' not described in 'vdo_start_draining'
+   drivers/md/dm-vdo/admin-state.c:325: warning: Function parameter or member 'waiter' not described in 'vdo_start_draining'
+   drivers/md/dm-vdo/admin-state.c:325: warning: Function parameter or member 'initiator' not described in 'vdo_start_draining'
+   drivers/md/dm-vdo/admin-state.c:352: warning: Function parameter or member 'state' not described in 'vdo_finish_draining'
+   drivers/md/dm-vdo/admin-state.c:362: warning: Function parameter or member 'state' not described in 'vdo_finish_draining_with_result'
+   drivers/md/dm-vdo/admin-state.c:362: warning: Function parameter or member 'result' not described in 'vdo_finish_draining_with_result'
+   drivers/md/dm-vdo/admin-state.c:374: warning: Function parameter or member 'operation' not described in 'vdo_assert_load_operation'
+   drivers/md/dm-vdo/admin-state.c:374: warning: Function parameter or member 'waiter' not described in 'vdo_assert_load_operation'
+   drivers/md/dm-vdo/admin-state.c:389: warning: Function parameter or member 'state' not described in 'vdo_start_loading'
+   drivers/md/dm-vdo/admin-state.c:389: warning: Function parameter or member 'operation' not described in 'vdo_start_loading'
+   drivers/md/dm-vdo/admin-state.c:389: warning: Function parameter or member 'waiter' not described in 'vdo_start_loading'
+   drivers/md/dm-vdo/admin-state.c:389: warning: Function parameter or member 'initiator' not described in 'vdo_start_loading'
+   drivers/md/dm-vdo/admin-state.c:400: warning: Function parameter or member 'state' not described in 'vdo_finish_loading'
+   drivers/md/dm-vdo/admin-state.c:411: warning: Function parameter or member 'state' not described in 'vdo_finish_loading_with_result'
+   drivers/md/dm-vdo/admin-state.c:411: warning: Function parameter or member 'result' not described in 'vdo_finish_loading_with_result'
+   drivers/md/dm-vdo/admin-state.c:423: warning: Function parameter or member 'operation' not described in 'assert_vdo_resume_operation'
+   drivers/md/dm-vdo/admin-state.c:423: warning: Function parameter or member 'waiter' not described in 'assert_vdo_resume_operation'
+   drivers/md/dm-vdo/admin-state.c:439: warning: Function parameter or member 'state' not described in 'vdo_start_resuming'
+   drivers/md/dm-vdo/admin-state.c:439: warning: Function parameter or member 'operation' not described in 'vdo_start_resuming'
+   drivers/md/dm-vdo/admin-state.c:439: warning: Function parameter or member 'waiter' not described in 'vdo_start_resuming'
+   drivers/md/dm-vdo/admin-state.c:439: warning: Function parameter or member 'initiator' not described in 'vdo_start_resuming'
+   drivers/md/dm-vdo/admin-state.c:450: warning: Function parameter or member 'state' not described in 'vdo_finish_resuming'
+   drivers/md/dm-vdo/admin-state.c:461: warning: Function parameter or member 'state' not described in 'vdo_finish_resuming_with_result'
+   drivers/md/dm-vdo/admin-state.c:461: warning: Function parameter or member 'result' not described in 'vdo_finish_resuming_with_result'
+   drivers/md/dm-vdo/admin-state.c:472: warning: Function parameter or member 'state' not described in 'vdo_resume_if_quiescent'
+   drivers/md/dm-vdo/admin-state.c:487: warning: Function parameter or member 'state' not described in 'vdo_start_operation'
+   drivers/md/dm-vdo/admin-state.c:487: warning: Function parameter or member 'operation' not described in 'vdo_start_operation'
+   drivers/md/dm-vdo/admin-state.c:502: warning: Function parameter or member 'state' not described in 'vdo_start_operation_with_waiter'
+   drivers/md/dm-vdo/admin-state.c:502: warning: Function parameter or member 'operation' not described in 'vdo_start_operation_with_waiter'
+   drivers/md/dm-vdo/admin-state.c:502: warning: Function parameter or member 'waiter' not described in 'vdo_start_operation_with_waiter'
+   drivers/md/dm-vdo/admin-state.c:502: warning: Function parameter or member 'initiator' not described in 'vdo_start_operation_with_waiter'
+--
+>> drivers/md/dm-vdo/action-manager.c:64: warning: Function parameter or member 'scheduler' not described in 'action_manager'
+--
+>> drivers/md/dm-vdo/data-vio.c:233: warning: Function parameter or member 'pool' not described in 'check_for_drain_complete_locked'
+>> drivers/md/dm-vdo/data-vio.c:342: warning: Function parameter or member 'data_vio' not described in 'set_data_vio_compression_status'
+>> drivers/md/dm-vdo/data-vio.c:342: warning: Function parameter or member 'status' not described in 'set_data_vio_compression_status'
+>> drivers/md/dm-vdo/data-vio.c:342: warning: Function parameter or member 'new_status' not described in 'set_data_vio_compression_status'
+>> drivers/md/dm-vdo/data-vio.c:342: warning: Excess function parameter 'state' description in 'set_data_vio_compression_status'
+>> drivers/md/dm-vdo/data-vio.c:342: warning: Excess function parameter 'new_state' description in 'set_data_vio_compression_status'
+>> drivers/md/dm-vdo/data-vio.c:394: warning: Function parameter or member 'data_vio' not described in 'cancel_data_vio_compression'
+>> drivers/md/dm-vdo/data-vio.c:487: warning: Function parameter or member 'data_vio' not described in 'launch_data_vio'
+>> drivers/md/dm-vdo/data-vio.c:487: warning: Function parameter or member 'lbn' not described in 'launch_data_vio'
+>> drivers/md/dm-vdo/data-vio.c:660: warning: Function parameter or member 'pool' not described in 'schedule_releases'
+>> drivers/md/dm-vdo/data-vio.c:788: warning: Function parameter or member 'data_vio' not described in 'initialize_data_vio'
+>> drivers/md/dm-vdo/data-vio.c:788: warning: Function parameter or member 'vdo' not described in 'initialize_data_vio'
+>> drivers/md/dm-vdo/data-vio.c:844: warning: Function parameter or member 'pool_ptr' not described in 'make_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:844: warning: Excess function parameter 'pool' description in 'make_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:898: warning: Function parameter or member 'pool' not described in 'free_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:959: warning: Function parameter or member 'pool' not described in 'vdo_launch_bio'
+>> drivers/md/dm-vdo/data-vio.c:959: warning: Function parameter or member 'bio' not described in 'vdo_launch_bio'
+>> drivers/md/dm-vdo/data-vio.c:1004: warning: Function parameter or member 'pool' not described in 'drain_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:1015: warning: Function parameter or member 'pool' not described in 'resume_data_vio_pool'
+>> drivers/md/dm-vdo/data-vio.c:1034: warning: Function parameter or member 'pool' not described in 'dump_data_vio_pool'
+   drivers/md/dm-vdo/data-vio.c:1152: warning: Function parameter or member 'completion' not described in 'release_allocated_lock'
+   drivers/md/dm-vdo/data-vio.c:1232: warning: Function parameter or member 'completion' not described in 'release_logical_lock'
+   drivers/md/dm-vdo/data-vio.c:1269: warning: Function parameter or member 'data_vio' not described in 'finish_cleanup'
+   drivers/md/dm-vdo/data-vio.c:1378: warning: Function parameter or member 'data_vio' not described in 'get_data_vio_operation_name'
+   drivers/md/dm-vdo/data-vio.c:1398: warning: Function parameter or member 'data_vio' not described in 'data_vio_allocate_data_block'
+   drivers/md/dm-vdo/data-vio.c:1418: warning: Function parameter or member 'data_vio' not described in 'release_data_vio_allocation_lock'
+   drivers/md/dm-vdo/data-vio.c:1438: warning: Function parameter or member 'data_vio' not described in 'uncompress_data_vio'
+   drivers/md/dm-vdo/data-vio.c:1557: warning: Function parameter or member 'completion' not described in 'read_block'
+   drivers/md/dm-vdo/data-vio.c:1714: warning: Function parameter or member 'completion' not described in 'read_old_block_mapping'
+   drivers/md/dm-vdo/data-vio.c:1742: warning: Function parameter or member 'completion' not described in 'pack_compressed_data'
+   drivers/md/dm-vdo/data-vio.c:1763: warning: Function parameter or member 'completion' not described in 'compress_data_vio'
+   drivers/md/dm-vdo/data-vio.c:1792: warning: Function parameter or member 'data_vio' not described in 'launch_compress_data_vio'
+   drivers/md/dm-vdo/data-vio.c:1830: warning: bad line: 
+   drivers/md/dm-vdo/data-vio.c:1834: warning: Function parameter or member 'completion' not described in 'hash_data_vio'
+   drivers/md/dm-vdo/data-vio.c:1868: warning: Function parameter or member 'bio' not described in 'write_bio_finished'
+   drivers/md/dm-vdo/data-vio.c:1922: warning: Function parameter or member 'completion' not described in 'acknowledge_write_callback'
+   drivers/md/dm-vdo/data-vio.c:1947: warning: Function parameter or member 'completion' not described in 'allocate_block'
+   drivers/md/dm-vdo/data-vio.c:1978: warning: Function parameter or member 'completion' not described in 'handle_allocation_error'
+   drivers/md/dm-vdo/data-vio.c:2007: warning: Function parameter or member 'completion' not described in 'continue_data_vio_with_block_map_slot'
+--
+>> drivers/md/dm-vdo/dedupe.c:577: warning: Function parameter or member '__always_unused' not described in 'abort_waiter'
+>> drivers/md/dm-vdo/dedupe.c:577: warning: Excess function parameter 'context' description in 'abort_waiter'
+>> drivers/md/dm-vdo/dedupe.c:932: warning: Function parameter or member 'waiter' not described in 'enter_forked_lock'
+>> drivers/md/dm-vdo/dedupe.c:932: warning: Function parameter or member 'context' not described in 'enter_forked_lock'
+>> drivers/md/dm-vdo/dedupe.c:1746: warning: Function parameter or member 'completion' not described in 'vdo_continue_hash_lock'
+>> drivers/md/dm-vdo/dedupe.c:1746: warning: Excess function parameter 'data_vio' description in 'vdo_continue_hash_lock'
+>> drivers/md/dm-vdo/dedupe.c:1843: warning: Function parameter or member 'completion' not described in 'vdo_acquire_hash_lock'
+>> drivers/md/dm-vdo/dedupe.c:1843: warning: Excess function parameter 'data_vio' description in 'vdo_acquire_hash_lock'
+>> drivers/md/dm-vdo/dedupe.c:2572: warning: Function parameter or member 'context' not described in 'suspend_index'
+>> drivers/md/dm-vdo/dedupe.c:2572: warning: Function parameter or member 'completion' not described in 'suspend_index'
+>> drivers/md/dm-vdo/dedupe.c:2586: warning: Function parameter or member 'state' not described in 'initiate_drain'
+>> drivers/md/dm-vdo/dedupe.c:2597: warning: Function parameter or member 'context' not described in 'drain_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2597: warning: Function parameter or member 'zone_number' not described in 'drain_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2597: warning: Function parameter or member 'parent' not described in 'drain_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2634: warning: Function parameter or member 'context' not described in 'resume_index'
+>> drivers/md/dm-vdo/dedupe.c:2634: warning: Function parameter or member 'parent' not described in 'resume_index'
+>> drivers/md/dm-vdo/dedupe.c:2667: warning: Function parameter or member 'context' not described in 'resume_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2667: warning: Function parameter or member 'zone_number' not described in 'resume_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2667: warning: Function parameter or member 'parent' not described in 'resume_hash_zone'
+>> drivers/md/dm-vdo/dedupe.c:2745: warning: Function parameter or member 'zones' not described in 'vdo_get_dedupe_statistics'
+   drivers/md/dm-vdo/dedupe.c:2745: warning: Function parameter or member 'stats' not described in 'vdo_get_dedupe_statistics'
+   drivers/md/dm-vdo/dedupe.c:2745: warning: Excess function parameter 'hash_zones' description in 'vdo_get_dedupe_statistics'
+   drivers/md/dm-vdo/dedupe.c:2837: warning: expecting prototype for vdo_dump_hash_zone(). Prototype was for dump_hash_zone() instead
+--
+>> drivers/md/dm-vdo/dm-vdo-target.c:1157: warning: Function parameter or member 'vdo' not described in 'get_thread_id_for_phase'
+--
+>> drivers/md/dm-vdo/block-map.c:183: warning: Function parameter or member 'cache' not described in 'initialize_info'
+>> drivers/md/dm-vdo/block-map.c:222: warning: Function parameter or member 'cache' not described in 'allocate_cache_components'
+>> drivers/md/dm-vdo/block-map.c:222: warning: Excess function parameter 'maximum_age' description in 'allocate_cache_components'
+>> drivers/md/dm-vdo/block-map.c:248: warning: Function parameter or member 'cache' not described in 'assert_on_cache_thread'
+>> drivers/md/dm-vdo/block-map.c:248: warning: Function parameter or member 'function_name' not described in 'assert_on_cache_thread'
+>> drivers/md/dm-vdo/block-map.c:284: warning: Function parameter or member 'state' not described in 'get_page_state_name'
+>> drivers/md/dm-vdo/block-map.c:351: warning: Function parameter or member 'info' not described in 'set_info_state'
+>> drivers/md/dm-vdo/block-map.c:351: warning: Function parameter or member 'new_state' not described in 'set_info_state'
+>> drivers/md/dm-vdo/block-map.c:427: warning: Function parameter or member 'cache' not described in 'find_free_page'
+>> drivers/md/dm-vdo/block-map.c:446: warning: Function parameter or member 'cache' not described in 'find_page'
+>> drivers/md/dm-vdo/block-map.c:465: warning: Function parameter or member 'cache' not described in 'select_lru_page'
+>> drivers/md/dm-vdo/block-map.c:537: warning: Function parameter or member 'info' not described in 'distribute_page_over_waitq'
+>> drivers/md/dm-vdo/block-map.c:537: warning: Function parameter or member 'waitq' not described in 'distribute_page_over_waitq'
+>> drivers/md/dm-vdo/block-map.c:562: warning: Function parameter or member 'cache' not described in 'set_persistent_error'
+>> drivers/md/dm-vdo/block-map.c:562: warning: Function parameter or member 'result' not described in 'set_persistent_error'
+>> drivers/md/dm-vdo/block-map.c:594: warning: Function parameter or member 'completion' not described in 'validate_completed_page'
+>> drivers/md/dm-vdo/block-map.c:770: warning: Function parameter or member 'info' not described in 'launch_page_load'
+>> drivers/md/dm-vdo/block-map.c:770: warning: Function parameter or member 'pbn' not described in 'launch_page_load'
+>> drivers/md/dm-vdo/block-map.c:847: warning: Function parameter or member 'info' not described in 'schedule_page_save'
+>> drivers/md/dm-vdo/block-map.c:863: warning: Function parameter or member 'info' not described in 'launch_page_save'
+   drivers/md/dm-vdo/block-map.c:878: warning: Function parameter or member 'waiter' not described in 'completion_needs_page'
+   drivers/md/dm-vdo/block-map.c:889: warning: Function parameter or member 'info' not described in 'allocate_free_page'
+   drivers/md/dm-vdo/block-map.c:941: warning: Function parameter or member 'cache' not described in 'discard_a_page'
+   drivers/md/dm-vdo/block-map.c:967: warning: Function parameter or member 'vdo_page_comp' not described in 'discard_page_for_completion'
+   drivers/md/dm-vdo/block-map.c:1145: warning: Function parameter or member 'completion' not described in 'vdo_release_page_completion'
+   drivers/md/dm-vdo/block-map.c:1185: warning: Function parameter or member 'info' not described in 'load_page_for_completion'
+   drivers/md/dm-vdo/block-map.c:1185: warning: Function parameter or member 'vdo_page_comp' not described in 'load_page_for_completion'
+   drivers/md/dm-vdo/block-map.c:1332: warning: Function parameter or member 'cache' not described in 'vdo_invalidate_page_cache'
+   drivers/md/dm-vdo/block-map.c:1359: warning: Function parameter or member 'forest' not described in 'get_tree_page_by_index'
+   drivers/md/dm-vdo/block-map.c:1359: warning: Function parameter or member 'root_index' not described in 'get_tree_page_by_index'
+   drivers/md/dm-vdo/block-map.c:1359: warning: Function parameter or member 'height' not described in 'get_tree_page_by_index'
+   drivers/md/dm-vdo/block-map.c:1359: warning: Function parameter or member 'page_index' not described in 'get_tree_page_by_index'
+   drivers/md/dm-vdo/block-map.c:2223: warning: Function parameter or member 'data_vio' not described in 'vdo_find_block_map_slot'
+   drivers/md/dm-vdo/block-map.c:2448: warning: Function parameter or member 'map' not described in 'make_forest'
+   drivers/md/dm-vdo/block-map.c:2486: warning: Function parameter or member 'map' not described in 'replace_forest'
+   drivers/md/dm-vdo/block-map.c:2502: warning: Function parameter or member 'cursor' not described in 'finish_cursor'
+   drivers/md/dm-vdo/block-map.c:2561: warning: Function parameter or member 'cursor' not described in 'traverse'
+   drivers/md/dm-vdo/block-map.c:2634: warning: Function parameter or member 'waiter' not described in 'launch_cursor'
+   drivers/md/dm-vdo/block-map.c:2650: warning: Function parameter or member 'map' not described in 'compute_boundary'
+   drivers/md/dm-vdo/block-map.c:2650: warning: Function parameter or member 'root_index' not described in 'compute_boundary'
+   drivers/md/dm-vdo/block-map.c:2683: warning: Function parameter or member 'map' not described in 'vdo_traverse_forest'
+   drivers/md/dm-vdo/block-map.c:2724: warning: Function parameter or member 'map' not described in 'initialize_block_map_zone'
+   drivers/md/dm-vdo/block-map.c:2724: warning: Function parameter or member 'zone_number' not described in 'initialize_block_map_zone'
+   drivers/md/dm-vdo/block-map.c:2724: warning: Function parameter or member 'cache_size' not described in 'initialize_block_map_zone'
+   drivers/md/dm-vdo/block-map.c:3105: warning: Function parameter or member 'data_vio' not described in 'clear_mapped_location'
+   drivers/md/dm-vdo/block-map.c:3120: warning: Function parameter or member 'data_vio' not described in 'set_mapped_location'
+   drivers/md/dm-vdo/block-map.c:3120: warning: Function parameter or member 'entry' not described in 'set_mapped_location'
+--
+>> drivers/md/dm-vdo/flush.c:97: warning: expecting prototype for waiter_as_flush(). Prototype was for vdo_waiter_as_flush() instead
+>> drivers/md/dm-vdo/flush.c:532: warning: Function parameter or member 'state' not described in 'initiate_drain'
+--
+>> drivers/md/dm-vdo/encodings.c:439: warning: Function parameter or member 'root_count' not described in 'vdo_compute_new_forest_pages'
+>> drivers/md/dm-vdo/encodings.c:439: warning: Function parameter or member 'old_sizes' not described in 'vdo_compute_new_forest_pages'
+>> drivers/md/dm-vdo/encodings.c:439: warning: Function parameter or member 'new_sizes' not described in 'vdo_compute_new_forest_pages'
+>> drivers/md/dm-vdo/encodings.c:466: warning: Function parameter or member 'buffer' not described in 'encode_recovery_journal_state_7_0'
+>> drivers/md/dm-vdo/encodings.c:466: warning: Function parameter or member 'offset' not described in 'encode_recovery_journal_state_7_0'
+>> drivers/md/dm-vdo/encodings.c:466: warning: Function parameter or member 'state' not described in 'encode_recovery_journal_state_7_0'
+>> drivers/md/dm-vdo/encodings.c:489: warning: Function parameter or member 'offset' not described in 'decode_recovery_journal_state_7_0'
+>> drivers/md/dm-vdo/encodings.c:548: warning: Function parameter or member 'buffer' not described in 'encode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:548: warning: Function parameter or member 'offset' not described in 'encode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:548: warning: Function parameter or member 'state' not described in 'encode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:576: warning: Function parameter or member 'buffer' not described in 'decode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:576: warning: Function parameter or member 'offset' not described in 'decode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:576: warning: Function parameter or member 'state' not described in 'decode_slab_depot_state_2_0'
+>> drivers/md/dm-vdo/encodings.c:870: warning: Function parameter or member 'offset' not described in 'vdo_initialize_layout'
+>> drivers/md/dm-vdo/encodings.c:870: warning: Excess function parameter 'origin' description in 'vdo_initialize_layout'
+>> drivers/md/dm-vdo/encodings.c:1174: warning: Function parameter or member 'buffer' not described in 'decode_vdo_component'
+>> drivers/md/dm-vdo/encodings.c:1174: warning: Function parameter or member 'offset' not described in 'decode_vdo_component'
+>> drivers/md/dm-vdo/encodings.c:1174: warning: Function parameter or member 'component' not described in 'decode_vdo_component'
+>> drivers/md/dm-vdo/encodings.c:1174: warning: expecting prototype for vdo_decode_component(). Prototype was for decode_vdo_component() instead
+>> drivers/md/dm-vdo/encodings.c:1405: warning: Function parameter or member 'buffer' not described in 'vdo_encode_component_states'
+   drivers/md/dm-vdo/encodings.c:1405: warning: Function parameter or member 'offset' not described in 'vdo_encode_component_states'
+   drivers/md/dm-vdo/encodings.c:1405: warning: Function parameter or member 'states' not described in 'vdo_encode_component_states'
+   drivers/md/dm-vdo/encodings.c:1423: warning: Function parameter or member 'buffer' not described in 'vdo_encode_super_block'
+   drivers/md/dm-vdo/encodings.c:1423: warning: Function parameter or member 'states' not described in 'vdo_encode_super_block'
+   drivers/md/dm-vdo/encodings.c:1447: warning: Function parameter or member 'buffer' not described in 'vdo_decode_super_block'
+--
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or member 'thread_name_prefix' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or member 'name' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or member 'owner' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or member 'type' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or member 'thread_count' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or member 'thread_privates' not described in 'vdo_make_work_queue'
+>> drivers/md/dm-vdo/funnel-workqueue.c:385: warning: Function parameter or member 'queue_ptr' not described in 'vdo_make_work_queue'
+--
+>> drivers/md/dm-vdo/logical-zone.c:170: warning: Function parameter or member 'state' not described in 'initiate_drain'
+>> drivers/md/dm-vdo/logical-zone.c:181: warning: Function parameter or member 'context' not described in 'drain_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:181: warning: Function parameter or member 'zone_number' not described in 'drain_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:181: warning: Function parameter or member 'parent' not described in 'drain_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:204: warning: Function parameter or member 'context' not described in 'resume_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:204: warning: Function parameter or member 'zone_number' not described in 'resume_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:204: warning: Function parameter or member 'parent' not described in 'resume_logical_zone'
+>> drivers/md/dm-vdo/logical-zone.c:303: warning: expecting prototype for void attempt_generation_complete_notification()(). Prototype was for attempt_generation_complete_notification() instead
+..
 
 
-vim +2135 arch/x86/kernel/apic/apic.c
+vim +1157 drivers/md/dm-vdo/dm-vdo-target.c
 
-c0104d38a740b2 arch/x86/kernel/apic/apic.c Yinghai Lu      2010-12-07  2118  
-^1da177e4c3f41 arch/x86_64/kernel/apic.c   Linus Torvalds  2005-04-16  2119  /*
-0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2120   * Local APIC interrupts
-^1da177e4c3f41 arch/x86_64/kernel/apic.c   Linus Torvalds  2005-04-16  2121   */
-^1da177e4c3f41 arch/x86_64/kernel/apic.c   Linus Torvalds  2005-04-16  2122  
-633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2123  /**
-fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2124   * spurious_interrupt - Catch all for interrupts raised on unused vectors
-633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2125   * @regs:	Pointer to pt_regs on stack
-fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2126   * @vector:	The vector number
-633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2127   *
-633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2128   * This is invoked from ASM entry code to catch all interrupts which
-633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2129   * trigger on an entry which is routed to the common_spurious idtentry
-633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2130   * point.
-633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2131   *
-633260fa143bbe arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2132   * Also called from smp_spurious_apic_interrupt().
-0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2133   */
-fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2134  DEFINE_IDTENTRY_IRQ(spurious_interrupt)
-^1da177e4c3f41 arch/x86_64/kernel/apic.c   Linus Torvalds  2005-04-16 @2135  {
-dc1528dd864a0b arch/x86/kernel/apic_64.c   Yinghai Lu      2008-08-24  2136  	u32 v;
-dc1528dd864a0b arch/x86/kernel/apic_64.c   Yinghai Lu      2008-08-24  2137  
-61069de7a3252b arch/x86/kernel/apic/apic.c Thomas Gleixner 2017-08-28  2138  	trace_spurious_apic_entry(vector);
-61069de7a3252b arch/x86/kernel/apic/apic.c Thomas Gleixner 2017-08-28  2139  
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2140  	inc_irq_stat(irq_spurious_count);
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2141  
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2142  	/*
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2143  	 * If this is a spurious interrupt then do not acknowledge
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2144  	 */
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2145  	if (vector == SPURIOUS_APIC_VECTOR) {
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2146  		/* See SDM vol 3 */
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2147  		pr_info("Spurious APIC interrupt (vector 0xFF) on CPU#%d, should never happen.\n",
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2148  			smp_processor_id());
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2149  		goto out;
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2150  	}
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2151  
-0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2152  	/*
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2153  	 * If it is a vectored one, verify it's set in the ISR. If set,
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2154  	 * acknowledge it.
-0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2155  	 */
-2414e021ac8d58 arch/x86/kernel/apic/apic.c Jan Beulich     2014-11-03  2156  	v = apic_read(APIC_ISR + ((vector & ~0x1f) >> 1));
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2157  	if (v & (1 << (vector & 0x1f))) {
-fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2158  		pr_info("Spurious interrupt (vector 0x%02x) on CPU#%d. Acked\n",
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2159  			vector, smp_processor_id());
-0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2160  		ack_APIC_irq();
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2161  	} else {
-fa5e5c40921326 arch/x86/kernel/apic/apic.c Thomas Gleixner 2020-05-21  2162  		pr_info("Spurious interrupt (vector 0x%02x) on CPU#%d. Not pending!\n",
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2163  			vector, smp_processor_id());
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2164  	}
-f8a8fe61fec800 arch/x86/kernel/apic/apic.c Thomas Gleixner 2019-06-28  2165  out:
-2414e021ac8d58 arch/x86/kernel/apic/apic.c Jan Beulich     2014-11-03  2166  	trace_spurious_apic_exit(vector);
-0e078e2f5060e0 arch/x86/kernel/apic_64.c   Thomas Gleixner 2008-01-30  2167  }
-c4d58cbd158dc9 arch/x86/kernel/apic_64.c   Thomas Gleixner 2007-10-12  2168  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1151  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1152  /**
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1153   * get_thread_id_for_phase() - Get the thread id for the current phase of the admin operation in
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1154   *                             progress.
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1155   */
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1156  static thread_id_t __must_check get_thread_id_for_phase(struct vdo *vdo)
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16 @1157  {
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1158  	switch (vdo->admin.phase) {
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1159  	case RESUME_PHASE_PACKER:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1160  	case RESUME_PHASE_FLUSHER:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1161  	case SUSPEND_PHASE_PACKER:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1162  	case SUSPEND_PHASE_FLUSHES:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1163  		return vdo->thread_config.packer_thread;
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1164  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1165  	case RESUME_PHASE_DATA_VIOS:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1166  	case SUSPEND_PHASE_DATA_VIOS:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1167  		return vdo->thread_config.cpu_thread;
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1168  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1169  	case LOAD_PHASE_DRAIN_JOURNAL:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1170  	case RESUME_PHASE_JOURNAL:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1171  	case SUSPEND_PHASE_JOURNAL:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1172  		return vdo->thread_config.journal_thread;
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1173  
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1174  	default:
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1175  		return vdo->thread_config.admin_thread;
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1176  	}
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1177  }
+57a3b0b0fc7414 drivers/md/dm-vdo-target.c Matthew Sakai 2023-11-16  1178  
 
-:::::: The code at line 2135 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 1157 was first introduced by commit
+:::::: 57a3b0b0fc74143a59aabfaeac00d4dd64d28f73 dm vdo: add the top-level DM target
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
