@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E42EC2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 02:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E366108
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 03:33:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UoxqOyYO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKVaIiXB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702522237; x=1734058237;
+  t=1702524815; x=1734060815;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=I15hJujeofSj5fxuFiA6C/A8qOOHMoj68xaDjhNImok=;
-  b=UoxqOyYOwxosHXVsXqNAKiVWwH++PUuNW0+IiYRW4V/xVMLvyW/oEfWQ
-   yggZfFsHRY9YorPdCf6e1lxDB4CWWHVb33Ox/uwe0KzXgH6/a91AiwRTv
-   z+RQFMEEiv9oyJR/1AidB4eje/kc+oHMBNVU5LnvR6naLDs/6mA5XYaFv
-   oZG+/XFyVwmkOd4K3MZWMbgSHfY+G3JscO672ItkMQrDYJTvv2v+dwgC7
-   wRnwmw0IthqKxff2X4qGFdf0MO5K9TwoDe6wxYqjVOVrfEJiwp21U+kSP
-   47aK+e6inaMZkkUE1emwxYRAviKfZ6WTU+Mglw+fWDiwDl4x2pV2EUNR3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="2231269"
+  bh=LvBI3Q0nsje9+cEb4qETVMWnt5ainOgvJfJLW1mNkfI=;
+  b=TKVaIiXBQ2eGWhsjwVv6/93XsNWJoC2LJFuyRZFaMAmBiWduTKPPr2lt
+   Qa5g9YnuY13GjnVlZpkD8vwpAGpZFSughzfcSe5fxKmR6vnmHJPFAAwb0
+   tzRiuYySRSKqk+T33EupMiydXzSl2Tv0rb8l/bn5c5IQrnsVhOovDXnVl
+   hv9/FKV33/SLG0FGX1zbst8d67tSnTyjygRobVi0/9x1IH8XeOFfy+RuW
+   33zLYBK9fvA9O43iX0nQ8gnWoktz4inar4dC1rJbh578BjMRkhtupj9p8
+   PCZnFaRLHXGzFe1xtDNXpgo51/2jc9nhUGfR0N6ovYTeAlTT/pGFIIyo6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="398900978"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="2231269"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 18:50:35 -0800
+   d="scan'208";a="398900978"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 19:33:35 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="947419478"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="22215947"
+   d="scan'208";a="947419478"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 13 Dec 2023 18:50:33 -0800
+  by orsmga005.jf.intel.com with ESMTP; 13 Dec 2023 19:33:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDbnx-000LSd-1Y;
-	Thu, 14 Dec 2023 02:50:29 +0000
-Date: Thu, 14 Dec 2023 10:50:19 +0800
+	id 1rDcTb-000LU3-2W;
+	Thu, 14 Dec 2023 03:33:31 +0000
+Date: Thu, 14 Dec 2023 11:32:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Akhil R <akhilrajeev@nvidia.com>, herbert@gondor.apana.org.au,
-	davem@davemloft.net, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
-	jonathanh@nvidia.com, linux-tegra@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Akhil R <akhilrajeev@nvidia.com>
-Subject: Re: [PATCH 3/5] crypto: tegra: Add Tegra Security Engine driver
-Message-ID: <202312141027.GVOE05ds-lkp@intel.com>
-References: <20231213122030.11734-4-akhilrajeev@nvidia.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] tracing: Have trace_marker break up by lines by size of
+ trace_seq
+Message-ID: <202312141156.aly2oFcx-lkp@intel.com>
+References: <20231212190422.1eaf224f@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,350 +51,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231213122030.11734-4-akhilrajeev@nvidia.com>
+In-Reply-To: <20231212190422.1eaf224f@gandalf.local.home>
 
-Hi Akhil,
+Hi Steven,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on drm/drm-next arm64/for-next/core robh/for-next linus/master v6.7-rc5 next-20231213]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7-rc5 next-20231213]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Akhil-R/dt-bindings-crypto-Add-Tegra-SE-DT-binding-doc/20231213-202407
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20231213122030.11734-4-akhilrajeev%40nvidia.com
-patch subject: [PATCH 3/5] crypto: tegra: Add Tegra Security Engine driver
-config: hexagon-randconfig-r071-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141027.GVOE05ds-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141027.GVOE05ds-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Have-trace_marker-break-up-by-lines-by-size-of-trace_seq/20231213-080530
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231212190422.1eaf224f%40gandalf.local.home
+patch subject: [PATCH] tracing: Have trace_marker break up by lines by size of trace_seq
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20231214/202312141156.aly2oFcx-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141156.aly2oFcx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141027.GVOE05ds-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141156.aly2oFcx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/crypto/tegra/tegra-se-key.c:11:
-   In file included from drivers/crypto/tegra/tegra-se.h:10:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/crypto/tegra/tegra-se-key.c:11:
-   In file included from drivers/crypto/tegra/tegra-se.h:10:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/crypto/tegra/tegra-se-key.c:11:
-   In file included from drivers/crypto/tegra/tegra-se.h:10:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/crypto/tegra/tegra-se-key.c:57:18: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           cpuvaddr[i++] = SE_AES_OP_WRSTALL | SE_AES_OP_DUMMY;
-                           ^
-   drivers/crypto/tegra/tegra-se.h:202:30: note: expanded from macro 'SE_AES_OP_WRSTALL'
-   #define SE_AES_OP_WRSTALL                               FIELD_PREP(BIT(15), 1)
-                                                           ^
-   6 warnings and 1 error generated.
---
-   In file included from drivers/crypto/tegra/tegra-se-aes.c:8:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/crypto/tegra/tegra-se-aes.c:8:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/crypto/tegra/tegra-se-aes.c:8:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/crypto/tegra/tegra-se-aes.c:136:11: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           return SE_CRYPTO_CFG_CBC_ENCRYPT;
-                                  ^
-   drivers/crypto/tegra/tegra-se.h:293:38: note: expanded from macro 'SE_CRYPTO_CFG_CBC_ENCRYPT'
-   #define SE_CRYPTO_CFG_CBC_ENCRYPT                       (SE_AES_INPUT_SEL_MEMORY | \
-                                                            ^
-   drivers/crypto/tegra/tegra-se.h:182:36: note: expanded from macro 'SE_AES_INPUT_SEL_MEMORY'
-   #define SE_AES_INPUT_SEL_MEMORY                         SE_AES_CRYPTO_CFG_INPUT_SEL(0)
-                                                           ^
-   drivers/crypto/tegra/tegra-se.h:181:42: note: expanded from macro 'SE_AES_CRYPTO_CFG_INPUT_SEL'
-   #define SE_AES_CRYPTO_CFG_INPUT_SEL(x)                  FIELD_PREP(GENMASK(4, 3), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:173:11: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           return SE_CFG_AES_ENCRYPT;
-                                  ^
-   drivers/crypto/tegra/tegra-se.h:237:32: note: expanded from macro 'SE_CFG_AES_ENCRYPT'
-   #define SE_CFG_AES_ENCRYPT                              (SE_AES_ENC_ALG_AES_ENC | \
-                                                            ^
-   drivers/crypto/tegra/tegra-se.h:137:35: note: expanded from macro 'SE_AES_ENC_ALG_AES_ENC'
-   #define SE_AES_ENC_ALG_AES_ENC                          SE_AES_CFG_ENC_ALG(1)
-                                                           ^
-   drivers/crypto/tegra/tegra-se.h:135:34: note: expanded from macro 'SE_AES_CFG_ENC_ALG'
-   #define SE_AES_CFG_ENC_ALG(x)                           FIELD_PREP(GENMASK(15, 12), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:228:18: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           cpuvaddr[i++] = SE_ADDR_HI_MSB(upper_32_bits(addr)) | SE_ADDR_HI_SZ(rctx->len);
-                           ^
-   drivers/crypto/tegra/tegra-se.h:234:30: note: expanded from macro 'SE_ADDR_HI_MSB'
-   #define SE_ADDR_HI_MSB(x)                               FIELD_PREP(GENMASK(31, 24), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:373:13: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           manifest = SE_KAC_USER_NS;
-                      ^
-   drivers/crypto/tegra/tegra-se.h:231:28: note: expanded from macro 'SE_KAC_USER_NS'
-   #define SE_KAC_USER_NS                                  FIELD_PREP(GENMASK(6, 4), 3)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:426:25: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           rctx->crypto_config |= SE_AES_KEY_INDEX(ctx->key1_id);
-                                  ^
-   drivers/crypto/tegra/tegra-se.h:156:32: note: expanded from macro 'SE_AES_KEY_INDEX'
-   #define SE_AES_KEY_INDEX(x)                             FIELD_PREP(GENMASK(27, 24), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:445:25: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           rctx->crypto_config |= SE_AES_KEY_INDEX(ctx->key1_id);
-                                  ^
-   drivers/crypto/tegra/tegra-se.h:156:32: note: expanded from macro 'SE_AES_KEY_INDEX'
-   #define SE_AES_KEY_INDEX(x)                             FIELD_PREP(GENMASK(27, 24), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:585:18: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           cpuvaddr[i++] = SE_LAST_BLOCK_VAL(data_count) |
-                           ^
-   drivers/crypto/tegra/tegra-se.h:198:33: note: expanded from macro 'SE_LAST_BLOCK_VAL'
-   #define SE_LAST_BLOCK_VAL(x)                            FIELD_PREP(GENMASK(19, 0), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:616:7: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           op = SE_AES_OP_WRSTALL | SE_AES_OP_FINAL |
-                ^
-   drivers/crypto/tegra/tegra-se.h:202:30: note: expanded from macro 'SE_AES_OP_WRSTALL'
-   #define SE_AES_OP_WRSTALL                               FIELD_PREP(BIT(15), 1)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:673:7: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           op = SE_AES_OP_WRSTALL | SE_AES_OP_FINAL |
-                ^
-   drivers/crypto/tegra/tegra-se.h:202:30: note: expanded from macro 'SE_AES_OP_WRSTALL'
-   #define SE_AES_OP_WRSTALL                               FIELD_PREP(BIT(15), 1)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:728:10: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                 SE_AES_KEY_INDEX(ctx->key_id);
-                                 ^
-   drivers/crypto/tegra/tegra-se.h:156:32: note: expanded from macro 'SE_AES_KEY_INDEX'
-   #define SE_AES_KEY_INDEX(x)                             FIELD_PREP(GENMASK(27, 24), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:745:10: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                 SE_AES_KEY_INDEX(ctx->key_id);
-                                 ^
-   drivers/crypto/tegra/tegra-se.h:156:32: note: expanded from macro 'SE_AES_KEY_INDEX'
-   #define SE_AES_KEY_INDEX(x)                             FIELD_PREP(GENMASK(27, 24), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:768:10: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                 SE_AES_KEY_INDEX(ctx->key_id);
-                                 ^
-   drivers/crypto/tegra/tegra-se.h:156:32: note: expanded from macro 'SE_AES_KEY_INDEX'
-   #define SE_AES_KEY_INDEX(x)                             FIELD_PREP(GENMASK(27, 24), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:824:18: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           cpuvaddr[i++] = SE_LAST_BLOCK_VAL(data_count);
-                           ^
-   drivers/crypto/tegra/tegra-se.h:198:33: note: expanded from macro 'SE_LAST_BLOCK_VAL'
-   #define SE_LAST_BLOCK_VAL(x)                            FIELD_PREP(GENMASK(19, 0), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:869:18: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           cpuvaddr[i++] = SE_ADDR_HI_MSB(upper_32_bits(rctx->inbuf.addr)) |
-                           ^
-   drivers/crypto/tegra/tegra-se.h:234:30: note: expanded from macro 'SE_ADDR_HI_MSB'
-   #define SE_ADDR_HI_MSB(x)                               FIELD_PREP(GENMASK(31, 24), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-aes.c:899:13: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                                         SE_AES_KEY_INDEX(ctx->key_id);
-                                                         ^
-   drivers/crypto/tegra/tegra-se.h:156:32: note: expanded from macro 'SE_AES_KEY_INDEX'
-   #define SE_AES_KEY_INDEX(x)                             FIELD_PREP(GENMASK(27, 24), x)
---
-   In file included from drivers/crypto/tegra/tegra-se-hash.c:8:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/crypto/tegra/tegra-se-hash.c:8:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/crypto/tegra/tegra-se-hash.c:8:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/crypto/tegra/tegra-se-hash.c:53:10: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   cfg |= SE_SHA_ENC_ALG_SHA;
-                          ^
-   drivers/crypto/tegra/tegra-se.h:59:31: note: expanded from macro 'SE_SHA_ENC_ALG_SHA'
-   #define SE_SHA_ENC_ALG_SHA                              SE_SHA_CFG_ENC_ALG(3)
-                                                           ^
-   drivers/crypto/tegra/tegra-se.h:55:34: note: expanded from macro 'SE_SHA_CFG_ENC_ALG'
-   #define SE_SHA_CFG_ENC_ALG(x)                           FIELD_PREP(GENMASK(15, 12), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-hash.c:256:24: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           cpuvaddr[i++] = (u32)(SE_ADDR_HI_MSB(upper_32_bits(rctx->datbuf.addr)) |
-                                 ^
-   drivers/crypto/tegra/tegra-se.h:234:30: note: expanded from macro 'SE_ADDR_HI_MSB'
-   #define SE_ADDR_HI_MSB(x)                               FIELD_PREP(GENMASK(31, 24), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-hash.c:331:4: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           SE_SHA_DST_HASH_REG;
-                           ^
-   drivers/crypto/tegra/tegra-se.h:85:32: note: expanded from macro 'SE_SHA_DST_HASH_REG'
-   #define SE_SHA_DST_HASH_REG                             SE_SHA_CFG_DST(1)
-                                                           ^
-   drivers/crypto/tegra/tegra-se.h:83:30: note: expanded from macro 'SE_SHA_CFG_DST'
-   #define SE_SHA_CFG_DST(x)                               FIELD_PREP(GENMASK(4, 2), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-hash.c:352:10: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                          SE_SHA_DST_MEMORY;
-                          ^
-   drivers/crypto/tegra/tegra-se.h:84:30: note: expanded from macro 'SE_SHA_DST_MEMORY'
-   #define SE_SHA_DST_MEMORY                               SE_SHA_CFG_DST(0)
-                                                           ^
-   drivers/crypto/tegra/tegra-se.h:83:30: note: expanded from macro 'SE_SHA_CFG_DST'
-   #define SE_SHA_CFG_DST(x)                               FIELD_PREP(GENMASK(4, 2), x)
-                                                           ^
-   drivers/crypto/tegra/tegra-se-hash.c:457:14: warning: variable 'algname' set but not used [-Wunused-but-set-variable]
-           const char *algname;
-                       ^
-   drivers/crypto/tegra/tegra-se-hash.c:961:13: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           manifest = SE_KAC_USER_NS;
-                      ^
-   drivers/crypto/tegra/tegra-se.h:231:28: note: expanded from macro 'SE_KAC_USER_NS'
-   #define SE_KAC_USER_NS                                  FIELD_PREP(GENMASK(6, 4), 3)
-                                                           ^
-   7 warnings and 5 errors generated.
+   kernel/trace/trace.c: In function 'tracing_mark_write':
+   kernel/trace/trace.c:7296:20: error: 'TRACE_SEQ_BUFFER_SIZE' undeclared (first use in this function); did you mean 'TRACE_BUF_SIZE'?
+    7296 |         if (size > TRACE_SEQ_BUFFER_SIZE) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+         |                    TRACE_BUF_SIZE
+   kernel/trace/trace.c:7296:20: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/trace/trace.c:7298:17: error: label 'again' used but not defined
+    7298 |                 goto again;
+         |                 ^~~~
 
 
-vim +/FIELD_PREP +57 drivers/crypto/tegra/tegra-se-key.c
+vim +/again +7298 kernel/trace/trace.c
 
-    49	
-    50	static unsigned int tegra_key_prep_ins_cmd(struct tegra_se *se, u32 *cpuvaddr,
-    51						   const u32 *key, u32 keylen, u16 slot, u32 alg)
-    52	{
-    53		int i = 0, j;
-    54	
-    55		cpuvaddr[i++] = host1x_opcode_setpayload(1);
-    56		cpuvaddr[i++] = se_host1x_opcode_incr_w(se->hw->regs->op);
-  > 57		cpuvaddr[i++] = SE_AES_OP_WRSTALL | SE_AES_OP_DUMMY;
-    58	
-    59		cpuvaddr[i++] = host1x_opcode_setpayload(1);
-    60		cpuvaddr[i++] = se_host1x_opcode_incr_w(se->hw->regs->manifest);
-    61		cpuvaddr[i++] = se->manifest(se->owner, alg, keylen);
-    62		cpuvaddr[i++] = host1x_opcode_setpayload(1);
-    63		cpuvaddr[i++] = se_host1x_opcode_incr_w(se->hw->regs->key_dst);
-    64	
-    65		cpuvaddr[i++] = SE_AES_KEY_DST_INDEX(slot);
-    66	
-    67		for (j = 0; j < keylen / 4; j++) {
-    68			/* Set key address */
-    69			cpuvaddr[i++] = host1x_opcode_setpayload(1);
-    70			cpuvaddr[i++] = se_host1x_opcode_incr_w(se->hw->regs->key_addr);
-    71			cpuvaddr[i++] = j;
-    72	
-    73			/* Set key data */
-    74			cpuvaddr[i++] = host1x_opcode_setpayload(1);
-    75			cpuvaddr[i++] = se_host1x_opcode_incr_w(se->hw->regs->key_data);
-    76			cpuvaddr[i++] = key[j];
-    77		}
-    78	
-    79		cpuvaddr[i++] = host1x_opcode_setpayload(1);
-    80		cpuvaddr[i++] = se_host1x_opcode_incr_w(se->hw->regs->config);
-    81		cpuvaddr[i++] = SE_CFG_INS;
-    82	
-    83		cpuvaddr[i++] = host1x_opcode_setpayload(1);
-    84		cpuvaddr[i++] = se_host1x_opcode_incr_w(se->hw->regs->op);
-    85		cpuvaddr[i++] = SE_AES_OP_WRSTALL | SE_AES_OP_START |
-    86				SE_AES_OP_LASTBUF;
-    87	
-    88		cpuvaddr[i++] = se_host1x_opcode_nonincr(host1x_uclass_incr_syncpt_r(), 1);
-    89		cpuvaddr[i++] = host1x_uclass_incr_syncpt_cond_f(1) |
-    90				host1x_uclass_incr_syncpt_indx_f(se->syncpt_id);
-    91	
-    92		dev_dbg(se->dev, "key-slot %u key-manifest %#x\n",
-    93			slot, se->manifest(se->owner, alg, keylen));
-    94	
-    95		return i;
-    96	}
-    97	
+  7278	
+  7279		if (tracing_disabled)
+  7280			return -EINVAL;
+  7281	
+  7282		if (!(tr->trace_flags & TRACE_ITER_MARKERS))
+  7283			return -EINVAL;
+  7284	
+  7285		if (cnt > TRACE_BUF_SIZE)
+  7286			cnt = TRACE_BUF_SIZE;
+  7287	
+  7288		BUILD_BUG_ON(TRACE_BUF_SIZE >= PAGE_SIZE);
+  7289	
+  7290		size = sizeof(*entry) + cnt + 2; /* add '\0' and possible '\n' */
+  7291	
+  7292		/* If less than "<faulted>", then make sure we can still add that */
+  7293		if (cnt < FAULTED_SIZE)
+  7294			size += FAULTED_SIZE - cnt;
+  7295	
+  7296		if (size > TRACE_SEQ_BUFFER_SIZE) {
+  7297			cnt -= size - TRACE_SEQ_BUFFER_SIZE;
+> 7298			goto again;
+  7299		}
+  7300	
+  7301		buffer = tr->array_buffer.buffer;
+  7302		event = __trace_buffer_lock_reserve(buffer, TRACE_PRINT, size,
+  7303						    tracing_gen_ctx());
+  7304		if (unlikely(!event))
+  7305			/* Ring buffer disabled, return as if not open for write */
+  7306			return -EBADF;
+  7307	
+  7308		entry = ring_buffer_event_data(event);
+  7309		entry->ip = _THIS_IP_;
+  7310	
+  7311		len = __copy_from_user_inatomic(&entry->buf, ubuf, cnt);
+  7312		if (len) {
+  7313			memcpy(&entry->buf, FAULTED_STR, FAULTED_SIZE);
+  7314			cnt = FAULTED_SIZE;
+  7315			written = -EFAULT;
+  7316		} else
+  7317			written = cnt;
+  7318	
+  7319		if (tr->trace_marker_file && !list_empty(&tr->trace_marker_file->triggers)) {
+  7320			/* do not add \n before testing triggers, but add \0 */
+  7321			entry->buf[cnt] = '\0';
+  7322			tt = event_triggers_call(tr->trace_marker_file, buffer, entry, event);
+  7323		}
+  7324	
+  7325		if (entry->buf[cnt - 1] != '\n') {
+  7326			entry->buf[cnt] = '\n';
+  7327			entry->buf[cnt + 1] = '\0';
+  7328		} else
+  7329			entry->buf[cnt] = '\0';
+  7330	
+  7331		if (static_branch_unlikely(&trace_marker_exports_enabled))
+  7332			ftrace_exports(event, TRACE_EXPORT_MARKER);
+  7333		__buffer_unlock_commit(buffer, event);
+  7334	
+  7335		if (tt)
+  7336			event_triggers_post_call(tr->trace_marker_file, tt);
+  7337	
+  7338		return written;
+  7339	}
+  7340	
 
 -- 
 0-DAY CI Kernel Test Service
