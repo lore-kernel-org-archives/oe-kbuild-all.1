@@ -1,56 +1,47 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACCC2C689
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 21:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB919671F9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 22:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XW7F6mhi"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-28b02567a05so1160857a91.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 13:50:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702590606; x=1703195406; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q3uvOl5I1K5LVZjTbvdk6O6AI3UzMwrE4ysaxYUe9kI=;
-        b=XW7F6mhiyjwy95rT9XcKBtGIp2gXXoUUYdl71BwSDwOs/nJwcQGFPIxhjE8vMzKEy0
-         /9j+G3yvaFSB/GmEX9kftz/CgRtTzIRyq2+vE1/bpJjiwogeDA+hHSZ259loe9sSwLbu
-         2SYW+zo7cr7Y8lc9iS8D1ACWM3UW5FsnW4gvA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702590606; x=1703195406;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q3uvOl5I1K5LVZjTbvdk6O6AI3UzMwrE4ysaxYUe9kI=;
-        b=P/qFvr8kaQERNZ6oHURZvd0hO8I2d1gVthjCCGiVeEyF0fzOawue9DTQKa6o7m8IYd
-         IOdWh7eiVJO+Iwlyn0K1ZiECUyLJmEo9Ll9WBmua55QGVrZbcpfosdTsAm78k9C312Py
-         BLyyMDpRyrcjI7RuwHjiKHukxEhZVM79pJ7gdY3sCclFsx3DxMGQ4IZaUa9Ch15UnRSI
-         esgb75QP+W/8QzNmqIJD7cHrJU5n0seaRK+j7FDO+U6GpDhN/nyYROzYxHovBPH8FHhe
-         KlBDLZMl1ob54rq8mD1vGv/A15phqi+hNzJeO8Kk6YI2bMeCTtaLOITMD+1FI78o8pI+
-         DyBw==
-X-Gm-Message-State: AOJu0YzoK0cpEjxvIDCaFo5enxs39fQa8AWRVn46EdNbUAjkDynzAFLm
-	HzP+IGl0WSmyrSh8ixHgXDDtNg==
-X-Google-Smtp-Source: AGHT+IH8XIX3Um1NiC6K2GNJEyKljGfB96y9SWgXPf2JeECrD6rGe9/j6ZSa0NVjliiYfaX/MzK2Aw==
-X-Received: by 2002:a17:90a:aa8b:b0:288:76d7:4227 with SMTP id l11-20020a17090aaa8b00b0028876d74227mr4749010pjq.52.1702590606645;
-        Thu, 14 Dec 2023 13:50:06 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id j8-20020a17090a734800b0028ae9cb6ce0sm3740633pjs.6.2023.12.14.13.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 13:50:06 -0800 (PST)
-Date: Thu, 14 Dec 2023 13:50:05 -0800
-From: Kees Cook <keescook@chromium.org>
-To: kernel test robot <lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jy7I3aQd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702592428; x=1734128428;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2oxF91UwycN6W6BYGY4eiJniIvw65cXKbdqHisPMh74=;
+  b=jy7I3aQdhbUviktJ5MMR0vZuGUJ1iqVlLL5iextvzKsUAlbtnvHCOFxR
+   c2L4W3IJLwujpXt8AQw60mfE9ku3+q9cBY+zS2rBbyAIs3vQoWsi35YZ5
+   Q/0HbzPeWUmN2khe2O1pWsx21ZPsU9Yawx/fj0XANJEC1PsWub7X0kxx6
+   /3MFQFCMIIiOeo/9+mQa/cFra/dFKcvm2fQcFqk5wEld/oOCwuRsFKtqJ
+   ilBqu/ZbV2NryRHzc6rJboPkRNuZjXKReU1TZObTHYZmzbohlWfAlkNOQ
+   898LwS03NXcwarrJj4oTfVz+J5tyOafhurWD/lVPxqZPRl5YsOg+Fgbal
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="380187574"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
+   d="scan'208";a="380187574"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 14:20:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="892648043"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
+   d="scan'208";a="892648043"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 14 Dec 2023 14:20:26 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDu48-000Mef-2e;
+	Thu, 14 Dec 2023 22:20:24 +0000
+Date: Fri, 15 Dec 2023 06:19:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Peter Oberparleiter <oberpar@linux.ibm.com>,
-	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: kernel/gcov/fs.c:103: warning: Excess struct member 'buffer'
- description in 'gcov_iterator'
-Message-ID: <202312141344.9E41E46584@keescook>
-References: <202312150432.oBngC94A-lkp@intel.com>
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: drivers/reset/core.c:64: warning: Excess struct member 'rstc'
+ description in 'reset_control_array'
+Message-ID: <202312150614.kOx8xUkr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,48 +50,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202312150432.oBngC94A-lkp@intel.com>
 
-On Fri, Dec 15, 2023 at 04:53:19AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-> commit: fbd126f5a658b92c7f6af986a6d89cf5e5693268 gcov: annotate struct gcov_iterator with __counted_by
-> date:   8 weeks ago
-> config: i386-buildonly-randconfig-001-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150432.oBngC94A-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150432.oBngC94A-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312150432.oBngC94A-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> kernel/gcov/fs.c:103: warning: Excess struct member 'buffer' description in 'gcov_iterator'
-> 
-> 
-> vim +103 kernel/gcov/fs.c
-> 
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   90  
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   91  /**
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   92   * struct gcov_iterator - specifies current file position in logical records
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   93   * @info: associated profiling data
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   94   * @buffer: buffer containing file data
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   95   * @size: size of buffer
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   96   * @pos: current position in file
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   97   */
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   98  struct gcov_iterator {
-> 7a1d55b987dfcb Johannes Berg 2021-05-06   99  	struct gcov_info *info;
-> 7a1d55b987dfcb Johannes Berg 2021-05-06  100  	size_t size;
-> 7a1d55b987dfcb Johannes Berg 2021-05-06  101  	loff_t pos;
-> fbd126f5a658b9 Kees Cook     2023-09-22  102  	char buffer[] __counted_by(size);
-> 7a1d55b987dfcb Johannes Berg 2021-05-06 @103  };
-> 7a1d55b987dfcb Johannes Berg 2021-05-06  104  
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c7402612e2e61b76177f22e6e7f705adcbecc6fe
+commit: fed2ef7abaebe5e0207cd52ae52721ea3da3b5ba reset: Annotate struct reset_control_array with __counted_by
+date:   7 weeks ago
+config: arm-randconfig-r081-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150614.kOx8xUkr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150614.kOx8xUkr-lkp@intel.com/reproduce)
 
-It looks like whatever produces that error is not parsing attributes
-correctly. I suspect this is the "htmldocs" target and "__counted_by" is
-missing from Documentation/conf.py. I'll investigate...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150614.kOx8xUkr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/reset/core.c:64: warning: Excess struct member 'rstc' description in 'reset_control_array'
+
+
+vim +64 drivers/reset/core.c
+
+61fc41317666be Philipp Zabel 2012-11-19  53  
+17c82e206d2a3c Vivek Gautam  2017-05-22  54  /**
+17c82e206d2a3c Vivek Gautam  2017-05-22  55   * struct reset_control_array - an array of reset controls
+17c82e206d2a3c Vivek Gautam  2017-05-22  56   * @base: reset control for compatibility with reset control API functions
+17c82e206d2a3c Vivek Gautam  2017-05-22  57   * @num_rstcs: number of reset controls
+17c82e206d2a3c Vivek Gautam  2017-05-22  58   * @rstc: array of reset controls
+17c82e206d2a3c Vivek Gautam  2017-05-22  59   */
+17c82e206d2a3c Vivek Gautam  2017-05-22  60  struct reset_control_array {
+17c82e206d2a3c Vivek Gautam  2017-05-22  61  	struct reset_control base;
+17c82e206d2a3c Vivek Gautam  2017-05-22  62  	unsigned int num_rstcs;
+fed2ef7abaebe5 Kees Cook     2023-09-22  63  	struct reset_control *rstc[] __counted_by(num_rstcs);
+17c82e206d2a3c Vivek Gautam  2017-05-22 @64  };
+17c82e206d2a3c Vivek Gautam  2017-05-22  65  
+
+:::::: The code at line 64 was first introduced by commit
+:::::: 17c82e206d2a3cd876b64921c59116f1ecdce6ad reset: Add APIs to manage array of resets
+
+:::::: TO: Vivek Gautam <vivek.gautam@codeaurora.org>
+:::::: CC: Philipp Zabel <p.zabel@pengutronix.de>
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
