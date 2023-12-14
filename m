@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D05D14AAC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 08:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF467D302
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 08:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b9x4X4Da"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQCIOn3a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702541362; x=1734077362;
+  t=1702542683; x=1734078683;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OnQUw6DzWKRZ62i8CUB/fgzvr585PtagxxnHnxESvAk=;
-  b=b9x4X4Da3ZCofcrh6DRKkAPNE36e0L3meZKKfFZkdPn5150V0U5fmJ9f
-   RkDtItZA8JnVQ0afh0u/Jl2f9NQMEkodtSSHKPqYi8SPY0fvPoUhRUQpK
-   tf/dtXbvqxEjqnNMnIDzyqobSWv6Oa5IeVtnJ5iO4HmxY9PfKue47Y6/+
-   T8eo8JBQ6OIbppsk8+NZn5fm98pP6svaM7JbNPMRS052b2KliY0qskqwi
-   A1NeHGz+hiJaB5TCAe54xQDsYzu+aTa9PiZlZdZja8mQjiwhP4fdfaEje
-   cY7tHGimZ/ArT1cUn0lrdWWSlgckgCWk9wHSlhXlkRjMzy7ZU207qku+/
+  bh=t6uZljv2bIkPW9EPL18TpWUX9ABoK9bO0kk+uCDQC0M=;
+  b=hQCIOn3aovLLazeQ0yvSos3NsCgmXB5+lpPEuuTahbSjDtDG0PCgFV92
+   HWnkC1fByRE9q8TP8A1UBX/COKEbdYkFas1O0DIKhOzSZ8xwm4tFJ8IPb
+   jWU+qx/shyqAGFRLeFJTG7OLTaAd7Qxg+zD9Jet+QEdvMTGcX/MqmOAM9
+   +ow6Wjnlo6q5mO7WZnH+7PYolCmzF5P26L+OKKpvBfwFJ9dN9XdqAhY42
+   I8loeEWA5U1mFcVPpPOd8XaK2bLaawlq1wpcuUKTC59BdUSEI8kMK+975
+   zRo3i23sy0Zv2TrEjn5WjT2Xfiep1xmgQGff6ukEvvuOI9Q7K/78d4Qoc
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="375240936"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1918519"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="375240936"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 00:09:21 -0800
+   d="scan'208";a="1918519"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 00:31:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="917977879"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="767537243"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="917977879"
+   d="scan'208";a="767537243"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Dec 2023 00:09:20 -0800
+  by orsmga007.jf.intel.com with ESMTP; 14 Dec 2023 00:31:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDgmU-000Lmt-1Z;
-	Thu, 14 Dec 2023 08:09:18 +0000
-Date: Thu, 14 Dec 2023 16:08:19 +0800
+	id 1rDh7n-000LoT-1x;
+	Thu, 14 Dec 2023 08:31:19 +0000
+Date: Thu, 14 Dec 2023 16:30:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:headers.unaligned 2/2] drivers/hid/hid-kye.c:11:10: fatal
- error: asm-generic/unaligned.h: No such file or directory
-Message-ID: <202312141642.xwTolWpS-lkp@intel.com>
+To: Gregory CLEMENT <gregory.clement@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Viresh Kumar <viresh.kumar@linaro.org>
+Subject: drivers/cpufreq/armada-8k-cpufreq.c:53:40: sparse: sparse: Using
+ plain integer as NULL pointer
+Message-ID: <202312141651.lCAXGAZ2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,53 +51,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Al,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git headers.unaligned
-head:   959598f725aa7721a4bad53c2e997c7255ff32dc
-commit: 959598f725aa7721a4bad53c2e997c7255ff32dc [2/2] move asm/unaligned.h to linux/unaligned.h
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20231214/202312141642.xwTolWpS-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141642.xwTolWpS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
+commit: f525a670533d961fd72ab748e3aac002d7b3d1b9 cpufreq: ap806: add cpufreq driver for Armada 8K
+date:   4 years, 10 months ago
+config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231214/202312141651.lCAXGAZ2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231214/202312141651.lCAXGAZ2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141642.xwTolWpS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141651.lCAXGAZ2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/cpufreq/armada-8k-cpufreq.c:53:40: sparse: sparse: Using plain integer as NULL pointer
+   drivers/cpufreq/armada-8k-cpufreq.c:155:40: sparse: sparse: Using plain integer as NULL pointer
 
->> drivers/hid/hid-kye.c:11:10: fatal error: asm-generic/unaligned.h: No such file or directory
-      11 | #include <asm-generic/unaligned.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
->> drivers/net/can/usb/f81604.c:16:10: fatal error: asm-generic/unaligned.h: No such file or directory
-      16 | #include <asm-generic/unaligned.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
->> drivers/net/ethernet/broadcom/asp2/bcmasp_ethtool.c:4:10: fatal error: asm-generic/unaligned.h: No such file or directory
-       4 | #include <asm-generic/unaligned.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+vim +53 drivers/cpufreq/armada-8k-cpufreq.c
 
-
-vim +11 drivers/hid/hid-kye.c
-
-b8cd2d963da57a David Yang  2023-02-07 @11  #include <asm-generic/unaligned.h>
-794227415f8f5f Jiri Kosina 2009-03-11  12  #include <linux/device.h>
-794227415f8f5f Jiri Kosina 2009-03-11  13  #include <linux/hid.h>
-794227415f8f5f Jiri Kosina 2009-03-11  14  #include <linux/module.h>
-794227415f8f5f Jiri Kosina 2009-03-11  15  
-
-:::::: The code at line 11 was first introduced by commit
-:::::: b8cd2d963da57aba55afd7f57546e3bb69e9a2c1 HID: kye: Rewrite tablet descriptor fixup routine
-
-:::::: TO: David Yang <mmyangfl@gmail.com>
-:::::: CC: Jiri Kosina <jkosina@suse.cz>
+    36	
+    37	/* If the CPUs share the same clock, then they are in the same cluster. */
+    38	static void __init armada_8k_get_sharing_cpus(struct clk *cur_clk,
+    39						      struct cpumask *cpumask)
+    40	{
+    41		int cpu;
+    42	
+    43		for_each_possible_cpu(cpu) {
+    44			struct device *cpu_dev;
+    45			struct clk *clk;
+    46	
+    47			cpu_dev = get_cpu_device(cpu);
+    48			if (!cpu_dev) {
+    49				pr_warn("Failed to get cpu%d device\n", cpu);
+    50				continue;
+    51			}
+    52	
+  > 53			clk = clk_get(cpu_dev, 0);
+    54			if (IS_ERR(clk)) {
+    55				pr_warn("Cannot get clock for CPU %d\n", cpu);
+    56			} else {
+    57				if (clk_is_match(clk, cur_clk))
+    58					cpumask_set_cpu(cpu, cpumask);
+    59	
+    60				clk_put(clk);
+    61			}
+    62		}
+    63	}
+    64	
 
 -- 
 0-DAY CI Kernel Test Service
