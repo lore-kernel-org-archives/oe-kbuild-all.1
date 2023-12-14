@@ -1,48 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74439634
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 00:43:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D6A63D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 01:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gFEM4/N+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QCBikPg3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702514603; x=1734050603;
+  t=1702517214; x=1734053214;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j8L7B4f1lnjXU3gnLVx/ZfQJMSKskxtQHsS23kK9EZE=;
-  b=gFEM4/N+wtpWRNYbYeAgfmgNdzLqO/U5PtA+tBgP6apJv+8nt9DANCAQ
-   qBqBuhuiUrGqb3aTqbD+MpRm5ekMz8IJZSO43o0iFfILOZyj8/69Ko9w5
-   1Mpk3jQ1imuVceRynL6MV321ZW72IQPy8pi4G2ewT6NP7Gx5nTe04iMN3
-   KjwmTMBRPPXW6sp47PWnfW286CQP2KcWCo3OYvYSw0GOXFa02jybqu6tc
-   sX6BBntkpEG6DZqeDSlqm6djNlU/M5P4VBYUkE+decB9kEWxn8qFlWZJp
-   6PRPSCS3lzKWQmdFM/6yk6P4pWQJCa9CvQzuyvrFcsPAQ5kQkL/juxGPz
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="398884448"
+  bh=ShP1RF2OKayGx4P6QhA6P+2q3H41kwVUML4l/9BrTdY=;
+  b=QCBikPg3SvHIAYcA7hq7ztkr2QQf+tUn13cCVNobf0PigGcYE3vH3V2i
+   1jpNU6ed8S5lK+vDCR0111KnEDJU0ZqzxLX7siO9RB51zhLGEhY/bMvrU
+   XXruUxz5Vaw+Tfjt/OWj3XDbqjY2vRED+Lsh7dCZaWTJ+9rEd0sYuSkeU
+   zjOVDpOND3WhD1Hd0sHAkyZ+kDZTgVVGuRR+UiMqnrKDGHgKoSdercjma
+   E2M36VlKUh/f1SZuQUq9k2xi/6fuljZ+dcLHfqjj7QAvq8CridXG3NPNq
+   1lcjTtp/jIqSciv4aFFTA5g5j2ujMG+wkLQYwXv6SUvo3l4qClATuukoz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1885139"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="398884448"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 16:43:22 -0800
+   d="scan'208";a="1885139"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 17:26:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1021318409"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="844527628"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="1021318409"
+   d="scan'208";a="844527628"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Dec 2023 16:43:21 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 13 Dec 2023 17:26:52 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDZos-000LM1-1Y;
-	Thu, 14 Dec 2023 00:43:18 +0000
-Date: Thu, 14 Dec 2023 08:42:19 +0800
+	id 1rDaTv-000LNf-2m;
+	Thu, 14 Dec 2023 01:26:09 +0000
+Date: Thu, 14 Dec 2023 09:25:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: drivers/tty/ipwireless/hardware.c:431:30: sparse: sparse: incorrect
- type in argument 1 (different base types)
-Message-ID: <202312140821.C5nNiybl-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Neeraj Upadhyay (AMD)" <neeraj.iitr10@gmail.com>,
+	"Joel Fernandes (Google)" <joel@joelfernandes.org>
+Subject: [linux-next:master 6386/7300] kernel/rcu/tree.c:2965:(.text+0x5b44):
+ relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+Message-ID: <202312140939.zA3tdSi2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,97 +53,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: 15104de122a4f0258981b06ed94cf616a6eb03ef x86: Adjust types used in port I/O helpers
-date:   1 year, 8 months ago
-config: i386-randconfig-061-20231101 (https://download.01.org/0day-ci/archive/20231214/202312140821.C5nNiybl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312140821.C5nNiybl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   48e8992e33abf054bcc0bb2e77b2d43bb899212e
+commit: 4e58aaeebb3c27993c734c99eae6881b196b1ddb [6386/7300] rcu: Restrict access to RCU CPU stall notifiers
+config: csky-randconfig-r013-20230826 (https://download.01.org/0day-ci/archive/20231214/202312140939.zA3tdSi2-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312140939.zA3tdSi2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312140821.C5nNiybl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312140939.zA3tdSi2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/tty/ipwireless/hardware.c:431:30: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [assigned] [usertype] raw_data @@
-   drivers/tty/ipwireless/hardware.c:431:30: sparse:     expected unsigned short [usertype] value
-   drivers/tty/ipwireless/hardware.c:431:30: sparse:     got restricted __le16 [assigned] [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:445:30: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __le16 [assigned] [usertype] raw_data @@
-   drivers/tty/ipwireless/hardware.c:445:30: sparse:     expected unsigned short [usertype] value
-   drivers/tty/ipwireless/hardware.c:445:30: sparse:     got restricted __le16 [assigned] [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:872:46: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] raw_data @@     got unsigned short @@
-   drivers/tty/ipwireless/hardware.c:872:46: sparse:     expected restricted __le16 [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:872:46: sparse:     got unsigned short
-   drivers/tty/ipwireless/hardware.c:889:46: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] raw_data @@     got unsigned short @@
-   drivers/tty/ipwireless/hardware.c:889:46: sparse:     expected restricted __le16 [usertype] raw_data
-   drivers/tty/ipwireless/hardware.c:889:46: sparse:     got unsigned short
+All errors (new ones prefixed by >>):
 
-vim +431 drivers/tty/ipwireless/hardware.c
+   kernel/rcu/tree.o: in function `drain_page_cache':
+>> kernel/rcu/tree.c:2965:(.text+0x5b44): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/rcu/tree.c:2968:(.text+0x5b5c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/rcu/tree.o: in function `kfree_rcu_shrink_scan':
+   kernel/rcu/tree.c:3476:(.text+0x5b6a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/rcu/tree.o: in function `rcu_do_batch':
+   kernel/rcu/tree.c:2102:(.text+0x5be6): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/rcu/tree.c:2117:(.text+0x5c06): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/rcu/tree.c:2119:(.text+0x5c22): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/rcu/tree.c:2135:(.text+0x5c66): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/rcu/tree.c:2144:(.text+0x5ca2): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/rcu/tree.o: in function `rcu_lock_acquire':
+>> include/linux/rcupdate.h:301:(.text+0x5cb2): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   include/linux/rcupdate.h:301:(.text+0x5cce): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   kernel/rcu/tree.o: in function `rcu_lock_release':
+   include/linux/rcupdate.h:306:(.text+0x5cee): additional relocation overflows omitted from the output
 
-d54c2752f6bb6cc drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  403  
-93110f698fe92fc drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  404  static void do_send_fragment(struct ipw_hardware *hw, unsigned char *data,
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  405  			    unsigned length)
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  406  {
-d4c0deb7009217d drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  407  	unsigned i;
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  408  	unsigned long flags;
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  409  
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  410  	start_timing();
-93110f698fe92fc drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  411  	BUG_ON(length > hw->ll_mtu);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  412  
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  413  	if (ipwireless_debug)
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  414  		dump_data_bytes("send", data, length);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  415  
-63c4dbd1023b9ac drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  416  	spin_lock_irqsave(&hw->lock, flags);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  417  
-eb4e545d4ac82d9 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-06-06  418  	hw->tx_ready = 0;
-d54c2752f6bb6cc drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  419  	swap_packet_bitfield_to_le(data);
-eb4e545d4ac82d9 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-06-06  420  
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  421  	if (hw->hw_version == HW_VERSION_1) {
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  422  		outw((unsigned short) length, hw->base_port + IODWR);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  423  
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  424  		for (i = 0; i < length; i += 2) {
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  425  			unsigned short d = data[i];
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  426  			__le16 raw_data;
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  427  
-d4c0deb7009217d drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  428  			if (i + 1 < length)
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  429  				d |= data[i + 1] << 8;
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  430  			raw_data = cpu_to_le16(d);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07 @431  			outw(raw_data, hw->base_port + IODWR);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  432  		}
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  433  
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  434  		outw(DCR_TXDONE, hw->base_port + IODCR);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  435  	} else if (hw->hw_version == HW_VERSION_2) {
-2e713165f892c83 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  436  		outw((unsigned short) length, hw->base_port);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  437  
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  438  		for (i = 0; i < length; i += 2) {
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  439  			unsigned short d = data[i];
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  440  			__le16 raw_data;
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  441  
-d4c0deb7009217d drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  442  			if (i + 1 < length)
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  443  				d |= data[i + 1] << 8;
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  444  			raw_data = cpu_to_le16(d);
-2e713165f892c83 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  445  			outw(raw_data, hw->base_port);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  446  		}
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  447  		while ((i & 3) != 2) {
-2e713165f892c83 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  448  			outw((unsigned short) 0xDEAD, hw->base_port);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  449  			i += 2;
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  450  		}
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  451  		writew(MEMRX_RX, &hw->memory_info_regs->memreg_rx);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  452  	}
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  453  
-63c4dbd1023b9ac drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-07-28  454  	spin_unlock_irqrestore(&hw->lock, flags);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  455  
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  456  	end_write_timing(length);
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  457  }
-099dc4fb62653f6 drivers/char/pcmcia/ipwireless/hardware.c David Sterba 2008-02-07  458  
 
-:::::: The code at line 431 was first introduced by commit
-:::::: 099dc4fb62653f6019d78db55fba7a18ef02d65b ipwireless: driver for PC Card 3G/UMTS modem
+vim +2965 kernel/rcu/tree.c
 
-:::::: TO: David Sterba <dsterba@suse.cz>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2951) 
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2952  static int
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2953  drain_page_cache(struct kfree_rcu_cpu *krcp)
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2954  {
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2955  	unsigned long flags;
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2956  	struct llist_node *page_list, *pos, *n;
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2957  	int freed = 0;
+53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2958) 
+6b706e5603c44f Zqiang                  2023-04-18  2959  	if (!rcu_min_cached_objs)
+6b706e5603c44f Zqiang                  2023-04-18  2960  		return 0;
+6b706e5603c44f Zqiang                  2023-04-18  2961  
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2962  	raw_spin_lock_irqsave(&krcp->lock, flags);
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2963  	page_list = llist_del_all(&krcp->bkvcache);
+ac7625ebd5f7ba Uladzislau Rezki (Sony  2021-04-15  2964) 	WRITE_ONCE(krcp->nr_bkv_objs, 0);
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15 @2965  	raw_spin_unlock_irqrestore(&krcp->lock, flags);
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2966  
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2967  	llist_for_each_safe(pos, n, page_list) {
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2968  		free_page((unsigned long)pos);
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2969  		freed++;
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2970  	}
+53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2971) 
+d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2972  	return freed;
+53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2973) }
+53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2974) 
+
+:::::: The code at line 2965 was first introduced by commit
+:::::: d0bfa8b3c411e25e014e4131d2804afe29c440a6 kvfree_rcu: Release a page cache under memory pressure
+
+:::::: TO: Zhang Qiang <qiang.zhang@windriver.com>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
