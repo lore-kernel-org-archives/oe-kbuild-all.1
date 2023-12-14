@@ -1,50 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B0E59E2D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A46C55778
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMlih+bW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bv19fZmb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702563575; x=1734099575;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W5iZTXq1dwvZcRt8twQ/cRLqw1ZsFuJu92o/r4qAF8g=;
-  b=VMlih+bWP1dz4N2Z9TvRiIy7paC70o/csDOHLkjf5YQpN2ZDWPnBdTRT
-   nquu42CTM2DBUtDcEKvDy83tS/3iN9vXXSVEhYhHfntAkntsJ/6UwwKgZ
-   UUF9WVoTAQaEz7G0FBP4RF01hTtpNFfH/06OYmm/F3fpq8/QmtzEOXHxF
-   qxU7xTxZOztuC+4X2H6aukvIWzU8n8yV0XbNiqTJJOGjGm34+GxXzVqo4
-   gU2W3Px8GhFJaIpZmKdYLYGfMsqeOlIPOXZSW7YYtY5G1PqEAZU4qw03G
-   l8D2sF62+2QHT3C1Ixe5XL8jJV32QUNpNgmgx8BUienuMUMWQucftqkhw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="380109720"
+  t=1702564177; x=1734100177;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y3yjRwJvTwe+dd+AJdN7EHilGx+zyRX1/RseVtZQirY=;
+  b=bv19fZmb7en8Q47qOidLxTmXfUpgHXEyKN6gxPHxB17bUJQ29V+aoK2s
+   BVh6OxMXuah7Ws+F9lIzH579zxkOl/FUOxPiFR58krbGlQ0FvSksnqfDb
+   ZAYrY+Gagmu4DUiTUbnuPswkXdIHESeBFQost1B/BfctxAeq6kq97Ms0q
+   +SpK1DpH6oMmLKrL/3TQ0P+5/crjImwKhUamV+7w2TQsnlywFWzxYFCAR
+   QftnpRiWZjYsODfbUVz9oAI3xrA5wCT2VKVPmXqKT8UozNki5hERel22M
+   KExCRWojnZnaoe/Vk42CbzPMYWiYoFfbxqi9F9UYZ4ZWW1gzU/abUpAVw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="375281545"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="380109720"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:19:35 -0800
+   d="scan'208";a="375281545"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:29:36 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="803299973"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="15867138"
+   d="scan'208";a="803299973"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 14 Dec 2023 06:19:33 -0800
+  by orsmga008.jf.intel.com with ESMTP; 14 Dec 2023 06:29:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDmYk-000MAQ-3D;
-	Thu, 14 Dec 2023 14:19:30 +0000
-Date: Thu, 14 Dec 2023 22:19:00 +0800
+	id 1rDmiR-000MAi-0O;
+	Thu, 14 Dec 2023 14:29:31 +0000
+Date: Thu, 14 Dec 2023 22:29:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Melissa Wen <mwen@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [linux-next:master 7458/7726]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:663:
- warning: Function parameter or member 'plane_state' not described in
- 'amdgpu_dm_verify_lut3d_size'
-Message-ID: <202312142254.wTOoIU96-lkp@intel.com>
+To: Bixuan Cui <cuibixuan@vivo.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
+	cuibixuan@vivo.com, opensource.kernel@vivo.com
+Subject: Re: [PATCH -next 2/2] mm: vmscan: add new event to trace shrink lru
+Message-ID: <202312142212.vbSe7CMs-lkp@intel.com>
+References: <20231212032640.6968-3-cuibixuan@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,62 +54,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231212032640.6968-3-cuibixuan@vivo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   11651f8cb2e88372d4ed523d909514dc9a613ea3
-commit: aba8b76baabde681ab4ff686452005d80d949345 [7458/7726] drm/amd/display: add plane shaper LUT support
-config: i386-buildonly-randconfig-004-20231214 (https://download.01.org/0day-ci/archive/20231214/202312142254.wTOoIU96-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142254.wTOoIU96-lkp@intel.com/reproduce)
+Hi Bixuan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20231211]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bixuan-Cui/mm-shrinker-add-new-event-to-trace-shrink-count/20231212-112824
+base:   next-20231211
+patch link:    https://lore.kernel.org/r/20231212032640.6968-3-cuibixuan%40vivo.com
+patch subject: [PATCH -next 2/2] mm: vmscan: add new event to trace shrink lru
+config: i386-buildonly-randconfig-003-20231214 (https://download.01.org/0day-ci/archive/20231214/202312142212.vbSe7CMs-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142212.vbSe7CMs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312142254.wTOoIU96-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312142212.vbSe7CMs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:663: warning: Function parameter or member 'plane_state' not described in 'amdgpu_dm_verify_lut3d_size'
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:663: warning: Excess function parameter 'crtc_state' description in 'amdgpu_dm_verify_lut3d_size'
+   mm/vmscan.c: In function 'evict_folios':
+>> mm/vmscan.c:4533:9: error: implicit declaration of function 'trace_mm_vmscan_lru_shrink_inactive'; did you mean 'trace_mm_vmscan_lru_shrink_inactive_end'? [-Werror=implicit-function-declaration]
+    4533 |         trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         trace_mm_vmscan_lru_shrink_inactive_end
+   cc1: some warnings being treated as errors
 
 
-vim +663 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c
+vim +4533 mm/vmscan.c
 
-   648	
-   649	/**
-   650	 * amdgpu_dm_verify_lut3d_size - verifies if 3D LUT is supported and if user
-   651	 * shaper and 3D LUTs match the hw supported size
-   652	 * @adev: amdgpu device
-   653	 * @crtc_state: the DRM CRTC state
-   654	 *
-   655	 * Verifies if pre-blending (DPP) 3D LUT is supported by the HW (DCN 2.0 or
-   656	 * newer) and if the user shaper and 3D LUTs match the supported size.
-   657	 *
-   658	 * Returns:
-   659	 * 0 on success. -EINVAL if lut size are invalid.
-   660	 */
-   661	int amdgpu_dm_verify_lut3d_size(struct amdgpu_device *adev,
-   662					struct drm_plane_state *plane_state)
- > 663	{
-   664		struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
-   665		const struct drm_color_lut *shaper = NULL;
-   666		uint32_t exp_size, size;
-   667		bool has_3dlut = adev->dm.dc->caps.color.dpp.hw_3d_lut;
-   668	
-   669		/* shaper LUT is only available if 3D LUT color caps */
-   670		exp_size = has_3dlut ? MAX_COLOR_LUT_ENTRIES : 0;
-   671		shaper = __extract_blob_lut(dm_plane_state->shaper_lut, &size);
-   672	
-   673		if (shaper && size != exp_size) {
-   674			drm_dbg(&adev->ddev,
-   675				"Invalid Shaper LUT size. Should be %u but got %u.\n",
-   676				exp_size, size);
-   677			return -EINVAL;
-   678		}
-   679	
-   680		return 0;
-   681	}
-   682	
+ac35a490237446 Yu Zhao                 2022-09-18  4500  
+a579086c99ed70 Yu Zhao                 2022-12-21  4501  static int evict_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness)
+ac35a490237446 Yu Zhao                 2022-09-18  4502  {
+ac35a490237446 Yu Zhao                 2022-09-18  4503  	int type;
+ac35a490237446 Yu Zhao                 2022-09-18  4504  	int scanned;
+ac35a490237446 Yu Zhao                 2022-09-18  4505  	int reclaimed;
+ac35a490237446 Yu Zhao                 2022-09-18  4506  	LIST_HEAD(list);
+359a5e1416caaf Yu Zhao                 2022-11-15  4507  	LIST_HEAD(clean);
+ac35a490237446 Yu Zhao                 2022-09-18  4508  	struct folio *folio;
+359a5e1416caaf Yu Zhao                 2022-11-15  4509  	struct folio *next;
+ac35a490237446 Yu Zhao                 2022-09-18  4510  	enum vm_event_item item;
+ac35a490237446 Yu Zhao                 2022-09-18  4511  	struct reclaim_stat stat;
+bd74fdaea14602 Yu Zhao                 2022-09-18  4512  	struct lru_gen_mm_walk *walk;
+359a5e1416caaf Yu Zhao                 2022-11-15  4513  	bool skip_retry = false;
+ac35a490237446 Yu Zhao                 2022-09-18  4514  	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+ac35a490237446 Yu Zhao                 2022-09-18  4515  	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+ac35a490237446 Yu Zhao                 2022-09-18  4516  
+ac35a490237446 Yu Zhao                 2022-09-18  4517  	spin_lock_irq(&lruvec->lru_lock);
+ac35a490237446 Yu Zhao                 2022-09-18  4518  
+ac35a490237446 Yu Zhao                 2022-09-18  4519  	scanned = isolate_folios(lruvec, sc, swappiness, &type, &list);
+ac35a490237446 Yu Zhao                 2022-09-18  4520  
+ac35a490237446 Yu Zhao                 2022-09-18  4521  	scanned += try_to_inc_min_seq(lruvec, swappiness);
+ac35a490237446 Yu Zhao                 2022-09-18  4522  
+ac35a490237446 Yu Zhao                 2022-09-18  4523  	if (get_nr_gens(lruvec, !swappiness) == MIN_NR_GENS)
+ac35a490237446 Yu Zhao                 2022-09-18  4524  		scanned = 0;
+ac35a490237446 Yu Zhao                 2022-09-18  4525  
+ac35a490237446 Yu Zhao                 2022-09-18  4526  	spin_unlock_irq(&lruvec->lru_lock);
+ac35a490237446 Yu Zhao                 2022-09-18  4527  
+ac35a490237446 Yu Zhao                 2022-09-18  4528  	if (list_empty(&list))
+ac35a490237446 Yu Zhao                 2022-09-18  4529  		return scanned;
+359a5e1416caaf Yu Zhao                 2022-11-15  4530  retry:
+49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  4531) 	reclaimed = shrink_folio_list(&list, pgdat, sc, &stat, false);
+359a5e1416caaf Yu Zhao                 2022-11-15  4532  	sc->nr_reclaimed += reclaimed;
+8c2214fc9a470a Jaewon Kim              2023-10-03 @4533  	trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
+8c2214fc9a470a Jaewon Kim              2023-10-03  4534  			scanned, reclaimed, &stat, sc->priority,
+8c2214fc9a470a Jaewon Kim              2023-10-03  4535  			type ? LRU_INACTIVE_FILE : LRU_INACTIVE_ANON);
+359a5e1416caaf Yu Zhao                 2022-11-15  4536  
+359a5e1416caaf Yu Zhao                 2022-11-15  4537  	list_for_each_entry_safe_reverse(folio, next, &list, lru) {
+359a5e1416caaf Yu Zhao                 2022-11-15  4538  		if (!folio_evictable(folio)) {
+359a5e1416caaf Yu Zhao                 2022-11-15  4539  			list_del(&folio->lru);
+359a5e1416caaf Yu Zhao                 2022-11-15  4540  			folio_putback_lru(folio);
+359a5e1416caaf Yu Zhao                 2022-11-15  4541  			continue;
+359a5e1416caaf Yu Zhao                 2022-11-15  4542  		}
+ac35a490237446 Yu Zhao                 2022-09-18  4543  
+359a5e1416caaf Yu Zhao                 2022-11-15  4544  		if (folio_test_reclaim(folio) &&
+359a5e1416caaf Yu Zhao                 2022-11-15  4545  		    (folio_test_dirty(folio) || folio_test_writeback(folio))) {
+ac35a490237446 Yu Zhao                 2022-09-18  4546  			/* restore LRU_REFS_FLAGS cleared by isolate_folio() */
+ac35a490237446 Yu Zhao                 2022-09-18  4547  			if (folio_test_workingset(folio))
+ac35a490237446 Yu Zhao                 2022-09-18  4548  				folio_set_referenced(folio);
+359a5e1416caaf Yu Zhao                 2022-11-15  4549  			continue;
+359a5e1416caaf Yu Zhao                 2022-11-15  4550  		}
+ac35a490237446 Yu Zhao                 2022-09-18  4551  
+359a5e1416caaf Yu Zhao                 2022-11-15  4552  		if (skip_retry || folio_test_active(folio) || folio_test_referenced(folio) ||
+359a5e1416caaf Yu Zhao                 2022-11-15  4553  		    folio_mapped(folio) || folio_test_locked(folio) ||
+359a5e1416caaf Yu Zhao                 2022-11-15  4554  		    folio_test_dirty(folio) || folio_test_writeback(folio)) {
+359a5e1416caaf Yu Zhao                 2022-11-15  4555  			/* don't add rejected folios to the oldest generation */
+359a5e1416caaf Yu Zhao                 2022-11-15  4556  			set_mask_bits(&folio->flags, LRU_REFS_MASK | LRU_REFS_FLAGS,
+359a5e1416caaf Yu Zhao                 2022-11-15  4557  				      BIT(PG_active));
+359a5e1416caaf Yu Zhao                 2022-11-15  4558  			continue;
+359a5e1416caaf Yu Zhao                 2022-11-15  4559  		}
+359a5e1416caaf Yu Zhao                 2022-11-15  4560  
+359a5e1416caaf Yu Zhao                 2022-11-15  4561  		/* retry folios that may have missed folio_rotate_reclaimable() */
+359a5e1416caaf Yu Zhao                 2022-11-15  4562  		list_move(&folio->lru, &clean);
+359a5e1416caaf Yu Zhao                 2022-11-15  4563  		sc->nr_scanned -= folio_nr_pages(folio);
+ac35a490237446 Yu Zhao                 2022-09-18  4564  	}
+ac35a490237446 Yu Zhao                 2022-09-18  4565  
+ac35a490237446 Yu Zhao                 2022-09-18  4566  	spin_lock_irq(&lruvec->lru_lock);
+ac35a490237446 Yu Zhao                 2022-09-18  4567  
+49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  4568) 	move_folios_to_lru(lruvec, &list);
+ac35a490237446 Yu Zhao                 2022-09-18  4569  
+bd74fdaea14602 Yu Zhao                 2022-09-18  4570  	walk = current->reclaim_state->mm_walk;
+bd74fdaea14602 Yu Zhao                 2022-09-18  4571  	if (walk && walk->batched)
+bd74fdaea14602 Yu Zhao                 2022-09-18  4572  		reset_batch_size(lruvec, walk);
+bd74fdaea14602 Yu Zhao                 2022-09-18  4573  
+57e9cc50f4dd92 Johannes Weiner         2022-10-26  4574  	item = PGSTEAL_KSWAPD + reclaimer_offset();
+ac35a490237446 Yu Zhao                 2022-09-18  4575  	if (!cgroup_reclaim(sc))
+ac35a490237446 Yu Zhao                 2022-09-18  4576  		__count_vm_events(item, reclaimed);
+ac35a490237446 Yu Zhao                 2022-09-18  4577  	__count_memcg_events(memcg, item, reclaimed);
+ac35a490237446 Yu Zhao                 2022-09-18  4578  	__count_vm_events(PGSTEAL_ANON + type, reclaimed);
+ac35a490237446 Yu Zhao                 2022-09-18  4579  
+ac35a490237446 Yu Zhao                 2022-09-18  4580  	spin_unlock_irq(&lruvec->lru_lock);
+ac35a490237446 Yu Zhao                 2022-09-18  4581  
+ac35a490237446 Yu Zhao                 2022-09-18  4582  	mem_cgroup_uncharge_list(&list);
+ac35a490237446 Yu Zhao                 2022-09-18  4583  	free_unref_page_list(&list);
+ac35a490237446 Yu Zhao                 2022-09-18  4584  
+359a5e1416caaf Yu Zhao                 2022-11-15  4585  	INIT_LIST_HEAD(&list);
+359a5e1416caaf Yu Zhao                 2022-11-15  4586  	list_splice_init(&clean, &list);
+359a5e1416caaf Yu Zhao                 2022-11-15  4587  
+359a5e1416caaf Yu Zhao                 2022-11-15  4588  	if (!list_empty(&list)) {
+359a5e1416caaf Yu Zhao                 2022-11-15  4589  		skip_retry = true;
+359a5e1416caaf Yu Zhao                 2022-11-15  4590  		goto retry;
+359a5e1416caaf Yu Zhao                 2022-11-15  4591  	}
+ac35a490237446 Yu Zhao                 2022-09-18  4592  
+ac35a490237446 Yu Zhao                 2022-09-18  4593  	return scanned;
+ac35a490237446 Yu Zhao                 2022-09-18  4594  }
+ac35a490237446 Yu Zhao                 2022-09-18  4595  
 
 -- 
 0-DAY CI Kernel Test Service
