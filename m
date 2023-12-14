@@ -1,137 +1,96 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9343065EC2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 17:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFA465ECF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 17:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CDslVfrN"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-28b14d02ab9so522513a91.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 09:26:24 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="kkuxpK+K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702574784; x=1703179584; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H+Ka8wxIsA35NAcpj2VpTkHi729lxrpm9tFastxUpXM=;
-        b=CDslVfrNhsq90wqAv/pgD79Vsf3+x9Dp7q/wic8jaWkWCdFcPWmoYbz9l19WYC7iVJ
-         7arqAOAvgL4NIt0yMv9h86lXoqSlzfyIpd2r3FJCCUqGKI3Fhob3Pz/RaQ5H8Rrs4a1l
-         sbFPUnBLZGagq3Wye2CXrhciU+S1QfoZzWhDEtVHzMzXiHTFy/FjGT4hXwrofsLv5vwe
-         QCxPqTuPrCJpEeHGFcMZ5yfNmb/zspMsWJtippFwIW9E6t5zjMjbg1uD/aBxtXQycJco
-         NYVxGAbFXIhFJmDkZa3meohgPufCPjwxvD+ZMVb0wX2y6ejHAtpjR4sWcIN8R9SpjhG/
-         S/gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702574784; x=1703179584;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H+Ka8wxIsA35NAcpj2VpTkHi729lxrpm9tFastxUpXM=;
-        b=py4wTcK/NwA8YNsvMYxAefPGsVmQu7mFvVtqHFXixE8vEcME63yJqNnBStVf5MDsfZ
-         X3IOPI9phujB3wCI0d5z1XETCWCoRekg9o44PlK/dOXKwpvQSol4SZnpZN9upFHm33tv
-         p+gWWpnhgtRbhtjUtgO93m6YqNKrqHUypDdzpvqljOm9o/UN2KVvbhloeTLGsBiunsW9
-         HCI+jktoh/Ukvukeu+oGr3uO5qxufJa1aQT0ocR6cN5YLZvYZmeHgZzpc+MUOtnmmbXF
-         AuS+EGcNhRRLVpM7CqYuEbdLWS9PeNkyMaU8mKhod+jQEDn+1gHPLnZlaNZSFXsmJ3RG
-         mutQ==
-X-Gm-Message-State: AOJu0YzV6iLPl+iBtPiejXb/iIjXTPgwqKA7RgvrDLlpVXmGVBbxdq8p
-	ihBDF3JEXuUSVGZm1eb8XhM=
-X-Google-Smtp-Source: AGHT+IHph1vaHVKrOP37Hvn4W8QinnzVQ9xW4IJ0io8VW9WP+ukmvN0XRG+NZNUtxhpdWi9wmOYmog==
-X-Received: by 2002:a17:90a:f0ce:b0:286:9cc1:a10 with SMTP id fa14-20020a17090af0ce00b002869cc10a10mr8036911pjb.8.1702574783701;
-        Thu, 14 Dec 2023 09:26:23 -0800 (PST)
-Received: from localhost.localdomain ([50.47.187.252])
-        by smtp.gmail.com with ESMTPSA id p17-20020a170903249100b001cfbe348ca5sm12688645plw.187.2023.12.14.09.26.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 09:26:22 -0800 (PST)
-From: Ryan McClelland <rymcclel@gmail.com>
-To: lkp@intel.com,
-	linux-input@vger.kernel.org
-Cc: jkosina@suse.com,
-	linux-mm@kvack.org,
-	oe-kbuild-all@lists.linux.dev,
-	djogorchock@gmail.com,
-	benjamin.tissoires@redhat.com,
-	jikos@kernel.org,
-	Ryan McClelland <rymcclel@gmail.com>
-Subject: [PATCH] HID: nintendo: fix initializer element is not constant error
-Date: Thu, 14 Dec 2023 09:25:41 -0800
-Message-Id: <20231214172541.48370-1-rymcclel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202312141227.C2h1IzfI-lkp@intel.com>
-References: <202312141227.C2h1IzfI-lkp@intel.com>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7DdZmsRXOLrsoodS4ETKfoRiSA07z35X21HpYjdvghg=;
+  b=kkuxpK+Kp6EAPx/V5lOQmeqKtZwi41ObdM9JxF5fKOORjIaojfYmrdKM
+   0Ces5cy4s7QKamrM3ogO53zzdRqw9sO1HgOSo/7LF1Q2t74ESgISGEs8x
+   gl4jjsAygALrJRssvHVgE/VD9THMKbxWGWrWdj1/9KjNgkQ03ak8eXeRZ
+   4=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.04,276,1695679200"; 
+   d="scan'208";a="74468187"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 18:33:34 +0100
+Date: Thu, 14 Dec 2023 18:33:34 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Vincent Guittot <vincent.guittot@linaro.org>
+cc: oe-kbuild-all@lists.linux.dev
+Subject: [vincent-guittot:sched/system-pressure 5/11] drivers/acpi/cppc_acpi.c:1783:13-14:
+ WARNING opportunity for max() (fwd)
+Message-ID: <alpine.DEB.2.22.394.2312141833130.3217@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-With gcc-7 builds, an error happens with the controller button values being
-defined as const. Change to a define.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202312141227.C2h1IzfI-lkp@intel.com/
 
-Signed-off-by: Ryan McClelland <rymcclel@gmail.com>
----
- drivers/hid/hid-nintendo.c | 44 +++++++++++++++++++-------------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+---------- Forwarded message ----------
+Date: Fri, 15 Dec 2023 01:23:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [vincent-guittot:sched/system-pressure 5/11]
+    drivers/acpi/cppc_acpi.c:1783:13-14: WARNING opportunity for max()
 
-diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
-index 47af111ef3a2..2987083785f9 100644
---- a/drivers/hid/hid-nintendo.c
-+++ b/drivers/hid/hid-nintendo.c
-@@ -336,28 +336,28 @@ struct joycon_imu_cal {
-  * All the controller's button values are stored in a u32.
-  * They can be accessed with bitwise ANDs.
-  */
--static const u32 JC_BTN_Y	= BIT(0);
--static const u32 JC_BTN_X	= BIT(1);
--static const u32 JC_BTN_B	= BIT(2);
--static const u32 JC_BTN_A	= BIT(3);
--static const u32 JC_BTN_SR_R	= BIT(4);
--static const u32 JC_BTN_SL_R	= BIT(5);
--static const u32 JC_BTN_R	= BIT(6);
--static const u32 JC_BTN_ZR	= BIT(7);
--static const u32 JC_BTN_MINUS	= BIT(8);
--static const u32 JC_BTN_PLUS	= BIT(9);
--static const u32 JC_BTN_RSTICK	= BIT(10);
--static const u32 JC_BTN_LSTICK	= BIT(11);
--static const u32 JC_BTN_HOME	= BIT(12);
--static const u32 JC_BTN_CAP	= BIT(13); /* capture button */
--static const u32 JC_BTN_DOWN	= BIT(16);
--static const u32 JC_BTN_UP	= BIT(17);
--static const u32 JC_BTN_RIGHT	= BIT(18);
--static const u32 JC_BTN_LEFT	= BIT(19);
--static const u32 JC_BTN_SR_L	= BIT(20);
--static const u32 JC_BTN_SL_L	= BIT(21);
--static const u32 JC_BTN_L	= BIT(22);
--static const u32 JC_BTN_ZL	= BIT(23);
-+#define JC_BTN_Y	 BIT(0)
-+#define JC_BTN_X	 BIT(1)
-+#define JC_BTN_B	 BIT(2)
-+#define JC_BTN_A	 BIT(3)
-+#define JC_BTN_SR_R	 BIT(4)
-+#define JC_BTN_SL_R	 BIT(5)
-+#define JC_BTN_R	 BIT(6)
-+#define JC_BTN_ZR	 BIT(7)
-+#define JC_BTN_MINUS	 BIT(8)
-+#define JC_BTN_PLUS	 BIT(9)
-+#define JC_BTN_RSTICK	 BIT(10)
-+#define JC_BTN_LSTICK	 BIT(11)
-+#define JC_BTN_HOME	 BIT(12)
-+#define JC_BTN_CAP	 BIT(13) /* capture button */
-+#define JC_BTN_DOWN	 BIT(16)
-+#define JC_BTN_UP	 BIT(17)
-+#define JC_BTN_RIGHT	 BIT(18)
-+#define JC_BTN_LEFT	 BIT(19)
-+#define JC_BTN_SR_L	 BIT(20)
-+#define JC_BTN_SL_L	 BIT(21)
-+#define JC_BTN_L	 BIT(22)
-+#define JC_BTN_ZL	 BIT(23)
- 
- struct joycon_ctlr_button_mapping {
- 	u32 code;
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Vincent Guittot <vincent.guittot@linaro.org>
+
+Hi Vincent,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.linaro.org/people/vincent.guittot/kernel.git sched/system-pressure
+head:   5844548bc216fd4d47bc8b20f0ff22ac4b14d48d
+commit: 3c697464bdc4ede5507ebb0f43112b31cb07a3d9 [5/11] cpufreq/cppc: Move and rename cppc_cpufreq_{perf_to_khz|khz_to_perf}
+:::::: branch date: 2 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-102-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150148.V2p83vod-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150148.V2p83vod-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202312150148.V2p83vod-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/acpi/cppc_acpi.c:1783:13-14: WARNING opportunity for max()
+
+vim +1783 drivers/acpi/cppc_acpi.c
+
+3c697464bdc4ed Vincent Guittot 2023-09-18  1772
+3c697464bdc4ed Vincent Guittot 2023-09-18  1773  /* Callback function used to retrieve the max frequency from DMI */
+3c697464bdc4ed Vincent Guittot 2023-09-18  1774  static void cppc_find_dmi_mhz(const struct dmi_header *dm, void *private)
+3c697464bdc4ed Vincent Guittot 2023-09-18  1775  {
+3c697464bdc4ed Vincent Guittot 2023-09-18  1776  	const u8 *dmi_data = (const u8 *)dm;
+3c697464bdc4ed Vincent Guittot 2023-09-18  1777  	u16 *mhz = (u16 *)private;
+3c697464bdc4ed Vincent Guittot 2023-09-18  1778
+3c697464bdc4ed Vincent Guittot 2023-09-18  1779  	if (dm->type == DMI_ENTRY_PROCESSOR &&
+3c697464bdc4ed Vincent Guittot 2023-09-18  1780  	    dm->length >= DMI_ENTRY_PROCESSOR_MIN_LENGTH) {
+3c697464bdc4ed Vincent Guittot 2023-09-18  1781  		u16 val = (u16)get_unaligned((const u16 *)
+3c697464bdc4ed Vincent Guittot 2023-09-18  1782  				(dmi_data + DMI_PROCESSOR_MAX_SPEED));
+3c697464bdc4ed Vincent Guittot 2023-09-18 @1783  		*mhz = val > *mhz ? val : *mhz;
+3c697464bdc4ed Vincent Guittot 2023-09-18  1784  	}
+3c697464bdc4ed Vincent Guittot 2023-09-18  1785  }
+3c697464bdc4ed Vincent Guittot 2023-09-18  1786
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
