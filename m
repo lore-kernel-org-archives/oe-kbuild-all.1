@@ -1,95 +1,110 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFA465ECF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 17:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0763C46A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 17:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="kkuxpK+K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7DdZmsRXOLrsoodS4ETKfoRiSA07z35X21HpYjdvghg=;
-  b=kkuxpK+Kp6EAPx/V5lOQmeqKtZwi41ObdM9JxF5fKOORjIaojfYmrdKM
-   0Ces5cy4s7QKamrM3ogO53zzdRqw9sO1HgOSo/7LF1Q2t74ESgISGEs8x
-   gl4jjsAygALrJRssvHVgE/VD9THMKbxWGWrWdj1/9KjNgkQ03ak8eXeRZ
-   4=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.04,276,1695679200"; 
-   d="scan'208";a="74468187"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 18:33:34 +0100
-Date: Thu, 14 Dec 2023 18:33:34 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Vincent Guittot <vincent.guittot@linaro.org>
-cc: oe-kbuild-all@lists.linux.dev
-Subject: [vincent-guittot:sched/system-pressure 5/11] drivers/acpi/cppc_acpi.c:1783:13-14:
- WARNING opportunity for max() (fwd)
-Message-ID: <alpine.DEB.2.22.394.2312141833130.3217@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ema1G668"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702575637; x=1734111637;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IJ9o3HVM9BJlFZq075uiX/pLUV7kYnenwagLvGRiJMw=;
+  b=Ema1G668DftJIXvQvW7jTk/OOM0EahlUKV4kD+TqEG8ucrb81A647ceU
+   FhOhVkIT7rvNCkpHtmztE/rHRDZtSxKtChIa5vV2Mdart3b3g9GuBOj9e
+   3pMgPGsOI1DCq9TS1Z3FyXnPrEPj4xem6L9YbjE+FgAO6oVigJCNZHpuf
+   MpxUxwLnDkkD4G/2abviuIxVXXtrVjXg+HVykBCVpnklSB2qZyBglqQrh
+   FaBefpLJdpCMWDdwf4dbsxiTSA5IsMw7dzPjpilVuDwl6igVcx1CA8A9s
+   AKePsXFwxuQvKQ14exsfGFM/s+aSrCEgnbRj5qIfM1UMqlPuCaheW7Bu8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="374664023"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
+   d="scan'208";a="374664023"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 09:40:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="777967133"
+X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
+   d="scan'208";a="777967133"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 14 Dec 2023 09:40:33 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDphH-000MQx-2e;
+	Thu, 14 Dec 2023 17:40:31 +0000
+Date: Fri, 15 Dec 2023 01:34:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yunke Cao <yunkec@google.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, Tomasz Figa <tfiga@chromium.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
+	Yunke Cao <yunkec@google.com>
+Subject: Re: [PATCH v14 06/11] v4l2-ctrls: add support for
+ V4L2_CTRL_WHICH_MIN/MAX_VAL
+Message-ID: <202312150147.Kl7pyrrG-lkp@intel.com>
+References: <20231201071907.3080126-7-yunkec@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231201071907.3080126-7-yunkec@google.com>
 
+Hi Yunke,
 
+kernel test robot noticed the following build warnings:
 
----------- Forwarded message ----------
-Date: Fri, 15 Dec 2023 01:23:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [vincent-guittot:sched/system-pressure 5/11]
-    drivers/acpi/cppc_acpi.c:1783:13-14: WARNING opportunity for max()
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.7-rc5 next-20231214]
+[cannot apply to media-tree/master linuxtv-media-stage/master sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Vincent Guittot <vincent.guittot@linaro.org>
-
-Hi Vincent,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.linaro.org/people/vincent.guittot/kernel.git sched/system-pressure
-head:   5844548bc216fd4d47bc8b20f0ff22ac4b14d48d
-commit: 3c697464bdc4ede5507ebb0f43112b31cb07a3d9 [5/11] cpufreq/cppc: Move and rename cppc_cpufreq_{perf_to_khz|khz_to_perf}
-:::::: branch date: 2 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-102-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150148.V2p83vod-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150148.V2p83vod-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunke-Cao/media-v4l2_ctrl-Add-V4L2_CTRL_TYPE_RECT/20231201-152501
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20231201071907.3080126-7-yunkec%40google.com
+patch subject: [PATCH v14 06/11] v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
+config: alpha-randconfig-r122-20231202 (https://download.01.org/0day-ci/archive/20231215/202312150147.Kl7pyrrG-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150147.Kl7pyrrG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202312150148.V2p83vod-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150147.Kl7pyrrG-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/cppc_acpi.c:1783:13-14: WARNING opportunity for max()
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:309:6: sparse: sparse: symbol 'v4l2_ctrl_type_op_minimum' was not declared. Should it be static?
+>> drivers/media/v4l2-core/v4l2-ctrls-core.c:315:6: sparse: sparse: symbol 'v4l2_ctrl_type_op_maximum' was not declared. Should it be static?
+   drivers/media/v4l2-core/v4l2-ctrls-core.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-vim +1783 drivers/acpi/cppc_acpi.c
+vim +/v4l2_ctrl_type_op_minimum +309 drivers/media/v4l2-core/v4l2-ctrls-core.c
 
-3c697464bdc4ed Vincent Guittot 2023-09-18  1772
-3c697464bdc4ed Vincent Guittot 2023-09-18  1773  /* Callback function used to retrieve the max frequency from DMI */
-3c697464bdc4ed Vincent Guittot 2023-09-18  1774  static void cppc_find_dmi_mhz(const struct dmi_header *dm, void *private)
-3c697464bdc4ed Vincent Guittot 2023-09-18  1775  {
-3c697464bdc4ed Vincent Guittot 2023-09-18  1776  	const u8 *dmi_data = (const u8 *)dm;
-3c697464bdc4ed Vincent Guittot 2023-09-18  1777  	u16 *mhz = (u16 *)private;
-3c697464bdc4ed Vincent Guittot 2023-09-18  1778
-3c697464bdc4ed Vincent Guittot 2023-09-18  1779  	if (dm->type == DMI_ENTRY_PROCESSOR &&
-3c697464bdc4ed Vincent Guittot 2023-09-18  1780  	    dm->length >= DMI_ENTRY_PROCESSOR_MIN_LENGTH) {
-3c697464bdc4ed Vincent Guittot 2023-09-18  1781  		u16 val = (u16)get_unaligned((const u16 *)
-3c697464bdc4ed Vincent Guittot 2023-09-18  1782  				(dmi_data + DMI_PROCESSOR_MAX_SPEED));
-3c697464bdc4ed Vincent Guittot 2023-09-18 @1783  		*mhz = val > *mhz ? val : *mhz;
-3c697464bdc4ed Vincent Guittot 2023-09-18  1784  	}
-3c697464bdc4ed Vincent Guittot 2023-09-18  1785  }
-3c697464bdc4ed Vincent Guittot 2023-09-18  1786
+   308	
+ > 309	void v4l2_ctrl_type_op_minimum(const struct v4l2_ctrl *ctrl, u32 from_idx,
+   310				       union v4l2_ctrl_ptr ptr)
+   311	{
+   312		__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MIN_VAL, ptr);
+   313	}
+   314	
+ > 315	void v4l2_ctrl_type_op_maximum(const struct v4l2_ctrl *ctrl, u32 from_idx,
+   316				       union v4l2_ctrl_ptr ptr)
+   317	{
+   318		__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MAX_VAL, ptr);
+   319	}
+   320	
 
 -- 
 0-DAY CI Kernel Test Service
