@@ -1,51 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A46C55778
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:29:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A901159E2D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:41:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bv19fZmb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+35Wg9k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702564177; x=1734100177;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Y3yjRwJvTwe+dd+AJdN7EHilGx+zyRX1/RseVtZQirY=;
-  b=bv19fZmb7en8Q47qOidLxTmXfUpgHXEyKN6gxPHxB17bUJQ29V+aoK2s
-   BVh6OxMXuah7Ws+F9lIzH579zxkOl/FUOxPiFR58krbGlQ0FvSksnqfDb
-   ZAYrY+Gagmu4DUiTUbnuPswkXdIHESeBFQost1B/BfctxAeq6kq97Ms0q
-   +SpK1DpH6oMmLKrL/3TQ0P+5/crjImwKhUamV+7w2TQsnlywFWzxYFCAR
-   QftnpRiWZjYsODfbUVz9oAI3xrA5wCT2VKVPmXqKT8UozNki5hERel22M
-   KExCRWojnZnaoe/Vk42CbzPMYWiYoFfbxqi9F9UYZ4ZWW1gzU/abUpAVw
+  t=1702564896; x=1734100896;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9rgxfOe2FH8YxsT2QMJChnJtUV9rZKfVkhp7rG3QJIw=;
+  b=i+35Wg9kzJtmIcH0y76Haye9HrZyULpusaciWeiAYebaqo0vZyCSGFd1
+   mjF9cnx52IVOQKEfNJ4OeF7EDvLfmTqXGnPnNAmpBav7YNaFaZu9Ky8ih
+   85s4B1PdYjJed5xKvl+zN/9joDfSYVqcHAsdrTGx96u1SsIa5rf12Hued
+   egXeJp/O5vE7affcjIalKYc9973faE9pZliVNeXuoOtrM+NBcXBFf5bdz
+   8uz3x9cqmSTkjblfGSWgqELItREzIYsBF6LJsbgKFbi0JMtkKGNMrEUqQ
+   a8O5ct+RD+o3AZrtT0doWgKonZa31Xle2HYtLJ5pqN+aF8EEwRlsGsuM0
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="375281545"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392302136"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="375281545"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:29:36 -0800
+   d="scan'208";a="392302136"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:41:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="803299973"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="892488774"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="803299973"
+   d="scan'208";a="892488774"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 14 Dec 2023 06:29:33 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 14 Dec 2023 06:41:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDmiR-000MAi-0O;
-	Thu, 14 Dec 2023 14:29:31 +0000
-Date: Thu, 14 Dec 2023 22:29:17 +0800
+	id 1rDmu3-000MBO-2Z;
+	Thu, 14 Dec 2023 14:41:31 +0000
+Date: Thu, 14 Dec 2023 22:40:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bixuan Cui <cuibixuan@vivo.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
-	akpm@linux-foundation.org
+To: David Francis <David.Francis@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org,
-	cuibixuan@vivo.com, opensource.kernel@vivo.com
-Subject: Re: [PATCH -next 2/2] mm: vmscan: add new event to trace shrink lru
-Message-ID: <202312142212.vbSe7CMs-lkp@intel.com>
-References: <20231212032640.6968-3-cuibixuan@vivo.com>
+	Alex Deucher <alexander.deucher@amd.com>,
+	Tony Cheng <Tony.Cheng@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:809:67:
+ sparse: sparse: dubious: x | !y
+Message-ID: <202312142225.r4UO3nhc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,135 +51,221 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231212032640.6968-3-cuibixuan@vivo.com>
 
-Hi Bixuan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20231211]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bixuan-Cui/mm-shrinker-add-new-event-to-trace-shrink-count/20231212-112824
-base:   next-20231211
-patch link:    https://lore.kernel.org/r/20231212032640.6968-3-cuibixuan%40vivo.com
-patch subject: [PATCH -next 2/2] mm: vmscan: add new event to trace shrink lru
-config: i386-buildonly-randconfig-003-20231214 (https://download.01.org/0day-ci/archive/20231214/202312142212.vbSe7CMs-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
+commit: c85e6e546edd7e362693218a33a6f63217802fd3 drm/amd/display: Create new i2c resource
+date:   5 years ago
+config: x86_64-randconfig-121-20231101 (https://download.01.org/0day-ci/archive/20231214/202312142225.r4UO3nhc-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142212.vbSe7CMs-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142225.r4UO3nhc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312142212.vbSe7CMs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312142225.r4UO3nhc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:89:6: sparse: sparse: symbol 'dce_i2c_hw_engine_acquire_engine' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:113:6: sparse: sparse: symbol 'dce_i2c_engine_acquire_hw' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:301:35: sparse: sparse: symbol 'dce_i2c_hw_engine_wait_on_operation_result' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:369:10: sparse: sparse: symbol 'get_reference_clock' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:677:6: sparse: sparse: symbol 'dce_i2c_hw_engine_submit_request' was not declared. Should it be static?
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:809:67: sparse: sparse: dubious: x | !y
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:89:6: warning: no previous prototype for 'dce_i2c_hw_engine_acquire_engine' [-Wmissing-prototypes]
+      89 | bool dce_i2c_hw_engine_acquire_engine(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:113:6: warning: no previous prototype for 'dce_i2c_engine_acquire_hw' [-Wmissing-prototypes]
+     113 | bool dce_i2c_engine_acquire_hw(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:301:35: warning: no previous prototype for 'dce_i2c_hw_engine_wait_on_operation_result' [-Wmissing-prototypes]
+     301 | enum i2c_channel_operation_result dce_i2c_hw_engine_wait_on_operation_result(
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:369:10: warning: no previous prototype for 'get_reference_clock' [-Wmissing-prototypes]
+     369 | uint32_t get_reference_clock(
+         |          ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:677:6: warning: no previous prototype for 'dce_i2c_hw_engine_submit_request' [-Wmissing-prototypes]
+     677 | bool dce_i2c_hw_engine_submit_request(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:25:
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:120:22: warning: 'DP_DVI_CONVERTER_ID_4' defined but not used [-Wunused-const-variable=]
+     120 | static const uint8_t DP_DVI_CONVERTER_ID_4[] = "m2DVIa";
+         |                      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:118:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_3' defined but not used [-Wunused-const-variable=]
+     118 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_3[] = "dnomlA";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:116:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_2' defined but not used [-Wunused-const-variable=]
+     116 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_2[] = "sivarT";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c:25:
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
+      76 | static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
+         |                                ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
+      75 | static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
+         |                                ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
+      74 | static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
+         |                                ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
+      73 | static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
+         |                                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
+      72 | static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
+         |                                ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:67:32: warning: 'dc_fixpt_zero' defined but not used [-Wunused-const-variable=]
+      67 | static const struct fixed31_32 dc_fixpt_zero = { 0 };
+         |                                ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.o: warning: objtool: acquire_i2c_hw_engine()+0x4f: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.o: warning: objtool: dce_i2c_submit_command_hw()+0x1f1: sibling call from callable instruction with modified stack frame
+--
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:73:35: sparse: sparse: symbol 'dce_i2c_sw_engine_get_channel_status' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:371:6: sparse: sparse: symbol 'dce_i2c_sw_engine_set_speed' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:385:6: sparse: sparse: symbol 'dce_i2c_sw_engine_acquire_engine' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:401:6: sparse: sparse: symbol 'dce_i2c_engine_acquire_sw' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:429:6: sparse: sparse: symbol 'dce_i2c_sw_engine_submit_channel_request' was not declared. Should it be static?
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:472:6: sparse: sparse: symbol 'dce_i2c_sw_engine_submit_request' was not declared. Should it be static?
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:566:67: sparse: sparse: dubious: x | !y
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:73:35: warning: no previous prototype for 'dce_i2c_sw_engine_get_channel_status' [-Wmissing-prototypes]
+      73 | enum i2c_channel_operation_result dce_i2c_sw_engine_get_channel_status(
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:371:6: warning: no previous prototype for 'dce_i2c_sw_engine_set_speed' [-Wmissing-prototypes]
+     371 | void dce_i2c_sw_engine_set_speed(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:385:6: warning: no previous prototype for 'dce_i2c_sw_engine_acquire_engine' [-Wmissing-prototypes]
+     385 | bool dce_i2c_sw_engine_acquire_engine(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:401:6: warning: no previous prototype for 'dce_i2c_engine_acquire_sw' [-Wmissing-prototypes]
+     401 | bool dce_i2c_engine_acquire_sw(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:429:6: warning: no previous prototype for 'dce_i2c_sw_engine_submit_channel_request' [-Wmissing-prototypes]
+     429 | void dce_i2c_sw_engine_submit_channel_request(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:472:6: warning: no previous prototype for 'dce_i2c_sw_engine_submit_request' [-Wmissing-prototypes]
+     472 | bool dce_i2c_sw_engine_submit_request(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:25:
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:120:22: warning: 'DP_DVI_CONVERTER_ID_4' defined but not used [-Wunused-const-variable=]
+     120 | static const uint8_t DP_DVI_CONVERTER_ID_4[] = "m2DVIa";
+         |                      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:118:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_3' defined but not used [-Wunused-const-variable=]
+     118 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_3[] = "dnomlA";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:116:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_2' defined but not used [-Wunused-const-variable=]
+     116 | static const uint8_t DP_VGA_LVDS_CONVERTER_ID_2[] = "sivarT";
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dc.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.c:25:
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
+      76 | static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
+         |                                ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
+      75 | static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
+         |                                ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
+      74 | static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
+         |                                ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
+      73 | static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
+         |                                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
+      72 | static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
+         |                                ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:67:32: warning: 'dc_fixpt_zero' defined but not used [-Wunused-const-variable=]
+      67 | static const struct fixed31_32 dc_fixpt_zero = { 0 };
+         |                                ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.o: warning: objtool: wait_for_scl_high_sw.constprop.0()+0x60: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.o: warning: objtool: dce_i2c_submit_command_sw()+0x190: sibling call from callable instruction with modified stack frame
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_sw.o: warning: objtool: dce_i2c_acquire_i2c_sw_engine()+0x47: sibling call from callable instruction with modified stack frame
 
-   mm/vmscan.c: In function 'evict_folios':
->> mm/vmscan.c:4533:9: error: implicit declaration of function 'trace_mm_vmscan_lru_shrink_inactive'; did you mean 'trace_mm_vmscan_lru_shrink_inactive_end'? [-Werror=implicit-function-declaration]
-    4533 |         trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         trace_mm_vmscan_lru_shrink_inactive_end
-   cc1: some warnings being treated as errors
+vim +809 drivers/gpu/drm/amd/amdgpu/../display/dc/dce/dce_i2c_hw.c
 
-
-vim +4533 mm/vmscan.c
-
-ac35a490237446 Yu Zhao                 2022-09-18  4500  
-a579086c99ed70 Yu Zhao                 2022-12-21  4501  static int evict_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness)
-ac35a490237446 Yu Zhao                 2022-09-18  4502  {
-ac35a490237446 Yu Zhao                 2022-09-18  4503  	int type;
-ac35a490237446 Yu Zhao                 2022-09-18  4504  	int scanned;
-ac35a490237446 Yu Zhao                 2022-09-18  4505  	int reclaimed;
-ac35a490237446 Yu Zhao                 2022-09-18  4506  	LIST_HEAD(list);
-359a5e1416caaf Yu Zhao                 2022-11-15  4507  	LIST_HEAD(clean);
-ac35a490237446 Yu Zhao                 2022-09-18  4508  	struct folio *folio;
-359a5e1416caaf Yu Zhao                 2022-11-15  4509  	struct folio *next;
-ac35a490237446 Yu Zhao                 2022-09-18  4510  	enum vm_event_item item;
-ac35a490237446 Yu Zhao                 2022-09-18  4511  	struct reclaim_stat stat;
-bd74fdaea14602 Yu Zhao                 2022-09-18  4512  	struct lru_gen_mm_walk *walk;
-359a5e1416caaf Yu Zhao                 2022-11-15  4513  	bool skip_retry = false;
-ac35a490237446 Yu Zhao                 2022-09-18  4514  	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-ac35a490237446 Yu Zhao                 2022-09-18  4515  	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
-ac35a490237446 Yu Zhao                 2022-09-18  4516  
-ac35a490237446 Yu Zhao                 2022-09-18  4517  	spin_lock_irq(&lruvec->lru_lock);
-ac35a490237446 Yu Zhao                 2022-09-18  4518  
-ac35a490237446 Yu Zhao                 2022-09-18  4519  	scanned = isolate_folios(lruvec, sc, swappiness, &type, &list);
-ac35a490237446 Yu Zhao                 2022-09-18  4520  
-ac35a490237446 Yu Zhao                 2022-09-18  4521  	scanned += try_to_inc_min_seq(lruvec, swappiness);
-ac35a490237446 Yu Zhao                 2022-09-18  4522  
-ac35a490237446 Yu Zhao                 2022-09-18  4523  	if (get_nr_gens(lruvec, !swappiness) == MIN_NR_GENS)
-ac35a490237446 Yu Zhao                 2022-09-18  4524  		scanned = 0;
-ac35a490237446 Yu Zhao                 2022-09-18  4525  
-ac35a490237446 Yu Zhao                 2022-09-18  4526  	spin_unlock_irq(&lruvec->lru_lock);
-ac35a490237446 Yu Zhao                 2022-09-18  4527  
-ac35a490237446 Yu Zhao                 2022-09-18  4528  	if (list_empty(&list))
-ac35a490237446 Yu Zhao                 2022-09-18  4529  		return scanned;
-359a5e1416caaf Yu Zhao                 2022-11-15  4530  retry:
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  4531) 	reclaimed = shrink_folio_list(&list, pgdat, sc, &stat, false);
-359a5e1416caaf Yu Zhao                 2022-11-15  4532  	sc->nr_reclaimed += reclaimed;
-8c2214fc9a470a Jaewon Kim              2023-10-03 @4533  	trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
-8c2214fc9a470a Jaewon Kim              2023-10-03  4534  			scanned, reclaimed, &stat, sc->priority,
-8c2214fc9a470a Jaewon Kim              2023-10-03  4535  			type ? LRU_INACTIVE_FILE : LRU_INACTIVE_ANON);
-359a5e1416caaf Yu Zhao                 2022-11-15  4536  
-359a5e1416caaf Yu Zhao                 2022-11-15  4537  	list_for_each_entry_safe_reverse(folio, next, &list, lru) {
-359a5e1416caaf Yu Zhao                 2022-11-15  4538  		if (!folio_evictable(folio)) {
-359a5e1416caaf Yu Zhao                 2022-11-15  4539  			list_del(&folio->lru);
-359a5e1416caaf Yu Zhao                 2022-11-15  4540  			folio_putback_lru(folio);
-359a5e1416caaf Yu Zhao                 2022-11-15  4541  			continue;
-359a5e1416caaf Yu Zhao                 2022-11-15  4542  		}
-ac35a490237446 Yu Zhao                 2022-09-18  4543  
-359a5e1416caaf Yu Zhao                 2022-11-15  4544  		if (folio_test_reclaim(folio) &&
-359a5e1416caaf Yu Zhao                 2022-11-15  4545  		    (folio_test_dirty(folio) || folio_test_writeback(folio))) {
-ac35a490237446 Yu Zhao                 2022-09-18  4546  			/* restore LRU_REFS_FLAGS cleared by isolate_folio() */
-ac35a490237446 Yu Zhao                 2022-09-18  4547  			if (folio_test_workingset(folio))
-ac35a490237446 Yu Zhao                 2022-09-18  4548  				folio_set_referenced(folio);
-359a5e1416caaf Yu Zhao                 2022-11-15  4549  			continue;
-359a5e1416caaf Yu Zhao                 2022-11-15  4550  		}
-ac35a490237446 Yu Zhao                 2022-09-18  4551  
-359a5e1416caaf Yu Zhao                 2022-11-15  4552  		if (skip_retry || folio_test_active(folio) || folio_test_referenced(folio) ||
-359a5e1416caaf Yu Zhao                 2022-11-15  4553  		    folio_mapped(folio) || folio_test_locked(folio) ||
-359a5e1416caaf Yu Zhao                 2022-11-15  4554  		    folio_test_dirty(folio) || folio_test_writeback(folio)) {
-359a5e1416caaf Yu Zhao                 2022-11-15  4555  			/* don't add rejected folios to the oldest generation */
-359a5e1416caaf Yu Zhao                 2022-11-15  4556  			set_mask_bits(&folio->flags, LRU_REFS_MASK | LRU_REFS_FLAGS,
-359a5e1416caaf Yu Zhao                 2022-11-15  4557  				      BIT(PG_active));
-359a5e1416caaf Yu Zhao                 2022-11-15  4558  			continue;
-359a5e1416caaf Yu Zhao                 2022-11-15  4559  		}
-359a5e1416caaf Yu Zhao                 2022-11-15  4560  
-359a5e1416caaf Yu Zhao                 2022-11-15  4561  		/* retry folios that may have missed folio_rotate_reclaimable() */
-359a5e1416caaf Yu Zhao                 2022-11-15  4562  		list_move(&folio->lru, &clean);
-359a5e1416caaf Yu Zhao                 2022-11-15  4563  		sc->nr_scanned -= folio_nr_pages(folio);
-ac35a490237446 Yu Zhao                 2022-09-18  4564  	}
-ac35a490237446 Yu Zhao                 2022-09-18  4565  
-ac35a490237446 Yu Zhao                 2022-09-18  4566  	spin_lock_irq(&lruvec->lru_lock);
-ac35a490237446 Yu Zhao                 2022-09-18  4567  
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  4568) 	move_folios_to_lru(lruvec, &list);
-ac35a490237446 Yu Zhao                 2022-09-18  4569  
-bd74fdaea14602 Yu Zhao                 2022-09-18  4570  	walk = current->reclaim_state->mm_walk;
-bd74fdaea14602 Yu Zhao                 2022-09-18  4571  	if (walk && walk->batched)
-bd74fdaea14602 Yu Zhao                 2022-09-18  4572  		reset_batch_size(lruvec, walk);
-bd74fdaea14602 Yu Zhao                 2022-09-18  4573  
-57e9cc50f4dd92 Johannes Weiner         2022-10-26  4574  	item = PGSTEAL_KSWAPD + reclaimer_offset();
-ac35a490237446 Yu Zhao                 2022-09-18  4575  	if (!cgroup_reclaim(sc))
-ac35a490237446 Yu Zhao                 2022-09-18  4576  		__count_vm_events(item, reclaimed);
-ac35a490237446 Yu Zhao                 2022-09-18  4577  	__count_memcg_events(memcg, item, reclaimed);
-ac35a490237446 Yu Zhao                 2022-09-18  4578  	__count_vm_events(PGSTEAL_ANON + type, reclaimed);
-ac35a490237446 Yu Zhao                 2022-09-18  4579  
-ac35a490237446 Yu Zhao                 2022-09-18  4580  	spin_unlock_irq(&lruvec->lru_lock);
-ac35a490237446 Yu Zhao                 2022-09-18  4581  
-ac35a490237446 Yu Zhao                 2022-09-18  4582  	mem_cgroup_uncharge_list(&list);
-ac35a490237446 Yu Zhao                 2022-09-18  4583  	free_unref_page_list(&list);
-ac35a490237446 Yu Zhao                 2022-09-18  4584  
-359a5e1416caaf Yu Zhao                 2022-11-15  4585  	INIT_LIST_HEAD(&list);
-359a5e1416caaf Yu Zhao                 2022-11-15  4586  	list_splice_init(&clean, &list);
-359a5e1416caaf Yu Zhao                 2022-11-15  4587  
-359a5e1416caaf Yu Zhao                 2022-11-15  4588  	if (!list_empty(&list)) {
-359a5e1416caaf Yu Zhao                 2022-11-15  4589  		skip_retry = true;
-359a5e1416caaf Yu Zhao                 2022-11-15  4590  		goto retry;
-359a5e1416caaf Yu Zhao                 2022-11-15  4591  	}
-ac35a490237446 Yu Zhao                 2022-09-18  4592  
-ac35a490237446 Yu Zhao                 2022-09-18  4593  	return scanned;
-ac35a490237446 Yu Zhao                 2022-09-18  4594  }
-ac35a490237446 Yu Zhao                 2022-09-18  4595  
+   782	
+   783	bool dce_i2c_submit_command_hw(
+   784		struct resource_pool *pool,
+   785		struct ddc *ddc,
+   786		struct i2c_command *cmd,
+   787		struct dce_i2c_hw *dce_i2c_hw)
+   788	{
+   789		uint8_t index_of_payload = 0;
+   790		bool result;
+   791	
+   792		dce_i2c_hw->funcs->set_speed(dce_i2c_hw, cmd->speed);
+   793	
+   794		result = true;
+   795	
+   796		while (index_of_payload < cmd->number_of_payloads) {
+   797			bool mot = (index_of_payload != cmd->number_of_payloads - 1);
+   798	
+   799			struct i2c_payload *payload = cmd->payloads + index_of_payload;
+   800	
+   801			struct dce_i2c_transaction_request request = { 0 };
+   802	
+   803			request.operation = payload->write ?
+   804				DCE_I2C_TRANSACTION_WRITE :
+   805				DCE_I2C_TRANSACTION_READ;
+   806	
+   807			request.payload.address_space =
+   808				DCE_I2C_TRANSACTION_ADDRESS_SPACE_I2C;
+ > 809			request.payload.address = (payload->address << 1) |
+   810				!payload->write;
+   811			request.payload.length = payload->length;
+   812			request.payload.data = payload->data;
+   813	
+   814	
+   815			if (!dce_i2c_hw_engine_submit_request(
+   816					dce_i2c_hw, &request, mot)) {
+   817				result = false;
+   818				break;
+   819			}
+   820	
+   821	
+   822	
+   823			++index_of_payload;
+   824		}
+   825	
+   826		release_engine_dce_hw(pool, dce_i2c_hw);
+   827	
+   828		return result;
+   829	}
+   830	static const struct dce_i2c_hw_funcs dce100_i2c_hw_funcs = {
+   831			.setup_engine = setup_engine_hw_dce100,
+   832			.set_speed = set_speed_hw_dce100,
+   833			.get_speed = get_speed_hw,
+   834			.release_engine = release_engine_hw,
+   835			.process_transaction = process_transaction_hw_dce100,
+   836			.process_channel_reply = process_channel_reply_hw_dce100,
+   837			.is_hw_busy = is_hw_busy,
+   838			.get_channel_status = get_channel_status_hw,
+   839			.execute_transaction = execute_transaction_hw,
+   840			.disable_i2c_hw_engine = disable_i2c_hw_engine
+   841	};
+   842	static const struct dce_i2c_hw_funcs dce80_i2c_hw_funcs = {
+   843			.setup_engine = setup_engine_hw_dce80,
+   844			.set_speed = set_speed_hw_dce80,
+   845			.get_speed = get_speed_hw,
+   846			.release_engine = release_engine_hw,
+   847			.process_transaction = process_transaction_hw_dce80,
+   848			.process_channel_reply = process_channel_reply_hw_dce80,
+   849			.is_hw_busy = is_hw_busy,
+   850			.get_channel_status = get_channel_status_hw,
+   851			.execute_transaction = execute_transaction_hw,
+   852			.disable_i2c_hw_engine = disable_i2c_hw_engine
+   853	};
+   854	
+   855	
+   856	
 
 -- 
 0-DAY CI Kernel Test Service
