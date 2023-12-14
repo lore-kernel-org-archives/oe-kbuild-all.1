@@ -1,55 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FFF2AD04;
-	Thu, 14 Dec 2023 10:07:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF329DDB7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 10:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HReMX5YU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ncGr8tMs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702548459; x=1734084459;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7nYqpc7DtxTseeDVLSGfvUOGoJe3vkZw3P+N4mPsjNU=;
-  b=HReMX5YUR6ibBflkte62aVVnn42pMbS6Eo1iLHNn3WeeS51eGd1fwp4g
-   zGf1zcOqKnBSRpG7Lvji1CW8dnBzwfw+L8FxMSFC1xSbefdPpYIIqjnXk
-   FMRgs/Ocw1kFkwU8C1rdNMbsNrMi12IBAeBn/Vp79pN7kb7HotOS0cY99
-   8m0g5YJjWaLAVStOFIlCuCc8sQAgrrcVoaObh6rg2B+mBXrwcqWmO4jy7
-   MhQ2+1eGpFVoVRjPKnpTZu8F0RaN2TIdzuqP0FWxyd8mICrsBnUeogMJf
-   AKCBpWFsIhfY+JmiVQreKA9DN3tr/mVC6eEf4gLc863qsil+oym40Lg5i
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="461563521"
+  t=1702549086; x=1734085086;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FG36IZ0CUBEJ7HKckG1JJuVEJrZ68djb+uR3rqD8EJI=;
+  b=ncGr8tMs30iJBYnlCFZx9jfV6SsLlRGL4UjXvSoBV3NUhmntj4kWjPLd
+   Lb0mqdBWSAf5DWJdC8kNL0fxa3uZa0bO178egW4Zd9ZpfXiVvvJ1j/cIf
+   MrmGylENfJXOl6W+VryYcZAgViO0JoygWVlIRnhT8RCE7fcmGJIubPGPV
+   0w75nvvbh3AE1PKIBUMwpSabwRgH+joc9vhU/pGf3/U0BF3p08sKgHKcX
+   L3QHqxXvLv3q1QUdr0zvTW9C4VA+RqF9j/ZbcY74wwHr8TCwSYRxrU4ZL
+   hHt3sxg1uygwQlH2wISmcg3dIavNjLKzBlNW3OaWkIeD8jZ7jhLEv2qkv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="13795477"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="461563521"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 02:07:38 -0800
+   d="scan'208";a="13795477"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 02:18:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="1105644568"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="1105644568"
+   d="scan'208";a="15793696"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 14 Dec 2023 02:07:33 -0800
+  by orviesa002.jf.intel.com with ESMTP; 14 Dec 2023 02:18:04 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDict-000Lsp-0w;
-	Thu, 14 Dec 2023 10:07:31 +0000
-Date: Thu, 14 Dec 2023 18:06:42 +0800
+	id 1rDin1-000Lu9-2B;
+	Thu, 14 Dec 2023 10:18:00 +0000
+Date: Thu, 14 Dec 2023 18:17:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sherry Sun <sherry.sun@nxp.com>, hongxing.zhu@nxp.com,
-	l.stach@pengutronix.de, lpieralisi@kernel.org, kw@linux.com,
-	robh@kernel.org, bhelgaas@google.com,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-imx@nxp.com,
-	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2 1/4] PCI: imx6: Add pci host wakeup support on imx
- platforms.
-Message-ID: <202312141726.nPrR7WDt-lkp@intel.com>
-References: <20231213092850.1706042-2-sherry.sun@nxp.com>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 7233/7300] powerpc64-linux-ld: warning: orphan
+ section `.bss..Lubsan_data241' from `kernel/ptrace.o' being placed in
+ section `.bss..Lubsan_data241'
+Message-ID: <202312141833.S4yneu0F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,58 +50,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231213092850.1706042-2-sherry.sun@nxp.com>
 
-Hi Sherry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus shawnguo/for-next robh/for-next linus/master v6.7-rc5 next-20231214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sherry-Sun/PCI-imx6-Add-pci-host-wakeup-support-on-imx-platforms/20231213-173031
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20231213092850.1706042-2-sherry.sun%40nxp.com
-patch subject: [PATCH V2 1/4] PCI: imx6: Add pci host wakeup support on imx platforms.
-config: arm-randconfig-004-20231213 (https://download.01.org/0day-ci/archive/20231214/202312141726.nPrR7WDt-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141726.nPrR7WDt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   11651f8cb2e88372d4ed523d909514dc9a613ea3
+commit: 95ca4d1292211cbd4b3ec04a0603f1d0f858c785 [7233/7300] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+config: powerpc64-randconfig-r001-20220603 (https://download.01.org/0day-ci/archive/20231214/202312141833.S4yneu0F-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141833.S4yneu0F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141726.nPrR7WDt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141833.S4yneu0F-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pci-imx6.c:1267:13: warning: no previous prototype for function 'host_wake_irq_handler' [-Wmissing-prototypes]
-    1267 | irqreturn_t host_wake_irq_handler(int irq, void *priv)
-         |             ^
-   drivers/pci/controller/dwc/pci-imx6.c:1267:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1267 | irqreturn_t host_wake_irq_handler(int irq, void *priv)
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/host_wake_irq_handler +1267 drivers/pci/controller/dwc/pci-imx6.c
-
-  1266	
-> 1267	irqreturn_t host_wake_irq_handler(int irq, void *priv)
-  1268	{
-  1269		struct imx6_pcie *imx6_pcie = priv;
-  1270		struct device *dev = imx6_pcie->pci->dev;
-  1271	
-  1272		/* Notify PM core we are wakeup source */
-  1273		pm_wakeup_event(dev, 0);
-  1274		pm_system_wakeup();
-  1275	
-  1276		return IRQ_HANDLED;
-  1277	}
-  1278	
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data241' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data241'
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data241' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data241'
+>> powerpc64-linux-ld: warning: orphan section `.bss..Lubsan_data241' from `kernel/ptrace.o' being placed in section `.bss..Lubsan_data241'
 
 -- 
 0-DAY CI Kernel Test Service
