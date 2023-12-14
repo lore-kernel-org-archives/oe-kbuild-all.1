@@ -1,47 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8908B5D48F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 16:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D665F1D5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 16:42:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HGvnJx2o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ddc6onJv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702570784; x=1734106784;
+  t=1702572143; x=1734108143;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fKwpDOHn4ZR+fc+2gCFbbiEyOiHmO+8EI3T1y0kAbFI=;
-  b=HGvnJx2oJ6CAWDe/ResegtcSerCEk9RbyfWoDELqlujjAp+dhd+RHC7K
-   JCzafMJEOtUcD9L+X6RODOpiXNpiGi9+e+vjQiUhBpruFiGVMcmIbR8Mq
-   s88lQbEeuGlBKD72Njg98kY+596Tg1ii9Jka1e7+Ow5Eif+eDCFwL539U
-   o8DWkURWulo4EcZyw9HBOSL+kA5p9mfqelDF6ZOQtT8jl5cNqcg0ob0gM
-   V2fDb4qf8G+naM2GQhMaNowc+9ZthN032NGw89PQQsjw+WxNkqenfOWVl
-   BxXt/t5wjET7G7NYQgvA9QgkVKONUlwvUhueQCvLYyqERD9xxTdDMojfL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="380128102"
+  bh=lzY5iS4tdjQslsfe4kgWY/nHrTDe2kRSTCeot84r+y0=;
+  b=Ddc6onJvVzOwLoC5c6nFBpjeFHdIdyVwC4M7DXOl2Jhzbt71QtdCRG0k
+   rnlRjKSEprpQtp9kd/aGu9PqcFGL+ujqdJpPrrD3GR4fxw8aWQaAXD/yI
+   bWjHG97M+X+6jzeWcUhdhs24hHNyYlcJufUMl5l8g8dZzPhkx7UnMmtWF
+   Y6DHPaWR7FuLrzilSwAvG34dqVyEOsiVXiW1JbD2yFBKr+O7aW4ftBL/0
+   t5jRHHkPogA+7TcycHzMJfvQ/o+slTfGJRge9dnn5HTnVpTjH33amj3oz
+   zyTepFnErkjTQiicCFC2Qa0mDmA0pAJdyAkoizgKtp2nNlIfs6X4KTlOk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2302791"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="380128102"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 08:19:43 -0800
+   d="scan'208";a="2302791"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 08:42:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="777944259"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="767661611"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="777944259"
+   d="scan'208";a="767661611"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Dec 2023 08:19:42 -0800
+  by orsmga007.jf.intel.com with ESMTP; 14 Dec 2023 08:42:20 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDoR1-000MID-1W;
-	Thu, 14 Dec 2023 16:19:39 +0000
-Date: Fri, 15 Dec 2023 00:18:55 +0800
+	id 1rDomG-000MKi-2b;
+	Thu, 14 Dec 2023 16:41:56 +0000
+Date: Fri, 15 Dec 2023 00:40:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shilpasri G Bhat <shilpa.bhat@linux.vnet.ibm.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: drivers/cpufreq/powernv-cpufreq.c:469:25: sparse: sparse: restricted
- __be64 degrades to integer
-Message-ID: <202312150045.vKWdsr3O-lkp@intel.com>
+	Guenter Roeck <linux@roeck-us.net>,
+	Michael Schmitz <schmitzmic@gmail.com>
+Subject: drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202312150027.ZDqYqCr8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,128 +54,93 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: cb166fa937a2fbc14badcafca86202354c34a213 cpufreq: powernv: Register for OCC related opal_message notification
-date:   8 years ago
-config: powerpc64-randconfig-r113-20231107 (https://download.01.org/0day-ci/archive/20231215/202312150045.vKWdsr3O-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150045.vKWdsr3O-lkp@intel.com/reproduce)
+commit: 30b5e6ef4a32ea4985b99200e06d6660a69f9246 m68k: atari: Make Atari ROM port I/O write macros return void
+date:   1 year, 7 months ago
+config: m68k-randconfig-r131-20231119 (https://download.01.org/0day-ci/archive/20231215/202312150027.ZDqYqCr8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150027.ZDqYqCr8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150045.vKWdsr3O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150027.ZDqYqCr8-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/cpufreq/powernv-cpufreq.c:175:18: sparse: sparse: symbol 'cpufreq_freq_attr_cpuinfo_nominal_freq' was not declared. Should it be static?
-   drivers/cpufreq/powernv-cpufreq.c:436:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] type @@     got unsigned long long @@
-   drivers/cpufreq/powernv-cpufreq.c:436:19: sparse:     expected restricted __be64 [usertype] type
-   drivers/cpufreq/powernv-cpufreq.c:436:19: sparse:     got unsigned long long
-   drivers/cpufreq/powernv-cpufreq.c:458:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] chip @@     got unsigned long long @@
-   drivers/cpufreq/powernv-cpufreq.c:458:27: sparse:     expected restricted __be64 [usertype] chip
-   drivers/cpufreq/powernv-cpufreq.c:458:27: sparse:     got unsigned long long
-   drivers/cpufreq/powernv-cpufreq.c:459:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] throttle_status @@     got unsigned long long @@
-   drivers/cpufreq/powernv-cpufreq.c:459:38: sparse:     expected restricted __be64 [usertype] throttle_status
-   drivers/cpufreq/powernv-cpufreq.c:459:38: sparse:     got unsigned long long
->> drivers/cpufreq/powernv-cpufreq.c:469:25: sparse: sparse: restricted __be64 degrades to integer
-   drivers/cpufreq/powernv-cpufreq.c:470:25: sparse: sparse: cast from restricted __be64
-   drivers/cpufreq/powernv-cpufreq.c:470:25: sparse: sparse: restricted __be64 degrades to integer
-   drivers/cpufreq/powernv-cpufreq.c:474:25: sparse: sparse: cast from restricted __be64
-   drivers/cpufreq/powernv-cpufreq.c:474:25: sparse: sparse: restricted __be64 degrades to integer
-   drivers/cpufreq/powernv-cpufreq.c:438:21: sparse: sparse: restricted __be64 degrades to integer
-   drivers/cpufreq/powernv-cpufreq.c:438:21: sparse: sparse: restricted __be64 degrades to integer
-   In file included from include/linux/kernel.h:11,
-                    from drivers/cpufreq/powernv-cpufreq.c:22:
-   include/linux/log2.h:22:1: warning: ignoring attribute 'noreturn' because it conflicts with attribute 'const' [-Wattributes]
-      22 | int ____ilog2_NaN(void);
-         | ^~~
-   drivers/cpufreq/powernv-cpufreq.c: In function 'powernv_cpufreq_throttle_check':
-   drivers/cpufreq/powernv-cpufreq.c:318:33: warning: comparison of integer expressions of different signedness: 'unsigned int' and 'int' [-Wsign-compare]
-     318 |                 if (chips[i].id == cpu_to_chip_id(cpu))
-         |                                 ^~
-   In file included from include/linux/rcupdate.h:40,
-                    from include/linux/idr.h:18,
-                    from include/linux/kernfs.h:14,
-                    from include/linux/sysfs.h:15,
-                    from drivers/cpufreq/powernv-cpufreq.c:23:
-   drivers/cpufreq/powernv-cpufreq.c: In function 'init_chip_info':
-   include/linux/cpumask.h:221:23: warning: comparison of integer expressions of different signedness: 'unsigned int' and 'int' [-Wsign-compare]
-     221 |                 (cpu) < nr_cpu_ids;)
-         |                       ^
-   include/linux/cpumask.h:714:36: note: in expansion of macro 'for_each_cpu'
-     714 | #define for_each_possible_cpu(cpu) for_each_cpu((cpu), cpu_possible_mask)
-         |                                    ^~~~~~~~~~~~
-   drivers/cpufreq/powernv-cpufreq.c:511:9: note: in expansion of macro 'for_each_possible_cpu'
-     511 |         for_each_possible_cpu(cpu) {
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/cpufreq/powernv-cpufreq.c:524:23: warning: comparison of integer expressions of different signedness: 'unsigned int' and 'int' [-Wsign-compare]
-     524 |         for (i = 0; i < nr_chips; i++) {
-         |                       ^
+>> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
+>> drivers/comedi/drivers/ni_daq_700.c:163:17: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:173:21: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
+   drivers/comedi/drivers/ni_daq_700.c:205:9: sparse: sparse: cast to restricted __le16
 
-vim +469 drivers/cpufreq/powernv-cpufreq.c
+vim +163 drivers/comedi/drivers/ni_daq_700.c
 
-   417	
-   418	static char throttle_reason[][30] = {
-   419						"No throttling",
-   420						"Power Cap",
-   421						"Processor Over Temperature",
-   422						"Power Supply Failure",
-   423						"Over Current",
-   424						"OCC Reset"
-   425					     };
-   426	
-   427	static int powernv_cpufreq_occ_msg(struct notifier_block *nb,
-   428					   unsigned long msg_type, void *_msg)
-   429	{
-   430		struct opal_msg *msg = _msg;
-   431		struct opal_occ_msg omsg;
-   432	
-   433		if (msg_type != OPAL_MSG_OCC)
-   434			return 0;
-   435	
- > 436		omsg.type = be64_to_cpu(msg->params[0]);
-   437	
-   438		switch (omsg.type) {
-   439		case OCC_RESET:
-   440			occ_reset = true;
-   441			/*
-   442			 * powernv_cpufreq_throttle_check() is called in
-   443			 * target() callback which can detect the throttle state
-   444			 * for governors like ondemand.
-   445			 * But static governors will not call target() often thus
-   446			 * report throttling here.
-   447			 */
-   448			if (!throttled) {
-   449				throttled = true;
-   450				pr_crit("CPU Frequency is throttled\n");
-   451			}
-   452			pr_info("OCC: Reset\n");
-   453			break;
-   454		case OCC_LOAD:
-   455			pr_info("OCC: Loaded\n");
-   456			break;
-   457		case OCC_THROTTLE:
-   458			omsg.chip = be64_to_cpu(msg->params[1]);
-   459			omsg.throttle_status = be64_to_cpu(msg->params[2]);
-   460	
-   461			if (occ_reset) {
-   462				occ_reset = false;
-   463				throttled = false;
-   464				pr_info("OCC: Active\n");
-   465				return 0;
-   466			}
-   467	
-   468			if (omsg.throttle_status &&
- > 469			    omsg.throttle_status <= OCC_MAX_THROTTLE_STATUS)
-   470				pr_info("OCC: Chip %u Pmax reduced due to %s\n",
-   471					(unsigned int)omsg.chip,
-   472					throttle_reason[omsg.throttle_status]);
-   473			else if (!omsg.throttle_status)
-   474				pr_info("OCC: Chip %u %s\n", (unsigned int)omsg.chip,
-   475					throttle_reason[omsg.throttle_status]);
-   476		}
-   477		return 0;
-   478	}
-   479	
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  129  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  130  static int daq700_ai_rinsn(struct comedi_device *dev,
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  131  			   struct comedi_subdevice *s,
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  132  			   struct comedi_insn *insn, unsigned int *data)
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  133  {
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  134  	int n;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  135  	int d;
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  136  	int ret;
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  137  	unsigned int chan	= CR_CHAN(insn->chanspec);
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  138  	unsigned int aref	= CR_AREF(insn->chanspec);
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  139  	unsigned int range	= CR_RANGE(insn->chanspec);
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  140  	unsigned int r3_bits	= 0;
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  141  
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  142  	/* set channel input modes */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  143  	if (aref == AREF_DIFF)
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  144  		r3_bits |= CMD_R3_DIFF;
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  145  	/* write channel mode/range */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  146  	if (range >= 1)
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  147  		range++;        /* convert range to hardware value */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  148  	outb(r3_bits | (range & 0x03), dev->iobase + CMD_R3);
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  149  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  150  	/* write channel to multiplexer */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  151  	/* set mask scan bit high to disable scanning */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  152  	outb(chan | 0x80, dev->iobase + CMD_R1);
+ffed54dced8672 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2014-05-19  153  	/* mux needs 2us to really settle [Fred Brooks]. */
+ffed54dced8672 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2014-05-19  154  	udelay(2);
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  155  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  156  	/* convert n samples */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  157  	for (n = 0; n < insn->n; n++) {
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  158  		/* trigger conversion with out0 L to H */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  159  		outb(0x00, dev->iobase + CMD_R2); /* enable ADC conversions */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  160  		outb(0x30, dev->iobase + CMO_R); /* mode 0 out0 L, from H */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  161  		outb(0x00, dev->iobase + ADCLEAR_R);	/* clear the ADC FIFO */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20  162  		/* read 16bit junk from FIFO to clear */
+cf695df834efc7 drivers/staging/comedi/drivers/ni_daq_700.c Fred Brooks       2014-06-20 @163  		inw(dev->iobase + ADFIFO_R);
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  164  		/* mode 1 out0 H, L to H, start conversion */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  165  		outb(0x32, dev->iobase + CMO_R);
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  166  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  167  		/* wait for conversion to end */
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  168  		ret = comedi_timeout(dev, s, insn, daq700_ai_eoc, 0);
+22ca19d93d92c7 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  169  		if (ret)
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  170  			return ret;
+a9f9d831454114 drivers/staging/comedi/drivers/ni_daq_700.c H Hartley Sweeten 2014-02-10  171  
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  172  		/* read data */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  173  		d = inw(dev->iobase + ADFIFO_R);
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  174  		/* mangle the data as necessary */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  175  		/* Bipolar Offset Binary: 0 to 4095 for -10 to +10 */
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  176  		d &= 0x0fff;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  177  		d ^= 0x0800;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  178  		data[n] = d;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  179  	}
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  180  	return n;
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  181  }
+198b0fa48b25b6 drivers/staging/comedi/drivers/ni_daq_700.c Ian Abbott        2012-09-21  182  
+
+:::::: The code at line 163 was first introduced by commit
+:::::: cf695df834efc718b2ed17e9c83e127fd63c9033 staging: comedi: ni_daq_700: add AI range and input mode switching
+
+:::::: TO: Fred Brooks <frederick.brooks@microchip.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
