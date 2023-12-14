@@ -1,54 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C006E60B83
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 18:30:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC1F67E7E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 18:52:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kLB9w1v0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wxe1EuBh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702578610; x=1734114610;
+  t=1702579929; x=1734115929;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+ZYYxqWx1kmoxG6ngi71Mbzy6N3XKyw4oew+xYOcWSU=;
-  b=kLB9w1v0W+qE/TmiEQyGeFPcNUb6HX+OgwG1NKU/4rGlCyiFLz0H4R4h
-   /pxUZfDnAPrnNAUVOL9ctJeQqHrYUB17pgVb2geYkP4mxFgQmauYKXmkU
-   5wSe3x59prIMaG/ooNlI4wG69Zh54OLE8903frnHu9wKVLessYhDqYJdG
-   IVVWSbftmLKYYRFBC8Fe9TUw39UiCtUeKqyU1VcmZ6nHjZzhY1Nuz6kj+
-   Sug/ddT3eHKUwBu6DRIKPQHGYKpOvWoVtuS3jfXPMGGjBy7aNyqDa6NnN
-   /A1dohZasOfrD3ABC4ubJaalMQrGFUBd1wQPWZFPwf/uEMxJk7TdiGJSI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="459487343"
+  bh=BDOejxndfLReb0cci5NYlZsRU6fGJSDduqwshAciC6Q=;
+  b=Wxe1EuBhthDlUYYHU8qkcPmQJGD/7x0B91fqu1M2OanjzZli1cN8vspl
+   JzmKMwkAYaoq1/CtR5ndsldV3uBavZVN1lW4EQGu2tnvdoJjN22f+9vDZ
+   TAQXBDH1sYquU2HPd3oFqmdk7K/cJgGcx6kdyfbIPOjUZuOfHMxanaRFN
+   05uF5OvktA/gzZAwY6/NkusjNK3n3zgxKvpwGtlCqFOoI0iLkEjRqbGvk
+   gAhpRzR7v/UBkVGsupABmO/0mVhDgd8/WVrX7uWMa+YQlf5BPlY9kgS7C
+   vlY9bEhgLOGAwcvuiM/I/oVrEE7MbsLwBkaXvnwBbkJxVea6vmoyMQ+Tw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="399004496"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="459487343"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 10:30:06 -0800
+   d="scan'208";a="399004496"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 10:52:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="1021640500"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="1021640500"
+   d="scan'208";a="15963533"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Dec 2023 10:30:03 -0800
+  by orviesa002.jf.intel.com with ESMTP; 14 Dec 2023 10:52:04 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDqTB-000MT6-1O;
-	Thu, 14 Dec 2023 18:30:01 +0000
-Date: Fri, 15 Dec 2023 02:29:10 +0800
+	id 1rDqoU-000MV2-1b;
+	Thu, 14 Dec 2023 18:52:02 +0000
+Date: Fri, 15 Dec 2023 02:51:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Clark <james.clark@arm.com>, coresight@lists.linaro.org,
-	suzuki.poulose@arm.com
-Cc: oe-kbuild-all@lists.linux.dev, James Clark <james.clark@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v2] coresight: Make current W=1 warnings default
-Message-ID: <202312150201.EizBBCDr-lkp@intel.com>
-References: <20231115162834.355598-1-james.clark@arm.com>
+To: Eyal Birger <eyal.birger@gmail.com>, davem@davemloft.net,
+	dsahern@kernel.org, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, steffen.klassert@secunet.com,
+	herbert@gondor.apana.org.au, pablo@netfilter.org, paul@nohats.ca,
+	nharold@google.com
+Cc: oe-kbuild-all@lists.linux.dev, devel@linux-ipsec.org,
+	netdev@vger.kernel.org, Eyal Birger <eyal.birger@gmail.com>
+Subject: Re: [PATCH ipsec-next,v2] xfrm: support sending NAT keepalives in
+ ESP in UDP states
+Message-ID: <202312150227.iYQMDIJT-lkp@intel.com>
+References: <20231210180116.1737411-1-eyal.birger@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,59 +55,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231115162834.355598-1-james.clark@arm.com>
+In-Reply-To: <20231210180116.1737411-1-eyal.birger@gmail.com>
 
-Hi James,
+Hi Eyal,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on atorgue-stm32/stm32-next]
-[also build test WARNING on soc/for-next linus/master v6.7-rc5 next-20231214]
+[auto build test ERROR on netfilter-nf/main]
+[also build test ERROR on linus/master v6.7-rc5 next-20231214]
+[cannot apply to horms-ipvs/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Clark/coresight-Make-current-W-1-warnings-default/20231116-004818
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20231115162834.355598-1-james.clark%40arm.com
-patch subject: [PATCH v2] coresight: Make current W=1 warnings default
-config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231215/202312150201.EizBBCDr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150201.EizBBCDr-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eyal-Birger/xfrm-support-sending-NAT-keepalives-in-ESP-in-UDP-states/20231211-020238
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20231210180116.1737411-1-eyal.birger%40gmail.com
+patch subject: [PATCH ipsec-next,v2] xfrm: support sending NAT keepalives in ESP in UDP states
+config: x86_64-rhel-8.3-ltp (https://download.01.org/0day-ci/archive/20231215/202312150227.iYQMDIJT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150227.iYQMDIJT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150201.EizBBCDr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150227.iYQMDIJT-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwtracing/coresight/coresight-tpdm.c:242:17: sparse: sparse: Using plain integer as NULL pointer
-   drivers/hwtracing/coresight/coresight-tpdm.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
---
->> drivers/hwtracing/coresight/coresight-etb10.c:840:17: sparse: sparse: Using plain integer as NULL pointer
-   drivers/hwtracing/coresight/coresight-etb10.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
---
->> drivers/hwtracing/coresight/coresight-funnel.c:395:17: sparse: sparse: Using plain integer as NULL pointer
-   drivers/hwtracing/coresight/coresight-funnel.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +242 drivers/hwtracing/coresight/coresight-tpdm.c
+   net/xfrm/xfrm_nat_keepalive.c: In function 'nat_keepalive_send_ipv6':
+>> net/xfrm/xfrm_nat_keepalive.c:78:21: error: implicit declaration of function 'csum_ipv6_magic'; did you mean 'csum_tcpudp_magic'? [-Werror=implicit-function-declaration]
+      78 |         uh->check = csum_ipv6_magic(&ka->saddr.in6, &ka->daddr.in6,
+         |                     ^~~~~~~~~~~~~~~
+         |                     csum_tcpudp_magic
+   cc1: some warnings being treated as errors
 
-   232	
-   233	/*
-   234	 * Different TPDM has different periph id.
-   235	 * The difference is 0-7 bits' value. So ignore 0-7 bits.
-   236	 */
-   237	static struct amba_id tpdm_ids[] = {
-   238		{
-   239			.id = 0x000f0e00,
-   240			.mask = 0x000fff00,
-   241		},
- > 242		{ 0, 0, 0 },
-   243	};
-   244	
+
+vim +78 net/xfrm/xfrm_nat_keepalive.c
+
+    64	
+    65	#if IS_ENABLED(CONFIG_IPV6)
+    66	static int nat_keepalive_send_ipv6(struct sk_buff *skb,
+    67					   struct nat_keepalive *ka,
+    68					   struct udphdr *uh)
+    69	{
+    70		struct net *net = ka->net;
+    71		struct dst_entry *dst;
+    72		struct flowi6 fl6;
+    73		struct sock *sk;
+    74		__wsum csum;
+    75		int err;
+    76	
+    77		csum = skb_checksum(skb, 0, skb->len, 0);
+  > 78		uh->check = csum_ipv6_magic(&ka->saddr.in6, &ka->daddr.in6,
+    79					    skb->len, IPPROTO_UDP, csum);
+    80		if (uh->check == 0)
+    81			uh->check = CSUM_MANGLED_0;
+    82	
+    83		memset(&fl6, 0, sizeof(fl6));
+    84		fl6.flowi6_mark = skb->mark;
+    85		fl6.saddr = ka->saddr.in6;
+    86		fl6.daddr = ka->daddr.in6;
+    87		fl6.flowi6_proto = IPPROTO_UDP;
+    88		fl6.fl6_sport = ka->encap_sport;
+    89		fl6.fl6_dport = ka->encap_dport;
+    90	
+    91		sk = *this_cpu_ptr(&nat_keepalive_sk_ipv6);
+    92		sock_net_set(sk, net);
+    93		dst = ipv6_stub->ipv6_dst_lookup_flow(net, sk, &fl6, NULL);
+    94		if (IS_ERR(dst))
+    95			return PTR_ERR(dst);
+    96	
+    97		skb_dst_set(skb, dst);
+    98		err = ipv6_stub->ip6_xmit(sk, skb, &fl6, skb->mark, NULL, 0, 0);
+    99		sock_net_set(sk, &init_net);
+   100		return err;
+   101	}
+   102	#endif
+   103	
 
 -- 
 0-DAY CI Kernel Test Service
