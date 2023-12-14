@@ -1,48 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CAE6A320
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 19:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B68D68EBF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 19:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxqeAVtf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702581731; x=1734117731;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2Fdam4vE2Ku1uNp7Ee8nTxt9bEzoEzu172Jlr50E0AQ=;
-  b=DxqeAVtfQ4Kc9PiTwjnk6arPyx2eGj94YlKcb4A3PyLdqwebD50y/OU1
-   DtT4ILQpJefHEopULU0iJvjXXmkiXpZnLGw2Xr+0f0cEDmo6UptCHE207
-   fODQo+cTt449yixCkbYj6Hx6oJivMzl4O8Cs8oYJ5teusX1xej9KNnY3B
-   pGFomrRTe5av3DCfdFYTVIPEcbjfNejBkDufFIkPER0Qnu3NZ+vZ4XYp/
-   v+vnaqR0xbSbAj+29hIa4iidVFgh0yH7ETOkJ7iiPG0dIdV81LVOXUXXB
-   jgAoxH8GMHRTeLl8Fm3u6uhucdFULA4eagknDCM2/RccZgZ6BM+k6XKn+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2336928"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="2336928"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 11:22:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="844838879"
-X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="844838879"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Dec 2023 11:22:09 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDrHb-000MVu-1M;
-	Thu, 14 Dec 2023 19:22:07 +0000
-Date: Fri, 15 Dec 2023 03:21:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 11/15] drm/msm/dpu: add an API to setup the CDM block
- for writeback
-Message-ID: <202312150312.QeRReP1C-lkp@intel.com>
-References: <20231212002245.23715-12-quic_abhinavk@quicinc.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Mztdq8e6"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d337dc9697so33785885ad.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 11:26:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702582004; x=1703186804; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WGe+uUYlDw+uG476SCRJ8n5xCAk3qfvXoM3VQJW7/IQ=;
+        b=Mztdq8e65IAWSsJBvpiqpZ2U6g7merb2ca2u56vGn7Taa4lg19e6/DCrhN7sHw1xhT
+         +iaOrRZliXDVnooPb9eUv8hSg1A15teTKoZ9s+8iPwcpytZhj27EZ1X4KORQ/gHRgVWL
+         RxPdfixQSh0u07sKx6EVtxCinMj/hKFlzmF+ISQxeYE+MCb9PguA/ZognwUg/nJqAPG5
+         mJ8oiPvP7YhGVatp/PH0+4FrzSrVpMB4XMyllHbiSWOUNUrKtnVwdZ65+Pii5Rx+CxQk
+         /2Wk4sno2r1AbHl0n0kBKZVKndwFFFu48aZtjuX5AXQCe4Sqp0ZAY0eMcDwUrH2p6KWQ
+         5Eug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702582004; x=1703186804;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WGe+uUYlDw+uG476SCRJ8n5xCAk3qfvXoM3VQJW7/IQ=;
+        b=Tt6/ZWaK0ZIuyzH9Lgw+G/KmXVG6TT2Wy7Mait+nwiOiJXym+j0qWjFTH6Y/VWPOhP
+         vn5pSZo2d9Gd4fK93f+y7XSarqNfP3aG67BhAH+Mk28TgXzQyS72DcAwKgn50xMfYV6D
+         B0P6l9kiA54J108ywoLXo2GFiES9zSYbveDsHQpSFcWfNAq9FCaBdXLK6cRWV/0Yafgj
+         E2PtvdhNwnZ0AgL3vOFbFUmdaMU+a8WYUzCx040uaHgPpJh2nH3C46mtmGYmjV7bYvRr
+         LXbQZS4bLikxogO2kfJmmsjJa4NTn9i86Cdw6lx6Z26sO/2CqnKfEqqjtwvuBlZzJJum
+         J4iw==
+X-Gm-Message-State: AOJu0Yz0QIka3qvlZK6/bppMdAx4tZk/IqyYQ2X2GhruaAS/8G3nw92f
+	DsexGD4O2J9XXbkatrp2VEh8Ow==
+X-Google-Smtp-Source: AGHT+IEGBbmy7QSIym83oljmFI1tPJjJEUP52og7dAI+4/8CMcuOzUA25xCsZbu3ULE4qkw5fTN+hw==
+X-Received: by 2002:a17:903:496:b0:1d3:752a:f4ab with SMTP id jj22-20020a170903049600b001d3752af4abmr877729plb.79.1702582004021;
+        Thu, 14 Dec 2023 11:26:44 -0800 (PST)
+Received: from ghost ([12.44.203.122])
+        by smtp.gmail.com with ESMTPSA id ja6-20020a170902efc600b001d1c96a0c66sm2564197plb.130.2023.12.14.11.26.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 11:26:43 -0800 (PST)
+Date: Thu, 14 Dec 2023 11:26:40 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
+ error: uninitialized symbol 'curr_type'.
+Message-ID: <ZXtW8IjL1Kf/2B1B@ghost>
+References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
+ <ZXoFhu2TPXgrsInY@ghost>
+ <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,69 +60,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231212002245.23715-12-quic_abhinavk@quicinc.com>
+In-Reply-To: <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
 
-Hi Abhinav,
+On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
+> On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
+> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
+> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
+> > >                                                                                        ^^^^^^^^^
+> > > Can the list be empty?  Uninitialized in that case.
+> > 
+> > That's a tricky one, the list cannot be empty. Each bucket in the
+> > bucket_iter is guarunteed to have at least one rel_entry. I can probably
+> > resolve this by extracting this for loop into a do-while loop.
+> 
+> You can just ignore false positives.  It's not really a fix to change it
+> to a do-while loop.  I reviewed the do while code before reading this
+> email and I still wondered about empty lists, but just to hear that it's
+> not going to be empty is enough.  Just the email was sufficient.
+> 
+> regards,
+> dan carpenter
+> 
 
-kernel test robot noticed the following build warnings:
+The freeing was actually broken so that needed to be fixed and I figured
+that it was worthwhile to include the do-while in the same patch to get
+rid of the warning.
 
-[auto build test WARNING on next-20231211]
-[cannot apply to drm-misc/drm-misc-next linus/master v6.7-rc5 v6.7-rc4 v6.7-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+- Charlie
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhinav-Kumar/drm-msm-dpu-add-formats-check-for-writeback-encoder/20231212-122641
-base:   next-20231211
-patch link:    https://lore.kernel.org/r/20231212002245.23715-12-quic_abhinavk%40quicinc.com
-patch subject: [PATCH v3 11/15] drm/msm/dpu: add an API to setup the CDM block for writeback
-config: i386-buildonly-randconfig-004-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150312.QeRReP1C-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150312.QeRReP1C-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150312.QeRReP1C-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h:8,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c:7:
->> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h:54:33: warning: 'dpu_csc10_rgb2yuv_601l' defined but not used [-Wunused-const-variable=]
-      54 | static const struct dpu_csc_cfg dpu_csc10_rgb2yuv_601l = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h:39:33: warning: 'dpu_csc10_YUV2RGB_601L' defined but not used [-Wunused-const-variable=]
-      39 | static const struct dpu_csc_cfg dpu_csc10_YUV2RGB_601L = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h:24:33: warning: 'dpu_csc_YUV2RGB_601L' defined but not used [-Wunused-const-variable=]
-      24 | static const struct dpu_csc_cfg dpu_csc_YUV2RGB_601L = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h:10,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h:20,
-                    from drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:21:
->> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h:54:33: warning: 'dpu_csc10_rgb2yuv_601l' defined but not used [-Wunused-const-variable=]
-      54 | static const struct dpu_csc_cfg dpu_csc10_rgb2yuv_601l = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/dpu_csc10_rgb2yuv_601l +54 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
-
-    53	
-  > 54	static const struct dpu_csc_cfg dpu_csc10_rgb2yuv_601l = {
-    55		{
-    56			TO_S15D16(0x0083), TO_S15D16(0x0102), TO_S15D16(0x0032),
-    57			TO_S15D16(0x1fb5), TO_S15D16(0x1f6c), TO_S15D16(0x00e1),
-    58			TO_S15D16(0x00e1), TO_S15D16(0x1f45), TO_S15D16(0x1fdc)
-    59		},
-    60		{ 0x00, 0x00, 0x00 },
-    61		{ 0x0040, 0x0200, 0x0200 },
-    62		{ 0x000, 0x3ff, 0x000, 0x3ff, 0x000, 0x3ff },
-    63		{ 0x040, 0x3ac, 0x040, 0x3c0, 0x040, 0x3c0 },
-    64	};
-    65	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
