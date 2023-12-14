@@ -1,47 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5F865B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 01:46:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977D963D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 01:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gUnq7ErE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DKFq8yW0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702518386; x=1734054386;
+  t=1702518387; x=1734054387;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xbG/d0x6Brrghq/2/kJqUrjQrrpZAO1c1dJt75diRfM=;
-  b=gUnq7ErEgt4qMh8GrAlaibx3JuwP9LbLEvpzxvRIhFB24omjV7dkXFm9
-   fwVUHbZneBBhVGVzgxelJhF0guzhAVPho5gdtJp7y1vKn1+v8S68iANcX
-   jDqXYNd7z/Q6jQMbxR7PMjruD05SiUtPpUvZSlB7ica7Dl5aORjZ8Q0Ki
-   BNVMgO8D9+d1qIxW8/WHKroL1MhV+SJI2SCmNVufzC4KRDPUCCDPawXH5
-   hXqOGzoJKNtMcWnZ+8q3B3zNL6eNCyHbz1dp3DfgqvA5rPgMNarVEK0YK
-   /vkQ43cr542ALw8jYxHh1OPNXDL//CL9uZJejkR87j4nW2QXeCDbZG5Ei
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="393925394"
+  bh=/ql9kfdsCUS1L4Z9a+UTnQBjDnU0ZhUlVbSXlfBpkOs=;
+  b=DKFq8yW0r21WgY2tnY5glmduZw7RDuWuO0MrNpJ9Ywf6Uc3ZaUpBD1EU
+   fUtcJ2LY32JbmI2kSdVVJhNaFvOzIrwa9K5HOAwt87zXpyq8XXO7uRoW1
+   5/bhlPSVoin8NJtLiDCdaKAZYgbVNeg2TC2dOIJ/2aAWfIraFt0jU5T1s
+   h7FPN1I4fHxQ9N2ka6kkm9HwX0AoOVWCOt0C0Jg1c0nCu/oZt4muTRVwu
+   EosZ/o+9JUWuWfoTT2sj0Rvrkw4B/Ng0sA1w7yCEuogshEsPDjjzZYpF4
+   y4APofjyPLVmyJBwWOyNzGjh0DLOZtVx9d8Q+lHyw9KdHSUxM0H7oshLs
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="393925398"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="393925394"
+   d="scan'208";a="393925398"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 17:46:23 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="22198622"
+   d="scan'208";a="22198620"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by orviesa001.jf.intel.com with ESMTP; 13 Dec 2023 17:46:22 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDanr-000LP5-1E;
+	id 1rDanr-000LP9-1X;
 	Thu, 14 Dec 2023 01:46:19 +0000
-Date: Thu, 14 Dec 2023 09:46:02 +0800
+Date: Thu, 14 Dec 2023 09:46:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Tzvetomir Stoyanov (VMware)" <tz.stoyanov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: [rostedt-trace:ring-buffer-multi-page-subbufers 37/47]
- kernel/trace/ring_buffer.c:5690: warning: Function parameter or member
- 'data_page' not described in 'ring_buffer_free_read_page'
-Message-ID: <202312140927.PZMqTtJh-lkp@intel.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Inki Dae <inki.dae@samsung.com>
+Subject: drivers/gpu/drm/exynos/exynos_drm_fimd.c:470:41: sparse: sparse:
+ incorrect type in argument 2 (different address spaces)
+Message-ID: <202312140930.Me9yWf8F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,79 +50,218 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git ring-buffer-multi-page-subbufers
-head:   e24541a2a1a09ed1c10d0d0a887fe8cf0b350bb9
-commit: 24791879a84daada5528634c4b515d0d20e5c3f8 [37/47] ring-buffer: Read and write to ring buffers with custom sub buffer size
-config: i386-buildonly-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231214/202312140927.PZMqTtJh-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312140927.PZMqTtJh-lkp@intel.com/reproduce)
+Hi Sam,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
+commit: 156bdac99061b4013c8e47799c6e574f7f84e9f4 drm/exynos: trigger build of all modules
+date:   4 years, 6 months ago
+config: mips-randconfig-r122-20231108 (https://download.01.org/0day-ci/archive/20231214/202312140930.Me9yWf8F-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231214/202312140930.Me9yWf8F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312140927.PZMqTtJh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312140930.Me9yWf8F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:458:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *timing_base @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:458:39: sparse:     expected void *timing_base
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:458:39: sparse:     got void [noderef] __iomem *
+>> drivers/gpu/drm/exynos/exynos_drm_fimd.c:470:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void * @@
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:470:41: sparse:     expected void volatile [noderef] __iomem *mem
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:470:41: sparse:     got void *
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:473:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void * @@
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:473:39: sparse:     expected void volatile [noderef] __iomem *mem
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:473:39: sparse:     got void *
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:519:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void * @@
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:519:53: sparse:     expected void volatile [noderef] __iomem *mem
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:519:53: sparse:     got void *
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:945:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *timing_base @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:945:39: sparse:     expected void *timing_base
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:945:39: sparse:     got void [noderef] __iomem *
+>> drivers/gpu/drm/exynos/exynos_drm_fimd.c:958:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got void * @@
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:958:33: sparse:     expected void const volatile [noderef] __iomem *mem
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:958:33: sparse:     got void *
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:960:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got void * @@
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:960:33: sparse:     expected void volatile [noderef] __iomem *mem
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c:960:33: sparse:     got void *
+   drivers/gpu/drm/exynos/exynos_drm_fimd.c: note: in included file (through arch/mips/include/asm/mmiowb.h, include/linux/spinlock.h, include/linux/rwsem.h, ...):
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
+   arch/mips/include/asm/io.h:464:1: sparse: sparse: cast to restricted __le32
 
->> kernel/trace/ring_buffer.c:5690: warning: Function parameter or member 'data_page' not described in 'ring_buffer_free_read_page'
->> kernel/trace/ring_buffer.c:5690: warning: Excess function parameter 'page' description in 'ring_buffer_free_read_page'
+vim +470 drivers/gpu/drm/exynos/exynos_drm_fimd.c
 
+a6f75aa161c5a5 Inki Dae              2016-04-18  452  
+93bca243ec96f0 Gustavo Padovan       2015-01-18  453  static void fimd_commit(struct exynos_drm_crtc *crtc)
+1c248b7d2960fa Inki Dae              2011-10-04  454  {
+93bca243ec96f0 Gustavo Padovan       2015-01-18  455  	struct fimd_context *ctx = crtc->ctx;
+020e79de265996 Joonyoung Shim        2015-06-02  456  	struct drm_display_mode *mode = &crtc->base.state->adjusted_mode;
+e1a7b9b40d1c0c Marek Szyprowski      2016-04-18  457  	const struct fimd_driver_data *driver_data = ctx->driver_data;
+3854fab24e899c YoungJun Cho          2014-07-17  458  	void *timing_base = ctx->regs + driver_data->timing_base;
+c96fdfdeca5657 Andrzej Hajda         2016-09-23  459  	u32 val;
+1c248b7d2960fa Inki Dae              2011-10-04  460  
+e30d4bcf79b6a3 Inki Dae              2011-12-12  461  	if (ctx->suspended)
+e30d4bcf79b6a3 Inki Dae              2011-12-12  462  		return;
+e30d4bcf79b6a3 Inki Dae              2011-12-12  463  
+a968e72771ea19 Sean Paul             2014-01-30  464  	/* nothing to do if we haven't set the mode yet */
+a968e72771ea19 Sean Paul             2014-01-30  465  	if (mode->htotal == 0 || mode->vtotal == 0)
+a968e72771ea19 Sean Paul             2014-01-30  466  		return;
+a968e72771ea19 Sean Paul             2014-01-30  467  
+3854fab24e899c YoungJun Cho          2014-07-17  468  	if (ctx->i80_if) {
+3854fab24e899c YoungJun Cho          2014-07-17  469  		val = ctx->i80ifcon | I80IFEN_ENABLE;
+3854fab24e899c YoungJun Cho          2014-07-17 @470  		writel(val, timing_base + I80IFCONFAx(0));
+3854fab24e899c YoungJun Cho          2014-07-17  471  
+3854fab24e899c YoungJun Cho          2014-07-17  472  		/* disable auto frame rate */
+3854fab24e899c YoungJun Cho          2014-07-17  473  		writel(0, timing_base + I80IFCONFBx(0));
+3854fab24e899c YoungJun Cho          2014-07-17  474  
+3854fab24e899c YoungJun Cho          2014-07-17  475  		/* set video type selection to I80 interface */
+3c3c9c1d904dca Joonyoung Shim        2014-11-14  476  		if (driver_data->has_vtsel && ctx->sysreg &&
+3c3c9c1d904dca Joonyoung Shim        2014-11-14  477  				regmap_update_bits(ctx->sysreg,
+3854fab24e899c YoungJun Cho          2014-07-17  478  					driver_data->lcdblk_offset,
+3854fab24e899c YoungJun Cho          2014-07-17  479  					0x3 << driver_data->lcdblk_vt_shift,
+3854fab24e899c YoungJun Cho          2014-07-17  480  					0x1 << driver_data->lcdblk_vt_shift)) {
+6f83d20838c099 Inki Dae              2019-04-15  481  			DRM_DEV_ERROR(ctx->dev,
+6f83d20838c099 Inki Dae              2019-04-15  482  				      "Failed to update sysreg for I80 i/f.\n");
+3854fab24e899c YoungJun Cho          2014-07-17  483  			return;
+3854fab24e899c YoungJun Cho          2014-07-17  484  		}
+3854fab24e899c YoungJun Cho          2014-07-17  485  	} else {
+3854fab24e899c YoungJun Cho          2014-07-17  486  		int vsync_len, vbpd, vfpd, hsync_len, hbpd, hfpd;
+3854fab24e899c YoungJun Cho          2014-07-17  487  		u32 vidcon1;
+3854fab24e899c YoungJun Cho          2014-07-17  488  
+1417f109a82f8a Sean Paul             2014-01-30  489  		/* setup polarity values */
+1417f109a82f8a Sean Paul             2014-01-30  490  		vidcon1 = ctx->vidcon1;
+1417f109a82f8a Sean Paul             2014-01-30  491  		if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+1417f109a82f8a Sean Paul             2014-01-30  492  			vidcon1 |= VIDCON1_INV_VSYNC;
+1417f109a82f8a Sean Paul             2014-01-30  493  		if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+1417f109a82f8a Sean Paul             2014-01-30  494  			vidcon1 |= VIDCON1_INV_HSYNC;
+1417f109a82f8a Sean Paul             2014-01-30  495  		writel(vidcon1, ctx->regs + driver_data->timing_base + VIDCON1);
+1c248b7d2960fa Inki Dae              2011-10-04  496  
+1c248b7d2960fa Inki Dae              2011-10-04  497  		/* setup vertical timing values. */
+a968e72771ea19 Sean Paul             2014-01-30  498  		vsync_len = mode->crtc_vsync_end - mode->crtc_vsync_start;
+8b4cad23531da4 Andrzej Hajda         2014-03-17  499  		vbpd = mode->crtc_vtotal - mode->crtc_vsync_end;
+8b4cad23531da4 Andrzej Hajda         2014-03-17  500  		vfpd = mode->crtc_vsync_start - mode->crtc_vdisplay;
+a968e72771ea19 Sean Paul             2014-01-30  501  
+a968e72771ea19 Sean Paul             2014-01-30  502  		val = VIDTCON0_VBPD(vbpd - 1) |
+a968e72771ea19 Sean Paul             2014-01-30  503  			VIDTCON0_VFPD(vfpd - 1) |
+a968e72771ea19 Sean Paul             2014-01-30  504  			VIDTCON0_VSPW(vsync_len - 1);
+e2e1338900208a Leela Krishna Amudala 2012-09-21  505  		writel(val, ctx->regs + driver_data->timing_base + VIDTCON0);
+1c248b7d2960fa Inki Dae              2011-10-04  506  
+1c248b7d2960fa Inki Dae              2011-10-04  507  		/* setup horizontal timing values.  */
+a968e72771ea19 Sean Paul             2014-01-30  508  		hsync_len = mode->crtc_hsync_end - mode->crtc_hsync_start;
+8b4cad23531da4 Andrzej Hajda         2014-03-17  509  		hbpd = mode->crtc_htotal - mode->crtc_hsync_end;
+8b4cad23531da4 Andrzej Hajda         2014-03-17  510  		hfpd = mode->crtc_hsync_start - mode->crtc_hdisplay;
+a968e72771ea19 Sean Paul             2014-01-30  511  
+a968e72771ea19 Sean Paul             2014-01-30  512  		val = VIDTCON1_HBPD(hbpd - 1) |
+a968e72771ea19 Sean Paul             2014-01-30  513  			VIDTCON1_HFPD(hfpd - 1) |
+a968e72771ea19 Sean Paul             2014-01-30  514  			VIDTCON1_HSPW(hsync_len - 1);
+e2e1338900208a Leela Krishna Amudala 2012-09-21  515  		writel(val, ctx->regs + driver_data->timing_base + VIDTCON1);
+3854fab24e899c YoungJun Cho          2014-07-17  516  	}
+3854fab24e899c YoungJun Cho          2014-07-17  517  
+3854fab24e899c YoungJun Cho          2014-07-17  518  	if (driver_data->has_vidoutcon)
+3854fab24e899c YoungJun Cho          2014-07-17  519  		writel(ctx->vidout_con, timing_base + VIDOUT_CON);
+3854fab24e899c YoungJun Cho          2014-07-17  520  
+3854fab24e899c YoungJun Cho          2014-07-17  521  	/* set bypass selection */
+3854fab24e899c YoungJun Cho          2014-07-17  522  	if (ctx->sysreg && regmap_update_bits(ctx->sysreg,
+3854fab24e899c YoungJun Cho          2014-07-17  523  				driver_data->lcdblk_offset,
+3854fab24e899c YoungJun Cho          2014-07-17  524  				0x1 << driver_data->lcdblk_bypass_shift,
+3854fab24e899c YoungJun Cho          2014-07-17  525  				0x1 << driver_data->lcdblk_bypass_shift)) {
+6f83d20838c099 Inki Dae              2019-04-15  526  		DRM_DEV_ERROR(ctx->dev,
+6f83d20838c099 Inki Dae              2019-04-15  527  			      "Failed to update sysreg for bypass setting.\n");
+3854fab24e899c YoungJun Cho          2014-07-17  528  		return;
+3854fab24e899c YoungJun Cho          2014-07-17  529  	}
+1c248b7d2960fa Inki Dae              2011-10-04  530  
+1feafd3afd294b Chanho Park           2016-02-12  531  	/* TODO: When MIC is enabled for display path, the lcdblk_mic_bypass
+1feafd3afd294b Chanho Park           2016-02-12  532  	 * bit should be cleared.
+1feafd3afd294b Chanho Park           2016-02-12  533  	 */
+1feafd3afd294b Chanho Park           2016-02-12  534  	if (driver_data->has_mic_bypass && ctx->sysreg &&
+1feafd3afd294b Chanho Park           2016-02-12  535  	    regmap_update_bits(ctx->sysreg,
+1feafd3afd294b Chanho Park           2016-02-12  536  				driver_data->lcdblk_offset,
+1feafd3afd294b Chanho Park           2016-02-12  537  				0x1 << driver_data->lcdblk_mic_bypass_shift,
+1feafd3afd294b Chanho Park           2016-02-12  538  				0x1 << driver_data->lcdblk_mic_bypass_shift)) {
+6f83d20838c099 Inki Dae              2019-04-15  539  		DRM_DEV_ERROR(ctx->dev,
+6f83d20838c099 Inki Dae              2019-04-15  540  			      "Failed to update sysreg for bypass mic.\n");
+1feafd3afd294b Chanho Park           2016-02-12  541  		return;
+1feafd3afd294b Chanho Park           2016-02-12  542  	}
+1feafd3afd294b Chanho Park           2016-02-12  543  
+1c248b7d2960fa Inki Dae              2011-10-04  544  	/* setup horizontal and vertical display size. */
+a968e72771ea19 Sean Paul             2014-01-30  545  	val = VIDTCON2_LINEVAL(mode->vdisplay - 1) |
+a968e72771ea19 Sean Paul             2014-01-30  546  	       VIDTCON2_HOZVAL(mode->hdisplay - 1) |
+a968e72771ea19 Sean Paul             2014-01-30  547  	       VIDTCON2_LINEVAL_E(mode->vdisplay - 1) |
+a968e72771ea19 Sean Paul             2014-01-30  548  	       VIDTCON2_HOZVAL_E(mode->hdisplay - 1);
+e2e1338900208a Leela Krishna Amudala 2012-09-21  549  	writel(val, ctx->regs + driver_data->timing_base + VIDTCON2);
+1c248b7d2960fa Inki Dae              2011-10-04  550  
+a6f75aa161c5a5 Inki Dae              2016-04-18  551  	fimd_setup_trigger(ctx);
+a6f75aa161c5a5 Inki Dae              2016-04-18  552  
+1d531062cdc5fc Andrzej Hajda         2014-03-20  553  	/*
+1d531062cdc5fc Andrzej Hajda         2014-03-20  554  	 * fields of register with prefix '_F' would be updated
+1d531062cdc5fc Andrzej Hajda         2014-03-20  555  	 * at vsync(same as dma start)
+1d531062cdc5fc Andrzej Hajda         2014-03-20  556  	 */
+3854fab24e899c YoungJun Cho          2014-07-17  557  	val = ctx->vidcon0;
+3854fab24e899c YoungJun Cho          2014-07-17  558  	val |= VIDCON0_ENVID | VIDCON0_ENVID_F;
+1c248b7d2960fa Inki Dae              2011-10-04  559  
+1d531062cdc5fc Andrzej Hajda         2014-03-20  560  	if (ctx->driver_data->has_clksel)
+411d9ed4486a4e Tomasz Figa           2013-05-01  561  		val |= VIDCON0_CLKSEL_LCD;
+411d9ed4486a4e Tomasz Figa           2013-05-01  562  
+c96fdfdeca5657 Andrzej Hajda         2016-09-23  563  	if (ctx->clkdiv > 1)
+c96fdfdeca5657 Andrzej Hajda         2016-09-23  564  		val |= VIDCON0_CLKVAL_F(ctx->clkdiv - 1) | VIDCON0_CLKDIR;
+1c248b7d2960fa Inki Dae              2011-10-04  565  
+1c248b7d2960fa Inki Dae              2011-10-04  566  	writel(val, ctx->regs + VIDCON0);
+1c248b7d2960fa Inki Dae              2011-10-04  567  }
+1c248b7d2960fa Inki Dae              2011-10-04  568  
 
-vim +5690 kernel/trace/ring_buffer.c
+:::::: The code at line 470 was first introduced by commit
+:::::: 3854fab24e899c02439657956ab1d2c85001958c drm/exynos: fimd: support LCD I80 interface
 
-8789a9e7df6bf9b Steven Rostedt              2008-12-02  5679  
-8789a9e7df6bf9b Steven Rostedt              2008-12-02  5680  /**
-8789a9e7df6bf9b Steven Rostedt              2008-12-02  5681   * ring_buffer_free_read_page - free an allocated read page
-8789a9e7df6bf9b Steven Rostedt              2008-12-02  5682   * @buffer: the buffer the page was allocate for
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5683)  * @cpu: the cpu buffer the page came from
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5684)  * @page: the page to free
-8789a9e7df6bf9b Steven Rostedt              2008-12-02  5685   *
-8789a9e7df6bf9b Steven Rostedt              2008-12-02  5686   * Free a page allocated from ring_buffer_alloc_read_page.
-8789a9e7df6bf9b Steven Rostedt              2008-12-02  5687   */
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5688) void ring_buffer_free_read_page(struct trace_buffer *buffer, int cpu,
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5689) 				struct buffer_data_read_page *data_page)
-8789a9e7df6bf9b Steven Rostedt              2008-12-02 @5690  {
-3e4272b99540949 Jia-Ju Bai                  2023-01-13  5691  	struct ring_buffer_per_cpu *cpu_buffer;
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5692) 	struct buffer_data_page *bpage = data_page->data;
-ae415fa4c5248a8 Steven Rostedt (VMware      2017-12-22  5693) 	struct page *page = virt_to_page(bpage);
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5694) 	unsigned long flags;
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5695) 
-3e4272b99540949 Jia-Ju Bai                  2023-01-13  5696  	if (!buffer || !buffer->buffers || !buffer->buffers[cpu])
-3e4272b99540949 Jia-Ju Bai                  2023-01-13  5697  		return;
-3e4272b99540949 Jia-Ju Bai                  2023-01-13  5698  
-3e4272b99540949 Jia-Ju Bai                  2023-01-13  5699  	cpu_buffer = buffer->buffers[cpu];
-3e4272b99540949 Jia-Ju Bai                  2023-01-13  5700  
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5701) 	/*
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5702) 	 * If the page is still in use someplace else, or order of the page
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5703) 	 * is different from the subbuffer order of the buffer -
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5704) 	 * we can't reuse it
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5705) 	 */
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5706) 	if (page_ref_count(page) > 1 || data_page->order != buffer->subbuf_order)
-ae415fa4c5248a8 Steven Rostedt (VMware      2017-12-22  5707) 		goto out;
-ae415fa4c5248a8 Steven Rostedt (VMware      2017-12-22  5708) 
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5709) 	local_irq_save(flags);
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5710) 	arch_spin_lock(&cpu_buffer->lock);
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5711) 
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5712) 	if (!cpu_buffer->free_page) {
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5713) 		cpu_buffer->free_page = bpage;
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5714) 		bpage = NULL;
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5715) 	}
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5716) 
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5717) 	arch_spin_unlock(&cpu_buffer->lock);
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5718) 	local_irq_restore(flags);
-73a757e63114dfd Steven Rostedt (VMware      2017-05-01  5719) 
-ae415fa4c5248a8 Steven Rostedt (VMware      2017-12-22  5720)  out:
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5721) 	free_pages((unsigned long)bpage, data_page->order);
-24791879a84daad Tzvetomir Stoyanov (VMware  2021-12-13  5722) 	kfree(data_page);
-8789a9e7df6bf9b Steven Rostedt              2008-12-02  5723  }
-d6ce96dabe2c440 Steven Rostedt              2009-05-05  5724  EXPORT_SYMBOL_GPL(ring_buffer_free_read_page);
-8789a9e7df6bf9b Steven Rostedt              2008-12-02  5725  
-
-:::::: The code at line 5690 was first introduced by commit
-:::::: 8789a9e7df6bf9b93739c4c7d4e380725bc9e936 ring-buffer: read page interface
-
-:::::: TO: Steven Rostedt <srostedt@redhat.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+:::::: TO: YoungJun Cho <yj44.cho@samsung.com>
+:::::: CC: Inki Dae <daeinki@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
