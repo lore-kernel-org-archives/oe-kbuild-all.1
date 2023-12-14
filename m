@@ -1,46 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A22C79E1C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B0E59E2D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:19:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXexr+Og"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMlih+bW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1702563575; x=1734099575;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S9Cc4FVnez8OylvxlFTlGHOz/UjzO3c+U8FTgrr9GIs=;
-  b=gXexr+OgzHoP1PArVXRMYfuBGUPwhTLjbIi0tI4IE/RBt3esAzHfWSpn
-   Sx74vE/xSmWB421JuCGwNagtlNe5DdGn52VUQ0v/HpbF0012Wv0C6hp19
-   6bCR0J9P2wc+3gnP7Q9HGAzFU+VZeDscL993Qi/LjXtyVO5jJsq4G1njq
-   DUvpWp6gjLIhhCZTwrU8TXNQ3ssSGc8/ZYuRZnNtPECuNXbpQXmwtsKvZ
-   ZWFZ75Qd2AQ3wdm2iOrzp85Y9PO447xR4KtJERr1sMPdkHJJqzHpKOUDJ
-   wXlfUKE6h3LBv4snuBdFKSOXqpd/YIBfJUvwQoPPj9RnJNIXWnwLtuyne
+  bh=W5iZTXq1dwvZcRt8twQ/cRLqw1ZsFuJu92o/r4qAF8g=;
+  b=VMlih+bWP1dz4N2Z9TvRiIy7paC70o/csDOHLkjf5YQpN2ZDWPnBdTRT
+   nquu42CTM2DBUtDcEKvDy83tS/3iN9vXXSVEhYhHfntAkntsJ/6UwwKgZ
+   UUF9WVoTAQaEz7G0FBP4RF01hTtpNFfH/06OYmm/F3fpq8/QmtzEOXHxF
+   qxU7xTxZOztuC+4X2H6aukvIWzU8n8yV0XbNiqTJJOGjGm34+GxXzVqo4
+   gU2W3Px8GhFJaIpZmKdYLYGfMsqeOlIPOXZSW7YYtY5G1PqEAZU4qw03G
+   l8D2sF62+2QHT3C1Ixe5XL8jJV32QUNpNgmgx8BUienuMUMWQucftqkhw
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2292358"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="380109720"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="2292358"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:19:34 -0800
+   d="scan'208";a="380109720"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:19:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="1021519255"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="1021519255"
+   d="scan'208";a="15867138"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Dec 2023 06:19:33 -0800
+  by orviesa002.jf.intel.com with ESMTP; 14 Dec 2023 06:19:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDmYk-000MAO-38;
+	id 1rDmYk-000MAQ-3D;
 	Thu, 14 Dec 2023 14:19:30 +0000
-Date: Thu, 14 Dec 2023 22:19:01 +0800
+Date: Thu, 14 Dec 2023 22:19:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202312142216.PYFIXuY9-lkp@intel.com>
+To: Melissa Wen <mwen@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Harry Wentland <harry.wentland@amd.com>
+Subject: [linux-next:master 7458/7726]
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:663:
+ warning: Function parameter or member 'plane_state' not described in
+ 'amdgpu_dm_verify_lut3d_size'
+Message-ID: <202312142254.wTOoIU96-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,72 +54,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b fbdev: omap: avoid using mach/*.h files
-date:   1 year, 8 months ago
-config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231214/202312142216.PYFIXuY9-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231214/202312142216.PYFIXuY9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   11651f8cb2e88372d4ed523d909514dc9a613ea3
+commit: aba8b76baabde681ab4ff686452005d80d949345 [7458/7726] drm/amd/display: add plane shaper LUT support
+config: i386-buildonly-randconfig-004-20231214 (https://download.01.org/0day-ci/archive/20231214/202312142254.wTOoIU96-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142254.wTOoIU96-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312142216.PYFIXuY9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312142254.wTOoIU96-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void *static [addressable] [assigned] [toplevel] vram_virt @@
-   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     expected void [noderef] __iomem *vaddr
-   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     got void *static [addressable] [assigned] [toplevel] vram_virt
-   drivers/video/fbdev/omap/lcdc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
---
->> drivers/video/fbdev/omap/lcd_mipid.c:451:23: sparse: sparse: cast to restricted __be32
-   drivers/video/fbdev/omap/lcd_mipid.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/radix-tree.h, ...):
-   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
---
->> drivers/video/fbdev/omap/omapfb_main.c:1027:11: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/omap/omapfb_main.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/radix-tree.h, ...):
-   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +642 drivers/video/fbdev/omap/lcdc.c
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:663: warning: Function parameter or member 'plane_state' not described in 'amdgpu_dm_verify_lut3d_size'
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c:663: warning: Excess function parameter 'crtc_state' description in 'amdgpu_dm_verify_lut3d_size'
 
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  620  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  621  static int alloc_fbmem(struct omapfb_mem_region *region)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  622  {
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  623  	int bpp;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  624  	int frame_size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  625  	struct lcd_panel *panel = lcdc.fbdev->panel;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  626  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  627  	bpp = panel->bpp;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  628  	if (bpp == 12)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  629  		bpp = 16;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  630  	frame_size = PAGE_ALIGN(panel->x_res * bpp / 8 * panel->y_res);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  631  	if (region->size > frame_size)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  632  		frame_size = region->size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  633  	lcdc.vram_size = frame_size;
-f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  634  	lcdc.vram_virt = dma_alloc_wc(lcdc.fbdev->dev, lcdc.vram_size,
-f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  635  				      &lcdc.vram_phys, GFP_KERNEL);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  636  	if (lcdc.vram_virt == NULL) {
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  637  		dev_err(lcdc.fbdev->dev, "unable to allocate FB DMA memory\n");
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  638  		return -ENOMEM;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  639  	}
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  640  	region->size = frame_size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  641  	region->paddr = lcdc.vram_phys;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17 @642  	region->vaddr = lcdc.vram_virt;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  643  	region->alloc = 1;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  644  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  645  	memset(lcdc.vram_virt, 0, lcdc.vram_size);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  646  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  647  	return 0;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  648  }
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  649  
 
-:::::: The code at line 642 was first introduced by commit
-:::::: 569755c706f0f94409edd2ae60b9878cb420844f OMAP: add TI OMAP1 internal LCD controller
+vim +663 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_color.c
 
-:::::: TO: Imre Deak <imre.deak@solidboot.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+   648	
+   649	/**
+   650	 * amdgpu_dm_verify_lut3d_size - verifies if 3D LUT is supported and if user
+   651	 * shaper and 3D LUTs match the hw supported size
+   652	 * @adev: amdgpu device
+   653	 * @crtc_state: the DRM CRTC state
+   654	 *
+   655	 * Verifies if pre-blending (DPP) 3D LUT is supported by the HW (DCN 2.0 or
+   656	 * newer) and if the user shaper and 3D LUTs match the supported size.
+   657	 *
+   658	 * Returns:
+   659	 * 0 on success. -EINVAL if lut size are invalid.
+   660	 */
+   661	int amdgpu_dm_verify_lut3d_size(struct amdgpu_device *adev,
+   662					struct drm_plane_state *plane_state)
+ > 663	{
+   664		struct dm_plane_state *dm_plane_state = to_dm_plane_state(plane_state);
+   665		const struct drm_color_lut *shaper = NULL;
+   666		uint32_t exp_size, size;
+   667		bool has_3dlut = adev->dm.dc->caps.color.dpp.hw_3d_lut;
+   668	
+   669		/* shaper LUT is only available if 3D LUT color caps */
+   670		exp_size = has_3dlut ? MAX_COLOR_LUT_ENTRIES : 0;
+   671		shaper = __extract_blob_lut(dm_plane_state->shaper_lut, &size);
+   672	
+   673		if (shaper && size != exp_size) {
+   674			drm_dbg(&adev->ddev,
+   675				"Invalid Shaper LUT size. Should be %u but got %u.\n",
+   676				exp_size, size);
+   677			return -EINVAL;
+   678		}
+   679	
+   680		return 0;
+   681	}
+   682	
 
 -- 
 0-DAY CI Kernel Test Service
