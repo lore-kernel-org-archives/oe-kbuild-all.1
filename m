@@ -1,51 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239125B20C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78AE5B20A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:53:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KmR/Qoms"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702565559; x=1734101559;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ODhwqCqXmS7joN9elVUFunOPRQ2tuEhEQcIHRfDVNIw=;
-  b=KmR/QomsYKKixvG4AWqUrYO1PuEPT77pZ+w5ad5GHjxChC8q1K6+9w7j
-   EDAWHCSJ9MM9ky98I0bmt92I4yNl4ymbJxEWbheI+Y2u2bZ1cvdXeLw79
-   IAKW5WZ+568czIz/W2E9RsUmakCUj93+nkdIv1JNHoVzvEhSA7JP+krqt
-   Yv3q3n2uv9sf0DhggBj9UWupxiTjHaeTUqYrQc0AyvXBkEz+RqmNgW89R
-   anvkDShvtqELzWN8CsBbowU/m68svmg7P9oHkBMJydxDNb4WL2YMMqQ2+
-   okHtkvWriMCy/FTYqX2TGlyuNw+p9k1lA9PKIsBTs7GkNSJ1JaFqGw6d/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392303421"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="392303421"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:52:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="892491877"
-X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="892491877"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Dec 2023 06:52:34 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDn4i-000MBk-1f;
-	Thu, 14 Dec 2023 14:52:32 +0000
-Date: Thu, 14 Dec 2023 22:51:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gabriel Krisman Bertazi <krisman@suse.de>, viro@zeniv.linux.org.uk,
-	ebiggers@kernel.org, jaegeuk@kernel.org, tytso@mit.edu
-Cc: oe-kbuild-all@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Gabriel Krisman Bertazi <krisman@suse.de>
-Subject: Re: [PATCH 8/8] fscrypt: Move d_revalidate configuration back into
- fscrypt
-Message-ID: <202312142213.uyrNJniX-lkp@intel.com>
-References: <20231213234031.1081-9-krisman@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OdMTdNSd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33E07C433C9;
+	Thu, 14 Dec 2023 14:53:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702565612;
+	bh=zKtsxzg5ewuuUfmH3dtP4m+8v7AC4l/Rsgp+zoFSlTk=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=OdMTdNSdsBedHYfA/km55tpAhoPxGuQ5C3sv3H802YR71x9Rq8caFZzBTTcxz6iLO
+	 gJIVA/eifhNKgRNFwtDt2s+orbzO2eOryvXk8wf3LY6iG07r3DoAYmTi9bKMR7YfsG
+	 YkWChjsvnOXi4MkNnl4Z/TnXZu9fyNAJwe63YVaSAZw8vE44fZx3PEmjkBtPNNDZfM
+	 aiAkx/SsAyONpl+nZy0s2sHFAeaxRgcMvGK7q5TTyrowX6kERmTdqCQB0Jj5a2wOmm
+	 LFa6mGiO803X71Z2nrR4O39bdQicckiVSFzvOruc3AcPAJFUcrx1K9U2kmVbiE+z7Y
+	 0EvR2nkopVQXA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id A482FCE0DDE; Thu, 14 Dec 2023 06:53:31 -0800 (PST)
+Date: Thu, 14 Dec 2023 06:53:31 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Neeraj Upadhyay (AMD)" <neeraj.iitr10@gmail.com>,
+	"Joel Fernandes (Google)" <joel@joelfernandes.org>
+Subject: Re: [linux-next:master 6386/7300]
+ kernel/rcu/tree.c:2965:(.text+0x5b44): relocation truncated to fit:
+ R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+Message-ID: <f42f90f3-8cc8-4bb7-8455-685e699eb2ae@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202312140939.zA3tdSi2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,49 +40,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231213234031.1081-9-krisman@suse.de>
+In-Reply-To: <202312140939.zA3tdSi2-lkp@intel.com>
 
-Hi Gabriel,
+On Thu, Dec 14, 2023 at 09:25:29AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   48e8992e33abf054bcc0bb2e77b2d43bb899212e
+> commit: 4e58aaeebb3c27993c734c99eae6881b196b1ddb [6386/7300] rcu: Restrict access to RCU CPU stall notifiers
+> config: csky-randconfig-r013-20230826 (https://download.01.org/0day-ci/archive/20231214/202312140939.zA3tdSi2-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312140939.zA3tdSi2-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312140939.zA3tdSi2-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    kernel/rcu/tree.o: in function `drain_page_cache':
+> >> kernel/rcu/tree.c:2965:(.text+0x5b44): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
 
-kernel test robot noticed the following build warnings:
+I have questions.  ;-)
 
-[auto build test WARNING on jaegeuk-f2fs/dev-test]
-[also build test WARNING on jaegeuk-f2fs/dev tytso-ext4/dev linus/master v6.7-rc5 next-20231214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Is this something that I need to fix, or is this a problem with the
+csky toolchain?  If it is something that I need to fix, how exactly do
+I fix it?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gabriel-Krisman-Bertazi/dcache-Add-helper-to-disable-d_revalidate-for-a-specific-dentry/20231214-074322
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-patch link:    https://lore.kernel.org/r/20231213234031.1081-9-krisman%40suse.de
-patch subject: [PATCH 8/8] fscrypt: Move d_revalidate configuration back into fscrypt
-config: x86_64-randconfig-123-20231214 (https://download.01.org/0day-ci/archive/20231214/202312142213.uyrNJniX-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142213.uyrNJniX-lkp@intel.com/reproduce)
+							Thanx, Paul
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312142213.uyrNJniX-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/libfs.c:1778:39: warning: unused variable 'generic_encrypted_dentry_ops' [-Wunused-const-variable]
-   static const struct dentry_operations generic_encrypted_dentry_ops = {
-                                         ^
-   1 warning generated.
-
-
-vim +/generic_encrypted_dentry_ops +1778 fs/libfs.c
-
-608af703519a58 Daniel Rosenberg 2020-11-19  1776  
-608af703519a58 Daniel Rosenberg 2020-11-19  1777  #ifdef CONFIG_FS_ENCRYPTION
-608af703519a58 Daniel Rosenberg 2020-11-19 @1778  static const struct dentry_operations generic_encrypted_dentry_ops = {
-608af703519a58 Daniel Rosenberg 2020-11-19  1779  	.d_revalidate = fscrypt_d_revalidate,
-608af703519a58 Daniel Rosenberg 2020-11-19  1780  };
-608af703519a58 Daniel Rosenberg 2020-11-19  1781  #endif
-608af703519a58 Daniel Rosenberg 2020-11-19  1782  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    kernel/rcu/tree.c:2968:(.text+0x5b5c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+>    kernel/rcu/tree.o: in function `kfree_rcu_shrink_scan':
+>    kernel/rcu/tree.c:3476:(.text+0x5b6a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+>    kernel/rcu/tree.o: in function `rcu_do_batch':
+>    kernel/rcu/tree.c:2102:(.text+0x5be6): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+>    kernel/rcu/tree.c:2117:(.text+0x5c06): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+>    kernel/rcu/tree.c:2119:(.text+0x5c22): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+>    kernel/rcu/tree.c:2135:(.text+0x5c66): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+>    kernel/rcu/tree.c:2144:(.text+0x5ca2): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+>    kernel/rcu/tree.o: in function `rcu_lock_acquire':
+> >> include/linux/rcupdate.h:301:(.text+0x5cb2): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+>    include/linux/rcupdate.h:301:(.text+0x5cce): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+>    kernel/rcu/tree.o: in function `rcu_lock_release':
+>    include/linux/rcupdate.h:306:(.text+0x5cee): additional relocation overflows omitted from the output
+> 
+> 
+> vim +2965 kernel/rcu/tree.c
+> 
+> 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2951) 
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2952  static int
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2953  drain_page_cache(struct kfree_rcu_cpu *krcp)
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2954  {
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2955  	unsigned long flags;
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2956  	struct llist_node *page_list, *pos, *n;
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2957  	int freed = 0;
+> 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2958) 
+> 6b706e5603c44f Zqiang                  2023-04-18  2959  	if (!rcu_min_cached_objs)
+> 6b706e5603c44f Zqiang                  2023-04-18  2960  		return 0;
+> 6b706e5603c44f Zqiang                  2023-04-18  2961  
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2962  	raw_spin_lock_irqsave(&krcp->lock, flags);
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2963  	page_list = llist_del_all(&krcp->bkvcache);
+> ac7625ebd5f7ba Uladzislau Rezki (Sony  2021-04-15  2964) 	WRITE_ONCE(krcp->nr_bkv_objs, 0);
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15 @2965  	raw_spin_unlock_irqrestore(&krcp->lock, flags);
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2966  
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2967  	llist_for_each_safe(pos, n, page_list) {
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2968  		free_page((unsigned long)pos);
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2969  		freed++;
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2970  	}
+> 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2971) 
+> d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2972  	return freed;
+> 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2973) }
+> 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2974) 
+> 
+> :::::: The code at line 2965 was first introduced by commit
+> :::::: d0bfa8b3c411e25e014e4131d2804afe29c440a6 kvfree_rcu: Release a page cache under memory pressure
+> 
+> :::::: TO: Zhang Qiang <qiang.zhang@windriver.com>
+> :::::: CC: Paul E. McKenney <paulmck@kernel.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
