@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20416A35B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 21:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897F06DCFF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 21:37:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CyQ0I5D2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ArfB2knv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702589239; x=1734125239;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mcu8MjLmHoajQGLhM3ySFy9PCu+yhpGLMhdvSW3U2FM=;
-  b=CyQ0I5D2u0NzOD1nVChKUfJ6lhHrrxn2EhyI0fKjIMG8zLXZppyIg9oT
-   6ZHix2qGvQna94SrGfSJ2JMvKeG3Dv3UtJnLAOBM+jULjkEs2wScC5mno
-   ZeZilAM9+k6B0sTkzveID2YExvisUdD0ujNMET5xj3d3d3/i62XrzVOhw
-   3jQ55WQ1xDNcEl9eiWVROaASlXX9ybzvVA4bLDPKj4EndBoHWlOixsbAN
-   N7MakM+lCb1TdSW7naBwuASTee5xAwgUSGgQv7Kr22M6A0eFC4pP3O1VW
-   tBuHdb2+rK3ijA1DwcdpMjJqIGKsvGfxX/evF9o1mr+yDmjuJVYUa5pFn
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2344417"
+  t=1702589837; x=1734125837;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U1FXdVnSYRT6YSvbTKieCL/LuC1JOgaGsZGbW16v/Bw=;
+  b=ArfB2knvfyiunVFSa9IVOgQNZRGdMh70GvYwZ4Lc4vuTG7LD6InSCTDI
+   9XRek+rMuf8LMg7pYHEIEzBG1r2eTedVcUgXFgkmxaRiUIqcEdc6IRC1u
+   XMtQG0doMvoqahFCqklpQKpn2bdW0kbDvCAHE+HsGzDjWIwb+RBCIpMMs
+   kRHcy0USz6mXGttFm1ucnWjGOn6D878ntcfKlMGHmQRdy4JOfSIhNJtk0
+   GkkQQiVs2mVs0Q4pGmluKo/l4ZAY0t4UlJ+LIG7MtYg+wcrQ65CDG7+nj
+   AYic4YiJY1/lnrTjl3kMWOpWxgjlpqvXwxfCtFm+TcWdGmhh/K0XsIn3H
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="374696272"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="2344417"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 13:27:16 -0800
+   d="scan'208";a="374696272"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 13:37:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="724212347"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="947725913"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="724212347"
+   d="scan'208";a="947725913"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 14 Dec 2023 13:27:15 -0800
+  by orsmga005.jf.intel.com with ESMTP; 14 Dec 2023 13:37:15 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDtEf-000Mcw-0E;
-	Thu, 14 Dec 2023 21:27:13 +0000
-Date: Fri, 15 Dec 2023 05:26:48 +0800
+	id 1rDtOL-000MdE-1P;
+	Thu, 14 Dec 2023 21:37:13 +0000
+Date: Fri, 15 Dec 2023 05:37:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>
-Subject: fs/notify/mark.c:462:13: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202312150531.zCYPyiP3-lkp@intel.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 11/14] drm/rockchip: vop2: Add support for rk3588
+Message-ID: <202312150550.FY5ljXQr-lkp@intel.com>
+References: <20231130122439.13374-1-andyshrk@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,81 +50,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231130122439.13374-1-andyshrk@163.com>
 
-Hi Mark,
+Hi Andy,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: df79ed2c064363cdc7d2d896923c1885d4e30520 locking/atomics: Simplify cmpxchg() instrumentation
-date:   5 years ago
-config: x86_64-randconfig-x003-20230627 (https://download.01.org/0day-ci/archive/20231215/202312150531.zCYPyiP3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150531.zCYPyiP3-lkp@intel.com/reproduce)
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on robh/for-next joro-iommu/next linus/master v6.7-rc5]
+[cannot apply to rockchip/for-next next-20231214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Yan/Revert-drm-rockchip-vop2-Use-regcache_sync-to-fix-suspend-resume/20231201-002355
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20231130122439.13374-1-andyshrk%40163.com
+patch subject: [PATCH v3 11/14] drm/rockchip: vop2: Add support for rk3588
+config: alpha-randconfig-r122-20231202 (https://download.01.org/0day-ci/archive/20231215/202312150550.FY5ljXQr-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231215/202312150550.FY5ljXQr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150531.zCYPyiP3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150550.FY5ljXQr-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/notify/mark.c:462:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsnotify_mark_connector [noderef] __rcu *__new @@     got struct fsnotify_mark_connector *[assigned] conn @@
-   fs/notify/mark.c:462:13: sparse:     expected struct fsnotify_mark_connector [noderef] __rcu *__new
-   fs/notify/mark.c:462:13: sparse:     got struct fsnotify_mark_connector *[assigned] conn
-   fs/notify/mark.c:224:9: sparse: sparse: context imbalance in 'fsnotify_put_mark' - unexpected unlock
-   fs/notify/mark.c:310:25: sparse: sparse: context imbalance in 'fsnotify_prepare_user_wait' - unexpected unlock
-   fs/notify/mark.c:325:9: sparse: sparse: context imbalance in 'fsnotify_finish_user_wait' - wrong count at exit
-   fs/notify/mark.c:478:39: sparse: sparse: context imbalance in 'fsnotify_grab_connector' - different lock contexts for basic block
-   fs/notify/mark.c:562:20: sparse: sparse: context imbalance in 'fsnotify_add_mark_list' - unexpected unlock
-   fs/notify/mark.c:646:25: sparse: sparse: context imbalance in 'fsnotify_find_mark' - unexpected unlock
-   fs/notify/mark.c:718:17: sparse: sparse: context imbalance in 'fsnotify_destroy_marks' - unexpected unlock
-   fs/notify/mark.o: warning: objtool: fsnotify_grab_connector()+0x17d: sibling call from callable instruction with modified stack frame
-   fs/notify/mark.o: warning: objtool: fsnotify_put_mark_wake()+0x9e: sibling call from callable instruction with modified stack frame
-   fs/notify/mark.o: warning: objtool: fsnotify_clear_marks_by_group()+0x1b2: sibling call from callable instruction with modified stack frame
+>> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:1858:28: sparse: sparse: dubious: x & !y
 
-vim +462 fs/notify/mark.c
+vim +1858 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 
-8edc6e1688fc8f Jan Kara       2014-11-13  438  
-9dd813c15b2c10 Jan Kara       2017-03-14  439  static int fsnotify_attach_connector_to_object(
-08991e83b72866 Jan Kara       2017-02-01  440  				struct fsnotify_mark_connector __rcu **connp,
-86ffe245c430f0 Jan Kara       2017-03-14  441  				struct inode *inode,
-86ffe245c430f0 Jan Kara       2017-03-14  442  				struct vfsmount *mnt)
-9dd813c15b2c10 Jan Kara       2017-03-14  443  {
-9dd813c15b2c10 Jan Kara       2017-03-14  444  	struct fsnotify_mark_connector *conn;
-9dd813c15b2c10 Jan Kara       2017-03-14  445  
-755b5bc681eb46 Jan Kara       2017-03-14  446  	conn = kmem_cache_alloc(fsnotify_mark_connector_cachep, GFP_KERNEL);
-9dd813c15b2c10 Jan Kara       2017-03-14  447  	if (!conn)
-9dd813c15b2c10 Jan Kara       2017-03-14  448  		return -ENOMEM;
-04662cab59fc3e Jan Kara       2017-02-01  449  	spin_lock_init(&conn->lock);
-9dd813c15b2c10 Jan Kara       2017-03-14  450  	INIT_HLIST_HEAD(&conn->list);
-86ffe245c430f0 Jan Kara       2017-03-14  451  	if (inode) {
-d6f7b98bc8147a Amir Goldstein 2018-04-20  452  		conn->type = FSNOTIFY_OBJ_TYPE_INODE;
-08991e83b72866 Jan Kara       2017-02-01  453  		conn->inode = igrab(inode);
-86ffe245c430f0 Jan Kara       2017-03-14  454  	} else {
-d6f7b98bc8147a Amir Goldstein 2018-04-20  455  		conn->type = FSNOTIFY_OBJ_TYPE_VFSMOUNT;
-86ffe245c430f0 Jan Kara       2017-03-14  456  		conn->mnt = mnt;
-86ffe245c430f0 Jan Kara       2017-03-14  457  	}
-9dd813c15b2c10 Jan Kara       2017-03-14  458  	/*
-04662cab59fc3e Jan Kara       2017-02-01  459  	 * cmpxchg() provides the barrier so that readers of *connp can see
-04662cab59fc3e Jan Kara       2017-02-01  460  	 * only initialized structure
-9dd813c15b2c10 Jan Kara       2017-03-14  461  	 */
-04662cab59fc3e Jan Kara       2017-02-01 @462  	if (cmpxchg(connp, NULL, conn)) {
-04662cab59fc3e Jan Kara       2017-02-01  463  		/* Someone else created list structure for us */
-08991e83b72866 Jan Kara       2017-02-01  464  		if (inode)
-08991e83b72866 Jan Kara       2017-02-01  465  			iput(inode);
-755b5bc681eb46 Jan Kara       2017-03-14  466  		kmem_cache_free(fsnotify_mark_connector_cachep, conn);
-04662cab59fc3e Jan Kara       2017-02-01  467  	}
-9dd813c15b2c10 Jan Kara       2017-03-14  468  
-9dd813c15b2c10 Jan Kara       2017-03-14  469  	return 0;
-9dd813c15b2c10 Jan Kara       2017-03-14  470  }
-9dd813c15b2c10 Jan Kara       2017-03-14  471  
-
-:::::: The code at line 462 was first introduced by commit
-:::::: 04662cab59fc3e8421fd7a0539d304d51d2750a4 fsnotify: Lock object list with connector lock
-
-:::::: TO: Jan Kara <jack@suse.cz>
-:::::: CC: Jan Kara <jack@suse.cz>
+  1787	
+  1788	static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32 polflags)
+  1789	{
+  1790		struct vop2 *vop2 = vp->vop2;
+  1791		int dclk_core_div, dclk_out_div, if_pixclk_div, if_dclk_div;
+  1792		unsigned long clock;
+  1793		u32 die, dip, div, vp_clk_div, val;
+  1794	
+  1795		clock = rk3588_calc_cru_cfg(vp, id, &dclk_core_div, &dclk_out_div,
+  1796					    &if_pixclk_div, &if_dclk_div);
+  1797		if (!clock)
+  1798			return 0;
+  1799	
+  1800		vp_clk_div = FIELD_PREP(RK3588_VP_CLK_CTRL__DCLK_CORE_DIV, dclk_core_div);
+  1801		vp_clk_div |= FIELD_PREP(RK3588_VP_CLK_CTRL__DCLK_OUT_DIV, dclk_out_div);
+  1802	
+  1803		die = vop2_readl(vop2, RK3568_DSP_IF_EN);
+  1804		dip = vop2_readl(vop2, RK3568_DSP_IF_POL);
+  1805		div = vop2_readl(vop2, RK3568_DSP_IF_CTRL);
+  1806	
+  1807		switch (id) {
+  1808		case ROCKCHIP_VOP2_EP_HDMI0:
+  1809			div &= ~RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV;
+  1810			div &= ~RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV;
+  1811			div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV, if_dclk_div);
+  1812			div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV, if_pixclk_div);
+  1813			die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX;
+  1814			die |= RK3588_SYS_DSP_INFACE_EN_HDMI0 |
+  1815				    FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX, vp->id);
+  1816			val = rk3588_get_hdmi_pol(polflags);
+  1817			regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 1, 1));
+  1818			regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0, HIWORD_UPDATE(val, 6, 5));
+  1819			break;
+  1820		case ROCKCHIP_VOP2_EP_HDMI1:
+  1821			div &= ~RK3588_DSP_IF_EDP_HDMI1_DCLK_DIV;
+  1822			div &= ~RK3588_DSP_IF_EDP_HDMI1_PCLK_DIV;
+  1823			div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI1_DCLK_DIV, if_dclk_div);
+  1824			div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI1_PCLK_DIV, if_pixclk_div);
+  1825			die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX;
+  1826			die |= RK3588_SYS_DSP_INFACE_EN_HDMI1 |
+  1827				    FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX, vp->id);
+  1828			val = rk3588_get_hdmi_pol(polflags);
+  1829			regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 4, 4));
+  1830			regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0, HIWORD_UPDATE(val, 8, 7));
+  1831			break;
+  1832		case ROCKCHIP_VOP2_EP_EDP0:
+  1833			div &= ~RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV;
+  1834			div &= ~RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV;
+  1835			div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV, if_dclk_div);
+  1836			div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV, if_pixclk_div);
+  1837			die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX;
+  1838			die |= RK3588_SYS_DSP_INFACE_EN_EDP0 |
+  1839				   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX, vp->id);
+  1840			regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 0, 0));
+  1841			break;
+  1842		case ROCKCHIP_VOP2_EP_EDP1:
+  1843			div &= ~RK3588_DSP_IF_EDP_HDMI1_DCLK_DIV;
+  1844			div &= ~RK3588_DSP_IF_EDP_HDMI1_PCLK_DIV;
+  1845			div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV, if_dclk_div);
+  1846			div |= FIELD_PREP(RK3588_DSP_IF_EDP_HDMI0_PCLK_DIV, if_pixclk_div);
+  1847			die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX;
+  1848			die |= RK3588_SYS_DSP_INFACE_EN_EDP1 |
+  1849				   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX, vp->id);
+  1850			regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 3, 3));
+  1851			break;
+  1852		case ROCKCHIP_VOP2_EP_MIPI0:
+  1853			div &= ~RK3588_DSP_IF_MIPI0_PCLK_DIV;
+  1854			div |= FIELD_PREP(RK3588_DSP_IF_MIPI0_PCLK_DIV, if_pixclk_div);
+  1855			die &= ~RK3588_SYS_DSP_INFACE_EN_MIPI0_MUX;
+  1856			val = rk3588_get_mipi_port_mux(vp->id);
+  1857			die |= RK3588_SYS_DSP_INFACE_EN_MIPI0 |
+> 1858				   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_MIPI0_MUX, !!val);
+  1859			break;
+  1860		case ROCKCHIP_VOP2_EP_MIPI1:
+  1861			div &= ~RK3588_DSP_IF_MIPI1_PCLK_DIV;
+  1862			div |= FIELD_PREP(RK3588_DSP_IF_MIPI1_PCLK_DIV, if_pixclk_div);
+  1863			die &= ~RK3588_SYS_DSP_INFACE_EN_MIPI1_MUX;
+  1864			val = rk3588_get_mipi_port_mux(vp->id);
+  1865			die |= RK3588_SYS_DSP_INFACE_EN_MIPI1 |
+  1866				   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_MIPI1_MUX, val);
+  1867			break;
+  1868		case ROCKCHIP_VOP2_EP_DP0:
+  1869			die &= ~RK3588_SYS_DSP_INFACE_EN_DP0_MUX;
+  1870			die |= RK3588_SYS_DSP_INFACE_EN_DP0 |
+  1871				   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_DP0_MUX, vp->id);
+  1872			dip &= ~RK3588_DSP_IF_POL__DP0_PIN_POL;
+  1873			dip |= FIELD_PREP(RK3588_DSP_IF_POL__DP0_PIN_POL, polflags);
+  1874			break;
+  1875		case ROCKCHIP_VOP2_EP_DP1:
+  1876			die &= ~RK3588_SYS_DSP_INFACE_EN_MIPI1_MUX;
+  1877			die |= RK3588_SYS_DSP_INFACE_EN_MIPI1 |
+  1878				   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_MIPI1_MUX, vp->id);
+  1879			dip &= ~RK3588_DSP_IF_POL__DP1_PIN_POL;
+  1880			dip |= FIELD_PREP(RK3588_DSP_IF_POL__DP1_PIN_POL, polflags);
+  1881			break;
+  1882		default:
+  1883			drm_err(vop2->drm, "Invalid interface id %d on vp%d\n", id, vp->id);
+  1884			return 0;
+  1885		}
+  1886	
+  1887		dip |= RK3568_DSP_IF_POL__CFG_DONE_IMD;
+  1888	
+  1889		vop2_vp_write(vp, RK3588_VP_CLK_CTRL, vp_clk_div);
+  1890		vop2_writel(vop2, RK3568_DSP_IF_EN, die);
+  1891		vop2_writel(vop2, RK3568_DSP_IF_CTRL, div);
+  1892		vop2_writel(vop2, RK3568_DSP_IF_POL, dip);
+  1893	
+  1894		return clock;
+  1895	}
+  1896	
 
 -- 
 0-DAY CI Kernel Test Service
