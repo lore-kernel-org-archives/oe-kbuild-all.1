@@ -1,90 +1,111 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B68D68EBF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 19:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9503A6A329
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 19:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Mztdq8e6"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d337dc9697so33785885ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 11:26:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1702582004; x=1703186804; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WGe+uUYlDw+uG476SCRJ8n5xCAk3qfvXoM3VQJW7/IQ=;
-        b=Mztdq8e65IAWSsJBvpiqpZ2U6g7merb2ca2u56vGn7Taa4lg19e6/DCrhN7sHw1xhT
-         +iaOrRZliXDVnooPb9eUv8hSg1A15teTKoZ9s+8iPwcpytZhj27EZ1X4KORQ/gHRgVWL
-         RxPdfixQSh0u07sKx6EVtxCinMj/hKFlzmF+ISQxeYE+MCb9PguA/ZognwUg/nJqAPG5
-         mJ8oiPvP7YhGVatp/PH0+4FrzSrVpMB4XMyllHbiSWOUNUrKtnVwdZ65+Pii5Rx+CxQk
-         /2Wk4sno2r1AbHl0n0kBKZVKndwFFFu48aZtjuX5AXQCe4Sqp0ZAY0eMcDwUrH2p6KWQ
-         5Eug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702582004; x=1703186804;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WGe+uUYlDw+uG476SCRJ8n5xCAk3qfvXoM3VQJW7/IQ=;
-        b=Tt6/ZWaK0ZIuyzH9Lgw+G/KmXVG6TT2Wy7Mait+nwiOiJXym+j0qWjFTH6Y/VWPOhP
-         vn5pSZo2d9Gd4fK93f+y7XSarqNfP3aG67BhAH+Mk28TgXzQyS72DcAwKgn50xMfYV6D
-         B0P6l9kiA54J108ywoLXo2GFiES9zSYbveDsHQpSFcWfNAq9FCaBdXLK6cRWV/0Yafgj
-         E2PtvdhNwnZ0AgL3vOFbFUmdaMU+a8WYUzCx040uaHgPpJh2nH3C46mtmGYmjV7bYvRr
-         LXbQZS4bLikxogO2kfJmmsjJa4NTn9i86Cdw6lx6Z26sO/2CqnKfEqqjtwvuBlZzJJum
-         J4iw==
-X-Gm-Message-State: AOJu0Yz0QIka3qvlZK6/bppMdAx4tZk/IqyYQ2X2GhruaAS/8G3nw92f
-	DsexGD4O2J9XXbkatrp2VEh8Ow==
-X-Google-Smtp-Source: AGHT+IEGBbmy7QSIym83oljmFI1tPJjJEUP52og7dAI+4/8CMcuOzUA25xCsZbu3ULE4qkw5fTN+hw==
-X-Received: by 2002:a17:903:496:b0:1d3:752a:f4ab with SMTP id jj22-20020a170903049600b001d3752af4abmr877729plb.79.1702582004021;
-        Thu, 14 Dec 2023 11:26:44 -0800 (PST)
-Received: from ghost ([12.44.203.122])
-        by smtp.gmail.com with ESMTPSA id ja6-20020a170902efc600b001d1c96a0c66sm2564197plb.130.2023.12.14.11.26.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 11:26:43 -0800 (PST)
-Date: Thu, 14 Dec 2023 11:26:40 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: arch/riscv/kernel/module.c:639 process_accumulated_relocations()
- error: uninitialized symbol 'curr_type'.
-Message-ID: <ZXtW8IjL1Kf/2B1B@ghost>
-References: <d0897fb3-1af8-430b-aa8b-9aa829bad1d7@suswa.mountain>
- <ZXoFhu2TPXgrsInY@ghost>
- <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="ySvXgOp3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MnsXmnTF"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8B9505C0225;
+	Thu, 14 Dec 2023 14:54:38 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Thu, 14 Dec 2023 14:54:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1702583678;
+	 x=1702670078; bh=mN5qbRfsXf8A4df0Um6vbI+Vk/gTSPo9T1qldcDY91w=; b=
+	ySvXgOp3x1Aa1QhcpGaVQKVQd16RvIO14MfFE0QsHNNj7SFXSVoiaQI0rEED2fa3
+	l7QmFTd/e9zOuE/YcW8UoTpkmiipghNqfOruYQ9U3IQVg0ELDxi8L4s53ig/+ypk
+	uV2l0rh5hzDXXSYWbHI28ceQrBYdsQCqH23rdt2W+6wf3BdgbBuHru+tYpozHMyZ
+	GFvmp5DOLLmb6SP1koutbH1OtKte1z+3y8xacXbV1qL7OdbUkAKV+78uXD9TEy2K
+	gs4DwmxD78Qfz2BUai4eZOVWowoH2y9z4VOEM/ZCdV106ZvBOFZcMvOLzvLO+gZ2
+	tX/SLh4evNIElY/kUYB7dw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1702583678; x=
+	1702670078; bh=mN5qbRfsXf8A4df0Um6vbI+Vk/gTSPo9T1qldcDY91w=; b=M
+	nsXmnTFeuFSmtHXcJuoIf+miHePv4/nEeq+VGUVXOSScD4airPv/gtCkudk3Sz4T
+	v0jAI3K5pnbKJIm/fdFNHkeTkyviHnlMz8/iOqvS0NJ/lhHalVXx/Fq8f7pZZDO0
+	aQ/GqtxfUcbdTyD/RK+ZvJvomXKHQ6ufGTfDbscnDBQR0cncGLq9zgsERCr+vH4N
+	1HoEpD5NPBB/TIB8cH4ulPrRXmHy0vbzQ7jfDBEmihcbRHw+a4UiPyZjxLNPPiVT
+	91r1hiGBN1YESzebexL0uEDE2J0o1Iy7gVoJKshTQ2WCOOB4T2pciwPzwDXyofkj
+	u1M+bkChNMncc3uQoiCTA==
+X-ME-Sender: <xms:fV17ZeGwNMtPe72n5TpoFipkaJKY2cDig1I9td9fF4AM3IonpDyZaA>
+    <xme:fV17ZfWRu1ENroOPkl6zIMEXRrFCNRoub5KmQZiFUYRrxN_c9EZei1ZK-G3HKNod9
+    IWYI_a5JljNIXD013g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudelledguddvlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
+    grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
+    tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:fV17ZYKbO00xaR0gcox4H-y3vZYWtQebjOjp6IxIchZHK-rXWN0Aeg>
+    <xmx:fV17ZYFu08xG3R_pXScrXksrOrnt514XUi4SmmKbVUtHH7hPod3z_w>
+    <xmx:fV17ZUW3fSTBDdV-ii8ONTVGCjKYC7zbjADSoe0O2UB2vP1Lp8cFGw>
+    <xmx:fl17ZednEFxH-L8oKmKaeRO1e3JX0MfrelOBoXRVpqA69eS-3KSgKA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C0A4AB6008F; Thu, 14 Dec 2023 14:54:37 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1283-g327e3ec917-fm-20231207.002-g327e3ec9
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a46f0c36-8fd2-4a85-880c-eb462d4a837b@suswa.mountain>
+Message-Id: <374978b4-9bed-4d5c-90e2-344e46dedaf8@app.fastmail.com>
+In-Reply-To: <40b5e438-22f4-43e5-9663-db44dd402a35@app.fastmail.com>
+References: <202312041909.lwhcU35R-lkp@intel.com>
+ <5f1caaf8-1edf-444a-b017-c4d08e52213b@infradead.org>
+ <f712a65b-4984-46e8-bd43-1309b5cd41f0@app.fastmail.com>
+ <c10194f2-097f-4455-9932-19961edbf990@infradead.org>
+ <40b5e438-22f4-43e5-9663-db44dd402a35@app.fastmail.com>
+Date: Thu, 14 Dec 2023 19:54:18 +0000
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Jiaxun Yang" <jiaxun.yang@flygoat.com>,
+ "Randy Dunlap" <rdunlap@infradead.org>, "kernel test robot" <lkp@intel.com>,
+ "Masahiro Yamada" <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Nicolas Schier" <nicolas@fjasle.eu>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>
+Subject: Re: pm.c:undefined reference to `i8042_command'
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 14, 2023 at 11:00:46AM +0300, Dan Carpenter wrote:
-> On Wed, Dec 13, 2023 at 11:27:02AM -0800, Charlie Jenkins wrote:
-> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01  638  			}
-> > > 8fd6c5142395a1 Charlie Jenkins 2023-11-01 @639  			reloc_handlers[curr_type].accumulate_handler(
-> > >                                                                                        ^^^^^^^^^
-> > > Can the list be empty?  Uninitialized in that case.
-> > 
-> > That's a tricky one, the list cannot be empty. Each bucket in the
-> > bucket_iter is guarunteed to have at least one rel_entry. I can probably
-> > resolve this by extracting this for loop into a do-while loop.
-> 
-> You can just ignore false positives.  It's not really a fix to change it
-> to a do-while loop.  I reviewed the do while code before reading this
-> email and I still wondered about empty lists, but just to hear that it's
-> not going to be empty is enough.  Just the email was sufficient.
-> 
-> regards,
-> dan carpenter
-> 
+On Thu, Dec 7, 2023, at 01:21, Jiaxun Yang wrote:
+> =E5=9C=A82023=E5=B9=B412=E6=9C=886=E6=97=A5=E5=8D=81=E4=BA=8C=E6=9C=88=
+ =E4=B8=8B=E5=8D=885:26=EF=BC=8CRandy Dunlap=E5=86=99=E9=81=93=EF=BC=9A
+>> On 12/5/23 22:52, Arnd Bergmann wrote:
+>>> On Wed, Dec 6, 2023, at 06:24, Randy Dunlap wrote:
 
-The freeing was actually broken so that needed to be fixed and I figured
-that it was worthwhile to include the do-while in the same patch to get
-rid of the warning.
+>>> I think it's bad style to force-select an optional subsystem.
+>>> How about making the entire file optional? It seems that there
+>>> are already __weak functions in its place.
+>>
+>> Yes, I agree in general.
+>>
+>> Hopefully the maintainer will opine your suggestion.
+>> Jiaxun?
+>
+> LGTM, PM is not an essential function here.
+> Arnd, do you mind making it a patch?
+>
 
-- Charlie
+I just tried it out and my version doesn't actually work since
+we still end up building the file with SERIO_I82042=3Dm.
 
+We could still make it work by checking for serio being
+built-in here, but in the end I think that's worse than
+Randy's patch, so let's just go with his original version.
+
+      Arnd
