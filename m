@@ -1,47 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934AA56476
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 13:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D44125748
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 13:57:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9uFv74Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bp0wZVC4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702560934; x=1734096934;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ad6Z2Oi9EsRRAmQwDwpUx5fS/Y0YOLuZcIi4SLC1JjU=;
-  b=M9uFv74YB88EZz/0JWCDnli/khMsNSNU8o6bRenDcswIsas5bmQlul4+
-   ffftMK4lOXlsVufs7QTd8b/DA9BZRIdzmMpHYCep+OG5DA+sjWi4DES5d
-   A+sCPE/umHJMUjXin14TCcbwp6fEhylknLQA9BoqLwBP0DViE97AvpirU
-   PsIFNFTFxCJSI5BeocL3IDwS6/Obbe2EKs1ZNOVeNm8BY74IMULQFV7g+
-   Fq6TLorq9XkVQoe1wuHMuMcF/DYe1s6RaF22CSpDx+c3KdRI8tahuDFGg
-   nt1oEH9hvXfT80/MfmltRBsXBFS204mOnaHubxUliwz9JdART58PSpdya
+  t=1702562255; x=1734098255;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=V/bhBmq7ENpJWYEcfVMJ6z98OicWGoiGjosbM1lXL9s=;
+  b=bp0wZVC45ErMtnSM2QQu8VNpQNitA8DzRs6xyEcBzReB+qlZlJFyMakJ
+   OaFJG5AXhUMS+cvTp2zkLUHkY8/1ClRUq2YXyJ/WycW2lZZdo0PtQlyyw
+   lSIPNwuQLHtgJQEQQbU42MAI/oyt8RpTy7wZ0lYVuNzVVzwfNycko4RJ4
+   9ivZWGoTK+M8BpQ2ogqJFhGJy0MrqB+qHgsrQI4v4X8s5/y5uVQUayg3d
+   s9UbUFg0S8KA308N3oCjn4cbdjjfNR4R/QagSFw4e0Eq9yhgkuXbCI9rr
+   IpnaN8QoI9NBGU4n62+1Cce/JWI+JcujFASGt5dSMPZn4SYZPWZKJ39Sw
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="394865257"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="380105802"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="394865257"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 05:35:33 -0800
+   d="scan'208";a="380105802"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 05:57:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="774368253"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="897753673"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="774368253"
+   d="scan'208";a="897753673"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 14 Dec 2023 05:35:32 -0800
+  by orsmga004.jf.intel.com with ESMTP; 14 Dec 2023 05:57:32 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDls9-000M8G-2W;
-	Thu, 14 Dec 2023 13:35:29 +0000
-Date: Thu, 14 Dec 2023 21:35:13 +0800
+	id 1rDmDS-000M98-17;
+	Thu, 14 Dec 2023 13:57:30 +0000
+Date: Thu, 14 Dec 2023 21:57:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ondrej Zary <linux@zary.sk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Subject: drivers/ata/pata_parport/frpw.c:210 frpw_test_pnp() warn:
- inconsistent indenting
-Message-ID: <202312142111.ZtrEJSwY-lkp@intel.com>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>, adrian.hunter@intel.com,
+	ulf.hansson@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>,
+	Victor Shih <victor.shih@genesyslogic.com.tw>,
+	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mmc: sdhci-pci-gli: GL9750: Mask rootport's replay timer
+ timeout during suspend
+Message-ID: <202312142103.ADkXHq1r-lkp@intel.com>
+References: <20231212141029.239235-1-kai.heng.feng@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,49 +55,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231212141029.239235-1-kai.heng.feng@canonical.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: 72f2b0b2185099dce354c805009f591dda3ab73d drivers/block: Move PARIDE protocol modules to drivers/ata/pata_parport
-date:   11 months ago
-config: arm-randconfig-r071-20231130 (https://download.01.org/0day-ci/archive/20231214/202312142111.ZtrEJSwY-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231214/202312142111.ZtrEJSwY-lkp@intel.com/reproduce)
+Hi Kai-Heng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.7-rc5 next-20231214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kai-Heng-Feng/mmc-sdhci-pci-gli-GL9750-Mask-rootport-s-replay-timer-timeout-during-suspend/20231212-221223
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20231212141029.239235-1-kai.heng.feng%40canonical.com
+patch subject: [PATCH] mmc: sdhci-pci-gli: GL9750: Mask rootport's replay timer timeout during suspend
+config: x86_64-randconfig-121-20231213 (https://download.01.org/0day-ci/archive/20231214/202312142103.ADkXHq1r-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142103.ADkXHq1r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312142111.ZtrEJSwY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312142103.ADkXHq1r-lkp@intel.com/
 
-smatch warnings:
-drivers/ata/pata_parport/frpw.c:210 frpw_test_pnp() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +210 drivers/ata/pata_parport/frpw.c
+   drivers/mmc/host/sdhci-pci-gli.c: In function 'mask_replay_timer_timeout':
+>> drivers/mmc/host/sdhci-pci-gli.c:1437:33: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
+    1437 |         if (!parent || !parent->aer_cap)
+         |                                 ^~~~~~~
+         |                                 ats_cap
+   drivers/mmc/host/sdhci-pci-gli.c:1440:47: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
+    1440 |         pci_read_config_dword(parent, parent->aer_cap + PCI_ERR_COR_MASK, &val);
+         |                                               ^~~~~~~
+         |                                               ats_cap
+   drivers/mmc/host/sdhci-pci-gli.c:1442:48: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
+    1442 |         pci_write_config_dword(parent, parent->aer_cap + PCI_ERR_COR_MASK, val);
+         |                                                ^~~~~~~
+         |                                                ats_cap
+   drivers/mmc/host/sdhci-pci-gli.c: In function 'unmask_replay_timer_timeout':
+   drivers/mmc/host/sdhci-pci-gli.c:1450:33: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
+    1450 |         if (!parent || !parent->aer_cap)
+         |                                 ^~~~~~~
+         |                                 ats_cap
+   drivers/mmc/host/sdhci-pci-gli.c:1453:45: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
+    1453 |         pci_read_config_dword(pdev, parent->aer_cap + PCI_ERR_COR_MASK, &val);
+         |                                             ^~~~~~~
+         |                                             ats_cap
+   drivers/mmc/host/sdhci-pci-gli.c:1455:46: error: 'struct pci_dev' has no member named 'aer_cap'; did you mean 'ats_cap'?
+    1455 |         pci_write_config_dword(pdev, parent->aer_cap + PCI_ERR_COR_MASK, val);
+         |                                              ^~~~~~~
+         |                                              ats_cap
 
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  201  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  202  	olddelay = pi->delay;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  203  	pi->delay = 10;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  204  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  205  	pi->saved_r0 = r0();
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  206          pi->saved_r2 = r2();
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  207  	
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  208  	w2(4); w0(4); w2(6); w2(7);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  209  	a = r1() & 0xff; w2(4); b = r1() & 0xff;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16 @210  	w2(0xc); w2(0xe); w2(4);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  211  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  212  	pi->delay = olddelay;
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  213          w0(pi->saved_r0);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  214          w2(pi->saved_r2);
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  215  
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  216  	return ((~a&0x40) && (b&0x40));
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  217  } 
-^1da177e4c3f41 drivers/block/paride/frpw.c Linus Torvalds 2005-04-16  218  
 
-:::::: The code at line 210 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+vim +1437 drivers/mmc/host/sdhci-pci-gli.c
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  1431	
+  1432	static void mask_replay_timer_timeout(struct pci_dev *pdev)
+  1433	{
+  1434		struct pci_dev *parent = pci_upstream_bridge(pdev);
+  1435		u32 val;
+  1436	
+> 1437		if (!parent || !parent->aer_cap)
+  1438			return;
+  1439	
+  1440		pci_read_config_dword(parent, parent->aer_cap + PCI_ERR_COR_MASK, &val);
+  1441		val |= PCI_ERR_COR_REP_TIMER;
+  1442		pci_write_config_dword(parent, parent->aer_cap + PCI_ERR_COR_MASK, val);
+  1443	}
+  1444	
 
 -- 
 0-DAY CI Kernel Test Service
