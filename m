@@ -1,47 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180406A021;
-	Thu, 14 Dec 2023 20:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1486A021
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 20:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iwfBaX8B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pe6Vhc0M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702584496; x=1734120496;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jvt91SMcn8yyhiJqBU5TbtmOPzk6vSSVSGlVaWrIMCQ=;
-  b=iwfBaX8BMkgxdxrTw5Vy1N7NOLf/WjWcxmLoALdmK+CFdwZWRaWn92e+
-   bgHomyg850e9GGak1gCNKH+SHzgAwkdAokrbqmdBVeiGDV/bKaOWal6p2
-   neDeBKZRxF3TXsfkvYgbndGRetPq8eyWQK1xkGlBilGmIov4OenQy/jhL
-   /EXobMUjn4r3l6ILC1MDgkFROFqeVKEfH/HRAYxCyM8W4eXPA958rfanW
-   dNQrscArIpF7SzAybSVehw+ypagYhhnGAuLv/7z8H3qv6SV+//j1VDj74
-   hRhJWlKIlmhGixZfLNUpH5ANdD706HaggnQBnan12Q+9cw2nuxAnOCvtF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392356764"
+  t=1702584499; x=1734120499;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nQZaAPlzIhWS5ZONexlJhNtWCCnMIrfTLdkPryy2dwY=;
+  b=Pe6Vhc0MR5FWnUyQY8BoU5wWCBp6LHSAiu+WLdvuQHT57IDjPCdRrY8n
+   930ZJYZBlJD2J9HoaIsyXK7OiBDvXIH6s9fDpLbtiE/Zgce2kC3kXE+nK
+   CYIweyvuvPIRrqLLR1Bmn0jJ6KRmSWMy1PEQn3z/A8bEwYK/OD9etYDE/
+   N+7Sy2F5LjjO6iu4gqyocwaaOMqvMdO/eLg4lGtLtTK8RiRECMrr4l0JX
+   iBDPnZKqF3Hg5QcOR9CmCmifkFY+fMNrhSaLrtKHr3SU0MMpi556SbVO8
+   rdmnAeoVmioKhDNrhppA2CWQgReIkK+Yg0ws9+hBvZOcvGD7BBRm8ePrg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392356801"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="392356764"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 12:08:13 -0800
+   d="scan'208";a="392356801"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 12:08:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="918168045"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="778009672"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="918168045"
+   d="scan'208";a="778009672"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Dec 2023 12:08:11 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 14 Dec 2023 12:08:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDs09-000MZG-2Y;
+	id 1rDs09-000MZC-2A;
 	Thu, 14 Dec 2023 20:08:09 +0000
-Date: Fri, 15 Dec 2023 04:07:46 +0800
+Date: Fri, 15 Dec 2023 04:07:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@microchip.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>
-Subject: drivers/dma/at_hdmac.c:384: warning: Excess struct member
- 'atdma_devtype' description in 'at_dma'
-Message-ID: <202312150403.iyj7xzX1-lkp@intel.com>
+To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org,
+	akpm@linux-foundation.org, arnd@arndb.de, tglx@linutronix.de,
+	luto@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
+	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
+	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
+	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
+	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
+	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
+Subject: Re: [PATCH v3 08/11] mm/mempolicy: add set_mempolicy2 syscall
+Message-ID: <202312150311.RPwbE1sK-lkp@intel.com>
+References: <20231213224118.1949-9-gregory.price@memverge.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,204 +60,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231213224118.1949-9-gregory.price@memverge.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: 5cecadc3e2a4fb72ab37d9420df0a9e1179b8a3e dmaengine: at_hdmac: Keep register definitions and structures private to at_hdmac.c
-date:   1 year, 1 month ago
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20231215/202312150403.iyj7xzX1-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150403.iyj7xzX1-lkp@intel.com/reproduce)
+Hi Gregory,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on deller-parisc/for-next powerpc/next powerpc/fixes s390/features jcmvbkbc-xtensa/xtensa-for-next arnd-asm-generic/master linus/master v6.7-rc5]
+[cannot apply to geert-m68k/for-next geert-m68k/for-linus tip/x86/asm next-20231214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231214-064236
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20231213224118.1949-9-gregory.price%40memverge.com
+patch subject: [PATCH v3 08/11] mm/mempolicy: add set_mempolicy2 syscall
+config: um-randconfig-002-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150311.RPwbE1sK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150311.RPwbE1sK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150403.iyj7xzX1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150311.RPwbE1sK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/dma/at_hdmac.c:253: warning: Function parameter or member 'lli' not described in 'at_desc'
-   drivers/dma/at_hdmac.c:253: warning: Function parameter or member 'tx_list' not described in 'at_desc'
-   drivers/dma/at_hdmac.c:253: warning: Function parameter or member 'boundary' not described in 'at_desc'
-   drivers/dma/at_hdmac.c:253: warning: Function parameter or member 'dst_hole' not described in 'at_desc'
-   drivers/dma/at_hdmac.c:253: warning: Function parameter or member 'src_hole' not described in 'at_desc'
-   drivers/dma/at_hdmac.c:253: warning: Function parameter or member 'memset_buffer' not described in 'at_desc'
-   drivers/dma/at_hdmac.c:253: warning: Function parameter or member 'memset_paddr' not described in 'at_desc'
-   drivers/dma/at_hdmac.c:253: warning: Function parameter or member 'memset_vaddr' not described in 'at_desc'
-   drivers/dma/at_hdmac.c:253: warning: Excess struct member 'at_lli' description in 'at_desc'
-   drivers/dma/at_hdmac.c:269: warning: cannot understand function prototype: 'enum atc_status '
-   drivers/dma/at_hdmac.c:384: warning: Function parameter or member 'dma_common' not described in 'at_dma'
-   drivers/dma/at_hdmac.c:384: warning: Function parameter or member 'regs' not described in 'at_dma'
-   drivers/dma/at_hdmac.c:384: warning: Function parameter or member 'memset_pool' not described in 'at_dma'
-   drivers/dma/at_hdmac.c:384: warning: Excess struct member 'chan_common' description in 'at_dma'
->> drivers/dma/at_hdmac.c:384: warning: Excess struct member 'atdma_devtype' description in 'at_dma'
->> drivers/dma/at_hdmac.c:384: warning: Excess struct member 'ch_regs' description in 'at_dma'
-
-
-vim +384 drivers/dma/at_hdmac.c
-
-   224	
-   225	/**
-   226	 * struct at_desc - software descriptor
-   227	 * @at_lli: hardware lli structure
-   228	 * @txd: support for the async_tx api
-   229	 * @desc_node: node on the channed descriptors list
-   230	 * @len: descriptor byte count
-   231	 * @total_len: total transaction byte count
-   232	 */
-   233	struct at_desc {
-   234		/* FIRST values the hardware uses */
-   235		struct at_lli			lli;
-   236	
-   237		/* THEN values for driver housekeeping */
-   238		struct list_head		tx_list;
-   239		struct dma_async_tx_descriptor	txd;
-   240		struct list_head		desc_node;
-   241		size_t				len;
-   242		size_t				total_len;
-   243	
-   244		/* Interleaved data */
-   245		size_t				boundary;
-   246		size_t				dst_hole;
-   247		size_t				src_hole;
-   248	
-   249		/* Memset temporary buffer */
-   250		bool				memset_buffer;
-   251		dma_addr_t			memset_paddr;
-   252		int				*memset_vaddr;
- > 253	};
-   254	
-   255	static inline struct at_desc *
-   256	txd_to_at_desc(struct dma_async_tx_descriptor *txd)
-   257	{
-   258		return container_of(txd, struct at_desc, txd);
-   259	}
-   260	
-   261	
-   262	/*--  Channels  --------------------------------------------------------*/
-   263	
-   264	/**
-   265	 * atc_status - information bits stored in channel status flag
-   266	 *
-   267	 * Manipulated with atomic operations.
-   268	 */
-   269	enum atc_status {
-   270		ATC_IS_ERROR = 0,
-   271		ATC_IS_PAUSED = 1,
-   272		ATC_IS_CYCLIC = 24,
-   273	};
-   274	
-   275	/**
-   276	 * struct at_dma_chan - internal representation of an Atmel HDMAC channel
-   277	 * @chan_common: common dmaengine channel object members
-   278	 * @device: parent device
-   279	 * @ch_regs: memory mapped register base
-   280	 * @mask: channel index in a mask
-   281	 * @per_if: peripheral interface
-   282	 * @mem_if: memory interface
-   283	 * @status: transmit status information from irq/prep* functions
-   284	 *                to tasklet (use atomic operations)
-   285	 * @tasklet: bottom half to finish transaction work
-   286	 * @save_cfg: configuration register that is saved on suspend/resume cycle
-   287	 * @save_dscr: for cyclic operations, preserve next descriptor address in
-   288	 *             the cyclic list on suspend/resume cycle
-   289	 * @dma_sconfig: configuration for slave transfers, passed via
-   290	 * .device_config
-   291	 * @lock: serializes enqueue/dequeue operations to descriptors lists
-   292	 * @active_list: list of descriptors dmaengine is being running on
-   293	 * @queue: list of descriptors ready to be submitted to engine
-   294	 * @free_list: list of descriptors usable by the channel
-   295	 */
-   296	struct at_dma_chan {
-   297		struct dma_chan		chan_common;
-   298		struct at_dma		*device;
-   299		void __iomem		*ch_regs;
-   300		u8			mask;
-   301		u8			per_if;
-   302		u8			mem_if;
-   303		unsigned long		status;
-   304		struct tasklet_struct	tasklet;
-   305		u32			save_cfg;
-   306		u32			save_dscr;
-   307		struct dma_slave_config dma_sconfig;
-   308	
-   309		spinlock_t		lock;
-   310	
-   311		/* these other elements are all protected by lock */
-   312		struct list_head	active_list;
-   313		struct list_head	queue;
-   314		struct list_head	free_list;
-   315	};
-   316	
-   317	#define	channel_readl(atchan, name) \
-   318		__raw_readl((atchan)->ch_regs + ATC_##name##_OFFSET)
-   319	
-   320	#define	channel_writel(atchan, name, val) \
-   321		__raw_writel((val), (atchan)->ch_regs + ATC_##name##_OFFSET)
-   322	
-   323	static inline struct at_dma_chan *to_at_dma_chan(struct dma_chan *dchan)
-   324	{
-   325		return container_of(dchan, struct at_dma_chan, chan_common);
-   326	}
-   327	
-   328	/*
-   329	 * Fix sconfig's burst size according to at_hdmac. We need to convert them as:
-   330	 * 1 -> 0, 4 -> 1, 8 -> 2, 16 -> 3, 32 -> 4, 64 -> 5, 128 -> 6, 256 -> 7.
-   331	 *
-   332	 * This can be done by finding most significant bit set.
-   333	 */
-   334	static inline void convert_burst(u32 *maxburst)
-   335	{
-   336		if (*maxburst > 1)
-   337			*maxburst = fls(*maxburst) - 2;
-   338		else
-   339			*maxburst = 0;
-   340	}
-   341	
-   342	/*
-   343	 * Fix sconfig's bus width according to at_hdmac.
-   344	 * 1 byte -> 0, 2 bytes -> 1, 4 bytes -> 2.
-   345	 */
-   346	static inline u8 convert_buswidth(enum dma_slave_buswidth addr_width)
-   347	{
-   348		switch (addr_width) {
-   349		case DMA_SLAVE_BUSWIDTH_2_BYTES:
-   350			return 1;
-   351		case DMA_SLAVE_BUSWIDTH_4_BYTES:
-   352			return 2;
-   353		default:
-   354			/* For 1 byte width or fallback */
-   355			return 0;
-   356		}
-   357	}
-   358	
-   359	/*--  Controller  ------------------------------------------------------*/
-   360	
-   361	/**
-   362	 * struct at_dma - internal representation of an Atmel HDMA Controller
-   363	 * @chan_common: common dmaengine dma_device object members
-   364	 * @atdma_devtype: identifier of DMA controller compatibility
-   365	 * @ch_regs: memory mapped register base
-   366	 * @clk: dma controller clock
-   367	 * @save_imr: interrupt mask register that is saved on suspend/resume cycle
-   368	 * @all_chan_mask: all channels availlable in a mask
-   369	 * @dma_desc_pool: base of DMA descriptor region (DMA address)
-   370	 * @chan: channels table to store at_dma_chan structures
-   371	 */
-   372	struct at_dma {
-   373		struct dma_device	dma_common;
-   374		void __iomem		*regs;
-   375		struct clk		*clk;
-   376		u32			save_imr;
-   377	
-   378		u8			all_chan_mask;
-   379	
-   380		struct dma_pool		*dma_desc_pool;
-   381		struct dma_pool		*memset_pool;
-   382		/* AT THE END channels table */
-   383		struct at_dma_chan	chan[];
- > 384	};
-   385	
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_write':
+   pcap-dbus.o:(.text+0x2432f): undefined reference to `dbus_message_demarshal'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24345): undefined reference to `dbus_connection_send'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2434e): undefined reference to `dbus_connection_flush'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24356): undefined reference to `dbus_message_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x243a4): undefined reference to `dbus_error_free'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_read':
+   pcap-dbus.o:(.text+0x243f0): undefined reference to `dbus_connection_pop_message'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24412): undefined reference to `dbus_connection_pop_message'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24428): undefined reference to `dbus_connection_read_write'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24492): undefined reference to `dbus_message_is_signal'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x244ae): undefined reference to `dbus_message_marshal'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24516): undefined reference to `dbus_free'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_cleanup':
+   pcap-dbus.o:(.text+0x2457c): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: arch/um/drivers/pcap.o: in function `dbus_activate':
+   pcap-dbus.o:(.text+0x24626): undefined reference to `dbus_connection_open'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2463e): undefined reference to `dbus_bus_register'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2472c): undefined reference to `dbus_bus_add_match'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24734): undefined reference to `dbus_error_is_set'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2477b): undefined reference to `dbus_bus_get'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x247ac): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x247bd): undefined reference to `dbus_bus_add_match'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x247c5): undefined reference to `dbus_error_is_set'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x247fe): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2480a): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24836): undefined reference to `dbus_bus_get'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24872): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24885): undefined reference to `dbus_connection_set_max_received_size'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x24896): undefined reference to `dbus_connection_unref'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2490c): undefined reference to `dbus_error_free'
+   /usr/bin/ld: pcap-dbus.o:(.text+0x2494a): undefined reference to `dbus_error_free'
+>> /usr/bin/ld: arch/x86/um/sys_call_table_64.o:(.rodata+0xe48): undefined reference to `sys_set_mempolicy2'
+   collect2: error: ld returned 1 exit status
 
 -- 
 0-DAY CI Kernel Test Service
