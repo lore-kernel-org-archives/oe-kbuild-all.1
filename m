@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6127D536
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 09:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3392EB1C;
+	Thu, 14 Dec 2023 09:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJ+R/oT1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mJeOGHBJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702547194; x=1734083194;
+  t=1702547196; x=1734083196;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+QV8IAbgteXvTyXSuwn0rViyqeIiJ2FuiUW90+D0qAg=;
-  b=XJ+R/oT1++xpu/9dHvo9HOh3gVVoA8PQaTNGdzgAju/BeZ0Z4Ig7yQfd
-   YGeNnZ4ob02GGESadJhXi44U3osHHyU11wiTNzIZ7rsEQEm6LfbfumoOJ
-   EWDroKHsrel/oHD2dYOY9GE8QjjU6zKh5jibU07t4LDuQwOdsojomXbmS
-   BRhghaP3VTIFi/o6FtMf2GSeE5s86NZ6RetksoYnIqBq//0mp7zl4rQSU
-   MLMFmr2G/9n6Gwu6wDRmEy9ICoZmrF4rLHR/3g4E2xAuYEAenAcLg0aAb
-   FmqheYO/z4FLfXtsVABzCHt5O1KCRq+uydPNEAkPFhwq142XFnTJtsq/w
+  bh=XJwjkx2e4CWNy4ClwoaaTXWYdEEJvTrMchPCgsaob7M=;
+  b=mJeOGHBJB7TutnYsXY0DN9D6dsM2IzV6OX1JNpS+WwZUjn/Uk5K/0zkG
+   JPHVM1HJGQlZ2AXdTqnPjdSEHNZs5Q0a1uFpuv86FhdXlRN+Rc+l+Ugga
+   bUK/2ybeP6/LIPs8DfvEnBlbSugw+TfjfoyaZnWHLEINWGzghRe7cnggR
+   c94TF64A/+oVA8S9HgIZkD5XHbHylWOWZiOiRa6s6e51EVUpCHKRDv/e/
+   wLi/OD9LsPylc2uc/hqe05L8zwknuzomLEP/r17qU/70JQ0CrC1HAG65n
+   hPtlG/BGRhgX2OuOzVQ88WenYNQ3AKnSrDMbWhCBIQwTEMMzEV16rHYby
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="375250306"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="398931719"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="375250306"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 01:46:34 -0800
+   d="scan'208";a="398931719"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 01:46:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="844645121"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="840222708"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="844645121"
+   d="scan'208";a="840222708"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Dec 2023 01:46:32 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 14 Dec 2023 01:46:32 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDiIY-000Ls3-1v;
+	id 1rDiIY-000Ls5-1z;
 	Thu, 14 Dec 2023 09:46:30 +0000
-Date: Thu, 14 Dec 2023 17:45:52 +0800
+Date: Thu, 14 Dec 2023 17:45:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-lib 2/39] fs/cachefiles/ondemand.c:287: undefined
- reference to `fscache_wq'
-Message-ID: <202312141736.cEStoMPM-lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dm-devel@lists.linux.dev
+Subject: [device-mapper-dm:dm-vdo-wip 61/61]
+ drivers/md/dm-vdo/thread-registry.c:32:28: error: 'current' undeclared
+Message-ID: <202312141731.XkQLyrNY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,165 +50,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-lib
-head:   0e2ac5291cc1c3c45e5ee784357b3f51b611195f
-commit: f226a193dad5bb11b03dec94d3d2d1daff3db91f [2/39] netfs, fscache: Combine fscache with netfs
-config: x86_64-randconfig-015-20231214 (https://download.01.org/0day-ci/archive/20231214/202312141736.cEStoMPM-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141736.cEStoMPM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git dm-vdo-wip
+head:   e64f626707d0a0b2908bf0d47705d755ada6fd2d
+commit: e64f626707d0a0b2908bf0d47705d755ada6fd2d [61/61] dm vdo: use a proper Makefile for dm-vdo
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20231214/202312141731.XkQLyrNY-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141731.XkQLyrNY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141736.cEStoMPM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141731.XkQLyrNY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   include/linux/instrumented.h:96: undefined reference to `fscache_n_no_write_space'
-   ld: fs/cachefiles/cache.o: in function `arch_atomic_inc':
-   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_no_write_space'
-   ld: fs/cachefiles/cache.o: in function `cachefiles_has_space':
-   fs/cachefiles/cache.c:212: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/cache.o: in function `cachefiles_add_cache':
-   fs/cachefiles/cache.c:27: undefined reference to `fscache_acquire_cache'
-   ld: fs/cachefiles/cache.c:144: undefined reference to `fscache_add_cache'
-   ld: fs/cachefiles/cache.c:172: undefined reference to `fscache_relinquish_cache'
-   ld: fs/cachefiles/cache.o: in function `cachefiles_withdraw_cache':
-   fs/cachefiles/cache.c:371: undefined reference to `fscache_withdraw_cache'
-   ld: fs/cachefiles/cache.o: in function `cachefiles_withdraw_objects':
-   fs/cachefiles/cache.c:299: undefined reference to `fscache_withdraw_cookie'
-   ld: fs/cachefiles/cache.o: in function `cachefiles_withdraw_cache':
-   fs/cachefiles/cache.c:382: undefined reference to `fscache_relinquish_cache'
-   ld: fs/cachefiles/cache.o: in function `fscache_wait_for_objects':
-   include/linux/fscache-cache.h:182: undefined reference to `fscache_clearance_waiters'
-   ld: include/linux/fscache-cache.h:182: undefined reference to `fscache_clearance_waiters'
-   ld: fs/cachefiles/cache.o: in function `cachefiles_sync_cache':
-   fs/cachefiles/cache.c:357: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/interface.o: in function `cachefiles_invalidate_cookie':
-   fs/cachefiles/interface.c:419: undefined reference to `fscache_resume_after_invalidation'
-   ld: fs/cachefiles/interface.c:396: undefined reference to `fscache_resume_after_invalidation'
-   ld: fs/cachefiles/interface.o: in function `cachefiles_shorten_object':
-   fs/cachefiles/interface.c:266: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/interface.c:251: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/interface.o: in function `cachefiles_put_object':
-   fs/cachefiles/interface.c:98: undefined reference to `fscache_put_cookie'
-   ld: fs/cachefiles/interface.o: in function `fscache_uncount_object':
-   include/linux/fscache-cache.h:170: undefined reference to `fscache_clearance_waiters'
-   ld: fs/cachefiles/interface.o: in function `cachefiles_alloc_object':
-   fs/cachefiles/interface.c:45: undefined reference to `fscache_get_cookie'
-   ld: fs/cachefiles/interface.o: in function `cachefiles_lookup_cookie':
-   fs/cachefiles/interface.c:215: undefined reference to `fscache_caching_failed'
-   ld: fs/cachefiles/interface.o: in function `cachefiles_adjust_size':
-   fs/cachefiles/interface.c:166: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/io.o: in function `cachefiles_query_occupancy':
-   fs/cachefiles/io.c:208: undefined reference to `fscache_wait_for_operation'
-   ld: fs/cachefiles/io.o: in function `cachefiles_read':
-   fs/cachefiles/io.c:87: undefined reference to `fscache_wait_for_operation'
-   ld: fs/cachefiles/io.o: in function `instrument_atomic_read_write':
-   include/linux/instrumented.h:96: undefined reference to `fscache_n_read'
-   ld: fs/cachefiles/io.o: in function `arch_atomic_inc':
-   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_read'
-   ld: fs/cachefiles/io.o: in function `cachefiles_do_prepare_read':
-   fs/cachefiles/io.c:412: undefined reference to `fscache_wait_for_operation'
-   ld: fs/cachefiles/io.o: in function `instrument_atomic_read_write':
-   include/linux/instrumented.h:96: undefined reference to `fscache_n_write'
-   ld: fs/cachefiles/io.o: in function `arch_atomic_inc':
-   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_write'
-   ld: fs/cachefiles/io.o: in function `cachefiles_write':
-   fs/cachefiles/io.c:365: undefined reference to `fscache_wait_for_operation'
-   ld: fs/cachefiles/io.o: in function `instrument_atomic_read_write':
-   include/linux/instrumented.h:96: undefined reference to `fscache_n_no_write_space'
-   ld: fs/cachefiles/io.o: in function `arch_atomic_inc':
-   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_no_write_space'
-   ld: fs/cachefiles/io.o: in function `__cachefiles_prepare_write':
-   fs/cachefiles/io.c:581: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/io.o: in function `cachefiles_prepare_write':
-   fs/cachefiles/io.c:603: undefined reference to `fscache_wait_for_operation'
-   ld: fs/cachefiles/io.o: in function `cachefiles_end_operation':
-   fs/cachefiles/io.c:626: undefined reference to `fscache_end_cookie_access'
-   ld: fs/cachefiles/namei.o: in function `cachefiles_lookup_for_cull':
-   fs/cachefiles/namei.c:779: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/namei.o: in function `cachefiles_unlink':
-   fs/cachefiles/namei.c:250: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/namei.o: in function `cachefiles_bury_object':
-   fs/cachefiles/namei.c:371: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/namei.c:400: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/namei.o: in function `cachefiles_create_tmpfile':
-   fs/cachefiles/namei.c:464: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/namei.o: in function `cachefiles_look_up_object':
-   fs/cachefiles/namei.c:663: undefined reference to `fscache_cookie_lookup_negative'
-   ld: fs/cachefiles/namei.c:641: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/namei.o: in function `cachefiles_open_file':
-   fs/cachefiles/namei.c:601: undefined reference to `fscache_cookie_lookup_negative'
-   ld: fs/cachefiles/namei.o: in function `instrument_atomic_read_write':
-   include/linux/instrumented.h:96: undefined reference to `fscache_n_culled'
-   ld: fs/cachefiles/namei.o: in function `arch_atomic_inc':
-   arch/x86/include/asm/atomic.h:53: undefined reference to `fscache_n_culled'
-   ld: fs/cachefiles/volume.o: in function `trace_fscache_access_volume':
-   include/trace/events/fscache.h:344: undefined reference to `__tracepoint_fscache_access_volume'
-   ld: include/trace/events/fscache.h:344: undefined reference to `__tracepoint_fscache_access_volume'
-   ld: include/trace/events/fscache.h:344: undefined reference to `__SCT__tp_func_fscache_access_volume'
-   ld: include/trace/events/fscache.h:344: undefined reference to `__tracepoint_fscache_access_volume'
-   ld: fs/cachefiles/volume.o: in function `cachefiles_withdraw_volume':
-   fs/cachefiles/volume.c:136: undefined reference to `fscache_withdraw_volume'
-   ld: fs/cachefiles/volume.o:(__jump_table+0x8): undefined reference to `__tracepoint_fscache_access_volume'
-   ld: fs/cachefiles/volume.o:(.static_call_sites+0x4): undefined reference to `__SCK__tp_func_fscache_access_volume'
-   ld: fs/cachefiles/xattr.o: in function `cachefiles_set_object_xattr':
-   fs/cachefiles/xattr.c:77: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/xattr.o: in function `cachefiles_check_auxdata':
-   fs/cachefiles/xattr.c:117: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/xattr.o: in function `cachefiles_remove_object_xattr':
-   fs/cachefiles/xattr.c:160: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/xattr.o: in function `cachefiles_set_volume_xattr':
-   fs/cachefiles/xattr.c:218: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/xattr.o: in function `cachefiles_check_volume_xattr':
-   fs/cachefiles/xattr.c:258: undefined reference to `fscache_io_error'
-   ld: fs/cachefiles/ondemand.o: in function `cachefiles_ondemand_select_req':
->> fs/cachefiles/ondemand.c:287: undefined reference to `fscache_wq'
-   ld: fs/cachefiles/ondemand.o: in function `queue_work':
->> include/linux/workqueue.h:562: undefined reference to `fscache_wq'
-   ld: fs/cachefiles/ondemand.o: in function `cachefiles_ondemand_select_req':
->> fs/cachefiles/ondemand.c:287: undefined reference to `fscache_wq'
+   In file included from drivers/md/dm-vdo/index.h:13,
+                    from drivers/md/dm-vdo/open-chapter.h:11,
+                    from drivers/md/dm-vdo/index-layout.c:15:
+>> drivers/md/dm-vdo/volume-index.h:29:18: warning: 'NO_CHAPTER' defined but not used [-Wunused-const-variable=]
+      29 | static const u64 NO_CHAPTER = U64_MAX;
+         |                  ^~~~~~~~~~
+--
+   drivers/md/dm-vdo/thread-registry.c: In function 'uds_register_thread':
+>> drivers/md/dm-vdo/thread-registry.c:32:28: error: 'current' undeclared (first use in this function)
+      32 |         new_thread->task = current;
+         |                            ^~~~~~~
+   drivers/md/dm-vdo/thread-registry.c:32:28: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/md/dm-vdo/thread-registry.c: In function 'uds_unregister_thread':
+   drivers/md/dm-vdo/thread-registry.c:61:37: error: 'current' undeclared (first use in this function)
+      61 |                 if (thread->task == current) {
+         |                                     ^~~~~~~
+   drivers/md/dm-vdo/thread-registry.c: In function 'uds_lookup_thread':
+   drivers/md/dm-vdo/thread-registry.c:84:37: error: 'current' undeclared (first use in this function)
+      84 |                 if (thread->task == current) {
+         |                                     ^~~~~~~
+--
+   drivers/md/dm-vdo/vdo.c: In function 'vdo_make':
+>> drivers/md/dm-vdo/vdo.c:566:19: warning: '%s' directive output may be truncated writing up to 55 bytes into a region of size 16 [-Wformat-truncation=]
+     566 |                  "%s%u", MODULE_NAME, instance);
+         |                   ^~
+   drivers/md/dm-vdo/vdo.c:565:9: note: 'snprintf' output between 2 and 66 bytes into a destination of size 16
+     565 |         snprintf(vdo->thread_name_prefix, sizeof(vdo->thread_name_prefix),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     566 |                  "%s%u", MODULE_NAME, instance);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +287 fs/cachefiles/ondemand.c
+vim +/current +32 drivers/md/dm-vdo/thread-registry.c
 
-0a7e54c1959c0f Jia Zhu 2023-11-20  267  
-0a7e54c1959c0f Jia Zhu 2023-11-20  268  /*
-0a7e54c1959c0f Jia Zhu 2023-11-20  269   * If there are any inflight or subsequent READ requests on the
-0a7e54c1959c0f Jia Zhu 2023-11-20  270   * closed object, reopen it.
-0a7e54c1959c0f Jia Zhu 2023-11-20  271   * Skip read requests whose related object is reopening.
-0a7e54c1959c0f Jia Zhu 2023-11-20  272   */
-0a7e54c1959c0f Jia Zhu 2023-11-20  273  static struct cachefiles_req *cachefiles_ondemand_select_req(struct xa_state *xas,
-0a7e54c1959c0f Jia Zhu 2023-11-20  274  							      unsigned long xa_max)
-0a7e54c1959c0f Jia Zhu 2023-11-20  275  {
-0a7e54c1959c0f Jia Zhu 2023-11-20  276  	struct cachefiles_req *req;
-0a7e54c1959c0f Jia Zhu 2023-11-20  277  	struct cachefiles_object *object;
-0a7e54c1959c0f Jia Zhu 2023-11-20  278  	struct cachefiles_ondemand_info *info;
-0a7e54c1959c0f Jia Zhu 2023-11-20  279  
-0a7e54c1959c0f Jia Zhu 2023-11-20  280  	xas_for_each_marked(xas, req, xa_max, CACHEFILES_REQ_NEW) {
-0a7e54c1959c0f Jia Zhu 2023-11-20  281  		if (req->msg.opcode != CACHEFILES_OP_READ)
-0a7e54c1959c0f Jia Zhu 2023-11-20  282  			return req;
-0a7e54c1959c0f Jia Zhu 2023-11-20  283  		object = req->object;
-0a7e54c1959c0f Jia Zhu 2023-11-20  284  		info = object->ondemand;
-0a7e54c1959c0f Jia Zhu 2023-11-20  285  		if (cachefiles_ondemand_object_is_close(object)) {
-0a7e54c1959c0f Jia Zhu 2023-11-20  286  			cachefiles_ondemand_set_object_reopening(object);
-0a7e54c1959c0f Jia Zhu 2023-11-20 @287  			queue_work(fscache_wq, &info->ondemand_work);
-0a7e54c1959c0f Jia Zhu 2023-11-20  288  			continue;
-0a7e54c1959c0f Jia Zhu 2023-11-20  289  		}
-0a7e54c1959c0f Jia Zhu 2023-11-20  290  		if (cachefiles_ondemand_object_is_reopening(object))
-0a7e54c1959c0f Jia Zhu 2023-11-20  291  			continue;
-0a7e54c1959c0f Jia Zhu 2023-11-20  292  		return req;
-0a7e54c1959c0f Jia Zhu 2023-11-20  293  	}
-0a7e54c1959c0f Jia Zhu 2023-11-20  294  	return NULL;
-0a7e54c1959c0f Jia Zhu 2023-11-20  295  }
-0a7e54c1959c0f Jia Zhu 2023-11-20  296  
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  22  
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  23  /* Register the current thread and associate it with a data pointer. */
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  24  void uds_register_thread(struct thread_registry *registry,
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  25  			 struct registered_thread *new_thread, const void *pointer)
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  26  {
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  27  	struct registered_thread *thread;
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  28  	bool found_it = false;
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  29  
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  30  	INIT_LIST_HEAD(&new_thread->links);
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  31  	new_thread->pointer = pointer;
+c7d79fd21a2c37 Matthew Sakai 2023-11-16 @32  	new_thread->task = current;
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  33  
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  34  	spin_lock(&registry->lock);
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  35  	list_for_each_entry(thread, &registry->links, links) {
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  36  		if (thread->task == current) {
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  37  			/* There should be no existing entry. */
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  38  			list_del_rcu(&thread->links);
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  39  			found_it = true;
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  40  			break;
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  41  		}
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  42  	}
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  43  	list_add_tail_rcu(&new_thread->links, &registry->links);
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  44  	spin_unlock(&registry->lock);
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  45  
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  46  	ASSERT_LOG_ONLY(!found_it, "new thread not already in registry");
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  47  	if (found_it) {
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  48  		/* Ensure no RCU iterators see it before re-initializing. */
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  49  		synchronize_rcu();
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  50  		INIT_LIST_HEAD(&thread->links);
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  51  	}
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  52  }
+c7d79fd21a2c37 Matthew Sakai 2023-11-16  53  
 
-:::::: The code at line 287 was first introduced by commit
-:::::: 0a7e54c1959c0feb2de23397ec09c7692364313e cachefiles: resend an open request if the read request's object is closed
+:::::: The code at line 32 was first introduced by commit
+:::::: c7d79fd21a2c3776577f17e22747b38bb61b9563 dm vdo: add thread and synchronization utilities
 
-:::::: TO: Jia Zhu <zhujia.zj@bytedance.com>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
