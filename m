@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088211C36
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 03:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E907FD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 04:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMTku9gI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3JfrGEO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702526197; x=1734062197;
+  t=1702526925; x=1734062925;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tzBlg4vy7z8zm5rJJW6LFmMSRrSHeWPUKe5hc1mkteg=;
-  b=WMTku9gIdPWBJhutN+v7M+qzhxt+1RrMZTIJwjpAMQtRs9/hyj7rPOBa
-   X1kT3NMZ8/3XTouiEWlxueA1uQsjWiqDzQFPyWuG/HoVQxO6aLoLUh16v
-   dfDAvVDjJaPj2xyjzPhFCAvMBA8qwui3u5dC4XczA31F+xH2ZLwS630ca
-   2+55osFij04jvxfyhXXwPGpMgtsyHBVumrHz2qFxdOqDWUewzCCoR8e2o
-   WtkcJ1PR85pw9RvpV2r7IHbApA0eEam6BdMUU868BG7IngZULFy2Di5QF
-   bDRN+YAi+RHjPWEBN00BUQaDBLQC9otQe+RSwuq1YXNnIBBRHQPFSkxtB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="398902637"
+  bh=3Y7R4VTp73zKHZg31C81x9hZqBtmb8iHYBBV9WEoPOo=;
+  b=M3JfrGEOHEbTpeCSM0nCqbNzR9jigwibzyfecHdFD2hydpUxPeNbFLAe
+   vsZbmu6SbJP0j2RDZVYunZvDQw7/opjToAMgeHBr9D/3rHinQ4sBNA0pi
+   Br9peAO8Y17hIKNMos4dnPNeBBSuGXGh1OdycjRt6Z4GMfjznrcGfXxuM
+   2JlbuFzCPVVr8TiI2LlHDjM9abjHvU6fcOmfFd/g8okqgTwHIbnz/DCwQ
+   xBz+2xbVU31rTS0fVXUiVegUV8WQbWt2fpWpdyTLrb9+mfX9h454ZJnYN
+   9a5DwbkqhPS9tFXjUMBYm24EK8UYR85ClfXB8wjYlBflY7Yv7QMn9IEMI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="394811979"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="398902637"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 19:56:37 -0800
+   d="scan'208";a="394811979"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 20:08:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="947427164"
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="777757247"
 X-IronPort-AV: E=Sophos;i="6.04,274,1695711600"; 
-   d="scan'208";a="947427164"
+   d="scan'208";a="777757247"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 13 Dec 2023 19:56:35 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 13 Dec 2023 20:08:42 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDcps-000LVX-2r;
-	Thu, 14 Dec 2023 03:56:32 +0000
-Date: Thu, 14 Dec 2023 11:55:59 +0800
+	id 1rDd1b-000LW1-2z;
+	Thu, 14 Dec 2023 04:08:40 +0000
+Date: Thu, 14 Dec 2023 12:06:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Madhuparna Bhowmik <madhuparnabhowmik10@gmail.com>
+To: Dan Williams <dan.j.williams@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christian Brauner <christian.brauner@ubuntu.com>
-Subject: kernel/fork.c:1610:9: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202312141146.rGQV1JEY-lkp@intel.com>
+	Ross Zwisler <ross.zwisler@linux.intel.com>
+Subject: arch/x86/lib/usercopy_64.c:89: warning: Function parameter or member
+ 'addr' not described in 'clean_cache_range'
+Message-ID: <202312141239.7gLVWsfu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,180 +51,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Dan,
+
+FYI, the error/warning still remains.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: 913292c97d750fe4188b4f5aa770e5e0ca1e5a91 sched.h: Annotate sighand_struct with __rcu
-date:   3 years, 11 months ago
-config: parisc-randconfig-r133-20231118 (https://download.01.org/0day-ci/archive/20231214/202312141146.rGQV1JEY-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231214/202312141146.rGQV1JEY-lkp@intel.com/reproduce)
+commit: 0aed55af88345b5d673240f90e671d79662fb01e x86, uaccess: introduce copy_from_iter_flushcache for pmem / cache-bypass operations
+date:   7 years ago
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20231214/202312141239.7gLVWsfu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312141239.7gLVWsfu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312141146.rGQV1JEY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312141239.7gLVWsfu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/fork.c: note: in included file (through arch/parisc/include/uapi/asm/unistd.h, arch/parisc/include/asm/unistd.h, include/uapi/linux/unistd.h, ...):
-   ./arch/parisc/include/generated/uapi/asm/unistd_32.h:381:41: sparse: sparse: no newline at end of file
-   kernel/fork.c:995:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *owner @@     got struct task_struct *p @@
-   kernel/fork.c:995:19: sparse:     expected struct task_struct [noderef] __rcu *owner
-   kernel/fork.c:995:19: sparse:     got struct task_struct *p
-   kernel/fork.c:1507:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   kernel/fork.c:1507:38: sparse:     expected struct refcount_struct [usertype] *r
-   kernel/fork.c:1507:38: sparse:     got struct refcount_struct [noderef] __rcu *
-   kernel/fork.c:1516:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1516:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1516:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:1517:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *src @@     got struct k_sigaction [noderef] __rcu * @@
-   kernel/fork.c:1517:36: sparse:     expected void const *src
-   kernel/fork.c:1517:36: sparse:     got struct k_sigaction [noderef] __rcu *
-   kernel/fork.c:1518:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1518:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1518:33: sparse:     got struct spinlock [noderef] __rcu *
->> kernel/fork.c:1610:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct arch_spinlock_t [usertype] *x @@     got struct arch_spinlock_t [noderef] __rcu * @@
-   kernel/fork.c:1610:9: sparse:     expected struct arch_spinlock_t [usertype] *x
-   kernel/fork.c:1610:9: sparse:     got struct arch_spinlock_t [noderef] __rcu *
-   kernel/fork.c:1901:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1901:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1901:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:1905:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1905:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1905:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2201:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *real_parent @@     got struct task_struct *task @@
-   kernel/fork.c:2201:32: sparse:     expected struct task_struct [noderef] __rcu *real_parent
-   kernel/fork.c:2201:32: sparse:     got struct task_struct *task
-   kernel/fork.c:2207:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2207:27: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2207:27: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2256:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct list_head *head @@     got struct list_head [noderef] __rcu * @@
-   kernel/fork.c:2256:54: sparse:     expected struct list_head *head
-   kernel/fork.c:2256:54: sparse:     got struct list_head [noderef] __rcu *
-   kernel/fork.c:2277:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2277:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2277:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2292:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2292:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2292:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2321:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
-   kernel/fork.c:2321:28: sparse:     expected struct sighand_struct *sighand
-   kernel/fork.c:2321:28: sparse:     got struct sighand_struct [noderef] __rcu *sighand
-   kernel/fork.c:2349:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2349:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2349:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2351:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2351:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2351:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2747:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *[assigned] parent @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/fork.c:2747:24: sparse:     expected struct task_struct *[assigned] parent
-   kernel/fork.c:2747:24: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/fork.c:2827:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct const [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   kernel/fork.c:2827:43: sparse:     expected struct refcount_struct const [usertype] *r
-   kernel/fork.c:2827:43: sparse:     got struct refcount_struct [noderef] __rcu *
-   kernel/fork.c:1936:27: sparse: sparse: dereference of noderef expression
-   kernel/fork.c:1936:27: sparse: sparse: dereference of noderef expression
-   kernel/fork.c:1938:22: sparse: sparse: dereference of noderef expression
-   kernel/fork.c: note: in included file (through include/uapi/asm-generic/bpf_perf_event.h, arch/parisc/include/generated/uapi/asm/bpf_perf_event.h, ...):
-   include/linux/ptrace.h:218:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *new_parent @@     got struct task_struct [noderef] __rcu *parent @@
-   include/linux/ptrace.h:218:45: sparse:     expected struct task_struct *new_parent
-   include/linux/ptrace.h:218:45: sparse:     got struct task_struct [noderef] __rcu *parent
-   include/linux/ptrace.h:218:62: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct cred const *ptracer_cred @@     got struct cred const [noderef] __rcu *ptracer_cred @@
-   include/linux/ptrace.h:218:62: sparse:     expected struct cred const *ptracer_cred
-   include/linux/ptrace.h:218:62: sparse:     got struct cred const [noderef] __rcu *ptracer_cred
-   kernel/fork.c:2254:59: sparse: sparse: dereference of noderef expression
-   kernel/fork.c:2255:59: sparse: sparse: dereference of noderef expression
-   kernel/fork.c:987:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/fork.c:987:23: sparse:    struct task_struct [noderef] __rcu *
-   kernel/fork.c:987:23: sparse:    struct task_struct *
---
-   kernel/seccomp.c: note: in included file (through arch/parisc/include/uapi/asm/unistd.h, arch/parisc/include/asm/unistd.h, include/uapi/linux/unistd.h, ...):
-   ./arch/parisc/include/generated/uapi/asm/unistd_32.h:381:41: sparse: sparse: no newline at end of file
->> kernel/seccomp.c:517:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct arch_spinlock_t [usertype] *x @@     got struct arch_spinlock_t [noderef] __rcu * @@
-   kernel/seccomp.c:517:9: sparse:     expected struct arch_spinlock_t [usertype] *x
-   kernel/seccomp.c:517:9: sparse:     got struct arch_spinlock_t [noderef] __rcu *
-   kernel/seccomp.c:972:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:972:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:972:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c:984:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:984:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:984:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c:1325:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:1325:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:1325:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c:1338:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:1338:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:1338:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c: note: in included file (through include/linux/sched/task.h, include/linux/sched/signal.h, include/linux/ptrace.h, ...):
-   include/linux/uaccess.h:111:13: sparse: sparse: self-comparison always evaluates to true
-   kernel/seccomp.c:343:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct arch_spinlock_t [usertype] *x @@     got struct arch_spinlock_t [noderef] __rcu * @@
-   kernel/seccomp.c:343:9: sparse:     expected struct arch_spinlock_t [usertype] *x
-   kernel/seccomp.c:343:9: sparse:     got struct arch_spinlock_t [noderef] __rcu *
-   kernel/seccomp.c:384:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct arch_spinlock_t [usertype] *x @@     got struct arch_spinlock_t [noderef] __rcu * @@
-   kernel/seccomp.c:384:9: sparse:     expected struct arch_spinlock_t [usertype] *x
-   kernel/seccomp.c:384:9: sparse:     got struct arch_spinlock_t [noderef] __rcu *
-   kernel/seccomp.c:301:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct arch_spinlock_t [usertype] *x @@     got struct arch_spinlock_t [noderef] __rcu * @@
-   kernel/seccomp.c:301:9: sparse:     expected struct arch_spinlock_t [usertype] *x
-   kernel/seccomp.c:301:9: sparse:     got struct arch_spinlock_t [noderef] __rcu *
-   kernel/seccomp.c:287:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct arch_spinlock_t [usertype] *x @@     got struct arch_spinlock_t [noderef] __rcu * @@
-   kernel/seccomp.c:287:9: sparse:     expected struct arch_spinlock_t [usertype] *x
-   kernel/seccomp.c:287:9: sparse:     got struct arch_spinlock_t [noderef] __rcu *
-   kernel/seccomp.c:301:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct arch_spinlock_t [usertype] *x @@     got struct arch_spinlock_t [noderef] __rcu * @@
-   kernel/seccomp.c:301:9: sparse:     expected struct arch_spinlock_t [usertype] *x
-   kernel/seccomp.c:301:9: sparse:     got struct arch_spinlock_t [noderef] __rcu *
-   include/linux/uaccess.h:129:13: sparse: sparse: self-comparison always evaluates to true
-   include/linux/uaccess.h:111:13: sparse: sparse: self-comparison always evaluates to true
-   include/linux/uaccess.h:111:13: sparse: sparse: self-comparison always evaluates to true
-   kernel/seccomp.c:287:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct arch_spinlock_t [usertype] *x @@     got struct arch_spinlock_t [noderef] __rcu * @@
-   kernel/seccomp.c:287:9: sparse:     expected struct arch_spinlock_t [usertype] *x
-   kernel/seccomp.c:287:9: sparse:     got struct arch_spinlock_t [noderef] __rcu *
-   kernel/seccomp.c:301:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct arch_spinlock_t [usertype] *x @@     got struct arch_spinlock_t [noderef] __rcu * @@
-   kernel/seccomp.c:301:9: sparse:     expected struct arch_spinlock_t [usertype] *x
-   kernel/seccomp.c:301:9: sparse:     got struct arch_spinlock_t [noderef] __rcu *
-   include/linux/uaccess.h:111:13: sparse: sparse: self-comparison always evaluates to true
-   include/linux/uaccess.h:129:13: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +1610 kernel/fork.c
+>> arch/x86/lib/usercopy_64.c:89: warning: Function parameter or member 'addr' not described in 'clean_cache_range'
+>> arch/x86/lib/usercopy_64.c:89: warning: Excess function parameter 'vaddr' description in 'clean_cache_range'
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1600  
-dbd952127d11bb Kees Cook      2014-06-27  1601  static void copy_seccomp(struct task_struct *p)
-dbd952127d11bb Kees Cook      2014-06-27  1602  {
-dbd952127d11bb Kees Cook      2014-06-27  1603  #ifdef CONFIG_SECCOMP
-dbd952127d11bb Kees Cook      2014-06-27  1604  	/*
-dbd952127d11bb Kees Cook      2014-06-27  1605  	 * Must be called with sighand->lock held, which is common to
-dbd952127d11bb Kees Cook      2014-06-27  1606  	 * all threads in the group. Holding cred_guard_mutex is not
-dbd952127d11bb Kees Cook      2014-06-27  1607  	 * needed because this new task is not yet running and cannot
-dbd952127d11bb Kees Cook      2014-06-27  1608  	 * be racing exec.
-dbd952127d11bb Kees Cook      2014-06-27  1609  	 */
-69f6a34bdeea4f Guenter Roeck  2014-08-10 @1610  	assert_spin_locked(&current->sighand->siglock);
-dbd952127d11bb Kees Cook      2014-06-27  1611  
-dbd952127d11bb Kees Cook      2014-06-27  1612  	/* Ref-count the new filter user, and assign it. */
-dbd952127d11bb Kees Cook      2014-06-27  1613  	get_seccomp_filter(current);
-dbd952127d11bb Kees Cook      2014-06-27  1614  	p->seccomp = current->seccomp;
-dbd952127d11bb Kees Cook      2014-06-27  1615  
-dbd952127d11bb Kees Cook      2014-06-27  1616  	/*
-dbd952127d11bb Kees Cook      2014-06-27  1617  	 * Explicitly enable no_new_privs here in case it got set
-dbd952127d11bb Kees Cook      2014-06-27  1618  	 * between the task_struct being duplicated and holding the
-dbd952127d11bb Kees Cook      2014-06-27  1619  	 * sighand lock. The seccomp state and nnp must be in sync.
-dbd952127d11bb Kees Cook      2014-06-27  1620  	 */
-dbd952127d11bb Kees Cook      2014-06-27  1621  	if (task_no_new_privs(current))
-dbd952127d11bb Kees Cook      2014-06-27  1622  		task_set_no_new_privs(p);
-dbd952127d11bb Kees Cook      2014-06-27  1623  
-dbd952127d11bb Kees Cook      2014-06-27  1624  	/*
-dbd952127d11bb Kees Cook      2014-06-27  1625  	 * If the parent gained a seccomp mode after copying thread
-dbd952127d11bb Kees Cook      2014-06-27  1626  	 * flags and between before we held the sighand lock, we have
-dbd952127d11bb Kees Cook      2014-06-27  1627  	 * to manually enable the seccomp thread flag here.
-dbd952127d11bb Kees Cook      2014-06-27  1628  	 */
-dbd952127d11bb Kees Cook      2014-06-27  1629  	if (p->seccomp.mode != SECCOMP_MODE_DISABLED)
-dbd952127d11bb Kees Cook      2014-06-27  1630  		set_tsk_thread_flag(p, TIF_SECCOMP);
-dbd952127d11bb Kees Cook      2014-06-27  1631  #endif
-dbd952127d11bb Kees Cook      2014-06-27  1632  }
-dbd952127d11bb Kees Cook      2014-06-27  1633  
 
-:::::: The code at line 1610 was first introduced by commit
-:::::: 69f6a34bdeea4fec50bb90619bc9602973119572 seccomp: Replace BUG(!spin_is_locked()) with assert_spin_lock
+vim +89 arch/x86/lib/usercopy_64.c
 
-:::::: TO: Guenter Roeck <linux@roeck-us.net>
-:::::: CC: Kees Cook <keescook@chromium.org>
+    77	
+    78	#ifdef CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE
+    79	/**
+    80	 * clean_cache_range - write back a cache range with CLWB
+    81	 * @vaddr:	virtual start address
+    82	 * @size:	number of bytes to write back
+    83	 *
+    84	 * Write back a cache range using the CLWB (cache line write back)
+    85	 * instruction. Note that @size is internally rounded up to be cache
+    86	 * line size aligned.
+    87	 */
+    88	static void clean_cache_range(void *addr, size_t size)
+  > 89	{
+    90		u16 x86_clflush_size = boot_cpu_data.x86_clflush_size;
+    91		unsigned long clflush_mask = x86_clflush_size - 1;
+    92		void *vend = addr + size;
+    93		void *p;
+    94	
+    95		for (p = (void *)((unsigned long)addr & ~clflush_mask);
+    96		     p < vend; p += x86_clflush_size)
+    97			clwb(p);
+    98	}
+    99	
 
 -- 
 0-DAY CI Kernel Test Service
