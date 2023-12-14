@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8B06AB94
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 19:55:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318CA68B99
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 20:08:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXhVKxxS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awCe4X01"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702583713; x=1734119713;
+  t=1702584494; x=1734120494;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KrEvdN/QMfbJApQ3NCnVm+pyddsL1NNtcchrCybsBdY=;
-  b=LXhVKxxS4Ek6G0ESY52xb3cSyX09oMBpc3C/ilF34Rj6uhLYK0+kRfg6
-   8BOdDWvolbOWzrXVFFgGlFCgx0n7cBdtwRqRO4T/BucqSCYhmHIJQDMWq
-   v+Vf2nhwgsVaV+JlA/y6yXyAtnbXJKZz1lP/T07tmoR/Vm7yHp9erP/Gs
-   NwVDdvhM/NfYHSX6Bz06stF9fVUmcZ390BjLjkcNe+E/GBd92AY3c2aoY
-   t/jHu6BHva7RARHWWetdRpBF6TPGMxxNm7QtZelr8W3B8Nd5KqP/nqS9E
-   7k3syJru+Gf+4+DY61e+WIfvB57AcxF8aWtCThyN7OOd/hG4qnKlydQzk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="374683617"
+  bh=EVmlSQ/6e9n66R8XYll/QQqrPS6wvxHJJyLWbJw3jzk=;
+  b=awCe4X01q88vgBu5MsLeby1xzkz/RSKHd88RUTluWOEK/oh1y7WNAbNT
+   ny+1mPg+yAwk/LHCmO28TACJzqbqgjSrA3sOxRom1yoMUcIvaFZiuC6Mz
+   tHilHPYJJugTsML4DxrCsJ+foGXuKGGI6BlkiWEib7VPwyvKiKLTRJrw3
+   ny2Dn43Vv3bppN1FUByzsmuii+vqEMVHa/pZJgLPQUIItry1EbILH+K1K
+   /b50I3B8ucfkRHa4Cwt6WkMcV7IUBwzBRwp7bt/5MgSLqfMoMh9mQY2Fg
+   CwBFcEttr0DpghJX5M/J9S0R7XDYy6QCCbBPKDcebILDjhbs08HlWOeLi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392356762"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="374683617"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 11:55:12 -0800
+   d="scan'208";a="392356762"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 12:08:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="767720028"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="918168046"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="767720028"
+   d="scan'208";a="918168046"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 14 Dec 2023 11:55:10 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 14 Dec 2023 12:08:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDrnX-000MWe-31;
-	Thu, 14 Dec 2023 19:55:07 +0000
-Date: Fri, 15 Dec 2023 03:54:44 +0800
+	id 1rDs09-000MZE-2J;
+	Thu, 14 Dec 2023 20:08:09 +0000
+Date: Fri, 15 Dec 2023 04:07:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zack Rusin <zackr@vmware.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Martin Krastev <krastevm@vmware.com>,
-	Maaz Mombasawala <mombasawalam@vmware.com>
-Subject: drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:76: warning: Excess struct
- member 'transfer' description in 'vmw_stdu_dirty'
-Message-ID: <202312150347.5icezNlK-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-2023-04 2196/20114]
+ drivers/staging/android/debug_kinfo.c:164:34: warning:
+ 'debug_kinfo_of_match' defined but not used
+Message-ID: <202312150404.O4awwFU3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,59 +51,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: 39985eea5a6dd1e844f216028252870e980b9e7f drm/vmwgfx: Abstract placement selection
-date:   10 months ago
-config: i386-buildonly-randconfig-004-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150347.5icezNlK-lkp@intel.com/config)
+Hi Jone,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2023-04
+head:   40fadd7dbb9ebc05514901d1ba58ee9af895c374
+commit: 1a9c7b3e3bdd87a10205891806a0d880fe27230c [2196/20114] ANDROID: staging: add debug-kinfo driver
+config: x86_64-buildonly-randconfig-005-20231026 (https://download.01.org/0day-ci/archive/20231215/202312150404.O4awwFU3-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150347.5icezNlK-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150404.O4awwFU3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150347.5icezNlK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150404.O4awwFU3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:76: warning: Excess struct member 'transfer' description in 'vmw_stdu_dirty'
+>> drivers/staging/android/debug_kinfo.c:164:34: warning: 'debug_kinfo_of_match' defined but not used [-Wunused-const-variable=]
+     164 | static const struct of_device_id debug_kinfo_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +76 drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+vim +/debug_kinfo_of_match +164 drivers/staging/android/debug_kinfo.c
 
-35c051258e8fd7 Sinclair Yeh     2015-06-26  51  
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  52  /**
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  53   * struct vmw_stdu_dirty - closure structure for the update functions
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  54   *
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  55   * @base: The base type we derive from. Used by vmw_kms_helper_dirty().
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  56   * @transfer: Transfer direction for DMA command.
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  57   * @left: Left side of bounding box.
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  58   * @right: Right side of bounding box.
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  59   * @top: Top side of bounding box.
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  60   * @bottom: Bottom side of bounding box.
-a1ac6339123051 Sinclair Yeh     2017-06-02  61   * @fb_left: Left side of the framebuffer/content bounding box
-a1ac6339123051 Sinclair Yeh     2017-06-02  62   * @fb_top: Top of the framebuffer/content bounding box
-1856a91691e40e Lee Jones        2021-01-15  63   * @pitch: framebuffer pitch (stride)
-f1d34bfd70b1b4 Thomas Hellstrom 2018-06-19  64   * @buf: buffer object when DMA-ing between buffer and screen targets.
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  65   * @sid: Surface ID when copying between surface and screen targets.
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  66   */
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  67  struct vmw_stdu_dirty {
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  68  	struct vmw_kms_dirty base;
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  69  	s32 left, right, top, bottom;
-a1ac6339123051 Sinclair Yeh     2017-06-02  70  	s32 fb_left, fb_top;
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  71  	u32 pitch;
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  72  	union {
-09881d2940bbd6 Zack Rusin       2023-01-30  73  		struct vmw_bo *buf;
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  74  		u32 sid;
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  75  	};
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26 @76  };
-6bf6bf03b37b5b Thomas Hellstrom 2015-06-26  77  
-
-:::::: The code at line 76 was first introduced by commit
-:::::: 6bf6bf03b37b5ba0f3399fa9bb3d62edfa117c87 drm/vmwgfx: Convert screen targets to new helpers v3
-
-:::::: TO: Thomas Hellstrom <thellstrom@vmware.com>
-:::::: CC: Thomas Hellstrom <thellstrom@vmware.com>
+   163	
+ > 164	static const struct of_device_id debug_kinfo_of_match[] = {
+   165		{ .compatible	= "google,debug-kinfo" },
+   166		{},
+   167	};
+   168	MODULE_DEVICE_TABLE(of, debug_kinfo_of_match);
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
