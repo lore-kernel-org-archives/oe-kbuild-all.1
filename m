@@ -1,51 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2748F61FD1;
-	Thu, 14 Dec 2023 16:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9943261696;
+	Thu, 14 Dec 2023 17:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6G7/rOQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UB0wxzJ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702573168; x=1734109168;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0Y4Up4+WSMEWmWEyG3tdfvhu/XtNRitIH+sxPEJRAgE=;
-  b=A6G7/rOQHMNm4hvkliw598s0EIoIB8TTvGfL83eqWw5QQSvWkGO7VASa
-   I3qbEWebUzbGp4YPKLbUaAVKE/Uaj5k2CdsVqQfCWinEYMK+fTvFjo1nr
-   u41nxR0NCXEokL7nM0QjXanm3MsXJPLkQuuI6UZt4ZSeeHUhcUkotuWJD
-   /j8YM6mU2Icbi6lIkVgTj5h8ecHQtyOdg703BEnI8wV12TSLytZtYKcSn
-   muC/w8CCRPO9jmTonhZHALoTq1nOThqW1HSlJJdy6smxR/DnWESiXjkzV
-   zPYfae9610kNM23ioDnOTFXhL5q9h99J2Auyyr7MsxFTTSLvK/WPqfF6m
+  t=1702573388; x=1734109388;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0VMewdynpRXGZAjrpufLqhuWZ7NyTYnlt0fJDM7o47M=;
+  b=UB0wxzJ/TK4sK2/Dc/y6FHWqjzH52F8ji0deSrpQb8s/TIWmGxCGSp2e
+   PLC/ZJ5/CoE9O0UN0Hz1mUcrqDrzY5iz/zczwd+sy8PsnrLp/ezfJsDSp
+   MjC0bTA2e4oSLtPQP6CAKwvvTD6rpWu79D5wyoj5pv8nhRu29Gx4uqcsE
+   Y/+rpymKkYIq853veG7EnoAo8tVdNoNAKroFlFl7zlRMT0wRcogR3eR42
+   H90J/AF9jym/Mgo1sbDAIssrdc6vMXmETBX9OYw8qFsmRWGqB0M/o68Xf
+   5aGP3YVM415rAWz4ram/smEuufJhKwfp24kNTKzYbBuV8lMMxZ4LC52sg
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="16701432"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2306570"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="16701432"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 08:59:19 -0800
+   d="scan'208";a="2306570"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 09:03:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="892541741"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="947638809"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="892541741"
+   d="scan'208";a="947638809"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 14 Dec 2023 08:59:16 -0800
+  by orsmga005.jf.intel.com with ESMTP; 14 Dec 2023 09:03:05 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDp1n-000MLq-2S;
-	Thu, 14 Dec 2023 16:58:40 +0000
-Date: Fri, 15 Dec 2023 00:51:16 +0800
+	id 1rDp71-000MMu-0s;
+	Thu, 14 Dec 2023 17:03:03 +0000
+Date: Fri, 15 Dec 2023 01:01:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bixuan Cui <cuibixuan@vivo.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
-	akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org, cuibixuan@vivo.com, opensource.kernel@vivo.com
-Subject: Re: [PATCH -next 2/2] mm: vmscan: add new event to trace shrink lru
-Message-ID: <202312150018.EIE4fkeF-lkp@intel.com>
-References: <20231212032640.6968-3-cuibixuan@vivo.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dm-devel@lists.linux.dev
+Subject: [device-mapper-dm:dm-vdo-wip 61/61]
+ drivers/md/dm-vdo/action-manager.c:64: warning: Excess struct member
+ 'Scheduler' description in 'action_manager'
+Message-ID: <202312150044.hPIyz3eh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,149 +50,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231212032640.6968-3-cuibixuan@vivo.com>
 
-Hi Bixuan,
+Hi Mike,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on next-20231211]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bixuan-Cui/mm-shrinker-add-new-event-to-trace-shrink-count/20231212-112824
-base:   next-20231211
-patch link:    https://lore.kernel.org/r/20231212032640.6968-3-cuibixuan%40vivo.com
-patch subject: [PATCH -next 2/2] mm: vmscan: add new event to trace shrink lru
-config: i386-randconfig-014-20231214 (https://download.01.org/0day-ci/archive/20231215/202312150018.EIE4fkeF-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150018.EIE4fkeF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git dm-vdo-wip
+head:   e64f626707d0a0b2908bf0d47705d755ada6fd2d
+commit: e64f626707d0a0b2908bf0d47705d755ada6fd2d [61/61] dm vdo: use a proper Makefile for dm-vdo
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231215/202312150044.hPIyz3eh-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150044.hPIyz3eh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150018.EIE4fkeF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150044.hPIyz3eh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/vmscan.c:4533:2: error: call to undeclared function 'trace_mm_vmscan_lru_shrink_inactive'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
-           ^
-   mm/vmscan.c:4533:2: note: did you mean 'trace_mm_vmscan_lru_shrink_inactive_end'?
-   include/trace/events/vmscan.h:415:1: note: 'trace_mm_vmscan_lru_shrink_inactive_end' declared here
-   TRACE_EVENT(mm_vmscan_lru_shrink_inactive_end,
-   ^
-   include/linux/tracepoint.h:566:2: note: expanded from macro 'TRACE_EVENT'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:432:2: note: expanded from macro 'DECLARE_TRACE'
-           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-           ^
-   include/linux/tracepoint.h:255:21: note: expanded from macro '__DECLARE_TRACE'
-           static inline void trace_##name(proto)                          \
-                              ^
-   <scratch space>:60:1: note: expanded from here
-   trace_mm_vmscan_lru_shrink_inactive_end
-   ^
-   1 error generated.
+   drivers/md/dm-vdo/action-manager.c:64: warning: Function parameter or member 'scheduler' not described in 'action_manager'
+>> drivers/md/dm-vdo/action-manager.c:64: warning: Excess struct member 'Scheduler' description in 'action_manager'
 
 
-vim +/trace_mm_vmscan_lru_shrink_inactive +4533 mm/vmscan.c
+vim +64 drivers/md/dm-vdo/action-manager.c
 
-ac35a490237446 Yu Zhao                 2022-09-18  4500  
-a579086c99ed70 Yu Zhao                 2022-12-21  4501  static int evict_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness)
-ac35a490237446 Yu Zhao                 2022-09-18  4502  {
-ac35a490237446 Yu Zhao                 2022-09-18  4503  	int type;
-ac35a490237446 Yu Zhao                 2022-09-18  4504  	int scanned;
-ac35a490237446 Yu Zhao                 2022-09-18  4505  	int reclaimed;
-ac35a490237446 Yu Zhao                 2022-09-18  4506  	LIST_HEAD(list);
-359a5e1416caaf Yu Zhao                 2022-11-15  4507  	LIST_HEAD(clean);
-ac35a490237446 Yu Zhao                 2022-09-18  4508  	struct folio *folio;
-359a5e1416caaf Yu Zhao                 2022-11-15  4509  	struct folio *next;
-ac35a490237446 Yu Zhao                 2022-09-18  4510  	enum vm_event_item item;
-ac35a490237446 Yu Zhao                 2022-09-18  4511  	struct reclaim_stat stat;
-bd74fdaea14602 Yu Zhao                 2022-09-18  4512  	struct lru_gen_mm_walk *walk;
-359a5e1416caaf Yu Zhao                 2022-11-15  4513  	bool skip_retry = false;
-ac35a490237446 Yu Zhao                 2022-09-18  4514  	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-ac35a490237446 Yu Zhao                 2022-09-18  4515  	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
-ac35a490237446 Yu Zhao                 2022-09-18  4516  
-ac35a490237446 Yu Zhao                 2022-09-18  4517  	spin_lock_irq(&lruvec->lru_lock);
-ac35a490237446 Yu Zhao                 2022-09-18  4518  
-ac35a490237446 Yu Zhao                 2022-09-18  4519  	scanned = isolate_folios(lruvec, sc, swappiness, &type, &list);
-ac35a490237446 Yu Zhao                 2022-09-18  4520  
-ac35a490237446 Yu Zhao                 2022-09-18  4521  	scanned += try_to_inc_min_seq(lruvec, swappiness);
-ac35a490237446 Yu Zhao                 2022-09-18  4522  
-ac35a490237446 Yu Zhao                 2022-09-18  4523  	if (get_nr_gens(lruvec, !swappiness) == MIN_NR_GENS)
-ac35a490237446 Yu Zhao                 2022-09-18  4524  		scanned = 0;
-ac35a490237446 Yu Zhao                 2022-09-18  4525  
-ac35a490237446 Yu Zhao                 2022-09-18  4526  	spin_unlock_irq(&lruvec->lru_lock);
-ac35a490237446 Yu Zhao                 2022-09-18  4527  
-ac35a490237446 Yu Zhao                 2022-09-18  4528  	if (list_empty(&list))
-ac35a490237446 Yu Zhao                 2022-09-18  4529  		return scanned;
-359a5e1416caaf Yu Zhao                 2022-11-15  4530  retry:
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  4531) 	reclaimed = shrink_folio_list(&list, pgdat, sc, &stat, false);
-359a5e1416caaf Yu Zhao                 2022-11-15  4532  	sc->nr_reclaimed += reclaimed;
-8c2214fc9a470a Jaewon Kim              2023-10-03 @4533  	trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
-8c2214fc9a470a Jaewon Kim              2023-10-03  4534  			scanned, reclaimed, &stat, sc->priority,
-8c2214fc9a470a Jaewon Kim              2023-10-03  4535  			type ? LRU_INACTIVE_FILE : LRU_INACTIVE_ANON);
-359a5e1416caaf Yu Zhao                 2022-11-15  4536  
-359a5e1416caaf Yu Zhao                 2022-11-15  4537  	list_for_each_entry_safe_reverse(folio, next, &list, lru) {
-359a5e1416caaf Yu Zhao                 2022-11-15  4538  		if (!folio_evictable(folio)) {
-359a5e1416caaf Yu Zhao                 2022-11-15  4539  			list_del(&folio->lru);
-359a5e1416caaf Yu Zhao                 2022-11-15  4540  			folio_putback_lru(folio);
-359a5e1416caaf Yu Zhao                 2022-11-15  4541  			continue;
-359a5e1416caaf Yu Zhao                 2022-11-15  4542  		}
-ac35a490237446 Yu Zhao                 2022-09-18  4543  
-359a5e1416caaf Yu Zhao                 2022-11-15  4544  		if (folio_test_reclaim(folio) &&
-359a5e1416caaf Yu Zhao                 2022-11-15  4545  		    (folio_test_dirty(folio) || folio_test_writeback(folio))) {
-ac35a490237446 Yu Zhao                 2022-09-18  4546  			/* restore LRU_REFS_FLAGS cleared by isolate_folio() */
-ac35a490237446 Yu Zhao                 2022-09-18  4547  			if (folio_test_workingset(folio))
-ac35a490237446 Yu Zhao                 2022-09-18  4548  				folio_set_referenced(folio);
-359a5e1416caaf Yu Zhao                 2022-11-15  4549  			continue;
-359a5e1416caaf Yu Zhao                 2022-11-15  4550  		}
-ac35a490237446 Yu Zhao                 2022-09-18  4551  
-359a5e1416caaf Yu Zhao                 2022-11-15  4552  		if (skip_retry || folio_test_active(folio) || folio_test_referenced(folio) ||
-359a5e1416caaf Yu Zhao                 2022-11-15  4553  		    folio_mapped(folio) || folio_test_locked(folio) ||
-359a5e1416caaf Yu Zhao                 2022-11-15  4554  		    folio_test_dirty(folio) || folio_test_writeback(folio)) {
-359a5e1416caaf Yu Zhao                 2022-11-15  4555  			/* don't add rejected folios to the oldest generation */
-359a5e1416caaf Yu Zhao                 2022-11-15  4556  			set_mask_bits(&folio->flags, LRU_REFS_MASK | LRU_REFS_FLAGS,
-359a5e1416caaf Yu Zhao                 2022-11-15  4557  				      BIT(PG_active));
-359a5e1416caaf Yu Zhao                 2022-11-15  4558  			continue;
-359a5e1416caaf Yu Zhao                 2022-11-15  4559  		}
-359a5e1416caaf Yu Zhao                 2022-11-15  4560  
-359a5e1416caaf Yu Zhao                 2022-11-15  4561  		/* retry folios that may have missed folio_rotate_reclaimable() */
-359a5e1416caaf Yu Zhao                 2022-11-15  4562  		list_move(&folio->lru, &clean);
-359a5e1416caaf Yu Zhao                 2022-11-15  4563  		sc->nr_scanned -= folio_nr_pages(folio);
-ac35a490237446 Yu Zhao                 2022-09-18  4564  	}
-ac35a490237446 Yu Zhao                 2022-09-18  4565  
-ac35a490237446 Yu Zhao                 2022-09-18  4566  	spin_lock_irq(&lruvec->lru_lock);
-ac35a490237446 Yu Zhao                 2022-09-18  4567  
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  4568) 	move_folios_to_lru(lruvec, &list);
-ac35a490237446 Yu Zhao                 2022-09-18  4569  
-bd74fdaea14602 Yu Zhao                 2022-09-18  4570  	walk = current->reclaim_state->mm_walk;
-bd74fdaea14602 Yu Zhao                 2022-09-18  4571  	if (walk && walk->batched)
-bd74fdaea14602 Yu Zhao                 2022-09-18  4572  		reset_batch_size(lruvec, walk);
-bd74fdaea14602 Yu Zhao                 2022-09-18  4573  
-57e9cc50f4dd92 Johannes Weiner         2022-10-26  4574  	item = PGSTEAL_KSWAPD + reclaimer_offset();
-ac35a490237446 Yu Zhao                 2022-09-18  4575  	if (!cgroup_reclaim(sc))
-ac35a490237446 Yu Zhao                 2022-09-18  4576  		__count_vm_events(item, reclaimed);
-ac35a490237446 Yu Zhao                 2022-09-18  4577  	__count_memcg_events(memcg, item, reclaimed);
-ac35a490237446 Yu Zhao                 2022-09-18  4578  	__count_vm_events(PGSTEAL_ANON + type, reclaimed);
-ac35a490237446 Yu Zhao                 2022-09-18  4579  
-ac35a490237446 Yu Zhao                 2022-09-18  4580  	spin_unlock_irq(&lruvec->lru_lock);
-ac35a490237446 Yu Zhao                 2022-09-18  4581  
-ac35a490237446 Yu Zhao                 2022-09-18  4582  	mem_cgroup_uncharge_list(&list);
-ac35a490237446 Yu Zhao                 2022-09-18  4583  	free_unref_page_list(&list);
-ac35a490237446 Yu Zhao                 2022-09-18  4584  
-359a5e1416caaf Yu Zhao                 2022-11-15  4585  	INIT_LIST_HEAD(&list);
-359a5e1416caaf Yu Zhao                 2022-11-15  4586  	list_splice_init(&clean, &list);
-359a5e1416caaf Yu Zhao                 2022-11-15  4587  
-359a5e1416caaf Yu Zhao                 2022-11-15  4588  	if (!list_empty(&list)) {
-359a5e1416caaf Yu Zhao                 2022-11-15  4589  		skip_retry = true;
-359a5e1416caaf Yu Zhao                 2022-11-15  4590  		goto retry;
-359a5e1416caaf Yu Zhao                 2022-11-15  4591  	}
-ac35a490237446 Yu Zhao                 2022-09-18  4592  
-ac35a490237446 Yu Zhao                 2022-09-18  4593  	return scanned;
-ac35a490237446 Yu Zhao                 2022-09-18  4594  }
-ac35a490237446 Yu Zhao                 2022-09-18  4595  
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  38  
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  39  /**
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  40   * struct action_manager - Definition of an action manager.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  41   * @completion: The completion for performing actions.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  42   * @state: The state of this action manager.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  43   * @actions: The two action slots.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  44   * @current_action: The current action slot.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  45   * @zones: The number of zones in which an action is to be applied.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  46   * @Scheduler: A function to schedule a default next action.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  47   * @get_zone_thread_id: A function to get the id of the thread on which to apply an action to a
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  48   *                      zone.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  49   * @initiator_thread_id: The ID of the thread on which actions may be initiated.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  50   * @context: Opaque data associated with this action manager.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  51   * @acting_zone: The zone currently being acted upon.
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  52   */
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  53  struct action_manager {
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  54  	struct vdo_completion completion;
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  55  	struct admin_state state;
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  56  	struct action actions[2];
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  57  	struct action *current_action;
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  58  	zone_count_t zones;
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  59  	vdo_action_scheduler_fn scheduler;
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  60  	vdo_zone_thread_getter_fn get_zone_thread_id;
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  61  	thread_id_t initiator_thread_id;
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  62  	void *context;
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  63  	zone_count_t acting_zone;
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16 @64  };
+dcbcd2b05e60cfe Matthew Sakai 2023-11-16  65  
+
+:::::: The code at line 64 was first introduced by commit
+:::::: dcbcd2b05e60cfead83f389a2585e78f45491d56 dm vdo: add administrative state and action manager
+
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
