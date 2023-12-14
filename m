@@ -1,45 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1320C6C6CC;
-	Thu, 14 Dec 2023 23:38:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE38A6C6FE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 23:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EcgLXe10"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwT1RK+4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702597112; x=1734133112;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=be8nTYdPRwdXDK0SUXIQKA8ecPmpUICkCHCq53+ZOqU=;
-  b=EcgLXe10bCZ5AJelpnp91m9CZLoyycCUygfV/qzxbl+xmWCdK9FJX0oX
-   TW24xgVsff4usqoyVx7/O2+UHWsW9ZXMq9B5QPrYGC8BC88s3ZW6kBjW5
-   klcyrlpDVH1oFfS2R3S8gIgvj25DlYzGSuEE/RulHL/LXktItWxfXiz+D
-   T5gXNxxFvp1RoGNjl2toSYMAd1Gzhmw/TA/6y9nYfJrVAen7VWztGvj8+
-   bYJYT6RT5oJXY98BHrrVVYbFX3WHUi4ceoQxexeir2AyJjyxtX6mjVKDl
-   dCymfHEt1AKEbpYZMvc7ZY0QKCAIk1kiGK15B6dklLdXGL+eGxOWeoAz4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="461667879"
+  t=1702597716; x=1734133716;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ulvggAM+hEB3dBJmGI1RltxMRtuffozXg9K4ZybPd20=;
+  b=nwT1RK+4sqxXc8Et2EzuAfGbzmvBbtfFgalSNDxNM05e7bEvQWLN9GXg
+   CFlOfD33I97Ze5b8y4wETOOr4FAKLSKiKz/UigDp4RDJYqIjDPFco7AHw
+   DVKHEBVYHqK/Z7h/h3LGWgIJwjLpXKpNU1GDEWTsNWT8hm7v5cml0xvB1
+   YB0a/aDiJuBWSWwKCN6pTvUrfK50fP0kgneh8JjtfZNjato6epCiLsjl8
+   ac2k8PvWAMvt4xA6d6ZbmxC9Sotz1RqbQhKKcGMNZJ96c4qMkJpX5wVrL
+   QhWp2Vh7god6OesujhOUfrL5cAVXB4pkIUhE3QqwhusASrBQC250FEd2x
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2058222"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="461667879"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 15:38:31 -0800
+   d="scan'208";a="2058222"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 15:48:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="865190413"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="844910735"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="865190413"
+   d="scan'208";a="844910735"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Dec 2023 15:38:30 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 14 Dec 2023 15:48:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDvHg-000MkO-0y;
-	Thu, 14 Dec 2023 23:38:28 +0000
-Date: Fri, 15 Dec 2023 07:38:03 +0800
+	id 1rDvRM-000MkX-1V;
+	Thu, 14 Dec 2023 23:48:30 +0000
+Date: Fri, 15 Dec 2023 07:48:24 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: vhci_coredump_hdr() falls through to
- next function __cfi_vhci_open_timeout()
-Message-ID: <202312150722.J7LzZPMW-lkp@intel.com>
+To: Grygorii Strashko <grygorii.strashko@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Russell King <rmk+kernel@armlinux.org.uk>
+Subject: arch/arm/mm/init.c:718: warning: Function parameter or member
+ 'perms' not described in 'update_sections_early'
+Message-ID: <202312150743.bwMvCOJ8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,26 +51,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Manish Mandlik <mmandlik@google.com>
-CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c7402612e2e61b76177f22e6e7f705adcbecc6fe
-commit: ab4e4380d4e158486e595013a2635190e07e28ce Bluetooth: Add vhci devcoredump support
-date:   8 months ago
-config: x86_64-randconfig-012-20231215 (https://download.01.org/0day-ci/archive/20231215/202312150722.J7LzZPMW-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150722.J7LzZPMW-lkp@intel.com/reproduce)
+commit: 11ce4b33aedc65198d7bc9669344ebca5ee36a41 ARM: 8672/1: mm: remove tasklist locking from update_sections_early()
+date:   7 years ago
+config: arm-s3c6400_defconfig (https://download.01.org/0day-ci/archive/20231215/202312150743.bwMvCOJ8-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150743.bwMvCOJ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150722.J7LzZPMW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150743.bwMvCOJ8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: vhci_coredump_hdr() falls through to next function __cfi_vhci_open_timeout()
+   arch/arm/mm/init.c:128:13: warning: no previous prototype for 'setup_dma_zone' [-Wmissing-prototypes]
+     128 | void __init setup_dma_zone(const struct machine_desc *mdesc)
+         |             ^~~~~~~~~~~~~~
+   arch/arm/mm/init.c:769:6: warning: no previous prototype for 'free_tcmmem' [-Wmissing-prototypes]
+     769 | void free_tcmmem(void)
+         |      ^~~~~~~~~~~
+>> arch/arm/mm/init.c:718: warning: Function parameter or member 'perms' not described in 'update_sections_early'
+>> arch/arm/mm/init.c:718: warning: Function parameter or member 'n' not described in 'update_sections_early'
+
+
+vim +718 arch/arm/mm/init.c
+
+1e6b48116a9504 Kees Cook         2014-04-03  711  
+11ce4b33aedc65 Grygorii Strashko 2017-04-25  712  /**
+11ce4b33aedc65 Grygorii Strashko 2017-04-25  713   * update_sections_early intended to be called only through stop_machine
+11ce4b33aedc65 Grygorii Strashko 2017-04-25  714   * framework and executed by only one CPU while all other CPUs will spin and
+11ce4b33aedc65 Grygorii Strashko 2017-04-25  715   * wait, so no locking is required in this function.
+11ce4b33aedc65 Grygorii Strashko 2017-04-25  716   */
+08925c2f124f1b Laura Abbott      2015-11-30  717  static void update_sections_early(struct section_perm perms[], int n)
+1e6b48116a9504 Kees Cook         2014-04-03 @718  {
+08925c2f124f1b Laura Abbott      2015-11-30  719  	struct task_struct *t, *s;
+08925c2f124f1b Laura Abbott      2015-11-30  720  
+08925c2f124f1b Laura Abbott      2015-11-30  721  	for_each_process(t) {
+08925c2f124f1b Laura Abbott      2015-11-30  722  		if (t->flags & PF_KTHREAD)
+08925c2f124f1b Laura Abbott      2015-11-30  723  			continue;
+08925c2f124f1b Laura Abbott      2015-11-30  724  		for_each_thread(t, s)
+08925c2f124f1b Laura Abbott      2015-11-30  725  			set_section_perms(perms, n, true, s->mm);
+08925c2f124f1b Laura Abbott      2015-11-30  726  	}
+08925c2f124f1b Laura Abbott      2015-11-30  727  	set_section_perms(perms, n, true, current->active_mm);
+08925c2f124f1b Laura Abbott      2015-11-30  728  	set_section_perms(perms, n, true, &init_mm);
+08925c2f124f1b Laura Abbott      2015-11-30  729  }
+08925c2f124f1b Laura Abbott      2015-11-30  730  
+
+:::::: The code at line 718 was first introduced by commit
+:::::: 1e6b48116a95046ec51f3d40f83aff8b006674d7 ARM: mm: allow non-text sections to be non-executable
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
