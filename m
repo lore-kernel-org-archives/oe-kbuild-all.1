@@ -1,47 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241CA4120F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239125B20C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bizgsP9V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KmR/Qoms"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702565557; x=1734101557;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lTRioS0QEgs7rSgwCd56I3ckeoahvMBtAz3of/pygCU=;
-  b=bizgsP9VMuUpKTExVKsb19Uvidyd/YHUu3j3Zes3LaPFg8LZUOgwxL61
-   ohGKNYPGOM9z9Ko8Xrae1Rqppzk8OJMjKHx/ZRwTHkFpmjle95b+DrGjr
-   Smm95iwm1WDNerPPM7ZnJb9pbD/E7T2WXK46ufEoArESIIt3G4VP4Bz6z
-   qJ2STzx6/Y1m8LJvL0iXxdFfu4LepljKY11viXU9IoRp6wLMe68hTQ+Lo
-   7iFE2Phrzv8PT3IrL11f5Kgd3FF7R1Jy0r6ZPDWLfuZfY0vEq4T6jSVaF
-   Wt6gX3/3RcWREBYeuHlrKMaBjpe+A8qx1a77PU9tXWrtLRzbdjWLrQ02Q
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392303419"
+  t=1702565559; x=1734101559;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ODhwqCqXmS7joN9elVUFunOPRQ2tuEhEQcIHRfDVNIw=;
+  b=KmR/QomsYKKixvG4AWqUrYO1PuEPT77pZ+w5ad5GHjxChC8q1K6+9w7j
+   EDAWHCSJ9MM9ky98I0bmt92I4yNl4ymbJxEWbheI+Y2u2bZ1cvdXeLw79
+   IAKW5WZ+568czIz/W2E9RsUmakCUj93+nkdIv1JNHoVzvEhSA7JP+krqt
+   Yv3q3n2uv9sf0DhggBj9UWupxiTjHaeTUqYrQc0AyvXBkEz+RqmNgW89R
+   anvkDShvtqELzWN8CsBbowU/m68svmg7P9oHkBMJydxDNb4WL2YMMqQ2+
+   okHtkvWriMCy/FTYqX2TGlyuNw+p9k1lA9PKIsBTs7GkNSJ1JaFqGw6d/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392303421"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="392303419"
+   d="scan'208";a="392303421"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:52:36 -0800
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:52:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="892491875"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="892491877"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="892491875"
+   d="scan'208";a="892491877"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
   by fmsmga002.fm.intel.com with ESMTP; 14 Dec 2023 06:52:34 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDn4i-000MBm-1j;
+	id 1rDn4i-000MBk-1f;
 	Thu, 14 Dec 2023 14:52:32 +0000
-Date: Thu, 14 Dec 2023 22:51:33 +0800
+Date: Thu, 14 Dec 2023 22:51:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geoff Levand <geoff@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexander Duyck <alexanderduyck@fb.com>
-Subject: drivers/net/ethernet/toshiba/ps3_gelic_net.c:330:33: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202312142250.7GMllD1E-lkp@intel.com>
+To: Gabriel Krisman Bertazi <krisman@suse.de>, viro@zeniv.linux.org.uk,
+	ebiggers@kernel.org, jaegeuk@kernel.org, tytso@mit.edu
+Cc: oe-kbuild-all@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Gabriel Krisman Bertazi <krisman@suse.de>
+Subject: Re: [PATCH 8/8] fscrypt: Move d_revalidate configuration back into
+ fscrypt
+Message-ID: <202312142213.uyrNJniX-lkp@intel.com>
+References: <20231213234031.1081-9-krisman@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,93 +54,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231213234031.1081-9-krisman@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
-commit: bebe933d35a63d4f042fbf4dce4f22e689ba0fcd net/ps3_gelic_net: Use dma_mapping_error
-date:   9 months ago
-config: powerpc64-randconfig-r122-20231213 (https://download.01.org/0day-ci/archive/20231214/202312142250.7GMllD1E-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20231214/202312142250.7GMllD1E-lkp@intel.com/reproduce)
+Hi Gabriel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jaegeuk-f2fs/dev-test]
+[also build test WARNING on jaegeuk-f2fs/dev tytso-ext4/dev linus/master v6.7-rc5 next-20231214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gabriel-Krisman-Bertazi/dcache-Add-helper-to-disable-d_revalidate-for-a-specific-dentry/20231214-074322
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20231213234031.1081-9-krisman%40suse.de
+patch subject: [PATCH 8/8] fscrypt: Move d_revalidate configuration back into fscrypt
+config: x86_64-randconfig-123-20231214 (https://download.01.org/0day-ci/archive/20231214/202312142213.uyrNJniX-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142213.uyrNJniX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312142250.7GMllD1E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312142213.uyrNJniX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/toshiba/ps3_gelic_net.c:330:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] bus_addr @@     got restricted __be32 [usertype] @@
-   drivers/net/ethernet/toshiba/ps3_gelic_net.c:330:33: sparse:     expected unsigned long long [usertype] bus_addr
-   drivers/net/ethernet/toshiba/ps3_gelic_net.c:330:33: sparse:     got restricted __be32 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +330 drivers/net/ethernet/toshiba/ps3_gelic_net.c
+>> fs/libfs.c:1778:39: warning: unused variable 'generic_encrypted_dentry_ops' [-Wunused-const-variable]
+   static const struct dentry_operations generic_encrypted_dentry_ops = {
+                                         ^
+   1 warning generated.
 
-   295	
-   296	/**
-   297	 * gelic_card_init_chain - links descriptor chain
-   298	 * @card: card structure
-   299	 * @chain: address of chain
-   300	 * @start_descr: address of descriptor array
-   301	 * @no: number of descriptors
-   302	 *
-   303	 * we manage a circular list that mirrors the hardware structure,
-   304	 * except that the hardware uses bus addresses.
-   305	 *
-   306	 * returns 0 on success, <0 on failure
-   307	 */
-   308	static int gelic_card_init_chain(struct gelic_card *card,
-   309					 struct gelic_descr_chain *chain,
-   310					 struct gelic_descr *start_descr, int no)
-   311	{
-   312		int i;
-   313		struct gelic_descr *descr;
-   314	
-   315		descr = start_descr;
-   316		memset(descr, 0, sizeof(*descr) * no);
-   317	
-   318		/* set up the hardware pointers in each descriptor */
-   319		for (i = 0; i < no; i++, descr++) {
-   320			dma_addr_t cpu_addr;
-   321	
-   322			gelic_descr_set_status(descr, GELIC_DESCR_DMA_NOT_IN_USE);
-   323	
-   324			cpu_addr = dma_map_single(ctodev(card), descr,
-   325						  GELIC_DESCR_SIZE, DMA_BIDIRECTIONAL);
-   326	
-   327			if (dma_mapping_error(ctodev(card), cpu_addr))
-   328				goto iommu_error;
-   329	
- > 330			descr->bus_addr = cpu_to_be32(cpu_addr);
-   331			descr->next = descr + 1;
-   332			descr->prev = descr - 1;
-   333		}
-   334		/* make them as ring */
-   335		(descr - 1)->next = start_descr;
-   336		start_descr->prev = (descr - 1);
-   337	
-   338		/* chain bus addr of hw descriptor */
-   339		descr = start_descr;
-   340		for (i = 0; i < no; i++, descr++) {
-   341			descr->next_descr_addr = cpu_to_be32(descr->next->bus_addr);
-   342		}
-   343	
-   344		chain->head = start_descr;
-   345		chain->tail = start_descr;
-   346	
-   347		/* do not chain last hw descriptor */
-   348		(descr - 1)->next_descr_addr = 0;
-   349	
-   350		return 0;
-   351	
-   352	iommu_error:
-   353		for (i--, descr--; 0 <= i; i--, descr--)
-   354			if (descr->bus_addr)
-   355				dma_unmap_single(ctodev(card), descr->bus_addr,
-   356						 GELIC_DESCR_SIZE,
-   357						 DMA_BIDIRECTIONAL);
-   358		return -ENOMEM;
-   359	}
-   360	
+
+vim +/generic_encrypted_dentry_ops +1778 fs/libfs.c
+
+608af703519a58 Daniel Rosenberg 2020-11-19  1776  
+608af703519a58 Daniel Rosenberg 2020-11-19  1777  #ifdef CONFIG_FS_ENCRYPTION
+608af703519a58 Daniel Rosenberg 2020-11-19 @1778  static const struct dentry_operations generic_encrypted_dentry_ops = {
+608af703519a58 Daniel Rosenberg 2020-11-19  1779  	.d_revalidate = fscrypt_d_revalidate,
+608af703519a58 Daniel Rosenberg 2020-11-19  1780  };
+608af703519a58 Daniel Rosenberg 2020-11-19  1781  #endif
+608af703519a58 Daniel Rosenberg 2020-11-19  1782  
 
 -- 
 0-DAY CI Kernel Test Service
