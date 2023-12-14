@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15953E462
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:07:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A22C79E1C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Dec 2023 14:19:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RTJdzWPx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXexr+Og"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702562855; x=1734098855;
+  t=1702563575; x=1734099575;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DiY1H7twQ+sQ0zF3pHG9FMnM7H2P6I2qEPcDDTTEJZs=;
-  b=RTJdzWPxpQ4g6ZxOfxsirjsAGLF0xmj1k8RG1WWnA0aO5AfOVMvhxgXG
-   JpX6nFOrekAMXX08Fv71CJ4DSXUc5s6L0PTjpzDv/o8g+GsALb3BEns8Q
-   F7ELnLdAi1DLTz2jQdqfDEh8eUF9hBkn+NoMswSR56iAY7ofzcYN0c2lf
-   bJCJybe6aw38JOScQKSg9OTKlMwX0kOGxv+Fk+2sKTXhwF//eQGCNHE16
-   5Mxj/m402AnEIYRht9ae7NfR3luCATTqbE2pzTYdULU9a7PYlt8Cm1Fps
-   tB+lNjkhHsH5S4GrW3dzTOfca9LUJ7pduORXeVqV9Xn1NEJwjR28kmWIf
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="380108037"
+  bh=S9Cc4FVnez8OylvxlFTlGHOz/UjzO3c+U8FTgrr9GIs=;
+  b=gXexr+OgzHoP1PArVXRMYfuBGUPwhTLjbIi0tI4IE/RBt3esAzHfWSpn
+   Sx74vE/xSmWB421JuCGwNagtlNe5DdGn52VUQ0v/HpbF0012Wv0C6hp19
+   6bCR0J9P2wc+3gnP7Q9HGAzFU+VZeDscL993Qi/LjXtyVO5jJsq4G1njq
+   DUvpWp6gjLIhhCZTwrU8TXNQ3ssSGc8/ZYuRZnNtPECuNXbpQXmwtsKvZ
+   ZWFZ75Qd2AQ3wdm2iOrzp85Y9PO447xR4KtJERr1sMPdkHJJqzHpKOUDJ
+   wXlfUKE6h3LBv4snuBdFKSOXqpd/YIBfJUvwQoPPj9RnJNIXWnwLtuyne
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2292358"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="380108037"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:07:34 -0800
+   d="scan'208";a="2292358"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 06:19:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="947584016"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="1021519255"
 X-IronPort-AV: E=Sophos;i="6.04,275,1695711600"; 
-   d="scan'208";a="947584016"
+   d="scan'208";a="1021519255"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Dec 2023 06:07:33 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 14 Dec 2023 06:19:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDmN8-000MA8-2k;
-	Thu, 14 Dec 2023 14:07:30 +0000
-Date: Thu, 14 Dec 2023 22:07:18 +0800
+	id 1rDmYk-000MAO-38;
+	Thu, 14 Dec 2023 14:19:30 +0000
+Date: Thu, 14 Dec 2023 22:19:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [weiny2:cxl-cper-2023-12-13 8/9]
- drivers/firmware/efi/cper_cxl.c:192:1: sparse: sparse: symbol
- 'cxl_cper_rw_sem' was not declared. Should it be static?
-Message-ID: <202312142211.cbcsaH5v-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect
+ type in assignment (different address spaces)
+Message-ID: <202312142216.PYFIXuY9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,29 +50,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/weiny2/linux-kernel.git cxl-cper-2023-12-13
-head:   effd1d38713375ee60e89f1bef31eea1ba668304
-commit: 3394ce85e912b328886077c5a439c65284767bb8 [8/9] firmware/efi: Process CXL Component Events
-config: x86_64-randconfig-121-20231214 (https://download.01.org/0day-ci/archive/20231214/202312142211.cbcsaH5v-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312142211.cbcsaH5v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5bd7ef53ffe5ca580e93e74eb8c81ed191ddc4bd
+commit: 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b fbdev: omap: avoid using mach/*.h files
+date:   1 year, 8 months ago
+config: arm-randconfig-r131-20231117 (https://download.01.org/0day-ci/archive/20231214/202312142216.PYFIXuY9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231214/202312142216.PYFIXuY9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312142211.cbcsaH5v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312142216.PYFIXuY9-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/efi/cper_cxl.c:192:1: sparse: sparse: symbol 'cxl_cper_rw_sem' was not declared. Should it be static?
-   drivers/firmware/efi/cper_cxl.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+>> drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void *static [addressable] [assigned] [toplevel] vram_virt @@
+   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     expected void [noderef] __iomem *vaddr
+   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     got void *static [addressable] [assigned] [toplevel] vram_virt
+   drivers/video/fbdev/omap/lcdc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/video/fbdev/omap/lcd_mipid.c:451:23: sparse: sparse: cast to restricted __be32
+   drivers/video/fbdev/omap/lcd_mipid.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/radix-tree.h, ...):
+   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/video/fbdev/omap/omapfb_main.c:1027:11: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/video/fbdev/omap/omapfb_main.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/radix-tree.h, ...):
+   include/linux/page-flags.h:258:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +/cxl_cper_rw_sem +192 drivers/firmware/efi/cper_cxl.c
+vim +642 drivers/video/fbdev/omap/lcdc.c
 
-   191	
- > 192	DECLARE_RWSEM(cxl_cper_rw_sem);
-   193	static cxl_cper_notifier cper_notifier;
-   194	
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  620  
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  621  static int alloc_fbmem(struct omapfb_mem_region *region)
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  622  {
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  623  	int bpp;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  624  	int frame_size;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  625  	struct lcd_panel *panel = lcdc.fbdev->panel;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  626  
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  627  	bpp = panel->bpp;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  628  	if (bpp == 12)
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  629  		bpp = 16;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  630  	frame_size = PAGE_ALIGN(panel->x_res * bpp / 8 * panel->y_res);
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  631  	if (region->size > frame_size)
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  632  		frame_size = region->size;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  633  	lcdc.vram_size = frame_size;
+f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  634  	lcdc.vram_virt = dma_alloc_wc(lcdc.fbdev->dev, lcdc.vram_size,
+f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  635  				      &lcdc.vram_phys, GFP_KERNEL);
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  636  	if (lcdc.vram_virt == NULL) {
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  637  		dev_err(lcdc.fbdev->dev, "unable to allocate FB DMA memory\n");
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  638  		return -ENOMEM;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  639  	}
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  640  	region->size = frame_size;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  641  	region->paddr = lcdc.vram_phys;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17 @642  	region->vaddr = lcdc.vram_virt;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  643  	region->alloc = 1;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  644  
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  645  	memset(lcdc.vram_virt, 0, lcdc.vram_size);
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  646  
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  647  	return 0;
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  648  }
+569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  649  
+
+:::::: The code at line 642 was first introduced by commit
+:::::: 569755c706f0f94409edd2ae60b9878cb420844f OMAP: add TI OMAP1 internal LCD controller
+
+:::::: TO: Imre Deak <imre.deak@solidboot.com>
+:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
