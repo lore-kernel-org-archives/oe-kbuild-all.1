@@ -1,171 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A85A2C6AA;
-	Fri, 15 Dec 2023 12:51:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDD32F847
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 12:51:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O7MWuzwW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nBxA8qUn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702644687; x=1734180687;
+  t=1702644713; x=1734180713;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fzPxfKu5qBe6tZ/jrEy3J9qTN7QyGjhXfJqX+tBLEc8=;
-  b=O7MWuzwW8RkyZ7JuPJVlJgfOYDkTuHaEI+IkmzNP/yP/TTu6CXR9G2fd
-   +9JXDpOEUQrlbYhEKSjrV/i/zJaY2xa9P3josBR4ibYi62n4RyiVtXi10
-   KboDbKrl51c/YwS6AcjZaFVtsz8zxuqrzclUFBZT1vKHjtGFpnlZXUnPa
-   P8Lpf8KScSr5UdkVzrfcups9S8hW1O5ohJ8puV7BKfcD7VI9e5guiqGBg
-   e9orlYpul3dpPVNdyXh7V4vTwCbSiPSDSpApuq1FU0li5t0KLu/odvPci
-   uD/wuL6FHQSd0rdV0wx67wq6UCirZNnhXTMuksZ611mJ3KfO8vORhfjJ7
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZE7lfcTR0hQX2Pnx5bEqtJ1eBdLPAqkT9OH2B60IzVc=;
+  b=nBxA8qUnG3Lfg9BioNofwqRfxNl0b2KqYdNTmdMuUJr78U5lRJ8qeU5M
+   CyACDDlL1SSg+c+7zHeW6fgdRyNWEzqbm6DShNm+Ny3W02dGSKWUfeWgS
+   fFxUulUrY3aLthKrWI7Ch2pQWy161MW9Evz5X1i/O+cqE484dT3ugAkI/
+   8JkZ/gHAkjDKHlZp4HsCZ8tRrpPQYSYGU8WhSGhmMXG0rhBW/9AVAI6ZV
+   P9We2i6DejhJsgjfnaDbxKJpAUbXqxhREj7RXAZR5bCAUqQlopWqss21P
+   wHFNI5/xTDw/bTSrFPNIw5NLeoJxkaowLtehUyvxNo1vxVhWmSobZPCg/
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="380266717"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="395015564"
 X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
-   d="scan'208";a="380266717"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 04:51:26 -0800
+   d="scan'208";a="395015564"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 04:51:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="898128673"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="803702215"
 X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
-   d="scan'208";a="898128673"
+   d="scan'208";a="803702215"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Dec 2023 04:51:23 -0800
+  by orsmga008.jf.intel.com with ESMTP; 15 Dec 2023 04:51:23 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rE7ey-0000DW-37;
+	id 1rE7ey-0000DO-2n;
 	Fri, 15 Dec 2023 12:51:20 +0000
-Date: Fri, 15 Dec 2023 20:50:28 +0800
+Date: Fri, 15 Dec 2023 20:50:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Christian Marangi <ansuelsmth@gmail.com>
-Subject: Re: [net-next PATCH v2 3/3] net: phy: led: dynamically allocate
- speed modes array
-Message-ID: <202312152038.v9NZyBxd-lkp@intel.com>
-References: <20231214154906.29436-4-ansuelsmth@gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Russell King <linux@armlinux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Rob Herring <robh@kernel.org>, linux-tegra@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH 3/5] memory: tegra210-emc: Simplify usage of
+ clk_rate_exclusive_get()
+Message-ID: <202312152014.NrQUsmxR-lkp@intel.com>
+References: <1b4321a975ac1a903a0c816ef2cce80e7d75eae3.1702400947.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231214154906.29436-4-ansuelsmth@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1b4321a975ac1a903a0c816ef2cce80e7d75eae3.1702400947.git.u.kleine-koenig@pengutronix.de>
 
-Hi Christian,
+Hi Uwe,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on bbd220ce4e29ed55ab079007cff0b550895258eb]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-refactor-and-better-document-phy_speeds-function/20231215-064112
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231214154906.29436-4-ansuelsmth%40gmail.com
-patch subject: [net-next PATCH v2 3/3] net: phy: led: dynamically allocate speed modes array
-config: arm-randconfig-002-20231215 (https://download.01.org/0day-ci/archive/20231215/202312152038.v9NZyBxd-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312152038.v9NZyBxd-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/PM-devfreq-sun8i-a33-mbus-Simplify-usage-of-clk_rate_exclusive_get/20231213-012823
+base:   bbd220ce4e29ed55ab079007cff0b550895258eb
+patch link:    https://lore.kernel.org/r/1b4321a975ac1a903a0c816ef2cce80e7d75eae3.1702400947.git.u.kleine-koenig%40pengutronix.de
+patch subject: [PATCH 3/5] memory: tegra210-emc: Simplify usage of clk_rate_exclusive_get()
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231215/202312152014.NrQUsmxR-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312152014.NrQUsmxR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312152038.v9NZyBxd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312152014.NrQUsmxR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/phy/phy_led_triggers.c:89:30: error: call to undeclared function 'phy_supported_speeds_num'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      89 |         phy->phy_num_led_triggers = phy_supported_speeds_num(phy);
-         |                                     ^
-   drivers/net/phy/phy_led_triggers.c:89:30: note: did you mean 'phy_supported_speeds'?
-   include/linux/phy.h:208:14: note: 'phy_supported_speeds' declared here
-     208 | unsigned int phy_supported_speeds(struct phy_device *phy,
-         |              ^
->> drivers/net/phy/phy_led_triggers.c:133:2: error: call to undeclared library function 'free' with type 'void (void *)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     133 |         free(speeds);
-         |         ^
-   drivers/net/phy/phy_led_triggers.c:133:2: note: include the header <stdlib.h> or explicitly provide a declaration for 'free'
-   2 errors generated.
+   drivers/memory/tegra/tegra210-emc-core.c: In function 'tegra210_emc_suspend':
+>> drivers/memory/tegra/tegra210-emc-core.c:2002:13: warning: unused variable 'err' [-Wunused-variable]
+    2002 |         int err;
+         |             ^~~
 
 
-vim +/phy_supported_speeds_num +89 drivers/net/phy/phy_led_triggers.c
+vim +/err +2002 drivers/memory/tegra/tegra210-emc-core.c
 
-    83	
-    84	int phy_led_triggers_register(struct phy_device *phy)
-    85	{
-    86		unsigned int *speeds;
-    87		int i, err;
-    88	
-  > 89		phy->phy_num_led_triggers = phy_supported_speeds_num(phy);
-    90		if (!phy->phy_num_led_triggers)
-    91			return 0;
-    92	
-    93		speeds = kmalloc_array(phy->phy_num_led_triggers, sizeof(*speeds),
-    94				       GFP_KERNEL);
-    95		if (!speeds)
-    96			return -ENOMEM;
-    97	
-    98		/* Presence of speed modes already checked up */
-    99		phy_supported_speeds(phy, speeds, phy->phy_num_led_triggers);
-   100	
-   101		phy->led_link_trigger = devm_kzalloc(&phy->mdio.dev,
-   102						     sizeof(*phy->led_link_trigger),
-   103						     GFP_KERNEL);
-   104		if (!phy->led_link_trigger) {
-   105			err = -ENOMEM;
-   106			goto out_clear;
-   107		}
-   108	
-   109		err = phy_led_trigger_register(phy, phy->led_link_trigger, 0, "link");
-   110		if (err)
-   111			goto out_free_link;
-   112	
-   113		phy->phy_led_triggers = devm_kcalloc(&phy->mdio.dev,
-   114						    phy->phy_num_led_triggers,
-   115						    sizeof(struct phy_led_trigger),
-   116						    GFP_KERNEL);
-   117		if (!phy->phy_led_triggers) {
-   118			err = -ENOMEM;
-   119			goto out_unreg_link;
-   120		}
-   121	
-   122		for (i = 0; i < phy->phy_num_led_triggers; i++) {
-   123			err = phy_led_trigger_register(phy, &phy->phy_led_triggers[i],
-   124						       speeds[i],
-   125						       phy_speed_to_str(speeds[i]));
-   126			if (err)
-   127				goto out_unreg;
-   128		}
-   129	
-   130		phy->last_triggered = NULL;
-   131		phy_led_trigger_change_speed(phy);
-   132	
- > 133		free(speeds);
-   134	
-   135		return 0;
-   136	out_unreg:
-   137		while (i--)
-   138			phy_led_trigger_unregister(&phy->phy_led_triggers[i]);
-   139		devm_kfree(&phy->mdio.dev, phy->phy_led_triggers);
-   140	out_unreg_link:
-   141		phy_led_trigger_unregister(phy->led_link_trigger);
-   142	out_free_link:
-   143		devm_kfree(&phy->mdio.dev, phy->led_link_trigger);
-   144		phy->led_link_trigger = NULL;
-   145	out_clear:
-   146		free(speeds);
-   147		phy->phy_num_led_triggers = 0;
-   148		return err;
-   149	}
-   150	EXPORT_SYMBOL_GPL(phy_led_triggers_register);
-   151	
+10de21148f7d28 Joseph Lo        2019-05-29  1998  
+10de21148f7d28 Joseph Lo        2019-05-29  1999  static int __maybe_unused tegra210_emc_suspend(struct device *dev)
+10de21148f7d28 Joseph Lo        2019-05-29  2000  {
+10de21148f7d28 Joseph Lo        2019-05-29  2001  	struct tegra210_emc *emc = dev_get_drvdata(dev);
+10de21148f7d28 Joseph Lo        2019-05-29 @2002  	int err;
+10de21148f7d28 Joseph Lo        2019-05-29  2003  
+53a616302fe1b2 Uwe Kleine-König 2023-12-12  2004  	clk_rate_exclusive_get(emc->clk);
+10de21148f7d28 Joseph Lo        2019-05-29  2005  
+10de21148f7d28 Joseph Lo        2019-05-29  2006  	emc->resume_rate = clk_get_rate(emc->clk);
+10de21148f7d28 Joseph Lo        2019-05-29  2007  
+10de21148f7d28 Joseph Lo        2019-05-29  2008  	clk_set_rate(emc->clk, 204000000);
+10de21148f7d28 Joseph Lo        2019-05-29  2009  	tegra210_clk_emc_detach(emc->clk);
+10de21148f7d28 Joseph Lo        2019-05-29  2010  
+10de21148f7d28 Joseph Lo        2019-05-29  2011  	dev_dbg(dev, "suspending at %lu Hz\n", clk_get_rate(emc->clk));
+10de21148f7d28 Joseph Lo        2019-05-29  2012  
+10de21148f7d28 Joseph Lo        2019-05-29  2013  	return 0;
+10de21148f7d28 Joseph Lo        2019-05-29  2014  }
+10de21148f7d28 Joseph Lo        2019-05-29  2015  
 
 -- 
 0-DAY CI Kernel Test Service
