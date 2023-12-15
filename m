@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9042DB6A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 13:05:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE192DB67;
+	Fri, 15 Dec 2023 13:16:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYE581XX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0qVfuuU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702645515; x=1734181515;
+  t=1702646174; x=1734182174;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rm8Kjognd/ZZdikPTD2iq2orYol+cEZYPa7c6lO8HuY=;
-  b=NYE581XXY/FnOGQuLoL8G0hO34Urs4ZCmxf86NVbk2hea92pSBXFel2J
-   jVOrC+y7NRfHq3GmOp+kA48j49yAh2XhE8F5GFKMTSJoiWfe++XqFklcI
-   z7SldQDkb1quWTxJ/5mpYWNtEOjNLBUQpaL4q2/p4Gn7PbcR+w5HnYljh
-   4vQKTVe/eDFR/Snm817BT5prIZFmFmEJQD7ZRXqygtrw/y4gJDoFMS95S
-   F9JVAYDr8WxU6NnHHdQPfe99MP6A7cIsBz4BlJQWhkesQReuotTMY3EK8
-   4zZ7qcjvaNvuCd3H6h6pM5kwySs8PIoCr8p8S7/kvOmuynxFm26d926M0
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="375418317"
+  bh=EV/kG4sinT3otF7Cj9i3xRL9iFuhxd2et3B7nxiTSb0=;
+  b=h0qVfuuU87rDAvtR/AGeMen9jwb/1zgmU+aEkf+2Wnh8jLst91T38RMi
+   4MCuNixvJvwjcze9ur661KWfpWWDsqBUwp8ctN5KEHHduMC/iqCFZesSG
+   TAwk27CSpjjS+2p4P+UGRho7YLC5OtsdCg7E6q4yzBmM9xHtsnLo7UjhM
+   M8fwKisVpfc2IFzXcQM+qAQD0qCo4tEMZcReMWF2t8nZAfIGVh6MdgOg0
+   lMsjoe5jLzrxuIq/uwn/inxZFZfxKtLAEAEKYAc2TSTlTSOmAlQbuY4IC
+   pbOp7IlnYJgYcdmZOt4C5h5kkNxI68qFizjp670WsnVZJt2hs07GX/5Z8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2440863"
 X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
-   d="scan'208";a="375418317"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 05:05:13 -0800
+   d="scan'208";a="2440863"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 05:16:14 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="767976378"
 X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
-   d="scan'208";a="767976378"
+   d="scan'208";a="16294273"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 15 Dec 2023 05:05:12 -0800
+  by orviesa002.jf.intel.com with ESMTP; 15 Dec 2023 05:16:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rE7sK-0000EH-30;
-	Fri, 15 Dec 2023 13:05:08 +0000
-Date: Fri, 15 Dec 2023 21:04:29 +0800
+	id 1rE82z-0000Ee-0Q;
+	Fri, 15 Dec 2023 13:16:09 +0000
+Date: Fri, 15 Dec 2023 21:15:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:zc/rx-latest 27/31] ld.lld: error: undefined symbol:
- io_zc_rx_recv
-Message-ID: <202312152045.GLEQ7wws-lkp@intel.com>
+To: Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>
+Subject: scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Function
+ parameter or struct member 'boundary' not described in 'at_desc'
+Message-ID: <202312152131.DQztdy4c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,25 +50,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/isilence/linux zc/rx-latest
-head:   df0f15513d62887e03d5bdba7b09452d10827883
-commit: 173caa7cd806333033c5df43b31fa74d73a552b2 [27/31] io_uring: add io_recvzc request
-config: i386-buildonly-randconfig-001-20231215 (https://download.01.org/0day-ci/archive/20231215/202312152045.GLEQ7wws-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312152045.GLEQ7wws-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3f7168591ebf7bbdb91797d02b1afaf00a4289b1
+commit: 5cecadc3e2a4fb72ab37d9420df0a9e1179b8a3e dmaengine: at_hdmac: Keep register definitions and structures private to at_hdmac.c
+date:   1 year, 1 month ago
+config: arm-randconfig-001-20231215 (https://download.01.org/0day-ci/archive/20231215/202312152131.DQztdy4c-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312152131.DQztdy4c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312152045.GLEQ7wws-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312152131.DQztdy4c-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: io_zc_rx_recv
-   >>> referenced by net.c
-   >>>               io_uring/net.o:(io_recvzc) in archive vmlinux.a
-   >>> referenced by net.c
-   >>>               io_uring/net.o:(io_recvzc) in archive vmlinux.a
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Function parameter or struct member 'lli' not described in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Function parameter or struct member 'tx_list' not described in 'at_desc'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Function parameter or struct member 'boundary' not described in 'at_desc'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Function parameter or struct member 'dst_hole' not described in 'at_desc'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Function parameter or struct member 'src_hole' not described in 'at_desc'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Function parameter or struct member 'memset_buffer' not described in 'at_desc'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Function parameter or struct member 'memset_paddr' not described in 'at_desc'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Function parameter or struct member 'memset_vaddr' not described in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Excess struct member 'at_lli' description in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:253: warning: Excess struct member 'at_lli' description in 'at_desc'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:269: warning: cannot understand function prototype: 'enum atc_status '
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:384: warning: Function parameter or struct member 'dma_common' not described in 'at_dma'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:384: warning: Function parameter or struct member 'regs' not described in 'at_dma'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:384: warning: Function parameter or struct member 'memset_pool' not described in 'at_dma'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:384: warning: Excess struct member 'chan_common' description in 'at_dma'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:384: warning: Excess struct member 'atdma_devtype' description in 'at_dma'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:384: warning: Excess struct member 'ch_regs' description in 'at_dma'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:384: warning: Excess struct member 'atdma_devtype' description in 'at_dma'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:384: warning: Excess struct member 'ch_regs' description in 'at_dma'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:384: warning: Excess struct member 'chan_common' description in 'at_dma'
 
 -- 
 0-DAY CI Kernel Test Service
