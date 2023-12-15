@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A36D41856
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 17:56:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2526A3012A;
+	Fri, 15 Dec 2023 18:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lg3BYpM7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZKjJbtC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702662978; x=1734198978;
+  t=1702664298; x=1734200298;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bvWrieDTMCdLIplUvEELQll1rjVPV1PTLEMOhNumt84=;
-  b=Lg3BYpM7oucL+j+Hs6MT6/9SaZt3SDYC1bMLxZ08VHCDjaqQ/2MrWlXw
-   Lc9m3LKKN3tGFwEpMxIWRyfaLGXsCoEZnzRAgqzNw7Jf3tce73YwPHI74
-   0ykDdukd1u2YzgUU5lt0EqKWHumR54TTJ+G2UI34S5zZWzmyPRpdWRNMX
-   agIznoFNoiftThvy+W0a/BEkmSfp7OxpNDEmhjaQqtkoPI/xnSU/+EHGd
-   JdK3RMUhIB8W46yaW1mpBJTZwfNYISWKcm1gUXGcQwSASSCO82f50S6ii
-   ZvZCiE7jJEKPQf9mGvWNKImVdNeHoIuBGfvplchYN/UKsNo+BaFgGJnCd
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2397711"
+  bh=oIy/GeRIK9X1C9SdD2TD84Y3G6YhriV7Fh3rv+hzjLE=;
+  b=eZKjJbtCYamR+brd2PCEL9K5ai0uefVLjCWxdwd00k4GrPmdJRczSGP3
+   nROmR6M6aW9ehCK1R84kFZ+MOd2WIfm3f23kQ6HWLkKH+dcRVQp6T+KMm
+   CYcun3BHqR+B5D7hRE8Na29fF99i62E9hKLR5i23UXjiclvUleNlodTbU
+   eFh+CNcxbBo5EqkNruikrAs/Qy4coELqb4PB2zgHiPbrWQ1rjuqnwO377
+   lGm8F1E1/69R2gQvkUpFPsfcjdBiOsL+VGvioYYcxmoIkGijKvGk21PuS
+   UR/1hnFiHTA6xmeRhSJcVVxBP3nrVkCrcdgqk4QNZsMoN1OXDv4UTPO1v
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="399146938"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="2397711"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 09:56:18 -0800
+   d="scan'208";a="399146938"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 10:18:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="898219349"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="898219349"
+   d="scan'208";a="22936309"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Dec 2023 09:56:15 -0800
+  by orviesa001.jf.intel.com with ESMTP; 15 Dec 2023 10:18:16 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rECQ0-0000Zm-3A;
-	Fri, 15 Dec 2023 17:56:12 +0000
-Date: Sat, 16 Dec 2023 01:55:42 +0800
+	id 1rEClJ-0000as-2T;
+	Fri, 15 Dec 2023 18:18:13 +0000
+Date: Sat, 16 Dec 2023 02:17:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kalesh Singh <kaleshsingh@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: arch/arm64/kvm/hyp/nvhe/stacktrace.c:15:1: sparse: sparse: symbol
- '__pcpu_scope_kvm_stacktrace_info' was not declared. Should it be static?
-Message-ID: <202312160147.tv9kuUiH-lkp@intel.com>
+To: Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>
+Subject: scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Function
+ parameter or struct member 'sglen' not described in 'at_desc'
+Message-ID: <202312160248.qdLfKzJz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,29 +52,36 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   3f7168591ebf7bbdb91797d02b1afaf00a4289b1
-commit: 879e5ac7b2e4db05799a905b5a07fc9e5dedf651 KVM: arm64: Prepare non-protected nVHE hypervisor stacktrace
-date:   1 year, 5 months ago
-config: arm64-randconfig-r112-20231117 (https://download.01.org/0day-ci/archive/20231216/202312160147.tv9kuUiH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231216/202312160147.tv9kuUiH-lkp@intel.com/reproduce)
+commit: ac803b56860f6506c55a3c9330007837e3f4edda dmaengine: at_hdmac: Convert driver to use virt-dma
+date:   1 year, 1 month ago
+config: arm-randconfig-001-20231215 (https://download.01.org/0day-ci/archive/20231216/202312160248.qdLfKzJz-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312160248.qdLfKzJz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312160147.tv9kuUiH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312160248.qdLfKzJz-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kvm/hyp/nvhe/stacktrace.c:12:1: sparse: sparse: symbol '__pcpu_scope_overflow_stack' was not declared. Should it be static?
->> arch/arm64/kvm/hyp/nvhe/stacktrace.c:15:1: sparse: sparse: symbol '__pcpu_scope_kvm_stacktrace_info' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/__pcpu_scope_kvm_stacktrace_info +15 arch/arm64/kvm/hyp/nvhe/stacktrace.c
-
-    11	
-  > 12	DEFINE_PER_CPU(unsigned long [OVERFLOW_STACK_SIZE/sizeof(long)], overflow_stack)
-    13		__aligned(16);
-    14	
-  > 15	DEFINE_PER_CPU(struct kvm_nvhe_stacktrace_info, kvm_stacktrace_info);
-    16	
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Function parameter or struct member 'sglen' not described in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Function parameter or struct member 'boundary' not described in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Function parameter or struct member 'dst_hole' not described in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Function parameter or struct member 'src_hole' not described in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Function parameter or struct member 'memset_buffer' not described in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Function parameter or struct member 'memset_paddr' not described in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Function parameter or struct member 'memset_vaddr' not described in 'at_desc'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Excess struct member 'sg_len' description in 'at_desc'
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:240: warning: Excess struct member 'sg_len' description in 'at_desc'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:249: warning: cannot understand function prototype: 'enum atc_status '
+>> scripts/kernel-doc: drivers/dma/at_hdmac.c:284: warning: Function parameter or struct member 'cyclic' not described in 'at_dma_chan'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:348: warning: Function parameter or struct member 'regs' not described in 'at_dma'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:348: warning: Function parameter or struct member 'memset_pool' not described in 'at_dma'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:348: warning: Excess struct member 'atdma_devtype' description in 'at_dma'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:348: warning: Excess struct member 'ch_regs' description in 'at_dma'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:348: warning: Excess struct member 'atdma_devtype' description in 'at_dma'
+   scripts/kernel-doc: drivers/dma/at_hdmac.c:348: warning: Excess struct member 'ch_regs' description in 'at_dma'
 
 -- 
 0-DAY CI Kernel Test Service
