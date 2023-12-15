@@ -1,48 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BAE81C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 01:41:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DCD539D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 01:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQ4ymGJ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSTFyfk5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702604513; x=1734140513;
+  t=1702605258; x=1734141258;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2f2ldfcD96ydo8uBY05Nrt4yDX6/LfDfHIJsrF4YP28=;
-  b=fQ4ymGJ/FZ27vdC+Bl/5LSKkaLjxaMwJCdDnvZ8DUX80LJfeUP2pwCPY
-   WnEdQ0iaJejlnKTpwZCqvMkGX7zpPCn1BJZlExAwJo4GLxatwuS8pLaCa
-   bpeftcONHk84HbHnk1ndxKeonjJW9PzDD6QjHfp0wszTZw4RRPwpG25L2
-   ub8/pLD6LoscbVoJrda4dduDzs55+nj2UcmkVNN5C7xHcDny9XFwo8lQT
-   qJEgNmJxjJdFRbwp5ixjFfPjw9n1MAHgIECujOrsq9YCNt5/hFh2+bFIO
-   ziNmcC8DgrtqF2lD1FXSKONCiAl20gLrbknq+I0/S+ZKwc2/2Ze90goWt
+  bh=qgv/rY+V6yPl0Rrkf1op6KUVIuZVcpikSohnp/tD9Lc=;
+  b=QSTFyfk57TvgtxcwPF1fVCm3ee35rJalllcCOti8lSGroWv2srcOJNNF
+   hf9c5DWR/H4RPkh/PgICVi28OX1gmXKKpBVbE9LCwWJgNrB+gMh81ME3u
+   rSF6fUVQZ5LRBMkciTlsxeDFqhjWeEv83eW7fKRrYDEdyLOQFyyoLuRml
+   QgsvIhIpWc+ndP3XRPrB/32CSAboE0twKQFFtojf8XFnSoEIDIBLzeb81
+   zPbVkIb/0n675oAHLv1rCUqIPXnaoFjuXat/jwPSxMeA2sNqUoN2MFUzy
+   zuurgXdWG1pHW5WX0B1uomDgE87byNK20+2bJyFDyV3lKNw9abQ98mz3Y
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="394957790"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="2070170"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="394957790"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 17:41:52 -0800
+   d="scan'208";a="2070170"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 17:53:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="947791742"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="840492480"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="947791742"
+   d="scan'208";a="840492480"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Dec 2023 17:41:50 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 14 Dec 2023 17:53:50 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDxD2-000MxX-0w;
-	Fri, 15 Dec 2023 01:41:48 +0000
-Date: Fri, 15 Dec 2023 09:41:40 +0800
+	id 1rDxOe-000Mxp-1Q;
+	Fri, 15 Dec 2023 01:53:48 +0000
+Date: Fri, 15 Dec 2023 09:53:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Steev Klimaszewski <steev@kali.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [steev:lenovo-x13s-v6.7-rc5 128/138]
- drivers/media/i2c/ar1337.c:349:68: error: passing argument 2 of
- 'v4l2_subdev_get_pad_format' from incompatible pointer type
-Message-ID: <202312150940.woorfJmY-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1/2] kernel/sched/pelt.c:183:5:
+ error: no previous prototype for function '___update_load_sum'
+Message-ID: <202312150936.WsIkxgNL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,231 +50,288 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.7-rc5
-head:   b8cd563c115473e27fa4778c1eca7b25f6f9a7ee
-commit: 3816d49b9f2ab3e4b7b94aa5b5a8207c062b504d [128/138] media: i2c: ar1337: Add OnSemi AR1337 CMOS sensor
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20231215/202312150940.woorfJmY-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150940.woorfJmY-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   ab6f88aebe2fc11299ab6da38ff960cdf785b050
+commit: e8762ad4243943f3b5b3bd5289b3f6e6243545e8 [1/2] ANDROID: sched: Add vendor hook for util-update related functions
+config: x86_64-sof-customedconfig-compile-test-defconfig (https://download.01.org/0day-ci/archive/20231215/202312150936.WsIkxgNL-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312150936.WsIkxgNL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312150940.woorfJmY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312150936.WsIkxgNL-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/i2c/ar1337.c: In function 'ar1337_set_gain':
->> drivers/media/i2c/ar1337.c:281:13: warning: unused variable 'ret' [-Wunused-variable]
-     281 |         int ret;
-         |             ^~~
-   In file included from include/media/v4l2-device.h:13,
-                    from drivers/media/i2c/ar1337.c:18:
-   drivers/media/i2c/ar1337.c: In function 'ar1337_get_fmt':
->> drivers/media/i2c/ar1337.c:349:68: error: passing argument 2 of 'v4l2_subdev_get_pad_format' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     349 |                 framefmt = v4l2_subdev_get_try_format(&ar1337->sd, cfg,
-         |                                                                    ^~~
-         |                                                                    |
-         |                                                                    struct v4l2_subdev_pad_config *
-   include/media/v4l2-subdev.h:1212:40: note: in definition of macro 'v4l2_subdev_get_try_format'
-    1212 |         v4l2_subdev_get_pad_format(sd, state, pad)
-         |                                        ^~~~~
-   include/media/v4l2-subdev.h:1157:54: note: expected 'struct v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_pad_config *'
-    1157 |                            struct v4l2_subdev_state *state,
-         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   drivers/media/i2c/ar1337.c: In function 'ar1337_set_fmt':
-   drivers/media/i2c/ar1337.c:401:57: error: passing argument 2 of 'v4l2_subdev_get_pad_format' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     401 |                 format = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-         |                                                         ^~~
-         |                                                         |
-         |                                                         struct v4l2_subdev_pad_config *
-   include/media/v4l2-subdev.h:1212:40: note: in definition of macro 'v4l2_subdev_get_try_format'
-    1212 |         v4l2_subdev_get_pad_format(sd, state, pad)
-         |                                        ^~~~~
-   include/media/v4l2-subdev.h:1157:54: note: expected 'struct v4l2_subdev_state *' but argument is of type 'struct v4l2_subdev_pad_config *'
-    1157 |                            struct v4l2_subdev_state *state,
-         |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   drivers/media/i2c/ar1337.c: At top level:
->> drivers/media/i2c/ar1337.c:560:21: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *)' [-Werror=incompatible-pointer-types]
-     560 |         .init_cfg = ar1337_entity_init_cfg,
-         |                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ar1337.c:560:21: note: (near initialization for 'ar1337_pad_ops.init_cfg')
->> drivers/media/i2c/ar1337.c:561:27: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_mbus_code_enum *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_mbus_code_enum *)' [-Werror=incompatible-pointer-types]
-     561 |         .enum_mbus_code = ar1337_enum_mbus_code,
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ar1337.c:561:27: note: (near initialization for 'ar1337_pad_ops.enum_mbus_code')
->> drivers/media/i2c/ar1337.c:562:20: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-     562 |         .get_fmt = ar1337_get_fmt,
-         |                    ^~~~~~~~~~~~~~
-   drivers/media/i2c/ar1337.c:562:20: note: (near initialization for 'ar1337_pad_ops.get_fmt')
-   drivers/media/i2c/ar1337.c:563:20: error: initialization of 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_pad_config *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-     563 |         .set_fmt = ar1337_set_fmt,
-         |                    ^~~~~~~~~~~~~~
-   drivers/media/i2c/ar1337.c:563:20: note: (near initialization for 'ar1337_pad_ops.set_fmt')
-   drivers/media/i2c/ar1337.c: In function 'ar1337_probe':
->> drivers/media/i2c/ar1337.c:597:22: error: too few arguments to function 'v4l2_fwnode_endpoint_alloc_parse'
-     597 |         ar1337->ep = v4l2_fwnode_endpoint_alloc_parse(endpoint);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/media/i2c/ar1337.c:19:
-   include/media/v4l2-fwnode.h:282:5: note: declared here
-     282 | int v4l2_fwnode_endpoint_alloc_parse(struct fwnode_handle *fwnode,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/ar1337.c:606:37: error: 'V4L2_MBUS_CSI2' undeclared (first use in this function); did you mean 'V4L2_MBUS_CSI1'?
-     606 |         if (ar1337->ep->bus_type != V4L2_MBUS_CSI2) {
-         |                                     ^~~~~~~~~~~~~~
-         |                                     V4L2_MBUS_CSI1
-   drivers/media/i2c/ar1337.c:606:37: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/media/i2c/ar1337.c: At top level:
->> drivers/media/i2c/ar1337.c:763:10: error: 'struct i2c_driver' has no member named 'probe_new'
-     763 |         .probe_new  = ar1337_probe,
-         |          ^~~~~~~~~
->> drivers/media/i2c/ar1337.c:763:23: warning: initialization of 'unsigned int' from 'int (*)(struct i2c_client *)' makes integer from pointer without a cast [-Wint-conversion]
-     763 |         .probe_new  = ar1337_probe,
-         |                       ^~~~~~~~~~~~
-   drivers/media/i2c/ar1337.c:763:23: note: (near initialization for 'ar1337_i2c_driver.class')
->> drivers/media/i2c/ar1337.c:763:23: error: initializer element is not computable at load time
-   drivers/media/i2c/ar1337.c:763:23: note: (near initialization for 'ar1337_i2c_driver.class')
->> drivers/media/i2c/ar1337.c:764:19: error: initialization of 'void (*)(struct i2c_client *)' from incompatible pointer type 'int (*)(struct i2c_client *)' [-Werror=incompatible-pointer-types]
-     764 |         .remove = ar1337_remove,
-         |                   ^~~~~~~~~~~~~
-   drivers/media/i2c/ar1337.c:764:19: note: (near initialization for 'ar1337_i2c_driver.remove')
-   cc1: some warnings being treated as errors
+   In file included from kernel/sched/pelt.c:28:
+   kernel/sched/sched.h:1770:15: error: cast from 'void (*)(struct rq *)' to 'void (*)(struct callback_head *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+           head->func = (void (*)(struct callback_head *))func;
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/pelt.c:183:5: error: no previous prototype for function '___update_load_sum' [-Werror,-Wmissing-prototypes]
+   int ___update_load_sum(u64 now, struct sched_avg *sa,
+       ^
+   kernel/sched/pelt.c:183:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int ___update_load_sum(u64 now, struct sched_avg *sa,
+   ^
+   static 
+>> kernel/sched/pelt.c:260:6: error: no previous prototype for function '___update_load_avg' [-Werror,-Wmissing-prototypes]
+   void ___update_load_avg(struct sched_avg *sa, unsigned long load)
+        ^
+   kernel/sched/pelt.c:260:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void ___update_load_avg(struct sched_avg *sa, unsigned long load)
+   ^
+   static 
+   3 errors generated.
 
 
-vim +/v4l2_subdev_get_pad_format +349 drivers/media/i2c/ar1337.c
+vim +/___update_load_sum +183 kernel/sched/pelt.c
 
-   229	
-   230	static int ar1337_set_register_array(struct ar1337 *ar1337,
-   231					     const struct ar1337_regval *settings,
-   232					     unsigned int num_settings)
-   233	{
-   234		unsigned int i;
-   235		int ret;
-   236	
-   237		for (i = 0; i < num_settings; ++i, ++settings) {
-   238			ret = ar1337_write_reg16(ar1337, settings->reg, settings->val);
-   239			if (ret < 0)
-   240				return ret;
-   241	
-   242			/* Settle time is 10ms for all registers */
-   243			msleep(10);
-   244		}
-   245	
-   246		return 0;
-   247	}
-   248	/*
-   249	static int ar1337_write_buffered_reg(struct ar1337 *ar1337, u16 address_low,
-   250					     u8 nr_regs, u32 value)
-   251	{
-   252		unsigned int i;
-   253		int ret;
-   254	
-   255		ret = ar1337_write_reg8(ar1337, AR1337_REG_HOLD, 0x01);
-   256		if (ret) {
-   257			dev_err(ar1337->dev, "Error setting hold register\n");
-   258			return ret;
-   259		}
-   260	
-   261		for (i = 0; i < nr_regs; i++) {
-   262			ret = ar1337_write_reg(ar1337, address_low + i,
-   263					       (u8)(value >> (i * 8)));
-   264			if (ret) {
-   265				dev_err(ar1337->dev, "Error writing buffered registers\n");
-   266				return ret;
-   267			}
-   268		}
-   269	
-   270		ret = ar1337_write_reg8(ar1337, AR1337_REG_HOLD, 0x00);
-   271		if (ret) {
-   272			dev_err(ar1337->dev, "Error setting hold register\n");
-   273			return ret;
-   274		}
-   275	
-   276		return ret;
-   277	}
-   278	*/
-   279	static int ar1337_set_gain(struct ar1337 *ar1337, u32 value)
-   280	{
- > 281		int ret;
-   282	/*
-   283		ret = ar1337_write_buffered_reg(ar1337, AR1337_GAIN_HIGH, 1,
-   284						(u8)((value >> 8) & 0xFF));
-   285		if (ret < 0)
-   286			return ret;
-   287	
-   288		ret = ar1337_write_buffered_reg(ar1337, AR1337_GAIN_HIGH, 1,
-   289						(u8)((value) & 0xFF));
-   290		if (ret < 0)
-   291			return ret;
-   292	*/
-   293		return 0;
-   294	}
-   295	
-   296	/* Stop streaming */
-   297	static int ar1337_stop_streaming(struct ar1337 *ar1337)
-   298	{
-   299		return ar1337_write_reg8(ar1337, AR1337_REG_MODE, 0x00);
-   300	}
-   301	
-   302	static int ar1337_set_ctrl(struct v4l2_ctrl *ctrl)
-   303	{
-   304		struct ar1337 *ar1337 = container_of(ctrl->handler,
-   305						     struct ar1337, ctrls);
-   306		int ret = 0;
-   307	
-   308		/* V4L2 controls values will be applied only when power is already up */
-   309		if (!pm_runtime_get_if_in_use(ar1337->dev))
-   310			return 0;
-   311	
-   312		switch (ctrl->id) {
-   313		case V4L2_CID_GAIN:
-   314			ret = ar1337_set_gain(ar1337, ctrl->val);
-   315			break;
-   316		default:
-   317			ret = -EINVAL;
-   318			break;
-   319		}
-   320	
-   321		pm_runtime_put(ar1337->dev);
-   322	
-   323		return ret;
-   324	}
-   325	
-   326	static const struct v4l2_ctrl_ops ar1337_ctrl_ops = {
-   327		.s_ctrl = ar1337_set_ctrl,
-   328	};
-   329	
-   330	static int ar1337_enum_mbus_code(struct v4l2_subdev *sd,
-   331					 struct v4l2_subdev_pad_config *cfg,
-   332					 struct v4l2_subdev_mbus_code_enum *code)
-   333	{
-   334		code->code = AR1337_DEFAULT_FORMAT;
-   335	
-   336		return 0;
-   337	}
-   338	
-   339	static int ar1337_get_fmt(struct v4l2_subdev *sd,
-   340				  struct v4l2_subdev_pad_config *cfg,
-   341				  struct v4l2_subdev_format *fmt)
-   342	{
-   343		struct ar1337 *ar1337 = to_ar1337(sd);
-   344		struct v4l2_mbus_framefmt *framefmt;
-   345	
-   346		mutex_lock(&ar1337->lock);
-   347	
-   348		if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
- > 349			framefmt = v4l2_subdev_get_try_format(&ar1337->sd, cfg,
-   350							      fmt->pad);
-   351		else
-   352			framefmt = &ar1337->current_format;
-   353	
-   354		fmt->format = *framefmt;
-   355	
-   356		mutex_unlock(&ar1337->lock);
-   357	
-   358		return 0;
-   359	}
-   360	
+  > 28	#include "sched.h"
+    29	#include "pelt.h"
+    30	
+    31	/*
+    32	 * Approximate:
+    33	 *   val * y^n,    where y^32 ~= 0.5 (~1 scheduling period)
+    34	 */
+    35	static u64 decay_load(u64 val, u64 n)
+    36	{
+    37		unsigned int local_n;
+    38	
+    39		if (unlikely(n > LOAD_AVG_PERIOD * 63))
+    40			return 0;
+    41	
+    42		/* after bounds checking we can collapse to 32-bit */
+    43		local_n = n;
+    44	
+    45		/*
+    46		 * As y^PERIOD = 1/2, we can combine
+    47		 *    y^n = 1/2^(n/PERIOD) * y^(n%PERIOD)
+    48		 * With a look-up table which covers y^n (n<PERIOD)
+    49		 *
+    50		 * To achieve constant time decay_load.
+    51		 */
+    52		if (unlikely(local_n >= LOAD_AVG_PERIOD)) {
+    53			val >>= local_n / LOAD_AVG_PERIOD;
+    54			local_n %= LOAD_AVG_PERIOD;
+    55		}
+    56	
+    57		val = mul_u64_u32_shr(val, runnable_avg_yN_inv[local_n], 32);
+    58		return val;
+    59	}
+    60	
+    61	static u32 __accumulate_pelt_segments(u64 periods, u32 d1, u32 d3)
+    62	{
+    63		u32 c1, c2, c3 = d3; /* y^0 == 1 */
+    64	
+    65		/*
+    66		 * c1 = d1 y^p
+    67		 */
+    68		c1 = decay_load((u64)d1, periods);
+    69	
+    70		/*
+    71		 *            p-1
+    72		 * c2 = 1024 \Sum y^n
+    73		 *            n=1
+    74		 *
+    75		 *              inf        inf
+    76		 *    = 1024 ( \Sum y^n - \Sum y^n - y^0 )
+    77		 *              n=0        n=p
+    78		 */
+    79		c2 = LOAD_AVG_MAX - decay_load(LOAD_AVG_MAX, periods) - 1024;
+    80	
+    81		return c1 + c2 + c3;
+    82	}
+    83	
+    84	/*
+    85	 * Accumulate the three separate parts of the sum; d1 the remainder
+    86	 * of the last (incomplete) period, d2 the span of full periods and d3
+    87	 * the remainder of the (incomplete) current period.
+    88	 *
+    89	 *           d1          d2           d3
+    90	 *           ^           ^            ^
+    91	 *           |           |            |
+    92	 *         |<->|<----------------->|<--->|
+    93	 * ... |---x---|------| ... |------|-----x (now)
+    94	 *
+    95	 *                           p-1
+    96	 * u' = (u + d1) y^p + 1024 \Sum y^n + d3 y^0
+    97	 *                           n=1
+    98	 *
+    99	 *    = u y^p +					(Step 1)
+   100	 *
+   101	 *                     p-1
+   102	 *      d1 y^p + 1024 \Sum y^n + d3 y^0		(Step 2)
+   103	 *                     n=1
+   104	 */
+   105	static __always_inline u32
+   106	accumulate_sum(u64 delta, struct sched_avg *sa,
+   107		       unsigned long load, unsigned long runnable, int running)
+   108	{
+   109		u32 contrib = (u32)delta; /* p == 0 -> delta < 1024 */
+   110		u64 periods;
+   111	
+   112		delta += sa->period_contrib;
+   113		periods = delta / 1024; /* A period is 1024us (~1ms) */
+   114	
+   115		/*
+   116		 * Step 1: decay old *_sum if we crossed period boundaries.
+   117		 */
+   118		if (periods) {
+   119			sa->load_sum = decay_load(sa->load_sum, periods);
+   120			sa->runnable_sum =
+   121				decay_load(sa->runnable_sum, periods);
+   122			sa->util_sum = decay_load((u64)(sa->util_sum), periods);
+   123	
+   124			/*
+   125			 * Step 2
+   126			 */
+   127			delta %= 1024;
+   128			if (load) {
+   129				/*
+   130				 * This relies on the:
+   131				 *
+   132				 * if (!load)
+   133				 *	runnable = running = 0;
+   134				 *
+   135				 * clause from ___update_load_sum(); this results in
+   136				 * the below usage of @contrib to disappear entirely,
+   137				 * so no point in calculating it.
+   138				 */
+   139				contrib = __accumulate_pelt_segments(periods,
+   140						1024 - sa->period_contrib, delta);
+   141			}
+   142		}
+   143		sa->period_contrib = delta;
+   144	
+   145		if (load)
+   146			sa->load_sum += load * contrib;
+   147		if (runnable)
+   148			sa->runnable_sum += runnable * contrib << SCHED_CAPACITY_SHIFT;
+   149		if (running)
+   150			sa->util_sum += contrib << SCHED_CAPACITY_SHIFT;
+   151	
+   152		return periods;
+   153	}
+   154	
+   155	/*
+   156	 * We can represent the historical contribution to runnable average as the
+   157	 * coefficients of a geometric series.  To do this we sub-divide our runnable
+   158	 * history into segments of approximately 1ms (1024us); label the segment that
+   159	 * occurred N-ms ago p_N, with p_0 corresponding to the current period, e.g.
+   160	 *
+   161	 * [<- 1024us ->|<- 1024us ->|<- 1024us ->| ...
+   162	 *      p0            p1           p2
+   163	 *     (now)       (~1ms ago)  (~2ms ago)
+   164	 *
+   165	 * Let u_i denote the fraction of p_i that the entity was runnable.
+   166	 *
+   167	 * We then designate the fractions u_i as our co-efficients, yielding the
+   168	 * following representation of historical load:
+   169	 *   u_0 + u_1*y + u_2*y^2 + u_3*y^3 + ...
+   170	 *
+   171	 * We choose y based on the with of a reasonably scheduling period, fixing:
+   172	 *   y^32 = 0.5
+   173	 *
+   174	 * This means that the contribution to load ~32ms ago (u_32) will be weighted
+   175	 * approximately half as much as the contribution to load within the last ms
+   176	 * (u_0).
+   177	 *
+   178	 * When a period "rolls over" and we have new u_0`, multiplying the previous
+   179	 * sum again by y is sufficient to update:
+   180	 *   load_avg = u_0` + y*(u_0 + u_1*y + u_2*y^2 + ... )
+   181	 *            = u_0 + u_1*y + u_2*y^2 + ... [re-labeling u_i --> u_{i+1}]
+   182	 */
+ > 183	int ___update_load_sum(u64 now, struct sched_avg *sa,
+   184			       unsigned long load, unsigned long runnable, int running)
+   185	{
+   186		u64 delta;
+   187	
+   188		delta = now - sa->last_update_time;
+   189		/*
+   190		 * This should only happen when time goes backwards, which it
+   191		 * unfortunately does during sched clock init when we swap over to TSC.
+   192		 */
+   193		if ((s64)delta < 0) {
+   194			sa->last_update_time = now;
+   195			return 0;
+   196		}
+   197	
+   198		/*
+   199		 * Use 1024ns as the unit of measurement since it's a reasonable
+   200		 * approximation of 1us and fast to compute.
+   201		 */
+   202		delta >>= 10;
+   203		if (!delta)
+   204			return 0;
+   205	
+   206		sa->last_update_time += delta << 10;
+   207	
+   208		/*
+   209		 * running is a subset of runnable (weight) so running can't be set if
+   210		 * runnable is clear. But there are some corner cases where the current
+   211		 * se has been already dequeued but cfs_rq->curr still points to it.
+   212		 * This means that weight will be 0 but not running for a sched_entity
+   213		 * but also for a cfs_rq if the latter becomes idle. As an example,
+   214		 * this happens during idle_balance() which calls
+   215		 * update_blocked_averages().
+   216		 *
+   217		 * Also see the comment in accumulate_sum().
+   218		 */
+   219		if (!load)
+   220			runnable = running = 0;
+   221	
+   222		/*
+   223		 * Now we know we crossed measurement unit boundaries. The *_avg
+   224		 * accrues by two steps:
+   225		 *
+   226		 * Step 1: accumulate *_sum since last_update_time. If we haven't
+   227		 * crossed period boundaries, finish.
+   228		 */
+   229		if (!accumulate_sum(delta, sa, load, runnable, running))
+   230			return 0;
+   231	
+   232		return 1;
+   233	}
+   234	EXPORT_SYMBOL_GPL(___update_load_sum);
+   235	
+   236	/*
+   237	 * When syncing *_avg with *_sum, we must take into account the current
+   238	 * position in the PELT segment otherwise the remaining part of the segment
+   239	 * will be considered as idle time whereas it's not yet elapsed and this will
+   240	 * generate unwanted oscillation in the range [1002..1024[.
+   241	 *
+   242	 * The max value of *_sum varies with the position in the time segment and is
+   243	 * equals to :
+   244	 *
+   245	 *   LOAD_AVG_MAX*y + sa->period_contrib
+   246	 *
+   247	 * which can be simplified into:
+   248	 *
+   249	 *   LOAD_AVG_MAX - 1024 + sa->period_contrib
+   250	 *
+   251	 * because LOAD_AVG_MAX*y == LOAD_AVG_MAX-1024
+   252	 *
+   253	 * The same care must be taken when a sched entity is added, updated or
+   254	 * removed from a cfs_rq and we need to update sched_avg. Scheduler entities
+   255	 * and the cfs rq, to which they are attached, have the same position in the
+   256	 * time segment because they use the same clock. This means that we can use
+   257	 * the period_contrib of cfs_rq when updating the sched_avg of a sched_entity
+   258	 * if it's more convenient.
+   259	 */
+ > 260	void ___update_load_avg(struct sched_avg *sa, unsigned long load)
+   261	{
+   262		u32 divider = get_pelt_divider(sa);
+   263	
+   264		/*
+   265		 * Step 2: update *_avg.
+   266		 */
+   267		sa->load_avg = div_u64(load * sa->load_sum, divider);
+   268		sa->runnable_avg = div_u64(sa->runnable_sum, divider);
+   269		WRITE_ONCE(sa->util_avg, sa->util_sum / divider);
+   270	}
+   271	EXPORT_SYMBOL_GPL(___update_load_avg);
+   272	
 
 -- 
 0-DAY CI Kernel Test Service
