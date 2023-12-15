@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAD136AE0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 14:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2AA4596A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 15:14:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bx+k2RKQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XIqSj4tz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702651964; x=1734187964;
+  t=1702653290; x=1734189290;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2vzE6ESKN/CwvhaBtpgxpB8ir5qWDoJImXPR3IbcY6M=;
-  b=Bx+k2RKQ8M/1J03tDqoUi269g/kCPnlq7XBX+jAU8tokFKjqfh7c937w
-   V1ZVb2r/AasMRYOCduyeftfJdnx66tKi/2J1+2fwsG5bznhaKGdEXEInL
-   mZVQBcCIGJYw675OMsh+ZBBJIfHEVvgQLyw2cTLeElUsgR73xHW4+vl00
-   wbXU+NRaeLljaCr/UQE9eDDF1qCs67ImBrEd6gkQilyW3g23RuTDZlTdl
-   RoBXR62bSYADA54ZBjPJ4ELf4pUt8SMvCHlxC7SYbL2cnSmG7mhYJG6Lb
-   8/SbZAPa3LoQuY3MpnbN8abk868u49w0fAr6mVfrJXw9ARVymZYmNhKaV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="459603922"
+  bh=80OH7Xu7oA4KpII8gnJsyfQtgT6sSrLG/g4Lf3Rnp2E=;
+  b=XIqSj4tza5yzm4g5SCa+yATHDnmqg6Gbhl5LChsLaFZZ0FG4nPjONfoN
+   ZepInCFimckN1zCSbd86Eq9yINBbN3TB8jgABirkGKjxiGokJn6gNHrvl
+   eaJE1vnWUXWo+O2BlUOAo1sWiZd1ckS/W/sjdP+Pb/oprcOMR+FjjCFZi
+   V98sIbaNFPjHYzDICgUzwC/vM8cHUWphQoUmSSiL4HM2w5hL9NLwVTj3w
+   ecA7eSF+z3QOZCEdVwG1p7+0NUpB+mc8Wq6RUBgne153uIwqamRKa2VW/
+   sUymaloHI9LkMDB507MM+TV+jm9AjVSblGDoA2z9LiDhhCN1z8Uxxd0gW
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="8645515"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="459603922"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 06:52:44 -0800
+   d="scan'208";a="8645515"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 07:14:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="898162613"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="840692395"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="898162613"
+   d="scan'208";a="840692395"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 15 Dec 2023 06:52:41 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 15 Dec 2023 07:14:43 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rE9YN-0000Ks-09;
-	Fri, 15 Dec 2023 14:52:39 +0000
-Date: Fri, 15 Dec 2023 22:52:13 +0800
+	id 1rE9tg-0000MS-2Q;
+	Fri, 15 Dec 2023 15:14:40 +0000
+Date: Fri, 15 Dec 2023 23:14:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/powerpc/platforms/powernv/opal-core.c:476:58: sparse: sparse:
- incorrect type in argument 2 (different base types)
-Message-ID: <202312152232.LjW9o87F-lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:5.15-2.2.x-imx 3285/25021]
+ drivers/input/touchscreen/vtl/vtl_ts.c:473:34: warning: unused variable
+ 'vtl_ts_dt_ids'
+Message-ID: <202312152301.AQdtsnue-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,237 +51,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Michael,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f7168591ebf7bbdb91797d02b1afaf00a4289b1
-commit: d936f8182e1bd18f5e9e6c5e8d8b69261200ca96 powerpc/powernv: Fix type of opal_mpipl_query_tag() addr argument
-date:   2 years, 8 months ago
-config: powerpc64-randconfig-r113-20231118 (https://download.01.org/0day-ci/archive/20231215/202312152232.LjW9o87F-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231215/202312152232.LjW9o87F-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
+head:   3a95b5654979d1c2d61616bf60249ed3a98dcfbc
+commit: 5fd1a9756fe0090bd795889b135e4dfb78141f0a [3285/25021] MLK-13244 input: touchscreen: add support for vtl touchscreen
+config: hexagon-randconfig-r013-20230831 (https://download.01.org/0day-ci/archive/20231215/202312152301.AQdtsnue-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312152301.AQdtsnue-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312152232.LjW9o87F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312152301.AQdtsnue-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/powerpc/platforms/powernv/opal-core.c:99:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] n_namesz @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:99:24: sparse:     expected unsigned int [usertype] n_namesz
-   arch/powerpc/platforms/powernv/opal-core.c:99:24: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:100:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] n_descsz @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:100:24: sparse:     expected unsigned int [usertype] n_descsz
-   arch/powerpc/platforms/powernv/opal-core.c:100:24: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:101:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] n_type @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:101:24: sparse:     expected unsigned int [usertype] n_type
-   arch/powerpc/platforms/powernv/opal-core.c:101:24: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:122:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [usertype] pr_pid @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:122:34: sparse:     expected int [usertype] pr_pid
-   arch/powerpc/platforms/powernv/opal-core.c:122:34: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:123:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [usertype] pr_ppid @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:123:34: sparse:     expected int [usertype] pr_ppid
-   arch/powerpc/platforms/powernv/opal-core.c:123:34: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:133:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected short pr_cursig @@     got restricted __be16 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:133:44: sparse:     expected short pr_cursig
-   arch/powerpc/platforms/powernv/opal-core.c:133:44: sparse:     got restricted __be16 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:146:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:146:21: sparse:     expected unsigned long long [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:146:21: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:147:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:147:21: sparse:     expected unsigned long long [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:147:21: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:150:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:150:21: sparse:     expected unsigned long long [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:150:21: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:277:17: sparse: sparse: cast to restricted __be64
-   arch/powerpc/platforms/powernv/opal-core.c:277:17: sparse: sparse: cast to restricted __be64
-   arch/powerpc/platforms/powernv/opal-core.c:363:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_type @@     got restricted __be16 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:363:21: sparse:     expected unsigned short [usertype] e_type
-   arch/powerpc/platforms/powernv/opal-core.c:363:21: sparse:     got restricted __be16 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:364:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_machine @@     got restricted __be16 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:364:24: sparse:     expected unsigned short [usertype] e_machine
-   arch/powerpc/platforms/powernv/opal-core.c:364:24: sparse:     got restricted __be16 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:365:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] e_version @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:365:24: sparse:     expected unsigned int [usertype] e_version
-   arch/powerpc/platforms/powernv/opal-core.c:365:24: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:367:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] e_phoff @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:367:22: sparse:     expected unsigned long long [usertype] e_phoff
-   arch/powerpc/platforms/powernv/opal-core.c:367:22: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:371:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_ehsize @@     got restricted __be16 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:371:23: sparse:     expected unsigned short [usertype] e_ehsize
-   arch/powerpc/platforms/powernv/opal-core.c:371:23: sparse:     got restricted __be16 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:372:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_phentsize @@     got restricted __be16 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:372:26: sparse:     expected unsigned short [usertype] e_phentsize
-   arch/powerpc/platforms/powernv/opal-core.c:372:26: sparse:     got restricted __be16 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:380:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] p_type @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:380:25: sparse:     expected unsigned int [usertype] p_type
-   arch/powerpc/platforms/powernv/opal-core.c:380:25: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:384:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_offset @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:384:25: sparse:     expected unsigned long long [usertype] p_offset
-   arch/powerpc/platforms/powernv/opal-core.c:384:25: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:385:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_memsz @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:385:41: sparse:     expected unsigned long long [usertype] p_memsz
-   arch/powerpc/platforms/powernv/opal-core.c:385:41: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:394:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] p_type @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:394:33: sparse:     expected unsigned int [usertype] p_type
-   arch/powerpc/platforms/powernv/opal-core.c:394:33: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:395:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] p_flags @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:395:33: sparse:     expected unsigned int [usertype] p_flags
-   arch/powerpc/platforms/powernv/opal-core.c:395:33: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:406:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_paddr @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:406:33: sparse:     expected unsigned long long [usertype] p_paddr
-   arch/powerpc/platforms/powernv/opal-core.c:406:33: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:407:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_vaddr @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:407:33: sparse:     expected unsigned long long [usertype] p_vaddr
-   arch/powerpc/platforms/powernv/opal-core.c:407:33: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:408:50: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_memsz @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:408:50: sparse:     expected unsigned long long [usertype] p_memsz
-   arch/powerpc/platforms/powernv/opal-core.c:408:50: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:410:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_offset @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:410:33: sparse:     expected unsigned long long [usertype] p_offset
-   arch/powerpc/platforms/powernv/opal-core.c:410:33: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/powernv/opal-core.c:417:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_phnum @@     got restricted __be16 [usertype] @@
-   arch/powerpc/platforms/powernv/opal-core.c:417:22: sparse:     expected unsigned short [usertype] e_phnum
-   arch/powerpc/platforms/powernv/opal-core.c:417:22: sparse:     got restricted __be16 [usertype]
->> arch/powerpc/platforms/powernv/opal-core.c:476:58: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be64 [usertype] *addr @@     got unsigned long long * @@
-   arch/powerpc/platforms/powernv/opal-core.c:476:58: sparse:     expected restricted __be64 [usertype] *addr
-   arch/powerpc/platforms/powernv/opal-core.c:476:58: sparse:     got unsigned long long *
-   arch/powerpc/platforms/powernv/opal-core.c:482:16: sparse: sparse: cast to restricted __be64
-   arch/powerpc/platforms/powernv/opal-core.c:487:57: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be64 [usertype] *addr @@     got unsigned long long * @@
-   arch/powerpc/platforms/powernv/opal-core.c:487:57: sparse:     expected restricted __be64 [usertype] *addr
-   arch/powerpc/platforms/powernv/opal-core.c:487:57: sparse:     got unsigned long long *
-   arch/powerpc/platforms/powernv/opal-core.c:493:16: sparse: sparse: cast to restricted __be64
-   arch/powerpc/platforms/powernv/opal-core.c: note: in included file:
-   arch/powerpc/platforms/powernv/opal-fadump.h:138:33: sparse: sparse: restricted __be64 degrades to integer
+All warnings (new ones prefixed by >>):
 
-vim +476 arch/powerpc/platforms/powernv/opal-core.c
+   drivers/input/touchscreen/vtl/vtl_ts.c:65:17: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
+           struct device *dev;
+                          ^
+   drivers/input/touchscreen/vtl/vtl_ts.c:80:6: warning: no previous prototype for function 'vtl_ts_free_gpio' [-Wmissing-prototypes]
+   void vtl_ts_free_gpio(void)
+        ^
+   drivers/input/touchscreen/vtl/vtl_ts.c:80:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void vtl_ts_free_gpio(void)
+   ^
+   static 
+   drivers/input/touchscreen/vtl/vtl_ts.c:90:6: warning: no previous prototype for function 'vtl_ts_hw_reset' [-Wmissing-prototypes]
+   void vtl_ts_hw_reset(void)
+        ^
+   drivers/input/touchscreen/vtl/vtl_ts.c:90:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void vtl_ts_hw_reset(void)
+   ^
+   static 
+   drivers/input/touchscreen/vtl/vtl_ts.c:278:6: warning: no previous prototype for function 'vtl_ts_remove' [-Wmissing-prototypes]
+   int  vtl_ts_remove(struct i2c_client *client)
+        ^
+   drivers/input/touchscreen/vtl/vtl_ts.c:278:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int  vtl_ts_remove(struct i2c_client *client)
+   ^
+   static 
+   drivers/input/touchscreen/vtl/vtl_ts.c:366:5: warning: no previous prototype for function 'ct36x_test_tp' [-Wmissing-prototypes]
+   int ct36x_test_tp(struct i2c_client *client)
+       ^
+   drivers/input/touchscreen/vtl/vtl_ts.c:366:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int ct36x_test_tp(struct i2c_client *client)
+   ^
+   static 
+   drivers/input/touchscreen/vtl/vtl_ts.c:382:5: warning: no previous prototype for function 'vtl_ts_probe' [-Wmissing-prototypes]
+   int vtl_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
+       ^
+   drivers/input/touchscreen/vtl/vtl_ts.c:382:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int vtl_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
+   ^
+   static 
+>> drivers/input/touchscreen/vtl/vtl_ts.c:473:34: warning: unused variable 'vtl_ts_dt_ids' [-Wunused-const-variable]
+   static const struct of_device_id vtl_ts_dt_ids[] = {
+                                    ^
+   7 warnings generated.
 
-6f713d18144ce8 Hari Bathini  2019-09-11  450  
-6f713d18144ce8 Hari Bathini  2019-09-11  451  static void __init opalcore_config_init(void)
-6f713d18144ce8 Hari Bathini  2019-09-11  452  {
-6f713d18144ce8 Hari Bathini  2019-09-11  453  	u32 idx, cpu_data_version;
-6f713d18144ce8 Hari Bathini  2019-09-11  454  	struct device_node *np;
-6f713d18144ce8 Hari Bathini  2019-09-11  455  	const __be32 *prop;
-6f713d18144ce8 Hari Bathini  2019-09-11  456  	u64 addr = 0;
-6f713d18144ce8 Hari Bathini  2019-09-11  457  	int i, ret;
-6f713d18144ce8 Hari Bathini  2019-09-11  458  
-6f713d18144ce8 Hari Bathini  2019-09-11  459  	np = of_find_node_by_path("/ibm,opal/dump");
-6f713d18144ce8 Hari Bathini  2019-09-11  460  	if (np == NULL)
-6f713d18144ce8 Hari Bathini  2019-09-11  461  		return;
-6f713d18144ce8 Hari Bathini  2019-09-11  462  
-6f713d18144ce8 Hari Bathini  2019-09-11  463  	if (!of_device_is_compatible(np, "ibm,opal-dump")) {
-6f713d18144ce8 Hari Bathini  2019-09-11  464  		pr_warn("Support missing for this f/w version!\n");
-6f713d18144ce8 Hari Bathini  2019-09-11  465  		return;
-6f713d18144ce8 Hari Bathini  2019-09-11  466  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  467  
-6f713d18144ce8 Hari Bathini  2019-09-11  468  	/* Check if dump has been initiated on last reboot */
-6f713d18144ce8 Hari Bathini  2019-09-11  469  	prop = of_get_property(np, "mpipl-boot", NULL);
-6f713d18144ce8 Hari Bathini  2019-09-11  470  	if (!prop) {
-6f713d18144ce8 Hari Bathini  2019-09-11  471  		of_node_put(np);
-6f713d18144ce8 Hari Bathini  2019-09-11  472  		return;
-6f713d18144ce8 Hari Bathini  2019-09-11  473  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  474  
-6f713d18144ce8 Hari Bathini  2019-09-11  475  	/* Get OPAL metadata */
-6f713d18144ce8 Hari Bathini  2019-09-11 @476  	ret = opal_mpipl_query_tag(OPAL_MPIPL_TAG_OPAL, &addr);
-6f713d18144ce8 Hari Bathini  2019-09-11  477  	if ((ret != OPAL_SUCCESS) || !addr) {
-6f713d18144ce8 Hari Bathini  2019-09-11  478  		pr_err("Failed to get OPAL metadata (%d)\n", ret);
-6f713d18144ce8 Hari Bathini  2019-09-11  479  		goto error_out;
-6f713d18144ce8 Hari Bathini  2019-09-11  480  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  481  
-6f713d18144ce8 Hari Bathini  2019-09-11  482  	addr = be64_to_cpu(addr);
-6f713d18144ce8 Hari Bathini  2019-09-11  483  	pr_debug("OPAL metadata addr: %llx\n", addr);
-6f713d18144ce8 Hari Bathini  2019-09-11  484  	opalc_metadata = __va(addr);
-6f713d18144ce8 Hari Bathini  2019-09-11  485  
-6f713d18144ce8 Hari Bathini  2019-09-11  486  	/* Get OPAL CPU metadata */
-6f713d18144ce8 Hari Bathini  2019-09-11  487  	ret = opal_mpipl_query_tag(OPAL_MPIPL_TAG_CPU, &addr);
-6f713d18144ce8 Hari Bathini  2019-09-11  488  	if ((ret != OPAL_SUCCESS) || !addr) {
-6f713d18144ce8 Hari Bathini  2019-09-11  489  		pr_err("Failed to get OPAL CPU metadata (%d)\n", ret);
-6f713d18144ce8 Hari Bathini  2019-09-11  490  		goto error_out;
-6f713d18144ce8 Hari Bathini  2019-09-11  491  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  492  
-6f713d18144ce8 Hari Bathini  2019-09-11  493  	addr = be64_to_cpu(addr);
-6f713d18144ce8 Hari Bathini  2019-09-11  494  	pr_debug("CPU metadata addr: %llx\n", addr);
-6f713d18144ce8 Hari Bathini  2019-09-11  495  	opalc_cpu_metadata = __va(addr);
-6f713d18144ce8 Hari Bathini  2019-09-11  496  
-6f713d18144ce8 Hari Bathini  2019-09-11  497  	/* Allocate memory for config buffer */
-6f713d18144ce8 Hari Bathini  2019-09-11  498  	oc_conf = kzalloc(sizeof(struct opalcore_config), GFP_KERNEL);
-6f713d18144ce8 Hari Bathini  2019-09-11  499  	if (oc_conf == NULL)
-6f713d18144ce8 Hari Bathini  2019-09-11  500  		goto error_out;
-6f713d18144ce8 Hari Bathini  2019-09-11  501  
-6f713d18144ce8 Hari Bathini  2019-09-11  502  	/* Parse OPAL metadata */
-6f713d18144ce8 Hari Bathini  2019-09-11  503  	if (opalc_metadata->version != OPAL_MPIPL_VERSION) {
-6f713d18144ce8 Hari Bathini  2019-09-11  504  		pr_warn("Supported OPAL metadata version: %u, found: %u!\n",
-6f713d18144ce8 Hari Bathini  2019-09-11  505  			OPAL_MPIPL_VERSION, opalc_metadata->version);
-6f713d18144ce8 Hari Bathini  2019-09-11  506  		pr_warn("WARNING: F/W using newer OPAL metadata format!!\n");
-6f713d18144ce8 Hari Bathini  2019-09-11  507  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  508  
-6f713d18144ce8 Hari Bathini  2019-09-11  509  	oc_conf->ptload_cnt = 0;
-6f713d18144ce8 Hari Bathini  2019-09-11  510  	idx = be32_to_cpu(opalc_metadata->region_cnt);
-6f713d18144ce8 Hari Bathini  2019-09-11  511  	if (idx > MAX_PT_LOAD_CNT) {
-6f713d18144ce8 Hari Bathini  2019-09-11  512  		pr_warn("WARNING: OPAL regions count (%d) adjusted to limit (%d)",
-8ec5cb12cd957e Qinglang Miao 2020-09-16  513  			idx, MAX_PT_LOAD_CNT);
-6f713d18144ce8 Hari Bathini  2019-09-11  514  		idx = MAX_PT_LOAD_CNT;
-6f713d18144ce8 Hari Bathini  2019-09-11  515  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  516  	for (i = 0; i < idx; i++) {
-6f713d18144ce8 Hari Bathini  2019-09-11  517  		oc_conf->ptload_addr[oc_conf->ptload_cnt] =
-6f713d18144ce8 Hari Bathini  2019-09-11  518  				be64_to_cpu(opalc_metadata->region[i].dest);
-6f713d18144ce8 Hari Bathini  2019-09-11  519  		oc_conf->ptload_size[oc_conf->ptload_cnt++] =
-6f713d18144ce8 Hari Bathini  2019-09-11  520  				be64_to_cpu(opalc_metadata->region[i].size);
-6f713d18144ce8 Hari Bathini  2019-09-11  521  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  522  	oc_conf->ptload_cnt = i;
-6f713d18144ce8 Hari Bathini  2019-09-11  523  	oc_conf->crashing_cpu = be32_to_cpu(opalc_metadata->crashing_pir);
-6f713d18144ce8 Hari Bathini  2019-09-11  524  
-6f713d18144ce8 Hari Bathini  2019-09-11  525  	if (!oc_conf->ptload_cnt) {
-6f713d18144ce8 Hari Bathini  2019-09-11  526  		pr_err("OPAL memory regions not found\n");
-6f713d18144ce8 Hari Bathini  2019-09-11  527  		goto error_out;
-6f713d18144ce8 Hari Bathini  2019-09-11  528  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  529  
-6f713d18144ce8 Hari Bathini  2019-09-11  530  	/* Parse OPAL CPU metadata */
-6f713d18144ce8 Hari Bathini  2019-09-11  531  	cpu_data_version = be32_to_cpu(opalc_cpu_metadata->cpu_data_version);
-6f713d18144ce8 Hari Bathini  2019-09-11  532  	if (cpu_data_version != HDAT_FADUMP_CPU_DATA_VER) {
-6f713d18144ce8 Hari Bathini  2019-09-11  533  		pr_warn("Supported CPU data version: %u, found: %u!\n",
-6f713d18144ce8 Hari Bathini  2019-09-11  534  			HDAT_FADUMP_CPU_DATA_VER, cpu_data_version);
-6f713d18144ce8 Hari Bathini  2019-09-11  535  		pr_warn("WARNING: F/W using newer CPU state data format!!\n");
-6f713d18144ce8 Hari Bathini  2019-09-11  536  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  537  
-6f713d18144ce8 Hari Bathini  2019-09-11  538  	addr = be64_to_cpu(opalc_cpu_metadata->region[0].dest);
-6f713d18144ce8 Hari Bathini  2019-09-11  539  	if (!addr) {
-6f713d18144ce8 Hari Bathini  2019-09-11  540  		pr_err("CPU state data not found!\n");
-6f713d18144ce8 Hari Bathini  2019-09-11  541  		goto error_out;
-6f713d18144ce8 Hari Bathini  2019-09-11  542  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  543  	oc_conf->cpu_state_destination_vaddr = (u64)__va(addr);
-6f713d18144ce8 Hari Bathini  2019-09-11  544  
-6f713d18144ce8 Hari Bathini  2019-09-11  545  	oc_conf->cpu_state_data_size =
-6f713d18144ce8 Hari Bathini  2019-09-11  546  			be64_to_cpu(opalc_cpu_metadata->region[0].size);
-6f713d18144ce8 Hari Bathini  2019-09-11  547  	oc_conf->cpu_state_entry_size =
-6f713d18144ce8 Hari Bathini  2019-09-11  548  			be32_to_cpu(opalc_cpu_metadata->cpu_data_size);
-6f713d18144ce8 Hari Bathini  2019-09-11  549  
-6f713d18144ce8 Hari Bathini  2019-09-11  550  	if ((oc_conf->cpu_state_entry_size == 0) ||
-6f713d18144ce8 Hari Bathini  2019-09-11  551  	    (oc_conf->cpu_state_entry_size > oc_conf->cpu_state_data_size)) {
-6f713d18144ce8 Hari Bathini  2019-09-11  552  		pr_err("CPU state data is invalid.\n");
-6f713d18144ce8 Hari Bathini  2019-09-11  553  		goto error_out;
-6f713d18144ce8 Hari Bathini  2019-09-11  554  	}
-6f713d18144ce8 Hari Bathini  2019-09-11  555  	oc_conf->num_cpus = (oc_conf->cpu_state_data_size /
-6f713d18144ce8 Hari Bathini  2019-09-11  556  			     oc_conf->cpu_state_entry_size);
-6f713d18144ce8 Hari Bathini  2019-09-11  557  
-6f713d18144ce8 Hari Bathini  2019-09-11  558  	of_node_put(np);
-6f713d18144ce8 Hari Bathini  2019-09-11  559  	return;
-6f713d18144ce8 Hari Bathini  2019-09-11  560  
-6f713d18144ce8 Hari Bathini  2019-09-11  561  error_out:
-6f713d18144ce8 Hari Bathini  2019-09-11  562  	pr_err("Could not export /sys/firmware/opal/core\n");
-6f713d18144ce8 Hari Bathini  2019-09-11  563  	opalcore_cleanup();
-6f713d18144ce8 Hari Bathini  2019-09-11  564  	of_node_put(np);
-6f713d18144ce8 Hari Bathini  2019-09-11  565  }
-6f713d18144ce8 Hari Bathini  2019-09-11  566  
 
-:::::: The code at line 476 was first introduced by commit
-:::::: 6f713d18144ce86c9f01cdf64222d6339e26129e powerpc/opalcore: export /sys/firmware/opal/core for analysing opal crashes
+vim +/vtl_ts_dt_ids +473 drivers/input/touchscreen/vtl/vtl_ts.c
 
-:::::: TO: Hari Bathini <hbathini@linux.vnet.ibm.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+   472	
+ > 473	static const struct of_device_id vtl_ts_dt_ids[] = {
+   474		{ .compatible = "vtl,ct365", },
+   475		{ }
+   476	};
+   477	MODULE_DEVICE_TABLE(of, vtl_ts_dt_ids);
+   478	
+   479	
 
 -- 
 0-DAY CI Kernel Test Service
