@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D9B45BF1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 20:27:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9264644C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 20:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcGZpBFu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XvRTC+PU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702672044; x=1734208044;
+  t=1702673366; x=1734209366;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PzZ2VXB5q6ofyxtIZdagRHB3a5C0hOR/e9DMHX/5Gbg=;
-  b=mcGZpBFupMwYU53176uhS/Tfd3+46anbfBbzjuKgxfOCPgVRodRWac8o
-   XroG+3HNH+T06SA7y7zFOdTbn+/XTo0lPd5ojpTKkXQPnAJbPp4zjswtO
-   o6j5vJM71ySI9gEgd0p9phQ1B42zlu2ZEnNyKVqvQn/HfmnP00rg+uSrB
-   c5uQgDZ288MP/cZbJImXWcHu+ZOKIBufbVKsnjhuprMGsDnYaiRNYZUKr
-   FnuV2/if37s9NW2QqGUVQM6mGeAPpQE4jxrXZxTNUMyu7r6vo8ZztSej+
-   Gg7TByWBfZRZ//MGPxMRGY07/v0h1gYisEZzFzz/dG7kBrcf9cYJLlBGJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="392498773"
+  bh=im4yuzz2NaICKGTqfVhlKbQyCi5H5jypE3Z7ynJaThw=;
+  b=XvRTC+PUHniW8eRzkzU6M2dj2Fg/Z5ltC+EvAV/kVxJSxW00PxAdPsV4
+   7AOC31s1tPKM0UEumewwyr/zHm0TuxCv/jVOVLuPn7GXllYCU+9ShHt+v
+   N8xA7kGKs8Ouy5gobYhzLh9/6RIFW357XwUs6nRBcDF9ZhAIo704Kh1U7
+   YjDjy8xktL3X5gCJsWqkqcO+3MF+jBMfqfya9EWMNDXvSnnViv/+ulV0m
+   AiosFxCx1O4rt56kWld2ofMgmy7SOynQ1t/HOzx6ngw/AfTIItQMf05W3
+   hUwNyAyr2KsYhZkoAlH67b9c64mXs3P+qU6TcL3xlX4iC/eRX7Yh59gND
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="395066801"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="392498773"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 12:27:22 -0800
+   d="scan'208";a="395066801"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 12:49:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="774872844"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="751054344"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="774872844"
+   d="scan'208";a="751054344"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 15 Dec 2023 12:27:21 -0800
+  by orsmga006.jf.intel.com with ESMTP; 15 Dec 2023 12:49:21 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEEmE-0000i4-2j;
-	Fri, 15 Dec 2023 20:27:18 +0000
-Date: Sat, 16 Dec 2023 04:27:11 +0800
+	id 1rEF7Y-0000k5-2o;
+	Fri, 15 Dec 2023 20:49:20 +0000
+Date: Sat, 16 Dec 2023 04:49:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stafford Horne <shorne@gmail.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/video/fbdev/cirrusfb.c:1852:28: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202312160443.RP8KyYa0-lkp@intel.com>
+Subject: drivers/mtd/nand/raw/sh_flctl.c:512:17: sparse: sparse: cast from
+ restricted __be32
+Message-ID: <202312160441.W5Plqog2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,90 +50,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Miquel,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f7168591ebf7bbdb91797d02b1afaf00a4289b1
-commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
-date:   1 year, 5 months ago
-config: openrisc-randconfig-r112-20231116 (https://download.01.org/0day-ci/archive/20231216/202312160443.RP8KyYa0-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231216/202312160443.RP8KyYa0-lkp@intel.com/reproduce)
+head:   26e7a301419d2ef4696e581109c61b4e772e1fb8
+commit: 72c5af00272339af6bbed6fe7275cd731f57be2d mtd: rawnand: Clarify Kconfig entry MTD_NAND
+date:   4 years, 8 months ago
+config: arm-randconfig-r123-20231107 (https://download.01.org/0day-ci/archive/20231216/202312160441.W5Plqog2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231216/202312160441.W5Plqog2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312160443.RP8KyYa0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312160441.W5Plqog2-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/cirrusfb.c:866:30: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:867:38: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:871:40: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:873:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:876:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:877:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:878:27: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:879:29: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:1245:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:1246:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/cirrusfb.c:1247:17: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/video/fbdev/cirrusfb.c:1852:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dest @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/cirrusfb.c:1852:28: sparse:     expected void *dest
-   drivers/video/fbdev/cirrusfb.c:1852:28: sparse:     got char [noderef] __iomem *screen_base
+   drivers/mtd/nand/raw/sh_flctl.c:458:16: sparse: sparse: cast to restricted __le32
+   drivers/mtd/nand/raw/sh_flctl.c:481:26: sparse: sparse: cast to restricted __be32
+   drivers/mtd/nand/raw/sh_flctl.c:496:38: sparse: sparse: cast to restricted __be32
+>> drivers/mtd/nand/raw/sh_flctl.c:512:17: sparse: sparse: cast from restricted __be32
+   drivers/mtd/nand/raw/sh_flctl.c:525:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __be32 [usertype] @@
+   drivers/mtd/nand/raw/sh_flctl.c:525:24: sparse:     expected unsigned long
+   drivers/mtd/nand/raw/sh_flctl.c:525:24: sparse:     got restricted __be32 [usertype]
 
-vim +1852 drivers/video/fbdev/cirrusfb.c
+vim +512 drivers/mtd/nand/raw/sh_flctl.c
 
-^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1809  
-8503df65976d0f8 drivers/video/cirrusfb.c Krzysztof Helt 2007-10-16  1810  static void cirrusfb_imageblit(struct fb_info *info,
-8503df65976d0f8 drivers/video/cirrusfb.c Krzysztof Helt 2007-10-16  1811  			       const struct fb_image *image)
-^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1812  {
-^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1813  	struct cirrusfb_info *cinfo = info->par;
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1814  	unsigned char op = (info->var.bits_per_pixel == 24) ? 0xc : 0x4;
-^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1815  
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1816  	if (info->state != FBINFO_STATE_RUNNING)
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1817  		return;
-df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1818  	/* Alpine/SD64 does not work at 24bpp ??? */
-df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1819  	if (info->flags & FBINFO_HWACCEL_DISABLED || image->depth != 1)
-df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1820  		cfb_imageblit(info, image);
-df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1821  	else if ((cinfo->btype == BT_ALPINE || cinfo->btype == BT_SD64) &&
-df3aafd57d590d6 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1822  		  op == 0xc)
-^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1823  		cfb_imageblit(info, image);
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1824  	else {
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1825  		unsigned size = ((image->width + 7) >> 3) * image->height;
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1826  		int m = info->var.bits_per_pixel;
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1827  		u32 fg, bg;
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1828  
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1829  		if (info->var.bits_per_pixel == 8) {
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1830  			fg = image->fg_color;
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1831  			bg = image->bg_color;
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1832  		} else {
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1833  			fg = ((u32 *)(info->pseudo_palette))[image->fg_color];
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1834  			bg = ((u32 *)(info->pseudo_palette))[image->bg_color];
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1835  		}
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1836  		if (info->var.bits_per_pixel == 24) {
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1837  			/* clear background first */
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1838  			cirrusfb_RectFill(cinfo->regbase,
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1839  					  info->var.bits_per_pixel,
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1840  					  (image->dx * m) / 8, image->dy,
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1841  					  (image->width * m) / 8,
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1842  					  image->height,
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1843  					  bg, bg,
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1844  					  info->fix.line_length, 0x40);
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1845  		}
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1846  		cirrusfb_RectFill(cinfo->regbase,
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1847  				  info->var.bits_per_pixel,
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1848  				  (image->dx * m) / 8, image->dy,
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1849  				  (image->width * m) / 8, image->height,
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1850  				  fg, bg,
-7cade31cabec33c drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1851  				  info->fix.line_length, op);
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31 @1852  		memcpy(info->screen_base, image->data, size);
-9e8480625332071 drivers/video/cirrusfb.c Krzysztof Helt 2009-03-31  1853  	}
-^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1854  }
-^1da177e4c3f415 drivers/video/cirrusfb.c Linus Torvalds 2005-04-16  1855  
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  502  
+e8a9d8f31c592ee drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  503  static void write_fiforeg(struct sh_flctl *flctl, int rlen,
+e8a9d8f31c592ee drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  504  						unsigned int offset)
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  505  {
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  506  	int i, len_4align;
+e8a9d8f31c592ee drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  507  	unsigned long *buf = (unsigned long *)&flctl->done_buff[offset];
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  508  
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  509  	len_4align = (rlen + 3) / 4;
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  510  	for (i = 0; i < len_4align; i++) {
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  511  		wait_wfifo_ready(flctl);
+e8a9d8f31c592ee drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19 @512  		writel(cpu_to_be32(buf[i]), FLDTFIFO(flctl));
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  513  	}
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  514  }
+6028aa01f759a1d drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  515  
 
-:::::: The code at line 1852 was first introduced by commit
-:::::: 9e848062533207130667f6eaa748549367ccbedf cirrusfb: add imageblit function
+:::::: The code at line 512 was first introduced by commit
+:::::: e8a9d8f31c592eea89f1b0d3fd425e7a96944e88 mtd: sh_flctl: Minor cleanups
 
-:::::: TO: Krzysztof Helt <krzysztof.h1@wp.pl>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Bastian Hecht <hechtb@googlemail.com>
+:::::: CC: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
