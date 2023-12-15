@@ -1,47 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDD33588B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 18:18:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6332D78A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 18:39:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lEWZaZHO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SiGP8hoH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702664299; x=1734200299;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rd0SF5jjfaQ/6h3w16iGKHaM23dfILksOsdY0t3iAao=;
-  b=lEWZaZHOGgEBUhjv/EwW/ig+cKXJkisvQhMIrEos+hqMnpMRBbKYk9Su
-   0vzgjjfhr8/YfwSKrJvWzqeSIyRCAOdFEpMp2i5oSHoPyt9G5bULdKr2m
-   taqgJUpYd0eOTXvKjwivMKfACd8LT/Q7dk/V0emntmeW+Ceb/Af+dbtFC
-   ivuE+vs8qoLa6Mx8axHlSAN7uM/FzNYt7X3heoVGCgdvp1vqrPPoVM2id
-   uJxwktpe06wyRQlMmRAbWR3ejwmCdIOf+2SEaAxMNGLZcgUO0+ovwo/V2
-   wf/DWzwP9rVHbQDr59Eu930EW/DsyoMkUn0eIHlrdDrcFM+NUhBozenU9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="399146941"
+  t=1702665563; x=1734201563;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2KVrdVaDIOg+oxMRP1IVWmS8Xuon9rKpLe+/fBHVOiE=;
+  b=SiGP8hoH8aWgQEh995Bi/f5Y/Gv45UnRVN5OBGV4Y6UkLax7TeJrzRFt
+   Q/zqkUwEwv5arUmNxZdP+ccwObIkaU4Xb9fLnLtSO8RiGVF2JAZuD0bK8
+   JLvn5VTA4GOoyHBTb4N5sTs9RREyJk9WTie8jHgrgjp9vWtZYqgG1lcJQ
+   8WB7iXJHEfEB14hOl+tLjpLkssW+tdaiATBplFxK67oxfITLH6MMgd9M7
+   DvkdBwGPugapkUT8ipGeyMAWmkAaMejVM/M5UuADhpKMG1DFtcWQw2Hcc
+   fX5R5S1OQtFvdaWHWg2JRewFeeKt0wj4PFjEWd7tHIt8xXDyg+eX9eUSy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="395053540"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="399146941"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 10:18:17 -0800
+   d="scan'208";a="395053540"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 10:39:22 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="840760872"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="22936310"
+   d="scan'208";a="840760872"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 15 Dec 2023 10:18:16 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 15 Dec 2023 10:39:17 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEClJ-0000au-2X;
-	Fri, 15 Dec 2023 18:18:13 +0000
-Date: Sat, 16 Dec 2023 02:17:39 +0800
+	id 1rED5e-0000cG-2T;
+	Fri, 15 Dec 2023 18:39:14 +0000
+Date: Sat, 16 Dec 2023 02:39:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Justin Stitt <justinstitt@google.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: scripts/kernel-doc: drivers/mailbox/zynqmp-ipi-mailbox.c:112:
- warning: Excess struct member 'ipi_mboxes' description in 'zynqmp_ipi_pdata'
-Message-ID: <202312160211.TeTlhMq0-lkp@intel.com>
+To: Romain Gantois <romain.gantois@bootlin.com>, davem@davemloft.net,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Luka Perkov <luka.perkov@sartura.hr>,
+	Robert Marko <robert.marko@sartura.hr>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>
+Subject: Re: [PATCH net-next v3 5/8] net: qualcomm: ipqess: add bridge
+ offloading features to the IPQESS driver
+Message-ID: <202312160211.TqddYea8-lkp@intel.com>
+References: <20231114105600.1012056-6-romain.gantois@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,25 +69,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231114105600.1012056-6-romain.gantois@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f7168591ebf7bbdb91797d02b1afaf00a4289b1
-commit: c5225cd073c65a6d7e8e311ec0114792a671982a mailbox: zynqmp: Annotate struct zynqmp_ipi_pdata with __counted_by
-date:   10 weeks ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231216/202312160211.TeTlhMq0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312160211.TeTlhMq0-lkp@intel.com/reproduce)
+Hi Romain,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-net-Introduce-the-Qualcomm-IPQESS-Ethernet-switch/20231114-185953
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231114105600.1012056-6-romain.gantois%40bootlin.com
+patch subject: [PATCH net-next v3 5/8] net: qualcomm: ipqess: add bridge offloading features to the IPQESS driver
+config: arc-randconfig-r112-20231116 (https://download.01.org/0day-ci/archive/20231216/202312160211.TqddYea8-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231216/202312160211.TqddYea8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312160211.TeTlhMq0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312160211.TqddYea8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/dsa/qca/qca8k-8xxx.c:1982:5: sparse: sparse: symbol 'qca8k_dsa_port_fdb_dump' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:1988:6: sparse: sparse: symbol 'qca8k_dsa_port_stp_state_set' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:1995:6: sparse: sparse: symbol 'qca8k_dsa_port_fast_age' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2000:5: sparse: sparse: symbol 'qca8k_dsa_set_ageing_time' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2005:5: sparse: sparse: symbol 'qca8k_dsa_port_vlan_filtering' was not declared. Should it be static?
+>> drivers/net/dsa/qca/qca8k-8xxx.c:2012:5: sparse: sparse: symbol 'qca8k_dsa_vlan_add' was not declared. Should it be static?
 
-   scripts/kernel-doc: drivers/mailbox/zynqmp-ipi-mailbox.c:92: warning: Excess struct member 'irq' description in 'zynqmp_ipi_mbox'
-   scripts/kernel-doc: drivers/mailbox/zynqmp-ipi-mailbox.c:92: warning: Excess struct member 'irq' description in 'zynqmp_ipi_mbox'
->> scripts/kernel-doc: drivers/mailbox/zynqmp-ipi-mailbox.c:112: warning: Excess struct member 'ipi_mboxes' description in 'zynqmp_ipi_pdata'
+vim +/qca8k_dsa_port_fdb_dump +1982 drivers/net/dsa/qca/qca8k-8xxx.c
+
+  1981	
+> 1982	int qca8k_dsa_port_fdb_dump(struct dsa_switch *ds, int port,
+  1983				    dsa_fdb_dump_cb_t *cb, void *data)
+  1984	{
+  1985		return qca8k_port_fdb_dump(ds->priv, port, cb, data);
+  1986	}
+  1987	
+> 1988	void qca8k_dsa_port_stp_state_set(struct dsa_switch *ds, int port,
+  1989					  u8 state)
+  1990	{
+  1991		qca8k_port_stp_state_set(ds->priv, port, state,
+  1992					 dsa_to_port(ds, port)->learning, true);
+  1993	}
+  1994	
+> 1995	void qca8k_dsa_port_fast_age(struct dsa_switch *ds, int port)
+  1996	{
+  1997		qca8k_port_fast_age(ds->priv, port);
+  1998	}
+  1999	
+> 2000	int qca8k_dsa_set_ageing_time(struct dsa_switch *ds, unsigned int msecs)
+  2001	{
+  2002		return qca8k_set_ageing_time(ds->priv, msecs);
+  2003	}
+  2004	
+> 2005	int qca8k_dsa_port_vlan_filtering(struct dsa_switch *ds, int port,
+  2006					  bool vlan_filtering,
+  2007					  struct netlink_ext_ack *extack)
+  2008	{
+  2009		return qca8k_port_vlan_filtering(ds->priv, port, vlan_filtering);
+  2010	}
+  2011	
+> 2012	int qca8k_dsa_vlan_add(struct dsa_switch *ds, int port,
+  2013			       const struct switchdev_obj_port_vlan *vlan,
+  2014			       struct netlink_ext_ack *extack)
+  2015	{
+  2016		return qca8k_port_vlan_add(ds->priv, port, vlan, extack);
+  2017	}
+  2018	
 
 -- 
 0-DAY CI Kernel Test Service
