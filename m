@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7297E4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 02:16:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74FC11118
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 03:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFPyMSNz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXwjd2jo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702606567; x=1734142567;
+  t=1702609710; x=1734145710;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mrCovjghfBdBkLY442O39nSNjE8pz1RrcJBUm3ow+0E=;
-  b=oFPyMSNzPPWovBb3k1PrkLgmGdctvV4ZpQfmVNT7IfZDh9Gz+VcqWsmf
-   r2HMk46hgPml6GCvgEz1SgohFTNPnpdtiTxXWMp63PL77i/oeWQtMlt4y
-   AueBCQgzcHctL53QiZtTUCbwlhYmex6bIyV32r5u68LtPFsjHEbcntXJY
-   ajUCe1TNC3BlfmkVi8azrxV3hgCnczjHEWWV/PH6UHRVHkEl+NS5Yl9Nt
-   V+qPiJwUMP2RvtKosY16SJwYvSewe+QwFPfdMQWRrQfHiNssyoylhpdXp
-   mUTBiEN+hthDArAjYHXkvctPi4QdLmkBqa/b5BGREjy0TlhIbvQjMbzC8
+  bh=U9TLe+M11oeqHrVNZaIKZY5r/qpZAPvE+iElMRu31FI=;
+  b=cXwjd2jonNIXeGCADSVdun9n6Wgnmwon7Jr5KAuE6GPhsPGlukmtAPJh
+   0Z0i//5kWLs+9apj4AVJlm82ENN/T992CkqwqLoyttnFM1gTFbji3ZNUn
+   Nggvw3CS2qTPG4OD7rge6RnMi62pEj03GNpKPwOS2QEcYIHmBBIHkm+R3
+   PKf409zNWksgi1y+ShPDIYvdrPsuWwwV6yUqD23GvhsXI4+laCjYrnafT
+   G9w/xtmJTzFwCkMDSb4loCDu6hMk97kCPX5Wsp45CwpyXjBg18qfqtcEe
+   TnkOm2ERPMY9U3GMYhIgVGfQFkbP2o+5/PdDqqOfyO06ws9YTqwFWQyn3
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="392394936"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="461686441"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="392394936"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 18:16:03 -0800
+   d="scan'208";a="461686441"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 19:08:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="1021781458"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="897989747"
 X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
-   d="scan'208";a="1021781458"
+   d="scan'208";a="897989747"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 14 Dec 2023 18:16:00 -0800
+  by orsmga004.jf.intel.com with ESMTP; 14 Dec 2023 19:08:27 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDxk6-000Myf-1q;
-	Fri, 15 Dec 2023 02:15:58 +0000
-Date: Fri, 15 Dec 2023 10:15:34 +0800
+	id 1rDyYq-000N1c-30;
+	Fri, 15 Dec 2023 03:08:24 +0000
+Date: Fri, 15 Dec 2023 11:08:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raghava Aditya Renukunta <RaghavaAditya.Renukunta@microsemi.com>
+To: Ondrej Zary <linux@zary.sk>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Dave Carroll <David.Carroll@microsemi.com>,
-	Johannes Thumshirn <jthumshirn@suse.de>
-Subject: drivers/scsi/aacraid/aachba.c:4000:51: sparse: sparse: cast
- truncates bits from constant value (1000000 becomes 0)
-Message-ID: <202312151014.ef3X8ayJ-lkp@intel.com>
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Subject: drivers/ata/pata_parport/comm.c:135:59: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202312151114.XNGZXP20-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,279 +51,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Ondrej,
+
+First bad commit (maybe != root cause):
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c7402612e2e61b76177f22e6e7f705adcbecc6fe
-commit: ab5d129f93c91fff74100bcd898d605da461f4a6 scsi: aacraid: Add task management functionality
-date:   7 years ago
-config: powerpc-randconfig-r121-20231107 (https://download.01.org/0day-ci/archive/20231215/202312151014.ef3X8ayJ-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231215/202312151014.ef3X8ayJ-lkp@intel.com/reproduce)
+head:   976600c6da56c488776c9ee2a5733ae9736e2a75
+commit: 72f2b0b2185099dce354c805009f591dda3ab73d drivers/block: Move PARIDE protocol modules to drivers/ata/pata_parport
+date:   11 months ago
+config: m68k-randconfig-r113-20231215 (https://download.01.org/0day-ci/archive/20231215/202312151114.XNGZXP20-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231215/202312151114.XNGZXP20-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312151014.ef3X8ayJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312151114.XNGZXP20-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/scsi/aacraid/aachba.c:3849:47: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] addrHigh @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3849:47: sparse:     expected unsigned int [usertype] addrHigh
-   drivers/scsi/aacraid/aachba.c:3849:47: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3850:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] addrLow @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3850:46: sparse:     expected unsigned int [usertype] addrLow
-   drivers/scsi/aacraid/aachba.c:3850:46: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3851:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] cur_size @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3851:34: sparse:     expected unsigned int [usertype] cur_size
-   drivers/scsi/aacraid/aachba.c:3851:34: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3856:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] sgeFirstSize @@     got unsigned int [usertype] cur_size @@
-   drivers/scsi/aacraid/aachba.c:3856:52: sparse:     expected restricted __le32 [usertype] sgeFirstSize
-   drivers/scsi/aacraid/aachba.c:3856:52: sparse:     got unsigned int [usertype] cur_size
-   drivers/scsi/aacraid/aachba.c:3858:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] sgeNominalSize @@     got unsigned int [usertype] cur_size @@
-   drivers/scsi/aacraid/aachba.c:3858:54: sparse:     expected restricted __le32 [usertype] sgeNominalSize
-   drivers/scsi/aacraid/aachba.c:3858:54: sparse:     got unsigned int [usertype] cur_size
-   drivers/scsi/aacraid/aachba.c:3860:68: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/aacraid/aachba.c:3870:36: sparse: sparse: cast to restricted __le32
-   drivers/scsi/aacraid/aachba.c:3872:47: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] length @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3872:47: sparse:     expected unsigned int [usertype] length
-   drivers/scsi/aacraid/aachba.c:3872:47: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3876:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] sgeCnt @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3876:30: sparse:     expected unsigned char [usertype] sgeCnt
-   drivers/scsi/aacraid/aachba.c:3876:30: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3974:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] addr_hi @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3974:30: sparse:     expected unsigned int [usertype] addr_hi
-   drivers/scsi/aacraid/aachba.c:3974:30: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3975:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] addr_lo @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3975:30: sparse:     expected unsigned int [usertype] addr_lo
-   drivers/scsi/aacraid/aachba.c:3975:30: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3976:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] cur_size @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3976:26: sparse:     expected unsigned int [usertype] cur_size
-   drivers/scsi/aacraid/aachba.c:3976:26: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3988:24: sparse: sparse: cast to restricted __le32
-   drivers/scsi/aacraid/aachba.c:3990:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] len @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3990:26: sparse:     expected unsigned int [usertype] len
-   drivers/scsi/aacraid/aachba.c:3990:26: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3995:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] emb_data_desc_count @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3995:45: sparse:     expected unsigned char [usertype] emb_data_desc_count
-   drivers/scsi/aacraid/aachba.c:3995:45: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3996:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] flags @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3996:28: sparse:     expected unsigned int [usertype] flags
-   drivers/scsi/aacraid/aachba.c:3996:28: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3999:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] flags @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3999:38: sparse:     expected unsigned int [usertype] flags
-   drivers/scsi/aacraid/aachba.c:3999:38: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:4000:48: sparse: sparse: cast from restricted __le32
-   drivers/scsi/aacraid/aachba.c:4001:43: sparse: sparse: cast from restricted __le32
-   drivers/scsi/aacraid/aachba.c:4002:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] addr_lo @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:4002:40: sparse:     expected unsigned int [usertype] addr_lo
-   drivers/scsi/aacraid/aachba.c:4002:40: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3938:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [usertype] sgeCnt @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:3938:22: sparse:     expected unsigned char [usertype] sgeCnt
-   drivers/scsi/aacraid/aachba.c:3938:22: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:3940:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] sgeNominalSize @@     got unsigned long @@
-   drivers/scsi/aacraid/aachba.c:3940:30: sparse:     expected restricted __le32 [usertype] sgeNominalSize
-   drivers/scsi/aacraid/aachba.c:3940:30: sparse:     got unsigned long
-   drivers/scsi/aacraid/aachba.c:243:5: sparse: sparse: symbol 'aac_convert_sgl' was not declared. Should it be static?
-   drivers/scsi/aacraid/aachba.c:287:5: sparse: sparse: symbol 'acbsize' was not declared. Should it be static?
-   drivers/scsi/aacraid/aachba.c:318:5: sparse: sparse: symbol 'aac_wwn' was not declared. Should it be static?
-   drivers/scsi/aacraid/aachba.c:632:76: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] block_size @@     got int @@
-   drivers/scsi/aacraid/aachba.c:632:76: sparse:     expected restricted __le32 [usertype] block_size
-   drivers/scsi/aacraid/aachba.c:632:76: sparse:     got int
-   drivers/scsi/aacraid/aachba.c:988:63: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/aacraid/aachba.c:1009:71: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [addressable] [assigned] [usertype] Serial @@     got restricted __le32 [usertype] uid @@
-   drivers/scsi/aacraid/aachba.c:1009:71: sparse:     expected unsigned int [addressable] [assigned] [usertype] Serial
-   drivers/scsi/aacraid/aachba.c:1009:71: sparse:     got restricted __le32 [usertype] uid
-   drivers/scsi/aacraid/aachba.c:1176:27: sparse: sparse: cast to restricted __le32
-   drivers/scsi/aacraid/aachba.c:1307:27: sparse: sparse: cast to restricted __le32
-   drivers/scsi/aacraid/aachba.c:1478:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char @@     got restricted __le32 [usertype] @@
-   drivers/scsi/aacraid/aachba.c:1478:24: sparse:     expected unsigned char
-   drivers/scsi/aacraid/aachba.c:1478:24: sparse:     got restricted __le32 [usertype]
-   drivers/scsi/aacraid/aachba.c:1585:33: sparse: sparse: cast to restricted __le32
-   drivers/scsi/aacraid/aachba.c:1706:61: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rmw_nexus @@     got unsigned int [assigned] [usertype] nexus @@
-   drivers/scsi/aacraid/aachba.c:1706:61: sparse:     expected restricted __le32 [usertype] rmw_nexus
-   drivers/scsi/aacraid/aachba.c:1706:61: sparse:     got unsigned int [assigned] [usertype] nexus
-   drivers/scsi/aacraid/aachba.c:1672:6: sparse: sparse: symbol 'aac_update_hba_map' was not declared. Should it be static?
-   drivers/scsi/aacraid/aachba.c:1836:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] VirtDeviceBus @@     got int @@
-   drivers/scsi/aacraid/aachba.c:1836:52: sparse:     expected restricted __le16 [usertype] VirtDeviceBus
-   drivers/scsi/aacraid/aachba.c:1836:52: sparse:     got int
-   drivers/scsi/aacraid/aachba.c:1904:53: sparse: sparse: restricted __le16 degrades to integer
-   drivers/scsi/aacraid/aachba.c:3507:58: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] rmw_nexus @@     got unsigned int @@
-   drivers/scsi/aacraid/aachba.c:3507:58: sparse:     expected restricted __le32 [usertype] rmw_nexus
-   drivers/scsi/aacraid/aachba.c:3507:58: sparse:     got unsigned int
->> drivers/scsi/aacraid/aachba.c:4000:51: sparse: sparse: cast truncates bits from constant value (1000000 becomes 0)
-   In file included from include/linux/kernel.h:11,
-                    from drivers/scsi/aacraid/aachba.c:27:
-   include/linux/log2.h:22:1: warning: ignoring attribute 'noreturn' because it conflicts with attribute 'const' [-Wattributes]
-      22 | int ____ilog2_NaN(void);
-         | ^~~
-   drivers/scsi/aacraid/aachba.c: In function 'aac_probe_container':
-   drivers/scsi/aacraid/aachba.c:796:30: warning: cast between incompatible function types from 'int (*)(struct scsi_cmnd *)' to 'void (*)(struct scsi_cmnd *)' [-Wcast-function-type]
-     796 |         scsicmd->scsi_done = (void (*)(struct scsi_cmnd*))aac_probe_container_callback1;
-         |                              ^
-   drivers/scsi/aacraid/aachba.c: At top level:
-   drivers/scsi/aacraid/aachba.c:1672:6: warning: no previous prototype for 'aac_update_hba_map' [-Wmissing-prototypes]
-    1672 | void aac_update_hba_map(struct aac_dev *dev,
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/scsi/aacraid/aachba.c: In function 'aac_report_phys_luns':
-   drivers/scsi/aacraid/aachba.c:1791:19: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
-    1791 |         if (rcode >= 0 && phys_luns->resp_flag == 2) {
-         |                   ^~
-   drivers/scsi/aacraid/aachba.c: In function 'aac_srb_callback':
-   drivers/scsi/aacraid/aachba.c:3250:25: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-    3250 |         struct aac_dev *dev;
-         |                         ^~~
-   drivers/scsi/aacraid/aachba.c: In function 'aac_build_sg':
-   drivers/scsi/aacraid/aachba.c:3694:25: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-    3694 |         struct aac_dev *dev;
-         |                         ^~~
-   drivers/scsi/aacraid/aachba.c: In function 'aac_build_sg64':
-   drivers/scsi/aacraid/aachba.c:3737:25: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-    3737 |         struct aac_dev *dev;
-         |                         ^~~
-   drivers/scsi/aacraid/aachba.c: In function 'aac_scsi_cmd':
-   drivers/scsi/aacraid/aachba.c:2667:63: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    2666 |                                         if (!(dev->raw_io_interface) ||
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2667 |                                             !(dev->raw_io_64) ||
-         |                                             ~~~~~~~~~~~~~~~~~~^~
-    2668 |                                             ((scsicmd->cmnd[1] & 0x1f) != SAI_READ_CAPACITY_16))
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/aacraid/aachba.c:2670:33: note: here
-    2670 |                                 case INQUIRY:
-         |                                 ^~~~
-   drivers/scsi/aacraid/aachba.c:2749:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    2749 |                 if ((aac_cache & 6) != 2)
-         |                    ^
-   drivers/scsi/aacraid/aachba.c:2751:9: note: here
-    2751 |         case INQUIRY:
-         |         ^~~~
-   drivers/scsi/aacraid/aachba.c:3080:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    3080 |                 if (fsa_dev_ptr[cid].sense_data.sense_key == NOT_READY) {
-         |                    ^
-   drivers/scsi/aacraid/aachba.c:3093:9: note: here
-    3093 |         case RESERVE:
-         |         ^~~~
-   drivers/scsi/aacraid/aachba.c: In function 'aac_convert_sgraw2.isra':
-   drivers/scsi/aacraid/aachba.c:3923:42: warning: array subscript 1 is above array bounds of 'struct sge_ieee1212[1]' [-Warray-bounds=]
-    3923 |                 for (j = 0; j < rio2->sge[i].length / (pages * PAGE_SIZE); ++j) {
-         |                                 ~~~~~~~~~^~~
-   In file included from drivers/scsi/aacraid/aachba.c:44:
-   drivers/scsi/aacraid/aacraid.h:1845:33: note: while referencing 'sge'
-    1845 |         struct sge_ieee1212     sge[1];
-         |                                 ^~~
-   drivers/scsi/aacraid/aachba.c:3924:45: warning: array subscript 1 is above array bounds of 'struct sge_ieee1212[1]' [-Warray-bounds=]
-    3924 |                         addr_low = rio2->sge[i].addrLow + j * pages * PAGE_SIZE;
-         |                                    ~~~~~~~~~^~~
-   drivers/scsi/aacraid/aacraid.h:1845:33: note: while referencing 'sge'
-    1845 |         struct sge_ieee1212     sge[1];
-         |                                 ^~~
-   drivers/scsi/aacraid/aachba.c:3926:54: warning: array subscript 1 is above array bounds of 'struct sge_ieee1212[1]' [-Warray-bounds=]
-    3926 |                         sge[pos].addrHigh = rio2->sge[i].addrHigh;
-         |                                             ~~~~~~~~~^~~
-   drivers/scsi/aacraid/aacraid.h:1845:33: note: while referencing 'sge'
-    1845 |         struct sge_ieee1212     sge[1];
-         |                                 ^~~
-   drivers/scsi/aacraid/aachba.c:3927:49: warning: array subscript 1 is above array bounds of 'struct sge_ieee1212[1]' [-Warray-bounds=]
-    3927 |                         if (addr_low < rio2->sge[i].addrLow)
-         |                                        ~~~~~~~~~^~~
-   drivers/scsi/aacraid/aacraid.h:1845:33: note: while referencing 'sge'
-    1845 |         struct sge_ieee1212     sge[1];
-         |                                 ^~~
-   drivers/scsi/aacraid/aachba.c: In function 'aac_build_sgraw2':
-   drivers/scsi/aacraid/aachba.c:3885:54: warning: array subscript 1 is above array bounds of 'struct sge_ieee1212[1]' [-Warray-bounds=]
-    3885 |                                         if (rio2->sge[j].length % (i*PAGE_SIZE)) {
-         |                                             ~~~~~~~~~^~~
-   drivers/scsi/aacraid/aacraid.h:1845:33: note: while referencing 'sge'
-    1845 |         struct sge_ieee1212     sge[1];
-         |                                 ^~~
-   drivers/scsi/aacraid/aachba.c:352: warning: Function parameter or member 'dev' not described in 'aac_get_config_status'
-   drivers/scsi/aacraid/aachba.c:352: warning: Function parameter or member 'commit_flag' not described in 'aac_get_config_status'
-   drivers/scsi/aacraid/aachba.c:352: warning: Excess function parameter 'common' description in 'aac_get_config_status'
-   drivers/scsi/aacraid/aachba.c:444: warning: Function parameter or member 'dev' not described in 'aac_get_containers'
-   drivers/scsi/aacraid/aachba.c:444: warning: Excess function parameter 'common' description in 'aac_get_containers'
-   drivers/scsi/aacraid/aachba.c:560: warning: Function parameter or member 'scsicmd' not described in 'aac_get_container_name'
-   drivers/scsi/aacraid/aachba.c:779: warning: Function parameter or member 'scsicmd' not described in 'aac_probe_container_callback1'
-   drivers/scsi/aacraid/aachba.c:779: warning: expecting prototype for aac_probe_container(). Prototype was for aac_probe_container_callback1() instead
-   drivers/scsi/aacraid/aachba.c:829: warning: expecting prototype for InqStrCopy(). Prototype was for inqstrcpy() instead
-   drivers/scsi/aacraid/aachba.c:1040: warning: Function parameter or member 'scsicmd' not described in 'aac_get_container_serial'
-   drivers/scsi/aacraid/aachba.c:1674: warning: Function parameter or member 'rescan' not described in 'aac_update_hba_map'
-   drivers/scsi/aacraid/aachba.c:1674: warning: expecting prototype for aac_update hba_map()(). Prototype was for aac_update_hba_map() instead
-   drivers/scsi/aacraid/aachba.c:1726: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    *      aac_report_phys_luns()  Process topology change
-   drivers/scsi/aacraid/aachba.c:3239: warning: Cannot understand  *
+>> drivers/ata/pata_parport/comm.c:135:59: sparse: sparse: cast to restricted __le16
+>> drivers/ata/pata_parport/comm.c:135:59: sparse: sparse: cast to restricted __le16
+>> drivers/ata/pata_parport/comm.c:135:59: sparse: sparse: cast to restricted __le16
+>> drivers/ata/pata_parport/comm.c:135:59: sparse: sparse: cast to restricted __le16
+   drivers/ata/pata_parport/comm.c: note: in included file (through arch/m68k/include/asm/io.h):
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
+--
+>> drivers/ata/pata_parport/epat.c:146:62: sparse: sparse: cast to restricted __le16
+>> drivers/ata/pata_parport/epat.c:146:62: sparse: sparse: cast to restricted __le16
+>> drivers/ata/pata_parport/epat.c:146:62: sparse: sparse: cast to restricted __le16
+>> drivers/ata/pata_parport/epat.c:146:62: sparse: sparse: cast to restricted __le16
+   drivers/ata/pata_parport/epat.c: note: in included file (through arch/m68k/include/asm/io.h):
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
+   arch/m68k/include/asm/io_mm.h:166:21: sparse: sparse: Using plain integer as NULL pointer
 
-vim +4000 drivers/scsi/aacraid/aachba.c
+vim +135 drivers/ata/pata_parport/comm.c
 
-  3943	
-  3944	static long aac_build_sghba(struct scsi_cmnd *scsicmd,
-  3945				struct aac_hba_cmd_req *hbacmd,
-  3946				int sg_max,
-  3947				u64 sg_address)
-  3948	{
-  3949		unsigned long byte_count = 0;
-  3950		int nseg;
-  3951		struct scatterlist *sg;
-  3952		int i;
-  3953		u32 cur_size;
-  3954		struct aac_hba_sgl *sge;
-  3955	
-  3956	
-  3957	
-  3958		nseg = scsi_dma_map(scsicmd);
-  3959		if (nseg <= 0) {
-  3960			byte_count = nseg;
-  3961			goto out;
-  3962		}
-  3963	
-  3964		if (nseg > HBA_MAX_SG_EMBEDDED)
-  3965			sge = &hbacmd->sge[2];
-  3966		else
-  3967			sge = &hbacmd->sge[0];
-  3968	
-  3969		scsi_for_each_sg(scsicmd, sg, nseg, i) {
-  3970			int count = sg_dma_len(sg);
-  3971			u64 addr = sg_dma_address(sg);
-  3972	
-  3973			WARN_ON(i >= sg_max);
-  3974			sge->addr_hi = cpu_to_le32((u32)(addr>>32));
-  3975			sge->addr_lo = cpu_to_le32((u32)(addr & 0xffffffff));
-  3976			cur_size = cpu_to_le32(count);
-  3977			sge->len = cur_size;
-  3978			sge->flags = 0;
-  3979			byte_count += count;
-  3980			sge++;
-  3981		}
-  3982	
-  3983		sge--;
-  3984		/* hba wants the size to be exact */
-  3985		if (byte_count > scsi_bufflen(scsicmd)) {
-  3986			u32 temp;
-  3987	
-  3988			temp = le32_to_cpu(sge->len) - byte_count
-  3989							- scsi_bufflen(scsicmd);
-  3990			sge->len = cpu_to_le32(temp);
-  3991			byte_count = scsi_bufflen(scsicmd);
-  3992		}
-  3993	
-  3994		if (nseg <= HBA_MAX_SG_EMBEDDED) {
-  3995			hbacmd->emb_data_desc_count = cpu_to_le32(nseg);
-  3996			sge->flags = cpu_to_le32(0x40000000);
-  3997		} else {
-  3998			/* not embedded */
-  3999			hbacmd->sge[0].flags = cpu_to_le32(0x80000000);
-> 4000			hbacmd->emb_data_desc_count = (u8)cpu_to_le32(1);
-  4001			hbacmd->sge[0].addr_hi = (u32)cpu_to_le32(sg_address >> 32);
-  4002			hbacmd->sge[0].addr_lo =
-  4003				cpu_to_le32((u32)(sg_address & 0xffffffff));
-  4004		}
-  4005	
-  4006		/* Check for command underflow */
-  4007		if (scsicmd->underflow && (byte_count < scsicmd->underflow)) {
-  4008			pr_warn("aacraid: cmd len %08lX cmd underflow %08X\n",
-  4009					byte_count, scsicmd->underflow);
-  4010		}
-  4011	out:
-  4012		return byte_count;
-  4013	}
-  4014	
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  111  
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  112          switch (pi->mode) {
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  113          
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  114          case 0: w0(0x48); P1;
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  115                  for(i=0;i<count;i++) {
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  116                          w0(0); w2(6); l = r1();
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  117                          w0(0x80); h = r1(); w2(4);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  118                          buf[i] = j44(l,h);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  119                  }
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  120                  break;
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  121  
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  122          case 1: w0(0x68); P1; w0(0);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  123                  for(i=0;i<count;i++) {
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  124                          w2(0x26); buf[i] = r0(); w2(0x24);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  125                  }
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  126  		w2(4);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  127  		break;
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  128  		
+10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24  129  	case 2: w3(0x68); (void)r1(); w2(0x24);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  130  		for (i=0;i<count;i++) buf[i] = r4();
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  131  		w2(4);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  132  		break;
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  133  
+10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24  134          case 3: w3(0x68); (void)r1(); w2(0x24);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16 @135                  for (i=0;i<count/2;i++) ((u16 *)buf)[i] = r4w();
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  136                  w2(4);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  137                  break;
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  138  
+10e705f83c3e79 drivers/block/paride/comm.c Takashi Iwai   2006-03-24  139          case 4: w3(0x68); (void)r1(); w2(0x24);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  140                  for (i=0;i<count/4;i++) ((u32 *)buf)[i] = r4l();
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  141                  w2(4);
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  142                  break;
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  143  		
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  144  	}
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  145  }
+^1da177e4c3f41 drivers/block/paride/comm.c Linus Torvalds 2005-04-16  146  
+
+:::::: The code at line 135 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
