@@ -1,115 +1,286 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEDE31599
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 14:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAD136AE0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 14:52:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HI23m76u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bx+k2RKQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702650045; x=1734186045;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=a2T5WAD/gFJSJbjGLC77H5z2qRqqvtIjxKbO3rM8iKU=;
-  b=HI23m76uda0rDeJNTy3MaxKaop6AMh9MHUO1QTu1M6Eak6Asd2RuD0RS
-   yzm5AvDiqvu6yjxq/SDkxQJQocAlqv155Kwkem5eQVuGh2MwC/Vb8kKK/
-   +HZ10OuKDizwDvijidXcr1qHPA4qkRhTPPc7iWQznlOM/RfU0BmpIBl8r
-   aTs0OnNy6WGZCg0ljQTGAeOiAxrTUV0ofwnF+8wTWB6it3OkivHiRXqkf
-   F2mMTA6vh1V7Oc9OnlD7qVtzMBLKMVyr6GWzDIejj7rTbz07CxOta+Oik
-   G6IZILIvgD49+3odtGOWGESm66FrBNq25i26EYWzcnSlLwAGu17IUwegm
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="461743598"
-X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
-   d="scan'208";a="461743598"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 06:20:44 -0800
+  t=1702651964; x=1734187964;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2vzE6ESKN/CwvhaBtpgxpB8ir5qWDoJImXPR3IbcY6M=;
+  b=Bx+k2RKQ8M/1J03tDqoUi269g/kCPnlq7XBX+jAU8tokFKjqfh7c937w
+   V1ZVb2r/AasMRYOCduyeftfJdnx66tKi/2J1+2fwsG5bznhaKGdEXEInL
+   mZVQBcCIGJYw675OMsh+ZBBJIfHEVvgQLyw2cTLeElUsgR73xHW4+vl00
+   wbXU+NRaeLljaCr/UQE9eDDF1qCs67ImBrEd6gkQilyW3g23RuTDZlTdl
+   RoBXR62bSYADA54ZBjPJ4ELf4pUt8SMvCHlxC7SYbL2cnSmG7mhYJG6Lb
+   8/SbZAPa3LoQuY3MpnbN8abk868u49w0fAr6mVfrJXw9ARVymZYmNhKaV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="459603922"
+X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
+   d="scan'208";a="459603922"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 06:52:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="892911857"
-X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
-   d="scan'208";a="892911857"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="898162613"
+X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
+   d="scan'208";a="898162613"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 15 Dec 2023 06:20:40 -0800
+  by orsmga004.jf.intel.com with ESMTP; 15 Dec 2023 06:52:41 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rE93O-0000Iw-07;
-	Fri, 15 Dec 2023 14:20:38 +0000
-Date: Fri, 15 Dec 2023 22:20:03 +0800
+	id 1rE9YN-0000Ks-09;
+	Fri, 15 Dec 2023 14:52:39 +0000
+Date: Fri, 15 Dec 2023 22:52:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Russell King <linux@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Georgi Djakov <djakov@kernel.org>, Rob Herring <robh@kernel.org>,
-	linux-tegra@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 4/5] memory: tegra30-emc: Simplify usage of
- clk_rate_exclusive_get()
-Message-ID: <202312152223.5QHKKu32-lkp@intel.com>
-References: <9cf2553c9da167ebf6654bbdeab6ce2a93232ca6.1702400947.git.u.kleine-koenig@pengutronix.de>
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/powerpc/platforms/powernv/opal-core.c:476:58: sparse: sparse:
+ incorrect type in argument 2 (different base types)
+Message-ID: <202312152232.LjW9o87F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9cf2553c9da167ebf6654bbdeab6ce2a93232ca6.1702400947.git.u.kleine-koenig@pengutronix.de>
 
-Hi Uwe,
+Hi Michael,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on bbd220ce4e29ed55ab079007cff0b550895258eb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/PM-devfreq-sun8i-a33-mbus-Simplify-usage-of-clk_rate_exclusive_get/20231213-012823
-base:   bbd220ce4e29ed55ab079007cff0b550895258eb
-patch link:    https://lore.kernel.org/r/9cf2553c9da167ebf6654bbdeab6ce2a93232ca6.1702400947.git.u.kleine-koenig%40pengutronix.de
-patch subject: [PATCH 4/5] memory: tegra30-emc: Simplify usage of clk_rate_exclusive_get()
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231215/202312152223.5QHKKu32-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312152223.5QHKKu32-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3f7168591ebf7bbdb91797d02b1afaf00a4289b1
+commit: d936f8182e1bd18f5e9e6c5e8d8b69261200ca96 powerpc/powernv: Fix type of opal_mpipl_query_tag() addr argument
+date:   2 years, 8 months ago
+config: powerpc64-randconfig-r113-20231118 (https://download.01.org/0day-ci/archive/20231215/202312152232.LjW9o87F-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231215/202312152232.LjW9o87F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312152223.5QHKKu32-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312152232.LjW9o87F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/powerpc/platforms/powernv/opal-core.c:99:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] n_namesz @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:99:24: sparse:     expected unsigned int [usertype] n_namesz
+   arch/powerpc/platforms/powernv/opal-core.c:99:24: sparse:     got restricted __be32 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:100:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] n_descsz @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:100:24: sparse:     expected unsigned int [usertype] n_descsz
+   arch/powerpc/platforms/powernv/opal-core.c:100:24: sparse:     got restricted __be32 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:101:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] n_type @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:101:24: sparse:     expected unsigned int [usertype] n_type
+   arch/powerpc/platforms/powernv/opal-core.c:101:24: sparse:     got restricted __be32 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:122:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [usertype] pr_pid @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:122:34: sparse:     expected int [usertype] pr_pid
+   arch/powerpc/platforms/powernv/opal-core.c:122:34: sparse:     got restricted __be32 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:123:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [usertype] pr_ppid @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:123:34: sparse:     expected int [usertype] pr_ppid
+   arch/powerpc/platforms/powernv/opal-core.c:123:34: sparse:     got restricted __be32 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:133:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected short pr_cursig @@     got restricted __be16 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:133:44: sparse:     expected short pr_cursig
+   arch/powerpc/platforms/powernv/opal-core.c:133:44: sparse:     got restricted __be16 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:146:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:146:21: sparse:     expected unsigned long long [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:146:21: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:147:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:147:21: sparse:     expected unsigned long long [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:147:21: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:150:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:150:21: sparse:     expected unsigned long long [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:150:21: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:277:17: sparse: sparse: cast to restricted __be64
+   arch/powerpc/platforms/powernv/opal-core.c:277:17: sparse: sparse: cast to restricted __be64
+   arch/powerpc/platforms/powernv/opal-core.c:363:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_type @@     got restricted __be16 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:363:21: sparse:     expected unsigned short [usertype] e_type
+   arch/powerpc/platforms/powernv/opal-core.c:363:21: sparse:     got restricted __be16 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:364:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_machine @@     got restricted __be16 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:364:24: sparse:     expected unsigned short [usertype] e_machine
+   arch/powerpc/platforms/powernv/opal-core.c:364:24: sparse:     got restricted __be16 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:365:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] e_version @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:365:24: sparse:     expected unsigned int [usertype] e_version
+   arch/powerpc/platforms/powernv/opal-core.c:365:24: sparse:     got restricted __be32 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:367:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] e_phoff @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:367:22: sparse:     expected unsigned long long [usertype] e_phoff
+   arch/powerpc/platforms/powernv/opal-core.c:367:22: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:371:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_ehsize @@     got restricted __be16 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:371:23: sparse:     expected unsigned short [usertype] e_ehsize
+   arch/powerpc/platforms/powernv/opal-core.c:371:23: sparse:     got restricted __be16 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:372:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_phentsize @@     got restricted __be16 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:372:26: sparse:     expected unsigned short [usertype] e_phentsize
+   arch/powerpc/platforms/powernv/opal-core.c:372:26: sparse:     got restricted __be16 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:380:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] p_type @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:380:25: sparse:     expected unsigned int [usertype] p_type
+   arch/powerpc/platforms/powernv/opal-core.c:380:25: sparse:     got restricted __be32 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:384:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_offset @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:384:25: sparse:     expected unsigned long long [usertype] p_offset
+   arch/powerpc/platforms/powernv/opal-core.c:384:25: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:385:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_memsz @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:385:41: sparse:     expected unsigned long long [usertype] p_memsz
+   arch/powerpc/platforms/powernv/opal-core.c:385:41: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:394:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] p_type @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:394:33: sparse:     expected unsigned int [usertype] p_type
+   arch/powerpc/platforms/powernv/opal-core.c:394:33: sparse:     got restricted __be32 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:395:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] p_flags @@     got restricted __be32 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:395:33: sparse:     expected unsigned int [usertype] p_flags
+   arch/powerpc/platforms/powernv/opal-core.c:395:33: sparse:     got restricted __be32 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:406:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_paddr @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:406:33: sparse:     expected unsigned long long [usertype] p_paddr
+   arch/powerpc/platforms/powernv/opal-core.c:406:33: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:407:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_vaddr @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:407:33: sparse:     expected unsigned long long [usertype] p_vaddr
+   arch/powerpc/platforms/powernv/opal-core.c:407:33: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:408:50: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_memsz @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:408:50: sparse:     expected unsigned long long [usertype] p_memsz
+   arch/powerpc/platforms/powernv/opal-core.c:408:50: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:410:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] p_offset @@     got restricted __be64 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:410:33: sparse:     expected unsigned long long [usertype] p_offset
+   arch/powerpc/platforms/powernv/opal-core.c:410:33: sparse:     got restricted __be64 [usertype]
+   arch/powerpc/platforms/powernv/opal-core.c:417:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] e_phnum @@     got restricted __be16 [usertype] @@
+   arch/powerpc/platforms/powernv/opal-core.c:417:22: sparse:     expected unsigned short [usertype] e_phnum
+   arch/powerpc/platforms/powernv/opal-core.c:417:22: sparse:     got restricted __be16 [usertype]
+>> arch/powerpc/platforms/powernv/opal-core.c:476:58: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be64 [usertype] *addr @@     got unsigned long long * @@
+   arch/powerpc/platforms/powernv/opal-core.c:476:58: sparse:     expected restricted __be64 [usertype] *addr
+   arch/powerpc/platforms/powernv/opal-core.c:476:58: sparse:     got unsigned long long *
+   arch/powerpc/platforms/powernv/opal-core.c:482:16: sparse: sparse: cast to restricted __be64
+   arch/powerpc/platforms/powernv/opal-core.c:487:57: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be64 [usertype] *addr @@     got unsigned long long * @@
+   arch/powerpc/platforms/powernv/opal-core.c:487:57: sparse:     expected restricted __be64 [usertype] *addr
+   arch/powerpc/platforms/powernv/opal-core.c:487:57: sparse:     got unsigned long long *
+   arch/powerpc/platforms/powernv/opal-core.c:493:16: sparse: sparse: cast to restricted __be64
+   arch/powerpc/platforms/powernv/opal-core.c: note: in included file:
+   arch/powerpc/platforms/powernv/opal-fadump.h:138:33: sparse: sparse: restricted __be64 degrades to integer
 
-   drivers/memory/tegra/tegra30-emc.c: In function 'tegra_emc_suspend':
->> drivers/memory/tegra/tegra30-emc.c:1696:13: warning: unused variable 'err' [-Wunused-variable]
-    1696 |         int err;
-         |             ^~~
+vim +476 arch/powerpc/platforms/powernv/opal-core.c
 
+6f713d18144ce8 Hari Bathini  2019-09-11  450  
+6f713d18144ce8 Hari Bathini  2019-09-11  451  static void __init opalcore_config_init(void)
+6f713d18144ce8 Hari Bathini  2019-09-11  452  {
+6f713d18144ce8 Hari Bathini  2019-09-11  453  	u32 idx, cpu_data_version;
+6f713d18144ce8 Hari Bathini  2019-09-11  454  	struct device_node *np;
+6f713d18144ce8 Hari Bathini  2019-09-11  455  	const __be32 *prop;
+6f713d18144ce8 Hari Bathini  2019-09-11  456  	u64 addr = 0;
+6f713d18144ce8 Hari Bathini  2019-09-11  457  	int i, ret;
+6f713d18144ce8 Hari Bathini  2019-09-11  458  
+6f713d18144ce8 Hari Bathini  2019-09-11  459  	np = of_find_node_by_path("/ibm,opal/dump");
+6f713d18144ce8 Hari Bathini  2019-09-11  460  	if (np == NULL)
+6f713d18144ce8 Hari Bathini  2019-09-11  461  		return;
+6f713d18144ce8 Hari Bathini  2019-09-11  462  
+6f713d18144ce8 Hari Bathini  2019-09-11  463  	if (!of_device_is_compatible(np, "ibm,opal-dump")) {
+6f713d18144ce8 Hari Bathini  2019-09-11  464  		pr_warn("Support missing for this f/w version!\n");
+6f713d18144ce8 Hari Bathini  2019-09-11  465  		return;
+6f713d18144ce8 Hari Bathini  2019-09-11  466  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  467  
+6f713d18144ce8 Hari Bathini  2019-09-11  468  	/* Check if dump has been initiated on last reboot */
+6f713d18144ce8 Hari Bathini  2019-09-11  469  	prop = of_get_property(np, "mpipl-boot", NULL);
+6f713d18144ce8 Hari Bathini  2019-09-11  470  	if (!prop) {
+6f713d18144ce8 Hari Bathini  2019-09-11  471  		of_node_put(np);
+6f713d18144ce8 Hari Bathini  2019-09-11  472  		return;
+6f713d18144ce8 Hari Bathini  2019-09-11  473  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  474  
+6f713d18144ce8 Hari Bathini  2019-09-11  475  	/* Get OPAL metadata */
+6f713d18144ce8 Hari Bathini  2019-09-11 @476  	ret = opal_mpipl_query_tag(OPAL_MPIPL_TAG_OPAL, &addr);
+6f713d18144ce8 Hari Bathini  2019-09-11  477  	if ((ret != OPAL_SUCCESS) || !addr) {
+6f713d18144ce8 Hari Bathini  2019-09-11  478  		pr_err("Failed to get OPAL metadata (%d)\n", ret);
+6f713d18144ce8 Hari Bathini  2019-09-11  479  		goto error_out;
+6f713d18144ce8 Hari Bathini  2019-09-11  480  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  481  
+6f713d18144ce8 Hari Bathini  2019-09-11  482  	addr = be64_to_cpu(addr);
+6f713d18144ce8 Hari Bathini  2019-09-11  483  	pr_debug("OPAL metadata addr: %llx\n", addr);
+6f713d18144ce8 Hari Bathini  2019-09-11  484  	opalc_metadata = __va(addr);
+6f713d18144ce8 Hari Bathini  2019-09-11  485  
+6f713d18144ce8 Hari Bathini  2019-09-11  486  	/* Get OPAL CPU metadata */
+6f713d18144ce8 Hari Bathini  2019-09-11  487  	ret = opal_mpipl_query_tag(OPAL_MPIPL_TAG_CPU, &addr);
+6f713d18144ce8 Hari Bathini  2019-09-11  488  	if ((ret != OPAL_SUCCESS) || !addr) {
+6f713d18144ce8 Hari Bathini  2019-09-11  489  		pr_err("Failed to get OPAL CPU metadata (%d)\n", ret);
+6f713d18144ce8 Hari Bathini  2019-09-11  490  		goto error_out;
+6f713d18144ce8 Hari Bathini  2019-09-11  491  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  492  
+6f713d18144ce8 Hari Bathini  2019-09-11  493  	addr = be64_to_cpu(addr);
+6f713d18144ce8 Hari Bathini  2019-09-11  494  	pr_debug("CPU metadata addr: %llx\n", addr);
+6f713d18144ce8 Hari Bathini  2019-09-11  495  	opalc_cpu_metadata = __va(addr);
+6f713d18144ce8 Hari Bathini  2019-09-11  496  
+6f713d18144ce8 Hari Bathini  2019-09-11  497  	/* Allocate memory for config buffer */
+6f713d18144ce8 Hari Bathini  2019-09-11  498  	oc_conf = kzalloc(sizeof(struct opalcore_config), GFP_KERNEL);
+6f713d18144ce8 Hari Bathini  2019-09-11  499  	if (oc_conf == NULL)
+6f713d18144ce8 Hari Bathini  2019-09-11  500  		goto error_out;
+6f713d18144ce8 Hari Bathini  2019-09-11  501  
+6f713d18144ce8 Hari Bathini  2019-09-11  502  	/* Parse OPAL metadata */
+6f713d18144ce8 Hari Bathini  2019-09-11  503  	if (opalc_metadata->version != OPAL_MPIPL_VERSION) {
+6f713d18144ce8 Hari Bathini  2019-09-11  504  		pr_warn("Supported OPAL metadata version: %u, found: %u!\n",
+6f713d18144ce8 Hari Bathini  2019-09-11  505  			OPAL_MPIPL_VERSION, opalc_metadata->version);
+6f713d18144ce8 Hari Bathini  2019-09-11  506  		pr_warn("WARNING: F/W using newer OPAL metadata format!!\n");
+6f713d18144ce8 Hari Bathini  2019-09-11  507  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  508  
+6f713d18144ce8 Hari Bathini  2019-09-11  509  	oc_conf->ptload_cnt = 0;
+6f713d18144ce8 Hari Bathini  2019-09-11  510  	idx = be32_to_cpu(opalc_metadata->region_cnt);
+6f713d18144ce8 Hari Bathini  2019-09-11  511  	if (idx > MAX_PT_LOAD_CNT) {
+6f713d18144ce8 Hari Bathini  2019-09-11  512  		pr_warn("WARNING: OPAL regions count (%d) adjusted to limit (%d)",
+8ec5cb12cd957e Qinglang Miao 2020-09-16  513  			idx, MAX_PT_LOAD_CNT);
+6f713d18144ce8 Hari Bathini  2019-09-11  514  		idx = MAX_PT_LOAD_CNT;
+6f713d18144ce8 Hari Bathini  2019-09-11  515  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  516  	for (i = 0; i < idx; i++) {
+6f713d18144ce8 Hari Bathini  2019-09-11  517  		oc_conf->ptload_addr[oc_conf->ptload_cnt] =
+6f713d18144ce8 Hari Bathini  2019-09-11  518  				be64_to_cpu(opalc_metadata->region[i].dest);
+6f713d18144ce8 Hari Bathini  2019-09-11  519  		oc_conf->ptload_size[oc_conf->ptload_cnt++] =
+6f713d18144ce8 Hari Bathini  2019-09-11  520  				be64_to_cpu(opalc_metadata->region[i].size);
+6f713d18144ce8 Hari Bathini  2019-09-11  521  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  522  	oc_conf->ptload_cnt = i;
+6f713d18144ce8 Hari Bathini  2019-09-11  523  	oc_conf->crashing_cpu = be32_to_cpu(opalc_metadata->crashing_pir);
+6f713d18144ce8 Hari Bathini  2019-09-11  524  
+6f713d18144ce8 Hari Bathini  2019-09-11  525  	if (!oc_conf->ptload_cnt) {
+6f713d18144ce8 Hari Bathini  2019-09-11  526  		pr_err("OPAL memory regions not found\n");
+6f713d18144ce8 Hari Bathini  2019-09-11  527  		goto error_out;
+6f713d18144ce8 Hari Bathini  2019-09-11  528  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  529  
+6f713d18144ce8 Hari Bathini  2019-09-11  530  	/* Parse OPAL CPU metadata */
+6f713d18144ce8 Hari Bathini  2019-09-11  531  	cpu_data_version = be32_to_cpu(opalc_cpu_metadata->cpu_data_version);
+6f713d18144ce8 Hari Bathini  2019-09-11  532  	if (cpu_data_version != HDAT_FADUMP_CPU_DATA_VER) {
+6f713d18144ce8 Hari Bathini  2019-09-11  533  		pr_warn("Supported CPU data version: %u, found: %u!\n",
+6f713d18144ce8 Hari Bathini  2019-09-11  534  			HDAT_FADUMP_CPU_DATA_VER, cpu_data_version);
+6f713d18144ce8 Hari Bathini  2019-09-11  535  		pr_warn("WARNING: F/W using newer CPU state data format!!\n");
+6f713d18144ce8 Hari Bathini  2019-09-11  536  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  537  
+6f713d18144ce8 Hari Bathini  2019-09-11  538  	addr = be64_to_cpu(opalc_cpu_metadata->region[0].dest);
+6f713d18144ce8 Hari Bathini  2019-09-11  539  	if (!addr) {
+6f713d18144ce8 Hari Bathini  2019-09-11  540  		pr_err("CPU state data not found!\n");
+6f713d18144ce8 Hari Bathini  2019-09-11  541  		goto error_out;
+6f713d18144ce8 Hari Bathini  2019-09-11  542  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  543  	oc_conf->cpu_state_destination_vaddr = (u64)__va(addr);
+6f713d18144ce8 Hari Bathini  2019-09-11  544  
+6f713d18144ce8 Hari Bathini  2019-09-11  545  	oc_conf->cpu_state_data_size =
+6f713d18144ce8 Hari Bathini  2019-09-11  546  			be64_to_cpu(opalc_cpu_metadata->region[0].size);
+6f713d18144ce8 Hari Bathini  2019-09-11  547  	oc_conf->cpu_state_entry_size =
+6f713d18144ce8 Hari Bathini  2019-09-11  548  			be32_to_cpu(opalc_cpu_metadata->cpu_data_size);
+6f713d18144ce8 Hari Bathini  2019-09-11  549  
+6f713d18144ce8 Hari Bathini  2019-09-11  550  	if ((oc_conf->cpu_state_entry_size == 0) ||
+6f713d18144ce8 Hari Bathini  2019-09-11  551  	    (oc_conf->cpu_state_entry_size > oc_conf->cpu_state_data_size)) {
+6f713d18144ce8 Hari Bathini  2019-09-11  552  		pr_err("CPU state data is invalid.\n");
+6f713d18144ce8 Hari Bathini  2019-09-11  553  		goto error_out;
+6f713d18144ce8 Hari Bathini  2019-09-11  554  	}
+6f713d18144ce8 Hari Bathini  2019-09-11  555  	oc_conf->num_cpus = (oc_conf->cpu_state_data_size /
+6f713d18144ce8 Hari Bathini  2019-09-11  556  			     oc_conf->cpu_state_entry_size);
+6f713d18144ce8 Hari Bathini  2019-09-11  557  
+6f713d18144ce8 Hari Bathini  2019-09-11  558  	of_node_put(np);
+6f713d18144ce8 Hari Bathini  2019-09-11  559  	return;
+6f713d18144ce8 Hari Bathini  2019-09-11  560  
+6f713d18144ce8 Hari Bathini  2019-09-11  561  error_out:
+6f713d18144ce8 Hari Bathini  2019-09-11  562  	pr_err("Could not export /sys/firmware/opal/core\n");
+6f713d18144ce8 Hari Bathini  2019-09-11  563  	opalcore_cleanup();
+6f713d18144ce8 Hari Bathini  2019-09-11  564  	of_node_put(np);
+6f713d18144ce8 Hari Bathini  2019-09-11  565  }
+6f713d18144ce8 Hari Bathini  2019-09-11  566  
 
-vim +/err +1696 drivers/memory/tegra/tegra30-emc.c
+:::::: The code at line 476 was first introduced by commit
+:::::: 6f713d18144ce86c9f01cdf64222d6339e26129e powerpc/opalcore: export /sys/firmware/opal/core for analysing opal crashes
 
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1692  
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1693  static int tegra_emc_suspend(struct device *dev)
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1694  {
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1695  	struct tegra_emc *emc = dev_get_drvdata(dev);
-51bb73f93410a3 Dmitry Osipenko  2019-12-20 @1696  	int err;
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1697  
-51bb73f93410a3 Dmitry Osipenko  2019-12-20  1698  	/* take exclusive control over the clock's rate */
-2ba3f947597dae Uwe Kleine-König 2023-12-12  1699  	clk_rate_exclusive_get(emc->clk);
-51bb73f93410a3 Dmitry Osipenko  2019-12-20  1700  
-51bb73f93410a3 Dmitry Osipenko  2019-12-20  1701  	/* suspending in a bad state will hang machine */
-51bb73f93410a3 Dmitry Osipenko  2019-12-20  1702  	if (WARN(emc->bad_state, "hardware in a bad state\n"))
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1703  		return -EINVAL;
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1704  
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1705  	emc->bad_state = true;
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1706  
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1707  	return 0;
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1708  }
-e34212c75a6899 Dmitry Osipenko  2019-08-12  1709  
+:::::: TO: Hari Bathini <hbathini@linux.vnet.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
