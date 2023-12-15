@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED2A41846
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 19:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0679D45BE7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 20:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UPWS7jS8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k3t150lZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702670182; x=1734206182;
+  t=1702672043; x=1734208043;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=acJlvMw5Znz1M/iFhdl4rivuaRk5KB2V/iCV4xMppJA=;
-  b=UPWS7jS8o/djYoYdip8un0HrVo2rl34hQBFqGndNkXR4st1Lservx+oK
-   rVAiejoQh1lfGtQdGj5TMiiDcYl0DPS2s+3fSZDnEk6g0UQX5yxWg4NMp
-   tq5S/ZdJ5VsIq0zHIKKDx5l9MpN+3SeG0A6flxbnKMjO0jpbm51LEZJ7+
-   SMVL4dwXjBB1m1j1KpWA0Lp5UFX55buLRh0S/k5aQ8LjiCVia/cfEJc94
-   uE4GdlQp6Y/oZRTF86fxSgeVrP5w9qwkdrkE0IRD4hkUxhUtqntogObXd
-   lXpM2wesIbOk3S721uXet0MK9NHCMLGqJ/nYwnMZzbz2mvKwiVj3Izrjf
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2144226"
+  bh=66i58z8ydVQfo7v8jDo7PKUGqm/+mmyRjt9qi4WsFPU=;
+  b=k3t150lZP1ycivOiM/EqLNMdEVXl+l86z++EcrkZ25KdmzCAjFreztqH
+   xDkBzGDUB4VS2+8kxG1+L+9dZMx0RXrcoK4kf0SJnrFAM9MsxmFTY99Up
+   6OO06VPBdG7yCCQ481rsWP92BK4jsz1tKuf8f44VeqQyYo1FJX4E+VLzb
+   TAb3j9FvMI6Idr4wGcssrObouYX67ne0etYVeNp+q4jhJ7XcYO/LMGw8o
+   1RqEq66R+unJIMK1N+dwlpm1SkUa4xodPHI9Wg3NrmsLP9Vvub4kW8Ypy
+   YKBgD2xOvOGDgzo2O9uE4OINyXkWG628q+5g+jPq1y5IKosTdAMxUp3Ds
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="392498770"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="2144226"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 11:56:21 -0800
+   d="scan'208";a="392498770"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 12:27:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="840775792"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="774872843"
 X-IronPort-AV: E=Sophos;i="6.04,279,1695711600"; 
-   d="scan'208";a="840775792"
+   d="scan'208";a="774872843"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Dec 2023 11:56:19 -0800
+  by orsmga002.jf.intel.com with ESMTP; 15 Dec 2023 12:27:20 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEEID-0000gQ-2R;
-	Fri, 15 Dec 2023 19:56:17 +0000
-Date: Sat, 16 Dec 2023 03:55:47 +0800
+	id 1rEEmE-0000i2-2c;
+	Fri, 15 Dec 2023 20:27:18 +0000
+Date: Sat, 16 Dec 2023 04:27:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jan Kara <jack@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>
-Subject: scripts/kernel-doc: kernel/power/swap.c:1573: warning: Excess
- function parameter 'exclusive' description in 'swsusp_close'
-Message-ID: <202312160357.9wW84gew-lkp@intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 8203/8213] io.c:(.text+0x6): relocation truncated
+ to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+Message-ID: <202312160433.Oz8VJHH3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,29 +51,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f7168591ebf7bbdb91797d02b1afaf00a4289b1
-commit: 93745df18e52157778a8a74cb888ac785844a7fe PM: hibernate: Drop unused snapshot_test argument
-date:   7 weeks ago
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231216/202312160357.9wW84gew-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312160357.9wW84gew-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   17cb8a20bde66a520a2ca7aad1063e1ce7382240
+commit: dbc55af6aede12ea3ce12815182ebde335da9522 [8203/8213] Merge branch 'slab/for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git
+config: csky-randconfig-r016-20220425 (https://download.01.org/0day-ci/archive/20231216/202312160433.Oz8VJHH3-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312160433.Oz8VJHH3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312160357.9wW84gew-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312160433.Oz8VJHH3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   scripts/kernel-doc: kernel/power/swap.c:544: warning: Function parameter or struct member 'handle' not described in 'save_image'
-   scripts/kernel-doc: kernel/power/swap.c:544: warning: Function parameter or struct member 'snapshot' not described in 'save_image'
-   scripts/kernel-doc: kernel/power/swap.c:544: warning: Function parameter or struct member 'nr_to_write' not described in 'save_image'
-   scripts/kernel-doc: kernel/power/swap.c:891: warning: Function parameter or struct member 'nr_pages' not described in 'enough_swap'
-   scripts/kernel-doc: kernel/power/swap.c:1062: warning: Function parameter or struct member 'handle' not described in 'load_image'
-   scripts/kernel-doc: kernel/power/swap.c:1062: warning: Function parameter or struct member 'snapshot' not described in 'load_image'
-   scripts/kernel-doc: kernel/power/swap.c:1062: warning: Function parameter or struct member 'nr_to_read' not described in 'load_image'
->> scripts/kernel-doc: kernel/power/swap.c:1573: warning: Excess function parameter 'exclusive' description in 'swsusp_close'
+   fs/netfs/io.o: in function `netfs_read_from_cache':
+>> io.c:(.text+0x6): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   io.c:(.text+0x14): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   io.c:(.text+0x42): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   io.c:(.text+0x46): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   io.c:(.text+0x6e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   fs/netfs/io.o: in function `netfs_rreq_unmark_after_write':
+   io.c:(.text+0x7c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   io.c:(.text+0x80): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   io.c:(.text+0xa0): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   io.c:(.text+0x138): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   io.c:(.text+0x14c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   io.c:(.text+0x150): additional relocation overflows omitted from the output
 
 -- 
 0-DAY CI Kernel Test Service
