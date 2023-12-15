@@ -1,151 +1,143 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56D9107A4;
-	Fri, 15 Dec 2023 05:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA276CA6F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 06:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SQtcW1Tw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8O2wI3h+tlG4jUHDYFtLk05WfU4ggOxt6a77A4Jvvx8=; b=SQtcW1TwI6CtSYQNM9N2Un+zmb
-	pLJJBLisllIsSCijzEj/n3mz5lqqoIv6Av3R3svy3eaGRsEa41OQqcGASc8ivCpLzlRDXCPdBRddt
-	5h8WFo9kdZqon2wnlEsuppp9N92Yevrg0+6DkkQp5+f2iz43Dg7oVceuOq1I/QRXXhrWHK1RhL+Oh
-	xeSiJMAT3aepfmXLj/ULA0CmcuAU24uZQz3esdLDk0o0P0QhRwRWBg1zCyIuGGhxaL8rMJcTgAItS
-	+//FUSYHp+o7aEbumnuiJZDraIPvQWKJzpvDTgTceDP/ebOmQmx3flkpnUzcLPUPofiZAW21OGENZ
-	v0CsV8CA==;
-Received: from [50.53.46.231] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1rE0uD-0025WF-0Y;
-	Fri, 15 Dec 2023 05:38:37 +0000
-Message-ID: <41c2d210-6294-491f-9926-f922fc94c321@infradead.org>
-Date: Thu, 14 Dec 2023 21:38:36 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LnJu75iL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702622989; x=1734158989;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZgBxIrEgIaVOjnCrN46tvM/6g0EOBBd04UFyN1Vvz6U=;
+  b=LnJu75iLMl4aSDsha7qAbAbsHn/k06f5tof3NM9MH4/ddePuKWDOhFDq
+   12KsA0Tg+8iRWq8actMKwvVQJKtrDU12qIroUzyDYlOsQqfCKe3lIkCVF
+   jmrWfVH4BgCNCNrE9/Na4fY66Np3dlPD0t6LNBQBF2405XnMer8rAxFz4
+   hZxAb3Jt8XUvYAM1TJSNqIgmkt/Gsao1OWHu4HoskNwM5HY/FWZicQK/n
+   QVOdknBlgffoFZdMJTh8mN09uxQ091HZqCi4ezqtH+IH0m/JBm4/UVwyI
+   oN+Ur6RDMhTU27xoFrx0rfzKiSLSXmc3RypJISvuLGYxFaH5a2++F2bRd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="16789427"
+X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
+   d="scan'208";a="16789427"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 22:49:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="865290401"
+X-IronPort-AV: E=Sophos;i="6.04,277,1695711600"; 
+   d="scan'208";a="865290401"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Dec 2023 22:49:46 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rE20D-000NCk-2n;
+	Fri, 15 Dec 2023 06:49:03 +0000
+Date: Fri, 15 Dec 2023 14:48:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] scripts/kernel-doc: restore warning for Excess
+ struct/union
+Message-ID: <202312151453.AaH01Gw5-lkp@intel.com>
+References: <20231214070200.24405-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts/kernel-doc: restore warning for Excess
- struct/union
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-media@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20231214070200.24405-1-rdunlap@infradead.org>
- <202312151356.OZmUHKRx-lkp@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202312151356.OZmUHKRx-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231214070200.24405-1-rdunlap@infradead.org>
+
+Hi Randy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.7-rc5 next-20231215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Randy-Dunlap/scripts-kernel-doc-restore-warning-for-Excess-struct-union/20231214-150722
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20231214070200.24405-1-rdunlap%40infradead.org
+patch subject: [PATCH] scripts/kernel-doc: restore warning for Excess struct/union
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231215/202312151453.AaH01Gw5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312151453.AaH01Gw5-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312151453.AaH01Gw5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:92: warning: Excess struct member 'irq' description in 'zynqmp_ipi_mbox'
+>> drivers/mailbox/zynqmp-ipi-mailbox.c:112: warning: Excess struct member 'ipi_mboxes' description in 'zynqmp_ipi_pdata'
+--
+>> drivers/pinctrl/pinctrl-zynqmp.c:60: warning: Excess struct member 'node' description in 'zynqmp_pmux_function'
+--
+>> drivers/pwm/pwm-mediatek.c:60: warning: Excess struct member 'clk_freq' description in 'pwm_mediatek_chip'
+--
+>> drivers/net/ipa/ipa_power.c:71: warning: Excess struct member 'interconnect' description in 'ipa_power'
+--
+>> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c:57: warning: Excess struct member 'wait_key_frame' description in 'vdec_vp8_slice_info'
+--
+>> drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c:166: warning: Excess struct member 'mv_joint' description in 'vdec_vp9_slice_counts_map'
 
 
+vim +92 drivers/mailbox/zynqmp-ipi-mailbox.c
 
-On 12/14/23 21:35, kernel test robot wrote:
-> Hi Randy,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-
-That's great. Thanks.
-
-> [auto build test WARNING on lwn/docs-next]
-> [also build test WARNING on linus/master v6.7-rc5 next-20231214]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Randy-Dunlap/scripts-kernel-doc-restore-warning-for-Excess-struct-union/20231214-150722
-> base:   git://git.lwn.net/linux.git docs-next
-> patch link:    https://lore.kernel.org/r/20231214070200.24405-1-rdunlap%40infradead.org
-> patch subject: [PATCH] scripts/kernel-doc: restore warning for Excess struct/union
-> config: arm-randconfig-r081-20231214 (https://download.01.org/0day-ci/archive/20231215/202312151356.OZmUHKRx-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312151356.OZmUHKRx-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312151356.OZmUHKRx-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> drivers/gpio/gpio-syscon.c:46: warning: Excess struct member 'compatible' description in 'syscon_gpio_data'
-> --
->>> drivers/gpio/gpio-xilinx.c:75: warning: Excess struct member 'irqchip' description in 'xgpio_instance'
-> --
->>> net/tipc/link.c:228: warning: Excess struct member 'media_addr' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'timer' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'refcnt' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'proto_msg' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'pmsg' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'backlog_limit' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'exp_msg_count' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'reset_rcv_checkpt' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'transmitq' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'snt_nxt' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'deferred_queue' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'unacked_window' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'next_out' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'long_msg_seq_no' description in 'tipc_link'
->>> net/tipc/link.c:228: warning: Excess struct member 'bc_rcvr' description in 'tipc_link'
-> --
->>> net/tipc/node.c:150: warning: Excess struct member 'inputq' description in 'tipc_node'
->>> net/tipc/node.c:150: warning: Excess struct member 'namedq' description in 'tipc_node'
-> --
->>> net/tipc/socket.c:143: warning: Excess struct member 'blocking_link' description in 'tipc_sock'
-> --
->>> drivers/hte/hte.c:90: warning: Excess struct member 'ei' description in 'hte_device'
-> --
->>> drivers/i2c/i2c-atr.c:98: warning: Excess struct member 'adapter' description in 'i2c_atr'
-> --
->>> drivers/leds/leds-lm3697.c:93: warning: Excess struct member 'leds' description in 'lm3697'
-> --
->>> drivers/leds/leds-mlxreg.c:42: warning: Excess struct member 'led_data' description in 'mlxreg_led_data'
-> --
->>> drivers/of/property.c:1240: warning: Excess struct member 'parse_prop.np' description in 'supplier_bindings'
->>> drivers/of/property.c:1240: warning: Excess struct member 'parse_prop.prop_name' description in 'supplier_bindings'
->>> drivers/of/property.c:1240: warning: Excess struct member 'parse_prop.index' description in 'supplier_bindings'
-> --
->>> drivers/reset/core.c:64: warning: Excess struct member 'rstc' description in 'reset_control_array'
-> ..
-> 
-> 
-> vim +46 drivers/gpio/gpio-syscon.c
-> 
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  23  
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  24  /**
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  25   * struct syscon_gpio_data - Configuration for the device.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  26   * @compatible:		SYSCON driver compatible string.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  27   * @flags:		Set of GPIO_SYSCON_FEAT_ flags:
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  28   *			GPIO_SYSCON_FEAT_IN:	GPIOs supports input,
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  29   *			GPIO_SYSCON_FEAT_OUT:	GPIOs supports output,
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  30   *			GPIO_SYSCON_FEAT_DIR:	GPIOs supports switch direction.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  31   * @bit_count:		Number of bits used as GPIOs.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  32   * @dat_bit_offset:	Offset (in bits) to the first GPIO bit.
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  33   * @dir_bit_offset:	Optional offset (in bits) to the first bit to switch
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  34   *			GPIO direction (Used with GPIO_SYSCON_FEAT_DIR flag).
-> 5f3beb67b5d1c5 Lee Jones         2020-06-30  35   * @set:		HW specific callback to assigns output value
-> 2c341d62eb4b69 Grygorii Strashko 2014-09-03  36   *			for signal "offset"
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  37   */
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  38  
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  39  struct syscon_gpio_data {
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  40  	unsigned int	flags;
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  41  	unsigned int	bit_count;
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  42  	unsigned int	dat_bit_offset;
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  43  	unsigned int	dir_bit_offset;
-> 2c341d62eb4b69 Grygorii Strashko 2014-09-03  44  	void		(*set)(struct gpio_chip *chip,
-> 2c341d62eb4b69 Grygorii Strashko 2014-09-03  45  			       unsigned offset, int value);
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11 @46  };
-> 6a8a0c1d87377c Alexander Shiyan  2014-03-11  47  
-> 
+4981b82ba2ff87d Wendy Liang 2019-02-21   74  
+4981b82ba2ff87d Wendy Liang 2019-02-21   75  /**
+4981b82ba2ff87d Wendy Liang 2019-02-21   76   * struct zynqmp_ipi_mbox - Description of a ZynqMP IPI mailbox
+4981b82ba2ff87d Wendy Liang 2019-02-21   77   *                          platform data.
+4981b82ba2ff87d Wendy Liang 2019-02-21   78   * @pdata:		  pointer to the IPI private data
+4981b82ba2ff87d Wendy Liang 2019-02-21   79   * @dev:                  device pointer corresponding to the Xilinx ZynqMP
+4981b82ba2ff87d Wendy Liang 2019-02-21   80   *                        IPI mailbox
+4981b82ba2ff87d Wendy Liang 2019-02-21   81   * @remote_id:            remote IPI agent ID
+4981b82ba2ff87d Wendy Liang 2019-02-21   82   * @mbox:                 mailbox Controller
+4981b82ba2ff87d Wendy Liang 2019-02-21   83   * @mchans:               array for channels, tx channel and rx channel.
+4981b82ba2ff87d Wendy Liang 2019-02-21   84   * @irq:                  IPI agent interrupt ID
+4981b82ba2ff87d Wendy Liang 2019-02-21   85   */
+4981b82ba2ff87d Wendy Liang 2019-02-21   86  struct zynqmp_ipi_mbox {
+4981b82ba2ff87d Wendy Liang 2019-02-21   87  	struct zynqmp_ipi_pdata *pdata;
+4981b82ba2ff87d Wendy Liang 2019-02-21   88  	struct device dev;
+4981b82ba2ff87d Wendy Liang 2019-02-21   89  	u32 remote_id;
+4981b82ba2ff87d Wendy Liang 2019-02-21   90  	struct mbox_controller mbox;
+4981b82ba2ff87d Wendy Liang 2019-02-21   91  	struct zynqmp_ipi_mchan mchans[2];
+4981b82ba2ff87d Wendy Liang 2019-02-21  @92  };
+4981b82ba2ff87d Wendy Liang 2019-02-21   93  
+4981b82ba2ff87d Wendy Liang 2019-02-21   94  /**
+4981b82ba2ff87d Wendy Liang 2019-02-21   95   * struct zynqmp_ipi_pdata - Description of z ZynqMP IPI agent platform data.
+4981b82ba2ff87d Wendy Liang 2019-02-21   96   *
+4981b82ba2ff87d Wendy Liang 2019-02-21   97   * @dev:                  device pointer corresponding to the Xilinx ZynqMP
+4981b82ba2ff87d Wendy Liang 2019-02-21   98   *                        IPI agent
+4981b82ba2ff87d Wendy Liang 2019-02-21   99   * @irq:                  IPI agent interrupt ID
+4981b82ba2ff87d Wendy Liang 2019-02-21  100   * @method:               IPI SMC or HVC is going to be used
+4981b82ba2ff87d Wendy Liang 2019-02-21  101   * @local_id:             local IPI agent ID
+4981b82ba2ff87d Wendy Liang 2019-02-21  102   * @num_mboxes:           number of mailboxes of this IPI agent
+4981b82ba2ff87d Wendy Liang 2019-02-21  103   * @ipi_mboxes:           IPI mailboxes of this IPI agent
+4981b82ba2ff87d Wendy Liang 2019-02-21  104   */
+4981b82ba2ff87d Wendy Liang 2019-02-21  105  struct zynqmp_ipi_pdata {
+4981b82ba2ff87d Wendy Liang 2019-02-21  106  	struct device *dev;
+4981b82ba2ff87d Wendy Liang 2019-02-21  107  	int irq;
+4981b82ba2ff87d Wendy Liang 2019-02-21  108  	unsigned int method;
+4981b82ba2ff87d Wendy Liang 2019-02-21  109  	u32 local_id;
+4981b82ba2ff87d Wendy Liang 2019-02-21  110  	int num_mboxes;
+c5225cd073c65a6 Kees Cook   2023-09-22  111  	struct zynqmp_ipi_mbox ipi_mboxes[] __counted_by(num_mboxes);
+4981b82ba2ff87d Wendy Liang 2019-02-21 @112  };
+4981b82ba2ff87d Wendy Liang 2019-02-21  113  
 
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
