@@ -1,114 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDD32F847
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 12:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9042DB6A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 13:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nBxA8qUn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NYE581XX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702644713; x=1734180713;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ZE7lfcTR0hQX2Pnx5bEqtJ1eBdLPAqkT9OH2B60IzVc=;
-  b=nBxA8qUnG3Lfg9BioNofwqRfxNl0b2KqYdNTmdMuUJr78U5lRJ8qeU5M
-   CyACDDlL1SSg+c+7zHeW6fgdRyNWEzqbm6DShNm+Ny3W02dGSKWUfeWgS
-   fFxUulUrY3aLthKrWI7Ch2pQWy161MW9Evz5X1i/O+cqE484dT3ugAkI/
-   8JkZ/gHAkjDKHlZp4HsCZ8tRrpPQYSYGU8WhSGhmMXG0rhBW/9AVAI6ZV
-   P9We2i6DejhJsgjfnaDbxKJpAUbXqxhREj7RXAZR5bCAUqQlopWqss21P
-   wHFNI5/xTDw/bTSrFPNIw5NLeoJxkaowLtehUyvxNo1vxVhWmSobZPCg/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="395015564"
+  t=1702645515; x=1734181515;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Rm8Kjognd/ZZdikPTD2iq2orYol+cEZYPa7c6lO8HuY=;
+  b=NYE581XXY/FnOGQuLoL8G0hO34Urs4ZCmxf86NVbk2hea92pSBXFel2J
+   jVOrC+y7NRfHq3GmOp+kA48j49yAh2XhE8F5GFKMTSJoiWfe++XqFklcI
+   z7SldQDkb1quWTxJ/5mpYWNtEOjNLBUQpaL4q2/p4Gn7PbcR+w5HnYljh
+   4vQKTVe/eDFR/Snm817BT5prIZFmFmEJQD7ZRXqygtrw/y4gJDoFMS95S
+   F9JVAYDr8WxU6NnHHdQPfe99MP6A7cIsBz4BlJQWhkesQReuotTMY3EK8
+   4zZ7qcjvaNvuCd3H6h6pM5kwySs8PIoCr8p8S7/kvOmuynxFm26d926M0
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="375418317"
 X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
-   d="scan'208";a="395015564"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 04:51:35 -0800
+   d="scan'208";a="375418317"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 05:05:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="803702215"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="767976378"
 X-IronPort-AV: E=Sophos;i="6.04,278,1695711600"; 
-   d="scan'208";a="803702215"
+   d="scan'208";a="767976378"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 15 Dec 2023 04:51:23 -0800
+  by orsmga007.jf.intel.com with ESMTP; 15 Dec 2023 05:05:12 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rE7ey-0000DO-2n;
-	Fri, 15 Dec 2023 12:51:20 +0000
-Date: Fri, 15 Dec 2023 20:50:29 +0800
+	id 1rE7sK-0000EH-30;
+	Fri, 15 Dec 2023 13:05:08 +0000
+Date: Fri, 15 Dec 2023 21:04:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Russell King <linux@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Rob Herring <robh@kernel.org>, linux-tegra@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH 3/5] memory: tegra210-emc: Simplify usage of
- clk_rate_exclusive_get()
-Message-ID: <202312152014.NrQUsmxR-lkp@intel.com>
-References: <1b4321a975ac1a903a0c816ef2cce80e7d75eae3.1702400947.git.u.kleine-koenig@pengutronix.de>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zc/rx-latest 27/31] ld.lld: error: undefined symbol:
+ io_zc_rx_recv
+Message-ID: <202312152045.GLEQ7wws-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1b4321a975ac1a903a0c816ef2cce80e7d75eae3.1702400947.git.u.kleine-koenig@pengutronix.de>
 
-Hi Uwe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bbd220ce4e29ed55ab079007cff0b550895258eb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/PM-devfreq-sun8i-a33-mbus-Simplify-usage-of-clk_rate_exclusive_get/20231213-012823
-base:   bbd220ce4e29ed55ab079007cff0b550895258eb
-patch link:    https://lore.kernel.org/r/1b4321a975ac1a903a0c816ef2cce80e7d75eae3.1702400947.git.u.kleine-koenig%40pengutronix.de
-patch subject: [PATCH 3/5] memory: tegra210-emc: Simplify usage of clk_rate_exclusive_get()
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20231215/202312152014.NrQUsmxR-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312152014.NrQUsmxR-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zc/rx-latest
+head:   df0f15513d62887e03d5bdba7b09452d10827883
+commit: 173caa7cd806333033c5df43b31fa74d73a552b2 [27/31] io_uring: add io_recvzc request
+config: i386-buildonly-randconfig-001-20231215 (https://download.01.org/0day-ci/archive/20231215/202312152045.GLEQ7wws-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231215/202312152045.GLEQ7wws-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312152014.NrQUsmxR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312152045.GLEQ7wws-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/memory/tegra/tegra210-emc-core.c: In function 'tegra210_emc_suspend':
->> drivers/memory/tegra/tegra210-emc-core.c:2002:13: warning: unused variable 'err' [-Wunused-variable]
-    2002 |         int err;
-         |             ^~~
-
-
-vim +/err +2002 drivers/memory/tegra/tegra210-emc-core.c
-
-10de21148f7d28 Joseph Lo        2019-05-29  1998  
-10de21148f7d28 Joseph Lo        2019-05-29  1999  static int __maybe_unused tegra210_emc_suspend(struct device *dev)
-10de21148f7d28 Joseph Lo        2019-05-29  2000  {
-10de21148f7d28 Joseph Lo        2019-05-29  2001  	struct tegra210_emc *emc = dev_get_drvdata(dev);
-10de21148f7d28 Joseph Lo        2019-05-29 @2002  	int err;
-10de21148f7d28 Joseph Lo        2019-05-29  2003  
-53a616302fe1b2 Uwe Kleine-König 2023-12-12  2004  	clk_rate_exclusive_get(emc->clk);
-10de21148f7d28 Joseph Lo        2019-05-29  2005  
-10de21148f7d28 Joseph Lo        2019-05-29  2006  	emc->resume_rate = clk_get_rate(emc->clk);
-10de21148f7d28 Joseph Lo        2019-05-29  2007  
-10de21148f7d28 Joseph Lo        2019-05-29  2008  	clk_set_rate(emc->clk, 204000000);
-10de21148f7d28 Joseph Lo        2019-05-29  2009  	tegra210_clk_emc_detach(emc->clk);
-10de21148f7d28 Joseph Lo        2019-05-29  2010  
-10de21148f7d28 Joseph Lo        2019-05-29  2011  	dev_dbg(dev, "suspending at %lu Hz\n", clk_get_rate(emc->clk));
-10de21148f7d28 Joseph Lo        2019-05-29  2012  
-10de21148f7d28 Joseph Lo        2019-05-29  2013  	return 0;
-10de21148f7d28 Joseph Lo        2019-05-29  2014  }
-10de21148f7d28 Joseph Lo        2019-05-29  2015  
+>> ld.lld: error: undefined symbol: io_zc_rx_recv
+   >>> referenced by net.c
+   >>>               io_uring/net.o:(io_recvzc) in archive vmlinux.a
+   >>> referenced by net.c
+   >>>               io_uring/net.o:(io_recvzc) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
