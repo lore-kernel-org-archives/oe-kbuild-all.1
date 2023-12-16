@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6D4186B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 09:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182C314A88
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 09:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PnkNnmb0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZVZTbeA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702717250; x=1734253250;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J/l/3LY6ygO68cQm4iom2Ezbc747pOTS/BrMv4X9KoQ=;
-  b=PnkNnmb0PmpcyDzdbsjyfy1s+4LPkZbJQ7/wRFgAmm/IQNgTF/SWpRP3
-   +VDTB7Luf+tusa+QJvVTk54MqGde+V6/CjqMpNgUEXt94Mp4O5ctQbwdx
-   vvzHUY1xpXNdIuHtcH9w0SXdmbSkJJo7W8Fcx5tqabxMVdRG7etQhbZTu
-   mgbNQ/1ocDSM0HGxKkXYuUxwJkyuLBySKn9GTtwHbmYDv829dRqs6TCHb
-   ujhEcbQKRJSiHzbBWFBvXl7vJDSWls/952sAQvzXDyuk9DAquPzoqp0/J
-   lMwEOIsGzAKVLbQGUK/VVnDviMQYgMjcAIVuUJ1C+AhFnRu+yiVS3uHtN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="374866222"
+  t=1702720403; x=1734256403;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zl3Sjolw5+creF+cgklEPgJxLU1GwmW1JYWicSEeNdY=;
+  b=DZVZTbeAehlQXVbrIa5niFxfMt76IMzu7y/ilgWv72ivAR0pumjUZgO8
+   SF3KKW67dck4nGSlbpKhZJb1HpCW0wmATMvToXd940g8panrpoZsSLd+f
+   ZNWVyiDGjPv5Gx6ZfrQNeylvF55qgl9KBj8MuNAahJ2mLygsQ4vOPUS5f
+   i6893BE8mddNj/jI5JWgwM23NtEdRMd/SCAqCM+FvZQbdjuSmP/f2HqRP
+   d6xtsWGhPlFYV26YEXI5BgJugczxeHM2FfJCUf0po65nSDSNB3EYsMiO/
+   4t1Iro4kYJbs7TSUys6VQlst2z0PuzH5ZrUUL/1GhhMNc0Wb/Y35AmFUZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2207242"
 X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="374866222"
+   d="scan'208";a="2207242"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 01:00:49 -0800
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 01:53:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="809241450"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="809248402"
 X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="809241450"
+   d="scan'208";a="809248402"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 16 Dec 2023 01:00:47 -0800
+  by orsmga001.jf.intel.com with ESMTP; 16 Dec 2023 01:53:20 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEQXM-0001MA-2r;
-	Sat, 16 Dec 2023 09:00:44 +0000
-Date: Sat, 16 Dec 2023 17:00:37 +0800
+	id 1rERMD-0001QU-0p;
+	Sat, 16 Dec 2023 09:53:17 +0000
+Date: Sat, 16 Dec 2023 17:52:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>
-Subject: [linux-next:master 6145/8213] arch/s390/kvm/kvm-s390.c:4315:5-8:
- Unneeded variable: "ret". Return "  0" on line 4327
-Message-ID: <202312161632.vbRyBScY-lkp@intel.com>
+To: Dai Ngo <dai.ngo@oracle.com>, chuck.lever@oracle.com,
+	jlayton@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+	linux-nfs@stwm.de
+Subject: Re: [PATCH 1/3 v2] SUNRPC: remove printk when back channel request
+ not found
+Message-ID: <202312161749.eBpmnAuH-lkp@intel.com>
+References: <1702676837-31320-2-git-send-email-dai.ngo@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,47 +53,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1702676837-31320-2-git-send-email-dai.ngo@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   17cb8a20bde66a520a2ca7aad1063e1ce7382240
-commit: b988b1bb0053c0dcd26187d29ef07566a565cf55 [6145/8213] KVM: s390: fix setting of fpc register
-config: s390-randconfig-r053-20231216 (https://download.01.org/0day-ci/archive/20231216/202312161632.vbRyBScY-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.2.0
+Hi Dai,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.7-rc5 next-20231215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dai-Ngo/SUNRPC-remove-printk-when-back-channel-request-not-found/20231216-055046
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1702676837-31320-2-git-send-email-dai.ngo%40oracle.com
+patch subject: [PATCH 1/3 v2] SUNRPC: remove printk when back channel request not found
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20231216/202312161749.eBpmnAuH-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161749.eBpmnAuH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312161632.vbRyBScY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312161749.eBpmnAuH-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/s390/kvm/kvm-s390.c:4315:5-8: Unneeded variable: "ret". Return "  0" on line 4327
+All warnings (new ones prefixed by >>):
 
-vim +4315 arch/s390/kvm/kvm-s390.c
+   net/sunrpc/svcsock.c: In function 'receive_cb_reply':
+>> net/sunrpc/svcsock.c:1053:16: warning: variable 'calldir' set but not used [-Wunused-but-set-variable]
+    1053 |         __be32 calldir;
+         |                ^~~~~~~
 
-b0c632db637d68 Heiko Carstens        2008-03-25  4312  
-b0c632db637d68 Heiko Carstens        2008-03-25  4313  int kvm_arch_vcpu_ioctl_set_fpu(struct kvm_vcpu *vcpu, struct kvm_fpu *fpu)
-b0c632db637d68 Heiko Carstens        2008-03-25  4314  {
-6a96bc7fa0cdd9 Christoffer Dall      2017-12-04 @4315  	int ret = 0;
-6a96bc7fa0cdd9 Christoffer Dall      2017-12-04  4316  
-6a96bc7fa0cdd9 Christoffer Dall      2017-12-04  4317  	vcpu_load(vcpu);
-6a96bc7fa0cdd9 Christoffer Dall      2017-12-04  4318  
-e1788bb995befe Christian Borntraeger 2016-11-22  4319  	vcpu->run->s.regs.fpc = fpu->fpc;
-9abc2a08a7d665 David Hildenbrand     2016-01-14  4320  	if (MACHINE_HAS_VX)
-a7d4b8f2565ad0 David Hildenbrand     2016-08-16  4321  		convert_fp_to_vx((__vector128 *) vcpu->run->s.regs.vrs,
-a7d4b8f2565ad0 David Hildenbrand     2016-08-16  4322  				 (freg_t *) fpu->fprs);
-9abc2a08a7d665 David Hildenbrand     2016-01-14  4323  	else
-a7d4b8f2565ad0 David Hildenbrand     2016-08-16  4324  		memcpy(vcpu->run->s.regs.fprs, &fpu->fprs, sizeof(fpu->fprs));
-6a96bc7fa0cdd9 Christoffer Dall      2017-12-04  4325  
-6a96bc7fa0cdd9 Christoffer Dall      2017-12-04  4326  	vcpu_put(vcpu);
-6a96bc7fa0cdd9 Christoffer Dall      2017-12-04 @4327  	return ret;
-b0c632db637d68 Heiko Carstens        2008-03-25  4328  }
-b0c632db637d68 Heiko Carstens        2008-03-25  4329  
 
-:::::: The code at line 4315 was first introduced by commit
-:::::: 6a96bc7fa0cdd96bac2b8298d708a94f8de6f6d4 KVM: Move vcpu_load to arch-specific kvm_arch_vcpu_ioctl_set_fpu
+vim +/calldir +1053 net/sunrpc/svcsock.c
 
-:::::: TO: Christoffer Dall <christoffer.dall@linaro.org>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+8f55f3c0a013c4 Alexandros Batsakis 2009-08-20  1045  
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1046  static int receive_cb_reply(struct svc_sock *svsk, struct svc_rqst *rqstp)
+4cfc7e6019caa3 Rahul Iyer          2009-09-10  1047  {
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1048  	struct rpc_xprt *bc_xprt = svsk->sk_xprt.xpt_bc_xprt;
+4cfc7e6019caa3 Rahul Iyer          2009-09-10  1049  	struct rpc_rqst *req = NULL;
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1050  	struct kvec *src, *dst;
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1051  	__be32 *p = (__be32 *)rqstp->rq_arg.head[0].iov_base;
+48e6555c7b3bf0 J. Bruce Fields     2011-02-14  1052  	__be32 xid;
+48e6555c7b3bf0 J. Bruce Fields     2011-02-14 @1053  	__be32 calldir;
+4cfc7e6019caa3 Rahul Iyer          2009-09-10  1054  
+4cfc7e6019caa3 Rahul Iyer          2009-09-10  1055  	xid = *p++;
+4cfc7e6019caa3 Rahul Iyer          2009-09-10  1056  	calldir = *p;
+4cfc7e6019caa3 Rahul Iyer          2009-09-10  1057  
+093a1468b6edb0 Trond Myklebust     2014-11-12  1058  	if (!bc_xprt)
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1059  		return -EAGAIN;
+75c84151a9dc7a Trond Myklebust     2018-08-31  1060  	spin_lock(&bc_xprt->queue_lock);
+093a1468b6edb0 Trond Myklebust     2014-11-12  1061  	req = xprt_lookup_rqst(bc_xprt, xid);
+093a1468b6edb0 Trond Myklebust     2014-11-12  1062  	if (!req)
+75b63ccc0be260 Dai Ngo             2023-12-15  1063  		goto unlock_eagain;
+4cfc7e6019caa3 Rahul Iyer          2009-09-10  1064  
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1065  	memcpy(&req->rq_private_buf, &req->rq_rcv_buf, sizeof(struct xdr_buf));
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1066  	/*
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1067  	 * XXX!: cheating for now!  Only copying HEAD.
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1068  	 * But we know this is good enough for now (in fact, for any
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1069  	 * callback reply in the forseeable future).
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1070  	 */
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1071  	dst = &req->rq_private_buf.head[0];
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1072  	src = &rqstp->rq_arg.head[0];
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1073  	if (dst->iov_len < src->iov_len)
+093a1468b6edb0 Trond Myklebust     2014-11-12  1074  		goto unlock_eagain; /* whatever; just giving up. */
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1075  	memcpy(dst->iov_base, src->iov_base, src->iov_len);
+cc248d4b1ddf05 J. Bruce Fields     2012-12-03  1076  	xprt_complete_rqst(req->rq_task, rqstp->rq_arg.len);
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1077  	rqstp->rq_arg.len = 0;
+75c84151a9dc7a Trond Myklebust     2018-08-31  1078  	spin_unlock(&bc_xprt->queue_lock);
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1079  	return 0;
+093a1468b6edb0 Trond Myklebust     2014-11-12  1080  unlock_eagain:
+75c84151a9dc7a Trond Myklebust     2018-08-31  1081  	spin_unlock(&bc_xprt->queue_lock);
+093a1468b6edb0 Trond Myklebust     2014-11-12  1082  	return -EAGAIN;
+4cfc7e6019caa3 Rahul Iyer          2009-09-10  1083  }
+586c52cc61b5b8 Trond Myklebust     2009-05-18  1084  
 
 -- 
 0-DAY CI Kernel Test Service
