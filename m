@@ -1,55 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DC41C3F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4771FCB
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 03:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzR69Fbn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+jpKwwi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1702696682; x=1734232682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wyWUUzZO259IedYMAoIcGOmFoX5vdeINYbm46xHknGw=;
-  b=UzR69FbnQWZe8la8WoiiNLC6+HPbeoaNHuQPKyqw/hsaM1wcFO4TLwel
-   nvuQisy0TCO+vyHFzgiN5Dl6KM+/xLVSzSN/lpY+db92iGY4tBjjfw+JB
-   Pka15SLF0XO029ha0PoWtVV03UbJVBLhTVN/0rCEIzLFjzfiEbnf0ZDJl
-   Jg91hRcx1RQL5kfhsOH2vcuZUmenYC9PU+b7/6ENb3n2drz3dorzeWwBV
-   Z68bCy1H86Rn5eaNsdx37DBayzI39exVnbWUKXeAHj2gevVr44751Wcf+
-   Sfl5FPgX36mI/3wgNz3YRgMDr9h6C7Dnk25+oeMbZUnU46IHR+Tyhy1p+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="461812252"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HabsVh6nLjBPNxyP+dgadBAqyokSuLh5oGVE4JhJ5L4=;
+  b=k+jpKwwiw6m32kkRGn6qRA9C/SJQiGuJ5/Mu6uibd+PfJ7zQhkkM4Y9/
+   ohyDhPH0XerfJfVwSYX6Yqa0tkva0IqNBEgiPuG2ptHQ68JJjmkdQ30Yk
+   mxs72WSWl9SSCtX9gL369DI7lppnGv2Zj8NrXoby+26hnXGclUQQFDqNt
+   egEZGVfOZukcs17ShbX9ST9rloVWmavGjfwCiHZK93+f7b2KmTiJNXCvd
+   Y3HbL1L7p5/kBvKK571quwDPHEYf5Gr75Eim1Lsi8PUpNAAKMG1fcKTfY
+   CUynRLc5tIxG0cv7THOENqwFbu9nO7z5PMeR87sgcUUJ8bLYi/9w4roaJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="461812244"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="461812252"
+   d="scan'208";a="461812244"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 19:18:01 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 19:18:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="724650666"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="724650668"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="724650666"
+   d="scan'208";a="724650668"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 15 Dec 2023 19:17:58 -0800
+  by orsmga003.jf.intel.com with ESMTP; 15 Dec 2023 19:17:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rELBc-00015w-2Q;
+	id 1rELBc-00015m-24;
 	Sat, 16 Dec 2023 03:17:56 +0000
-Date: Sat, 16 Dec 2023 11:16:57 +0800
+Date: Sat, 16 Dec 2023 11:17:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chunyan Zhang <chunyan.zhang@unisoc.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/4] arm64: dts: sprd: Add support for Unisoc's UMS9620
-Message-ID: <202312161154.pVCPezKU-lkp@intel.com>
-References: <20231215085630.984892-5-chunyan.zhang@unisoc.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: scripts/kernel-doc: arch/arm/mach-sa1100/ssp.c:89: warning: Function
+ parameter or struct member 'data' not described in 'ssp_read_word'
+Message-ID: <202312161102.YBrHFedc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,46 +49,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231215085630.984892-5-chunyan.zhang@unisoc.com>
 
-Hi Chunyan,
+Hi Arnd,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on lee-mfd/for-mfd-next tty/tty-next tty/tty-linus krzk/for-next krzk-mem-ctrl/for-next linus/master v6.7-rc5 next-20231215]
-[cannot apply to tty/tty-testing lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chunyan-Zhang/dt-bindings-mfd-sprd-Add-support-for-UMS9620/20231215-165956
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231215085630.984892-5-chunyan.zhang%40unisoc.com
-patch subject: [PATCH 4/4] arm64: dts: sprd: Add support for Unisoc's UMS9620
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231216/202312161154.pVCPezKU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161154.pVCPezKU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3bd7d748816927202268cb335921f7f68b3ca723
+commit: 8faf91c48ca20c714e0dd8cc5f510e3819852912 ARM: sa1100: un-deprecate jornada720
+date:   11 months ago
+config: arm-jornada720_defconfig (https://download.01.org/0day-ci/archive/20231216/202312161102.YBrHFedc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161102.YBrHFedc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312161154.pVCPezKU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312161102.YBrHFedc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/boot/dts/sprd/ums9620-2h10.dts:10:
->> arch/arm64/boot/dts/sprd/ums9620.dtsi:8:10: fatal error: dt-bindings/clock/sprd,ums9620-clk.h: No such file or directory
-       8 | #include <dt-bindings/clock/sprd,ums9620-clk.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+>> scripts/kernel-doc: arch/arm/mach-sa1100/ssp.c:89: warning: Function parameter or struct member 'data' not described in 'ssp_read_word'
 
-
-vim +8 arch/arm64/boot/dts/sprd/ums9620.dtsi
-
-   > 8	#include <dt-bindings/clock/sprd,ums9620-clk.h>
-     9	#include <dt-bindings/interrupt-controller/arm-gic.h>
-    10	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SA1100_SSP
+   Depends on [n]: ARCH_SA1100 [=y] && UNUSED_BOARD_FILES [=n]
+   Selected by [y]:
+   - SA1100_JORNADA720_SSP [=y] && ARCH_SA1100 [=y] && SA1100_JORNADA720 [=y]
 
 -- 
 0-DAY CI Kernel Test Service
