@@ -1,50 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182C314A88
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 09:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFCA12E46
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 10:45:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZVZTbeA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Og2RndLr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702720403; x=1734256403;
+  t=1702723537; x=1734259537;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zl3Sjolw5+creF+cgklEPgJxLU1GwmW1JYWicSEeNdY=;
-  b=DZVZTbeAehlQXVbrIa5niFxfMt76IMzu7y/ilgWv72ivAR0pumjUZgO8
-   SF3KKW67dck4nGSlbpKhZJb1HpCW0wmATMvToXd940g8panrpoZsSLd+f
-   ZNWVyiDGjPv5Gx6ZfrQNeylvF55qgl9KBj8MuNAahJ2mLygsQ4vOPUS5f
-   i6893BE8mddNj/jI5JWgwM23NtEdRMd/SCAqCM+FvZQbdjuSmP/f2HqRP
-   d6xtsWGhPlFYV26YEXI5BgJugczxeHM2FfJCUf0po65nSDSNB3EYsMiO/
-   4t1Iro4kYJbs7TSUys6VQlst2z0PuzH5ZrUUL/1GhhMNc0Wb/Y35AmFUZ
+  bh=I0qrNg6Slh+zGrDjlVe0Cfl4FAancD/6o5nFADSVZlY=;
+  b=Og2RndLr4j5iOTvaqvykbAe2d/wGBTCwXUvXbJ7uXrip0IE1x4qGkclx
+   l+FtBa5bgT2NasmOmvkJAxwxssifl0uOv4mN5iuTrjjjRak4swfLwofSI
+   Sy96C4w2NSBT2+FPp5sZfEXV0mfKULV8RTc4wAiPA5C+LuVuBhPjE+O9g
+   7FtQI87C2ERuI5ysbU8Tb4bsKh+LPhKlvze+zybGK2SO+GKQW2KrpJ6gO
+   aIMQpUSYKa69mcmJq12SsrCzPw4R2VcQkDtxehWfgiwyivDV36OY2r47V
+   xhYq73YDJbeIP1QRNaTVPFIyiy4gn+MumMRQLDhCCBDNovXJqOmX9WPcy
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2207242"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="459695320"
 X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="2207242"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 01:53:22 -0800
+   d="scan'208";a="459695320"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 02:45:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="809248402"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="948241864"
 X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="809248402"
+   d="scan'208";a="948241864"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 16 Dec 2023 01:53:20 -0800
+  by orsmga005.jf.intel.com with ESMTP; 16 Dec 2023 02:45:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rERMD-0001QU-0p;
-	Sat, 16 Dec 2023 09:53:17 +0000
-Date: Sat, 16 Dec 2023 17:52:45 +0800
+	id 1rESAl-0001Tu-1P;
+	Sat, 16 Dec 2023 10:45:31 +0000
+Date: Sat, 16 Dec 2023 18:44:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dai Ngo <dai.ngo@oracle.com>, chuck.lever@oracle.com,
-	jlayton@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	linux-nfs@stwm.de
-Subject: Re: [PATCH 1/3 v2] SUNRPC: remove printk when back channel request
- not found
-Message-ID: <202312161749.eBpmnAuH-lkp@intel.com>
-References: <1702676837-31320-2-git-send-email-dai.ngo@oracle.com>
+To: Thangaraj Samynathan <thangaraj.s@microchip.com>, broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Tharunkumar.Pasumarthi@microchip.com,
+	Kumaravel.Thiagarajan@microchip.com, Arun.Ramadoss@microchip.com,
+	Ronnie.Kunin@microchip.com,
+	jegadheesan.gopalmanoharan@microchip.com
+Subject: Re: [PATCH SPI for-next 2/3] spi: mchp-pci1xxxx: DMA Read support
+ for copying data into SPI Buf
+Message-ID: <202312161832.s8L4PtmO-lkp@intel.com>
+References: <20231215114748.152319-3-thangaraj.s@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,81 +55,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1702676837-31320-2-git-send-email-dai.ngo@oracle.com>
+In-Reply-To: <20231215114748.152319-3-thangaraj.s@microchip.com>
 
-Hi Dai,
+Hi Thangaraj,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.7-rc5 next-20231215]
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on linus/master v6.7-rc5 next-20231215]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dai-Ngo/SUNRPC-remove-printk-when-back-channel-request-not-found/20231216-055046
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1702676837-31320-2-git-send-email-dai.ngo%40oracle.com
-patch subject: [PATCH 1/3 v2] SUNRPC: remove printk when back channel request not found
-config: arc-defconfig (https://download.01.org/0day-ci/archive/20231216/202312161749.eBpmnAuH-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161749.eBpmnAuH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thangaraj-Samynathan/spi-mchp-pci1xxxx-Add-support-for-DMA-in-SPI/20231215-195133
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20231215114748.152319-3-thangaraj.s%40microchip.com
+patch subject: [PATCH SPI for-next 2/3] spi: mchp-pci1xxxx: DMA Read support for copying data into SPI Buf
+config: arc-randconfig-r132-20231216 (https://download.01.org/0day-ci/archive/20231216/202312161832.s8L4PtmO-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231216/202312161832.s8L4PtmO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312161749.eBpmnAuH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312161832.s8L4PtmO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-pci1xxxx.c:321:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
+   drivers/spi/spi-pci1xxxx.c:321:22: sparse:     expected void *base
+   drivers/spi/spi-pci1xxxx.c:321:22: sparse:     got void [noderef] __iomem *
+   drivers/spi/spi-pci1xxxx.c:323:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
+   drivers/spi/spi-pci1xxxx.c:323:22: sparse:     expected void *base
+   drivers/spi/spi-pci1xxxx.c:323:22: sparse:     got void [noderef] __iomem *
+>> drivers/spi/spi-pci1xxxx.c:325:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/spi/spi-pci1xxxx.c:325:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/spi/spi-pci1xxxx.c:325:9: sparse:     got void *
+   drivers/spi/spi-pci1xxxx.c:326:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/spi/spi-pci1xxxx.c:326:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/spi/spi-pci1xxxx.c:326:9: sparse:     got void *
+   drivers/spi/spi-pci1xxxx.c:327:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/spi/spi-pci1xxxx.c:327:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/spi/spi-pci1xxxx.c:327:9: sparse:     got void *
+   drivers/spi/spi-pci1xxxx.c:328:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/spi/spi-pci1xxxx.c:328:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/spi/spi-pci1xxxx.c:328:9: sparse:     got void *
+   drivers/spi/spi-pci1xxxx.c:330:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/spi/spi-pci1xxxx.c:330:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/spi/spi-pci1xxxx.c:330:9: sparse:     got void *
+   drivers/spi/spi-pci1xxxx.c:332:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/spi/spi-pci1xxxx.c:332:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/spi/spi-pci1xxxx.c:332:9: sparse:     got void *
+   drivers/spi/spi-pci1xxxx.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-   net/sunrpc/svcsock.c: In function 'receive_cb_reply':
->> net/sunrpc/svcsock.c:1053:16: warning: variable 'calldir' set but not used [-Wunused-but-set-variable]
-    1053 |         __be32 calldir;
-         |                ^~~~~~~
+vim +321 drivers/spi/spi-pci1xxxx.c
 
-
-vim +/calldir +1053 net/sunrpc/svcsock.c
-
-8f55f3c0a013c4 Alexandros Batsakis 2009-08-20  1045  
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1046  static int receive_cb_reply(struct svc_sock *svsk, struct svc_rqst *rqstp)
-4cfc7e6019caa3 Rahul Iyer          2009-09-10  1047  {
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1048  	struct rpc_xprt *bc_xprt = svsk->sk_xprt.xpt_bc_xprt;
-4cfc7e6019caa3 Rahul Iyer          2009-09-10  1049  	struct rpc_rqst *req = NULL;
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1050  	struct kvec *src, *dst;
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1051  	__be32 *p = (__be32 *)rqstp->rq_arg.head[0].iov_base;
-48e6555c7b3bf0 J. Bruce Fields     2011-02-14  1052  	__be32 xid;
-48e6555c7b3bf0 J. Bruce Fields     2011-02-14 @1053  	__be32 calldir;
-4cfc7e6019caa3 Rahul Iyer          2009-09-10  1054  
-4cfc7e6019caa3 Rahul Iyer          2009-09-10  1055  	xid = *p++;
-4cfc7e6019caa3 Rahul Iyer          2009-09-10  1056  	calldir = *p;
-4cfc7e6019caa3 Rahul Iyer          2009-09-10  1057  
-093a1468b6edb0 Trond Myklebust     2014-11-12  1058  	if (!bc_xprt)
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1059  		return -EAGAIN;
-75c84151a9dc7a Trond Myklebust     2018-08-31  1060  	spin_lock(&bc_xprt->queue_lock);
-093a1468b6edb0 Trond Myklebust     2014-11-12  1061  	req = xprt_lookup_rqst(bc_xprt, xid);
-093a1468b6edb0 Trond Myklebust     2014-11-12  1062  	if (!req)
-75b63ccc0be260 Dai Ngo             2023-12-15  1063  		goto unlock_eagain;
-4cfc7e6019caa3 Rahul Iyer          2009-09-10  1064  
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1065  	memcpy(&req->rq_private_buf, &req->rq_rcv_buf, sizeof(struct xdr_buf));
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1066  	/*
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1067  	 * XXX!: cheating for now!  Only copying HEAD.
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1068  	 * But we know this is good enough for now (in fact, for any
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1069  	 * callback reply in the forseeable future).
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1070  	 */
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1071  	dst = &req->rq_private_buf.head[0];
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1072  	src = &rqstp->rq_arg.head[0];
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1073  	if (dst->iov_len < src->iov_len)
-093a1468b6edb0 Trond Myklebust     2014-11-12  1074  		goto unlock_eagain; /* whatever; just giving up. */
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1075  	memcpy(dst->iov_base, src->iov_base, src->iov_len);
-cc248d4b1ddf05 J. Bruce Fields     2012-12-03  1076  	xprt_complete_rqst(req->rq_task, rqstp->rq_arg.len);
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1077  	rqstp->rq_arg.len = 0;
-75c84151a9dc7a Trond Myklebust     2018-08-31  1078  	spin_unlock(&bc_xprt->queue_lock);
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1079  	return 0;
-093a1468b6edb0 Trond Myklebust     2014-11-12  1080  unlock_eagain:
-75c84151a9dc7a Trond Myklebust     2018-08-31  1081  	spin_unlock(&bc_xprt->queue_lock);
-093a1468b6edb0 Trond Myklebust     2014-11-12  1082  	return -EAGAIN;
-4cfc7e6019caa3 Rahul Iyer          2009-09-10  1083  }
-586c52cc61b5b8 Trond Myklebust     2009-05-18  1084  
+   314	
+   315	static void pci1xxxx_spi_setup_dma_read(struct pci1xxxx_spi_internal *p,
+   316						dma_addr_t dma_addr, u32 len)
+   317	{
+   318		void *base;
+   319	
+   320		if (!p->hw_inst)
+ > 321			base = p->parent->dma_offset_bar + SPI_DMA_CH0_RD_BASE;
+   322		else
+   323			base = p->parent->dma_offset_bar + SPI_DMA_CH1_RD_BASE;
+   324	
+ > 325		writel(DMA_INTR_EN, base + SPI_DMA_CH_CTL1_OFFSET);
+   326		writel(len, base + SPI_DMA_CH_XFER_LEN_OFFSET);
+   327		writel(lower_32_bits(dma_addr), base + SPI_DMA_CH_SAR_LO_OFFSET);
+   328		writel(upper_32_bits(dma_addr), base + SPI_DMA_CH_SAR_HI_OFFSET);
+   329		/* Updated SPI Command Registers */
+   330		writel(lower_32_bits(SPI_PERI_ADDR_BASE + SPI_MST_CMD_BUF_OFFSET(p->hw_inst)),
+   331		       base + SPI_DMA_CH_DAR_LO_OFFSET);
+   332		writel(upper_32_bits(SPI_PERI_ADDR_BASE + SPI_MST_CMD_BUF_OFFSET(p->hw_inst)),
+   333		       base + SPI_DMA_CH_DAR_HI_OFFSET);
+   334	}
+   335	
 
 -- 
 0-DAY CI Kernel Test Service
