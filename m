@@ -1,41 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A52120F7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 03:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4918DDAF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 04:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="goLoeu70"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpSBDMId"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702698005; x=1734234005;
+  t=1702699988; x=1734235988;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=7R/IuFR5FZNJvpmjLiBZEn2SwykJelg8Grq1wWQdd9Y=;
-  b=goLoeu7043E6FjvnWB44Xeh90jS+utKqfY2pPL+7TCeeQ6xCtKUSvZ1U
-   pff/0jBBon+aiNQVXjfTpi7A/ZksN408/bZGVFr37vYP0WjJev/xMYvgf
-   WfB1Nf4S5SHJY5Cx6Zr8jagQ6djzWi5laKd20TL0CO1t4q032HL7K5SlY
-   B2XKqA0FpVbLBTRlNkHT6VKFPHCucTjeixXo0TF0/jRzgcjBqnSyFxXyZ
-   Dj+VuvZBHINCOqdlnxjjF0alf+YpYV6/Gj0ctSsx4m7ZO0NrIbR5xHiVE
-   smXrMEsu4hLUm62hM5B1VhdkN1cXQHzC3sD4+1HZxiANkG5yAhfcOMsMZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="394230249"
+  bh=LmI/S8V6mA9hG+wIBl7uJCDqj/JYOAakrqXZAAVPnCY=;
+  b=RpSBDMIdybkmALzYefGYfj1SvGCYEiox6Zx+SRcgNxcb4Pc2hL88yU5J
+   vT8YsN5sUK1i9opyJeWQLzmBwb21KJ9+2wg9eAQClEb90hMmiZW5wyKih
+   A4WQXzCVnm2rJUgOtz3px3ZYg3TuyISiQawkZFnks8QxezH6zhlqsD5tF
+   VSz+WoRmgNpKk8exsrqo0R67OCUMcHT4pShXcCo2cGYONKjmiEXFIqCXs
+   WLGUFopXahTxO7c9zlEToBUZKJF1Z79snD9BThI3PrRTwRwYADsEho7lW
+   ov5v/VDuXk39UtunebcVS4t++q3QUJX1mY0zgVNGdhxsrBgDMJzai1Pub
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="459683136"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="394230249"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 19:40:05 -0800
+   d="scan'208";a="459683136"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 20:13:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="840865507"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="768214712"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="840865507"
+   d="scan'208";a="768214712"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Dec 2023 19:39:59 -0800
+  by orsmga007.jf.intel.com with ESMTP; 15 Dec 2023 20:13:00 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rELWv-00016a-0V;
-	Sat, 16 Dec 2023 03:39:57 +0000
-Date: Sat, 16 Dec 2023 11:39:29 +0800
+	id 1rEM2s-00019E-1f;
+	Sat, 16 Dec 2023 04:12:58 +0000
+Date: Sat, 16 Dec 2023 12:12:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
@@ -51,17 +51,21 @@ Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Alexei Starovoitov <ast@kernel.org>,
 	Andrii Nakryiko <andrii@kernel.org>,
-	David Ahern <dsahern@kernel.org>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
+	Cong Wang <xiyou.wangcong@gmail.com>, Hao Luo <haoluo@google.com>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
 	John Fastabend <john.fastabend@gmail.com>,
 	KP Singh <kpsingh@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Ronak Doshi <doshir@vmware.com>, Song Liu <song@kernel.org>,
 	Stanislav Fomichev <sdf@google.com>,
-	Yonghong Song <yonghong.song@linux.dev>, bpf@vger.kernel.org
-Subject: Re: [PATCH net-next 12/24] seg6: Use nested-BH locking for
- seg6_bpf_srh_states.
-Message-ID: <202312161151.k1MBvXUD-lkp@intel.com>
-References: <20231215171020.687342-13-bigeasy@linutronix.de>
+	VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+	Yonghong Song <yonghong.song@linux.dev>
+Subject: Re: [PATCH net-next 15/24] net: Use nested-BH locking for XDP
+ redirect.
+Message-ID: <202312161103.iKeGoacH-lkp@intel.com>
+References: <20231215171020.687342-16-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,7 +74,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231215171020.687342-13-bigeasy@linutronix.de>
+In-Reply-To: <20231215171020.687342-16-bigeasy@linutronix.de>
 
 Hi Sebastian,
 
@@ -80,81 +84,80 @@ kernel test robot noticed the following build warnings:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/locking-local_lock-Introduce-guard-definition-for-local_lock/20231216-011911
 base:   net-next/main
-patch link:    https://lore.kernel.org/r/20231215171020.687342-13-bigeasy%40linutronix.de
-patch subject: [PATCH net-next 12/24] seg6: Use nested-BH locking for seg6_bpf_srh_states.
-config: x86_64-randconfig-r131-20231216 (https://download.01.org/0day-ci/archive/20231216/202312161151.k1MBvXUD-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20231215171020.687342-16-bigeasy%40linutronix.de
+patch subject: [PATCH net-next 15/24] net: Use nested-BH locking for XDP redirect.
+config: x86_64-randconfig-122-20231216 (https://download.01.org/0day-ci/archive/20231216/202312161103.iKeGoacH-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161151.k1MBvXUD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161103.iKeGoacH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312161151.k1MBvXUD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312161103.iKeGoacH-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> net/ipv6/seg6_local.c:1431:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct local_lock_t [usertype] *l @@     got struct local_lock_t [noderef] __percpu * @@
-   net/ipv6/seg6_local.c:1431:9: sparse:     expected struct local_lock_t [usertype] *l
-   net/ipv6/seg6_local.c:1431:9: sparse:     got struct local_lock_t [noderef] __percpu *
+   net/sched/cls_api.c:391:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] protocol @@     got unsigned int [usertype] protocol @@
+   net/sched/cls_api.c:391:22: sparse:     expected restricted __be16 [usertype] protocol
+   net/sched/cls_api.c:391:22: sparse:     got unsigned int [usertype] protocol
+   net/sched/cls_api.c:1862:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/sched/cls_api.c:1862:16: sparse:    struct tcf_proto *
+   net/sched/cls_api.c:1862:16: sparse:    struct tcf_proto [noderef] __rcu *
+   net/sched/cls_api.c:1962:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/sched/cls_api.c:1962:20: sparse:    struct tcf_proto [noderef] __rcu *
+   net/sched/cls_api.c:1962:20: sparse:    struct tcf_proto *
+   net/sched/cls_api.c:1924:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/sched/cls_api.c:1924:25: sparse:    struct tcf_proto [noderef] __rcu *
+   net/sched/cls_api.c:1924:25: sparse:    struct tcf_proto *
+   net/sched/cls_api.c:1944:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/sched/cls_api.c:1944:16: sparse:    struct tcf_proto *
+   net/sched/cls_api.c:1944:16: sparse:    struct tcf_proto [noderef] __rcu *
+   net/sched/cls_api.c:2010:25: sparse: sparse: restricted __be16 degrades to integer
+   net/sched/cls_api.c:2697:50: sparse: sparse: restricted __be16 degrades to integer
+>> net/sched/cls_api.c:3933:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct local_lock_t [usertype] *l @@     got struct local_lock_t [noderef] __percpu * @@
+   net/sched/cls_api.c:3933:38: sparse:     expected struct local_lock_t [usertype] *l
+   net/sched/cls_api.c:3933:38: sparse:     got struct local_lock_t [noderef] __percpu *
+   net/sched/cls_api.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/local_lock.h:71:1: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct local_lock_t [usertype] * @@
+   include/linux/local_lock.h:71:1: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   include/linux/local_lock.h:71:1: sparse:     got struct local_lock_t [usertype] *
 
-vim +1431 net/ipv6/seg6_local.c
+vim +3933 net/sched/cls_api.c
 
-  1410	
-  1411	static int input_action_end_bpf(struct sk_buff *skb,
-  1412					struct seg6_local_lwt *slwt)
-  1413	{
-  1414		struct seg6_bpf_srh_state *srh_state;
-  1415		struct ipv6_sr_hdr *srh;
-  1416		int ret;
-  1417	
-  1418		srh = get_and_validate_srh(skb);
-  1419		if (!srh) {
-  1420			kfree_skb(skb);
-  1421			return -EINVAL;
-  1422		}
-  1423		advance_nextseg(srh, &ipv6_hdr(skb)->daddr);
-  1424	
-  1425		/* The access to the per-CPU buffer srh_state is protected by running
-  1426		 * always in softirq context (with disabled BH). On PREEMPT_RT the
-  1427		 * required locking is provided by the following local_lock_nested_bh()
-  1428		 * statement. It is also accessed by the bpf_lwt_seg6_* helpers via
-  1429		 * bpf_prog_run_save_cb().
-  1430		 */
-> 1431		scoped_guard(local_lock_nested_bh, &seg6_bpf_srh_states.bh_lock) {
-  1432			srh_state = this_cpu_ptr(&seg6_bpf_srh_states);
-  1433			srh_state->srh = srh;
-  1434			srh_state->hdrlen = srh->hdrlen << 3;
-  1435			srh_state->valid = true;
-  1436	
-  1437			rcu_read_lock();
-  1438			bpf_compute_data_pointers(skb);
-  1439			ret = bpf_prog_run_save_cb(slwt->bpf.prog, skb);
-  1440			rcu_read_unlock();
-  1441	
-  1442			switch (ret) {
-  1443			case BPF_OK:
-  1444			case BPF_REDIRECT:
-  1445				break;
-  1446			case BPF_DROP:
-  1447				goto drop;
-  1448			default:
-  1449				pr_warn_once("bpf-seg6local: Illegal return value %u\n", ret);
-  1450				goto drop;
-  1451			}
-  1452	
-  1453			if (srh_state->srh && !seg6_bpf_has_valid_srh(skb))
-  1454				goto drop;
-  1455		}
-  1456	
-  1457		if (ret != BPF_REDIRECT)
-  1458			seg6_lookup_nexthop(skb, NULL, 0);
-  1459	
-  1460		return dst_input(skb);
-  1461	
-  1462	drop:
-  1463		kfree_skb(skb);
-  1464		return -EINVAL;
-  1465	}
-  1466	
+  3921	
+  3922	struct sk_buff *tcf_qevent_handle(struct tcf_qevent *qe, struct Qdisc *sch, struct sk_buff *skb,
+  3923					  struct sk_buff **to_free, int *ret)
+  3924	{
+  3925		struct tcf_result cl_res;
+  3926		struct tcf_proto *fl;
+  3927	
+  3928		if (!qe->info.block_index)
+  3929			return skb;
+  3930	
+  3931		fl = rcu_dereference_bh(qe->filter_chain);
+  3932	
+> 3933		guard(local_lock_nested_bh)(&bpf_run_lock.redirect_lock);
+  3934		switch (tcf_classify(skb, NULL, fl, &cl_res, false)) {
+  3935		case TC_ACT_SHOT:
+  3936			qdisc_qstats_drop(sch);
+  3937			__qdisc_drop(skb, to_free);
+  3938			*ret = __NET_XMIT_BYPASS;
+  3939			return NULL;
+  3940		case TC_ACT_STOLEN:
+  3941		case TC_ACT_QUEUED:
+  3942		case TC_ACT_TRAP:
+  3943			__qdisc_drop(skb, to_free);
+  3944			*ret = __NET_XMIT_STOLEN;
+  3945			return NULL;
+  3946		case TC_ACT_REDIRECT:
+  3947			skb_do_redirect(skb);
+  3948			*ret = __NET_XMIT_STOLEN;
+  3949			return NULL;
+  3950		}
+  3951	
+  3952		return skb;
+  3953	}
+  3954	EXPORT_SYMBOL(tcf_qevent_handle);
+  3955	
 
 -- 
 0-DAY CI Kernel Test Service
