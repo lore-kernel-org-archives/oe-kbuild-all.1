@@ -1,46 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4771FCB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 03:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C4935262
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 03:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+jpKwwi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PlsddIeC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702696682; x=1734232682;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HabsVh6nLjBPNxyP+dgadBAqyokSuLh5oGVE4JhJ5L4=;
-  b=k+jpKwwiw6m32kkRGn6qRA9C/SJQiGuJ5/Mu6uibd+PfJ7zQhkkM4Y9/
-   ohyDhPH0XerfJfVwSYX6Yqa0tkva0IqNBEgiPuG2ptHQ68JJjmkdQ30Yk
-   mxs72WSWl9SSCtX9gL369DI7lppnGv2Zj8NrXoby+26hnXGclUQQFDqNt
-   egEZGVfOZukcs17ShbX9ST9rloVWmavGjfwCiHZK93+f7b2KmTiJNXCvd
-   Y3HbL1L7p5/kBvKK571quwDPHEYf5Gr75Eim1Lsi8PUpNAAKMG1fcKTfY
-   CUynRLc5tIxG0cv7THOENqwFbu9nO7z5PMeR87sgcUUJ8bLYi/9w4roaJ
+  t=1702697283; x=1734233283;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vbBASBiJaH4THpMtwHkToEZ+1eMr/8HKB5TNd5kuKi0=;
+  b=PlsddIeCQUFLNasBUTOVp8F87Siew7dCbxvvbKCKyt9WCmkoQIoYFWkk
+   n2rCbeOMZvmdID9+TE+A2HDjbo+o9DjqYOYF+QyPH98cdVjavW3P7lZx0
+   nS93M3zLN9K1tlrjomzq9hYGbNSzu7I00ulrIQ0cOB6Hmxm79N91plCK5
+   mOXEFggWjih700k/lA18uJPxLxK68iuMRCBMT2mTIm09cUFUuhoS2cqnX
+   Wlz5ozZKfkdemGnLxrkoJerewL+6bZJRmL1Wu5UEg1HpNa0wuynloo9B+
+   YiQeW56qO0dEDIW84yuMG9RT89GRSdeFeH/0/by+o6ynsbGOQR2VreYCP
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="461812244"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="8712141"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="461812244"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 19:18:00 -0800
+   d="scan'208";a="8712141"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 19:28:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="724650668"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="1106321452"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="724650668"
+   d="scan'208";a="1106321452"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 15 Dec 2023 19:17:59 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 15 Dec 2023 19:27:59 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rELBc-00015m-24;
-	Sat, 16 Dec 2023 03:17:56 +0000
-Date: Sat, 16 Dec 2023 11:17:15 +0800
+	id 1rELLI-00016E-2j;
+	Sat, 16 Dec 2023 03:27:56 +0000
+Date: Sat, 16 Dec 2023 11:27:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: scripts/kernel-doc: arch/arm/mach-sa1100/ssp.c:89: warning: Function
- parameter or struct member 'data' not described in 'ssp_read_word'
-Message-ID: <202312161102.YBrHFedc-lkp@intel.com>
+To: Maksim Davydov <davydov-max@yandex-team.ru>,
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davydov-max@yandex-team.ru,
+	den-plotnikov@yandex-team.ru, tony.luck@intel.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org
+Subject: Re: [PATCH] x86/split_lock: add split lock counter
+Message-ID: <202312161122.4Y1qkw0S-lkp@intel.com>
+References: <20231215140113.57173-1-davydov-max@yandex-team.ru>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,33 +55,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231215140113.57173-1-davydov-max@yandex-team.ru>
 
-Hi Arnd,
+Hi Maksim,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3bd7d748816927202268cb335921f7f68b3ca723
-commit: 8faf91c48ca20c714e0dd8cc5f510e3819852912 ARM: sa1100: un-deprecate jornada720
-date:   11 months ago
-config: arm-jornada720_defconfig (https://download.01.org/0day-ci/archive/20231216/202312161102.YBrHFedc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161102.YBrHFedc-lkp@intel.com/reproduce)
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on tip/master tip/sched/core linus/master tip/auto-latest v6.7-rc5 next-20231215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maksim-Davydov/x86-split_lock-add-split-lock-counter/20231215-220639
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20231215140113.57173-1-davydov-max%40yandex-team.ru
+patch subject: [PATCH] x86/split_lock: add split lock counter
+config: um-defconfig (https://download.01.org/0day-ci/archive/20231216/202312161122.4Y1qkw0S-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161122.4Y1qkw0S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312161102.YBrHFedc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312161122.4Y1qkw0S-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> scripts/kernel-doc: arch/arm/mach-sa1100/ssp.c:89: warning: Function parameter or struct member 'data' not described in 'ssp_read_word'
+   In file included from fs/proc/base.c:101:
+>> arch/x86/include/asm/cpu.h:36:31: warning: 'struct cpuinfo_x86' declared inside parameter list will not be visible outside of this definition or declaration
+      36 | int mwait_usable(const struct cpuinfo_x86 *);
+         |                               ^~~~~~~~~~~
+   arch/x86/include/asm/cpu.h:42:37: warning: 'struct cpuinfo_x86' declared inside parameter list will not be visible outside of this definition or declaration
+      42 | extern void __init sld_setup(struct cpuinfo_x86 *c);
+         |                                     ^~~~~~~~~~~
+   arch/x86/include/asm/cpu.h:85:32: warning: 'struct cpuinfo_x86' declared inside parameter list will not be visible outside of this definition or declaration
+      85 | void init_ia32_feat_ctl(struct cpuinfo_x86 *c);
+         |                                ^~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SA1100_SSP
-   Depends on [n]: ARCH_SA1100 [=y] && UNUSED_BOARD_FILES [=n]
-   Selected by [y]:
-   - SA1100_JORNADA720_SSP [=y] && ARCH_SA1100 [=y] && SA1100_JORNADA720 [=y]
+
+vim +36 arch/x86/include/asm/cpu.h
+
+bb6e89df9028b2 Thomas Gleixner        2022-04-15  35  
+1c9d16e3591109 Borislav Petkov        2011-02-11 @36  int mwait_usable(const struct cpuinfo_x86 *);
+6d652ea1d05639 Jaswinder Singh Rajput 2009-01-07  37  
 
 -- 
 0-DAY CI Kernel Test Service
