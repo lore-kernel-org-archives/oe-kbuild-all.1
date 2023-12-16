@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2069341AD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 21:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9934C3527D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 21:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJ3NuaFE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9WZdsjg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702760692; x=1734296692;
+  t=1702761417; x=1734297417;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EuCngM21OYko6ZqMU/A0Tg42ydMFf9bKwCUq27rjSPg=;
-  b=OJ3NuaFEON18lPoJX+CGlBk7SM2ljed7CV8u2+TvHE4c6BersgltocNk
-   JUZh0avtyeBgmC+x9mg00P6bTBz1kOPIqUYOUMvcRsJ6cF3zr2hw4zASK
-   tj/BotWKhNzk7P55LLptTpFRhfBgajTPuw1DvCf3chiu6YH2Zb2/PJ9TV
-   pMdJ2ceYytufN9EU/gtVhwwgxETLY3dR4eYNHa9D8+OtOoOEzBt0XzY+H
-   ws+zwDhj9IjESHq7WpsraVLv1A7ehDl4fdYxNDDhlkgLR0iArjhpBfH6b
-   Bth5REXdk61tG1zKDYkhwS14yIM6+hY0BoMhiFGCgRS/T5pLVZZAERaJC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="2241107"
+  bh=QRzY5II7xxmMLyFeiXiZG1jsaIeY3ADmR/eNGBeUk8E=;
+  b=f9WZdsjg0mkWcfbFSg8pulAWy4kwSt3IKCkFfPLZ2MflhUi9dlYZ56Cs
+   EYzUX8RaavD2izuE5zxb5gkPl41X/oAzV7nsMWqj0PnFMBt3cLaq4yvXP
+   xdHVCgkqdKu+cbvRfcmWE7FThr1s9AexaJvf21U+y93NltKhEcEU9vzVM
+   aZl3tUJFOnltYySPyfdAHnhKF2k1rSeVNnKGhDfEZ/+5ZGMy3q1VtE2h/
+   hbBtwB5si7Nwj2uuO5sPPYMUVnehSfwZkGcaYbSSIIJjXGMH5pIGyLi8D
+   K/XSS5ELNVfT8kAbWAePUgkx/Ul29e39rTSwuIZIHeni24TWm1laQaToM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="8748087"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="2241107"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 13:04:51 -0800
+   d="scan'208";a="8748087"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 13:16:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="918815302"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="918815302"
+   d="scan'208";a="23239586"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Dec 2023 13:04:49 -0800
+  by orviesa001.jf.intel.com with ESMTP; 16 Dec 2023 13:16:55 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEbq3-0002DC-0b;
-	Sat, 16 Dec 2023 21:04:47 +0000
-Date: Sun, 17 Dec 2023 05:03:49 +0800
+	id 1rEc1j-0002DU-1A;
+	Sat, 16 Dec 2023 21:16:51 +0000
+Date: Sun, 17 Dec 2023 05:16:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hengqi Chen <hengqi.chen@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dinh Nguyen <dinguyen@kernel.org>,
-	Huacai Chen <chenhuacai@loongson.cn>
-Subject: [dinguyen:socfpga_dts_for_v6.8 11/38]
- arch/loongarch/net/bpf_jit.h:34:17: error: implicit declaration of function
- 'emit_ldb'; did you mean 'emit_ldd'?
-Message-ID: <202312170518.j7MTN6u1-lkp@intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/m68k/sun3/sun3ints.c:33:13: sparse: sparse: cast truncates bits
+ from constant value (ffffff7f becomes 7f)
+Message-ID: <202312170514.ETYcyz4E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,79 +49,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dinguyen/linux.git socfpga_dts_for_v6.8
-head:   d8c9ac7c343fb906b096c627c50eac9ae5b15cbd
-commit: 18a6fb215c2a1e1a9fe62bc3baab86c356d2a4c5 [11/38] LoongArch: BPF: Support sign-extension load instructions
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20231217/202312170518.j7MTN6u1-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312170518.j7MTN6u1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b8a9b2e6809d281890dd0a1102dc14d2cd11caf
+commit: 72e70a0e7ac7c422843eb8bbf192e820e9ccd24d m68k: sun3: Change led_pattern[] to unsigned char
+date:   2 months ago
+config: m68k-randconfig-r133-20231117 (https://download.01.org/0day-ci/archive/20231217/202312170514.ETYcyz4E-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231217/202312170514.ETYcyz4E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312170518.j7MTN6u1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312170514.ETYcyz4E-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/m68k/sun3/sun3ints.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/irq.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+>> arch/m68k/sun3/sun3ints.c:33:13: sparse: sparse: cast truncates bits from constant value (ffffff7f becomes 7f)
 
-   In file included from arch/loongarch/net/bpf_jit.c:7:
-   arch/loongarch/net/bpf_jit.c: In function 'build_insn':
->> arch/loongarch/net/bpf_jit.h:34:17: error: implicit declaration of function 'emit_ldb'; did you mean 'emit_ldd'? [-Werror=implicit-function-declaration]
-      34 |                 emit_##func(insn, ##__VA_ARGS__);                               \
-         |                 ^~~~~
-   arch/loongarch/net/bpf_jit.c:899:41: note: in expansion of macro 'emit_insn'
-     899 |                                         emit_insn(ctx, ldb, dst, src, off);
-         |                                         ^~~~~~~~~
->> arch/loongarch/net/bpf_jit.h:34:17: error: implicit declaration of function 'emit_ldxb'; did you mean 'emit_ldxd'? [-Werror=implicit-function-declaration]
-      34 |                 emit_##func(insn, ##__VA_ARGS__);                               \
-         |                 ^~~~~
-   arch/loongarch/net/bpf_jit.c:905:41: note: in expansion of macro 'emit_insn'
-     905 |                                         emit_insn(ctx, ldxb, dst, src, t1);
-         |                                         ^~~~~~~~~
->> arch/loongarch/net/bpf_jit.h:34:17: error: implicit declaration of function 'emit_ldh'; did you mean 'emit_ldd'? [-Werror=implicit-function-declaration]
-      34 |                 emit_##func(insn, ##__VA_ARGS__);                               \
-         |                 ^~~~~
-   arch/loongarch/net/bpf_jit.c:913:41: note: in expansion of macro 'emit_insn'
-     913 |                                         emit_insn(ctx, ldh, dst, src, off);
-         |                                         ^~~~~~~~~
->> arch/loongarch/net/bpf_jit.h:34:17: error: implicit declaration of function 'emit_ldxh'; did you mean 'emit_ldxd'? [-Werror=implicit-function-declaration]
-      34 |                 emit_##func(insn, ##__VA_ARGS__);                               \
-         |                 ^~~~~
-   arch/loongarch/net/bpf_jit.c:919:41: note: in expansion of macro 'emit_insn'
-     919 |                                         emit_insn(ctx, ldxh, dst, src, t1);
-         |                                         ^~~~~~~~~
->> arch/loongarch/net/bpf_jit.h:34:17: error: implicit declaration of function 'emit_ldw'; did you mean 'emit_llw'? [-Werror=implicit-function-declaration]
-      34 |                 emit_##func(insn, ##__VA_ARGS__);                               \
-         |                 ^~~~~
-   arch/loongarch/net/bpf_jit.c:927:41: note: in expansion of macro 'emit_insn'
-     927 |                                         emit_insn(ctx, ldw, dst, src, off);
-         |                                         ^~~~~~~~~
->> arch/loongarch/net/bpf_jit.h:34:17: error: implicit declaration of function 'emit_ldxw'; did you mean 'emit_ldxd'? [-Werror=implicit-function-declaration]
-      34 |                 emit_##func(insn, ##__VA_ARGS__);                               \
-         |                 ^~~~~
-   arch/loongarch/net/bpf_jit.c:933:41: note: in expansion of macro 'emit_insn'
-     933 |                                         emit_insn(ctx, ldxw, dst, src, t1);
-         |                                         ^~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +33 arch/m68k/sun3/sun3ints.c
 
-
-vim +34 arch/loongarch/net/bpf_jit.h
-
-5dc615520c4dfb Tiezhu Yang 2022-10-12  29  
-5dc615520c4dfb Tiezhu Yang 2022-10-12  30  #define emit_insn(ctx, func, ...)						\
-5dc615520c4dfb Tiezhu Yang 2022-10-12  31  do {										\
-5dc615520c4dfb Tiezhu Yang 2022-10-12  32  	if (ctx->image != NULL) {						\
-5dc615520c4dfb Tiezhu Yang 2022-10-12  33  		union loongarch_instruction *insn = &ctx->image[ctx->idx];	\
-5dc615520c4dfb Tiezhu Yang 2022-10-12 @34  		emit_##func(insn, ##__VA_ARGS__);				\
-5dc615520c4dfb Tiezhu Yang 2022-10-12  35  	}									\
-5dc615520c4dfb Tiezhu Yang 2022-10-12  36  	ctx->idx++;								\
-5dc615520c4dfb Tiezhu Yang 2022-10-12  37  } while (0)
-5dc615520c4dfb Tiezhu Yang 2022-10-12  38  
-
-:::::: The code at line 34 was first introduced by commit
-:::::: 5dc615520c4dfb358245680f1904bad61116648e LoongArch: Add BPF JIT support
-
-:::::: TO: Tiezhu Yang <yangtiezhu@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+    31	
+    32	static unsigned char led_pattern[8] = {
+  > 33		(u8)~(0x80), (u8)~(0x01),
+    34		(u8)~(0x40), (u8)~(0x02),
+    35		(u8)~(0x20), (u8)~(0x04),
+    36		(u8)~(0x10), (u8)~(0x08)
+    37	};
+    38	
 
 -- 
 0-DAY CI Kernel Test Service
