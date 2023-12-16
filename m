@@ -1,55 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EA635896
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 22:24:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC5235880
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 22:35:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZvwKZmZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ic23oZkD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702765445; x=1734301445;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TD+KsvHnLB4deKJ8XgtkJMBFv7hW5Pc5jeJVAl6Ta9g=;
-  b=CZvwKZmZm3anNbjByxlglw5+uamYTL92hbvCSP7iLI4A9izRWOJdSQyO
-   thRYDNGpQnGQylugS1yh9rMh6CDSndS8bvi40GU6AWKpu98zYTwcmvX9b
-   yzRzbOqiv8oMjHbxloUIFPmEU6HvsV5UstuKhZoZcd4/P+IBH601q8pNl
-   HDBIj6EiKF8GCPjuHQD8e5FSF8V9++efjjXCSl9dcDPVr1rrDbjLVQG1A
-   8R1ZK52y3GdNwYVbkmDjZhxW8fyH3uSTI7XmgNQD37ErYr1/9jc5NWySF
-   2QTfRS3XRa1rPCZ5Ii/T6LUAnR3uf83ToY1o3G061XJFMcneIKDmyrUsX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="16947075"
+  t=1702766104; x=1734302104;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9N4kvVL2Qe8twH4F4fQoR1xE/5FhVegASRpf2Nir8Wg=;
+  b=ic23oZkD8jUEO41d1FdWgzZSflAE1Aoo6pqDQ5bNuCcksfGPY1Ez+s7X
+   TswDK4YCTNIM3uXcVxGbqnRfS4Pmq5E5kAYufvvZxyspKeUntKYHGv3gQ
+   IP77T3eR+nRtSdIGe5T83sUQJr9aCHaQNVy0Vfp8ZkvCO3XdibpZPTbG+
+   KNejQcBkzQH2gKhwLUuTDi/OR/jLUCQ4xIHtUOc7OuVApkIR0eaNrU4lW
+   UpEVYo0vS3k+rt/vDr3PIPARXQjFdaJrGknGDxb9D4lKBbUVY+9wTTsfq
+   S7GiM8Ydy/TvdPoCpmMipUYroKTPjHBCFXeb1aCM2KJT4BdsAQcZPdegR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="395127315"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="16947075"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 14:24:05 -0800
+   d="scan'208";a="395127315"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 14:35:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="778662987"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="768395272"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="778662987"
+   d="scan'208";a="768395272"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 16 Dec 2023 14:24:01 -0800
+  by orsmga007.jf.intel.com with ESMTP; 16 Dec 2023 14:35:02 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEd4h-0002Gy-1o;
-	Sat, 16 Dec 2023 22:23:59 +0000
-Date: Sun, 17 Dec 2023 06:23:05 +0800
+	id 1rEdFL-0002Hi-2y;
+	Sat, 16 Dec 2023 22:34:59 +0000
+Date: Sun, 17 Dec 2023 06:34:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Li Zetao <lizetao1@huawei.com>, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] leds: trigger: netdev: display only supported
- link speed attribute
-Message-ID: <202312170606.NWH5SzQD-lkp@intel.com>
-References: <20231214122041.17439-1-ansuelsmth@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-2.1.x-imx 126/16025]
+ sound/soc/fsl/fsl_easrc_m2m.c:19:6: warning: no previous prototype for
+ function 'fsl_easrc_get_status'
+Message-ID: <202312170631.3klFhfsb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,64 +50,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231214122041.17439-1-ansuelsmth@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-leds/for-leds-next]
-[cannot apply to net-next/main net/main linus/master v6.7-rc5 next-20231215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/docs-ABI-sysfs-class-led-trigger-netdev-Document-now-hidable-link_/20231214-202215
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20231214122041.17439-1-ansuelsmth%40gmail.com
-patch subject: [PATCH v3 1/2] leds: trigger: netdev: display only supported link speed attribute
-config: i386-randconfig-011-20231217 (https://download.01.org/0day-ci/archive/20231217/202312170606.NWH5SzQD-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312170606.NWH5SzQD-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
+head:   241e2f51bd87beb652196d1db92f0387c1209bfb
+commit: 46ac86d263c28d721f9f740b0e31d488ee95bc43 [126/16025] MLK-21940-4: ASoC: fsl_easrc: Support the m2m function
+config: i386-buildonly-randconfig-006-20231217 (https://download.01.org/0day-ci/archive/20231217/202312170631.3klFhfsb-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312170631.3klFhfsb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312170606.NWH5SzQD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312170631.3klFhfsb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/leds/trigger/ledtrig-netdev.o: in function `get_device_state':
->> drivers/leds/trigger/ledtrig-netdev.c:230: undefined reference to `phy_speeds'
+   In file included from sound/soc/fsl/fsl_easrc.c:1754:
+>> sound/soc/fsl/fsl_easrc_m2m.c:19:6: warning: no previous prototype for function 'fsl_easrc_get_status' [-Wmissing-prototypes]
+   void fsl_easrc_get_status(struct fsl_asrc_pair *ctx,
+        ^
+   sound/soc/fsl/fsl_easrc_m2m.c:19:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void fsl_easrc_get_status(struct fsl_asrc_pair *ctx,
+   ^
+   static 
+>> sound/soc/fsl/fsl_easrc_m2m.c:282:5: warning: no previous prototype for function 'fsl_easrc_process_buffer_pre' [-Wmissing-prototypes]
+   int fsl_easrc_process_buffer_pre(struct fsl_easrc_m2m *m2m, bool dir)
+       ^
+   sound/soc/fsl/fsl_easrc_m2m.c:282:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int fsl_easrc_process_buffer_pre(struct fsl_easrc_m2m *m2m, bool dir)
+   ^
+   static 
+>> sound/soc/fsl/fsl_easrc_m2m.c:415:6: warning: no previous prototype for function 'fsl_easrc_submit_dma' [-Wmissing-prototypes]
+   void fsl_easrc_submit_dma(struct fsl_easrc_m2m *m2m)
+        ^
+   sound/soc/fsl/fsl_easrc_m2m.c:415:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void fsl_easrc_submit_dma(struct fsl_easrc_m2m *m2m)
+   ^
+   static 
+   3 warnings generated.
 
 
-vim +230 drivers/leds/trigger/ledtrig-netdev.c
+vim +/fsl_easrc_get_status +19 sound/soc/fsl/fsl_easrc_m2m.c
 
-   211	
-   212	static void get_device_state(struct led_netdev_data *trigger_data)
-   213	{
-   214		struct ethtool_link_ksettings cmd;
-   215		int speeds_num;
-   216	
-   217		trigger_data->carrier_link_up = netif_carrier_ok(trigger_data->net_dev);
-   218	
-   219		if (__ethtool_get_link_ksettings(trigger_data->net_dev, &cmd))
-   220			return;
-   221	
-   222		if (trigger_data->carrier_link_up) {
-   223			trigger_data->link_speed = cmd.base.speed;
-   224			trigger_data->duplex = cmd.base.duplex;
-   225		}
-   226	
-   227		/* Have a local copy of the link speed supported to not rtnl lock every time
-   228		 * Modes are refreshed on any change event to handle mode changes
-   229		 */
- > 230		speeds_num = phy_speeds(trigger_data->supported_link_speeds,
-   231					ARRAY_SIZE(trigger_data->supported_link_speeds),
-   232					cmd.link_modes.supported);
-   233		trigger_data->supported_link_speeds_num = speeds_num;
-   234	}
-   235	
+    18	
+  > 19	void fsl_easrc_get_status(struct fsl_asrc_pair *ctx,
+    20				  struct asrc_status_flags *flags)
+    21	{
+    22		flags->overload_error = 0;
+    23	}
+    24	
 
 -- 
 0-DAY CI Kernel Test Service
