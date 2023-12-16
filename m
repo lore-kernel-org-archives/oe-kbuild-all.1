@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979A418EDA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Dec 2023 23:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4204A26
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Dec 2023 00:02:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DInKZz/0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btWomAsO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702684353; x=1734220353;
+  t=1702684953; x=1734220953;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f6mgmDd8mNTiEm32iKDnHxjpSFzal8h3KsCy90lEEXc=;
-  b=DInKZz/0sYCej4nFy5dgZeNji7cil6au9XUW/eSxI4gLDOdBK6HXhJfY
-   HY4qep8Ih+EMpQWUu2sQWgYwbeGwFz1HocOO7+EGcPJceO6JU8lkBrdIU
-   3ZNr7n/hBVORXHUJMi+ygYFEpTAbeniVWP+43pmScW8Ml5EoJAmtJT+uc
-   SJ3C4VPGcdFQ5So420FVheUz0r08JPDxrLLmuU8AeZDXnj70RvgKeZOdx
-   ZNRdIwQGpBQvgJI+tmnnsR8qgGag33PZ+PCjdvJ8dCVOPnQbXbbv9Qdn/
-   lYg+3v+V62JoDkuj/r3IPuOxruCuNrHF5lqZKggnSI0vppitSaotuKx4h
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="426470542"
+  bh=YUSfZPBseVJAw9L3+5wOp5QJgUOPgNxA2wMdUMH36K0=;
+  b=btWomAsO6/FMi2Pxl8xlDX2OLax4j+ZNNvcIwlUtTZBQyjdsSUOvCd+p
+   ldQbRKyfODRJ0doWTPnUDkAOtL3THvb+gMvfhHF7JDTCHa/VyOSel/oq5
+   mmVdksUH+T5oL9xYtjPxXkFYQTdMsdazlOOu5+Ip5UAfixhoU30qbVQcu
+   iwu3Yypnb8AvJysVyEu0Ft33r6I3YwLk45BjxtJoZTGYyJrU4cM/rBtKW
+   mxrNCKhMuPaSppbsng3J0Hu2i+59q/1/Qn3hLCF2oqJVLpZZVfXqddRi4
+   bH2pXWlUGYdJBA1umUNzNHHF9iG3WLVQq1nM/xtcmcupvx+6uppCNnueF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="392516062"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="426470542"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 15:52:32 -0800
+   d="scan'208";a="392516062"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2023 16:02:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="948124845"
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="809148480"
 X-IronPort-AV: E=Sophos;i="6.04,280,1695711600"; 
-   d="scan'208";a="948124845"
+   d="scan'208";a="809148480"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 15 Dec 2023 15:52:30 -0800
+  by orsmga001.jf.intel.com with ESMTP; 15 Dec 2023 16:02:30 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEHym-0000uk-12;
-	Fri, 15 Dec 2023 23:52:28 +0000
-Date: Sat, 16 Dec 2023 07:51:59 +0800
+	id 1rEI8S-0000vN-2Q;
+	Sat, 16 Dec 2023 00:02:28 +0000
+Date: Sat, 16 Dec 2023 08:02:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thierry Reding <treding@nvidia.com>
-Subject: drivers/gpu/drm/tegra/hub.c:536:(.text+0x1266): relocation truncated
- to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-Message-ID: <202312160759.X3dEVpgd-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 17066/17074]
+ include/trace/stages/init.h:2:23: warning: 'str__fs__trace_system_name'
+ defined but not used
+Message-ID: <202312160712.nYOGy8BK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,136 +51,308 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3bd7d748816927202268cb335921f7f68b3ca723
-commit: f75d19827b731c6f24930ef77e5a46cf2242bc68 drm/tegra: Allow compile test on !ARM v2
-date:   9 months ago
-config: csky-randconfig-r025-20230713 (https://download.01.org/0day-ci/archive/20231216/202312160759.X3dEVpgd-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312160759.X3dEVpgd-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   ac1031618a7d1cfb0a804439212de64f115a7773
+commit: 956a0d3998cdc9bfc3608bc358d0fab974bf4905 [17066/17074] ANDROID: fs: Add vendor hooks for ep_create_wakeup_source & timerfd_create
+config: i386-buildonly-randconfig-004-20231216 (https://download.01.org/0day-ci/archive/20231216/202312160712.nYOGy8BK-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312160712.nYOGy8BK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312160759.X3dEVpgd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312160712.nYOGy8BK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/tegra/hub.o: in function `tegra_shared_plane_atomic_update':
->> drivers/gpu/drm/tegra/hub.c:536:(.text+0x1266): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/gpu/drm/tegra/hub.c:559:(.text+0x129a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/gpu/drm/tegra/hub.c:565:(.text+0x12aa): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/gpu/drm/tegra/hub.c:567:(.text+0x12b4): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/gpu/drm/tegra/hub.c:606:(.text+0x13c8): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-   drivers/gpu/drm/tegra/hub.c:617:(.text+0x1436): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cgroup.h:43,
+                    from drivers/android/vendor_hooks.c:34:
+   include/trace/stages/init.h:2:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/mmc.h:39,
+                    from drivers/android/vendor_hooks.c:33:
+   include/trace/stages/init.h:2:23: warning: 'str__mmc__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ufshcd.h:71,
+                    from drivers/android/vendor_hooks.c:32:
+   include/trace/stages/init.h:2:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ftrace_dump.h:36,
+                    from drivers/android/vendor_hooks.c:31:
+   include/trace/stages/init.h:2:23: warning: 'str__ftrace_dump__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/preemptirq.h:31,
+                    from drivers/android/vendor_hooks.c:30:
+   include/trace/stages/init.h:2:23: warning: 'str__preemptirq__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fs.h:23,
+                    from drivers/android/vendor_hooks.c:29:
+>> include/trace/stages/init.h:2:23: warning: 'str__fs__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cpufreq.h:48,
+                    from drivers/android/vendor_hooks.c:28:
+   include/trace/stages/init.h:2:23: warning: 'str__cpufreq__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/epoch.h:22,
+                    from drivers/android/vendor_hooks.c:27:
+   include/trace/stages/init.h:2:23: warning: 'str__epoch__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/printk.h:18,
+                    from drivers/android/vendor_hooks.c:26:
+   include/trace/stages/init.h:2:23: warning: 'str__printk__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sysrqcrash.h:19,
+                    from drivers/android/vendor_hooks.c:25:
+   include/trace/stages/init.h:2:23: warning: 'str__sysrqcrash__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:102,
+                    from include/trace/hooks/debug.h:20,
+                    from drivers/android/vendor_hooks.c:24:
+   include/trace/stages/init.h:2:23: warning: 'str__debug__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=m] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 
-vim +536 drivers/gpu/drm/tegra/hub.c
+vim +/str__fs__trace_system_name +2 include/trace/stages/init.h
 
-ecc583e22d4689 Thierry Reding 2021-05-27  533  
-c4755fb9064f64 Thierry Reding 2017-11-13  534  static void tegra_shared_plane_atomic_update(struct drm_plane *plane,
-977697e20b3d75 Maxime Ripard  2021-02-19  535  					     struct drm_atomic_state *state)
-c4755fb9064f64 Thierry Reding 2017-11-13 @536  {
-37418bf14c1392 Maxime Ripard  2021-02-19  537  	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-37418bf14c1392 Maxime Ripard  2021-02-19  538  									   plane);
-41016fe1028e4b Maxime Ripard  2021-02-19  539  	struct tegra_plane_state *tegra_plane_state = to_tegra_plane_state(new_state);
-e05162c017e2e1 Maxime Ripard  2021-02-19  540  	struct tegra_dc *dc = to_tegra_dc(new_state->crtc);
-e05162c017e2e1 Maxime Ripard  2021-02-19  541  	unsigned int zpos = new_state->normalized_zpos;
-e05162c017e2e1 Maxime Ripard  2021-02-19  542  	struct drm_framebuffer *fb = new_state->fb;
-1087fac18b8e3e Thierry Reding 2017-12-14  543  	struct tegra_plane *p = to_tegra_plane(plane);
-ecc583e22d4689 Thierry Reding 2021-05-27  544  	u32 value, min_width, bypass = 0;
-e16efff4e5f490 Thierry Reding 2021-05-27  545  	dma_addr_t base, addr_flag = 0;
-a649b133c3154f Thierry Reding 2022-01-12  546  	unsigned int bpc, planes;
-a649b133c3154f Thierry Reding 2022-01-12  547  	bool yuv;
-fd67e9c6ed5af2 Thierry Reding 2019-12-02  548  	int err;
-c4755fb9064f64 Thierry Reding 2017-11-13  549  
-c4755fb9064f64 Thierry Reding 2017-11-13  550  	/* rien ne va plus */
-e05162c017e2e1 Maxime Ripard  2021-02-19  551  	if (!new_state->crtc || !new_state->fb)
-c4755fb9064f64 Thierry Reding 2017-11-13  552  		return;
-c4755fb9064f64 Thierry Reding 2017-11-13  553  
-e05162c017e2e1 Maxime Ripard  2021-02-19  554  	if (!new_state->visible) {
-977697e20b3d75 Maxime Ripard  2021-02-19  555  		tegra_shared_plane_atomic_disable(plane, state);
-c4755fb9064f64 Thierry Reding 2017-11-13  556  		return;
-c4755fb9064f64 Thierry Reding 2017-11-13  557  	}
-c4755fb9064f64 Thierry Reding 2017-11-13  558  
-fd67e9c6ed5af2 Thierry Reding 2019-12-02  559  	err = host1x_client_resume(&dc->client);
-fd67e9c6ed5af2 Thierry Reding 2019-12-02  560  	if (err < 0) {
-fd67e9c6ed5af2 Thierry Reding 2019-12-02  561  		dev_err(dc->dev, "failed to resume: %d\n", err);
-fd67e9c6ed5af2 Thierry Reding 2019-12-02  562  		return;
-fd67e9c6ed5af2 Thierry Reding 2019-12-02  563  	}
-c4755fb9064f64 Thierry Reding 2017-11-13  564  
-a649b133c3154f Thierry Reding 2022-01-12  565  	yuv = tegra_plane_format_is_yuv(tegra_plane_state->format, &planes, &bpc);
-e16efff4e5f490 Thierry Reding 2021-05-27  566  
-c4755fb9064f64 Thierry Reding 2017-11-13  567  	tegra_dc_assign_shared_plane(dc, p);
-c4755fb9064f64 Thierry Reding 2017-11-13  568  
-c4755fb9064f64 Thierry Reding 2017-11-13  569  	tegra_plane_writel(p, VCOUNTER, DC_WIN_CORE_ACT_CONTROL);
-c4755fb9064f64 Thierry Reding 2017-11-13  570  
-c4755fb9064f64 Thierry Reding 2017-11-13  571  	/* blending */
-c4755fb9064f64 Thierry Reding 2017-11-13  572  	value = BLEND_FACTOR_DST_ALPHA_ZERO | BLEND_FACTOR_SRC_ALPHA_K2 |
-c4755fb9064f64 Thierry Reding 2017-11-13  573  		BLEND_FACTOR_DST_COLOR_NEG_K1_TIMES_SRC |
-c4755fb9064f64 Thierry Reding 2017-11-13  574  		BLEND_FACTOR_SRC_COLOR_K1_TIMES_SRC;
-c4755fb9064f64 Thierry Reding 2017-11-13  575  	tegra_plane_writel(p, value, DC_WIN_BLEND_MATCH_SELECT);
-c4755fb9064f64 Thierry Reding 2017-11-13  576  
-c4755fb9064f64 Thierry Reding 2017-11-13  577  	value = BLEND_FACTOR_DST_ALPHA_ZERO | BLEND_FACTOR_SRC_ALPHA_K2 |
-c4755fb9064f64 Thierry Reding 2017-11-13  578  		BLEND_FACTOR_DST_COLOR_NEG_K1_TIMES_SRC |
-c4755fb9064f64 Thierry Reding 2017-11-13  579  		BLEND_FACTOR_SRC_COLOR_K1_TIMES_SRC;
-c4755fb9064f64 Thierry Reding 2017-11-13  580  	tegra_plane_writel(p, value, DC_WIN_BLEND_NOMATCH_SELECT);
-c4755fb9064f64 Thierry Reding 2017-11-13  581  
-ab7d3f5826c55a Thierry Reding 2017-12-14  582  	value = K2(255) | K1(255) | WINDOW_LAYER_DEPTH(255 - zpos);
-c4755fb9064f64 Thierry Reding 2017-11-13  583  	tegra_plane_writel(p, value, DC_WIN_BLEND_LAYER_CONTROL);
-c4755fb9064f64 Thierry Reding 2017-11-13  584  
-ecc583e22d4689 Thierry Reding 2021-05-27  585  	/* scaling */
-ecc583e22d4689 Thierry Reding 2021-05-27  586  	min_width = min(new_state->src_w >> 16, new_state->crtc_w);
-ecc583e22d4689 Thierry Reding 2021-05-27  587  
-ecc583e22d4689 Thierry Reding 2021-05-27  588  	value = tegra_plane_readl(p, DC_WINC_PRECOMP_WGRP_PIPE_CAPC);
-ecc583e22d4689 Thierry Reding 2021-05-27  589  
-ecc583e22d4689 Thierry Reding 2021-05-27  590  	if (min_width < MAX_PIXELS_5TAP444(value)) {
-ecc583e22d4689 Thierry Reding 2021-05-27  591  		value = HORIZONTAL_TAPS_5 | VERTICAL_TAPS_5;
-ecc583e22d4689 Thierry Reding 2021-05-27  592  	} else {
-ecc583e22d4689 Thierry Reding 2021-05-27  593  		value = tegra_plane_readl(p, DC_WINC_PRECOMP_WGRP_PIPE_CAPE);
-ecc583e22d4689 Thierry Reding 2021-05-27  594  
-ecc583e22d4689 Thierry Reding 2021-05-27  595  		if (min_width < MAX_PIXELS_2TAP444(value))
-ecc583e22d4689 Thierry Reding 2021-05-27  596  			value = HORIZONTAL_TAPS_2 | VERTICAL_TAPS_2;
-ecc583e22d4689 Thierry Reding 2021-05-27  597  		else
-ecc583e22d4689 Thierry Reding 2021-05-27  598  			dev_err(dc->dev, "invalid minimum width: %u\n", min_width);
-ecc583e22d4689 Thierry Reding 2021-05-27  599  	}
-ecc583e22d4689 Thierry Reding 2021-05-27  600  
-c4755fb9064f64 Thierry Reding 2017-11-13  601  	value = HORIZONTAL_TAPS_5 | VERTICAL_TAPS_5;
-c4755fb9064f64 Thierry Reding 2017-11-13  602  	tegra_plane_writel(p, value, DC_WIN_WINDOWGROUP_SET_CONTROL_INPUT_SCALER);
-c4755fb9064f64 Thierry Reding 2017-11-13  603  
-ecc583e22d4689 Thierry Reding 2021-05-27  604  	if (new_state->src_w != new_state->crtc_w << 16) {
-ecc583e22d4689 Thierry Reding 2021-05-27  605  		fixed20_12 width = dfixed_init(new_state->src_w >> 16);
-ecc583e22d4689 Thierry Reding 2021-05-27  606  		u32 incr = compute_phase_incr(width, new_state->crtc_w) & ~0x1;
-ecc583e22d4689 Thierry Reding 2021-05-27  607  		u32 init = (1 << (NFB - 1)) + (incr >> 1);
-ecc583e22d4689 Thierry Reding 2021-05-27  608  
-ecc583e22d4689 Thierry Reding 2021-05-27  609  		tegra_plane_writel(p, incr, DC_WIN_SET_INPUT_SCALER_HPHASE_INCR);
-ecc583e22d4689 Thierry Reding 2021-05-27  610  		tegra_plane_writel(p, init, DC_WIN_SET_INPUT_SCALER_H_START_PHASE);
-ecc583e22d4689 Thierry Reding 2021-05-27  611  	} else {
-ecc583e22d4689 Thierry Reding 2021-05-27  612  		bypass |= INPUT_SCALER_HBYPASS;
-ecc583e22d4689 Thierry Reding 2021-05-27  613  	}
-ecc583e22d4689 Thierry Reding 2021-05-27  614  
-ecc583e22d4689 Thierry Reding 2021-05-27  615  	if (new_state->src_h != new_state->crtc_h << 16) {
-ecc583e22d4689 Thierry Reding 2021-05-27  616  		fixed20_12 height = dfixed_init(new_state->src_h >> 16);
-ecc583e22d4689 Thierry Reding 2021-05-27  617  		u32 incr = compute_phase_incr(height, new_state->crtc_h) & ~0x1;
-ecc583e22d4689 Thierry Reding 2021-05-27  618  		u32 init = (1 << (NFB - 1)) + (incr >> 1);
-ecc583e22d4689 Thierry Reding 2021-05-27  619  
-ecc583e22d4689 Thierry Reding 2021-05-27  620  		tegra_plane_writel(p, incr, DC_WIN_SET_INPUT_SCALER_VPHASE_INCR);
-ecc583e22d4689 Thierry Reding 2021-05-27  621  		tegra_plane_writel(p, init, DC_WIN_SET_INPUT_SCALER_V_START_PHASE);
-ecc583e22d4689 Thierry Reding 2021-05-27  622  	} else {
-ecc583e22d4689 Thierry Reding 2021-05-27  623  		bypass |= INPUT_SCALER_VBYPASS;
-ecc583e22d4689 Thierry Reding 2021-05-27  624  	}
-ecc583e22d4689 Thierry Reding 2021-05-27  625  
-ecc583e22d4689 Thierry Reding 2021-05-27  626  	tegra_plane_writel(p, bypass, DC_WIN_WINDOWGROUP_SET_INPUT_SCALER_USAGE);
-c4755fb9064f64 Thierry Reding 2017-11-13  627  
-c4755fb9064f64 Thierry Reding 2017-11-13  628  	/* disable compression */
-c4755fb9064f64 Thierry Reding 2017-11-13  629  	tegra_plane_writel(p, 0, DC_WINBUF_CDE_CONTROL);
-c4755fb9064f64 Thierry Reding 2017-11-13  630  
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03   3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03   4) 
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03   5) #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03   6) 
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03   7) #define TRACE_MAKE_SYSTEM_STR()				\
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03   8) 	static const char TRACE_SYSTEM_STRING[] =	\
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03   9) 		__stringify(TRACE_SYSTEM)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  10) 
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @11) TRACE_MAKE_SYSTEM_STR();
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  12) 
 
-:::::: The code at line 536 was first introduced by commit
-:::::: c4755fb9064f64083fe559e92a46df817fc5e07b drm/tegra: Add Tegra186 display hub support
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
 
-:::::: TO: Thierry Reding <treding@nvidia.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
