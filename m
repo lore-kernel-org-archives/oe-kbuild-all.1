@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BACA10F2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 01:32:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5761A2A;
+	Sun, 17 Dec 2023 01:53:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BEAlIT53"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FuC/jwJq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702776730; x=1734312730;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jTn4oOXiFmqXvyXmu+euEZ5soa1NMZV/kxCzLJN+nuE=;
-  b=BEAlIT53YYeBDqJ8jsaQtTDjLpeaegsT/ydYX+ol+EL1m2gNU7bf2hyi
-   cIGSK2aWhrVPaLSWehA7quXNlpBdXK6mb+qT0xxgkQSBXZgifgQ0K5MrO
-   m6l+KtrWqZ5BnErcYpsW29R5Z2XeHsIFpvVz08I9QDgb83A4Wkmlf7OJU
-   y8wtiJbJP6YvXOz33wwIORZYbv9BDonc+VGmhg8fq1Ppah+FjIklfdwzj
-   702cRix/NVNnetoK23fyOzj1Eb/pNmsaTINE7Q0r9fRtX6S8MuIXCs196
-   /a+5FPyTUJm9ug6VlX+bgNdesSnL2u/w7cJESl19S7QlNZZRk4f7FzQ2T
+  t=1702777991; x=1734313991;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oZ+LBM9NXM4g0AOGlMraNS2q53MXhZEjzSh98qcB2ik=;
+  b=FuC/jwJq6rCjgo+VD3+6aNbyLTt+5WOewafHGgLl0+hMOf9PxiVIf5Mq
+   Td2aBDcKbuzT5s79C3HYBiWIxDchS9oCLVvyC0rUAQC1erNstUGn/oFDv
+   CIp2O6hxvi4BeJoR2AfJI77oSJDVCywt06x+AW8D1KHw07bt6lsi8eg06
+   qhBYzNEbBur3m+v6/fPVPMG75RZ+IXR76GpJgQ0hJq2J+6did5rRpSxmO
+   TuANHIz43Ei/FarhZXWC6QJkMK5p3crpOBxhHgyKRdgjoXMZdQkVjEpTZ
+   76sYnPAEnNjTE7e6uDT9kcczeQxhzIa4f15W23wMuoWe0DgU+R8u5R2L7
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="385816055"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="459722215"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="385816055"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 17:32:09 -0800
+   d="scan'208";a="459722215"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 17:53:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="778690802"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="918851337"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="778690802"
+   d="scan'208";a="918851337"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 16 Dec 2023 17:32:08 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 16 Dec 2023 17:53:09 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEg0k-0002SH-1J;
-	Sun, 17 Dec 2023 01:32:06 +0000
-Date: Sun, 17 Dec 2023 09:31:40 +0800
+	id 1rEgL5-0002Tq-0i;
+	Sun, 17 Dec 2023 01:53:07 +0000
+Date: Sun, 17 Dec 2023 09:52:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 4839/16025]
- drivers/soc/imx/secvio/imx-secvio-sc.c:140:5: warning: no previous prototype
- for function 'int_imx_secvio_sc_check_state'
-Message-ID: <202312170930.jPKx0Kjo-lkp@intel.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v8 23/24] ima: Make it independent from 'integrity' LSM
+Message-ID: <202312170940.GnFjqC6b-lkp@intel.com>
+References: <20231214170834.3324559-24-roberto.sassu@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,97 +50,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231214170834.3324559-24-roberto.sassu@huaweicloud.com>
 
-Hi Dong,
+Hi Roberto,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   241e2f51bd87beb652196d1db92f0387c1209bfb
-commit: e5c2ac92c948f8eab9eab1fd89a5c15437168e7d [4839/16025] Merge branch 'firmware/next' into next
-config: i386-buildonly-randconfig-004-20231217 (https://download.01.org/0day-ci/archive/20231217/202312170930.jPKx0Kjo-lkp@intel.com/config)
+[auto build test WARNING on next-20231214]
+[cannot apply to zohar-integrity/next-integrity shuah-kselftest/next shuah-kselftest/fixes pcmoore-selinux/next brauner-vfs/vfs.all linus/master v6.7-rc5 v6.7-rc4 v6.7-rc3 v6.7-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roberto-Sassu/ima-Align-ima_inode_post_setattr-definition-with-LSM-infrastructure/20231215-011948
+base:   next-20231214
+patch link:    https://lore.kernel.org/r/20231214170834.3324559-24-roberto.sassu%40huaweicloud.com
+patch subject: [PATCH v8 23/24] ima: Make it independent from 'integrity' LSM
+config: i386-buildonly-randconfig-005-20231217 (https://download.01.org/0day-ci/archive/20231217/202312170940.GnFjqC6b-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312170930.jPKx0Kjo-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312170940.GnFjqC6b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312170930.jPKx0Kjo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312170940.GnFjqC6b-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/soc/imx/secvio/imx-secvio-sc.c:140:5: warning: no previous prototype for function 'int_imx_secvio_sc_check_state' [-Wmissing-prototypes]
-   int int_imx_secvio_sc_check_state(struct device *dev)
-       ^
-   drivers/soc/imx/secvio/imx-secvio-sc.c:140:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int int_imx_secvio_sc_check_state(struct device *dev)
-   ^
-   static 
-   drivers/soc/imx/secvio/imx-secvio-sc.c:377:29: warning: variable 'data' set but not used [-Wunused-but-set-variable]
-           struct imx_secvio_sc_data *data;
+>> security/integrity/ima/ima_main.c:570:6: warning: variable 'iint' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (ima_policy_flag) {
+               ^~~~~~~~~~~~~~~
+   security/integrity/ima/ima_main.c:576:8: note: uninitialized use occurs here
+           if ((!iint || !(iint->flags & IMA_COLLECTED)) && file) {
+                 ^~~~
+   security/integrity/ima/ima_main.c:570:2: note: remove the 'if' if its condition is always true
+           if (ima_policy_flag) {
+           ^~~~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_main.c:567:29: note: initialize the variable 'iint' to silence this warning
+           struct ima_iint_cache *iint, tmp_iint;
                                       ^
-   2 warnings generated.
---
->> drivers/soc/imx/secvio/imx-secvio-debugfs.c:35:5: warning: no previous prototype for function 'fuse_reader' [-Wmissing-prototypes]
-   int fuse_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-       ^
-   drivers/soc/imx/secvio/imx-secvio-debugfs.c:35:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int fuse_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-   ^
-   static 
->> drivers/soc/imx/secvio/imx-secvio-debugfs.c:56:5: warning: no previous prototype for function 'snvs_reader' [-Wmissing-prototypes]
-   int snvs_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-       ^
-   drivers/soc/imx/secvio/imx-secvio-debugfs.c:56:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int snvs_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-   ^
-   static 
->> drivers/soc/imx/secvio/imx-secvio-debugfs.c:95:5: warning: no previous prototype for function 'snvs_dgo_reader' [-Wmissing-prototypes]
-   int snvs_dgo_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-       ^
-   drivers/soc/imx/secvio/imx-secvio-debugfs.c:95:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int snvs_dgo_reader(struct device *dev, u32 id, u32 *value, u8 mul)
-   ^
-   static 
-   3 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DEBUG_MAPLE_TREE
-   Depends on [n]: DEBUG_KERNEL [=n]
-   Selected by [y]:
-   - TEST_MAPLE_TREE [=y] && RUNTIME_TESTING_MENU [=y]
+                                       = NULL
+   1 warning generated.
 
 
-vim +/int_imx_secvio_sc_check_state +140 drivers/soc/imx/secvio/imx-secvio-sc.c
+vim +570 security/integrity/ima/ima_main.c
 
-16674772de567c Franck LENORMAND 2019-12-05  139  
-16674772de567c Franck LENORMAND 2019-12-05 @140  int int_imx_secvio_sc_check_state(struct device *dev)
-16674772de567c Franck LENORMAND 2019-12-05  141  {
-16674772de567c Franck LENORMAND 2019-12-05  142  	struct secvio_sc_notifier_info info = {0};
-16674772de567c Franck LENORMAND 2019-12-05  143  	int ret = 0;
-16674772de567c Franck LENORMAND 2019-12-05  144  
-16674772de567c Franck LENORMAND 2019-12-05  145  	ret = int_imx_secvio_sc_get_state(dev, &info);
-16674772de567c Franck LENORMAND 2019-12-05  146  	if (ret) {
-16674772de567c Franck LENORMAND 2019-12-05  147  		dev_err(dev, "Failed to get secvio state\n");
-16674772de567c Franck LENORMAND 2019-12-05  148  		goto exit;
-16674772de567c Franck LENORMAND 2019-12-05  149  	}
-16674772de567c Franck LENORMAND 2019-12-05  150  
-16674772de567c Franck LENORMAND 2019-12-05  151  	/* Call chain of CB registered to this module if status detected */
-16674772de567c Franck LENORMAND 2019-12-05  152  	if (info.hpsvs || info.lps || info.lptds)
-16674772de567c Franck LENORMAND 2019-12-05  153  		if (imx_secvio_sc_notifier_call_chain(&info))
-16674772de567c Franck LENORMAND 2019-12-05  154  			dev_warn(dev,
-16674772de567c Franck LENORMAND 2019-12-05  155  				 "Issues when calling the notifier chain\n");
-16674772de567c Franck LENORMAND 2019-12-05  156  
-16674772de567c Franck LENORMAND 2019-12-05  157  exit:
-16674772de567c Franck LENORMAND 2019-12-05  158  	return ret;
-16674772de567c Franck LENORMAND 2019-12-05  159  }
-16674772de567c Franck LENORMAND 2019-12-05  160  
-
-:::::: The code at line 140 was first introduced by commit
-:::::: 16674772de567c3aa328f328af2ae484abc4edd0 SSI-87: soc: imx: secvio: Add support for SNVS secvio and tamper via SCFW
-
-:::::: TO: Franck LENORMAND <franck.lenormand@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+8eb988c70e7709 Mimi Zohar     2010-01-20  563  
+280fe8367b0dc4 Roberto Sassu  2022-03-02  564  static int __ima_inode_hash(struct inode *inode, struct file *file, char *buf,
+280fe8367b0dc4 Roberto Sassu  2022-03-02  565  			    size_t buf_size)
+6beea7afcc72b8 Florent Revest 2020-01-13  566  {
+7f3b66c6df75b7 Roberto Sassu  2023-12-14  567  	struct ima_iint_cache *iint, tmp_iint;
+280fe8367b0dc4 Roberto Sassu  2022-03-02  568  	int rc, hash_algo;
+6beea7afcc72b8 Florent Revest 2020-01-13  569  
+280fe8367b0dc4 Roberto Sassu  2022-03-02 @570  	if (ima_policy_flag) {
+7f3b66c6df75b7 Roberto Sassu  2023-12-14  571  		iint = ima_iint_inode(inode);
+280fe8367b0dc4 Roberto Sassu  2022-03-02  572  		if (iint)
+280fe8367b0dc4 Roberto Sassu  2022-03-02  573  			mutex_lock(&iint->mutex);
+280fe8367b0dc4 Roberto Sassu  2022-03-02  574  	}
+280fe8367b0dc4 Roberto Sassu  2022-03-02  575  
+280fe8367b0dc4 Roberto Sassu  2022-03-02  576  	if ((!iint || !(iint->flags & IMA_COLLECTED)) && file) {
+280fe8367b0dc4 Roberto Sassu  2022-03-02  577  		if (iint)
+280fe8367b0dc4 Roberto Sassu  2022-03-02  578  			mutex_unlock(&iint->mutex);
+280fe8367b0dc4 Roberto Sassu  2022-03-02  579  
+280fe8367b0dc4 Roberto Sassu  2022-03-02  580  		memset(&tmp_iint, 0, sizeof(tmp_iint));
+280fe8367b0dc4 Roberto Sassu  2022-03-02  581  		mutex_init(&tmp_iint.mutex);
+280fe8367b0dc4 Roberto Sassu  2022-03-02  582  
+280fe8367b0dc4 Roberto Sassu  2022-03-02  583  		rc = ima_collect_measurement(&tmp_iint, file, NULL, 0,
+280fe8367b0dc4 Roberto Sassu  2022-03-02  584  					     ima_hash_algo, NULL);
+8c1d6a050a0f16 Roberto Sassu  2022-11-02  585  		if (rc < 0) {
+8c1d6a050a0f16 Roberto Sassu  2022-11-02  586  			/* ima_hash could be allocated in case of failure. */
+8c1d6a050a0f16 Roberto Sassu  2022-11-02  587  			if (rc != -ENOMEM)
+8c1d6a050a0f16 Roberto Sassu  2022-11-02  588  				kfree(tmp_iint.ima_hash);
+8c1d6a050a0f16 Roberto Sassu  2022-11-02  589  
+6beea7afcc72b8 Florent Revest 2020-01-13  590  			return -EOPNOTSUPP;
+8c1d6a050a0f16 Roberto Sassu  2022-11-02  591  		}
+6beea7afcc72b8 Florent Revest 2020-01-13  592  
+280fe8367b0dc4 Roberto Sassu  2022-03-02  593  		iint = &tmp_iint;
+6beea7afcc72b8 Florent Revest 2020-01-13  594  		mutex_lock(&iint->mutex);
+280fe8367b0dc4 Roberto Sassu  2022-03-02  595  	}
+280fe8367b0dc4 Roberto Sassu  2022-03-02  596  
+280fe8367b0dc4 Roberto Sassu  2022-03-02  597  	if (!iint)
+280fe8367b0dc4 Roberto Sassu  2022-03-02  598  		return -EOPNOTSUPP;
+aa662fc04f5b29 KP Singh       2020-09-16  599  
+aa662fc04f5b29 KP Singh       2020-09-16  600  	/*
+aa662fc04f5b29 KP Singh       2020-09-16  601  	 * ima_file_hash can be called when ima_collect_measurement has still
+aa662fc04f5b29 KP Singh       2020-09-16  602  	 * not been called, we might not always have a hash.
+aa662fc04f5b29 KP Singh       2020-09-16  603  	 */
+62622dab0a2850 Matt Bobrowski 2023-01-04  604  	if (!iint->ima_hash || !(iint->flags & IMA_COLLECTED)) {
+aa662fc04f5b29 KP Singh       2020-09-16  605  		mutex_unlock(&iint->mutex);
+aa662fc04f5b29 KP Singh       2020-09-16  606  		return -EOPNOTSUPP;
+aa662fc04f5b29 KP Singh       2020-09-16  607  	}
+aa662fc04f5b29 KP Singh       2020-09-16  608  
+6beea7afcc72b8 Florent Revest 2020-01-13  609  	if (buf) {
+6beea7afcc72b8 Florent Revest 2020-01-13  610  		size_t copied_size;
+6beea7afcc72b8 Florent Revest 2020-01-13  611  
+6beea7afcc72b8 Florent Revest 2020-01-13  612  		copied_size = min_t(size_t, iint->ima_hash->length, buf_size);
+6beea7afcc72b8 Florent Revest 2020-01-13  613  		memcpy(buf, iint->ima_hash->digest, copied_size);
+6beea7afcc72b8 Florent Revest 2020-01-13  614  	}
+6beea7afcc72b8 Florent Revest 2020-01-13  615  	hash_algo = iint->ima_hash->algo;
+6beea7afcc72b8 Florent Revest 2020-01-13  616  	mutex_unlock(&iint->mutex);
+6beea7afcc72b8 Florent Revest 2020-01-13  617  
+280fe8367b0dc4 Roberto Sassu  2022-03-02  618  	if (iint == &tmp_iint)
+280fe8367b0dc4 Roberto Sassu  2022-03-02  619  		kfree(iint->ima_hash);
+280fe8367b0dc4 Roberto Sassu  2022-03-02  620  
+6beea7afcc72b8 Florent Revest 2020-01-13  621  	return hash_algo;
+6beea7afcc72b8 Florent Revest 2020-01-13  622  }
+403319be5de511 KP Singh       2020-11-24  623  
 
 -- 
 0-DAY CI Kernel Test Service
