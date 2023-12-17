@@ -1,30 +1,46 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FF845BFE
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 17:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18123219E6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 17:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="TVaplFky"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1702833228;
-	bh=vYfmc45KYCbJHfbcfljMiiQm/2uzx3kXTBBzeDQ8pLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TVaplFkykiavfcSje7TzPfx9BxhVZzW+FsEed+rurUhtlKG87qUsssTq3wkqxAn7M
-	 tdpCPTKui1DkayL7alTCdblhA0Q4tvfWeNen5LPnUP4ee6+XMY1MKpGkHFd6cFESDi
-	 NUYDdkCu92yffWlhEoPQMs2FpkASvBcfp2FQNQd0=
-Date: Sun, 17 Dec 2023 18:13:48 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: kernel test robot <lkp@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
-	Simon Horman <horms@kernel.org>
-Subject: Re: include/linux/compiler_types.h:397:45: error: call to
- '__compiletime_assert_810' declared with attribute error: BUILD_BUG_ON
- failed: skb_ext_total_length() > 255
-Message-ID: <3fb66648-5581-4371-b15e-23e52e6469ba@t-8ch.de>
-References: <202312171924.4FozI5FG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JrAkEq9s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702835323; x=1734371323;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3jqFBxo9q1S7ibFbRMz7aaJEa8whTcur8fmA5B6pIJk=;
+  b=JrAkEq9smvyDPnYsuBS1EFZ3qKHyejObpMQXr8vgs04TpzmKAdUVxxgl
+   rViZOBYKh9nJpqwzk5OhQC2aIGNE5oBvBLhBgvinJuyVT8A5BLof8iTuJ
+   QizbTuI+P7K4Tc4LlgWr7EsVbw46dSK2kJ+gQAyG15D29tMu4fXXhgRvp
+   uSETWQ7FhD4ycij6vo8bmhB/b0vdRXWKo6Tya/I7nT31UB7xYvPFLoig2
+   CwPsVTErY12BWSGx50n9r9iI0mLPuSDItMlwJzv7/lm+8oGeuXmKugq/F
+   iXOdEOpGHkCVlmm3vBjxqLxjHiL7ejq7JG/NVRgquIafDcZorknbJg2vl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="14109292"
+X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
+   d="scan'208";a="14109292"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 09:48:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="804286414"
+X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
+   d="scan'208";a="804286414"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 17 Dec 2023 09:48:41 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rEvFn-0003IC-11;
+	Sun, 17 Dec 2023 17:48:39 +0000
+Date: Mon, 18 Dec 2023 01:48:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: htmldocs: ./scripts/kernel-doc: ./include/crypto/hash.h:245:
+ warning: Excess struct member 'digestsize' description in 'shash_alg'
+Message-ID: <202312180137.iKarO143-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -33,59 +49,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202312171924.4FozI5FG-lkp@intel.com>
 
-+Cc Arnd who was taking care of CFLAGS_GCOV in the past.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b8a9b2e6809d281890dd0a1102dc14d2cd11caf
+commit: 42808e5dc602c12ef3eb42cf96cb416b55205fa4 crypto: hash - Count error stats differently
+date:   9 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20231218/202312180137.iKarO143-lkp@intel.com/reproduce)
 
-On 2023-12-17 19:39:34+0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   3b8a9b2e6809d281890dd0a1102dc14d2cd11caf
-> commit: 5d21d0a65b573507bae774708199328b38dedfe6 net: generalize calculation of skb extensions length
-> date:   4 months ago
-> config: um-randconfig-r025-20230617 (https://download.01.org/0day-ci/archive/20231217/202312171924.4FozI5FG-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171924.4FozI5FG-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312171924.4FozI5FG-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from <command-line>:
->    In function 'skb_extensions_init',
->        inlined from 'skb_init' at net/core/skbuff.c:4848:2:
-> >> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_810' declared with attribute error: BUILD_BUG_ON failed: skb_ext_total_length() > 255
->      397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |                                             ^
->    include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
->      378 |                         prefix ## suffix();                             \
->          |                         ^~~~~~
->    include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
->      397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |         ^~~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
->       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->          |                                     ^~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->       50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
->          |         ^~~~~~~~~~~~~~~~
->    net/core/skbuff.c:4800:9: note: in expansion of macro 'BUILD_BUG_ON'
->     4800 |         BUILD_BUG_ON(skb_ext_total_length() > 255);
->          |         ^~~~~~~~~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312180137.iKarO143-lkp@intel.com/
 
-[..]
+All warnings (new ones prefixed by >>):
 
-This seems to be a compiler bug/configuration issue.
+>> ./scripts/kernel-doc: ./include/crypto/hash.h:245: warning: Excess struct member 'digestsize' description in 'shash_alg'
+>> ./scripts/kernel-doc: ./include/crypto/hash.h:245: warning: Excess struct member 'statesize' description in 'shash_alg'
+>> ./scripts/kernel-doc: ./include/crypto/hash.h:245: warning: Excess struct member 'stat' description in 'shash_alg'
+>> ./scripts/kernel-doc: ./include/crypto/hash.h:245: warning: Excess struct member 'base' description in 'shash_alg'
 
-When I remove the entry for SKB_EXT_MCTP from skb_ext_type_len then the
-error goes away. However this entry works the same as all other entries.
-
-Also dropping -fno-tree-loop-im *or* -fprofile-arcs from CFLAGS_GCOV
-makes the code compile as-is.
-
-Or switching to a 64bit build...
-
-
-Thomas
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
