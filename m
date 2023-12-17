@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA9E5662
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 10:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDF063AB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 10:36:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QEO4iWm8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SuqPTnvv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702808167; x=1734344167;
+  t=1702809368; x=1734345368;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JoeSZFs6EGjaLzJ6V8rma0zMqGHqbmJD93oGLIX1dOM=;
-  b=QEO4iWm8nKep03zASLDQjVMS8pp4DevkLQtHYaDYgEdXth4G4hTQj7z2
-   rIJ9R04Je+QI0uFOQmVsB2vgYT2mYAJtxnDfkijCrOthibdoppYK0EzUz
-   NHnsJUrbX8qjXCHKjA4n6LJd3sOdxj4aNQovOb7jZGr1CxGRAKbMJR37C
-   qDfTJch9dQp1rclkwZkXmPfVUQbJfQDWLm9wybsiWNrq1f8UpMP1740bA
-   9/Ld4Za89wL/4vSeRECHbhDlhvTMB04umGSlWhU3MvnKZcq74P6PLoIcW
-   nOr5qQqoAu9+8YaJS3uql5a+uy7Cjaus+JX6llnmNd8QfoaGee2hDsJax
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="2235154"
+  bh=4DeswmoD4Holnaz5DCTIkP7GpWHgIKQ9lAj6CYc5Pzk=;
+  b=SuqPTnvvOkD721ZVO5QhfR3J8EmaNhYlbfRixHOI4BZg62ZnECubKwb3
+   xf4qI8Y9cXpTtsSvl1yXnXt2SQghmlJzRmm6p0A2RAxSFSyHA1DyNx6aB
+   3YzNgZ0VsUDj9AUvT0bMtVuhpRor9lEKoXdW7AvdwW5JTI0CGD7VRarov
+   FnCGqrYVRQ/65X4YzGDRsKGEJ5N6Bdj+ZozqzJVWnfDHFMd30MSYDY+/h
+   /uK/40BmgnOYuj0f98UVi7wSe9WPa8cTZck4xJ6DzuiTyHaAt5+zDozUL
+   QgVq3cCynyCEBbz/rvIA2f1jxy2Vmz3TOIuUQNf68TKD8sDLYOY0OAg4Z
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="399243924"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="2235154"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 02:16:06 -0800
+   d="scan'208";a="399243924"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 02:36:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="918933986"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="1022451035"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="918933986"
+   d="scan'208";a="1022451035"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Dec 2023 02:16:04 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 17 Dec 2023 02:36:06 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEoBm-0002w8-2P;
-	Sun, 17 Dec 2023 10:16:02 +0000
-Date: Sun, 17 Dec 2023 18:15:03 +0800
+	id 1rEoV9-0002x6-1i;
+	Sun, 17 Dec 2023 10:36:03 +0000
+Date: Sun, 17 Dec 2023 18:35:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 3447/16025]
- ./usr/include/linux/tsn.h:503:9: error: unknown type name '__u16'
-Message-ID: <202312171819.S8sRVYoU-lkp@intel.com>
+To: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: sound/core/pcm_native.c:2982:13: sparse: sparse: cast from
+ restricted snd_pcm_state_t
+Message-ID: <202312171849.Am8GBwHE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,318 +51,169 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Po,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   241e2f51bd87beb652196d1db92f0387c1209bfb
-commit: 05b486dd6e073128aab6d5ae6ce9ae3f811b9682 [3447/16025] net: tsn: netlink interface for APP layer to config TSN capability on hardware ports
-config: i386-randconfig-015-20231217 (https://download.01.org/0day-ci/archive/20231217/202312171819.S8sRVYoU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171819.S8sRVYoU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3b8a9b2e6809d281890dd0a1102dc14d2cd11caf
+commit: 46b770f720bdd8a7de1c04a1cab5d4e9e21d6666 ALSA: uapi: Fix sparse warning
+date:   3 years, 11 months ago
+config: alpha-randconfig-r123-20231116 (https://download.01.org/0day-ci/archive/20231217/202312171849.Am8GBwHE-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231217/202312171849.Am8GBwHE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312171819.S8sRVYoU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312171849.Am8GBwHE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   sound/core/pcm_native.c:558:51: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted snd_pcm_state_t [usertype] state @@     got int state @@
+   sound/core/pcm_native.c:558:51: sparse:     expected restricted snd_pcm_state_t [usertype] state
+   sound/core/pcm_native.c:558:51: sparse:     got int state
+   sound/core/pcm_native.c:748:38: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] @@
+   sound/core/pcm_native.c:748:38: sparse:     expected int state
+   sound/core/pcm_native.c:748:38: sparse:     got restricted snd_pcm_state_t [usertype]
+   sound/core/pcm_native.c:760:38: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] @@
+   sound/core/pcm_native.c:760:38: sparse:     expected int state
+   sound/core/pcm_native.c:760:38: sparse:     got restricted snd_pcm_state_t [usertype]
+   sound/core/pcm_native.c:814:38: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] @@
+   sound/core/pcm_native.c:814:38: sparse:     expected int state
+   sound/core/pcm_native.c:814:38: sparse:     got restricted snd_pcm_state_t [usertype]
+   sound/core/pcm_native.c:1022:34: sparse: sparse: incorrect type in initializer (different base types) @@     expected signed int [usertype] state @@     got restricted snd_pcm_state_t [addressable] [assigned] [usertype] state @@
+   sound/core/pcm_native.c:1022:34: sparse:     expected signed int [usertype] state
+   sound/core/pcm_native.c:1022:34: sparse:     got restricted snd_pcm_state_t [addressable] [assigned] [usertype] state
+   sound/core/pcm_native.c:1033:44: sparse: sparse: incorrect type in initializer (different base types) @@     expected signed int [usertype] suspended_state @@     got restricted snd_pcm_state_t [addressable] [assigned] [usertype] suspended_state @@
+   sound/core/pcm_native.c:1033:44: sparse:     expected signed int [usertype] suspended_state
+   sound/core/pcm_native.c:1033:44: sparse:     got restricted snd_pcm_state_t [addressable] [assigned] [usertype] suspended_state
+   sound/core/pcm_native.c:1335:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted snd_pcm_state_t [usertype] state @@     got int state @@
+   sound/core/pcm_native.c:1335:32: sparse:     expected restricted snd_pcm_state_t [usertype] state
+   sound/core/pcm_native.c:1335:32: sparse:     got int state
+   sound/core/pcm_native.c:1359:31: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] @@
+   sound/core/pcm_native.c:1359:31: sparse:     expected int state
+   sound/core/pcm_native.c:1359:31: sparse:     got restricted snd_pcm_state_t [usertype]
+   sound/core/pcm_native.c:1366:40: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] @@
+   sound/core/pcm_native.c:1366:40: sparse:     expected int state
+   sound/core/pcm_native.c:1366:40: sparse:     got restricted snd_pcm_state_t [usertype]
+   sound/core/pcm_native.c:1392:28: sparse: sparse: restricted snd_pcm_state_t degrades to integer
+   sound/core/pcm_native.c:1394:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted snd_pcm_state_t [usertype] state @@     got int state @@
+   sound/core/pcm_native.c:1394:40: sparse:     expected restricted snd_pcm_state_t [usertype] state
+   sound/core/pcm_native.c:1394:40: sparse:     got int state
+   sound/core/pcm_native.c:1419:64: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] state @@
+   sound/core/pcm_native.c:1419:64: sparse:     expected int state
+   sound/core/pcm_native.c:1419:64: sparse:     got restricted snd_pcm_state_t [usertype] state
+   sound/core/pcm_native.c:1435:38: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] @@
+   sound/core/pcm_native.c:1435:38: sparse:     expected int state
+   sound/core/pcm_native.c:1435:38: sparse:     got restricted snd_pcm_state_t [usertype]
+   sound/core/pcm_native.c:1806:38: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] @@
+   sound/core/pcm_native.c:1806:38: sparse:     expected int state
+   sound/core/pcm_native.c:1806:38: sparse:     got restricted snd_pcm_state_t [usertype]
+   sound/core/pcm_native.c:1872:61: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] @@
+   sound/core/pcm_native.c:1872:61: sparse:     expected int state
+   sound/core/pcm_native.c:1872:61: sparse:     got restricted snd_pcm_state_t [usertype]
+   sound/core/pcm_native.c:1873:63: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected int state @@     got restricted snd_pcm_state_t [usertype] @@
+   sound/core/pcm_native.c:1873:63: sparse:     expected int state
+   sound/core/pcm_native.c:1873:63: sparse:     got restricted snd_pcm_state_t [usertype]
+   sound/core/pcm_native.c:1890:76: sparse: sparse: incorrect type in initializer (different base types) @@     expected int new_state @@     got restricted snd_pcm_state_t @@
+   sound/core/pcm_native.c:1890:76: sparse:     expected int new_state
+   sound/core/pcm_native.c:1890:76: sparse:     got restricted snd_pcm_state_t
+   sound/core/pcm_native.c:2237:26: sparse: sparse: restricted snd_pcm_format_t degrades to integer
+   sound/core/pcm_native.c:2241:54: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted snd_pcm_format_t [usertype] format @@     got unsigned int [assigned] k @@
+   sound/core/pcm_native.c:2241:54: sparse:     expected restricted snd_pcm_format_t [usertype] format
+   sound/core/pcm_native.c:2241:54: sparse:     got unsigned int [assigned] k
+   sound/core/pcm_native.c:2259:26: sparse: sparse: restricted snd_pcm_format_t degrades to integer
+   sound/core/pcm_native.c:2263:54: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted snd_pcm_format_t [usertype] format @@     got unsigned int [assigned] k @@
+   sound/core/pcm_native.c:2263:54: sparse:     expected restricted snd_pcm_format_t [usertype] format
+   sound/core/pcm_native.c:2263:54: sparse:     got unsigned int [assigned] k
+   sound/core/pcm_native.c:2443:30: sparse: sparse: restricted snd_pcm_access_t degrades to integer
+   sound/core/pcm_native.c:2445:30: sparse: sparse: restricted snd_pcm_access_t degrades to integer
+   sound/core/pcm_native.c:2448:38: sparse: sparse: restricted snd_pcm_access_t degrades to integer
+   sound/core/pcm_native.c:2450:38: sparse: sparse: restricted snd_pcm_access_t degrades to integer
+   sound/core/pcm_native.c:2452:38: sparse: sparse: restricted snd_pcm_access_t degrades to integer
+   sound/core/pcm_native.c:2462:86: sparse: sparse: restricted snd_pcm_subformat_t degrades to integer
+>> sound/core/pcm_native.c:2982:13: sparse: sparse: cast from restricted snd_pcm_state_t
+>> sound/core/pcm_native.c:2982:13: sparse: sparse: cast from restricted snd_pcm_state_t
+>> sound/core/pcm_native.c:2982:13: sparse: sparse: cast from restricted snd_pcm_state_t
+>> sound/core/pcm_native.c:2982:13: sparse: sparse: cast from restricted snd_pcm_state_t
+   sound/core/pcm_native.c:2986:13: sparse: sparse: cast from restricted snd_pcm_state_t
+   sound/core/pcm_native.c:2986:13: sparse: sparse: cast from restricted snd_pcm_state_t
+   sound/core/pcm_native.c:2986:13: sparse: sparse: cast from restricted snd_pcm_state_t
+   sound/core/pcm_native.c:2986:13: sparse: sparse: cast from restricted snd_pcm_state_t
+   sound/core/pcm_native.c:95:1: sparse: sparse: context imbalance in 'snd_pcm_group_lock' - different lock contexts for basic block
+   sound/core/pcm_native.c:96:1: sparse: sparse: context imbalance in 'snd_pcm_group_unlock' - unexpected unlock
+   sound/core/pcm_native.c:97:1: sparse: sparse: context imbalance in 'snd_pcm_group_lock_irq' - different lock contexts for basic block
+   sound/core/pcm_native.c:98:1: sparse: sparse: context imbalance in 'snd_pcm_group_unlock_irq' - unexpected unlock
+   sound/core/pcm_native.c:161:9: sparse: sparse: context imbalance in '_snd_pcm_stream_lock_irqsave' - different lock contexts for basic block
+   sound/core/pcm_native.c:178:39: sparse: sparse: context imbalance in 'snd_pcm_stream_unlock_irqrestore' - unexpected unlock
+   sound/core/pcm_native.c:1157:52: sparse: sparse: context imbalance in 'snd_pcm_action_group' - unexpected unlock
+   sound/core/pcm_native.c:1244:9: sparse: sparse: context imbalance in 'snd_pcm_stream_group_ref' - different lock contexts for basic block
 
-   In file included from <command-line>:
-   ./usr/include/linux/tsn.h:384:9: error: unknown type name '__u8'
-     384 |         __u8 admin_state;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:390:9: error: unknown type name '__u32'
-     390 |         __u32 hold_advance;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:397:9: error: unknown type name '__u32'
-     397 |         __u32 release_advance;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:403:9: error: unknown type name '__u8'
-     403 |         __u8 preemption_active;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:412:9: error: unknown type name '__u8'
-     412 |         __u8 hold_request;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:426:9: error: unknown type name '__u8'
-     426 |         __u8 delta_bw; /* percentage, 0~100 */
-         |         ^~~~
-   ./usr/include/linux/tsn.h:427:9: error: unknown type name '__u32'
-     427 |         __u32 idleslope;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:428:9: error: unknown type name '__s32'
-     428 |         __s32 sendslope;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:429:9: error: unknown type name '__u32'
-     429 |         __u32 maxframesize;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:430:9: error: unknown type name '__u32'
-     430 |         __u32 hicredit;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:431:9: error: unknown type name '__s32'
-     431 |         __s32 locredit;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:432:9: error: unknown type name '__u32'
-     432 |         __u32 maxninference;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:439:9: error: unknown type name '__u8'
-     439 |         __u8 capability;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:442:9: error: unknown type name '__u8'
-     442 |         __u8 mode;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:445:9: error: unknown type name '__u8'
-     445 |         __u8 prio;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:455:9: error: unknown type name '__u8'
-     455 |         __u8 queue_cnt;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:458:9: error: unknown type name '__u32'
-     458 |         __u32 max_rate;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:461:9: error: unknown type name '__u32'
-     461 |         __u32 tsn_capability;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:486:9: error: unknown type name '__u64'
-     486 |         __u64 dmac;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:496:9: error: unknown type name '__u8'
-     496 |         __u8 tagged;
-         |         ^~~~
->> ./usr/include/linux/tsn.h:503:9: error: unknown type name '__u16'
-     503 |         __u16 vid;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:507:9: error: unknown type name '__u64'
-     507 |         __u64 smac;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:508:9: error: unknown type name '__u8'
-     508 |         __u8 tagged;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:509:9: error: unknown type name '__u16'
-     509 |         __u16 vid;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:513:9: error: unknown type name '__u64'
-     513 |         __u64 down_dmac;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:514:9: error: unknown type name '__u8'
-     514 |         __u8 down_tagged;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:515:9: error: unknown type name '__u16'
-     515 |         __u16 down_vid;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:516:9: error: unknown type name '__u8'
-     516 |         __u8 down_prio;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:517:9: error: unknown type name '__u64'
-     517 |         __u64 up_dmac;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:518:9: error: unknown type name '__u8'
-     518 |         __u8 up_tagged;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:519:9: error: unknown type name '__u16'
-     519 |         __u16 up_vid;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:520:9: error: unknown type name '__u8'
-     520 |         __u8 up_prio;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:524:9: error: unknown type name '__u64'
-     524 |         __u64 dmac;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:525:9: error: unknown type name '__u8'
-     525 |         __u8 tagged;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:526:9: error: unknown type name '__u16'
-     526 |         __u16 vid;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:527:9: error: unknown type name '__u64'
-     527 |         __u64 siph;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:528:9: error: unknown type name '__u64'
-     528 |         __u64 sipl;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:529:9: error: unknown type name '__u64'
-     529 |         __u64 diph;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:530:9: error: unknown type name '__u64'
-     530 |         __u64 dipl;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:531:9: error: unknown type name '__u8'
-     531 |         __u8 dscp;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:532:9: error: unknown type name '__u8'
-     532 |         __u8 npt;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:533:9: error: unknown type name '__u16'
-     533 |         __u16 sport;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:534:9: error: unknown type name '__u16'
-     534 |         __u16 dport;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:543:9: error: unknown type name '__s32'
-     543 |         __s32 handle;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:550:9: error: unknown type name '__u32'
-     550 |         __u32 ifac_oport;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:557:9: error: unknown type name '__u32'
-     557 |         __u32 ofac_oport;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:563:9: error: unknown type name '__u32'
-     563 |         __u32 ifac_iport;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:569:9: error: unknown type name '__u32'
-     569 |         __u32 ofac_iport;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:581:9: error: unknown type name '__u8'
-     581 |         __u8 type;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:602:17: error: unknown type name '__u64'
-     602 |                 __u64 input;
-         |                 ^~~~~
-   ./usr/include/linux/tsn.h:603:17: error: unknown type name '__u64'
-     603 |                 __u64 output;
-         |                 ^~~~~
-   ./usr/include/linux/tsn.h:607:17: error: unknown type name '__u64'
-     607 |                 __u64 input;
-         |                 ^~~~~
-   ./usr/include/linux/tsn.h:608:17: error: unknown type name '__u64'
-     608 |                 __u64 output;
-         |                 ^~~~~
-   ./usr/include/linux/tsn.h:618:9: error: unknown type name '__s32'
-     618 |         __s32 max_sf_instance;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:624:9: error: unknown type name '__s32'
-     624 |         __s32 max_sg_instance;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:630:9: error: unknown type name '__s32'
-     630 |         __s32 max_fm_instance;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:636:9: error: unknown type name '__s32'
-     636 |         __s32 supported_list_max;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:644:9: error: unknown type name '__u64'
-     644 |         __u64 matching_frames_count;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:649:9: error: unknown type name '__u64'
-     649 |         __u64 passing_frames_count;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:654:9: error: unknown type name '__u64'
-     654 |         __u64 not_passing_frames_count;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:659:9: error: unknown type name '__u64'
-     659 |         __u64 passing_sdu_count;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:665:9: error: unknown type name '__u64'
-     665 |         __u64 not_passing_sdu_count;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:670:9: error: unknown type name '__u64'
-     670 |         __u64 red_frames_count;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:680:9: error: unknown type name '__s32'
-     680 |         __s32 stream_handle_spec;
-         |         ^~~~~
->> ./usr/include/linux/tsn.h:686:9: error: unknown type name '__s8'
-     686 |         __s8 priority_spec;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:691:9: error: unknown type name '__u32'
-     691 |         __u32 stream_gate_instance_id;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:703:17: error: unknown type name '__u16'
-     703 |                 __u16 maximum_sdu_size;
-         |                 ^~~~~
-   ./usr/include/linux/tsn.h:710:17: error: unknown type name '__s32'
-     710 |                 __s32 flow_meter_instance_id;
-         |                 ^~~~~
-   ./usr/include/linux/tsn.h:717:9: error: unknown type name '__u8'
-     717 |         __u8 block_oversize_enable;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:724:9: error: unknown type name '__u8'
-     724 |         __u8 block_oversize;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:732:9: error: unknown type name '__u8'
-     732 |         __u8 gate_state;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:737:9: error: unknown type name '__s8'
-     737 |         __s8 ipv;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:742:9: error: unknown type name '__u32'
-     742 |         __u32 time_interval;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:747:9: error: unknown type name '__u32'
-     747 |         __u32 octet_max;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:757:9: error: unknown type name '__u8'
-     757 |         __u8 gate_states;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:763:9: error: unknown type name '__u8'
-     763 |         __u8 control_list_length;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:768:9: error: unknown type name '__u32'
-     768 |         __u32 cycle_time;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:774:9: error: unknown type name '__u32'
-     774 |         __u32 cycle_time_extension;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:373:19: error: unknown type name '__u64'
-     373 | #define ptptime_t __u64
-         |                   ^~~~~
-   ./usr/include/linux/tsn.h:781:9: note: in expansion of macro 'ptptime_t'
-     781 |         ptptime_t base_time;
-         |         ^~~~~~~~~
-   ./usr/include/linux/tsn.h:787:9: error: unknown type name '__s8'
-     787 |         __s8 init_ipv;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:800:9: error: unknown type name '__u8'
-     800 |         __u8 gate_enabled;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:806:9: error: unknown type name '__u8'
-     806 |         __u8 config_change;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:815:9: error: unknown type name '__u8'
-     815 |         __u8 block_invalid_rx_enable;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:821:9: error: unknown type name '__u8'
-     821 |         __u8 block_invalid_rx;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:827:9: error: unknown type name '__u8'
-     827 |         __u8 block_octets_exceeded_enable;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:834:9: error: unknown type name '__u8'
-     834 |         __u8 block_octets_exceeded;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:373:19: error: unknown type name '__u64'
-     373 | #define ptptime_t __u64
-         |                   ^~~~~
-   ./usr/include/linux/tsn.h:848:9: note: in expansion of macro 'ptptime_t'
-     848 |         ptptime_t config_change_time;
-         |         ^~~~~~~~~
-   ./usr/include/linux/tsn.h:853:9: error: unknown type name '__u32'
-     853 |         __u32 tick_granularity;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:373:19: error: unknown type name '__u64'
-     373 | #define ptptime_t __u64
-         |                   ^~~~~
-   ./usr/include/linux/tsn.h:860:9: note: in expansion of macro 'ptptime_t'
-     860 |         ptptime_t current_time;
-         |         ^~~~~~~~~
-   ./usr/include/linux/tsn.h:866:9: error: unknown type name '__u8'
-     866 |         __u8 config_pending;
-         |         ^~~~
-   ./usr/include/linux/tsn.h:872:9: error: unknown type name '__u64'
-     872 |         __u64 config_change_error;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:881:9: error: unknown type name '__u32'
-     881 |         __u32 cir;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:886:9: error: unknown type name '__u32'
-     886 |         __u32 cbs;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:891:9: error: unknown type name '__u32'
-     891 |         __u32 eir;
-         |         ^~~~~
-   ./usr/include/linux/tsn.h:896:9: error: unknown type name '__u32'
-     896 |         __u32 ebs;
+vim +2982 sound/core/pcm_native.c
+
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2936  
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2937  static int snd_pcm_ioctl_sync_ptr_compat(struct snd_pcm_substream *substream,
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2938  					 struct snd_pcm_sync_ptr32 __user *src)
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2939  {
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2940  	struct snd_pcm_runtime *runtime = substream->runtime;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2941  	volatile struct snd_pcm_mmap_status *status;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2942  	volatile struct snd_pcm_mmap_control *control;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2943  	u32 sflags;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2944  	struct snd_pcm_mmap_control scontrol;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2945  	struct snd_pcm_mmap_status sstatus;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2946  	snd_pcm_uframes_t boundary;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2947  	int err;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2948  
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2949  	if (snd_BUG_ON(!runtime))
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2950  		return -EINVAL;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2951  
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2952  	if (get_user(sflags, &src->flags) ||
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2953  	    get_user(scontrol.appl_ptr, &src->c.control.appl_ptr) ||
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2954  	    get_user(scontrol.avail_min, &src->c.control.avail_min))
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2955  		return -EFAULT;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2956  	if (sflags & SNDRV_PCM_SYNC_PTR_HWSYNC) {
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2957  		err = snd_pcm_hwsync(substream);
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2958  		if (err < 0)
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2959  			return err;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2960  	}
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2961  	status = runtime->status;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2962  	control = runtime->control;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2963  	boundary = recalculate_boundary(runtime);
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2964  	if (! boundary)
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2965  		boundary = 0x7fffffff;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2966  	snd_pcm_stream_lock_irq(substream);
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2967  	/* FIXME: we should consider the boundary for the sync from app */
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2968  	if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2969  		control->appl_ptr = scontrol.appl_ptr;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2970  	else
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2971  		scontrol.appl_ptr = control->appl_ptr % boundary;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2972  	if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2973  		control->avail_min = scontrol.avail_min;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2974  	else
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2975  		scontrol.avail_min = control->avail_min;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2976  	sstatus.state = status->state;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2977  	sstatus.hw_ptr = status->hw_ptr % boundary;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2978  	sstatus.tstamp = status->tstamp;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2979  	sstatus.suspended_state = status->suspended_state;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2980  	sstatus.audio_tstamp = status->audio_tstamp;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2981  	snd_pcm_stream_unlock_irq(substream);
+09d94175dbeac1 Arnd Bergmann 2018-04-24 @2982  	if (put_user(sstatus.state, &src->s.status.state) ||
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2983  	    put_user(sstatus.hw_ptr, &src->s.status.hw_ptr) ||
+80fe7430c70859 Arnd Bergmann 2018-04-24  2984  	    put_user(sstatus.tstamp.tv_sec, &src->s.status.tstamp_sec) ||
+80fe7430c70859 Arnd Bergmann 2018-04-24  2985  	    put_user(sstatus.tstamp.tv_nsec, &src->s.status.tstamp_nsec) ||
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2986  	    put_user(sstatus.suspended_state, &src->s.status.suspended_state) ||
+80fe7430c70859 Arnd Bergmann 2018-04-24  2987  	    put_user(sstatus.audio_tstamp.tv_sec, &src->s.status.audio_tstamp_sec) ||
+80fe7430c70859 Arnd Bergmann 2018-04-24  2988  	    put_user(sstatus.audio_tstamp.tv_nsec, &src->s.status.audio_tstamp_nsec) ||
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2989  	    put_user(scontrol.appl_ptr, &src->c.control.appl_ptr) ||
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2990  	    put_user(scontrol.avail_min, &src->c.control.avail_min))
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2991  		return -EFAULT;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2992  
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2993  	return 0;
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2994  }
+80fe7430c70859 Arnd Bergmann 2018-04-24  2995  #define __SNDRV_PCM_IOCTL_SYNC_PTR32 _IOWR('A', 0x23, struct snd_pcm_sync_ptr32)
+09d94175dbeac1 Arnd Bergmann 2018-04-24  2996  
+
+:::::: The code at line 2982 was first introduced by commit
+:::::: 09d94175dbeac12d38b1599a02c7000a5e51b4cb ALSA: move snd_pcm_ioctl_sync_ptr_compat into pcm_native.c
+
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Arnd Bergmann <arnd@arndb.de>
 
 -- 
 0-DAY CI Kernel Test Service
