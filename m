@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFCFA3D;
-	Sun, 17 Dec 2023 03:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331ECED0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 03:41:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnclW4pt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6FbcL1g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702782560; x=1734318560;
+  t=1702784479; x=1734320479;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cFdyRgTjptEYW9FgPsb1OOMFS36IKrMCOtPrmDjG/Qo=;
-  b=WnclW4pt1sInSZTFXQpvtU5sq21UNjqXklbxkb2rkyVN+9qegLTx9dD8
-   ieiAZpNRmqswu+Hn809zgUYudHuttIGA+K7rvlO4iZZSnfm4aRtiwte35
-   G5NhbfsHH8UxvJq/ECmtW6b/mX2+/w70JRZO50+7oA4P5/0IdYDw/rl+J
-   yWLEzdMjTd7Gicj6LrZzbzdDfmu85lbVf1dib43mSMIWlgf0lIwhhAm1h
-   nVBV0CC/wRTzXNfB3bPRs6+NpM2WEUK2Is8OSyuQ+Gf7E5hLqVQgg/uWV
-   9dDmpeyG+tcazbL2E9NZoixDXXXnEvqB30+WhIlbj7OLQWZKNicBxZP7t
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="398184636"
+  bh=/i0YZDIvNup65tNXPtkcjTxcOYNAvY6nQH3K21t20iU=;
+  b=n6FbcL1g4Z3J0rL8OYFKbuC90RCztX7luJ8bwK3tZ9qZZZRD446mJu3x
+   wFDN4mjQhwbm0a1ziIoQLjMn5e72GYgyXotjb9lGOrdHmqTFWUfGNEV6X
+   guiKqf6/p6U/V/1ugYDr0g3tzU7ZhwlBnHeVsm9ABKrTcqPudyVNOnyz1
+   yOnW8PZ++P7eZXjU2tEqR6N7LP2YFs/J5IS7yjX3bD4QAVgUaqtCJrB+F
+   kTQ/GV30rZukCVsUk18x9SyBoQCRK39Tt5T1QANSfw4K+FKXdJQfY414j
+   bFp3Vg3qJz6gb41vf5GmOxJIABeWXXbiLSCwAE7WphoAOmF7VX8tywCXy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="426530522"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="398184636"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 19:09:17 -0800
+   d="scan'208";a="426530522"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 19:41:18 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="1022376187"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="724887761"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="1022376187"
+   d="scan'208";a="724887761"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Dec 2023 19:09:15 -0800
+  by orsmga003.jf.intel.com with ESMTP; 16 Dec 2023 19:41:17 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEhWj-0002YO-1A;
-	Sun, 17 Dec 2023 03:09:13 +0000
-Date: Sun, 17 Dec 2023 11:08:19 +0800
+	id 1rEi1i-0002ad-2J;
+	Sun, 17 Dec 2023 03:41:14 +0000
+Date: Sun, 17 Dec 2023 11:41:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kmo@daterainc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kmo@daterainc.com>
-Subject: [bcachefs:header_cleanup 32/50]
- include/asm-generic/qspinlock.h:146:9: warning: 'arch_spin_lock' macro
- redefined
-Message-ID: <202312171121.BN7oAaCB-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>
+Subject: [bcachefs:header_cleanup 42/50] include/linux/audit.h:631:41:
+ warning: 'struct kern_ipc_perm' declared inside parameter list will not be
+ visible outside of this definition or declaration
+Message-ID: <202312171132.FJuUdMAH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,367 +53,102 @@ Content-Disposition: inline
 
 tree:   https://evilpiepirate.org/git/bcachefs.git header_cleanup
 head:   7288b19e061b7aa3f46f685e9944af128f10ffd5
-commit: 631d67d0997ba8606f0d3702de9d986a95429bfe [32/50] ipc: Kill bogus dependency on spinlock.h
-config: i386-buildonly-randconfig-004-20231217 (https://download.01.org/0day-ci/archive/20231217/202312171121.BN7oAaCB-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171121.BN7oAaCB-lkp@intel.com/reproduce)
+commit: 95af5086cdbdc344aaf57a7123e5f6c98ca24996 [42/50] sem: Split out sem_types.h
+config: i386-randconfig-014-20231217 (https://download.01.org/0day-ci/archive/20231217/202312171132.FJuUdMAH-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171132.FJuUdMAH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312171121.BN7oAaCB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312171132.FJuUdMAH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:27:
-   In file included from arch/x86/include/asm/qspinlock.h:7:
-   include/asm-generic/qspinlock_types.h:44:3: error: typedef redefinition with different types ('struct qspinlock' vs 'struct arch_spinlock_t')
-   } arch_spinlock_t;
-     ^
-   include/linux/spinlock_types_up.h:25:20: note: previous definition is here
-   typedef struct { } arch_spinlock_t;
-                      ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:27:
-   In file included from arch/x86/include/asm/qspinlock.h:7:
-   include/asm-generic/qspinlock_types.h:49:9: warning: '__ARCH_SPIN_LOCK_UNLOCKED' macro redefined [-Wmacro-redefined]
-   #define __ARCH_SPIN_LOCK_UNLOCKED       { { .val = ATOMIC_INIT(0) } }
-           ^
-   include/linux/spinlock_types_up.h:27:9: note: previous definition is here
-   #define __ARCH_SPIN_LOCK_UNLOCKED { }
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:27:
-   In file included from arch/x86/include/asm/qspinlock.h:107:
-   include/asm-generic/qspinlock.h:143:9: warning: 'arch_spin_is_locked' macro redefined [-Wmacro-redefined]
-   #define arch_spin_is_locked(l)          queued_spin_is_locked(l)
-           ^
-   include/linux/spinlock_up.h:62:9: note: previous definition is here
-   #define arch_spin_is_locked(lock)       ((void)(lock), 0)
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:27:
-   In file included from arch/x86/include/asm/qspinlock.h:107:
-   include/asm-generic/qspinlock.h:144:9: warning: 'arch_spin_is_contended' macro redefined [-Wmacro-redefined]
-   #define arch_spin_is_contended(l)       queued_spin_is_contended(l)
-           ^
-   include/linux/spinlock_up.h:69:9: note: previous definition is here
-   #define arch_spin_is_contended(lock)    (((void)(lock), 0))
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:27:
-   In file included from arch/x86/include/asm/qspinlock.h:107:
->> include/asm-generic/qspinlock.h:146:9: warning: 'arch_spin_lock' macro redefined [-Wmacro-redefined]
-   #define arch_spin_lock(l)               queued_spin_lock(l)
-           ^
-   include/linux/spinlock_up.h:64:10: note: previous definition is here
-   # define arch_spin_lock(lock)           do { barrier(); (void)(lock); } while (0)
-            ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:27:
-   In file included from arch/x86/include/asm/qspinlock.h:107:
->> include/asm-generic/qspinlock.h:147:9: warning: 'arch_spin_trylock' macro redefined [-Wmacro-redefined]
-   #define arch_spin_trylock(l)            queued_spin_trylock(l)
-           ^
-   include/linux/spinlock_up.h:66:10: note: previous definition is here
-   # define arch_spin_trylock(lock)        ({ barrier(); (void)(lock); 1; })
-            ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:27:
-   In file included from arch/x86/include/asm/qspinlock.h:107:
->> include/asm-generic/qspinlock.h:148:9: warning: 'arch_spin_unlock' macro redefined [-Wmacro-redefined]
-   #define arch_spin_unlock(l)             queued_spin_unlock(l)
-           ^
-   include/linux/spinlock_up.h:65:10: note: previous definition is here
-   # define arch_spin_unlock(lock) do { barrier(); (void)(lock); } while (0)
-            ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:43:
-   In file included from arch/x86/include/asm/qrwlock.h:5:
-   include/asm-generic/qrwlock_types.h:27:3: error: typedef redefinition with different types ('struct qrwlock' vs 'struct arch_rwlock_t')
-   } arch_rwlock_t;
-     ^
-   include/linux/spinlock_types_up.h:33:3: note: previous definition is here
-   } arch_rwlock_t;
-     ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:43:
-   In file included from arch/x86/include/asm/qrwlock.h:5:
-   include/asm-generic/qrwlock_types.h:29:9: warning: '__ARCH_RW_LOCK_UNLOCKED' macro redefined [-Wmacro-redefined]
-   #define __ARCH_RW_LOCK_UNLOCKED {               \
-           ^
-   include/linux/spinlock_types_up.h:35:9: note: previous definition is here
-   #define __ARCH_RW_LOCK_UNLOCKED { }
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:19:
-   In file included from include/linux/sched/mm.h:7:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:43:
-   In file included from arch/x86/include/asm/qrwlock.h:6:
-   include/asm-generic/qrwlock.h:132:29: error: incompatible pointer types passing 'arch_spinlock_t *' to parameter of type 'struct qspinlock *' [-Werror,-Wincompatible-pointer-types]
-           return arch_spin_is_locked(&lock->wait_lock);
-                                      ^~~~~~~~~~~~~~~~
-   include/asm-generic/qspinlock.h:143:55: note: expanded from macro 'arch_spin_is_locked'
-   #define arch_spin_is_locked(l)          queued_spin_is_locked(l)
-                                                                 ^
-   include/asm-generic/qspinlock.h:51:68: note: passing argument to parameter 'lock' here
-   static __always_inline int queued_spin_is_locked(struct qspinlock *lock)
-                                                                      ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:21:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
->> include/linux/xarray.h:380:2: warning: excess elements in struct initializer [-Wexcess-initializers]
-           spin_lock_init(&xa->xa_lock);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:344:13: note: expanded from macro 'spin_lock_init'
-           *(_lock) = __SPIN_LOCK_UNLOCKED(_lock); \
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:41:15: note: expanded from macro '__SPIN_LOCK_UNLOCKED'
-           (spinlock_t) __SPIN_LOCK_INITIALIZER(lockname)
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:38:15: note: expanded from macro '__SPIN_LOCK_INITIALIZER'
-           { { .rlock = ___SPIN_LOCK_INITIALIZER(lockname) } }
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:33:14: note: expanded from macro '___SPIN_LOCK_INITIALIZER'
-           .raw_lock = __ARCH_SPIN_LOCK_UNLOCKED,  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/qspinlock_types.h:49:37: note: expanded from macro '__ARCH_SPIN_LOCK_UNLOCKED'
-   #define __ARCH_SPIN_LOCK_UNLOCKED       { { .val = ATOMIC_INIT(0) } }
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:25:
->> include/linux/semaphore.h:40:28: warning: excess elements in struct initializer [-Wexcess-initializers]
-           *sem = (struct semaphore) __SEMAPHORE_INITIALIZER(*sem, val);
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/semaphore.h:23:11: note: expanded from macro '__SEMAPHORE_INITIALIZER'
-           .lock           = __RAW_SPIN_LOCK_UNLOCKED((name).lock),        \
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types_raw.h:69:19: note: expanded from macro '__RAW_SPIN_LOCK_UNLOCKED'
-           (raw_spinlock_t) __RAW_SPIN_LOCK_INITIALIZER(lockname)
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types_raw.h:64:14: note: expanded from macro '__RAW_SPIN_LOCK_INITIALIZER'
-           .raw_lock = __ARCH_SPIN_LOCK_UNLOCKED,  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/qspinlock_types.h:49:37: note: expanded from macro '__ARCH_SPIN_LOCK_UNLOCKED'
-   #define __ARCH_SPIN_LOCK_UNLOCKED       { { .val = ATOMIC_INIT(0) } }
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
-                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
-..
+   In file included from include/linux/fsnotify.h:16,
+                    from fs/ext4/super.c:48:
+>> include/linux/audit.h:631:41: warning: 'struct kern_ipc_perm' declared inside parameter list will not be visible outside of this definition or declaration
+     631 | static inline void audit_ipc_obj(struct kern_ipc_perm *ipcp)
+         |                                         ^~~~~~~~~~~~~
 
 
-vim +/arch_spin_lock +146 include/asm-generic/qspinlock.h
+vim +631 include/linux/audit.h
 
-2aa79af6426319 Peter Zijlstra (Intel  2015-04-24  138) 
-a33fda35e3a765 Waiman Long            2015-04-24  139  /*
-a33fda35e3a765 Waiman Long            2015-04-24  140   * Remapping spinlock architecture specific functions to the corresponding
-a33fda35e3a765 Waiman Long            2015-04-24  141   * queued spinlock functions.
-a33fda35e3a765 Waiman Long            2015-04-24  142   */
-a33fda35e3a765 Waiman Long            2015-04-24  143  #define arch_spin_is_locked(l)		queued_spin_is_locked(l)
-a33fda35e3a765 Waiman Long            2015-04-24  144  #define arch_spin_is_contended(l)	queued_spin_is_contended(l)
-a33fda35e3a765 Waiman Long            2015-04-24  145  #define arch_spin_value_unlocked(l)	queued_spin_value_unlocked(l)
-a33fda35e3a765 Waiman Long            2015-04-24 @146  #define arch_spin_lock(l)		queued_spin_lock(l)
-a33fda35e3a765 Waiman Long            2015-04-24 @147  #define arch_spin_trylock(l)		queued_spin_trylock(l)
-a33fda35e3a765 Waiman Long            2015-04-24 @148  #define arch_spin_unlock(l)		queued_spin_unlock(l)
-a33fda35e3a765 Waiman Long            2015-04-24  149  
+c4dad0aab3fca0 Richard Guy Briggs  2020-04-22  574  
+471a5c7c839114 Al Viro             2006-07-10  575  extern int audit_n_rules;
+e54dc2431d740a Amy Griffis         2007-03-29  576  extern int audit_signals;
+d7e7528bcd456f Eric Paris          2012-01-03  577  #else /* CONFIG_AUDITSYSCALL */
+9321d526dd7315 Kees Cook           2012-10-04  578  static inline int audit_alloc(struct task_struct *task)
+9321d526dd7315 Kees Cook           2012-10-04  579  {
+9321d526dd7315 Kees Cook           2012-10-04  580  	return 0;
+9321d526dd7315 Kees Cook           2012-10-04  581  }
+9321d526dd7315 Kees Cook           2012-10-04  582  static inline void audit_free(struct task_struct *task)
+9321d526dd7315 Kees Cook           2012-10-04  583  { }
+5bd2182d58e9d9 Paul Moore          2021-02-16  584  static inline void audit_uring_entry(u8 op)
+5bd2182d58e9d9 Paul Moore          2021-02-16  585  { }
+5bd2182d58e9d9 Paul Moore          2021-02-16  586  static inline void audit_uring_exit(int success, long code)
+5bd2182d58e9d9 Paul Moore          2021-02-16  587  { }
+91397401bb5072 Eric Paris          2014-03-11  588  static inline void audit_syscall_entry(int major, unsigned long a0,
+9321d526dd7315 Kees Cook           2012-10-04  589  				       unsigned long a1, unsigned long a2,
+9321d526dd7315 Kees Cook           2012-10-04  590  				       unsigned long a3)
+9321d526dd7315 Kees Cook           2012-10-04  591  { }
+9321d526dd7315 Kees Cook           2012-10-04  592  static inline void audit_syscall_exit(void *pt_regs)
+9321d526dd7315 Kees Cook           2012-10-04  593  { }
+36734810488e61 Yaowei Bai          2015-11-04  594  static inline bool audit_dummy_context(void)
+9321d526dd7315 Kees Cook           2012-10-04  595  {
+36734810488e61 Yaowei Bai          2015-11-04  596  	return true;
+9321d526dd7315 Kees Cook           2012-10-04  597  }
+c0b0ae8a871bc2 Richard Guy Briggs  2018-05-12  598  static inline void audit_set_context(struct task_struct *task, struct audit_context *ctx)
+c0b0ae8a871bc2 Richard Guy Briggs  2018-05-12  599  { }
+cdfb6b341f0f24 Richard Guy Briggs  2018-05-12  600  static inline struct audit_context *audit_context(void)
+cdfb6b341f0f24 Richard Guy Briggs  2018-05-12  601  {
+cdfb6b341f0f24 Richard Guy Briggs  2018-05-12  602  	return NULL;
+cdfb6b341f0f24 Richard Guy Briggs  2018-05-12  603  }
+7ac86265dc8f66 Jeff Layton         2012-10-10  604  static inline struct filename *audit_reusename(const __user char *name)
+7ac86265dc8f66 Jeff Layton         2012-10-10  605  {
+7ac86265dc8f66 Jeff Layton         2012-10-10  606  	return NULL;
+7ac86265dc8f66 Jeff Layton         2012-10-10  607  }
+91a27b2a756784 Jeff Layton         2012-10-10  608  static inline void audit_getname(struct filename *name)
+9321d526dd7315 Kees Cook           2012-10-04  609  { }
+adb5c2473d3f91 Jeff Layton         2012-10-10  610  static inline void audit_inode(struct filename *name,
+adb5c2473d3f91 Jeff Layton         2012-10-10  611  				const struct dentry *dentry,
+c9b07eab0c8760 Al Viro             2019-07-14  612  				unsigned int aflags)
+9321d526dd7315 Kees Cook           2012-10-04  613  { }
+9f45f5bf302daa Al Viro             2014-10-31  614  static inline void audit_file(struct file *file)
+9f45f5bf302daa Al Viro             2014-10-31  615  {
+9f45f5bf302daa Al Viro             2014-10-31  616  }
+79f6530cb59e2a Jeff Layton         2013-07-08  617  static inline void audit_inode_parent_hidden(struct filename *name,
+79f6530cb59e2a Jeff Layton         2013-07-08  618  				const struct dentry *dentry)
+79f6530cb59e2a Jeff Layton         2013-07-08  619  { }
+d6335d77a7622a Andreas Gruenbacher 2015-12-24  620  static inline void audit_inode_child(struct inode *parent,
+4fa6b5ecbf092c Jeff Layton         2012-10-10  621  				     const struct dentry *dentry,
+4fa6b5ecbf092c Jeff Layton         2012-10-10  622  				     const unsigned char type)
+9321d526dd7315 Kees Cook           2012-10-04  623  { }
+9321d526dd7315 Kees Cook           2012-10-04  624  static inline void audit_core_dumps(long signr)
+9321d526dd7315 Kees Cook           2012-10-04  625  { }
+9321d526dd7315 Kees Cook           2012-10-04  626  static inline void audit_seccomp(unsigned long syscall, long signr, int code)
+9321d526dd7315 Kees Cook           2012-10-04  627  { }
+ea6eca778500b0 Tyler Hicks         2018-05-04  628  static inline void audit_seccomp_actions_logged(const char *names,
+ea6eca778500b0 Tyler Hicks         2018-05-04  629  						const char *old_names, int res)
+ea6eca778500b0 Tyler Hicks         2018-05-04  630  { }
+9321d526dd7315 Kees Cook           2012-10-04 @631  static inline void audit_ipc_obj(struct kern_ipc_perm *ipcp)
+9321d526dd7315 Kees Cook           2012-10-04  632  { }
+9321d526dd7315 Kees Cook           2012-10-04  633  static inline void audit_ipc_set_perm(unsigned long qbytes, uid_t uid,
+9321d526dd7315 Kees Cook           2012-10-04  634  					gid_t gid, umode_t mode)
+9321d526dd7315 Kees Cook           2012-10-04  635  { }
+9410d228a4cf43 Richard Guy Briggs  2013-10-30  636  static inline void audit_bprm(struct linux_binprm *bprm)
+9410d228a4cf43 Richard Guy Briggs  2013-10-30  637  { }
+2950fa9d3291b9 Chen Gang           2013-04-07  638  static inline int audit_socketcall(int nargs, unsigned long *args)
+2950fa9d3291b9 Chen Gang           2013-04-07  639  {
+2950fa9d3291b9 Chen Gang           2013-04-07  640  	return 0;
+2950fa9d3291b9 Chen Gang           2013-04-07  641  }
+62bc306e208343 Richard Guy Briggs  2017-01-17  642  
 
-:::::: The code at line 146 was first introduced by commit
-:::::: a33fda35e3a7655fb7df756ed67822afb5ed5e8d locking/qspinlock: Introduce a simple generic 4-byte queued spinlock
+:::::: The code at line 631 was first introduced by commit
+:::::: 9321d526dd731588f09508af48de50041785a26a audit.h: replace defines with C stubs
 
-:::::: TO: Waiman Long <Waiman.Long@hp.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
