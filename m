@@ -1,99 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FF844369;
-	Sun, 17 Dec 2023 14:48:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA79D44C7F;
+	Sun, 17 Dec 2023 15:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hMK/1RL2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B4B9C433C8;
-	Sun, 17 Dec 2023 14:48:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702824521;
-	bh=2v6c7w5YjYuTrHr0xyiSsUNzB7hn7P+PURHZkaEiMq0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hMK/1RL21kGQvTj8TT/U9fKNJsBKKg/5XgCvbOl4a961bh6SuZG5kmKzqiEBYD1QG
-	 5Wstc8CkMtQGhvG+yaOJ4gYPJ0eonehdvqBI9sdgcXoeVZxzM0aKk+YHCHz7msZVny
-	 fyh+C+MTIQdx4nRX/hJcegpNosNJsriK3EqzQXUGAfJWlMQuzThuAoueVpDKT836Vz
-	 TKCfcDn6EbbuZT6QKKusBvm33fTHXAadZIcMXlFMHobWMrvoN7vc2pHmLqgcFvyAJP
-	 2P3//EOOZ8DEdnY5PSVwkgNUT+sB/zocYYKUaThW78pWbB3v8COOQsPkD5UtgWeD9R
-	 6a7Zqbg9DVbMg==
-Date: Sun, 17 Dec 2023 14:48:23 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, apw@canonical.com,
- joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
- paul.cercueil@analog.com, Michael.Hennerich@analog.com, lars@metafoo.de,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- dan.carpenter@linaro.org, dlechner@baylibre.com,
- marcelo.schmitt1@gmail.com, oe-kbuild-all@lists.linux.dev,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 6/15] iio: adc: ad7091r: Move chip init data to
- container struct
-Message-ID: <20231217144823.7d6f8473@jic23-huawei>
-In-Reply-To: <202312172006.b2fep1oG-lkp@intel.com>
-References: <9d1248860193b55e79640b2e64c21c66bd6645f9.1702746240.git.marcelo.schmitt1@gmail.com>
-	<202312172006.b2fep1oG-lkp@intel.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bArXehSR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702825342; x=1734361342;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mVKaywtsW/644gKCBoplXHL8+7GvHRRJrCpMdT1r+3Q=;
+  b=bArXehSR4bqHbpB/CnziGufhAw2n9Z3onDRMaWrt+jfHjWqT1yJs0Fj8
+   JF0mLxj93kn05BmCIbrRgDqT9dE7Q2A5MQFFDoT+PQrw9E/YxaCNiWgW+
+   xf+zCyYPPMcFAwn0vat7yAcSEQt2T8ri+1Geie77H5rpvEuZOjrAcM2uK
+   CaU2rRNd5eb1tXO6rtNawk1ZaThcPkpvSPjE2oc08R2uYOheU0Yw3Oquj
+   PZ1/ztcXchGm85kP7bSAn0I6qBq7N1o/zhpr2Ub5ktdRAPpfxv/RdIUCQ
+   RCbD2J6KvHmjw06M46Is4KNQyg/pyLwMi+qjao4Iir/1JZ3O/gkKk7Cv+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="426552347"
+X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
+   d="scan'208";a="426552347"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 07:02:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="845673305"
+X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
+   d="scan'208";a="845673305"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Dec 2023 07:02:20 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rEseo-00038S-0h;
+	Sun, 17 Dec 2023 15:02:18 +0000
+Date: Sun, 17 Dec 2023 23:01:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kmo@daterainc.com>
+Subject: [bcachefs:header_cleanup 23/50]
+ drivers/gpu/drm/lima/lima_ctx.c:30:13: error: call to undeclared function
+ 'task_pid_nr'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202312172203.QCnaSNcw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 17 Dec 2023 21:04:50 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://evilpiepirate.org/git/bcachefs.git header_cleanup
+head:   7288b19e061b7aa3f46f685e9944af128f10ffd5
+commit: 90ffe33a843d713946918328956c4b72f662e7ce [23/50] sched.h: move pid helpers to pid.h
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231217/202312172203.QCnaSNcw-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312172203.QCnaSNcw-lkp@intel.com/reproduce)
 
-> Hi Marcelo,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on jic23-iio/togreg]
-> [also build test ERROR on linus/master v6.7-rc5 next-20231215]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/scripts-checkpatch-Add-__aligned-to-the-list-of-attribute-notes/20231217-055420
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-> patch link:    https://lore.kernel.org/r/9d1248860193b55e79640b2e64c21c66bd6645f9.1702746240.git.marcelo.schmitt1%40gmail.com
-> patch subject: [PATCH v4 6/15] iio: adc: ad7091r: Move chip init data to container struct
-> config: um-randconfig-r111-20231217 (https://download.01.org/0day-ci/archive/20231217/202312172006.b2fep1oG-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312172006.b2fep1oG-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312172006.b2fep1oG-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/iio/adc/ad7091r5.c:59:14: error: initializer element is not constant  
->      .irq_info = ad7091r5_chip_info_irq,
->                  ^~~~~~~~~~~~~~~~~~~~~~
->    drivers/iio/adc/ad7091r5.c:59:14: note: (near initialization for 'ad7091r5_init_info.irq_info')
->    drivers/iio/adc/ad7091r5.c:60:17: error: initializer element is not constant
->      .info_no_irq = ad7091r5_chip_info_noirq,
->                     ^~~~~~~~~~~~~~~~~~~~~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312172203.QCnaSNcw-lkp@intel.com/
 
-You should use a pointer rather than assigning the whole structure.
+All errors (new ones prefixed by >>):
 
->    drivers/iio/adc/ad7091r5.c:60:17: note: (near initialization for 'ad7091r5_init_info.info_no_irq')
-> 
-> 
-> vim +59 drivers/iio/adc/ad7091r5.c
-> 
->     57	
->     58	static struct ad7091r_init_info ad7091r5_init_info = {
->   > 59		.irq_info = ad7091r5_chip_info_irq,  
->     60		.info_no_irq = ad7091r5_chip_info_noirq,
->     61		.regmap_config = &ad7091r_regmap_config,
->     62		.init_adc_regmap = &ad7091r5_regmap_init
->     63	};
->     64	
-> 
+>> drivers/gpu/drm/lima/lima_ctx.c:30:13: error: call to undeclared function 'task_pid_nr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ctx->pid = task_pid_nr(current);
+                      ^
+   1 error generated.
 
+
+vim +/task_pid_nr +30 drivers/gpu/drm/lima/lima_ctx.c
+
+a1d2a6339961efc Qiang Yu    2019-03-09   8  
+a1d2a6339961efc Qiang Yu    2019-03-09   9  int lima_ctx_create(struct lima_device *dev, struct lima_ctx_mgr *mgr, u32 *id)
+a1d2a6339961efc Qiang Yu    2019-03-09  10  {
+a1d2a6339961efc Qiang Yu    2019-03-09  11  	struct lima_ctx *ctx;
+a1d2a6339961efc Qiang Yu    2019-03-09  12  	int i, err;
+a1d2a6339961efc Qiang Yu    2019-03-09  13  
+a1d2a6339961efc Qiang Yu    2019-03-09  14  	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+a1d2a6339961efc Qiang Yu    2019-03-09  15  	if (!ctx)
+a1d2a6339961efc Qiang Yu    2019-03-09  16  		return -ENOMEM;
+a1d2a6339961efc Qiang Yu    2019-03-09  17  	ctx->dev = dev;
+a1d2a6339961efc Qiang Yu    2019-03-09  18  	kref_init(&ctx->refcnt);
+a1d2a6339961efc Qiang Yu    2019-03-09  19  
+a1d2a6339961efc Qiang Yu    2019-03-09  20  	for (i = 0; i < lima_pipe_num; i++) {
+a1d2a6339961efc Qiang Yu    2019-03-09  21  		err = lima_sched_context_init(dev->pipe + i, ctx->context + i, &ctx->guilty);
+a1d2a6339961efc Qiang Yu    2019-03-09  22  		if (err)
+a1d2a6339961efc Qiang Yu    2019-03-09  23  			goto err_out0;
+a1d2a6339961efc Qiang Yu    2019-03-09  24  	}
+a1d2a6339961efc Qiang Yu    2019-03-09  25  
+14d2bd53a47a7e1 Dave Airlie 2019-04-05  26  	err = xa_alloc(&mgr->handles, id, ctx, xa_limit_32b, GFP_KERNEL);
+a1d2a6339961efc Qiang Yu    2019-03-09  27  	if (err < 0)
+a1d2a6339961efc Qiang Yu    2019-03-09  28  		goto err_out0;
+a1d2a6339961efc Qiang Yu    2019-03-09  29  
+6ebd24b6bf106d3 Qiang Yu    2020-02-22 @30  	ctx->pid = task_pid_nr(current);
+6ebd24b6bf106d3 Qiang Yu    2020-02-22  31  	get_task_comm(ctx->pname, current);
+6ebd24b6bf106d3 Qiang Yu    2020-02-22  32  
+a1d2a6339961efc Qiang Yu    2019-03-09  33  	return 0;
+a1d2a6339961efc Qiang Yu    2019-03-09  34  
+a1d2a6339961efc Qiang Yu    2019-03-09  35  err_out0:
+a1d2a6339961efc Qiang Yu    2019-03-09  36  	for (i--; i >= 0; i--)
+a1d2a6339961efc Qiang Yu    2019-03-09  37  		lima_sched_context_fini(dev->pipe + i, ctx->context + i);
+a1d2a6339961efc Qiang Yu    2019-03-09  38  	kfree(ctx);
+a1d2a6339961efc Qiang Yu    2019-03-09  39  	return err;
+a1d2a6339961efc Qiang Yu    2019-03-09  40  }
+a1d2a6339961efc Qiang Yu    2019-03-09  41  
+
+:::::: The code at line 30 was first introduced by commit
+:::::: 6ebd24b6bf106d3195bdbfeaa1ac77571e3dc670 drm/lima: save process info for debug usage
+
+:::::: TO: Qiang Yu <yuq825@gmail.com>
+:::::: CC: Qiang Yu <yuq825@gmail.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
