@@ -1,53 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522214B122
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 22:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183034A9A1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 23:50:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPl83pTj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uoj4KLW4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702853279; x=1734389279;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dDK21WhxmK46apj+aDS2uGaxysiciuckJMISoafo2u8=;
-  b=nPl83pTj4R87fi1YdnGEF2XvtNKOWjXrtD2zZDorNUUDdt1SHL79gbIX
-   rpq4DkBRGfKqgoAWq5lOQnxafPaxUbkbiz2Bj7z2mIIbJ7hOxKJDnLOdh
-   OYbuIWlN/ogwY/Q2OslIi4V8GVaYXV7LN0b3gqJl3WhvBn3z/n815piLg
-   RD5wWQ5KSE7CpmDRucm9AAi3S6moqvjCvKapXCUMgR0joS0zJo8NTJw9d
-   wGd/vKx0bFCA7ORFRKBHAzOWnpaKJP4yZOuuGmWM1ylGwc6iE9aQCdUS7
-   i45KGtwiktuUCaUGuiWBRpHP0Bw5cFvIH5lr+8n8P8usltemhxPYKNwpy
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="8792007"
+  t=1702857058; x=1734393058;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/ZY/U9DAXPmw1KIlN/Vpl9xY49TK7CGzPKPHbgHh3qY=;
+  b=Uoj4KLW4D/GbtYbghFKrjFZnDm47M4jLeIrdCSxaizA5JGYzaNZxGKXN
+   uYt+/mlflwEmvU7zw+GjBGteZFgSozAuhPk4miez/HSqjkQCuv0fxjbpz
+   5cZMqCQZtbfuD/icCJW/8euCUaMTeY0PtX0zLbDYeel12YMGmYBg8sDip
+   LtuFuvHNfm7aGwAmPjHCNOu4xSgY8kIZ+7vpVDza2VnVaIhXOcbgUdWX0
+   dRK4srhpwPKCzKlnpP1TZ7uaARxeqMZiMaKK80F+hpxDWzgAnoMWCDVTw
+   M1mReJr7xb1pe4g1seCRKdnEzh2XR3u1OYhhaswC3EqsDPUgPklIHG8RU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="380425321"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="8792007"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 14:47:59 -0800
+   d="scan'208";a="380425321"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 15:50:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="1022558489"
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="919080613"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="1022558489"
+   d="scan'208";a="919080613"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 17 Dec 2023 14:47:54 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 17 Dec 2023 15:50:56 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEzvL-0003UK-2j;
-	Sun, 17 Dec 2023 22:47:51 +0000
-Date: Mon, 18 Dec 2023 06:47:39 +0800
+	id 1rF0uM-0003X6-0B;
+	Sun, 17 Dec 2023 23:50:54 +0000
+Date: Mon, 18 Dec 2023 07:50:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jingbao Qiu <qiujingbao.dlmu@gmail.com>, a.zummo@towertech.it,
-	alexandre.belloni@bootlin.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor@kernel.org,
-	conor+dt@kernel.org, chao.wei@sophgo.com, unicorn_wang@outlook.com,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu
-Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dlan@gentoo.org, Jingbao Qiu <qiujingbao.dlmu@gmail.com>
-Subject: Re: [PATCH v2 2/3] rtc: sophgo: add rtc support for Sophgo CV1800 SoC
-Message-ID: <202312180655.uM6zOZlv-lkp@intel.com>
-References: <20231217110952.78784-3-qiujingbao.dlmu@gmail.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: fs/nilfs2/ioctl.c:133: warning: Function parameter or struct member
+ 'idmap' not described in 'nilfs_fileattr_set'
+Message-ID: <202312180712.fUp3kkLH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,81 +50,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231217110952.78784-3-qiujingbao.dlmu@gmail.com>
 
-Hi Jingbao,
+Hi Christian,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on abelloni/rtc-next]
-[also build test ERROR on robh/for-next linus/master v6.7-rc5 next-20231215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingbao-Qiu/dt-bindings-rtc-sophgo-add-RTC-support-for-Sophgo-CV1800-series-SoC/20231217-191123
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
-patch link:    https://lore.kernel.org/r/20231217110952.78784-3-qiujingbao.dlmu%40gmail.com
-patch subject: [PATCH v2 2/3] rtc: sophgo: add rtc support for Sophgo CV1800 SoC
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231218/202312180655.uM6zOZlv-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180655.uM6zOZlv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0e389834672c723435a44818ed2cabc4dad24429
+commit: 8782a9aea3ab4d697ad67d1f8ebca38a4e1c24ab fs: port ->fileattr_set() to pass mnt_idmap
+date:   11 months ago
+config: i386-buildonly-randconfig-003-20231218 (https://download.01.org/0day-ci/archive/20231218/202312180712.fUp3kkLH-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180712.fUp3kkLH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312180655.uM6zOZlv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312180712.fUp3kkLH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/rtc/rtc-cv1800.c: In function 'cv1800_rtc_alarm_irq_enable':
->> drivers/rtc/rtc-cv1800.c:89:17: error: implicit declaration of function 'writel' [-Werror=implicit-function-declaration]
-      89 |                 writel(REG_ENABLE_FUN, info->base_data + ALARM_ENABLE);
-         |                 ^~~~~~
-   drivers/rtc/rtc-cv1800.c: In function 'cv1800_rtc_set_alarm':
->> drivers/rtc/rtc-cv1800.c:113:9: error: implicit declaration of function 'readl' [-Werror=implicit-function-declaration]
-     113 |         readl(info->base_data + SEC_CNTR_VAL);
-         |         ^~~~~
-   cc1: some warnings being treated as errors
+   fs/nilfs2/ioctl.c:120: warning: Function parameter or struct member 'dentry' not described in 'nilfs_fileattr_get'
+   fs/nilfs2/ioctl.c:120: warning: Function parameter or struct member 'fa' not described in 'nilfs_fileattr_get'
+>> fs/nilfs2/ioctl.c:133: warning: Function parameter or struct member 'idmap' not described in 'nilfs_fileattr_set'
+   fs/nilfs2/ioctl.c:133: warning: Function parameter or struct member 'dentry' not described in 'nilfs_fileattr_set'
+   fs/nilfs2/ioctl.c:133: warning: Function parameter or struct member 'fa' not described in 'nilfs_fileattr_set'
+   fs/nilfs2/ioctl.c:164: warning: Function parameter or struct member 'inode' not described in 'nilfs_ioctl_getversion'
+   fs/nilfs2/ioctl.c:164: warning: Function parameter or struct member 'argp' not described in 'nilfs_ioctl_getversion'
 
 
-vim +/writel +89 drivers/rtc/rtc-cv1800.c
+vim +133 fs/nilfs2/ioctl.c
 
-    83	
-    84	static int cv1800_rtc_alarm_irq_enable(struct device *dev, unsigned int enabled)
-    85	{
-    86		struct cv1800_priv *info = dev_get_drvdata(dev);
-    87	
-    88		if (enabled)
-  > 89			writel(REG_ENABLE_FUN, info->base_data + ALARM_ENABLE);
-    90		else
-    91			writel(REG_DISABLE_FUN, info->base_data + ALARM_ENABLE);
-    92	
-    93		return 0;
-    94	}
-    95	
-    96	static int cv1800_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
-    97	{
-    98		struct cv1800_priv *info = dev_get_drvdata(dev);
-    99		unsigned long alarm_time;
-   100	
-   101		alarm_time = rtc_tm_to_time64(&alrm->time);
-   102	
-   103		if (alarm_time > SEC_MAX_VAL)
-   104			return -EINVAL;
-   105	
-   106		writel(REG_DISABLE_FUN, info->base_data + ALARM_ENABLE);
-   107	
-   108		udelay(DEALY_TIME_PREPARE);
-   109	
-   110		writel(alarm_time, info->base_data + ALARM_TIME);
-   111		writel(REG_ENABLE_FUN, info->base_data + ALARM_ENABLE);
-   112	
- > 113		readl(info->base_data + SEC_CNTR_VAL);
-   114	
-   115		return 0;
-   116	}
-   117	
+7942b919f7321f9 Koji Sato          2009-04-06  115  
+d623a9420c9ae2b Vyacheslav Dubeyko 2014-01-23  116  /**
+7c7c436e14b863c Miklos Szeredi     2021-04-07  117   * nilfs_fileattr_get - ioctl to support lsattr
+d623a9420c9ae2b Vyacheslav Dubeyko 2014-01-23  118   */
+7c7c436e14b863c Miklos Szeredi     2021-04-07  119  int nilfs_fileattr_get(struct dentry *dentry, struct fileattr *fa)
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20 @120  {
+7c7c436e14b863c Miklos Szeredi     2021-04-07  121  	struct inode *inode = d_inode(dentry);
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  122  
+7c7c436e14b863c Miklos Szeredi     2021-04-07  123  	fileattr_fill_flags(fa, NILFS_I(inode)->i_flags & FS_FL_USER_VISIBLE);
+7c7c436e14b863c Miklos Szeredi     2021-04-07  124  
+7c7c436e14b863c Miklos Szeredi     2021-04-07  125  	return 0;
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  126  }
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  127  
+d623a9420c9ae2b Vyacheslav Dubeyko 2014-01-23  128  /**
+7c7c436e14b863c Miklos Szeredi     2021-04-07  129   * nilfs_fileattr_set - ioctl to support chattr
+d623a9420c9ae2b Vyacheslav Dubeyko 2014-01-23  130   */
+8782a9aea3ab4d6 Christian Brauner  2023-01-13  131  int nilfs_fileattr_set(struct mnt_idmap *idmap,
+7c7c436e14b863c Miklos Szeredi     2021-04-07  132  		       struct dentry *dentry, struct fileattr *fa)
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20 @133  {
+7c7c436e14b863c Miklos Szeredi     2021-04-07  134  	struct inode *inode = d_inode(dentry);
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  135  	struct nilfs_transaction_info ti;
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  136  	unsigned int flags, oldflags;
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  137  	int ret;
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  138  
+7c7c436e14b863c Miklos Szeredi     2021-04-07  139  	if (fileattr_has_fsx(fa))
+7c7c436e14b863c Miklos Szeredi     2021-04-07  140  		return -EOPNOTSUPP;
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  141  
+7c7c436e14b863c Miklos Szeredi     2021-04-07  142  	flags = nilfs_mask_flags(inode->i_mode, fa->flags);
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  143  
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  144  	ret = nilfs_transaction_begin(inode->i_sb, &ti, 0);
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  145  	if (ret)
+7c7c436e14b863c Miklos Szeredi     2021-04-07  146  		return ret;
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  147  
+7c7c436e14b863c Miklos Szeredi     2021-04-07  148  	oldflags = NILFS_I(inode)->i_flags & ~FS_FL_USER_MODIFIABLE;
+7c7c436e14b863c Miklos Szeredi     2021-04-07  149  	NILFS_I(inode)->i_flags = oldflags | (flags & FS_FL_USER_MODIFIABLE);
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  150  
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  151  	nilfs_set_inode_flags(inode);
+078cd8279e65998 Deepa Dinamani     2016-09-14  152  	inode->i_ctime = current_time(inode);
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  153  	if (IS_SYNC(inode))
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  154  		nilfs_set_transaction_flag(NILFS_TI_SYNC);
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  155  
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  156  	nilfs_mark_inode_dirty(inode);
+7c7c436e14b863c Miklos Szeredi     2021-04-07  157  	return nilfs_transaction_commit(inode->i_sb);
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  158  }
+cde98f0f84ccff7 Ryusuke Konishi    2011-01-20  159  
+
+:::::: The code at line 133 was first introduced by commit
+:::::: cde98f0f84ccff78e87235cb7b551747d6ad00de nilfs2: implement FS_IOC_GETFLAGS/SETFLAGS/GETVERSION
+
+:::::: TO: Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
+:::::: CC: Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
 
 -- 
 0-DAY CI Kernel Test Service
