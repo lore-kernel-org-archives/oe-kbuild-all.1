@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645F910941;
-	Sun, 17 Dec 2023 07:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0F81849
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 08:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XuTPTvs/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqgniwLX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702797323; x=1734333323;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WbZnAws1ebDZLBNyh0l0cVIWSHRKi3Kl8mAWBPU9oKE=;
-  b=XuTPTvs/zHXdz+7XBgt3hSuzNzNJ+QcQSOi3M8VRvsJSobsWcXHph2N9
-   lKrL36xVi2K/TjdS3Uz+bYSYJWQfvJHmFoUw4Xa0Z7L/ow7QdmwNu0nvl
-   EajnHGUyfkXWUdpS9qx/aTszulktrH7pRiOjMZygj7lAEFv5dcUCB1rpx
-   a5WWJsIv12yuwebVoTOuFF7J0dZsXU0vqaZxLOVbs20XdvQJjgb9oA8n5
-   Suj9y1BOAkvPs3SuwyJWRe1dU3ACwvGsO/0Tm4hX9s8oZ2Whz7Wg7VPD5
-   7ID768PdZwpyQ9db+aBNT21JxAk5HmlcyZNhr1NJjgps9CcfuxloxMOwT
+  t=1702800521; x=1734336521;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5NXzoIRSDAl/OjSr6xbYZNe+bA/fxCKfexV2BaBHuD8=;
+  b=JqgniwLX9UHcSdSRYm7eIPsi/r3gXcpWVgHxX2HhDhrtD3UjIAjelgTp
+   ACv841soDjZqvZZWwskpk1jUAmMFZ3Jp2aD+FpKI8rei4TL/N0JLbcgf8
+   +Y/89FWBDtuIJDUu5plwABU18MzuzGaeXLlqqtto9OjHgKg1jJpWS4TDt
+   E3AGOuz6ccVs1zq5rIsBpkuOI9XWGBeZdF/GljQ/IJZnN9ToqBjjU9i3l
+   KQPsTex6m6mpUzuGSXMTGzJxx585Vc8lBoexCy1woD2cahsZxpU0wLifg
+   5f3yVsqYXeh47RGTkg+i2qTa3Bx2l7dmKuDF1SYS7U/BgI7fq7ksluBhS
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="374903038"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="2244015"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="374903038"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 23:15:22 -0800
+   d="scan'208";a="2244015"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 00:08:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="768468543"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="865881832"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="768468543"
+   d="scan'208";a="865881832"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 16 Dec 2023 23:15:21 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Dec 2023 00:08:38 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rElMt-0002nQ-05;
-	Sun, 17 Dec 2023 07:15:19 +0000
-Date: Sun, 17 Dec 2023 15:14:57 +0800
+	id 1rEmCN-0002qG-25;
+	Sun, 17 Dec 2023 08:08:34 +0000
+Date: Sun, 17 Dec 2023 16:07:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Imran Khan <imran.f.khan@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] sched: fair: reset task_group.load_avg when there
- are no running tasks.
-Message-ID: <202312171425.MFabjrns-lkp@intel.com>
-References: <20231215052652.917741-1-imran.f.khan@oracle.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 7696/8213] drivers/bus/mhi/ep/main.c:519:22:
+ warning: format '%ld' expects argument of type 'long int', but argument 5
+ has type 'size_t' {aka 'unsigned int'}
+Message-ID: <202312171537.W9d6tX7p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,98 +51,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231215052652.917741-1-imran.f.khan@oracle.com>
 
-Hi Imran,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on peterz-queue/sched/core linus/master v6.7-rc5 next-20231215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Imran-Khan/sched-fair-reset-task_group-load_avg-when-there-are-no-running-tasks/20231215-132912
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20231215052652.917741-1-imran.f.khan%40oracle.com
-patch subject: [RFC PATCH] sched: fair: reset task_group.load_avg when there are no running tasks.
-config: i386-buildonly-randconfig-002-20231217 (https://download.01.org/0day-ci/archive/20231217/202312171425.MFabjrns-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171425.MFabjrns-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   17cb8a20bde66a520a2ca7aad1063e1ce7382240
+commit: e59bba2cc6c746942c7c2d83ebcd9b92ae0a1aca [7696/8213] bus: mhi: ep: Add support for async DMA write operation
+config: arm-randconfig-r081-20231214 (https://download.01.org/0day-ci/archive/20231217/202312171537.W9d6tX7p-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171537.W9d6tX7p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312171425.MFabjrns-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312171537.W9d6tX7p-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/sched/fair.c:3579:43: error: incomplete definition of type 'struct task_group'
-                   atomic_long_inc(&task_group(task_of(se))->cfs_nr_running);
-                                    ~~~~~~~~~~~~~~~~~~~~~~~^
-   include/linux/sched.h:71:8: note: forward declaration of 'struct task_group'
-   struct task_group;
-          ^
-   kernel/sched/fair.c:3595:43: error: incomplete definition of type 'struct task_group'
-                   atomic_long_dec(&task_group(task_of(se))->cfs_nr_running);
-                                    ~~~~~~~~~~~~~~~~~~~~~~~^
-   include/linux/sched.h:71:8: note: forward declaration of 'struct task_group'
-   struct task_group;
-          ^
-   kernel/sched/fair.c:13091:6: warning: no previous prototype for function 'free_fair_sched_group' [-Wmissing-prototypes]
-   void free_fair_sched_group(struct task_group *tg) { }
-        ^
-   kernel/sched/fair.c:13091:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void free_fair_sched_group(struct task_group *tg) { }
-   ^
-   static 
-   kernel/sched/fair.c:13093:5: warning: no previous prototype for function 'alloc_fair_sched_group' [-Wmissing-prototypes]
-   int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-       ^
-   kernel/sched/fair.c:13093:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-   ^
-   static 
-   kernel/sched/fair.c:13098:6: warning: no previous prototype for function 'online_fair_sched_group' [-Wmissing-prototypes]
-   void online_fair_sched_group(struct task_group *tg) { }
-        ^
-   kernel/sched/fair.c:13098:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void online_fair_sched_group(struct task_group *tg) { }
-   ^
-   static 
-   kernel/sched/fair.c:13100:6: warning: no previous prototype for function 'unregister_fair_sched_group' [-Wmissing-prototypes]
-   void unregister_fair_sched_group(struct task_group *tg) { }
-        ^
-   kernel/sched/fair.c:13100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void unregister_fair_sched_group(struct task_group *tg) { }
-   ^
-   static 
-   4 warnings and 2 errors generated.
+   In file included from include/linux/device.h:15,
+                    from include/linux/mhi.h:9,
+                    from include/linux/mhi_ep.h:10,
+                    from drivers/bus/mhi/ep/main.c:15:
+   drivers/bus/mhi/ep/main.c: In function 'mhi_ep_skb_completion':
+>> drivers/bus/mhi/ep/main.c:519:22: warning: format '%ld' expects argument of type 'long int', but argument 5 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     519 |         dev_dbg(dev, "Sending completion for ring (%d) rd_offset: %ld\n",
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                         ^~~
+   include/linux/dev_printk.h:163:45: note: in expansion of macro 'dev_fmt'
+     163 |                 dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+         |                                             ^~~~~~~
+   drivers/bus/mhi/ep/main.c:519:9: note: in expansion of macro 'dev_dbg'
+     519 |         dev_dbg(dev, "Sending completion for ring (%d) rd_offset: %ld\n",
+         |         ^~~~~~~
+   drivers/bus/mhi/ep/main.c:519:69: note: format string is defined here
+     519 |         dev_dbg(dev, "Sending completion for ring (%d) rd_offset: %ld\n",
+         |                                                                   ~~^
+         |                                                                     |
+         |                                                                     long int
+         |                                                                   %d
+   drivers/bus/mhi/ep/main.c: In function 'mhi_ep_queue_skb':
+   drivers/bus/mhi/ep/main.c:600:30: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     600 |                 dev_dbg(dev, "rd_offset at the end of queue_skb: %ld\n",
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                         ^~~
+   include/linux/dev_printk.h:163:45: note: in expansion of macro 'dev_fmt'
+     163 |                 dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__); \
+         |                                             ^~~~~~~
+   drivers/bus/mhi/ep/main.c:600:17: note: in expansion of macro 'dev_dbg'
+     600 |                 dev_dbg(dev, "rd_offset at the end of queue_skb: %ld\n",
+         |                 ^~~~~~~
+   drivers/bus/mhi/ep/main.c:600:68: note: format string is defined here
+     600 |                 dev_dbg(dev, "rd_offset at the end of queue_skb: %ld\n",
+         |                                                                  ~~^
+         |                                                                    |
+         |                                                                    long int
+         |                                                                  %d
 
 
-vim +3579 kernel/sched/fair.c
+vim +519 drivers/bus/mhi/ep/main.c
 
-  3568	
-  3569	static void
-  3570	account_entity_enqueue(struct cfs_rq *cfs_rq, struct sched_entity *se)
-  3571	{
-  3572		update_load_add(&cfs_rq->load, se->load.weight);
-  3573	#ifdef CONFIG_SMP
-  3574		if (entity_is_task(se)) {
-  3575			struct rq *rq = rq_of(cfs_rq);
-  3576	
-  3577			account_numa_enqueue(rq, task_of(se));
-  3578			list_add(&se->group_node, &rq->cfs_tasks);
-> 3579			atomic_long_inc(&task_group(task_of(se))->cfs_nr_running);
-  3580		}
-  3581	#endif
-  3582		cfs_rq->nr_running++;
-  3583		if (se_is_idle(se))
-  3584			cfs_rq->idle_nr_running++;
-  3585	}
-  3586	
+   499	
+   500	static void mhi_ep_skb_completion(struct mhi_ep_buf_info *buf_info)
+   501	{
+   502		struct mhi_ep_device *mhi_dev = buf_info->mhi_dev;
+   503		struct mhi_ep_cntrl *mhi_cntrl = mhi_dev->mhi_cntrl;
+   504		struct mhi_ep_chan *mhi_chan = mhi_dev->dl_chan;
+   505		struct mhi_ep_ring *ring = &mhi_cntrl->mhi_chan[mhi_chan->chan].ring;
+   506		struct mhi_ring_element *el = &ring->ring_cache[ring->rd_offset];
+   507		struct device *dev = &mhi_dev->dev;
+   508		struct mhi_result result = {};
+   509		int ret;
+   510	
+   511		if (mhi_chan->xfer_cb) {
+   512			result.buf_addr = buf_info->cb_buf;
+   513			result.dir = mhi_chan->dir;
+   514			result.bytes_xferd = buf_info->size;
+   515	
+   516			mhi_chan->xfer_cb(mhi_dev, &result);
+   517		}
+   518	
+ > 519		dev_dbg(dev, "Sending completion for ring (%d) rd_offset: %ld\n",
+   520	ring->er_index, ring->rd_offset);
+   521		ret = mhi_ep_send_completion_event(mhi_cntrl, ring, el, buf_info->size,
+   522						   buf_info->code);
+   523		if (ret) {
+   524			dev_err(dev, "Error sending transfer completion event\n");
+   525			return;
+   526		}
+   527	
+   528		mhi_ep_ring_inc_index(ring);
+   529	}
+   530	
 
 -- 
 0-DAY CI Kernel Test Service
