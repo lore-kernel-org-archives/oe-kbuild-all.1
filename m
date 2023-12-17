@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF821A47;
-	Sun, 17 Dec 2023 01:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A86EA3D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 02:26:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1qtMYRG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="chEAR3U7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702777993; x=1734313993;
+  t=1702779976; x=1734315976;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mvmno45SUaf+lUX97G/YRDOTLbKVqRSMcuT5pizlEhk=;
-  b=i1qtMYRGqW3D5CiZWspGcojMAUN+KRje9PXMml5VTHLvf4C9cPe7D8h4
-   dSxB/gUOJlKZYER3o3ueL6IN+KQPku2Sl3Qkk+RUjJhscVACRdCbx+C6E
-   9go+D/OoDnMSVD7HvFNH6nhrCwzwr/thqgjC0/X8E1QZLI8MVtMCYfS1X
-   fy7vek4grL9O8qgR7e7t3YqoyToH1LpDX3xsAYUZ+OdP4ioHpunMxAdhW
-   AeULsvw7fNTuV8lFGE4z+1BPZbK0oRrJ/PiHpSCAOcrXz+DCe0wyNaXN4
-   IIhPbW3y954Ypdkd31B5nKNvI2EcrObpUOB4irNyAS27voIAd3Rm4MjmL
+  bh=pxzkdKqlEbgbVkl3fo6sCrNrlgbVwhyD29UXcj1dBHk=;
+  b=chEAR3U7jyC0AHls7cSca72N71IEf3tCOeSafSMTsLb/tKowr12uq4pL
+   CKc/n/TyKxBnnukhLuEdXqBX6XffJ4RyB/HT74Zj5F8VK0fK9+8ckkmVf
+   U6WlQZgglAlVSseK01o1Eiya/n5hNv5u842s6fRzFUvFuA4XG3DM8PmzH
+   Y2v/pUxJl6WxSNCEyOiLN5ncYgg366weU01aZwZsMPDBkAB2ohrUeYKw0
+   S70Ge3j6KK4fn9qawK7cvmYeeC0mjqUaSpUCTzIk6l30udX4yu1Nwa9ya
+   wNIV9568wZzwXMswy5whGxLC2bZH5vheyHGsmdewLARo+way/y6QdVEID
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="461853618"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="8821726"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="461853618"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 17:53:11 -0800
+   d="scan'208";a="8821726"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 18:26:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="845536132"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="1106549174"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="845536132"
+   d="scan'208";a="1106549174"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Dec 2023 17:53:10 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 16 Dec 2023 18:26:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEgL5-0002Tv-0q;
-	Sun, 17 Dec 2023 01:53:07 +0000
-Date: Sun, 17 Dec 2023 09:52:27 +0800
+	id 1rEgr6-0002WG-0Z;
+	Sun, 17 Dec 2023 02:26:12 +0000
+Date: Sun, 17 Dec 2023 10:26:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 50/61] include/linux/console.h:36:2: error:
- expected identifier
-Message-ID: <202312170941.HOLDO4AL-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 6853/8213] csky-linux-ld: rotate.c:undefined
+ reference to `__generic_xchg_called_with_bad_pointer'
+Message-ID: <202312171007.c8vKL1Og-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,104 +51,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   29f593717f831f4fe1c36efd2d1b0404f705bc0f
-commit: 9138c2328ccc3a9bc4868c7a74b1539036a92501 [50/61] con: use enum for VESA blanking modes
-config: i386-buildonly-randconfig-003-20231217 (https://download.01.org/0day-ci/archive/20231217/202312170941.HOLDO4AL-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312170941.HOLDO4AL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   17cb8a20bde66a520a2ca7aad1063e1ce7382240
+commit: ba97d6b747f2d1e78346a4f996c303d3e5a7a4f2 [6853/8213] afs: Fix fileserver rotation
+config: csky-randconfig-r025-20220908 (https://download.01.org/0day-ci/archive/20231217/202312171007.c8vKL1Og-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171007.c8vKL1Og-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312170941.HOLDO4AL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312171007.c8vKL1Og-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/video/fbdev/gxt4500.c:13:
->> include/linux/console.h:36:2: error: expected identifier
-           VESA_NO_BLANKING        = 0,
-           ^
-   include/uapi/linux/fb.h:297:33: note: expanded from macro 'VESA_NO_BLANKING'
-   #define VESA_NO_BLANKING        0
-                                   ^
-   In file included from drivers/video/fbdev/gxt4500.c:13:
-   include/linux/console.h:37:2: error: expected identifier
-           VESA_VSYNC_SUSPEND      = 1,
-           ^
-   include/uapi/linux/fb.h:298:33: note: expanded from macro 'VESA_VSYNC_SUSPEND'
-   #define VESA_VSYNC_SUSPEND      1
-                                   ^
-   In file included from drivers/video/fbdev/gxt4500.c:13:
-   include/linux/console.h:38:2: error: expected identifier
-           VESA_HSYNC_SUSPEND      = 2,
-           ^
-   include/uapi/linux/fb.h:299:33: note: expanded from macro 'VESA_HSYNC_SUSPEND'
-   #define VESA_HSYNC_SUSPEND      2
-                                   ^
-   In file included from drivers/video/fbdev/gxt4500.c:13:
-   include/linux/console.h:39:2: error: expected identifier
-           VESA_POWERDOWN          = VESA_VSYNC_SUSPEND | VESA_HSYNC_SUSPEND,
-           ^
-   include/uapi/linux/fb.h:300:33: note: expanded from macro 'VESA_POWERDOWN'
-   #define VESA_POWERDOWN          3
-                                   ^
-   4 errors generated.
---
-   In file included from drivers/video/fbdev/matrox/g450_pll.c:17:
-   In file included from drivers/video/fbdev/matrox/g450_pll.h:5:
-   In file included from drivers/video/fbdev/matrox/matroxfb_base.h:37:
->> include/linux/console.h:36:2: error: expected identifier
-           VESA_NO_BLANKING        = 0,
-           ^
-   include/uapi/linux/fb.h:297:33: note: expanded from macro 'VESA_NO_BLANKING'
-   #define VESA_NO_BLANKING        0
-                                   ^
-   In file included from drivers/video/fbdev/matrox/g450_pll.c:17:
-   In file included from drivers/video/fbdev/matrox/g450_pll.h:5:
-   In file included from drivers/video/fbdev/matrox/matroxfb_base.h:37:
-   include/linux/console.h:37:2: error: expected identifier
-           VESA_VSYNC_SUSPEND      = 1,
-           ^
-   include/uapi/linux/fb.h:298:33: note: expanded from macro 'VESA_VSYNC_SUSPEND'
-   #define VESA_VSYNC_SUSPEND      1
-                                   ^
-   In file included from drivers/video/fbdev/matrox/g450_pll.c:17:
-   In file included from drivers/video/fbdev/matrox/g450_pll.h:5:
-   In file included from drivers/video/fbdev/matrox/matroxfb_base.h:37:
-   include/linux/console.h:38:2: error: expected identifier
-           VESA_HSYNC_SUSPEND      = 2,
-           ^
-   include/uapi/linux/fb.h:299:33: note: expanded from macro 'VESA_HSYNC_SUSPEND'
-   #define VESA_HSYNC_SUSPEND      2
-                                   ^
-   In file included from drivers/video/fbdev/matrox/g450_pll.c:17:
-   In file included from drivers/video/fbdev/matrox/g450_pll.h:5:
-   In file included from drivers/video/fbdev/matrox/matroxfb_base.h:37:
-   include/linux/console.h:39:2: error: expected identifier
-           VESA_POWERDOWN          = VESA_VSYNC_SUSPEND | VESA_HSYNC_SUSPEND,
-           ^
-   include/uapi/linux/fb.h:300:33: note: expanded from macro 'VESA_POWERDOWN'
-   #define VESA_POWERDOWN          3
-                                   ^
-   drivers/video/fbdev/matrox/g450_pll.c:410:18: warning: variable 'mnp' set but not used [-Wunused-but-set-variable]
-                                   unsigned int mnp;
-                                                ^
-   1 warning and 4 errors generated.
-
-
-vim +36 include/linux/console.h
-
-    33	
-    34	/* Note: fbcon defines the below as macros for userspace (in fb.h). */
-    35	enum vesa_blank_mode {
-  > 36		VESA_NO_BLANKING	= 0,
-    37		VESA_VSYNC_SUSPEND	= 1,
-    38		VESA_HSYNC_SUSPEND	= 2,
-    39		VESA_POWERDOWN		= VESA_VSYNC_SUSPEND | VESA_HSYNC_SUSPEND,
-    40		VESA_BLANK_MAX		= VESA_POWERDOWN,
-    41	};
-    42	
+   csky-linux-ld: fs/afs/callback.o: in function `__afs_break_callback':
+   include/asm-generic/cmpxchg.h:76:(.text+0xa34): undefined reference to `__generic_xchg_called_with_bad_pointer'
+   csky-linux-ld: fs/afs/callback.o: in function `__afs_break_callback':
+   fs/afs/callback.c:99:(.text+0xaec): undefined reference to `__generic_xchg_called_with_bad_pointer'
+   csky-linux-ld: fs/afs/rotate.o: in function `afs_start_fs_iteration':
+   rotate.c:(.text+0x664): undefined reference to `__generic_xchg_called_with_bad_pointer'
+>> csky-linux-ld: rotate.c:(.text+0x70c): undefined reference to `__generic_xchg_called_with_bad_pointer'
 
 -- 
 0-DAY CI Kernel Test Service
