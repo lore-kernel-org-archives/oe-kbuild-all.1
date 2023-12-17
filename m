@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5ED91849;
-	Sun, 17 Dec 2023 08:08:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C0C3C23
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 09:31:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ITfO+x+K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9iTF3Gd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702800536; x=1734336536;
+  t=1702805510; x=1734341510;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PeMftIcy4VLy/GRMCLCBKT44xNK0RSQZFJmA2MFYSx0=;
-  b=ITfO+x+KNAFnYebaX1mZIGNM5rKOG6V620g+SWJ+Nc2kcBdZZy+DtQvU
-   QrGauvOGaX7DVPCOfIaucxZFnyL9NBaBmgDF937LKIsZ/whvKxRkeqClZ
-   ev3buN3vYPN8EICwrOK4qv/+s0wB16HZD6TplN0Vy/Px/OITj9Kxr5zVi
-   9sf5pkT26KeRV/FzxlQBHljO+VWqsLSHNNXS/3REZ4cXH+C6/E1yq6Sw5
-   JXdWWPgUGwxyUVCOBbTWr/Y2sR9SMBWNiLGA8BibNMhBWr8SFA+ID4gMt
-   tgL6Q2UdMF6FSaHAnTPP192IIrJIYWGNDkffGdqxnPI7XF/Bcfftcj96N
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="2231026"
+  bh=3IHge59k4u4BGOp9hMmdiyxdx5T9LWZPu0M3qWCypfI=;
+  b=f9iTF3GdO16M7lb6DtwR9NTlWCZnDHZQONkPQFUvI2UisE8T2WR8Aa2E
+   UKUg9k0BDzWQJjl6OhzTjpvONlEKFur+i82uqvfYsW6fyBsei/mC9qrjB
+   8fY3tQ7eR7dhVFtwmIsBhHP/fVOAeKyDcZBeYAIUg/No/0vLEBoA2ozI3
+   0xPGtCYhdHLWznGG3tFKGZklh60Pq0mpevHw/9qjs9oFbZA3bDe/vU5ub
+   4cXFXQaWRxgJGDP0TQsIEzfGBikubTKkZhlRp1yAw8ffAqUrEByH4CkqH
+   JlxidH2WL10oryPSHDvRhLsmeUtEIVeCl4N9VkP+h6p9/Sg1NcdYvu5aW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="395145063"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="2231026"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 00:08:45 -0800
+   d="scan'208";a="395145063"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 01:31:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="948423880"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="948423880"
+   d="scan'208";a="23375127"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 17 Dec 2023 00:08:41 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Dec 2023 01:31:48 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEmCS-0002qI-1n;
-	Sun, 17 Dec 2023 08:08:37 +0000
-Date: Sun, 17 Dec 2023 16:07:53 +0800
+	id 1rEnUv-0002tg-2Z;
+	Sun, 17 Dec 2023 09:31:45 +0000
+Date: Sun, 17 Dec 2023 17:31:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kmo@daterainc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kmo@daterainc.com>
-Subject: [bcachefs:bcachefs-testing 158/159]
- fs/bcachefs/btree_trans_commit.c:1049:7: warning: variable 'errored_at' is
- used uninitialized whenever 'if' condition is true
-Message-ID: <202312171605.CZuefTDt-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>
+Subject: [bcachefs:header_cleanup 23/50] kernel/async.c:124:31: error:
+ implicit declaration of function 'task_pid_nr'
+Message-ID: <202312171723.crLIX6NW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,124 +49,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   607dc0adb1799e564ac1a2610c138e90d3c9a094
-commit: 4e067d25983a698bfa62be21422df70d603b189e [158/159] bcachefs: trans_for_each_update() now declares loop iter
-config: i386-buildonly-randconfig-003-20231217 (https://download.01.org/0day-ci/archive/20231217/202312171605.CZuefTDt-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171605.CZuefTDt-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git header_cleanup
+head:   7288b19e061b7aa3f46f685e9944af128f10ffd5
+commit: 90ffe33a843d713946918328956c4b72f662e7ce [23/50] sched.h: move pid helpers to pid.h
+config: i386-randconfig-012-20231217 (https://download.01.org/0day-ci/archive/20231217/202312171723.crLIX6NW-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171723.crLIX6NW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312171605.CZuefTDt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312171723.crLIX6NW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the bcachefs/header_cleanup HEAD 7288b19e061b7aa3f46f685e9944af128f10ffd5 builds fine.
+      It only hurts bisectability.
 
->> fs/bcachefs/btree_trans_commit.c:1049:7: warning: variable 'errored_at' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-                   if (ret)
-                       ^~~
-   fs/bcachefs/btree_trans_commit.c:1077:46: note: uninitialized use occurs here
-           ret = bch2_trans_commit_error(trans, flags, errored_at, ret, _RET_IP_);
-                                                       ^~~~~~~~~~
-   fs/bcachefs/btree_trans_commit.c:1049:3: note: remove the 'if' if its condition is always false
-                   if (ret)
-                   ^~~~~~~~
-   fs/bcachefs/btree_trans_commit.c:1057:2: note: variable 'errored_at' is declared here
-           struct btree_insert_entry *errored_at = NULL;
-           ^
-   1 warning generated.
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/kernel.h:31,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/current.h:10,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/async.h:14,
+                    from kernel/async.c:47:
+   kernel/async.c: In function 'async_run_entry_fn':
+>> kernel/async.c:124:31: error: implicit declaration of function 'task_pid_nr' [-Werror=implicit-function-declaration]
+     124 |                  entry->func, task_pid_nr(current));
+         |                               ^~~~~~~~~~~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/linux/printk.h:585:9: note: in expansion of macro 'no_printk'
+     585 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~
+   kernel/async.c:123:9: note: in expansion of macro 'pr_debug'
+     123 |         pr_debug("calling  %lli_%pS @ %i\n", (long long)entry->cookie,
+         |         ^~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1049 fs/bcachefs/btree_trans_commit.c
+vim +/task_pid_nr +124 kernel/async.c
 
-78c8fe20be12d0 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19   969  
-30ca6ece88f2d1 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2023-02-09   970  int __bch2_trans_commit(struct btree_trans *trans, unsigned flags)
-1c6fdbd8f2465d fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2017-03-16   971  {
-fb64f3fdac7171 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-12-31   972  	struct bch_fs *c = trans->c;
-dc3b63dc33e1b6 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2019-03-21   973  	int ret = 0;
-1c6fdbd8f2465d fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2017-03-16   974  
-9f1833cadda7bb fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-07-10   975  	if (!trans->nr_updates &&
-bcff915594c28c fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-12-10   976  	    !trans->journal_entries_u64s)
-b7cf4bd7fe6895 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-01-21   977  		goto out_reset;
-1c6fdbd8f2465d fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2017-03-16   978  
-06a98c966f9ae5 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19   979  	ret = bch2_trans_commit_run_triggers(trans);
-06a98c966f9ae5 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19   980  	if (ret)
-06a98c966f9ae5 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19   981  		goto out_reset;
-06a98c966f9ae5 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19   982  
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   983  	trans_for_each_update(trans, i) {
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   984  		struct printbuf buf = PRINTBUF;
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   985  		enum bkey_invalid_flags invalid_flags = 0;
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   986  
-1d7fa317a6f8d4 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-11   987  		if (!(flags & BCH_TRANS_COMMIT_no_journal_res))
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   988  			invalid_flags |= BKEY_INVALID_WRITE|BKEY_INVALID_COMMIT;
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   989  
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   990  		if (unlikely(bch2_bkey_invalid(c, bkey_i_to_s_c(i->k),
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   991  					       i->bkey_type, invalid_flags, &buf)))
-50a38ca1baace3 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-10-20   992  			ret = bch2_trans_commit_bkey_invalid(trans, invalid_flags, i, &buf);
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   993  		btree_insert_entry_checks(trans, i);
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   994  		printbuf_exit(&buf);
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   995  
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   996  		if (ret)
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   997  			return ret;
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   998  	}
-cc07773f158331 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-08-22   999  
-68eb0b85170f6a fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-26  1000  	if (unlikely(!test_bit(BCH_FS_may_go_rw, &c->flags))) {
-78c8fe20be12d0 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19  1001  		ret = do_bch2_trans_commit_to_journal_replay(trans);
-78c8fe20be12d0 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19  1002  		goto out_reset;
-78c8fe20be12d0 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19  1003  	}
-78c8fe20be12d0 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19  1004  
-1d7fa317a6f8d4 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-11  1005  	if (!(flags & BCH_TRANS_COMMIT_no_check_rw) &&
-d94189ad568f6c fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2023-02-09  1006  	    unlikely(!bch2_write_ref_tryget(c, BCH_WRITE_REF_trans))) {
-30ca6ece88f2d1 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2023-02-09  1007  		ret = bch2_trans_commit_get_rw_cold(trans, flags);
-06a98c966f9ae5 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19  1008  		if (ret)
-06a98c966f9ae5 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19  1009  			goto out_reset;
-06a98c966f9ae5 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19  1010  	}
-06a98c966f9ae5 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-02-19  1011  
-68eb0b85170f6a fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-26  1012  	EBUG_ON(test_bit(BCH_FS_clean_shutdown, &c->flags));
-c0960603e2d42d fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-04-17  1013  
-bcff915594c28c fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-12-10  1014  	trans->journal_u64s		= trans->journal_entries_u64s;
-fb64f3fdac7171 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-12-31  1015  	trans->journal_transaction_names = READ_ONCE(c->opts.journal_transaction_names);
-fb64f3fdac7171 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-12-31  1016  	if (trans->journal_transaction_names)
-43ddf4483491b3 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1017  		trans->journal_u64s += jset_u64s(JSET_ENTRY_LOG_U64s);
-fb64f3fdac7171 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-12-31  1018  
-24326cd12aa03e fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2019-12-31  1019  	trans_for_each_update(trans, i) {
-56288971a77fb1 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-12-10  1020  		struct btree_path *path = trans->paths + i->path;
-56288971a77fb1 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-12-10  1021  
-56288971a77fb1 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-12-10  1022  		EBUG_ON(!path->should_be_locked);
-9f631dc14325df fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-03-09  1023  
-56288971a77fb1 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-12-10  1024  		ret = bch2_btree_path_upgrade(trans, path, i->level + 1);
-367d72dd5fd5b9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-09-17  1025  		if (unlikely(ret))
-6333bd2f133459 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-02-20  1026  			goto out;
-6333bd2f133459 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-02-20  1027  
-56288971a77fb1 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-12-10  1028  		EBUG_ON(!btree_node_intent_locked(path, i->level));
-5c1d808ad8b806 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-03-31  1029  
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1030  		if (i->key_cache_already_flushed)
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1031  			continue;
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1032  
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1033  		if (i->flags & BTREE_UPDATE_NOJOURNAL)
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1034  			continue;
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1035  
-006ccc3090e2f3 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-04  1036  		/* we're going to journal the key being updated: */
-006ccc3090e2f3 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-04  1037  		trans->journal_u64s += jset_u64s(i->k->k.u64s);
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1038  
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1039  		/* and we're also going to log the overwrite: */
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1040  		if (trans->journal_transaction_names)
-cb685ce72cc7e9 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2022-06-05  1041  			trans->journal_u64s += jset_u64s(i->old_k.u64s);
-8b3bbe2c34759a fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2019-12-24  1042  	}
-a49e9a0589d182 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-06-12  1043  
-d6820de73ed5a2 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-12-11  1044  	if (trans->extra_disk_res) {
-fb64f3fdac7171 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-12-31  1045  		ret = bch2_disk_reservation_add(c, trans->disk_res,
-d6820de73ed5a2 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-12-11  1046  				trans->extra_disk_res,
-1d7fa317a6f8d4 fs/bcachefs/btree_trans_commit.c Kent Overstreet 2023-11-11  1047  				(flags & BCH_TRANS_COMMIT_no_enospc)
-a49e9a0589d182 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-06-12  1048  				? BCH_DISK_RESERVATION_NOFAIL : 0);
-a49e9a0589d182 fs/bcachefs/btree_update_leaf.c  Kent Overstreet 2021-06-12 @1049  		if (ret)
+22a9d645677feef Arjan van de Ven 2009-01-07   46  
+22a9d645677feef Arjan van de Ven 2009-01-07  @47  #include <linux/async.h>
+84c15027a7f2fbd Paul McQuade     2011-05-31   48  #include <linux/atomic.h>
+84c15027a7f2fbd Paul McQuade     2011-05-31   49  #include <linux/ktime.h>
+9984de1a5a8a962 Paul Gortmaker   2011-05-23   50  #include <linux/export.h>
+22a9d645677feef Arjan van de Ven 2009-01-07   51  #include <linux/wait.h>
+22a9d645677feef Arjan van de Ven 2009-01-07   52  #include <linux/sched.h>
+5a0e3ad6af8660b Tejun Heo        2010-03-24   53  #include <linux/slab.h>
+083b804c4d3e1e3 Tejun Heo        2010-07-02   54  #include <linux/workqueue.h>
+22a9d645677feef Arjan van de Ven 2009-01-07   55  
+84b233adcca3cac Tejun Heo        2013-01-18   56  #include "workqueue_internal.h"
+84b233adcca3cac Tejun Heo        2013-01-18   57  
+22a9d645677feef Arjan van de Ven 2009-01-07   58  static async_cookie_t next_cookie = 1;
+22a9d645677feef Arjan van de Ven 2009-01-07   59  
+22a9d645677feef Arjan van de Ven 2009-01-07   60  #define MAX_WORK		32768
+c68eee14ec2da34 Tejun Heo        2013-01-23   61  #define ASYNC_COOKIE_MAX	ULLONG_MAX	/* infinity cookie */
+22a9d645677feef Arjan van de Ven 2009-01-07   62  
+9fdb04cdc5566d6 Tejun Heo        2013-01-23   63  static LIST_HEAD(async_global_pending);	/* pending from all registered doms */
+8723d5037cafea0 Tejun Heo        2013-01-23   64  static ASYNC_DOMAIN(async_dfl_domain);
+22a9d645677feef Arjan van de Ven 2009-01-07   65  static DEFINE_SPINLOCK(async_lock);
+22a9d645677feef Arjan van de Ven 2009-01-07   66  
+22a9d645677feef Arjan van de Ven 2009-01-07   67  struct async_entry {
+9fdb04cdc5566d6 Tejun Heo        2013-01-23   68  	struct list_head	domain_list;
+9fdb04cdc5566d6 Tejun Heo        2013-01-23   69  	struct list_head	global_list;
+083b804c4d3e1e3 Tejun Heo        2010-07-02   70  	struct work_struct	work;
+22a9d645677feef Arjan van de Ven 2009-01-07   71  	async_cookie_t		cookie;
+362f2b098b188ed Lai Jiangshan    2013-03-12   72  	async_func_t		func;
+22a9d645677feef Arjan van de Ven 2009-01-07   73  	void			*data;
+8723d5037cafea0 Tejun Heo        2013-01-23   74  	struct async_domain	*domain;
+22a9d645677feef Arjan van de Ven 2009-01-07   75  };
+22a9d645677feef Arjan van de Ven 2009-01-07   76  
+22a9d645677feef Arjan van de Ven 2009-01-07   77  static DECLARE_WAIT_QUEUE_HEAD(async_done);
+22a9d645677feef Arjan van de Ven 2009-01-07   78  
+22a9d645677feef Arjan van de Ven 2009-01-07   79  static atomic_t entry_count;
+22a9d645677feef Arjan van de Ven 2009-01-07   80  
+07416af11dd85ca Rasmus Villemoes 2021-05-06   81  static long long microseconds_since(ktime_t start)
+07416af11dd85ca Rasmus Villemoes 2021-05-06   82  {
+07416af11dd85ca Rasmus Villemoes 2021-05-06   83  	ktime_t now = ktime_get();
+07416af11dd85ca Rasmus Villemoes 2021-05-06   84  	return ktime_to_ns(ktime_sub(now, start)) >> 10;
+07416af11dd85ca Rasmus Villemoes 2021-05-06   85  }
+07416af11dd85ca Rasmus Villemoes 2021-05-06   86  
+8723d5037cafea0 Tejun Heo        2013-01-23   87  static async_cookie_t lowest_in_progress(struct async_domain *domain)
+37a76bd4f1b7169 Arjan van de Ven 2009-01-11   88  {
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06   89  	struct async_entry *first = NULL;
+52722794d6a4816 Tejun Heo        2013-01-23   90  	async_cookie_t ret = ASYNC_COOKIE_MAX;
+37a76bd4f1b7169 Arjan van de Ven 2009-01-11   91  	unsigned long flags;
+37a76bd4f1b7169 Arjan van de Ven 2009-01-11   92  
+37a76bd4f1b7169 Arjan van de Ven 2009-01-11   93  	spin_lock_irqsave(&async_lock, flags);
+9fdb04cdc5566d6 Tejun Heo        2013-01-23   94  
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06   95  	if (domain) {
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06   96  		if (!list_empty(&domain->pending))
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06   97  			first = list_first_entry(&domain->pending,
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06   98  					struct async_entry, domain_list);
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06   99  	} else {
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06  100  		if (!list_empty(&async_global_pending))
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06  101  			first = list_first_entry(&async_global_pending,
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06  102  					struct async_entry, global_list);
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06  103  	}
+9fdb04cdc5566d6 Tejun Heo        2013-01-23  104  
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06  105  	if (first)
+4f7e988e63e3368 Rasmus Villemoes 2018-02-06  106  		ret = first->cookie;
+9fdb04cdc5566d6 Tejun Heo        2013-01-23  107  
+37a76bd4f1b7169 Arjan van de Ven 2009-01-11  108  	spin_unlock_irqrestore(&async_lock, flags);
+37a76bd4f1b7169 Arjan van de Ven 2009-01-11  109  	return ret;
+37a76bd4f1b7169 Arjan van de Ven 2009-01-11  110  }
+083b804c4d3e1e3 Tejun Heo        2010-07-02  111  
+22a9d645677feef Arjan van de Ven 2009-01-07  112  /*
+22a9d645677feef Arjan van de Ven 2009-01-07  113   * pick the first pending entry and run it
+22a9d645677feef Arjan van de Ven 2009-01-07  114   */
+083b804c4d3e1e3 Tejun Heo        2010-07-02  115  static void async_run_entry_fn(struct work_struct *work)
+22a9d645677feef Arjan van de Ven 2009-01-07  116  {
+083b804c4d3e1e3 Tejun Heo        2010-07-02  117  	struct async_entry *entry =
+083b804c4d3e1e3 Tejun Heo        2010-07-02  118  		container_of(work, struct async_entry, work);
+22a9d645677feef Arjan van de Ven 2009-01-07  119  	unsigned long flags;
+07416af11dd85ca Rasmus Villemoes 2021-05-06  120  	ktime_t calltime;
+22a9d645677feef Arjan van de Ven 2009-01-07  121  
+52722794d6a4816 Tejun Heo        2013-01-23  122  	/* 1) run (and print duration) */
+07416af11dd85ca Rasmus Villemoes 2021-05-06  123  	pr_debug("calling  %lli_%pS @ %i\n", (long long)entry->cookie,
+58763a297405024 Andrew Morton    2009-02-04 @124  		 entry->func, task_pid_nr(current));
+22a9d645677feef Arjan van de Ven 2009-01-07  125  	calltime = ktime_get();
+07416af11dd85ca Rasmus Villemoes 2021-05-06  126  
+22a9d645677feef Arjan van de Ven 2009-01-07  127  	entry->func(entry->data, entry->cookie);
+07416af11dd85ca Rasmus Villemoes 2021-05-06  128  
+8ba9d40b6b2bf62 Rasmus Villemoes 2021-05-06  129  	pr_debug("initcall %lli_%pS returned after %lld usecs\n",
+07416af11dd85ca Rasmus Villemoes 2021-05-06  130  		 (long long)entry->cookie, entry->func,
+07416af11dd85ca Rasmus Villemoes 2021-05-06  131  		 microseconds_since(calltime));
+22a9d645677feef Arjan van de Ven 2009-01-07  132  
+52722794d6a4816 Tejun Heo        2013-01-23  133  	/* 2) remove self from the pending queues */
+22a9d645677feef Arjan van de Ven 2009-01-07  134  	spin_lock_irqsave(&async_lock, flags);
+9fdb04cdc5566d6 Tejun Heo        2013-01-23  135  	list_del_init(&entry->domain_list);
+9fdb04cdc5566d6 Tejun Heo        2013-01-23  136  	list_del_init(&entry->global_list);
+22a9d645677feef Arjan van de Ven 2009-01-07  137  
+52722794d6a4816 Tejun Heo        2013-01-23  138  	/* 3) free the entry */
+22a9d645677feef Arjan van de Ven 2009-01-07  139  	kfree(entry);
+22a9d645677feef Arjan van de Ven 2009-01-07  140  	atomic_dec(&entry_count);
+22a9d645677feef Arjan van de Ven 2009-01-07  141  
+22a9d645677feef Arjan van de Ven 2009-01-07  142  	spin_unlock_irqrestore(&async_lock, flags);
+22a9d645677feef Arjan van de Ven 2009-01-07  143  
+52722794d6a4816 Tejun Heo        2013-01-23  144  	/* 4) wake up any waiters */
+22a9d645677feef Arjan van de Ven 2009-01-07  145  	wake_up(&async_done);
+22a9d645677feef Arjan van de Ven 2009-01-07  146  }
+22a9d645677feef Arjan van de Ven 2009-01-07  147  
 
-:::::: The code at line 1049 was first introduced by commit
-:::::: a49e9a0589d1828af787bacf0a1e18eca7facb88 bcachefs: Fix null ptr deref when splitting compressed extents
+:::::: The code at line 124 was first introduced by commit
+:::::: 58763a297405024d23d8f1d0bba3e6603660c4b6 kernel/async.c: fix printk warnings
 
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Andrew Morton <akpm@linux-foundation.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
