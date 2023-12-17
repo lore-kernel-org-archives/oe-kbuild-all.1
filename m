@@ -1,63 +1,56 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D073527C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 12:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9494336B03
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 12:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YIzOf4V1"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3365f1326e4so890620f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 04:13:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702815228; x=1703420028; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=JE7dOMH1nRocIYdSdGHxkcV4ltVmVneKSFcLQT234uE=;
-        b=YIzOf4V10VK2Q0MXSKOdxLSVvsYNOAkZ8GATW5dfKpUio5h/iXrl1qUODicPMnLM+U
-         yXJwoS2L8ip0Uegim8otnA6QAqQhm8ZHd14EbBLT/60pI1/SQnxCu1M7CYJ44j+iBOp2
-         bO2aewlKZhbRMaWa5b/P6Q7/J107Ue8a+6+sddmx3+8uTLuwPbB0Q3p70GMV2BYnk246
-         WlZ9f/gJjZS0b26gR6adfTnTli5abYR2CnEkagkDuIWPIODXIY9MtW9mPVht/XGt5rqP
-         JNBQ2IIORzybK9WQu3yG7d5yevM2zxObUs8EhlhQ5VOMNVIC9Wko5tDVBRyEmDyRaTE3
-         O1kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702815228; x=1703420028;
-        h=in-reply-to:content-disposition:mime-version:references:subject:cc
-         :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JE7dOMH1nRocIYdSdGHxkcV4ltVmVneKSFcLQT234uE=;
-        b=rmW7YQvBgwcqK11UJ9TGnZVgwG0NN2tLBuYsKlyM2v8XAPJq4z2kvpDr5Ed6m7w/ap
-         ctmFIGFVVeGpHgq4bk1ruZD+aD6hWQKCj5GsIHF+teDXsIw8s6HuNlsVl7LsJVGgibhJ
-         YpMNx6jg1RESdofiXWTdH8wfcoIPElcH7dL3o9iSiXrJ4IwUWTKhRZvA/xP87nhey3PF
-         lJ1tEZu3boKs+Oc98F4gvoCa5kJvpKK1qWxcjbKD37QC3ilZ7x8k74AKDYPX7DYBbywj
-         DI1egulz/5irh5M+vnl1/fj09s5ybz8FjjmstvC85u7N8iZv4D9uBRRN2MhveAP+Zed6
-         JU+g==
-X-Gm-Message-State: AOJu0Yw3ZVp72EOg1wd/2uYEM3PxjpcqCPYf0KEONM5G+QHk+k4citFW
-	GqoEOYyCKfUhjoa8i5LlH/Q=
-X-Google-Smtp-Source: AGHT+IEdbWMb886XiB+Q0uoh9ts9fkqR69ux7NW4Dy1aSAVyKaEw+WWmuwC6j6n3jhxkAszye6nNQw==
-X-Received: by 2002:a05:600c:2106:b0:40c:3270:ecb4 with SMTP id u6-20020a05600c210600b0040c3270ecb4mr6982773wml.181.1702815227847;
-        Sun, 17 Dec 2023 04:13:47 -0800 (PST)
-Received: from Ansuel-xps. (93-34-89-13.ip49.fastwebnet.it. [93.34.89.13])
-        by smtp.gmail.com with ESMTPSA id s13-20020a05600c384d00b004030e8ff964sm39747867wmr.34.2023.12.17.04.13.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 04:13:47 -0800 (PST)
-Message-ID: <657ee5fb.050a0220.37aa0.36a3@mx.google.com>
-X-Google-Original-Message-ID: <ZX7l-YA8gD_4SEqo@Ansuel-xps.>
-Date: Sun, 17 Dec 2023 13:13:45 +0100
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Li Zetao <lizetao1@huawei.com>, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] leds: trigger: netdev: display only supported
- link speed attribute
-References: <20231214122041.17439-1-ansuelsmth@gmail.com>
- <202312170606.NWH5SzQD-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GZqi8hk/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702815732; x=1734351732;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3VPDevcHr+8gDV3iqHESEh3dFF+a8DIUxapocq9Arvo=;
+  b=GZqi8hk/Rf3rOjNbQqviaQC5ectw1KP7/cXsPrILshg7Dowui7tpHDf7
+   yddX4jaQ/9TF4fwb633gH88Yb29CsKvCMrlqZyWsfE8EwdzSlHoU26qZv
+   ZTgWd+Gw0xZs6tXDttWAxbb+mYsHDTaSfEHMc2YVJyhYXgUrNq8kpT3u4
+   Wfxga0rIyL59bEqOKp1N25jQGk8hDP+WW3PK1voQnr4G7hyPWvivVdeRi
+   G05jLUd4knpbUuIazI4h3Tukzt22C17CxoripTjGNtkyGG3zbizswLRzQ
+   Fw4o653qpHn3wtR8GkaUCw++EJOYOJoKXSjAT8+bFkdPFiSmaABrVWO12
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="2239072"
+X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
+   d="scan'208";a="2239072"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 04:22:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="768539606"
+X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
+   d="scan'208";a="768539606"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 17 Dec 2023 04:22:08 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rEq9m-00031t-1a;
+	Sun, 17 Dec 2023 12:22:06 +0000
+Date: Sun, 17 Dec 2023 20:21:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniel Golle <daniel@makrotopia.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 1/7] dt-bindings: mtd: add basic bindings for UBI
+Message-ID: <202312172000.EiNsnuy9-lkp@intel.com>
+References: <a9c12b8cc183b103af421a4a350ae6ef1ec173c8.1702770711.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,79 +59,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202312170606.NWH5SzQD-lkp@intel.com>
+In-Reply-To: <a9c12b8cc183b103af421a4a350ae6ef1ec173c8.1702770711.git.daniel@makrotopia.org>
 
-On Sun, Dec 17, 2023 at 06:23:05AM +0800, kernel test robot wrote:
-> Hi Christian,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on lee-leds/for-leds-next]
-> [cannot apply to net-next/main net/main linus/master v6.7-rc5 next-20231215]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/docs-ABI-sysfs-class-led-trigger-netdev-Document-now-hidable-link_/20231214-202215
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-> patch link:    https://lore.kernel.org/r/20231214122041.17439-1-ansuelsmth%40gmail.com
-> patch subject: [PATCH v3 1/2] leds: trigger: netdev: display only supported link speed attribute
-> config: i386-randconfig-011-20231217 (https://download.01.org/0day-ci/archive/20231217/202312170606.NWH5SzQD-lkp@intel.com/config)
-> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312170606.NWH5SzQD-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312170606.NWH5SzQD-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    ld: drivers/leds/trigger/ledtrig-netdev.o: in function `get_device_state':
-> >> drivers/leds/trigger/ledtrig-netdev.c:230: undefined reference to `phy_speeds'
-> 
-> 
-> vim +230 drivers/leds/trigger/ledtrig-netdev.c
-> 
->    211	
->    212	static void get_device_state(struct led_netdev_data *trigger_data)
->    213	{
->    214		struct ethtool_link_ksettings cmd;
->    215		int speeds_num;
->    216	
->    217		trigger_data->carrier_link_up = netif_carrier_ok(trigger_data->net_dev);
->    218	
->    219		if (__ethtool_get_link_ksettings(trigger_data->net_dev, &cmd))
->    220			return;
->    221	
->    222		if (trigger_data->carrier_link_up) {
->    223			trigger_data->link_speed = cmd.base.speed;
->    224			trigger_data->duplex = cmd.base.duplex;
->    225		}
->    226	
->    227		/* Have a local copy of the link speed supported to not rtnl lock every time
->    228		 * Modes are refreshed on any change event to handle mode changes
->    229		 */
->  > 230		speeds_num = phy_speeds(trigger_data->supported_link_speeds,
->    231					ARRAY_SIZE(trigger_data->supported_link_speeds),
->    232					cmd.link_modes.supported);
->    233		trigger_data->supported_link_speeds_num = speeds_num;
->    234	}
->    235	
+Hi Daniel,
 
-Ugh didn't think that LEDs netdev trigger doesn't have a dependency on
-PHY...
+kernel test robot noticed the following build warnings:
 
-Andrew any idea about this?
+[auto build test WARNING on mtd/mtd/next]
+[also build test WARNING on mtd/mtd/fixes robh/for-next linus/master v6.7-rc5 next-20231215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I can see 2 solution (or maybe 3???):
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/dt-bindings-mtd-add-basic-bindings-for-UBI/20231217-081328
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git mtd/next
+patch link:    https://lore.kernel.org/r/a9c12b8cc183b103af421a4a350ae6ef1ec173c8.1702770711.git.daniel%40makrotopia.org
+patch subject: [PATCH v5 1/7] dt-bindings: mtd: add basic bindings for UBI
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231217/202312172000.EiNsnuy9-lkp@intel.com/reproduce)
 
-- Add the dependency for PHY
-- Move phy_speeds net_utils.c (with the settings table moved there)
-- Implement a custom function in ledtrig-netdev.c
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312172000.EiNsnuy9-lkp@intel.com/
 
-It's sad since the phy_speed was just what we needed to implement this
-ins a ""clean way"".
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/mtd/partitions/ubi-volume.yaml:18:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
+   Documentation/devicetree/bindings/mtd/partitions/ubi-volume.yaml:23:11: [error] string value is redundantly quoted with any quotes (quoted-strings)
+>> Documentation/devicetree/bindings/mtd/partitions/ubi-volume.yaml:29:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
+   Documentation/devicetree/bindings/mtd/partitions/ubi-volume.yaml:32:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
+
+vim +18 Documentation/devicetree/bindings/mtd/partitions/ubi-volume.yaml
+
+     8	
+     9	description: |
+    10	  This binding describes a single UBI volume. Volumes can be matches either
+    11	  by their ID or their name, or both.
+    12	
+    13	maintainers:
+    14	  - Daniel Golle <daniel@makrotopia.org>
+    15	
+    16	properties:
+    17	  volid:
+  > 18	    $ref: "/schemas/types.yaml#/definitions/uint32"
+    19	    description:
+    20	      Match UBI volume ID
+    21	
+    22	  volname:
+    23	    $ref: "/schemas/types.yaml#/definitions/string"
+    24	    description:
+    25	      Match UBI volume ID
+    26	
+    27	anyOf:
+    28	  - required:
+  > 29	    - volid
+    30	
+    31	  - required:
+    32	    - volname
+    33	
 
 -- 
-	Ansuel
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
