@@ -1,46 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF7B1105
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 04:03:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314CA136F;
+	Sun, 17 Dec 2023 04:03:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W63s8Eje"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ffpa0knK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702785803; x=1734321803;
+  t=1702785802; x=1734321802;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oaSVt/K2KuS23jnKVt2xZCfLpUTrvDBpxzHCM4QrYUw=;
-  b=W63s8EjeswmIOQ4TUcWiNFpD/7esTdNOC8XkgKnzo4JX1RDWdiiMfrgS
-   juTaGnug0Grmwe8/U5dQzDpXqZUlXyjJoj9HMojf0e3hyhK/6qrd2GsSB
-   eVtG8EBWsztScZkcln+sAKfr9mnI4gILyHIzk8nhb3nENrHidKe0hZ/qC
-   MKhPC0McqPcXC1ElbShCRos/9Tu7Uz5r2QCRFOU2cg56EnY6+gCz5ucFF
-   dMO7R+kLQFzrouU94llMdyi91VCkaF7Ugse5MKYmWai3Wpldl0rFaA1OK
-   NPorHRjdvWz5jFVKuuGml4p0krYmJ6VDjyrkhm/Zgfoj4haS76v3OduKC
+  bh=KleY8wcvjQfwuNOvImxZdQS1g8CX6C1IKValkiUrspA=;
+  b=Ffpa0knK2zd7cxCDemIV064xTg46yHKjBDne+nRvM5aLgPCG28jBLDbd
+   6Q07N8Q4usRGMJtjg8RhwErDEtkdtimZww/015y8hVLKDWhyW9/kS+jCC
+   R0OZzJtwJt2Dio2IZClNvWJjgNtkDSyK+Z6PMOV+7dFL+KJf5oghop2oC
+   RSV+RD4SvZKNxBFfHd3dO91TeAczlyrD4jMIXMf8fq3bvpe/H4Ml13V78
+   Y1+6L9PaU/I6/jKgUTFljbAy7rO49mdZsxWNj1ikJmAa/xCxPsr8wufBX
+   gYFWB7CTHwCMlnFZAeYlh2oKyFT6FbcAbKKRj7siTbkfn+qL1t/Lmds9U
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="375551371"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="2488746"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="375551371"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 20:03:20 -0800
+   d="scan'208";a="2488746"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 20:03:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="768443175"
+X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="809413340"
 X-IronPort-AV: E=Sophos;i="6.04,282,1695711600"; 
-   d="scan'208";a="768443175"
+   d="scan'208";a="809413340"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 16 Dec 2023 20:03:18 -0800
+  by orsmga001.jf.intel.com with ESMTP; 16 Dec 2023 20:03:18 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEiN2-0002c7-0L;
+	id 1rEiN2-0002bw-03;
 	Sun, 17 Dec 2023 04:03:16 +0000
-Date: Sun, 17 Dec 2023 12:02:32 +0800
+Date: Sun, 17 Dec 2023 12:02:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: htmldocs: ./include/crypto/hash.h:245: warning: Excess struct member
- 'digestsize' description in 'shash_alg'
-Message-ID: <202312171213.bGRwBUze-lkp@intel.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kmo@daterainc.com>
+Subject: [bcachefs:bcachefs-testing 154/159]
+ fs/bcachefs/btree_update_interior.c:1670: warning: Function parameter or
+ member 'path_idx' not described in 'bch2_btree_insert_node'
+Message-ID: <202312171113.xgsVo3VD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,232 +52,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b8a9b2e6809d281890dd0a1102dc14d2cd11caf
-commit: 42808e5dc602c12ef3eb42cf96cb416b55205fa4 crypto: hash - Count error stats differently
-date:   9 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20231217/202312171213.bGRwBUze-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   0b69c68c172b67a3d07a7c1cc9c87d158af98827
+commit: d85fddfb75eb24146c01c54a313f57635d0c0f48 [154/159] bcachefs: Fix interior update path btree_path uses
+config: i386-buildonly-randconfig-003-20231217 (https://download.01.org/0day-ci/archive/20231217/202312171113.xgsVo3VD-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312171113.xgsVo3VD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312171213.bGRwBUze-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312171113.xgsVo3VD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> ./include/crypto/hash.h:245: warning: Excess struct member 'digestsize' description in 'shash_alg'
->> ./include/crypto/hash.h:245: warning: Excess struct member 'statesize' description in 'shash_alg'
->> ./include/crypto/hash.h:245: warning: Excess struct member 'stat' description in 'shash_alg'
->> ./include/crypto/hash.h:245: warning: Excess struct member 'base' description in 'shash_alg'
+>> fs/bcachefs/btree_update_interior.c:1670: warning: Function parameter or member 'path_idx' not described in 'bch2_btree_insert_node'
+>> fs/bcachefs/btree_update_interior.c:1670: warning: Excess function parameter 'path' description in 'bch2_btree_insert_node'
 
-vim +245 ./include/crypto/hash.h
 
-    43	
-    44	/**
-    45	 * struct hash_alg_common - define properties of message digest
-    46	 * @stat: Statistics for hash algorithm.
-    47	 * @digestsize: Size of the result of the transformation. A buffer of this size
-    48	 *	        must be available to the @final and @finup calls, so they can
-    49	 *	        store the resulting hash into it. For various predefined sizes,
-    50	 *	        search include/crypto/ using
-    51	 *	        git grep _DIGEST_SIZE include/crypto.
-    52	 * @statesize: Size of the block for partial state of the transformation. A
-    53	 *	       buffer of this size must be passed to the @export function as it
-    54	 *	       will save the partial state of the transformation into it. On the
-    55	 *	       other side, the @import function will load the state from a
-    56	 *	       buffer of this size as well.
-    57	 * @base: Start of data structure of cipher algorithm. The common data
-    58	 *	  structure of crypto_alg contains information common to all ciphers.
-    59	 *	  The hash_alg_common data structure now adds the hash-specific
-    60	 *	  information.
-    61	 */
-    62	#define HASH_ALG_COMMON {		\
-    63		HASH_ALG_COMMON_STAT		\
-    64						\
-    65		unsigned int digestsize;	\
-    66		unsigned int statesize;		\
-    67						\
-    68		struct crypto_alg base;		\
-  > 69	}
-    70	struct hash_alg_common HASH_ALG_COMMON;
-    71	
-    72	struct ahash_request {
-    73		struct crypto_async_request base;
-    74	
-    75		unsigned int nbytes;
-    76		struct scatterlist *src;
-    77		u8 *result;
-    78	
-    79		/* This field may only be used by the ahash API code. */
-    80		void *priv;
-    81	
-    82		void *__ctx[] CRYPTO_MINALIGN_ATTR;
-    83	};
-    84	
-    85	/**
-    86	 * struct ahash_alg - asynchronous message digest definition
-    87	 * @init: **[mandatory]** Initialize the transformation context. Intended only to initialize the
-    88	 *	  state of the HASH transformation at the beginning. This shall fill in
-    89	 *	  the internal structures used during the entire duration of the whole
-    90	 *	  transformation. No data processing happens at this point. Driver code
-    91	 *	  implementation must not use req->result.
-    92	 * @update: **[mandatory]** Push a chunk of data into the driver for transformation. This
-    93	 *	   function actually pushes blocks of data from upper layers into the
-    94	 *	   driver, which then passes those to the hardware as seen fit. This
-    95	 *	   function must not finalize the HASH transformation by calculating the
-    96	 *	   final message digest as this only adds more data into the
-    97	 *	   transformation. This function shall not modify the transformation
-    98	 *	   context, as this function may be called in parallel with the same
-    99	 *	   transformation object. Data processing can happen synchronously
-   100	 *	   [SHASH] or asynchronously [AHASH] at this point. Driver must not use
-   101	 *	   req->result.
-   102	 * @final: **[mandatory]** Retrieve result from the driver. This function finalizes the
-   103	 *	   transformation and retrieves the resulting hash from the driver and
-   104	 *	   pushes it back to upper layers. No data processing happens at this
-   105	 *	   point unless hardware requires it to finish the transformation
-   106	 *	   (then the data buffered by the device driver is processed).
-   107	 * @finup: **[optional]** Combination of @update and @final. This function is effectively a
-   108	 *	   combination of @update and @final calls issued in sequence. As some
-   109	 *	   hardware cannot do @update and @final separately, this callback was
-   110	 *	   added to allow such hardware to be used at least by IPsec. Data
-   111	 *	   processing can happen synchronously [SHASH] or asynchronously [AHASH]
-   112	 *	   at this point.
-   113	 * @digest: Combination of @init and @update and @final. This function
-   114	 *	    effectively behaves as the entire chain of operations, @init,
-   115	 *	    @update and @final issued in sequence. Just like @finup, this was
-   116	 *	    added for hardware which cannot do even the @finup, but can only do
-   117	 *	    the whole transformation in one run. Data processing can happen
-   118	 *	    synchronously [SHASH] or asynchronously [AHASH] at this point.
-   119	 * @setkey: Set optional key used by the hashing algorithm. Intended to push
-   120	 *	    optional key used by the hashing algorithm from upper layers into
-   121	 *	    the driver. This function can store the key in the transformation
-   122	 *	    context or can outright program it into the hardware. In the former
-   123	 *	    case, one must be careful to program the key into the hardware at
-   124	 *	    appropriate time and one must be careful that .setkey() can be
-   125	 *	    called multiple times during the existence of the transformation
-   126	 *	    object. Not  all hashing algorithms do implement this function as it
-   127	 *	    is only needed for keyed message digests. SHAx/MDx/CRCx do NOT
-   128	 *	    implement this function. HMAC(MDx)/HMAC(SHAx)/CMAC(AES) do implement
-   129	 *	    this function. This function must be called before any other of the
-   130	 *	    @init, @update, @final, @finup, @digest is called. No data
-   131	 *	    processing happens at this point.
-   132	 * @export: Export partial state of the transformation. This function dumps the
-   133	 *	    entire state of the ongoing transformation into a provided block of
-   134	 *	    data so it can be @import 'ed back later on. This is useful in case
-   135	 *	    you want to save partial result of the transformation after
-   136	 *	    processing certain amount of data and reload this partial result
-   137	 *	    multiple times later on for multiple re-use. No data processing
-   138	 *	    happens at this point. Driver must not use req->result.
-   139	 * @import: Import partial state of the transformation. This function loads the
-   140	 *	    entire state of the ongoing transformation from a provided block of
-   141	 *	    data so the transformation can continue from this point onward. No
-   142	 *	    data processing happens at this point. Driver must not use
-   143	 *	    req->result.
-   144	 * @init_tfm: Initialize the cryptographic transformation object.
-   145	 *	      This function is called only once at the instantiation
-   146	 *	      time, right after the transformation context was
-   147	 *	      allocated. In case the cryptographic hardware has
-   148	 *	      some special requirements which need to be handled
-   149	 *	      by software, this function shall check for the precise
-   150	 *	      requirement of the transformation and put any software
-   151	 *	      fallbacks in place.
-   152	 * @exit_tfm: Deinitialize the cryptographic transformation object.
-   153	 *	      This is a counterpart to @init_tfm, used to remove
-   154	 *	      various changes set in @init_tfm.
-   155	 * @halg: see struct hash_alg_common
-   156	 */
-   157	struct ahash_alg {
-   158		int (*init)(struct ahash_request *req);
-   159		int (*update)(struct ahash_request *req);
-   160		int (*final)(struct ahash_request *req);
-   161		int (*finup)(struct ahash_request *req);
-   162		int (*digest)(struct ahash_request *req);
-   163		int (*export)(struct ahash_request *req, void *out);
-   164		int (*import)(struct ahash_request *req, const void *in);
-   165		int (*setkey)(struct crypto_ahash *tfm, const u8 *key,
-   166			      unsigned int keylen);
-   167		int (*init_tfm)(struct crypto_ahash *tfm);
-   168		void (*exit_tfm)(struct crypto_ahash *tfm);
-   169	
-   170		struct hash_alg_common halg;
-   171	};
-   172	
-   173	struct shash_desc {
-   174		struct crypto_shash *tfm;
-   175		void *__ctx[] __aligned(ARCH_SLAB_MINALIGN);
-   176	};
-   177	
-   178	#define HASH_MAX_DIGESTSIZE	 64
-   179	
-   180	/*
-   181	 * Worst case is hmac(sha3-224-generic).  Its context is a nested 'shash_desc'
-   182	 * containing a 'struct sha3_state'.
-   183	 */
-   184	#define HASH_MAX_DESCSIZE	(sizeof(struct shash_desc) + 360)
-   185	
-   186	#define HASH_MAX_STATESIZE	512
-   187	
-   188	#define SHASH_DESC_ON_STACK(shash, ctx)					     \
-   189		char __##shash##_desc[sizeof(struct shash_desc) + HASH_MAX_DESCSIZE] \
-   190			__aligned(__alignof__(struct shash_desc));		     \
-   191		struct shash_desc *shash = (struct shash_desc *)__##shash##_desc
-   192	
-   193	/**
-   194	 * struct shash_alg - synchronous message digest definition
-   195	 * @init: see struct ahash_alg
-   196	 * @update: see struct ahash_alg
-   197	 * @final: see struct ahash_alg
-   198	 * @finup: see struct ahash_alg
-   199	 * @digest: see struct ahash_alg
-   200	 * @export: see struct ahash_alg
-   201	 * @import: see struct ahash_alg
-   202	 * @setkey: see struct ahash_alg
-   203	 * @init_tfm: Initialize the cryptographic transformation object.
-   204	 *	      This function is called only once at the instantiation
-   205	 *	      time, right after the transformation context was
-   206	 *	      allocated. In case the cryptographic hardware has
-   207	 *	      some special requirements which need to be handled
-   208	 *	      by software, this function shall check for the precise
-   209	 *	      requirement of the transformation and put any software
-   210	 *	      fallbacks in place.
-   211	 * @exit_tfm: Deinitialize the cryptographic transformation object.
-   212	 *	      This is a counterpart to @init_tfm, used to remove
-   213	 *	      various changes set in @init_tfm.
-   214	 * @digestsize: see struct ahash_alg
-   215	 * @statesize: see struct ahash_alg
-   216	 * @descsize: Size of the operational state for the message digest. This state
-   217	 * 	      size is the memory size that needs to be allocated for
-   218	 *	      shash_desc.__ctx
-   219	 * @stat: Statistics for hash algorithm.
-   220	 * @base: internally used
-   221	 * @halg: see struct hash_alg_common
-   222	 */
-   223	struct shash_alg {
-   224		int (*init)(struct shash_desc *desc);
-   225		int (*update)(struct shash_desc *desc, const u8 *data,
-   226			      unsigned int len);
-   227		int (*final)(struct shash_desc *desc, u8 *out);
-   228		int (*finup)(struct shash_desc *desc, const u8 *data,
-   229			     unsigned int len, u8 *out);
-   230		int (*digest)(struct shash_desc *desc, const u8 *data,
-   231			      unsigned int len, u8 *out);
-   232		int (*export)(struct shash_desc *desc, void *out);
-   233		int (*import)(struct shash_desc *desc, const void *in);
-   234		int (*setkey)(struct crypto_shash *tfm, const u8 *key,
-   235			      unsigned int keylen);
-   236		int (*init_tfm)(struct crypto_shash *tfm);
-   237		void (*exit_tfm)(struct crypto_shash *tfm);
-   238	
-   239		unsigned int descsize;
-   240	
-   241		union {
-   242			struct HASH_ALG_COMMON;
-   243			struct hash_alg_common halg;
-   244		};
- > 245	};
-   246	#undef HASH_ALG_COMMON
-   247	#undef HASH_ALG_COMMON_STAT
-   248	
+vim +1670 fs/bcachefs/btree_update_interior.c
+
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1650  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1651  /**
+96dea3d599dbc3 Kent Overstreet 2023-09-12  1652   * bch2_btree_insert_node - insert bkeys into a given btree node
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1653   *
+96dea3d599dbc3 Kent Overstreet 2023-09-12  1654   * @as:			btree_update object
+96dea3d599dbc3 Kent Overstreet 2023-09-12  1655   * @trans:		btree_trans object
+96dea3d599dbc3 Kent Overstreet 2023-09-12  1656   * @path:		path that points to current node
+96dea3d599dbc3 Kent Overstreet 2023-09-12  1657   * @b:			node to insert keys into
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1658   * @keys:		list of keys to insert
+96dea3d599dbc3 Kent Overstreet 2023-09-12  1659   * @flags:		transaction commit flags
+96dea3d599dbc3 Kent Overstreet 2023-09-12  1660   *
+96dea3d599dbc3 Kent Overstreet 2023-09-12  1661   * Returns: 0 on success, typically transaction restart error on failure
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1662   *
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1663   * Inserts as many keys as it can into a given btree node, splitting it if full.
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1664   * If a split occurred, this function will return early. This can only happen
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1665   * for leaf nodes -- inserts into interior nodes have to be atomic.
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1666   */
+a8eefbd324cd40 Kent Overstreet 2022-10-01  1667  static int bch2_btree_insert_node(struct btree_update *as, struct btree_trans *trans,
+d85fddfb75eb24 Kent Overstreet 2023-12-15  1668  				  btree_path_idx_t path_idx, struct btree *b,
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  1669  				  struct keylist *keys, unsigned flags)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16 @1670  {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1671  	struct bch_fs *c = as->c;
+d85fddfb75eb24 Kent Overstreet 2023-12-15  1672  	struct btree_path *path = trans->paths + path_idx;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1673  	int old_u64s = le16_to_cpu(btree_bset_last(b)->u64s);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1674  	int old_live_u64s = b->nr.live_u64s;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1675  	int live_u64s_added, u64s_added;
+1ff7849f3b2478 Kent Overstreet 2022-10-09  1676  	int ret;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1677  
+e264b2f62a8fdf Kent Overstreet 2021-03-31  1678  	lockdep_assert_held(&c->gc_lock);
+1f0f731ffef13b Kent Overstreet 2022-09-27  1679  	BUG_ON(!btree_node_intent_locked(path, b->c.level));
+c43a6ef9a0747e Kent Overstreet 2020-06-06  1680  	BUG_ON(!b->c.level);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1681  	BUG_ON(!as || as->b);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1682  	bch2_verify_keylist_sorted(keys);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1683  
+1ff7849f3b2478 Kent Overstreet 2022-10-09  1684  	ret = bch2_btree_node_lock_write(trans, path, &b->c);
+1ff7849f3b2478 Kent Overstreet 2022-10-09  1685  	if (ret)
+1ff7849f3b2478 Kent Overstreet 2022-10-09  1686  		return ret;
+1ff7849f3b2478 Kent Overstreet 2022-10-09  1687  
+1ff7849f3b2478 Kent Overstreet 2022-10-09  1688  	bch2_btree_node_prep_for_write(trans, path, b);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1689  
+00b8ccf7074fdd Kent Overstreet 2020-05-25  1690  	if (!bch2_btree_node_insert_fits(c, b, bch2_keylist_u64s(keys))) {
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  1691  		bch2_btree_node_unlock_write(trans, path, b);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1692  		goto split;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1693  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1694  
+1c74cec10cc8db Kent Overstreet 2020-11-16  1695  	btree_node_interior_verify(c, b);
+1c74cec10cc8db Kent Overstreet 2020-11-16  1696  
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  1697  	bch2_btree_insert_keys_interior(as, trans, path, b, keys);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1698  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1699  	live_u64s_added = (int) b->nr.live_u64s - old_live_u64s;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1700  	u64s_added = (int) le16_to_cpu(btree_bset_last(b)->u64s) - old_u64s;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1701  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1702  	if (b->sib_u64s[0] != U16_MAX && live_u64s_added < 0)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1703  		b->sib_u64s[0] = max(0, (int) b->sib_u64s[0] + live_u64s_added);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1704  	if (b->sib_u64s[1] != U16_MAX && live_u64s_added < 0)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1705  		b->sib_u64s[1] = max(0, (int) b->sib_u64s[1] + live_u64s_added);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1706  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1707  	if (u64s_added > live_u64s_added &&
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1708  	    bch2_maybe_compact_whiteouts(c, b))
+f7a966a3e2546a Kent Overstreet 2021-08-30  1709  		bch2_trans_node_reinit_iter(trans, b);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1710  
+67e0dd8f0d8b4b Kent Overstreet 2021-08-30  1711  	bch2_btree_node_unlock_write(trans, path, b);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1712  
+a2b5313a39dfb0 Kent Overstreet 2020-07-21  1713  	btree_node_interior_verify(c, b);
+a8eefbd324cd40 Kent Overstreet 2022-10-01  1714  	return 0;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1715  split:
+1f0f731ffef13b Kent Overstreet 2022-09-27  1716  	/*
+1f0f731ffef13b Kent Overstreet 2022-09-27  1717  	 * We could attempt to avoid the transaction restart, by calling
+1f0f731ffef13b Kent Overstreet 2022-09-27  1718  	 * bch2_btree_path_upgrade() and allocating more nodes:
+1f0f731ffef13b Kent Overstreet 2022-09-27  1719  	 */
+e151580d3072e7 Kent Overstreet 2023-02-20  1720  	if (b->c.level >= as->update_level) {
+3d86f13df67b55 Kent Overstreet 2023-03-30  1721  		trace_and_count(c, trans_restart_split_race, trans, _THIS_IP_, b);
+1f0f731ffef13b Kent Overstreet 2022-09-27  1722  		return btree_trans_restart(trans, BCH_ERR_transaction_restart_split_race);
+e151580d3072e7 Kent Overstreet 2023-02-20  1723  	}
+1f0f731ffef13b Kent Overstreet 2022-09-27  1724  
+d85fddfb75eb24 Kent Overstreet 2023-12-15  1725  	return btree_split(as, trans, path_idx, b, keys, flags);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1726  }
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1727  
+
+:::::: The code at line 1670 was first introduced by commit
+:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
+
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
