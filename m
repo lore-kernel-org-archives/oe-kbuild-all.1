@@ -1,47 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E47744381
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 13:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1903244383
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 14:29:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WSN7Lr1g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqEq+xQS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702820901; x=1734356901;
+  t=1702823361; x=1734359361;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3bmy019Ze3o0nhRb7RQ/W5So8i0WEX5x0CPBGipLuM8=;
-  b=WSN7Lr1giU/JVw/uOJJOvnw3dHgTXNpVkxaYFzuShI+mtOSEDMCnF+53
-   rCPyYhz90BOE1LghzRTM5Rv2XrE28sOZEZ4sHCUJVJWfm6qQPsLGkztYZ
-   tK7zxkwGpCEds+BK6As/CE+XI89i19dxBvlGlm4qYkkOEFeB/xK9D/A4l
-   eHwU2UciBc7p27J4zPGznpgVESioQP4bbEvcRyk+Mif6n39gIwPvBwbMC
-   SeGK6oxcuK6iEVrbKviKfdBAB0IwcHF8uQA4XC8Ara1wA1nSVJ3/LmzLt
-   pcQ73KsKZ5NdnqSeT9JslvAXFx2mXEX5VPW+04B4921kMae35KQfEd5q9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10926"; a="380408272"
+  bh=O1BpaceVAPlX+jookRHI+1aoxcI08Ps3Vvsedxpjvmk=;
+  b=IqEq+xQSYIR81AQ1n2m9vfIQb5tZdg5EZ/axbFEzBLERKUuhGkBYuzFd
+   RUZGOMG88QFqJO0/v9hxIsdLFKVNhsa0jK2qTWiNaUwV1zwiC77oA3DoR
+   0G1rSC7NX9YN4JadoIu0uv43myng7nu4cNbrs57hIuBvGielCQjkEYX1g
+   UIWXz/KawwTIL1+AKPIK4OjIJNgRFG0a86a9j8wZKdlMbr7bP19gpMzVd
+   Z6hjSE8F3woY5uN0WpaIsOknN0CBNAotWlFayDZNafwkTnpN4np9wNQdE
+   +kfz70MZnLk0r1qz8/N8gIIEG8vzGwGXCs8oJ5c2levZ/G8HK0faoy1mF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2509311"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="380408272"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 05:48:20 -0800
+   d="scan'208";a="2509311"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 06:29:20 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="898682828"
 X-IronPort-AV: E=Sophos;i="6.04,283,1695711600"; 
-   d="scan'208";a="16869810"
+   d="scan'208";a="898682828"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 17 Dec 2023 05:48:20 -0800
+  by orsmga004.jf.intel.com with ESMTP; 17 Dec 2023 06:29:19 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rErVA-00035E-1f;
-	Sun, 17 Dec 2023 13:48:16 +0000
-Date: Sun, 17 Dec 2023 21:47:21 +0800
+	id 1rEs8r-00036q-1C;
+	Sun, 17 Dec 2023 14:29:17 +0000
+Date: Sun, 17 Dec 2023 22:29:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	Vineet Gupta <vgupta@synopsys.com>
-Subject: arch/arc/plat-hsdk/platform.c:16:5: sparse: sparse: symbol
- 'arc_hsdk_axi_dmac_coherent' was not declared. Should it be static?
-Message-ID: <202312172140.FvgljCBk-lkp@intel.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>
+Subject: [bcachefs:header_cleanup 15/50] include/linux/numa.h:39:26: error:
+ expected '=', ',', ';', 'asm' or '__attribute__' before 'numa_fill_memblks'
+Message-ID: <202312172202.Xcu1kjga-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,29 +50,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3b8a9b2e6809d281890dd0a1102dc14d2cd11caf
-commit: ce0eff0d9b4d37702df48a39e3fddb5e39b2c25b ARC: [plat-hsdk]: allow to switch between AXI DMAC port configurations
-date:   4 years, 4 months ago
-config: arc-randconfig-r111-20231107 (https://download.01.org/0day-ci/archive/20231217/202312172140.FvgljCBk-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231217/202312172140.FvgljCBk-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git header_cleanup
+head:   7288b19e061b7aa3f46f685e9944af128f10ffd5
+commit: c9154c8d53b5536fb1240020a8e55565d3d169eb [15/50] kernel/numa.c: Move logging out of numa.h
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20231217/202312172202.Xcu1kjga-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312172202.Xcu1kjga-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312172140.FvgljCBk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312172202.Xcu1kjga-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arc/plat-hsdk/platform.c:16:5: sparse: sparse: symbol 'arc_hsdk_axi_dmac_coherent' was not declared. Should it be static?
-   arch/arc/plat-hsdk/platform.c:27:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
-   arch/arc/plat-hsdk/platform.c:34:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
+All errors (new ones prefixed by >>):
 
-vim +/arc_hsdk_axi_dmac_coherent +16 arch/arc/plat-hsdk/platform.c
+   In file included from include/linux/async.h:13,
+                    from kernel/async.c:47:
+>> include/linux/numa.h:39:26: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'numa_fill_memblks'
+      39 | static inline int __init numa_fill_memblks(u64 start, u64 end)
+         |                          ^~~~~~~~~~~~~~~~~
 
-    15	
-  > 16	int arc_hsdk_axi_dmac_coherent __section(.data) = 0;
-    17	
+
+vim +39 include/linux/numa.h
+
+c9154c8d53b553 Kent Overstreet  2023-12-11  37  
+8f012db27c9516 Alison Schofield 2023-07-10  38  #ifndef numa_fill_memblks
+8f012db27c9516 Alison Schofield 2023-07-10 @39  static inline int __init numa_fill_memblks(u64 start, u64 end)
+8f012db27c9516 Alison Schofield 2023-07-10  40  {
+8f012db27c9516 Alison Schofield 2023-07-10  41  	return NUMA_NO_MEMBLK;
+8f012db27c9516 Alison Schofield 2023-07-10  42  }
+8f012db27c9516 Alison Schofield 2023-07-10  43  #endif
+c9154c8d53b553 Kent Overstreet  2023-12-11  44  
+
+:::::: The code at line 39 was first introduced by commit
+:::::: 8f012db27c9516be1a7aca93ea4a6ca9c75056c9 x86/numa: Introduce numa_fill_memblks()
+
+:::::: TO: Alison Schofield <alison.schofield@intel.com>
+:::::: CC: Dave Hansen <dave.hansen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
