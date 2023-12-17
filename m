@@ -1,47 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78D449F77;
-	Sun, 17 Dec 2023 22:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522214B122
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 22:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krtpe8Wz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPl83pTj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702851327; x=1734387327;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rGWK7ItDJxsI4BB2PRCv0zBMBcaUdcWa0pmP2pytiGA=;
-  b=krtpe8WzLTBX10cHYhMmZZ+CjBYbEgcIMeO8OKRRfL6LWbYpEJsR7KdM
-   insUB4kvCPDNFRg5CadWPlWCZB5Oz3rM6gXMnO6MxLjiTe69q8UE4GXr8
-   2Gv+x3TXOvjXybzKWn20MZf4lYAYrboin9fP37NTLdPneYZDYvpfVE966
-   ggg5kQBuduGYdWSlqINFAMJKrk840l/msvPY844LhfM5w4oPRwVngDTgU
-   pK/xxR1nffAxAwE8hUIQ0Ej+XcNn3OrjR/6pytQja/XIf2kTyB9yEx/hW
-   tjEiuUNGCdei7gcFcVC/eJl6zW6E4yvW1cWFuGVARsMW3/M4WeicQcIuF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="16989765"
+  t=1702853279; x=1734389279;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dDK21WhxmK46apj+aDS2uGaxysiciuckJMISoafo2u8=;
+  b=nPl83pTj4R87fi1YdnGEF2XvtNKOWjXrtD2zZDorNUUDdt1SHL79gbIX
+   rpq4DkBRGfKqgoAWq5lOQnxafPaxUbkbiz2Bj7z2mIIbJ7hOxKJDnLOdh
+   OYbuIWlN/ogwY/Q2OslIi4V8GVaYXV7LN0b3gqJl3WhvBn3z/n815piLg
+   RD5wWQ5KSE7CpmDRucm9AAi3S6moqvjCvKapXCUMgR0joS0zJo8NTJw9d
+   wGd/vKx0bFCA7ORFRKBHAzOWnpaKJP4yZOuuGmWM1ylGwc6iE9aQCdUS7
+   i45KGtwiktuUCaUGuiWBRpHP0Bw5cFvIH5lr+8n8P8usltemhxPYKNwpy
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="8792007"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="16989765"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 14:15:23 -0800
+   d="scan'208";a="8792007"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 14:47:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="841274076"
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="1022558489"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="841274076"
+   d="scan'208";a="1022558489"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Dec 2023 14:15:22 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 17 Dec 2023 14:47:54 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rEzPs-0003TA-0F;
-	Sun, 17 Dec 2023 22:15:20 +0000
-Date: Mon, 18 Dec 2023 06:14:36 +0800
+	id 1rEzvL-0003UK-2j;
+	Sun, 17 Dec 2023 22:47:51 +0000
+Date: Mon, 18 Dec 2023 06:47:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kmo@daterainc.com>
-Subject: [bcachefs:header_cleanup 32/50] include/linux/spinlock_up.h:62:9:
- warning: 'arch_spin_is_locked' macro redefined
-Message-ID: <202312180626.rQyO4MTA-lkp@intel.com>
+To: Jingbao Qiu <qiujingbao.dlmu@gmail.com>, a.zummo@towertech.it,
+	alexandre.belloni@bootlin.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor@kernel.org,
+	conor+dt@kernel.org, chao.wei@sophgo.com, unicorn_wang@outlook.com,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu
+Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dlan@gentoo.org, Jingbao Qiu <qiujingbao.dlmu@gmail.com>
+Subject: Re: [PATCH v2 2/3] rtc: sophgo: add rtc support for Sophgo CV1800 SoC
+Message-ID: <202312180655.uM6zOZlv-lkp@intel.com>
+References: <20231217110952.78784-3-qiujingbao.dlmu@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,202 +56,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231217110952.78784-3-qiujingbao.dlmu@gmail.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git header_cleanup
-head:   7288b19e061b7aa3f46f685e9944af128f10ffd5
-commit: 631d67d0997ba8606f0d3702de9d986a95429bfe [32/50] ipc: Kill bogus dependency on spinlock.h
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20231218/202312180626.rQyO4MTA-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project a418be96de7872f6058207c695ef4698cb1dbb93)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180626.rQyO4MTA-lkp@intel.com/reproduce)
+Hi Jingbao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on robh/for-next linus/master v6.7-rc5 next-20231215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jingbao-Qiu/dt-bindings-rtc-sophgo-add-RTC-support-for-Sophgo-CV1800-series-SoC/20231217-191123
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20231217110952.78784-3-qiujingbao.dlmu%40gmail.com
+patch subject: [PATCH v2 2/3] rtc: sophgo: add rtc support for Sophgo CV1800 SoC
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20231218/202312180655.uM6zOZlv-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180655.uM6zOZlv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312180626.rQyO4MTA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312180655.uM6zOZlv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:3:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:27:
-   In file included from arch/x86/include/asm/qspinlock.h:7:
-   include/asm-generic/qspinlock_types.h:44:3: error: typedef redefinition with different types ('struct qspinlock' vs 'struct arch_spinlock_t')
-      44 | } arch_spinlock_t;
-         |   ^
-   include/linux/spinlock_types_up.h:25:20: note: previous definition is here
-      25 | typedef struct { } arch_spinlock_t;
-         |                    ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:3:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:27:
-   In file included from arch/x86/include/asm/qspinlock.h:7:
-   include/asm-generic/qspinlock_types.h:49:9: warning: '__ARCH_SPIN_LOCK_UNLOCKED' macro redefined [-Wmacro-redefined]
-      49 | #define __ARCH_SPIN_LOCK_UNLOCKED       { { .val = ATOMIC_INIT(0) } }
-         |         ^
-   include/linux/spinlock_types_up.h:27:9: note: previous definition is here
-      27 | #define __ARCH_SPIN_LOCK_UNLOCKED { }
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:3:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:43:
-   In file included from arch/x86/include/asm/qrwlock.h:5:
-   include/asm-generic/qrwlock_types.h:27:3: error: typedef redefinition with different types ('struct qrwlock' vs 'struct arch_rwlock_t')
-      27 | } arch_rwlock_t;
-         |   ^
-   include/linux/spinlock_types_up.h:33:3: note: previous definition is here
-      33 | } arch_rwlock_t;
-         |   ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:3:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:43:
-   In file included from arch/x86/include/asm/qrwlock.h:5:
-   include/asm-generic/qrwlock_types.h:29:9: warning: '__ARCH_RW_LOCK_UNLOCKED' macro redefined [-Wmacro-redefined]
-      29 | #define __ARCH_RW_LOCK_UNLOCKED {               \
-         |         ^
-   include/linux/spinlock_types_up.h:35:9: note: previous definition is here
-      35 | #define __ARCH_RW_LOCK_UNLOCKED { }
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:3:
-   In file included from include/linux/sched.h:2142:
-   In file included from arch/x86/include/asm/spinlock.h:43:
-   In file included from arch/x86/include/asm/qrwlock.h:6:
-   include/asm-generic/qrwlock.h:132:29: error: incompatible pointer types passing 'arch_spinlock_t *' to parameter of type 'struct qspinlock *' [-Werror,-Wincompatible-pointer-types]
-     132 |         return arch_spin_is_locked(&lock->wait_lock);
-         |                                    ^~~~~~~~~~~~~~~~
-   include/asm-generic/qspinlock.h:143:55: note: expanded from macro 'arch_spin_is_locked'
-     143 | #define arch_spin_is_locked(l)          queued_spin_is_locked(l)
-         |                                                               ^
-   include/asm-generic/qspinlock.h:51:68: note: passing argument to parameter 'lock' here
-      51 | static __always_inline int queued_spin_is_locked(struct qspinlock *lock)
-         |                                                                    ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:5:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:97:
->> include/linux/spinlock_up.h:62:9: warning: 'arch_spin_is_locked' macro redefined [-Wmacro-redefined]
-      62 | #define arch_spin_is_locked(lock)       ((void)(lock), 0)
-         |         ^
-   include/asm-generic/qspinlock.h:143:9: note: previous definition is here
-     143 | #define arch_spin_is_locked(l)          queued_spin_is_locked(l)
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:5:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:97:
->> include/linux/spinlock_up.h:64:10: warning: 'arch_spin_lock' macro redefined [-Wmacro-redefined]
-      64 | # define arch_spin_lock(lock)           do { barrier(); (void)(lock); } while (0)
-         |          ^
-   include/asm-generic/qspinlock.h:146:9: note: previous definition is here
-     146 | #define arch_spin_lock(l)               queued_spin_lock(l)
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:5:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:97:
->> include/linux/spinlock_up.h:65:10: warning: 'arch_spin_unlock' macro redefined [-Wmacro-redefined]
-      65 | # define arch_spin_unlock(lock) do { barrier(); (void)(lock); } while (0)
-         |          ^
-   include/asm-generic/qspinlock.h:148:9: note: previous definition is here
-     148 | #define arch_spin_unlock(l)             queued_spin_unlock(l)
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:5:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:97:
->> include/linux/spinlock_up.h:66:10: warning: 'arch_spin_trylock' macro redefined [-Wmacro-redefined]
-      66 | # define arch_spin_trylock(lock)        ({ barrier(); (void)(lock); 1; })
-         |          ^
-   include/asm-generic/qspinlock.h:147:9: note: previous definition is here
-     147 | #define arch_spin_trylock(l)            queued_spin_trylock(l)
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:5:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:97:
->> include/linux/spinlock_up.h:69:9: warning: 'arch_spin_is_contended' macro redefined [-Wmacro-redefined]
-      69 | #define arch_spin_is_contended(lock)    (((void)(lock), 0))
-         |         ^
-   include/asm-generic/qspinlock.h:144:9: note: previous definition is here
-     144 | #define arch_spin_is_contended(l)       queued_spin_is_contended(l)
-         |         ^
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   In file included from arch/x86/um/shared/sysdep/kernel-offsets.h:5:
-   In file included from include/linux/crypto.h:17:
-   In file included from include/linux/slab.h:16:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:22:
-   In file included from include/linux/mm_types.h:12:
->> include/linux/maple_tree.h:621:3: warning: excess elements in struct initializer [-Wexcess-initializers]
-     621 |                 spin_lock_init(&mt->ma_lock);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:344:13: note: expanded from macro 'spin_lock_init'
-     344 |         *(_lock) = __SPIN_LOCK_UNLOCKED(_lock); \
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:41:15: note: expanded from macro '__SPIN_LOCK_UNLOCKED'
-      41 |         (spinlock_t) __SPIN_LOCK_INITIALIZER(lockname)
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:38:15: note: expanded from macro '__SPIN_LOCK_INITIALIZER'
-      38 |         { { .rlock = ___SPIN_LOCK_INITIALIZER(lockname) } }
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:33:14: note: expanded from macro '___SPIN_LOCK_INITIALIZER'
-      33 |         .raw_lock = __ARCH_SPIN_LOCK_UNLOCKED,  \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/qspinlock_types.h:49:37: note: expanded from macro '__ARCH_SPIN_LOCK_UNLOCKED'
-      49 | #define __ARCH_SPIN_LOCK_UNLOCKED       { { .val = ATOMIC_INIT(0) } }
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/um/kernel/asm-offsets.c:1:
-   arch/x86/um/shared/sysdep/kernel-offsets.h:9:6: warning: no previous prototype for function 'foo' [-Wmissing-prototypes]
-       9 | void foo(void)
-         |      ^
-   arch/x86/um/shared/sysdep/kernel-offsets.h:9:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-       9 | void foo(void)
-         | ^
-         | static 
-   9 warnings and 3 errors generated.
-   make[3]: *** [scripts/Makefile.build:116: arch/um/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1191: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   drivers/rtc/rtc-cv1800.c: In function 'cv1800_rtc_alarm_irq_enable':
+>> drivers/rtc/rtc-cv1800.c:89:17: error: implicit declaration of function 'writel' [-Werror=implicit-function-declaration]
+      89 |                 writel(REG_ENABLE_FUN, info->base_data + ALARM_ENABLE);
+         |                 ^~~~~~
+   drivers/rtc/rtc-cv1800.c: In function 'cv1800_rtc_set_alarm':
+>> drivers/rtc/rtc-cv1800.c:113:9: error: implicit declaration of function 'readl' [-Werror=implicit-function-declaration]
+     113 |         readl(info->base_data + SEC_CNTR_VAL);
+         |         ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/arch_spin_is_locked +62 include/linux/spinlock_up.h
+vim +/writel +89 drivers/rtc/rtc-cv1800.c
 
-fb1c8f93d869b34 Ingo Molnar     2005-09-10  60  
-fb1c8f93d869b34 Ingo Molnar     2005-09-10  61  #else /* DEBUG_SPINLOCK */
-0199c4e68d1f028 Thomas Gleixner 2009-12-02 @62  #define arch_spin_is_locked(lock)	((void)(lock), 0)
-0a0fca9d832b704 Viresh Kumar    2013-06-04  63  /* for sched/core.c and kernel_lock.c: */
-386afc91144b36b Linus Torvalds  2013-04-09 @64  # define arch_spin_lock(lock)		do { barrier(); (void)(lock); } while (0)
-386afc91144b36b Linus Torvalds  2013-04-09 @65  # define arch_spin_unlock(lock)	do { barrier(); (void)(lock); } while (0)
-386afc91144b36b Linus Torvalds  2013-04-09 @66  # define arch_spin_trylock(lock)	({ barrier(); (void)(lock); 1; })
-fb1c8f93d869b34 Ingo Molnar     2005-09-10  67  #endif /* DEBUG_SPINLOCK */
-fb1c8f93d869b34 Ingo Molnar     2005-09-10  68  
-0199c4e68d1f028 Thomas Gleixner 2009-12-02 @69  #define arch_spin_is_contended(lock)	(((void)(lock), 0))
-95c354fe9f7d6de Nicholas Piggin 2008-01-30  70  
-
-:::::: The code at line 62 was first introduced by commit
-:::::: 0199c4e68d1f02894bdefe4b5d9e9ee4aedd8d62 locking: Convert __raw_spin* functions to arch_spin*
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+    83	
+    84	static int cv1800_rtc_alarm_irq_enable(struct device *dev, unsigned int enabled)
+    85	{
+    86		struct cv1800_priv *info = dev_get_drvdata(dev);
+    87	
+    88		if (enabled)
+  > 89			writel(REG_ENABLE_FUN, info->base_data + ALARM_ENABLE);
+    90		else
+    91			writel(REG_DISABLE_FUN, info->base_data + ALARM_ENABLE);
+    92	
+    93		return 0;
+    94	}
+    95	
+    96	static int cv1800_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *alrm)
+    97	{
+    98		struct cv1800_priv *info = dev_get_drvdata(dev);
+    99		unsigned long alarm_time;
+   100	
+   101		alarm_time = rtc_tm_to_time64(&alrm->time);
+   102	
+   103		if (alarm_time > SEC_MAX_VAL)
+   104			return -EINVAL;
+   105	
+   106		writel(REG_DISABLE_FUN, info->base_data + ALARM_ENABLE);
+   107	
+   108		udelay(DEALY_TIME_PREPARE);
+   109	
+   110		writel(alarm_time, info->base_data + ALARM_TIME);
+   111		writel(REG_ENABLE_FUN, info->base_data + ALARM_ENABLE);
+   112	
+ > 113		readl(info->base_data + SEC_CNTR_VAL);
+   114	
+   115		return 0;
+   116	}
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
