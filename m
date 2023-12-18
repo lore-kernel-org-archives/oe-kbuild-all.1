@@ -1,52 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5501EB48
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 18:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8686871451
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 18:46:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StHz3DDd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jtNcNnx6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702924361; x=1734460361;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GZWNcfSQbXefNzs2s3WGrGkE3nGFCgjgm0Dg6bsk+54=;
-  b=StHz3DDdrUs6SQIqvvD3mkyUdn5YZ8McjdkpOuCluxfA4UVepBF3Qx+Y
-   Oh/xIOs/2BaFkNoo2YS0FSEuP/BA8jlGnf4acgk0dhBtG21MS8+T8A93w
-   gzZupHlGmzoSyemBbTzEcc8CAe7DchXbT+DCS/DKuEh8h5mJhgO3UE92j
-   DeBIBLIdi0TYNR171vOVck41TQ3CrhbqrFggBynCt3pkZ68/lEhhcEgD2
-   MwjnAnl5f9242DzP2ZaRw/9USAZfWF1xyp/fM9MN/SMQMnw9LnjXzS6eu
-   qUaQXUwu5U0rFaF80/RccQW3tSL1/Jlk64pJFhq/9ePei/i+q0VzZfeWv
+  t=1702925174; x=1734461174;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2n7rEdQG/7oHLpk+IKtiKKxC3nrQgzl83tSimJJpOAg=;
+  b=jtNcNnx6LU5nd8wSf4Amgdv7dtlDWANQPTVGKuqTBKlw2ONkboFPATEn
+   OLIcklY0TcrfY44oqmy5JcTEmct40ihYPI5crYxxfvgnwXb188bFG4tfs
+   OCgnjrPbQDsRo00Hra23YUijUDOOb/3R+c7jKpa0U/pHB/12lm1VlBvC3
+   1fy2clt1XvwUATTEiXd7lek0X1DN2g8SN3bIhRAxFTP4bAC5vToJl6keQ
+   ecYVDVnsvaAaJmS0Cd/87CUtDqYvoVrXkczjN2WIlXU6iajIaY8o+NJu+
+   0GQpnUcM/6Z24xloeuZvVDk0J+S+sjGVstAYb5y9K/pO1LpVqKma27SmW
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="8997113"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="395277781"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="8997113"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 10:32:39 -0800
+   d="scan'208";a="395277781"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 10:46:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="846045988"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="866323818"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="846045988"
+   d="scan'208";a="866323818"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2023 10:32:36 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Dec 2023 10:46:11 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFIPq-0004Qb-1a;
-	Mon, 18 Dec 2023 18:32:34 +0000
-Date: Tue, 19 Dec 2023 02:31:54 +0800
+	id 1rFIcz-0004RF-1m;
+	Mon, 18 Dec 2023 18:46:09 +0000
+Date: Tue, 19 Dec 2023 02:45:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>
+To: Alastair D'Silva <alastair@d-silva.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Heiko Carstens <hca@linux.ibm.com>
-Subject: Re: [PATCH v2 1/3] entry: move exit to usermode functions to header
- file
-Message-ID: <202312190205.LbtmWWZN-lkp@intel.com>
-References: <20231218074520.1998026-2-svens@linux.ibm.com>
+	Michael Ellerman <mpe@ellerman.id.au>, Greg Kurz <groug@kaod.org>
+Subject: drivers/misc/ocxl/mmio.c:20:34: sparse: sparse: cast removes address
+ space '__iomem' of expression
+Message-ID: <202312190208.xrAsnOMZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,89 +50,197 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231218074520.1998026-2-svens@linux.ibm.com>
 
-Hi Sven,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/core/entry]
-[also build test WARNING on linus/master v6.7-rc6 next-20231218]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sven-Schnelle/entry-move-exit-to-usermode-functions-to-header-file/20231218-154733
-base:   tip/core/entry
-patch link:    https://lore.kernel.org/r/20231218074520.1998026-2-svens%40linux.ibm.com
-patch subject: [PATCH v2 1/3] entry: move exit to usermode functions to header file
-config: x86_64-randconfig-161-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190205.LbtmWWZN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190205.LbtmWWZN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
+commit: 7e462c2a8a6d00d3c240cac9f5626eff96d8e641 ocxl: Provide global MMIO accessors for external drivers
+date:   4 years, 8 months ago
+config: powerpc64-randconfig-r113-20231118 (https://download.01.org/0day-ci/archive/20231219/202312190208.xrAsnOMZ-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231219/202312190208.xrAsnOMZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312190205.LbtmWWZN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312190208.xrAsnOMZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/misc/ocxl/mmio.c:20:34: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/misc/ocxl/mmio.c:20:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:20:62: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:20:62: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:24:31: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:24:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:24:59: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:24:59: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:45:34: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:45:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:45:62: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:45:62: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:49:31: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:49:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:49:59: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:49:59: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:70:33: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/misc/ocxl/mmio.c:70:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:70:61: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:70:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:74:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:74:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:74:58: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:74:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:96:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:96:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:96:61: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:96:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:100:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:100:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:100:58: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:100:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:124:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:124:61: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:124:61: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:124:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:126:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:126:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:126:61: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:126:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:130:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:130:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:130:58: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:130:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:132:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:132:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:132:58: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:132:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:155:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:155:61: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:155:61: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:155:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:157:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:157:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:157:61: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:157:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:161:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:161:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:161:58: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:161:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:163:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:163:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:163:58: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:163:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:186:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:186:61: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:186:61: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:186:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:188:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:188:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:188:61: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:188:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:192:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:192:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:192:58: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:192:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:194:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:194:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:194:58: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:194:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:218:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:218:61: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:218:61: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:218:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:220:33: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:220:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:220:61: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:220:61: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:224:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:224:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:224:58: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:224:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:226:30: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:226:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:226:58: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:226:58: sparse:     got char *
+   drivers/misc/ocxl/mmio.c:230:22: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/misc/ocxl/mmio.c:230:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got char * @@
+   drivers/misc/ocxl/mmio.c:230:50: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/misc/ocxl/mmio.c:230:50: sparse:     got char *
+   drivers/misc/ocxl/mmio.c: note: in included file (through include/linux/io.h, include/linux/irq.h, arch/powerpc/include/asm/hardirq.h, ...):
+   arch/powerpc/include/asm/io.h:157:1: sparse: sparse: dereference of noderef expression
+   arch/powerpc/include/asm/io.h:162:1: sparse: sparse: dereference of noderef expression
+   arch/powerpc/include/asm/io.h:157:1: sparse: sparse: dereference of noderef expression
+   arch/powerpc/include/asm/io.h:162:1: sparse: sparse: dereference of noderef expression
+   arch/powerpc/include/asm/io.h:157:1: sparse: sparse: dereference of noderef expression
+   arch/powerpc/include/asm/io.h:162:1: sparse: sparse: dereference of noderef expression
 
->> kernel/entry/common.c:134: warning: Function parameter or member 'regs' not described in 'exit_to_user_mode_loop'
->> kernel/entry/common.c:134: warning: Function parameter or member 'ti_work' not described in 'exit_to_user_mode_loop'
+vim +/__iomem +20 drivers/misc/ocxl/mmio.c
 
-
-vim +134 kernel/entry/common.c
-
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  128  
-af18f155cb4bda Sven Schnelle       2023-12-18  129  /**
-af18f155cb4bda Sven Schnelle       2023-12-18  130   * exit_to_user_mode_loop - do any pending work before leaving to user space
-af18f155cb4bda Sven Schnelle       2023-12-18  131   */
-af18f155cb4bda Sven Schnelle       2023-12-18  132  __always_inline unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  133  						     unsigned long ti_work)
-a9f3a74a29af09 Thomas Gleixner     2020-07-22 @134  {
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  135  	/*
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  136  	 * Before returning to user space ensure that all pending work
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  137  	 * items have been completed.
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  138  	 */
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  139  	while (ti_work & EXIT_TO_USER_MODE_WORK) {
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  140  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  141  		local_irq_enable_exit_to_user(ti_work);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  142  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  143  		if (ti_work & _TIF_NEED_RESCHED)
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  144  			schedule();
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  145  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  146  		if (ti_work & _TIF_UPROBE)
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  147  			uprobe_notify_resume(regs);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  148  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  149  		if (ti_work & _TIF_PATCH_PENDING)
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  150  			klp_update_patch_state(current);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  151  
-12db8b690010cc Jens Axboe          2020-10-26  152  		if (ti_work & (_TIF_SIGPENDING | _TIF_NOTIFY_SIGNAL))
-8ba62d37949e24 Eric W. Biederman   2022-02-09  153  			arch_do_signal_or_restart(regs);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  154  
-a68de80f61f6af Sean Christopherson 2021-09-01  155  		if (ti_work & _TIF_NOTIFY_RESUME)
-03248addadf1a5 Eric W. Biederman   2022-02-09  156  			resume_user_mode_work(regs);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  157  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  158  		/* Architecture specific TIF work */
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  159  		arch_exit_to_user_mode_work(regs, ti_work);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  160  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  161  		/*
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  162  		 * Disable interrupts and reevaluate the work flags as they
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  163  		 * might have changed while interrupts and preemption was
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  164  		 * enabled above.
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  165  		 */
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  166  		local_irq_disable_exit_to_user();
-47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  167  
-47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  168  		/* Check if any of the above work has queued a deferred wakeup */
-f268c3737ecaef Frederic Weisbecker 2021-05-27  169  		tick_nohz_user_enter_prepare();
-47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  170  
-6ce895128b3bff Mark Rutland        2021-11-29  171  		ti_work = read_thread_flags();
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  172  	}
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  173  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  174  	/* Return the latest work state for arch_exit_to_user_mode() */
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  175  	return ti_work;
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  176  }
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  177  
+    17	
+    18		switch (endian) {
+    19		case OCXL_BIG_ENDIAN:
+  > 20			*val = readl_be((char *)afu->global_mmio_ptr + offset);
+    21			break;
+    22	
+    23		default:
+    24			*val = readl((char *)afu->global_mmio_ptr + offset);
+    25			break;
+    26		}
+    27	
+    28		return 0;
+    29	}
+    30	EXPORT_SYMBOL_GPL(ocxl_global_mmio_read32);
+    31	
+    32	int ocxl_global_mmio_read64(struct ocxl_afu *afu, size_t offset,
+    33					enum ocxl_endian endian, u64 *val)
+    34	{
+    35		if (offset > afu->config.global_mmio_size - 8)
+    36			return -EINVAL;
+    37	
+    38	#ifdef __BIG_ENDIAN__
+    39		if (endian == OCXL_HOST_ENDIAN)
+    40			endian = OCXL_BIG_ENDIAN;
+    41	#endif
+    42	
+    43		switch (endian) {
+    44		case OCXL_BIG_ENDIAN:
+    45			*val = readq_be((char *)afu->global_mmio_ptr + offset);
+    46			break;
+    47	
+    48		default:
+    49			*val = readq((char *)afu->global_mmio_ptr + offset);
+    50			break;
+    51		}
+    52	
+    53		return 0;
+    54	}
+    55	EXPORT_SYMBOL_GPL(ocxl_global_mmio_read64);
+    56	
+    57	int ocxl_global_mmio_write32(struct ocxl_afu *afu, size_t offset,
+    58					enum ocxl_endian endian, u32 val)
+    59	{
+    60		if (offset > afu->config.global_mmio_size - 4)
+    61			return -EINVAL;
+    62	
+    63	#ifdef __BIG_ENDIAN__
+    64		if (endian == OCXL_HOST_ENDIAN)
+    65			endian = OCXL_BIG_ENDIAN;
+    66	#endif
+    67	
+    68		switch (endian) {
+    69		case OCXL_BIG_ENDIAN:
+  > 70			writel_be(val, (char *)afu->global_mmio_ptr + offset);
+    71			break;
+    72	
+    73		default:
+    74			writel(val, (char *)afu->global_mmio_ptr + offset);
+    75			break;
+    76		}
+    77	
+    78	
+    79		return 0;
+    80	}
+    81	EXPORT_SYMBOL_GPL(ocxl_global_mmio_write32);
+    82	
 
 -- 
 0-DAY CI Kernel Test Service
