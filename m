@@ -1,48 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB37449896
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 15:46:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898EB3D54C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 16:06:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpJJl6h/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5E4RzOc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702914394; x=1734450394;
+  t=1702915606; x=1734451606;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pwS0tMmZgeBSev+BsC15iKvwbQsHz+F53J1apjtLORE=;
-  b=cpJJl6h/C3yU9IvQtVkX1ExH1+YTzsWYhe6FPYxL3+YRN14FsiNQ6pIK
-   /n08h+wfUAZfOsW8EyPH1/31LC75i7QR70KspkmFnwPU7w7iFZCN3Td/S
-   geUSFoMtezG+thHomfTl1HOqTavk6YGHtUSav4msCLYnt9EicVYLh791x
-   doEQjRTHH834HjOvbhs4lja88JY4Dke891o4uWTX5JUclBv6j3zKVQOPj
-   gf2rKrXaAoXtf+LDpWAxal+Oxo7GUjnMMAZlNd8lmh32UHw6cKnR7iMN0
-   QwU41E1BVsE2xPXIo87V4/MEQ0d6QeaVBkn9qLnIJ+O7tembnK9pMrUIG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="14208861"
+  bh=1ZbmZcYT2WQyDxcbmJwgS8Tne/xILXZ9OilHnK+eZfI=;
+  b=V5E4RzOclhMqKj+vpcfGpGHIGifrbOiQIya6d4T8/Rl8+1MBLt3pSm/o
+   YfxrktXeO43w7nWOwOBqht28HMDc7RGV6hR4x3M6D52EKniPLMkNYm2zx
+   zGfaifcbrxgrJJnkxSD1O77tgs0SC3+EwLkddMp5PuU+S/MzfvJqFe+rM
+   L0f4ZXBbK5jP69sJZ5T92mD7wSNCUh814kSUQ2SPxNRCSUJVW6u67RUkD
+   zFlcKzlhLBmNxnILOxrdRmz+ydepsc2mvhvzxU4P9azfyMjzVbmoZVhBi
+   4ZokKIKJn5I10GBX+SVEussvf8aVCaeDSyTXcjwAsj87iGm/en/Rmjfb5
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="394404010"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="14208861"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 07:46:31 -0800
+   d="scan'208";a="394404010"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 08:06:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="768876043"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="768876043"
+   d="scan'208";a="17229641"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 18 Dec 2023 07:46:29 -0800
+  by orviesa002.jf.intel.com with ESMTP; 18 Dec 2023 08:06:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFFp5-0004Fg-1t;
-	Mon, 18 Dec 2023 15:46:27 +0000
-Date: Mon, 18 Dec 2023 23:46:02 +0800
+	id 1rFG8U-0004HV-2k;
+	Mon, 18 Dec 2023 16:06:30 +0000
+Date: Tue, 19 Dec 2023 00:06:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petlozu Pravareshwar <petlozup@nvidia.com>
+To: Kalle Valo <quic_kvalo@quicinc.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thierry Reding <treding@nvidia.com>,
-	Stefan Kristiansson <stefank@nvidia.com>
-Subject: drivers/soc/tegra/pmc.c:467: warning: Function parameter or struct
- member 'syscore' not described in 'tegra_pmc'
-Message-ID: <202312182311.9tyU4FnU-lkp@intel.com>
+	Balamurugan Selvarajan <quic_bselvara@quicinc.com>,
+	Baochen Qiang <quic_bqiang@quicinc.com>,
+	Bhagavathi Perumal S <quic_bperumal@quicinc.com>,
+	Carl Huang <quic_cjhuang@quicinc.com>,
+	Jeff Johnson <quic_jjohnson@quicinc.com>,
+	Karthikeyan Periyasamy <quic_periyasa@quicinc.com>,
+	P Praneesh <quic_ppranees@quicinc.com>,
+	Pradeep Kumar Chitrapu <quic_pradeepc@quicinc.com>,
+	Ramya Gnanasekar <quic_rgnanase@quicinc.com>,
+	Sriram R <quic_srirrama@quicinc.com>,
+	Vasanthakumar Thiagarajan <quic_vthiagar@quicinc.com>,
+	Wen Gong <quic_wgong@quicinc.com>
+Subject: drivers/net/wireless/ath/ath12k/dp_mon.c:1244:24-34: Unneeded
+ variable: "hal_status". Return "  HAL_RX_MON_STATUS_BUF_DONE" on line 1260
+Message-ID: <202312182311.pZjA9dgQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,116 +63,58 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
-commit: 1ddb8f6d44ff482c9953a06f800453bc372cfead soc/tegra: pmc: Fix dual edge triggered wakes
+commit: d889913205cf7ebda905b1e62c5867ed4e39f6c2 wifi: ath12k: driver for Qualcomm Wi-Fi 7 devices
 date:   1 year, 1 month ago
-config: arm64-randconfig-001-20231218 (https://download.01.org/0day-ci/archive/20231218/202312182311.9tyU4FnU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312182311.9tyU4FnU-lkp@intel.com/reproduce)
+config: csky-randconfig-r053-20231218 (https://download.01.org/0day-ci/archive/20231218/202312182311.pZjA9dgQ-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312182311.9tyU4FnU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312182311.pZjA9dgQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/ath/ath12k/dp_mon.c:1244:24-34: Unneeded variable: "hal_status". Return "  HAL_RX_MON_STATUS_BUF_DONE" on line 1260
+--
+>> drivers/net/wireless/ath/ath12k/dp_rx.c:3866:3-6: ERROR: invalid reference to the index variable of the iterator on line 3856
+   drivers/net/wireless/ath/ath12k/dp_rx.c:3866:29-32: ERROR: invalid reference to the index variable of the iterator on line 3856
+--
+>> drivers/net/wireless/ath/ath12k/wmi.c:6517:30-35: ERROR: invalid reference to the index variable of the iterator on line 6499
 
->> drivers/soc/tegra/pmc.c:467: warning: Function parameter or struct member 'syscore' not described in 'tegra_pmc'
+vim +1244 drivers/net/wireless/ath/ath12k/dp_mon.c
 
-
-vim +467 drivers/soc/tegra/pmc.c
-
-5f84bb1a4099e2 Sandipan Patra       2018-10-24  383  
-7232398abc6a71 Thierry Reding       2014-07-11  384  /**
-7232398abc6a71 Thierry Reding       2014-07-11  385   * struct tegra_pmc - NVIDIA Tegra PMC
-35b67291b4a85d Jon Hunter           2015-12-04  386   * @dev: pointer to PMC device structure
-7232398abc6a71 Thierry Reding       2014-07-11  387   * @base: pointer to I/O remapped register region
-bbe5af60041cae Thierry Reding       2019-01-25  388   * @wake: pointer to I/O remapped region for WAKE registers
-bbe5af60041cae Thierry Reding       2019-01-25  389   * @aotag: pointer to I/O remapped region for AOTAG registers
-bbe5af60041cae Thierry Reding       2019-01-25  390   * @scratch: pointer to I/O remapped region for scratch registers
-7232398abc6a71 Thierry Reding       2014-07-11  391   * @clk: pointer to pclk clock
-35b67291b4a85d Jon Hunter           2015-12-04  392   * @soc: pointer to SoC data structure
-e247deae1a5508 Mikko Perttunen      2019-01-25  393   * @tz_only: flag specifying if the PMC can only be accessed via TrustZone
-3195ac6d9cbeef Jon Hunter           2015-12-04  394   * @debugfs: pointer to debugfs entry
-7232398abc6a71 Thierry Reding       2014-07-11  395   * @rate: currently configured rate of pclk
-7232398abc6a71 Thierry Reding       2014-07-11  396   * @suspend_mode: lowest suspend mode available
-7232398abc6a71 Thierry Reding       2014-07-11  397   * @cpu_good_time: CPU power good time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  398   * @cpu_off_time: CPU power off time (in microsecends)
-7232398abc6a71 Thierry Reding       2014-07-11  399   * @core_osc_time: core power good OSC time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  400   * @core_pmu_time: core power good PMU time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  401   * @core_off_time: core power off time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  402   * @corereq_high: core power request is active-high
-7232398abc6a71 Thierry Reding       2014-07-11  403   * @sysclkreq_high: system clock request is active-high
-7232398abc6a71 Thierry Reding       2014-07-11  404   * @combined_req: combined power request for CPU & core
-7232398abc6a71 Thierry Reding       2014-07-11  405   * @cpu_pwr_good_en: CPU power good signal is enabled
-7232398abc6a71 Thierry Reding       2014-07-11  406   * @lp0_vec_phys: physical base address of the LP0 warm boot code
-7232398abc6a71 Thierry Reding       2014-07-11  407   * @lp0_vec_size: size of the LP0 warm boot code
-a38045121bf421 Jon Hunter           2016-03-30  408   * @powergates_available: Bitmap of available power gates
-7232398abc6a71 Thierry Reding       2014-07-11  409   * @powergates_lock: mutex for power gate register access
-bbe5af60041cae Thierry Reding       2019-01-25  410   * @pctl_dev: pin controller exposed by the PMC
-bbe5af60041cae Thierry Reding       2019-01-25  411   * @domain: IRQ domain provided by the PMC
-bbe5af60041cae Thierry Reding       2019-01-25  412   * @irq: chip implementation for the IRQ domain
-e57a243f5d896f Dmitry Osipenko      2019-09-26  413   * @clk_nb: pclk clock changes handler
-d3a20dcbca4880 Thierry Reding       2022-05-06  414   * @core_domain_state_synced: flag marking the core domain's state as synced
-d3a20dcbca4880 Thierry Reding       2022-05-06  415   * @core_domain_registered: flag marking the core domain as registered
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  416   * @wake_type_level_map: Bitmap indicating level type for non-dual edge wakes
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  417   * @wake_type_dual_edge_map: Bitmap indicating if a wake is dual-edge or not
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  418   * @wake_sw_status_map: Bitmap to hold raw status of wakes without mask
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  419   * @wake_cntrl_level_map: Bitmap to hold wake levels to be programmed in
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  420   *     cntrl register associated with each wake during system suspend.
-7232398abc6a71 Thierry Reding       2014-07-11  421   */
-7232398abc6a71 Thierry Reding       2014-07-11  422  struct tegra_pmc {
-3568df3d31d62b Mikko Perttunen      2015-01-06  423  	struct device *dev;
-7232398abc6a71 Thierry Reding       2014-07-11  424  	void __iomem *base;
-c641ec6eab8587 Thierry Reding       2017-08-30  425  	void __iomem *wake;
-c641ec6eab8587 Thierry Reding       2017-08-30  426  	void __iomem *aotag;
-5be2255676bf2b Thierry Reding       2017-08-30  427  	void __iomem *scratch;
-7232398abc6a71 Thierry Reding       2014-07-11  428  	struct clk *clk;
-3195ac6d9cbeef Jon Hunter           2015-12-04  429  	struct dentry *debugfs;
-7232398abc6a71 Thierry Reding       2014-07-11  430  
-7232398abc6a71 Thierry Reding       2014-07-11  431  	const struct tegra_pmc_soc *soc;
-e247deae1a5508 Mikko Perttunen      2019-01-25  432  	bool tz_only;
-7232398abc6a71 Thierry Reding       2014-07-11  433  
-7232398abc6a71 Thierry Reding       2014-07-11  434  	unsigned long rate;
-7232398abc6a71 Thierry Reding       2014-07-11  435  
-7232398abc6a71 Thierry Reding       2014-07-11  436  	enum tegra_suspend_mode suspend_mode;
-7232398abc6a71 Thierry Reding       2014-07-11  437  	u32 cpu_good_time;
-7232398abc6a71 Thierry Reding       2014-07-11  438  	u32 cpu_off_time;
-7232398abc6a71 Thierry Reding       2014-07-11  439  	u32 core_osc_time;
-7232398abc6a71 Thierry Reding       2014-07-11  440  	u32 core_pmu_time;
-7232398abc6a71 Thierry Reding       2014-07-11  441  	u32 core_off_time;
-7232398abc6a71 Thierry Reding       2014-07-11  442  	bool corereq_high;
-7232398abc6a71 Thierry Reding       2014-07-11  443  	bool sysclkreq_high;
-7232398abc6a71 Thierry Reding       2014-07-11  444  	bool combined_req;
-7232398abc6a71 Thierry Reding       2014-07-11  445  	bool cpu_pwr_good_en;
-7232398abc6a71 Thierry Reding       2014-07-11  446  	u32 lp0_vec_phys;
-7232398abc6a71 Thierry Reding       2014-07-11  447  	u32 lp0_vec_size;
-a38045121bf421 Jon Hunter           2016-03-30  448  	DECLARE_BITMAP(powergates_available, TEGRA_POWERGATE_MAX);
-7232398abc6a71 Thierry Reding       2014-07-11  449  
-7232398abc6a71 Thierry Reding       2014-07-11  450  	struct mutex powergates_lock;
-4a37f11c8f57ff Aapo Vienamo         2018-08-10  451  
-4a37f11c8f57ff Aapo Vienamo         2018-08-10  452  	struct pinctrl_dev *pctl_dev;
-19906e6b166721 Thierry Reding       2018-09-17  453  
-19906e6b166721 Thierry Reding       2018-09-17  454  	struct irq_domain *domain;
-19906e6b166721 Thierry Reding       2018-09-17  455  	struct irq_chip irq;
-e57a243f5d896f Dmitry Osipenko      2019-09-26  456  
-e57a243f5d896f Dmitry Osipenko      2019-09-26  457  	struct notifier_block clk_nb;
-41bafa698ddd07 Dmitry Osipenko      2021-06-01  458  
-41bafa698ddd07 Dmitry Osipenko      2021-06-01  459  	bool core_domain_state_synced;
-41bafa698ddd07 Dmitry Osipenko      2021-06-01  460  	bool core_domain_registered;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  461  
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  462  	unsigned long *wake_type_level_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  463  	unsigned long *wake_type_dual_edge_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  464  	unsigned long *wake_sw_status_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  465  	unsigned long *wake_cntrl_level_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  466  	struct syscore_ops syscore;
-7232398abc6a71 Thierry Reding       2014-07-11 @467  };
-7232398abc6a71 Thierry Reding       2014-07-11  468  
-
-:::::: The code at line 467 was first introduced by commit
-:::::: 7232398abc6a7186e315425638c367d50c674718 ARM: tegra: Convert PMC to a driver
-
-:::::: TO: Thierry Reding <treding@nvidia.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
+  1231	
+  1232	enum hal_rx_mon_status
+  1233	ath12k_dp_mon_rx_parse_mon_status(struct ath12k *ar,
+  1234					  struct ath12k_mon_data *pmon,
+  1235					  int mac_id,
+  1236					  struct sk_buff *skb,
+  1237					  struct napi_struct *napi)
+  1238	{
+  1239		struct ath12k_base *ab = ar->ab;
+  1240		struct hal_rx_mon_ppdu_info *ppdu_info = &pmon->mon_ppdu_info;
+  1241		struct dp_mon_mpdu *tmp;
+  1242		struct dp_mon_mpdu *mon_mpdu = pmon->mon_mpdu;
+  1243		struct sk_buff *head_msdu, *tail_msdu;
+> 1244		enum hal_rx_mon_status hal_status = HAL_RX_MON_STATUS_BUF_DONE;
+  1245	
+  1246		ath12k_dp_mon_parse_rx_dest(ab, pmon, skb);
+  1247	
+  1248		list_for_each_entry_safe(mon_mpdu, tmp, &pmon->dp_rx_mon_mpdu_list, list) {
+  1249			list_del(&mon_mpdu->list);
+  1250			head_msdu = mon_mpdu->head;
+  1251			tail_msdu = mon_mpdu->tail;
+  1252	
+  1253			if (head_msdu && tail_msdu) {
+  1254				ath12k_dp_mon_rx_deliver(ar, mac_id, head_msdu,
+  1255							 ppdu_info, napi);
+  1256			}
+  1257	
+  1258			kfree(mon_mpdu);
+  1259		}
+> 1260		return hal_status;
+  1261	}
+  1262	
 
 -- 
 0-DAY CI Kernel Test Service
