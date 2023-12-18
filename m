@@ -1,57 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898EB3D54C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 16:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D005BFBE;
+	Mon, 18 Dec 2023 16:07:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5E4RzOc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+0BAugT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702915606; x=1734451606;
+  t=1702915655; x=1734451655;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1ZbmZcYT2WQyDxcbmJwgS8Tne/xILXZ9OilHnK+eZfI=;
-  b=V5E4RzOclhMqKj+vpcfGpGHIGifrbOiQIya6d4T8/Rl8+1MBLt3pSm/o
-   YfxrktXeO43w7nWOwOBqht28HMDc7RGV6hR4x3M6D52EKniPLMkNYm2zx
-   zGfaifcbrxgrJJnkxSD1O77tgs0SC3+EwLkddMp5PuU+S/MzfvJqFe+rM
-   L0f4ZXBbK5jP69sJZ5T92mD7wSNCUh814kSUQ2SPxNRCSUJVW6u67RUkD
-   zFlcKzlhLBmNxnILOxrdRmz+ydepsc2mvhvzxU4P9azfyMjzVbmoZVhBi
-   4ZokKIKJn5I10GBX+SVEussvf8aVCaeDSyTXcjwAsj87iGm/en/Rmjfb5
+  bh=IWLzx5NW4r06kIV4xDr3qPvWDu/nR6Sy07HNHq0oZcI=;
+  b=E+0BAugT33qDdMz/UZoQVVoFQFRwckTRQt9sPP8jZDFGb1hNgiqXx45X
+   KDSlh6z/qbaOez4Vt2b+cVwafS69KcFxPo+j/CZokNmdnzMVyP5NGr02L
+   hxzYDltv4lJ5O1xziVF/pJqYBqAZ5l3F9K+PzyeS5oM+upjMMOkh+99YM
+   qBcTVyDxJM5Ut7kxwH0Up5AS68Y6JTVxMH894aPlYUyjENvaxLT/NKEJc
+   Uh+aFd7Ysip5/QmeBpxFuO+klZHDxMeY4EymeSpOaMyE44dK8O98ut1N5
+   J4kIMtHf8jB34+6uF8QcmskZ+jLG83TamfGozrxE/6sFQ+mlvyVW8D4hh
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="394404010"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="426660157"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="394404010"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 08:06:37 -0800
+   d="scan'208";a="426660157"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 08:07:34 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="845992548"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="17229641"
+   d="scan'208";a="845992548"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 18 Dec 2023 08:06:33 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2023 08:07:33 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFG8U-0004HV-2k;
-	Mon, 18 Dec 2023 16:06:30 +0000
-Date: Tue, 19 Dec 2023 00:06:22 +0800
+	id 1rFG9T-0004Hj-05;
+	Mon, 18 Dec 2023 16:07:31 +0000
+Date: Tue, 19 Dec 2023 00:06:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kalle Valo <quic_kvalo@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Balamurugan Selvarajan <quic_bselvara@quicinc.com>,
-	Baochen Qiang <quic_bqiang@quicinc.com>,
-	Bhagavathi Perumal S <quic_bperumal@quicinc.com>,
-	Carl Huang <quic_cjhuang@quicinc.com>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Karthikeyan Periyasamy <quic_periyasa@quicinc.com>,
-	P Praneesh <quic_ppranees@quicinc.com>,
-	Pradeep Kumar Chitrapu <quic_pradeepc@quicinc.com>,
-	Ramya Gnanasekar <quic_rgnanase@quicinc.com>,
-	Sriram R <quic_srirrama@quicinc.com>,
-	Vasanthakumar Thiagarajan <quic_vthiagar@quicinc.com>,
-	Wen Gong <quic_wgong@quicinc.com>
-Subject: drivers/net/wireless/ath/ath12k/dp_mon.c:1244:24-34: Unneeded
- variable: "hal_status". Return "  HAL_RX_MON_STATUS_BUF_DONE" on line 1260
-Message-ID: <202312182311.pZjA9dgQ-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:mq-deadline 4/4] block/mq-deadline.c:222:16: error: call
+ to undeclared function 'blk_rq_zone_no'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202312190011.JYlG3HVC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,60 +51,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
-commit: d889913205cf7ebda905b1e62c5867ed4e39f6c2 wifi: ath12k: driver for Qualcomm Wi-Fi 7 devices
-date:   1 year, 1 month ago
-config: csky-randconfig-r053-20231218 (https://download.01.org/0day-ci/archive/20231218/202312182311.pZjA9dgQ-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
+tree:   https://github.com/bvanassche/linux mq-deadline
+head:   f1201b17a2fec011e8cdd6be24a413a5693941b7
+commit: f1201b17a2fec011e8cdd6be24a413a5693941b7 [4/4] block/mq-deadline: Prevent zoned write reordering due to I/O prioritization
+config: i386-randconfig-016-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190011.JYlG3HVC-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190011.JYlG3HVC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312182311.pZjA9dgQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312190011.JYlG3HVC-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/wireless/ath/ath12k/dp_mon.c:1244:24-34: Unneeded variable: "hal_status". Return "  HAL_RX_MON_STATUS_BUF_DONE" on line 1260
---
->> drivers/net/wireless/ath/ath12k/dp_rx.c:3866:3-6: ERROR: invalid reference to the index variable of the iterator on line 3856
-   drivers/net/wireless/ath/ath12k/dp_rx.c:3866:29-32: ERROR: invalid reference to the index variable of the iterator on line 3856
---
->> drivers/net/wireless/ath/ath12k/wmi.c:6517:30-35: ERROR: invalid reference to the index variable of the iterator on line 6499
+All errors (new ones prefixed by >>):
 
-vim +1244 drivers/net/wireless/ath/ath12k/dp_mon.c
+>> block/mq-deadline.c:222:16: error: call to undeclared function 'blk_rq_zone_no'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   while (rq && blk_rq_zone_no(rq) == zno) {
+                                ^
+   1 error generated.
 
-  1231	
-  1232	enum hal_rx_mon_status
-  1233	ath12k_dp_mon_rx_parse_mon_status(struct ath12k *ar,
-  1234					  struct ath12k_mon_data *pmon,
-  1235					  int mac_id,
-  1236					  struct sk_buff *skb,
-  1237					  struct napi_struct *napi)
-  1238	{
-  1239		struct ath12k_base *ab = ar->ab;
-  1240		struct hal_rx_mon_ppdu_info *ppdu_info = &pmon->mon_ppdu_info;
-  1241		struct dp_mon_mpdu *tmp;
-  1242		struct dp_mon_mpdu *mon_mpdu = pmon->mon_mpdu;
-  1243		struct sk_buff *head_msdu, *tail_msdu;
-> 1244		enum hal_rx_mon_status hal_status = HAL_RX_MON_STATUS_BUF_DONE;
-  1245	
-  1246		ath12k_dp_mon_parse_rx_dest(ab, pmon, skb);
-  1247	
-  1248		list_for_each_entry_safe(mon_mpdu, tmp, &pmon->dp_rx_mon_mpdu_list, list) {
-  1249			list_del(&mon_mpdu->list);
-  1250			head_msdu = mon_mpdu->head;
-  1251			tail_msdu = mon_mpdu->tail;
-  1252	
-  1253			if (head_msdu && tail_msdu) {
-  1254				ath12k_dp_mon_rx_deliver(ar, mac_id, head_msdu,
-  1255							 ppdu_info, napi);
-  1256			}
-  1257	
-  1258			kfree(mon_mpdu);
-  1259		}
-> 1260		return hal_status;
-  1261	}
-  1262	
+
+vim +/blk_rq_zone_no +222 block/mq-deadline.c
+
+   204	
+   205	/*
+   206	 * If any sequential write requests are pending for the zone containing @pos,
+   207	 * return the I/O priority for these write requests.
+   208	 */
+   209	static enum dd_prio dd_zone_prio(struct deadline_data *dd,
+   210					 struct block_device *bdev, sector_t pos)
+   211	{
+   212		struct gendisk *disk = bdev->bd_disk;
+   213		const unsigned int zno = disk_zone_no(disk, pos);
+   214		enum dd_prio prio;
+   215	
+   216		pos -= bdev_offset_from_zone_start(bdev, pos);
+   217		for (prio = DD_PRIO_MIN; prio <= DD_PRIO_MAX; prio++) {
+   218			struct dd_per_prio *per_prio = &dd->per_prio[prio];
+   219			struct request *rq;
+   220	
+   221			rq = deadline_first_rq_past_pos(per_prio, DD_WRITE, pos);
+ > 222			while (rq && blk_rq_zone_no(rq) == zno) {
+   223				struct rb_node *node;
+   224	
+   225				if (blk_rq_is_seq_zoned_write(rq))
+   226					return prio;
+   227				node = rb_next(&rq->rb_node);
+   228				if (!node)
+   229					break;
+   230				rq = rb_entry_rq(node);
+   231			}
+   232		}
+   233		return DD_INVALID_PRIO;
+   234	}
+   235	
 
 -- 
 0-DAY CI Kernel Test Service
