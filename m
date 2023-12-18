@@ -1,49 +1,52 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41D08470;
-	Mon, 18 Dec 2023 18:32:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5501EB48
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 18:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWdh2Qv2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StHz3DDd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702924360; x=1734460360;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9LXLs53ZO/hdu3REij6BOjNsJuzfTFrKLjP+tibiCsk=;
-  b=IWdh2Qv2lV+mpy3t95hp6KQi04750ozeoHAvMdY4EWY40AChlAz3/BSM
-   JCeLRMPZgoPs5J9hzM63WQRPpb1embzwrMCQ1bTCitdt195gd+DBk4NxZ
-   BWLPzPCAneZ4KQRsI2qDQir22R9eDGBqiugfYiOJsX7UbrysuLkH95qYJ
-   IGA4X4wBsC8WjZZJGUs/sURo9mfw5eSOIBZr5DRNlrr9DyRXrDeGXlgcy
-   hkRkNEN5yYpgW0sDIfRWk7hSue5Y7vmPhfOYTnjl0WcwJJbR7H5TjMlkD
-   BwWdLeJRRRkosN1+cz3fVmCc2APUQMkSNib2XVHCrt/XL9XnvClRJeATn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="8997107"
+  t=1702924361; x=1734460361;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GZWNcfSQbXefNzs2s3WGrGkE3nGFCgjgm0Dg6bsk+54=;
+  b=StHz3DDdrUs6SQIqvvD3mkyUdn5YZ8McjdkpOuCluxfA4UVepBF3Qx+Y
+   Oh/xIOs/2BaFkNoo2YS0FSEuP/BA8jlGnf4acgk0dhBtG21MS8+T8A93w
+   gzZupHlGmzoSyemBbTzEcc8CAe7DchXbT+DCS/DKuEh8h5mJhgO3UE92j
+   DeBIBLIdi0TYNR171vOVck41TQ3CrhbqrFggBynCt3pkZ68/lEhhcEgD2
+   MwjnAnl5f9242DzP2ZaRw/9USAZfWF1xyp/fM9MN/SMQMnw9LnjXzS6eu
+   qUaQXUwu5U0rFaF80/RccQW3tSL1/Jlk64pJFhq/9ePei/i+q0VzZfeWv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="8997113"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="8997107"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+   d="scan'208";a="8997113"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 10:32:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="841574672"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="846045988"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="841574672"
+   d="scan'208";a="846045988"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Dec 2023 10:32:37 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2023 10:32:36 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFIPq-0004Qd-1f;
+	id 1rFIPq-0004Qb-1a;
 	Mon, 18 Dec 2023 18:32:34 +0000
 Date: Tue, 19 Dec 2023 02:31:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Kees Cook <keescook@chromium.org>
-Subject: [arm-integrator:b4/arm32-lpae-pan 7/7] arch/arm/mm/fault.c:286:62:
- error: call to undeclared function 'uaccess_disabled'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202312190216.MoaEEHEJ-lkp@intel.com>
+To: Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Heiko Carstens <hca@linux.ibm.com>
+Subject: Re: [PATCH v2 1/3] entry: move exit to usermode functions to header
+ file
+Message-ID: <202312190205.LbtmWWZN-lkp@intel.com>
+References: <20231218074520.1998026-2-svens@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,176 +55,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231218074520.1998026-2-svens@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/arm32-lpae-pan
-head:   0c333c0e63067147be55c63597ddae4cecfe7927
-commit: 0c333c0e63067147be55c63597ddae4cecfe7927 [7/7] ARM: Implement privileged no-access using TTBR0 page table walks disabling
-config: arm-milbeaut_m10v_defconfig (https://download.01.org/0day-ci/archive/20231219/202312190216.MoaEEHEJ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190216.MoaEEHEJ-lkp@intel.com/reproduce)
+Hi Sven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/core/entry]
+[also build test WARNING on linus/master v6.7-rc6 next-20231218]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sven-Schnelle/entry-move-exit-to-usermode-functions-to-header-file/20231218-154733
+base:   tip/core/entry
+patch link:    https://lore.kernel.org/r/20231218074520.1998026-2-svens%40linux.ibm.com
+patch subject: [PATCH v2 1/3] entry: move exit to usermode functions to header file
+config: x86_64-randconfig-161-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190205.LbtmWWZN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190205.LbtmWWZN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312190216.MoaEEHEJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312190205.LbtmWWZN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/arm/mm/fault.c:286:62: error: call to undeclared function 'uaccess_disabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           if (IS_ENABLED(CONFIG_CPU_TTBR0_PAN) && !user_mode(regs) && uaccess_disabled(regs))
-                                                                       ^
-   1 error generated.
+>> kernel/entry/common.c:134: warning: Function parameter or member 'regs' not described in 'exit_to_user_mode_loop'
+>> kernel/entry/common.c:134: warning: Function parameter or member 'ti_work' not described in 'exit_to_user_mode_loop'
 
 
-vim +/uaccess_disabled +286 arch/arm/mm/fault.c
+vim +134 kernel/entry/common.c
 
-   237	
-   238	static int __kprobes
-   239	do_page_fault(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
-   240	{
-   241		struct mm_struct *mm = current->mm;
-   242		struct vm_area_struct *vma;
-   243		int sig, code;
-   244		vm_fault_t fault;
-   245		unsigned int flags = FAULT_FLAG_DEFAULT;
-   246		unsigned long vm_flags = VM_ACCESS_FLAGS;
-   247	
-   248		if (kprobe_page_fault(regs, fsr))
-   249			return 0;
-   250	
-   251	
-   252		/* Enable interrupts if they were enabled in the parent context. */
-   253		if (interrupts_enabled(regs))
-   254			local_irq_enable();
-   255	
-   256		/*
-   257		 * If we're in an interrupt or have no user
-   258		 * context, we must not take the fault..
-   259		 */
-   260		if (faulthandler_disabled() || !mm)
-   261			goto no_context;
-   262	
-   263		if (user_mode(regs))
-   264			flags |= FAULT_FLAG_USER;
-   265	
-   266		if (is_write_fault(fsr)) {
-   267			flags |= FAULT_FLAG_WRITE;
-   268			vm_flags = VM_WRITE;
-   269		}
-   270	
-   271		if (fsr & FSR_LNX_PF) {
-   272			vm_flags = VM_EXEC;
-   273	
-   274			if (is_permission_fault(fsr) && !user_mode(regs))
-   275				die_kernel_fault("execution of memory",
-   276						 mm, addr, fsr, regs);
-   277		}
-   278	
-   279		perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, addr);
-   280	
-   281		/*
-   282		 * Privileged access aborts with CONFIG_CPU_TTBR0_PAN enabled are
-   283		 * routed via the translation fault mechanism. Check whether uaccess
-   284		 * is disabled while in kernel mode.
-   285		 */
- > 286		if (IS_ENABLED(CONFIG_CPU_TTBR0_PAN) && !user_mode(regs) && uaccess_disabled(regs))
-   287			goto no_context;
-   288	
-   289	retry:
-   290		vma = lock_mm_and_find_vma(mm, addr, regs);
-   291		if (unlikely(!vma)) {
-   292			fault = VM_FAULT_BADMAP;
-   293			goto bad_area;
-   294		}
-   295	
-   296		/*
-   297		 * ok, we have a good vm_area for this memory access, check the
-   298		 * permissions on the VMA allow for the fault which occurred.
-   299		 */
-   300		if (!(vma->vm_flags & vm_flags))
-   301			fault = VM_FAULT_BADACCESS;
-   302		else
-   303			fault = handle_mm_fault(vma, addr & PAGE_MASK, flags, regs);
-   304	
-   305		/* If we need to retry but a fatal signal is pending, handle the
-   306		 * signal first. We do not need to release the mmap_lock because
-   307		 * it would already be released in __lock_page_or_retry in
-   308		 * mm/filemap.c. */
-   309		if (fault_signal_pending(fault, regs)) {
-   310			if (!user_mode(regs))
-   311				goto no_context;
-   312			return 0;
-   313		}
-   314	
-   315		/* The fault is fully completed (including releasing mmap lock) */
-   316		if (fault & VM_FAULT_COMPLETED)
-   317			return 0;
-   318	
-   319		if (!(fault & VM_FAULT_ERROR)) {
-   320			if (fault & VM_FAULT_RETRY) {
-   321				flags |= FAULT_FLAG_TRIED;
-   322				goto retry;
-   323			}
-   324		}
-   325	
-   326		mmap_read_unlock(mm);
-   327	
-   328		/*
-   329		 * Handle the "normal" case first - VM_FAULT_MAJOR
-   330		 */
-   331		if (likely(!(fault & (VM_FAULT_ERROR | VM_FAULT_BADMAP | VM_FAULT_BADACCESS))))
-   332			return 0;
-   333	
-   334	bad_area:
-   335		/*
-   336		 * If we are in kernel mode at this point, we
-   337		 * have no context to handle this fault with.
-   338		 */
-   339		if (!user_mode(regs))
-   340			goto no_context;
-   341	
-   342		if (fault & VM_FAULT_OOM) {
-   343			/*
-   344			 * We ran out of memory, call the OOM killer, and return to
-   345			 * userspace (which will retry the fault, or kill us if we
-   346			 * got oom-killed)
-   347			 */
-   348			pagefault_out_of_memory();
-   349			return 0;
-   350		}
-   351	
-   352		if (fault & VM_FAULT_SIGBUS) {
-   353			/*
-   354			 * We had some memory, but were unable to
-   355			 * successfully fix up this page fault.
-   356			 */
-   357			sig = SIGBUS;
-   358			code = BUS_ADRERR;
-   359		} else {
-   360			/*
-   361			 * Something tried to access memory that
-   362			 * isn't in our memory map..
-   363			 */
-   364			sig = SIGSEGV;
-   365			code = fault == VM_FAULT_BADACCESS ?
-   366				SEGV_ACCERR : SEGV_MAPERR;
-   367		}
-   368	
-   369		__do_user_fault(addr, fsr, sig, code, regs);
-   370		return 0;
-   371	
-   372	no_context:
-   373		__do_kernel_fault(mm, addr, fsr, regs);
-   374		return 0;
-   375	}
-   376	#else					/* CONFIG_MMU */
-   377	static int
-   378	do_page_fault(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
-   379	{
-   380		return 0;
-   381	}
-   382	#endif					/* CONFIG_MMU */
-   383	
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  128  
+af18f155cb4bda Sven Schnelle       2023-12-18  129  /**
+af18f155cb4bda Sven Schnelle       2023-12-18  130   * exit_to_user_mode_loop - do any pending work before leaving to user space
+af18f155cb4bda Sven Schnelle       2023-12-18  131   */
+af18f155cb4bda Sven Schnelle       2023-12-18  132  __always_inline unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  133  						     unsigned long ti_work)
+a9f3a74a29af09 Thomas Gleixner     2020-07-22 @134  {
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  135  	/*
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  136  	 * Before returning to user space ensure that all pending work
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  137  	 * items have been completed.
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  138  	 */
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  139  	while (ti_work & EXIT_TO_USER_MODE_WORK) {
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  140  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  141  		local_irq_enable_exit_to_user(ti_work);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  142  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  143  		if (ti_work & _TIF_NEED_RESCHED)
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  144  			schedule();
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  145  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  146  		if (ti_work & _TIF_UPROBE)
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  147  			uprobe_notify_resume(regs);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  148  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  149  		if (ti_work & _TIF_PATCH_PENDING)
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  150  			klp_update_patch_state(current);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  151  
+12db8b690010cc Jens Axboe          2020-10-26  152  		if (ti_work & (_TIF_SIGPENDING | _TIF_NOTIFY_SIGNAL))
+8ba62d37949e24 Eric W. Biederman   2022-02-09  153  			arch_do_signal_or_restart(regs);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  154  
+a68de80f61f6af Sean Christopherson 2021-09-01  155  		if (ti_work & _TIF_NOTIFY_RESUME)
+03248addadf1a5 Eric W. Biederman   2022-02-09  156  			resume_user_mode_work(regs);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  157  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  158  		/* Architecture specific TIF work */
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  159  		arch_exit_to_user_mode_work(regs, ti_work);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  160  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  161  		/*
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  162  		 * Disable interrupts and reevaluate the work flags as they
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  163  		 * might have changed while interrupts and preemption was
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  164  		 * enabled above.
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  165  		 */
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  166  		local_irq_disable_exit_to_user();
+47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  167  
+47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  168  		/* Check if any of the above work has queued a deferred wakeup */
+f268c3737ecaef Frederic Weisbecker 2021-05-27  169  		tick_nohz_user_enter_prepare();
+47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  170  
+6ce895128b3bff Mark Rutland        2021-11-29  171  		ti_work = read_thread_flags();
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  172  	}
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  173  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  174  	/* Return the latest work state for arch_exit_to_user_mode() */
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  175  	return ti_work;
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  176  }
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  177  
 
 -- 
 0-DAY CI Kernel Test Service
