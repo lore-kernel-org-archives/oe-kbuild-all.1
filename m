@@ -1,45 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44CC49893;
-	Mon, 18 Dec 2023 22:44:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2512171470
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 22:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MaCcpc6z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BiY7hUuh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702939464; x=1734475464;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Db2rUnV+9PkumFk9lUJ8SC3prJA+6j00yxsYlM5j6JM=;
-  b=MaCcpc6zCToxPvq/vNaQQcoTM5doLgmHf+ARCIFEA5VCAIJEFmKv6aAd
-   rPTp+vTt6ZCAjx0y644qE4LWAtvofn/ZzBujXDTUPq2+RCz68ZMl9Az9H
-   JmrS8kIr57jSuqpEVbDINd6zNCB61KRr+x/szs4DGvP8TE8DFsK61znqM
-   qCJhoDnVDqxnYjzg+7rrO79ms6c63ZhxMal1X8LnPfvNAQN8bzWryWECN
-   ybC67mhnZG2uMVzxXhlsShWRrelyIhSqTnHv9Xy9KxC9XHgS1qHIiYAj1
-   YBdTs47gIuyEHXVPqcff2D2tq63YBbYqxyaZsJhLD3W69LRkbvSkirkJc
+  t=1702939465; x=1734475465;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FEPFi5D+V48BC5S0HyWcLleT1/Au06DbZ7oDPW5hSVM=;
+  b=BiY7hUuhjJD9YQuTn9HUfhmvrcGVkVYhlY4FDqHY5NdkZmnpOWxPHLe8
+   QttTVzSYsTyr7W4Ef1KkElXHRAH3raVd0YF2MF4CadQO3t6tHBqTBzNbG
+   BW51bMy6muwD2Nfwp5Jsjm0g0LFX1RQf9pIrAse0g/bMHuzhub9Wdse1m
+   qe4ulbxms5fmxTrJVIZXe07l7nBdHDb+7nTL9ZnYLHwAb0vhnA12BAU0E
+   JqzaYwgzCYwfKuLc5KqvZ5nBHHdHBdKtTHldvPTBVyHiJ7fG/BYUY2WnB
+   L3c8VMYfffLsIS666PJlrO5ztQN6bS1L58j9PjRwu04Qnvn0nY1D29mwR
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="395304918"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="8945480"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="395304918"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 14:44:24 -0800
+   d="scan'208";a="8945480"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 14:44:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="1022913941"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="779265051"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="1022913941"
+   d="scan'208";a="779265051"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Dec 2023 14:44:23 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 18 Dec 2023 14:44:22 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFMLU-0004bI-1k;
+	id 1rFMLT-0004bF-2v;
 	Mon, 18 Dec 2023 22:44:20 +0000
-Date: Tue, 19 Dec 2023 06:43:57 +0800
+Date: Tue, 19 Dec 2023 06:43:58 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x23: relocation to
- !ENDBR: arch_kexec_pre_free_pages+0x33
-Message-ID: <202312190630.DujmQGO4-lkp@intel.com>
+To: Dmitry Safonov <dima@arista.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 8772/9113] lib/aolib.h:320:45: warning: 'struct
+ tcp_ao_add' declared inside parameter list will not be visible outside of
+ this definition or declaration
+Message-ID: <202312190645.q76MmHyq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,70 +52,330 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Ze Gao <zegao2021@gmail.com>
-CC: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2cf4f94d8e8646803f8fb0facf134b0cd7fb691a
-commit: 571a2a50a8fc546145ffd3bf673547e9fe128ed2 rethook, fprobe: do not trace rethook related functions
-date:   7 months ago
-config: x86_64-buildonly-randconfig-006-20231219 (https://download.01.org/0day-ci/archive/20231219/202312190630.DujmQGO4-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190630.DujmQGO4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ceb2fe0d438644e1de06b9a6468a1fb8e2199c70
+commit: cfbab37b3da094579b8f7492e4df8a8a4c8c41b0 [8772/9113] selftests/net: Add TCP-AO library
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190645.q76MmHyq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312190630.DujmQGO4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312190645.q76MmHyq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x23: relocation to !ENDBR: arch_kexec_pre_free_pages+0x33
-   vmlinux.o: warning: objtool: lkdtm_UNSET_SMEP+0x105: relocation to !ENDBR: native_write_cr4+0x4
-   vmlinux.o: warning: objtool: lkdtm_UNSET_SMEP+0x111: relocation to !ENDBR: native_write_cr4+0x4
-
-
-objdump-func vmlinux.o set_ftrace_ops_ro:
-0000 000000000006d3a0 <set_ftrace_ops_ro>:
-0000    6d3a0:	f3 0f 1e fa          	endbr64
-0004    6d3a4:	41 57                	push   %r15
-0006    6d3a6:	41 56                	push   %r14
-0008    6d3a8:	41 54                	push   %r12
-000a    6d3aa:	53                   	push   %rbx
-000b    6d3ab:	48 8b 1d 00 00 00 00 	mov    0x0(%rip),%rbx        # 6d3b2 <set_ftrace_ops_ro+0x12>	6d3ae: R_X86_64_PC32	ftrace_ops_list-0x4
-0012    6d3b2:	49 c7 c6 00 00 00 00 	mov    $0x0,%r14	6d3b5: R_X86_64_32S	ftrace_list_end
-0019    6d3b9:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	6d3bc: R_X86_64_32S	ftrace_regs_caller
-0020    6d3c0:	48 f7 d8             	neg    %rax
-0023    6d3c3:	4c 8d 3c 05 00 00 00 00 	lea    0x0(,%rax,1),%r15	6d3c7: R_X86_64_32S	ftrace_regs_caller_end+0x1008
-002b    6d3cb:	49 c1 ef 0c          	shr    $0xc,%r15
-002f    6d3cf:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	6d3d2: R_X86_64_32S	ftrace_caller
-0036    6d3d6:	48 f7 d8             	neg    %rax
-0039    6d3d9:	4c 8d 24 05 00 00 00 00 	lea    0x0(,%rax,1),%r12	6d3dd: R_X86_64_32S	ftrace_caller_end+0x1008
-0041    6d3e1:	49 c1 ec 0c          	shr    $0xc,%r12
-0045    6d3e5:	48 8b 43 10          	mov    0x10(%rbx),%rax
-0049    6d3e9:	a9 00 08 00 00       	test   $0x800,%eax
-004e    6d3ee:	74 15                	je     6d405 <set_ftrace_ops_ro+0x65>
-0050    6d3f0:	a8 04                	test   $0x4,%al
-0052    6d3f2:	48 8b bb 60 01 00 00 	mov    0x160(%rbx),%rdi
-0059    6d3f9:	44 89 fe             	mov    %r15d,%esi
-005c    6d3fc:	41 0f 44 f4          	cmove  %r12d,%esi
-0060    6d400:	e8 00 00 00 00       	call   6d405 <set_ftrace_ops_ro+0x65>	6d401: R_X86_64_PLT32	set_memory_ro-0x4
-0065    6d405:	48 8b 5b 08          	mov    0x8(%rbx),%rbx
-0069    6d409:	48 85 db             	test   %rbx,%rbx
-006c    6d40c:	74 05                	je     6d413 <set_ftrace_ops_ro+0x73>
-006e    6d40e:	4c 39 f3             	cmp    %r14,%rbx
-0071    6d411:	75 d2                	jne    6d3e5 <set_ftrace_ops_ro+0x45>
-0073    6d413:	5b                   	pop    %rbx
-0074    6d414:	41 5c                	pop    %r12
-0076    6d416:	41 5e                	pop    %r14
-0078    6d418:	41 5f                	pop    %r15
-007a    6d41a:	31 c0                	xor    %eax,%eax
-007c    6d41c:	31 ff                	xor    %edi,%edi
-007e    6d41e:	31 f6                	xor    %esi,%esi
-0080    6d420:	c3                   	ret
-0081    6d421:	66 66 66 66 66 66 2e 0f 1f 84 00 00 00 00 00 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+   In file included from lib/kconfig.c:6:
+>> lib/aolib.h:320:45: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     320 | extern int test_prepare_key_sockaddr(struct tcp_ao_add *ao, const char *alg,
+         |                                             ^~~~~~~~~~
+   lib/aolib.h:326:43: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     326 | static inline int test_prepare_key(struct tcp_ao_add *ao,
+         |                                           ^~~~~~~~~~
+   lib/aolib.h: In function 'test_prepare_key':
+>> lib/aolib.h:336:42: warning: passing argument 1 of 'test_prepare_key_sockaddr' from incompatible pointer type [-Wincompatible-pointer-types]
+     336 |         return test_prepare_key_sockaddr(ao, alg, (void *)&addr, sizeof(addr),
+         |                                          ^~
+         |                                          |
+         |                                          struct tcp_ao_add *
+   lib/aolib.h:320:57: note: expected 'struct tcp_ao_add *' but argument is of type 'struct tcp_ao_add *'
+     320 | extern int test_prepare_key_sockaddr(struct tcp_ao_add *ao, const char *alg,
+         |                                      ~~~~~~~~~~~~~~~~~~~^~
+   lib/aolib.h: At top level:
+   lib/aolib.h:341:47: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     341 | static inline int test_prepare_def_key(struct tcp_ao_add *ao,
+         |                                               ^~~~~~~~~~
+   lib/aolib.h: In function 'test_prepare_def_key':
+>> lib/aolib.h:349:33: warning: passing argument 1 of 'test_prepare_key' from incompatible pointer type [-Wincompatible-pointer-types]
+     349 |         return test_prepare_key(ao, DEFAULT_TEST_ALGO, in_addr, false, false,
+         |                                 ^~
+         |                                 |
+         |                                 struct tcp_ao_add *
+   lib/aolib.h:326:55: note: expected 'struct tcp_ao_add *' but argument is of type 'struct tcp_ao_add *'
+     326 | static inline int test_prepare_key(struct tcp_ao_add *ao,
+         |                                    ~~~~~~~~~~~~~~~~~~~^~
+   lib/aolib.h: At top level:
+>> lib/aolib.h:354:43: warning: 'struct tcp_ao_getsockopt' declared inside parameter list will not be visible outside of this definition or declaration
+     354 | extern int test_get_one_ao(int sk, struct tcp_ao_getsockopt *out,
+         |                                           ^~~~~~~~~~~~~~~~~
+>> lib/aolib.h:357:44: warning: 'struct tcp_ao_info_opt' declared inside parameter list will not be visible outside of this definition or declaration
+     357 | extern int test_get_ao_info(int sk, struct tcp_ao_info_opt *out);
+         |                                            ^~~~~~~~~~~~~~~
+   lib/aolib.h:358:44: warning: 'struct tcp_ao_info_opt' declared inside parameter list will not be visible outside of this definition or declaration
+     358 | extern int test_set_ao_info(int sk, struct tcp_ao_info_opt *in);
+         |                                            ^~~~~~~~~~~~~~~
+   lib/aolib.h:360:56: warning: 'struct tcp_ao_getsockopt' declared inside parameter list will not be visible outside of this definition or declaration
+     360 |                                           const struct tcp_ao_getsockopt *b);
+         |                                                        ^~~~~~~~~~~~~~~~~
+   lib/aolib.h:359:56: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     359 | extern int test_cmp_getsockopt_setsockopt(const struct tcp_ao_add *a,
+         |                                                        ^~~~~~~~~~
+   lib/aolib.h:361:59: warning: 'struct tcp_ao_info_opt' declared inside parameter list will not be visible outside of this definition or declaration
+     361 | extern int test_cmp_getsockopt_setsockopt_ao(const struct tcp_ao_info_opt *a,
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/aolib.h:364:57: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     364 | static inline int test_verify_socket_key(int sk, struct tcp_ao_add *key)
+         |                                                         ^~~~~~~~~~
+   lib/aolib.h: In function 'test_verify_socket_key':
+   lib/aolib.h:366:16: error: variable 'key2' has initializer but incomplete type
+     366 |         struct tcp_ao_getsockopt key2 = {};
+         |                ^~~~~~~~~~~~~~~~~
+   lib/aolib.h:366:34: error: storage size of 'key2' isn't known
+     366 |         struct tcp_ao_getsockopt key2 = {};
+         |                                  ^~~~
+   lib/aolib.h:369:46: error: invalid use of undefined type 'struct tcp_ao_add'
+     369 |         err = test_get_one_ao(sk, &key2, &key->addr, sizeof(key->addr),
+         |                                              ^~
+   lib/aolib.h:369:64: error: invalid use of undefined type 'struct tcp_ao_add'
+     369 |         err = test_get_one_ao(sk, &key2, &key->addr, sizeof(key->addr),
+         |                                                                ^~
+   lib/aolib.h:370:34: error: invalid use of undefined type 'struct tcp_ao_add'
+     370 |                               key->prefix, key->sndid, key->rcvid);
+         |                                  ^~
+   lib/aolib.h:370:47: error: invalid use of undefined type 'struct tcp_ao_add'
+     370 |                               key->prefix, key->sndid, key->rcvid);
+         |                                               ^~
+   lib/aolib.h:370:59: error: invalid use of undefined type 'struct tcp_ao_add'
+     370 |                               key->prefix, key->sndid, key->rcvid);
+         |                                                           ^~
+>> lib/aolib.h:374:47: warning: passing argument 1 of 'test_cmp_getsockopt_setsockopt' from incompatible pointer type [-Wincompatible-pointer-types]
+     374 |         return test_cmp_getsockopt_setsockopt(key, &key2);
+         |                                               ^~~
+         |                                               |
+         |                                               struct tcp_ao_add *
+   lib/aolib.h:359:68: note: expected 'const struct tcp_ao_add *' but argument is of type 'struct tcp_ao_add *'
+     359 | extern int test_cmp_getsockopt_setsockopt(const struct tcp_ao_add *a,
+         |                                           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+>> lib/aolib.h:366:34: warning: unused variable 'key2' [-Wunused-variable]
+     366 |         struct tcp_ao_getsockopt key2 = {};
+         |                                  ^~~~
+   lib/aolib.h: In function 'test_add_key_vrf':
+   lib/aolib.h:382:16: error: variable 'tmp' has initializer but incomplete type
+     382 |         struct tcp_ao_add tmp = {};
+         |                ^~~~~~~~~~
+   lib/aolib.h:382:27: error: storage size of 'tmp' isn't known
+     382 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+   lib/aolib.h:390:43: error: 'TCP_AO_ADD_KEY' undeclared (first use in this function)
+     390 |         err = setsockopt(sk, IPPROTO_TCP, TCP_AO_ADD_KEY, &tmp, sizeof(tmp));
+         |                                           ^~~~~~~~~~~~~~
+   lib/aolib.h:390:43: note: each undeclared identifier is reported only once for each function it appears in
+>> lib/aolib.h:382:27: warning: unused variable 'tmp' [-Wunused-variable]
+     382 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+   lib/aolib.h: At top level:
+   lib/aolib.h:404:56: warning: 'struct tcp_ao_info_opt' declared inside parameter list will not be visible outside of this definition or declaration
+     404 | static inline int test_verify_socket_ao(int sk, struct tcp_ao_info_opt *ao)
+         |                                                        ^~~~~~~~~~~~~~~
+   lib/aolib.h: In function 'test_verify_socket_ao':
+   lib/aolib.h:406:16: error: variable 'ao2' has initializer but incomplete type
+     406 |         struct tcp_ao_info_opt ao2 = {};
+         |                ^~~~~~~~~~~~~~~
+   lib/aolib.h:406:32: error: storage size of 'ao2' isn't known
+     406 |         struct tcp_ao_info_opt ao2 = {};
+         |                                ^~~
+>> lib/aolib.h:413:50: warning: passing argument 1 of 'test_cmp_getsockopt_setsockopt_ao' from incompatible pointer type [-Wincompatible-pointer-types]
+     413 |         return test_cmp_getsockopt_setsockopt_ao(ao, &ao2);
+         |                                                  ^~
+         |                                                  |
+         |                                                  struct tcp_ao_info_opt *
+   lib/aolib.h:361:76: note: expected 'const struct tcp_ao_info_opt *' but argument is of type 'struct tcp_ao_info_opt *'
+     361 | extern int test_cmp_getsockopt_setsockopt_ao(const struct tcp_ao_info_opt *a,
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+>> lib/aolib.h:406:32: warning: unused variable 'ao2' [-Wunused-variable]
+     406 |         struct tcp_ao_info_opt ao2 = {};
+         |                                ^~~
+   lib/aolib.h: In function 'test_set_ao_flags':
+   lib/aolib.h:418:16: error: variable 'ao' has initializer but incomplete type
+     418 |         struct tcp_ao_info_opt ao = {};
+         |                ^~~~~~~~~~~~~~~
+   lib/aolib.h:418:32: error: storage size of 'ao' isn't known
+     418 |         struct tcp_ao_info_opt ao = {};
+         |                                ^~
+>> lib/aolib.h:418:32: warning: unused variable 'ao' [-Wunused-variable]
+   lib/aolib.h: At top level:
+>> lib/aolib.h:565:47: warning: 'struct tcp_ao_repair' declared inside parameter list will not be visible outside of this definition or declaration
+     565 | extern void test_ao_checkpoint(int sk, struct tcp_ao_repair *state);
+         |                                               ^~~~~~~~~~~~~
+   lib/aolib.h:579:44: warning: 'struct tcp_ao_repair' declared inside parameter list will not be visible outside of this definition or declaration
+     579 | extern void test_ao_restore(int sk, struct tcp_ao_repair *state);
+         |                                            ^~~~~~~~~~~~~
+   lib/aolib.h: In function 'test_add_repaired_key':
+   lib/aolib.h:589:16: error: variable 'tmp' has initializer but incomplete type
+     589 |         struct tcp_ao_add tmp = {};
+         |                ^~~~~~~~~~
+   lib/aolib.h:589:27: error: storage size of 'tmp' isn't known
+     589 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+   lib/aolib.h:599:41: error: 'TCP_AO_ADD_KEY' undeclared (first use in this function)
+     599 |         if (setsockopt(sk, IPPROTO_TCP, TCP_AO_ADD_KEY, &tmp, sizeof(tmp)) < 0)
+         |                                         ^~~~~~~~~~~~~~
+   lib/aolib.h:589:27: warning: unused variable 'tmp' [-Wunused-variable]
+     589 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+   lib/kconfig.c: In function 'has_tcp_ao':
+   lib/kconfig.c:47:16: error: variable 'tmp' has initializer but incomplete type
+      47 |         struct tcp_ao_add tmp = {};
+         |                ^~~~~~~~~~
+   lib/kconfig.c:47:27: error: storage size of 'tmp' isn't known
+      47 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+   lib/kconfig.c:64:41: error: 'TCP_AO_ADD_KEY' undeclared (first use in this function)
+      64 |         if (setsockopt(sk, IPPROTO_TCP, TCP_AO_ADD_KEY, &tmp, sizeof(tmp)) < 0) {
+         |                                         ^~~~~~~~~~~~~~
+>> lib/kconfig.c:47:27: warning: unused variable 'tmp' [-Wunused-variable]
+      47 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+--
+   In file included from lib/netlink.c:12:
+>> lib/aolib.h:320:45: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     320 | extern int test_prepare_key_sockaddr(struct tcp_ao_add *ao, const char *alg,
+         |                                             ^~~~~~~~~~
+   lib/aolib.h:326:43: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     326 | static inline int test_prepare_key(struct tcp_ao_add *ao,
+         |                                           ^~~~~~~~~~
+   lib/aolib.h: In function 'test_prepare_key':
+>> lib/aolib.h:336:42: warning: passing argument 1 of 'test_prepare_key_sockaddr' from incompatible pointer type [-Wincompatible-pointer-types]
+     336 |         return test_prepare_key_sockaddr(ao, alg, (void *)&addr, sizeof(addr),
+         |                                          ^~
+         |                                          |
+         |                                          struct tcp_ao_add *
+   lib/aolib.h:320:57: note: expected 'struct tcp_ao_add *' but argument is of type 'struct tcp_ao_add *'
+     320 | extern int test_prepare_key_sockaddr(struct tcp_ao_add *ao, const char *alg,
+         |                                      ~~~~~~~~~~~~~~~~~~~^~
+   lib/aolib.h: At top level:
+   lib/aolib.h:341:47: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     341 | static inline int test_prepare_def_key(struct tcp_ao_add *ao,
+         |                                               ^~~~~~~~~~
+   lib/aolib.h: In function 'test_prepare_def_key':
+>> lib/aolib.h:349:33: warning: passing argument 1 of 'test_prepare_key' from incompatible pointer type [-Wincompatible-pointer-types]
+     349 |         return test_prepare_key(ao, DEFAULT_TEST_ALGO, in_addr, false, false,
+         |                                 ^~
+         |                                 |
+         |                                 struct tcp_ao_add *
+   lib/aolib.h:326:55: note: expected 'struct tcp_ao_add *' but argument is of type 'struct tcp_ao_add *'
+     326 | static inline int test_prepare_key(struct tcp_ao_add *ao,
+         |                                    ~~~~~~~~~~~~~~~~~~~^~
+   lib/aolib.h: At top level:
+>> lib/aolib.h:354:43: warning: 'struct tcp_ao_getsockopt' declared inside parameter list will not be visible outside of this definition or declaration
+     354 | extern int test_get_one_ao(int sk, struct tcp_ao_getsockopt *out,
+         |                                           ^~~~~~~~~~~~~~~~~
+>> lib/aolib.h:357:44: warning: 'struct tcp_ao_info_opt' declared inside parameter list will not be visible outside of this definition or declaration
+     357 | extern int test_get_ao_info(int sk, struct tcp_ao_info_opt *out);
+         |                                            ^~~~~~~~~~~~~~~
+   lib/aolib.h:358:44: warning: 'struct tcp_ao_info_opt' declared inside parameter list will not be visible outside of this definition or declaration
+     358 | extern int test_set_ao_info(int sk, struct tcp_ao_info_opt *in);
+         |                                            ^~~~~~~~~~~~~~~
+   lib/aolib.h:360:56: warning: 'struct tcp_ao_getsockopt' declared inside parameter list will not be visible outside of this definition or declaration
+     360 |                                           const struct tcp_ao_getsockopt *b);
+         |                                                        ^~~~~~~~~~~~~~~~~
+   lib/aolib.h:359:56: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     359 | extern int test_cmp_getsockopt_setsockopt(const struct tcp_ao_add *a,
+         |                                                        ^~~~~~~~~~
+   lib/aolib.h:361:59: warning: 'struct tcp_ao_info_opt' declared inside parameter list will not be visible outside of this definition or declaration
+     361 | extern int test_cmp_getsockopt_setsockopt_ao(const struct tcp_ao_info_opt *a,
+         |                                                           ^~~~~~~~~~~~~~~
+   lib/aolib.h:364:57: warning: 'struct tcp_ao_add' declared inside parameter list will not be visible outside of this definition or declaration
+     364 | static inline int test_verify_socket_key(int sk, struct tcp_ao_add *key)
+         |                                                         ^~~~~~~~~~
+   lib/aolib.h: In function 'test_verify_socket_key':
+   lib/aolib.h:366:16: error: variable 'key2' has initializer but incomplete type
+     366 |         struct tcp_ao_getsockopt key2 = {};
+         |                ^~~~~~~~~~~~~~~~~
+   lib/aolib.h:366:34: error: storage size of 'key2' isn't known
+     366 |         struct tcp_ao_getsockopt key2 = {};
+         |                                  ^~~~
+   lib/aolib.h:369:46: error: invalid use of undefined type 'struct tcp_ao_add'
+     369 |         err = test_get_one_ao(sk, &key2, &key->addr, sizeof(key->addr),
+         |                                              ^~
+   lib/aolib.h:369:64: error: invalid use of undefined type 'struct tcp_ao_add'
+     369 |         err = test_get_one_ao(sk, &key2, &key->addr, sizeof(key->addr),
+         |                                                                ^~
+   lib/aolib.h:370:34: error: invalid use of undefined type 'struct tcp_ao_add'
+     370 |                               key->prefix, key->sndid, key->rcvid);
+         |                                  ^~
+   lib/aolib.h:370:47: error: invalid use of undefined type 'struct tcp_ao_add'
+     370 |                               key->prefix, key->sndid, key->rcvid);
+         |                                               ^~
+   lib/aolib.h:370:59: error: invalid use of undefined type 'struct tcp_ao_add'
+     370 |                               key->prefix, key->sndid, key->rcvid);
+         |                                                           ^~
+>> lib/aolib.h:374:47: warning: passing argument 1 of 'test_cmp_getsockopt_setsockopt' from incompatible pointer type [-Wincompatible-pointer-types]
+     374 |         return test_cmp_getsockopt_setsockopt(key, &key2);
+         |                                               ^~~
+         |                                               |
+         |                                               struct tcp_ao_add *
+   lib/aolib.h:359:68: note: expected 'const struct tcp_ao_add *' but argument is of type 'struct tcp_ao_add *'
+     359 | extern int test_cmp_getsockopt_setsockopt(const struct tcp_ao_add *a,
+         |                                           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+>> lib/aolib.h:366:34: warning: unused variable 'key2' [-Wunused-variable]
+     366 |         struct tcp_ao_getsockopt key2 = {};
+         |                                  ^~~~
+   lib/aolib.h: In function 'test_add_key_vrf':
+   lib/aolib.h:382:16: error: variable 'tmp' has initializer but incomplete type
+     382 |         struct tcp_ao_add tmp = {};
+         |                ^~~~~~~~~~
+   lib/aolib.h:382:27: error: storage size of 'tmp' isn't known
+     382 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+   lib/aolib.h:390:43: error: 'TCP_AO_ADD_KEY' undeclared (first use in this function)
+     390 |         err = setsockopt(sk, IPPROTO_TCP, TCP_AO_ADD_KEY, &tmp, sizeof(tmp));
+         |                                           ^~~~~~~~~~~~~~
+   lib/aolib.h:390:43: note: each undeclared identifier is reported only once for each function it appears in
+>> lib/aolib.h:382:27: warning: unused variable 'tmp' [-Wunused-variable]
+     382 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+   lib/aolib.h: At top level:
+   lib/aolib.h:404:56: warning: 'struct tcp_ao_info_opt' declared inside parameter list will not be visible outside of this definition or declaration
+     404 | static inline int test_verify_socket_ao(int sk, struct tcp_ao_info_opt *ao)
+         |                                                        ^~~~~~~~~~~~~~~
+   lib/aolib.h: In function 'test_verify_socket_ao':
+   lib/aolib.h:406:16: error: variable 'ao2' has initializer but incomplete type
+     406 |         struct tcp_ao_info_opt ao2 = {};
+         |                ^~~~~~~~~~~~~~~
+   lib/aolib.h:406:32: error: storage size of 'ao2' isn't known
+     406 |         struct tcp_ao_info_opt ao2 = {};
+         |                                ^~~
+>> lib/aolib.h:413:50: warning: passing argument 1 of 'test_cmp_getsockopt_setsockopt_ao' from incompatible pointer type [-Wincompatible-pointer-types]
+     413 |         return test_cmp_getsockopt_setsockopt_ao(ao, &ao2);
+         |                                                  ^~
+         |                                                  |
+         |                                                  struct tcp_ao_info_opt *
+   lib/aolib.h:361:76: note: expected 'const struct tcp_ao_info_opt *' but argument is of type 'struct tcp_ao_info_opt *'
+     361 | extern int test_cmp_getsockopt_setsockopt_ao(const struct tcp_ao_info_opt *a,
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+>> lib/aolib.h:406:32: warning: unused variable 'ao2' [-Wunused-variable]
+     406 |         struct tcp_ao_info_opt ao2 = {};
+         |                                ^~~
+   lib/aolib.h: In function 'test_set_ao_flags':
+   lib/aolib.h:418:16: error: variable 'ao' has initializer but incomplete type
+     418 |         struct tcp_ao_info_opt ao = {};
+         |                ^~~~~~~~~~~~~~~
+   lib/aolib.h:418:32: error: storage size of 'ao' isn't known
+     418 |         struct tcp_ao_info_opt ao = {};
+         |                                ^~
+>> lib/aolib.h:418:32: warning: unused variable 'ao' [-Wunused-variable]
+   lib/aolib.h: At top level:
+>> lib/aolib.h:565:47: warning: 'struct tcp_ao_repair' declared inside parameter list will not be visible outside of this definition or declaration
+     565 | extern void test_ao_checkpoint(int sk, struct tcp_ao_repair *state);
+         |                                               ^~~~~~~~~~~~~
+   lib/aolib.h:579:44: warning: 'struct tcp_ao_repair' declared inside parameter list will not be visible outside of this definition or declaration
+     579 | extern void test_ao_restore(int sk, struct tcp_ao_repair *state);
+         |                                            ^~~~~~~~~~~~~
+   lib/aolib.h: In function 'test_add_repaired_key':
+   lib/aolib.h:589:16: error: variable 'tmp' has initializer but incomplete type
+     589 |         struct tcp_ao_add tmp = {};
+         |                ^~~~~~~~~~
+   lib/aolib.h:589:27: error: storage size of 'tmp' isn't known
+     589 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+   lib/aolib.h:599:41: error: 'TCP_AO_ADD_KEY' undeclared (first use in this function)
+     599 |         if (setsockopt(sk, IPPROTO_TCP, TCP_AO_ADD_KEY, &tmp, sizeof(tmp)) < 0)
+         |                                         ^~~~~~~~~~~~~~
+   lib/aolib.h:589:27: warning: unused variable 'tmp' [-Wunused-variable]
+     589 |         struct tcp_ao_add tmp = {};
+         |                           ^~~
+..
 
 -- 
 0-DAY CI Kernel Test Service
