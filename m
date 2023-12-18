@@ -1,47 +1,54 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0F81840
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 00:01:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5972410E7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 00:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XO2zTz2w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9XDuM4k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702857720; x=1734393720;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PDNYLeFUJhlODDZeCwyvd/Fvsqp0Mn4fYPm0n2gUzSw=;
-  b=XO2zTz2wSxbxgrkLELoX9C4n+bPBCRItZiWEgYHClv009vNFXbyhkmrL
-   P4dyG8bVk59eILzwjA9dk3xyDfg+btPkrmwFXURvsLbxPxWjOHa6HS8ja
-   xDpNp5SQLkm8A0vVI2Y+OGwoxNUKzG8SSmo463VQQaRc/1VozvHYPOd5L
-   HzJlmYd1/tVfv2vUlbkBcvqmTOly8RQhQYTn69Xh9OPfQ0aQejzJVWEjL
-   fVK2NHFRUwsCBUIgM8HgKrXRTut04sTfT9GgZvobDUW/4I66Ya/zI2OEt
-   GH7WfxgCHsgP7vNnsmk+N/l54cYkGR/EZG5A4iO/Tqjde5uPh3prfCY8y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2262740"
+  t=1702859525; x=1734395525;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=76DAx//fmXSqRlR1hum4dGOBFckM5Ymm9g4DymCzyb4=;
+  b=O9XDuM4k3A5s2u4hHUhQ663y+NmSfgIvdJHMURlCnKNyJl8sVHeFxNUJ
+   wYmMS4hHFq05skWPNV2vxW93XYLq06FLX4s1eXLD5w3sO5kubky1BhNf8
+   769LNIWmWboE9/RVJWLnk/EbtbfkMiH58x3kptCD4Mc4EJQIa3TzpLL/Z
+   hW+jfKnNBqQMquTgxySeOvo/JPtb2M8tFkDxW/whWmIUWEUSm11xr9Lxe
+   nuTtbbWnNfmyHF/y1SUZmMIrueXyhmH39UnjjeH11P+E6h9JEeBNaoTJA
+   Tdwi59DvRkUXR8gPeh6RCAwjL7y1p6xKT/84080OQULr/dE+8n6qvgKWO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2264603"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="2262740"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 16:01:59 -0800
+   d="scan'208";a="2264603"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 16:32:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="866028546"
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="768649698"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="866028546"
+   d="scan'208";a="768649698"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Dec 2023 16:01:57 -0800
+  by orsmga007.jf.intel.com with ESMTP; 17 Dec 2023 16:32:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rF151-0003Xu-03;
-	Mon, 18 Dec 2023 00:01:55 +0000
-Date: Mon, 18 Dec 2023 08:01:07 +0800
+	id 1rF1Y7-0003ZU-04;
+	Mon, 18 Dec 2023 00:31:59 +0000
+Date: Mon, 18 Dec 2023 08:31:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-2.1.x-imx 1300/16025]
- usr/include/linux/videodev2.h:2437:20: error: field has incomplete type
- 'struct timespec'
-Message-ID: <202312180753.ge7NluEM-lkp@intel.com>
+To: Abdel Alkuor <alkuor@gmail.com>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
+Message-ID: <202312180847.bJ22ULTY-lkp@intel.com>
+References: <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,33 +57,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-2.1.x-imx
-head:   241e2f51bd87beb652196d1db92f0387c1209bfb
-commit: d368bdd73e55410f089fc065109f13953f409d88 [1300/16025] video: fbdev: mxc: Forward IPUv3 framebuffer driver from imx_4.19.y kernel
-config: i386-buildonly-randconfig-002-20231217 (https://download.01.org/0day-ci/archive/20231218/202312180753.ge7NluEM-lkp@intel.com/config)
+Hi Abdel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next linus/master v6.7-rc5 next-20231215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abdel-Alkuor/hwmon-Add-AMS-AS6200-temperature-sensor/20231217-004310
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor%40gmail.com
+patch subject: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
+config: x86_64-randconfig-r132-20231218 (https://download.01.org/0day-ci/archive/20231218/202312180847.bJ22ULTY-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180753.ge7NluEM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180847.bJ22ULTY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312180753.ge7NluEM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312180847.bJ22ULTY-lkp@intel.com/
 
-Note: the freescale-fslc/6.1-2.1.x-imx HEAD 241e2f51bd87beb652196d1db92f0387c1209bfb builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/as6200.c:141:24: sparse: sparse: symbol 'as6200_chip_info' was not declared. Should it be static?
 
-All errors (new ones prefixed by >>):
+vim +/as6200_chip_info +141 drivers/hwmon/as6200.c
 
-   In file included from <built-in>:1:
-   In file included from ./usr/include/linux/ipu.h:29:
->> usr/include/linux/videodev2.h:2437:20: error: field has incomplete type 'struct timespec'
-           struct timespec                 timestamp;
-                                           ^
-   usr/include/linux/videodev2.h:2437:9: note: forward declaration of 'struct timespec'
-           struct timespec                 timestamp;
-                  ^
-   1 error generated.
+   140	
+ > 141	struct hwmon_chip_info as6200_chip_info = {
+   142		.ops = &as6200_hwmon_ops,
+   143		.info = as6200_info
+   144	};
+   145	
 
 -- 
 0-DAY CI Kernel Test Service
