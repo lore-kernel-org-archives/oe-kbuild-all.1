@@ -1,159 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDCF79D9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 07:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23390CA76
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 07:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eik93Pjw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702884333; x=1734420333;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PT2y7Y8tTRAhXZO9PqEySZz4GYqUZPqZD7wIBsTwCLY=;
-  b=eik93Pjw42aHCAI8+gutcZ2XzauPkd72o3fvdgArUWCpY/i5twJHqLxs
-   C/yxK2JYUGA5MsrbtrN5VUC1wEIteq4vVGBduNyITAd14fnyYy2iown3K
-   r7fcysdyBlY2XR9V8uwh0FBUHN0bwr26y3dfC0+BQbHPWJcsoPCjnrjWL
-   2oiHNLQ2ldJPlba3Oq5w9qkYRsGEVHYGsV2vczvAzHbe51n2oMdMh16t9
-   L+9v0rDvIZEGTEmKqyhd5VOXYnRaN/K20nh9wahoWZV3ZzZPwk/PDSucL
-   iTkmx0aY380xh2AQ9MKwcZ+aAcmrfLD4OoWL+DGBxpQ3X1Rgj3yBeTpJs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="374966340"
-X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="374966340"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 23:25:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="809711681"
-X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="809711681"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 17 Dec 2023 23:25:28 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rF80E-0003rP-1k;
-	Mon, 18 Dec 2023 07:25:26 +0000
-Date: Mon, 18 Dec 2023 15:25:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andi Kleen <ak@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest 97/136] arch/x86/kvm/svm/svm.c:514:17: sparse:
- sparse: cast truncates bits from constant value (100000000 becomes 0)
-Message-ID: <202312181532.SgsMpoxw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hpIf9vFJ"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cc4e15605aso29875461fa.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 23:33:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702884812; x=1703489612; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZW35qmP+/wtz3L+npU/IJLY/6oTtrrAjtbp/uv7+Jys=;
+        b=hpIf9vFJi5O++qFumFEkz82tnVNN1ZMEm8wEO6Mj18beFtS+OYZpYrK3t6JN2GdPh8
+         DQc0Qz88NA1JZE9Uv1mIwFRtyl1B/ACCm5zpYNtyejmstvI8eUmmzT4MpZ6i8+WDhKvs
+         i9pqNdzf+Y1HH/L6nDltON62ESlMLwHOicXbeCTfYx+Rj59DQOCEvD8mzP8cwlZCeZfc
+         0WbfhVCDXybUq7jjtwNyswRMQXCGtJKctucESsqewKAM9oGiiztQHvN3+fZkJ+FY+Nc3
+         atxgp8y9kVTfLneK9wYS5Dz3qSoCgdUQx4u2lYifIut8EFfAfvAVZ2P00PUiw+z6QYoW
+         ezTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702884812; x=1703489612;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZW35qmP+/wtz3L+npU/IJLY/6oTtrrAjtbp/uv7+Jys=;
+        b=PPewblpyAzRM1lnLWBis+8v2+POqb6EfgGTnZ+TpbDnSZzfYfOWxHffnozw4wtibkz
+         /lHqueXv1UXD8CH710NLsRH+cV7sghpjPN4gp6gFhT3PyMnn9vfzeAlFPai9Lv3vPxBs
+         hu31i28d51pGDEFYcvzqk6XY1n806apMqywvH3Z1ERhhFblgNXLnMtaWK72tBjDj25at
+         ZUnH3hvZvHXerWZ1cpk5eO8Tjukhb6tUtOlmO5490JFF2czlMXYz2NYrYMkzSHxtpyJ/
+         Tr1I8GDv0mJl0y2+BIbHkI2jAtpIuWVrrtBTTT/IXqh66ke8seVCgT9VD7fIul8j397r
+         MIfg==
+X-Gm-Message-State: AOJu0YwyjTxq032hO2sN7RzMIADmLAndChjQgYB72/84Qw4elzBEj5I2
+	rFQusr7awbBkqQi5+tg0uEUvePS8tXxcsrXmlGc=
+X-Google-Smtp-Source: AGHT+IE3jhEJQTtgRuyQSQT65Bnsv/gL+cwN9Cf6aIbtje89NRVtzKewiAEPwVWURaUWZGAQp+VdskvIfhqDCwU9FBU=
+X-Received: by 2002:a05:651c:1503:b0:2cc:1c71:aff8 with SMTP id
+ e3-20020a05651c150300b002cc1c71aff8mr7349269ljf.97.1702884811917; Sun, 17 Dec
+ 2023 23:33:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202312141227.C2h1IzfI-lkp@intel.com> <20231214172541.48370-1-rymcclel@gmail.com>
+In-Reply-To: <20231214172541.48370-1-rymcclel@gmail.com>
+From: Daniel Ogorchock <djogorchock@gmail.com>
+Date: Mon, 18 Dec 2023 02:33:20 -0500
+Message-ID: <CAEVj2tn+=T5mSZ5bN=GMyh-dtxfdhMEEPPrXCJR+JfhNJ=Wa3w@mail.gmail.com>
+Subject: Re: [PATCH] HID: nintendo: fix initializer element is not constant error
+To: Ryan McClelland <rymcclel@gmail.com>
+Cc: lkp@intel.com, linux-input@vger.kernel.org, jkosina@suse.com, 
+	linux-mm@kvack.org, oe-kbuild-all@lists.linux.dev, 
+	benjamin.tissoires@redhat.com, jikos@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/intel/tdx.git guest
-head:   f3d7a7e86bf2f0d5ce629f2fb7be11dca88ac06d
-commit: c34bfda30e18342b8ae7856fd59b76e9ca938460 [97/136] x86/tdx/paravirt: Move wrmsrl outside PARAVIRT_XXL
-config: i386-randconfig-061-20230904 (https://download.01.org/0day-ci/archive/20231218/202312181532.SgsMpoxw-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312181532.SgsMpoxw-lkp@intel.com/reproduce)
+Hi Ryan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312181532.SgsMpoxw-lkp@intel.com/
+On Thu, Dec 14, 2023 at 12:26=E2=80=AFPM Ryan McClelland <rymcclel@gmail.co=
+m> wrote:
+>
+> With gcc-7 builds, an error happens with the controller button values bei=
+ng
+> defined as const. Change to a define.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202312141227.C2h1IzfI-lkp@i=
+ntel.com/
+>
+> Signed-off-by: Ryan McClelland <rymcclel@gmail.com>
+> ---
+>  drivers/hid/hid-nintendo.c | 44 +++++++++++++++++++-------------------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/hid/hid-nintendo.c b/drivers/hid/hid-nintendo.c
+> index 47af111ef3a2..2987083785f9 100644
+> --- a/drivers/hid/hid-nintendo.c
+> +++ b/drivers/hid/hid-nintendo.c
+> @@ -336,28 +336,28 @@ struct joycon_imu_cal {
+>   * All the controller's button values are stored in a u32.
+>   * They can be accessed with bitwise ANDs.
+>   */
+> -static const u32 JC_BTN_Y      =3D BIT(0);
+> -static const u32 JC_BTN_X      =3D BIT(1);
+> -static const u32 JC_BTN_B      =3D BIT(2);
+> -static const u32 JC_BTN_A      =3D BIT(3);
+> -static const u32 JC_BTN_SR_R   =3D BIT(4);
+> -static const u32 JC_BTN_SL_R   =3D BIT(5);
+> -static const u32 JC_BTN_R      =3D BIT(6);
+> -static const u32 JC_BTN_ZR     =3D BIT(7);
+> -static const u32 JC_BTN_MINUS  =3D BIT(8);
+> -static const u32 JC_BTN_PLUS   =3D BIT(9);
+> -static const u32 JC_BTN_RSTICK =3D BIT(10);
+> -static const u32 JC_BTN_LSTICK =3D BIT(11);
+> -static const u32 JC_BTN_HOME   =3D BIT(12);
+> -static const u32 JC_BTN_CAP    =3D BIT(13); /* capture button */
+> -static const u32 JC_BTN_DOWN   =3D BIT(16);
+> -static const u32 JC_BTN_UP     =3D BIT(17);
+> -static const u32 JC_BTN_RIGHT  =3D BIT(18);
+> -static const u32 JC_BTN_LEFT   =3D BIT(19);
+> -static const u32 JC_BTN_SR_L   =3D BIT(20);
+> -static const u32 JC_BTN_SL_L   =3D BIT(21);
+> -static const u32 JC_BTN_L      =3D BIT(22);
+> -static const u32 JC_BTN_ZL     =3D BIT(23);
+> +#define JC_BTN_Y        BIT(0)
+> +#define JC_BTN_X        BIT(1)
+> +#define JC_BTN_B        BIT(2)
+> +#define JC_BTN_A        BIT(3)
+> +#define JC_BTN_SR_R     BIT(4)
+> +#define JC_BTN_SL_R     BIT(5)
+> +#define JC_BTN_R        BIT(6)
+> +#define JC_BTN_ZR       BIT(7)
+> +#define JC_BTN_MINUS    BIT(8)
+> +#define JC_BTN_PLUS     BIT(9)
+> +#define JC_BTN_RSTICK   BIT(10)
+> +#define JC_BTN_LSTICK   BIT(11)
+> +#define JC_BTN_HOME     BIT(12)
+> +#define JC_BTN_CAP      BIT(13) /* capture button */
+> +#define JC_BTN_DOWN     BIT(16)
+> +#define JC_BTN_UP       BIT(17)
+> +#define JC_BTN_RIGHT    BIT(18)
+> +#define JC_BTN_LEFT     BIT(19)
+> +#define JC_BTN_SR_L     BIT(20)
+> +#define JC_BTN_SL_L     BIT(21)
+> +#define JC_BTN_L        BIT(22)
+> +#define JC_BTN_ZL       BIT(23)
+>
+>  struct joycon_ctlr_button_mapping {
+>         u32 code;
+> --
+> 2.25.1
+>
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kvm/svm/svm.c: note: in included file (through arch/x86/include/asm/msr.h, arch/x86/include/asm/processor.h, arch/x86/include/asm/cpufeature.h, ...):
-   arch/x86/include/asm/paravirt.h:120:38: sparse: sparse: cast truncates bits from constant value (100000000 becomes 0)
-   arch/x86/include/asm/paravirt.h:120:38: sparse: sparse: cast truncates bits from constant value (100000000 becomes 0)
->> arch/x86/kvm/svm/svm.c:514:17: sparse: sparse: cast truncates bits from constant value (100000000 becomes 0)
->> arch/x86/kvm/svm/svm.c:514:17: sparse: sparse: cast truncates bits from constant value (100000000 becomes 0)
->> arch/x86/kvm/svm/svm.c:514:17: sparse: sparse: cast truncates bits from constant value (100000000 becomes 0)
+Thanks for the quick fix.
 
-vim +514 arch/x86/kvm/svm/svm.c
+Reviewed-by: Daniel J. Ogorchock <djogorchock@gmail.com>
 
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  480  
-0fe1e009541e92 arch/x86/kvm/svm.c     Tejun Heo         2009-10-29  481  	struct svm_cpu_data *sd;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  482  	uint64_t efer;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  483  	struct desc_struct *gdt;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  484  	int me = raw_smp_processor_id();
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  485  
-10474ae8945ce0 arch/x86/kvm/svm.c     Alexander Graf    2009-09-15  486  	rdmsrl(MSR_EFER, efer);
-10474ae8945ce0 arch/x86/kvm/svm.c     Alexander Graf    2009-09-15  487  	if (efer & EFER_SVME)
-10474ae8945ce0 arch/x86/kvm/svm.c     Alexander Graf    2009-09-15  488  		return -EBUSY;
-10474ae8945ce0 arch/x86/kvm/svm.c     Alexander Graf    2009-09-15  489  
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  490  	if (!has_svm()) {
-1f5b77f51a221f arch/x86/kvm/svm.c     Borislav Petkov   2012-10-20  491  		pr_err("%s: err EOPNOTSUPP on %d\n", __func__, me);
-10474ae8945ce0 arch/x86/kvm/svm.c     Alexander Graf    2009-09-15  492  		return -EINVAL;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  493  	}
-0fe1e009541e92 arch/x86/kvm/svm.c     Tejun Heo         2009-10-29  494  	sd = per_cpu(svm_data, me);
-0fe1e009541e92 arch/x86/kvm/svm.c     Tejun Heo         2009-10-29  495  	if (!sd) {
-1f5b77f51a221f arch/x86/kvm/svm.c     Borislav Petkov   2012-10-20  496  		pr_err("%s: svm_data is NULL on %d\n", __func__, me);
-10474ae8945ce0 arch/x86/kvm/svm.c     Alexander Graf    2009-09-15  497  		return -EINVAL;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  498  	}
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  499  
-0fe1e009541e92 arch/x86/kvm/svm.c     Tejun Heo         2009-10-29  500  	sd->asid_generation = 1;
-0fe1e009541e92 arch/x86/kvm/svm.c     Tejun Heo         2009-10-29  501  	sd->max_asid = cpuid_ebx(SVM_CPUID_FUNC) - 1;
-0fe1e009541e92 arch/x86/kvm/svm.c     Tejun Heo         2009-10-29  502  	sd->next_asid = sd->max_asid + 1;
-ed3cd233f80740 arch/x86/kvm/svm.c     Brijesh Singh     2017-12-04  503  	sd->min_asid = max_sev_asid + 1;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  504  
-45fc8757d1d212 arch/x86/kvm/svm.c     Thomas Garnier    2017-03-14  505  	gdt = get_current_gdt_rw();
-0fe1e009541e92 arch/x86/kvm/svm.c     Tejun Heo         2009-10-29  506  	sd->tss_desc = (struct kvm_ldttss_desc *)(gdt + GDT_ENTRY_TSS);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  507  
-9962d032bbff02 arch/x86/kvm/svm.c     Alexander Graf    2008-11-25  508  	wrmsrl(MSR_EFER, efer | EFER_SVME);
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  509  
-85ca8be938c0e6 arch/x86/kvm/svm/svm.c Tom Lendacky      2020-12-10  510  	wrmsrl(MSR_VM_HSAVE_PA, __sme_page_pa(sd->save_area));
-10474ae8945ce0 arch/x86/kvm/svm.c     Alexander Graf    2009-09-15  511  
-fbc0db76b77125 arch/x86/kvm/svm.c     Joerg Roedel      2011-03-25  512  	if (static_cpu_has(X86_FEATURE_TSCRATEMSR)) {
-fbc0db76b77125 arch/x86/kvm/svm.c     Joerg Roedel      2011-03-25  513  		wrmsrl(MSR_AMD64_TSC_RATIO, TSC_RATIO_DEFAULT);
-89cbc76768c2fa arch/x86/kvm/svm.c     Christoph Lameter 2014-08-17 @514  		__this_cpu_write(current_tsc_ratio, TSC_RATIO_DEFAULT);
-fbc0db76b77125 arch/x86/kvm/svm.c     Joerg Roedel      2011-03-25  515  	}
-fbc0db76b77125 arch/x86/kvm/svm.c     Joerg Roedel      2011-03-25  516  
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  517  
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  518  	/*
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  519  	 * Get OSVW bits.
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  520  	 *
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  521  	 * Note that it is possible to have a system with mixed processor
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  522  	 * revisions and therefore different OSVW bits. If bits are not the same
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  523  	 * on different processors then choose the worst case (i.e. if erratum
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  524  	 * is present on one processor and not on another then assume that the
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  525  	 * erratum is present everywhere).
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  526  	 */
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  527  	if (cpu_has(&boot_cpu_data, X86_FEATURE_OSVW)) {
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  528  		uint64_t len, status = 0;
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  529  		int err;
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  530  
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  531  		len = native_read_msr_safe(MSR_AMD64_OSVW_ID_LENGTH, &err);
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  532  		if (!err)
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  533  			status = native_read_msr_safe(MSR_AMD64_OSVW_STATUS,
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  534  						      &err);
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  535  
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  536  		if (err)
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  537  			osvw_status = osvw_len = 0;
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  538  		else {
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  539  			if (len < osvw_len)
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  540  				osvw_len = len;
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  541  			osvw_status |= status;
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  542  			osvw_status &= (1ULL << osvw_len) - 1;
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  543  		}
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  544  	} else
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  545  		osvw_status = osvw_len = 0;
-2b036c6b861dc5 arch/x86/kvm/svm.c     Boris Ostrovsky   2012-01-09  546  
-67ec66077799f2 arch/x86/kvm/svm.c     Joerg Roedel      2010-05-17  547  	svm_init_erratum_383();
-67ec66077799f2 arch/x86/kvm/svm.c     Joerg Roedel      2010-05-17  548  
-1018faa6cf23b2 arch/x86/kvm/svm.c     Joerg Roedel      2012-02-29  549  	amd_pmu_enable_virt();
-1018faa6cf23b2 arch/x86/kvm/svm.c     Joerg Roedel      2012-02-29  550  
-10474ae8945ce0 arch/x86/kvm/svm.c     Alexander Graf    2009-09-15  551  	return 0;
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  552  }
-6aa8b732ca01c3 drivers/kvm/svm.c      Avi Kivity        2006-12-10  553  
-
-:::::: The code at line 514 was first introduced by commit
-:::::: 89cbc76768c2fa4ed95545bf961f3a14ddfeed21 x86: Replace __get_cpu_var uses
-
-:::::: TO: Christoph Lameter <cl@linux.com>
-:::::: CC: Tejun Heo <tj@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-Daniel
