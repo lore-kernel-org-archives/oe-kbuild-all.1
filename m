@@ -1,98 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5972410E7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 00:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6211110ED
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 00:55:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9XDuM4k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nkVP9MCM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702859525; x=1734395525;
+  t=1702860905; x=1734396905;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=76DAx//fmXSqRlR1hum4dGOBFckM5Ymm9g4DymCzyb4=;
-  b=O9XDuM4k3A5s2u4hHUhQ663y+NmSfgIvdJHMURlCnKNyJl8sVHeFxNUJ
-   wYmMS4hHFq05skWPNV2vxW93XYLq06FLX4s1eXLD5w3sO5kubky1BhNf8
-   769LNIWmWboE9/RVJWLnk/EbtbfkMiH58x3kptCD4Mc4EJQIa3TzpLL/Z
-   hW+jfKnNBqQMquTgxySeOvo/JPtb2M8tFkDxW/whWmIUWEUSm11xr9Lxe
-   nuTtbbWnNfmyHF/y1SUZmMIrueXyhmH39UnjjeH11P+E6h9JEeBNaoTJA
-   Tdwi59DvRkUXR8gPeh6RCAwjL7y1p6xKT/84080OQULr/dE+8n6qvgKWO
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=SX321zBiEBN7jztDpGT8OAdI61LrNKGSl+Ax97mksgM=;
+  b=nkVP9MCMFLNzJXrzj9JQp03cjjLZxDiMpr85aD341reCzHAzdCQNT+LV
+   UVUqTE8D2eb1hSeVkplMXgEbxBqs926QBDi04mucDT5I5/sDIcaCQc/GD
+   RChsaWxwXA+IjDE99wDP+I5hiTpOOilrvdoTr4Hgzwo+Ll6un00bMmeWV
+   YC/ARAxujrCZtnchi/XCKng1Qojc7Zka4BnNoT8AC2em5OAXb8BEAMhfW
+   DegMhqB1y9or/d9zG2qVB5+HTRcXBB39ooPjSsmLA1FArIx5YNFkhwD1v
+   m3AV3QqLnebw5EyV6E3XXHiUg6ZRLQ0/6lCTuLYyS0vy4D6/vx11q8eaz
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2264603"
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="461894412"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="2264603"
+   d="scan'208";a="461894412"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 16:32:04 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 16:55:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="768649698"
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="768654948"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="768649698"
+   d="scan'208";a="768654948"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 17 Dec 2023 16:32:01 -0800
+  by orsmga007.jf.intel.com with ESMTP; 17 Dec 2023 16:55:02 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rF1Y7-0003ZU-04;
-	Mon, 18 Dec 2023 00:31:59 +0000
-Date: Mon, 18 Dec 2023 08:31:30 +0800
+	id 1rF1uO-0003bA-0M;
+	Mon, 18 Dec 2023 00:55:00 +0000
+Date: Mon, 18 Dec 2023 08:54:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abdel Alkuor <alkuor@gmail.com>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
-Message-ID: <202312180847.bJ22ULTY-lkp@intel.com>
-References: <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
+To: =?utf-8?B?TWljaGHFgiBLb3BlxIc=?= <michal.kopec@3mdeb.com>,
+	linux-usb@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	=?utf-8?B?TWljaGHFgiBLb3BlxIc=?= <michal@nozomi.space>
+Subject: Re: [PATCH] platform/x86: serial-multi-instantiate: allow single
+ GpioInt IRQ for INT3515
+Message-ID: <202312180832.j4FO9TyV-lkp@intel.com>
+References: <20231212103823.546118-2-michal.kopec@3mdeb.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231212103823.546118-2-michal.kopec@3mdeb.com>
 
-Hi Abdel,
+Hi Michał,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on robh/for-next linus/master v6.7-rc5 next-20231215]
+[auto build test WARNING on westeri-thunderbolt/next]
+[also build test WARNING on linus/master v6.7-rc5 next-20231215]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abdel-Alkuor/hwmon-Add-AMS-AS6200-temperature-sensor/20231217-004310
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/63e352150ed51eefce90ca4058af5459730174b2.1702744180.git.alkuor%40gmail.com
-patch subject: [PATCH 2/2] hwmon: Add AMS AS6200 temperature sensor
-config: x86_64-randconfig-r132-20231218 (https://download.01.org/0day-ci/archive/20231218/202312180847.bJ22ULTY-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Micha-Kope/platform-x86-serial-multi-instantiate-allow-single-GpioInt-IRQ-for-INT3515/20231212-184116
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
+patch link:    https://lore.kernel.org/r/20231212103823.546118-2-michal.kopec%403mdeb.com
+patch subject: [PATCH] platform/x86: serial-multi-instantiate: allow single GpioInt IRQ for INT3515
+config: i386-randconfig-r112-20231217 (https://download.01.org/0day-ci/archive/20231218/202312180832.j4FO9TyV-lkp@intel.com/config)
 compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180847.bJ22ULTY-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180832.j4FO9TyV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312180847.bJ22ULTY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312180832.j4FO9TyV-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/as6200.c:141:24: sparse: sparse: symbol 'as6200_chip_info' was not declared. Should it be static?
+>> drivers/platform/x86/serial-multi-instantiate.c:79:37: sparse: sparse: dubious: !x & y
 
-vim +/as6200_chip_info +141 drivers/hwmon/as6200.c
+vim +79 drivers/platform/x86/serial-multi-instantiate.c
 
-   140	
- > 141	struct hwmon_chip_info as6200_chip_info = {
-   142		.ops = &as6200_hwmon_ops,
-   143		.info = as6200_info
-   144	};
-   145	
+    51	
+    52	static int smi_get_irq(struct platform_device *pdev, struct acpi_device *adev,
+    53			       const struct smi_instance *inst)
+    54	{
+    55		int ret;
+    56	
+    57		switch (inst->flags & IRQ_RESOURCE_TYPE) {
+    58		case IRQ_RESOURCE_AUTO:
+    59			ret = acpi_dev_gpio_irq_get(adev, inst->irq_idx);
+    60			if (ret > 0) {
+    61				dev_dbg(&pdev->dev, "Using gpio irq\n");
+    62				break;
+    63			}
+    64			ret = platform_get_irq_optional(pdev, inst->irq_idx);
+    65			if (ret > 0) {
+    66				dev_dbg(&pdev->dev, "Using platform irq\n");
+    67				break;
+    68			}
+    69			break;
+    70		case IRQ_RESOURCE_GPIO:
+    71			ret = acpi_dev_gpio_irq_get(adev, inst->irq_idx);
+    72			break;
+    73		case IRQ_RESOURCE_APIC:
+    74			ret = platform_get_irq_optional(pdev, inst->irq_idx);
+    75			break;
+    76		default:
+    77			return 0;
+    78		}
+  > 79		if (ret < 0 && !inst->flags & IRQ_OPTIONAL)
+    80			return dev_err_probe(&pdev->dev, ret, "Error requesting irq at index %d\n",
+    81					     inst->irq_idx);
+    82	
+    83		return ret;
+    84	}
+    85	
 
 -- 
 0-DAY CI Kernel Test Service
