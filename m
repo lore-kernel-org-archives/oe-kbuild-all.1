@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A662163AA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 05:23:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AA36FA2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 05:44:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dUBzrwlp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHgXIdJg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702877007; x=1734413007;
+  t=1702878244; x=1734414244;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ECkG5uggTH9duWrWc+G7ydY/UcTcu0osMq/FFgnPgJo=;
-  b=dUBzrwlphErdmlcPCjOT+ELYKEVx9ktXnKXZ4wxgCUPxtok9CQxCn1s4
-   yDTja0ettIzJkfzNc0If0XBlVGGCY1VsVIpcV/4Q06WF6kPdzf/X18mCF
-   jMnvC1TU3fZDsxqN5TFhLBvJxpQ5NmG1pxfiPU65uOX2C8b58S5R7aa6f
-   TJlLzRRPIQVhOgiPP5IJ+E1Se6gM4j//gb7a+Eds/wdNhoaNs+WkSsXoA
-   Nyo8btJJhA+SEetG2SSs62B3rT+IUmoMkh2bIgtM4x7U7nWS26YlHCVdg
-   NWWrC5yeJDZ3GByJr3+FNtGbr2u2Z2yOAyOqudRD9XlLM1XrsMHZ0wYJM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2283900"
+  bh=E/nvTn6QU2JS8rwN657YhPE0VHmwHMoWeT+sjxILZFA=;
+  b=BHgXIdJgjbf7nPDW/qlqBWd2Nk/tefhY8JL2hv4E7ZkNnLd5HlEDs2bH
+   e94v/KzHmCN0Yvw5MSnd+svOnEJUc0pJqQ6kf9lS6kodaNxSdwGA7TOzW
+   w/rmJeyiFUKyN/ZG+S4mnE8TVRXZVgHFDK6J4z3zCDY9X6vZlaHrwx66t
+   m1IDiFxo41GN1cnPz/S8NCjforK6+hf2b8hZ+p/U5IObURthuXxqzi8B2
+   u+WJXHsOVagnJ40tuP6MjQevQjt130dHg4kYdv6ILDv8+3/jSrTYCBWcz
+   2QA8zSCrgsPRLlIVdCxZ67MFF92iP5dXwNMjxHLEWmP1M/NuouyzMjR0Y
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="8903691"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="2283900"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 21:23:27 -0800
+   d="scan'208";a="8903691"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 21:44:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="1106801184"
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="725185251"
 X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
-   d="scan'208";a="1106801184"
+   d="scan'208";a="725185251"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Dec 2023 21:23:25 -0800
+  by orsmga003.jf.intel.com with ESMTP; 17 Dec 2023 21:44:01 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rF667-0003nF-0R;
-	Mon, 18 Dec 2023 05:23:23 +0000
-Date: Mon, 18 Dec 2023 13:23:07 +0800
+	id 1rF6Q2-0003oK-2j;
+	Mon, 18 Dec 2023 05:43:58 +0000
+Date: Mon, 18 Dec 2023 13:43:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florent Revest <revest@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: kernel/trace/ftrace.c:5417: warning: Function parameter or struct
- member 'addr' not described in 'unregister_ftrace_direct'
-Message-ID: <202312181320.e0OwUd0s-lkp@intel.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>
+Subject: [bcachefs:header_cleanup 23/58]
+ drivers/gpu/drm/lima/lima_ctx.c:30:13: error: implicit declaration of
+ function 'task_pid_nr'
+Message-ID: <202312181339.RNwQDu6C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,102 +51,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Florent,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
-commit: da8bdfbd422333fbb7c85ac1d7f18592d17d6665 ftrace: Rename _ftrace_direct_multi APIs to _ftrace_direct APIs
-date:   9 months ago
-config: i386-randconfig-054-20231216 (https://download.01.org/0day-ci/archive/20231218/202312181320.e0OwUd0s-lkp@intel.com/config)
+tree:   https://evilpiepirate.org/git/bcachefs.git header_cleanup
+head:   eec52e75ee3833d03432749e190443f7c86301c8
+commit: 397f28a72a81a4b81b801d65273a979c3cd36b4b [23/58] sched.h: move pid helpers to pid.h
+config: i386-buildonly-randconfig-004-20231218 (https://download.01.org/0day-ci/archive/20231218/202312181339.RNwQDu6C-lkp@intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312181320.e0OwUd0s-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312181339.RNwQDu6C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312181320.e0OwUd0s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312181339.RNwQDu6C-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the bcachefs/header_cleanup HEAD eec52e75ee3833d03432749e190443f7c86301c8 builds fine.
+      It only hurts bisectability.
 
-   kernel/trace/ftrace.c:1283: warning: Function parameter or struct member 'ops' not described in 'ftrace_free_filter'
->> kernel/trace/ftrace.c:5417: warning: Function parameter or struct member 'addr' not described in 'unregister_ftrace_direct'
->> kernel/trace/ftrace.c:5417: warning: Function parameter or struct member 'free_filters' not described in 'unregister_ftrace_direct'
-   kernel/trace/ftrace.c:5565: warning: Function parameter or struct member 'ops' not described in 'ftrace_set_filter_ip'
-   kernel/trace/ftrace.c:5565: warning: Function parameter or struct member 'ip' not described in 'ftrace_set_filter_ip'
-   kernel/trace/ftrace.c:5565: warning: Function parameter or struct member 'remove' not described in 'ftrace_set_filter_ip'
-   kernel/trace/ftrace.c:5565: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_filter_ip'
-   kernel/trace/ftrace.c:5588: warning: Function parameter or struct member 'ops' not described in 'ftrace_set_filter_ips'
-   kernel/trace/ftrace.c:5588: warning: Function parameter or struct member 'ips' not described in 'ftrace_set_filter_ips'
-   kernel/trace/ftrace.c:5588: warning: Function parameter or struct member 'cnt' not described in 'ftrace_set_filter_ips'
-   kernel/trace/ftrace.c:5588: warning: Function parameter or struct member 'remove' not described in 'ftrace_set_filter_ips'
-   kernel/trace/ftrace.c:5588: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_filter_ips'
-   kernel/trace/ftrace.c:5602: warning: Function parameter or struct member 'ops' not described in 'ftrace_ops_set_global_filter'
-   kernel/trace/ftrace.c:5634: warning: Function parameter or struct member 'ops' not described in 'ftrace_set_filter'
-   kernel/trace/ftrace.c:5634: warning: Function parameter or struct member 'buf' not described in 'ftrace_set_filter'
-   kernel/trace/ftrace.c:5634: warning: Function parameter or struct member 'len' not described in 'ftrace_set_filter'
-   kernel/trace/ftrace.c:5634: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_filter'
-   kernel/trace/ftrace.c:5657: warning: Function parameter or struct member 'ops' not described in 'ftrace_set_notrace'
-   kernel/trace/ftrace.c:5657: warning: Function parameter or struct member 'buf' not described in 'ftrace_set_notrace'
-   kernel/trace/ftrace.c:5657: warning: Function parameter or struct member 'len' not described in 'ftrace_set_notrace'
-   kernel/trace/ftrace.c:5657: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_notrace'
-   kernel/trace/ftrace.c:5672: warning: Function parameter or struct member 'buf' not described in 'ftrace_set_global_filter'
-   kernel/trace/ftrace.c:5672: warning: Function parameter or struct member 'len' not described in 'ftrace_set_global_filter'
-   kernel/trace/ftrace.c:5672: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_global_filter'
-   kernel/trace/ftrace.c:5688: warning: Function parameter or struct member 'buf' not described in 'ftrace_set_global_notrace'
-   kernel/trace/ftrace.c:5688: warning: Function parameter or struct member 'len' not described in 'ftrace_set_global_notrace'
-   kernel/trace/ftrace.c:5688: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_global_notrace'
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/lima/lima_ctx.c: In function 'lima_ctx_create':
+>> drivers/gpu/drm/lima/lima_ctx.c:30:13: error: implicit declaration of function 'task_pid_nr' [-Werror=implicit-function-declaration]
+      30 |  ctx->pid = task_pid_nr(current);
+         |             ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +5417 kernel/trace/ftrace.c
+vim +/task_pid_nr +30 drivers/gpu/drm/lima/lima_ctx.c
 
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5401  
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5402  /**
-da8bdfbd422333 Florent Revest 2023-03-21  5403   * unregister_ftrace_direct - Remove calls to custom trampoline
-da8bdfbd422333 Florent Revest 2023-03-21  5404   * previously registered by register_ftrace_direct for @ops object.
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5405   * @ops: The address of the struct ftrace_ops object
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5406   *
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5407   * This is used to remove a direct calls to @addr from the nop locations
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5408   * of the functions registered in @ops (with by ftrace_set_filter_ip
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5409   * function).
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5410   *
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5411   * Returns:
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5412   *  0 on success
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5413   *  -EINVAL - The @ops object was not properly registered.
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5414   */
-da8bdfbd422333 Florent Revest 2023-03-21  5415  int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long addr,
-59495740f79524 Florent Revest 2023-03-21  5416  			     bool free_filters)
-f64dd4627ec6ed Jiri Olsa      2021-10-08 @5417  {
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5418  	struct ftrace_hash *hash = ops->func_hash->filter_hash;
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5419  	int err;
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5420  
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5421  	if (check_direct_multi(ops))
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5422  		return -EINVAL;
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5423  	if (!(ops->flags & FTRACE_OPS_FL_ENABLED))
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5424  		return -EINVAL;
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5425  
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5426  	mutex_lock(&direct_mutex);
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5427  	err = unregister_ftrace_function(ops);
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5428  	remove_direct_functions_hash(hash, addr);
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5429  	mutex_unlock(&direct_mutex);
-fea3ffa48c6d42 Jiri Olsa      2021-12-06  5430  
-fea3ffa48c6d42 Jiri Olsa      2021-12-06  5431  	/* cleanup for possible another register call */
-fea3ffa48c6d42 Jiri Olsa      2021-12-06  5432  	ops->func = NULL;
-fea3ffa48c6d42 Jiri Olsa      2021-12-06  5433  	ops->trampoline = 0;
-59495740f79524 Florent Revest 2023-03-21  5434  
-59495740f79524 Florent Revest 2023-03-21  5435  	if (free_filters)
-59495740f79524 Florent Revest 2023-03-21  5436  		ftrace_free_filter(ops);
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5437  	return err;
-f64dd4627ec6ed Jiri Olsa      2021-10-08  5438  }
-da8bdfbd422333 Florent Revest 2023-03-21  5439  EXPORT_SYMBOL_GPL(unregister_ftrace_direct);
-ccf5a89efd6f0a Jiri Olsa      2021-10-08  5440  
+a1d2a6339961efc Qiang Yu    2019-03-09   8  
+a1d2a6339961efc Qiang Yu    2019-03-09   9  int lima_ctx_create(struct lima_device *dev, struct lima_ctx_mgr *mgr, u32 *id)
+a1d2a6339961efc Qiang Yu    2019-03-09  10  {
+a1d2a6339961efc Qiang Yu    2019-03-09  11  	struct lima_ctx *ctx;
+a1d2a6339961efc Qiang Yu    2019-03-09  12  	int i, err;
+a1d2a6339961efc Qiang Yu    2019-03-09  13  
+a1d2a6339961efc Qiang Yu    2019-03-09  14  	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+a1d2a6339961efc Qiang Yu    2019-03-09  15  	if (!ctx)
+a1d2a6339961efc Qiang Yu    2019-03-09  16  		return -ENOMEM;
+a1d2a6339961efc Qiang Yu    2019-03-09  17  	ctx->dev = dev;
+a1d2a6339961efc Qiang Yu    2019-03-09  18  	kref_init(&ctx->refcnt);
+a1d2a6339961efc Qiang Yu    2019-03-09  19  
+a1d2a6339961efc Qiang Yu    2019-03-09  20  	for (i = 0; i < lima_pipe_num; i++) {
+a1d2a6339961efc Qiang Yu    2019-03-09  21  		err = lima_sched_context_init(dev->pipe + i, ctx->context + i, &ctx->guilty);
+a1d2a6339961efc Qiang Yu    2019-03-09  22  		if (err)
+a1d2a6339961efc Qiang Yu    2019-03-09  23  			goto err_out0;
+a1d2a6339961efc Qiang Yu    2019-03-09  24  	}
+a1d2a6339961efc Qiang Yu    2019-03-09  25  
+14d2bd53a47a7e1 Dave Airlie 2019-04-05  26  	err = xa_alloc(&mgr->handles, id, ctx, xa_limit_32b, GFP_KERNEL);
+a1d2a6339961efc Qiang Yu    2019-03-09  27  	if (err < 0)
+a1d2a6339961efc Qiang Yu    2019-03-09  28  		goto err_out0;
+a1d2a6339961efc Qiang Yu    2019-03-09  29  
+6ebd24b6bf106d3 Qiang Yu    2020-02-22 @30  	ctx->pid = task_pid_nr(current);
+6ebd24b6bf106d3 Qiang Yu    2020-02-22  31  	get_task_comm(ctx->pname, current);
+6ebd24b6bf106d3 Qiang Yu    2020-02-22  32  
+a1d2a6339961efc Qiang Yu    2019-03-09  33  	return 0;
+a1d2a6339961efc Qiang Yu    2019-03-09  34  
+a1d2a6339961efc Qiang Yu    2019-03-09  35  err_out0:
+a1d2a6339961efc Qiang Yu    2019-03-09  36  	for (i--; i >= 0; i--)
+a1d2a6339961efc Qiang Yu    2019-03-09  37  		lima_sched_context_fini(dev->pipe + i, ctx->context + i);
+a1d2a6339961efc Qiang Yu    2019-03-09  38  	kfree(ctx);
+a1d2a6339961efc Qiang Yu    2019-03-09  39  	return err;
+a1d2a6339961efc Qiang Yu    2019-03-09  40  }
+a1d2a6339961efc Qiang Yu    2019-03-09  41  
 
-:::::: The code at line 5417 was first introduced by commit
-:::::: f64dd4627ec6edc39bf1430fe6dbc923d2300a88 ftrace: Add multi direct register/unregister interface
+:::::: The code at line 30 was first introduced by commit
+:::::: 6ebd24b6bf106d3195bdbfeaa1ac77571e3dc670 drm/lima: save process info for debug usage
 
-:::::: TO: Jiri Olsa <jolsa@redhat.com>
-:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
+:::::: TO: Qiang Yu <yuq825@gmail.com>
+:::::: CC: Qiang Yu <yuq825@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
