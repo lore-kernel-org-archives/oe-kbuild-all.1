@@ -1,54 +1,48 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFAF6FA3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 06:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742FBC8F1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 07:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vy2TUrF5"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1f5bd86ceb3so2065551fac.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Dec 2023 22:10:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702879848; x=1703484648; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3r99F4vTwCpnbqDKoMm/OyT56eRkkUx331L3tjXnj14=;
-        b=vy2TUrF5pRiec+F4q0N7uSixib7WvCTiU8uc0F+06AYj0FmEYhfYNW6dvQlsusnHiG
-         l+ruNeKYXbH25TpZCtZ830crmrlUfy0aAfY5YEsryP+kSaQLARytw28gFzwsj/SyDnzm
-         uNzEubMCjYL2WJWHwlHnjtcBTHvfu5WRE68uFCDO8LAwsoE0U5eHLD+HB22Sn13VxHZa
-         2SXu0oVERtlZp5cyImVA1oIGTrYdBJ1JCHCXvgBBq5cxtvkfShgbO6XlDoKfGfr4mkLJ
-         21W61zWxCP8mbUUYoSw0R50paMrpK/6QmPUvz7LrguWkwW0p0XYtTbltY2a3/KcK8l7X
-         I6Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702879848; x=1703484648;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3r99F4vTwCpnbqDKoMm/OyT56eRkkUx331L3tjXnj14=;
-        b=vBs0RbW5qAfpGaWLFOuY7W0lziTA4wW2Y4drBZr5P05VQAJYq58C0BqDV8f90m/82t
-         6hTjcc0zC6q/LiZhFfC1lhtMn8/Gjjsi6KauCLh9QSieUjAN8fnZr268X3yw+tZBfxS1
-         Dt3LOHuV21vjaxOL3WmmO3M1HUhUXFJY8xABfHJTwjU3Db1osA0c65wMWx5FBZftXKta
-         3VXP+z5xjkZriPpy+0AVR4yvJ6nRnX5DKbc+kxoBDY0xfjKNTaQ9FmhdwN1UeFMfXy5Q
-         kRvfxuw/FTGK7oK7fXE+WDWtaxstDWDN4ERrrAK5LWyicuDzixAltipT7R49kcQNcE0a
-         DR8w==
-X-Gm-Message-State: AOJu0YxgVk5I9txB/q7ykKvyHesibAHSf6OwZkKtM/YqjTRwIxE0oxWe
-	UuY9ADo5iaNDZkKHqT3idS8Ccw==
-X-Google-Smtp-Source: AGHT+IE+lIfbWXYxzLYjjV/vlFd2O8QI+jCclyKcPJtNl/b2FqhJXGfuATkJjZi8mc/w4YBBTes30g==
-X-Received: by 2002:a05:6870:14d3:b0:203:1c85:21fc with SMTP id l19-20020a05687014d300b002031c8521fcmr10560044oab.57.1702879848699;
-        Sun, 17 Dec 2023 22:10:48 -0800 (PST)
-Received: from localhost ([122.172.82.6])
-        by smtp.gmail.com with ESMTPSA id i4-20020a63cd04000000b005c1ce3c960bsm17065767pgg.50.2023.12.17.22.10.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 22:10:48 -0800 (PST)
-Date: Mon, 18 Dec 2023 11:40:46 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/opp/debugfs.c:48:54: warning: '%d' directive output may
- be truncated writing between 1 and 11 bytes into a region of size 8
-Message-ID: <20231218061046.jurwf7j2wlja6jgf@vireshk-i7>
-References: <202312170608.s9xI4TQb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rpo2WIII"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702884331; x=1734420331;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AuxBpZnJVI+9zv90Pp/dwj11JNJ/pzXmNMUTL3iOQGY=;
+  b=Rpo2WIIIsXdI+q11cQsAayCRMJcFE27PNx1rsp/o588UOg+wAPEAglxJ
+   1Lr17H2E/db2AzvBrmsamtj+0/2vTJfqqq6SzhMX24ft0mbYBwGqogLnQ
+   4b3F+hUBDL2a0qT2CnSyQx6uqZZ4ha+ax3w1nH3Tc/6cogYiyCzUf8pxB
+   g/3HFEOdEl4oBV/rxd/pSMLcJKDhJd2WUtjRhRrcI9kTYlZPgGqUaAXJA
+   JmxEv/04TWaYsOmZl1WnoPpi2JTO24OQ/21AJuljKpOSJstaTQtVjbVr5
+   t1nm/lGtqwR4c77t39PgiYaseTbzCWvwfXJgA9rjvAfOWKfoitWvVenYn
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="374966341"
+X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
+   d="scan'208";a="374966341"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 23:25:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="809711680"
+X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
+   d="scan'208";a="809711680"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 17 Dec 2023 23:25:28 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rF80E-0003rN-1d;
+	Mon, 18 Dec 2023 07:25:26 +0000
+Date: Mon, 18 Dec 2023 15:25:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: kernel/dma/debug.c:95: warning: Function parameter or member
+ 'stack_len' not described in 'dma_debug_entry'
+Message-ID: <202312181548.9Xq6Tt63-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,43 +51,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202312170608.s9xI4TQb-lkp@intel.com>
 
-On 17-12-23, 06:23, kernel test robot wrote:
-> Hi Viresh,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   3b8a9b2e6809d281890dd0a1102dc14d2cd11caf
-> commit: 46f48aca2e5aef3f430e95d1a5fb68227ec8ec85 OPP: Fix missing debugfs supply directory for OPPs
-> date:   5 years ago
-> config: x86_64-randconfig-a006-20230623 (https://download.01.org/0day-ci/archive/20231217/202312170608.s9xI4TQb-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231217/202312170608.s9xI4TQb-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312170608.s9xI4TQb-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/opp/debugfs.c: In function 'opp_debug_create_one':
-> >> drivers/opp/debugfs.c:48:54: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 8 [-Wformat-truncation=]
->       48 |                 snprintf(name, sizeof(name), "supply-%d", i);
->          |                                                      ^~
->    In function 'opp_debug_create_supplies',
->        inlined from 'opp_debug_create_one' at drivers/opp/debugfs.c:119:7:
->    drivers/opp/debugfs.c:48:46: note: directive argument in the range [-2147483644, 2147483646]
->       48 |                 snprintf(name, sizeof(name), "supply-%d", i);
->          |                                              ^~~~~~~~~~~
->    drivers/opp/debugfs.c:48:17: note: 'snprintf' output between 9 and 19 bytes into a destination of size 15
->       48 |                 snprintf(name, sizeof(name), "supply-%d", i);
->          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
+commit: 746017ed8d4d3c2070bb03aee9536f24da43c778 dma/debug: Simplify stracktrace retrieval
+date:   4 years, 8 months ago
+config: x86_64-buildonly-randconfig-006-20230830 (https://download.01.org/0day-ci/archive/20231218/202312181548.9Xq6Tt63-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312181548.9Xq6Tt63-lkp@intel.com/reproduce)
 
-Can someone check if this happens on mainline too ? I think this is a
-False report.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312181548.9Xq6Tt63-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   kernel/dma/debug.c:95: warning: Function parameter or member 'dev_addr' not described in 'dma_debug_entry'
+>> kernel/dma/debug.c:95: warning: Function parameter or member 'stack_len' not described in 'dma_debug_entry'
+>> kernel/dma/debug.c:95: warning: Function parameter or member 'stack_entries' not described in 'dma_debug_entry'
+
+
+vim +95 kernel/dma/debug.c
+
+6c132d1bcdc716 lib/dma-debug.c    David Woodhouse 2009-01-19  64  
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  65  /**
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  66   * struct dma_debug_entry - track a dma_map* or dma_alloc_coherent mapping
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  67   * @list: node on pre-allocated free_entries list
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  68   * @dev: 'dev' argument to dma_map_{page|single|sg} or dma_alloc_coherent
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  69   * @type: single, page, sg, coherent
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  70   * @pfn: page frame of the start address
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  71   * @offset: offset of mapping relative to pfn
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  72   * @size: length of the mapping
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  73   * @direction: enum dma_data_direction
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  74   * @sg_call_ents: 'nents' from dma_map_sg
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  75   * @sg_mapped_ents: 'mapped_ents' from dma_map_sg
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  76   * @map_err_type: track whether dma_mapping_error() was checked
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  77   * @stacktrace: support backtraces when a violation is detected
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  78   */
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  79  struct dma_debug_entry {
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  80  	struct list_head list;
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  81  	struct device    *dev;
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  82  	int              type;
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  83  	unsigned long	 pfn;
+0abdd7a81b7e3f lib/dma-debug.c    Dan Williams    2014-01-21  84  	size_t		 offset;
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  85  	u64              dev_addr;
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  86  	u64              size;
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  87  	int              direction;
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  88  	int		 sg_call_ents;
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  89  	int		 sg_mapped_ents;
+6c9c6d6301287e lib/dma-debug.c    Shuah Khan      2012-10-08  90  	enum map_err_types  map_err_type;
+6c132d1bcdc716 lib/dma-debug.c    David Woodhouse 2009-01-19  91  #ifdef CONFIG_STACKTRACE
+746017ed8d4d3c kernel/dma/debug.c Thomas Gleixner 2019-04-25  92  	unsigned int	stack_len;
+746017ed8d4d3c kernel/dma/debug.c Thomas Gleixner 2019-04-25  93  	unsigned long	stack_entries[DMA_DEBUG_STACKTRACE_ENTRIES];
+6c132d1bcdc716 lib/dma-debug.c    David Woodhouse 2009-01-19  94  #endif
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09 @95  };
+f2f45e5f3c921c lib/dma-debug.c    Joerg Roedel    2009-01-09  96  
+
+:::::: The code at line 95 was first introduced by commit
+:::::: f2f45e5f3c921c73c913e9a9c00f21ec01c86b4d dma-debug: add header file and core data structures
+
+:::::: TO: Joerg Roedel <joerg.roedel@amd.com>
+:::::: CC: Joerg Roedel <joerg.roedel@amd.com>
 
 -- 
-viresh
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
