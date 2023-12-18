@@ -1,54 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153F65A87F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 17:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF26F740A5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 17:41:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GzDqJuFN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Av7S6BwU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702918873; x=1734454873;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YGQ0G6lJV8wNzSBABFy+OTts9y2BZfj1wdkFcSdtY4w=;
-  b=GzDqJuFN1SJ3Cjfj/t0fICaWtRToYrBrbPJSIWmZk5ULpiTGA3t7LAV1
-   7tOJKqyNVdOKOzRY7YuOnOC2feTYmp8LjOar+P4p7R2AkFm5sUnnT5auh
-   jzJp9JckvCxk0i/d1FT8kiT8YJifYkoOr6Odqra4p5INVB+OMOb9SCnT1
-   WNsj8cr/i5let0C7gzrF87CoCbM4KZgzrcMWRRQMchGm6tCU8R7QNBYqd
-   feXQvFZbAW5u9YiHrd5r8F4nWnKBo51N01qByjn4vMMhKWffSw2M6mEzy
-   VeexPlPgSyg7Wwm9TrdNAmr9lHueJ5Me2Sgm8AUfz4psc4KkqmZTYNPLU
+  t=1702921273; x=1734457273;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ov/jK2kG2bZtdxr2hpYJXzxrYdYQjsR6Ue03ZFeYysY=;
+  b=Av7S6BwUw11cojpruU9DcADkIJGvGwA4VyZr0SOEbhWIrfyrvSsaApFN
+   BcmOhUFPmAayFoevH0MKMmozdfJ0sMIfunwGjVbigCZL3955fobqo44Vv
+   exd8c/BIFvuRmqE2fJ/ykcW4nYH37G9VXi2B39U3juUdgJY2N1Oqt67lp
+   kAh1oBILtLoVUQsuBttLvv7609aB/XUMvJtzkrLoQZ5DdD8CiwTEGU7dP
+   fQdGPu50REc8oKDIlap18OCTKOxsk1jrg4o0EwFXCBAdk/m3QIuj3dEZC
+   hdtkk3Pa2DRJZBx5SipAKvdkWUAVk/ShV0upg6ZNfaoUWEFDeWh5061nP
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="2745129"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="394417795"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="2745129"
+   d="scan'208";a="394417795"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 09:01:12 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 09:41:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="809903347"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="809915495"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="809903347"
+   d="scan'208";a="809915495"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 18 Dec 2023 09:01:08 -0800
+  by orsmga001.jf.intel.com with ESMTP; 18 Dec 2023 09:41:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFGzJ-0004Ll-2W;
-	Mon, 18 Dec 2023 17:01:05 +0000
-Date: Tue, 19 Dec 2023 01:00:25 +0800
+	id 1rFHc4-0004O3-0D;
+	Mon, 18 Dec 2023 17:41:08 +0000
+Date: Tue, 19 Dec 2023 01:40:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abdel Alkuor <alkuor@gmail.com>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, Abdel Alkuor <alkuor@gmail.com>,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] hwmon: (lm75) Add AMS AS6200 temperature sensor
-Message-ID: <202312190037.v9VmHXF6-lkp@intel.com>
-References: <a71ac5106e022b526bef9fc375bd5d3f547eb19d.1702874115.git.alkuor@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/arm/mach-sa1100/ssp.c:89: warning: Function parameter or struct
+ member 'data' not described in 'ssp_read_word'
+Message-ID: <202312190124.XlzGTotA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,79 +49,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a71ac5106e022b526bef9fc375bd5d3f547eb19d.1702874115.git.alkuor@gmail.com>
 
-Hi Abdel,
+Hi Arnd,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on robh/for-next linus/master v6.7-rc6 next-20231218]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Abdel-Alkuor/hwmon-lm75-Add-AMS-AS6200-temperature-sensor/20231218-125552
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/a71ac5106e022b526bef9fc375bd5d3f547eb19d.1702874115.git.alkuor%40gmail.com
-patch subject: [PATCH v2 2/2] hwmon: (lm75) Add AMS AS6200 temperature sensor
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20231219/202312190037.v9VmHXF6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190037.v9VmHXF6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
+commit: 8faf91c48ca20c714e0dd8cc5f510e3819852912 ARM: sa1100: un-deprecate jornada720
+date:   11 months ago
+config: arm-jornada720_defconfig (https://download.01.org/0day-ci/archive/20231219/202312190124.XlzGTotA-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190124.XlzGTotA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312190037.v9VmHXF6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312190124.XlzGTotA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hwmon/lm75.c:95: warning: Function parameter or member 'config_reg_16bits' not described in 'lm75_params'
->> drivers/hwmon/lm75.c:95: warning: Function parameter or member 'alarm' not described in 'lm75_params'
+>> arch/arm/mach-sa1100/ssp.c:89: warning: Function parameter or struct member 'data' not described in 'ssp_read_word'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SA1100_SSP
+   Depends on [n]: ARCH_SA1100 [=y] && UNUSED_BOARD_FILES [=n]
+   Selected by [y]:
+   - SA1100_JORNADA720_SSP [=y] && ARCH_SA1100 [=y] && SA1100_JORNADA720 [=y]
 
 
-vim +95 drivers/hwmon/lm75.c
+vim +89 arch/arm/mach-sa1100/ssp.c
 
-9ebd3d822efeca David Brownell                  2008-05-03  57  
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  58  /**
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  59   * struct lm75_params - lm75 configuration parameters.
-08760063a75ca5 Abdel Alkuor                    2023-12-17  60   * @config_reg_16bits	Configure register size is 2 bytes.
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  61   * @set_mask:		Bits to set in configuration register when configuring
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  62   *			the chip.
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  63   * @clr_mask:		Bits to clear in configuration register when configuring
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  64   *			the chip.
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  65   * @default_resolution:	Default number of bits to represent the temperature
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  66   *			value.
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  67   * @resolution_limits:	Limit register resolution. Optional. Should be set if
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  68   *			the resolution of limit registers does not match the
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  69   *			resolution of the temperature register.
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  70   * @resolutions:	List of resolutions associated with sample times.
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  71   *			Optional. Should be set if num_sample_times is larger
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  72   *			than 1, and if the resolution changes with sample times.
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  73   *			If set, number of entries must match num_sample_times.
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  74   * @default_sample_time:Sample time to be set by default.
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  75   * @num_sample_times:	Number of possible sample times to be set. Optional.
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  76   *			Should be set if the number of sample times is larger
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  77   *			than one.
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  78   * @sample_times:	All the possible sample times to be set. Mandatory if
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  79   *			num_sample_times is larger than 1. If set, number of
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  80   *			entries must match num_sample_times.
-08760063a75ca5 Abdel Alkuor                    2023-12-17  81   * @alarm		Alarm is supported.
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  82   */
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  83  
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  84  struct lm75_params {
-08760063a75ca5 Abdel Alkuor                    2023-12-17  85  	bool			config_reg_16bits;
-08760063a75ca5 Abdel Alkuor                    2023-12-17  86  	u16			set_mask;
-08760063a75ca5 Abdel Alkuor                    2023-12-17  87  	u16			clr_mask;
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  88  	u8			default_resolution;
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  89  	u8			resolution_limits;
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  90  	const u8		*resolutions;
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  91  	unsigned int		default_sample_time;
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  92  	u8			num_sample_times;
-7f1a300f8abd11 Iker Perez del Palomar Sustatxa 2019-08-08  93  	const unsigned int	*sample_times;
-08760063a75ca5 Abdel Alkuor                    2023-12-17  94  	bool			alarm;
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08 @95  };
-dcb12653875e7c Iker Perez del Palomar Sustatxa 2019-08-08  96  
+^1da177e4c3f41 Linus Torvalds  2005-04-16   72  
+^1da177e4c3f41 Linus Torvalds  2005-04-16   73  /**
+^1da177e4c3f41 Linus Torvalds  2005-04-16   74   * ssp_read_word - read a word from the SSP port
+^1da177e4c3f41 Linus Torvalds  2005-04-16   75   *
+^1da177e4c3f41 Linus Torvalds  2005-04-16   76   * Wait for a data word in the SSP receive FIFO, and return the
+^1da177e4c3f41 Linus Torvalds  2005-04-16   77   * received data.  Data is LSB justified.
+^1da177e4c3f41 Linus Torvalds  2005-04-16   78   *
+^1da177e4c3f41 Linus Torvalds  2005-04-16   79   * Note: Currently, if data is not expected to be received, this
+^1da177e4c3f41 Linus Torvalds  2005-04-16   80   * function will wait for ever.
+^1da177e4c3f41 Linus Torvalds  2005-04-16   81   *
+^1da177e4c3f41 Linus Torvalds  2005-04-16   82   * The caller is expected to perform the necessary locking.
+^1da177e4c3f41 Linus Torvalds  2005-04-16   83   *
+^1da177e4c3f41 Linus Torvalds  2005-04-16   84   * Returns:
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   85   *   %-ETIMEDOUT	timeout occurred
+^1da177e4c3f41 Linus Torvalds  2005-04-16   86   *   16-bit data	success
+^1da177e4c3f41 Linus Torvalds  2005-04-16   87   */
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   88  int ssp_read_word(u16 *data)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  @89  {
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   90  	int timeout = TIMEOUT;
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   91  
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   92  	while (!(Ser4SSSR & SSSR_RNE)) {
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   93  	        if (!--timeout)
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   94  	        	return -ETIMEDOUT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16   95  		cpu_relax();
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   96  	}
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   97  
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27   98  	*data = (u16)Ser4SSDR;
+^1da177e4c3f41 Linus Torvalds  2005-04-16   99  
+8f1bf8743c4593 Paul Sokolovsky 2006-08-27  100  	return 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  101  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  102  
+
+:::::: The code at line 89 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
