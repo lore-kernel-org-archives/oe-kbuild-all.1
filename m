@@ -1,121 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171D37EFC6;
-	Mon, 18 Dec 2023 12:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2258274083
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 12:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CIcKzmBZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29569C433C7;
-	Mon, 18 Dec 2023 12:41:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702903284;
-	bh=Kwwmc0NfccqeFWq0XGz9CH7vdLIXsemodRHwpiAo6RA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CIcKzmBZ9WPjT25rBRiSmVK9W2ePrImJqe9NHntudL5hh4wRbd9WPmZV4gzQR0Mo5
-	 A5OzT7Dcgfy8UnozSKQFv8kVA0E4TUF9KXhOn+CmHipn6BB19EYXmo8dbIjjCIa2rL
-	 xT/f8J6xgo/7OH+1Zqgszy+MliolGG/UDsPycRsa0Zavtidk8p32HVQ09NcdIfAYqc
-	 bWpfJxgqDWB+KaEnrK84T02Wwr7GYrI0vWlCr/Jzy6GErhcS1TnzsLE4Cb12V6Pv1M
-	 eWOzj3z6f9DkQuXM2Kw5ztZPZsoFCmKg+lhDU/vYXQL+J/izAPBCTRpnqUzr/nTLhf
-	 6eqGZ4uCJ++fQ==
-Date: Mon, 18 Dec 2023 21:41:20 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Steven Rostedt (Google)"
- <rostedt@goodmis.org>, "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: Re: kernel/trace/ftrace.c:1256: warning: Function parameter or
- struct member 'ops' not described in 'ftrace_free_filter'
-Message-Id: <20231218214120.43a0a2b5f8370ca576f59667@kernel.org>
-In-Reply-To: <202312180518.X6fRyDSN-lkp@intel.com>
-References: <202312180518.X6fRyDSN-lkp@intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NIubbbkw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702904361; x=1734440361;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8c4k3yVqvUoYiJDSJqmPDHUmf9ylCe7iJg6nNHwOfVQ=;
+  b=NIubbbkwUD7AeQynpdJVN1R/tVuT6OlA/F90qFpNAxNdI5olrnJXwPVL
+   YPP+ugyF/YYWMKbD0y8nxVLMp5PQOCVI/MTWR46KMZ5WELeoO70lo6fnh
+   WWrMDTSTNAluXbUoySHEfSjeH+7OALC0cWX9mbSzso1dQRhxo6nC484+j
+   AXzgVk8z9sWmwO2/N+QD3oVtMC1DNTjs+rdp1eu7BCr4YXX4K0eXYV84/
+   l2RCKDOadJ4llmPy8QZiASL+w2BFx3C97MrKPjYGqbfmqj5EpOZFS8cSz
+   IZUSD3N3fr/YBgQZSmZ/CfCPSg/lrT6STtuAnYmI3fUH4OKmCdHogUOrc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="459826073"
+X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
+   d="scan'208";a="459826073"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 04:59:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="866208754"
+X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
+   d="scan'208";a="866208754"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Dec 2023 04:59:19 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rFDDD-000457-2i;
+	Mon, 18 Dec 2023 12:59:17 +0000
+Date: Mon, 18 Dec 2023 20:58:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: fs/bcachefs/io_write.c:1570: warning: Function parameter or struct
+ member 'bch2_write' not described in 'CLOSURE_CALLBACK'
+Message-ID: <202312182040.naGasU5s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 18 Dec 2023 05:53:57 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
+commit: d4e3b928ab487a8aecd1f6a140b40ac365116cfb closures: CLOSURE_CALLBACK() to fix type punning
+date:   3 weeks ago
+config: x86_64-buildonly-randconfig-001-20231218 (https://download.01.org/0day-ci/archive/20231218/202312182040.naGasU5s-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312182040.naGasU5s-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   0e389834672c723435a44818ed2cabc4dad24429
-> commit: 8be9fbd5345da52f4a74f7f81d55ff9fa0a2958e ftrace: Export ftrace_free_filter() to modules
-> date:   11 months ago
-> config: i386-randconfig-054-20231216 (https://download.01.org/0day-ci/archive/20231218/202312180518.X6fRyDSN-lkp@intel.com/config)
-> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312180518.X6fRyDSN-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312180518.X6fRyDSN-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> kernel/trace/ftrace.c:1256: warning: Function parameter or struct member 'ops' not described in 'ftrace_free_filter'
->    kernel/trace/ftrace.c:5709: warning: Function parameter or struct member 'addr' not described in 'unregister_ftrace_direct_multi'
->    kernel/trace/ftrace.c:5854: warning: Function parameter or struct member 'ops' not described in 'ftrace_set_filter_ip'
->    kernel/trace/ftrace.c:5854: warning: Function parameter or struct member 'ip' not described in 'ftrace_set_filter_ip'
->    kernel/trace/ftrace.c:5854: warning: Function parameter or struct member 'remove' not described in 'ftrace_set_filter_ip'
->    kernel/trace/ftrace.c:5854: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_filter_ip'
->    kernel/trace/ftrace.c:5877: warning: Function parameter or struct member 'ops' not described in 'ftrace_set_filter_ips'
->    kernel/trace/ftrace.c:5877: warning: Function parameter or struct member 'ips' not described in 'ftrace_set_filter_ips'
->    kernel/trace/ftrace.c:5877: warning: Function parameter or struct member 'cnt' not described in 'ftrace_set_filter_ips'
->    kernel/trace/ftrace.c:5877: warning: Function parameter or struct member 'remove' not described in 'ftrace_set_filter_ips'
->    kernel/trace/ftrace.c:5877: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_filter_ips'
->    kernel/trace/ftrace.c:5891: warning: Function parameter or struct member 'ops' not described in 'ftrace_ops_set_global_filter'
->    kernel/trace/ftrace.c:5923: warning: Function parameter or struct member 'ops' not described in 'ftrace_set_filter'
->    kernel/trace/ftrace.c:5923: warning: Function parameter or struct member 'buf' not described in 'ftrace_set_filter'
->    kernel/trace/ftrace.c:5923: warning: Function parameter or struct member 'len' not described in 'ftrace_set_filter'
->    kernel/trace/ftrace.c:5923: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_filter'
->    kernel/trace/ftrace.c:5946: warning: Function parameter or struct member 'ops' not described in 'ftrace_set_notrace'
->    kernel/trace/ftrace.c:5946: warning: Function parameter or struct member 'buf' not described in 'ftrace_set_notrace'
->    kernel/trace/ftrace.c:5946: warning: Function parameter or struct member 'len' not described in 'ftrace_set_notrace'
->    kernel/trace/ftrace.c:5946: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_notrace'
->    kernel/trace/ftrace.c:5961: warning: Function parameter or struct member 'buf' not described in 'ftrace_set_global_filter'
->    kernel/trace/ftrace.c:5961: warning: Function parameter or struct member 'len' not described in 'ftrace_set_global_filter'
->    kernel/trace/ftrace.c:5961: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_global_filter'
->    kernel/trace/ftrace.c:5977: warning: Function parameter or struct member 'buf' not described in 'ftrace_set_global_notrace'
->    kernel/trace/ftrace.c:5977: warning: Function parameter or struct member 'len' not described in 'ftrace_set_global_notrace'
->    kernel/trace/ftrace.c:5977: warning: Function parameter or struct member 'reset' not described in 'ftrace_set_global_notrace'
-> 
-> 
-> vim +1256 kernel/trace/ftrace.c
-> 
-> 07fd5515f3b5c2 Steven Rostedt           2011-05-05  1250  
-> 8be9fbd5345da5 Mark Rutland             2023-01-03  1251  /**
-> 8be9fbd5345da5 Mark Rutland             2023-01-03  1252   * ftrace_free_filter - remove all filters for an ftrace_ops
-> 8be9fbd5345da5 Mark Rutland             2023-01-03  1253   * @ops - the ops to remove the filters from
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312182040.naGasU5s-lkp@intel.com/
 
-Ah, this line should be `@ops: the ops to remove the filters from` ('-' -> ':')
-And there seems so many similar errors.
+All warnings (new ones prefixed by >>):
 
-Thanks, 
+>> fs/bcachefs/io_write.c:1570: warning: Function parameter or struct member 'bch2_write' not described in 'CLOSURE_CALLBACK'
+   fs/bcachefs/io_write.c:1570: warning: expecting prototype for bch2_write(). Prototype was for CLOSURE_CALLBACK() instead
 
-> 8be9fbd5345da5 Mark Rutland             2023-01-03  1254   */
-> 5500fa51199aee Jiri Olsa                2012-02-15  1255  void ftrace_free_filter(struct ftrace_ops *ops)
-> 5500fa51199aee Jiri Olsa                2012-02-15 @1256  {
-> f04f24fb7e48d4 Masami Hiramatsu         2013-05-09  1257  	ftrace_ops_init(ops);
-> 33b7f99cf003ca Steven Rostedt (Red Hat  2014-08-15  1258) 	free_ftrace_hash(ops->func_hash->filter_hash);
-> 33b7f99cf003ca Steven Rostedt (Red Hat  2014-08-15  1259) 	free_ftrace_hash(ops->func_hash->notrace_hash);
-> 5500fa51199aee Jiri Olsa                2012-02-15  1260  }
-> 8be9fbd5345da5 Mark Rutland             2023-01-03  1261  EXPORT_SYMBOL_GPL(ftrace_free_filter);
-> 5500fa51199aee Jiri Olsa                2012-02-15  1262  
-> 
-> :::::: The code at line 1256 was first introduced by commit
-> :::::: 5500fa51199aee770ce53718853732600543619e ftrace, perf: Add filter support for function trace event
-> 
-> :::::: TO: Jiri Olsa <jolsa@redhat.com>
-> :::::: CC: Steven Rostedt <rostedt@goodmis.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
 
+vim +1570 fs/bcachefs/io_write.c
+
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1551  
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1552  /**
+96dea3d599dbc3 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1553   * bch2_write() - handle a write to a cache device or flash only volume
+96dea3d599dbc3 fs/bcachefs/io_write.c Kent Overstreet 2023-09-12  1554   * @cl:		&bch_write_op->cl
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1555   *
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1556   * This is the starting point for any data to end up in a cache device; it could
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1557   * be from a normal write, or a writeback write, or a write to a flash only
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1558   * volume - it's also used by the moving garbage collector to compact data in
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1559   * mostly empty buckets.
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1560   *
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1561   * It first writes the data to the cache, creating a list of keys to be inserted
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1562   * (if the data won't fit in a single open bucket, there will be multiple keys);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1563   * after the data is written it calls bch_journal, and after the keys have been
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1564   * added to the next journal write they're inserted into the btree.
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1565   *
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1566   * If op->discard is true, instead of inserting the data it invalidates the
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1567   * region of the cache represented by op->bio and op->inode.
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1568   */
+d4e3b928ab487a fs/bcachefs/io_write.c Kent Overstreet 2023-11-17  1569  CLOSURE_CALLBACK(bch2_write)
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16 @1570  {
+d4e3b928ab487a fs/bcachefs/io_write.c Kent Overstreet 2023-11-17  1571  	closure_type(op, struct bch_write_op, cl);
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1572  	struct bio *bio = &op->wbio.bio;
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1573  	struct bch_fs *c = op->c;
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1574  	unsigned data_len;
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1575  
+b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1576  	EBUG_ON(op->cl.parent);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1577  	BUG_ON(!op->nr_replicas);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1578  	BUG_ON(!op->write_point.v);
+e88a75ebe86c1d fs/bcachefs/io.c       Kent Overstreet 2022-11-24  1579  	BUG_ON(bkey_eq(op->pos, POS_MAX));
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1580  
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1581  	op->start_time = local_clock();
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1582  	bch2_keylist_init(&op->insert_keys, op->inline_keys);
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1583  	wbio_init(bio)->put_bio = false;
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1584  
+8244f3209b5b49 fs/bcachefs/io.c       Kent Overstreet 2021-12-14  1585  	if (bio->bi_iter.bi_size & (c->opts.block_size - 1)) {
+7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1586  		bch_err_inum_offset_ratelimited(c,
+7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1587  			op->pos.inode,
+7fec8266af12b6 fs/bcachefs/io.c       Kent Overstreet 2022-11-15  1588  			op->pos.offset << 9,
+0fefe8d8ef7402 fs/bcachefs/io.c       Kent Overstreet 2020-12-03  1589  			"misaligned write");
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1590  		op->error = -EIO;
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1591  		goto err;
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1592  	}
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1593  
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1594  	if (c->opts.nochanges) {
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1595  		op->error = -BCH_ERR_erofs_no_writes;
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1596  		goto err;
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1597  	}
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1598  
+b40901b0f71825 fs/bcachefs/io.c       Kent Overstreet 2023-03-13  1599  	if (!(op->flags & BCH_WRITE_MOVE) &&
+d94189ad568f6c fs/bcachefs/io.c       Kent Overstreet 2023-02-09  1600  	    !bch2_write_ref_tryget(c, BCH_WRITE_REF_write)) {
+858536c7cea8bb fs/bcachefs/io.c       Kent Overstreet 2022-12-11  1601  		op->error = -BCH_ERR_erofs_no_writes;
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1602  		goto err;
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1603  	}
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1604  
+104c69745fdf7e fs/bcachefs/io.c       Daniel Hill     2022-03-15  1605  	this_cpu_add(c->counters[BCH_COUNTER_io_write], bio_sectors(bio));
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1606  	bch2_increment_clock(c, bio_sectors(bio), WRITE);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1607  
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1608  	data_len = min_t(u64, bio->bi_iter.bi_size,
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1609  			 op->new_i_size - (op->pos.offset << 9));
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1610  
+07358a82bb36ff fs/bcachefs/io.c       Kent Overstreet 2019-11-29  1611  	if (c->opts.inline_data &&
+07358a82bb36ff fs/bcachefs/io.c       Kent Overstreet 2019-11-29  1612  	    data_len <= min(block_bytes(c) / 2, 1024U)) {
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1613  		bch2_write_data_inline(op, data_len);
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1614  		return;
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1615  	}
+4be1a412ea3492 fs/bcachefs/io.c       Kent Overstreet 2019-11-09  1616  
+b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1617  	__bch2_write(op);
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1618  	return;
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1619  err:
+4b0a66d508d7bf fs/bcachefs/io.c       Kent Overstreet 2019-08-21  1620  	bch2_disk_reservation_put(c, &op->res);
+46e4bb1c378248 fs/bcachefs/io.c       Kent Overstreet 2019-12-27  1621  
+b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1622  	closure_debug_destroy(&op->cl);
+b17d3cec14b487 fs/bcachefs/io.c       Kent Overstreet 2022-10-31  1623  	if (op->end_io)
+c32bd3ad1fe595 fs/bcachefs/io.c       Kent Overstreet 2019-11-11  1624  		op->end_io(op);
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1625  }
+1c6fdbd8f2465d fs/bcachefs/io.c       Kent Overstreet 2017-03-16  1626  
+
+:::::: The code at line 1570 was first introduced by commit
+:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
+
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
