@@ -1,39 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56D15392
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 05:20:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A3363A8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 05:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cwpFB1hu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43CC8C433C7;
-	Mon, 18 Dec 2023 05:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702876833;
-	bh=3y0Q6LUTqbhmxv4+ruVfYnoc+4J5UMG3snF0iAVtPHw=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=cwpFB1huJnYIhz4eNmnEcmL/yZ5lh1uMtmHe+u4bc96vjciBEZNr27FnNmL3bvThh
-	 QLd6+5SvVF3msEqIx6xkHS1iOz6tqIDc9Lo1dVKZuY6U/jC+CX46TkpmfIqSwV4BIu
-	 7vzZEqs26W36eL+JwYzA5iDL4oYGByKEXV+N7NXYY7DvII5Sb+x5YxERGC33nezSDo
-	 FI1tFtDDi5rBEw+llu10G6aJ1XRJkgj7dzY69ApbOxfO6JoVNAdkUzVBbus+pHuJVu
-	 j1AyGOigz4TXEss+JF2M1NJ1fAHzNGjmOH0z7C1zHgJOROJlcHFJHPXYpg4lHGWhiR
-	 ZS6m44wXM7kOw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id D149FCE0906; Sun, 17 Dec 2023 21:20:32 -0800 (PST)
-Date: Sun, 17 Dec 2023 21:20:32 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Neeraj Upadhyay (AMD)" <neeraj.iitr10@gmail.com>,
-	"Joel Fernandes (Google)" <joel@joelfernandes.org>
-Subject: Re: [linux-next:master 6386/7300]
- kernel/rcu/tree.c:2965:(.text+0x5b44): relocation truncated to fit:
- R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-Message-ID: <303cb959-4c3a-40ac-8d0e-0c39c3917334@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202312140939.zA3tdSi2-lkp@intel.com>
- <f42f90f3-8cc8-4bb7-8455-685e699eb2ae@paulmck-laptop>
- <ZX+jc23iEE/6I3B4@yujie-X299>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KmN438Tm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702877007; x=1734413007;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=m34XNGTQqRzVUNxQ/hz29KOeaGQukFqX4yylZ6L4R4E=;
+  b=KmN438Tm/3kvnsyRiLtJYwdjl1cLPvrj1+ExKBsTXcUpiLWbRuFEfSNu
+   a92SZD8vaDEz124YvKJZx495xM7Llz3b2DninTzbKd/iBBIEvrv9eN9PN
+   Q8euo9LhUdOUcXgjYFzthZlwLBbiCB6CAJaYAywSr52VDKexCSm3KWkk0
+   k6rQyOv9tWIMnF7IsKiTmH6TJ5Uptb2lKjkkNl6CgsJL8yMhTpisD+5Fe
+   n/l3574qv0HU/UpjbwIsmJAa1I2oUJJOkRbK48RQcM5NTjQ7tuiUwgZil
+   sAN+idm9RJ+fFyum4vVkQeSk/ikk0Dgix0A+o/e0AqzA4VFJ3qRq75saI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="459783007"
+X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
+   d="scan'208";a="459783007"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2023 21:23:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,284,1695711600"; 
+   d="scan'208";a="17042647"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 17 Dec 2023 21:23:26 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rF667-0003nJ-0c;
+	Mon, 18 Dec 2023 05:23:23 +0000
+Date: Mon, 18 Dec 2023 13:22:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1/2] kernel/sched/core.c:4854:6:
+ error: no previous prototype for function '__balance_callbacks'
+Message-ID: <202312181334.JDngriy0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,104 +48,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZX+jc23iEE/6I3B4@yujie-X299>
 
-On Mon, Dec 18, 2023 at 09:42:11AM +0800, Yujie Liu wrote:
-> Hi Paul,
-> 
-> On Thu, Dec 14, 2023 at 06:53:31AM -0800, Paul E. McKenney wrote:
-> > On Thu, Dec 14, 2023 at 09:25:29AM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > head:   48e8992e33abf054bcc0bb2e77b2d43bb899212e
-> > > commit: 4e58aaeebb3c27993c734c99eae6881b196b1ddb [6386/7300] rcu: Restrict access to RCU CPU stall notifiers
-> > > config: csky-randconfig-r013-20230826 (https://download.01.org/0day-ci/archive/20231214/202312140939.zA3tdSi2-lkp@intel.com/config)
-> > > compiler: csky-linux-gcc (GCC) 13.2.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231214/202312140939.zA3tdSi2-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202312140939.zA3tdSi2-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    kernel/rcu/tree.o: in function `drain_page_cache':
-> > > >> kernel/rcu/tree.c:2965:(.text+0x5b44): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > 
-> > I have questions.  ;-)
-> > 
-> > Is this something that I need to fix, or is this a problem with the
-> > csky toolchain?  If it is something that I need to fix, how exactly do
-> > I fix it?
-> 
-> This seems to be a general problem with csky arch and it is not caused
-> by the rcu patch. Please kindly ignore this report and we've configured
-> the bot to skip it. FYI, some similar cases:
-> 
-> [1] https://lore.kernel.org/oe-kbuild-all/ZX0Vv3IyOi+Bp10Q@casper.infradead.org/
-> [2] https://lore.kernel.org/oe-kbuild-all/202312152147.JntukftP-lkp@intel.com/
-> [3] https://lore.kernel.org/oe-kbuild-all/202312160759.X3dEVpgd-lkp@intel.com/
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   abea1cb16e43c1dbbcad5b826fe6952c343f59fb
+commit: fdaddcab764a1219457d72273a96e2afb30b8824 [1/2] ANDROID: GKI: vendor code needs __balance_callbacks access
+config: x86_64-sof-customedconfig-compile-test-defconfig (https://download.01.org/0day-ci/archive/20231218/202312181334.JDngriy0-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312181334.JDngriy0-lkp@intel.com/reproduce)
 
-Thank you for letting me know!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312181334.JDngriy0-lkp@intel.com/
 
-							Thanx, Paul
+All errors (new ones prefixed by >>):
 
-> Best Regards,
-> Yujie
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> > >    kernel/rcu/tree.c:2968:(.text+0x5b5c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > >    kernel/rcu/tree.o: in function `kfree_rcu_shrink_scan':
-> > >    kernel/rcu/tree.c:3476:(.text+0x5b6a): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > >    kernel/rcu/tree.o: in function `rcu_do_batch':
-> > >    kernel/rcu/tree.c:2102:(.text+0x5be6): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > >    kernel/rcu/tree.c:2117:(.text+0x5c06): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > >    kernel/rcu/tree.c:2119:(.text+0x5c22): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > >    kernel/rcu/tree.c:2135:(.text+0x5c66): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > >    kernel/rcu/tree.c:2144:(.text+0x5ca2): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > >    kernel/rcu/tree.o: in function `rcu_lock_acquire':
-> > > >> include/linux/rcupdate.h:301:(.text+0x5cb2): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > >    include/linux/rcupdate.h:301:(.text+0x5cce): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
-> > >    kernel/rcu/tree.o: in function `rcu_lock_release':
-> > >    include/linux/rcupdate.h:306:(.text+0x5cee): additional relocation overflows omitted from the output
-> > > 
-> > > 
-> > > vim +2965 kernel/rcu/tree.c
-> > > 
-> > > 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2951) 
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2952  static int
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2953  drain_page_cache(struct kfree_rcu_cpu *krcp)
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2954  {
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2955  	unsigned long flags;
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2956  	struct llist_node *page_list, *pos, *n;
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2957  	int freed = 0;
-> > > 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2958) 
-> > > 6b706e5603c44f Zqiang                  2023-04-18  2959  	if (!rcu_min_cached_objs)
-> > > 6b706e5603c44f Zqiang                  2023-04-18  2960  		return 0;
-> > > 6b706e5603c44f Zqiang                  2023-04-18  2961  
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2962  	raw_spin_lock_irqsave(&krcp->lock, flags);
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2963  	page_list = llist_del_all(&krcp->bkvcache);
-> > > ac7625ebd5f7ba Uladzislau Rezki (Sony  2021-04-15  2964) 	WRITE_ONCE(krcp->nr_bkv_objs, 0);
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15 @2965  	raw_spin_unlock_irqrestore(&krcp->lock, flags);
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2966  
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2967  	llist_for_each_safe(pos, n, page_list) {
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2968  		free_page((unsigned long)pos);
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2969  		freed++;
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2970  	}
-> > > 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2971) 
-> > > d0bfa8b3c411e2 Zhang Qiang             2021-04-15  2972  	return freed;
-> > > 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2973) }
-> > > 53c72b590b3a0a Uladzislau Rezki (Sony  2020-05-25  2974) 
-> > > 
-> > > :::::: The code at line 2965 was first introduced by commit
-> > > :::::: d0bfa8b3c411e25e014e4131d2804afe29c440a6 kvfree_rcu: Release a page cache under memory pressure
-> > > 
-> > > :::::: TO: Zhang Qiang <qiang.zhang@windriver.com>
-> > > :::::: CC: Paul E. McKenney <paulmck@kernel.org>
-> > > 
-> > > -- 
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> > 
+   In file included from kernel/sched/core.c:13:
+   kernel/sched/sched.h:1770:15: error: cast from 'void (*)(struct rq *)' to 'void (*)(struct callback_head *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+           head->func = (void (*)(struct callback_head *))func;
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:3543:6: error: no previous prototype for function 'sched_set_stop_task' [-Werror,-Wmissing-prototypes]
+   void sched_set_stop_task(int cpu, struct task_struct *stop)
+        ^
+   kernel/sched/core.c:3543:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void sched_set_stop_task(int cpu, struct task_struct *stop)
+   ^
+   static 
+   kernel/sched/core.c:4796:10: error: cast from 'void (*)(struct callback_head *)' to 'void (*)(struct rq *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+                   func = (void (*)(struct rq *))head->func;
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:4820:10: error: cast from 'void (*)(struct rq *)' to 'void (*)(struct callback_head *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+           .func = (void (*)(struct callback_head *))balance_push,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/core.c:4854:6: error: no previous prototype for function '__balance_callbacks' [-Werror,-Wmissing-prototypes]
+   void __balance_callbacks(struct rq *rq)
+        ^
+   kernel/sched/core.c:4854:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __balance_callbacks(struct rq *rq)
+   ^
+   static 
+   5 errors generated.
+
+
+vim +/__balance_callbacks +4854 kernel/sched/core.c
+
+  4853	
+> 4854	void __balance_callbacks(struct rq *rq)
+  4855	{
+  4856		do_balance_callbacks(rq, __splice_balance_callbacks(rq, false));
+  4857	}
+  4858	EXPORT_SYMBOL_GPL(__balance_callbacks);
+  4859	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
