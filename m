@@ -1,101 +1,200 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BDE18E1B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 11:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863DF374C8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 11:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Bn6y3orl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1702897878;
-	bh=NS546S3nezX5KtA5ZEsUrJc395ipkqDNIJ9bo/coqqo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Bn6y3orlkbd/O25jrNW9H44843d7dKx4t69o2OtzyLgcriGf7rHlD0q6pTKh3OUSt
-	 GRApF+O6ZHgcGUEsh/poarjLOE5syiySpsEIRx4zb06QmN4Frxz76uYMSsGLbOYLUA
-	 hqs3ecYaUB7zPwhuuTZ293E2fD0kZ8d1C4uOOtOY=
-Date: Mon, 18 Dec 2023 12:11:17 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
-	Simon Horman <horms@kernel.org>
-Subject: Re: include/linux/compiler_types.h:397:45: error: call to
- '__compiletime_assert_810' declared with attribute error: BUILD_BUG_ON
- failed: skb_ext_total_length() > 255
-Message-ID: <bfe530f9-d3d4-4cdf-b92b-2fab95f44522@t-8ch.de>
-References: <202312171924.4FozI5FG-lkp@intel.com>
- <3fb66648-5581-4371-b15e-23e52e6469ba@t-8ch.de>
- <b091f9d3-14e9-4f2c-bf98-9a207cef412a@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="deJvjoeo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702900083; x=1734436083;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vKuL/ZIrIaKuN/MA9S9S3jhZv0tW/yPR3Z5WOVJw4CI=;
+  b=deJvjoeohWNdfiMErTm9GcSKvbDIU3hOmXRv2sux3+U6mmbROxYSQ/J7
+   c6jUvI3nd2YvEcCxuqv7q5bWQ+/zs88yIiQugb8kGFQ/qPJEoaUflbLdr
+   Wi3PvveRrn4Up0wy59d6uU/oZKW2cLabuBjv1WpGnp+/9vvFxVTKMZRAU
+   VFFAWz5TgvbmL2Io1pfI1oKzoWX6wYg01Wu7L0krLpKJKFl3pK+Mm16qv
+   Rci5P9tJSr3V/YKnNobZarHsXQIjBZlulTZ6rBJVPkQfK8tqEA/9/SXT/
+   GwmJQUKkSN860SCVxJhzMf+efUwjXC3RxTkSgvMWgqBGhvWyNkfxvVlY6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="2702164"
+X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
+   d="scan'208";a="2702164"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 03:48:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="919240123"
+X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
+   d="scan'208";a="919240123"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2023 03:47:59 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rFC6H-00042T-1o;
+	Mon, 18 Dec 2023 11:47:57 +0000
+Date: Mon, 18 Dec 2023 19:47:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: davidgow <davidgow@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [linux-next:master 8437/9113] lib/kunit/device.c:68: warning:
+ Function parameter or struct member 'test' not described in
+ 'kunit_driver_create'
+Message-ID: <202312181920.H4EPAH20-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b091f9d3-14e9-4f2c-bf98-9a207cef412a@app.fastmail.com>
 
-On 2023-12-18 10:12:03+0000, Arnd Bergmann wrote:
-> On Sun, Dec 17, 2023, at 17:13, Thomas Weißschuh wrote:
-> > +Cc Arnd who was taking care of CFLAGS_GCOV in the past.
-> >
-> > On 2023-12-17 19:39:34+0800, kernel test robot wrote:
-> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202312171924.4FozI5FG-lkp@intel.com/
-> >> 
-> >> All errors (new ones prefixed by >>):
-> >> 
-> >>    In file included from <command-line>:
-> >>    In function 'skb_extensions_init',
-> >>        inlined from 'skb_init' at net/core/skbuff.c:4848:2:
-> >> >> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_810' declared with attribute error: BUILD_BUG_ON failed: skb_ext_total_length() > 255
-> 
-> I tried to count the actual number of bytes and got to a worst case of 200
-> bytes (for 64-bit machines), but this may have been wrong. I can think of two
-> possible things that may have caused the problem:
-> 
-> a) there is an actual overflow but gcc fails to realize it without GCOV
-> b) the compile-time calculation goes wrong and is no longer a constant
->    value, so the assertion fails to evaluate
-> 
-> We can probably elinminate a) if you can show that raising the limit does
-> not avoid the problem.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ceb2fe0d438644e1de06b9a6468a1fb8e2199c70
+commit: dcb420cba3162bce885a2127865888850a6d6b99 [8437/9113] kunit: Add APIs for managing devices
+config: x86_64-buildonly-randconfig-003-20231218 (https://download.01.org/0day-ci/archive/20231218/202312181920.H4EPAH20-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312181920.H4EPAH20-lkp@intel.com/reproduce)
 
-I raised the limit and the issue persists.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312181920.H4EPAH20-lkp@intel.com/
 
-Also I replaced all entries in the array with a constant "0" and the
-issue also persists.
-So it can't be a).
+All warnings (new ones prefixed by >>):
 
-Funnily when I keep the explicit array initializers and set all values
-to "0" then the tripping point is from 4 to 5 array elements, the same
-as with the current code.
+>> lib/kunit/device.c:68: warning: Function parameter or struct member 'test' not described in 'kunit_driver_create'
+>> lib/kunit/device.c:68: warning: Function parameter or struct member 'name' not described in 'kunit_driver_create'
+   lib/kunit/device.c:68: warning: expecting prototype for Create and register a KUnit(). Prototype was for kunit_driver_create() instead
+>> lib/kunit/device.c:134: warning: Function parameter or struct member 'test' not described in 'kunit_device_register_with_driver'
+>> lib/kunit/device.c:134: warning: Function parameter or struct member 'name' not described in 'kunit_device_register_with_driver'
+>> lib/kunit/device.c:134: warning: Function parameter or struct member 'drv' not described in 'kunit_device_register_with_driver'
+   lib/kunit/device.c:134: warning: expecting prototype for Create and register a new KUnit-managed device, using the user(). Prototype was for kunit_device_register_with_driver() instead
+>> lib/kunit/device.c:149: warning: Function parameter or struct member 'test' not described in 'kunit_device_register'
+>> lib/kunit/device.c:149: warning: Function parameter or struct member 'name' not described in 'kunit_device_register'
+   lib/kunit/device.c:149: warning: expecting prototype for Create and register a new KUnit(). Prototype was for kunit_device_register() instead
 
-With a plain array initialization the tripping point is from 2 to 3
-elements.
 
-> > [..]
-> >
-> > This seems to be a compiler bug/configuration issue.
-> >
-> > When I remove the entry for SKB_EXT_MCTP from skb_ext_type_len then the
-> > error goes away. However this entry works the same as all other entries.
-> >
-> > Also dropping -fno-tree-loop-im *or* -fprofile-arcs from CFLAGS_GCOV
-> > makes the code compile as-is.
-> >
-> > Or switching to a 64bit build...
-> 
-> The -fno-tree-loop-im option would likely stop the loop from getting
-> unrolled, which is how the skb_ext_total_length() return code is no
-> longer constant.
-> 
-> Does manually unrolling this loop avoid the problem?
+vim +68 lib/kunit/device.c
 
-That also works.
+    62	
+    63	/**
+    64	 * Create and register a KUnit-managed struct device_driver on the kunit_bus.
+    65	 * Returns an error pointer on failure.
+    66	 */
+    67	struct device_driver *kunit_driver_create(struct kunit *test, const char *name)
+  > 68	{
+    69		struct device_driver *driver;
+    70		int err = -ENOMEM;
+    71	
+    72		driver = kunit_kzalloc(test, sizeof(*driver), GFP_KERNEL);
+    73	
+    74		if (!driver)
+    75			return ERR_PTR(err);
+    76	
+    77		driver->name = name;
+    78		driver->bus = &kunit_bus_type;
+    79		driver->owner = THIS_MODULE;
+    80	
+    81		err = driver_register(driver);
+    82		if (err) {
+    83			kunit_kfree(test, driver);
+    84			return ERR_PTR(err);
+    85		}
+    86	
+    87		kunit_add_action(test, driver_unregister_wrapper, driver);
+    88		return driver;
+    89	}
+    90	EXPORT_SYMBOL_GPL(kunit_driver_create);
+    91	
+    92	/* Helper which creates a kunit_device, attaches it to the kunit_bus*/
+    93	static struct kunit_device *kunit_device_register_internal(struct kunit *test,
+    94								   const char *name,
+    95								   const struct device_driver *drv)
+    96	{
+    97		struct kunit_device *kunit_dev;
+    98		int err = -ENOMEM;
+    99	
+   100		kunit_dev = kzalloc(sizeof(*kunit_dev), GFP_KERNEL);
+   101		if (!kunit_dev)
+   102			return ERR_PTR(err);
+   103	
+   104		kunit_dev->owner = test;
+   105	
+   106		err = dev_set_name(&kunit_dev->dev, "%s.%s", test->name, name);
+   107		if (err) {
+   108			kfree(kunit_dev);
+   109			return ERR_PTR(err);
+   110		}
+   111	
+   112		kunit_dev->dev.release = kunit_device_release;
+   113		kunit_dev->dev.bus = &kunit_bus_type;
+   114		kunit_dev->dev.parent = kunit_bus_device;
+   115	
+   116		err = device_register(&kunit_dev->dev);
+   117		if (err) {
+   118			put_device(&kunit_dev->dev);
+   119			return ERR_PTR(err);
+   120		}
+   121	
+   122		kunit_add_action(test, device_unregister_wrapper, &kunit_dev->dev);
+   123	
+   124		return kunit_dev;
+   125	}
+   126	
+   127	/**
+   128	 * Create and register a new KUnit-managed device, using the user-supplied device_driver.
+   129	 * On failure, returns an error pointer.
+   130	 */
+   131	struct device *kunit_device_register_with_driver(struct kunit *test,
+   132							 const char *name,
+   133							 const struct device_driver *drv)
+ > 134	{
+   135		struct kunit_device *kunit_dev = kunit_device_register_internal(test, name, drv);
+   136	
+   137		if (IS_ERR_OR_NULL(kunit_dev))
+   138			return ERR_CAST(kunit_dev);
+   139	
+   140		return &kunit_dev->dev;
+   141	}
+   142	EXPORT_SYMBOL_GPL(kunit_device_register_with_driver);
+   143	
+   144	/**
+   145	 * Create and register a new KUnit-managed device, including a matching device_driver.
+   146	 * On failure, returns an error pointer.
+   147	 */
+   148	struct device *kunit_device_register(struct kunit *test, const char *name)
+ > 149	{
+   150		struct device_driver *drv;
+   151		struct kunit_device *dev;
+   152	
+   153		drv = kunit_driver_create(test, name);
+   154		if (IS_ERR(drv))
+   155			return ERR_CAST(drv);
+   156	
+   157		dev = kunit_device_register_internal(test, name, drv);
+   158		if (IS_ERR(dev)) {
+   159			kunit_release_action(test, driver_unregister_wrapper, (void *)drv);
+   160			return ERR_CAST(dev);
+   161		}
+   162	
+   163		/* Request the driver be freed. */
+   164		dev->driver = drv;
+   165	
+   166	
+   167		return &dev->dev;
+   168	}
+   169	EXPORT_SYMBOL_GPL(kunit_device_register);
+   170	
 
-The offending commit was a change from a manually unrolled loop to the
-current code.
-This code is a few months old but somehow the issue was only found now.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
