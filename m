@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF26F740A5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 17:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C038D22088
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 18:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Av7S6BwU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZeRLJRO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702921273; x=1734457273;
+  t=1702923759; x=1734459759;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ov/jK2kG2bZtdxr2hpYJXzxrYdYQjsR6Ue03ZFeYysY=;
-  b=Av7S6BwUw11cojpruU9DcADkIJGvGwA4VyZr0SOEbhWIrfyrvSsaApFN
-   BcmOhUFPmAayFoevH0MKMmozdfJ0sMIfunwGjVbigCZL3955fobqo44Vv
-   exd8c/BIFvuRmqE2fJ/ykcW4nYH37G9VXi2B39U3juUdgJY2N1Oqt67lp
-   kAh1oBILtLoVUQsuBttLvv7609aB/XUMvJtzkrLoQZ5DdD8CiwTEGU7dP
-   fQdGPu50REc8oKDIlap18OCTKOxsk1jrg4o0EwFXCBAdk/m3QIuj3dEZC
-   hdtkk3Pa2DRJZBx5SipAKvdkWUAVk/ShV0upg6ZNfaoUWEFDeWh5061nP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="394417795"
+  bh=bPFF5dD9oXSb7grjZkRfazPgETuHQLHhQypuJetVn3Q=;
+  b=mZeRLJRO8gSBf7lrdqcwRJe87h1+S798v6BxQbcUXdJS4XTMh7kz2BjX
+   IuCeulyUq8dyw5S2yx/s4NXUnhxjroHmKfTw1+4G/Gy5PXEyl4eAIp4bm
+   7AP7cT6uVW2S2NZ0ssjCOntbbxJfmWUQRnd2rDE/pMsbYdmq1nxM6/vXY
+   daq/s35dIfGjE4nh5EP0vVNRQ2OADQ8ct+6hWMU4/oydC+qxhv/1bkNCa
+   6DS0Y8Q9IyM5iEfNcKd/GF12f2s09CtYj2CPDmaPn3ssIGFEWZpOUcCOm
+   MvZI2dGGDcbBgrJdOroK8DZDw7rHCq5RbAcyr2+LTOD9zMt8kulwLBLU7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="17102741"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="394417795"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 09:41:11 -0800
+   d="scan'208";a="17102741"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 10:22:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="809915495"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="809915495"
+   d="scan'208";a="17279370"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 18 Dec 2023 09:41:10 -0800
+  by orviesa002.jf.intel.com with ESMTP; 18 Dec 2023 10:22:37 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFHc4-0004O3-0D;
-	Mon, 18 Dec 2023 17:41:08 +0000
-Date: Tue, 19 Dec 2023 01:40:59 +0800
+	id 1rFIGA-0004Q5-0h;
+	Mon, 18 Dec 2023 18:22:34 +0000
+Date: Tue, 19 Dec 2023 02:21:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/arm/mach-sa1100/ssp.c:89: warning: Function parameter or struct
- member 'data' not described in 'ssp_read_word'
-Message-ID: <202312190124.XlzGTotA-lkp@intel.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>,
+	Kees Cook <keescook@chromium.org>
+Subject: [arm-integrator:b4/arm32-lpae-pan 7/7] arch/arm/mm/fault.c:286:69:
+ error: implicit declaration of function 'uaccess_disabled'; did you mean
+ 'tracer_disable'?
+Message-ID: <202312190257.CNVYAbV7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,73 +51,177 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
-commit: 8faf91c48ca20c714e0dd8cc5f510e3819852912 ARM: sa1100: un-deprecate jornada720
-date:   11 months ago
-config: arm-jornada720_defconfig (https://download.01.org/0day-ci/archive/20231219/202312190124.XlzGTotA-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/arm32-lpae-pan
+head:   0c333c0e63067147be55c63597ddae4cecfe7927
+commit: 0c333c0e63067147be55c63597ddae4cecfe7927 [7/7] ARM: Implement privileged no-access using TTBR0 page table walks disabling
+config: arm-randconfig-002-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190257.CNVYAbV7-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190124.XlzGTotA-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190257.CNVYAbV7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312190124.XlzGTotA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312190257.CNVYAbV7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm/mach-sa1100/ssp.c:89: warning: Function parameter or struct member 'data' not described in 'ssp_read_word'
+   arch/arm/mm/fault.c: In function 'do_page_fault':
+>> arch/arm/mm/fault.c:286:69: error: implicit declaration of function 'uaccess_disabled'; did you mean 'tracer_disable'? [-Werror=implicit-function-declaration]
+     286 |         if (IS_ENABLED(CONFIG_CPU_TTBR0_PAN) && !user_mode(regs) && uaccess_disabled(regs))
+         |                                                                     ^~~~~~~~~~~~~~~~
+         |                                                                     tracer_disable
+   cc1: some warnings being treated as errors
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SA1100_SSP
-   Depends on [n]: ARCH_SA1100 [=y] && UNUSED_BOARD_FILES [=n]
-   Selected by [y]:
-   - SA1100_JORNADA720_SSP [=y] && ARCH_SA1100 [=y] && SA1100_JORNADA720 [=y]
 
+vim +286 arch/arm/mm/fault.c
 
-vim +89 arch/arm/mach-sa1100/ssp.c
-
-^1da177e4c3f41 Linus Torvalds  2005-04-16   72  
-^1da177e4c3f41 Linus Torvalds  2005-04-16   73  /**
-^1da177e4c3f41 Linus Torvalds  2005-04-16   74   * ssp_read_word - read a word from the SSP port
-^1da177e4c3f41 Linus Torvalds  2005-04-16   75   *
-^1da177e4c3f41 Linus Torvalds  2005-04-16   76   * Wait for a data word in the SSP receive FIFO, and return the
-^1da177e4c3f41 Linus Torvalds  2005-04-16   77   * received data.  Data is LSB justified.
-^1da177e4c3f41 Linus Torvalds  2005-04-16   78   *
-^1da177e4c3f41 Linus Torvalds  2005-04-16   79   * Note: Currently, if data is not expected to be received, this
-^1da177e4c3f41 Linus Torvalds  2005-04-16   80   * function will wait for ever.
-^1da177e4c3f41 Linus Torvalds  2005-04-16   81   *
-^1da177e4c3f41 Linus Torvalds  2005-04-16   82   * The caller is expected to perform the necessary locking.
-^1da177e4c3f41 Linus Torvalds  2005-04-16   83   *
-^1da177e4c3f41 Linus Torvalds  2005-04-16   84   * Returns:
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   85   *   %-ETIMEDOUT	timeout occurred
-^1da177e4c3f41 Linus Torvalds  2005-04-16   86   *   16-bit data	success
-^1da177e4c3f41 Linus Torvalds  2005-04-16   87   */
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   88  int ssp_read_word(u16 *data)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  @89  {
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   90  	int timeout = TIMEOUT;
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   91  
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   92  	while (!(Ser4SSSR & SSSR_RNE)) {
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   93  	        if (!--timeout)
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   94  	        	return -ETIMEDOUT;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   95  		cpu_relax();
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   96  	}
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   97  
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27   98  	*data = (u16)Ser4SSDR;
-^1da177e4c3f41 Linus Torvalds  2005-04-16   99  
-8f1bf8743c4593 Paul Sokolovsky 2006-08-27  100  	return 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  101  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  102  
-
-:::::: The code at line 89 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   237	
+   238	static int __kprobes
+   239	do_page_fault(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
+   240	{
+   241		struct mm_struct *mm = current->mm;
+   242		struct vm_area_struct *vma;
+   243		int sig, code;
+   244		vm_fault_t fault;
+   245		unsigned int flags = FAULT_FLAG_DEFAULT;
+   246		unsigned long vm_flags = VM_ACCESS_FLAGS;
+   247	
+   248		if (kprobe_page_fault(regs, fsr))
+   249			return 0;
+   250	
+   251	
+   252		/* Enable interrupts if they were enabled in the parent context. */
+   253		if (interrupts_enabled(regs))
+   254			local_irq_enable();
+   255	
+   256		/*
+   257		 * If we're in an interrupt or have no user
+   258		 * context, we must not take the fault..
+   259		 */
+   260		if (faulthandler_disabled() || !mm)
+   261			goto no_context;
+   262	
+   263		if (user_mode(regs))
+   264			flags |= FAULT_FLAG_USER;
+   265	
+   266		if (is_write_fault(fsr)) {
+   267			flags |= FAULT_FLAG_WRITE;
+   268			vm_flags = VM_WRITE;
+   269		}
+   270	
+   271		if (fsr & FSR_LNX_PF) {
+   272			vm_flags = VM_EXEC;
+   273	
+   274			if (is_permission_fault(fsr) && !user_mode(regs))
+   275				die_kernel_fault("execution of memory",
+   276						 mm, addr, fsr, regs);
+   277		}
+   278	
+   279		perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, addr);
+   280	
+   281		/*
+   282		 * Privileged access aborts with CONFIG_CPU_TTBR0_PAN enabled are
+   283		 * routed via the translation fault mechanism. Check whether uaccess
+   284		 * is disabled while in kernel mode.
+   285		 */
+ > 286		if (IS_ENABLED(CONFIG_CPU_TTBR0_PAN) && !user_mode(regs) && uaccess_disabled(regs))
+   287			goto no_context;
+   288	
+   289	retry:
+   290		vma = lock_mm_and_find_vma(mm, addr, regs);
+   291		if (unlikely(!vma)) {
+   292			fault = VM_FAULT_BADMAP;
+   293			goto bad_area;
+   294		}
+   295	
+   296		/*
+   297		 * ok, we have a good vm_area for this memory access, check the
+   298		 * permissions on the VMA allow for the fault which occurred.
+   299		 */
+   300		if (!(vma->vm_flags & vm_flags))
+   301			fault = VM_FAULT_BADACCESS;
+   302		else
+   303			fault = handle_mm_fault(vma, addr & PAGE_MASK, flags, regs);
+   304	
+   305		/* If we need to retry but a fatal signal is pending, handle the
+   306		 * signal first. We do not need to release the mmap_lock because
+   307		 * it would already be released in __lock_page_or_retry in
+   308		 * mm/filemap.c. */
+   309		if (fault_signal_pending(fault, regs)) {
+   310			if (!user_mode(regs))
+   311				goto no_context;
+   312			return 0;
+   313		}
+   314	
+   315		/* The fault is fully completed (including releasing mmap lock) */
+   316		if (fault & VM_FAULT_COMPLETED)
+   317			return 0;
+   318	
+   319		if (!(fault & VM_FAULT_ERROR)) {
+   320			if (fault & VM_FAULT_RETRY) {
+   321				flags |= FAULT_FLAG_TRIED;
+   322				goto retry;
+   323			}
+   324		}
+   325	
+   326		mmap_read_unlock(mm);
+   327	
+   328		/*
+   329		 * Handle the "normal" case first - VM_FAULT_MAJOR
+   330		 */
+   331		if (likely(!(fault & (VM_FAULT_ERROR | VM_FAULT_BADMAP | VM_FAULT_BADACCESS))))
+   332			return 0;
+   333	
+   334	bad_area:
+   335		/*
+   336		 * If we are in kernel mode at this point, we
+   337		 * have no context to handle this fault with.
+   338		 */
+   339		if (!user_mode(regs))
+   340			goto no_context;
+   341	
+   342		if (fault & VM_FAULT_OOM) {
+   343			/*
+   344			 * We ran out of memory, call the OOM killer, and return to
+   345			 * userspace (which will retry the fault, or kill us if we
+   346			 * got oom-killed)
+   347			 */
+   348			pagefault_out_of_memory();
+   349			return 0;
+   350		}
+   351	
+   352		if (fault & VM_FAULT_SIGBUS) {
+   353			/*
+   354			 * We had some memory, but were unable to
+   355			 * successfully fix up this page fault.
+   356			 */
+   357			sig = SIGBUS;
+   358			code = BUS_ADRERR;
+   359		} else {
+   360			/*
+   361			 * Something tried to access memory that
+   362			 * isn't in our memory map..
+   363			 */
+   364			sig = SIGSEGV;
+   365			code = fault == VM_FAULT_BADACCESS ?
+   366				SEGV_ACCERR : SEGV_MAPERR;
+   367		}
+   368	
+   369		__do_user_fault(addr, fsr, sig, code, regs);
+   370		return 0;
+   371	
+   372	no_context:
+   373		__do_kernel_fault(mm, addr, fsr, regs);
+   374		return 0;
+   375	}
+   376	#else					/* CONFIG_MMU */
+   377	static int
+   378	do_page_fault(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
+   379	{
+   380		return 0;
+   381	}
+   382	#endif					/* CONFIG_MMU */
+   383	
 
 -- 
 0-DAY CI Kernel Test Service
