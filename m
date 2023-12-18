@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F396449899
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 19:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD7B73468
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 19:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MLiZYv/6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VheatmiB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702927634; x=1734463634;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sc7EdNeJDokQT2+rGVozm/W8LMj86aoC1mzS3as/z0c=;
-  b=MLiZYv/6RdIBxO54jpXSbiTTkvkluJ5FK+UVMqwrBgabgSnnSrOvhc6v
-   TXgh7XmUYtqGg9nQ09QaHiLUE/5sMU6rdxLXV8UY0xEK9/oykKq09b244
-   uqvoo8EK40EVi6Jww943hw3uBhyuXrcmHH7ZfKbcaj4LY8UCWKSs5SB5a
-   9Q69Emja68f4aeV6K+ita1F/DBLTjOmvfTSdMk6kemz2u+7lyjRHrEiif
-   rDY0NgSaHdX2hDO3hKxILH+8H/dmP5J8bjh8TVtb1oAyU+xNFUpXog/dy
-   dFoJCwXC0vBxFIOtBXpv/UD+qWfdkUqqOEdE83lrrSglo/VgD3IyI/1/t
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="462008205"
+  t=1702928835; x=1734464835;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vvORKqf4ZM4c212nooxEyftP2E7k91sUqVdqp/B1xCc=;
+  b=VheatmiBtFJZRj0PmmcAY7YK1/tKIrmgPN3FFT2Of/Ohy+rsdh+ADzUK
+   bhRj9uXD/OlMVaiub1z2WcqmUEtjhZixE/WvBVrZd4CgIau3/ystr4zvB
+   C9K7lMQe20Ivc7DG/3ooJ+eQnH1vTEsMMF93lVMrM6MQqnmp7V+VYRLUD
+   Scs4CIWI9t51jWmCkS79qF5BCc6/Ocy4mLQtrUvYnzPM0dU190dckiPe5
+   QF3CLeASSAVyrPA81f2JNcWsQL3E4iIC0MdtOrjYh0epm5/VATLFls1Tt
+   dhjzes75uAQ1FCMltQicrwoDRtpEna2bUJWX2OmuTncKhqcIDWi9ajuII
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="394436619"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="462008205"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 11:27:14 -0800
+   d="scan'208";a="394436619"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 11:47:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="899083881"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="846068512"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="899083881"
+   d="scan'208";a="846068512"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 18 Dec 2023 11:27:13 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2023 11:47:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFJGh-0004T3-0B;
-	Mon, 18 Dec 2023 19:27:11 +0000
-Date: Tue, 19 Dec 2023 03:26:17 +0800
+	id 1rFJa3-0004Tt-2I;
+	Mon, 18 Dec 2023 19:47:11 +0000
+Date: Tue, 19 Dec 2023 03:46:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>
-Subject: [bcachefs:header_cleanup 31/49] arch/parisc/mm/init.c:534:29: error:
- invalid application of 'sizeof' to incomplete type 'struct shmid64_ds'
-Message-ID: <202312190349.2AUFvMDO-lkp@intel.com>
+To: Jay Buddhabhatti <jay.buddhabhatti@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] drivers: soc: xilinx: add check for platform
+Message-ID: <202312190330.hWmwEPK8-lkp@intel.com>
+References: <20231218094009.13528-3-jay.buddhabhatti@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,80 +50,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231218094009.13528-3-jay.buddhabhatti@amd.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git header_cleanup
-head:   0e034194a81f95ba6377786660a88f5403fcbf19
-commit: 64b13e1eb9b7e21f6d2d78e5c5533a1045763d6b [31/49] shm: Slim down dependencies
-config: parisc-randconfig-002-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190349.2AUFvMDO-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190349.2AUFvMDO-lkp@intel.com/reproduce)
+Hi Jay,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.7-rc6 next-20231218]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jay-Buddhabhatti/firmware-xilinx-Export-function-to-use-in-other-module/20231218-174351
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20231218094009.13528-3-jay.buddhabhatti%40amd.com
+patch subject: [PATCH 2/2] drivers: soc: xilinx: add check for platform
+config: i386-buildonly-randconfig-001-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190330.hWmwEPK8-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190330.hWmwEPK8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312190349.2AUFvMDO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312190330.hWmwEPK8-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   arch/parisc/mm/init.c: In function 'mem_init':
->> arch/parisc/mm/init.c:534:29: error: invalid application of 'sizeof' to incomplete type 'struct shmid64_ds'
-     534 |         BUILD_BUG_ON(sizeof(struct shmid64_ds) != 104);
-         |                             ^~~~~~
-   include/linux/compiler_types.h:415:23: note: in definition of macro '__compiletime_assert'
-     415 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:435:9: note: in expansion of macro '_compiletime_assert'
-     435 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/parisc/mm/init.c:534:9: note: in expansion of macro 'BUILD_BUG_ON'
-     534 |         BUILD_BUG_ON(sizeof(struct shmid64_ds) != 104);
-         |         ^~~~~~~~~~~~
+   drivers/edac/versal_edac.c: In function 'mc_probe':
+>> drivers/edac/versal_edac.c:1008:41: error: 'EVENT_ERROR_PMC_ERR1' undeclared (first use in this function); did you mean 'VERSAL_EVENT_ERROR_PMC_ERR1'?
+     rc = xlnx_register_event(PM_NOTIFY_CB, EVENT_ERROR_PMC_ERR1,
+                                            ^~~~~~~~~~~~~~~~~~~~
+                                            VERSAL_EVENT_ERROR_PMC_ERR1
+   drivers/edac/versal_edac.c:1008:41: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/edac/versal_edac.c: In function 'mc_remove':
+   drivers/edac/versal_edac.c:1045:38: error: 'EVENT_ERROR_PMC_ERR1' undeclared (first use in this function); did you mean 'VERSAL_EVENT_ERROR_PMC_ERR1'?
+     xlnx_unregister_event(PM_NOTIFY_CB, EVENT_ERROR_PMC_ERR1,
+                                         ^~~~~~~~~~~~~~~~~~~~
+                                         VERSAL_EVENT_ERROR_PMC_ERR1
 
 
-vim +534 arch/parisc/mm/init.c
+vim +1008 drivers/edac/versal_edac.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  526  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  527  void __init mem_init(void)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  528  {
-d0cf62fb63f760 Helge Deller   2015-11-06  529  	/* Do sanity checks on IPC (compat) structures */
-d0cf62fb63f760 Helge Deller   2015-11-06  530  	BUILD_BUG_ON(sizeof(struct ipc64_perm) != 48);
-d0cf62fb63f760 Helge Deller   2015-11-06  531  #ifndef CONFIG_64BIT
-d0cf62fb63f760 Helge Deller   2015-11-06  532  	BUILD_BUG_ON(sizeof(struct semid64_ds) != 80);
-d0cf62fb63f760 Helge Deller   2015-11-06  533  	BUILD_BUG_ON(sizeof(struct msqid64_ds) != 104);
-d0cf62fb63f760 Helge Deller   2015-11-06 @534  	BUILD_BUG_ON(sizeof(struct shmid64_ds) != 104);
-d0cf62fb63f760 Helge Deller   2015-11-06  535  #endif
-d0cf62fb63f760 Helge Deller   2015-11-06  536  #ifdef CONFIG_COMPAT
-d0cf62fb63f760 Helge Deller   2015-11-06  537  	BUILD_BUG_ON(sizeof(struct compat_ipc64_perm) != sizeof(struct ipc64_perm));
-d0cf62fb63f760 Helge Deller   2015-11-06  538  	BUILD_BUG_ON(sizeof(struct compat_semid64_ds) != 80);
-d0cf62fb63f760 Helge Deller   2015-11-06  539  	BUILD_BUG_ON(sizeof(struct compat_msqid64_ds) != 104);
-d0cf62fb63f760 Helge Deller   2015-11-06  540  	BUILD_BUG_ON(sizeof(struct compat_shmid64_ds) != 104);
-d0cf62fb63f760 Helge Deller   2015-11-06  541  #endif
-d0cf62fb63f760 Helge Deller   2015-11-06  542  
-48d27cb2299c0b Helge Deller   2009-01-18  543  	/* Do sanity checks on page table constants */
-48d27cb2299c0b Helge Deller   2009-01-18  544  	BUILD_BUG_ON(PTE_ENTRY_SIZE != sizeof(pte_t));
-48d27cb2299c0b Helge Deller   2009-01-18  545  	BUILD_BUG_ON(PMD_ENTRY_SIZE != sizeof(pmd_t));
-48d27cb2299c0b Helge Deller   2009-01-18  546  	BUILD_BUG_ON(PGD_ENTRY_SIZE != sizeof(pgd_t));
-48d27cb2299c0b Helge Deller   2009-01-18  547  	BUILD_BUG_ON(PAGE_SHIFT + BITS_PER_PTE + BITS_PER_PMD + BITS_PER_PGD
-48d27cb2299c0b Helge Deller   2009-01-18  548  			> BITS_PER_LONG);
-b7795074a04669 Helge Deller   2021-02-12  549  #if CONFIG_PGTABLE_LEVELS == 3
-b7795074a04669 Helge Deller   2021-02-12  550  	BUILD_BUG_ON(PT_INITIAL > PTRS_PER_PMD);
-b7795074a04669 Helge Deller   2021-02-12  551  #else
-b7795074a04669 Helge Deller   2021-02-12  552  	BUILD_BUG_ON(PT_INITIAL > PTRS_PER_PGD);
-b7795074a04669 Helge Deller   2021-02-12  553  #endif
-48d27cb2299c0b Helge Deller   2009-01-18  554  
-
-:::::: The code at line 534 was first introduced by commit
-:::::: d0cf62fb63f760e98244d31396b3b58f3a1e326b parisc: Fixes and cleanups in kernel uapi header files
-
-:::::: TO: Helge Deller <deller@gmx.de>
-:::::: CC: Helge Deller <deller@gmx.de>
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   943  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   944  static int mc_probe(struct platform_device *pdev)
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   945  {
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   946  	void __iomem *ddrmc_baseaddr, *ddrmc_noc_baseaddr;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   947  	struct edac_mc_layer layers[2];
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   948  	struct mem_ctl_info *mci;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   949  	u8 num_chans, num_csrows;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   950  	struct edac_priv *priv;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   951  	u32 edac_mc_id, regval;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   952  	int rc;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   953  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   954  	ddrmc_baseaddr = devm_platform_ioremap_resource_byname(pdev, "base");
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   955  	if (IS_ERR(ddrmc_baseaddr))
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   956  		return PTR_ERR(ddrmc_baseaddr);
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   957  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   958  	ddrmc_noc_baseaddr = devm_platform_ioremap_resource_byname(pdev, "noc");
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   959  	if (IS_ERR(ddrmc_noc_baseaddr))
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   960  		return PTR_ERR(ddrmc_noc_baseaddr);
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   961  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   962  	if (!get_ecc_state(ddrmc_baseaddr))
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   963  		return -ENXIO;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   964  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   965  	/* Allocate ID number for the EMIF controller */
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   966  	edac_mc_id = emif_get_id(pdev->dev.of_node);
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   967  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   968  	regval = readl(ddrmc_baseaddr + XDDR_REG_CONFIG0_OFFSET);
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   969  	num_chans = FIELD_PREP(XDDR_REG_CONFIG0_NUM_CHANS_MASK, regval);
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   970  	num_chans++;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   971  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   972  	num_csrows = FIELD_PREP(XDDR_REG_CONFIG0_NUM_RANKS_MASK, regval);
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   973  	num_csrows *= 2;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   974  	if (!num_csrows)
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   975  		num_csrows = 1;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   976  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   977  	layers[0].type = EDAC_MC_LAYER_CHIP_SELECT;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   978  	layers[0].size = num_csrows;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   979  	layers[0].is_virt_csrow = true;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   980  	layers[1].type = EDAC_MC_LAYER_CHANNEL;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   981  	layers[1].size = num_chans;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   982  	layers[1].is_virt_csrow = false;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   983  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   984  	mci = edac_mc_alloc(edac_mc_id, ARRAY_SIZE(layers), layers,
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   985  			    sizeof(struct edac_priv));
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   986  	if (!mci) {
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   987  		edac_printk(KERN_ERR, EDAC_MC,
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   988  			    "Failed memory allocation for mc instance\n");
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   989  		return -ENOMEM;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   990  	}
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   991  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   992  	priv = mci->pvt_info;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   993  	priv->ddrmc_baseaddr = ddrmc_baseaddr;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   994  	priv->ddrmc_noc_baseaddr = ddrmc_noc_baseaddr;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   995  	priv->ce_cnt = 0;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   996  	priv->ue_cnt = 0;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   997  	priv->mc_id = edac_mc_id;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   998  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05   999  	mc_init(mci, pdev);
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1000  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1001  	rc = edac_mc_add_mc(mci);
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1002  	if (rc) {
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1003  		edac_printk(KERN_ERR, EDAC_MC,
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1004  			    "Failed to register with EDAC core\n");
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1005  		goto free_edac_mc;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1006  	}
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1007  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05 @1008  	rc = xlnx_register_event(PM_NOTIFY_CB, EVENT_ERROR_PMC_ERR1,
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1009  				 XPM_EVENT_ERROR_MASK_DDRMC_CR | XPM_EVENT_ERROR_MASK_DDRMC_NCR |
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1010  				 XPM_EVENT_ERROR_MASK_NOC_CR | XPM_EVENT_ERROR_MASK_NOC_NCR,
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1011  				 false, err_callback, mci);
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1012  	if (rc) {
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1013  		if (rc == -EACCES)
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1014  			rc = -EPROBE_DEFER;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1015  
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1016  		goto del_mc;
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1017  	}
+6f15b178cd6315 Shubhrajyoti Datta 2023-10-05  1018  
 
 -- 
 0-DAY CI Kernel Test Service
