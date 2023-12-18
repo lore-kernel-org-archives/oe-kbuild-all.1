@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D005BFBE;
-	Mon, 18 Dec 2023 16:07:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEEE4FF68
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 16:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+0BAugT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MMylBqg6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702915655; x=1734451655;
+  t=1702917607; x=1734453607;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IWLzx5NW4r06kIV4xDr3qPvWDu/nR6Sy07HNHq0oZcI=;
-  b=E+0BAugT33qDdMz/UZoQVVoFQFRwckTRQt9sPP8jZDFGb1hNgiqXx45X
-   KDSlh6z/qbaOez4Vt2b+cVwafS69KcFxPo+j/CZokNmdnzMVyP5NGr02L
-   hxzYDltv4lJ5O1xziVF/pJqYBqAZ5l3F9K+PzyeS5oM+upjMMOkh+99YM
-   qBcTVyDxJM5Ut7kxwH0Up5AS68Y6JTVxMH894aPlYUyjENvaxLT/NKEJc
-   Uh+aFd7Ysip5/QmeBpxFuO+klZHDxMeY4EymeSpOaMyE44dK8O98ut1N5
-   J4kIMtHf8jB34+6uF8QcmskZ+jLG83TamfGozrxE/6sFQ+mlvyVW8D4hh
+  bh=BXkvXFCVk8v2XUO3M0PaPXxpXEaEgCONdIYC+b9ysvo=;
+  b=MMylBqg60E2aDlNCHfH/zrXT7CDVDvSZnLPSAhOoynw+0Xy3ESA3FUW5
+   sfh1XtWm+cM432kyKjzQQRCZU0DohZzj4zekt0IwqjNMRqA0NzOmsZTzP
+   fudqgtuEwhARU73kaonPMZ0Yr70yea/6A82N7qf/gk2ZjnpnCLnxAiAHe
+   aVUYhxatTbqrcaybNarUMGwm1HGclmKuQdxQVjKK9yOnE2N9YnFxrClDo
+   2TMN+p0oQEg7K8IRY4I7bcDi0Jqia5At5DoOgNF9EGV8lVqpckhvAGlfc
+   vYi6+9B+9MasdB14QdRvm0C6eRn48znebex/evsDWwxgkUBPwfaVM54cP
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="426660157"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="385955853"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="426660157"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 08:07:34 -0800
+   d="scan'208";a="385955853"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 08:40:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="845992548"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="948832042"
 X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="845992548"
+   d="scan'208";a="948832042"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2023 08:07:33 -0800
+  by orsmga005.jf.intel.com with ESMTP; 18 Dec 2023 08:40:05 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFG9T-0004Hj-05;
-	Mon, 18 Dec 2023 16:07:31 +0000
-Date: Tue, 19 Dec 2023 00:06:32 +0800
+	id 1rFGex-0004KC-1w;
+	Mon, 18 Dec 2023 16:40:03 +0000
+Date: Tue, 19 Dec 2023 00:39:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Bart Van Assche <bvanassche@acm.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:mq-deadline 4/4] block/mq-deadline.c:222:16: error: call
- to undeclared function 'blk_rq_zone_no'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202312190011.JYlG3HVC-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:mq-deadline 4/4] block/mq-deadline.c:222:16: error:
+ implicit declaration of function 'blk_rq_zone_no'; did you mean
+ 'bdev_zone_no'?
+Message-ID: <202312190016.QPfcro7k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,24 +54,26 @@ Content-Disposition: inline
 tree:   https://github.com/bvanassche/linux mq-deadline
 head:   f1201b17a2fec011e8cdd6be24a413a5693941b7
 commit: f1201b17a2fec011e8cdd6be24a413a5693941b7 [4/4] block/mq-deadline: Prevent zoned write reordering due to I/O prioritization
-config: i386-randconfig-016-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190011.JYlG3HVC-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190011.JYlG3HVC-lkp@intel.com/reproduce)
+config: i386-randconfig-005-20231218 (https://download.01.org/0day-ci/archive/20231219/202312190016.QPfcro7k-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190016.QPfcro7k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312190011.JYlG3HVC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312190016.QPfcro7k-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> block/mq-deadline.c:222:16: error: call to undeclared function 'blk_rq_zone_no'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   while (rq && blk_rq_zone_no(rq) == zno) {
-                                ^
-   1 error generated.
+   block/mq-deadline.c: In function 'dd_zone_prio':
+>> block/mq-deadline.c:222:16: error: implicit declaration of function 'blk_rq_zone_no'; did you mean 'bdev_zone_no'? [-Werror=implicit-function-declaration]
+     222 |   while (rq && blk_rq_zone_no(rq) == zno) {
+         |                ^~~~~~~~~~~~~~
+         |                bdev_zone_no
+   cc1: some warnings being treated as errors
 
 
-vim +/blk_rq_zone_no +222 block/mq-deadline.c
+vim +222 block/mq-deadline.c
 
    204	
    205	/*
