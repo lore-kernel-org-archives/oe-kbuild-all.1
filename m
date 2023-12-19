@@ -1,46 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA8C224EE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 17:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036802C841
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 17:37:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jklFwcyN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ex9MfyAG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703006839; x=1734542839;
+  t=1703007465; x=1734543465;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cHRDLGJRVxshCmDokN9nM8+2sQFJHbUYsmkwmTUIYKA=;
-  b=jklFwcyNitTHYU7PpSU3nDyJ7akbu21IEhiqJ0qLy0wIaGG4nrC+94dh
-   R6EUCC4/fWorusLsW/wDyBQHYCJuHrBIbbvyOyumyyvZOQRAIC2qyVOKZ
-   glquECo7H5F5qOo/H7l2v1ZV+b8vIjCVzk79JlgTsH+9lxGy7ViZNaXJw
-   dtUoAmLJ0aYsuprWiGPmyfIAkj/MgCk0Xzvy3/cY/hTjwIkTg6YjM+zoI
-   5MKn9IgnAVTta3PmbESKhbpG36K91IiQ9hHvY5+FbLtLIaCU7fFfSiyMO
-   AygLs6DP7Z2ja3ChlV9UXpGQk+Ao4TXYJJMpFtxr4lPJwJ9KBcZj8bae4
+  bh=9QmXpqVeH06qdPO2Asj39XSPlVpXXvH3+qbxXlWJnEQ=;
+  b=ex9MfyAG2fdavpEGHXwFnJKf1THxtTXlh757W4qSjIq9W6FPlxYRtVGK
+   EXKECN3hDP6n+rxqmteMWbSnrasLaEYcYntN7dUUjxCj4eP5A1JWDbjHw
+   DU1a4P781JPBaA7yLs7aAaVvkhWGEYXXVD6awEU1PfkqrYg6PvZ2Juwrt
+   qIzU2Du0aJGL/+/RIXwr9OdUiObOvfelo1FYTzqISo+etarHvsTzuI+4M
+   cNvhoH+wHlOIAg7p29lQjC7iOzHrOL1EiRVmVnB9NfsGjmWH7uXn970X2
+   68m6bQNsTQOAuT0MPtVt8VQwgKJA+4s38LDfMEhnyasz4iZz7KofSnPMJ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="2925869"
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="426828628"
 X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="2925869"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 09:27:18 -0800
+   d="scan'208";a="426828628"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 09:37:19 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="899445208"
 X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="17679091"
+   d="scan'208";a="899445208"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 19 Dec 2023 09:27:17 -0800
+  by orsmga004.jf.intel.com with ESMTP; 19 Dec 2023 09:37:17 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFds9-0005kJ-2x;
-	Tue, 19 Dec 2023 17:27:13 +0000
-Date: Wed, 20 Dec 2023 01:26:52 +0800
+	id 1rFe1q-0005l9-2Q;
+	Tue, 19 Dec 2023 17:37:14 +0000
+Date: Wed, 20 Dec 2023 01:37:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rhys Kidd <rhyskidd@gmail.com>
+To: Mario Limonciello <mario.limonciello@dell.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ben Skeggs <bskeggs@redhat.com>, Lyude Paul <lyude@redhat.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1943: warning:
- Function parameter or member 'init' not described in 'init_reset_begun'
-Message-ID: <202312200105.eNSu8nu1-lkp@intel.com>
+	Hans de Goede <hdegoede@redhat.com>
+Subject: drivers/platform/x86/dell/dcdbas.c:80: warning: Function parameter
+ or member 'size' not described in 'smi_data_buf_realloc'
+Message-ID: <202312200110.tXx7v823-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,163 +51,257 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Rhys,
+Hi Mario,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   2cf4f94d8e8646803f8fb0facf134b0cd7fb691a
-commit: 66cbcc72ae34711854ae7af8056bfb7169f874fd drm/nouveau/bios/init: handle INIT_RESET_BEGUN devinit opcode
-date:   4 years, 4 months ago
-config: i386-randconfig-004-20231101 (https://download.01.org/0day-ci/archive/20231220/202312200105.eNSu8nu1-lkp@intel.com/config)
+commit: f1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28 platform/x86: Move all dell drivers to their own subdirectory
+date:   2 years, 10 months ago
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231220/202312200110.tXx7v823-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312200105.eNSu8nu1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312200110.tXx7v823-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312200105.eNSu8nu1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312200110.tXx7v823-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:741: warning: Function parameter or member 'init' not described in 'init_copy'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:741: warning: expecting prototype for INIT_COPY(). Prototype was for init_copy() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:768: warning: Function parameter or member 'init' not described in 'init_not'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:768: warning: expecting prototype for INIT_NOT(). Prototype was for init_not() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:780: warning: Function parameter or member 'init' not described in 'init_io_flag_condition'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:780: warning: expecting prototype for INIT_IO_FLAG_CONDITION(). Prototype was for init_io_flag_condition() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:797: warning: Function parameter or member 'init' not described in 'init_generic_condition'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:797: warning: expecting prototype for INIT_GENERIC_CONDITION(). Prototype was for init_generic_condition() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:849: warning: Function parameter or member 'init' not described in 'init_io_mask_or'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:849: warning: expecting prototype for INIT_IO_MASK_OR(). Prototype was for init_io_mask_or() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:868: warning: Function parameter or member 'init' not described in 'init_io_or'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:868: warning: expecting prototype for INIT_IO_OR(). Prototype was for init_io_or() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:887: warning: Function parameter or member 'init' not described in 'init_andn_reg'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:887: warning: expecting prototype for INIT_ANDN_REG(). Prototype was for init_andn_reg() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:904: warning: Function parameter or member 'init' not described in 'init_or_reg'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:904: warning: expecting prototype for INIT_OR_REG(). Prototype was for init_or_reg() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:921: warning: Function parameter or member 'init' not described in 'init_idx_addr_latched'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:921: warning: expecting prototype for INIT_INDEX_ADDRESS_LATCHED(). Prototype was for init_idx_addr_latched() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:951: warning: Function parameter or member 'init' not described in 'init_io_restrict_pll2'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:951: warning: expecting prototype for INIT_IO_RESTRICT_PLL2(). Prototype was for init_io_restrict_pll2() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:986: warning: Function parameter or member 'init' not described in 'init_pll2'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:986: warning: expecting prototype for INIT_PLL2(). Prototype was for init_pll2() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1003: warning: Function parameter or member 'init' not described in 'init_i2c_byte'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1003: warning: expecting prototype for INIT_I2C_BYTE(). Prototype was for init_i2c_byte() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1034: warning: Function parameter or member 'init' not described in 'init_zm_i2c_byte'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1034: warning: expecting prototype for INIT_ZM_I2C_BYTE(). Prototype was for init_zm_i2c_byte() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1060: warning: Function parameter or member 'init' not described in 'init_zm_i2c'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1060: warning: expecting prototype for INIT_ZM_I2C(). Prototype was for init_zm_i2c() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1094: warning: Function parameter or member 'init' not described in 'init_tmds'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1094: warning: expecting prototype for INIT_TMDS(). Prototype was for init_tmds() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1120: warning: Function parameter or member 'init' not described in 'init_zm_tmds_group'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1120: warning: expecting prototype for INIT_ZM_TMDS_GROUP(). Prototype was for init_zm_tmds_group() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1147: warning: Function parameter or member 'init' not described in 'init_cr_idx_adr_latch'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1147: warning: expecting prototype for INIT_CR_INDEX_ADDRESS_LATCHED(). Prototype was for init_cr_idx_adr_latch() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1177: warning: Function parameter or member 'init' not described in 'init_cr'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1177: warning: expecting prototype for INIT_CR(). Prototype was for init_cr() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1197: warning: Function parameter or member 'init' not described in 'init_zm_cr'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1197: warning: expecting prototype for INIT_ZM_CR(). Prototype was for init_zm_cr() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1214: warning: Function parameter or member 'init' not described in 'init_zm_cr_group'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1214: warning: expecting prototype for INIT_ZM_CR_GROUP(). Prototype was for init_zm_cr_group() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1238: warning: Function parameter or member 'init' not described in 'init_condition_time'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1238: warning: expecting prototype for INIT_CONDITION_TIME(). Prototype was for init_condition_time() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1265: warning: Function parameter or member 'init' not described in 'init_ltime'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1265: warning: expecting prototype for INIT_LTIME(). Prototype was for init_ltime() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1282: warning: Function parameter or member 'init' not described in 'init_zm_reg_sequence'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1282: warning: expecting prototype for INIT_ZM_REG_SEQUENCE(). Prototype was for init_zm_reg_sequence() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1307: warning: Function parameter or member 'init' not described in 'init_pll_indirect'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1307: warning: expecting prototype for INIT_PLL_INDIRECT(). Prototype was for init_pll_indirect() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1326: warning: Function parameter or member 'init' not described in 'init_zm_reg_indirect'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1326: warning: expecting prototype for INIT_ZM_REG_INDIRECT(). Prototype was for init_zm_reg_indirect() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1345: warning: Function parameter or member 'init' not described in 'init_sub_direct'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1345: warning: expecting prototype for INIT_SUB_DIRECT(). Prototype was for init_sub_direct() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1371: warning: Function parameter or member 'init' not described in 'init_jump'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1371: warning: expecting prototype for INIT_JUMP(). Prototype was for init_jump() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1389: warning: Function parameter or member 'init' not described in 'init_i2c_if'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1389: warning: expecting prototype for INIT_I2C_IF(). Prototype was for init_i2c_if() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1416: warning: Function parameter or member 'init' not described in 'init_copy_nv_reg'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1416: warning: expecting prototype for INIT_COPY_NV_REG(). Prototype was for init_copy_nv_reg() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1442: warning: Function parameter or member 'init' not described in 'init_zm_index_io'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1442: warning: expecting prototype for INIT_ZM_INDEX_IO(). Prototype was for init_zm_index_io() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1460: warning: Function parameter or member 'init' not described in 'init_compute_mem'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1460: warning: expecting prototype for INIT_COMPUTE_MEM(). Prototype was for init_compute_mem() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1478: warning: Function parameter or member 'init' not described in 'init_reset'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1478: warning: expecting prototype for INIT_RESET(). Prototype was for init_reset() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1505: warning: Function parameter or member 'init' not described in 'init_configure_mem_clk'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1505: warning: expecting prototype for INIT_CONFIGURE_MEM(). Prototype was for init_configure_mem_clk() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1564: warning: Function parameter or member 'init' not described in 'init_configure_clk'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1564: warning: expecting prototype for INIT_CONFIGURE_CLK(). Prototype was for init_configure_clk() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1598: warning: Function parameter or member 'init' not described in 'init_configure_preinit'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1598: warning: expecting prototype for INIT_CONFIGURE_PREINIT(). Prototype was for init_configure_preinit() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1624: warning: Function parameter or member 'init' not described in 'init_io'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1624: warning: expecting prototype for INIT_IO(). Prototype was for init_io() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1664: warning: Function parameter or member 'init' not described in 'init_sub'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1664: warning: expecting prototype for INIT_SUB(). Prototype was for init_sub() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1691: warning: Function parameter or member 'init' not described in 'init_ram_condition'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1691: warning: expecting prototype for INIT_RAM_CONDITION(). Prototype was for init_ram_condition() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1710: warning: Function parameter or member 'init' not described in 'init_nv_reg'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1710: warning: expecting prototype for INIT_NV_REG(). Prototype was for init_nv_reg() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1728: warning: Function parameter or member 'init' not described in 'init_macro'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1728: warning: expecting prototype for INIT_MACRO(). Prototype was for init_macro() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1752: warning: Function parameter or member 'init' not described in 'init_resume'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1752: warning: expecting prototype for INIT_RESUME(). Prototype was for init_resume() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1764: warning: Function parameter or member 'init' not described in 'init_strap_condition'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1764: warning: expecting prototype for INIT_STRAP_CONDITION(). Prototype was for init_strap_condition() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1782: warning: Function parameter or member 'init' not described in 'init_time'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1782: warning: expecting prototype for INIT_TIME(). Prototype was for init_time() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1803: warning: Function parameter or member 'init' not described in 'init_condition'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1803: warning: expecting prototype for INIT_CONDITION(). Prototype was for init_condition() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1820: warning: Function parameter or member 'init' not described in 'init_io_condition'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1820: warning: expecting prototype for INIT_IO_CONDITION(). Prototype was for init_io_condition() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1837: warning: Function parameter or member 'init' not described in 'init_zm_reg16'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1837: warning: expecting prototype for INIT_ZM_REG16(). Prototype was for init_zm_reg16() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1854: warning: Function parameter or member 'init' not described in 'init_index_io'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1854: warning: expecting prototype for INIT_INDEX_IO(). Prototype was for init_index_io() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1876: warning: Function parameter or member 'init' not described in 'init_pll'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1876: warning: expecting prototype for INIT_PLL(). Prototype was for init_pll() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1893: warning: Function parameter or member 'init' not described in 'init_zm_reg'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1893: warning: expecting prototype for INIT_ZM_REG(). Prototype was for init_zm_reg() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1913: warning: Function parameter or member 'init' not described in 'init_ram_restrict_pll'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1913: warning: expecting prototype for INIT_RAM_RESTRICT_PLL(). Prototype was for init_ram_restrict_pll() instead
->> drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1943: warning: Function parameter or member 'init' not described in 'init_reset_begun'
->> drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1943: warning: expecting prototype for INIT_RESET_BEGUN(). Prototype was for init_reset_begun() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1954: warning: Function parameter or member 'init' not described in 'init_gpio'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1954: warning: expecting prototype for INIT_GPIO(). Prototype was for init_gpio() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1970: warning: Function parameter or member 'init' not described in 'init_ram_restrict_zm_reg_group'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1970: warning: expecting prototype for INIT_RAM_RESTRICT_ZM_GROUP(). Prototype was for init_ram_restrict_zm_reg_group() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2008: warning: Function parameter or member 'init' not described in 'init_copy_zm_reg'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2008: warning: expecting prototype for INIT_COPY_ZM_REG(). Prototype was for init_copy_zm_reg() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2025: warning: Function parameter or member 'init' not described in 'init_zm_reg_group'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2025: warning: expecting prototype for INIT_ZM_REG_GROUP(). Prototype was for init_zm_reg_group() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2047: warning: Function parameter or member 'init' not described in 'init_xlat'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2047: warning: expecting prototype for INIT_XLAT(). Prototype was for init_xlat() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2075: warning: Function parameter or member 'init' not described in 'init_zm_mask_add'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2075: warning: expecting prototype for INIT_ZM_MASK_ADD(). Prototype was for init_zm_mask_add() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2096: warning: Function parameter or member 'init' not described in 'init_auxch'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2096: warning: expecting prototype for INIT_AUXCH(). Prototype was for init_auxch() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2120: warning: Function parameter or member 'init' not described in 'init_zm_auxch'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2120: warning: expecting prototype for INIT_AUXCH(). Prototype was for init_zm_auxch() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2142: warning: Function parameter or member 'init' not described in 'init_i2c_long_if'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2142: warning: expecting prototype for INIT_I2C_LONG_IF(). Prototype was for init_i2c_long_if() instead
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2181: warning: Function parameter or member 'init' not described in 'init_gpio_ne'
-   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2181: warning: expecting prototype for INIT_GPIO_NE(). Prototype was for init_gpio_ne() instead
+>> drivers/platform/x86/dell/dcdbas.c:80: warning: Function parameter or member 'size' not described in 'smi_data_buf_realloc'
+>> drivers/platform/x86/dell/dcdbas.c:271: warning: Function parameter or member 'smi_cmd' not described in 'dcdbas_smi_request'
+>> drivers/platform/x86/dell/dcdbas.c:302: warning: Function parameter or member 'dev' not described in 'smi_request_store'
+   drivers/platform/x86/dell/dcdbas.c:302: warning: Function parameter or member 'attr' not described in 'smi_request_store'
+   drivers/platform/x86/dell/dcdbas.c:302: warning: Function parameter or member 'buf' not described in 'smi_request_store'
+   drivers/platform/x86/dell/dcdbas.c:302: warning: Function parameter or member 'count' not described in 'smi_request_store'
+   drivers/platform/x86/dell/dcdbas.c:603: warning: Function parameter or member 'nb' not described in 'dcdbas_reboot_notify'
+   drivers/platform/x86/dell/dcdbas.c:603: warning: Function parameter or member 'code' not described in 'dcdbas_reboot_notify'
+   drivers/platform/x86/dell/dcdbas.c:603: warning: Function parameter or member 'unused' not described in 'dcdbas_reboot_notify'
 
 
-vim +1943 drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
+vim +80 drivers/platform/x86/dell/dcdbas.c
 
-  1936	
-  1937	/**
-  1938	 * INIT_RESET_BEGUN - opcode 0x8c
-  1939	 *
-  1940	 */
-  1941	static void
-  1942	init_reset_begun(struct nvbios_init *init)
-> 1943	{
-  1944		trace("RESET_BEGUN\n");
-  1945		init->offset += 1;
-  1946	}
-  1947	
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   75  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   76  /**
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   77   * smi_data_buf_realloc: grow SMI data buffer if needed
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   78   */
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   79  static int smi_data_buf_realloc(unsigned long size)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  @80  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   81  	void *buf;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   82  	dma_addr_t handle;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   83  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   84  	if (smi_data_buf_size >= size)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   85  		return 0;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   86  
+12c956c4f32e087 drivers/firmware/dcdbas.c Stuart Hayes     2018-09-26   87  	if (size > max_smi_data_buf_size)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   88  		return -EINVAL;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   89  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   90  	/* new buffer is needed */
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   91  	buf = dma_alloc_coherent(&dcdbas_pdev->dev, size, &handle, GFP_KERNEL);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   92  	if (!buf) {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   93  		dev_dbg(&dcdbas_pdev->dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   94  			"%s: failed to allocate memory size %lu\n",
+eecd58536a97502 drivers/firmware/dcdbas.c Harvey Harrison  2008-04-29   95  			__func__, size);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   96  		return -ENOMEM;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   97  	}
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   98  	/* memory zeroed by dma_alloc_coherent */
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06   99  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  100  	if (smi_data_buf)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  101  		memcpy(buf, smi_data_buf, smi_data_buf_size);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  102  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  103  	/* free any existing buffer */
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  104  	smi_data_buf_free();
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  105  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  106  	/* set up new buffer for use */
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  107  	smi_data_buf = buf;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  108  	smi_data_buf_handle = handle;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  109  	smi_data_buf_phys_addr = (u32) virt_to_phys(buf);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  110  	smi_data_buf_size = size;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  111  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  112  	dev_dbg(&dcdbas_pdev->dev, "%s: phys: %x size: %lu\n",
+eecd58536a97502 drivers/firmware/dcdbas.c Harvey Harrison  2008-04-29  113  		__func__, smi_data_buf_phys_addr, smi_data_buf_size);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  114  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  115  	return 0;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  116  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  117  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  118  static ssize_t smi_data_buf_phys_addr_show(struct device *dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  119  					   struct device_attribute *attr,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  120  					   char *buf)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  121  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  122  	return sprintf(buf, "%x\n", smi_data_buf_phys_addr);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  123  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  124  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  125  static ssize_t smi_data_buf_size_show(struct device *dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  126  				      struct device_attribute *attr,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  127  				      char *buf)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  128  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  129  	return sprintf(buf, "%lu\n", smi_data_buf_size);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  130  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  131  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  132  static ssize_t smi_data_buf_size_store(struct device *dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  133  				       struct device_attribute *attr,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  134  				       const char *buf, size_t count)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  135  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  136  	unsigned long buf_size;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  137  	ssize_t ret;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  138  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  139  	buf_size = simple_strtoul(buf, NULL, 10);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  140  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  141  	/* make sure SMI data buffer is at least buf_size */
+8ed965d612d9e9b drivers/firmware/dcdbas.c Arjan van de Ven 2006-03-23  142  	mutex_lock(&smi_data_lock);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  143  	ret = smi_data_buf_realloc(buf_size);
+8ed965d612d9e9b drivers/firmware/dcdbas.c Arjan van de Ven 2006-03-23  144  	mutex_unlock(&smi_data_lock);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  145  	if (ret)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  146  		return ret;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  147  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  148  	return count;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  149  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  150  
+2c3c8bea608866d drivers/firmware/dcdbas.c Chris Wright     2010-05-12  151  static ssize_t smi_data_read(struct file *filp, struct kobject *kobj,
+91a6902958f0523 drivers/firmware/dcdbas.c Zhang Rui        2007-06-09  152  			     struct bin_attribute *bin_attr,
+91a6902958f0523 drivers/firmware/dcdbas.c Zhang Rui        2007-06-09  153  			     char *buf, loff_t pos, size_t count)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  154  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  155  	ssize_t ret;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  156  
+8ed965d612d9e9b drivers/firmware/dcdbas.c Arjan van de Ven 2006-03-23  157  	mutex_lock(&smi_data_lock);
+abe19b7b822a8fd drivers/firmware/dcdbas.c Akinobu Mita     2008-07-25  158  	ret = memory_read_from_buffer(buf, count, &pos, smi_data_buf,
+abe19b7b822a8fd drivers/firmware/dcdbas.c Akinobu Mita     2008-07-25  159  					smi_data_buf_size);
+8ed965d612d9e9b drivers/firmware/dcdbas.c Arjan van de Ven 2006-03-23  160  	mutex_unlock(&smi_data_lock);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  161  	return ret;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  162  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  163  
+2c3c8bea608866d drivers/firmware/dcdbas.c Chris Wright     2010-05-12  164  static ssize_t smi_data_write(struct file *filp, struct kobject *kobj,
+91a6902958f0523 drivers/firmware/dcdbas.c Zhang Rui        2007-06-09  165  			      struct bin_attribute *bin_attr,
+91a6902958f0523 drivers/firmware/dcdbas.c Zhang Rui        2007-06-09  166  			      char *buf, loff_t pos, size_t count)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  167  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  168  	ssize_t ret;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  169  
+12c956c4f32e087 drivers/firmware/dcdbas.c Stuart Hayes     2018-09-26  170  	if ((pos + count) > max_smi_data_buf_size)
+b95936cb9267e4c drivers/firmware/dcdbas.c Doug Warzecha    2006-10-19  171  		return -EINVAL;
+b95936cb9267e4c drivers/firmware/dcdbas.c Doug Warzecha    2006-10-19  172  
+8ed965d612d9e9b drivers/firmware/dcdbas.c Arjan van de Ven 2006-03-23  173  	mutex_lock(&smi_data_lock);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  174  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  175  	ret = smi_data_buf_realloc(pos + count);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  176  	if (ret)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  177  		goto out;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  178  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  179  	memcpy(smi_data_buf + pos, buf, count);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  180  	ret = count;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  181  out:
+8ed965d612d9e9b drivers/firmware/dcdbas.c Arjan van de Ven 2006-03-23  182  	mutex_unlock(&smi_data_lock);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  183  	return ret;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  184  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  185  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  186  static ssize_t host_control_action_show(struct device *dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  187  					struct device_attribute *attr,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  188  					char *buf)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  189  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  190  	return sprintf(buf, "%u\n", host_control_action);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  191  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  192  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  193  static ssize_t host_control_action_store(struct device *dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  194  					 struct device_attribute *attr,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  195  					 const char *buf, size_t count)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  196  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  197  	ssize_t ret;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  198  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  199  	/* make sure buffer is available for host control command */
+8ed965d612d9e9b drivers/firmware/dcdbas.c Arjan van de Ven 2006-03-23  200  	mutex_lock(&smi_data_lock);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  201  	ret = smi_data_buf_realloc(sizeof(struct apm_cmd));
+8ed965d612d9e9b drivers/firmware/dcdbas.c Arjan van de Ven 2006-03-23  202  	mutex_unlock(&smi_data_lock);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  203  	if (ret)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  204  		return ret;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  205  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  206  	host_control_action = simple_strtoul(buf, NULL, 10);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  207  	return count;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  208  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  209  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  210  static ssize_t host_control_smi_type_show(struct device *dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  211  					  struct device_attribute *attr,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  212  					  char *buf)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  213  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  214  	return sprintf(buf, "%u\n", host_control_smi_type);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  215  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  216  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  217  static ssize_t host_control_smi_type_store(struct device *dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  218  					   struct device_attribute *attr,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  219  					   const char *buf, size_t count)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  220  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  221  	host_control_smi_type = simple_strtoul(buf, NULL, 10);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  222  	return count;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  223  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  224  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  225  static ssize_t host_control_on_shutdown_show(struct device *dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  226  					     struct device_attribute *attr,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  227  					     char *buf)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  228  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  229  	return sprintf(buf, "%u\n", host_control_on_shutdown);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  230  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  231  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  232  static ssize_t host_control_on_shutdown_store(struct device *dev,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  233  					      struct device_attribute *attr,
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  234  					      const char *buf, size_t count)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  235  {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  236  	host_control_on_shutdown = simple_strtoul(buf, NULL, 10);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  237  	return count;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  238  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  239  
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  240  static int raise_smi(void *par)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  241  {
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  242  	struct smi_cmd *smi_cmd = par;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  243  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  244  	if (smp_processor_id() != 0) {
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  245  		dev_dbg(&dcdbas_pdev->dev, "%s: failed to get CPU 0\n",
+eecd58536a97502 drivers/firmware/dcdbas.c Harvey Harrison  2008-04-29  246  			__func__);
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  247  		return -EBUSY;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  248  	}
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  249  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  250  	/* generate SMI */
+dd65c736d1b5312 drivers/firmware/dcdbas.c Stuart Hayes     2011-03-02  251  	/* inb to force posted write through and make SMI happen now */
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  252  	asm volatile (
+dd65c736d1b5312 drivers/firmware/dcdbas.c Stuart Hayes     2011-03-02  253  		"outb %b0,%w1\n"
+dd65c736d1b5312 drivers/firmware/dcdbas.c Stuart Hayes     2011-03-02  254  		"inb %w1"
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  255  		: /* no output args */
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  256  		: "a" (smi_cmd->command_code),
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  257  		  "d" (smi_cmd->command_address),
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  258  		  "b" (smi_cmd->ebx),
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  259  		  "c" (smi_cmd->ecx)
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  260  		: "memory"
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  261  	);
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  262  
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  263  	return 0;
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  264  }
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  265  /**
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  266   * dcdbas_smi_request: generate SMI request
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  267   *
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  268   * Called with smi_data_lock.
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  269   */
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  270  int dcdbas_smi_request(struct smi_cmd *smi_cmd)
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29 @271  {
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  272  	int ret;
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  273  
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  274  	if (smi_cmd->magic != SMI_CMD_MAGIC) {
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  275  		dev_info(&dcdbas_pdev->dev, "%s: invalid magic value\n",
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  276  			 __func__);
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  277  		return -EBADR;
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  278  	}
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  279  
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  280  	/* SMI requires CPU 0 */
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  281  	get_online_cpus();
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  282  	ret = smp_call_on_cpu(0, raise_smi, smi_cmd, true);
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  283  	put_online_cpus();
+e23f22b5cb9e44d drivers/firmware/dcdbas.c Juergen Gross    2016-08-29  284  
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  285  	return ret;
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  286  }
+90563ec4129f14d drivers/firmware/dcdbas.c Doug Warzecha    2005-09-06  287  
+
+:::::: The code at line 80 was first introduced by commit
+:::::: 90563ec4129f14d19f018240d1d3ff5c0e5e6392 [PATCH] dcdbas: add Dell Systems Management Base Driver with sysfs support
+
+:::::: TO: Doug Warzecha <Douglas_Warzecha@dell.com>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
