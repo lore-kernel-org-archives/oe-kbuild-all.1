@@ -1,49 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075AC14ABD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 10:47:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50371862A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 11:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EfE1pFmK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/hAg5c9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702982860; x=1734518860;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hpLL+VF8SLay5OqzHcyWT3EsC7eUd/YYLRiPeeWzRtQ=;
-  b=EfE1pFmKH8E/OgzKy5n7RCmoxW0uySLN1VP3Htf1aJERTUu74ZBjCngc
-   7GxbHkoroislg7fM/xk7iUHFviR3QDLVlzDIOBTb6bYbhwLvFvWnSAR/E
-   x7pTm40qsYCLH90kTODtYgiQvbiCfD1J4/qX9OFJlQg/hSgSGi2XOWh9e
-   J0VFXm94n+NRPR5nZepRLFahGQYuE3unTPliSE40NqiQu1tqqyL90WdNN
-   /KX4M0jqOLFjhUDaUElq1nPkwrxRNu79ffNvusa97yiUUDr8WTteS1soz
-   uwxzynNYdpRaAufv3N8M9kd54Y7YqnFqkLNUKSnRuToIFeC/L1VGaLKTr
+  t=1702984685; x=1734520685;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o21DTEAWwM0e0dbAkfsavP1ZgY7Ic+y7ddHRBOQkmhU=;
+  b=U/hAg5c9SQFvq0ZFhpMpT8FXo5slZ9mQ+ezkQQZcQmLUJqvwcB9CMEWk
+   4P3ThQNZMqDxgy6jFZ9qOkgdlLWyj+SiRQyf6Y/KWIIsxZLJKojg8Bxof
+   U5wGQu/LXiTEkBmTx8yQ92A2oc0bbe8wQDulZonwwhriAyad/IR8/3ihB
+   lJh7FKSMVLPz4lcB7jqVWgEkAQBl9iflloyQPk+Tg5ut4L6E/Ej/hrlhF
+   R+jS3ivoaRY6udv8c+0hbpt3fZ4jUfR9n8/+MH0cijWn3cxJbG1h8J66O
+   zFXWmVjragP29/40zzpWUfsisoDY2CYaL59urYeya5EPaYK+iO7qiHwJI
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="2470403"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="481832820"
 X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="2470403"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 02:47:40 -0800
+   d="scan'208";a="481832820"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 03:18:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="846292503"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="804863597"
 X-IronPort-AV: E=Sophos;i="6.04,288,1695711600"; 
-   d="scan'208";a="846292503"
+   d="scan'208";a="804863597"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Dec 2023 02:47:37 -0800
+  by orsmga008.jf.intel.com with ESMTP; 19 Dec 2023 03:18:02 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFXdP-0005CT-27;
-	Tue, 19 Dec 2023 10:47:35 +0000
-Date: Tue, 19 Dec 2023 18:46:48 +0800
+	id 1rFY6o-0005EB-2Q;
+	Tue, 19 Dec 2023 11:17:59 +0000
+Date: Tue, 19 Dec 2023 19:17:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kmo@daterainc.com>,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 8475/9096]
- fs/bcachefs/btree_update_interior.c:158: warning: Function parameter or
- struct member 'nr' not described in 'bch2_btree_node_format_fits'
-Message-ID: <202312191829.ZkroAQDV-lkp@intel.com>
+To: Daniel Wagner <dwagner@suse.de>, linux-nvme@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	James Smart <james.smart@broadcom.com>,
+	Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>
+Subject: Re: [PATCH v3 15/16] nvmet-fc: avoid deadlock on delete association
+ path
+Message-ID: <202312191845.lwrs1kbh-lkp@intel.com>
+References: <20231218153105.12717-16-dwagner@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,53 +55,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231218153105.12717-16-dwagner@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   aa4db8324c4d0e67aa4670356df4e9fae14b4d37
-commit: a857ec99c72bfd31275300bdda28ef499a75a182 [8475/9096] bcachefs: btree_node_u64s_with_format() takes nr keys
-config: i386-randconfig-061-20231219 (https://download.01.org/0day-ci/archive/20231219/202312191829.ZkroAQDV-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312191829.ZkroAQDV-lkp@intel.com/reproduce)
+Hi Daniel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linux-nvme/nvme-6.8]
+[also build test WARNING on linus/master v6.7-rc6 next-20231219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvmet-fc-remove-unnecessary-bracket/20231219-003117
+base:   git://git.infradead.org/nvme.git nvme-6.8
+patch link:    https://lore.kernel.org/r/20231218153105.12717-16-dwagner%40suse.de
+patch subject: [PATCH v3 15/16] nvmet-fc: avoid deadlock on delete association path
+config: i386-randconfig-013-20231219 (https://download.01.org/0day-ci/archive/20231219/202312191845.lwrs1kbh-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312191845.lwrs1kbh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312191829.ZkroAQDV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312191845.lwrs1kbh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/btree_update_interior.c:158: warning: Function parameter or struct member 'nr' not described in 'bch2_btree_node_format_fits'
+   drivers/nvme/target/fc.c: In function 'nvmet_fc_put_tgtport_work':
+   drivers/nvme/target/fc.c:253:2: error: implicit declaration of function 'nvmet_fc_tgtport_put'; did you mean 'nvmet_ctrl_put'? [-Werror=implicit-function-declaration]
+     nvmet_fc_tgtport_put(tgtport);
+     ^~~~~~~~~~~~~~~~~~~~
+     nvmet_ctrl_put
+   drivers/nvme/target/fc.c: At top level:
+>> drivers/nvme/target/fc.c:259:13: warning: conflicting types for 'nvmet_fc_tgtport_put'
+    static void nvmet_fc_tgtport_put(struct nvmet_fc_tgtport *tgtport);
+                ^~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/target/fc.c:259:13: error: static declaration of 'nvmet_fc_tgtport_put' follows non-static declaration
+   drivers/nvme/target/fc.c:253:2: note: previous implicit declaration of 'nvmet_fc_tgtport_put' was here
+     nvmet_fc_tgtport_put(tgtport);
+     ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +158 fs/bcachefs/btree_update_interior.c
+vim +/nvmet_fc_tgtport_put +259 drivers/nvme/target/fc.c
 
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  143  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  144  /**
-7cb0e6992e5c56 Colin Ian King  2023-09-12  145   * bch2_btree_node_format_fits - check if we could rewrite node with a new format
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  146   *
-96dea3d599dbc3 Kent Overstreet 2023-09-12  147   * @c:		filesystem handle
-96dea3d599dbc3 Kent Overstreet 2023-09-12  148   * @b:		btree node to rewrite
-96dea3d599dbc3 Kent Overstreet 2023-09-12  149   * @new_f:	bkey format to translate keys to
-96dea3d599dbc3 Kent Overstreet 2023-09-12  150   *
-96dea3d599dbc3 Kent Overstreet 2023-09-12  151   * Returns: true if all re-packed keys will be able to fit in a new node.
-96dea3d599dbc3 Kent Overstreet 2023-09-12  152   *
-96dea3d599dbc3 Kent Overstreet 2023-09-12  153   * Assumes all keys will successfully pack with the new format.
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  154   */
-a857ec99c72bfd Kent Overstreet 2023-12-17  155  static bool bch2_btree_node_format_fits(struct bch_fs *c, struct btree *b,
-a857ec99c72bfd Kent Overstreet 2023-12-17  156  				 struct btree_nr_keys nr,
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  157  				 struct bkey_format *new_f)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16 @158  {
-a857ec99c72bfd Kent Overstreet 2023-12-17  159  	size_t u64s = btree_node_u64s_with_format(nr, &b->format, new_f);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  160  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  161  	return __vstruct_bytes(struct btree_node, u64s) < btree_bytes(c);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  162  }
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  163  
-
-:::::: The code at line 158 was first introduced by commit
-:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+c53432030d8642 James Smart   2016-12-02  244  
+c53432030d8642 James Smart   2016-12-02  245  
+c53432030d8642 James Smart   2016-12-02  246  static void nvmet_fc_handle_ls_rqst_work(struct work_struct *work);
+9d625f7792875e James Smart   2018-02-28  247  static void nvmet_fc_fcp_rqst_op_defer_work(struct work_struct *work);
+20d5f3b830ab45 Daniel Wagner 2023-12-18  248  static void nvmet_fc_put_tgtport_work(struct work_struct *work)
+20d5f3b830ab45 Daniel Wagner 2023-12-18  249  {
+20d5f3b830ab45 Daniel Wagner 2023-12-18  250  	struct nvmet_fc_tgtport *tgtport =
+20d5f3b830ab45 Daniel Wagner 2023-12-18  251  		container_of(work, struct nvmet_fc_tgtport, put_work);
+20d5f3b830ab45 Daniel Wagner 2023-12-18  252  
+20d5f3b830ab45 Daniel Wagner 2023-12-18  253  	nvmet_fc_tgtport_put(tgtport);
+20d5f3b830ab45 Daniel Wagner 2023-12-18  254  }
+c53432030d8642 James Smart   2016-12-02  255  static void nvmet_fc_tgt_a_put(struct nvmet_fc_tgt_assoc *assoc);
+c53432030d8642 James Smart   2016-12-02  256  static int nvmet_fc_tgt_a_get(struct nvmet_fc_tgt_assoc *assoc);
+c53432030d8642 James Smart   2016-12-02  257  static void nvmet_fc_tgt_q_put(struct nvmet_fc_tgt_queue *queue);
+c53432030d8642 James Smart   2016-12-02  258  static int nvmet_fc_tgt_q_get(struct nvmet_fc_tgt_queue *queue);
+c53432030d8642 James Smart   2016-12-02 @259  static void nvmet_fc_tgtport_put(struct nvmet_fc_tgtport *tgtport);
+c53432030d8642 James Smart   2016-12-02  260  static int nvmet_fc_tgtport_get(struct nvmet_fc_tgtport *tgtport);
+0fb228d30b8d72 James Smart   2017-08-01  261  static void nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+0fb228d30b8d72 James Smart   2017-08-01  262  					struct nvmet_fc_fcp_iod *fod);
+a96d4bd867129e James Smart   2017-10-27  263  static void nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc);
+47bf3241064498 James Smart   2020-03-31  264  static void nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
+47bf3241064498 James Smart   2020-03-31  265  				struct nvmet_fc_ls_iod *iod);
+c53432030d8642 James Smart   2016-12-02  266  
+c53432030d8642 James Smart   2016-12-02  267  
 
 -- 
 0-DAY CI Kernel Test Service
