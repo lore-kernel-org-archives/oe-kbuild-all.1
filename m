@@ -1,103 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01A41DFC9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Dec 2023 23:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7FE7472;
+	Tue, 19 Dec 2023 00:01:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USDGfNqs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702943259; x=1734479259;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XoZx2Lkh8vxMTvHH87zeZ1YiOpLAmC24tPqOBq4QJt0=;
-  b=USDGfNqsJPk27A7KepzUwDhCj7M8zWy8rrzzybzgfq1TQ7vKYtuK1HHc
-   N6TrKQ2YyXEwUnYJ2g/8hVnRbhD/ZIqA4FVuNu9g0Gom7QHnjcHvraiNh
-   nHHJC4tLagknEOo51CBWDZvl25rHA0ZA2OiSjHR4AcTM69myUFynYjWOS
-   rsJcxKVBC81kQJIFj/hP4/f+F493kJ3u/KYvI7B81Ap+ZMDsLoD427bDl
-   aob9J7DnCK+jSpPeXzSed6xKdEILlH9VU7WuAUUjGFz8smBr6gsyYOny1
-   ge5eel3ZjdiGZ7WqpfrBxgq5yDPQInGJJr9TzujUroANQKnwiFH2aedMm
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="2675987"
-X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="2675987"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 15:47:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="846127261"
-X-IronPort-AV: E=Sophos;i="6.04,286,1695711600"; 
-   d="scan'208";a="846127261"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Dec 2023 15:47:36 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rFNKg-0004eP-1v;
-	Mon, 18 Dec 2023 23:47:34 +0000
-Date: Tue, 19 Dec 2023 07:47:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>
-Subject: [linux-next:master 5497/9113] drivers/pwm/pwm-cros-ec.c:32: warning:
- Excess struct member 'dev' description in 'cros_ec_pwm_device'
-Message-ID: <202312190757.O4M9dsln-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rr8a9wCc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C79BC433C8;
+	Tue, 19 Dec 2023 00:01:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702944079;
+	bh=fMgl5f1cxsDp2Ro+Gy0GmSHDb4UdBfrTzpxZdw6xSOI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rr8a9wCcxzUWjy+33BEpF+Rz/shtCM1gzDwv6ucq4Mp+VdWWx+hVaiF+tmXKbzUQ7
+	 wObo1de1uj0lA8td3opQu8p2rEAxvlh+inTqEEmqXhxdvD0qtAD6IhSfTs4NII0EIG
+	 lw+Zey2sh4dFZYPEWd/NGIGXAmjGKubHZm5SgQzagOwYliWG5sFMICElNin3u4lOHE
+	 f6rzfFg29C//Uw1vAdwPHRcW3a2mGwhnNKM0o95Z/7d3mbznhulW2VnALuxSiCMA34
+	 aRbeIFGIE9JczjyLsDc+cmS8RyBopRKqHd967KNsrt6slkFwU68j+plOP3/yNrqDAf
+	 r20wNTWUyx20g==
+Date: Mon, 18 Dec 2023 17:01:16 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>, bpf@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org
+Subject: Re: [PATCH net-next 20/24] net: intel: Use nested-BH locking for XDP
+ redirect.
+Message-ID: <20231219000116.GA3956476@dev-arch.thelio-3990X>
+References: <20231215171020.687342-21-bigeasy@linutronix.de>
+ <202312161212.D5tju5i6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <202312161212.D5tju5i6-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ceb2fe0d438644e1de06b9a6468a1fb8e2199c70
-commit: ffb150737feec5fec221022cbb4ca62ca60092b5 [5497/9113] pwm: cros-ec: Drop unused member from driver private data
-config: arm-randconfig-c003-20211105 (https://download.01.org/0day-ci/archive/20231219/202312190757.O4M9dsln-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312190757.O4M9dsln-lkp@intel.com/reproduce)
+On Sat, Dec 16, 2023 at 12:53:43PM +0800, kernel test robot wrote:
+> Hi Sebastian,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on net-next/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/locking-local_lock-Introduce-guard-definition-for-local_lock/20231216-011911
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20231215171020.687342-21-bigeasy%40linutronix.de
+> patch subject: [PATCH net-next 20/24] net: intel: Use nested-BH locking for XDP redirect.
+> config: arm-defconfig (https://download.01.org/0day-ci/archive/20231216/202312161212.D5tju5i6-lkp@intel.com/config)
+> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231216/202312161212.D5tju5i6-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312161212.D5tju5i6-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/net/ethernet/intel/igb/igb_main.c:8620:3: error: cannot jump from this goto statement to its label
+>                    goto xdp_out;
+>                    ^
+>    drivers/net/ethernet/intel/igb/igb_main.c:8624:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+>            guard(local_lock_nested_bh)(&bpf_run_lock.redirect_lock);
+>            ^
+>    include/linux/cleanup.h:142:15: note: expanded from macro 'guard'
+>            CLASS(_name, __UNIQUE_ID(guard))
+>                         ^
+>    include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE_ID'
+>    #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+>                                ^
+>    include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
+>    #define __PASTE(a,b) ___PASTE(a,b)
+>                         ^
+>    include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
+>    #define ___PASTE(a,b) a##b
+>                          ^
+>    <scratch space>:52:1: note: expanded from here
+>    __UNIQUE_ID_guard753
+>    ^
+>    1 error generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312190757.O4M9dsln-lkp@intel.com/
+I initially thought that this may have been
+https://github.com/ClangBuiltLinux/linux/issues/1886 but asm goto is not
+involved here.
 
-All warnings (new ones prefixed by >>):
+This error occurs because jumping over the initialization of a variable
+declared with __attribute__((__cleanup__(...))) does not prevent the
+clean up function from running as one may expect it to, but could
+instead result in the clean up function getting run on uninitialized
+memory. A contrived example (see the bottom of the "Output" tabs for the
+execution output):
 
->> drivers/pwm/pwm-cros-ec.c:32: warning: Excess struct member 'dev' description in 'cros_ec_pwm_device'
+https://godbolt.org/z/9bvGboxvc
 
+While there is a warning from GCC in that example, I don't see one in
+the kernel's case. I see there is an open GCC issue around this problem:
 
-vim +32 drivers/pwm/pwm-cros-ec.c
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91951
 
-3d593b6e80ad2c Fabio Baltieri   2022-04-28  17  
-1f0d3bb02785f6 Brian Norris     2016-07-15  18  /**
-1f0d3bb02785f6 Brian Norris     2016-07-15  19   * struct cros_ec_pwm_device - Driver data for EC PWM
-1f0d3bb02785f6 Brian Norris     2016-07-15  20   *
-1f0d3bb02785f6 Brian Norris     2016-07-15  21   * @dev: Device node
-1f0d3bb02785f6 Brian Norris     2016-07-15  22   * @ec: Pointer to EC device
-1f0d3bb02785f6 Brian Norris     2016-07-15  23   * @chip: PWM controller chip
-3d593b6e80ad2c Fabio Baltieri   2022-04-28  24   * @use_pwm_type: Use PWM types instead of generic channels
-82adc1b2688b02 Uwe Kleine-König 2023-07-05  25   * @channel: array with per-channel data
-1f0d3bb02785f6 Brian Norris     2016-07-15  26   */
-1f0d3bb02785f6 Brian Norris     2016-07-15  27  struct cros_ec_pwm_device {
-1f0d3bb02785f6 Brian Norris     2016-07-15  28  	struct cros_ec_device *ec;
-1f0d3bb02785f6 Brian Norris     2016-07-15  29  	struct pwm_chip chip;
-3d593b6e80ad2c Fabio Baltieri   2022-04-28  30  	bool use_pwm_type;
-82adc1b2688b02 Uwe Kleine-König 2023-07-05  31  	struct cros_ec_pwm *channel;
-1f0d3bb02785f6 Brian Norris     2016-07-15 @32  };
-1f0d3bb02785f6 Brian Norris     2016-07-15  33  
+While it is possible that there may not actually be a problem with how
+the kernel uses __attribute__((__cleanup__(...))) and gotos, I think
+clang's behavior is reasonable given the potential footguns that this
+construct has.
 
-:::::: The code at line 32 was first introduced by commit
-:::::: 1f0d3bb02785f698dc273b9006a473194c32f874 pwm: Add ChromeOS EC PWM driver
-
-:::::: TO: Brian Norris <briannorris@chromium.org>
-:::::: CC: Thierry Reding <thierry.reding@gmail.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
