@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4486940BE9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 22:31:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAF740BE3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 23:21:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCquReO+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RmlIm4xy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703025089; x=1734561089;
+  t=1703028091; x=1734564091;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2wneZe4OdEUQ/w/fkPqc9zP06x9IGnZ6BEKmFNt8UDg=;
-  b=bCquReO+fakl9fiD5+aybS+/jDLfOVllsGqRW7W6aGq1SZrdRAHpNHpE
-   5rIVu3sb8ju7UnaoCNOdTtO+5cs3ldbtKuieIVuoYPQN8D6Ml6B7hTZja
-   oKIHJOvmcGSlaNEFZ+K06wuYIngUO+X07MvE2mjGRaqYNFLNZz8medtY9
-   +xrEa8d5MCB5Eo6j2tvPkqHRm/nz3PR8R67kcbQSyL6v25VuNYoZlLAxB
-   vAlf1rAvt55UOCHPLq81VBWY8HHXn4htMIH5Qkxgy2rGNNsXgaOMYaB5A
-   dFbbkHUzi9Zh6BcNqYR08Y7GOnSO6CC2Pqtc/xQfw2P4YDiWYIluve/g0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="394612782"
+  bh=Qu8hQlSRYm6MA1+N+2qbsB8cgFftFSwW5fR5w5TREZE=;
+  b=RmlIm4xyS/DBdU39kOkVE+R5FsyGrg8DEDanKIBzwpY4RaE0W496dHOL
+   vTmE4xSpXwqLs73bJjVA1RZ0mGGa4oAZuoVdpalZqMj365DZJYFWNJsjJ
+   0pE9TxuZmjrk9DMYVp0ISvhsDoEiJpoSQ+ewz0a/1+EITx64v4NiamaDX
+   LXgNQK/5ojTjvAltZLw0mVXJwFQLKvlesh9OQHE18yRg3o3xyEQwwvac7
+   84XjyLqe7eqdnyJzf29/ljT1vm/B7Zdl9lkoW82r9NRpxolhtk0tTtDD7
+   SZimIhgOXp5z56OwLVC0tFbDY/F11JL1RckgLthm0+TDQIcCndy93z5lj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="14424038"
 X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="394612782"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 14:31:28 -0800
+   d="scan'208";a="14424038"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 15:21:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="842032901"
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="810390971"
 X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="842032901"
+   d="scan'208";a="810390971"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 19 Dec 2023 14:31:27 -0800
+  by orsmga001.jf.intel.com with ESMTP; 19 Dec 2023 15:21:29 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFicX-000629-0d;
-	Tue, 19 Dec 2023 22:31:25 +0000
-Date: Wed, 20 Dec 2023 06:30:29 +0800
+	id 1rFjOx-00064r-0B;
+	Tue, 19 Dec 2023 23:21:27 +0000
+Date: Wed, 20 Dec 2023 07:21:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 63/63] fs/xfs/xfs_zone_alloc.c:1023:20: sparse:
- sparse: symbol 'xfs_pick_open_zone_for_gc' was not declared. Should it be
- static?
-Message-ID: <202312200647.LUOmr9KG-lkp@intel.com>
+To: Rhys Kidd <rhyskidd@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ben Skeggs <bskeggs@redhat.com>, Lyude Paul <lyude@redhat.com>
+Subject: drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1954: warning:
+ Function parameter or member 'init' not described in 'init_reset_end'
+Message-ID: <202312200739.wnUWrkoX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,51 +51,163 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   7de9cbf1b22c57cd561e83659fef081f21412e69
-commit: 7de9cbf1b22c57cd561e83659fef081f21412e69 [63/63] xfs: respect the open limit when allocating gc zones
-config: x86_64-randconfig-122-20231220 (https://download.01.org/0day-ci/archive/20231220/202312200647.LUOmr9KG-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312200647.LUOmr9KG-lkp@intel.com/reproduce)
+Hi Rhys,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   55cb5f43689d7a9ea5bf35ef050f12334f197347
+commit: 9f9b450752d38c86f4f830214bb9276ed174d5d3 drm/nouveau/bios/init: handle INIT_RESET_END devinit opcode
+date:   4 years, 4 months ago
+config: i386-randconfig-004-20231101 (https://download.01.org/0day-ci/archive/20231220/202312200739.wnUWrkoX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312200739.wnUWrkoX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312200647.LUOmr9KG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312200739.wnUWrkoX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_zone_alloc.c:1023:20: sparse: sparse: symbol 'xfs_pick_open_zone_for_gc' was not declared. Should it be static?
-   fs/xfs/xfs_zone_alloc.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +/xfs_pick_open_zone_for_gc +1023 fs/xfs/xfs_zone_alloc.c
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:768: warning: Function parameter or member 'init' not described in 'init_not'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:768: warning: expecting prototype for INIT_NOT(). Prototype was for init_not() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:780: warning: Function parameter or member 'init' not described in 'init_io_flag_condition'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:780: warning: expecting prototype for INIT_IO_FLAG_CONDITION(). Prototype was for init_io_flag_condition() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:797: warning: Function parameter or member 'init' not described in 'init_generic_condition'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:797: warning: expecting prototype for INIT_GENERIC_CONDITION(). Prototype was for init_generic_condition() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:849: warning: Function parameter or member 'init' not described in 'init_io_mask_or'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:849: warning: expecting prototype for INIT_IO_MASK_OR(). Prototype was for init_io_mask_or() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:868: warning: Function parameter or member 'init' not described in 'init_io_or'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:868: warning: expecting prototype for INIT_IO_OR(). Prototype was for init_io_or() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:887: warning: Function parameter or member 'init' not described in 'init_andn_reg'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:887: warning: expecting prototype for INIT_ANDN_REG(). Prototype was for init_andn_reg() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:904: warning: Function parameter or member 'init' not described in 'init_or_reg'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:904: warning: expecting prototype for INIT_OR_REG(). Prototype was for init_or_reg() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:921: warning: Function parameter or member 'init' not described in 'init_idx_addr_latched'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:921: warning: expecting prototype for INIT_INDEX_ADDRESS_LATCHED(). Prototype was for init_idx_addr_latched() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:951: warning: Function parameter or member 'init' not described in 'init_io_restrict_pll2'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:951: warning: expecting prototype for INIT_IO_RESTRICT_PLL2(). Prototype was for init_io_restrict_pll2() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:986: warning: Function parameter or member 'init' not described in 'init_pll2'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:986: warning: expecting prototype for INIT_PLL2(). Prototype was for init_pll2() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1003: warning: Function parameter or member 'init' not described in 'init_i2c_byte'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1003: warning: expecting prototype for INIT_I2C_BYTE(). Prototype was for init_i2c_byte() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1034: warning: Function parameter or member 'init' not described in 'init_zm_i2c_byte'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1034: warning: expecting prototype for INIT_ZM_I2C_BYTE(). Prototype was for init_zm_i2c_byte() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1060: warning: Function parameter or member 'init' not described in 'init_zm_i2c'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1060: warning: expecting prototype for INIT_ZM_I2C(). Prototype was for init_zm_i2c() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1094: warning: Function parameter or member 'init' not described in 'init_tmds'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1094: warning: expecting prototype for INIT_TMDS(). Prototype was for init_tmds() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1120: warning: Function parameter or member 'init' not described in 'init_zm_tmds_group'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1120: warning: expecting prototype for INIT_ZM_TMDS_GROUP(). Prototype was for init_zm_tmds_group() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1147: warning: Function parameter or member 'init' not described in 'init_cr_idx_adr_latch'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1147: warning: expecting prototype for INIT_CR_INDEX_ADDRESS_LATCHED(). Prototype was for init_cr_idx_adr_latch() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1177: warning: Function parameter or member 'init' not described in 'init_cr'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1177: warning: expecting prototype for INIT_CR(). Prototype was for init_cr() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1197: warning: Function parameter or member 'init' not described in 'init_zm_cr'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1197: warning: expecting prototype for INIT_ZM_CR(). Prototype was for init_zm_cr() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1214: warning: Function parameter or member 'init' not described in 'init_zm_cr_group'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1214: warning: expecting prototype for INIT_ZM_CR_GROUP(). Prototype was for init_zm_cr_group() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1238: warning: Function parameter or member 'init' not described in 'init_condition_time'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1238: warning: expecting prototype for INIT_CONDITION_TIME(). Prototype was for init_condition_time() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1265: warning: Function parameter or member 'init' not described in 'init_ltime'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1265: warning: expecting prototype for INIT_LTIME(). Prototype was for init_ltime() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1282: warning: Function parameter or member 'init' not described in 'init_zm_reg_sequence'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1282: warning: expecting prototype for INIT_ZM_REG_SEQUENCE(). Prototype was for init_zm_reg_sequence() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1307: warning: Function parameter or member 'init' not described in 'init_pll_indirect'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1307: warning: expecting prototype for INIT_PLL_INDIRECT(). Prototype was for init_pll_indirect() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1326: warning: Function parameter or member 'init' not described in 'init_zm_reg_indirect'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1326: warning: expecting prototype for INIT_ZM_REG_INDIRECT(). Prototype was for init_zm_reg_indirect() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1345: warning: Function parameter or member 'init' not described in 'init_sub_direct'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1345: warning: expecting prototype for INIT_SUB_DIRECT(). Prototype was for init_sub_direct() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1371: warning: Function parameter or member 'init' not described in 'init_jump'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1371: warning: expecting prototype for INIT_JUMP(). Prototype was for init_jump() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1389: warning: Function parameter or member 'init' not described in 'init_i2c_if'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1389: warning: expecting prototype for INIT_I2C_IF(). Prototype was for init_i2c_if() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1416: warning: Function parameter or member 'init' not described in 'init_copy_nv_reg'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1416: warning: expecting prototype for INIT_COPY_NV_REG(). Prototype was for init_copy_nv_reg() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1442: warning: Function parameter or member 'init' not described in 'init_zm_index_io'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1442: warning: expecting prototype for INIT_ZM_INDEX_IO(). Prototype was for init_zm_index_io() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1460: warning: Function parameter or member 'init' not described in 'init_compute_mem'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1460: warning: expecting prototype for INIT_COMPUTE_MEM(). Prototype was for init_compute_mem() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1478: warning: Function parameter or member 'init' not described in 'init_reset'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1478: warning: expecting prototype for INIT_RESET(). Prototype was for init_reset() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1505: warning: Function parameter or member 'init' not described in 'init_configure_mem_clk'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1505: warning: expecting prototype for INIT_CONFIGURE_MEM(). Prototype was for init_configure_mem_clk() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1564: warning: Function parameter or member 'init' not described in 'init_configure_clk'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1564: warning: expecting prototype for INIT_CONFIGURE_CLK(). Prototype was for init_configure_clk() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1598: warning: Function parameter or member 'init' not described in 'init_configure_preinit'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1598: warning: expecting prototype for INIT_CONFIGURE_PREINIT(). Prototype was for init_configure_preinit() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1624: warning: Function parameter or member 'init' not described in 'init_io'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1624: warning: expecting prototype for INIT_IO(). Prototype was for init_io() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1664: warning: Function parameter or member 'init' not described in 'init_sub'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1664: warning: expecting prototype for INIT_SUB(). Prototype was for init_sub() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1691: warning: Function parameter or member 'init' not described in 'init_ram_condition'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1691: warning: expecting prototype for INIT_RAM_CONDITION(). Prototype was for init_ram_condition() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1710: warning: Function parameter or member 'init' not described in 'init_nv_reg'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1710: warning: expecting prototype for INIT_NV_REG(). Prototype was for init_nv_reg() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1728: warning: Function parameter or member 'init' not described in 'init_macro'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1728: warning: expecting prototype for INIT_MACRO(). Prototype was for init_macro() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1752: warning: Function parameter or member 'init' not described in 'init_resume'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1752: warning: expecting prototype for INIT_RESUME(). Prototype was for init_resume() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1764: warning: Function parameter or member 'init' not described in 'init_strap_condition'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1764: warning: expecting prototype for INIT_STRAP_CONDITION(). Prototype was for init_strap_condition() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1782: warning: Function parameter or member 'init' not described in 'init_time'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1782: warning: expecting prototype for INIT_TIME(). Prototype was for init_time() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1803: warning: Function parameter or member 'init' not described in 'init_condition'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1803: warning: expecting prototype for INIT_CONDITION(). Prototype was for init_condition() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1820: warning: Function parameter or member 'init' not described in 'init_io_condition'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1820: warning: expecting prototype for INIT_IO_CONDITION(). Prototype was for init_io_condition() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1837: warning: Function parameter or member 'init' not described in 'init_zm_reg16'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1837: warning: expecting prototype for INIT_ZM_REG16(). Prototype was for init_zm_reg16() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1854: warning: Function parameter or member 'init' not described in 'init_index_io'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1854: warning: expecting prototype for INIT_INDEX_IO(). Prototype was for init_index_io() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1876: warning: Function parameter or member 'init' not described in 'init_pll'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1876: warning: expecting prototype for INIT_PLL(). Prototype was for init_pll() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1893: warning: Function parameter or member 'init' not described in 'init_zm_reg'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1893: warning: expecting prototype for INIT_ZM_REG(). Prototype was for init_zm_reg() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1913: warning: Function parameter or member 'init' not described in 'init_ram_restrict_pll'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1913: warning: expecting prototype for INIT_RAM_RESTRICT_PLL(). Prototype was for init_ram_restrict_pll() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1943: warning: Function parameter or member 'init' not described in 'init_reset_begun'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1943: warning: expecting prototype for INIT_RESET_BEGUN(). Prototype was for init_reset_begun() instead
+>> drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1954: warning: Function parameter or member 'init' not described in 'init_reset_end'
+>> drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1954: warning: expecting prototype for INIT_RESET_END(). Prototype was for init_reset_end() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1965: warning: Function parameter or member 'init' not described in 'init_gpio'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1965: warning: expecting prototype for INIT_GPIO(). Prototype was for init_gpio() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1981: warning: Function parameter or member 'init' not described in 'init_ram_restrict_zm_reg_group'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:1981: warning: expecting prototype for INIT_RAM_RESTRICT_ZM_GROUP(). Prototype was for init_ram_restrict_zm_reg_group() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2019: warning: Function parameter or member 'init' not described in 'init_copy_zm_reg'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2019: warning: expecting prototype for INIT_COPY_ZM_REG(). Prototype was for init_copy_zm_reg() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2036: warning: Function parameter or member 'init' not described in 'init_zm_reg_group'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2036: warning: expecting prototype for INIT_ZM_REG_GROUP(). Prototype was for init_zm_reg_group() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2058: warning: Function parameter or member 'init' not described in 'init_xlat'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2058: warning: expecting prototype for INIT_XLAT(). Prototype was for init_xlat() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2086: warning: Function parameter or member 'init' not described in 'init_zm_mask_add'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2086: warning: expecting prototype for INIT_ZM_MASK_ADD(). Prototype was for init_zm_mask_add() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2107: warning: Function parameter or member 'init' not described in 'init_auxch'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2107: warning: expecting prototype for INIT_AUXCH(). Prototype was for init_auxch() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2131: warning: Function parameter or member 'init' not described in 'init_zm_auxch'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2131: warning: expecting prototype for INIT_AUXCH(). Prototype was for init_zm_auxch() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2153: warning: Function parameter or member 'init' not described in 'init_i2c_long_if'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2153: warning: expecting prototype for INIT_I2C_LONG_IF(). Prototype was for init_i2c_long_if() instead
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2192: warning: Function parameter or member 'init' not described in 'init_gpio_ne'
+   drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c:2192: warning: expecting prototype for INIT_GPIO_NE(). Prototype was for init_gpio_ne() instead
 
-  1022	
-> 1023	struct xfs_rtgroup *
-  1024	xfs_pick_open_zone_for_gc(
-  1025		struct xfs_mount	*mp)
-  1026	{
-  1027		struct xfs_rtgroup	*rtg, *found = NULL;
-  1028	
-  1029		list_for_each_entry(rtg, &mp->m_open_zones, rtg_entry) {
-  1030			if (!found)
-  1031				found = rtg;
-  1032			else if (rtg->rtg_write_pointer < found->rtg_write_pointer)
-  1033				found = rtg;
-  1034		}
-  1035	
-  1036		return found;
-  1037	}
-  1038	
+
+vim +1954 drivers/gpu/drm/nouveau/nvkm/subdev/bios/init.c
+
+  1947	
+  1948	/**
+  1949	 * INIT_RESET_END - opcode 0x8d
+  1950	 *
+  1951	 */
+  1952	static void
+  1953	init_reset_end(struct nvbios_init *init)
+> 1954	{
+  1955		trace("RESET_END\n");
+  1956		init->offset += 1;
+  1957	}
+  1958	
 
 -- 
 0-DAY CI Kernel Test Service
