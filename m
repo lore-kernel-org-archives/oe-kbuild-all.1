@@ -1,47 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAD512B87
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 07:04:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3DD11C89;
+	Tue, 19 Dec 2023 07:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EN5fq4p7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndSacNlr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702969472; x=1734505472;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MatDvg83hsN5iYDcQi5LuQF1ka/QQZSHbZxtfm8eVQA=;
-  b=EN5fq4p7QM5Is5IFmSxVcag9o915VlqVlgbutkRRS6t7V9a8pnJ8IpGy
-   jLM/nKaVVSlbhDwjww1j18V6fvjiDm13U5YJs0O0aPw5/UCRXi9UdCZtb
-   X6FK0QkDvaaxSK0n7o8o3NrAB1ZVnx+Cr+j/kUcN32N1ooQs1+mc4b16P
-   4vogh58ETFUu4dDnoOzwfKH7fx0GFYWzNT8xIXWtzt34032MbiLL56t/O
-   XL0trlSfgQAMhJbyiIc3Qla+IHPSlh7z9zsJzKN/nxsL8CS7TXTP4NRri
-   P9/FnNjYFaWNuT5AY/I8ppJKECEwYTWHPvssiO5fR8f+9LhxjxBGmk1y8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="392790189"
+  t=1702970252; x=1734506252;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FVUCMuly39zh45kSUkdxdd10YAp2v8XjUsT+A/CBjTk=;
+  b=ndSacNlrU40KKr5cM59IaoL4m+qGBNuFYldKnykPiTE4k5rCToBRsgR5
+   pOssNzmjgL2fAKo6bMYnehinq4ebFG73lIQg5FUW4nsu5GHc3ta0D+Xzp
+   su4myFmXFGSlq5j7umyMXyDitFGrNYFZql78Pl/ZVMzvkTdL5FViyhqsH
+   zWbih23ElyPCORSl3CP2q3PYzAqqYFUZKvYW16xvimw2YB0LeY2SzMD8z
+   LzihHryJ2qcZno2YxZxyPzCWHBlMH0lW0fXkhIlbvTUL+G970QkgEpj+C
+   y0ameVQkIj1oCdPi/hNmBiP5PvoGO5DR2Xo7E4kKDoV6CIbQiUNrvfP+l
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="426751090"
 X-IronPort-AV: E=Sophos;i="6.04,287,1695711600"; 
-   d="scan'208";a="392790189"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 23:04:30 -0800
+   d="scan'208";a="426751090"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 23:17:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="919538995"
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="894170301"
 X-IronPort-AV: E=Sophos;i="6.04,287,1695711600"; 
-   d="scan'208";a="919538995"
+   d="scan'208";a="894170301"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2023 23:04:28 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 18 Dec 2023 23:17:29 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFU9S-0004xI-1G;
-	Tue, 19 Dec 2023 07:04:26 +0000
-Date: Tue, 19 Dec 2023 15:04:16 +0800
+	id 1rFUM3-0004xd-0w;
+	Tue, 19 Dec 2023 07:17:27 +0000
+Date: Tue, 19 Dec 2023 15:16:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baisong Zhong <zhongbaisong@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Luis Chamberlain <mcgrof@kernel.org>
-Subject: kernel/sched/rt.c:9:18: warning: 'max_rt_runtime' defined but not
- used
-Message-ID: <202312191437.KY9qhdjE-lkp@intel.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, rjw@rjwysocki.net,
+	lukasz.luba@arm.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	rui.zhang@intel.com, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: Re: [PATCH v2 1/2] thermal/debugfs: Add thermal cooling device
+ debugfs information
+Message-ID: <202312191425.5o49Dzmt-lkp@intel.com>
+References: <20231218171942.3048095-1-daniel.lezcano@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,54 +54,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231218171942.3048095-1-daniel.lezcano@linaro.org>
 
-Hi Baisong,
+Hi Daniel,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2cf4f94d8e8646803f8fb0facf134b0cd7fb691a
-commit: 28f152cd0926596e69d412467b11b6fe6fe4e864 sched/rt: fix build error when CONFIG_SYSCTL is disable
-date:   1 year, 8 months ago
-config: i386-tinyconfig (https://download.01.org/0day-ci/archive/20231219/202312191437.KY9qhdjE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312191437.KY9qhdjE-lkp@intel.com/reproduce)
+[auto build test WARNING on rafael-pm/thermal]
+[also build test WARNING on linus/master v6.7-rc6 next-20231218]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/thermal-debugfs-Add-thermal-debugfs-information-for-mitigation-episodes/20231219-012118
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20231218171942.3048095-1-daniel.lezcano%40linaro.org
+patch subject: [PATCH v2 1/2] thermal/debugfs: Add thermal cooling device debugfs information
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231219/202312191425.5o49Dzmt-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231219/202312191425.5o49Dzmt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312191437.KY9qhdjE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312191425.5o49Dzmt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:43:
-   kernel/sched/rt.c:309:6: warning: no previous prototype for 'unregister_rt_sched_group' [-Wmissing-prototypes]
-     309 | void unregister_rt_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/rt.c:311:6: warning: no previous prototype for 'free_rt_sched_group' [-Wmissing-prototypes]
-     311 | void free_rt_sched_group(struct task_group *tg) { }
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/rt.c:313:5: warning: no previous prototype for 'alloc_rt_sched_group' [-Wmissing-prototypes]
-     313 | int alloc_rt_sched_group(struct task_group *tg, struct task_group *parent)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/rt.c:716:6: warning: no previous prototype for 'sched_rt_bandwidth_account' [-Wmissing-prototypes]
-     716 | bool sched_rt_bandwidth_account(struct rt_rq *rt_rq)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/rt.c:9:18: warning: 'max_rt_runtime' defined but not used [-Wunused-const-variable=]
-       9 | static const u64 max_rt_runtime = MAX_BW;
-         |                  ^~~~~~~~~~~~~~
+>> drivers/thermal/thermal_debugfs.c:73: warning: cannot understand function prototype: 'struct cdev_value '
+>> drivers/thermal/thermal_debugfs.c:91: warning: cannot understand function prototype: 'struct thermal_debugfs '
+>> drivers/thermal/thermal_debugfs.c:370: warning: bad line: 
 
 
-vim +/max_rt_runtime +9 kernel/sched/rt.c
+vim +73 drivers/thermal/thermal_debugfs.c
 
-d505b8af58912a Huaixin Chang  2020-04-25  @9  static const u64 max_rt_runtime = MAX_BW;
-ce0dbbbb30aee6 Clark Williams 2013-02-07  10  
-
-:::::: The code at line 9 was first introduced by commit
-:::::: d505b8af58912ae1e1a211fabc9995b19bd40828 sched: Defend cfs and rt bandwidth quota against overflow
-
-:::::: TO: Huaixin Chang <changhuaixin@linux.alibaba.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+    60	
+    61	/**
+    62	 * cdev_value - Common structure for cooling device entry
+    63	 *
+    64	 * The following common structure allows to store the information
+    65	 * related to the transitions and to the state residencies. They are
+    66	 * identified with a id which is associated to a value. It is used as
+    67	 * nodes for the "transitions" and "durations" above.
+    68	 *
+    69	 * @node: node to insert the structure in a list
+    70	 * @id: identifier of the value which can be a state or a transition
+    71	 * @value: the id associated value which can be a duration or an occurrence
+    72	 */
+  > 73	struct cdev_value {
+    74		struct list_head node;
+    75		int id;
+    76		u64 value;
+    77	};
+    78	
+    79	/**
+    80	 * thermal_debugfs - High level structure for a thermal object in
+    81	 * debugfs
+    82	 *
+    83	 * The thermal_debugfs structure is the common structure used by the
+    84	 * cooling device to compute the statistics.
+    85	 *
+    86	 * @d_top: top directory of the thermal object directory
+    87	 * @lock: per object lock to protect the internals
+    88	 *
+    89	 * @cdev: a cooling device debug structure
+    90	 */
+  > 91	struct thermal_debugfs {
+    92		struct dentry *d_top;
+    93		struct mutex lock;
+    94		union {
+    95			struct cdev_debugfs cdev;
+    96		};
+    97	};
+    98	
 
 -- 
 0-DAY CI Kernel Test Service
