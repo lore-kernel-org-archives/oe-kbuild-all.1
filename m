@@ -1,173 +1,74 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BC520DD4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 16:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBDD498BF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 17:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UikkrwA0"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3366e78d872so1950737f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 08:55:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1703004933; x=1703609733; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pr1gwYwEAqV3CPDFt5tJeZc4Ej3mhik7sPY5D9i4L+4=;
-        b=UikkrwA0bUksIBJDUKzOH4z3OPaS21jUdslJpn7zp/amnEG6PZai4HPya0VU8gehH9
-         YaCFhDIfhqPIKMFeaU6BuIL3LVVhwAXDcZN4rVBnmqwkjfov3ACZRlpJQAZn3LglGMYE
-         Z2BJl7Pa3Hr7lHGRIhos6dbeo/26+kV+ggaZqg2RzB0xAI30gzKaOjYe9jjsP58o8SD+
-         PtwJVGCEuugg5vfHJz+Cadnn4f6/7Ffg5443arPJFekvKSVRZ3wa7JfQLvbU2jB7ru4c
-         WRQi61uypHC1gs2Q4ebeLu8/K0oM5mKP9XllzCJoWEM860LVVxy1bDLBx8yMwFfFwQ56
-         neAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703004933; x=1703609733;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Pr1gwYwEAqV3CPDFt5tJeZc4Ej3mhik7sPY5D9i4L+4=;
-        b=sjd6BVaJQgh7JPu4208pzqJToz9a1LVJP1x192lUXja1R9p4B2dI/42d9CSjj/KK11
-         7HoDtCXiQWjrbSEU6fY58XyrsMqCMbD8bKa3TjfloWZeCVlkbHeMtpCQEg7uj6eTObpz
-         2Ar7Zxbun9JWJ5ENaoaYC1FVL171JjGKjuVrUf0JlfKN+uJ34/+gteFld0Bxme9lCktB
-         7KMI84W8SMBoKPp6g/z8S8jni6WAYeTpoCBBkJypDYZcl2G8COLOYXiN9ZrdjL0fq6NC
-         /8SomVWHa0uOl7b+ITClgUFYv8bUxHEHwUGb69Rb7FK/KGgaKK6U/7G47IayyL2Cus2f
-         VQwQ==
-X-Gm-Message-State: AOJu0Yyw750xc3GqF870Dovc5cxWYMw91LjftqyXECfndOpv2atG5YPg
-	TOZyLPShZdg2HBuJEWKuVaXws3URr2C1cf46AbfLgw==
-X-Google-Smtp-Source: AGHT+IHdJSnW1uoy3+KysPNVwLZ4H/jx1KVZ/uOvjz42emCllqfn1IhGJ3uQ5Ral4Y9max8Bshqiu+TgQgc/H/ReIBY=
-X-Received: by 2002:adf:e4c3:0:b0:336:60da:7530 with SMTP id
- v3-20020adfe4c3000000b0033660da7530mr1849799wrm.158.1703004932880; Tue, 19
- Dec 2023 08:55:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M7RINvMK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1703005330;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BBJN9nTYT4G7PQYaJDuoGQnNxSt9L28I/CO8DEp0BKk=;
+	b=M7RINvMKj7w8/+K9J5Ovcha3NO/WzV/z8aC9FZ+4NT/AXWSXAKf2Npd3ohqweU/7X/1xyc
+	UIpBpc7vvNSzPS2khvDIFWVe/kfLY+m9XwutiDFNaUBlC+dCE2R/JZ/AXhVP5gO+wzAozs
+	k39fahLmixlRjIANnVVGwILCwhFI8as=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-378-L-DnWLoKNQmA2W8Andd5Hg-1; Tue, 19 Dec 2023 12:01:59 -0500
+X-MC-Unique: L-DnWLoKNQmA2W8Andd5Hg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 619EB85A59D;
+	Tue, 19 Dec 2023 17:01:53 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.39.195.169])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A1B0D2026D66;
+	Tue, 19 Dec 2023 17:01:52 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <2515428b-8f7a-40f0-b76d-b2acf264be0a@suswa.mountain>
+References: <2515428b-8f7a-40f0-b76d-b2acf264be0a@suswa.mountain>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
+    oe-kbuild-all@lists.linux.dev
+Subject: Re: [dhowells-fs:netfs-lib 69/80] fs/netfs/direct_read.c:189 netfs_unbuffered_read_iter_locked() error: uninitialized symbol 'min_bsize'.
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231215171020.687342-21-bigeasy@linutronix.de>
- <202312161212.D5tju5i6-lkp@intel.com> <20231219000116.GA3956476@dev-arch.thelio-3990X>
-In-Reply-To: <20231219000116.GA3956476@dev-arch.thelio-3990X>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 19 Dec 2023 08:55:21 -0800
-Message-ID: <CAKwvOdkfjyKz6686RzAGjfKMVPriLM8XuNueYyWcd_Sj-WnJbg@mail.gmail.com>
-Subject: Re: [PATCH net-next 20/24] net: intel: Use nested-BH locking for XDP redirect.
-To: Nathan Chancellor <nathan@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Boqun Feng <boqun.feng@gmail.com>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Eric Dumazet <edumazet@google.com>, Frederic Weisbecker <frederic@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Jesse Brandeburg <jesse.brandeburg@intel.com>, John Fastabend <john.fastabend@gmail.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, bpf@vger.kernel.org, 
-	intel-wired-lan@lists.osuosl.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Tue, 19 Dec 2023 17:01:51 +0000
+Message-ID: <1075699.1703005311@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1075698.1703005311.1@warthog.procyon.org.uk>
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 18, 2023 at 4:01=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> On Sat, Dec 16, 2023 at 12:53:43PM +0800, kernel test robot wrote:
-> > Hi Sebastian,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on net-next/main]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrze=
-j-Siewior/locking-local_lock-Introduce-guard-definition-for-local_lock/2023=
-1216-011911
-> > base:   net-next/main
-> > patch link:    https://lore.kernel.org/r/20231215171020.687342-21-bigea=
-sy%40linutronix.de
-> > patch subject: [PATCH net-next 20/24] net: intel: Use nested-BH locking=
- for XDP redirect.
-> > config: arm-defconfig (https://download.01.org/0day-ci/archive/20231216=
-/202312161212.D5tju5i6-lkp@intel.com/config)
-> > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.gi=
-t f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20231216/202312161212.D5tju5i6-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202312161212.D5tju5i6-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> > >> drivers/net/ethernet/intel/igb/igb_main.c:8620:3: error: cannot jump=
- from this goto statement to its label
-> >                    goto xdp_out;
-> >                    ^
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-^ The problematic goto should be replaced with an early return. (and
-perhaps a comment that you can't jump over __cleanup variable
-initialization).
+> 9afdab285a8996 David Howells 2022-01-14  187  =09if (test_bit(NETFS_RREQ_=
+USE_BOUNCE_BUFFER, &rreq->flags)) {
+> 9afdab285a8996 David Howells 2022-01-14  188  =09=09start =3D rreq->start=
+;
+> 9afdab285a8996 David Howells 2022-01-14 @189  =09=09end =3D min_t(unsigne=
+d long long,
 
-Otherwise the compiler cannot put the cleanup in the destination basic
-block; it would have to split the edges and have all the happy paths
-go to a synthesized basic block that runs the cleanup, then jumps to
-the original destination.
+I dropped the bounce buffer code for the moment as I dropped the content
+crypto patches that use it until I can get round to completing the ceph por=
+t.
 
-> >    drivers/net/ethernet/intel/igb/igb_main.c:8624:2: note: jump bypasse=
-s initialization of variable with __attribute__((cleanup))
-> >            guard(local_lock_nested_bh)(&bpf_run_lock.redirect_lock);
-> >            ^
-> >    include/linux/cleanup.h:142:15: note: expanded from macro 'guard'
-> >            CLASS(_name, __UNIQUE_ID(guard))
-> >                         ^
-> >    include/linux/compiler.h:180:29: note: expanded from macro '__UNIQUE=
-_ID'
-> >    #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), _=
-_COUNTER__)
-> >                                ^
-> >    include/linux/compiler_types.h:84:22: note: expanded from macro '__P=
-ASTE'
-> >    #define __PASTE(a,b) ___PASTE(a,b)
-> >                         ^
-> >    include/linux/compiler_types.h:83:23: note: expanded from macro '___=
-PASTE'
-> >    #define ___PASTE(a,b) a##b
-> >                          ^
-> >    <scratch space>:52:1: note: expanded from here
-> >    __UNIQUE_ID_guard753
-> >    ^
-> >    1 error generated.
->
-> I initially thought that this may have been
-> https://github.com/ClangBuiltLinux/linux/issues/1886 but asm goto is not
-> involved here.
->
-> This error occurs because jumping over the initialization of a variable
-> declared with __attribute__((__cleanup__(...))) does not prevent the
-> clean up function from running as one may expect it to, but could
-> instead result in the clean up function getting run on uninitialized
-> memory. A contrived example (see the bottom of the "Output" tabs for the
-> execution output):
->
-> https://godbolt.org/z/9bvGboxvc
->
-> While there is a warning from GCC in that example, I don't see one in
-> the kernel's case. I see there is an open GCC issue around this problem:
->
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D91951
->
-> While it is possible that there may not actually be a problem with how
-> the kernel uses __attribute__((__cleanup__(...))) and gotos, I think
-> clang's behavior is reasonable given the potential footguns that this
-> construct has.
->
-> Cheers,
-> Nathan
->
+David
 
-
---=20
-Thanks,
-~Nick Desaulniers
