@@ -1,47 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEEE3A268
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 21:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77AF3A268
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Dec 2023 21:26:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3yl4cll"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OYXWIlcD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703020584; x=1734556584;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Nsnl5/BdX6tsnFvTvvIIM5hqq+n8pwnxfqWceGAxH8M=;
-  b=Q3yl4cll5M2DiEMSEHkJcyxocYRn5u3NX+mBePlOw1CSLbTIiFd8Dlac
-   U6efJg2wYMiowU/wObFUAtLHmIE1YgqSxeaYLFdC8xa7mR/vfG1bShVS3
-   1VkgKZGKE2VLYIfNitfxpd0wMRhM1+3SMG460yicWeFuavf1rwOu6cXh3
-   Hu1Q3Spf7H75oh2zGfBHYDC3tTkmTSGWkTEdDDctEWlzpJBwC6O1+/rGX
-   zkeNjyH2AC5/kpgROIs4JwJJon1MnVjomuzs6Fwx0nKaXQU3s3b+Ah6om
-   6+CQPAAelZMmXxdsF5n9RsEfduNhazAyQQyGCBtJfjYwuZMH6v45oAdQk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="426865587"
+  t=1703021186; x=1734557186;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eajT42vNHTnSd7bw8QbZk5cmlWSfpFEVDifl0yi6+eQ=;
+  b=OYXWIlcDfnw23ZMi+z77bQlHeBcPno7ea6hKVWZNyCoEg2HEoKGGAPzt
+   E77i+yyhnMSLryei2DkN8fV2VvJ0FkfFut4nZrIdOzmk8EpiA8RbQ15gg
+   pekAeEfMOAu55DGm6XSTazRsNIiYydj0OZqEEv7HEy0B3/2j9CoAWsYEv
+   tkvfPoUXZKqEXthI7sbONWpGJ2h/XxPsfRiMiH5YlxHz/kzpqe/A84Jmm
+   pr23KvL15dbOI5fHS99OApg/zy6/TmwqZtB3zCAmr8zE4ypY9C9l/6U4m
+   qObn0Cv0cmV+C2uYXYcsl4aK4uttt75+1y+Tah1NWiSbU4e5z2MOCE93V
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="9167240"
 X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="426865587"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 13:16:23 -0800
+   d="scan'208";a="9167240"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 13:26:25 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="752311569"
 X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="17728154"
+   d="scan'208";a="752311569"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 19 Dec 2023 13:16:22 -0800
+  by orsmga006.jf.intel.com with ESMTP; 19 Dec 2023 13:26:23 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFhRs-0005xQ-03;
-	Tue, 19 Dec 2023 21:16:20 +0000
-Date: Wed, 20 Dec 2023 05:15:53 +0800
+	id 1rFhbY-0005yD-2L;
+	Tue, 19 Dec 2023 21:26:20 +0000
+Date: Wed, 20 Dec 2023 05:26:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sunil Vaghela <sunil.vaghela@softnautics.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] ASoC: xilinx: Embed IEC958 sample rate val to channel
- status register
-Message-ID: <202312200545.YajuIObO-lkp@intel.com>
-References: <20231219122955.104696-1-sunil.vaghela@softnautics.com>
+To: Selvin Xavier <selvin.xavier@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Damodharam Ammepalli <damodharam.ammepalli@broadcom.com>
+Subject: [linux-next:master 5887/9096]
+ drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:909:27: sparse: sparse: invalid
+ assignment: |=
+Message-ID: <202312200537.HoNqPL5L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,172 +53,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231219122955.104696-1-sunil.vaghela@softnautics.com>
 
-Hi Sunil,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on broonie-spi/for-next linus/master v6.7-rc6 next-20231219]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sunil-Vaghela/ASoC-xilinx-Embed-IEC958-sample-rate-val-to-channel-status-register/20231219-203257
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20231219122955.104696-1-sunil.vaghela%40softnautics.com
-patch subject: [PATCH] ASoC: xilinx: Embed IEC958 sample rate val to channel status register
-config: arm-randconfig-001-20231220 (https://download.01.org/0day-ci/archive/20231220/202312200545.YajuIObO-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312200545.YajuIObO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   aa4db8324c4d0e67aa4670356df4e9fae14b4d37
+commit: 07f830ae4913d0b986c8c0ff88a7d597948b9bd8 [5887/9096] RDMA/bnxt_re: Adds MSN table capability for Gen P7 adapters
+config: x86_64-randconfig-121-20231220 (https://download.01.org/0day-ci/archive/20231220/202312200537.HoNqPL5L-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312200537.HoNqPL5L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312200545.YajuIObO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312200537.HoNqPL5L-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:909:27: sparse: sparse: invalid assignment: |=
+>> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:909:27: sparse:    left side has type restricted __le16
+>> drivers/infiniband/hw/bnxt_re/qplib_rcfw.c:909:27: sparse:    right side has type unsigned long
+   drivers/infiniband/hw/bnxt_re/qplib_rcfw.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> drivers/infiniband/hw/bnxt_re/qplib_fp.c:1620:44: sparse: sparse: invalid assignment: |=
+>> drivers/infiniband/hw/bnxt_re/qplib_fp.c:1620:44: sparse:    left side has type restricted __le64
+>> drivers/infiniband/hw/bnxt_re/qplib_fp.c:1620:44: sparse:    right side has type unsigned long long
+   drivers/infiniband/hw/bnxt_re/qplib_fp.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
 
-   sound/soc/xilinx/xlnx_formatter_pcm.c: In function 'xlnx_formatter_pcm_hw_params':
->> sound/soc/xilinx/xlnx_formatter_pcm.c:572:26: error: 'struct xlnx_pcm_drv_data' has no member named 'nodes'
-     572 |         if ((strstr(adata->nodes[XLNX_PLAYBACK]->name, "hdmi")) ||
-         |                          ^~
->> sound/soc/xilinx/xlnx_formatter_pcm.c:572:34: error: 'XLNX_PLAYBACK' undeclared (first use in this function)
-     572 |         if ((strstr(adata->nodes[XLNX_PLAYBACK]->name, "hdmi")) ||
-         |                                  ^~~~~~~~~~~~~
-   sound/soc/xilinx/xlnx_formatter_pcm.c:572:34: note: each undeclared identifier is reported only once for each function it appears in
-   sound/soc/xilinx/xlnx_formatter_pcm.c:573:26: error: 'struct xlnx_pcm_drv_data' has no member named 'nodes'
-     573 |             (strstr(adata->nodes[XLNX_PLAYBACK]->name, "dp"))) {
-         |                          ^~
+vim +909 drivers/infiniband/hw/bnxt_re/qplib_rcfw.c
 
-
-vim +572 sound/soc/xilinx/xlnx_formatter_pcm.c
-
-   488	
-   489	static int xlnx_formatter_pcm_hw_params(struct snd_soc_component *component,
-   490						struct snd_pcm_substream *substream,
-   491						struct snd_pcm_hw_params *params)
-   492	{
-   493		void __iomem *reg;
-   494		u32 low, high, active_ch, val, bytes_per_ch, bits_per_sample;
-   495		u32 aes_reg1_val, aes_reg2_val, sample_rate, ch_sts;
-   496		u64 size;
-   497		struct snd_pcm_runtime *runtime = substream->runtime;
-   498		struct xlnx_pcm_stream_param *stream_data = runtime->private_data;
-   499		struct xlnx_pcm_drv_data *adata = dev_get_drvdata(component->dev);
-   500	
-   501		active_ch = params_channels(params);
-   502		if (active_ch > stream_data->ch_limit)
-   503			return -EINVAL;
-   504	
-   505		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
-   506		    adata->sysclk) {
-   507			unsigned int mclk_fs = adata->sysclk / params_rate(params);
-   508	
-   509			if (adata->sysclk % params_rate(params) != 0) {
-   510				dev_warn(component->dev, "sysclk %u not divisible by rate %u\n",
-   511					 adata->sysclk, params_rate(params));
-   512				return -EINVAL;
-   513			}
-   514	
-   515			writel(mclk_fs, stream_data->mmio + XLNX_AUD_FS_MULTIPLIER);
-   516		}
-   517	
-   518		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE &&
-   519		    stream_data->xfer_mode == AES_TO_PCM) {
-   520			val = readl(stream_data->mmio + XLNX_AUD_STS);
-   521			if (val & AUD_STS_CH_STS_MASK) {
-   522				aes_reg1_val = readl(stream_data->mmio +
-   523						     XLNX_AUD_CH_STS_START);
-   524				aes_reg2_val = readl(stream_data->mmio +
-   525						     XLNX_AUD_CH_STS_START + 0x4);
-   526	
-   527				xlnx_parse_aes_params(aes_reg1_val, aes_reg2_val,
-   528						      component->dev);
-   529			}
-   530		}
-   531	
-   532		size = params_buffer_bytes(params);
-   533	
-   534		stream_data->buffer_size = size;
-   535	
-   536		low = lower_32_bits(runtime->dma_addr);
-   537		high = upper_32_bits(runtime->dma_addr);
-   538		writel(low, stream_data->mmio + XLNX_AUD_BUFF_ADDR_LSB);
-   539		writel(high, stream_data->mmio + XLNX_AUD_BUFF_ADDR_MSB);
-   540	
-   541		val = readl(stream_data->mmio + XLNX_AUD_CTRL);
-   542		bits_per_sample = params_width(params);
-   543		switch (bits_per_sample) {
-   544		case 8:
-   545			val |= (BIT_DEPTH_8 << AUD_CTRL_DATA_WIDTH_SHIFT);
-   546			break;
-   547		case 16:
-   548			val |= (BIT_DEPTH_16 << AUD_CTRL_DATA_WIDTH_SHIFT);
-   549			break;
-   550		case 20:
-   551			val |= (BIT_DEPTH_20 << AUD_CTRL_DATA_WIDTH_SHIFT);
-   552			break;
-   553		case 24:
-   554			val |= (BIT_DEPTH_24 << AUD_CTRL_DATA_WIDTH_SHIFT);
-   555			break;
-   556		case 32:
-   557			val |= (BIT_DEPTH_32 << AUD_CTRL_DATA_WIDTH_SHIFT);
-   558			break;
-   559		default:
-   560			return -EINVAL;
-   561		}
-   562	
-   563		val |= active_ch << AUD_CTRL_ACTIVE_CH_SHIFT;
-   564		writel(val, stream_data->mmio + XLNX_AUD_CTRL);
-   565	
-   566		val = (params_periods(params) << PERIOD_CFG_PERIODS_SHIFT)
-   567			| params_period_bytes(params);
-   568		writel(val, stream_data->mmio + XLNX_AUD_PERIOD_CONFIG);
-   569		bytes_per_ch = DIV_ROUND_UP(params_period_bytes(params), active_ch);
-   570		writel(bytes_per_ch, stream_data->mmio + XLNX_BYTES_PER_CH);
-   571	
- > 572		if ((strstr(adata->nodes[XLNX_PLAYBACK]->name, "hdmi")) ||
-   573		    (strstr(adata->nodes[XLNX_PLAYBACK]->name, "dp"))) {
-   574			sample_rate = params_rate(params);
-   575			dev_info(component->dev, "%s: sample_rate=%d\n", __func__, sample_rate);
-   576	
-   577			/* As per IEC 60958 standards, whenever transmitting a valid audio
-   578			 * stream, HDMI/DP Sources shall always include valid and correct
-   579			 * information in Channel Status bits 24 through 27. For L-PCM audio,
-   580			 * these bits shall indicate the audio sample frequency. For
-   581			 * compressed audio formats, these bits shall indicate the IEC 60958
-   582			 * frame-rate.
-   583			 *
-   584			 * Channel Status Bit Number     Sample Frequency or Frame Rate
-   585			 *   24    25     26    27
-   586			 *   -----------------------     ------------------------------
-   587			 *    1     1      0     0                    32 kHz
-   588			 *    0     0      0     0                    44.1 kHz
-   589			 *    0     0      0     1                    88.2 kHz
-   590			 *    0     0      1     1                    176.4 kHz
-   591			 *    0     1      0     0                    48 kHz
-   592			 *    0     1      0     1                    96 kHz
-   593			 *    0     1      1     1                    192 kHz
-   594			 *    1     0      0     1                    768 kHz
-   595			 */
-   596	
-   597			ch_sts = xlnx_formatter_get_iec958_ch_status(sample_rate);
-   598			dev_info(component->dev, "%s: iec60958 channel status bits 24 to 27 value for sample rate %dHz = 0x%08x\n",
-   599				 __func__, sample_rate, ch_sts);
-   600			ch_sts <<= 24;
-   601			reg = adata->mmio + XLNX_MM2S_OFFSET + XLNX_AUD_CH_STS_START;
-   602			aes_reg1_val = ioread32(reg);
-   603			aes_reg1_val |= ch_sts;
-   604			dev_info(component->dev, "%s: MM2S: AES Encode channel status register value 0x%08x\n",
-   605				 __func__, aes_reg1_val);
-   606			iowrite32(aes_reg1_val, reg);
-   607		}
-   608		return 0;
-   609	}
-   610	
+   828	
+   829	int bnxt_qplib_init_rcfw(struct bnxt_qplib_rcfw *rcfw,
+   830				 struct bnxt_qplib_ctx *ctx, int is_virtfn)
+   831	{
+   832		struct creq_initialize_fw_resp resp = {};
+   833		struct cmdq_initialize_fw req = {};
+   834		struct bnxt_qplib_cmdqmsg msg = {};
+   835		u8 pgsz, lvl;
+   836		int rc;
+   837	
+   838		bnxt_qplib_rcfw_cmd_prep((struct cmdq_base *)&req,
+   839					 CMDQ_BASE_OPCODE_INITIALIZE_FW,
+   840					 sizeof(req));
+   841		/* Supply (log-base-2-of-host-page-size - base-page-shift)
+   842		 * to bono to adjust the doorbell page sizes.
+   843		 */
+   844		req.log2_dbr_pg_size = cpu_to_le16(PAGE_SHIFT -
+   845						   RCFW_DBR_BASE_PAGE_SHIFT);
+   846		/*
+   847		 * Gen P5 devices doesn't require this allocation
+   848		 * as the L2 driver does the same for RoCE also.
+   849		 * Also, VFs need not setup the HW context area, PF
+   850		 * shall setup this area for VF. Skipping the
+   851		 * HW programming
+   852		 */
+   853		if (is_virtfn)
+   854			goto skip_ctx_setup;
+   855		if (bnxt_qplib_is_chip_gen_p5_p7(rcfw->res->cctx))
+   856			goto config_vf_res;
+   857	
+   858		lvl = ctx->qpc_tbl.level;
+   859		pgsz = bnxt_qplib_base_pg_size(&ctx->qpc_tbl);
+   860		req.qpc_pg_size_qpc_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
+   861					   lvl;
+   862		lvl = ctx->mrw_tbl.level;
+   863		pgsz = bnxt_qplib_base_pg_size(&ctx->mrw_tbl);
+   864		req.mrw_pg_size_mrw_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
+   865					   lvl;
+   866		lvl = ctx->srqc_tbl.level;
+   867		pgsz = bnxt_qplib_base_pg_size(&ctx->srqc_tbl);
+   868		req.srq_pg_size_srq_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
+   869					   lvl;
+   870		lvl = ctx->cq_tbl.level;
+   871		pgsz = bnxt_qplib_base_pg_size(&ctx->cq_tbl);
+   872		req.cq_pg_size_cq_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
+   873					 lvl;
+   874		lvl = ctx->tim_tbl.level;
+   875		pgsz = bnxt_qplib_base_pg_size(&ctx->tim_tbl);
+   876		req.tim_pg_size_tim_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
+   877					   lvl;
+   878		lvl = ctx->tqm_ctx.pde.level;
+   879		pgsz = bnxt_qplib_base_pg_size(&ctx->tqm_ctx.pde);
+   880		req.tqm_pg_size_tqm_lvl = (pgsz << CMDQ_INITIALIZE_FW_QPC_PG_SIZE_SFT) |
+   881					   lvl;
+   882		req.qpc_page_dir =
+   883			cpu_to_le64(ctx->qpc_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
+   884		req.mrw_page_dir =
+   885			cpu_to_le64(ctx->mrw_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
+   886		req.srq_page_dir =
+   887			cpu_to_le64(ctx->srqc_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
+   888		req.cq_page_dir =
+   889			cpu_to_le64(ctx->cq_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
+   890		req.tim_page_dir =
+   891			cpu_to_le64(ctx->tim_tbl.pbl[PBL_LVL_0].pg_map_arr[0]);
+   892		req.tqm_page_dir =
+   893			cpu_to_le64(ctx->tqm_ctx.pde.pbl[PBL_LVL_0].pg_map_arr[0]);
+   894	
+   895		req.number_of_qp = cpu_to_le32(ctx->qpc_tbl.max_elements);
+   896		req.number_of_mrw = cpu_to_le32(ctx->mrw_tbl.max_elements);
+   897		req.number_of_srq = cpu_to_le32(ctx->srqc_tbl.max_elements);
+   898		req.number_of_cq = cpu_to_le32(ctx->cq_tbl.max_elements);
+   899	
+   900	config_vf_res:
+   901		req.max_qp_per_vf = cpu_to_le32(ctx->vf_res.max_qp_per_vf);
+   902		req.max_mrw_per_vf = cpu_to_le32(ctx->vf_res.max_mrw_per_vf);
+   903		req.max_srq_per_vf = cpu_to_le32(ctx->vf_res.max_srq_per_vf);
+   904		req.max_cq_per_vf = cpu_to_le32(ctx->vf_res.max_cq_per_vf);
+   905		req.max_gid_per_vf = cpu_to_le32(ctx->vf_res.max_gid_per_vf);
+   906	
+   907	skip_ctx_setup:
+   908		if (BNXT_RE_HW_RETX(rcfw->res->dattr->dev_cap_flags))
+ > 909			req.flags |= CMDQ_INITIALIZE_FW_FLAGS_HW_REQUESTER_RETX_SUPPORTED;
+   910		req.stat_ctx_id = cpu_to_le32(ctx->stats.fw_id);
+   911		bnxt_qplib_fill_cmdqmsg(&msg, &req, &resp, NULL, sizeof(req), sizeof(resp), 0);
+   912		rc = bnxt_qplib_rcfw_send_message(rcfw, &msg);
+   913		if (rc)
+   914			return rc;
+   915		set_bit(FIRMWARE_INITIALIZED_FLAG, &rcfw->cmdq.flags);
+   916		return 0;
+   917	}
+   918	
 
 -- 
 0-DAY CI Kernel Test Service
