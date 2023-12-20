@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AECF8BF6;
-	Wed, 20 Dec 2023 02:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADDA168A9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Dec 2023 02:44:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DH+asZcf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1jkXndE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703038381; x=1734574381;
+  t=1703040296; x=1734576296;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qvElR0VuNTsTCRh739xalK/xA37rYZ++RNiKjcrnyYQ=;
-  b=DH+asZcfHMAu1yyOk46CtiE+kIuViTl/uL6+qpmQqPkcNz6zE64/BmgY
-   OvompPKrtBMXsgBcQggd66tdPknYuuu7lsohGvo2Rr+Dx+OkyrppHo2X7
-   vDBivj1vAGTFr2IoBkzG8bgqZZb03ro+/n1uJ/w+nk3EISr/oinEeQxsE
-   K4GWEOX+iiTEJA6J+QSFI0GAFNyHD5exelOZinLwO697vq2Xt0b5hZTZA
-   pc/KmYdJRaa+ZKXrXfOTy/CUsZ4rmtew7lj3n5xbYkkgn0M8t4EdlwmKD
-   s8mgPsP7IjzX5wUQfXZQh8Y9u0SfFvDc0696Tr4c/rJJb0OGSbwMPljFv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="9211883"
+  bh=xReOnTnr074Rjsh7vnPU98rE77eGcbvTTOM09LsMMsI=;
+  b=C1jkXndEJwaPrvfQmXRrCL182QcbT/EbmEuxJtXp97IMIUDcGWjcd7qx
+   a0XJ4sp943bGqUWeFnSeSgrIesAs7bBf1BVwhVm2UH1ctoTnZAhLlr8CO
+   5CczCt7NT0kaUtnJYK8N1YitBV7LNFl9C6vtydL6L0/J/ubGhCxAlzk5G
+   oDFbY3eT0sJVQvuzml2CuDiDXMb9xW5R6sUXBzWcMJVJf7cFnm4gIZTF9
+   ku/5xoiqoEeLdh4bEs3pgvAsVKit/0rWKkmk08YN9lNBfjCNhshwvBArU
+   mwiiJGrph7dOuVVZXOtnfxl1jC3K5nFQUEMMKGlSyemF0UnfKEMWcLitb
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="395476524"
 X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
-   d="scan'208";a="9211883"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 18:13:00 -0800
+   d="scan'208";a="395476524"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 18:44:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="1023328218"
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="1107577820"
 X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
-   d="scan'208";a="1023328218"
+   d="scan'208";a="1107577820"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 19 Dec 2023 18:12:57 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 19 Dec 2023 18:44:44 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFm4r-0006DF-2Z;
-	Wed, 20 Dec 2023 02:12:53 +0000
-Date: Wed, 20 Dec 2023 10:12:47 +0800
+	id 1rFmZd-0006ET-0o;
+	Wed, 20 Dec 2023 02:44:41 +0000
+Date: Wed, 20 Dec 2023 10:43:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marco Elver <elver@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>
-Subject: /bin/bash: line 1:  9839 Segmentation fault
-      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j
- --lang_exclude=rust --skip_encoding_btf_inconsistent_proto
- --btf_gen_optimized --btf_base vmlinux drivers/media/i2c/s5c73m3/s5c73m3.ko
-Message-ID: <202312201039.FtWl6EvV-lkp@intel.com>
+To: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Joel Fernandes (Google)" <joel@joelfernandes.org>
+Subject: kernel/trace/fgraph.c:253: warning: Function parameter or member
+ 'task' not described in 'ftrace_graph_ret_addr'
+Message-ID: <202312201054.4wPWNTRR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,25 +53,99 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   55cb5f43689d7a9ea5bf35ef050f12334f197347
-commit: aebc7b0d8d91bbc69e976909963046bc48bca4fd list: Introduce CONFIG_LIST_HARDENED
-date:   4 months ago
-config: hexagon-randconfig-r021-20220917 (https://download.01.org/0day-ci/archive/20231220/202312201039.FtWl6EvV-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312201039.FtWl6EvV-lkp@intel.com/reproduce)
+commit: 76b42b63ed0d004961097d3a3cd979129d4afd26 function_graph: Move ftrace_graph_ret_addr() to fgraph.c
+date:   5 years ago
+config: x86_64-buildonly-randconfig-005-20230918 (https://download.01.org/0day-ci/archive/20231220/202312201054.4wPWNTRR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312201054.4wPWNTRR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312201039.FtWl6EvV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312201054.4wPWNTRR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   die__process_unit: DW_TAG_member (0xd) @ <0x12b7b> not handled!
-   die__process_unit: tag not supported 0xd (member)!
-   die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
-   die__process_unit: DW_TAG_member (0xd) @ <0x33951> not handled!
-   die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
->> /bin/bash: line 1:  9839 Segmentation fault      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j --lang_exclude=rust --skip_encoding_btf_inconsistent_proto --btf_gen_optimized --btf_base vmlinux drivers/media/i2c/s5c73m3/s5c73m3.ko
+   kernel/trace/fgraph.c:209:15: warning: no previous prototype for 'ftrace_return_to_handler' [-Wmissing-prototypes]
+     209 | unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:303:6: warning: no previous prototype for 'ftrace_graph_sleep_time_control' [-Wmissing-prototypes]
+     303 | void ftrace_graph_sleep_time_control(bool enable)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:308:5: warning: no previous prototype for 'ftrace_graph_entry_stub' [-Wmissing-prototypes]
+     308 | int ftrace_graph_entry_stub(struct ftrace_graph_ent *trace)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/fgraph.c:315:25: warning: cast between incompatible function types from 'void (*)(long unsigned int,  long unsigned int,  struct ftrace_ops *, struct pt_regs *)' to 'void (*)(struct ftrace_graph_ret *)' [-Wcast-function-type]
+     315 |                         (trace_func_graph_ret_t)ftrace_stub;
+         |                         ^
+   kernel/trace/fgraph.c: In function 'unregister_ftrace_graph':
+   kernel/trace/fgraph.c:595:31: warning: cast between incompatible function types from 'void (*)(long unsigned int,  long unsigned int,  struct ftrace_ops *, struct pt_regs *)' to 'void (*)(struct ftrace_graph_ret *)' [-Wcast-function-type]
+     595 |         ftrace_graph_return = (trace_func_graph_ret_t)ftrace_stub;
+         |                               ^
+>> kernel/trace/fgraph.c:253: warning: Function parameter or member 'task' not described in 'ftrace_graph_ret_addr'
+>> kernel/trace/fgraph.c:253: warning: Function parameter or member 'idx' not described in 'ftrace_graph_ret_addr'
+>> kernel/trace/fgraph.c:253: warning: Function parameter or member 'ret' not described in 'ftrace_graph_ret_addr'
+>> kernel/trace/fgraph.c:253: warning: Function parameter or member 'retp' not described in 'ftrace_graph_ret_addr'
+
+
+vim +253 kernel/trace/fgraph.c
+
+   234	
+   235	/**
+   236	 * ftrace_graph_ret_addr - convert a potentially modified stack return address
+   237	 *			   to its original value
+   238	 *
+   239	 * This function can be called by stack unwinding code to convert a found stack
+   240	 * return address ('ret') to its original value, in case the function graph
+   241	 * tracer has modified it to be 'return_to_handler'.  If the address hasn't
+   242	 * been modified, the unchanged value of 'ret' is returned.
+   243	 *
+   244	 * 'idx' is a state variable which should be initialized by the caller to zero
+   245	 * before the first call.
+   246	 *
+   247	 * 'retp' is a pointer to the return address on the stack.  It's ignored if
+   248	 * the arch doesn't have HAVE_FUNCTION_GRAPH_RET_ADDR_PTR defined.
+   249	 */
+   250	#ifdef HAVE_FUNCTION_GRAPH_RET_ADDR_PTR
+   251	unsigned long ftrace_graph_ret_addr(struct task_struct *task, int *idx,
+   252					    unsigned long ret, unsigned long *retp)
+ > 253	{
+   254		int index = task->curr_ret_stack;
+   255		int i;
+   256	
+   257		if (ret != (unsigned long)return_to_handler)
+   258			return ret;
+   259	
+   260		if (index < 0)
+   261			return ret;
+   262	
+   263		for (i = 0; i <= index; i++)
+   264			if (task->ret_stack[i].retp == retp)
+   265				return task->ret_stack[i].ret;
+   266	
+   267		return ret;
+   268	}
+   269	#else /* !HAVE_FUNCTION_GRAPH_RET_ADDR_PTR */
+   270	unsigned long ftrace_graph_ret_addr(struct task_struct *task, int *idx,
+   271					    unsigned long ret, unsigned long *retp)
+   272	{
+   273		int task_idx;
+   274	
+   275		if (ret != (unsigned long)return_to_handler)
+   276			return ret;
+   277	
+   278		task_idx = task->curr_ret_stack;
+   279	
+   280		if (!task->ret_stack || task_idx < *idx)
+   281			return ret;
+   282	
+   283		task_idx -= *idx;
+   284		(*idx)++;
+   285	
+   286		return task->ret_stack[task_idx].ret;
+   287	}
+   288	#endif /* HAVE_FUNCTION_GRAPH_RET_ADDR_PTR */
+   289	
 
 -- 
 0-DAY CI Kernel Test Service
