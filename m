@@ -1,52 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1352A48CE5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Dec 2023 21:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4D538F96
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Dec 2023 22:38:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="idjsPEfZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CriiQRJ+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703108210; x=1734644210;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZgEdBUa+lo5Ong0hhJOtvtlqo2qCl/78eBKyNOrvSms=;
-  b=idjsPEfZRs2OOio1RJ+PxGrSzq6KPaf8uG4dl+LdZ4gPlJCH3FIKc+0r
-   rMZsFUEpoOlnrNXO+ie2red70ksoTxLWqAIZ73Y5BdntCJIsUoBTE1H6O
-   aZ0Yv+vgxZPRufOd4jU2oPW4UT8SUmq2muphgu3nzukY73trdYEnBL1ZC
-   v7E4+RgJSrVsoGMmOPzwCF/XmAa/3ahEKiDnFA2Qswe1Z84dFiiJxPQaA
-   MXRP7cupfUYTzCzoxMhzDGWoL3t8lvF8rAXV5qBmd35HRMTTjfo87DqL3
-   Cf6HWaNcaR4MgDe2W7wWgR3DgdJy5n+VweV/jHRL00U5G/iJY6+p4ZneQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="393044430"
+  t=1703111936; x=1734647936;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7yp/mIrXqNVCXVarfj2+8+MRYJyd9csmXA3PQt7prGM=;
+  b=CriiQRJ+XiYD6UJ4FWQmVCtXpHU3bgSD1nDYLXz6j34ulNZ2YFMM0H+I
+   n4FmKnH+NAecpBOOa145M58EDqYuzTa/h6JApyo3cTOFVwbY6lhdRkz2I
+   U459RPiwcHS1kRr3O8Mf8coFHutKTlV9MJzi6iiSp2IEKI4/Yw5TQu3sc
+   CnHzvrzAbLycGVqn9Bc8PYxu2P3RH07ecvF2IEgYmKawspOdsbV/jO54k
+   jgc+L6+7RdTr+QJa/ZqgMGJkPWaWsUwwJqIXBKAMrfmdwFVrgy+6hc3yc
+   OK9KrhZLp5fokYkCvcXUxCcW2PhZ65OBfj6oCdzVQeMDJSsfqEtoyI+zz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="399716740"
 X-IronPort-AV: E=Sophos;i="6.04,292,1695711600"; 
-   d="scan'208";a="393044430"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 13:36:49 -0800
+   d="scan'208";a="399716740"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 14:38:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="920095630"
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="842417564"
 X-IronPort-AV: E=Sophos;i="6.04,292,1695711600"; 
-   d="scan'208";a="920095630"
+   d="scan'208";a="842417564"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2023 13:36:47 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 20 Dec 2023 14:38:53 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rG4FB-0007W9-04;
-	Wed, 20 Dec 2023 21:36:45 +0000
-Date: Thu, 21 Dec 2023 05:35:55 +0800
+	id 1rG5DH-0007bD-0a;
+	Wed, 20 Dec 2023 22:38:51 +0000
+Date: Thu, 21 Dec 2023 06:38:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>
+To: Zack Rusin <zackr@vmware.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Heiko Carstens <hca@linux.ibm.com>
-Subject: Re: [PATCH v2 1/3] entry: move exit to usermode functions to header
- file
-Message-ID: <202312210535.lQDyVDDW-lkp@intel.com>
-References: <20231218074520.1998026-2-svens@linux.ibm.com>
+	Martin Krastev <krastevm@vmware.com>,
+	Maaz Mombasawala <mombasawalam@vmware.com>
+Subject: scripts/kernel-doc: drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:76:
+ warning: Excess struct member 'transfer' description in 'vmw_stdu_dirty'
+Message-ID: <202312210609.kvPv3OIN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,89 +51,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231218074520.1998026-2-svens@linux.ibm.com>
 
-Hi Sven,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/core/entry]
-[also build test WARNING on linus/master v6.7-rc6 next-20231220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sven-Schnelle/entry-move-exit-to-usermode-functions-to-header-file/20231218-154733
-base:   tip/core/entry
-patch link:    https://lore.kernel.org/r/20231218074520.1998026-2-svens%40linux.ibm.com
-patch subject: [PATCH v2 1/3] entry: move exit to usermode functions to header file
-config: x86_64-rhel-8.3-kunit (https://download.01.org/0day-ci/archive/20231221/202312210535.lQDyVDDW-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1a44b0073b9235521280e19d963b6dfef7888f18
+commit: 39985eea5a6dd1e844f216028252870e980b9e7f drm/vmwgfx: Abstract placement selection
+date:   10 months ago
+config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20231221/202312210609.kvPv3OIN-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231221/202312210535.lQDyVDDW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231221/202312210609.kvPv3OIN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312210535.lQDyVDDW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312210609.kvPv3OIN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/entry/common.c:134: warning: Function parameter or struct member 'regs' not described in 'exit_to_user_mode_loop'
->> kernel/entry/common.c:134: warning: Function parameter or struct member 'ti_work' not described in 'exit_to_user_mode_loop'
-
-
-vim +134 kernel/entry/common.c
-
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  128  
-af18f155cb4bda Sven Schnelle       2023-12-18  129  /**
-af18f155cb4bda Sven Schnelle       2023-12-18  130   * exit_to_user_mode_loop - do any pending work before leaving to user space
-af18f155cb4bda Sven Schnelle       2023-12-18  131   */
-af18f155cb4bda Sven Schnelle       2023-12-18  132  __always_inline unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  133  						     unsigned long ti_work)
-a9f3a74a29af09 Thomas Gleixner     2020-07-22 @134  {
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  135  	/*
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  136  	 * Before returning to user space ensure that all pending work
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  137  	 * items have been completed.
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  138  	 */
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  139  	while (ti_work & EXIT_TO_USER_MODE_WORK) {
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  140  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  141  		local_irq_enable_exit_to_user(ti_work);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  142  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  143  		if (ti_work & _TIF_NEED_RESCHED)
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  144  			schedule();
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  145  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  146  		if (ti_work & _TIF_UPROBE)
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  147  			uprobe_notify_resume(regs);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  148  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  149  		if (ti_work & _TIF_PATCH_PENDING)
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  150  			klp_update_patch_state(current);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  151  
-12db8b690010cc Jens Axboe          2020-10-26  152  		if (ti_work & (_TIF_SIGPENDING | _TIF_NOTIFY_SIGNAL))
-8ba62d37949e24 Eric W. Biederman   2022-02-09  153  			arch_do_signal_or_restart(regs);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  154  
-a68de80f61f6af Sean Christopherson 2021-09-01  155  		if (ti_work & _TIF_NOTIFY_RESUME)
-03248addadf1a5 Eric W. Biederman   2022-02-09  156  			resume_user_mode_work(regs);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  157  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  158  		/* Architecture specific TIF work */
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  159  		arch_exit_to_user_mode_work(regs, ti_work);
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  160  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  161  		/*
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  162  		 * Disable interrupts and reevaluate the work flags as they
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  163  		 * might have changed while interrupts and preemption was
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  164  		 * enabled above.
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  165  		 */
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  166  		local_irq_disable_exit_to_user();
-47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  167  
-47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  168  		/* Check if any of the above work has queued a deferred wakeup */
-f268c3737ecaef Frederic Weisbecker 2021-05-27  169  		tick_nohz_user_enter_prepare();
-47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  170  
-6ce895128b3bff Mark Rutland        2021-11-29  171  		ti_work = read_thread_flags();
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  172  	}
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  173  
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  174  	/* Return the latest work state for arch_exit_to_user_mode() */
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  175  	return ti_work;
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  176  }
-a9f3a74a29af09 Thomas Gleixner     2020-07-22  177  
+>> scripts/kernel-doc: drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:76: warning: Excess struct member 'transfer' description in 'vmw_stdu_dirty'
+>> scripts/kernel-doc: drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:76: warning: Excess struct member 'transfer' description in 'vmw_stdu_dirty'
 
 -- 
 0-DAY CI Kernel Test Service
