@@ -1,48 +1,52 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C5C2D02A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Dec 2023 13:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C57A39844
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Dec 2023 14:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RA8qrOI+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1703078862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oKIB9gFYr7Un1QLzbk3UPXWE4HqA26pp2IjPiB0lSto=;
-	b=RA8qrOI+wHbU4OktFo3iBi6W4K7i/OeNrSZElo/gZClEhdVB33C24icypKkHkLg/hO7Jxz
-	R1lSQo66S/m9om2jsM1JUiZzGt6f00ZjmUpb1NOXuDwOIwIqZSyDLccET/PN5qr1NvtB03
-	Q9vrUV4NwyJJ83V7MOaBq1QnksTwm6M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-652-cz9FcmV8NIeYvcpQSrSHhg-1; Wed, 20 Dec 2023 08:27:37 -0500
-X-MC-Unique: cz9FcmV8NIeYvcpQSrSHhg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 61A41836F21;
-	Wed, 20 Dec 2023 13:27:36 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.38])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AF0B92166B31;
-	Wed, 20 Dec 2023 13:27:35 +0000 (UTC)
-Date: Wed, 20 Dec 2023 21:27:32 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: arch/sh/kernel/relocate_kernel.S:38: Error: invalid operands for
- opcode
-Message-ID: <ZYLrxFyei79R5D8N@MiWiFi-R3L-srv>
-References: <202312182200.Ka7MzifQ-lkp@intel.com>
- <ZYJ/M1HZ9ITfs4qe@MiWiFi-R3L-srv>
- <20231220060030.GV1674809@ZenIV>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDjwWRyB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703080915; x=1734616915;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DjdXWZBMv29x7Gzg/tVHAvtQsGjtGeYXzjtBpEji6dE=;
+  b=gDjwWRyBc+mtdBbIPwQ+fR13TNlRhIJIMfaKZDcNefaiSjo6B6aSHrRF
+   sxetS7HNkThLzG60U1bDXRNxb197UcLn+RhROmsVPRIKJ4JbSL/f5uOCq
+   TPoy1HsgYkSz/Qw1WHkKjS0KA8C27fsTMrsNZWV5RD/W1YIfZMhr6aQOB
+   x7AlcaF6Al3jgHxy8Lc972LLh8Un0n0phTVdo3IY75CTYN0SH/amWBqLD
+   lC6SvCjkTkXOXRbXZWvfrRlnNypg29Ral+FWDla6QjX6u13V0aaBNi0Ib
+   NiorFUL8Vva8AECQH9iog+d9au7AEYsDivcNLwTEThQKGwMj7Du01ePLn
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="395543674"
+X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
+   d="scan'208";a="395543674"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 06:01:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="769596247"
+X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
+   d="scan'208";a="769596247"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 20 Dec 2023 06:01:51 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rFx8u-0006xe-1p;
+	Wed, 20 Dec 2023 14:01:48 +0000
+Date: Wed, 20 Dec 2023 21:59:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dillon Varone <dillon.varone@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+	Jun Lei <jun.lei@amd.com>
+Subject: [linux-next:master 9130/9550]
+ drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_state.c:329: warning:
+ Function parameter or struct member 'state' not described in
+ 'dc_state_rem_all_planes_for_stream'
+Message-ID: <202312202105.vqJ5GA70-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,54 +55,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231220060030.GV1674809@ZenIV>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
 
-On 12/20/23 at 06:00am, Al Viro wrote:
-> On Wed, Dec 20, 2023 at 01:44:19PM +0800, Baoquan He wrote:
-> 
-> > >    arch/sh/kernel/relocate_kernel.S: Assembler messages:
-> > > >> arch/sh/kernel/relocate_kernel.S:38: Error: invalid operands for opcode
-> > >    arch/sh/kernel/relocate_kernel.S:41: Error: invalid operands for opcode
-> > >    arch/sh/kernel/relocate_kernel.S:126: Error: invalid operands for opcode
-> > >    arch/sh/kernel/relocate_kernel.S:129: Error: invalid operands for opcode
-> > 
-> > I reproduced this error, haven't got why and a way to fix it, will come
-> > back later if I have fix.
-> 
-> At a guess - after that commit ARCH_SUPPORTS_CRASH_DUMP is enough to enable CRASH_DUMP,
-> which selects KEXEC_CORE regardless of ARCH_SUPPORTS_KEXEC.  And on sh you have
-> the former selected on any UP build, while the latter - only on MMU ones (i.e.
-> not SH2).
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   20d857259d7d10cd0d5e8b60608455986167cfad
+commit: 09a4ec5da92c84952db117f0d576fdd8368c873a [9130/9550] drm/amd/display: Refactor dc_state interface
+config: riscv-randconfig-r003-20220327 (https://download.01.org/0day-ci/archive/20231220/202312202105.vqJ5GA70-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312202105.vqJ5GA70-lkp@intel.com/reproduce)
 
-Yeah, you are right. I managed to set CONFIG_CPU_SH4=y and CONFIG_MMU=y,
-the building passed.
----------------------
-CONFIG_CPU_SH4=y
-CONFIG_CPU_SH4A=y
-CONFIG_CPU_SHX2=y
-...
-CONFIG_MMU=y
-...
-CONFIG_CRASH_CORE=y
-CONFIG_KEXEC_CORE=y
-CONFIG_CRASH_DUMP=y
------------------------------
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312202105.vqJ5GA70-lkp@intel.com/
 
-Since the kexec_core code building depends on CONFIG_MMU=y, we may
-need to add dependency on MMU for ARCH_SUPPORTS_CRASH_DUMP. I made below
-change, do you think it's OK?
+All warnings (new ones prefixed by >>):
 
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index 7500521b2b98..fe1500871648 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -548,6 +548,7 @@ config ARCH_SUPPORTS_KEXEC
- 
- config ARCH_SUPPORTS_CRASH_DUMP
-        def_bool BROKEN_ON_SMP
-+       depends on MMU
- 
- config ARCH_SUPPORTS_KEXEC_JUMP
-        def_bool y
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_state.c:329: warning: Function parameter or struct member 'state' not described in 'dc_state_rem_all_planes_for_stream'
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_state.c:329: warning: Excess function parameter 'context' description in 'dc_state_rem_all_planes_for_stream'
+--
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dmub_srv.c:540: warning: Function parameter or struct member 'context' not described in 'populate_subvp_cmd_drr_info'
 
+
+vim +329 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_state.c
+
+   313	
+   314	/**
+   315	 * dc_state_rem_all_planes_for_stream - Remove planes attached to the target stream.
+   316	 *
+   317	 * @dc: Current dc state.
+   318	 * @stream: Target stream, which we want to remove the attached plans.
+   319	 * @context: New context.
+   320	 *
+   321	 * Return:
+   322	 * Return true if DC was able to remove all planes from the target
+   323	 * stream, otherwise, return false.
+   324	 */
+   325	bool dc_state_rem_all_planes_for_stream(
+   326			const struct dc *dc,
+   327			struct dc_stream_state *stream,
+   328			struct dc_state *state)
+ > 329	{
+   330		int i, old_plane_count;
+   331		struct dc_stream_status *stream_status = NULL;
+   332		struct dc_plane_state *del_planes[MAX_SURFACE_NUM] = { 0 };
+   333	
+   334		for (i = 0; i < state->stream_count; i++)
+   335			if (state->streams[i] == stream) {
+   336				stream_status = &state->stream_status[i];
+   337				break;
+   338			}
+   339	
+   340		if (stream_status == NULL) {
+   341			dm_error("Existing stream %p not found!\n", stream);
+   342			return false;
+   343		}
+   344	
+   345		old_plane_count = stream_status->plane_count;
+   346	
+   347		for (i = 0; i < old_plane_count; i++)
+   348			del_planes[i] = stream_status->plane_states[i];
+   349	
+   350		for (i = 0; i < old_plane_count; i++)
+   351			if (!dc_state_remove_plane(dc, stream, del_planes[i], state))
+   352				return false;
+   353	
+   354		return true;
+   355	}
+   356	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
