@@ -1,48 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E925125AB;
-	Wed, 20 Dec 2023 05:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED1FFBE3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Dec 2023 05:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMZMeDW9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703048597; x=1734584597;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5j2qoJG8bDcY1zuNdymq9Ne9Gu2e1JgT9G7UnH+7U04=;
-  b=KMZMeDW9XEmr9Vf1/w2NPPi/a3eEJXe5QbhlsQqjgKdRNbsxA7cVwPM7
-   LDdPJwc3pJRH0IbtdRr+OUeWNWZFQCHRM400bPeNxFB0FrRxPmdQWe0JK
-   KDrjDTQ+71b1j6m4UqGSAf/dyBhjeB0Lcj7TA8zLVAAYv5GVbilc175pm
-   OntjMthw7Pc9wH9Rc4+DXbgYrBP7GtB3OQyQmgTiogTpIttrS/DSkWmj0
-   P0fqJqADfZPzFuOTK5u7FUWAuRmq7G1T60sr6/53wWmlKyEIoL3GSxFNE
-   PU4Kh4vqCRWK7kJ6dTbYJ3IQKrBkjaCkk+LHjRRXVdg0+U012wKgI3KTC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="9225779"
-X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
-   d="scan'208";a="9225779"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 21:03:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="846591877"
-X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
-   d="scan'208";a="846591877"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Dec 2023 21:03:15 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rFojf-0006Pp-10;
-	Wed, 20 Dec 2023 05:03:12 +0000
-Date: Wed, 20 Dec 2023 13:02:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Kubiak <michal.kubiak@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexander Lobakin <aleksander.lobakin@intel.com>
-Subject: [alobakin:idpf-libie 41/42]
- drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Function
- parameter or member 'params' not described in 'idpf_send_chunked_msg'
-Message-ID: <202312201344.ix0XJ5OC-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CXkdEhAx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1703051067;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I1d5+ro+lqpJiHMWS3NTjfotG8YhvP95BegVyQFgf8g=;
+	b=CXkdEhAxjyI8x2D8Fz1qmrJBFcsPryC0wl5FzhhJzdvgksEh2ptIiBAD/Yy36Epc9oUeW2
+	HE8Tl77Zz74VHMPTgvAKa+TM+GAiNwLreHJP1NcYj2PqaRdLr7QLU/I5w8wkvrg2M3k+LT
+	Q333IhOw2MOQOXQvE62jk4XbCmbyWgY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-466-yEduL3uBPv-to6JrmQGr1A-1; Wed, 20 Dec 2023 00:44:23 -0500
+X-MC-Unique: yEduL3uBPv-to6JrmQGr1A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 83C5C8350E3;
+	Wed, 20 Dec 2023 05:44:23 +0000 (UTC)
+Received: from localhost (unknown [10.72.116.38])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 85DE03C25;
+	Wed, 20 Dec 2023 05:44:22 +0000 (UTC)
+Date: Wed, 20 Dec 2023 13:44:19 +0800
+From: Baoquan He <bhe@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: arch/sh/kernel/relocate_kernel.S:38: Error: invalid operands for
+ opcode
+Message-ID: <ZYJ/M1HZ9ITfs4qe@MiWiFi-R3L-srv>
+References: <202312182200.Ka7MzifQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,114 +48,189 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202312182200.Ka7MzifQ-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 
-tree:   https://github.com/alobakin/linux idpf-libie
-head:   f22bd3c6717325f6b0b63386c626c279a450413d
-commit: 352bcda07492a7c4be26de93471bfd5102112ee0 [41/42] idpf: add vc functions to manage selected queues
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231220/202312201344.ix0XJ5OC-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312201344.ix0XJ5OC-lkp@intel.com/reproduce)
+On 12/18/23 at 10:55pm, kernel test robot wrote:
+> Hi Baoquan,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   ceb6a6f023fd3e8b07761ed900352ef574010bcb
+> commit: d70c27b728b8da1ab9c3b7ca117ee1c99dc86d29 sh, kexec: fix the incorrect ifdeffery and dependency of CONFIG_KEXEC
+> date:   6 days ago
+> config: sh-randconfig-r002-20220124 (https://download.01.org/0day-ci/archive/20231218/202312182200.Ka7MzifQ-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231218/202312182200.Ka7MzifQ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312182200.Ka7MzifQ-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    arch/sh/kernel/relocate_kernel.S: Assembler messages:
+> >> arch/sh/kernel/relocate_kernel.S:38: Error: invalid operands for opcode
+>    arch/sh/kernel/relocate_kernel.S:41: Error: invalid operands for opcode
+>    arch/sh/kernel/relocate_kernel.S:126: Error: invalid operands for opcode
+>    arch/sh/kernel/relocate_kernel.S:129: Error: invalid operands for opcode
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312201344.ix0XJ5OC-lkp@intel.com/
+I reproduced this error, haven't got why and a way to fix it, will come
+back later if I have fix.
 
-All warnings (new ones prefixed by >>):
+> 
+> vim +38 arch/sh/kernel/relocate_kernel.S
+> 
+> 9d44190eae97ad4 kogiidena   2006-01-16   13  
+> 9d44190eae97ad4 kogiidena   2006-01-16   14  		.globl relocate_new_kernel
+> 9d44190eae97ad4 kogiidena   2006-01-16   15  relocate_new_kernel:
+> 9d44190eae97ad4 kogiidena   2006-01-16   16  	/* r4 = indirection_page   */
+> 9d44190eae97ad4 kogiidena   2006-01-16   17  	/* r5 = reboot_code_buffer */
+> 9d44190eae97ad4 kogiidena   2006-01-16   18  	/* r6 = start_address      */
+> 9d44190eae97ad4 kogiidena   2006-01-16   19  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   20  	mov.l	10f, r0		/* PAGE_SIZE */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   21  	add	r5, r0		/* setup new stack at end of control page */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   22  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   23  	/* save r15->r8 to new stack */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   24  	mov.l	r15, @-r0
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   25  	mov	r0, r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   26  	mov.l	r14, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   27  	mov.l	r13, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   28  	mov.l	r12, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   29  	mov.l	r11, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   30  	mov.l	r10, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   31  	mov.l	r9, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   32  	mov.l	r8, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   33  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   34  	/* save other random registers */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   35  	sts.l	macl, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   36  	sts.l	mach, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   37  	stc.l	gbr, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  @38  	stc.l	ssr, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   39  	stc.l	sr, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   40  	sts.l	pr, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   41  	stc.l	spc, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   42  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   43  	/* switch to bank1 and save r7->r0 */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   44  	mov.l	12f, r9
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   45  	stc	sr, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   46  	or	r9, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   47  	ldc	r8, sr
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   48  	mov.l	r7, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   49  	mov.l	r6, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   50  	mov.l	r5, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   51  	mov.l	r4, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   52  	mov.l	r3, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   53  	mov.l	r2, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   54  	mov.l	r1, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   55  	mov.l	r0, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   56  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   57  	/* switch to bank0 and save r7->r0 */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   58  	mov.l	12f, r9
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   59  	not	r9, r9
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   60  	stc	sr, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   61  	and	r9, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   62  	ldc	r8, sr
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   63  	mov.l	r7, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   64  	mov.l	r6, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   65  	mov.l	r5, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   66  	mov.l	r4, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   67  	mov.l	r3, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   68  	mov.l	r2, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   69  	mov.l	r1, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   70  	mov.l	r0, @-r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   71  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   72  	mov.l	r4, @-r15	/* save indirection page again */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   73  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   74  	bsr	swap_pages	/* swap pages before jumping to new kernel */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   75  	 nop
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   76  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   77  	mova	11f, r0
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   78  	mov.l	r15, @r0	/* save pointer to stack */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   79  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   80  	jsr	@r6		/* hand over control to new kernel */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   81  	 nop
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   82  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   83  	mov.l	11f, r15	/* get pointer to stack */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   84  	mov.l	@r15+, r4	/* restore r4 to get indirection page */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   85  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   86  	bsr	swap_pages	/* swap pages back to previous state */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   87  	 nop
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   88  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   89  	/* make sure bank0 is active and restore r0->r7 */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   90  	mov.l	12f, r9
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   91  	not	r9, r9
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   92  	stc	sr, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   93  	and	r9, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   94  	ldc	r8, sr
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   95  	mov.l	@r15+, r0
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   96  	mov.l	@r15+, r1
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   97  	mov.l	@r15+, r2
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   98  	mov.l	@r15+, r3
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18   99  	mov.l	@r15+, r4
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  100  	mov.l	@r15+, r5
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  101  	mov.l	@r15+, r6
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  102  	mov.l	@r15+, r7
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  103  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  104  	/* switch to bank1 and restore r0->r7 */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  105  	mov.l	12f, r9
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  106  	stc	sr, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  107  	or	r9, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  108  	ldc	r8, sr
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  109  	mov.l	@r15+, r0
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  110  	mov.l	@r15+, r1
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  111  	mov.l	@r15+, r2
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  112  	mov.l	@r15+, r3
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  113  	mov.l	@r15+, r4
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  114  	mov.l	@r15+, r5
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  115  	mov.l	@r15+, r6
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  116  	mov.l	@r15+, r7
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  117  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  118  	/* switch back to bank0 */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  119  	mov.l	12f, r9
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  120  	not	r9, r9
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  121  	stc	sr, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  122  	and	r9, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  123  	ldc	r8, sr
+> 9d44190eae97ad4 kogiidena   2006-01-16  124  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  125  	/* restore other random registers */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  126  	ldc.l	@r15+, spc
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  127  	lds.l	@r15+, pr
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  128  	ldc.l	@r15+, sr
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  129  	ldc.l	@r15+, ssr
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  130  	ldc.l	@r15+, gbr
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  131  	lds.l	@r15+, mach
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  132  	lds.l	@r15+, macl
+> 9d44190eae97ad4 kogiidena   2006-01-16  133  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  134  	/* restore r8->r15 */
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  135  	mov.l	@r15+, r8
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  136  	mov.l	@r15+, r9
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  137  	mov.l	@r15+, r10
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  138  	mov.l	@r15+, r11
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  139  	mov.l	@r15+, r12
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  140  	mov.l	@r15+, r13
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  141  	mov.l	@r15+, r14
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  142  	mov.l	@r15+, r15
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  143  	rts
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  144  	 nop
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  145  
+> b7cf6ddc13186f9 Magnus Damm 2009-03-18  146  swap_pages:
+> 9d44190eae97ad4 kogiidena   2006-01-16  147  	bra	1f
+> 9d44190eae97ad4 kogiidena   2006-01-16  148  	 mov	r4,r0	  /* cmd = indirection_page */
+> 9d44190eae97ad4 kogiidena   2006-01-16  149  0:
+> 9d44190eae97ad4 kogiidena   2006-01-16  150  	mov.l	@r4+,r0	  /* cmd = *ind++ */
+> 9d44190eae97ad4 kogiidena   2006-01-16  151  
+> 
+> :::::: The code at line 38 was first introduced by commit
+> :::::: b7cf6ddc13186f9272438a97aa75972d496d0b0a sh: add kexec jump support
+> 
+> :::::: TO: Magnus Damm <damm@igel.co.jp>
+> :::::: CC: Paul Mundt <lethal@linux-sh.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Function parameter or member 'params' not described in 'idpf_send_chunked_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'xn_params' description in 'idpf_send_chunked_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'prep_msg' description in 'idpf_send_chunked_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'config_data_size' description in 'idpf_send_chunked_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'num_chunks' description in 'idpf_send_chunked_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'chunk_size' description in 'idpf_send_chunked_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1499: warning: Excess function parameter 'chunks' description in 'idpf_send_chunked_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1710: warning: Function parameter or member 'q' not described in 'idpf_fill_rxbufq_config_chunk'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1710: warning: expecting prototype for idpf_fill_bufq_config_chunk(). Prototype was for idpf_fill_rxbufq_config_chunk() instead
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1932: warning: Function parameter or member 'vc_op' not described in 'idpf_send_ena_dis_selected_qs_msg'
->> drivers/net/ethernet/intel/idpf/idpf_virtchnl.c:1932: warning: Excess function parameter 'ena' description in 'idpf_send_ena_dis_selected_qs_msg'
-
-
-vim +1499 drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-
-  1482	
-  1483	/**
-  1484	 * idpf_send_chunked_msg - Send a VC message consisting of chunks.
-  1485	 * @vport: virtual port data structure
-  1486	 * @xn_params: parameters for this particular transaction including
-  1487	 * @prep_msg: pointer to the helper function for preparing the VC message
-  1488	 * @config_data_size: size of the message config data
-  1489	 * @num_chunks: number of chunks in the message
-  1490	 * @chunk_size: size of single message chunk
-  1491	 * @chunks: pointer to a buffer containig chunks of the message
-  1492	 *
-  1493	 * Helper function for preparing the message describing queues to be enabled
-  1494	 * or disabled.
-  1495	 * Returns the total size of the prepared message.
-  1496	 */
-  1497	static int idpf_send_chunked_msg(struct idpf_vport *vport,
-  1498					 struct idpf_chunked_msg_params *params)
-> 1499	{
-  1500		u32 num_msgs, max_chunks, left_chunks, max_buf_sz;
-  1501		u32 num_chunks = params->num_chunks;
-  1502		int err = 0, i;
-  1503		u8 *msg_buf;
-  1504	
-  1505		max_chunks = min_t(u32, IDPF_NUM_CHUNKS_PER_MSG(params->config_sz,
-  1506								params->chunk_sz),
-  1507								params->num_chunks);
-  1508		max_buf_sz = params->config_sz + max_chunks * params->chunk_sz;
-  1509		num_msgs = DIV_ROUND_UP(params->num_chunks, max_chunks);
-  1510	
-  1511		msg_buf = kzalloc(max_buf_sz, GFP_KERNEL);
-  1512		if (!msg_buf) {
-  1513			err = -ENOMEM;
-  1514			goto error;
-  1515		}
-  1516	
-  1517		mutex_lock(&vport->vc_buf_lock);
-  1518	
-  1519		left_chunks = num_chunks;
-  1520		for (i = 0; i < num_msgs; i++) {
-  1521			u8 *chunks = params->chunks;
-  1522			int buf_sz, msg_size;
-  1523			u8 *first_chunk;
-  1524	
-  1525			num_chunks = min(max_chunks, left_chunks);
-  1526			first_chunk = chunks + (i * params->chunk_sz * max_chunks);
-  1527			msg_size = params->chunk_sz * num_chunks + params->config_sz;
-  1528	
-  1529			buf_sz = params->prepare_msg(vport, msg_buf, first_chunk,
-  1530						     num_chunks);
-  1531			if (buf_sz != msg_size) {
-  1532				err = -EINVAL;
-  1533				goto msg_error;
-  1534			}
-  1535	
-  1536			err = idpf_send_mb_msg(vport->adapter, params->op,
-  1537					       buf_sz, msg_buf);
-  1538			if (err)
-  1539				goto msg_error;
-  1540	
-  1541			err = __idpf_wait_for_event(vport->adapter, vport,
-  1542						    params->state, params->err_check,
-  1543						    params->timeout);
-  1544			if (err)
-  1545				goto msg_error;
-  1546	
-  1547			left_chunks -= num_chunks;
-  1548		}
-  1549	
-  1550		if (left_chunks != 0)
-  1551			err = -EINVAL;
-  1552	msg_error:
-  1553		mutex_unlock(&vport->vc_buf_lock);
-  1554		kfree(msg_buf);
-  1555	error:
-  1556		return err;
-  1557	}
-  1558	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
