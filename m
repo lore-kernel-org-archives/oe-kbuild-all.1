@@ -1,57 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB9AFBE1;
-	Wed, 20 Dec 2023 00:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AECF8BF6;
+	Wed, 20 Dec 2023 02:13:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NPBvIxB6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DH+asZcf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703033324; x=1734569324;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XBIC58myc3ASs9hyCERLWBAimfb3eQYpoSIUk/hXRFI=;
-  b=NPBvIxB6udD+HyUi24EZ3ZHtCXU8L37k+YMRksFFANRIoRgjh78qhBwv
-   qz+xoj49eBQJflp28HDcaSu7hVDC3kpKS6WOZ6u5GtVZuwZ5FlXNZzuGf
-   9NwziIw6bsQUCFfrw/LJt8PHuwuj4guV2WpWjEpY3Xmq4kcHKEQEnBKX0
-   cwQUS9PZwUMAV1GhS8FY9EhJaEnXJcJYm5u1QAPiObEa80j7i7S8YaVOd
-   KePiBhuPZaWtVRpOfRsgF4ulrXuW439sgYwkHcgMFpnaIW2xVspFfj5Fq
-   ruC943DD8EJcqzc88FlZIAjp1mZ+LCebKkbGx1RGkHKDApGNoBxgN1pKE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="2961324"
-X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="2961324"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 16:48:44 -0800
+  t=1703038381; x=1734574381;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qvElR0VuNTsTCRh739xalK/xA37rYZ++RNiKjcrnyYQ=;
+  b=DH+asZcfHMAu1yyOk46CtiE+kIuViTl/uL6+qpmQqPkcNz6zE64/BmgY
+   OvompPKrtBMXsgBcQggd66tdPknYuuu7lsohGvo2Rr+Dx+OkyrppHo2X7
+   vDBivj1vAGTFr2IoBkzG8bgqZZb03ro+/n1uJ/w+nk3EISr/oinEeQxsE
+   K4GWEOX+iiTEJA6J+QSFI0GAFNyHD5exelOZinLwO697vq2Xt0b5hZTZA
+   pc/KmYdJRaa+ZKXrXfOTy/CUsZ4rmtew7lj3n5xbYkkgn0M8t4EdlwmKD
+   s8mgPsP7IjzX5wUQfXZQh8Y9u0SfFvDc0696Tr4c/rJJb0OGSbwMPljFv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="9211883"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
+   d="scan'208";a="9211883"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 18:13:00 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="769409417"
-X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
-   d="scan'208";a="769409417"
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="1023328218"
+X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
+   d="scan'208";a="1023328218"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 19 Dec 2023 16:48:32 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 19 Dec 2023 18:12:57 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFklC-00068l-0C;
-	Wed, 20 Dec 2023 00:48:30 +0000
-Date: Wed, 20 Dec 2023 08:48:00 +0800
+	id 1rFm4r-0006DF-2Z;
+	Wed, 20 Dec 2023 02:12:53 +0000
+Date: Wed, 20 Dec 2023 10:12:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry.memverge@gmail.com>, linux-mm@kvack.org
+To: Marco Elver <elver@google.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	x86@kernel.org, akpm@linux-foundation.org, arnd@arndb.de,
-	tglx@linutronix.de, luto@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, mhocko@kernel.org,
-	tj@kernel.org, ying.huang@intel.com, gregory.price@memverge.com,
-	corbet@lwn.net, rakie.kim@sk.com, hyeongtak.ji@sk.com,
-	honggyu.kim@sk.com, vtavarespetr@micron.com, peterz@infradead.org,
-	jgroves@micron.com, ravis.opensrc@micron.com, sthanneeru@micron.com,
-	emirakhur@micron.com, Hasan.Maruf@amd.com, seungjun.ha@samsung.com
-Subject: Re: [PATCH v4 10/11] mm/mempolicy: add the mbind2 syscall
-Message-ID: <202312200802.cGZtboPs-lkp@intel.com>
-References: <20231218194631.21667-11-gregory.price@memverge.com>
+	linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>
+Subject: /bin/bash: line 1:  9839 Segmentation fault
+      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j
+ --lang_exclude=rust --skip_encoding_btf_inconsistent_proto
+ --btf_gen_optimized --btf_base vmlinux drivers/media/i2c/s5c73m3/s5c73m3.ko
+Message-ID: <202312201039.FtWl6EvV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,37 +52,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231218194631.21667-11-gregory.price@memverge.com>
 
-Hi Gregory,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on perf-tools/perf-tools]
-[also build test ERROR on linus/master v6.7-rc6]
-[cannot apply to perf-tools-next/perf-tools-next tip/perf/core acme/perf/core next-20231219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-mempolicy-implement-the-sysfs-based-weighted_interleave-interface/20231219-074837
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools.git perf-tools
-patch link:    https://lore.kernel.org/r/20231218194631.21667-11-gregory.price%40memverge.com
-patch subject: [PATCH v4 10/11] mm/mempolicy: add the mbind2 syscall
-config: arm64-randconfig-003-20231219 (https://download.01.org/0day-ci/archive/20231220/202312200802.cGZtboPs-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 5ac12951b4e9bbfcc5791282d0961ec2b65575e9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312200802.cGZtboPs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   55cb5f43689d7a9ea5bf35ef050f12334f197347
+commit: aebc7b0d8d91bbc69e976909963046bc48bca4fd list: Introduce CONFIG_LIST_HARDENED
+date:   4 months ago
+config: hexagon-randconfig-r021-20220917 (https://download.01.org/0day-ci/archive/20231220/202312201039.FtWl6EvV-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312201039.FtWl6EvV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312200802.cGZtboPs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312201039.FtWl6EvV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: __arm64_sys_get_mbind2
-   >>> referenced by sys32.c
-   >>>               arch/arm64/kernel/sys32.o:(compat_sys_call_table) in archive vmlinux.a
+   die__process_unit: DW_TAG_member (0xd) @ <0x12b7b> not handled!
+   die__process_unit: tag not supported 0xd (member)!
+   die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
+   die__process_unit: DW_TAG_member (0xd) @ <0x33951> not handled!
+   die__process: got compile_unit unexpected tag after DW_TAG_compile_unit!
+>> /bin/bash: line 1:  9839 Segmentation fault      LLVM_OBJCOPY="llvm-objcopy" pahole -J --btf_gen_floats -j --lang_exclude=rust --skip_encoding_btf_inconsistent_proto --btf_gen_optimized --btf_base vmlinux drivers/media/i2c/s5c73m3/s5c73m3.ko
 
 -- 
 0-DAY CI Kernel Test Service
