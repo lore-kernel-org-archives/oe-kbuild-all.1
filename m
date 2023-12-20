@@ -1,47 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7237020310
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Dec 2023 09:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D298D25541;
+	Wed, 20 Dec 2023 13:00:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YL0rOnXp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l69cNsEB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703066007; x=1734602007;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lqTwT0Cp7Nul/CQl1VblkPnUTYx06iawDEfQi7nQpto=;
-  b=YL0rOnXpY8LLsT7iM2cnYRG1+G267b8a135fd2MvTK8hlLR/4X+L/otE
-   zolQRk/swO3JoKTCWut81j5TaOX1u7n9eJqvE3f8YQKKb7NEbDX0hWFxA
-   LAFULkLPppazXgAp5J2wMfTXQeN+FXq6R6GLAMGri7THy9G/eyc9BfDya
-   21E943eDkFuJqZcyC7n4SE4HtCh8byKR+1srcO/0qpxbb6QfHqOuMplaa
-   z3aGzTeVZceKUX9EpkRfIpkFMDYGSG9U8TRY7HUMGSmOKZxBN3N97O34Z
-   pC08F1apIkhEDmc01iM3/2edftYD4gjsNaW6KL7wYAIvBLIHnj1EMJC3x
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="3024880"
+  t=1703077217; x=1734613217;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VzRm9tZ3Z5NmLWaanU6i/NBFQIKSzDR0QuhRMFq5TbM=;
+  b=l69cNsEBOKahqDAJDdaGnIymRZIU7minWysXG+onAfx0+yy4qHaf2zlA
+   JVmxuqUugMVH1S7/vRYD9h87y3EzvYBLbcodIlYfYoBcFlbTbNCEIhCvj
+   PkDpPJHOC+Hm8jOErmw5NLswKYXwcvs9SmA2LIBEuKuB0Y0XJGre2CGur
+   Jk1bN4/KFxRDKnL3X5u13llb/PyST4TAYkBxcpHOUqtBGLaP1cQdeBSOz
+   EGsJDkBkJEPpTAvktBeCoVObAZbT1FuBg/lBh/ZS/Otm9Ks2pVsyqsyM3
+   3HcPPdmrPuLFvwmyDmHoAk1ZB88J6d+2TLJSDHpwhnC8b9KuQTD9gGPTV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="375297939"
 X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
-   d="scan'208";a="3024880"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 01:53:27 -0800
+   d="scan'208";a="375297939"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 05:00:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="919918514"
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="842266959"
 X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
-   d="scan'208";a="919918514"
+   d="scan'208";a="842266959"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2023 01:53:25 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 20 Dec 2023 05:00:14 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rFtGV-0006ix-1V;
-	Wed, 20 Dec 2023 09:53:23 +0000
-Date: Wed, 20 Dec 2023 17:53:18 +0800
+	id 1rFwAm-0006sj-1t;
+	Wed, 20 Dec 2023 13:00:03 +0000
+Date: Wed, 20 Dec 2023 20:58:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.10 6/13] mm/kfence/kfence_test.c:37:17: error:
- implicit declaration of function 'kunit_skip'
-Message-ID: <202312201706.J8DYOfa6-lkp@intel.com>
+To: David Wei <dw@davidwei.uk>, Jakub Kicinski <kuba@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>, Sabrina Dubroca <sd@queasysnail.net>,
+	netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [PATCH net-next v4 2/5] netdevsim: allow two netdevsim ports to
+ be connected
+Message-ID: <202312202036.QxZ1fdee-lkp@intel.com>
+References: <20231220014747.1508581-3-dw@davidwei.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,39 +54,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20231220014747.1508581-3-dw@davidwei.uk>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
-head:   1f3e1df23c54838efc061abcf1041f4292a5c344
-commit: 42cf5538c64f10c33580d3cbf521cfc8f31d0616 [6/13] UPSTREAM: kfence: test: use kunit_skip() to skip tests
-config: arm64-randconfig-001-20231220 (https://download.01.org/0day-ci/archive/20231220/202312201706.J8DYOfa6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312201706.J8DYOfa6-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Wei/netdevsim-maintain-a-list-of-probed-netdevsims/20231220-095238
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231220014747.1508581-3-dw%40davidwei.uk
+patch subject: [PATCH net-next v4 2/5] netdevsim: allow two netdevsim ports to be connected
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231220/202312202036.QxZ1fdee-lkp@intel.com/config)
+compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project 10056c821a56a19cef732129e4e0c5883ae1ee49)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231220/202312202036.QxZ1fdee-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312201706.J8DYOfa6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312202036.QxZ1fdee-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/kfence/kfence_test.c: In function 'test_init_on_free':
->> mm/kfence/kfence_test.c:37:17: error: implicit declaration of function 'kunit_skip' [-Werror=implicit-function-declaration]
-      37 |                 kunit_skip((test), "Test requires: " #cond);    \
-         |                 ^~~~~~~~~~
-   mm/kfence/kfence_test.c:562:9: note: in expansion of macro 'KFENCE_TEST_REQUIRES'
-     562 |         KFENCE_TEST_REQUIRES(test, IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON));
-         |         ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/net/netdevsim/dev.c:431:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     431 |         if (!peer)
+         |             ^~~~~
+   drivers/net/netdevsim/dev.c:443:9: note: uninitialized use occurs here
+     443 |         return ret;
+         |                ^~~
+   drivers/net/netdevsim/dev.c:431:2: note: remove the 'if' if its condition is always false
+     431 |         if (!peer)
+         |         ^~~~~~~~~~
+     432 |                 goto out;
+         |                 ~~~~~~~~
+   drivers/net/netdevsim/dev.c:425:13: note: initialize the variable 'ret' to silence this warning
+     425 |         ssize_t ret;
+         |                    ^
+         |                     = 0
+   1 warning generated.
 
 
-vim +/kunit_skip +37 mm/kfence/kfence_test.c
+vim +431 drivers/net/netdevsim/dev.c
 
-    34	
-    35	#define KFENCE_TEST_REQUIRES(test, cond) do {			\
-    36		if (!(cond))						\
-  > 37			kunit_skip((test), "Test requires: " #cond);	\
-    38	} while (0)
-    39	
+   417	
+   418	static ssize_t nsim_dev_peer_read(struct file *file, char __user *data,
+   419					  size_t count, loff_t *ppos)
+   420	{
+   421		struct nsim_dev_port *nsim_dev_port;
+   422		struct netdevsim *peer;
+   423		unsigned int id, port;
+   424		char buf[23];
+   425		ssize_t ret;
+   426	
+   427		mutex_lock(&nsim_dev_list_lock);
+   428		rtnl_lock();
+   429		nsim_dev_port = file->private_data;
+   430		peer = rtnl_dereference(nsim_dev_port->ns->peer);
+ > 431		if (!peer)
+   432			goto out;
+   433	
+   434		id = peer->nsim_bus_dev->dev.id;
+   435		port = peer->nsim_dev_port->port_index;
+   436		ret = scnprintf(buf, sizeof(buf), "%u %u\n", id, port);
+   437		ret = simple_read_from_buffer(data, count, ppos, buf, ret);
+   438	
+   439	out:
+   440		rtnl_unlock();
+   441		mutex_unlock(&nsim_dev_list_lock);
+   442	
+   443		return ret;
+   444	}
+   445	
 
 -- 
 0-DAY CI Kernel Test Service
