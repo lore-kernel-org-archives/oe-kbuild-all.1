@@ -1,50 +1,60 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641857484
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Dec 2023 04:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270329467
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Dec 2023 05:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BJyFJ2i5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1703132682;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WhkevBRKRAIXA24fCJp1C71d7JyUUhFCr+p5mrM6R0s=;
-	b=BJyFJ2i5vSMOm66FOLRDcRN9j8GAE6TpsNARwFnAreP3DB2vUy6WCk1ZHS7z4OmxNJc6q1
-	6vXUMKRmrpQ5GOqzx7zpXw/+KWntLicPlM0kd5Vc+Yc51DN7cmKWPSB28M+i5u82NdikUQ
-	AV4R0XJF79kiuCtq5I+gasu8q/naZ8Y=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-591-O5_yBCcsMgqWoLnAiNkmRg-1; Wed,
- 20 Dec 2023 23:24:38 -0500
-X-MC-Unique: O5_yBCcsMgqWoLnAiNkmRg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 535C038562CA;
-	Thu, 21 Dec 2023 04:24:37 +0000 (UTC)
-Received: from localhost (unknown [10.72.116.38])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A42140C6EB9;
-	Thu, 21 Dec 2023 04:24:36 +0000 (UTC)
-Date: Thu, 21 Dec 2023 12:24:28 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BHLiuDoS"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-35fb87f9a19so78065ab.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Dec 2023 21:26:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1703136414; x=1703741214; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/wCCLZM4JqNp3Y4ApKOQz3CzWtQJL0OzMsUEywq65GM=;
+        b=BHLiuDoSCq7ZMWpAxGXV2t+jMm/NhOqPSChDiywPCYvju0Z1xUWjK49nfcnXGrDUNi
+         bf3Q62USI+KKwYDZnApLU+PvQ9AjcPd3qreJSfbA6iuvwNJuN5IDco3Hpfgh1wjVLDbZ
+         FF5swIsBn0ukZf6+JWQoNrZe8f4vO67q9hqj3e8sNQgPqp8+UDoHGWt78lqwiqx3YJyV
+         5CLXj3/ABQkaTLtd9fZI47BNmAuaBSRc3zJUVKDgbmz3g8WtgcM9gmg6sLMYr8I+YEBt
+         D/Hav50Zm7azyPyn48o1RVycgUXX5PVoMmAmS9DhM7H8I/JXdnvpTdJ3h8FVOsPvPKQQ
+         U01g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703136414; x=1703741214;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/wCCLZM4JqNp3Y4ApKOQz3CzWtQJL0OzMsUEywq65GM=;
+        b=A5SfoPeG1H6YId013rULGP+kxZ5yg+lH1EnyFI4P0SEq0eg609NJA6cwu5gJghmDaj
+         AyCD90T9dd29/wmyyNCCVpsbnCH/COmdSm++abwE3XB+TvahHhpLUGnao0tAQmOAc39H
+         BX7B1tyW9U+9SGe7Asyqmka6XyXW7o5AM0fsi1fC7x+5dwuGHjcVuDAVOeA6TJDgiOpz
+         yeNjvEWfkmJ84+CdCB9KkvUusFV8XIjcfUGgluH8x4rBeywNSb/LBwNbIPqHlGKwTtEB
+         mwAKUoU14G2oaddhzrU9QYIuZ3ylTk0hOsSacd7qzgMy77XqPhPNFnMBJu7Oa1gzUNpw
+         rwcQ==
+X-Gm-Message-State: AOJu0YysIgESA6ZaSX0WHfJzdpBVgTl1cciV30T8osKvAYYuhNlJMNTh
+	NaHeacOWo5IBcoUZVHcKspbH/ybN8M7Q
+X-Google-Smtp-Source: AGHT+IGjNY/faGmARzHzlj2EeW0o1odpyiIHpjdTPytyjny1PI9hn+sKzOiqKGWGZTcSIGOgRvZ9kQ==
+X-Received: by 2002:a92:da85:0:b0:35f:cb23:89d2 with SMTP id u5-20020a92da85000000b0035fcb2389d2mr31046iln.5.1703136414063;
+        Wed, 20 Dec 2023 21:26:54 -0800 (PST)
+Received: from google.com ([100.64.188.49])
+        by smtp.gmail.com with ESMTPSA id a18-20020a6b6c12000000b007b392f4f3dasm293835ioh.23.2023.12.20.21.26.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Dec 2023 21:26:53 -0800 (PST)
+Date: Wed, 20 Dec 2023 22:26:47 -0700
+From: Yu Zhao <yuzhao@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Kinsey Ho <kinseyho@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: arch/sh/kernel/relocate_kernel.S:38: Error: invalid operands for
- opcode
-Message-ID: <ZYO9/D0In7T/3mqj@MiWiFi-R3L-srv>
-References: <202312182200.Ka7MzifQ-lkp@intel.com>
- <ZYJ/M1HZ9ITfs4qe@MiWiFi-R3L-srv>
- <20231220060030.GV1674809@ZenIV>
- <ZYLrxFyei79R5D8N@MiWiFi-R3L-srv>
- <20231220173710.GX1674809@ZenIV>
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org,
+	Aneesh Kumar K V <aneesh.kumar@linux.ibm.com>
+Subject: Re: [PATCH mm-unstable v1 4/4] mm/mglru: remove
+ CONFIG_TRANSPARENT_HUGEPAGE
+Message-ID: <ZYPMl5fZXHp_Xz8w@google.com>
+References: <20231220040037.883811-5-kinseyho@google.com>
+ <202312210042.xQEiqlEh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,45 +63,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231220173710.GX1674809@ZenIV>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
+In-Reply-To: <202312210042.xQEiqlEh-lkp@intel.com>
 
-On 12/20/23 at 05:37pm, Al Viro wrote:
-> On Wed, Dec 20, 2023 at 09:27:32PM +0800, Baoquan He wrote:
-> > Since the kexec_core code building depends on CONFIG_MMU=y, we may
-> > need to add dependency on MMU for ARCH_SUPPORTS_CRASH_DUMP. I made below
-> > change, do you think it's OK?
-> > 
-> > diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-> > index 7500521b2b98..fe1500871648 100644 > > --- a/arch/sh/Kconfig > > +++ b/arch/sh/Kconfig
-> > @@ -548,6 +548,7 @@ config ARCH_SUPPORTS_KEXEC
-> >  
-> >  config ARCH_SUPPORTS_CRASH_DUMP
-> >         def_bool BROKEN_ON_SMP
-> > +       depends on MMU
-> >  
-> >  config ARCH_SUPPORTS_KEXEC_JUMP
-> >         def_bool y
-> > 
+On Thu, Dec 21, 2023 at 12:47:51AM +0800, kernel test robot wrote:
+> Hi Kinsey,
 > 
-> I'm *not* familiar with crashdump or kexec machinery, let alone the
-> current changes in there, so take the following with a cartload of
-> salt, but...  does sh crash dump support depend upon the code in
-> question?  From quick grep it looks like we only want it in machine_kexec(),
-> so the conditionals used in the commit in question might be wrong...
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on akpm-mm/mm-everything]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kinsey-Ho/mm-mglru-add-CONFIG_ARCH_HAS_HW_PTE_YOUNG/20231220-120318
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20231220040037.883811-5-kinseyho%40google.com
+> patch subject: [PATCH mm-unstable v1 4/4] mm/mglru: remove CONFIG_TRANSPARENT_HUGEPAGE
+> config: arm-randconfig-002-20231220 (https://download.01.org/0day-ci/archive/20231221/202312210042.xQEiqlEh-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231221/202312210042.xQEiqlEh-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202312210042.xQEiqlEh-lkp@intel.com/
 
-Hmm, I checked commit d70c27b728b8da1 ("sh, kexec: fix the incorrect
-ifdeffery and dependency of CONFIG_KEXEC") again, those ifdeffery of
-CONFIG_KEXEC_CORE should be changed to CONFIG_CRASH_CORE because those
-embraced codes are crash_core related codes.
+Thanks for the report.
 
-machine_kexec() is needed by kexec reboot and crash dumping. We either
-enable CONFIG_KEXEC_CORE, CONFIG_KEXEC or CONFIG_KEXEC_FILE only for
-kexec reboot, or enable CONFIG_KEXEC_CORE, CONFIG_KEXEC or CONFIG_KEXEC_FILE
-and CONFIG_CRASH_CORE, CONFIG_CRASH_DUMP to support kexec reboot and
-crash dumping. Seems KEXEC_CORE codes can be built not relying on
-CRASH_CORE, while CRASH_CORE need be built relying on KEXEC_CORE,
-otherwise it doesn't make sense.
+Kinsey, please make sure you include the above tags (as well as the
+Closes tag from the second report in this thread) in the v2.
 
-Anyway, I will try to clean up the ifdeffery so that they looks clearer.
+> All errors (new ones prefixed by >>):
+> 
+>    mm/vmscan.c: In function 'walk_pmd_range_locked':
+> >> mm/vmscan.c:3455:21: error: implicit declaration of function 'pmd_dirty'; did you mean 'pte_dirty'? [-Werror=implicit-function-declaration]
+>     3455 |                 if (pmd_dirty(pmd[i]) && !folio_test_dirty(folio) &&
+>          |                     ^~~~~~~~~
+>          |                     pte_dirty
+>    cc1: some warnings being treated as errors
 
+Apparetly we need the following, similar to
+commit 6617da8fb565 ("mm: add dummy pmd_young() for architectures not having it")
+
+diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/include/asm/pgtable.h
+index 29d9b12298bc..8b5df1bbf9e9 100644
+--- a/arch/loongarch/include/asm/pgtable.h
++++ b/arch/loongarch/include/asm/pgtable.h
+@@ -523,6 +523,7 @@ static inline pmd_t pmd_wrprotect(pmd_t pmd)
+ 	return pmd;
+ }
+ 
++#define pmd_dirty pmd_dirty
+ static inline int pmd_dirty(pmd_t pmd)
+ {
+ 	return !!(pmd_val(pmd) & (_PAGE_DIRTY | _PAGE_MODIFIED));
+diff --git a/arch/mips/include/asm/pgtable.h b/arch/mips/include/asm/pgtable.h
+index 430b208c0130..e27a4c83c548 100644
+--- a/arch/mips/include/asm/pgtable.h
++++ b/arch/mips/include/asm/pgtable.h
+@@ -655,6 +655,7 @@ static inline pmd_t pmd_mkwrite_novma(pmd_t pmd)
+ 	return pmd;
+ }
+ 
++#define pmd_dirty pmd_dirty
+ static inline int pmd_dirty(pmd_t pmd)
+ {
+ 	return !!(pmd_val(pmd) & _PAGE_MODIFIED);
+diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+index ab00235b018f..7b4287f36054 100644
+--- a/arch/riscv/include/asm/pgtable.h
++++ b/arch/riscv/include/asm/pgtable.h
+@@ -673,6 +673,7 @@ static inline int pmd_write(pmd_t pmd)
+ 	return pte_write(pmd_pte(pmd));
+ }
+ 
++#define pmd_dirty pmd_dirty
+ static inline int pmd_dirty(pmd_t pmd)
+ {
+ 	return pte_dirty(pmd_pte(pmd));
+diff --git a/arch/s390/include/asm/pgtable.h b/arch/s390/include/asm/pgtable.h
+index 601e87fa8a9a..1299b56e43f6 100644
+--- a/arch/s390/include/asm/pgtable.h
++++ b/arch/s390/include/asm/pgtable.h
+@@ -770,6 +770,7 @@ static inline int pud_write(pud_t pud)
+ 	return (pud_val(pud) & _REGION3_ENTRY_WRITE) != 0;
+ }
+ 
++#define pmd_dirty pmd_dirty
+ static inline int pmd_dirty(pmd_t pmd)
+ {
+ 	return (pmd_val(pmd) & _SEGMENT_ENTRY_DIRTY) != 0;
+diff --git a/arch/sparc/include/asm/pgtable_64.h b/arch/sparc/include/asm/pgtable_64.h
+index 5e41033bf4ca..a8c871b7d786 100644
+--- a/arch/sparc/include/asm/pgtable_64.h
++++ b/arch/sparc/include/asm/pgtable_64.h
+@@ -706,6 +706,7 @@ static inline unsigned long pmd_write(pmd_t pmd)
+ #define pud_write(pud)	pte_write(__pte(pud_val(pud)))
+ 
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
++#define pmd_dirty pmd_dirty
+ static inline unsigned long pmd_dirty(pmd_t pmd)
+ {
+ 	pte_t pte = __pte(pmd_val(pmd));
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index 57bab91bbf50..ee83a238ac13 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -141,6 +141,7 @@ static inline int pte_young(pte_t pte)
+ 	return pte_flags(pte) & _PAGE_ACCESSED;
+ }
+ 
++#define pmd_dirty pmd_dirty
+ static inline bool pmd_dirty(pmd_t pmd)
+ {
+ 	return pmd_flags(pmd) & _PAGE_DIRTY_BITS;
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index af7639c3b0a3..b646c84cc592 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -184,6 +184,13 @@ static inline int pmd_young(pmd_t pmd)
+ }
+ #endif
+ 
++#ifndef pmd_dirty
++static inline int pmd_dirty(pmd_t pmd)
++{
++	return 0;
++}
++#endif
++
+ /*
+  * A facility to provide lazy MMU batching.  This allows PTE updates and
+  * page invalidations to be delayed until a call to leave lazy MMU mode
