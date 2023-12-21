@@ -1,60 +1,47 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270329467
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Dec 2023 05:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E239474;
+	Thu, 21 Dec 2023 05:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BHLiuDoS"
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-35fb87f9a19so78065ab.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Dec 2023 21:26:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1703136414; x=1703741214; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/wCCLZM4JqNp3Y4ApKOQz3CzWtQJL0OzMsUEywq65GM=;
-        b=BHLiuDoSCq7ZMWpAxGXV2t+jMm/NhOqPSChDiywPCYvju0Z1xUWjK49nfcnXGrDUNi
-         bf3Q62USI+KKwYDZnApLU+PvQ9AjcPd3qreJSfbA6iuvwNJuN5IDco3Hpfgh1wjVLDbZ
-         FF5swIsBn0ukZf6+JWQoNrZe8f4vO67q9hqj3e8sNQgPqp8+UDoHGWt78lqwiqx3YJyV
-         5CLXj3/ABQkaTLtd9fZI47BNmAuaBSRc3zJUVKDgbmz3g8WtgcM9gmg6sLMYr8I+YEBt
-         D/Hav50Zm7azyPyn48o1RVycgUXX5PVoMmAmS9DhM7H8I/JXdnvpTdJ3h8FVOsPvPKQQ
-         U01g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703136414; x=1703741214;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/wCCLZM4JqNp3Y4ApKOQz3CzWtQJL0OzMsUEywq65GM=;
-        b=A5SfoPeG1H6YId013rULGP+kxZ5yg+lH1EnyFI4P0SEq0eg609NJA6cwu5gJghmDaj
-         AyCD90T9dd29/wmyyNCCVpsbnCH/COmdSm++abwE3XB+TvahHhpLUGnao0tAQmOAc39H
-         BX7B1tyW9U+9SGe7Asyqmka6XyXW7o5AM0fsi1fC7x+5dwuGHjcVuDAVOeA6TJDgiOpz
-         yeNjvEWfkmJ84+CdCB9KkvUusFV8XIjcfUGgluH8x4rBeywNSb/LBwNbIPqHlGKwTtEB
-         mwAKUoU14G2oaddhzrU9QYIuZ3ylTk0hOsSacd7qzgMy77XqPhPNFnMBJu7Oa1gzUNpw
-         rwcQ==
-X-Gm-Message-State: AOJu0YysIgESA6ZaSX0WHfJzdpBVgTl1cciV30T8osKvAYYuhNlJMNTh
-	NaHeacOWo5IBcoUZVHcKspbH/ybN8M7Q
-X-Google-Smtp-Source: AGHT+IGjNY/faGmARzHzlj2EeW0o1odpyiIHpjdTPytyjny1PI9hn+sKzOiqKGWGZTcSIGOgRvZ9kQ==
-X-Received: by 2002:a92:da85:0:b0:35f:cb23:89d2 with SMTP id u5-20020a92da85000000b0035fcb2389d2mr31046iln.5.1703136414063;
-        Wed, 20 Dec 2023 21:26:54 -0800 (PST)
-Received: from google.com ([100.64.188.49])
-        by smtp.gmail.com with ESMTPSA id a18-20020a6b6c12000000b007b392f4f3dasm293835ioh.23.2023.12.20.21.26.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 21:26:53 -0800 (PST)
-Date: Wed, 20 Dec 2023 22:26:47 -0700
-From: Yu Zhao <yuzhao@google.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Kinsey Ho <kinseyho@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org,
-	Aneesh Kumar K V <aneesh.kumar@linux.ibm.com>
-Subject: Re: [PATCH mm-unstable v1 4/4] mm/mglru: remove
- CONFIG_TRANSPARENT_HUGEPAGE
-Message-ID: <ZYPMl5fZXHp_Xz8w@google.com>
-References: <20231220040037.883811-5-kinseyho@google.com>
- <202312210042.xQEiqlEh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QAsmpOX6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703137873; x=1734673873;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sZO16lnEyNB1xd51OxcJDTdEnt6qhvZdxM5sQG3d0P4=;
+  b=QAsmpOX6xLhdkJ/53/LxGABaXdFXZGxD4N+tYDE59XYIUUSdNa5jBFME
+   aV6XjuV6eYcCTH3fWgxqZlJPpFjoZ2Y2THuPqZno4TgWTu4nemiVILhju
+   hR0/3ufLnlSrbr04n0IiF2shWTU/1aHe9YSPXT2gFvdTQcLL0FgV7aviU
+   ahPQFrWzBahprwQXON2Fm1l+/SMLwdHkp2duNfmJxP5z/1prfhbUrdT/v
+   ArGxVQe+tVq2iSLXaU5QL+CDW5KHjI6HEW7ZSap0U0/cIKdDYaRm3Dc46
+   8xbfywJmvHyTJaaD5gYCtkIeqVLRe2o1HkWK44WTsdl8ojtJl3Q+i5aJo
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="376075305"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
+   d="scan'208";a="376075305"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 21:51:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="810863066"
+X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
+   d="scan'208";a="810863066"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 20 Dec 2023 21:51:10 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rGBxc-0007wa-2q;
+	Thu, 21 Dec 2023 05:51:08 +0000
+Date: Thu, 21 Dec 2023 13:48:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.7-rc2 51/110] fs/resctrl/monitor.c:51:
+ warning: Cannot understand  * @closid_num_dirty_rmid    The number of dirty
+ RMID each CLOSID has.
+Message-ID: <202312211301.8AKnb1D0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,132 +50,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202312210042.xQEiqlEh-lkp@intel.com>
 
-On Thu, Dec 21, 2023 at 12:47:51AM +0800, kernel test robot wrote:
-> Hi Kinsey,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on akpm-mm/mm-everything]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kinsey-Ho/mm-mglru-add-CONFIG_ARCH_HAS_HW_PTE_YOUNG/20231220-120318
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20231220040037.883811-5-kinseyho%40google.com
-> patch subject: [PATCH mm-unstable v1 4/4] mm/mglru: remove CONFIG_TRANSPARENT_HUGEPAGE
-> config: arm-randconfig-002-20231220 (https://download.01.org/0day-ci/archive/20231221/202312210042.xQEiqlEh-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231221/202312210042.xQEiqlEh-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202312210042.xQEiqlEh-lkp@intel.com/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.7-rc2
+head:   b530deed244d9b45f3bce3cccde91f6ed0ebf7ea
+commit: 5c5d737a85643e62cbdce6dd572c2175ea53154b [51/110] x86/resctrl: Move the filesystem portions of resctrl to live in '/fs/'
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20231221/202312211301.8AKnb1D0-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231221/202312211301.8AKnb1D0-lkp@intel.com/reproduce)
 
-Thanks for the report.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312211301.8AKnb1D0-lkp@intel.com/
 
-Kinsey, please make sure you include the above tags (as well as the
-Closes tag from the second report in this thread) in the v2.
+All warnings (new ones prefixed by >>):
 
-> All errors (new ones prefixed by >>):
-> 
->    mm/vmscan.c: In function 'walk_pmd_range_locked':
-> >> mm/vmscan.c:3455:21: error: implicit declaration of function 'pmd_dirty'; did you mean 'pte_dirty'? [-Werror=implicit-function-declaration]
->     3455 |                 if (pmd_dirty(pmd[i]) && !folio_test_dirty(folio) &&
->          |                     ^~~~~~~~~
->          |                     pte_dirty
->    cc1: some warnings being treated as errors
+>> fs/resctrl/monitor.c:51: warning: Cannot understand  * @closid_num_dirty_rmid    The number of dirty RMID each CLOSID has.
+    on line 51 - I thought it was a doc line
 
-Apparetly we need the following, similar to
-commit 6617da8fb565 ("mm: add dummy pmd_young() for architectures not having it")
 
-diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/include/asm/pgtable.h
-index 29d9b12298bc..8b5df1bbf9e9 100644
---- a/arch/loongarch/include/asm/pgtable.h
-+++ b/arch/loongarch/include/asm/pgtable.h
-@@ -523,6 +523,7 @@ static inline pmd_t pmd_wrprotect(pmd_t pmd)
- 	return pmd;
- }
- 
-+#define pmd_dirty pmd_dirty
- static inline int pmd_dirty(pmd_t pmd)
- {
- 	return !!(pmd_val(pmd) & (_PAGE_DIRTY | _PAGE_MODIFIED));
-diff --git a/arch/mips/include/asm/pgtable.h b/arch/mips/include/asm/pgtable.h
-index 430b208c0130..e27a4c83c548 100644
---- a/arch/mips/include/asm/pgtable.h
-+++ b/arch/mips/include/asm/pgtable.h
-@@ -655,6 +655,7 @@ static inline pmd_t pmd_mkwrite_novma(pmd_t pmd)
- 	return pmd;
- }
- 
-+#define pmd_dirty pmd_dirty
- static inline int pmd_dirty(pmd_t pmd)
- {
- 	return !!(pmd_val(pmd) & _PAGE_MODIFIED);
-diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index ab00235b018f..7b4287f36054 100644
---- a/arch/riscv/include/asm/pgtable.h
-+++ b/arch/riscv/include/asm/pgtable.h
-@@ -673,6 +673,7 @@ static inline int pmd_write(pmd_t pmd)
- 	return pte_write(pmd_pte(pmd));
- }
- 
-+#define pmd_dirty pmd_dirty
- static inline int pmd_dirty(pmd_t pmd)
- {
- 	return pte_dirty(pmd_pte(pmd));
-diff --git a/arch/s390/include/asm/pgtable.h b/arch/s390/include/asm/pgtable.h
-index 601e87fa8a9a..1299b56e43f6 100644
---- a/arch/s390/include/asm/pgtable.h
-+++ b/arch/s390/include/asm/pgtable.h
-@@ -770,6 +770,7 @@ static inline int pud_write(pud_t pud)
- 	return (pud_val(pud) & _REGION3_ENTRY_WRITE) != 0;
- }
- 
-+#define pmd_dirty pmd_dirty
- static inline int pmd_dirty(pmd_t pmd)
- {
- 	return (pmd_val(pmd) & _SEGMENT_ENTRY_DIRTY) != 0;
-diff --git a/arch/sparc/include/asm/pgtable_64.h b/arch/sparc/include/asm/pgtable_64.h
-index 5e41033bf4ca..a8c871b7d786 100644
---- a/arch/sparc/include/asm/pgtable_64.h
-+++ b/arch/sparc/include/asm/pgtable_64.h
-@@ -706,6 +706,7 @@ static inline unsigned long pmd_write(pmd_t pmd)
- #define pud_write(pud)	pte_write(__pte(pud_val(pud)))
- 
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+#define pmd_dirty pmd_dirty
- static inline unsigned long pmd_dirty(pmd_t pmd)
- {
- 	pte_t pte = __pte(pmd_val(pmd));
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index 57bab91bbf50..ee83a238ac13 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -141,6 +141,7 @@ static inline int pte_young(pte_t pte)
- 	return pte_flags(pte) & _PAGE_ACCESSED;
- }
- 
-+#define pmd_dirty pmd_dirty
- static inline bool pmd_dirty(pmd_t pmd)
- {
- 	return pmd_flags(pmd) & _PAGE_DIRTY_BITS;
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index af7639c3b0a3..b646c84cc592 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -184,6 +184,13 @@ static inline int pmd_young(pmd_t pmd)
- }
- #endif
- 
-+#ifndef pmd_dirty
-+static inline int pmd_dirty(pmd_t pmd)
-+{
-+	return 0;
-+}
-+#endif
-+
- /*
-  * A facility to provide lazy MMU batching.  This allows PTE updates and
-  * page invalidations to be delayed until a call to leave lazy MMU mode
+vim +51 fs/resctrl/monitor.c
+
+    49	
+    50	/**
+  > 51	 * @closid_num_dirty_rmid    The number of dirty RMID each CLOSID has.
+    52	 *     Only allocated when CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID is defined.
+    53	 *     Indexed by CLOSID. Protected by rdtgroup_mutex.
+    54	 */
+    55	static u32 *closid_num_dirty_rmid;
+    56	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
