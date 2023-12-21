@@ -1,52 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC1F64AA0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Dec 2023 18:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE69677F34
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Dec 2023 19:11:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QouMiyuk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MkdExJ1n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703184672; x=1734720672;
+  t=1703185879; x=1734721879;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H9VtJMjyy4qb5DQ9rpL8j6I/eT5s8WjO4H2icrTSuks=;
-  b=QouMiyukiISsYZd8Ne20r3Vmj5aolTN/lk7TzBcGsVun6ebY16fjeLx1
-   SZT27bRbwVRn+0q7wIDaA/YizxsSxO3YTy/U8+v1OfSFo/BqiMqpkIket
-   7eSSJlw6EdF9PKgvp1SB5+tP22ciHMdPnIbIa2Aver8+QvcS5BSuz9EjC
-   sY3v3g3cpcnWFMhbmTOug5SdrPQWONEycGidHC7GXb7OzKPKZ/Zto+e67
-   lOmSRY/95Afk6oxS4E5CcxuqlxHztteNcIDPrge/JiG1Qvp8L369QJoM/
-   u4lj2G1R+793IBOU44Cd71HYD/FmSvYoC4isCWG1S0+IcHjlENnIuWydv
+  bh=WPdbYwXRe2+2NwJf3nfdgdXUtsBFSoGL1WrpWY0M0D8=;
+  b=MkdExJ1nGZyS8b0GBp/9za/QH20cXEccmTvs2C4ypSNnNIzsvplo/N+V
+   yKUzT5L/+WlOF5k6gErGiPkCGIqwI8mHWVQhPuCKH9Sl5MIJ71M+hUju4
+   6Jn0ec2dGa8U376p17LC2OUpi8hG2OiQN5KukTm+Dj4J0sma9vBKD6y31
+   mpECbSeGxKROkqT3QBUu0EDlKh6pXqLE8dYG4t2XQoR4GizUufWBnTGRg
+   OEvYRZrquuI3jiKA+9f/TE2fs/0lBpHevQ7z9am1N+r73UStlPNaFiTpT
+   qsrqpgMXQra59EpKxS/aXp8XwG1+41TrdeEFNe8jA4/xuloDtaXlKGS+9
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="3256494"
+X-IronPort-AV: E=McAfee;i="6600,9927,10931"; a="482207249"
 X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
-   d="scan'208";a="3256494"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 10:51:12 -0800
+   d="scan'208";a="482207249"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 11:11:18 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,294,1695711600"; 
-   d="scan'208";a="11218147"
+   d="scan'208";a="25068025"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Dec 2023 10:51:08 -0800
+  by orviesa001.jf.intel.com with ESMTP; 21 Dec 2023 11:11:16 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGO8Q-0008ac-2H;
-	Thu, 21 Dec 2023 18:51:06 +0000
-Date: Fri, 22 Dec 2023 02:50:18 +0800
+	id 1rGORm-0008bs-0P;
+	Thu, 21 Dec 2023 19:11:09 +0000
+Date: Fri, 22 Dec 2023 03:10:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joshua Hay <joshua.a.hay@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Alan Brady <alan.brady@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>,
-	Phani Burra <phani.r.burra@intel.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
- "(6) == sizeof(struct virtchnl2_ptype)"
-Message-ID: <202312220250.ufEm8doQ-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 193/193] fs/bcachefs/chardev.c:761:41:
+ warning: iteration 10 invokes undefined behavior
+Message-ID: <202312220324.uyHyk7Bg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,72 +50,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a4aebe936554dac6a91e5d091179c934f8325708
-commit: a251eee62133774cf35ff829041377e721ef9c8c idpf: add SRIOV support and other ndo_ops
-date:   3 months ago
-config: arm-randconfig-r051-20231221 (https://download.01.org/0day-ci/archive/20231222/202312220250.ufEm8doQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231222/202312220250.ufEm8doQ-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   495265326bdb4ee82eeee98f9d69baf7bd2b6a6c
+commit: 99393a06121d3f4c2dc4ae4a8c1003956916db56 [193/193] bcachefs: BCH_DATA_unstriped
+config: arc-randconfig-002-20231221 (https://download.01.org/0day-ci/archive/20231222/202312220324.uyHyk7Bg-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231222/202312220324.uyHyk7Bg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312220250.ufEm8doQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312220324.uyHyk7Bg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/ktime.h:26,
-                    from include/net/pkt_sched.h:6,
-                    from drivers/net/ethernet/intel/idpf/idpf.h:12,
-                    from drivers/net/ethernet/intel/idpf/idpf_dev.c:4:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "(6) == sizeof(struct virtchnl2_ptype)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/virtchnl2.h:26:9: note: in expansion of macro 'static_assert'
-      26 |         static_assert((n) == sizeof(struct X))
-         |         ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/idpf/virtchnl2.h:982:1: note: in expansion of macro 'VIRTCHNL2_CHECK_STRUCT_LEN'
-     982 | VIRTCHNL2_CHECK_STRUCT_LEN(6, virtchnl2_ptype);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/chardev.c: In function 'bch2_ioctl_dev_usage':
+>> fs/bcachefs/chardev.c:761:41: warning: iteration 10 invokes undefined behavior [-Waggressive-loop-optimizations]
+     761 |                 arg.d[i].buckets        = src.d[i].buckets;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/chardev.c:760:23: note: within this loop
+     760 |         for (i = 0; i < BCH_DATA_NR; i++) {
+         |                     ~~^~~~~~~~~~~~~
 
 
-vim +78 include/linux/build_bug.h
+vim +761 fs/bcachefs/chardev.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  728  
+72f2511eb8c681 Kent Overstreet 2023-11-23  729  /* obsolete, didn't allow for new data types: */
+22502ac23a2eaa Kent Overstreet 2019-12-16  730  static long bch2_ioctl_dev_usage(struct bch_fs *c,
+22502ac23a2eaa Kent Overstreet 2019-12-16  731  				 struct bch_ioctl_dev_usage __user *user_arg)
+22502ac23a2eaa Kent Overstreet 2019-12-16  732  {
+22502ac23a2eaa Kent Overstreet 2019-12-16  733  	struct bch_ioctl_dev_usage arg;
+22502ac23a2eaa Kent Overstreet 2019-12-16  734  	struct bch_dev_usage src;
+22502ac23a2eaa Kent Overstreet 2019-12-16  735  	struct bch_dev *ca;
+22502ac23a2eaa Kent Overstreet 2019-12-16  736  	unsigned i;
+22502ac23a2eaa Kent Overstreet 2019-12-16  737  
+45b4d963f0b9d0 Kent Overstreet 2023-11-26  738  	if (!test_bit(BCH_FS_started, &c->flags))
+22502ac23a2eaa Kent Overstreet 2019-12-16  739  		return -EINVAL;
+22502ac23a2eaa Kent Overstreet 2019-12-16  740  
+22502ac23a2eaa Kent Overstreet 2019-12-16  741  	if (copy_from_user(&arg, user_arg, sizeof(arg)))
+22502ac23a2eaa Kent Overstreet 2019-12-16  742  		return -EFAULT;
+22502ac23a2eaa Kent Overstreet 2019-12-16  743  
+22502ac23a2eaa Kent Overstreet 2019-12-16  744  	if ((arg.flags & ~BCH_BY_INDEX) ||
+22502ac23a2eaa Kent Overstreet 2019-12-16  745  	    arg.pad[0] ||
+22502ac23a2eaa Kent Overstreet 2019-12-16  746  	    arg.pad[1] ||
+22502ac23a2eaa Kent Overstreet 2019-12-16  747  	    arg.pad[2])
+22502ac23a2eaa Kent Overstreet 2019-12-16  748  		return -EINVAL;
+22502ac23a2eaa Kent Overstreet 2019-12-16  749  
+22502ac23a2eaa Kent Overstreet 2019-12-16  750  	ca = bch2_device_lookup(c, arg.dev, arg.flags);
+22502ac23a2eaa Kent Overstreet 2019-12-16  751  	if (IS_ERR(ca))
+22502ac23a2eaa Kent Overstreet 2019-12-16  752  		return PTR_ERR(ca);
+22502ac23a2eaa Kent Overstreet 2019-12-16  753  
+3d080aa52f6c1b Kent Overstreet 2020-07-22  754  	src = bch2_dev_usage_read(ca);
+22502ac23a2eaa Kent Overstreet 2019-12-16  755  
+22502ac23a2eaa Kent Overstreet 2019-12-16  756  	arg.state		= ca->mi.state;
+22502ac23a2eaa Kent Overstreet 2019-12-16  757  	arg.bucket_size		= ca->mi.bucket_size;
+22502ac23a2eaa Kent Overstreet 2019-12-16  758  	arg.nr_buckets		= ca->mi.nbuckets - ca->mi.first_bucket;
+22502ac23a2eaa Kent Overstreet 2019-12-16  759  
+22502ac23a2eaa Kent Overstreet 2019-12-16  760  	for (i = 0; i < BCH_DATA_NR; i++) {
+822835ffeae411 Kent Overstreet 2022-04-01 @761  		arg.d[i].buckets	= src.d[i].buckets;
+822835ffeae411 Kent Overstreet 2022-04-01  762  		arg.d[i].sectors	= src.d[i].sectors;
+822835ffeae411 Kent Overstreet 2022-04-01  763  		arg.d[i].fragmented	= src.d[i].fragmented;
+22502ac23a2eaa Kent Overstreet 2019-12-16  764  	}
+22502ac23a2eaa Kent Overstreet 2019-12-16  765  
+22502ac23a2eaa Kent Overstreet 2019-12-16  766  	percpu_ref_put(&ca->ref);
+22502ac23a2eaa Kent Overstreet 2019-12-16  767  
+72f2511eb8c681 Kent Overstreet 2023-11-23  768  	return copy_to_user_errcode(user_arg, &arg, sizeof(arg));
+72f2511eb8c681 Kent Overstreet 2023-11-23  769  }
+72f2511eb8c681 Kent Overstreet 2023-11-23  770  
 
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+:::::: The code at line 761 was first introduced by commit
+:::::: 822835ffeae411bbc8af104da9331fdf63a7bc12 bcachefs: Fold bucket_state in to BCH_DATA_TYPES()
 
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
