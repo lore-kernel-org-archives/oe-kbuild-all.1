@@ -1,46 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5A06E2D2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Dec 2023 12:42:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AF36D1A4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Dec 2023 13:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcszJB5A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K5SqLakZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703162573; x=1734698573;
+  t=1703163834; x=1734699834;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GVGT0evuWmsRqcq/pYtfhyq4uQiNum3hFH+oW905lfk=;
-  b=LcszJB5A1WAmiXYT2FrDbtEAr0SVdrN9sJZOs8I+RXHsdJLDx5gHYuRy
-   7i/O4GwTtVPruJA+ptB5OvIsD/yv0NJkAG45pmv60ylSVCOAu/d4Hl44v
-   2JSrXdL4K3EaSOwhTVTg06VVb8hdFjaFcM72NWs3y6oLG2LWkbcOUaMhl
-   D3PfDaSTsDY6EJJmYgTkh5r3Ceu/ykZJrV0CJhPIzQD12p6PMQyrKQvKk
-   XLT36hFkHv2mH6NzQMyjUVjiqS6Anf6KtXzY2NmjP5o6VHIFB51IXWoc0
-   SI4D+KNn/Ai1NgzopKmZaKa7T2McfH+wjlt7hKQB/E/qDnPOP6NTV2Ht9
+  bh=cdFNOqP6V57gVnBNwUefguBenerUq6+P/LsZoDazDWE=;
+  b=K5SqLakZqzjPgMAotkNEHmLnx6qBbG8KlYKp7D0EBIVNtsl0/haNucy1
+   xq5WvPCwFsUGyrIo08qLE5EgLqXmnY0OnkiROPuOR5HRHt2GDQQK3GwNM
+   obSYy7/Nm+X1H/4dTnQuj971EPFeBlMwM9V97HS2d3FingjiMMkQUiO47
+   3h6X0sCdWgtJQjHVNxxTuSmOVzrDfZIscsxaL/BcJIPc3K42w31gB/Ru4
+   nJeqPko23DF4+f64vwAes57DatkrR8ka14noODikgU6AsUu1dutIm6VQr
+   v2UN3CIZCs0YR7c2pQVpDe1euxoF1hLdBAIs2xPFfZJ8nyQicvatnZjSH
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="14653198"
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="375458764"
 X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
-   d="scan'208";a="14653198"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 04:42:53 -0800
+   d="scan'208";a="375458764"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2023 05:03:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="920316273"
+X-IronPort-AV: E=McAfee;i="6600,9927,10930"; a="949922110"
 X-IronPort-AV: E=Sophos;i="6.04,293,1695711600"; 
-   d="scan'208";a="920316273"
+   d="scan'208";a="949922110"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Dec 2023 04:42:51 -0800
+  by orsmga005.jf.intel.com with ESMTP; 21 Dec 2023 05:03:52 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGIO1-0008Kt-0k;
-	Thu, 21 Dec 2023 12:42:49 +0000
-Date: Thu, 21 Dec 2023 20:42:26 +0800
+	id 1rGIiL-0008Ll-2Z;
+	Thu, 21 Dec 2023 13:03:49 +0000
+Date: Thu, 21 Dec 2023 21:02:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1/1] net/bridge/br_input.c:232:2:
- error: implicit declaration of function 'nf_hook_state_init'
-Message-ID: <202312212049.mzN3jH7K-lkp@intel.com>
+Subject: [android-common:android11-5.4 5502/28638] mm/page_alloc.c:137:40:
+ sparse: sparse: restricted gfp_t degrades to integer
+Message-ID: <202312212040.0tDqJbO8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,102 +50,208 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   0add751dfb191891de5e64494462c737870f879c
-commit: b37eb4523002250e2382e8c5e0d8380ad349c6b6 [1/1] ANDROID: KMI workaround for CONFIG_NETFILTER_FAMILY_BRIDGE
-config: arm64-randconfig-003-20231221 (https://download.01.org/0day-ci/archive/20231221/202312212049.mzN3jH7K-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231221/202312212049.mzN3jH7K-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   5ae6be03f52d1e9ea2b821fd5805681b062ea8ca
+commit: b9d3d8f1e991052edb89b0537b8f2e8b2aa941ac [5502/28638] ANDROID: GKI: cma: redirect page allocation to CMA
+config: arm-randconfig-r131-20231130 (https://download.01.org/0day-ci/archive/20231221/202312212040.0tDqJbO8-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231221/202312212040.0tDqJbO8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312212049.mzN3jH7K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312212040.0tDqJbO8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> init/main.c:1167:28: sparse: sparse: restricted gfp_t degrades to integer
+>> init/main.c:1167:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted gfp_t extern [addressable] [toplevel] [usertype] gfp_allowed_mask @@     got unsigned int @@
+   init/main.c:1167:26: sparse:     expected restricted gfp_t extern [addressable] [toplevel] [usertype] gfp_allowed_mask
+   init/main.c:1167:26: sparse:     got unsigned int
+--
+   mm/page_alloc.c:106:1: sparse: sparse: symbol 'pcpu_drain_mutex' was not declared. Should it be static?
+   mm/page_alloc.c:107:1: sparse: sparse: symbol '__pcpu_scope_pcpu_drain' was not declared. Should it be static?
+>> mm/page_alloc.c:137:40: sparse: sparse: restricted gfp_t degrades to integer
+>> mm/page_alloc.c:137:40: sparse: sparse: restricted gfp_t degrades to integer
+>> mm/page_alloc.c:137:40: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t [addressable] [toplevel] [usertype] gfp_allowed_mask @@     got unsigned int @@
+   mm/page_alloc.c:137:40: sparse:     expected restricted gfp_t [addressable] [toplevel] [usertype] gfp_allowed_mask
+   mm/page_alloc.c:137:40: sparse:     got unsigned int
+   mm/page_alloc.c:2741:29: sparse: sparse: Using plain integer as NULL pointer
+   mm/page_alloc.c:3252:51: sparse: sparse: incorrect type in argument 7 (different base types) @@     expected int cma @@     got restricted gfp_t @@
+   mm/page_alloc.c:3252:51: sparse:     expected int cma
+   mm/page_alloc.c:3252:51: sparse:     got restricted gfp_t
+   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/gfp.h:325:27: sparse: sparse: restricted gfp_t degrades to integer
+--
+>> mm/slub.c:1698:13: sparse: sparse: restricted gfp_t degrades to integer
+>> mm/slub.c:1698:13: sparse: sparse: restricted gfp_t degrades to integer
+>> mm/slub.c:1698:13: sparse: sparse: restricted gfp_t degrades to integer
+   mm/slub.c:1699:46: sparse: sparse: restricted gfp_t degrades to integer
+   mm/slub.c:1699:46: sparse: sparse: restricted gfp_t degrades to integer
+   mm/slub.c:1699:38: sparse: sparse: restricted gfp_t degrades to integer
+>> mm/slub.c:1699:44: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t [usertype] invalid_mask @@     got unsigned int @@
+   mm/slub.c:1699:44: sparse:     expected restricted gfp_t [usertype] invalid_mask
+   mm/slub.c:1699:44: sparse:     got unsigned int
+   mm/slub.c:1700:27: sparse: sparse: restricted gfp_t degrades to integer
+   mm/slub.c:1700:27: sparse: sparse: restricted gfp_t degrades to integer
+>> mm/slub.c:1700:23: sparse: sparse: invalid assignment: &=
+>> mm/slub.c:1700:23: sparse:    left side has type restricted gfp_t
+>> mm/slub.c:1700:23: sparse:    right side has type unsigned int
+   mm/slub.c:2158:28: sparse: sparse: context imbalance in 'deactivate_slab' - unexpected unlock
+   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2749:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2749:21: sparse:     got void ***
+   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2749:21: sparse:     got unsigned long *
+   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2749:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2749:21: sparse:     got void ***
+   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2749:21: sparse:     got unsigned long *
+   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2749:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2749:21: sparse:     got void ***
+   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2749:21: sparse:     got unsigned long *
+   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2749:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2749:21: sparse:     got void ***
+   mm/slub.c:2749:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2749:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2749:21: sparse:     got unsigned long *
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2749:21: sparse: sparse: self-comparison always evaluates to false
+   mm/slub.c:2856:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2992:21: sparse:     got void ***
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2992:21: sparse:     got unsigned long *
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2992:21: sparse:     got void ***
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2992:21: sparse:     got unsigned long *
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2992:21: sparse:     got void ***
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2992:21: sparse:     got unsigned long *
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2992:21: sparse:     got void ***
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2992:21: sparse:     got unsigned long *
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: dereference of noderef expression
+   mm/slub.c:2992:21: sparse: sparse: self-comparison always evaluates to false
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2992:21: sparse:     got void ***
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2992:21: sparse:     got unsigned long *
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2992:21: sparse:     got void ***
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+   mm/slub.c:2992:21: sparse:     expected unsigned long [noderef] __percpu *__p2
+   mm/slub.c:2992:21: sparse:     got unsigned long *
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void **[noderef] __percpu *__p1 @@     got void *** @@
+   mm/slub.c:2992:21: sparse:     expected void **[noderef] __percpu *__p1
+   mm/slub.c:2992:21: sparse:     got void ***
+   mm/slub.c:2992:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long [noderef] __percpu *__p2 @@     got unsigned long * @@
+--
+   lib/radix-tree.c:275:36: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *nodes @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:275:36: sparse:     expected struct xa_node *nodes
+   lib/radix-tree.c:275:36: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:293:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] __rcu *parent @@     got struct xa_node *parent @@
+   lib/radix-tree.c:293:29: sparse:     expected struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:293:29: sparse:     got struct xa_node *parent
+   lib/radix-tree.c:353:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] __rcu *parent @@     got struct xa_node *nodes @@
+   lib/radix-tree.c:353:38: sparse:     expected struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:353:38: sparse:     got struct xa_node *nodes
+   lib/radix-tree.c:455:54: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node [noderef] __rcu *parent @@     got struct xa_node *node @@
+   lib/radix-tree.c:455:54: sparse:     expected struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:455:54: sparse:     got struct xa_node *node
+   lib/radix-tree.c:567:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *parent @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:567:24: sparse:     expected struct xa_node *parent
+   lib/radix-tree.c:567:24: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:681:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *[assigned] child @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:681:31: sparse:     expected struct xa_node *[assigned] child
+   lib/radix-tree.c:681:31: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:955:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *node @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:955:22: sparse:     expected struct xa_node *node
+   lib/radix-tree.c:955:22: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:1015:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *node @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:1015:22: sparse:     expected struct xa_node *node
+   lib/radix-tree.c:1015:22: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:1536:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *[assigned] node @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:1536:38: sparse:     expected struct xa_node *[assigned] node
+   lib/radix-tree.c:1536:38: sparse:     got struct xa_node [noderef] __rcu *parent
+   lib/radix-tree.c:1596:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct xa_node *nodes @@     got struct xa_node [noderef] __rcu *parent @@
+   lib/radix-tree.c:1596:28: sparse:     expected struct xa_node *nodes
+   lib/radix-tree.c:1596:28: sparse:     got struct xa_node [noderef] __rcu *parent
+>> lib/radix-tree.c:106:34: sparse: sparse: restricted gfp_t degrades to integer
+   lib/radix-tree.c:106:52: sparse: sparse: restricted gfp_t degrades to integer
+   lib/radix-tree.c:106:20: sparse: sparse: restricted gfp_t degrades to integer
+>> lib/radix-tree.c:106:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted gfp_t @@     got unsigned int @@
+   lib/radix-tree.c:106:31: sparse:     expected restricted gfp_t
+   lib/radix-tree.c:106:31: sparse:     got unsigned int
 
->> net/bridge/br_input.c:232:2: error: implicit declaration of function 'nf_hook_state_init' [-Werror,-Wimplicit-function-declaration]
-           nf_hook_state_init(&state, NF_BR_PRE_ROUTING,
-           ^
-   net/bridge/br_input.c:232:2: note: did you mean 'ethtool_stats_init'?
-   include/linux/ethtool.h:254:20: note: 'ethtool_stats_init' declared here
-   static inline void ethtool_stats_init(u64 *stats, unsigned int n)
-                      ^
->> net/bridge/br_input.c:237:13: error: implicit declaration of function 'nf_hook_entry_hookfn' [-Werror,-Wimplicit-function-declaration]
-                   verdict = nf_hook_entry_hookfn(&e->hooks[i], skb, &state);
-                             ^
-   2 errors generated.
+vim +137 mm/page_alloc.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NETFILTER_FAMILY_BRIDGE
-   Depends on [n]: NET [=y] && INET [=n] && NETFILTER [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
+ab8fabd46f811d Johannes Weiner        2012-01-10  135  
+1b76b02f15c70d Hugh Dickins           2012-05-11  136  int percpu_pagelist_fraction;
+dcce284a259373 Benjamin Herrenschmidt 2009-06-18 @137  gfp_t gfp_allowed_mask __read_mostly = GFP_BOOT_MASK;
+6471384af2a653 Alexander Potapenko    2019-07-11  138  #ifdef CONFIG_INIT_ON_ALLOC_DEFAULT_ON
+6471384af2a653 Alexander Potapenko    2019-07-11  139  DEFINE_STATIC_KEY_TRUE(init_on_alloc);
+6471384af2a653 Alexander Potapenko    2019-07-11  140  #else
+6471384af2a653 Alexander Potapenko    2019-07-11  141  DEFINE_STATIC_KEY_FALSE(init_on_alloc);
+6471384af2a653 Alexander Potapenko    2019-07-11  142  #endif
+6471384af2a653 Alexander Potapenko    2019-07-11  143  EXPORT_SYMBOL(init_on_alloc);
+6471384af2a653 Alexander Potapenko    2019-07-11  144  
 
+:::::: The code at line 137 was first introduced by commit
+:::::: dcce284a259373f9e5570f2e33f79eca84fcf565 mm: Extend gfp masking to the page allocator
 
-vim +/nf_hook_state_init +232 net/bridge/br_input.c
-
-971502d77faa50 Florian Westphal 2019-04-11  227  
-b37eb452300225 Norihiko Hama    2023-12-15  228  	e = rcu_dereference(get_nf_hooks_bridge(net)[NF_BR_PRE_ROUTING]);
-971502d77faa50 Florian Westphal 2019-04-11  229  	if (!e)
-971502d77faa50 Florian Westphal 2019-04-11  230  		goto frame_finish;
-971502d77faa50 Florian Westphal 2019-04-11  231  
-971502d77faa50 Florian Westphal 2019-04-11 @232  	nf_hook_state_init(&state, NF_BR_PRE_ROUTING,
-971502d77faa50 Florian Westphal 2019-04-11  233  			   NFPROTO_BRIDGE, skb->dev, NULL, NULL,
-971502d77faa50 Florian Westphal 2019-04-11  234  			   net, br_handle_frame_finish);
-971502d77faa50 Florian Westphal 2019-04-11  235  
-971502d77faa50 Florian Westphal 2019-04-11  236  	for (i = 0; i < e->num_hook_entries; i++) {
-971502d77faa50 Florian Westphal 2019-04-11 @237  		verdict = nf_hook_entry_hookfn(&e->hooks[i], skb, &state);
-971502d77faa50 Florian Westphal 2019-04-11  238  		switch (verdict & NF_VERDICT_MASK) {
-971502d77faa50 Florian Westphal 2019-04-11  239  		case NF_ACCEPT:
-223fd0adfa8af3 Florian Westphal 2019-04-11  240  			if (BR_INPUT_SKB_CB(skb)->br_netfilter_broute) {
-223fd0adfa8af3 Florian Westphal 2019-04-11  241  				*pskb = skb;
-223fd0adfa8af3 Florian Westphal 2019-04-11  242  				return RX_HANDLER_PASS;
-223fd0adfa8af3 Florian Westphal 2019-04-11  243  			}
-971502d77faa50 Florian Westphal 2019-04-11  244  			break;
-971502d77faa50 Florian Westphal 2019-04-11  245  		case NF_DROP:
-971502d77faa50 Florian Westphal 2019-04-11  246  			kfree_skb(skb);
-971502d77faa50 Florian Westphal 2019-04-11  247  			return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  248  		case NF_QUEUE:
-0d9cb300acad29 Florian Westphal 2019-07-02  249  			ret = nf_queue(skb, &state, i, verdict);
-971502d77faa50 Florian Westphal 2019-04-11  250  			if (ret == 1)
-971502d77faa50 Florian Westphal 2019-04-11  251  				continue;
-971502d77faa50 Florian Westphal 2019-04-11  252  			return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  253  		default: /* STOLEN */
-971502d77faa50 Florian Westphal 2019-04-11  254  			return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  255  		}
-971502d77faa50 Florian Westphal 2019-04-11  256  	}
-971502d77faa50 Florian Westphal 2019-04-11  257  frame_finish:
-971502d77faa50 Florian Westphal 2019-04-11  258  	net = dev_net(skb->dev);
-971502d77faa50 Florian Westphal 2019-04-11  259  	br_handle_frame_finish(net, NULL, skb);
-971502d77faa50 Florian Westphal 2019-04-11  260  #else
-971502d77faa50 Florian Westphal 2019-04-11  261  	br_handle_frame_finish(dev_net(skb->dev), NULL, skb);
-971502d77faa50 Florian Westphal 2019-04-11  262  #endif
-971502d77faa50 Florian Westphal 2019-04-11  263  	return RX_HANDLER_CONSUMED;
-971502d77faa50 Florian Westphal 2019-04-11  264  }
-971502d77faa50 Florian Westphal 2019-04-11  265  
-
-:::::: The code at line 232 was first introduced by commit
-:::::: 971502d77faa50a37c89bc6d172450294ad9a5fd bridge: netfilter: unroll NF_HOOK helper in bridge input path
-
-:::::: TO: Florian Westphal <fw@strlen.de>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+:::::: TO: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
