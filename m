@@ -1,48 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22E82376B;
-	Fri, 22 Dec 2023 15:39:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E44223760
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Dec 2023 16:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKNejfdB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HWddZfDs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703259588; x=1734795588;
+  t=1703261459; x=1734797459;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VDLNYzAYvM2DIBK39pq90vyWFGOh1dP4R0LL0E9Ol9I=;
-  b=mKNejfdBo/MmgZU05mfR23AyFkKeRG3RhBUo3f+taZq6Ap6CzW9zLKIk
-   5MHj9p6D4tB6wKtMtWsKTZlBSjhUdSDiOcTCKQIJsykxycv9aSB/kgNBR
-   W8fAN6gNLA+oGpHdMas5wetuVURYRLz9H0sVcJ0Rwp1ZlttlN9u6xHZDc
-   5K5FqJ9+szmQbdNwVsia+3PcTUUVB/ZnPGbBTmmZXw1fiffBVfPnRnv2f
-   L5+hGUbPtF6OaKpW6KsLCI+8/yMuJTbNM8MXhbHVFJAJPYBIeMPUYm3b6
-   14vNwP7Y9B+7ahZTxrtYAp8HOQAjh2cauay1B1yNLlfBHT+8DXIGCXeO/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="3383442"
+  bh=NR21h5sqh68j/E9i1lULwz4+MDN4puon7mAaq7T9M4M=;
+  b=HWddZfDs0WISLIGlMXDPsyK5J5BYBacZ7PV6wvcG6ebVIArphl+aMYho
+   3BONy7kmFaneArynrq5T84hyg1sVhE213F1czq+XKrCZfeYNqTID+4AHR
+   NfORvhAWztPXDovPy0UUSNOMfE6SORrkJqO2JaLsTGJYfIOuj3wOjcWve
+   6aI94r9FOezXtJ+kn3Mv5Y0aqPp6/6JfUru4doptemLXjdwSC36BWIdxY
+   6Lq7vpSmRVUFMH4OsGuZah3QLD2YTlfDI1TuQxMMVx4bCtWGFB6par4Ds
+   h6hwqUAFcO88I6EusedQp7C5uv/AAUQ2kD66dOWKCJ9eLFyOU3BnT6Yq+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="376273064"
 X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
-   d="scan'208";a="3383442"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 07:39:48 -0800
+   d="scan'208";a="376273064"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 08:10:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="805971647"
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="780580161"
 X-IronPort-AV: E=Sophos;i="6.04,296,1695711600"; 
-   d="scan'208";a="805971647"
+   d="scan'208";a="780580161"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 22 Dec 2023 07:39:46 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 22 Dec 2023 08:10:57 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGhck-0009b3-2n;
-	Fri, 22 Dec 2023 15:39:43 +0000
-Date: Fri, 22 Dec 2023 23:38:42 +0800
+	id 1rGi6x-0009cz-1j;
+	Fri, 22 Dec 2023 16:10:55 +0000
+Date: Sat, 23 Dec 2023 00:10:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 36/36]
- drivers/media/i2c/ov2740.c:1074:17: error: member reference type 'struct
- v4l2_mbus_framefmt *' is a pointer; did you mean to use '->'?
-Message-ID: <202312222333.UhK70B00-lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:zap-batching 43/50]
+ include/linux/pgtable.h:631:20: warning: conflicting types for
+ 'ptep_set_wrprotect'; have 'void(struct mm_struct *, long unsigned int,
+  pte_t *)' {aka 'void(struct mm_struct *, long unsigned int,  unsigned int
+ *)'}
+Message-ID: <202312230038.le8PXhDc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,184 +53,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   bef5b741be2fd2b49dc6b8ac2dfadb5b58e97c1d
-commit: bef5b741be2fd2b49dc6b8ac2dfadb5b58e97c1d [36/36] media: ov2740: Add support for embedded data
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231222/202312222333.UhK70B00-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231222/202312222333.UhK70B00-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux zap-batching
+head:   a87ca0519e9108ec48b13a88d4a30a7756923d83
+commit: 7ddc8bfc39055b1ed487d6639b4125e1c77a9e4b [43/50] mm/memory: optimize fork() with PTE-mapped THP
+config: arm-randconfig-001-20231222 (https://download.01.org/0day-ci/archive/20231223/202312230038.le8PXhDc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230038.le8PXhDc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312222333.UhK70B00-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312230038.le8PXhDc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/i2c/ov2740.c:1074:17: error: member reference type 'struct v4l2_mbus_framefmt *' is a pointer; did you mean to use '->'?
-                                         format.width, format.height);
-                                         ~~~~~~^
-                                               ->
-   include/media/v4l2-common.h:419:4: note: expanded from macro 'v4l2_find_nearest_size'
-                           width, height);                                 \
-                           ^~~~~
-   drivers/media/i2c/ov2740.c:1074:31: error: member reference type 'struct v4l2_mbus_framefmt *' is a pointer; did you mean to use '->'?
-                                         format.width, format.height);
-                                                       ~~~~~~^
-                                                             ->
-   include/media/v4l2-common.h:419:11: note: expanded from macro 'v4l2_find_nearest_size'
-                           width, height);                                 \
-                                  ^~~~~~
->> drivers/media/i2c/ov2740.c:1175:28: error: use of undeclared identifier 'ov2740'
-           ov2740_update_pad_format(&ov2740->supported_modes[0], &format);
-                                     ^
-   3 errors generated.
+   In file included from arch/arm/include/asm/page.h:171,
+                    from arch/arm/include/asm/thread_info.h:14,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from arch/arm/kernel/asm-offsets.c:11:
+   include/linux/pgtable.h: In function 'pte_next_pfn':
+   include/linux/pgtable.h:211:45: error: 'PFN_PTE_SHIFT' undeclared (first use in this function); did you mean 'PAGE_SHIFT'?
+     211 |         return __pte(pte_val(pte) + (1UL << PFN_PTE_SHIFT));
+         |                                             ^~~~~~~~~~~~~
+   arch/arm/include/asm/pgtable-2level-types.h:49:26: note: in definition of macro '__pte'
+      49 | #define __pte(x)        (x)
+         |                          ^
+   include/linux/pgtable.h:211:45: note: each undeclared identifier is reported only once for each function it appears in
+     211 |         return __pte(pte_val(pte) + (1UL << PFN_PTE_SHIFT));
+         |                                             ^~~~~~~~~~~~~
+   arch/arm/include/asm/pgtable-2level-types.h:49:26: note: in definition of macro '__pte'
+      49 | #define __pte(x)        (x)
+         |                          ^
+   In file included from include/linux/mm.h:29,
+                    from arch/arm/kernel/asm-offsets.c:12:
+   include/linux/pgtable.h: In function 'wrprotect_ptes':
+   include/linux/pgtable.h:220:17: error: implicit declaration of function 'ptep_set_wrprotect'; did you mean 'pte_wrprotect'? [-Werror=implicit-function-declaration]
+     220 |                 ptep_set_wrprotect(mm, addr, ptep);
+         |                 ^~~~~~~~~~~~~~~~~~
+         |                 pte_wrprotect
+   include/linux/pgtable.h: At top level:
+>> include/linux/pgtable.h:631:20: warning: conflicting types for 'ptep_set_wrprotect'; have 'void(struct mm_struct *, long unsigned int,  pte_t *)' {aka 'void(struct mm_struct *, long unsigned int,  unsigned int *)'}
+     631 | static inline void ptep_set_wrprotect(struct mm_struct *mm, unsigned long address, pte_t *ptep)
+         |                    ^~~~~~~~~~~~~~~~~~
+   include/linux/pgtable.h:631:20: error: static declaration of 'ptep_set_wrprotect' follows non-static declaration
+   include/linux/pgtable.h:220:17: note: previous implicit declaration of 'ptep_set_wrprotect' with type 'void(struct mm_struct *, long unsigned int,  pte_t *)' {aka 'void(struct mm_struct *, long unsigned int,  unsigned int *)'}
+     220 |                 ptep_set_wrprotect(mm, addr, ptep);
+         |                 ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:116: arch/arm/kernel/asm-offsets.s] Error 1 shuffle=2834597893
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1191: prepare0] Error 2 shuffle=2834597893
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=2834597893
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2 shuffle=2834597893
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +1074 drivers/media/i2c/ov2740.c
+vim +631 include/linux/pgtable.h
 
-  1041	
-  1042	static int __ov2740_set_format(struct v4l2_subdev *sd,
-  1043				       struct v4l2_subdev_state *sd_state,
-  1044				       struct v4l2_mbus_framefmt *format,
-  1045				       enum v4l2_subdev_format_whence which,
-  1046				       unsigned int pad, unsigned int stream)
-  1047	{
-  1048		struct v4l2_mbus_framefmt *src_pix_fmt, *src_meta_fmt, *pix_fmt,
-  1049			*meta_fmt;
-  1050		struct ov2740 *ov2740 = to_ov2740(sd);
-  1051		const struct ov2740_mode *mode;
-  1052		s32 vblank_def, h_blank;
-  1053	
-  1054		/*
-  1055		 * Allow setting format on internal pixel pad as well as the source
-  1056		 * pad's pixel stream (for compatibility).
-  1057		 */
-  1058		if (pad == OV2740_PAD_SOURCE || pad == OV2740_PAD_META ||
-  1059		    stream == OV2740_STREAM_META) {
-  1060			*format = *v4l2_subdev_state_get_format(sd_state, pad, stream);
-  1061			return 0;
-  1062		}
-  1063	
-  1064		pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_PIXEL, 0);
-  1065		meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_META, 0);
-  1066		src_pix_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-  1067							   OV2740_STREAM_PIXEL);
-  1068		src_meta_fmt = v4l2_subdev_state_get_format(sd_state, OV2740_PAD_SOURCE,
-  1069							    OV2740_STREAM_META);
-  1070	
-  1071		mode = v4l2_find_nearest_size(ov2740->supported_modes,
-  1072					      ov2740->supported_modes_count,
-  1073					      width, height,
-> 1074					      format.width, format.height);
-  1075		ov2740_update_pad_format(mode, pix_fmt);
-  1076		*format = *src_pix_fmt = *pix_fmt;
-  1077	
-  1078		meta_fmt->code = MEDIA_BUS_FMT_OV2740_EMBEDDED;
-  1079		meta_fmt->width = OV2740_META_WIDTH;
-  1080		meta_fmt->height = OV2740_META_HEIGHT;
-  1081		*src_meta_fmt = *meta_fmt;
-  1082		src_meta_fmt->code = MEDIA_BUS_FMT_META_8;
-  1083	
-  1084		if (which == V4L2_SUBDEV_FORMAT_TRY)
-  1085			return 0;
-  1086	
-  1087		ov2740->cur_mode = mode;
-  1088		__v4l2_ctrl_s_ctrl(ov2740->link_freq, mode->link_freq_index);
-  1089		__v4l2_ctrl_s_ctrl_int64(ov2740->pixel_rate,
-  1090					 to_pixel_rate(mode->link_freq_index));
-  1091	
-  1092		/* Update limits and set FPS to default */
-  1093		vblank_def = mode->vts_def - mode->height;
-  1094		__v4l2_ctrl_modify_range(ov2740->vblank,
-  1095					 mode->vts_min - mode->height,
-  1096					 mode->vts_max - mode->height, 1, vblank_def);
-  1097		__v4l2_ctrl_s_ctrl(ov2740->vblank, vblank_def);
-  1098		h_blank = mode->hts - mode->width;
-  1099		__v4l2_ctrl_modify_range(ov2740->hblank, h_blank, h_blank, 1, h_blank);
-  1100	
-  1101		return 0;
-  1102	}
-  1103	
-  1104	static int ov2740_set_format(struct v4l2_subdev *sd,
-  1105				     struct v4l2_subdev_state *sd_state,
-  1106				     struct v4l2_subdev_format *fmt)
-  1107	{
-  1108		return __ov2740_set_format(sd, sd_state, &fmt->format, fmt->which,
-  1109					   fmt->pad, fmt->stream);
-  1110	}
-  1111	
-  1112	static int ov2740_enum_mbus_code(struct v4l2_subdev *sd,
-  1113					 struct v4l2_subdev_state *sd_state,
-  1114					 struct v4l2_subdev_mbus_code_enum *code)
-  1115	{
-  1116		if (code->index > 0)
-  1117			return -EINVAL;
-  1118	
-  1119		code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-  1120	
-  1121		return 0;
-  1122	}
-  1123	
-  1124	static int ov2740_enum_frame_size(struct v4l2_subdev *sd,
-  1125					  struct v4l2_subdev_state *sd_state,
-  1126					  struct v4l2_subdev_frame_size_enum *fse)
-  1127	{
-  1128		struct ov2740 *ov2740 = to_ov2740(sd);
-  1129		const struct ov2740_mode *supported_modes = ov2740->supported_modes;
-  1130	
-  1131		if (fse->index >= ov2740->supported_modes_count)
-  1132			return -EINVAL;
-  1133	
-  1134		if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
-  1135			return -EINVAL;
-  1136	
-  1137		fse->min_width = supported_modes[fse->index].width;
-  1138		fse->max_width = fse->min_width;
-  1139		fse->min_height = supported_modes[fse->index].height;
-  1140		fse->max_height = fse->min_height;
-  1141	
-  1142		return 0;
-  1143	}
-  1144	
-  1145	static int ov2740_init_state(struct v4l2_subdev *sd,
-  1146				     struct v4l2_subdev_state *sd_state)
-  1147	{
-  1148		struct v4l2_subdev_route routes[] = {
-  1149			{
-  1150				.sink_pad = OV2740_PAD_PIXEL,
-  1151				.source_pad = OV2740_PAD_SOURCE,
-  1152				.source_stream = OV2740_STREAM_PIXEL,
-  1153				.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-  1154			}, {
-  1155				.sink_pad = OV2740_PAD_META,
-  1156				.source_pad = OV2740_PAD_SOURCE,
-  1157				.source_stream = OV2740_STREAM_META,
-  1158				.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-  1159			},
-  1160		};
-  1161		struct v4l2_subdev_krouting routing = {
-  1162			.routes = routes,
-  1163			.num_routes = ARRAY_SIZE(routes),
-  1164		};
-  1165		struct v4l2_subdev_state *active_state;
-  1166		struct v4l2_mbus_framefmt format = { 0 };
-  1167		int ret;
-  1168	
-  1169		ret = v4l2_subdev_set_routing(sd, sd_state, &routing);
-  1170		if (ret)
-  1171			return ret;
-  1172	
-  1173		active_state = v4l2_subdev_get_locked_active_state(sd);
-  1174	
-> 1175		ov2740_update_pad_format(&ov2740->supported_modes[0], &format);
-  1176	
-  1177		return __ov2740_set_format(sd, sd_state, &format,
-  1178					   active_state == sd_state ?
-  1179					   V4L2_SUBDEV_FORMAT_ACTIVE :
-  1180					   V4L2_SUBDEV_FORMAT_TRY, OV2740_PAD_PIXEL, 0);
-  1181	}
-  1182	
+2f0584f3f4bd60 include/linux/pgtable.h       Rick Edgecombe 2023-06-12  628  
+^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds 2005-04-16  629  #ifndef __HAVE_ARCH_PTEP_SET_WRPROTECT
+8c65b4a6045059 include/asm-generic/pgtable.h Tim Schmielau  2005-11-07  630  struct mm_struct;
+^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds 2005-04-16 @631  static inline void ptep_set_wrprotect(struct mm_struct *mm, unsigned long address, pte_t *ptep)
+^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds 2005-04-16  632  {
+c33c794828f212 include/linux/pgtable.h       Ryan Roberts   2023-06-12  633  	pte_t old_pte = ptep_get(ptep);
+^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds 2005-04-16  634  	set_pte_at(mm, address, ptep, pte_wrprotect(old_pte));
+^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds 2005-04-16  635  }
+^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds 2005-04-16  636  #endif
+^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds 2005-04-16  637  
+
+:::::: The code at line 631 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
