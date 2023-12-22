@@ -1,53 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0017E36091;
-	Fri, 22 Dec 2023 23:41:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE697364C1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Dec 2023 23:41:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JAjS/7Ga"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YHn4aZUU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703288493; x=1734824493;
+  t=1703288494; x=1734824494;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BKjLPR1XFtYzZGRa6QjbRckx/IglWwU8GkTNRWNre7k=;
-  b=JAjS/7GaEtrprDukDia7UoznW55W1S4+I98n4Sd/XhyhF6KhJyBPYqBl
-   CX2SOommTiftlnj2vDkimh+27Z2GY1wkk7xfWV5ZCzvl1cjkxaB83VQtb
-   X1F9qRJ7SYeeJjzE96scLcT/QCgc/u+IiO82Tb73n3UKx5FLB93TBz8Kd
-   appKL0yKYKoTpQ8WEDSVU1P+e/6p0gz1fQlYH2vnlfgaPK+BLmxw+oWPD
-   /NhG82DU7NCh22joIx0X8Bob+mkSPw8MjiVLEXJHdkwUXqWS8Xcn/4Ujj
-   MuZYF7IXtAdB2A1rAA9ubcCp82o+qmJA4C1HkMs1eO+WdeVAKXXp4NOD9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="482347686"
+  bh=3wioe1OTHqmh2iXVv2+MtEfxvcbcfbMpOE+svJ++M40=;
+  b=YHn4aZUUDZliLoAm6q8Qu3t3BrORBrJB427yZDAEbv/vpY0gfVlsXV0M
+   l5IKp2YtyzxHOIch0JHsuSZp428XTZyEUC+mTvcC2c4YZHGczc58ACfqB
+   c2slMXAcpV2LjhzzFQGTGiNQWKYckd+OpZ9Rw6CfWyN94Jz/M/1TxWNie
+   Z1ogcxaxIF2qOyIi7kanroBkdlSHTs+8vXAJ8oOcp35AfjnkRX4cbMzjs
+   UAbzrDyxPFvp3iwcZOiDFO6PjBU6PefVblKCt1T4uu/k3GFxAzcnaGfdL
+   EldfDRuq/3SGjJ7OltyCBvIiXc2fuzURPs8n47nelDzUjt3CIFz8LCsiB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="482347696"
 X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="482347686"
+   d="scan'208";a="482347696"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 15:41:26 -0800
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2023 15:41:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="806114428"
+X-IronPort-AV: E=McAfee;i="6600,9927,10932"; a="806114432"
 X-IronPort-AV: E=Sophos;i="6.04,297,1695711600"; 
-   d="scan'208";a="806114428"
+   d="scan'208";a="806114432"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 22 Dec 2023 15:41:22 -0800
+  by orsmga008.jf.intel.com with ESMTP; 22 Dec 2023 15:41:24 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rGp8m-000A0Q-1m;
-	Fri, 22 Dec 2023 23:41:18 +0000
-Date: Sat, 23 Dec 2023 07:39:31 +0800
+	id 1rGp8q-000A0U-0I;
+	Fri, 22 Dec 2023 23:41:21 +0000
+Date: Sat, 23 Dec 2023 07:39:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>, mingo@redhat.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
-	imran.f.khan@oracle.com, aaron.lu@intel.com,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Subject: Re: [PATCH] sched: Fix tg->load when offlining a CPU
-Message-ID: <202312230731.vxFaJB7G-lkp@intel.com>
-References: <20231221164014.447122-1-vincent.guittot@linaro.org>
+To: Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	intel-wired-lan@lists.osuosl.org, anthony.l.nguyen@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Subject: Re: [PATCH iwl-next v2] i40e: add trace events related to SFP module
+ IOCTLs
+Message-ID: <202312230700.6El79he7-lkp@intel.com>
+References: <20231220173837.3326983-1-aleksandr.loktionov@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,133 +53,176 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231221164014.447122-1-vincent.guittot@linaro.org>
+In-Reply-To: <20231220173837.3326983-1-aleksandr.loktionov@intel.com>
 
-Hi Vincent,
+Hi Aleksandr,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on peterz-queue/sched/core linus/master v6.7-rc6 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on tnguy-next-queue/dev-queue]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Guittot/sched-Fix-tg-load-when-offlining-a-CPU/20231222-172438
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20231221164014.447122-1-vincent.guittot%40linaro.org
-patch subject: [PATCH] sched: Fix tg->load when offlining a CPU
-config: hexagon-defconfig (https://download.01.org/0day-ci/archive/20231223/202312230731.vxFaJB7G-lkp@intel.com/config)
-compiler: clang version 18.0.0git (https://github.com/llvm/llvm-project d3ef86708241a3bee902615c190dead1638c4e09)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230731.vxFaJB7G-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandr-Loktionov/i40e-add-trace-events-related-to-SFP-module-IOCTLs/20231222-165333
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20231220173837.3326983-1-aleksandr.loktionov%40intel.com
+patch subject: [PATCH iwl-next v2] i40e: add trace events related to SFP module IOCTLs
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20231223/202312230700.6El79he7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231223/202312230700.6El79he7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312230731.vxFaJB7G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312230700.6El79he7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/fair.c:28:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/sched/fair.c:28:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/sched/fair.c:28:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> kernel/sched/fair.c:12498:2: error: call to undeclared function 'clear_tg_offline_cfs_rqs'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    12498 |         clear_tg_offline_cfs_rqs(rq);
-          |         ^
-   kernel/sched/fair.c:12498:2: note: did you mean 'unthrottle_offline_cfs_rqs'?
-   kernel/sched/fair.c:6620:20: note: 'unthrottle_offline_cfs_rqs' declared here
-    6620 | static inline void unthrottle_offline_cfs_rqs(struct rq *rq) {}
-         |                    ^
-   kernel/sched/fair.c:13124:6: warning: no previous prototype for function 'free_fair_sched_group' [-Wmissing-prototypes]
-    13124 | void free_fair_sched_group(struct task_group *tg) { }
-          |      ^
-   kernel/sched/fair.c:13124:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    13124 | void free_fair_sched_group(struct task_group *tg) { }
-          | ^
-          | static 
-   kernel/sched/fair.c:13126:5: warning: no previous prototype for function 'alloc_fair_sched_group' [-Wmissing-prototypes]
-    13126 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-          |     ^
-   kernel/sched/fair.c:13126:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    13126 | int alloc_fair_sched_group(struct task_group *tg, struct task_group *parent)
-          | ^
-          | static 
-   kernel/sched/fair.c:13131:6: warning: no previous prototype for function 'online_fair_sched_group' [-Wmissing-prototypes]
-    13131 | void online_fair_sched_group(struct task_group *tg) { }
-          |      ^
-   kernel/sched/fair.c:13131:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    13131 | void online_fair_sched_group(struct task_group *tg) { }
-          | ^
-          | static 
-   kernel/sched/fair.c:13133:6: warning: no previous prototype for function 'unregister_fair_sched_group' [-Wmissing-prototypes]
-    13133 | void unregister_fair_sched_group(struct task_group *tg) { }
-          |      ^
-   kernel/sched/fair.c:13133:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    13133 | void unregister_fair_sched_group(struct task_group *tg) { }
-          | ^
-          | static 
-   10 warnings and 1 error generated.
+   In file included from include/trace/define_trace.h:102,
+                    from drivers/net/ethernet/intel/i40e/i40e_trace.h:276,
+                    from drivers/net/ethernet/intel/i40e/i40e_main.c:25:
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'ftrace_test_probe_i40e_ioctl_get_module_info':
+   include/trace/trace_events.h:416:42: error: 'trace_event_raw_event_i40e_ioctl_template' undeclared (first use in this function); did you mean 'trace_event_raw_event_i40e_tx_template'?
+     416 |         check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   include/trace/trace_events.h:416:42: note: each undeclared identifier is reported only once for each function it appears in
+     416 |         check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'ftrace_test_probe_i40e_ioctl_get_module_eeprom':
+   include/trace/trace_events.h:416:42: error: 'trace_event_raw_event_i40e_ioctl_template' undeclared (first use in this function); did you mean 'trace_event_raw_event_i40e_tx_template'?
+     416 |         check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:211:1: note: in expansion of macro 'DEFINE_EVENT'
+     211 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'ftrace_test_probe_i40e_ioctl_get_link_ksettings':
+   include/trace/trace_events.h:416:42: error: 'trace_event_raw_event_i40e_ioctl_template' undeclared (first use in this function); did you mean 'trace_event_raw_event_i40e_tx_template'?
+     416 |         check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:217:1: note: in expansion of macro 'DEFINE_EVENT'
+     217 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: At top level:
+   include/trace/trace_events.h:441:36: error: 'event_class_i40e_ioctl_template' undeclared here (not in a function); did you mean 'event_class_i40e_xmit_template'?
+     441 |         .class                  = &event_class_##template,              \
+         |                                    ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   include/trace/trace_events.h:445:36: error: 'trace_event_type_funcs_i40e_ioctl_template' undeclared here (not in a function); did you mean 'trace_event_type_funcs_i40e_xmit_template'?
+     445 |         .event.funcs            = &trace_event_type_funcs_##template,   \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   include/trace/trace_events.h:446:35: error: 'print_fmt_i40e_ioctl_template' undeclared here (not in a function); did you mean 'print_fmt_i40e_tx_template'?
+     446 |         .print_fmt              = print_fmt_##template,                 \
+         |                                   ^~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:103:
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'perf_test_probe_i40e_ioctl_get_module_info':
+   include/trace/perf.h:67:42: error: 'perf_trace_i40e_ioctl_template' undeclared (first use in this function); did you mean 'perf_trace_i40e_xmit_template'?
+      67 |         check_trace_callback_type_##call(perf_trace_##template);        \
+         |                                          ^~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'perf_test_probe_i40e_ioctl_get_module_eeprom':
+   include/trace/perf.h:67:42: error: 'perf_trace_i40e_ioctl_template' undeclared (first use in this function); did you mean 'perf_trace_i40e_xmit_template'?
+      67 |         check_trace_callback_type_##call(perf_trace_##template);        \
+         |                                          ^~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:211:1: note: in expansion of macro 'DEFINE_EVENT'
+     211 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'perf_test_probe_i40e_ioctl_get_link_ksettings':
+   include/trace/perf.h:67:42: error: 'perf_trace_i40e_ioctl_template' undeclared (first use in this function); did you mean 'perf_trace_i40e_xmit_template'?
+      67 |         check_trace_callback_type_##call(perf_trace_##template);        \
+         |                                          ^~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:217:1: note: in expansion of macro 'DEFINE_EVENT'
+     217 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:104:
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: In function 'bpf_test_probe_i40e_ioctl_get_module_info':
+>> include/trace/bpf_probe.h:65:42: error: '__bpf_trace_i40e_ioctl_template' undeclared (first use in this function); did you mean '__bpf_trace_i40e_tx_template'?
+      65 |         check_trace_callback_type_##call(__bpf_trace_##template);       \
+         |                                          ^~~~~~~~~~~~
+   include/trace/bpf_probe.h:101:9: note: in expansion of macro '__DEFINE_EVENT'
+     101 |         __DEFINE_EVENT(template, call, PARAMS(proto), PARAMS(args), 0)
+         |         ^~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h: At top level:
+>> include/trace/bpf_probe.h:75:35: error: '__bpf_trace_i40e_ioctl_template' undeclared here (not in a function); did you mean '__bpf_trace_i40e_tx_template'?
+      75 |                 .bpf_func       = __bpf_trace_##template,               \
+         |                                   ^~~~~~~~~~~~
+   include/trace/bpf_probe.h:101:9: note: in expansion of macro '__DEFINE_EVENT'
+     101 |         __DEFINE_EVENT(template, call, PARAMS(proto), PARAMS(args), 0)
+         |         ^~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/./i40e_trace.h:205:1: note: in expansion of macro 'DEFINE_EVENT'
+     205 | DEFINE_EVENT(
+         | ^~~~~~~~~~~~
 
 
-vim +/clear_tg_offline_cfs_rqs +12498 kernel/sched/fair.c
+vim +65 include/trace/bpf_probe.h
 
- 12489	
- 12490	static void rq_offline_fair(struct rq *rq)
- 12491	{
- 12492		update_sysctl();
- 12493	
- 12494		/* Ensure any throttled groups are reachable by pick_next_task */
- 12495		unthrottle_offline_cfs_rqs(rq);
- 12496	
- 12497		/* Ensure that we remove rq contribution to group share */
- 12498		clear_tg_offline_cfs_rqs(rq);
- 12499	}
- 12500	
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   52  
+6939f4ef16d48f Qais Yousef        2021-01-19   53  #undef DECLARE_EVENT_CLASS
+6939f4ef16d48f Qais Yousef        2021-01-19   54  #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)	\
+6939f4ef16d48f Qais Yousef        2021-01-19   55  	__BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+6939f4ef16d48f Qais Yousef        2021-01-19   56  
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   57  /*
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   58   * This part is compiled out, it is only here as a build time check
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   59   * to make sure that if the tracepoint handling changes, the
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   60   * bpf probe will fail to compile unless it too is updated.
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   61   */
+9df1c28bb75217 Matt Mullins       2019-04-26   62  #define __DEFINE_EVENT(template, call, proto, args, size)		\
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   63  static inline void bpf_test_probe_##call(void)				\
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   64  {									\
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  @65  	check_trace_callback_type_##call(__bpf_trace_##template);	\
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   66  }									\
+e8c423fb31fa8b Alexei Starovoitov 2019-10-15   67  typedef void (*btf_trace_##call)(void *__data, proto);			\
+441420a1f0b303 Andrii Nakryiko    2020-03-01   68  static union {								\
+441420a1f0b303 Andrii Nakryiko    2020-03-01   69  	struct bpf_raw_event_map event;					\
+441420a1f0b303 Andrii Nakryiko    2020-03-01   70  	btf_trace_##call handler;					\
+441420a1f0b303 Andrii Nakryiko    2020-03-01   71  } __bpf_trace_tp_map_##call __used					\
+33def8498fdde1 Joe Perches        2020-10-21   72  __section("__bpf_raw_tp_map") = {					\
+441420a1f0b303 Andrii Nakryiko    2020-03-01   73  	.event = {							\
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   74  		.tp		= &__tracepoint_##call,			\
+441420a1f0b303 Andrii Nakryiko    2020-03-01  @75  		.bpf_func	= __bpf_trace_##template,		\
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   76  		.num_args	= COUNT_ARGS(args),			\
+9df1c28bb75217 Matt Mullins       2019-04-26   77  		.writable_size	= size,					\
+441420a1f0b303 Andrii Nakryiko    2020-03-01   78  	},								\
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   79  };
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28   80  
+9df1c28bb75217 Matt Mullins       2019-04-26   81  #define FIRST(x, ...) x
+9df1c28bb75217 Matt Mullins       2019-04-26   82  
+65223741ae1b75 Hou Tao            2021-10-04   83  #define __CHECK_WRITABLE_BUF_SIZE(call, proto, args, size)		\
+9df1c28bb75217 Matt Mullins       2019-04-26   84  static inline void bpf_test_buffer_##call(void)				\
+9df1c28bb75217 Matt Mullins       2019-04-26   85  {									\
+9df1c28bb75217 Matt Mullins       2019-04-26   86  	/* BUILD_BUG_ON() is ignored if the code is completely eliminated, but \
+9df1c28bb75217 Matt Mullins       2019-04-26   87  	 * BUILD_BUG_ON_ZERO() uses a different mechanism that is not	\
+9df1c28bb75217 Matt Mullins       2019-04-26   88  	 * dead-code-eliminated.					\
+9df1c28bb75217 Matt Mullins       2019-04-26   89  	 */								\
+9df1c28bb75217 Matt Mullins       2019-04-26   90  	FIRST(proto);							\
+9df1c28bb75217 Matt Mullins       2019-04-26   91  	(void)BUILD_BUG_ON_ZERO(size != sizeof(*FIRST(args)));		\
+65223741ae1b75 Hou Tao            2021-10-04   92  }
+65223741ae1b75 Hou Tao            2021-10-04   93  
+65223741ae1b75 Hou Tao            2021-10-04   94  #undef DEFINE_EVENT_WRITABLE
+65223741ae1b75 Hou Tao            2021-10-04   95  #define DEFINE_EVENT_WRITABLE(template, call, proto, args, size) \
+65223741ae1b75 Hou Tao            2021-10-04   96  	__CHECK_WRITABLE_BUF_SIZE(call, PARAMS(proto), PARAMS(args), size) \
+9df1c28bb75217 Matt Mullins       2019-04-26   97  	__DEFINE_EVENT(template, call, PARAMS(proto), PARAMS(args), size)
+9df1c28bb75217 Matt Mullins       2019-04-26   98  
+9df1c28bb75217 Matt Mullins       2019-04-26   99  #undef DEFINE_EVENT
+9df1c28bb75217 Matt Mullins       2019-04-26  100  #define DEFINE_EVENT(template, call, proto, args)			\
+9df1c28bb75217 Matt Mullins       2019-04-26 @101  	__DEFINE_EVENT(template, call, PARAMS(proto), PARAMS(args), 0)
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  102  
 
 -- 
 0-DAY CI Kernel Test Service
